@@ -6,7 +6,7 @@
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # Copyright (C) 2005 Jurgen Rutgers (jurgen 'at' besite.nl)
 # --
-# $Id: nl.pm,v 1.44 2006-04-07 12:24:01 cs Exp $
+# $Id: nl.pm,v 1.45 2006-10-05 04:23:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -56,21 +56,22 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
-# --
+
 sub Data {
     my $Self = shift;
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Thu Jul 28 22:14:35 2005
+    # Last translation file sync: Thu Oct  5 06:04:43 2006
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
     $Self->{DateFormatLong} = '%A %D %B %T %Y';
+    $Self->{DateFormatShort} = '';
     $Self->{DateInputFormat} = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 
@@ -103,18 +104,21 @@ sub Data {
       'month' => 'maand',
       'months' => 'maanden',
       'month(s)' => 'maand(en)',
-      'week' => 'week',
+      'week' => '',
       'week(s)' => 'we(e)k(en)',
       'year' => 'jaar',
       'years' => 'jaren',
       'year(s)' => 'ja(a)r(en)',
+      'second(s)' => '',
+      'seconds' => '',
+      'second' => '',
       'wrote' => 'schreef',
       'Message' => 'Bericht',
       'Error' => 'Fout',
       'Bug Report' => 'Foutrapport',
       'Attention' => 'Let op',
       'Warning' => 'Waarschuwing',
-      'Module' => 'Module',
+      'Module' => '',
       'Modulefile' => 'Modulebestand',
       'Subfunction' => 'Sub-functie',
       'Line' => 'Regel',
@@ -140,7 +144,7 @@ sub Data {
       'none - answered' => 'geen - beantwoord',
       'please do not edit!' => 'niet wijzigen s.v.p.!',
       'AddLink' => 'Link toevoegen',
-      'Link' => 'Link',
+      'Link' => '',
       'Linked' => 'Gelinkt',
       'Link (Normal)' => 'Link (normaal)',
       'Link (Parent)' => 'Link (hoofd)',
@@ -148,8 +152,8 @@ sub Data {
       'Normal' => 'Normaal',
       'Parent' => 'hoofd',
       'Child' => 'sub',
-      'Hit' => 'Hit',
-      'Hits' => 'Hits',
+      'Hit' => '',
+      'Hits' => '',
       'Text' => 'Tekst',
       'Lite' => 'Light',
       'User' => 'Gebruiker',
@@ -163,14 +167,14 @@ sub Data {
       'CustomerID' => 'KlantID',
       'CustomerIDs' => 'KlantIDs',
       'customer' => 'klant',
-      'agent' => 'agent',
+      'agent' => '',
       'system' => 'systeem',
       'Customer Info' => 'Klant informatie',
       'go!' => 'start!',
       'go' => 'start',
       'All' => 'Alle',
       'all' => 'alle',
-      'Sorry' => 'Sorry',
+      'Sorry' => '',
       'update!' => 'wijzigen!',
       'update' => 'wijzigen',
       'Update' => 'Wijzigen',
@@ -202,20 +206,20 @@ sub Data {
       'Data' => 'Gegevens',
       'Options' => 'Opties',
       'Title' => 'Titel',
-      'Item' => 'Item',
+      'Item' => '',
       'Delete' => 'Verwijder',
       'Edit' => 'Wijzig',
       'View' => 'Weergave',
       'Number' => 'Nummer',
       'System' => 'Systeem',
-      'Contact' => 'Contact',
+      'Contact' => '',
       'Contacts' => 'Contacten',
-      'Export' => 'Export',
+      'Export' => '',
       'Up' => 'Boven',
       'Down' => 'Beneden',
       'Add' => 'Toevoegen',
       'Category' => 'Categorie',
-      'Viewer' => 'Viewer',
+      'Viewer' => '',
       'New message' => 'Nieuw bericht',
       'New message!' => 'Nieuw bericht!',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Onderstaande geëscaleerde Tickets dient u eerst te beantwoorden om terug te kunnen komen in de normale wachtrij',
@@ -238,12 +242,14 @@ sub Data {
       'Logout successful. Thank you for using OTRS!' => 'Afgemeld! Wij danken u voor het gebruiken van OTRS!',
       'Invalid SessionID!' => 'Ongeldige SessieID',
       'Feature not active!' => 'Deze functie is niet actief!',
+      'License' => '',
       'Take this Customer' => 'Selecteer deze klant',
       'Take this User' => 'Selecteer deze gebruiker',
       'possible' => 'mogelijk',
       'reject' => 'afwijzen',
+      'reverse' => '',
       'Facility' => 'Maatregel',
-      'Timeover' => 'Timeover',
+      'Timeover' => '',
       'Pending till' => 'In de wacht tot',
       'Don\'t work with UserID 1 (System account)! Create new users!' => 'Werk niet met User# 1 (systeem account)! Maak nieuwe gebruikers aan',
       'Dispatching by email To: field.' => 'Sorteren per e-mailadres ',
@@ -254,22 +260,33 @@ sub Data {
       'To: (%s) replaced with database email!' => 'Aan: (%s) vervangen met database e-mail!',
       'Cc: (%s) added database email!' => 'Cc: (%s) toevoegen met database e-mail',
       '(Click here to add)' => '(Klik hier om toe te voegen)',
-      'Preview' => 'Preview',
+      'Preview' => '',
+      'Package not correctly deployed! You should reinstall the Package again!' => '',
       'Added User "%s"' => 'Gebruiker "%s" toegevoegd.',
-      'Contract' => 'Contract',
+      'Contract' => '',
       'Online Customer: %s' => 'Online klant: %s',
       'Online Agent: %s' => 'Online agent: %s',
       'Calendar' => 'Kalender',
       'File' => 'Bestand',
       'Filename' => 'Bestandsnaam',
-      'Type' => 'Type',
+      'Type' => '',
       'Size' => 'Grootte',
-      'Upload' => 'Upload',
+      'Upload' => '',
       'Directory' => '',
       'Signed' => 'Getekend',
       'Sign' => 'Teken',
       'Crypted' => '',
       'Crypt' => '',
+      'Office' => '',
+      'Phone' => 'Telefoon',
+      'Fax' => '',
+      'Mobile' => '',
+      'Zip' => '',
+      'City' => '',
+      'Country' => '',
+      'installed' => '',
+      'uninstalled' => '',
+      'printed at' => '',
 
       # Template: AAAMonth
       'Jan' => '',
@@ -287,7 +304,7 @@ sub Data {
       'January' => 'Januari',
       'February' => 'Februari',
       'March' => 'Maart',
-      'April' => 'April',
+      'April' => '',
       'June' => 'Juni',
       'July' => 'Juli',
       'August' => 'Augustus',
@@ -306,12 +323,7 @@ sub Data {
       'Agent Mailbox' => 'Agent postvak',
       'Stats' => 'Statistieken',
       'Stats-Area' => 'Statistieken',
-      'FAQ-Area' => 'FAQ',
-      'FAQ' => 'FAQ',
-      'FAQ-Search' => 'FAQ-zoeken',
-      'FAQ-Article' => 'FAQ-artikel',
       'New Article' => 'Nieuw artikel',
-      'FAQ-State' => 'FAQ-status',
       'Admin' => '',
       'A web calendar' => 'Kalender',
       'WebMail' => '',
@@ -359,6 +371,47 @@ sub Data {
       'Can\'t update password, need min. 2 characters!' => 'Uw wachtwoord kan niet worden gewijzigd, er zijn minimaal 2 letters noodzakelijk.',
       'Password is needed!' => 'Een wachtwoord is vereist.',
 
+      # Template: AAAStats
+      'Stat' => '',
+      'Please fill out the required fields!' => '',
+      'Please select a file!' => '',
+      'Please select an object!' => '',
+      'Please select a graph size!' => '',
+      'Please select one element for the X-axis!' => '',
+      'You have to select two or more attributes from the select field!' => '',
+      'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => '',
+      'If you use a checkbox you have to select some attributes of the select field!' => '',
+      'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => '',
+      'The selected end time is before the start time!' => '',
+      'You have to select one or more attributes from the select field!' => '',
+      'The selected Date isn\'t valid!' => '',
+      'Please select only one or two elements via the checkbox!' => '',
+      'If you use a time scale element you can only select one element!' => '',
+      'You have an error in your time selection!' => '',
+      'Your reporting time interval is to small, please use a larger time scale!' => '',
+      'The selected start time is before the allowed start time!' => '',
+      'The selected end time is after the allowed end time!' => '',
+      'The selected time period is larger than the allowed time period!' => '',
+      'Common Specification' => '',
+      'Xaxis' => '',
+      'Value Series' => '',
+      'Restrictions' => '',
+      'graph-lines' => '',
+      'graph-bars' => '',
+      'graph-hbars' => '',
+      'graph-points' => '',
+      'graph-lines-points' => '',
+      'graph-area' => '',
+      'graph-pie' => '',
+      'extended' => '',
+      'Agent/Owner' => '',
+      'Created by Agent/Owner' => '',
+      'Created Priority' => '',
+      'Created State' => '',
+      'Create Time' => '',
+      'CustomerUserLogin' => '',
+      'Close Time' => '',
+
       # Template: AAATicket
       'Lock' => '',
       'Unlock' => '',
@@ -380,11 +433,14 @@ sub Data {
       'Pending' => 'Wachtend',
       'Owner' => 'Eigenaar',
       'Owner Update' => '',
+      'Responsible' => '',
+      'Responsible Update' => '',
       'Sender' => 'Afzender',
       'Article' => 'Artikel',
       'Ticket' => '',
       'Createtime' => 'Gemaakt op',
       'plain' => 'zonder opmaak',
+      'Email' => 'E-mail',
       'email' => 'e-mail',
       'Close' => 'Sluiten',
       'Action' => 'Actie',
@@ -461,6 +517,7 @@ sub Data {
       'Mark as Spam!' => 'Markeer als SPAM.',
       'My Queues' => 'Mijn wachtrijen',
       'Shown Tickets' => 'Laat Tickets zien',
+      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Uw e-mail met Ticket nummer "<OTRS_TICKET>" is samengevoegd met "<OTRS_MERGE_TO_TICKET>".',
       'New ticket notification' => 'Melding bij een nieuw Ticket',
       'Send me a notification if there is a new ticket in "My Queues".' => 'Stuur mij een melding als er een nieuw Ticket in Mijn wachtrijen komt.',
       'Follow up notification' => 'Melding bij vervolgvragen.',
@@ -477,6 +534,12 @@ sub Data {
       'Closed Tickets' => 'Afgesloten Tickets.',
       'Show closed tickets.' => 'Toon gesloten Tickets.',
       'Max. shown Tickets a page in QueueView.' => 'Max. getoonde Tickets per pagina in wachtrijscherm.',
+      'CompanyTickets' => 'Bedrijf Tickets',
+      'MyTickets' => 'Mijn Tickets',
+      'New Ticket' => '',
+      'Create new Ticket' => '',
+      'Customer called' => 'Klant gebeld',
+      'phone call' => '',
       'Responses' => 'Antwoorden.',
       'Responses <-> Queue' => 'Antwoorden <-> Wachtrijen',
       'Auto Responses' => 'Automatische beantwoordingen',
@@ -537,6 +600,7 @@ sub Data {
       'to get the from line of the email' => 'voor het e-mailadres waar vandaan de e-mail komt',
       'to get the realname of the sender (if given)' => 'voor de echte naam van de afzender (indien beschikbaar)',
       'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Mogelijkheden van Ticket gegevens (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Configuratie opties (b.v. &lt;OTRS_CONFIG_HttpType&gt;)',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => 'Het bericht dat werd aangemaakt is gesloten.',
@@ -585,8 +649,8 @@ sub Data {
       'Customer User Login' => 'Klant login',
       '(e. g. U5150)' => '(b.v. U5150)',
       'Agent' => '',
-      'TicketFreeText' => 'Vrije invulvelden van het Ticket',
       'Ticket Lock' => '',
+      'TicketFreeFields' => '',
       'Times' => 'Keren',
       'No time settings.' => 'Geen tijd instellingen',
       'Ticket created' => 'Ticket aangemaakt',
@@ -599,19 +663,24 @@ sub Data {
       'New Customer' => 'Nieuwe klant',
       'New Ticket Lock' => 'Nieuw Ticket lock',
       'CustomerUser' => 'Klant gebruiker',
+      'New TicketFreeFields' => '',
       'Add Note' => 'Notitie toevoegen',
       'CMD' => '',
       'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Dit commando zal worden uitgevoerd. ARG[0] is het nieuwe ticketnummer. ARG[1] is het nieuwe ticket id.',
       'Delete tickets' => 'Verwijder tickets.',
       'Warning! This tickets will be removed from the database! This tickets are lost!' => 'Waarschuwing! Deze Tickets zullen worden verwijderd uit de database!',
-      'Modules' => 'Modulen',
+      'Send Notification' => '',
       'Param 1' => '',
       'Param 2' => '',
       'Param 3' => '',
       'Param 4' => '',
       'Param 5' => '',
       'Param 6' => '',
+      'Send no notifications' => '',
+      'Yes means, send no agent and customer notifications on changes.' => '',
+      'No means, send agent and customer notifications on changes.' => '',
       'Save' => 'Opslaan',
+      '%s Tickets affected! Do you really want to use this job?' => '',
 
       # Template: AdminGroupForm
       'Group Management' => 'Groepenbeheer',
@@ -632,28 +701,46 @@ sub Data {
       'Notification Management' => 'Meldingen beheer',
       'Notification' => 'Melding',
       'Notifications are sent to an agent or a customer.' => 'Meldingen worden verstuurd naar een agent of een klant',
-      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Configuratie opties (b.v. &lt;OTRS_CONFIG_HttpType&gt;)',
       'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Opties voor de Ticket eigenaar (b.v. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
       'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Opties van de gebruiker die deze actie heeft aangevraagd (b.v. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
       'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Opties van de huidige gebruikersdata van de klant (b.v. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
 
       # Template: AdminPackageManager
       'Package Manager' => '',
       'Uninstall' => '',
-      'Verion' => '',
+      'Version' => '',
       'Do you really want to uninstall this package?' => '',
+      'Reinstall' => '',
+      'Do you really want to reinstall this package (all manual changes get lost)?' => '',
       'Install' => '',
       'Package' => '',
       'Online Repository' => '',
-      'Version' => '',
       'Vendor' => '',
       'Upgrade' => '',
       'Local Repository' => '',
       'Status' => '',
+      'Package not correctly deployed, you need to deploy it again!' => '',
       'Overview' => '',
       'Download' => '',
       'Rebuild' => '',
-      'Reinstall' => '',
+      'Download file from package!' => '',
+      'Required' => '',
+      'PrimaryKey' => '',
+      'AutoIncrement' => '',
+      'SQL' => '',
+      'Diff' => '',
+
+      # Template: AdminPerformanceLog
+      'Performance Log' => '',
+      'Logfile too large!' => '',
+      'Logfile too large, you need to reset it!' => '',
+      'Range' => '',
+      'Interface' => '',
+      'Requests' => '',
+      'Min Response' => '',
+      'Max Response' => '',
+      'Average Response' => '',
 
       # Template: AdminPGPForm
       'PGP Management' => '',
@@ -664,13 +751,14 @@ sub Data {
       'Expires' => '',
       'In this way you can directly edit the keyring configured in SysConfig.' => '',
 
-      # Template: AdminPOP3Form
+      # Template: AdminPOP3
       'POP3 Account Management' => 'POP3 Account beheer',
       'Host' => 'Server',
+      'List' => '',
       'Trusted' => 'Vertrouwd',
       'Dispatching' => 'Sortering',
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Alle binnenkomende e-mail\'s in een account zullen worden geplaatst in de geselecteerde wachtrij',
-      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
+      'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
       # Template: AdminPostMasterFilter
       'PostMaster Filter Management' => 'Postmaster filter beheer',
@@ -684,8 +772,6 @@ sub Data {
 
       # Template: AdminQueueAutoResponseForm
       'Queue <-> Auto Responses Management' => 'Wachtrij <-> Automatische beantwoordingen',
-
-      # Template: AdminQueueAutoResponseTable
 
       # Template: AdminQueueForm
       'Queue Management' => 'Wachtrij beheer',
@@ -759,6 +845,7 @@ sub Data {
       # Template: AdminSalutationForm
       'Salutation Management' => 'Aanhef beheer',
       'customer realname' => 'naam van de klant',
+      'All Agent variables.' => '',
       'for agent firstname' => 'voornaam van agent',
       'for agent lastname' => 'achternaam van agent',
       'for agent user id' => 'de loginnaam van de agent ',
@@ -766,7 +853,6 @@ sub Data {
 
       # Template: AdminSelectBoxForm
       'Select Box' => 'SQL select query',
-      'SQL' => '',
       'Limit' => 'Beperk tot',
       'Select Box Result' => 'keuzekader resultaat',
 
@@ -776,6 +862,7 @@ sub Data {
       'Uniq' => 'Uniek',
       'kill all sessions' => 'alle sessies afsluiten',
       'Session' => 'Sessie',
+      'Content' => 'Inhoud',
       'kill session' => 'sessie afsluiten',
 
       # Template: AdminSignatureForm
@@ -808,26 +895,25 @@ sub Data {
       # Template: AdminSysConfigEdit
       'Config Options' => 'Configuratie opties',
       'Default' => '',
-      'Content' => 'Inhoud',
       'New' => 'Nieuw',
       'New Group' => 'Nieuwe groep',
       'Group Ro' => 'Groep Read Only',
       'New Group Ro' => 'Nieuwe groep Read Only',
       'NavBarName' => 'Navigatie bar name',
+      'NavBar' => 'Navigatiebar',
       'Image' => 'Afbeelding',
       'Prio' => 'Prioriteit',
       'Block' => '',
-      'NavBar' => 'Navigatiebar',
       'AccessKey' => 'Toegangssleutel',
 
       # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'Systeem e-mailadressen beheer',
-      'Email' => 'E-mail',
       'Realname' => 'Echte naam',
       'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle binnenkomende emails met deze "To:" worden in de gekozen wachtrij geplaatst.',
 
       # Template: AdminUserForm
       'User Management' => 'Gebruikersbeheer',
+      'Login as' => '',
       'Firstname' => 'Voornaam',
       'Lastname' => 'Achternaam',
       'User will be needed to handle tickets.' => 'Gebruikers zijn nodig om Tickets te behandelen.',
@@ -857,7 +943,7 @@ sub Data {
       'Select' => 'Selecteer',
       'Results' => 'Resultaten',
       'Total hits' => 'Totaal gevonden',
-      'Site' => '',
+      'Page' => 'Pagina',
       'Detail' => '',
 
       # Template: AgentLookup
@@ -875,6 +961,88 @@ sub Data {
       'or' => 'of',
       'Apply these changes' => 'Pas deze wijzigingen toe',
 
+      # Template: AgentStatsDelete
+      'Do you really want to delete this Object?' => 'Weet u zeker dat u dit item wilt verwijderen?',
+
+      # Template: AgentStatsEditRestrictions
+      'Select the restrictions to characterise the stat' => '',
+      'Fixed' => '',
+      'Please select only one Element or turn of the button \'Fixed\'.' => '',
+      'Absolut Period' => '',
+      'Between' => '',
+      'Relative Period' => '',
+      'The last' => '',
+      'Finish' => '',
+      'Here you can make restrictions to your stat.' => '',
+      'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element.' => '',
+
+      # Template: AgentStatsEditSpecification
+      'Insert of the common specifications' => '',
+      'Permissions' => '',
+      'Format' => '',
+      'Graphsize' => '',
+      'Sum rows' => '',
+      'Sum columns' => '',
+      'Cache' => '',
+      'Required Field' => '',
+      'Selection needed' => '',
+      'Explanation' => '',
+      'In this form you can select the basic specifications.' => '',
+      'Attribute' => '',
+      'Title of the stat.' => '',
+      'Here you can insert a description of the stat.' => '',
+      'Dynamic-Object' => '',
+      'Here you can select the dynamic object you want to use.' => '',
+      '(Note: It depends on your installation how many dynamic objects you can use)' => '',
+      'Static-File' => '',
+      'For very complex stats it is possible to include a hardcoded file.' => '',
+      'If a new hardcoded file is available this attribute will be shown and you can select one.' => '',
+      'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => '',
+      'Multiple selection of the output format.' => '',
+      'If you use a graph as output format you have to select at least one graph size.' => '',
+      'If you need the sum of every row select yes' => '',
+      'If you need the sum of every column select yes.' => '',
+      'Most of the stats can be cached. This will speed up the presentation of this stat.' => '',
+      '(Note: Useful for big databases and low performance server)' => '',
+      'With an invalid stat it isn\'t feasible to generate a stat.' => '',
+      'This is useful if you want that no one can get the result of the stat or the stat isn\'t ready configurated.' => '',
+
+      # Template: AgentStatsEditValueSeries
+      'Select the elements for the value series' => '',
+      'Scale' => '',
+      'minimal' => '',
+      'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => '',
+      'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+
+      # Template: AgentStatsEditXaxis
+      'Select the element, which will be used at the X-axis' => '',
+      'maximal period' => '',
+      'minimal scale' => '',
+      'Here you can define the x-axis. You can select one element via the radio button. Than you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+
+      # Template: AgentStatsImport
+      'Import' => '',
+      'File is not a Stats config' => '',
+      'No File selected' => '',
+
+      # Template: AgentStatsOverview
+      'Object' => '',
+
+      # Template: AgentStatsPrint
+      'Print' => 'Afdrukken',
+      'No Element selected.' => '',
+
+      # Template: AgentStatsView
+      'Export Config' => '',
+      'Informations about the Stat' => '',
+      'Exchange Axis' => '',
+      'Configurable params of static stat' => '',
+      'No element selected.' => '',
+      'maximal period form' => '',
+      'to' => '',
+      'Start' => '',
+      'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
+
       # Template: AgentTicketBounce
       'A message should have a To: recipient!' => 'Een bericht moet een ontvanger (aan:) hebben!',
       'You need a email address (e. g. customer@example.com) in To:!' => 'In het Aan-veld is een e-mail adres nodig!',
@@ -882,7 +1050,6 @@ sub Data {
       'Bounce to' => 'Bounce naar',
       'Next ticket state' => 'Volgende status van het ticket',
       'Inform sender' => 'Informeer afzender',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Uw e-mail met Ticket nummer "<OTRS_TICKET>" is gebounced naar "<OTRS_BOUNCE_TO>". Neem contact op met dit adres voor meer informatie.',
       'Send mail!' => 'Bericht versturen!',
 
       # Template: AgentTicketBulk
@@ -890,21 +1057,25 @@ sub Data {
       'Ticket Bulk Action' => 'Ticket Bulk Aktie',
       'Spell Check' => 'Spellingscontrole',
       'Note type' => 'Notitietype',
-      'Unlock Tickets' => 'Unlock Tickets',
+      'Unlock Tickets' => '',
 
       # Template: AgentTicketClose
       'A message should have a body!' => 'Een bericht moet een berichttekst hebben!',
       'You need to account time!' => 'Het is verplicht tijd te verantwoorden!',
       'Close ticket' => 'Sluit ticket',
-      'Note Text' => 'Notitietekst',
-      'Close type' => 'Sluit-type',
+      'Ticket locked!' => '',
+      'Ticket unlock!' => 'Ticket unlocked!',
+      'Previous Owner' => 'Vorige eigenaar',
+      'Inform Agent' => 'Informeer agent',
+      'Optional' => 'Optioneel',
+      'Inform involved Agents' => 'Informeer betrokken agenten',
+      'Attach' => 'Bijlage',
+      'Pending date' => 'In de wacht: datum',
       'Time units' => 'Gewerkte tijd',
-      ' (work units)' => '(in minuten)',
 
       # Template: AgentTicketCompose
       'A message must be spell checked!' => 'Van een bericht moet de spelling gecontroleerd worden',
       'Compose answer for ticket' => 'Bericht opstellen voor',
-      'Attach' => 'Bijlage',
       'Pending Date' => 'Wachtende datum',
       'for pending* states' => 'voor wachtende statussen',
 
@@ -923,9 +1094,9 @@ sub Data {
       # Template: AgentTicketEmail
       'Compose Email' => 'E-mail opstellen',
       'new ticket' => 'nieuw ticket',
+      'Refresh' => '',
       'Clear To' => '',
       'All Agents' => 'Alle agenten',
-      'Termin1' => '',
 
       # Template: AgentTicketForward
       'Article type' => 'Artikel type',
@@ -937,12 +1108,12 @@ sub Data {
       'History of' => 'Geschiedenis van',
 
       # Template: AgentTicketLocked
-      'Ticket locked!' => 'Ticket locked!',
-      'Ticket unlock!' => 'Ticket unlocked!',
 
       # Template: AgentTicketMailbox
       'Mailbox' => 'Postbus',
-      'Tickets' => 'Tickets',
+      'Tickets' => '',
+      'of' => 'van',
+      'Filter' => '',
       'All messages' => 'Alle berichten',
       'New messages' => 'Nieuwe berichten',
       'Pending messages' => 'Wachtende berichten',
@@ -957,33 +1128,25 @@ sub Data {
       'You need to use a ticket number!' => 'U dient een Ticket nummer te gebruiken.',
       'Ticket Merge' => 'Ticket samenvoegen',
       'Merge to' => 'Voeg samen met',
-      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Uw e-mail met Ticket nummer "<OTRS_TICKET>" is samengevoegd met "<OTRS_MERGE_TO_TICKET>".',
 
       # Template: AgentTicketMove
-      'Queue ID' => 'Wachtrij ID',
       'Move Ticket' => 'Verplaats Ticket',
-      'Previous Owner' => 'Vorige eigenaar',
 
       # Template: AgentTicketNote
       'Add note to ticket' => 'Notitie toevoegen aan Ticket',
-      'Inform Agent' => 'Informeer agent',
-      'Optional' => 'Optioneel',
-      'Inform involved Agents' => 'Informeer betrokken agenten',
 
       # Template: AgentTicketOwner
       'Change owner of ticket' => 'Wijzig eigenaar van Ticket',
-      'Message for new Owner' => 'Bericht voor nieuwe eigenaar',
 
       # Template: AgentTicketPending
       'Set Pending' => 'Zet in de wacht',
-      'Pending type' => 'In de wacht: type',
-      'Pending date' => 'In de wacht: datum',
 
       # Template: AgentTicketPhone
       'Phone call' => 'Telefoongesprek',
-
-      # Template: AgentTicketPhoneNew
       'Clear From' => 'Wis e-mailadres',
+      'Create' => '',
+
+      # Template: AgentTicketPhoneOutbound
 
       # Template: AgentTicketPlain
       'Plain' => 'Zonder opmaak',
@@ -1004,7 +1167,6 @@ sub Data {
 
       # Template: AgentTicketQueue
       'Tickets shown' => 'Tickets getoond',
-      'Page' => 'Pagina',
       'Tickets available' => 'Tickets beschikbaar',
       'All tickets' => 'Alle tickets',
       'Queues' => 'Wachtrij',
@@ -1019,24 +1181,24 @@ sub Data {
 
       # Template: AgentTicketQueueTicketViewLite
 
+      # Template: AgentTicketResponsible
+      'Change responsible of ticket' => '',
+
       # Template: AgentTicketSearch
       'Ticket Search' => 'Zoek Ticket',
       'Profile' => 'Profiel',
       'Search-Template' => 'Zoek template',
+      'TicketFreeText' => 'Vrije invulvelden van het Ticket',
       'Created in Queue' => 'Aangemaakt in wachtrij',
       'Result Form' => 'Resultaatformulier',
       'Save Search-Profile as Template?' => 'Zoekprofiel als template bewaren ?',
       'Yes, save it with name' => 'Ja, sla op met naam',
-      'Customer history search' => 'Zoeken in klantgeschiednis',
-      'Customer history search (e. g. "ID342425").' => 'Klantgeschiedenis zoeken (bijv. "ID342425").',
-      'No * possible!' => 'Geen * mogelijk!',
 
       # Template: AgentTicketSearchResult
       'Search Result' => 'Zoekresultaat',
       'Change search options' => 'Verander zoekopties',
 
       # Template: AgentTicketSearchResultPrint
-      '"}' => '',
 
       # Template: AgentTicketSearchResultShort
       'sort upward' => 'sorteer oplopend',
@@ -1049,10 +1211,10 @@ sub Data {
       'Open Tickets' => '',
 
       # Template: AgentTicketZoom
+      'Locked' => '',
       'Split' => 'Splitsing',
 
-      # Template: AgentTicketZoomStatus
-      'Locked' => '',
+      # Template: AgentWindowTab
 
       # Template: AgentWindowTabStart
 
@@ -1070,22 +1232,6 @@ sub Data {
 
       # Template: CustomerError
       'Traceback' => 'Terug traceren',
-
-      # Template: CustomerFAQ
-      'Print' => 'Afdrukken',
-      'Keywords' => '',
-      'Symptom' => 'Symptoom',
-      'Problem' => 'Probleem',
-      'Solution' => 'Oplossing',
-      'Modified' => 'Gewijzigd',
-      'Last update' => 'Laatste wijziging',
-      'FAQ System History' => 'FAQ Systeem geschiedenis',
-      'modified' => 'aangepast',
-      'FAQ Search' => 'FAQ zoeken',
-      'Fulltext' => 'Volledig',
-      'Keyword' => '',
-      'FAQ Search Result' => 'FAQ zoekresultaat',
-      'FAQ Overview' => 'FAQ overzicht',
 
       # Template: CustomerFooter
       'Powered by' => '',
@@ -1108,11 +1254,8 @@ sub Data {
       # Template: CustomerPreferencesForm
 
       # Template: CustomerStatusView
-      'of' => 'van',
 
       # Template: CustomerTicketMessage
-
-      # Template: CustomerTicketMessageNew
 
       # Template: CustomerTicketSearch
 
@@ -1129,23 +1272,7 @@ sub Data {
       # Template: Error
       'Click here to report a bug!' => 'Klik hier om een fout te rapporteren',
 
-      # Template: FAQ
-      'Comment (internal)' => 'Interne opmerking',
-      'A article should have a title!' => 'Een artikel moet een titel hebben!',
-      'New FAQ Article' => 'Nieuw FAQ artikel',
-      'Do you really want to delete this Object?' => 'Weet u zeker dat u dit item wilt verwijderen?',
-      'System History' => 'Systeem geschiedenis',
-
-      # Template: FAQCategoryForm
-      'Name is required!' => 'Naam is verplicht!',
-      'FAQ Category' => 'FAQ categorie',
-
-      # Template: FAQLanguageForm
-      'FAQ Language' => 'FAQ taal',
-
       # Template: Footer
-      'QueueView' => 'Wachtrijen',
-      'PhoneView' => 'Telefoonscherm',
       'Top of Page' => 'Bovenkant pagina',
 
       # Template: FooterSmall
@@ -1166,7 +1293,6 @@ sub Data {
       'default \'hot\'' => '',
       'DB connect host' => '',
       'Database' => '',
-      'Create' => '',
       'false' => '',
       'SystemID' => '',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '',
@@ -1195,6 +1321,7 @@ sub Data {
       'Your OTRS Team' => '',
 
       # Template: Login
+      'Welcome to %s' => '',
 
       # Template: Motd
 
@@ -1212,9 +1339,6 @@ sub Data {
 
       # Template: Redirect
 
-      # Template: SystemStats
-      'Format' => '',
-
       # Template: Test
       'OTRS Test Page' => 'OTRS Testpagina',
       'Counter' => 'Teller',
@@ -1223,50 +1347,69 @@ sub Data {
       # Misc
       'OTRS DB connect host' => '',
       'Create Database' => '',
+      ' (work units)' => '(in minuten)',
       'DB Host' => '',
       'Ticket Number Generator' => '',
       '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
       'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+      'Symptom' => 'Symptoom',
+      'Site' => '',
+      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
+      'Customer history search (e. g. "ID342425").' => 'Klantgeschiedenis zoeken (bijv. "ID342425").',
       'Ticket Hook' => '',
       'Close!' => 'Sluit!',
       'TicketZoom' => 'Inhoud ticket',
       'Don\'t forget to add a new user to groups!' => 'Vergeet niet om groepen aan deze gebruiker toe te kennen!',
-      'License' => '',
       'CreateTicket' => 'Ticket aanmaken',
       'OTRS DB Name' => '',
       'System Settings' => '',
       'Finished' => '',
       'Days' => '',
+      'Queue ID' => 'Wachtrij ID',
+      'A article should have a title!' => 'Een artikel moet een titel hebben!',
+      'System History' => 'Systeem geschiedenis',
+      'Modules' => 'Modulen',
+      'Keyword' => '',
       'with' => '',
+      'Close type' => 'Sluit-type',
       'DB Admin User' => '',
       'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
       'Change user <-> group settings' => 'Wijzigen van gebruiker <-> groep toekenning',
+      'Name is required!' => 'Naam is verplicht!',
+      'Problem' => 'Probleem',
       'DB Type' => '',
       'next step' => 'volgende stap',
+      'Termin1' => '',
+      'Customer history search' => 'Zoeken in klantgeschiednis',
       'FIXME: WHAT IS PGP?' => '',
+      'Solution' => 'Oplossing',
+      'Admin-Email' => 'Admin e-mail adres',
+      'QueueView' => 'Wachtrijen',
       'My Queue' => 'Mijn wachtrij',
       'Create new database' => '',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Uw e-mail met Ticket nummer "<OTRS_TICKET>" is gebounced naar "<OTRS_BOUNCE_TO>". Neem contact op met dit adres voor meer informatie.',
       'Stunden' => '',
+      'modified' => 'aangepast',
       'Delete old database' => '',
+      'Keywords' => '',
+      'Note Text' => 'Notitietekst',
+      'No * possible!' => 'Geen * mogelijk!',
       'Load' => '',
       'OTRS DB User' => '',
+      'PhoneView' => 'Telefoonscherm',
+      'Verion' => '',
+      'Message for new Owner' => 'Bericht voor nieuwe eigenaar',
       'OTRS DB Password' => '',
+      'Last update' => 'Laatste wijziging',
       'DB Admin Password' => '',
       'Drop Database' => '',
+      'Pending type' => 'In de wacht: type',
+      'Comment (internal)' => 'Interne opmerking',
       '(Used ticket number format)' => '',
-      'FAQ History' => '',
-      'Admin-Email' => 'Admin e-mail adres',
-      'Package not correctly deployed, you need to deploy it again!' => '',
-      'Customer called' => 'Klant gebeld',
-      'Phone' => 'Telefoon',
-      'Office' => '',
-      'CompanyTickets' => 'Bedrijf Tickets',
-      'MyTickets' => 'Mijn Tickets',
-      'New Ticket' => '',
-      'Create new Ticket' => '',
-      'Package not correctly deployed, you need to deploy it again!' => '',
+      'Fulltext' => 'Volledig',
+      'Modified' => 'Gewijzigd',
     };
     # $$STOP$$
 }
-# --
+
 1;

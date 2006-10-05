@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.30 2006-10-03 14:36:01 mh Exp $
+# $Id: pl.pm,v 1.31 2006-10-05 04:23:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -23,7 +23,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Thu Jul 28 22:14:38 2005
+    # Last translation file sync: Thu Oct  5 06:04:49 2006
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -68,6 +68,9 @@ sub Data {
       'year' => '',
       'years' => '',
       'year(s)' => 'rok(lat)',
+      'second(s)' => '',
+      'seconds' => '',
+      'second' => '',
       'wrote' => 'napisa³',
       'Message' => 'Wiadomo¶æ',
       'Error' => 'B³±d',
@@ -191,17 +194,19 @@ sub Data {
       'Word' => 'S³owo',
       'Ignore' => 'Ignoruj',
       'replace with' => 'zamieñ z',
-      'Welcome to %s' => 'Witamy w %s',
+      'Welcome to OTRS' => '',
       'There is no account with that login name.' => 'Nie istnieje konto z takim loginem.',
       'Login failed! Your username or password was entered incorrectly.' => 'Logowanie niepoprawne! Twój u¿ytkownik lub has³o zosta³y wpisane niepoprawnie.',
       'Please contact your admin' => 'Skontaktuj siê z Administratorem',
       'Logout successful. Thank you for using OTRS!' => 'Wylogowanie zakoñczone! Dziêkujemy za u¿ywanie OTRS!',
       'Invalid SessionID!' => 'Niepoprawne ID Sesji!',
       'Feature not active!' => 'Funkcja nie aktywna!',
+      'License' => 'Licencja',
       'Take this Customer' => '',
       'Take this User' => 'U¿yj tego u¿ytkownika',
       'possible' => 'mo¿liwe',
       'reject' => 'odrzuæ',
+      'reverse' => '',
       'Facility' => 'U³atwienie',
       'Timeover' => '',
       'Pending till' => 'Oczekuje do',
@@ -215,6 +220,7 @@ sub Data {
       'Cc: (%s) added database email!' => '',
       '(Click here to add)' => '(By dodaæ kliknij tutaj)',
       'Preview' => 'Podgl±d',
+      'Package not correctly deployed! You should reinstall the Package again!' => '',
       'Added User "%s"' => '',
       'Contract' => '',
       'Online Customer: %s' => '',
@@ -230,6 +236,16 @@ sub Data {
       'Sign' => '',
       'Crypted' => '',
       'Crypt' => '',
+      'Office' => '',
+      'Phone' => '',
+      'Fax' => '',
+      'Mobile' => '',
+      'Zip' => '',
+      'City' => '',
+      'Country' => '',
+      'installed' => '',
+      'uninstalled' => '',
+      'printed at' => '',
 
       # Template: AAAMonth
       'Jan' => 'Sty',
@@ -244,6 +260,17 @@ sub Data {
       'Oct' => 'Pa¼',
       'Nov' => 'Lis',
       'Dec' => 'Gru',
+      'January' => '',
+      'February' => '',
+      'March' => '',
+      'April' => '',
+      'June' => '',
+      'July' => '',
+      'August' => '',
+      'September' => '',
+      'October' => '',
+      'November' => '',
+      'December' => '',
 
       # Template: AAANavBar
       'Admin-Area' => 'Administracja',
@@ -255,12 +282,7 @@ sub Data {
       'Agent Mailbox' => '',
       'Stats' => 'Statystyki',
       'Stats-Area' => '',
-      'FAQ-Area' => 'Pytania i odpowiedzi (FAQ)',
-      'FAQ' => '',
-      'FAQ-Search' => '',
-      'FAQ-Article' => '',
       'New Article' => 'Nowy artyku³',
-      'FAQ-State' => '',
       'Admin' => '',
       'A web calendar' => '',
       'WebMail' => '',
@@ -308,6 +330,47 @@ sub Data {
       'Can\'t update password, need min. 2 characters!' => '',
       'Password is needed!' => '',
 
+      # Template: AAAStats
+      'Stat' => '',
+      'Please fill out the required fields!' => '',
+      'Please select a file!' => '',
+      'Please select an object!' => '',
+      'Please select a graph size!' => '',
+      'Please select one element for the X-axis!' => '',
+      'You have to select two or more attributes from the select field!' => '',
+      'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => '',
+      'If you use a checkbox you have to select some attributes of the select field!' => '',
+      'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => '',
+      'The selected end time is before the start time!' => '',
+      'You have to select one or more attributes from the select field!' => '',
+      'The selected Date isn\'t valid!' => '',
+      'Please select only one or two elements via the checkbox!' => '',
+      'If you use a time scale element you can only select one element!' => '',
+      'You have an error in your time selection!' => '',
+      'Your reporting time interval is to small, please use a larger time scale!' => '',
+      'The selected start time is before the allowed start time!' => '',
+      'The selected end time is after the allowed end time!' => '',
+      'The selected time period is larger than the allowed time period!' => '',
+      'Common Specification' => '',
+      'Xaxis' => '',
+      'Value Series' => '',
+      'Restrictions' => '',
+      'graph-lines' => '',
+      'graph-bars' => '',
+      'graph-hbars' => '',
+      'graph-points' => '',
+      'graph-lines-points' => '',
+      'graph-area' => '',
+      'graph-pie' => '',
+      'extended' => '',
+      'Agent/Owner' => '',
+      'Created by Agent/Owner' => '',
+      'Created Priority' => '',
+      'Created State' => '',
+      'Create Time' => '',
+      'CustomerUserLogin' => '',
+      'Close Time' => '',
+
       # Template: AAATicket
       'Lock' => 'Zablokowane',
       'Unlock' => 'Odblokuj',
@@ -329,6 +392,8 @@ sub Data {
       'Pending' => 'Oczekuj±ce',
       'Owner' => 'W³a¶ciciel',
       'Owner Update' => '',
+      'Responsible' => '',
+      'Responsible Update' => '',
       'Sender' => 'Nadawca',
       'Article' => 'Artyku³',
       'Ticket' => 'Zg³oszenie',
@@ -411,6 +476,7 @@ sub Data {
       'Mark as Spam!' => '',
       'My Queues' => '',
       'Shown Tickets' => '',
+      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => '',
       'New ticket notification' => 'Powiadomienie o nowym zg³oszeniu',
       'Send me a notification if there is a new ticket in "My Queues".' => '',
       'Follow up notification' => 'Powiadomienie o odpowiedzi',
@@ -427,6 +493,12 @@ sub Data {
       'Closed Tickets' => 'Zamkniête zg³oszenia',
       'Show closed tickets.' => 'Poka¿ zamkniête zg³oszenia.',
       'Max. shown Tickets a page in QueueView.' => 'Limit pokazywanych zg³oszeñ na stronie Podgl±du Kolejki',
+      'CompanyTickets' => '',
+      'MyTickets' => '',
+      'New Ticket' => '',
+      'Create new Ticket' => '',
+      'Customer called' => '',
+      'phone call' => '',
       'Responses' => 'Odpowiedzi',
       'Responses <-> Queue' => '',
       'Auto Responses' => '',
@@ -487,6 +559,7 @@ sub Data {
       'to get the from line of the email' => 'by wstawiæ pole Od wiadomo¶ci',
       'to get the realname of the sender (if given)' => 'by wstawiæ prawdziwe imiê i nazwisko klienta (je¶li podano)',
       'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Opcje konfiguracyjne (np. &lt;OTRS_CONFIG_HttpType&gt;)',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => 'Wiadomo¶æ edytowana zosta³a zamkniêta.  Wychodzê.',
@@ -535,8 +608,8 @@ sub Data {
       'Customer User Login' => 'Login Klienta',
       '(e. g. U5150)' => '(np. U4543)',
       'Agent' => '',
-      'TicketFreeText' => 'Dodatkowe informacje o zg³oszeniu',
       'Ticket Lock' => '',
+      'TicketFreeFields' => '',
       'Times' => 'Razy',
       'No time settings.' => 'Brak ustawieñ czasu',
       'Ticket created' => 'Zg³oszenie utworzone',
@@ -549,19 +622,24 @@ sub Data {
       'New Customer' => '',
       'New Ticket Lock' => '',
       'CustomerUser' => 'Klient',
+      'New TicketFreeFields' => '',
       'Add Note' => 'Dodaj notatkê',
       'CMD' => '',
       'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '',
       'Delete tickets' => '',
       'Warning! This tickets will be removed from the database! This tickets are lost!' => '',
-      'Modules' => '',
+      'Send Notification' => '',
       'Param 1' => '',
       'Param 2' => '',
       'Param 3' => '',
       'Param 4' => '',
       'Param 5' => '',
       'Param 6' => '',
+      'Send no notifications' => '',
+      'Yes means, send no agent and customer notifications on changes.' => '',
+      'No means, send agent and customer notifications on changes.' => '',
       'Save' => '',
+      '%s Tickets affected! Do you really want to use this job?' => '',
 
       # Template: AdminGroupForm
       'Group Management' => 'Zarz±dzanie grupami',
@@ -582,28 +660,46 @@ sub Data {
       'Notification Management' => 'Konfiguracja Powiadomieñ',
       'Notification' => '',
       'Notifications are sent to an agent or a customer.' => 'Powiadomienia s± wysy³ane do agenta obs³ugi lub klienta',
-      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Opcje konfiguracyjne (np. &lt;OTRS_CONFIG_HttpType&gt;)',
       'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Opcje dotycz±ce w³a¶ciciela zg³oszenia (np. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
       'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Opcje aktualnego agenta obs³ugi (np. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
       'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Opcje aktualnego klienta (np. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
 
       # Template: AdminPackageManager
       'Package Manager' => '',
       'Uninstall' => '',
-      'Verion' => '',
+      'Version' => '',
       'Do you really want to uninstall this package?' => '',
+      'Reinstall' => '',
+      'Do you really want to reinstall this package (all manual changes get lost)?' => '',
       'Install' => '',
       'Package' => '',
       'Online Repository' => '',
-      'Version' => '',
       'Vendor' => '',
       'Upgrade' => '',
       'Local Repository' => '',
       'Status' => '',
+      'Package not correctly deployed, you need to deploy it again!' => '',
       'Overview' => 'Podsumowanie',
       'Download' => '',
       'Rebuild' => '',
-      'Reinstall' => '',
+      'Download file from package!' => '',
+      'Required' => '',
+      'PrimaryKey' => '',
+      'AutoIncrement' => '',
+      'SQL' => '',
+      'Diff' => '',
+
+      # Template: AdminPerformanceLog
+      'Performance Log' => '',
+      'Logfile too large!' => '',
+      'Logfile too large, you need to reset it!' => '',
+      'Range' => '',
+      'Interface' => '',
+      'Requests' => '',
+      'Min Response' => '',
+      'Max Response' => '',
+      'Average Response' => '',
 
       # Template: AdminPGPForm
       'PGP Management' => '',
@@ -614,9 +710,10 @@ sub Data {
       'Expires' => '',
       'In this way you can directly edit the keyring configured in SysConfig.' => '',
 
-      # Template: AdminPOP3Form
+      # Template: AdminPOP3
       'POP3 Account Management' => 'Konfiguracja kont POP3',
       'Host' => '',
+      'List' => '',
       'Trusted' => 'Zaufane',
       'Dispatching' => 'Przekazanie',
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Wszystkie przychodz±ce na jedno konto wiadomo¶ci bêd± umieszczone w zaznacznej kolejce!',
@@ -634,8 +731,6 @@ sub Data {
 
       # Template: AdminQueueAutoResponseForm
       'Queue <-> Auto Responses Management' => '',
-
-      # Template: AdminQueueAutoResponseTable
 
       # Template: AdminQueueForm
       'Queue Management' => 'Konfiguracja kolejek',
@@ -709,6 +804,7 @@ sub Data {
       # Template: AdminSalutationForm
       'Salutation Management' => 'Konfiguracja zwrotów grzeczno¶ciowych',
       'customer realname' => 'Prawdziwe dane klienta',
+      'All Agent variables.' => '',
       'for agent firstname' => 'dla imienia agenta',
       'for agent lastname' => 'dla nazwiska agenta',
       'for agent user id' => 'dla ID u¿ytkownika agenta',
@@ -716,7 +812,6 @@ sub Data {
 
       # Template: AdminSelectBoxForm
       'Select Box' => 'Zapytanie SQL',
-      'SQL' => '',
       'Limit' => '',
       'Select Box Result' => 'Wyniki Zapytania',
 
@@ -726,6 +821,7 @@ sub Data {
       'Uniq' => 'Unikalne',
       'kill all sessions' => 'Zamknij wszystkie sesje',
       'Session' => '',
+      'Content' => '',
       'kill session' => 'Zamknij sesjê',
 
       # Template: AdminSignatureForm
@@ -758,26 +854,25 @@ sub Data {
       # Template: AdminSysConfigEdit
       'Config Options' => '',
       'Default' => '',
-      'Content' => '',
       'New' => 'Nowe',
       'New Group' => '',
       'Group Ro' => '',
       'New Group Ro' => '',
       'NavBarName' => '',
+      'NavBar' => '',
       'Image' => '',
       'Prio' => '',
       'Block' => '',
-      'NavBar' => '',
       'AccessKey' => '',
 
       # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'Konfiguracja adresów email Systemu',
-      'Email' => 'E-Mail',
       'Realname' => 'Prawdziwe Imiê i Nazwisko',
       'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Wszystkie wiadomo¶ci przys³ane na ten adres w polu (Do:) zostan± umieszczone w tej kolejce.',
 
       # Template: AdminUserForm
       'User Management' => 'Zarz±dzanie U¿ytkownikami',
+      'Login as' => '',
       'Firstname' => 'Imiê',
       'Lastname' => 'Nazwisko',
       'User will be needed to handle tickets.' => 'U¿ytkownik bêdzie niezbêdny do obs³ugi zg³oszenia.',
@@ -807,7 +902,7 @@ sub Data {
       'Select' => 'Zaznacz',
       'Results' => 'Wyniki',
       'Total hits' => 'Wszystkich trafieñ',
-      'Site' => 'Witryna',
+      'Page' => 'Strona',
       'Detail' => '',
 
       # Template: AgentLookup
@@ -825,6 +920,88 @@ sub Data {
       'or' => 'lub',
       'Apply these changes' => 'Zastosuj te zmiany',
 
+      # Template: AgentStatsDelete
+      'Do you really want to delete this Object?' => '',
+
+      # Template: AgentStatsEditRestrictions
+      'Select the restrictions to characterise the stat' => '',
+      'Fixed' => '',
+      'Please select only one Element or turn of the button \'Fixed\'.' => '',
+      'Absolut Period' => '',
+      'Between' => '',
+      'Relative Period' => '',
+      'The last' => '',
+      'Finish' => '',
+      'Here you can make restrictions to your stat.' => '',
+      'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element.' => '',
+
+      # Template: AgentStatsEditSpecification
+      'Insert of the common specifications' => '',
+      'Permissions' => '',
+      'Format' => '',
+      'Graphsize' => '',
+      'Sum rows' => '',
+      'Sum columns' => '',
+      'Cache' => '',
+      'Required Field' => '',
+      'Selection needed' => '',
+      'Explanation' => '',
+      'In this form you can select the basic specifications.' => '',
+      'Attribute' => '',
+      'Title of the stat.' => '',
+      'Here you can insert a description of the stat.' => '',
+      'Dynamic-Object' => '',
+      'Here you can select the dynamic object you want to use.' => '',
+      '(Note: It depends on your installation how many dynamic objects you can use)' => '',
+      'Static-File' => '',
+      'For very complex stats it is possible to include a hardcoded file.' => '',
+      'If a new hardcoded file is available this attribute will be shown and you can select one.' => '',
+      'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => '',
+      'Multiple selection of the output format.' => '',
+      'If you use a graph as output format you have to select at least one graph size.' => '',
+      'If you need the sum of every row select yes' => '',
+      'If you need the sum of every column select yes.' => '',
+      'Most of the stats can be cached. This will speed up the presentation of this stat.' => '',
+      '(Note: Useful for big databases and low performance server)' => '',
+      'With an invalid stat it isn\'t feasible to generate a stat.' => '',
+      'This is useful if you want that no one can get the result of the stat or the stat isn\'t ready configurated.' => '',
+
+      # Template: AgentStatsEditValueSeries
+      'Select the elements for the value series' => '',
+      'Scale' => '',
+      'minimal' => '',
+      'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => '',
+      'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+
+      # Template: AgentStatsEditXaxis
+      'Select the element, which will be used at the X-axis' => '',
+      'maximal period' => '',
+      'minimal scale' => '',
+      'Here you can define the x-axis. You can select one element via the radio button. Than you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+
+      # Template: AgentStatsImport
+      'Import' => '',
+      'File is not a Stats config' => '',
+      'No File selected' => '',
+
+      # Template: AgentStatsOverview
+      'Object' => '',
+
+      # Template: AgentStatsPrint
+      'Print' => 'Drukuj',
+      'No Element selected.' => '',
+
+      # Template: AgentStatsView
+      'Export Config' => '',
+      'Informations about the Stat' => '',
+      'Exchange Axis' => '',
+      'Configurable params of static stat' => '',
+      'No element selected.' => '',
+      'maximal period form' => '',
+      'to' => '',
+      'Start' => '',
+      'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
+
       # Template: AgentTicketBounce
       'A message should have a To: recipient!' => 'Wiadomo¶æ musi zawieraæ wype³nione adresem polu Do: (odbiorca)!',
       'You need a email address (e. g. customer@example.com) in To:!' => 'W polu Do: musi znale¼æ siê adres email (np. klient@przyklad.pl)!',
@@ -832,7 +1009,6 @@ sub Data {
       'Bounce to' => 'Odbij do',
       'Next ticket state' => 'Nastêpny status zg³oszenia',
       'Inform sender' => 'Powiadom nadawcê',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Twoja wiadomo¶æ o numerze zg³oszenia: "<OTRS_TICKET>" zosta³a przekazana na adres "<OTRS_BOUNCE_TO>" . Prosimy kontaktowaæ siê pod tym adresem we wszystkich sprawach dotycz±cych tego zg³oszenia.',
       'Send mail!' => 'Wy¶lij wiadomo¶æ!',
 
       # Template: AgentTicketBulk
@@ -846,15 +1022,19 @@ sub Data {
       'A message should have a body!' => 'Wiadomo¶æ powinna zawieraæ jak±¶ tre¶æ!',
       'You need to account time!' => 'Musisz zaraportowaæ czas!',
       'Close ticket' => 'Zamknij zg³oszenie',
-      'Note Text' => 'Tekst notatki',
-      'Close type' => 'Typ zamkniêcia',
+      'Ticket locked!' => 'Zg³oszenie zablokowane!',
+      'Ticket unlock!' => 'Zg³oszenie odblokowane!',
+      'Previous Owner' => 'Poprzedni w³a¶ciciel',
+      'Inform Agent' => '',
+      'Optional' => '',
+      'Inform involved Agents' => '',
+      'Attach' => 'Wstaw',
+      'Pending date' => 'Data oczekiwania',
       'Time units' => 'Jednostek czasu',
-      ' (work units)' => ' (jednostek roboczych)',
 
       # Template: AgentTicketCompose
       'A message must be spell checked!' => 'Wiadomo¶æ musi zostaæ sprawdzona s³ownikiem!',
       'Compose answer for ticket' => 'Edytuj odpowied¼ na zg³oszenie',
-      'Attach' => 'Wstaw',
       'Pending Date' => 'Termin wyznaczony',
       'for pending* states' => 'dla statusów "oczekuj±cych" z pola powy¿ej',
 
@@ -873,9 +1053,9 @@ sub Data {
       # Template: AgentTicketEmail
       'Compose Email' => 'Nowa wiadomo¶æ',
       'new ticket' => 'Nowe zg³oszenie',
+      'Refresh' => '',
       'Clear To' => '',
       'All Agents' => 'Wszyscy agenci',
-      'Termin1' => '',
 
       # Template: AgentTicketForward
       'Article type' => 'Typ artyku³u',
@@ -887,12 +1067,12 @@ sub Data {
       'History of' => 'Historia',
 
       # Template: AgentTicketLocked
-      'Ticket locked!' => 'Zg³oszenie zablokowane!',
-      'Ticket unlock!' => 'Zg³oszenie odblokowane!',
 
       # Template: AgentTicketMailbox
       'Mailbox' => 'Skrzynka',
       'Tickets' => 'Zgloszenia',
+      'of' => 'z',
+      'Filter' => '',
       'All messages' => 'Wszystkie wiadomo¶ci',
       'New messages' => 'Nowe wiadomo¶ci',
       'Pending messages' => 'Oczekuj±ce wiadomo¶ci',
@@ -907,33 +1087,25 @@ sub Data {
       'You need to use a ticket number!' => '',
       'Ticket Merge' => '',
       'Merge to' => '',
-      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => '',
 
       # Template: AgentTicketMove
-      'Queue ID' => 'ID Kolejki',
       'Move Ticket' => 'Przesuñ zg³oszenie',
-      'Previous Owner' => 'Poprzedni w³a¶ciciel',
 
       # Template: AgentTicketNote
       'Add note to ticket' => 'Dodaj notatkê do zg³oszenia',
-      'Inform Agent' => '',
-      'Optional' => '',
-      'Inform involved Agents' => '',
 
       # Template: AgentTicketOwner
       'Change owner of ticket' => 'Zmieñ w³a¶ciciela zg³oszenia',
-      'Message for new Owner' => 'Wiadomo¶æ do nowego w³a¶ciciela',
 
       # Template: AgentTicketPending
       'Set Pending' => 'Ustaw oczekiwanie',
-      'Pending type' => 'Typ oczekiwania',
-      'Pending date' => 'Data oczekiwania',
 
       # Template: AgentTicketPhone
       'Phone call' => 'Telefon',
-
-      # Template: AgentTicketPhoneNew
       'Clear From' => 'Wyczy¶æ pole Od:',
+      'Create' => '',
+
+      # Template: AgentTicketPhoneOutbound
 
       # Template: AgentTicketPlain
       'Plain' => 'Puste',
@@ -954,7 +1126,6 @@ sub Data {
 
       # Template: AgentTicketQueue
       'Tickets shown' => 'Pokazane zg³oszenia',
-      'Page' => 'Strona',
       'Tickets available' => 'Dostêpne zg³oszenia',
       'All tickets' => 'Wszystkie zg³oszenia',
       'Queues' => 'Kolejki',
@@ -969,24 +1140,24 @@ sub Data {
 
       # Template: AgentTicketQueueTicketViewLite
 
+      # Template: AgentTicketResponsible
+      'Change responsible of ticket' => '',
+
       # Template: AgentTicketSearch
       'Ticket Search' => 'Wyszukiwanie zg³oszenia',
       'Profile' => 'Profil',
       'Search-Template' => 'Szablon wyszukiwania',
+      'TicketFreeText' => 'Dodatkowe informacje o zg³oszeniu',
       'Created in Queue' => '',
       'Result Form' => 'Formularz wyników',
       'Save Search-Profile as Template?' => 'Zachowaj profil wyszukiwania jako szablon',
       'Yes, save it with name' => 'Tak, zapisz to pod nazw±',
-      'Customer history search' => 'Przeszukiwanie historii klienta',
-      'Customer history search (e. g. "ID342425").' => 'Przeszukiwanie historii klienta (np. "ID342425").',
-      'No * possible!' => 'Nie u¿ywaj znaku "*"!',
 
       # Template: AgentTicketSearchResult
       'Search Result' => 'Wyniki wyszukiwania',
       'Change search options' => 'Zmieñ kryteria wyszukiwania',
 
       # Template: AgentTicketSearchResultPrint
-      '"}' => '',
 
       # Template: AgentTicketSearchResultShort
       'sort upward' => 'sortuj rosn±co',
@@ -999,10 +1170,10 @@ sub Data {
       'Open Tickets' => '',
 
       # Template: AgentTicketZoom
+      'Locked' => '',
       'Split' => 'Podziel',
 
-      # Template: AgentTicketZoomStatus
-      'Locked' => '',
+      # Template: AgentWindowTab
 
       # Template: AgentWindowTabStart
 
@@ -1020,22 +1191,6 @@ sub Data {
 
       # Template: CustomerError
       'Traceback' => '¦led¼ wstecz',
-
-      # Template: CustomerFAQ
-      'Print' => 'Drukuj',
-      'Keywords' => 'S³owa kluczowe',
-      'Symptom' => 'Objawy',
-      'Problem' => '',
-      'Solution' => 'Rozwi±zanie',
-      'Modified' => 'Zmodyfikowany',
-      'Last update' => 'Ostatnia aktualizacja',
-      'FAQ System History' => 'Historia FAQ',
-      'modified' => '',
-      'FAQ Search' => 'Szukaj w FAQ',
-      'Fulltext' => 'Pe³notekstowe',
-      'Keyword' => 'S³owo kluczowe',
-      'FAQ Search Result' => 'Wyniki przeszukiwania FAQ',
-      'FAQ Overview' => 'Podsumowanie FAQ',
 
       # Template: CustomerFooter
       'Powered by' => 'Oparte na',
@@ -1058,11 +1213,8 @@ sub Data {
       # Template: CustomerPreferencesForm
 
       # Template: CustomerStatusView
-      'of' => 'z',
 
       # Template: CustomerTicketMessage
-
-      # Template: CustomerTicketMessageNew
 
       # Template: CustomerTicketSearch
 
@@ -1079,23 +1231,7 @@ sub Data {
       # Template: Error
       'Click here to report a bug!' => 'Kliknij tutaj, by zg³osiæ b³±d systemu OTRS!',
 
-      # Template: FAQ
-      'Comment (internal)' => 'Komentarz (wewnêtrzny)',
-      'A article should have a title!' => '',
-      'New FAQ Article' => '',
-      'Do you really want to delete this Object?' => '',
-      'System History' => '',
-
-      # Template: FAQCategoryForm
-      'Name is required!' => '',
-      'FAQ Category' => 'Kategoria FAQ',
-
-      # Template: FAQLanguageForm
-      'FAQ Language' => 'Jêzyk FAQ',
-
       # Template: Footer
-      'QueueView' => 'Podgl±d kolejki',
-      'PhoneView' => 'Nowy telefon',
       'Top of Page' => 'Góra strony',
 
       # Template: FooterSmall
@@ -1116,7 +1252,6 @@ sub Data {
       'default \'hot\'' => 'domy¶lne \'hot\'',
       'DB connect host' => '',
       'Database' => '',
-      'Create' => '',
       'false' => '',
       'SystemID' => 'ID Systemu',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Identyfikator systemu. Wszystkie zg³oszenia oraz sesje http bêd± zaczyna³y siê od tego ci±gu)',
@@ -1145,6 +1280,7 @@ sub Data {
       'Your OTRS Team' => 'Twój Team OTRS',
 
       # Template: Login
+      'Welcome to %s' => 'Witamy w %s',
 
       # Template: Motd
 
@@ -1162,9 +1298,6 @@ sub Data {
 
       # Template: Redirect
 
-      # Template: SystemStats
-      'Format' => '',
-
       # Template: Test
       'OTRS Test Page' => 'OTRS Strona testowa',
       'Counter' => '',
@@ -1173,41 +1306,58 @@ sub Data {
       # Misc
       'OTRS DB connect host' => 'Host bazy danych',
       'Create Database' => 'Stwórz bazê danych',
+      ' (work units)' => ' (jednostek roboczych)',
       'DB Host' => 'Host bazy danych',
       'Ticket Number Generator' => 'Generator numerów zg³oszeñ',
       '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identyfikator zg³oszenia. np. \'Ticket#\', \'Call#\' lub \'MyTicket#\')',
       'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+      'Symptom' => 'Objawy',
+      'Site' => 'Witryna',
+      'Customer history search (e. g. "ID342425").' => 'Przeszukiwanie historii klienta (np. "ID342425").',
       'Ticket Hook' => 'Identyfikator zg³oszenia',
       'Close!' => 'Zamknij!',
       'TicketZoom' => 'Podgl±d zg³oszenia',
       'Don\'t forget to add a new user to groups!' => 'Nie zapomnij dodaæ u¿ytkownika do grup!',
-      'License' => 'Licencja',
       'OTRS DB Name' => 'Nazwa bazy danych OTRS',
       'System Settings' => 'Ustawienia systemu',
       'Finished' => 'Zakoñczono',
+      'Queue ID' => 'ID Kolejki',
+      'A article should have a title!' => '',
+      'System History' => '',
+      'Modules' => '',
+      'Keyword' => 'S³owo kluczowe',
+      'Close type' => 'Typ zamkniêcia',
       'DB Admin User' => 'U¿ytkownik administruj±cy baz± danych',
       'Change user <-> group settings' => 'Zmieñ u¿ytkownika <-> Ustawienia grupy',
+      'Name is required!' => '',
+      'Problem' => '',
       'DB Type' => 'Typ bazy danych',
       'next step' => 'Nastêpny krok',
+      'Termin1' => '',
+      'Customer history search' => 'Przeszukiwanie historii klienta',
+      'Solution' => 'Rozwi±zanie',
       'Admin-Email' => 'Wiadomo¶æ od Administratora',
+      'QueueView' => 'Podgl±d kolejki',
       'Create new database' => 'Stwórz now± bazê danych',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Twoja wiadomo¶æ o numerze zg³oszenia: "<OTRS_TICKET>" zosta³a przekazana na adres "<OTRS_BOUNCE_TO>" . Prosimy kontaktowaæ siê pod tym adresem we wszystkich sprawach dotycz±cych tego zg³oszenia.',
+      'modified' => '',
       'Delete old database' => 'Usuñ star± bazê danych',
+      'Keywords' => 'S³owa kluczowe',
+      'Note Text' => 'Tekst notatki',
+      'No * possible!' => 'Nie u¿ywaj znaku "*"!',
       'OTRS DB User' => 'U¿ytkownik bazy danych OTRS',
+      'PhoneView' => 'Nowy telefon',
+      'Verion' => '',
+      'Message for new Owner' => 'Wiadomo¶æ do nowego w³a¶ciciela',
       'OTRS DB Password' => 'Has³o dostêpu do bazy dla OTRS',
+      'Last update' => 'Ostatnia aktualizacja',
       'DB Admin Password' => 'Has³o Administratora bazy danych',
       'Drop Database' => 'Usuñ bazê danych',
+      'Pending type' => 'Typ oczekiwania',
+      'Comment (internal)' => 'Komentarz (wewnêtrzny)',
       '(Used ticket number format)' => '(U¿ywany format numerowania zg³oszeñ)',
-      'FAQ History' => 'Historia FAQ',
-      'Package not correctly deployed, you need to deploy it again!' => '',
-      'Customer called' => '',
-      'Phone' => '',
-      'Office' => '',
-      'CompanyTickets' => '',
-      'MyTickets' => '',
-      'New Ticket' => '',
-      'Create new Ticket' => '',
-      'installed' => '',
-      'uninstalled' => '',
+      'Fulltext' => 'Pe³notekstowe',
+      'Modified' => 'Zmodyfikowany',
     };
     # $$STOP$$
 }

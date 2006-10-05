@@ -4,7 +4,7 @@
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 #               2006 Knut Haugen <knuthaug@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.24 2006-04-01 23:38:29 martin Exp $
+# $Id: nb_NO.pm,v 1.25 2006-10-05 04:23:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,22 +15,22 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.24 $;
+$VERSION = q$Revision: 1.25 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub Data {
     my $Self = shift;
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Wed Mar  1 11:17:14 2006
+    # Last translation file sync: Thu Oct  5 06:04:40 2006
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D/%M %Y %T';
     $Self->{DateFormatLong} = '%A %D. %B %Y %T';
+    $Self->{DateFormatShort} = '';
     $Self->{DateInputFormat} = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 
@@ -68,6 +68,9 @@ sub Data {
       'year' => 'år',
       'years' => 'år',
       'year(s)' => 'år',
+      'second(s)' => '',
+      'seconds' => '',
+      'second' => '',
       'wrote' => 'skrev',
       'Message' => 'Melding',
       'Error' => 'Feil',
@@ -105,7 +108,7 @@ sub Data {
       'Link (Normal)' => 'Koblet (Normal)',
       'Link (Parent)' => 'Koblet (Forelder))',
       'Link (Child)' => 'Koblet (Barn)',
-      'Normal' => 'Normal',
+      'Normal' => '',
       'Parent' => 'Forelder',
       'Child' => 'Barn',
       'Hit' => 'Treff',
@@ -123,7 +126,7 @@ sub Data {
       'CustomerID' => 'Organisasjons-ID',
       'CustomerIDs' => 'Organisasjons-ID-er',
       'customer' => 'kunde',
-      'agent' => 'agent',
+      'agent' => '',
       'system' => 'System',
       'Customer Info' => 'Kunde-info',
       'go!' => 'Start!',
@@ -159,7 +162,7 @@ sub Data {
       'and' => 'og',
       'between' => 'mellom',
       'Fulltext Search' => 'Fritekstsøk',
-      'Data' => 'Data',
+      'Data' => '',
       'Options' => 'Valg',
       'Title' => 'Tittel',
       'Item' => 'Punkt',
@@ -167,7 +170,7 @@ sub Data {
       'Edit' => 'Rediger',
       'View' => 'Bilde',
       'Number' => 'Nummer',
-      'System' => 'System',
+      'System' => '',
       'Contact' => 'Kontakt',
       'Contacts' => 'Kontakter',
       'Export' => 'Eksportér',
@@ -203,6 +206,7 @@ sub Data {
       'Take this User' => 'Velg denne brukeren',
       'possible' => 'mulig',
       'reject' => 'Avvises',
+      'reverse' => '',
       'Facility' => 'Innretning',
       'Timeover' => 'Tidsoverskridelse',
       'Pending till' => 'Utsatt til',
@@ -216,7 +220,7 @@ sub Data {
       'Cc: (%s) added database email!' => 'Cc: (%s) la til database-epost!',
       '(Click here to add)' => '(Klikk her for å legge til)',
       'Preview' => 'Forhåndsvisning',
-      'Package not correctly deployed, you need to deploy it again!' => 'Pakken ble ikke korrekt aktivert. Du må aktivere den igjen!',
+      'Package not correctly deployed! You should reinstall the Package again!' => '',
       'Added User "%s"' => 'Lagt til bruker "%s"',
       'Contract' => 'Kontrakt',
       'Online Customer: %s' => 'Pålogget kunde: %s',
@@ -224,7 +228,7 @@ sub Data {
       'Calendar' => 'Kalender',
       'File' => 'Fil',
       'Filename' => 'Filnavn',
-      'Type' => 'Type',
+      'Type' => '',
       'Size' => 'Størrelse',
       'Upload' => 'Last opp',
       'Directory' => 'Katalog',
@@ -235,8 +239,13 @@ sub Data {
       'Office' => 'Kontor',
       'Phone' => 'Telefon',
       'Fax' => 'Telefaks',
+      'Mobile' => '',
+      'Zip' => '',
+      'City' => '',
+      'Country' => '',
       'installed' => 'installert',
       'uninstalled' => 'avinstallert',
+      'printed at' => '',
 
       # Template: AAAMonth
       'Jan' => 'jan',
@@ -255,7 +264,6 @@ sub Data {
       'February' => 'februar',
       'March' => 'mars',
       'April' => 'april',
-      'May' => 'mai',
       'June' => 'juni',
       'July' => 'juli',
       'August' => 'august',
@@ -274,12 +282,7 @@ sub Data {
       'Agent Mailbox' => 'Agent-innboks',
       'Stats' => 'Statistikk',
       'Stats-Area' => 'Statistikk-område',
-      'FAQ-Area' => 'FAQ-område',
-      'FAQ' => 'OBS',
-      'FAQ-Search' => 'OBS-søk',
-      'FAQ-Article' => 'OBS-artikkel',
       'New Article' => 'Ny artikkel',
-      'FAQ-State' => 'OBS-status',
       'Admin' => 'Administrator',
       'A web calendar' => 'EN web-kalender',
       'WebMail' => 'Webmail',
@@ -327,6 +330,47 @@ sub Data {
       'Can\'t update password, need min. 2 characters!' => 'Kan ikke oppdatere passord: trenger minst 2 bokstaver',
       'Password is needed!' => 'Passord er påkrevd!',
 
+      # Template: AAAStats
+      'Stat' => '',
+      'Please fill out the required fields!' => '',
+      'Please select a file!' => '',
+      'Please select an object!' => '',
+      'Please select a graph size!' => '',
+      'Please select one element for the X-axis!' => '',
+      'You have to select two or more attributes from the select field!' => '',
+      'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => '',
+      'If you use a checkbox you have to select some attributes of the select field!' => '',
+      'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => '',
+      'The selected end time is before the start time!' => '',
+      'You have to select one or more attributes from the select field!' => '',
+      'The selected Date isn\'t valid!' => '',
+      'Please select only one or two elements via the checkbox!' => '',
+      'If you use a time scale element you can only select one element!' => '',
+      'You have an error in your time selection!' => '',
+      'Your reporting time interval is to small, please use a larger time scale!' => '',
+      'The selected start time is before the allowed start time!' => '',
+      'The selected end time is after the allowed end time!' => '',
+      'The selected time period is larger than the allowed time period!' => '',
+      'Common Specification' => '',
+      'Xaxis' => '',
+      'Value Series' => '',
+      'Restrictions' => '',
+      'graph-lines' => '',
+      'graph-bars' => '',
+      'graph-hbars' => '',
+      'graph-points' => '',
+      'graph-lines-points' => '',
+      'graph-area' => '',
+      'graph-pie' => '',
+      'extended' => '',
+      'Agent/Owner' => '',
+      'Created by Agent/Owner' => '',
+      'Created Priority' => '',
+      'Created State' => '',
+      'Create Time' => '',
+      'CustomerUserLogin' => '',
+      'Close Time' => '',
+
       # Template: AAATicket
       'Lock' => 'Ta sak',
       'Unlock' => 'Frigi sak',
@@ -337,8 +381,8 @@ sub Data {
       'Forward' => 'Videresende',
       'From' => 'Fra',
       'To' => 'Til',
-      'Cc' => 'Cc',
-      'Bcc' => 'Bcc',
+      'Cc' => '',
+      'Bcc' => '',
       'Subject' => 'Emne',
       'Move' => 'Flytt',
       'Queue' => 'Mappe',
@@ -348,6 +392,8 @@ sub Data {
       'Pending' => 'Satt på vent',
       'Owner' => 'Saksbehandler',
       'Owner Update' => 'Eier-oppdatering',
+      'Responsible' => '',
+      'Responsible Update' => '',
       'Sender' => 'Avsender',
       'Article' => 'Artikkel',
       'Ticket' => 'Sak',
@@ -381,18 +427,18 @@ sub Data {
       'note-internal' => 'notis internt',
       'note-report' => 'notis til rapport',
       'phone' => 'telefon',
-      'sms' => 'sms',
+      'sms' => '',
       'webrequest' => 'web-forespørsel',
       'lock' => 'privat',
       'unlock' => 'tilgjengelig',
       'very low' => 'svært lav',
       'low' => 'lav',
-      'normal' => 'normal',
+      'normal' => '',
       'high' => 'høy',
       'very high' => 'svært høy',
       '1 very low' => '1 svært lav',
       '2 low' => '2 lav',
-      '3 normal' => '3 normal',
+      '3 normal' => '',
       '4 high' => '4 høy',
       '5 very high' => '5 svært høy',
       'Ticket "%s" created!' => 'Sak "%s" opprettet!',
@@ -430,6 +476,7 @@ sub Data {
       'Mark as Spam!' => 'Markér som spam',
       'My Queues' => 'Mine mapper',
       'Shown Tickets' => 'Viste saker',
+      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Din epost-sak med numemr "<OTRS_TICKET>" er flettet med ">OTRS_MERGE_TO_TICKET>". ',
       'New ticket notification' => 'Merknad ved nyopprettet sak',
       'Send me a notification if there is a new ticket in "My Queues".' => 'Send meg en melding dersom det kommer en ny sak i mine utvalgte mapper.',
       'Follow up notification' => 'Oppfølgingsmerknad',
@@ -550,7 +597,7 @@ sub Data {
       'Job-List' => 'Liste over jobber',
       'Last run' => 'Sist kjørt',
       'Run Now!' => 'Kjør nå!',
-      'x' => 'x',
+      'x' => '',
       'Save Job as?' => 'Lagre jobb som?',
       'Is Job Valid?' => 'Er jobben gyldig?',
       'Is Job Valid' => 'Er jobben gyldig',
@@ -560,9 +607,9 @@ sub Data {
       '(e. g. 234321)' => 'f.eks. 234321',
       'Customer User Login' => 'Kunde-bruker login-navn',
       '(e. g. U5150)' => 'f.eks. U5150',
-      'Agent' => 'Agent',
-      'TicketFreeText' => 'Stikkordssøk',
+      'Agent' => '',
       'Ticket Lock' => 'Saks-lås',
+      'TicketFreeFields' => '',
       'Times' => 'Tider',
       'No time settings.' => 'Ingen tidsinnstillinger.',
       'Ticket created' => 'Sak opprettet',
@@ -575,19 +622,24 @@ sub Data {
       'New Customer' => 'Ny kunde',
       'New Ticket Lock' => 'Ny saks-lås',
       'CustomerUser' => 'Kunde-bruker',
+      'New TicketFreeFields' => '',
       'Add Note' => 'Legg til notis',
-      'CMD' => 'CMD',
+      'CMD' => '',
       'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Denne kommandoen vil bli kjørt. ARG[0] vil være saksnummer. ARG[1] saks-id.',
       'Delete tickets' => 'Slett saker',
       'Warning! This tickets will be removed from the database! This tickets are lost!' => 'Advarsel! Disse sakene vil ble fjernet fra databasen! Sakene er borte for godt!',
-      'Modules' => 'Moduler',
+      'Send Notification' => '',
       'Param 1' => 'Parameter 1',
       'Param 2' => 'Parameter 2',
       'Param 3' => 'Parameter 3',
       'Param 4' => 'Parameter 4',
       'Param 5' => 'Parameter 5',
       'Param 6' => 'Parameter 6',
+      'Send no notifications' => '',
+      'Yes means, send no agent and customer notifications on changes.' => '',
+      'No means, send agent and customer notifications on changes.' => '',
       'Save' => 'Lagre',
+      '%s Tickets affected! Do you really want to use this job?' => '',
 
       # Template: AdminGroupForm
       'Group Management' => 'Administrasjon: Grupper',
@@ -611,39 +663,57 @@ sub Data {
       'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'gir tilgang til data for agenten som står som eier av saken (f.eks. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
       'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'gir tilgang til data for agenten som utfører handlingen (f.eks. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
       'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'gir tilgang til data for gjeldende kunde (f.eks. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
 
       # Template: AdminPackageManager
       'Package Manager' => 'Pakkehåndterer',
       'Uninstall' => 'Avinstaller',
       'Version' => 'Versjon',
       'Do you really want to uninstall this package?' => 'Vil du virkelig avinstallere denne pakken?',
+      'Reinstall' => 'Re-installér',
+      'Do you really want to reinstall this package (all manual changes get lost)?' => '',
       'Install' => 'Installer',
       'Package' => 'Pakke',
       'Online Repository' => 'Online pakkelager',
       'Vendor' => 'Forhandler',
       'Upgrade' => 'Oppgrader',
       'Local Repository' => 'Lokalt pakkelager',
-      'Status' => 'Status',
-      'Reinstall' => 'Re-installér',
+      'Status' => '',
+      'Package not correctly deployed, you need to deploy it again!' => 'Pakken ble ikke korrekt aktivert. Du må aktivere den igjen!',
       'Overview' => 'Oversikt',
       'Download' => 'Last ned',
       'Rebuild' => 'Bygg på ny',
+      'Download file from package!' => '',
       'Required' => 'Påkrevd',
       'PrimaryKey' => 'Primærnøkkel',
       'AutoIncrement' => 'Autoincrement',
+      'SQL' => '',
+      'Diff' => '',
+
+      # Template: AdminPerformanceLog
+      'Performance Log' => '',
+      'Logfile too large!' => '',
+      'Logfile too large, you need to reset it!' => '',
+      'Range' => '',
+      'Interface' => '',
+      'Requests' => '',
+      'Min Response' => '',
+      'Max Response' => '',
+      'Average Response' => '',
 
       # Template: AdminPGPForm
       'PGP Management' => 'PGP-innstillinger',
       'Identifier' => 'Nøkkel',
-      'Bit' => 'Bit',
+      'Bit' => '',
       'Key' => 'Nøkkel',
       'Fingerprint' => 'Fingeravtrykk',
       'Expires' => 'Utgår',
       'In this way you can directly edit the keyring configured in SysConfig.' => 'På denne måten kan du direkte redigere keyringen som er konfigurert i SysConfig',
 
-      # Template: AdminPOP3Form
+      # Template: AdminPOP3
       'POP3 Account Management' => 'Administrasjon: POP3-Konto',
       'Host' => 'Maskin',
+      'List' => 'Liste',
       'Trusted' => 'Betrodd',
       'Dispatching' => 'Fordeling',
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Innkommende e-poster fra POP3-kontoer blir sortert til valgt mappe!',
@@ -651,7 +721,6 @@ sub Data {
 
       # Template: AdminPostMasterFilter
       'PostMaster Filter Management' => 'Administrasjon: E-postfilter',
-      'List' => 'Liste',
       'Filtername' => 'Filternavn',
       'Match' => 'Treff',
       'Header' => 'Overskrift',
@@ -735,6 +804,7 @@ sub Data {
       # Template: AdminSalutationForm
       'Salutation Management' => 'Administrasjon: Hilsninger',
       'customer realname' => 'Fullt kundenavn',
+      'All Agent variables.' => '',
       'for agent firstname' => 'gir agents fornavn',
       'for agent lastname' => 'gir agents etternavn',
       'for agent user id' => 'gir agents bruker-id',
@@ -742,8 +812,7 @@ sub Data {
 
       # Template: AdminSelectBoxForm
       'Select Box' => 'SQL-tilgang',
-      'SQL' => 'SQL',
-      'Limit' => 'Limit',
+      'Limit' => '',
       'Select Box Result' => 'Select Box-resultat',
 
       # Template: AdminSession
@@ -752,6 +821,7 @@ sub Data {
       'Uniq' => 'Unik',
       'kill all sessions' => 'Terminér alle sesjoner',
       'Session' => 'Sesjon',
+      'Content' => 'Innhold',
       'kill session' => 'Terminér sesjon',
 
       # Template: AdminSignatureForm
@@ -762,7 +832,7 @@ sub Data {
       'Add Certificate' => 'Legg til sertifikat',
       'Add Private Key' => 'Legg til privat nøkkel',
       'Secret' => 'Hemmelighet',
-      'Hash' => 'Hash',
+      'Hash' => '',
       'In this way you can directly edit the certification and private keys in file system.' => 'På denne måten kan du direkte redigere sertifikatet og private nøkler i filsystemet. ',
 
       # Template: AdminStateForm
@@ -772,7 +842,7 @@ sub Data {
       'See also' => 'Se også',
 
       # Template: AdminSysConfig
-      'SysConfig' => 'SysConfig',
+      'SysConfig' => '',
       'Group selection' => 'Valg av gruppe',
       'Show' => 'Vis',
       'Download Settings' => 'Last ned innstillinger',
@@ -784,7 +854,6 @@ sub Data {
       # Template: AdminSysConfigEdit
       'Config Options' => 'Konfigurasjonsvalg',
       'Default' => 'Forvalgt',
-      'Content' => 'Innhold',
       'New' => 'Ny',
       'New Group' => 'Ny gruppe',
       'Group Ro' => 'Gruppe lesetilgang',
@@ -798,7 +867,6 @@ sub Data {
 
       # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'Administrer: Systemets e-postadresser',
-      'Email' => 'E-post',
       'Realname' => 'Fullt navn',
       'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle innkommende e-poster til denne addressen (To:) vil bli fordelt til valgt mappe.',
 
@@ -834,7 +902,7 @@ sub Data {
       'Select' => 'Velg',
       'Results' => 'Resultat',
       'Total hits' => 'Totalt funnet',
-      'Site' => 'side',
+      'Page' => 'Side',
       'Detail' => 'Detalj',
 
       # Template: AgentLookup
@@ -852,6 +920,88 @@ sub Data {
       'or' => 'eller',
       'Apply these changes' => 'Iverksett endringer',
 
+      # Template: AgentStatsDelete
+      'Do you really want to delete this Object?' => 'Vil du virkelig slette dette objektet?',
+
+      # Template: AgentStatsEditRestrictions
+      'Select the restrictions to characterise the stat' => '',
+      'Fixed' => '',
+      'Please select only one Element or turn of the button \'Fixed\'.' => '',
+      'Absolut Period' => '',
+      'Between' => '',
+      'Relative Period' => '',
+      'The last' => '',
+      'Finish' => '',
+      'Here you can make restrictions to your stat.' => '',
+      'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element.' => '',
+
+      # Template: AgentStatsEditSpecification
+      'Insert of the common specifications' => '',
+      'Permissions' => '',
+      'Format' => '',
+      'Graphsize' => '',
+      'Sum rows' => '',
+      'Sum columns' => '',
+      'Cache' => '',
+      'Required Field' => '',
+      'Selection needed' => '',
+      'Explanation' => '',
+      'In this form you can select the basic specifications.' => '',
+      'Attribute' => '',
+      'Title of the stat.' => '',
+      'Here you can insert a description of the stat.' => '',
+      'Dynamic-Object' => '',
+      'Here you can select the dynamic object you want to use.' => '',
+      '(Note: It depends on your installation how many dynamic objects you can use)' => '',
+      'Static-File' => '',
+      'For very complex stats it is possible to include a hardcoded file.' => '',
+      'If a new hardcoded file is available this attribute will be shown and you can select one.' => '',
+      'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => '',
+      'Multiple selection of the output format.' => '',
+      'If you use a graph as output format you have to select at least one graph size.' => '',
+      'If you need the sum of every row select yes' => '',
+      'If you need the sum of every column select yes.' => '',
+      'Most of the stats can be cached. This will speed up the presentation of this stat.' => '',
+      '(Note: Useful for big databases and low performance server)' => '',
+      'With an invalid stat it isn\'t feasible to generate a stat.' => '',
+      'This is useful if you want that no one can get the result of the stat or the stat isn\'t ready configurated.' => '',
+
+      # Template: AgentStatsEditValueSeries
+      'Select the elements for the value series' => '',
+      'Scale' => '',
+      'minimal' => '',
+      'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => '',
+      'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+
+      # Template: AgentStatsEditXaxis
+      'Select the element, which will be used at the X-axis' => '',
+      'maximal period' => '',
+      'minimal scale' => '',
+      'Here you can define the x-axis. You can select one element via the radio button. Than you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+
+      # Template: AgentStatsImport
+      'Import' => '',
+      'File is not a Stats config' => '',
+      'No File selected' => '',
+
+      # Template: AgentStatsOverview
+      'Object' => '',
+
+      # Template: AgentStatsPrint
+      'Print' => 'Skriv ut',
+      'No Element selected.' => '',
+
+      # Template: AgentStatsView
+      'Export Config' => '',
+      'Informations about the Stat' => '',
+      'Exchange Axis' => '',
+      'Configurable params of static stat' => '',
+      'No element selected.' => '',
+      'maximal period form' => '',
+      'to' => '',
+      'Start' => '',
+      'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
+
       # Template: AgentTicketBounce
       'A message should have a To: recipient!' => 'En melding må ha en mottager i Til:-feltet!',
       'You need a email address (e. g. customer@example.com) in To:!' => 'I Til-feltet må det oppgis en gyldig email-adresse (f.eks. kunde@eksempeldomene.no)!',
@@ -859,7 +1009,6 @@ sub Data {
       'Bounce to' => 'Oversend til',
       'Next ticket state' => 'Neste status på sak',
       'Inform sender' => 'Informer avsender',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'E-posten med saksnummer "<OTRS_TICKET>" er oversendt "<OTRS_BOUNCE_TO>". Vennligst ta kontakt på denne adressen for videre henvendelser.',
       'Send mail!' => 'Send e-posten!',
 
       # Template: AgentTicketBulk
@@ -873,15 +1022,19 @@ sub Data {
       'A message should have a body!' => 'En melding må inneholde en meldingstekst!',
       'You need to account time!' => 'Du har ikke ført tidsregnskap!',
       'Close ticket' => 'Avslutt sak',
-      'Note Text' => 'Notistekst',
-      'Close type' => 'Lukketilstand',
+      'Ticket locked!' => 'Ticket låst',
+      'Ticket unlock!' => 'Ticket frigi',
+      'Previous Owner' => 'Forrige saksbehandler',
+      'Inform Agent' => 'Informér agent',
+      'Optional' => 'Valgfri',
+      'Inform involved Agents' => 'Informér involverte agenter',
+      'Attach' => 'Legg ved',
+      'Pending date' => 'Sett på vent til',
       'Time units' => 'Tidsenheter',
-      ' (work units)' => ' (arbeidsenheter)',
 
       # Template: AgentTicketCompose
       'A message must be spell checked!' => 'Stavekontroll må utføres på alle meldinger!',
       'Compose answer for ticket' => 'Forfatt svar til sak',
-      'Attach' => 'Legg ved',
       'Pending Date' => 'Utsatt til',
       'for pending* states' => 'for vente-tilstander',
 
@@ -900,6 +1053,7 @@ sub Data {
       # Template: AgentTicketEmail
       'Compose Email' => 'Skriv e-post',
       'new ticket' => 'Ny sak',
+      'Refresh' => '',
       'Clear To' => 'Visk ut "Til"',
       'All Agents' => 'Alle agenter',
 
@@ -913,15 +1067,12 @@ sub Data {
       'History of' => 'Historikk for',
 
       # Template: AgentTicketLocked
-      'Ticket locked!' => 'Ticket låst',
-      'Ticket unlock!' => 'Ticket frigi',
 
       # Template: AgentTicketMailbox
       'Mailbox' => 'Mine private saker',
       'Tickets' => 'Saker',
       'of' => 'av',
-      'Page' => 'Side',
-      'Filter' => 'Filter',
+      'Filter' => '',
       'All messages' => 'Alle meldinger',
       'New messages' => 'Ny melding',
       'Pending messages' => 'Ventende meldinger',
@@ -936,32 +1087,25 @@ sub Data {
       'You need to use a ticket number!' => 'Du må bruke et saksnummer',
       'Ticket Merge' => 'Flett saker',
       'Merge to' => 'Flett med',
-      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Din epost-sak med numemr "<OTRS_TICKET>" er flettet med ">OTRS_MERGE_TO_TICKET>". ',
 
       # Template: AgentTicketMove
       'Move Ticket' => 'Flytt sak',
-      'Previous Owner' => 'Forrige saksbehandler',
 
       # Template: AgentTicketNote
       'Add note to ticket' => 'Legg til notis ved sak',
-      'Inform Agent' => 'Informér agent',
-      'Optional' => 'Valgfri',
-      'Inform involved Agents' => 'Informér involverte agenter',
 
       # Template: AgentTicketOwner
       'Change owner of ticket' => 'Endre saksbehandler av sak',
-      'Message for new Owner' => 'Melding for ny saksbehandler',
 
       # Template: AgentTicketPending
       'Set Pending' => 'Sett på vent',
-      'Pending type' => 'Venter på',
-      'Pending date' => 'Sett på vent til',
 
       # Template: AgentTicketPhone
       'Phone call' => 'Telefonanrop',
-
-      # Template: AgentTicketPhoneNew
       'Clear From' => 'Blank ut "Fra":',
+      'Create' => 'Opprett',
+
+      # Template: AgentTicketPhoneOutbound
 
       # Template: AgentTicketPlain
       'Plain' => 'Enkel',
@@ -996,10 +1140,14 @@ sub Data {
 
       # Template: AgentTicketQueueTicketViewLite
 
+      # Template: AgentTicketResponsible
+      'Change responsible of ticket' => '',
+
       # Template: AgentTicketSearch
       'Ticket Search' => 'Søk etter sak',
       'Profile' => 'Profil',
       'Search-Template' => 'Søkemal',
+      'TicketFreeText' => 'Stikkordssøk',
       'Created in Queue' => 'Opprettet i mappe',
       'Result Form' => 'Resultatbilde',
       'Save Search-Profile as Template?' => 'Lagre søkekriterier som mal?',
@@ -1010,7 +1158,6 @@ sub Data {
       'Change search options' => 'Endre søke-innstillinger',
 
       # Template: AgentTicketSearchResultPrint
-      '"}' => '"}',
 
       # Template: AgentTicketSearchResultShort
       'sort upward' => 'Sorter stigende',
@@ -1023,10 +1170,10 @@ sub Data {
       'Open Tickets' => 'Åpne saker',
 
       # Template: AgentTicketZoom
+      'Locked' => 'Tilgjenglighet',
       'Split' => 'Splitt',
 
-      # Template: AgentTicketZoomStatus
-      'Locked' => 'Tilgjenglighet',
+      # Template: AgentWindowTab
 
       # Template: AgentWindowTabStart
 
@@ -1043,22 +1190,7 @@ sub Data {
       # Template: CustomerCalendarSmallIcon
 
       # Template: CustomerError
-      'Traceback' => 'Traceback',
-
-      # Template: CustomerFAQ
-      'Print' => 'Skriv ut',
-      'Symptom' => 'Symptom',
-      'Problem' => 'Problem',
-      'Solution' => 'Løsning',
-      'Modified' => 'Endret',
-      'Keywords' => 'Nøkkelord',
-      'Last update' => 'Sist endret',
-      'FAQ System History' => 'FAQ Historikk',
-      'modified' => 'endret',
-      'FAQ Search' => 'FAQ Søk',
-      'Fulltext' => 'Fritekst',
-      'Keyword' => 'Nøkkelord',
-      'FAQ Search Result' => 'FAQ Søkeresultat',
+      'Traceback' => '',
 
       # Template: CustomerFooter
       'Powered by' => 'Drevet av',
@@ -1084,8 +1216,6 @@ sub Data {
 
       # Template: CustomerTicketMessage
 
-      # Template: CustomerTicketMessageNew
-
       # Template: CustomerTicketSearch
 
       # Template: CustomerTicketSearchResultCSV
@@ -1100,20 +1230,6 @@ sub Data {
 
       # Template: Error
       'Click here to report a bug!' => 'Klikk her for å rapportere en feil!',
-
-      # Template: FAQ
-      'Comment (internal)' => 'Kommentar (intern)',
-      'A article should have a title!' => 'En artikkel bør ha en tittel',
-      'New FAQ Article' => 'Ny OBS-artikkel',
-      'Do you really want to delete this Object?' => 'Vil du virkelig slette dette objektet?',
-      'System History' => 'Historikk',
-
-      # Template: FAQCategoryForm
-      'Name is required!' => 'Navn er påkrevd',
-      'FAQ Category' => 'FAQ Kategori',
-
-      # Template: FAQLanguageForm
-      'FAQ Language' => 'FAQ Språk',
 
       # Template: Footer
       'Top of Page' => 'Toppen av siden',
@@ -1135,8 +1251,7 @@ sub Data {
       'Database-User' => 'Database-bruker',
       'default \'hot\'' => 'Standard \'hot\'',
       'DB connect host' => 'Tilkoblingsmaskin for database',
-      'Database' => 'Database',
-      'Create' => 'Opprett',
+      'Database' => '',
       'false' => 'usann',
       'SystemID' => 'System-ID',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Unik id for dette systemet.  Alle saksnummer og http-sesjonsid-er starter med denne id-en)',
@@ -1155,7 +1270,7 @@ sub Data {
       'Use utf-8 it your database supports it!' => 'Bruk utf-8 dersom din database støtter det!',
       'Default Language' => 'Standardspråk',
       '(Used default language)' => '(Valgt standardspråk)',
-      'CheckMXRecord' => 'CheckMXRecord',
+      'CheckMXRecord' => '',
       '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Sjekker mx-innslag for oppgitte e-postadresser i meldinger som skrives.  Bruk ikke CheckMXRecord om din OTRS-maskin er bak en oppringt-linje!)',
       'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'For å kunne bruke OTRS, må følgende linje utføres på kommandolinjen som root.',
       'Restart your webserver' => 'Restart webserveren din',
@@ -1165,6 +1280,7 @@ sub Data {
       'Your OTRS Team' => 'Ditt OTRS-Team',
 
       # Template: Login
+      'Welcome to %s' => '',
 
       # Template: Motd
 
@@ -1175,15 +1291,12 @@ sub Data {
       'Important' => 'Viktig',
 
       # Template: PrintFooter
-      'URL' => 'URL',
+      'URL' => '',
 
       # Template: PrintHeader
       'printed by' => 'skrevet av',
 
       # Template: Redirect
-
-      # Template: SystemStats
-      'Format' => 'Format',
 
       # Template: Test
       'OTRS Test Page' => 'OTRS Test-side',
@@ -1192,10 +1305,13 @@ sub Data {
       # Template: Warning
       # Misc
       'Create Database' => 'Opprett database',
+      ' (work units)' => ' (arbeidsenheter)',
       'DB Host' => 'Databasemaskin',
       'Ticket Number Generator' => 'Saksnummer-generator',
       '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Sakskjennetegn, f.eks. \'Ticket#\', \'Call#\' eller \'MyTicket#\')',
       'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'På denne måten kan du direkte redigere nøkkelringen som er konfigurert i Kernel/Config.pm',
+      'Symptom' => 'Symptom',
+      'Site' => 'side',
       'Customer history search (e. g. "ID342425").' => 'Søk etter kunde for historikk (f.eks. "ID342425").',
       'Close!' => 'Lukk!',
       'Don\'t forget to add a new user to groups!' => 'Ikke glem å gi nye brukere en gruppe!',
@@ -1204,28 +1320,45 @@ sub Data {
       'System Settings' => 'Systeminnstillinger',
       'Finished' => 'Ferdig',
       'Queue ID' => 'Mappe-ID',
-      'FAQ Overview' => 'FAQ Oversikt',
+      'A article should have a title!' => 'En artikkel bør ha en tittel',
+      'System History' => 'Historikk',
+      'Modules' => 'Moduler',
+      'Keyword' => 'Nøkkelord',
+      'Close type' => 'Lukketilstand',
       'DB Admin User' => 'DB administratorbruker',
       'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Valg for saksdata (f.eks. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
       'Change user <-> group settings' => 'Endre bruker <-> gruppe-instillinger',
+      'Name is required!' => 'Navn er påkrevd',
+      'Problem' => 'Problem',
       'DB Type' => 'DB type',
-      'next step' => 'neste steg',
       'Termin1' => 'Termin1',
+      'next step' => 'neste steg',
       'Customer history search' => 'Historikk for kunde',
+      'Solution' => 'Løsning',
       'Admin-Email' => 'Admin e-post',
       'QueueView' => 'Mapper',
       'Create new database' => 'Opprett ny database',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'E-posten med saksnummer "<OTRS_TICKET>" er oversendt "<OTRS_BOUNCE_TO>". Vennligst ta kontakt på denne adressen for videre henvendelser.',
+      'modified' => 'endret',
       'Delete old database' => 'Slett gammel database',
+      'Keywords' => 'Nøkkelord',
+      'Note Text' => 'Notistekst',
       'No * possible!' => 'Jokertegn ikke tillatt!',
       'OTRS DB User' => 'OTRS DB bruker',
       'PhoneView' => 'Henvendelser',
       'Verion' => 'Versjon',
+      'Message for new Owner' => 'Melding for ny saksbehandler',
       'OTRS DB Password' => 'OTRS DB passord',
+      'Last update' => 'Sist endret',
       'DB Admin Password' => 'DB administratorpassord',
       'Drop Database' => 'Slett database',
+      'Pending type' => 'Venter på',
+      'Comment (internal)' => 'Kommentar (intern)',
       '(Used ticket number format)' => '(Valgt format for saksnummer)',
+      'Fulltext' => 'Fritekst',
+      'Modified' => 'Endret',
     };
     # $$STOP$$
 }
-# --
+
 1;

@@ -2,7 +2,7 @@
 # Kernel/Language/fa.pm - provides fa language translation
 # Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
 # --
-# $Id: fa.pm,v 1.8 2006-04-01 23:38:29 martin Exp $
+# $Id: fa.pm,v 1.9 2006-10-05 04:23:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,24 +13,26 @@ package Kernel::Language::fa;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
-# --
+
 sub Data {
     my $Self = shift;
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Thu Jul 28 22:14:19 2005
+    # Last translation file sync: Thu Oct  5 06:04:08 2006
 
     # possible charsets
     $Self->{Charset} = ['utf-8', 'utf-8', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
     $Self->{DateFormatLong} = '%A %D %B %T %Y';
+    $Self->{DateFormatShort} = '';
     $Self->{DateInputFormat} = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 
+    # TextDirection rtl or ltr
     $Self->{TextDirection} = 'rtl';
 
     $Self->{Translation} = {
@@ -67,6 +69,9 @@ sub Data {
       'year' => 'سال',
       'years' => 'سال',
       'year(s)' => 'سال',
+      'second(s)' => '',
+      'seconds' => '',
+      'second' => '',
       'wrote' => 'نوشته شد',
       'Message' => 'پیام',
       'Error' => 'خطا',
@@ -110,7 +115,7 @@ sub Data {
       'Hit' => 'بازدید',
       'Hits' => 'بازدید',
       'Text' => 'متن',
-      'Lite' => 'Lite',
+      'Lite' => '',
       'User' => 'کاربر',
       'Username' => 'نام کاربری',
       'Language' => 'زبان',
@@ -197,10 +202,12 @@ sub Data {
       'Logout successful. Thank you for using OTRS!' => 'خروج با موفقیت انجام گرفت . از استفاده از سیستم پشتیبانی سورس باز متشکریم.',
       'Invalid SessionID!' => 'SessionID نا معتبر!',
       'Feature not active!' => 'این ویژگی فعال نیست.',
+      'License' => 'مجوز بهره برداری سیستم',
       'Take this Customer' => 'این مشترک را بگیر',
       'Take this User' => 'این کاربر را بگیر',
       'possible' => 'امکانپذیر',
       'reject' => 'نپذیر',
+      'reverse' => '',
       'Facility' => 'سهولت',
       'Timeover' => 'زمان اتمام',
       'Pending till' => 'تا زمانی که',
@@ -214,6 +221,7 @@ sub Data {
       'Cc: (%s) added database email!' => 'کپی به: (%s) آدرس e-mail اضافه شده',
       '(Click here to add)' => '(برای افزودن کلیک کنید)',
       'Preview' => 'پیش نمایش',
+      'Package not correctly deployed! You should reinstall the Package again!' => '',
       'Added User "%s"' => 'کاربر اضافه شده "%s"',
       'Contract' => 'قرارداد',
       'Online Customer: %s' => 'مشترک فعال: %s',
@@ -229,6 +237,16 @@ sub Data {
       'Sign' => 'امضاء',
       'Crypted' => 'رمز گذاری شده',
       'Crypt' => 'رمز',
+      'Office' => 'شرکت',
+      'Phone' => 'تلفن',
+      'Fax' => '',
+      'Mobile' => '',
+      'Zip' => '',
+      'City' => '',
+      'Country' => '',
+      'installed' => 'نصب شده',
+      'uninstalled' => 'نصب نشده',
+      'printed at' => '',
 
       # Template: AAAMonth
       'Jan' => 'ژانویه',
@@ -243,6 +261,17 @@ sub Data {
       'Oct' => 'اکتبر',
       'Nov' => 'نوامبر',
       'Dec' => 'دسامبر',
+      'January' => '',
+      'February' => '',
+      'March' => '',
+      'April' => '',
+      'June' => '',
+      'July' => '',
+      'August' => '',
+      'September' => '',
+      'October' => '',
+      'November' => '',
+      'December' => '',
 
       # Template: AAANavBar
       'Admin-Area' => 'محیط مدیریت',
@@ -254,12 +283,7 @@ sub Data {
       'Agent Mailbox' => 'صندوق پستی کارشناس',
       'Stats' => 'وضعیت',
       'Stats-Area' => 'محیط وضعیت ',
-      'FAQ-Area' => 'محیط پرسش و پاسخ',
-      'FAQ' => 'پرسش و پاسخ',
-      'FAQ-Search' => 'جستجو در پرسش و پاسخ',
-      'FAQ-Article' => 'پرسش و پاسخ-مورد ها',
       'New Article' => 'مورد جدید',
-      'FAQ-State' => 'وضعیت پرسش و پاسخ',
       'Admin' => 'مدیریت سیستم',
       'A web calendar' => 'یک تقویم',
       'WebMail' => 'پست الکترونیکی تحت وب',
@@ -307,6 +331,47 @@ sub Data {
       'Can\'t update password, need min. 2 characters!' => 'دست کم 2 کاراکتر مورد نیاز است!',
       'Password is needed!' => 'ورود رمز عبور الزامی است',
 
+      # Template: AAAStats
+      'Stat' => '',
+      'Please fill out the required fields!' => '',
+      'Please select a file!' => '',
+      'Please select an object!' => '',
+      'Please select a graph size!' => '',
+      'Please select one element for the X-axis!' => '',
+      'You have to select two or more attributes from the select field!' => '',
+      'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => '',
+      'If you use a checkbox you have to select some attributes of the select field!' => '',
+      'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => '',
+      'The selected end time is before the start time!' => '',
+      'You have to select one or more attributes from the select field!' => '',
+      'The selected Date isn\'t valid!' => '',
+      'Please select only one or two elements via the checkbox!' => '',
+      'If you use a time scale element you can only select one element!' => '',
+      'You have an error in your time selection!' => '',
+      'Your reporting time interval is to small, please use a larger time scale!' => '',
+      'The selected start time is before the allowed start time!' => '',
+      'The selected end time is after the allowed end time!' => '',
+      'The selected time period is larger than the allowed time period!' => '',
+      'Common Specification' => '',
+      'Xaxis' => '',
+      'Value Series' => '',
+      'Restrictions' => '',
+      'graph-lines' => '',
+      'graph-bars' => '',
+      'graph-hbars' => '',
+      'graph-points' => '',
+      'graph-lines-points' => '',
+      'graph-area' => '',
+      'graph-pie' => '',
+      'extended' => '',
+      'Agent/Owner' => '',
+      'Created by Agent/Owner' => '',
+      'Created Priority' => '',
+      'Created State' => '',
+      'Create Time' => '',
+      'CustomerUserLogin' => '',
+      'Close Time' => '',
+
       # Template: AAATicket
       'Lock' => 'در اختیار',
       'Unlock' => 'آزاد',
@@ -328,12 +393,14 @@ sub Data {
       'Pending' => 'در حالت تعلیق',
       'Owner' => 'صاحب',
       'Owner Update' => 'بروز رسانی بوسیله صاحب',
+      'Responsible' => '',
+      'Responsible Update' => '',
       'Sender' => 'ارسال کننده',
       'Article' => 'مورد',
       'Ticket' => 'تیکت',
       'Createtime' => 'زمان ایجاد ',
       'plain' => 'ساده',
-      'Email' => 'e-mail',
+      'Email' => '',
       'email' => 'e-mail',
       'Close' => 'بستن',
       'Action' => 'فعالیت',
@@ -410,6 +477,7 @@ sub Data {
       'Mark as Spam!' => 'بعنوان SPAM علامت بزن',
       'My Queues' => 'لیست تیکت های من',
       'Shown Tickets' => 'تیکت های نمایش داده شده',
+      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'پیام شما با شماره تیکت  "<OTRS_TICKET>" با  "<OTRS_MERGE_TO_TICKET>" ادغام گردید.',
       'New ticket notification' => 'اعلان تیکت جدید',
       'Send me a notification if there is a new ticket in "My Queues".' => 'دریافت تیکت جدید را به من اطلاع بده.',
       'Follow up notification' => 'پیگیری تیکت را به من اطلاع بده',
@@ -426,6 +494,12 @@ sub Data {
       'Closed Tickets' => 'تیکت بسته شده',
       'Show closed tickets.' => 'نمایش تیکت های بسته',
       'Max. shown Tickets a page in QueueView.' => 'حداکثر تعداد تیکت هادر صفحه نمایش',
+      'CompanyTickets' => 'تیکت های شرکت',
+      'MyTickets' => 'تیکت های من',
+      'New Ticket' => 'تیکت جدید',
+      'Create new Ticket' => 'ایجاد تیکت جدید',
+      'Customer called' => 'مشترک تماس گرفته',
+      'phone call' => '',
       'Responses' => 'پاسخ ها',
       'Responses <-> Queue' => 'پاسخ <-> لیست تیکت',
       'Auto Responses' => 'پاسخ خودکار',
@@ -486,6 +560,7 @@ sub Data {
       'to get the from line of the email' => 'برای گرفتن خط (از) email',
       'to get the realname of the sender (if given)' => 'برای گرفتن نام فرستنده',
       'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'گزینه های اطلاعات تیکت ها',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'گزینه های تنظیمات ',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => 'پیامی که ارسال شد بسته شد.',
@@ -519,7 +594,6 @@ sub Data {
       'send' => 'ارسال',
 
       # Template: AdminGenericAgent
-
       'GenericAgent' => 'کارشناس عمومی',
       'Job-List' => 'لیست کارها',
       'Last run' => 'آخرین اجرا',
@@ -535,8 +609,8 @@ sub Data {
       'Customer User Login' => 'ورود مشترکین به سیستم',
       '(e. g. U5150)' => '(مثال: U5150)',
       'Agent' => 'کارشناس',
-      'TicketFreeText' => 'متن تیکت',
       'Ticket Lock' => 'در اختیار دارنده تیکت',
+      'TicketFreeFields' => '',
       'Times' => 'زمان',
       'No time settings.' => 'بدون تنظیمات زمان',
       'Ticket created' => 'تاریخ ایجاد تیکت',
@@ -549,19 +623,24 @@ sub Data {
       'New Customer' => 'مشترک جدید',
       'New Ticket Lock' => 'در اختیار دارنده جدید',
       'CustomerUser' => 'مشترک',
+      'New TicketFreeFields' => '',
       'Add Note' => 'افزودن یادداشت',
       'CMD' => '',
       'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'این دستور اجرا خواهد شد. ARG[0] شماره تیکت و ARG[1] id آن خواهد بود.',
       'Delete tickets' => 'حذف تیکت ها',
       'Warning! This tickets will be removed from the database! This tickets are lost!' => 'توجه !این تیکت ها از بانک حذف خواهد شد . ',
-      'Modules' => 'ماژول ها',
+      'Send Notification' => '',
       'Param 1' => 'پارامتر 1',
       'Param 2' => 'پارامتر 2',
       'Param 3' => 'پارامتر 3',
       'Param 4' => 'پارامتر 4',
       'Param 5' => 'پارامتر 5',
       'Param 6' => 'پارامتر 6',
+      'Send no notifications' => '',
+      'Yes means, send no agent and customer notifications on changes.' => '',
+      'No means, send agent and customer notifications on changes.' => '',
       'Save' => 'ذخیره',
+      '%s Tickets affected! Do you really want to use this job?' => '',
 
       # Template: AdminGroupForm
       'Group Management' => 'مدیریت گروه ها',
@@ -582,28 +661,46 @@ sub Data {
       'Notification Management' => 'مدیریت اعلان ها',
       'Notification' => 'اعلان',
       'Notifications are sent to an agent or a customer.' => 'اعلان به یک کارشناس یا مشترک ارسال شد.',
-      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'گزینه های تنظیمات ',
       'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Options du propriétaire d\'un ticket (ex: &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
       'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'گزینه های تنظیمات صاحب تیکت',
       'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'گزینه های مشترک فعلی',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
 
       # Template: AdminPackageManager
       'Package Manager' => 'مدیریت بسته ها',
       'Uninstall' => 'حذف بسته',
-      'Verion' => 'ویرایش',
+      'Version' => 'ویرایش',
       'Do you really want to uninstall this package?' => 'از حذف این بسته اطمینان دارید؟',
+      'Reinstall' => 'نصب مجدد',
+      'Do you really want to reinstall this package (all manual changes get lost)?' => '',
       'Install' => 'نصب',
       'Package' => 'بسته',
       'Online Repository' => 'منبع آن لاین',
-      'Version' => 'ویرایش',
       'Vendor' => 'فروشنده',
       'Upgrade' => 'بروزرسانی',
       'Local Repository' => 'منبع محلی',
       'Status' => 'وضعیت',
+      'Package not correctly deployed, you need to deploy it again!' => 'این بسته بصورت صحیح نصب نشده آنرا مجددا نصب نمائید',
       'Overview' => 'پیش نمایش',
       'Download' => 'دریافت',
       'Rebuild' => 'ساخت مجدد',
-      'Reinstall' => 'نصب مجدد',
+      'Download file from package!' => '',
+      'Required' => '',
+      'PrimaryKey' => '',
+      'AutoIncrement' => '',
+      'SQL' => '',
+      'Diff' => '',
+
+      # Template: AdminPerformanceLog
+      'Performance Log' => '',
+      'Logfile too large!' => '',
+      'Logfile too large, you need to reset it!' => '',
+      'Range' => '',
+      'Interface' => '',
+      'Requests' => '',
+      'Min Response' => '',
+      'Max Response' => '',
+      'Average Response' => '',
 
       # Template: AdminPGPForm
       'PGP Management' => 'مدیریت رمزگذاری',
@@ -614,9 +711,10 @@ sub Data {
       'Expires' => 'باطل',
       'In this way you can directly edit the keyring configured in SysConfig.' => 'از این طریق شما میتوانید مستقیما کلید های خود را درسیستم تنظیم نمائید',
 
-      # Template: AdminPOP3Form
+      # Template: AdminPOP3
       'POP3 Account Management' => 'مدیریت POP3',
       'Host' => 'سرور',
+      'List' => '',
       'Trusted' => 'مجاز',
       'Dispatching' => 'توزیع',
       'All incoming emails with one account will be dispatched in the selected queue!' => 'همه نامه ها از طریق یک آدرس به لیست تیکت ها منتقل خواهد شد !',
@@ -626,7 +724,7 @@ sub Data {
       'PostMaster Filter Management' => 'مدیریت فیلتر پستی',
       'Filtername' => 'نام فیلتر',
       'Match' => 'مطابقت',
-      'Header' => 'Header',
+      'Header' => '',
       'Value' => 'مقدار',
       'Set' => 'ثبت',
       'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'email ها را از طریق Header یا RegExp فیلتر کن.',
@@ -634,8 +732,6 @@ sub Data {
 
       # Template: AdminQueueAutoResponseForm
       'Queue <-> Auto Responses Management' => 'مدیریت لیست <-> پاسخ خودکار',
-
-      # Template: AdminQueueAutoResponseTable
 
       # Template: AdminQueueForm
       'Queue Management' => 'مدیریت لییت های تیکت',
@@ -709,6 +805,7 @@ sub Data {
       # Template: AdminSalutationForm
       'Salutation Management' => 'مدیریت عنوان ها',
       'customer realname' => 'نام و نام خانوادگی مشترک',
+      'All Agent variables.' => '',
       'for agent firstname' => 'برای نام کارشناس',
       'for agent lastname' => 'برای نام خانوادگی کارشناس',
       'for agent user id' => 'برای کد کاربری کارشناس',
@@ -716,7 +813,6 @@ sub Data {
 
       # Template: AdminSelectBoxForm
       'Select Box' => 'باکس انتخاب.',
-      'SQL' => '',
       'Limit' => 'محدوده',
       'Select Box Result' => 'نتیجه باکس انتخاب',
 
@@ -726,6 +822,7 @@ sub Data {
       'Uniq' => 'واحد',
       'kill all sessions' => 'همه Session ها را از بین ببر',
       'Session' => '',
+      'Content' => 'تماس',
       'kill session' => 'session را از بین ببر',
 
       # Template: AdminSignatureForm
@@ -736,7 +833,7 @@ sub Data {
       'Add Certificate' => 'افزودن Certificate',
       'Add Private Key' => 'افزودن کلید خصوصی',
       'Secret' => 'رمز',
-      'Hash' => 'Hash',
+      'Hash' => '',
       'In this way you can directly edit the certification and private keys in file system.' => 'از این طریق شما میتوانید کلید های رمز خود را برای رمز گذاری نامه ها و پیامها به سیستم وارد نمائید',
 
       # Template: AdminStateForm
@@ -752,32 +849,31 @@ sub Data {
       'Download Settings' => 'دریافت تنظیمات',
       'Download all system config changes.' => 'دریافت همه تغیرات سیستم',
       'Load Settings' => 'بازیابی تنظیمات',
-      'Subgroup' => 'زیر گروه',
+      'Subgroup' => 'زیرگروه',
       'Elements' => 'قسمت',
 
       # Template: AdminSysConfigEdit
       'Config Options' => 'انتخاب هاب تنظیم',
       'Default' => 'پیش فرض',
-      'Content' => 'تماس',
       'New' => 'جدید',
       'New Group' => 'گروه جدید',
       'Group Ro' => 'گروه فقط خواندنی',
       'New Group Ro' => 'گروه جدید فقط خواندنی',
       'NavBarName' => 'نام میله کنترل',
+      'NavBar' => 'میله کنترل',
       'Image' => 'تصویر',
       'Prio' => 'اولویت',
       'Block' => 'بسته',
-      'NavBar' => 'میله کنترل',
       'AccessKey' => 'کلید دسترسی',
 
       # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'مدیریت آدرسهای Email سیستم',
-      'Email' => 'Email',
       'Realname' => 'نام و نام خانوادگی',
       'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'همه نامه ها با گیرنده مشخص شده به لیست انتخاب شده منتقل خواهد شد!',
 
       # Template: AdminUserForm
       'User Management' => 'مدیریت کاربران',
+      'Login as' => '',
       'Firstname' => 'نام',
       'Lastname' => 'نام خانوادگی',
       'User will be needed to handle tickets.' => 'کاربر نیاز خواهد داشت که تیکت ها را کنترل کند.',
@@ -807,7 +903,7 @@ sub Data {
       'Select' => 'انتخاب',
       'Results' => 'نتیجه',
       'Total hits' => 'همه بازدید ها',
-      'Site' => 'سایت',
+      'Page' => 'صفحه',
       'Detail' => 'جزئیات',
 
       # Template: AgentLookup
@@ -825,6 +921,88 @@ sub Data {
       'or' => 'یا',
       'Apply these changes' => 'این تغییرات را در نظر بگبر',
 
+      # Template: AgentStatsDelete
+      'Do you really want to delete this Object?' => 'آیا واقعا قصد حذف این مورد را دارید؟',
+
+      # Template: AgentStatsEditRestrictions
+      'Select the restrictions to characterise the stat' => '',
+      'Fixed' => '',
+      'Please select only one Element or turn of the button \'Fixed\'.' => '',
+      'Absolut Period' => '',
+      'Between' => '',
+      'Relative Period' => '',
+      'The last' => '',
+      'Finish' => '',
+      'Here you can make restrictions to your stat.' => '',
+      'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element.' => '',
+
+      # Template: AgentStatsEditSpecification
+      'Insert of the common specifications' => '',
+      'Permissions' => '',
+      'Format' => 'فرمت',
+      'Graphsize' => '',
+      'Sum rows' => '',
+      'Sum columns' => '',
+      'Cache' => '',
+      'Required Field' => '',
+      'Selection needed' => '',
+      'Explanation' => '',
+      'In this form you can select the basic specifications.' => '',
+      'Attribute' => '',
+      'Title of the stat.' => '',
+      'Here you can insert a description of the stat.' => '',
+      'Dynamic-Object' => '',
+      'Here you can select the dynamic object you want to use.' => '',
+      '(Note: It depends on your installation how many dynamic objects you can use)' => '',
+      'Static-File' => '',
+      'For very complex stats it is possible to include a hardcoded file.' => '',
+      'If a new hardcoded file is available this attribute will be shown and you can select one.' => '',
+      'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => '',
+      'Multiple selection of the output format.' => '',
+      'If you use a graph as output format you have to select at least one graph size.' => '',
+      'If you need the sum of every row select yes' => '',
+      'If you need the sum of every column select yes.' => '',
+      'Most of the stats can be cached. This will speed up the presentation of this stat.' => '',
+      '(Note: Useful for big databases and low performance server)' => '',
+      'With an invalid stat it isn\'t feasible to generate a stat.' => '',
+      'This is useful if you want that no one can get the result of the stat or the stat isn\'t ready configurated.' => '',
+
+      # Template: AgentStatsEditValueSeries
+      'Select the elements for the value series' => '',
+      'Scale' => '',
+      'minimal' => '',
+      'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => '',
+      'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+
+      # Template: AgentStatsEditXaxis
+      'Select the element, which will be used at the X-axis' => '',
+      'maximal period' => '',
+      'minimal scale' => '',
+      'Here you can define the x-axis. You can select one element via the radio button. Than you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+
+      # Template: AgentStatsImport
+      'Import' => '',
+      'File is not a Stats config' => '',
+      'No File selected' => '',
+
+      # Template: AgentStatsOverview
+      'Object' => '',
+
+      # Template: AgentStatsPrint
+      'Print' => 'چاپ',
+      'No Element selected.' => '',
+
+      # Template: AgentStatsView
+      'Export Config' => '',
+      'Informations about the Stat' => '',
+      'Exchange Axis' => '',
+      'Configurable params of static stat' => '',
+      'No element selected.' => '',
+      'maximal period form' => '',
+      'to' => '',
+      'Start' => '',
+      'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
+
       # Template: AgentTicketBounce
       'A message should have a To: recipient!' => 'آدرس دریافت کننده پیام مشخص نشده است!',
       'You need a email address (e. g. customer@example.com) in To:!' => 'آدرس email وارد شده معتبر نیست!',
@@ -832,7 +1010,6 @@ sub Data {
       'Bounce to' => 'ارجاع شده به',
       'Next ticket state' => 'وضعیت بعدی تیکت',
       'Inform sender' => 'به ارسال کننده اطلاع بده',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'پیام شما در تیکت به شماره "<OTRS_TICKET> ارجاع شد به "<OTRS_BOUNCE_TO>". برای اطلاعات بیشتر با این آدرس تماس بگیرید',
       'Send mail!' => 'ارسال نامه !',
 
       # Template: AgentTicketBulk
@@ -846,15 +1023,19 @@ sub Data {
       'A message should have a body!' => 'پیام میبایست دارای متن باشد !',
       'You need to account time!' => 'شما نیاز به محاسبه زمان دارید!',
       'Close ticket' => 'بستن تیکت',
-      'Note Text' => 'یادداشت',
-      'Close type' => 'نوع بستن',
+      'Ticket locked!' => 'تیکت در اختیار !',
+      'Ticket unlock!' => 'تیکت آزاد !',
+      'Previous Owner' => 'صاحب قبلی',
+      'Inform Agent' => 'اطلاع به کارشناس',
+      'Optional' => 'اختیاری',
+      'Inform involved Agents' => 'اطلاع به کارشناسان مربوطه',
+      'Attach' => 'پیوست',
+      'Pending date' => 'تاریخ تعلیق',
       'Time units' => 'واحد زمان',
-      ' (work units)' => ' واحد کار',
 
       # Template: AgentTicketCompose
       'A message must be spell checked!' => 'پیام باید غلط یابی شده باشد!',
       'Compose answer for ticket' => 'ارسال پاسخ به تیکت',
-      'Attach' => 'پیوست',
       'Pending Date' => 'مهلت تعلیق',
       'for pending* states' => 'برای وضعیت تعلیق',
 
@@ -873,9 +1054,9 @@ sub Data {
       # Template: AgentTicketEmail
       'Compose Email' => 'ارسال Email',
       'new ticket' => 'تیکت جدید',
+      'Refresh' => '',
       'Clear To' => 'آزاد کن به',
       'All Agents' => 'همه کارشناسان',
-      'Termin1' => '',
 
       # Template: AgentTicketForward
       'Article type' => 'نوع مورد',
@@ -887,12 +1068,12 @@ sub Data {
       'History of' => 'سوابق',
 
       # Template: AgentTicketLocked
-      'Ticket locked!' => 'تیکت در اختیار !',
-      'Ticket unlock!' => 'تیکت آزاد !',
 
       # Template: AgentTicketMailbox
       'Mailbox' => 'صندوق نامه ها',
       'Tickets' => 'تیکت ها',
+      'of' => ' ',
+      'Filter' => '',
       'All messages' => 'همه پیام ها',
       'New messages' => 'پیام جدید',
       'Pending messages' => 'پیامهای در تعلیق',
@@ -907,33 +1088,25 @@ sub Data {
       'You need to use a ticket number!' => 'شما باید از شماره تیکت استفاده نمائید!',
       'Ticket Merge' => 'ادغام تیکت',
       'Merge to' => 'ادغام با',
-      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'پیام شما با شماره تیکت  "<OTRS_TICKET>" با  "<OTRS_MERGE_TO_TICKET>" ادغام گردید.',
 
       # Template: AgentTicketMove
-      'Queue ID' => 'کد لیست',
       'Move Ticket' => 'انتقال تیکت',
-      'Previous Owner' => 'صاحب قبلی',
 
       # Template: AgentTicketNote
       'Add note to ticket' => 'افزودن یادداشت به تیکت',
-      'Inform Agent' => 'اطلاع به کارشناس',
-      'Optional' => 'اختیاری',
-      'Inform involved Agents' => 'اطلاع به کارشناسان مربوطه',
 
       # Template: AgentTicketOwner
       'Change owner of ticket' => 'تغییر صاحب تیکت',
-      'Message for new Owner' => 'پیام برای صاحب جدید تیکت',
 
       # Template: AgentTicketPending
       'Set Pending' => 'ثبت تعلیق',
-      'Pending type' => 'نوع تعلیق',
-      'Pending date' => 'تاریخ تعلیق',
 
       # Template: AgentTicketPhone
       'Phone call' => 'تماس تلفنی',
-
-      # Template: AgentTicketPhoneNew
       'Clear From' => 'ورود مجدد اطلاعات',
+      'Create' => '',
+
+      # Template: AgentTicketPhoneOutbound
 
       # Template: AgentTicketPlain
       'Plain' => 'ساده',
@@ -954,7 +1127,6 @@ sub Data {
 
       # Template: AgentTicketQueue
       'Tickets shown' => 'نمایش تیکت',
-      'Page' => 'صفحه',
       'Tickets available' => 'تیکت موجود',
       'All tickets' => 'همه تیکت ها',
       'Queues' => 'لیست ها',
@@ -969,24 +1141,24 @@ sub Data {
 
       # Template: AgentTicketQueueTicketViewLite
 
+      # Template: AgentTicketResponsible
+      'Change responsible of ticket' => '',
+
       # Template: AgentTicketSearch
       'Ticket Search' => 'جستجوی تیکت',
       'Profile' => 'اطلاعات',
       'Search-Template' => 'الگوی جستجو',
+      'TicketFreeText' => 'متن تیکت',
       'Created in Queue' => 'ایجاد در لیست',
       'Result Form' => 'نوع نتیجه',
       'Save Search-Profile as Template?' => 'ذخیره بعنوان الگوی جستجو?',
       'Yes, save it with name' => 'بله آنرا ذخیره کن با نام',
-      'Customer history search' => 'جستجو در سوابق مشترک',
-      'Customer history search (e. g. "ID342425").' => 'جستجو در سوابق مشترک (مثال: "ID342425")',
-      'No * possible!' => 'هیچ * ممکن نیست !',
 
       # Template: AgentTicketSearchResult
       'Search Result' => 'نتیجه جستجو',
       'Change search options' => 'تغییر گزینه های جستجو',
 
       # Template: AgentTicketSearchResultPrint
-      '"}' => '',
 
       # Template: AgentTicketSearchResultShort
       'sort upward' => 'صعودی',
@@ -999,10 +1171,10 @@ sub Data {
       'Open Tickets' => 'تیکت های باز',
 
       # Template: AgentTicketZoom
+      'Locked' => 'در اختیار',
       'Split' => 'قسمت کردن تیکت',
 
-      # Template: AgentTicketZoomStatus
-      'Locked' => 'در اختیار',
+      # Template: AgentWindowTab
 
       # Template: AgentWindowTabStart
 
@@ -1020,22 +1192,6 @@ sub Data {
 
       # Template: CustomerError
       'Traceback' => 'بازبینی',
-
-      # Template: CustomerFAQ
-      'Print' => 'چاپ',
-      'Keywords' => 'کلمات کلیدی',
-      'Symptom' => 'نشانه',
-      'Problem' => 'مشکل',
-      'Solution' => 'راه حل',
-      'Modified' => 'تغییر یافته',
-      'Last update' => 'آخرین بروزرسانی',
-      'FAQ System History' => 'سوابق سیستم پرسش و پاسخ',
-      'modified' => 'تغییر یافت',
-      'FAQ Search' => 'جستجو در پرسش و پاسخ',
-      'Fulltext' => 'تمام متن',
-      'Keyword' => 'کلمه کلیدی',
-      'FAQ Search Result' => 'نتیجه جستجو در پرسش و پاسخ ها',
-      'FAQ Overview' => 'مقدمه پرسش و پاسخ ها',
 
       # Template: CustomerFooter
       'Powered by' => '',
@@ -1058,11 +1214,8 @@ sub Data {
       # Template: CustomerPreferencesForm
 
       # Template: CustomerStatusView
-      'of' => ' ',
 
       # Template: CustomerTicketMessage
-
-      # Template: CustomerTicketMessageNew
 
       # Template: CustomerTicketSearch
 
@@ -1079,23 +1232,7 @@ sub Data {
       # Template: Error
       'Click here to report a bug!' => 'برای گزارش یک اشکال اینجا کلیک کنید !',
 
-      # Template: FAQ
-      'Comment (internal)' => 'توضیح داخلی',
-      'A article should have a title!' => 'یک مورد باید دارای عنوان باشد',
-      'New FAQ Article' => 'پرسش و پاسخ جدید',
-      'Do you really want to delete this Object?' => 'آیا واقعا قصد حذف این مورد را دارید؟',
-      'System History' => 'سوابق سیستم',
-
-      # Template: FAQCategoryForm
-      'Name is required!' => 'نام مورد نیاز است!',
-      'FAQ Category' => 'دسته بندی پرسش و پاسخ ها',
-
-      # Template: FAQLanguageForm
-      'FAQ Language' => 'زبان پرسش و پاسخ ها',
-
       # Template: Footer
-      'QueueView' => 'نمایش لیست',
-      'PhoneView' => 'نمایش تلفن',
       'Top of Page' => 'بالای صفحه',
 
       # Template: FooterSmall
@@ -1116,7 +1253,6 @@ sub Data {
       'default \'hot\'' => 'hôte par défaut',
       'DB connect host' => '',
       'Database' => '',
-      'Create' => '',
       'false' => '',
       'SystemID' => 'ID Système',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(L\'identité du système. Chaque numéro de ticket et chaque id de session http commence avec ce nombre)',
@@ -1145,6 +1281,7 @@ sub Data {
       'Your OTRS Team' => 'Votre ةquipe OTRS',
 
       # Template: Login
+      'Welcome to %s' => '',
 
       # Template: Motd
 
@@ -1162,62 +1299,75 @@ sub Data {
 
       # Template: Redirect
 
-      # Template: SystemStats
-      'Format' => 'فرمت',
-
       # Template: Test
       'OTRS Test Page' => 'صفحه آزمایش سیستم',
       'Counter' => 'شمارنده',
 
       # Template: Warning
       # Misc
-      'Ticket#'=>'شماره تیکت',
-      'OTRS DB connect host' => 'سرور میزبان بانک اطلاعاتی ',
-      'Create Database' => 'ایجاد بانک',
-      'DB Host' => 'سرور بانک اطلاعاتی',
-      'Change roles <-> groups settings' => 'تغیر تنظیمات وظیفه <-> گروه',
-      'Ticket Number Generator' => 'تولید کننده شماره تیکت ها',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(مشخصه تیکت ها. اکثر کاربران مایلنداز این ترکیب استفاده کنند مثال: \'شماره تیکت\', \'نام شرکت#\' یا \'نام دلخواه #\')',
-      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'تنظیم مستقیم کلید ها Kernel/Config.pm',
-      'Change users <-> roles settings' => 'تغییر تنظیمات کاربر <-> وظیفه',
-      'Close!' => 'بستن!',
-      'Subgroup' => 'زیرگروه',
-      'TicketZoom' => 'نمایش کامل تیکت',
-      'Don\'t forget to add a new user to groups!' => 'فراموش نکنید که یک کاربر به گروه ایجاد شده اضافه کنید!',
-      'License' => 'مجوز بهره برداری سیستم',
-      'CreateTicket' => 'ایجاد تیکت',
-      'OTRS DB Name' => 'نام بانک اطلاعاتی سیستم',
-      'System Settings' => 'تنظیمات سیستم',
-      'Hours' => 'ساعت',
-      'Finished' => 'پایان یافت',
-      'Days' => 'روز',
-      'DB Admin User' => 'نام کاربری مدیر بانک اطلاعاتی ',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'گزینه های اطلاعات تیکت',
-      'Change user <-> group settings' => 'تغییر تنظیمات کاربر <-> گروه',
-      'DB Type' => 'نوع بانک اطلاعاتی سیستم',
-      'next step' => 'قدم بعدی',
-      'Admin-Email' => 'e-mail مدیر سیستم',
-      'Create new database' => 'ایجاد بانک جدید',
-      'Delete old database' => 'حذف بانک قبلی',
-      'OTRS DB User' => 'نام کاربری بانک اطلاعاتی سیستم',
-      'Options ' => 'گزینه ها',
-      'OTRS DB Password' => 'رمز عبور بانک اطلاعاتی سیستم',
-      'DB Admin Password' => 'رمز عبور مدیر سیستم',
-      'Drop Database' => 'حذف کامل بانک اطلاعاتی',
-      '(Used ticket number format)' => '(فرمت شماره تیکت)',
-      'FAQ History' => 'سوابق پرسش و پاسخ',
-      'Package not correctly deployed, you need to deploy it again!' => 'این بسته بصورت صحیح نصب نشده آنرا مجددا نصب نمائید',
-      'Customer called' => 'مشترک تماس گرفته',
-      'Phone' => 'تلفن',
-      'Office' => 'شرکت',
-      'CompanyTickets' => 'تیکت های شرکت',
-      'MyTickets' => 'تیکت های من',
-      'New Ticket' => 'تیکت جدید',
-      'Create new Ticket' => 'ایجاد تیکت جدید',
-      'installed' => 'نصب شده',
-      'uninstalled' => 'نصب نشده',
+      'OTRS DB connect host' => 'Ø³Ø±ÙØ± ÙÛØ²Ø¨Ø§Ù Ø¨Ø§ÙÚ© Ø§Ø·ÙØ§Ø¹Ø§ØªÛ ',
+      'Create Database' => 'Ø§ÛØ¬Ø§Ø¯ Ø¨Ø§ÙÚ©',
+      ' (work units)' => ' ÙØ§Ø­Ø¯ Ú©Ø§Ø±',
+      'DB Host' => 'Ø³Ø±ÙØ± Ø¨Ø§ÙÚ© Ø§Ø·ÙØ§Ø¹Ø§ØªÛ',
+      'Change roles <-> groups settings' => 'ØªØºÛØ± ØªÙØ¸ÛÙØ§Øª ÙØ¸ÛÙÙ <-> Ú¯Ø±ÙÙ',
+      'Ticket Number Generator' => 'ØªÙÙÛØ¯ Ú©ÙÙØ¯Ù Ø´ÙØ§Ø±Ù ØªÛÚ©Øª ÙØ§',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(ÙØ´Ø®ØµÙ ØªÛÚ©Øª ÙØ§. Ø§Ú©Ø«Ø± Ú©Ø§Ø±Ø¨Ø±Ø§Ù ÙØ§ÛÙÙØ¯Ø§Ø² Ø§ÛÙ ØªØ±Ú©ÛØ¨ Ø§Ø³ØªÙØ§Ø¯Ù Ú©ÙÙØ¯ ÙØ«Ø§Ù: \'Ø´ÙØ§Ø±Ù ØªÛÚ©Øª\', \'ÙØ§Ù Ø´Ø±Ú©Øª#\' ÛØ§ \'ÙØ§Ù Ø¯ÙØ®ÙØ§Ù #\')',
+      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'ØªÙØ¸ÛÙ ÙØ³ØªÙÛÙ Ú©ÙÛØ¯ ÙØ§ Kernel/Config.pm',
+      'Symptom' => 'ÙØ´Ø§ÙÙ',
+      'Site' => 'Ø³Ø§ÛØª',
+      'Change users <-> roles settings' => 'ØªØºÛÛØ± ØªÙØ¸ÛÙØ§Øª Ú©Ø§Ø±Ø¨Ø± <-> ÙØ¸ÛÙÙ',
+      'Customer history search (e. g. "ID342425").' => 'Ø¬Ø³ØªØ¬Ù Ø¯Ø± Ø³ÙØ§Ø¨Ù ÙØ´ØªØ±Ú© (ÙØ«Ø§Ù: "ID342425")',
+      'Close!' => 'Ø¨Ø³ØªÙ!',
+      'TicketZoom' => 'ÙÙØ§ÛØ´ Ú©Ø§ÙÙ ØªÛÚ©Øª',
+      'Don\'t forget to add a new user to groups!' => 'ÙØ±Ø§ÙÙØ´ ÙÚ©ÙÛØ¯ Ú©Ù ÛÚ© Ú©Ø§Ø±Ø¨Ø± Ø¨Ù Ú¯Ø±ÙÙ Ø§ÛØ¬Ø§Ø¯ Ø´Ø¯Ù Ø§Ø¶Ø§ÙÙ Ú©ÙÛØ¯!',
+      'CreateTicket' => 'Ø§ÛØ¬Ø§Ø¯ ØªÛÚ©Øª',
+      'OTRS DB Name' => 'ÙØ§Ù Ø¨Ø§ÙÚ© Ø§Ø·ÙØ§Ø¹Ø§ØªÛ Ø³ÛØ³ØªÙ',
+      'System Settings' => 'ØªÙØ¸ÛÙØ§Øª Ø³ÛØ³ØªÙ',
+      'Hours' => 'Ø³Ø§Ø¹Øª',
+      'Finished' => 'Ù¾Ø§ÛØ§Ù ÛØ§ÙØª',
+      'Days' => 'Ø±ÙØ²',
+      'Queue ID' => 'Ú©Ø¯ ÙÛØ³Øª',
+      'A article should have a title!' => 'ÛÚ© ÙÙØ±Ø¯ Ø¨Ø§ÛØ¯ Ø¯Ø§Ø±Ø§Û Ø¹ÙÙØ§Ù Ø¨Ø§Ø´Ø¯',
+      'System History' => 'Ø³ÙØ§Ø¨Ù Ø³ÛØ³ØªÙ',
+      'Modules' => 'ÙØ§ÚÙÙ ÙØ§',
+      'Keyword' => 'Ú©ÙÙÙ Ú©ÙÛØ¯Û',
+      'Close type' => 'ÙÙØ¹ Ø¨Ø³ØªÙ',
+      'DB Admin User' => 'ÙØ§Ù Ú©Ø§Ø±Ø¨Ø±Û ÙØ¯ÛØ± Ø¨Ø§ÙÚ© Ø§Ø·ÙØ§Ø¹Ø§ØªÛ ',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Ú¯Ø²ÛÙÙ ÙØ§Û Ø§Ø·ÙØ§Ø¹Ø§Øª ØªÛÚ©Øª',
+      'Change user <-> group settings' => 'ØªØºÛÛØ± ØªÙØ¸ÛÙØ§Øª Ú©Ø§Ø±Ø¨Ø± <-> Ú¯Ø±ÙÙ',
+      'Name is required!' => 'ÙØ§Ù ÙÙØ±Ø¯ ÙÛØ§Ø² Ø§Ø³Øª!',
+      'Problem' => 'ÙØ´Ú©Ù',
+      'DB Type' => 'ÙÙØ¹ Ø¨Ø§ÙÚ© Ø§Ø·ÙØ§Ø¹Ø§ØªÛ Ø³ÛØ³ØªÙ',
+      'next step' => 'ÙØ¯Ù Ø¨Ø¹Ø¯Û',
+      'Termin1' => '',
+      'Customer history search' => 'Ø¬Ø³ØªØ¬Ù Ø¯Ø± Ø³ÙØ§Ø¨Ù ÙØ´ØªØ±Ú©',
+      'Solution' => 'Ø±Ø§Ù Ø­Ù',
+      'Admin-Email' => 'e-mail ÙØ¯ÛØ± Ø³ÛØ³ØªÙ',
+      'QueueView' => 'ÙÙØ§ÛØ´ ÙÛØ³Øª',
+      'Create new database' => 'Ø§ÛØ¬Ø§Ø¯ Ø¨Ø§ÙÚ© Ø¬Ø¯ÛØ¯',
+      'Ticket#' => 'Ø´ÙØ§Ø±Ù ØªÛÚ©Øª',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Ù¾ÛØ§Ù Ø´ÙØ§ Ø¯Ø± ØªÛÚ©Øª Ø¨Ù Ø´ÙØ§Ø±Ù "<OTRS_TICKET> Ø§Ø±Ø¬Ø§Ø¹ Ø´Ø¯ Ø¨Ù "<OTRS_BOUNCE_TO>". Ø¨Ø±Ø§Û Ø§Ø·ÙØ§Ø¹Ø§Øª Ø¨ÛØ´ØªØ± Ø¨Ø§ Ø§ÛÙ Ø¢Ø¯Ø±Ø³ ØªÙØ§Ø³ Ø¨Ú¯ÛØ±ÛØ¯',
+      'modified' => 'ØªØºÛÛØ± ÛØ§ÙØª',
+      'Delete old database' => 'Ø­Ø°Ù Ø¨Ø§ÙÚ© ÙØ¨ÙÛ',
+      'Keywords' => 'Ú©ÙÙØ§Øª Ú©ÙÛØ¯Û',
+      'Note Text' => 'ÛØ§Ø¯Ø¯Ø§Ø´Øª',
+      'No * possible!' => 'ÙÛÚ * ÙÙÚ©Ù ÙÛØ³Øª !',
+      'OTRS DB User' => 'ÙØ§Ù Ú©Ø§Ø±Ø¨Ø±Û Ø¨Ø§ÙÚ© Ø§Ø·ÙØ§Ø¹Ø§ØªÛ Ø³ÛØ³ØªÙ',
+      'Options ' => 'Ú¯Ø²ÛÙÙ ÙØ§',
+      'PhoneView' => 'ÙÙØ§ÛØ´ ØªÙÙÙ',
+      'Verion' => 'ÙÛØ±Ø§ÛØ´',
+      'Message for new Owner' => 'Ù¾ÛØ§Ù Ø¨Ø±Ø§Û ØµØ§Ø­Ø¨ Ø¬Ø¯ÛØ¯ ØªÛÚ©Øª',
+      'OTRS DB Password' => 'Ø±ÙØ² Ø¹Ø¨ÙØ± Ø¨Ø§ÙÚ© Ø§Ø·ÙØ§Ø¹Ø§ØªÛ Ø³ÛØ³ØªÙ',
+      'Last update' => 'Ø¢Ø®Ø±ÛÙ Ø¨Ø±ÙØ²Ø±Ø³Ø§ÙÛ',
+      'DB Admin Password' => 'Ø±ÙØ² Ø¹Ø¨ÙØ± ÙØ¯ÛØ± Ø³ÛØ³ØªÙ',
+      'Drop Database' => 'Ø­Ø°Ù Ú©Ø§ÙÙ Ø¨Ø§ÙÚ© Ø§Ø·ÙØ§Ø¹Ø§ØªÛ',
+      'Pending type' => 'ÙÙØ¹ ØªØ¹ÙÛÙ',
+      'Comment (internal)' => 'ØªÙØ¶ÛØ­ Ø¯Ø§Ø®ÙÛ',
+      '(Used ticket number format)' => '(ÙØ±ÙØª Ø´ÙØ§Ø±Ù ØªÛÚ©Øª)',
+      'Fulltext' => 'ØªÙØ§Ù ÙØªÙ',
+      'Modified' => 'ØªØºÛÛØ± ÛØ§ÙØªÙ',
     };
     # $$STOP$$
 }
-# --
+
 1;
