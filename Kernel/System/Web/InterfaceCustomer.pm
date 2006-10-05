@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.11 2006-08-29 17:21:04 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.12 2006-10-05 01:46:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,8 +22,9 @@ $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 use Kernel::Config;
 use Kernel::System::Log;
-use Kernel::System::Time;
 use Kernel::System::Main;
+use Kernel::System::Encode;
+use Kernel::System::Time;
 use Kernel::System::Web::Request;
 use Kernel::System::DB;
 use Kernel::System::AuthSession;
@@ -80,6 +81,7 @@ sub new {
         %{$Self},
     );
     $Self->{MainObject} = Kernel::System::Main->new(%{$Self});
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%{$Self});
     $Self->{TimeObject} = Kernel::System::Time->new(%{$Self});
     $Self->{ParamObject} = Kernel::System::Web::Request->new(
         %{$Self},
@@ -759,6 +761,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2006-08-29 17:21:04 $
+$Revision: 1.12 $ $Date: 2006-10-05 01:46:33 $
 
 =cut
