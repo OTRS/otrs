@@ -108,7 +108,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.119 2006-10-05 01:19:15 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.120 2006-10-05 13:54:35 cs Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1106,41 +1106,6 @@ TimeWorkingHours
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
             <String Regex="">Calendar Name 2</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="TimeZone::Calendar2" Required="1" Valid="1">
-        <Description Lang="en">The time zone of the queue.</Description>
-        <Description Lang="de">Zeitzone der Queue.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core::Time::Calendar2</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0">+0</Item>
-                <Item Key="+1">+1</Item>
-                <Item Key="+2">+2</Item>
-                <Item Key="+3">+3</Item>
-                <Item Key="+4">+4</Item>
-                <Item Key="+5">+5</Item>
-                <Item Key="+6">+6</Item>
-                <Item Key="+7">+7</Item>
-                <Item Key="+8">+8</Item>
-                <Item Key="+9">+9</Item>
-                <Item Key="+10">+10</Item>
-                <Item Key="+11">+11</Item>
-                <Item Key="+12">+12</Item>
-                <Item Key="-1">-1</Item>
-                <Item Key="-2">-2</Item>
-                <Item Key="-3">-3</Item>
-                <Item Key="-4">-4</Item>
-                <Item Key="-5">-5</Item>
-                <Item Key="-6">-6</Item>
-                <Item Key="-7">-7</Item>
-                <Item Key="-8">-8</Item>
-                <Item Key="-9">-9</Item>
-                <Item Key="-10">-10</Item>
-                <Item Key="-11">-11</Item>
-                <Item Key="-12">-12</Item>
-            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar2" Required="1" Valid="1">
@@ -4263,7 +4228,7 @@ Your OTRS Notification Master
     <ConfigItem Name="Frontend::CommonParam###Action" Required="0" Valid="1">
         <Description Lang="en">Default value for the Action parameter. The Frontend-Module which is used as default if no Action parameter given.</Description>
         <Description Lang="de">Standardwert des Action-Parameters. Diese Frontend-Modul wird benutzt wenn kein Action-Parameter vorhanden ist.</Description>
-        <Group>Ticket</Group>
+        <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <String Regex="">AdminInit</String>
