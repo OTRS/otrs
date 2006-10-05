@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.53 2006-10-05 01:18:29 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.54 2006-10-05 11:02:04 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -479,8 +479,8 @@ sub Run {
                 my $Found = 0;
                 my @Items = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
                 foreach my $Item (@Items) {
-                    if ($Self->{SysConfigObject}->ModGet(ConfigName=> $Item)) {
-                        my $Config = $Self->{SysConfigObject}->ModGet(ConfigName=> $Item);
+                    if ($Self->{SysConfigObject}->_ModGet(ConfigName=> $Item)) {
+                        my $Config = $Self->{SysConfigObject}->_ModGet(ConfigName=> $Item);
                         if (ref($Config) eq 'ARRAY') {
                             foreach (@{$Config}) {
                                 if ($_ && $_ =~ /\Q$Search\E/i) {
