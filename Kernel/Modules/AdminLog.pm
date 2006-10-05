@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminLog.pm - provides a log view for admins
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminLog.pm,v 1.16 2006-08-29 17:17:23 martin Exp $
+# $Id: AdminLog.pm,v 1.17 2006-10-05 01:22:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Modules::AdminLog;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -39,7 +38,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -85,5 +84,5 @@ sub Run {
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
-# --
+
 1;

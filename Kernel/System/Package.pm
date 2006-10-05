@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.50 2006-09-23 15:02:37 martin Exp $
+# $Id: Package.pm,v 1.51 2006-10-05 01:20:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1232,20 +1232,20 @@ sub PackageBuild {
             $XML .= $Self->_Encode($OldParam{Content})."</$Tag>\n";
         }
         elsif (ref($Param{$Tag}) eq 'ARRAY') {
-          foreach (@{$Param{$Tag}}) {
-            my %Hash = %{$_};
-            my %OldParam = ();
-            foreach (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
-                $OldParam{$_} = $Hash{$_};
-                delete $Hash{$_};
+            foreach (@{$Param{$Tag}}) {
+                my %Hash = %{$_};
+                my %OldParam = ();
+                foreach (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
+                    $OldParam{$_} = $Hash{$_};
+                    delete $Hash{$_};
+                }
+                $XML .= "  <$Tag";
+                foreach (keys %Hash) {
+                    $XML .= " $_=\"".$Self->_Encode($Hash{$_})."\"";
+                }
+                $XML .= ">";
+                $XML .= $Self->_Encode($OldParam{Content})."</$Tag>\n";
             }
-            $XML .= "  <$Tag";
-            foreach (keys %Hash) {
-                $XML .= " $_=\"".$Self->_Encode($Hash{$_})."\"";
-            }
-            $XML .= ">";
-            $XML .= $Self->_Encode($OldParam{Content})."</$Tag>\n";
-          }
         }
         else {
 #            $XML .= "  <$Tag></$Tag>\n";
@@ -1674,6 +1674,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2006-09-23 15:02:37 $
+$Revision: 1.51 $ $Date: 2006-10-05 01:20:10 $
 
 =cut
