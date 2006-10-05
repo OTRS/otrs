@@ -9,12 +9,12 @@ $Text{"Please select an object!"}
 $Text{"Please select a graph size!"}
 $Text{"Please select one element for the X-axis!"}
 $Text{"You have to select two or more attributes from the select field!"}
-$Text{"Please select only one element or turn of the button \'Fixed\' where the select field is marked!"}
+$Text{"Please select only one element or turn of the button 'Fixed' where the select field is marked!"}
 $Text{"If you use a checkbox you have to select some attributes of the select field!"}
-$Text{"Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!"}
+$Text{"Please insert a value in the selected input field or turn off the 'Fixed' checkbox!"}
 $Text{"The selected end time is before the start time!"}
 $Text{"You have to select one or more attributes from the select field!"}
-$Text{"The selected Date isn\'t valid!"}
+$Text{"The selected Date isn't valid!"}
 $Text{"Please select only one or two elements via the checkbox!"}
 $Text{"If you use a time scale element you can only select one element!"}
 $Text{"You have an error in your time selection!"}
