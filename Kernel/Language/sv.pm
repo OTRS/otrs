@@ -2,7 +2,7 @@
 # Kernel/Language/nb_SW.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.20 2006-10-05 04:23:55 martin Exp $
+# $Id: sv.pm,v 1.21 2006-10-05 04:46:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::sv;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.20 $;
+$VERSION = q$Revision: 1.21 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -483,7 +483,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'Skicka mig ett meddelande ifall systemet tar bort låset på ett ärende.',
       'Move notification' => 'Meddelande om ändring av kö',
       'Send me a notification if a ticket is moved into one of "My Queues".' => '',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => '',
       'Custom Queue' => 'Utvald kö',
       'QueueView refresh time' => 'Automatisk uppdateringsintervall fö Kö-bild',
       'Screen after new ticket' => 'Skärm efter inmatning av nytt ärende',

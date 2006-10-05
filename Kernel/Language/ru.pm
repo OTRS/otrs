@@ -2,7 +2,7 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.30 2006-10-05 04:23:55 martin Exp $
+# $Id: ru.pm,v 1.31 2006-10-05 04:46:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -483,7 +483,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'ѕрислать мне уведомление, если за€вка освобождена системой.',
       'Move notification' => '”ведомление о перемещении',
       'Send me a notification if a ticket is moved into one of "My Queues".' => '',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => '',
       'Custom Queue' => 'ƒополнительна€ (custom) очередь',
       'QueueView refresh time' => '¬рем€ обновлени€ монитора очередей',
       'Screen after new ticket' => '',

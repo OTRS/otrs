@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.11 2006-10-05 04:23:55 martin Exp $
+# $Id: zh_CN.pm,v 1.12 2006-10-05 04:46:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -484,7 +484,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => '如果 Ticket 被系统解锁，请通知我.',
       'Move notification' => '移动通知',
       'Send me a notification if a ticket is moved into one of "My Queues".' => '如果有 Ticket 被转入我的队列，请通知我.',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '您的最常用队列，如果您的邮件设置激活，您将会得到该队列的状态通知.',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => '您的最常用队列，如果您的邮件设置激活，您将会得到该队列的状态通知.',
       'Custom Queue' => '客户队列',
       'QueueView refresh time' => '队列视图刷新时间',
       'Screen after new ticket' => '创建新 Ticket 后的视图',

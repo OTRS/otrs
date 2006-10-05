@@ -3,7 +3,7 @@
 # Last Update: 2006/02/01
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # --
-# $Id: da.pm,v 1.4 2006-10-05 04:23:55 martin Exp $
+# $Id: da.pm,v 1.5 2006-10-05 04:46:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -484,7 +484,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'Send mig en besked, hvis systemet låser en billet op.',
       'Move notification' => 'Besked om flytning',
       'Send me a notification if a ticket is moved into one of "My Queues".' => 'Send mig en besked, hvis en billet flyttes ind i en af "Mine køer".',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => 'Dit køvalg af foretrukne køer. Du får også besked om disse køer via e-mail, hvis det er aktiveret.',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Dit køvalg af foretrukne køer. Du får også besked om disse køer via e-mail, hvis det er aktiveret.',
       'Custom Queue' => 'Brugertilpas kø',
       'QueueView refresh time' => 'KøVisnings genindlæsningstid',
       'Screen after new ticket' => 'Skærm efter ny billet',

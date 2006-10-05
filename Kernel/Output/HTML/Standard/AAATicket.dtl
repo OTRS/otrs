@@ -133,7 +133,7 @@ $Text{"Send me a notification if a ticket is unlocked by the system."}
 $Text{"Move notification"}
 $Text{"Send me a notification if a ticket is moved into one of "My Queues"."}
 
-$Text{"Your queue selection of your favorite queues. You also get notified about this queues via email if enabled."}
+$Text{"Your queue selection of your favourite queues. You also get notified about those queues via email if enabled."}
 $Text{"Custom Queue"}
 
 $Text{"QueueView refresh time"}

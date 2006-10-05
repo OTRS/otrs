@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.22 2006-10-05 04:23:55 martin Exp $
+# $Id: hu.pm,v 1.23 2006-10-05 04:46:50 martin Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -18,7 +18,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -488,7 +488,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'Küldjön értesítést ha a jegy zárolását a renszer feloldotta.',
       'Move notification' => 'Áthelyezés értesítés',
       'Send me a notification if a ticket is moved into one of "My Queues".' => 'Küldjön nekem értesítést, ha egy jegyet a "Saját Ügyeim" egyikébe mozgatták.',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => '',
       'Custom Queue' => 'Egyedi ügyek',
       'QueueView refresh time' => 'ÜgyekNézet frissítési idõ',
       'Screen after new ticket' => 'Új jegy utáni képernyõ',

@@ -6,7 +6,7 @@
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # Copyright (C) 2005 Jurgen Rutgers (jurgen 'at' besite.nl)
 # --
-# $Id: nl.pm,v 1.45 2006-10-05 04:23:55 martin Exp $
+# $Id: nl.pm,v 1.46 2006-10-05 04:46:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -56,7 +56,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -526,7 +526,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'Stuur mij een melding van een bericht als een Ticket wordt ontgrendeld door het systeem.',
       'Move notification' => 'Stuur mij een melding bij het verplaatsen van een Ticket.',
       'Send me a notification if a ticket is moved into one of "My Queues".' => ' Stuur mij een melding als een Ticket wordt verplaatst in een aangepaste wachtrij.',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => 'Uw selectie van uw favoriete wachtrijen. U ontvangt automatisch een melding van nieuwe Tickets in deze wachtrij, indien u hiervor heeft gekozen.',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Uw selectie van uw favoriete wachtrijen. U ontvangt automatisch een melding van nieuwe Tickets in deze wachtrij, indien u hiervor heeft gekozen.',
       'Custom Queue' => 'Aangepaste wachtrij.',
       'QueueView refresh time' => 'Verversingstijd wachtrij.',
       'Screen after new ticket' => 'Scherm na het aanmaken van een nieuw Ticket.',

@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004 CAT <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.30 2006-10-05 04:23:55 martin Exp $
+# $Id: pt.pm,v 1.31 2006-10-05 04:46:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -483,7 +483,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'Notifique-me se um bilhete for desbloqueado pelo sistema.',
       'Move notification' => 'Notificação de movimentos',
       'Send me a notification if a ticket is moved into one of "My Queues".' => 'Notifique-me se um bilhete for movido para uma das "Minhas Filas".',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => 'Selecção das suas filas favoritas. Será notificado acerca destas filas via correio electrónico se o serviço estiver activo.',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Selecção das suas filas favoritas. Será notificado acerca destas filas via correio electrónico se o serviço estiver activo.',
       'Custom Queue' => 'Fila Personalizada',
       'QueueView refresh time' => 'Tempo de refrescamento da Visualização  de Filas',
       'Screen after new ticket' => 'Ecrã após novo bilhete',

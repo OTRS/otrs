@@ -2,7 +2,7 @@
 # Kernel/Language/fa.pm - provides fa language translation
 # Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
 # --
-# $Id: fa.pm,v 1.9 2006-10-05 04:23:55 martin Exp $
+# $Id: fa.pm,v 1.10 2006-10-05 04:46:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fa;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -486,7 +486,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'اگر تیکت توسط سیستم آزاد شد به من اطلاع بده',
       'Move notification' => 'اعلان جابجایی',
       'Send me a notification if a ticket is moved into one of "My Queues".' => 'انتقال یک تیکت به لیست تیکت های من را اطلاع بده.',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => 'شما از طریق email از وضعیت لیست خود مطلع خواهید شد - در صورتیکه این گزینه در سیستم فعال باشد',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'شما از طریق email از وضعیت لیست خود مطلع خواهید شد - در صورتیکه این گزینه در سیستم فعال باشد',
       'Custom Queue' => 'لیست سفارشی',
       'QueueView refresh time' => 'زمان بازیابی لیست تیکت ها',
       'Screen after new ticket' => 'وضعیت نمایش پس از دریافت تیکت جدید',

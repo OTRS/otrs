@@ -4,7 +4,7 @@
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 #               2006 Knut Haugen <knuthaug@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.25 2006-10-05 04:23:55 martin Exp $
+# $Id: nb_NO.pm,v 1.26 2006-10-05 04:46:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.25 $;
+$VERSION = q$Revision: 1.26 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -485,7 +485,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'Send meg en melding dersom systemet åpner en avsluttet sak.',
       'Move notification' => 'Merknad ved mappe-endring',
       'Send me a notification if a ticket is moved into one of "My Queues".' => 'Send meg en melding dersom en sak flyttes over i en av mine utvalgte mapper.',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => 'Her velger du dine utvalgte mapper. Du vil også få påminnelser fra disse mappene, hvis du har valgt det.',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Her velger du dine utvalgte mapper. Du vil også få påminnelser fra disse mappene, hvis du har valgt det.',
       'Custom Queue' => 'Utvalgte mapper',
       'QueueView refresh time' => 'Automatisk oppdateringsfrekvens av mappe',
       'Screen after new ticket' => 'Skjermbilde etter innlegging av ny sak',

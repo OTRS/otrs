@@ -6,7 +6,7 @@
 #		     Vadim Buzek
 #		     Petr Ocasek
 # --
-# $Id: cz.pm,v 1.28 2006-10-05 04:23:55 martin Exp $
+# $Id: cz.pm,v 1.29 2006-10-05 04:46:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -488,7 +488,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'Po¹li mi oznámení, pokud je tiket odemknut systémem.',
       'Move notification' => 'Pøesunout oznámení',
       'Send me a notification if a ticket is moved into one of "My Queues".' => '',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => '',
       'Custom Queue' => 'Vlastní fronta',
       'QueueView refresh time' => 'Doba obnovení náhledu fronty',
       'Screen after new ticket' => '',

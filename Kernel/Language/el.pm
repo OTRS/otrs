@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 #                    George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.5 2006-10-05 04:23:55 martin Exp $
+# $Id: el.pm,v 1.6 2006-10-05 04:46:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::el;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -488,7 +488,7 @@ sub Data {
       'Move notification' => 'Μεταφορά ειδοποίησης',
       'Send me a notification if a ticket is moved into one of "My Queues".' => 'Αποστολη ειδοποιησης αν ενα δελτιο αποσταλει σε μια απο τις
 "Ουρές μου".',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => 'Οι επιλεγμένες απο τις
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Οι επιλεγμένες απο τις
 αγαπημένες σας ουρές.Μπορείτε να ειδοποιείστε μεσω email αν το ενεργοποιήσετε.',
       'Custom Queue' => 'Προσαρμοσμένη Ουρά',
       'QueueView refresh time' => 'Χρόνος ανανέωσης προβολής της ουράς',

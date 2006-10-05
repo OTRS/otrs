@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.31 2006-10-05 04:23:55 martin Exp $
+# $Id: pl.pm,v 1.32 2006-10-05 04:46:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -485,7 +485,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'Wy¶lij mi wiadomo¶æ, gdy zg³oszenie zostanie odblokowane przez system.',
       'Move notification' => 'Powiadomienie o przesuniêciu',
       'Send me a notification if a ticket is moved into one of "My Queues".' => '',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => '',
       'Custom Queue' => 'Kolejka modyfikowana',
       'QueueView refresh time' => 'Okres od¶wierzania Podgl±du Kolejki',
       'Screen after new ticket' => 'Ekran po nowym zg³oszeniu',

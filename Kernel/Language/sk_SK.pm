@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.5 2006-10-05 04:23:55 martin Exp $
+# $Id: sk_SK.pm,v 1.6 2006-10-05 04:46:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::sk_SK;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -483,7 +483,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'Po¹li mi oznámenie =>  ak je po¾iadavka odblokovaná systémom.',
       'Move notification' => 'Premiestni hlásenie',
       'Send me a notification if a ticket is moved into one of "My Queues".' => '',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => 'Vá¹ výber z obµúbených radov. Tie¾ mô¾ete by» oboznámený s po¾iadavkou cez e-mail =>  ak je to mo¾né.',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Vá¹ výber z obµúbených radov. Tie¾ mô¾ete by» oboznámený s po¾iadavkou cez e-mail =>  ak je to mo¾né.',
       'Custom Queue' => 'Klientské rady.',
       'QueueView refresh time' => '?',
       'Screen after new ticket' => 'Okno po novej po¾iadavke.',
