@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.53 2006-09-18 13:26:00 tr Exp $
+# $Id: Config.pm,v 1.54 2006-10-05 01:18:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Main;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -69,7 +69,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject)) {
+    foreach (qw(DBObject ConfigObject LogObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -457,7 +457,6 @@ sub ConfigItemGet {
     if ($Param{Default}) {
         $Level = 'Default';
     }
-#$Self->{LogObject}->Dumper(\%Param);
 
     if ($Self->{Config}->{$Param{Name}}) {
         # copy config and store it as default
@@ -470,7 +469,7 @@ sub ConfigItemGet {
             die "ERROR: $!: $@ in $Dump";
         }
         # add current valid state
-        if (!$Param{Default} && !defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
+        if (!$Param{Default} && !defined($Self->_ModGet(ConfigName => $ConfigItem->{Name}))) {
             $ConfigItem->{Valid} = 0;
         }
         elsif (!$Param{Default}) {
@@ -480,32 +479,36 @@ sub ConfigItemGet {
         if ($ConfigItem->{Setting}->[1]->{String}) {
             # fill default
             $ConfigItem->{Setting}->[1]->{String}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{String}->[1]->{Content};
-            if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
-                $ConfigItem->{Setting}->[1]->{String}->[1]->{Content} = $Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
+            my $String = $Self->_ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
+            if (!$Param{Default} && defined($String)) {
+                $ConfigItem->{Setting}->[1]->{String}->[1]->{Content} = $String;
             }
         }
         if ($ConfigItem->{Setting}->[1]->{TextArea}) {
             # fill default
             $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content};
-            if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
-                $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content} = $Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
+            my $TextArea = $Self->_ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
+            if (!$Param{Default} && defined($TextArea)) {
+                $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content} = $TextArea;
             }
         }
         if ($ConfigItem->{Setting}->[1]->{Option}) {
             # fill default
             $ConfigItem->{Setting}->[1]->{Option}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID};
-            if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
-                $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} = $Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
+            my $Option = $Self->_ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
+            if (!$Param{Default} && defined($Option)) {
+                $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} = $Option;
             }
         }
         if ($ConfigItem->{Setting}->[1]->{Hash}) {
-           if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
+            my $HashRef = $Self->_ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
+            if (!$Param{Default} && defined($HashRef)) {
                 my @Array = ();
                 if (ref($ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}) eq 'ARRAY') {
                     @Array = @{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}};
                 }
                 @{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}} = (undef);
-                my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
+                my %Hash = %{$HashRef};
                 foreach my $Key (sort keys %Hash) {
                    if (ref($Hash{$Key}) eq 'ARRAY') {
                         my @Array = (undef,{Content => '',});
@@ -559,9 +562,10 @@ sub ConfigItemGet {
             }
         }
         if ($ConfigItem->{Setting}->[1]->{Array}) {
-            if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
+            my $ArrayRef = $Self->_ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
+            if (!$Param{Default} && defined($ArrayRef)) {
                 @{$ConfigItem->{Setting}->[1]->{Array}->[1]->{Item}} = (undef);
-                my @Array = @{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
+                my @Array = @{$ArrayRef};
                 foreach my $Key (@Array) {
                     push (@{$ConfigItem->{Setting}->[1]->{Array}->[1]->{Item}}, {
                             Content => $Key,
@@ -571,9 +575,10 @@ sub ConfigItemGet {
             }
         }
         if ($ConfigItem->{Setting}->[1]->{FrontendModuleReg}) {
-             if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
+            my $HashRef = $Self->_ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
+            if (!$Param{Default} && defined($HashRef)) {
                 @{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}} = (undef);
-                my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
+                my %Hash = %{$HashRef};
                 foreach my $Key (sort keys %Hash) {
                     @{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}} = (undef);
                     if ($Key eq 'Group' || $Key eq 'GroupRo') {
@@ -630,9 +635,10 @@ sub ConfigItemGet {
             }
         }
         if ($ConfigItem->{Setting}->[1]->{TimeWorkingHours}) {
-            if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
+            my $DaysRef = $Self->_ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
+            if (!$Param{Default} && defined($DaysRef)) {
                 @{$ConfigItem->{Setting}->[1]->{TimeWorkingHours}->[1]->{Day}} = (undef);
-                my %Days = %{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
+                my %Days = %{$DaysRef};
                 foreach my $Day (keys %Days) {
                     my @Array = (undef);
                     foreach my $Hour (@{$Days{$Day}}) {
@@ -647,9 +653,10 @@ sub ConfigItemGet {
             }
         }
         if ($ConfigItem->{Setting}->[1]->{TimeVacationDays}) {
-            if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
+            my $HashRef = $Self->_ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
+            if (!$Param{Default} && defined($HashRef)) {
                 @{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}} = (undef);
-                my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
+                my %Hash = %{$HashRef};
                 foreach my $Month (sort {$a <=> $b} keys %Hash) {
 
                     if ($Hash{$Month}) {
@@ -668,9 +675,10 @@ sub ConfigItemGet {
             }
         }
         if ($ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}) {
-            if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
+            my $HashRef = $Self->_ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
+            if (!$Param{Default} && defined($HashRef)) {
                 @{$ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}} = (undef);
-                my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
+                my %Hash = %{$HashRef};
                 foreach my $Year (sort {$a <=> $b} keys %Hash) {
                     my %Months = %{$Hash{$Year}};
                     if (%Months) {
@@ -857,33 +865,38 @@ sub ConfigSubGroupConfigItemList {
             return;
         }
     }
-    my @List = ();
-    my %Used = ();
-    foreach my $ConfigItem (@{$Self->{XMLConfig}}) {
-        my $Name = $ConfigItem->{Name};
-        if ($ConfigItem->{Group} && ref($ConfigItem->{Group}) eq 'ARRAY') {
-            my $Hit = 0;
-            foreach my $Group (@{$ConfigItem->{Group}}) {
-                if ($Group->{Content} && $Group->{Content} eq $Param{Group}) {
-                    $Hit = 1;
-                }
-            }
-            if ($Hit) {
-                if ($ConfigItem->{SubGroup} && ref($ConfigItem->{SubGroup}) eq 'ARRAY') {
-                    foreach my $SubGroup (@{$ConfigItem->{SubGroup}}) {
-                        if (!$Used{$ConfigItem->{Name}} && $SubGroup->{Content} && $SubGroup->{Content} eq $Param{SubGroup}) {
-                            $Used{$ConfigItem->{Name}} = 1;
-                            push (@List, $ConfigItem->{Name});
+    my %Data = ();
+    if ($Self->{'Cache::ConfigSubGroupConfigItemList'}) {
+        %Data = %{$Self->{'Cache::ConfigSubGroupConfigItemList'}};
+    }
+    else {
+        foreach my $ConfigItem (@{$Self->{XMLConfig}}) {
+            my %Used = ();
+            my $Name = $ConfigItem->{Name};
+            if ($ConfigItem->{Group} && ref($ConfigItem->{Group}) eq 'ARRAY') {
+                foreach my $Group (@{$ConfigItem->{Group}}) {
+                    if ($Group && $ConfigItem->{SubGroup} && ref($ConfigItem->{SubGroup}) eq 'ARRAY') {
+                        foreach my $SubGroup (@{$ConfigItem->{SubGroup}}) {
+                            if (!$Used{$ConfigItem->{Name}} && $SubGroup->{Content} && $Group->{Content}) {
+                                $Used{$ConfigItem->{Name}} = 1;
+                                push (@{$Data{$Group->{Content}.'::'.$SubGroup->{Content}}},$ConfigItem->{Name});
+                            }
                         }
                     }
                 }
             }
         }
+        $Self->{'Cache::ConfigSubGroupConfigItemList'} = \%Data;
     }
-    return @List;
+    if ($Data{$Param{Group}.'::'.$Param{SubGroup}}) {
+        return @{$Data{$Param{Group}.'::'.$Param{SubGroup}}};
+    }
+    else {
+        return ();
+    }
 }
 
-sub ModGet {
+sub _ModGet {
     my $Self = shift;
     my %Param = @_;
     my $Content;
@@ -1231,6 +1244,7 @@ sub _XML2Perl {
     }
     return $Data;
 }
+
 sub DESTROY {
     my $Self = shift;
     my %Param = @_;
@@ -1240,7 +1254,6 @@ sub DESTROY {
     }
     return 1;
 }
-
 
 1;
 
@@ -1256,6 +1269,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2006-09-18 13:26:00 $
+$Revision: 1.54 $ $Date: 2006-10-05 01:18:28 $
 
 =cut

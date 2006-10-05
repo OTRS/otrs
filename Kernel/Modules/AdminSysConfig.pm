@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.52 2006-09-18 13:26:00 tr Exp $
+# $Id: AdminSysConfig.pm,v 1.53 2006-10-05 01:18:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -49,8 +49,10 @@ sub Run {
     my $Anker = '';
 
     # write default file
-    if (!$Self->{SysConfigObject}->WriteDefault()) {
-        return $Self->{LayoutObject}->ErrorScreen();
+    if (!$Self->{ParamObject}->GetParam(Param => 'DontWriteDefault')) {
+        if (!$Self->{SysConfigObject}->WriteDefault()) {
+            return $Self->{LayoutObject}->ErrorScreen();
+        }
     }
 
     # download
@@ -95,15 +97,6 @@ sub Run {
         my $SubGroup = $Self->{ParamObject}->GetParam(Param => 'SysConfigSubGroup');
         my $Group = $Self->{ParamObject}->GetParam(Param => 'SysConfigGroup');
         my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
-#        my @List = ();
-#        my %Groups = $Self->{SysConfigObject}->ConfigGroupList();
-#        foreach my $Group (sort keys(%Groups)) {
-#            my %SubGroups = $Self->{SysConfigObject}->ConfigSubGroupList(Name => $Group);
-#            foreach my $SubGroup (sort keys %SubGroups) {
-#                push(@List, $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup));
-#            }
-#        }
-
         # list all Items
         foreach (@List) {
             # Get all Attributes from Item
@@ -397,7 +390,9 @@ sub Run {
         $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
         $Self->{SysConfigObject}->CreateConfig();
         # redirect
-        return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&Subaction=Edit&SysConfigSubGroup=$SubGroup&SysConfigGroup=$Group&#$Anker");
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=$Self->{Action}&Subaction=Edit&SysConfigSubGroup=$SubGroup&SysConfigGroup=$Group&#$Anker",
+        );
     }
     # edit config
     elsif ($Self->{Subaction} eq 'Edit') {
@@ -406,16 +401,6 @@ sub Run {
         my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
         #Language
         my $UserLang = $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');
-        # all
-#        my @List = ();
-#        my %Groups = $Self->{SysConfigObject}->ConfigGroupList();
-#        foreach my $Group (sort keys(%Groups)) {
-#            my %SubGroups = $Self->{SysConfigObject}->ConfigSubGroupList(Name => $Group);
-#            foreach my $SubGroup (sort keys %SubGroups) {
-#                push(@List, $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup));
-#            }
-#        }
-
         # list all Items
         foreach (@List) {
             # Get all Attributes from Item
