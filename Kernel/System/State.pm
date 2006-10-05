@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: State.pm,v 1.13 2006-08-29 17:30:36 martin Exp $
+# $Id: State.pm,v 1.14 2006-10-05 13:54:11 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::State;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -137,12 +137,12 @@ get states attributes
 
   my %State = $StateObject->StateGet(
       Name => 'New State',
-      Cache => 1,
+      Cache => 1, # optional
   );
 
   my %State = $StateObject->StateGet(
       ID => 123,
-      Cache => 1,
+      Cache => 1, # optional
   );
 
 =cut
@@ -385,6 +385,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.14 $ $Date: 2006-10-05 13:54:11 $
 
 =cut
