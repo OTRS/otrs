@@ -2,14 +2,21 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.297 2006-09-30 19:31:17 mh Exp $
+# $Id: CHANGES,v 1.298 2006-10-05 04:28:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-2.1.0 beta3 (2006/??/??)
+2.1.1 (2006/10/05)
+ - (2006/10/05) fixed bug #1213 - some errors not logger by LDAP backends
+ - (2006/10/05) fixed bug #1248 - Ticket Zoom - Article Thread - Color of auto
+     responses should be yellow
+ - (2006/10/05) fixed bug #1323 - 2.1 DBUpgrade issue with PostgreSQL - patch
+ - (2006/10/05) fixed bug #1333 - No reset of escalation time after follow-up
+ - (2006/10/05) fixed bug #1345 - Attached binary files uploaded and saved to
+    the FS are corrupted.
  - (2006/09/30) add ticketfreetext-, ticketfreetime- and articlefreetext support
     to pdf output
  - (2006/09/28) improved stats export/import with an id-name wrapper

@@ -169,7 +169,6 @@ $Text{"Word"}
 $Text{"Ignore"}
 $Text{"replace with"}
 
-$Text{"Welcome to OTRS"}
 $Text{"There is no account with that login name."}
 $Text{"Login failed! Your username or password was entered incorrectly."}
 $Text{"Please contact your admin"}

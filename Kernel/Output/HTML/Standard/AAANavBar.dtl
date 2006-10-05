@@ -8,25 +8,8 @@ $Text{"Agent Mailbox"}
 $Text{"Stats"}
 $Text{"Stats-Area"}
 $Text{"Stats"}
-$Text{"FAQ-Area"}
-$Text{"FAQ"}
-$Text{"FAQ-Search"}
-$Text{"FAQ-Article"}
-$Text{"New Article"}
-$Text{"FAQ-State"}
 $Text{"Admin-Area"}
 $Text{"Admin"}
-$Text{"Calendar"}
-$Text{"A web calendar"}
-$Text{"WebMail"}
-$Text{"A web mail client"}
-$Text{"FileManager"}
-$Text{"A web file manager"}
-$Text{"Artefact"}
-$text{"Vulnerability"}
-$Text{"Incident"}
-$Text{"Advisory"}
-$Text{"WebWatcher"}
 $Text{""}
 
 # admin nav bar
