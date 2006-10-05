@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TODO,v 1.107 2006-09-27 16:51:40 martin Exp $
+# $Id: TODO,v 1.108 2006-10-05 08:40:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -50,7 +50,12 @@
 - localisation emails for "New OTRS Password!" and "New Account"
 - insert a function which marks all config settings in the SysConfig which still defined in the Config.pm
 - implement new bulk action with own sysconfig settings for all params
-- stats functionality: - use the pdf - backend for output
+- stats functionality: - add a function, to handle stats with the package manager
+                         especially for quality assurance in customer systems dev->test>productive.
+                         At the same time the actual import and export function should have the
+                         configoption to deactivate them. Because in some situation it can't be useful
+                         to have two ways for handling stats! (var/Stats - a possible location for stats
+                         coming from the package manager)
                        - insert a function to handle new default stats
 
 
