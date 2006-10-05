@@ -3,7 +3,7 @@
 # installer.pl - the OTRS Installer
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: installer.pl,v 1.19 2006-08-26 17:29:03 martin Exp $
+# $Id: installer.pl,v 1.20 2006-10-05 05:22:54 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -41,9 +41,10 @@ push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
 # --
 use Kernel::Config;
 use Kernel::System::Log;
+use Kernel::System::Main;
+use Kernel::System::Encode;
 use Kernel::System::Web::Request;
 use Kernel::System::DB;
-use Kernel::System::Main;
 use Kernel::Modules::Test;
 use Kernel::Modules::Installer;
 use Kernel::Output::HTML::Layout;
@@ -57,8 +58,9 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-Installer',
     %CommonObject,
 );
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 # debug info
 if ($Debug) {
     $CommonObject{LogObject}->Log(
