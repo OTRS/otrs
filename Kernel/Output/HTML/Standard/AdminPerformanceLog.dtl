@@ -2,7 +2,7 @@
 # AdminPerformanceLog.dtl - provides HTML form for AdminPerformanceLog
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.dtl,v 1.2 2006-08-29 16:56:06 martin Exp $
+# $Id: AdminPerformanceLog.dtl,v 1.3 2006-10-05 01:21:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,6 +20,33 @@
 
       <br>
 
+<!-- dtl:block:Reset -->
+      <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+        <tr>
+          <td colspan="2" class="contenthead">$Text{"Logfile too large!"} ($QData{"Size"} MB)</td>
+        </tr>
+        <tr>
+          <td class="contentbody">
+            <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+              <tr>
+                <td>$Text{"Logfile too large, you need to reset it!"}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="contentfooter">
+            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="Action" value="$Env{"Action"}">
+              <input type="hidden" name="Subaction" value="Reset">
+              <input class="button" type="submit" value="$Text{"Reset"}">
+            </form>
+          </td>
+        </tr>
+      </table>
+
+      <br>
+<!-- dtl:block:Reset -->
 <!-- dtl:block:Table -->
       <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
         <tr>

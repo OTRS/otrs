@@ -108,7 +108,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.118 2006-09-08 16:02:35 mh Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.119 2006-10-05 01:19:15 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -2878,8 +2878,8 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PerformanceLog" Required="0" Valid="1">
-        <Description Lang="en">Enable PerformanceLog to log the page response time. Take care, this will take system performance.</Description>
-        <Description Lang="de">PerformanceLog aktivieren um Seiten-Antwortzeiten zu protokollieren. Achtung, dies benoetigt System-Resourcen.</Description>
+        <Description Lang="en">Enable PerformanceLog to log the page response time. Take care, this will take system performance (you also need to enable Frontend::Module###AdminPerformanceLog!).</Description>
+        <Description Lang="de">PerformanceLog aktivieren um Seiten-Antwortzeiten zu protokollieren. Achtung, dies benoetigt System-Resourcen (es muss auch Frontend::Module###AdminPerformanceLog aktiviert werden!).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PerformanceLog</SubGroup>
         <Setting>
@@ -2889,13 +2889,22 @@ Your OTRS Notification Master
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PerformanceLog::File" Required="0" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+    <ConfigItem Name="PerformanceLog::File" Required="1" Valid="1">
+        <Description Lang="en">Logfile of PerformanceLog.</Description>
+        <Description Lang="de">Logdatei des PerformanceLog.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PerformanceLog</SubGroup>
         <Setting>
             <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/log/Performance.log</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PerformanceLog::FileMax" Required="1" Valid="1">
+        <Description Lang="en">Max. size in MB of log file.</Description>
+        <Description Lang="de">Maximale groesse in MB der Logdatei.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PerformanceLog</SubGroup>
+        <Setting>
+            <String Regex="">15</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesTable" Required="1" Valid="1">
@@ -3776,6 +3785,7 @@ Your OTRS Notification Master
                 <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title>Init</Title>
+                <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -4072,7 +4082,7 @@ Your OTRS Notification Master
             </FrontendModuleReg>
         </Setting>
      </ConfigItem>
-     <ConfigItem Name="Frontend::Module###AdminPerformanceLog" Required="0" Valid="1">
+     <ConfigItem Name="Frontend::Module###AdminPerformanceLog" Required="0" Valid="0">
         <Description Lang="en">Frontend module registration for the AdminPerformanceLog object in the admin area.</Description>
         <Description Lang="de">Frontendmodul-Registration des AdminPerformanceLog-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
@@ -4092,7 +4102,7 @@ Your OTRS Notification Master
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-     <ConfigItem Name="Frontend::Module###AdminLog" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::Module###AdminLog" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminLog object in the admin area.</Description>
         <Description Lang="de">Frontendmodul-Registration des AdminLog-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
