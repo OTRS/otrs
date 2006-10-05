@@ -3,7 +3,7 @@
 # xml2docbook.pl - config xml to docbook
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xml2docbook.pl,v 1.9 2006-08-28 16:36:51 cs Exp $
+# $Id: xml2docbook.pl,v 1.10 2006-10-05 14:15:30 cs Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -126,7 +126,11 @@ foreach my $Group (@Groups) {
             print " <entry>Description:</entry>\n";
             print " <entry namest=\"col2\" nameend=\"col4\">$Description</entry>\n";
             print "</row>\n";
-            foreach my $Area (qw(Group SubGroup)) {
+            print "<row>\n";
+            print " <entry>Group:</entry>\n";
+            print " <entry namest=\"col2\" nameend=\"col4\">$Group</entry>\n";
+            print "</row>\n";
+            foreach my $Area (qw(SubGroup)) {
                 foreach (1..10) {
                     if ($Item{$Area}->[$_]) {
                         print "<row>\n";
