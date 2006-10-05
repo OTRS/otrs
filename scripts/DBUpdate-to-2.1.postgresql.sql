@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.0 to 2.1
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.1.postgresql.sql,v 1.13 2006-10-04 11:23:19 rk Exp $
+-- $Id: DBUpdate-to-2.1.postgresql.sql,v 1.14 2006-10-05 02:19:04 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.1.postgresql.sql | psql otrs
@@ -12,7 +12,7 @@
 --
 -- ticket
 --
-ALTER TABLE ticket ADD responsible_user_id INTEGER NOT NULL;
+ALTER TABLE ticket ADD responsible_user_id INTEGER NOT NULL DEFAULT 1;
 ALTER TABLE ticket ADD freekey9 VARCHAR (80);
 ALTER TABLE ticket ADD freetext9 VARCHAR (150);
 ALTER TABLE ticket ADD freekey10 VARCHAR (80);
@@ -69,7 +69,9 @@ INSERT INTO notifications
   VALUES
   ('Agent::ResponsibleUpdate', 'iso-8859-1', 'de', 'Ticket Verantwortung uebertragen an Sie! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_RESPONSIBLE_USERFIRSTNAME>,die Verantwortung des Tickets [<OTRS_TICKET_TicketNumber>] wurde an Sie von "<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>" uebertragen.Kommentar:<OTRS_COMMENT><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
 
--- change because of moduls like incident and IDMEFConsole
+--
+-- change to support char keys (not only integer)
+--
 ALTER TABLE object_link RENAME TO object_link_old;
 CREATE TABLE object_link (
     object_link_a_id VARCHAR (80) NOT NULL,
