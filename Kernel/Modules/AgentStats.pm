@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.17 2006-09-28 14:11:33 mh Exp $
+# $Id: AgentStats.pm,v 1.18 2006-10-06 14:41:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -283,8 +283,8 @@ sub Run {
         elsif ($Stat->{StatType} eq 'dynamic') {
             my %Name = (
                 UseAsXvalue      => 'X-axis',
-                UseAsValueSeries => 'ValueSeries',
-                UseAsRestriction => 'Restriction',
+                UseAsValueSeries => 'Value Series',
+                UseAsRestriction => 'Restrictions',
             );
             foreach my $Use (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
                 my $Flag = 0;
@@ -2016,94 +2016,6 @@ sub Run {
             }
             # HTML Output
             else {
-                #if ($Stat->{StatType} eq 'dynamic') {
-                #    my %Name = (
-                #        UseAsXvalue      => 'X-axis',
-                #        UseAsValueSeries => 'ValueSeries',
-                #        UseAsRestriction => 'Restriction',
-                #    );
-
-                #    foreach my $Use (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
-                #        my $Flag = 0;
-                #        $Self->{LayoutObject}->Block(
-                #            Name => 'Dynamic',
-                #            Data => {Name => $Name{$Use}},
-                #        );
-                #        foreach my $ObjectAttribute (@{$GetParam{$Use}}) {
-                #            my %ValueHash = ();
-                #            $Flag = 1;
-
-                #            # Select All function
-                #            if (!$ObjectAttribute->{SelectedValues}[0]) {
-                #                my @Values = keys (%{$ObjectAttribute->{Values}});
-                #                $ObjectAttribute->{SelectedValues} = \@Values;
-                #            }
-
-                #           foreach (@{$ObjectAttribute->{SelectedValues}}) {
-                #                if ($ObjectAttribute->{Values}) {
-                #                    $ValueHash{$_} = $ObjectAttribute->{Values}{$_};
-                #                }
-                #                else {
-                #                    $ValueHash{Value} = $_;
-                #                }
-                #            }
-
-                #            $Self->{LayoutObject}->Block(
-                #                Name => 'Element',
-                #                Data => {Name => $ObjectAttribute->{Name}},
-                #            );
-
-                #            # show fixed elements
-                #            if ($ObjectAttribute->{Block} eq 'Time') {
-                #                # required because of the SELECTALL function
-                #                if ($Use eq 'UseAsRestriction') {
-                #                    delete ($ObjectAttribute->{SelectedValues});
-                #                }
-                #                my $TimeScale = _TimeScale();
-                #                if ($ObjectAttribute->{TimeStart}) {
-                #                    $Self->{LayoutObject}->Block(
-                #                        Name => 'TimePeriodFixed',
-                #                        Data => {
-                #                            TimeStart => $ObjectAttribute->{TimeStart},
-                #                            TimeStop  => $ObjectAttribute->{TimeStop},
-                #                        },
-                #                    );
-                #                }
-                #                if ($ObjectAttribute->{SelectedValues}[0]) {
-                #                    $Self->{LayoutObject}->Block(
-                #                        Name => 'TimeScaleFixed',
-                #                        Data => {
-                #                            Scale => $TimeScale->{$ObjectAttribute->{SelectedValues}[0]}{Value},
-                #                            Count => $ObjectAttribute->{TimeScaleCount},
-                #                        },
-                #                    );
-                #                }
-                #            }
-                #            else {
-                #                foreach (sort{$ValueHash{$a} cmp $ValueHash{$b}} keys %ValueHash) {
-                #                    $Self->{LayoutObject}->Block(
-                #                        Name => 'Fixed',
-                #                        Data => {Value => $ValueHash{$_}},
-                #                    );
-                #                }
-                #            }
-                #        }
-                #        # Show this Block if no valueseries or restrictions are selected
-                #        if (!$Flag) {
-                #            $Self->{LayoutObject}->Block(
-                #                Name => 'NoElement',
-                #            );
-                #        }
-                #    }
-                #}
-
-                #$Stat->{Description} = $Self->{LayoutObject}->Ascii2Html(
-                #    Text           => $Stat->{Description},
-                #    HTMLResultMode => 1,
-                #    NewLine        => 72,
-                #);
-
-
                 $Stat->{Table} = $Self->{LayoutObject}->OutputHTMLTable(
                     Head => $HeadArrayRef,
                     Data => \@StatArray,
