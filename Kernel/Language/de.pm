@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.114 2006-10-05 04:46:50 martin Exp $
+# $Id: de.pm,v 1.115 2006-10-06 14:40:28 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.114 $';
+$VERSION = '$Revision: 1.115 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -323,14 +323,14 @@ sub Data {
       'Please select a file!' => 'Bitte wählen Sie eine Datei aus!',
       'Please select an object!' => 'Bitte wählen Sie ein Statistik-Objekt aus!',
       'Please select a graph size!' => 'Bitte legen Sie die Graphikgröße fest!',
-      'Please select one element for the X-axis!' => 'Bitte wählen sie ein Element für die X-Achse aus!',
+      'Please select one element for the X-axis!' => 'Bitte wählen Sie ein Element für die X-Achse aus!',
       'You have to select two or more attributes from the select field!' => 'Sie müssen mindestens zwei Attribute des Auswahlfelds auswählen!',
-      'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => '',
+      'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => 'Bitte wählen Sie nur ein Attribut des vorausgewählten Elements aus oder entfernen Sie das Häkchen aus der Checkbox \'Fixiert\'!',
       'If you use a checkbox you have to select some attributes of the select field!' => 'Wenn Sie Inhalte eines Auswahlfelds auswählen müssen Sie mindestens zwei Attribute auswählen!',
-      'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => '',
+      'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Bitte tragen Sie einen Wert in das von Ihnen ausgewählte Eingabefeld ein oder entfernen Sie das Häkchen aus der Checkbox \'Fixiert\'!',
       'The selected end time is before the start time!' => 'Die ausgewählte Endzeit ist vor der Startzeit!',
       'You have to select one or more attributes from the select field!' => 'Bitte wählen Sie bitte ein oder mehrere Attribute aus dem Auswahlfeld aus!',
-      'The selected Date isn\'t valid!' => '',
+      'The selected Date isn\'t valid!' => 'Das ausgewählte Datum ist ungültig!',
       'Please select only one or two elements via the checkbox!' => 'Bitte wählen Sie nur ein oder zwei Elemente aus!',
       'If you use a time scale element you can only select one element!' => 'Wenn Sie ein Zeit-Element ausgewählt haben, können Sie nur kein weiteres Element mehr auswählen!',
       'You have an error in your time selection!' => 'Sie haben einen Fehler in Ihrer Zeitauswahl!',
