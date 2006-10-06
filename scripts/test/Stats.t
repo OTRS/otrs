@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.2 2006-08-26 17:36:26 martin Exp $
+# $Id: Stats.t,v 1.3 2006-10-06 07:03:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -171,87 +171,43 @@ $Self->True(
     'StatsDelete() delete StatID3',
 );
 
+# ---
+# import a Stat and export it - then check if it is the same string
+# ---
 
-#    use Kernel::System::Ticket;#
-#
-#    $Self->{UserObject}     = Kernel::System::User     ->new(%{$Self});
-#    # get random user
-#    my %UserHash = $Self->{UserObject}->UserList(Type => 'Long', Valid => 1); # Short
-#    my @User     = keys(%UserHash);
-#    $Self->{UserID} = $User[int(rand($#User))];
-#    $Self->{TicketObject}   = Kernel::System::Ticket   ->new(%{$Self});
-#    $Self->{GroupObject}    = Kernel::System::Group    ->new(%{$Self});
-#    $Self->{MainObject}     = Kernel::System::Main     ->new(%{$Self});
-#    $Self->{StateObject}    = Kernel::System::State    ->new(%{$Self});
-#    $Self->{QueueObject}    = Kernel::System::Queue    ->new(%{$Self});
-#    $Self->{PriorityObject} = Kernel::System::Priority ->new(%{$Self});
-#    $Self->{LockObject}     = Kernel::System::Lock     ->new(%{$Self});
-#
-#    # Complex test scenario#
-#
-#    # At first delete the old tables
-##    $Self->{DBObject}->Do(SQL => "DELETE FROM ticket_history");
-##    $Self->{DBObject}->Do(SQL => "DELETE FROM article");
-##    $Self->{DBObject}->Do(SQL => "DELETE FROM article_attachment");
-##    $Self->{DBObject}->Do(SQL => "DELETE FROM article_plain");
-##    $Self->{DBObject}->Do(SQL => "DELETE FROM time_accounting");
-##    $Self->{DBObject}->Do(SQL => "DELETE FROM ticket");
-#
-#    my $TimeZone = 16000; #16000
-#    while ($TimeZone > 50) { #50
-#        my %CommonObject = ();
-#        $TimeZone -= int(rand(300)*3600)/3600;
-#        # create objects
-#        $CommonObject{ConfigObject}     = Kernel::Config->new(%CommonObject);
-#        # set time offset
-#        $CommonObject{ConfigObject}->Set(Key => 'TimeZone', Value => -$TimeZone);
-#        $CommonObject{LogObject} = Kernel::System::Log->new(%CommonObject);
-#        $CommonObject{TimeObject}     = Kernel::System::Time     ->new(%CommonObject);
-#        $CommonObject{DBObject}       = Kernel::System::DB       ->new(%CommonObject);
-#        $CommonObject{TicketObject}   = Kernel::System::Ticket   ->new(%CommonObject);
-#        $CommonObject{UserObject}     = Kernel::System::User     ->new(%CommonObject);
-#        $CommonObject{GroupObject}    = Kernel::System::Group    ->new(%CommonObject);
-#        $CommonObject{MainObject}     = Kernel::System::Main     ->new(%CommonObject);
-#        $CommonObject{StateObject}    = Kernel::System::State    ->new(%CommonObject);
-#        $CommonObject{QueueObject}    = Kernel::System::Queue    ->new(%CommonObject);
-#        $CommonObject{PriorityObject} = Kernel::System::Priority ->new(%CommonObject);
-#        $CommonObject{LockObject}     = Kernel::System::Lock     ->new(%CommonObject);#
-#
-#        my $CreateUser  = $User[int(rand($#User))];
-#        my %StateHash   = $CommonObject{StateObject}   ->StateList   (UserID => $CreateUser);
-#        my %QueuesHash  = $CommonObject{QueueObject}   ->GetAllQueues(UserID => $CreateUser, Type => 'rw');
-#        my %PriorityIDs = $CommonObject{PriorityObject}->PriorityList(UserID => $CreateUser);
-#        my %LockHash    = $CommonObject{LockObject}    ->LockList    (UserID => 1);
-#        my @Lock        = values(%LockHash);
-#        my @State       = values(%StateHash);
- #       my @Queue       = values(%QueuesHash);
-#        my @Priority    = values(%PriorityIDs);
-#
-#        my $TicketID = $CommonObject{TicketObject}->TicketCreate(
-#            TN            => $CommonObject{TicketObject}->TicketCreateNumber(),
-#            Title         => 'Some Ticket Title AAAAAAA',
-#            Queue         => $Queue[int(rand($#Queue + 1))],,
-#            Lock          => $Lock[int(rand($#Lock + 1))],
-#            Priority      => $Priority[int(rand($#Priority + 1))],
-#            State         => $State[int(rand($#State + 1))],
-#            CustomerNo    => '123465',
-#            CustomerUser  => 'customer@example.com',
-#            OwnerID       => $User[int(rand($#User + 1))],
-#            ResponsibleID => $User[int(rand($#User + 1))],
-#            UserID        => $CreateUser,
-#        );
-#        my $ArticleID = $CommonObject{TicketObject}->ArticleCreate(
-#            TicketID       => $TicketID,
-#            ArticleType    => 'note-internal',
-#            SenderType     => 'agent',
-#            From           => 'Some Agent AAAAA',
-#            Subject        => 'alla',
-#            Body           => 'hello',
-#            ContentType    => 'text/plain; charset=ISO-8859-15',
-#            HistoryType    => 'OwnerUpdate',
-#            HistoryComment => 'Some free text!',
-#            UserID         => $CreateUser,
-#            NoAgentNotify  => 1,            # if you don't want to send agent notifications
-#        );
-#    }
+# load example file
+my $Path  = $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Stats.TicketOverview.de.xml';
+my $ImportContent = '';
+my $StatID = 0;
+my $ExportContent = {};
+
+if (!open(FH, "<".$Path)) {
+    $Self->True(
+        0,
+        'Get the file which should be imported',
+    );
+
+}
+else {
+    while (<FH>) {
+        $ImportContent .= $_;
+    }
+    close(FH);
+
+    $StatID = $Self->{StatsObject}->Import(
+        Content  => $ImportContent,
+    );
+    $ExportContent =  $Self->{StatsObject}->Export(StatID => $StatID);
+    $Self->Is(
+        $ImportContent,
+        $ExportContent->{Content},
+        'Export-Importcheck - check if import file content equal export file content'
+    );
+}
+$Self->True(
+    $Self->{StatsObject}->StatsDelete(StatID => $StatID),
+    'StatsDelete() delete import stat',
+);
+
+
 1;

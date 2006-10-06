@@ -2,7 +2,7 @@
 
 <otrs_stats>
 <Cache>0</Cache>
-<Description>Aktueller Status aller im System befindlicher Tickets ohne Zeitbeschraenkung.</Description>
+<Description>Aktueller Status aller im System befindlicher Tickets ohne Zeitbeschränkung.</Description>
 <Format>Print</Format>
 <Object>Ticket</Object>
 <ObjectModule>Kernel::System::Stats::Dynamic::Ticket</ObjectModule>
@@ -10,7 +10,7 @@
 <StatType>dynamic</StatType>
 <SumCol>1</SumCol>
 <SumRow>1</SumRow>
-<Title>Ueberblick ueber alle Tickets im System</Title>
+<Title>Überblick über alle Tickets im System</Title>
 <UseAsValueSeries Element="QueueIDs" Fixed="1">
 </UseAsValueSeries>
 <UseAsXvalue Element="StateIDs" Fixed="1">
