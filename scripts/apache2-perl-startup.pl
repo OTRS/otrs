@@ -54,7 +54,7 @@ use Kernel::System::Permission;
 #use Kernel::System::PDF;
 use Kernel::System::XML;
 use Kernel::System::Log;
-use Kernel::System::Log::SysLog;
+#use Kernel::System::Log::SysLog;
 #use Kernel::System::Log::File;
 
 use Kernel::System::Ticket;
