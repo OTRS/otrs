@@ -28,7 +28,7 @@ use DBI ();
 # enable this if you use postgresql
 #use DBD::Pg ();
 # enable this if you use oracle
-#use DBD::oracle ();
+#use DBD::Oracle ();
 
 use Kernel::Config;
 
@@ -38,6 +38,7 @@ use Kernel::System::Web::InterfacePublic;
 use Kernel::System::Web::Request;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::DB;
+#use Kernel::System::DB::mysql;
 use Kernel::System::Encode;
 use Kernel::System::Time;
 use Kernel::System::Auth;
@@ -49,11 +50,11 @@ use Kernel::System::AuthSession::DB;
 #use Kernel::System::AuthSession::FS;
 use Kernel::System::User;
 use Kernel::System::User::Preferences::DB;
-use Kernel::System::Group;
 use Kernel::System::Permission;
-use Kernel::System::User::Preferences::DB;
+#use Kernel::System::PDF;
+use Kernel::System::XML;
 use Kernel::System::Log;
-use Kernel::System::Log::SysLog;
+#use Kernel::System::Log::SysLog;
 #use Kernel::System::Log::File;
 
 use Kernel::System::Ticket;
@@ -80,10 +81,8 @@ use Kernel::System::CustomerAuth;
 use Kernel::System::CheckItem;
 use Kernel::System::AutoResponse;
 use Kernel::System::Notification;
+use Kernel::System::Email;
 use Kernel::System::Stats;
-
-use Kernel::Output::HTML::Layout;
-use Kernel::Output::HTML::LayoutTicket;
 
 # web agent middle ware modules
 use Kernel::Modules::AgentTicketQueue;
@@ -134,12 +133,19 @@ use Kernel::Modules::AdminGroup;
 use Kernel::Modules::AdminUserGroup;
 use Kernel::Modules::AdminSystemAddress;
 use Kernel::Modules::AdminPOP3;
+use Kernel::Modules::AdminPGP;
+use Kernel::Modules::AdminSMIME;
 use Kernel::Modules::AdminPostMasterFilter;
 use Kernel::Modules::AdminState;
 use Kernel::Modules::AdminNotification;
 use Kernel::Modules::AdminEmail;
+use Kernel::Modules::AdminSysConfig;
+use Kernel::Modules::AdminPackageManager;
 use Kernel::Modules::AdminCustomerUser;
 use Kernel::Modules::AdminCustomerUserGroup;
+use Kernel::Modules::AdminRole;
+use Kernel::Modules::AdminRoleUser;
+use Kernel::Modules::AdminRoleGroup;
 
 # web customer middle ware modules
 use Kernel::Modules::CustomerPreferences;
@@ -151,5 +157,27 @@ use Kernel::Modules::CustomerZoom;
 
 # web stats module
 use Kernel::Modules::AgentStats;
+
+# frontend modules
+use Kernel::Output::HTML::Layout;
+use Kernel::Output::HTML::LayoutTicket;
+use Kernel::Output::HTML::PreferencesGeneric;
+use Kernel::Output::HTML::PreferencesLanguage;
+use Kernel::Output::HTML::PreferencesPassword;
+use Kernel::Output::HTML::PreferencesTheme;
+use Kernel::Output::HTML::NavBarModuleAdmin;
+use Kernel::Output::HTML::NotificationUIDCheck;
+use Kernel::Output::HTML::NotificationCharsetCheck;
+use Kernel::Output::HTML::NotificationAgentOnline;
+use Kernel::Output::HTML::NotificationCustomerOnline;
+
+use Kernel::Output::HTML::NotificationAgentTicket;
+use Kernel::Output::HTML::NotificationAgentTicketSeen;
+use Kernel::Output::HTML::TicketMenuGeneric;
+use Kernel::Output::HTML::TicketMenuLock;
+use Kernel::Output::HTML::NavBarLockedTickets;
+use Kernel::Output::HTML::NavBarTicketBulkAction;
+use Kernel::Output::HTML::ArticleAttachmentDownload;
+use Kernel::Output::HTML::ArticleAttachmentHTMLViewer;
 
 1;
