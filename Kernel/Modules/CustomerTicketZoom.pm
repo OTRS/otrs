@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.7 2006-10-05 13:04:46 mh Exp $
+# $Id: CustomerTicketZoom.pm,v 1.8 2006-10-09 07:55:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -244,6 +244,11 @@ sub Run {
         TicketID => $Ticket{TicketID},
     );
     # get all atricle of this ticket
+#    my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList(Type => 'Customer');
+#    my @ArticleBox = $Self->{TicketObject}->ArticleGet(
+#        TicketID => $Self->{TicketID},
+#        ArticleType => \@CustomerArticleTypes,
+#    );
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(TicketID => $Self->{TicketID});
     # get article attachments
     foreach my $Article (@ArticleBox) {

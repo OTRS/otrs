@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.122 2006-10-05 02:14:24 martin Exp $
+# $Id: Article.pm,v 1.123 2006-10-09 07:55:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.122 $';
+$VERSION = '$Revision: 1.123 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -741,6 +741,47 @@ sub ArticleTypeLookup {
     }
     # return
     return $Self->{"ArticleTypeLookup::$Param{$Param{Key}}"};
+}
+
+=item ArticleTypeList()
+
+get a article type list
+
+  my @ArticleTypeList = $TicketObject->ArticleTypesList();
+
+  # to get just customer shown article types
+  my @ArticleTypeList = $TicketObject->ArticleTypesList(
+      Type => 'Customer',
+  );
+
+=cut
+
+sub ArticleTypeList {
+    my $Self = shift;
+    my %Param = @_;
+    my @List = ();
+    # check needed stuff
+    foreach (qw()) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    my $SQL = "SELECT id, name FROM article_type ".
+        " WHERE valid_id IN (${\(join ', ', $Self->{DBObject}->GetValidIDs())}) ";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()){
+        if ($Param{Type} && $Param{Type} eq 'Customer') {
+           if ($Row[1] !~ /int/i){
+              push (@List, $Row[1]);
+           }
+        }
+        else {
+           push (@List, $Row[1]);
+        }
+    }
+    return @List;
+
 }
 
 =item ArticleFreeTextGet()
