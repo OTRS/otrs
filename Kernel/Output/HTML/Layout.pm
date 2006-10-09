@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.15 2006-10-09 12:38:52 mh Exp $
+# $Id: Layout.pm,v 1.16 2006-10-09 14:57:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -126,7 +126,7 @@ sub new {
             $ENV{'HTTP_USER_AGENT'} =~ /Internet Explorer\/([0-9.]+)/i) {
             $Self->{Browser} = 'MSIE';
             $Self->{BrowserWrap} = 'physical';
-            # for IE 5.5, we break the header in a special way that makes
+            # For IE 5.5, we break the header in a special way that makes
             # things work. I don't really want to know.
             if ($1 =~ /(\d)\.(\d)/) {
                 $Self->{BrowserMajorVersion} = $1;
@@ -827,7 +827,7 @@ sub Output {
         }egx;
     }
     # --
-    # check if the browser sends the session id cookie!
+    # Check if the browser sends the session id cookie!
     # If not, add the session id to the links and forms!
     # --
     if (!$Self->{SessionIDCookie}) {
@@ -2635,6 +2635,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2006-10-09 12:38:52 $
+$Revision: 1.16 $ $Date: 2006-10-09 14:57:39 $
 
 =cut
