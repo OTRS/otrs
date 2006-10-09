@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.39 2006-08-29 17:17:24 martin Exp $
+# $Id: Installer.pm,v 1.40 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,10 +18,9 @@ use strict;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -39,10 +38,9 @@ sub new {
         die "Got no $_!" if (!$Self->{$_});
     }
 
-
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -676,7 +674,7 @@ sub Run {
 
     return $Output;
 }
-# --
+
 sub ReConfigure {
     my $Self = shift;
     my %Param = @_;
@@ -736,7 +734,7 @@ sub ReConfigure {
 
     return;
 }
-# --
+
 sub ParseSQLFile {
     my $Self = shift;
     my $File = shift;
@@ -767,5 +765,5 @@ sub ParseSQLFile {
     }
     return @SQL;
 }
-# --
+
 1;

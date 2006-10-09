@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.7 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminNotification.pm,v 1.8 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -44,7 +43,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -85,18 +84,14 @@ sub Run {
     # add new response
     elsif ($Self->{Subaction} eq 'AddAction') {
         if (my $Id = $Self->{StdNotificationObject}->StdNotificationAdd(%GetParam, UserID => $Self->{UserID})) {
-            # --
             # add attachments to response
-            # --
             my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
             $Self->{StdAttachmentObject}->SetStdAttachmentsOfNotificationID(
                 AttachmentIDsRef => \@NewIDs,
                 ID => $Id,
                 UserID => $Self->{UserID},
             );
-            # --
             # show next page
-            # --
             return $Self->{LayoutObject}->Redirect(
                 OP => "Action=AdminNotifications",
             );
@@ -114,7 +109,7 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub _MaskNotificationForm {
     my $Self = shift;
     my %Param = @_;
@@ -129,5 +124,5 @@ sub _MaskNotificationForm {
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminNotificationForm', Data => \%Param);
 }
-# --
+
 1;

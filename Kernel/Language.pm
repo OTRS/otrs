@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.40 2006-08-29 17:56:57 martin Exp $
+# $Id: Language.pm,v 1.41 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -87,19 +87,18 @@ sub new {
     # user language
     $Self->{UserLanguage} = $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
     $Self->{TimeZone} = $Param{UserTimeZone} || $Param{TimeZone} || 0;
-#    $Self->{UserLanguage} = 'english';
     # Debug
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
-          Priority => 'Debug',
-          Message => "UserLanguage = $Self->{UserLanguage}",
+            Priority => 'Debug',
+            Message => "UserLanguage = $Self->{UserLanguage}",
         );
     }
     # load text catalog ...
     if (eval "require Kernel::Language::$Self->{UserLanguage}") {
-       @ISA = ("Kernel::Language::$Self->{UserLanguage}");
-       $Self->Data();
-       if ($Self->{Debug} > 0) {
+        @ISA = ("Kernel::Language::$Self->{UserLanguage}");
+        $Self->Data();
+        if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
                 Priority => 'Debug',
                 Message => "Kernel::Language::$Self->{UserLanguage} load ... done."
@@ -109,9 +108,9 @@ sub new {
     # if there is no translation
     else {
         $Self->{LogObject}->Log(
-          Priority => 'Error',
-          Message => "Sorry, can't locate or load Kernel::Language::$Self->{UserLanguage} ".
-              "translation! Check the Kernel/Language/$Self->{UserLanguage}.pm (perl -cw)!",
+            Priority => 'Error',
+            Message => "Sorry, can't locate or load Kernel::Language::$Self->{UserLanguage} ".
+                "translation! Check the Kernel/Language/$Self->{UserLanguage}.pm (perl -cw)!",
         );
     }
     # load action text catalog ...
@@ -126,9 +125,9 @@ sub new {
             $File =~ s/\/\//\//g;
             $File =~ s/\//::/g;
             if ($Self->{MainObject}->Require($File)) {
-               @ISA = ($File);
-               $Self->Data();
-               if ($Self->{Debug} > 0) {
+                @ISA = ($File);
+                $Self->Data();
+                if ($Self->{Debug} > 0) {
                     $Self->{LogObject}->Log(
                         Priority => 'Debug',
                         Message => "$File load ... done."
@@ -139,9 +138,9 @@ sub new {
     }
     # load custom text catalog ...
     if (!$Param{TranslationFile} && eval "require Kernel::Language::$Self->{UserLanguage}_Custom") {
-       @ISA = ("Kernel::Language::$Self->{UserLanguage}_Custom");
-       $Self->Data();
-       if ($Self->{Debug} > 0) {
+        @ISA = ("Kernel::Language::$Self->{UserLanguage}_Custom");
+        $Self->Data();
+        if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
                 Priority => 'Debug',
                 Message => "Kernel::Language::$Self->{UserLanguage}_Custom load ... done."
@@ -223,10 +222,10 @@ sub Get {
     else {
         # warn if the value is not def
         if ($Self->{Debug} > 1) {
-          $Self->{LogObject}->Log(
-            Priority => 'debug',
-            Message => "->Get('$What') Is not translated!!!",
-          );
+            $Self->{LogObject}->Log(
+                Priority => 'debug',
+                Message => "->Get('$What') Is not translated!!!",
+            );
         }
         foreach (0..3) {
             if (defined $Dyn[$_]) {
@@ -374,10 +373,10 @@ sub Time {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Action Format)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my $ReturnString = $Self->{$Param{Format}} || 'Need to be translated!';
     my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst);
@@ -469,6 +468,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2006-08-29 17:56:57 $
+$Revision: 1.41 $ $Date: 2006-10-09 17:38:03 $
 
 =cut

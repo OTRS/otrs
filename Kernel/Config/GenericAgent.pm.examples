@@ -2,7 +2,7 @@
 # Kernel/Config/GenericAgent.pm - config file of generic agent
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm.examples,v 1.16 2006-10-03 14:36:01 mh Exp $
+# $Id: GenericAgent.pm.examples,v 1.17 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,135 +17,135 @@ require Exporter;
 @ISA = qw(Exporter);
 @EXPORT = qw(%Jobs);  
 
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # -----------------------------------------------------------------------
 # config options
 # -----------------------------------------------------------------------
 %Jobs = (
-   # --
-   # [name of job] -> close all tickets in queue spam
-   # --
-   'close spam' => {
-      # get all tickets with these properties 
-      Queue => 'spam',
-      States => ['new', 'open'],
-      Locks => ['unlock'],
-      # new ticket properties (no option is required, 
-      # use just the options which should be changed!)
-      New => {
-        # new queue
+    # --
+    # [name of job] -> close all tickets in queue spam
+    # --
+    'close spam' => {
+        # get all tickets with these properties 
         Queue => 'spam',
-        # possible states (closed successful|closed unsuccessful|open|new|removed) 
-        State => 'closed successful',
-        # new ticket owner (if needed)
-        Owner => 'root@localhost',
-        # if you want to add a Note
-        Note => {
-          From => 'GenericAgent',
-          Subject => 'spam!',
-          Body => 'Closed by GenericAgent.pl because it is spam!',
-       },
-     },
-   },
-   # --
-   # [name of job] -> close and delete all tickets in queue delete
-   # --
-   'delete' => {
-      # get all tickets with these properties  
-      Queue => 'delete',
-      States => ['new', 'open'],
-      Locks => ['unlock'],
-      # tickets older then 60 minutes
-      TicketCreateTimeOlderMinutes => 60,
-      # new ticket properties (no option is required, 
-      # use just the options which should be changed!)
-      New => {
-        # DELETE!
-        Delete => 1,
-     },
-   },
-   # --
-   # [name of job] -> move all tickets from tricky to experts
-   # --
-   'move tickets from tricky to experts' => {
-      # get all tickets with these properties  
-      Queue => ['tricky', 'tricky1'],
-      States => ['new', 'open'],
-      Locks => ['unlock'],
-      # new ticket properties
-      New => {
-        Queue => 'experts',
-        Note => {
-          From => 'GenericAgent',
-          Subject => 'Moved!',
-          Body => 'Moved from "tricky" to "experts" because it was not possible to find a sollution!',
-          ArticleType => 'note-internal', # note-internal|note-external|note-report
+        States => ['new', 'open'],
+        Locks => ['unlock'],
+        # new ticket properties (no option is required, 
+        # use just the options which should be changed!)
+        New => {
+            # new queue
+            Queue => 'spam',
+            # possible states (closed successful|closed unsuccessful|open|new|removed) 
+            State => 'closed successful',
+            # new ticket owner (if needed)
+            Owner => 'root@localhost',
+            # if you want to add a Note
+            Note => {
+                From => 'GenericAgent',
+                Subject => 'spam!',
+                Body => 'Closed by GenericAgent.pl because it is spam!',
+            },
         },
-      },
-   },
-   # --
-   # [name of job] -> send escalation notifications 
-   # --
-   'send escalation notifications' => {
-      Escalation => 1, 
-      # new ticket properties
-      New => {
-          Module => 'Kernel::System::GenericAgent::NotifyAgentGroupOfCustomQueue',
-      },
-   },
-   # --
-   # [name of job] -> move all tickets from xyz to experts
-   # --
-   'move escalation ticket to experts and execute CMD' => {
-      # get all tickets with these properties  
-      Queue => 'xyz',
-      Escalation => 1,
-      # new ticket properties
-      New => {
-        Queue => 'experts',
-        # your program (/path/to/your/program) will be executed like
-        # "/path/to/your/program $TicketNumber $TicketID" ARG[0] will 
-        # be the ticket number and ARG[1] the ticket id
-        CMD => '/path/to/your/program',
-      },
-   },
-   # --
-   # [name of job] -> move all tickets from abc to experts and change priority
-   # --
-   'move all priority "3 normal" tickets from abc to experts and set priority to "4 high"' => {
-      # get all tickets with these properties  
-      Queue => 'abc',
-      Priorities => ['3 normal'],
-      # new ticket properties
-      New => {
-        Queue => 'experts',
-        Priority => '4 high',
-        TicketFreeKey1 => 'ProductSkill',
-        TicketFreeText1 => 'Expert required!',
-      },
-   },
-   # --
-   # [name of job] -> delete all tickets with subject 'VIRUS 32' in queue abc
-   # (take care if you use From, To, Cc, Subject or Body because it takes
-   # database performance!) 
-   # --
-   'delete all tickets with subject "VIRUS 32" in queue abc' => {
-      # get all tickets with these properties  
-      Queue => 'abc',
-#      From => '%Feedback%',
-#      To => '%Feedback%',
-#      Cc => '%Feedback%',
-      Subject => '%VIRUS%',
-#      Body => '%installing%',
-      # new ticket properties
-      New => {
-        # DELETE!
-        Delete => 1,
-      },
-   },
-   # --
+    },
+    # --
+    # [name of job] -> close and delete all tickets in queue delete
+    # --
+    'delete' => {
+        # get all tickets with these properties  
+        Queue => 'delete',
+        States => ['new', 'open'],
+        Locks => ['unlock'],
+        # tickets older then 60 minutes
+        TicketCreateTimeOlderMinutes => 60,
+        # new ticket properties (no option is required, 
+        # use just the options which should be changed!)
+        New => {
+            # DELETE!
+            Delete => 1,
+        },
+    },
+    # --
+    # [name of job] -> move all tickets from tricky to experts
+    # --
+    'move tickets from tricky to experts' => {
+        # get all tickets with these properties  
+        Queue => ['tricky', 'tricky1'],
+        States => ['new', 'open'],
+        Locks => ['unlock'],
+        # new ticket properties
+        New => {
+            Queue => 'experts',
+            Note => {
+                From => 'GenericAgent',
+                Subject => 'Moved!',
+                Body => 'Moved from "tricky" to "experts" because it was not possible to find a sollution!',
+                ArticleType => 'note-internal', # note-internal|note-external|note-report
+            },
+        },
+    },
+    # --
+    # [name of job] -> send escalation notifications 
+    # --
+    'send escalation notifications' => {
+        Escalation => 1, 
+        # new ticket properties
+        New => {
+            Module => 'Kernel::System::GenericAgent::NotifyAgentGroupOfCustomQueue',
+        },
+    },
+    # --
+    # [name of job] -> move all tickets from xyz to experts
+    # --
+    'move escalation ticket to experts and execute CMD' => {
+        # get all tickets with these properties  
+        Queue => 'xyz',
+        Escalation => 1,
+        # new ticket properties
+        New => {
+            Queue => 'experts',
+            # your program (/path/to/your/program) will be executed like
+            # "/path/to/your/program $TicketNumber $TicketID" ARG[0] will 
+            # be the ticket number and ARG[1] the ticket id
+            CMD => '/path/to/your/program',
+        },
+    },
+    # --
+    # [name of job] -> move all tickets from abc to experts and change priority
+    # --
+    'move all priority "3 normal" tickets from abc to experts and set priority to "4 high"' => {
+        # get all tickets with these properties  
+        Queue => 'abc',
+        Priorities => ['3 normal'],
+        # new ticket properties
+        New => {
+            Queue => 'experts',
+            Priority => '4 high',
+            TicketFreeKey1 => 'ProductSkill',
+            TicketFreeText1 => 'Expert required!',
+        },
+    },
+    # --
+    # [name of job] -> delete all tickets with subject 'VIRUS 32' in queue abc
+    # (take care if you use From, To, Cc, Subject or Body because it takes
+    # database performance!) 
+    # --
+    'delete all tickets with subject "VIRUS 32" in queue abc' => {
+        # get all tickets with these properties  
+        Queue => 'abc',
+#        From => '%Feedback%',
+#        To => '%Feedback%',
+#        Cc => '%Feedback%',
+        Subject => '%VIRUS%',
+#        Body => '%installing%',
+         # new ticket properties
+        New => {
+            # DELETE!
+            Delete => 1,
+        },
+    },
+    # --
 );
 
 # -----------------------------------------------------------------------

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSelectBox.pm,v 1.20 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminSelectBox.pm,v 1.21 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Modules::AdminSelectBox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -37,7 +36,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -106,7 +105,7 @@ sub Run {
                     },
                 );
             }
-            # generate outbut
+            # generate output
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
@@ -128,13 +127,12 @@ sub Run {
             return $Output;
         }
     }
-    # else! error!
     else {
         return $Self->{LayoutObject}->ErrorScreen(
-                Message => 'No Subaction!!',
-                Comment => 'Please contact your admin',
+            Message => 'No Subaction!!',
+            Comment => 'Please contact your admin',
         );
     }
 }
-# --
+
 1;

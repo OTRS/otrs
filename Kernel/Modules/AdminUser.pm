@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.33 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminUser.pm,v 1.34 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $ ';
+$VERSION = '$Revision: 1.34 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -40,7 +39,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -255,7 +254,7 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub AdminUserForm {
     my $Self = shift;
     my %Param = @_;
@@ -263,11 +262,11 @@ sub AdminUserForm {
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'valid',
-            Valid => 0,
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Table => 'valid',
+                Valid => 0,
+            )
         },
         Name => 'ValidID',
         SelectedID => $Param{UserData}->{ValidID},
@@ -275,14 +274,14 @@ sub AdminUserForm {
 
     $Param{UserOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => "$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
+            $Self->{DBObject}->GetTableData(
+                What => "$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
                     " $Self->{ConfigObject}->{DatabaseUserTableUser}, ".
                     "$Self->{ConfigObject}->{DatabaseUserTableUserID}",
-            Valid => 0,
-            Clamp => 1,
-            Table => $Self->{ConfigObject}->{DatabaseUserTable},
-          )
+                Valid => 0,
+                Clamp => 1,
+                Table => $Self->{ConfigObject}->{DatabaseUserTable},
+            )
         },
         Size => 15,
         Name => 'ID',
@@ -368,6 +367,5 @@ sub AdminUserForm {
     }
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminUserForm', Data => {%Param, %{$Param{UserData}}});
 }
-# --
 
 1;

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.pm,v 1.17 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminSystemAddress.pm,v 1.18 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -43,7 +42,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -80,7 +79,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
         if ($Self->{SystemAddress}->SystemAddressAdd(%GetParam, UserID => $Self->{UserID}) ) {
-             $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
+            $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();
@@ -95,7 +94,7 @@ sub Run {
     }
     return $Output;
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -103,11 +102,11 @@ sub _Mask {
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'valid',
-            Valid => 0,
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Table => 'valid',
+                Valid => 0,
+            )
         },
         Name => 'ValidID',
         SelectedID => $Param{ValidID},
@@ -115,11 +114,11 @@ sub _Mask {
 
     $Param{'QueueOption'} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'queue',
-            Valid => 1,
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Table => 'queue',
+                Valid => 1,
+            )
         },
         Name => 'QueueID',
         SelectedID => $Param{QueueID},
@@ -128,12 +127,12 @@ sub _Mask {
 
     $Param{SystemAddressOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, value1, value0',
-            Valid => 0,
-            Clamp => 1,
-            Table => 'system_address',
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, value1, value0',
+                Valid => 0,
+                Clamp => 1,
+                Table => 'system_address',
+            )
         },
         Size => 15,
         Name => 'ID',
@@ -142,6 +141,5 @@ sub _Mask {
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminSystemAddressForm', Data => \%Param);
 }
-# --
-1;
 
+1;

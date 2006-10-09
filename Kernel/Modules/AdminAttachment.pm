@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminAttachment.pm,v 1.13 2006-08-29 17:17:23 martin Exp $
+# $Id: AdminAttachment.pm,v 1.14 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -44,7 +43,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -101,9 +100,9 @@ sub Run {
         );
 
         if (my $Id = $Self->{StdAttachmentObject}->StdAttachmentAdd(%GetParam, %UploadStuff, UserID => $Self->{UserID})) {
-             return $Self->{LayoutObject}->Redirect(
-                 OP => "Action=AdminResponseAttachment&Subaction=Attachment&ID=$Id",
-             );
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AdminResponseAttachment&Subaction=Attachment&ID=$Id",
+            );
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();
@@ -116,7 +115,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
         if ($Self->{StdAttachmentObject}->StdAttachmentDelete(ID => $GetParam{ID})) {
-             return $Self->{LayoutObject}->Redirect(OP => "Action=AdminAttachment");
+            return $Self->{LayoutObject}->Redirect(OP => "Action=AdminAttachment");
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();
@@ -133,7 +132,7 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -141,11 +140,11 @@ sub _Mask {
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'valid',
-            Valid => 0,
-          ),
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Table => 'valid',
+                Valid => 0,
+            ),
         },
         Name => 'ValidID',
         SelectedID => $Param{ValidID},
@@ -162,5 +161,5 @@ sub _Mask {
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminAttachmentForm', Data => \%Param);
 }
-# --
+
 1;

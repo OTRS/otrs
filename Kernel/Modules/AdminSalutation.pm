@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSalutation.pm - to add/update/delete salutations
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSalutation.pm,v 1.19 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminSalutation.pm,v 1.20 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Modules::AdminSalutation;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -40,7 +39,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -56,10 +55,10 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         my $SQL = "SELECT name, valid_id, comments, text " .
-           " FROM " .
-           " salutation " .
-           " WHERE " .
-           " id = $ID";
+            " FROM " .
+            " salutation " .
+            " WHERE " .
+            " id = $ID";
         $Self->{DBObject}->Prepare(SQL => $SQL);
         my @Data = $Self->{DBObject}->FetchrowArray();
         $Output .= $Self->_Mask(
@@ -84,9 +83,9 @@ sub Run {
             $GetParam{$_} = $Self->{DBObject}->Quote($GetParam{$_}, 'Integer');
         }
         my $SQL = "UPDATE salutation SET name = '$GetParam{Name}', text = '$GetParam{Salutation}', " .
-        " comments = '$GetParam{Comment}', valid_id = $GetParam{ValidID}, " .
-  	" change_time = current_timestamp, change_by = $Self->{UserID} " .
-	" WHERE id = $GetParam{ID}";
+            " comments = '$GetParam{Comment}', valid_id = $GetParam{ValidID}, " .
+            " change_time = current_timestamp, change_by = $Self->{UserID} " .
+            " WHERE id = $GetParam{ID}";
         if ($Self->{DBObject}->Do(SQL => $SQL)) {
             $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
@@ -109,9 +108,9 @@ sub Run {
             $GetParam{$_} = $Self->{DBObject}->Quote($GetParam{$_}, 'Integer');
         }
         my $SQL = "INSERT INTO salutation (name, valid_id, comments, text, create_time, create_by, change_time, change_by)" .
-		" VALUES " .
-		" ('$GetParam{Name}', $GetParam{ValidID}, '$GetParam{Comment}', '$GetParam{Salutation}', " .
-		" current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
+            " VALUES " .
+            " ('$GetParam{Name}', $GetParam{ValidID}, '$GetParam{Comment}', '$GetParam{Salutation}', " .
+            " current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
         if ($Self->{DBObject}->Do(SQL => $SQL)) {
              $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
@@ -128,7 +127,7 @@ sub Run {
     }
     return $Output;
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -136,23 +135,23 @@ sub _Mask {
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'valid',
-            Valid => 0,
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Table => 'valid',
+                Valid => 0,
+            )
         },
         Name => 'ValidID',
         SelectedID => $Param{ValidID},
     );
     $Param{SalutationOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Valid => 0,
-            Clamp => 0,
-            Table => 'salutation',
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Valid => 0,
+                Clamp => 0,
+                Table => 'salutation',
+            )
         },
         Size => 15,
         Name => 'ID',
@@ -161,6 +160,5 @@ sub _Mask {
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminSalutationForm', Data => \%Param);
 }
-# --
-1;
 
+1;

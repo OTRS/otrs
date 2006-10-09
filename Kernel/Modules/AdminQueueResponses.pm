@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - queue <-> responses
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.16 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminQueueResponses.pm,v 1.17 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Modules::AdminQueueResponses;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -40,7 +39,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -57,25 +56,27 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
         # get StdResponses data
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
-                Table => 'standard_response',
-                What => 'id, name',
-                Where => "id = $ID",);
+            Table => 'standard_response',
+            What => 'id, name',
+            Where => "id = $ID",
+        );
         # get queue data
         my %QueueData = $Self->{DBObject}->GetTableData(
-                Table => 'queue',
-                What => 'id, name',
-                Valid => 1);
+            Table => 'queue',
+            What => 'id, name',
+            Valid => 1
+        );
         my %Data = $Self->{DBObject}->GetTableData(
-                Table => 'queue_standard_response',
-                What => 'queue_id, standard_response_id',
-                Where => "standard_response_id = $ID");
-
+            Table => 'queue_standard_response',
+            What => 'queue_id, standard_response_id',
+            Where => "standard_response_id = $ID"
+        );
         $Output .= $Self->_Mask(
-                FirstData => \%StdResponsesData,
-                SecondData => \%QueueData,
-                Data => \%Data,
-                Type => 'Response',
-            );
+            FirstData => \%StdResponsesData,
+            SecondData => \%QueueData,
+            Data => \%Data,
+            Type => 'Response',
+        );
 
         $Output .= $Self->{LayoutObject}->Footer();
     }
@@ -85,30 +86,31 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
         # get StdResponses data
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
-                Table => 'standard_response',
-                What => 'id, name',
-                Valid => 1);
+            Table => 'standard_response',
+            What => 'id, name',
+            Valid => 1
+        );
         # get queue data
         my %QueueData = $Self->{DBObject}->GetTableData(
-                Table => 'queue',
-                What => 'id, name',
-                Where => "id = $ID",);
-
+            Table => 'queue',
+            What => 'id, name',
+            Where => "id = $ID",
+        );
         my %Data = $Self->{DBObject}->GetTableData(
-                Table => 'queue_standard_response',
-                What => 'standard_response_id, queue_id',
-                Where => "queue_id = $ID");
+            Table => 'queue_standard_response',
+            What => 'standard_response_id, queue_id',
+            Where => "queue_id = $ID"
+        );
         $Output .= $Self->_Mask(
-                FirstData => \%QueueData,
-                SecondData => \%StdResponsesData,
-                Data => \%Data,
-                Type => 'Queue',
-            );
+            FirstData => \%QueueData,
+            SecondData => \%StdResponsesData,
+            Data => \%Data,
+            Type => 'Queue',
+        );
         $Output .= $Self->{LayoutObject}->Footer();
     }
     # queues to standard_responses
     elsif ($Subaction eq 'ChangeQueue') {
-
         my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
         $Self->{DBObject}->Do(SQL => "DELETE FROM queue_standard_response WHERE queue_id = $ID");
 
@@ -116,17 +118,15 @@ sub Run {
             # db quote
             $NewID = $Self->{DBObject}->Quote($NewID, 'Integer');
             my $SQL = "INSERT INTO queue_standard_response (queue_id, standard_response_id, create_time, create_by, " .
-	            " change_time, change_by)" .
+                " change_time, change_by)" .
                 " VALUES " .
-                " ( $ID, $NewID, current_timestamp, $UserID, current_timestamp, $UserID)";
-                $Self->{DBObject}->Do(SQL => $SQL);
+                " ($ID, $NewID, current_timestamp, $UserID, current_timestamp, $UserID)";
+            $Self->{DBObject}->Do(SQL => $SQL);
         }
         $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
-
     }
     # standard_responses top queues
     elsif ($Subaction eq 'ChangeResponse') {
-
         my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
         $Self->{DBObject}->Do(SQL => "DELETE FROM queue_standard_response WHERE standard_response_id = $ID");
         foreach my $NewID (@NewIDs) {
@@ -135,11 +135,10 @@ sub Run {
             my $SQL = "INSERT INTO queue_standard_response (queue_id, standard_response_id, create_time, create_by, " .
                 " change_time, change_by)" .
                 " VALUES " .
-                " ( $NewID, $ID, current_timestamp, $UserID, current_timestamp, $UserID)";
-             $Self->{DBObject}->Do(SQL => $SQL);
+                " ($NewID, $ID, current_timestamp, $UserID, current_timestamp, $UserID)";
+            $Self->{DBObject}->Do(SQL => $SQL);
         }
         $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
-
     }
     # else ! print form
     else {
@@ -147,22 +146,25 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
         # get StdResponses data
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
-		Table => 'standard_response',
-		What => 'id, name',
-		Valid => 1);
+            Table => 'standard_response',
+            What => 'id, name',
+            Valid => 1
+        );
         # get queue data
         my %QueueData = $Self->{DBObject}->GetTableData(
-                Table => 'queue',
-                What => 'id, name',
-                Valid => 1);
+            Table => 'queue',
+            What => 'id, name',
+            Valid => 1
+        );
         $Output .= $Self->_MaskFrom(
-		FirstData => \%StdResponsesData,
-		SecondData => \%QueueData);
+            FirstData => \%StdResponsesData,
+            SecondData => \%QueueData
+        );
         $Output .= $Self->{LayoutObject}->Footer();
     }
     return $Output;
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -183,7 +185,7 @@ sub _Mask {
             LanguageTranslation => 0,
         ) || '';
         $Param{OptionStrg0} .= "<B>$Param{Type}:</B> <A HREF=\"$Self->{LayoutObject}->{Baselink}Action=Admin$Param{Type}&Subaction=Change&ID=$_\">" .
-        "$FirstDataTmp{$_}</A> (id=$_)<BR>";
+            "$FirstDataTmp{$_}</A> (id=$_)<BR>";
         $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><BR>\n";
     }
     $Param{OptionStrg0} .= "<B>$NeType:</B><BR> <SELECT NAME=\"IDs\" SIZE=10 multiple>\n";
@@ -193,19 +195,19 @@ sub _Mask {
             HTMLQuote => 1,
             LanguageTranslation => 0,
         ) || '';
-       $Param{OptionStrg0} .= "<OPTION ";
-       foreach (sort keys %DataTmp){
-         if ($_ eq $ID) {
-               $Param{OptionStrg0} .= 'selected';
-         }
-       }
-      $Param{OptionStrg0} .= " VALUE=\"$ID\">$SecondDataTmp{$ID} (id=$ID)</OPTION>\n";
+        $Param{OptionStrg0} .= "<OPTION ";
+        foreach (sort keys %DataTmp){
+            if ($_ eq $ID) {
+                $Param{OptionStrg0} .= 'selected';
+            }
+        }
+        $Param{OptionStrg0} .= " VALUE=\"$ID\">$SecondDataTmp{$ID} (id=$ID)</OPTION>\n";
     }
     $Param{OptionStrg0} .= "</SELECT>\n";
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminQueueResponsesChangeForm', Data => \%Param);
 }
-# --
+
 sub _MaskFrom {
     my $Self = shift;
     my %Param = @_;
@@ -234,6 +236,5 @@ sub _MaskFrom {
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminQueueResponsesForm', Data => \%Param);
 }
-# --
-1;
 
+1;

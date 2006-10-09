@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.28 2006-09-20 09:59:26 tr Exp $
+# $Id: AdminQueue.pm,v 1.29 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -183,11 +183,11 @@ sub _Mask {
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'valid',
-            Valid => 0,
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Table => 'valid',
+                Valid => 0,
+            )
         },
         Name => 'ValidID',
         SelectedID => $Param{ValidID},
@@ -195,11 +195,11 @@ sub _Mask {
 
     $Param{'GroupOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'groups',
-            Valid => 1,
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Table => 'groups',
+                Valid => 1,
+            )
         },
         Name => 'GroupID',
         SelectedID => $Param{GroupID},
@@ -235,22 +235,22 @@ sub _Mask {
         }
     }
     $Param{'QueueOption'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => {%CleanHash,
-          '' => '-',
+        Data => {
+            %CleanHash,
+            '' => '-',
         },
         Name => 'ParentQueueID',
         Selected => $ParentQueue,
         MaxLevel => 4,
         OnChangeSubmit => 0,
     );
-
     $Param{'QueueLongOption'} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'queue',
-            Valid => 0,
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Table => 'queue',
+                Valid => 0,
+            )
         },
         Name => 'QueueID',
         Size => 15,
@@ -260,12 +260,12 @@ sub _Mask {
 
     $Param{'SignatureOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name, id',
-            Valid => 1,
-            Clamp => 1,
-            Table => 'signature',
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name, id',
+                Valid => 1,
+                Clamp => 1,
+                Table => 'signature',
+            )
         },
         Name => 'SignatureID',
         SelectedID => $Param{SignatureID},
@@ -279,12 +279,12 @@ sub _Mask {
 
     $Param{'SystemAddressOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, value0, value1',
-            Valid => 1,
-            Clamp => 1,
-            Table => 'system_address',
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, value0, value1',
+                Valid => 1,
+                Clamp => 1,
+                Table => 'system_address',
+            )
         },
         Name => 'SystemAddressID',
         SelectedID => $Param{SystemAddressID},
@@ -292,7 +292,10 @@ sub _Mask {
 
     my %DefaultSignKeyList = %{$Param{DefaultSignKeyList}} if ($Param{DefaultSignKeyList});
     $Param{'DefaultSignKeyOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { '' => '-none-', %DefaultSignKeyList },
+        Data => {
+            '' => '-none-',
+            %DefaultSignKeyList
+        },
         Name => 'DefaultSignKey',
         Max => 50,
         SelectedID => $Param{DefaultSignKey},
@@ -300,12 +303,12 @@ sub _Mask {
 
     $Param{'SalutationOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name, id',
-            Valid => 1,
-            Clamp => 1,
-            Table => 'salutation',
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name, id',
+                Valid => 1,
+                Clamp => 1,
+                Table => 'salutation',
+            )
         },
         Name => 'SalutationID',
         SelectedID => $Param{SalutationID},
@@ -313,11 +316,11 @@ sub _Mask {
 
     $Param{'FollowUpOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Valid => 1,
-            Table => 'follow_up_possible',
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Valid => 1,
+                Table => 'follow_up_possible',
+            )
         },
         Name => 'FollowUpID',
         SelectedID => $Param{FollowUpID} || $Self->{ConfigObject}->Get('AdminDefaultFollowUpID') || 1,

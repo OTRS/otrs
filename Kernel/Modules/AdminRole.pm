@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRole.pm - to add/update/delete roles
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminRole.pm,v 1.7 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminRole.pm,v 1.8 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Modules::AdminRole;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -40,7 +39,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -80,9 +79,9 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
         if(my $Id = $Self->{GroupObject}->RoleAdd(%GetParam, UserID => $Self->{UserID})) {
-             return $Self->{LayoutObject}->Redirect(
-                 OP => "Action=AdminRole",
-             );
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AdminRole",
+            );
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();
@@ -97,7 +96,7 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -105,11 +104,11 @@ sub _Mask {
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'valid',
-            Valid => 0,
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Table => 'valid',
+                Valid => 0,
+            )
         },
         Name => 'ValidID',
         SelectedID => $Param{ValidID},
@@ -125,5 +124,5 @@ sub _Mask {
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminRoleForm', Data => \%Param);
 }
-# --
+
 1;

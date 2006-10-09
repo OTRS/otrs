@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPOP3.pm - to add/update/delete POP3 acounts
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPOP3.pm,v 1.15 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminPOP3.pm,v 1.16 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::POP3Account;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -43,7 +42,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -60,7 +59,7 @@ sub Run {
             return $Self->{LayoutObject}->Redirect(OP => 'Action=$Env{"Action"}');
         }
         else {
-           return $Self->{LayoutObject}->ErrorScreen();
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # ------------------------------------------------------------ #
@@ -143,7 +142,7 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub _MaskUpdate {
     my $Self = shift;
     my %Param = @_;
@@ -151,11 +150,11 @@ sub _MaskUpdate {
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'valid',
-            Valid => 0,
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Table => 'valid',
+                Valid => 0,
+            )
         },
         Name => 'ValidID',
         SelectedID => $Param{ValidID},
@@ -178,22 +177,22 @@ sub _MaskUpdate {
 
     $Param{'QueueOption'} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'queue',
-            Valid => 1,
-          ),
-          '' => '-',
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Table => 'queue',
+                Valid => 1,
+            ),
+            '' => '-',
         },
         Name => 'QueueID',
         SelectedID => $Param{QueueID},
         OnChangeSubmit => 0,
     );
     $Self->{LayoutObject}->Block(
-            Name => 'Overview',
-            Data => {
-                %Param,
-            },
+        Name => 'Overview',
+        Data => {
+            %Param,
+        },
     );
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
@@ -207,5 +206,5 @@ sub _MaskUpdate {
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
-# --
+
 1;

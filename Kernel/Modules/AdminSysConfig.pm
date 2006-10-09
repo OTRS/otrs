@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.54 2006-10-05 11:02:04 cs Exp $
+# $Id: AdminSysConfig.pm,v 1.55 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -109,7 +109,10 @@ sub Run {
             }
             # Get ElementAktiv (checkbox)
             my $Aktiv = 0;
-            if (($ItemHash{Required} && $ItemHash{Required} == 1) || ($Self->{ParamObject}->GetParam(Param => $_.'ItemAktiv') && $Self->{ParamObject}->GetParam(Param => $_.'ItemAktiv') == 1)) {
+            if (($ItemHash{Required} && $ItemHash{Required} == 1) ||
+                ($Self->{ParamObject}->GetParam(Param => $_.'ItemAktiv') &&
+                $Self->{ParamObject}->GetParam(Param => $_.'ItemAktiv') == 1
+            )) {
                 $Aktiv = 1;
             }
             # ConfigElement String
@@ -236,7 +239,7 @@ sub Run {
                         push (@Group, '');
                         $Anker = $ItemHash{Name};
                     }
-                    #Delete Group Element
+                    # Delete Group Element
                     foreach my $Index (0...$#Group) {
                         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#Delete'.$Type.'Element'.($Index+1))) {
                             splice(@Group,$Index,1);
@@ -267,7 +270,7 @@ sub Run {
                             push (@Group, '');
                             $Anker = $ItemHash{Name};
                         }
-                        #Delete Group Element
+                        # Delete Group Element
                         foreach my $Index2 (0...$#Group) {
                             if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar'.($Index+1).'#Delete'.$Type.'Element'.($Index2+1))) {
                                 splice(@Group,$Index2,1);
@@ -446,7 +449,7 @@ sub Run {
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementBlockReset',
                     Data => {
-                        ItemKey     => $_,
+                        ItemKey => $_,
                     },
                 );
             }
@@ -665,7 +668,7 @@ sub ListConfigItem {
         }
         foreach my $Index (sort {$SortContainer{$a} cmp $SortContainer{$b}} keys %SortContainer){
 #        foreach my $Index (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}}) {
-            #SubHash
+            # SubHash
             if (defined($ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash})) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementHashContent2',
@@ -690,7 +693,7 @@ sub ListConfigItem {
                     );
                 }
             }
-            #SubArray
+            # SubArray
             elsif (defined($ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array})) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementHashContent2',

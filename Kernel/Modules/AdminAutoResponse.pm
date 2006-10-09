@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.17 2006-08-29 17:17:23 martin Exp $
+# $Id: AdminAutoResponse.pm,v 1.18 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::AutoResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -44,7 +43,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -112,7 +111,7 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -120,11 +119,11 @@ sub _Mask {
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'valid',
-            Valid => 0,
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Table => 'valid',
+                Valid => 0,
+            )
         },
         Name => 'ValidID',
         SelectedID => $Param{ValidID},
@@ -132,12 +131,12 @@ sub _Mask {
 
     $Param{'AutoResponseOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name, id',
-            Valid => 0,
-            Clamp => 1,
-            Table => 'auto_response',
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name, id',
+                Valid => 0,
+                Clamp => 1,
+                Table => 'auto_response',
+            )
         },
         Name => 'ID',
         Size => 15,
@@ -146,12 +145,12 @@ sub _Mask {
 
     $Param{'TypeOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Valid => 1,
-            Clamp => 1,
-            Table => 'auto_response_type',
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Valid => 1,
+                Clamp => 1,
+                Table => 'auto_response_type',
+            )
         },
         Name => 'TypeID',
         SelectedID => $Param{TypeID},
@@ -159,12 +158,12 @@ sub _Mask {
 
     $Param{'SystemAddressOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, value0, value1',
-            Valid => 1,
-            Clamp => 1,
-            Table => 'system_address',
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, value0, value1',
+                Valid => 1,
+                Clamp => 1,
+                Table => 'system_address',
+            )
         },
         Name => 'AddressID',
         SelectedID => $Param{AddressID},
@@ -175,5 +174,5 @@ sub _Mask {
     }
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminAutoResponseForm', Data => \%Param);
 }
-# --
+
 1;

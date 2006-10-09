@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.9 2006-09-27 08:36:49 tr Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.10 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,10 +16,9 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -46,7 +45,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -210,7 +209,7 @@ sub Run {
     }
     return $Output;
 }
-# --
+
 sub MaskAdminUserGroupChangeForm {
     my $Self = shift;
     my %Param = @_;
@@ -220,9 +219,8 @@ sub MaskAdminUserGroupChangeForm {
     my $NeType = 'Group';
     $NeType = 'User' if ($Type eq 'Group');
 
-
     $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink"."Action=Admin$Type&Subaction=Change&ID=$Param{ID}\">" .
-    "$Param{Name}</A> (id=$Param{ID})<BR>";
+        "$Param{Name}</A> (id=$Param{ID})<BR>";
     $Param{OptionStrg0} .= '<INPUT TYPE="hidden" NAME="ID" VALUE="'.$Param{ID}.'"><BR>';
 
     $Param{OptionStrg0} .= "<br>\n";
@@ -256,7 +254,7 @@ sub MaskAdminUserGroupChangeForm {
         Data => \%Param,
     );
 }
-# --
+
 sub MaskAdminUserGroupForm {
     my $Self = shift;
     my %Param = @_;
@@ -267,10 +265,10 @@ sub MaskAdminUserGroupForm {
     my $BaseLink = $Self->{LayoutObject}->{Baselink} . "Action=AdminCustomerUserGroup&";
 
     foreach (sort {uc($UserDataTmp{$a}) cmp uc($UserDataTmp{$b})} keys %UserDataTmp){
-      $Param{UserStrg} .= "<A HREF=\"$BaseLink"."Subaction=User&ID=$_\">$UserDataTmp{$_}</A><BR>";
+        $Param{UserStrg} .= "<A HREF=\"$BaseLink"."Subaction=User&ID=$_\">$UserDataTmp{$_}</A><BR>";
     }
     foreach (sort {uc($GroupDataTmp{$a}) cmp uc($GroupDataTmp{$b})} keys %GroupDataTmp){
-      $Param{GroupStrg} .= "<A HREF=\"$BaseLink"."Subaction=Group&ID=$_\">$GroupDataTmp{$_}</A><BR>";
+        $Param{GroupStrg} .= "<A HREF=\"$BaseLink"."Subaction=Group&ID=$_\">$GroupDataTmp{$_}</A><BR>";
     }
     # return output
     return $Self->{LayoutObject}->Output(
@@ -278,6 +276,5 @@ sub MaskAdminUserGroupForm {
         Data => \%Param,
     );
 }
-# --
 
 1;

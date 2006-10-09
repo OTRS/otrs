@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.33 2006-09-29 16:05:25 mh Exp $
+# $Id: AdminGenericAgent.pm,v 1.34 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -273,7 +273,6 @@ sub Run {
         else {
             $Param{AffectedIDs} = 0;
         }
-
 
         $Self->{LayoutObject}->Block(
             Name => 'Result',
@@ -721,8 +720,8 @@ sub Run {
     $Output = $Self->{LayoutObject}->Header(Title => "Overview");
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
-    TemplateFile => 'AdminGenericAgent',
-    Data => \%Param,
+        TemplateFile => 'AdminGenericAgent',
+        Data => \%Param,
     );
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;

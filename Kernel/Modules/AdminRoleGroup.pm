@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleGroup.pm - to add/update/delete role <-> groups
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminRoleGroup.pm,v 1.6 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminRoleGroup.pm,v 1.7 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Modules::AdminRoleGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -39,7 +38,7 @@ sub new {
     }
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -176,7 +175,7 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub MaskAdminUserGroupChangeForm {
     my $Self = shift;
     my %Param = @_;
@@ -191,7 +190,7 @@ sub MaskAdminUserGroupChangeForm {
         LanguageTranslation => 0,
     ) || '';
     $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink"."Action=Admin$Type&Subaction=Change&ID=$Param{ID}\">" .
-    "$Param{Name}</A> (id=$Param{ID})<BR>";
+        "$Param{Name}</A> (id=$Param{ID})<BR>";
     $Param{OptionStrg0} .= '<INPUT TYPE="hidden" NAME="ID" VALUE="'.$Param{ID}.'"><BR>';
 
     $Param{OptionStrg0} .= "<br>\n";
@@ -219,7 +218,6 @@ sub MaskAdminUserGroupChangeForm {
                 $Param{OptionStrg0} .= " | ";
             }
             $Param{OptionStrg0} .= '<input type="checkbox" name="'.$Type.'" value="'.$_."\"$Selected> </td>";
-
         }
         $Param{OptionStrg0} .= '</tr>'."\n";
     }
@@ -230,7 +228,7 @@ sub MaskAdminUserGroupChangeForm {
         Data => \%Param,
     );
 }
-# --
+
 sub MaskAdminUserGroupForm {
     my $Self = shift;
     my %Param = @_;
@@ -262,6 +260,5 @@ sub MaskAdminUserGroupForm {
         Data => \%Param,
     );
 }
-# --
 
 1;

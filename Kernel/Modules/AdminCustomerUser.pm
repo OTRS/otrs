@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.42 2006-09-22 07:29:33 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.43 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $ ';
+$VERSION = '$Revision: 1.43 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -73,7 +73,7 @@ sub Run {
             Value => '',
         );
         return $Self->{LayoutObject}->Redirect(
-                OP => $Self->{CustomerEditReturn},
+            OP => $Self->{CustomerEditReturn},
         );
     }
     my %UserList = ();
@@ -116,7 +116,7 @@ sub Run {
         if ($URL) {
             $NavBar .= $Self->{LayoutObject}->Notify(
                 Data => $Self->{LayoutObject}->{LanguageObject}->Get('Added User "%s"", "'.$AddedUID).
-                " ( $URL )!",
+                    " ( $URL )!",
             );
         }
     }
@@ -327,21 +327,14 @@ sub Run {
         return $Output;
     }
 
-
     # set header, navbar and footer
-
     # all stuff
         # user search
         # source selection
-
     # overview
-
     # edit
-
     # addaction
-
     # change
-
     # changeaction
 }
 
@@ -400,9 +393,9 @@ sub AdminCustomerUserForm {
                 $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
                     Data => {
                         $Self->{DBObject}->GetTableData(
-                          What => 'id, name',
-                          Table => 'valid',
-                          Valid => 0,
+                            What => 'id, name',
+                            Table => 'valid',
+                            Valid => 0,
                         )
                     },
                     Name => $Entry->[0],

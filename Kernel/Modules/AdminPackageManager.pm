@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.35 2006-09-08 16:02:35 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.36 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -99,15 +99,15 @@ sub Run {
         }
         my $LocalFile = $Self->{ConfigObject}->Get('Home')."/$Location";
         if (! -e $LocalFile) {
-                $Self->{LayoutObject}->Block(
-                    Name => "FileDiff",
-                    Data => {
-                        Location => $Location,
-                        Name => $Name,
-                        Version => $Version,
-                        Diff => "No such file $LocalFile!",
-                    },
-                );
+            $Self->{LayoutObject}->Block(
+                Name => "FileDiff",
+                Data => {
+                    Location => $Location,
+                    Name => $Name,
+                    Version => $Version,
+                    Diff => "No such file $LocalFile!",
+                },
+            );
         }
         elsif (-e $LocalFile) {
             my $Content = '';
@@ -150,7 +150,6 @@ sub Run {
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
-
     }
     # ------------------------------------------------------------ #
     # view package
@@ -201,25 +200,25 @@ sub Run {
         my @DatabaseBuffer = ();
         foreach my $Key (sort keys %Structur) {
             if (ref($Structur{$Key}) eq 'HASH') {
-                    if ($Key =~ /^(Description|Filelist)$/) {
-                        $Self->{LayoutObject}->Block(
-                            Name => "PackageItem$Key",
-                            Data => {Tag => $Key, %{$Structur{$Key}}},
+                if ($Key =~ /^(Description|Filelist)$/) {
+                    $Self->{LayoutObject}->Block(
+                        Name => "PackageItem$Key",
+                        Data => {Tag => $Key, %{$Structur{$Key}}},
+                    );
+                }
+                else {
+                    if ($Key eq 'CodeInstall') {
+                        $Structur{$Key}{Content} = $Self->{LayoutObject}->Ascii2Html(
+                            Text => $Structur{$Key}{Content},
+                            HTMLResultMode => 1,
+                            NewLine => 72,
                         );
                     }
-                    else {
-                        if ($Key eq 'CodeInstall') {
-                            $Structur{$Key}{Content} = $Self->{LayoutObject}->Ascii2Html(
-                                Text           => $Structur{$Key}{Content},
-                                HTMLResultMode => 1,
-                                NewLine        => 72,
-                            );
-                        }
-                        $Self->{LayoutObject}->Block(
-                            Name => "PackageItemGeneric",
-                            Data => {Tag => $Key, %{$Structur{$Key}}},
-                        );
-                    }
+                    $Self->{LayoutObject}->Block(
+                        Name => "PackageItemGeneric",
+                        Data => {Tag => $Key, %{$Structur{$Key}}},
+                    );
+                }
             }
             elsif (ref($Structur{$Key}) eq 'ARRAY') {
                 foreach my $Hash (@{$Structur{$Key}}) {
@@ -387,18 +386,18 @@ sub Run {
         my @DatabaseBuffer = ();
         foreach my $Key (sort keys %Structur) {
             if (ref($Structur{$Key}) eq 'HASH') {
-                    if ($Key =~ /^(Description|Filelist)$/) {
-                        $Self->{LayoutObject}->Block(
-                            Name => "PackageItem$Key",
-                            Data => {Tag => $Key, %{$Structur{$Key}}},
-                        );
-                    }
-                    else {
-                        $Self->{LayoutObject}->Block(
-                            Name => "PackageItemGeneric",
-                            Data => {Tag => $Key, %{$Structur{$Key}}},
-                        );
-                    }
+                if ($Key =~ /^(Description|Filelist)$/) {
+                    $Self->{LayoutObject}->Block(
+                        Name => "PackageItem$Key",
+                        Data => {Tag => $Key, %{$Structur{$Key}}},
+                    );
+                }
+                else {
+                    $Self->{LayoutObject}->Block(
+                        Name => "PackageItemGeneric",
+                        Data => {Tag => $Key, %{$Structur{$Key}}},
+                    );
+                }
             }
             elsif (ref($Structur{$Key}) eq 'ARRAY') {
                 foreach my $Hash (@{$Structur{$Key}}) {

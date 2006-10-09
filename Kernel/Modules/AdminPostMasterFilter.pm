@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.9 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.10 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -43,7 +42,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -190,78 +189,78 @@ sub _MaskUpdate {
     my $Counter = 0;
     if ($Data{Match}) {
         foreach (sort keys %{$Data{Match}}) {
-              if ($_ && $Data{Match}->{$_}) {
+            if ($_ && $Data{Match}->{$_}) {
                 $Counter++;
                 $Data{"MatchValue$Counter"} = $Data{Match}->{$_};
                 $Data{"MatchHeader$Counter"} = $_;
-              }
             }
+        }
     }
     $Counter = 0;
     if ($Data{Set}) {
-            foreach (sort keys %{$Data{Set}}) {
-              if ($_ && $Data{Set}->{$_}) {
+        foreach (sort keys %{$Data{Set}}) {
+            if ($_ && $Data{Set}->{$_}) {
                 $Counter++;
                 $Data{"SetValue$Counter"} = $Data{Set}->{$_};
                 $Data{"SetHeader$Counter"} = $_;
-              }
             }
+        }
     }
     $Self->{LayoutObject}->Block(
-            Name => 'Overview',
-            Data => {
-                %Param,
-            },
+        Name => 'Overview',
+        Data => {
+            %Param,
+        },
     );
     # all headers
     my %Header = ();
     foreach (@{$Self->{ConfigObject}->Get('PostmasterX-Header')}) {
-            $Header{$_} = $_;
+        $Header{$_} = $_;
     }
     $Header{''} = '-';
     $Header{'Body'} = 'Body';
     # otrs header
     my %SetHeader = ();
     foreach (keys %Header) {
-            if ($_ =~ /^x-otrs/i) {
-                $SetHeader{$_} = $_;
-            }
+        if ($_ =~ /^x-otrs/i) {
+            $SetHeader{$_} = $_;
         }
-        $SetHeader{''} = '-';
-        # build strings
-        foreach (1..6) {
-            $Data{"MatchHeader$_"} = $Self->{LayoutObject}->OptionStrgHashRef(
-               Data => \%Header,
-               Name => "MatchHeader$_",
-               SelectedID => $Data{"MatchHeader$_"},
-               LanguageTranslation => 0,
-               HTMLQuote => 1,
-            );
-            $Data{"SetHeader$_"} = $Self->{LayoutObject}->OptionStrgHashRef(
-               Data => \%SetHeader,
-               Name => "SetHeader$_",
-               SelectedID => $Data{"SetHeader$_"},
-               LanguageTranslation => 0,
-               HTMLQuote => 1,
-            );
-        }
-        $Self->{LayoutObject}->Block(
-            Name => 'OverviewUpdate',
-            Data => {
-                %Param,
-                %Data,
-                OldName => $Data{Name},
-            },
+    }
+    $SetHeader{''} = '-';
+    # build strings
+    foreach (1..6) {
+        $Data{"MatchHeader$_"} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%Header,
+            Name => "MatchHeader$_",
+            SelectedID => $Data{"MatchHeader$_"},
+            LanguageTranslation => 0,
+            HTMLQuote => 1,
         );
+        $Data{"SetHeader$_"} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%SetHeader,
+            Name => "SetHeader$_",
+            SelectedID => $Data{"SetHeader$_"},
+            LanguageTranslation => 0,
+            HTMLQuote => 1,
+        );
+    }
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewUpdate',
+        Data => {
+            %Param,
+            %Data,
+            OldName => $Data{Name},
+        },
+    );
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminPostMasterFilter',
-            Data => \%Param,
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
+    my $Output = $Self->{LayoutObject}->Header();
+    $Output .= $Self->{LayoutObject}->NavigationBar();
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminPostMasterFilter',
+        Data => \%Param,
+    );
+    $Output .= $Self->{LayoutObject}->Footer();
+    return $Output;
 }
 
 1;

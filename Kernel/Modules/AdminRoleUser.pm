@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete role <-> users
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminRoleUser.pm,v 1.8 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminRoleUser.pm,v 1.9 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Modules::AdminRoleUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -39,7 +38,7 @@ sub new {
     }
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -165,7 +164,7 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub MaskAdminUserGroupChangeForm {
     my $Self = shift;
     my %Param = @_;
@@ -198,7 +197,7 @@ sub MaskAdminUserGroupChangeForm {
         Data => {%Param, NeType => $NeType},
     );
 }
-# --
+
 sub MaskAdminUserGroupForm {
     my $Self = shift;
     my %Param = @_;
@@ -230,6 +229,5 @@ sub MaskAdminUserGroupForm {
         Data => \%Param,
     );
 }
-# --
 
 1;

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.18 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.19 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Modules::AdminQueueAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -40,7 +39,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -112,15 +111,15 @@ sub Run {
         my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
         foreach my $NewID (@NewIDs) {
             if ($NewID) {
-              # db quote
-              $NewID = $Self->{DBObject}->Quote($NewID, 'Integer');
-              my $SQL = "INSERT INTO queue_auto_response (queue_id, auto_response_id, " .
-  			" create_time, create_by, change_time, change_by)" .
-              " VALUES " .
-              " ( $Param{ID}, $NewID, current_timestamp, $Self->{UserID}, " .
-              " current_timestamp, $Self->{UserID})";
-              $Self->{DBObject}->Do(SQL => $SQL);
-          }
+                # db quote
+                $NewID = $Self->{DBObject}->Quote($NewID, 'Integer');
+                my $SQL = "INSERT INTO queue_auto_response (queue_id, auto_response_id, " .
+                    " create_time, create_by, change_time, change_by)" .
+                    " VALUES " .
+                    " ($Param{ID}, $NewID, current_timestamp, $Self->{UserID}, " .
+                    " current_timestamp, $Self->{UserID})";
+                $Self->{DBObject}->Do(SQL => $SQL);
+            }
         }
         return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
     }
@@ -145,13 +144,13 @@ sub Run {
         foreach (sort {$QueueData{$a} cmp $QueueData{$b}} keys %QueueData) {
             my @Data;
             my $SQL = "SELECT ar.name, art.name, ar.id FROM " .
-            " auto_response ar, auto_response_type art, queue_auto_response qar " .
-            " WHERE " .
-            " ar.type_id = art.id " .
-            " AND " .
-            " ar.id = qar.auto_response_id " .
-            " AND ".
-            " qar.queue_id = $_ ";
+                " auto_response ar, auto_response_type art, queue_auto_response qar " .
+                " WHERE " .
+                " ar.type_id = art.id " .
+                " AND " .
+                " ar.id = qar.auto_response_id " .
+                " AND ".
+                " qar.queue_id = $_ ";
             $Self->{DBObject}->Prepare(SQL => $SQL);
             while (my @Row = $Self->{DBObject}->FetchrowArray()) {
                 my %AutoResponseData;
@@ -192,5 +191,5 @@ sub Run {
     }
     return $Output;
 }
-# --
+
 1;

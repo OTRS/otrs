@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.23 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminUserGroup.pm,v 1.24 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Modules::AdminUserGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -39,7 +38,7 @@ sub new {
     }
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -191,7 +190,7 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub MaskAdminUserGroupChangeForm {
     my $Self = shift;
     my %Param = @_;
@@ -206,7 +205,7 @@ sub MaskAdminUserGroupChangeForm {
         LanguageTranslation => 0,
     ) || '';
     $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink"."Action=Admin$Type&Subaction=Change&ID=$Param{ID}\">" .
-    "$Param{Name}</A> (id=$Param{ID})<BR>";
+        "$Param{Name}</A> (id=$Param{ID})<BR>";
     $Param{OptionStrg0} .= '<INPUT TYPE="hidden" NAME="ID" VALUE="'.$Param{ID}.'"><BR>';
 
     $Param{OptionStrg0} .= "<br>\n";
@@ -245,7 +244,7 @@ sub MaskAdminUserGroupChangeForm {
         Data => \%Param,
     );
 }
-# --
+
 sub MaskAdminUserGroupForm {
     my $Self = shift;
     my %Param = @_;
@@ -277,6 +276,5 @@ sub MaskAdminUserGroupForm {
         Data => \%Param,
     );
 }
-# --
 
 1;

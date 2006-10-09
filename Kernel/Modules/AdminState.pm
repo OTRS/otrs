@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminState.pm - to add/update/delete system states
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminState.pm,v 1.15 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminState.pm,v 1.16 2006-10-09 17:38:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -41,7 +40,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -80,7 +79,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
         if ($Self->{StateObject}->StateAdd(%GetParam, UserID => $Self->{UserID})) {
-             return $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
+            return $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();
@@ -95,7 +94,7 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -103,23 +102,23 @@ sub _Mask {
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'valid',
-            Valid => 0,
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Table => 'valid',
+                Valid => 0,
+            )
         },
         Name => 'ValidID',
         SelectedID => $Param{ValidID},
     );
     $Param{StateOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name, id',
-            Valid => 0,
-            Clamp => 1,
-            Table => 'ticket_state',
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name, id',
+                Valid => 0,
+                Clamp => 1,
+                Table => 'ticket_state',
+            )
         },
         Size => 15,
         Name => 'ID',
@@ -128,16 +127,16 @@ sub _Mask {
 
     $Param{StateTypeOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Valid => 0,
-            Table => 'ticket_state_type',
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Valid => 0,
+                Table => 'ticket_state_type',
+            )
         },
         Name => 'TypeID',
         SelectedID => $Param{TypeID},
     );
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminStateForm', Data => \%Param);
 }
-# --
+
 1;
