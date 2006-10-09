@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.14 2006-09-05 22:55:30 martin Exp $
+# $Id: Layout.pm,v 1.15 2006-10-09 12:38:52 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -94,7 +94,7 @@ sub new {
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
     $Self->{CGIHandle} = $ENV{'SCRIPT_NAME'} || 'No-$ENV{"SCRIPT_NAME"}';
     # --
-    # Baselink
+    # baselink
     # --
     $Self->{Baselink}  = "$Self->{CGIHandle}?";
     $Self->{Time}      = $Self->{LanguageObject}->Time(
@@ -126,7 +126,7 @@ sub new {
             $ENV{'HTTP_USER_AGENT'} =~ /Internet Explorer\/([0-9.]+)/i) {
             $Self->{Browser} = 'MSIE';
             $Self->{BrowserWrap} = 'physical';
-            # For IE 5.5, we break the header in a special way that makes
+            # for IE 5.5, we break the header in a special way that makes
             # things work. I don't really want to know.
             if ($1 =~ /(\d)\.(\d)/) {
                 $Self->{BrowserMajorVersion} = $1;
@@ -827,8 +827,8 @@ sub Output {
         }egx;
     }
     # --
-    # Check if the brwoser sends the SessionID cookie!
-    # If not, add the SessinID to the links and forms!
+    # check if the browser sends the session id cookie!
+    # If not, add the session id to the links and forms!
     # --
     if (!$Self->{SessionIDCookie}) {
         # rewrite a hrefs
@@ -1030,8 +1030,9 @@ sub Login {
         HTMLQuote => 0,
     );
     # get lost password y
-    if ($Self->{ConfigObject}->Get('LostPassword')
-         && $Self->{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::DB') {
+    if ($Self->{ConfigObject}->Get('LostPassword') &&
+        $Self->{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::DB'
+    ) {
         $Self->Block(
             Name => 'LostPassword',
             Data => \%Param,
@@ -1047,9 +1048,9 @@ sub FatalError {
     my %Param = @_;
     if ($Param{Message}) {
         $Self->{LogObject}->Log(
-          Caller => 1,
-          Priority => 'error',
-          Message => "$Param{Message}",
+            Caller => 1,
+            Priority => 'error',
+            Message => "$Param{Message}",
         );
     }
     print $Self->Header(Area => 'Frontend', Title => 'Fatal Error');
@@ -1063,24 +1064,24 @@ sub FatalDie {
     my %Param = @_;
     if ($Param{Message}) {
         $Self->{LogObject}->Log(
-          Caller => 1,
-          Priority => 'error',
-          Message => "$Param{Message}",
+            Caller => 1,
+            Priority => 'error',
+            Message => "$Param{Message}",
         );
     }
     # get backend error messages
     foreach (qw(Message Traceback)) {
-      $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
-          Type => 'Error',
-          What => $_
-      ) || '';
-      $Param{'Backend'.$_} = $Self->Ascii2Html(
-          Text => $Param{'Backend'.$_},
-          HTMLResultMode => 1,
-      );
+        $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+            Type => 'Error',
+            What => $_
+        ) || '';
+        $Param{'Backend'.$_} = $Self->Ascii2Html(
+            Text => $Param{'Backend'.$_},
+            HTMLResultMode => 1,
+        );
     }
     if (!$Param{Message}) {
-      $Param{Message} = $Param{BackendMessage};
+        $Param{Message} = $Param{BackendMessage};
     }
     die $Param{Message};
     exit;
@@ -1106,11 +1107,11 @@ sub Error {
         ) || '';
         $Param{'Backend'.$_} = $Self->Ascii2Html(
             Text => $Param{'Backend'.$_},
-             HTMLResultMode => 1,
+            HTMLResultMode => 1,
         );
     }
     if (!$Param{Message}) {
-      $Param{Message} = $Param{BackendMessage};
+        $Param{Message} = $Param{BackendMessage};
     }
     $Param{Message} =~ s/^(.{80}).*$/$1\[\.\.\]/gs;
     # create & return output
@@ -1122,20 +1123,20 @@ sub Warning {
     my %Param = @_;
     # get backend error messages
     foreach (qw(Message)) {
-      $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
-          Type => 'Notice',
-          What => $_
-      ) || $Self->{LogObject}->GetLogEntry(
-          Type => 'Error',
-          What => $_
-      ) || '';
-      $Param{'Backend'.$_} = $Self->Ascii2Html(
-          Text => $Param{'Backend'.$_},
-          HTMLResultMode => 1,
-      );
+        $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+            Type => 'Notice',
+            What => $_
+        ) || $Self->{LogObject}->GetLogEntry(
+            Type => 'Error',
+            What => $_
+        ) || '';
+        $Param{'Backend'.$_} = $Self->Ascii2Html(
+            Text => $Param{'Backend'.$_},
+            HTMLResultMode => 1,
+        );
     }
     if (!$Param{Message}) {
-      $Param{Message} = $Param{BackendMessage};
+        $Param{Message} = $Param{BackendMessage};
     }
     # create & return output
     return $Self->Output(TemplateFile => 'Warning', Data => \%Param);
@@ -1146,16 +1147,16 @@ sub Notify {
     my %Param = @_;
     # create & return output
     if (!$Param{Info}) {
-      foreach (qw(Message)) {
-        $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
-          Type => 'Notice',
-          What => $_
-        ) || $Self->{LogObject}->GetLogEntry(
-          Type => 'Error',
-          What => $_
-        ) || '';
-      }
-      $Param{Info} = $Param{BackendMessage};
+        foreach (qw(Message)) {
+            $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+                Type => 'Notice',
+                What => $_
+            ) || $Self->{LogObject}->GetLogEntry(
+                Type => 'Error',
+                What => $_
+            ) || '';
+        }
+        $Param{Info} = $Param{BackendMessage};
     }
     if ($Param{Info}) {
         $Param{Info} =~ s/\n//g;
@@ -1353,8 +1354,8 @@ sub Ascii2Html {
         $Text = '';
         my $Counter = 1;
         foreach (@TextList) {
-          $Text .= $_ . "\n" if ($Counter <= $VMax);
-          $Counter++;
+            $Text .= $_ . "\n" if ($Counter <= $VMax);
+            $Counter++;
         }
         $Text .= "[...]\n" if ($Counter >= $VMax);
     }
@@ -1736,21 +1737,21 @@ sub CheckCharset {
     }
     # with utf-8 can everything be shown
     if ($Self->{UserCharset} !~ /^utf-8$/i) {
-      # replace ' or "
-      $Param{ContentCharset} && $Param{ContentCharset} =~ s/'|"//gi;
-      # if the content charset is different to the user charset
-      if ($Param{ContentCharset} && $Self->{UserCharset} !~ /^$Param{ContentCharset}$/i) {
-        # if the content charset is us-ascii it is always shown correctly
-        if ($Param{ContentCharset} !~ /us-ascii/i) {
-            $Output = '<p><i class="small">'.
-              '$Text{"This message was written in a character set other than your own."}'.
-              '$Text{"If it is not displayed correctly,"} '.
-              '<a href="'.$Self->{Baselink}."Action=$Param{Action}&TicketID=$Param{TicketID}".
-              "&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" target=\"HTMLeMail\" ".
-              'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'.
-              '$Text{"click here"}</a> $Text{"to open it in a new window."}</i></p>';
+        # replace ' or "
+        $Param{ContentCharset} && $Param{ContentCharset} =~ s/'|"//gi;
+        # if the content charset is different to the user charset
+        if ($Param{ContentCharset} && $Self->{UserCharset} !~ /^$Param{ContentCharset}$/i) {
+            # if the content charset is us-ascii it is always shown correctly
+            if ($Param{ContentCharset} !~ /us-ascii/i) {
+                $Output = '<p><i class="small">'.
+                    '$Text{"This message was written in a character set other than your own."}'.
+                    '$Text{"If it is not displayed correctly,"} '.
+                    '<a href="'.$Self->{Baselink}."Action=$Param{Action}&TicketID=$Param{TicketID}".
+                    "&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" target=\"HTMLeMail\" ".
+                    'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'.
+                    '$Text{"click here"}</a> $Text{"to open it in a new window."}</i></p>';
+            }
         }
-      }
     }
     # return note string
     return $Output;
@@ -1767,25 +1768,25 @@ sub CheckMimeType {
     # check if it is a text/plain email
     # --
     if ($Param{MimeType} && $Param{MimeType} !~ /text\/plain/i) {
-         $Output = '<p><i class="small">$Text{"This is a"} '.$Param{MimeType}.
-           ' $Text{"email"}, '.
-           '<a href="'.$Self->{Baselink}."Action=$Param{Action}&TicketID=".
-           "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
-           'target="HTMLeMail" '.
-           'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'.
-           '$Text{"click here"}</a> '.
-           '$Text{"to open it in a new window."}</i></p>';
+        $Output = '<p><i class="small">$Text{"This is a"} '.$Param{MimeType}.
+            ' $Text{"email"}, '.
+            '<a href="'.$Self->{Baselink}."Action=$Param{Action}&TicketID=".
+            "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
+            'target="HTMLeMail" '.
+            'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'.
+            '$Text{"click here"}</a> '.
+            '$Text{"to open it in a new window."}</i></p>';
     }
     # just to be compat
     elsif ($Param{Body} =~ /^<.DOCTYPE html PUBLIC|^<HTML>/i) {
-         $Output = '<p><i class="small">$Text{"This is a"} '.$Param{MimeType}.
-           ' $Text{"email"}, '.
-           '<a href="'.$Self->{Baselink}.'Action=$Env{"Action"}&TicketID='.
-           "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
-           'target="HTMLeMail" '.
-           'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'.
-           '$Text{"click here"}</a> '.
-           '$Text{"to open it in a new window."}</i></p>';
+        $Output = '<p><i class="small">$Text{"This is a"} '.$Param{MimeType}.
+            ' $Text{"email"}, '.
+            '<a href="'.$Self->{Baselink}.'Action=$Env{"Action"}&TicketID='.
+            "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
+            'target="HTMLeMail" '.
+            'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'.
+            '$Text{"click here"}</a> '.
+            '$Text{"to open it in a new window."}</i></p>';
     }
     # return note string
     return $Output;
@@ -1858,10 +1859,10 @@ sub PageNavBar {
     }
     # check total hits
     if ($Limit == $Param{AllHits}) {
-       $Param{TotalHits} = "<font color=red>$Param{AllHits}</font>";
+        $Param{TotalHits} = "<font color=red>$Param{AllHits}</font>";
     }
     else {
-       $Param{TotalHits} = $Param{AllHits};
+        $Param{TotalHits} = $Param{AllHits};
     }
     # build page nav bar
     my $WindowStart = sprintf ("%.0f",($Param{StartHit} / $Param{PageShown}));
@@ -1869,42 +1870,41 @@ sub PageNavBar {
     $WindowStart = ($WindowStart*$WindowSize)-($WindowSize);
     my $i = 0;
     while ($i <= ($Pages-1)) {
-      $i++;
-      if ($i <= ($WindowStart+$WindowSize) && $i > $WindowStart) {
-           $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
-           "StartWindow=$WindowStart&StartHit=". ((($i-1)*$Param{PageShown})+1);
-           $Param{SearchNavBar} .= '">';
-           if ($Page == $i) {
-             $Param{SearchNavBar} .= '<b>'.($i).'</b>';
-           }
-           else {
-             $Param{SearchNavBar} .= ($i);
-           }
-           $Param{SearchNavBar} .= '</a> ';
-#}
-       }
-       # over window
-       elsif ($i > ($WindowStart+$WindowSize)) {
-           my $StartWindow = $WindowStart+$WindowSize+1;
-           my $LastStartWindow = int($Pages/$WindowSize);
-           $Param{SearchNavBar} .= "&nbsp;<a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
-              "StartHit=".$i*$Param{PageShown};
-           $Param{SearchNavBar} .= '">'."&gt;&gt;</a>&nbsp;";
-           $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
-              "StartHit=".(($Param{PageShown}*($Pages-1))+1);
-           $Param{SearchNavBar} .= '">'."&gt;|</a> ";
-           $i = 99999999;
-       }
-       elsif ($i < $WindowStart && ($i-1) < $Pages) {
-           my $StartWindow = $WindowStart-$WindowSize-1;
-           $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
-              "StartHit=1&StartWindow=1";
-           $Param{SearchNavBar} .= '">'."|&lt;</a>&nbsp;";
-           $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
-            "StartHit=".(($WindowStart-1)*($Param{PageShown})+1);
-           $Param{SearchNavBar} .= '">'."&lt;&lt;</a>&nbsp;";
-           $i = $WindowStart-1;
-       }
+        $i++;
+        if ($i <= ($WindowStart+$WindowSize) && $i > $WindowStart) {
+            $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
+                "StartWindow=$WindowStart&StartHit=". ((($i-1)*$Param{PageShown})+1);
+            $Param{SearchNavBar} .= '">';
+            if ($Page == $i) {
+                $Param{SearchNavBar} .= '<b>'.($i).'</b>';
+            }
+            else {
+                $Param{SearchNavBar} .= ($i);
+            }
+            $Param{SearchNavBar} .= '</a> ';
+        }
+        # over window
+        elsif ($i > ($WindowStart+$WindowSize)) {
+            my $StartWindow = $WindowStart+$WindowSize+1;
+            my $LastStartWindow = int($Pages/$WindowSize);
+            $Param{SearchNavBar} .= "&nbsp;<a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
+                "StartHit=".$i*$Param{PageShown};
+            $Param{SearchNavBar} .= '">'."&gt;&gt;</a>&nbsp;";
+            $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
+                "StartHit=".(($Param{PageShown}*($Pages-1))+1);
+            $Param{SearchNavBar} .= '">'."&gt;|</a> ";
+            $i = 99999999;
+        }
+        elsif ($i < $WindowStart && ($i-1) < $Pages) {
+            my $StartWindow = $WindowStart-$WindowSize-1;
+            $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
+                "StartHit=1&StartWindow=1";
+            $Param{SearchNavBar} .= '">'."|&lt;</a>&nbsp;";
+            $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
+                "StartHit=".(($WindowStart-1)*($Param{PageShown})+1);
+            $Param{SearchNavBar} .= '">'."&lt;&lt;</a>&nbsp;";
+            $i = $WindowStart-1;
+        }
     }
     # return data
     return (
@@ -2098,8 +2098,8 @@ sub WindowTabStart {
     my $Output = '';
     if (!$Param{Tab} || ($Param{Tab} && ref($Param{Tab}) ne 'ARRAY')) {
         $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "Need Tab as ARRAY ref in WindowTabStart()!",
+            Priority => 'error',
+            Message => "Need Tab as ARRAY ref in WindowTabStart()!",
         );
         $Self->FatalError();
     }
@@ -2114,11 +2114,11 @@ sub WindowTabStart {
             $Hash->{Image} = 'notready.png';
         }
         $Self->Block(
-             Name => 'Tab',
-             Data => {
-                 %{$Hash},
-             },
-         );
+            Name => 'Tab',
+            Data => {
+                %{$Hash},
+            },
+        );
     }
     $Output .= $Self->Output(TemplateFile => 'AgentWindowTabStart', Data => \%Param);
     return $Output;
@@ -2131,21 +2131,21 @@ sub WindowTabStop {
     if ($Param{"Layer0Footer"}) {
         foreach my $Hash (@{$Param{"Layer0Footer"}}) {
             $Self->Block(
-                 Name => 'Layer0Footer',
-                 Data => {
-                     %{$Hash},
-                 },
-             );
+                Name => 'Layer0Footer',
+                Data => {
+                    %{$Hash},
+                },
+            );
         }
     }
     if ($Param{"Layer1Footer"}) {
         foreach my $Hash (@{$Param{"Layer1Footer"}}) {
             $Self->Block(
-                 Name => 'Layer1Footer',
-                 Data => {
-                     %{$Hash},
-                 },
-             );
+                Name => 'Layer1Footer',
+                Data => {
+                    %{$Hash},
+                },
+            );
         }
     }
     $Output .= $Self->Output(TemplateFile => 'AgentWindowTabStop', Data => \%Param);
@@ -2262,7 +2262,7 @@ sub BuildDateSelection {
             $Param{Minute} = "<input type=\"text\" name=\"".$Prefix."Minute\" size=\"2\" maxlength=\"2\" value=\"".sprintf("%02d", (defined($Param{$Prefix.'Minute'}) ? int($Param{$Prefix.'Minute'}) : $m))."\">";
         }
     }
-    #DateFormat
+    # date format
     my $Output = $Self->{LanguageObject}->Time(
         Action => 'Return',
         Format => 'DateInputFormat',
@@ -2491,10 +2491,10 @@ sub CustomerNavigationBar {
             my @Items = @{$Hash{NavBar}};
             foreach my $Item (@Items) {
                 foreach (1..51) {
-                   if ($NavBarModule{sprintf("%07d", $Item->{Prio})}) {
-                       $Item->{Prio}++;
-                   }
-                   if (!$NavBarModule{sprintf("%07d", $Item->{Prio})}) {
+                    if ($NavBarModule{sprintf("%07d", $Item->{Prio})}) {
+                        $Item->{Prio}++;
+                    }
+                    if (!$NavBarModule{sprintf("%07d", $Item->{Prio})}) {
                         last;
                     }
                 }
@@ -2564,18 +2564,18 @@ sub CustomerError {
 
     # get backend error messages
     foreach (qw(Message Traceback)) {
-      $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
-          Type => 'Error',
-          What => $_
-      ) || '';
-      $Param{'Backend'.$_} = $Self->Ascii2Html(
-          Text => $Param{'Backend'.$_},
-          HTMLResultMode => 1,
-      );
+        $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+            Type => 'Error',
+            What => $_
+        ) || '';
+        $Param{'Backend'.$_} = $Self->Ascii2Html(
+            Text => $Param{'Backend'.$_},
+            HTMLResultMode => 1,
+        );
     }
 
     if (!$Param{Message}) {
-      $Param{Message} = $Param{BackendMessage};
+        $Param{Message} = $Param{BackendMessage};
     }
 
     # create & return output
@@ -2588,20 +2588,20 @@ sub CustomerWarning {
 
     # get backend error messages
     foreach (qw(Message)) {
-      $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
-          Type => 'Notice',
-          What => $_
-      ) || $Self->{LogObject}->GetLogEntry(
-          Type => 'Error',
-          What => $_
-      ) || '';
-      $Param{'Backend'.$_} = $Self->Ascii2Html(
-          Text => $Param{'Backend'.$_},
-          HTMLResultMode => 1,
-      );
+        $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+            Type => 'Notice',
+            What => $_
+        ) || $Self->{LogObject}->GetLogEntry(
+            Type => 'Error',
+            What => $_
+        ) || '';
+        $Param{'Backend'.$_} = $Self->Ascii2Html(
+            Text => $Param{'Backend'.$_},
+            HTMLResultMode => 1,
+        );
     }
     if (!$Param{Message}) {
-      $Param{Message} = $Param{BackendMessage};
+        $Param{Message} = $Param{BackendMessage};
     }
     # create & return output
     return $Self->Output(TemplateFile => 'CustomerWarning', Data => \%Param);
@@ -2620,6 +2620,7 @@ sub CustomerNoPermission {
     # return output
     return $Output;
 }
+
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -2634,6 +2635,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2006-09-05 22:55:30 $
+$Revision: 1.15 $ $Date: 2006-10-09 12:38:52 $
 
 =cut
