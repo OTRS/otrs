@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesCustomQueue.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesCustomQueue.pm,v 1.4 2006-08-27 22:23:35 martin Exp $
+# $Id: PreferencesCustomQueue.pm,v 1.5 2006-10-09 15:42:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::PreferencesCustomQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -100,7 +100,7 @@ sub Run {
                 $ID = $Self->{DBObject}->Quote($ID);
                 $Self->{DBObject}->Do(
                     SQL => "INSERT INTO personal_queues (queue_id, user_id) " .
-                      " VALUES ($ID, $Param{UserData}->{UserID})",
+                        " VALUES ($ID, $Param{UserData}->{UserID})",
                 );
             }
         }

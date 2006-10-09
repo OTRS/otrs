@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckPGP.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleCheckPGP.pm,v 1.7 2006-08-29 17:15:22 martin Exp $
+# $Id: ArticleCheckPGP.pm,v 1.8 2006-10-09 15:42:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -105,9 +105,7 @@ sub Check {
     else {
 # check body
 #if (body =~ application/pgp-encrypted
-
 # if crypted, decrypt it
-
 # remember that it was crypted!
 
         # write email to fs
@@ -184,20 +182,19 @@ sub Check {
                    );
                }
 
-                push (@Return, {
-                    Key => 'Crypted',
-                    Value => $Decrypt{Message},
-                    %Decrypt,
-                    },
-                );
-
+               push (@Return, {
+                       Key => 'Crypted',
+                       Value => $Decrypt{Message},
+                       %Decrypt,
+                   },
+               );
             }
             else {
                 push (@Return, {
-                    Key => 'Crypted',
-                    Value => $Decrypt{Message},
-                    %Decrypt,
-                  },
+                        Key => 'Crypted',
+                        Value => $Decrypt{Message},
+                        %Decrypt,
+                    },
                 );
             }
         }
@@ -216,13 +213,13 @@ sub Check {
         }
     }
     if (%SignCheck) {
-       # return result
-       push (@Return, {
-           Key => 'Signed',
-           Value => $SignCheck{Message},
-           %SignCheck,
-           }
-       );
+        # return result
+        push (@Return, {
+                Key => 'Signed',
+                Value => $SignCheck{Message},
+                %SignCheck,
+            },
+        );
     }
     return @Return;
 }

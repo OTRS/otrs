@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleAttachmentDownload.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleAttachmentDownload.pm,v 1.4 2006-08-29 17:15:22 martin Exp $
+# $Id: ArticleAttachmentDownload.pm,v 1.5 2006-10-09 15:42:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::ArticleAttachmentDownload;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -37,10 +37,10 @@ sub Run {
     my %Param = @_;
     # check needed stuff
     foreach (qw(File Article)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # download type
     my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
@@ -50,11 +50,11 @@ sub Run {
         $Target = 'target="attachment" ';
     }
     return (
-         %{$Param{File}},
-         Action => 'Download',
-         Link => "\$Env{\"Baselink\"}Action=AgentTicketAttachment&ArticleID=$Param{Article}->{ArticleID}&FileID=$Param{File}->{FileID}",
-         Image => 'disk-s.png',
-         Target => $Target,
+        %{$Param{File}},
+        Action => 'Download',
+        Link => "\$Env{\"Baselink\"}Action=AgentTicketAttachment&ArticleID=$Param{Article}->{ArticleID}&FileID=$Param{File}->{FileID}",
+        Image => 'disk-s.png',
+        Target => $Target,
     );
 }
 

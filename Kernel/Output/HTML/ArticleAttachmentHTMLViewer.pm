@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleAttachmentHTMLViewer.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleAttachmentHTMLViewer.pm,v 1.3 2006-08-29 17:15:22 martin Exp $
+# $Id: ArticleAttachmentHTMLViewer.pm,v 1.4 2006-10-09 15:42:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::ArticleAttachmentHTMLViewer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -37,10 +37,10 @@ sub Run {
     my %Param = @_;
     # check needed stuff
     foreach (qw(File Article)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # check if config exists
     if ($Self->{ConfigObject}->Get('MIME-Viewer')) {

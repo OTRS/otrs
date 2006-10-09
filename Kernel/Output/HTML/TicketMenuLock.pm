@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuLock.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TicketMenuLock.pm,v 1.4 2006-08-27 22:29:48 martin Exp $
+# $Id: TicketMenuLock.pm,v 1.5 2006-10-09 15:42:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::TicketMenuLock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 
@@ -63,7 +63,7 @@ sub Run {
         if ($Param{Counter}) {
             $Self->{LayoutObject}->Block(
                 Name => 'MenuItemSplit',
-                Data => {  },
+                Data => { },
             );
         }
         if ($Param{Ticket}->{Lock} eq 'lock') {

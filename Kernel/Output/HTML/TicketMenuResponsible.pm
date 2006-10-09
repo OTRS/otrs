@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuResponsible.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TicketMenuResponsible.pm,v 1.2 2006-08-27 22:29:48 martin Exp $
+# $Id: TicketMenuResponsible.pm,v 1.3 2006-10-09 15:42:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::TicketMenuResponsible;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -42,7 +42,10 @@ sub Run {
         return;
     }
 
-    if ($Self->{ConfigObject}->Get('Ticket::Responsible') && !defined($Param{ACL}->{$Param{Config}->{Action}}) || $Param{ACL}->{$Param{Config}->{Action}}) {
+    if ($Self->{ConfigObject}->Get('Ticket::Responsible') &&
+        !defined($Param{ACL}->{$Param{Config}->{Action}}) ||
+        $Param{ACL}->{$Param{Config}->{Action}}
+    ) {
         $Self->{LayoutObject}->Block(
             Name => 'Menu',
             Data => { },

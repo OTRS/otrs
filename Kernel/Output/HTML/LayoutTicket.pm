@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.2 2006-08-29 06:47:22 mh Exp $
+# $Id: LayoutTicket.pm,v 1.3 2006-10-09 15:42:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::LayoutTicket;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketStdResponseString {
@@ -30,25 +30,25 @@ sub TicketStdResponseString {
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::StdResponsesMode') eq 'Form') {
         # build html string
         $Param{StdResponsesStrg} .= '<form action="'.$Self->{CGIHandle}.'" method="post">'.
-          '<input type="hidden" name="Action" value="AgentTicketCompose">'.
-          '<input type="hidden" name="ArticleID" value="'.$Param{ArticleID}.'">'.
-          '<input type="hidden" name="TicketID" value="'.$Param{TicketID}.'">'.
-          $Self->OptionStrgHashRef(
-            Name => 'ResponseID',
-            Data => $Param{StdResponsesRef},
-          ).
-          '<input class="button" type="submit" value="$Text{"Compose"}"></form>';
+            '<input type="hidden" name="Action" value="AgentTicketCompose">'.
+            '<input type="hidden" name="ArticleID" value="'.$Param{ArticleID}.'">'.
+            '<input type="hidden" name="TicketID" value="'.$Param{TicketID}.'">'.
+            $Self->OptionStrgHashRef(
+                Name => 'ResponseID',
+                Data => $Param{StdResponsesRef},
+            ).
+            '<input class="button" type="submit" value="$Text{"Compose"}"></form>';
     }
     else {
         my %StdResponses = %{$Param{StdResponsesRef}};
         foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
-          # build html string
-          $Param{StdResponsesStrg} .= "\n<li><a href=\"$Self->{Baselink}"."Action=AgentTicketCompose&".
-           "ResponseID=$_&TicketID=$Param{TicketID}&ArticleID=$Param{ArticleID}\" ".
-           'onmouseover="window.status=\'$Text{"Compose"}\'; return true;" '.
-           'onmouseout="window.status=\'\';">'.
-           # html quote
-           $Self->Ascii2Html(Text => $StdResponses{$_})."</A></li>\n";
+            # build html string
+            $Param{StdResponsesStrg} .= "\n<li><a href=\"$Self->{Baselink}"."Action=AgentTicketCompose&".
+                "ResponseID=$_&TicketID=$Param{TicketID}&ArticleID=$Param{ArticleID}\" ".
+                'onmouseover="window.status=\'$Text{"Compose"}\'; return true;" '.
+                'onmouseout="window.status=\'\';">'.
+            # html quote
+            $Self->Ascii2Html(Text => $StdResponses{$_})."</A></li>\n";
         }
     }
     return $Param{StdResponsesStrg};
@@ -241,7 +241,7 @@ sub AgentFreeText {
             else {
                 if ($LastKey) {
                     $Data{"TicketFreeKeyField$_"} = $Config{"TicketFreeKey$_"}->{$LastKey}.
-                      '<input type="hidden" name="TicketFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $LastKey).'">';
+                        '<input type="hidden" name="TicketFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $LastKey).'">';
                 }
             }
         }
@@ -377,7 +377,7 @@ sub TicketArticleFreeText {
             else {
                 if ($LastKey) {
                     $Data{"ArticleFreeKeyField$_"} = $Config{"ArticleFreeKey$_"}->{$LastKey}.
-                      '<input type="hidden" name="ArticleFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $LastKey).'">';
+                        '<input type="hidden" name="ArticleFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $LastKey).'">';
                 }
             }
         }
@@ -388,7 +388,7 @@ sub TicketArticleFreeText {
                         $Article{"ArticleFreeKey$_"} = $Article{"ArticleFreeKey$_"}->[0];
                     }
                     else {
-                       $Article{"ArticleFreeKey$_"} = '';
+                        $Article{"ArticleFreeKey$_"} = '';
                     }
                 }
                 $Data{"ArticleFreeKeyField$_"} = '<input type="text" name="ArticleFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Article{"ArticleFreeKey$_"}).'" size="20">';

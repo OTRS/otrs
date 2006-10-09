@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesPassword.pm,v 1.7 2006-08-27 22:23:35 martin Exp $
+# $Id: PreferencesPassword.pm,v 1.8 2006-10-09 15:42:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::PreferencesPassword;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -130,19 +130,19 @@ sub Run {
     }
 
     if ($Self->{UserObject}->SetPassword(UserLogin => $Param{UserData}->{UserLogin}, PW => $Pw)) {
-       if ($Param{UserData}->{UserID} eq $Self->{UserID}) {
-           # update SessionID
-           $Self->{SessionObject}->UpdateSessionID(
+        if ($Param{UserData}->{UserID} eq $Self->{UserID}) {
+            # update SessionID
+            $Self->{SessionObject}->UpdateSessionID(
                 SessionID => $Self->{SessionID},
                 Key => 'UserLastPw',
                 Value => $Param{UserData}->{UserPw},
-           );
-           # update SessionID
-           $Self->{SessionObject}->UpdateSessionID(
+            );
+            # update SessionID
+            $Self->{SessionObject}->UpdateSessionID(
                 SessionID => $Self->{SessionID},
                 Key => 'UserPw',
                 Value => crypt($Pw, $Param{UserData}->{UserLogin}),
-           );
+            );
         }
         $Self->{Message} = "Preferences updated successfully!";
         return 1;

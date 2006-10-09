@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.7 2006-08-29 17:15:22 martin Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.8 2006-10-09 15:42:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -86,7 +86,7 @@ sub Check {
         $Head->unfold();
         $Head->combine('Content-Type');
         my $ContentType = $Head->get('Content-Type');
-       if ($ContentType && $ContentType =~ /application\/(x-pkcs7|pkcs7)-mime/i && $ContentType !~ /signed/i) {
+        if ($ContentType && $ContentType =~ /application\/(x-pkcs7|pkcs7)-mime/i && $ContentType !~ /signed/i) {
             # check sender (don't decrypt sent emails)
             if ($Param{Article}->{SenderType} =~ /(agent|system)/i) {
                 # return info
@@ -113,16 +113,14 @@ sub Check {
                     Key => 'Crypted',
                     Value => $Decrypt{Message},
                     %Decrypt,
-                    },
-                );
+                });
             }
             else {
                 push (@Return, {
                     Key => 'Crypted',
                     Value => $Decrypt{Message},
                     %Decrypt,
-                  },
-                );
+                });
             }
         }
         if ($ContentType && $ContentType =~ /application\/(x-pkcs7|pkcs7)/i && $ContentType =~ /signed/i) {
