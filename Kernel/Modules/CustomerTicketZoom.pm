@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.8 2006-10-09 07:55:35 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.9 2006-10-11 15:39:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -482,7 +482,7 @@ sub _Mask {
     if ($Self->{TicketObject}->CustomerPermission(
         Type => 'update',
         TicketID => $Self->{TicketID},
-        UserID => $Self->{UserID}) && $FollowUpPossible !~ /(new ticket|reject)/i && $State{TypeName} !~ /^close/i) {
+        UserID => $Self->{UserID}) && ($FollowUpPossible !~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i)) {
         $Self->{LayoutObject}->Block(
             Name => 'FollowUp',
             Data => {
