@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.8 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.9 2006-10-12 10:11:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -244,8 +244,9 @@ sub Run {
             }
         }
         # add note
+        %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
         my $ArticleID;
-        if ($Self->{Comment}) {
+        if ($Self->{Comment} && (!$NewUserID || $NewUserID ne $Ticket{OwnerID})) {
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID => $Self->{TicketID},
                 ArticleType => 'note-internal',
