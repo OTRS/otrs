@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.55 2006-10-12 10:09:41 martin Exp $
+# $Id: Config.pm,v 1.56 2006-10-12 14:32:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Main;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -909,6 +909,7 @@ sub ConfigItemSearch {
     my $Self = shift;
     my %Param = @_;
     my @List = ();
+    my %Used = ();
     # check needed stuff
     foreach (qw(Search)) {
         if (!$Param{$_}) {
@@ -927,32 +928,36 @@ sub ConfigItemSearch {
             );
             foreach my $Item (@Items) {
                 my $Config = $Self->_ModGet(ConfigName=> $Item);
-                if ($Config) {
+                if ($Config && !$Used{$Group.'::'.$SubGroup}) {
                     if (ref($Config) eq 'ARRAY') {
                         foreach (@{$Config}) {
-                            if ($_ && $_ =~ /\Q$Param{Search}\E/i) {
-                                push (@List,
-                                    {
-                                        SubGroup => $SubGroup,
-                                        SubGroupCount => $SubGroups{$SubGroup},
+                            if (!$Used{$Group.'::'.$SubGroup}) {
+                                if ($_ && $_ =~ /\Q$Param{Search}\E/i) {
+                                    push (@List,
+                                        {
+                                            SubGroup => $SubGroup,
+                                            SubGroupCount => $SubGroups{$SubGroup},
                                         Group    => $Group,
-                                    },
-                                );
-                                next;
+                                        },
+                                    );
+                                    $Used{$Group.'::'.$SubGroup} = 1;
+                                }
                             }
                         }
                     }
                     elsif (ref($Config) eq 'HASH') {
                         foreach my $Key (keys %{$Config}) {
-                            if ($Config->{$Key} && $Config->{$Key} =~ /\Q$Param{Search}\E/i) {
-                                push (@List,
-                                    {
-                                        SubGroup => $SubGroup,
-                                        SubGroupCount => $SubGroups{$SubGroup},
-                                        Group    => $Group,
-                                    },
-                                );
-                                next;
+                            if (!$Used{$Group.'::'.$SubGroup}) {
+                                if ($Config->{$Key} && $Config->{$Key} =~ /\Q$Param{Search}\E/i) {
+                                    push (@List,
+                                        {
+                                            SubGroup => $SubGroup,
+                                            SubGroupCount => $SubGroups{$SubGroup},
+                                            Group    => $Group,
+                                        },
+                                    );
+                                    $Used{$Group.'::'.$SubGroup} = 1;
+                                }
                             }
                         }
                     }
@@ -965,33 +970,37 @@ sub ConfigItemSearch {
                                     Group    => $Group,
                                 },
                             );
-                            next;
+                            $Used{$Group.'::'.$SubGroup} = 1;
                         }
                     }
                 }
                 if ($Item =~ /\Q$Param{Search}\E/i) {
-                    push (@List,
-                        {
-                            SubGroup => $SubGroup,
-                            SubGroupCount => $SubGroups{$SubGroup},
-                            Group    => $Group,
-                        },
-                    );
-                    next;
+                    if (!$Used{$Group.'::'.$SubGroup}) {
+                        push (@List,
+                            {
+                                SubGroup => $SubGroup,
+                                SubGroupCount => $SubGroups{$SubGroup},
+                                Group    => $Group,
+                            },
+                        );
+                        $Used{$Group.'::'.$SubGroup} = 1;
+                    }
                 }
                 else {
                     my %ItemHash = $Self->ConfigItemGet(Name => $Item);
                     foreach my $Index (1...$#{$ItemHash{Description}}) {
-                        my $Description = $ItemHash{Description}[$Index]{Content};
-                        if ($Description =~ /\Q$Param{Search}\E/i) {
-                            push (@List,
-                                {
-                                    SubGroup => $SubGroup,
-                                    SubGroupCount => $SubGroups{$SubGroup},
-                                    Group    => $Group,
-                                },
-                            );
-                            next;
+                        if (!$Used{$Group.'::'.$SubGroup}) {
+                            my $Description = $ItemHash{Description}[$Index]{Content};
+                            if ($Description =~ /\Q$Param{Search}\E/i) {
+                                push (@List,
+                                    {
+                                        SubGroup => $SubGroup,
+                                        SubGroupCount => $SubGroups{$SubGroup},
+                                        Group    => $Group,
+                                    },
+                                );
+                                $Used{$Group.'::'.$SubGroup} = 1;
+                            }
                         }
                     }
                 }
@@ -1374,6 +1383,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2006-10-12 10:09:41 $
+$Revision: 1.56 $ $Date: 2006-10-12 14:32:55 $
 
 =cut
