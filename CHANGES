@@ -2,16 +2,21 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.299 2006-10-05 11:05:56 cs Exp $
+# $Id: CHANGES,v 1.300 2006-10-12 10:21:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-
-CVS head
-
- - (2006/10/05) Fixed bug #1361 - Can't locate object method "ModGet" via
+2.1.2 (2006/??/??)
+ - (2006/10/12) fixed bug #1311 - Apostrophes are incorrectly displayed under
+    IE 6 & IE7 but correctly displayed under Firefox 1.5.0.6  -=>
+    moved from $Text{} to $JSText{} for text translations in Java Script parts
+    to have a correct quoting
+ - (2006/10/11) fixed not shown follow up feature in customer panel if ticket
+     is closed
+ - (2006/10/09) added missing customer print feature
+ - (2006/10/05) fixed bug #1361 - Can't locate object method "ModGet" via
     package "Kernel::System::Config"
 
 2.1.1 (2006/10/05)
@@ -703,7 +708,7 @@ CVS head
  - (2004/11/01) added auto generated table-sql scripts for mysql, postgresql,
     sapdb and oracle based on scripts/database/otrs-schema.xml
  - (2004/10/31) added database foreign-keys
- - (2004/10/08) fixed 544 - E-mail address check with query timeout causes
+ - (2004/10/08) fixed 544 - Email address check with query timeout causes
      Premature end of script headers
  - (2004/10/06) reworked all agent and customer notifications in database
     (use scripts/DBUpdate-to-2.0.*.sql)
@@ -826,7 +831,7 @@ CVS head
  - (2004/11/04) fixed bug 604 - Typo in AgentStatusView.pm
  - (2004/10/29) spell check rewritten
  - (2004/10/26) added unlock option to bulk feature
- - (2004/10/18) fixed bug 551 - FAQ on E-mail new only takes over the
+ - (2004/10/18) fixed bug 551 - FAQ on Email new only takes over the
     subject and not the text
 
 1.3.2 (2004-10-15)
@@ -1060,7 +1065,7 @@ CVS head
 
 1.2.0 beta3 (2004-02-09)
 
- - (2004/02/09) fixed bug 249 Editing system e-mail addresses with
+ - (2004/02/09) fixed bug 249 Editing system email addresses with
     quotations in name field - http://bugs.otrs.org/show_bug.cgi?id=249
  - (2004/02/09) added contact customer (create ticket) feature
  - (2004/02/08) added multi customer map/source support
@@ -1383,7 +1388,7 @@ CVS head
  - (2003/04/23) fixed missing filename (default index.pl) for download
     of attachments using Kernel/System/Ticket/ArticleStorageFS.pm
     (http://lists.otrs.org/pipermail/otrs/2003-April/001491.html)
- - (2003/04/22) fixed bug 123 - E-mail address with simple quote
+ - (2003/04/22) fixed bug 123 - Email address with simple quote
     http://bugs.otrs.org/show_bug.cgi?id=123
  - (2003/04/18) added RH8 IPC (shm id 0) workaround (create dummy shm)
  - (2003/04/17) fixed AgentStatusView (1st ticket is actually the 2nd)
@@ -1763,7 +1768,7 @@ CVS head
     to be release independently with Third Party modules for OTRS.
  - added $Env{"Product"} $Env{"Version"} (e. g. OTRS 0.5 Beta6) as dtl environment
     variable. Source is $OTRS_HOME/RELEASE.
- - added display support for HTML-only e-mails
+ - added display support for HTML-only emails
  - added generic database and webserver to scripts/suse-rcotrs script
  - added PostgreSQL (7.2 or higher) support (use OpenTRS-schema.postgresql.sql)
  - fixed bug[12] fetchmail lock problem - http://bugs.otrs.org/show_bug.cgi?id=12
@@ -1819,7 +1824,7 @@ CVS head
     to Kernel/Config.pm. Important: For existing installations you have to change the
     Config.pm or to rename the "user" table to "system_user"!
  - added "kill all sessions" funktion to Kernel::Modules::AdminSession.pm
- - added old subject ("subject snip") and old e-mail ("body snip") to auto reply
+ - added old subject ("subject snip") and old email ("body snip") to auto reply
  - added stats support Kernel::Modules::SystemStats and bin/mkStats.pl (with GD)
  - fixed missing html quoting in Kernel::Output::HTML::Agent->AgentHistory
  - update of html in AgentTicketView.dtl and AgentZoom.dtl
