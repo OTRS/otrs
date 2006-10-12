@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.123 2006-10-09 07:55:35 martin Exp $
+# $Id: Article.pm,v 1.124 2006-10-12 10:25:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.123 $';
+$VERSION = '$Revision: 1.124 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -410,8 +410,8 @@ sub ArticleCreate {
         else {
             foreach (qw(OwnerID ResponsibleID)) {
                 if ($Ticket{$_}) {
-                    if (!$AlreadySent{$_}) {
-                        $AlreadySent{$_} = 1;
+                    if (!$AlreadySent{$Ticket{$_}}) {
+                        $AlreadySent{$Ticket{$_}} = 1;
                         my %UserData = $Self->{UserObject}->GetUserData(UserID => $Ticket{$_});
                         if ($Ticket{$_} ne 1 && $UserData{UserSendFollowUpNotification}) {
                             # send notification
@@ -1411,7 +1411,6 @@ sub ArticleUpdate {
         return;
     }
 }
-
 
 =item ArticleSend()
 
@@ -2478,7 +2477,6 @@ delete all article, attachments and plain message of a ticket
       UserID => 123,
   );
 
-
 =item ArticleDeletePlain()
 
 delete a artile plain message
@@ -2488,7 +2486,6 @@ delete a artile plain message
       UserID => 123,
   );
 
-
 =item ArticleDeleteAttachment()
 
 delete all attachments of an article
@@ -2497,7 +2494,6 @@ delete all attachments of an article
       ArticleID => 123,
       UserID => 123,
   );
-
 
 =item ArticleWritePlain()
 
@@ -2509,7 +2505,6 @@ write an plain email to storage
       UserID => 123,
   );
 
-
 =item ArticlePlain()
 
 get plain message/email
@@ -2518,7 +2513,6 @@ get plain message/email
       ArticleID => 123,
       UserID => 123,
   );
-
 
 =item ArticleWriteAttachment()
 
@@ -2532,7 +2526,6 @@ write an article attachemnt to storage
       UserID => 123,
   );
 
-
 =item ArticleAttachmentIndex()
 
 get article attachment index as hash (ID => hashref (Filename, Filesize))
@@ -2541,7 +2534,6 @@ get article attachment index as hash (ID => hashref (Filename, Filesize))
       ArticleID => 123,
       UserID => 123,
   );
-
 
 =item ArticleAttachment()
 
