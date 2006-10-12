@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.37 2006-10-04 16:57:16 martin Exp $
+# $Id: XML.pm,v 1.38 2006-10-12 14:47:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -125,6 +125,7 @@ sub XMLHashAdd {
                 return;
             }
         }
+        my $Key = $Param{Key};
         # db quote
         foreach (keys %Param) {
             $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -136,7 +137,7 @@ sub XMLHashAdd {
                 SQL => "INSERT INTO xml_storage (xml_type, xml_key, xml_content_key, xml_content_value) VALUES ('$Param{Type}', '$Param{Key}', '$Key', '$Value')",
             );
         }
-        return 1;
+        return $Key;
     }
     else {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Got no \%ValueHASH from XMLHash2D()");
@@ -165,9 +166,11 @@ sub _XMLHashAddAutoIncrement {
         return;
     }
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
-        $KeyAutoIncrement = $Data[0];
+        if ($Data[0]) {
+            $KeyAutoIncrement = $Data[0];
+        }
     }
-    if ($KeyAutoIncrement !~ /^\d+?$/) {
+    if ($KeyAutoIncrement !~ /^\d{1,999}$/) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message => "No KeyAutoIncrement possible, no int key exists ($KeyAutoIncrement)!",
@@ -1056,6 +1059,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2006-10-04 16:57:16 $
+$Revision: 1.38 $ $Date: 2006-10-12 14:47:22 $
 
 =cut
