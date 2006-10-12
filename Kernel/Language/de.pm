@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.115 2006-10-06 14:40:28 tr Exp $
+# $Id: de.pm,v 1.116 2006-10-12 09:13:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.115 $';
+$VERSION = '$Revision: 1.116 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1291,7 +1291,6 @@ sub Data {
 
       # Template: Warning
       # Misc
-      '' => '',
       'Create Database' => 'Datenbank erstellen',
       'DB Host' => 'DB Rechner',
       'verified' => 'verifiziert',
@@ -1388,6 +1387,7 @@ sub Data {
       'User-Name' => 'Benutzer-Name',
       'File-Path' => 'Datei-Dateipfad',
       'Modified' => 'Verändert',
+      'Watched Tickets' => 'Beobachtete Tickets',
     };
     # $$STOP$$
 }

@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004 CAT <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.31 2006-10-05 04:46:50 martin Exp $
+# $Id: pt.pm,v 1.32 2006-10-12 09:13:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1380,9 +1380,9 @@ sub Data {
       'Fulltext' => 'Texto completo',
       'Modified' => 'Modificado',
       'Ticket\#' => 'Nú de Bilhete',
+      'Watched Tickets' => '',
     };
     # $$STOP$$
 }
 
 1;
-

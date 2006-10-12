@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.32 2006-10-05 04:46:50 martin Exp $
+# $Id: pl.pm,v 1.33 2006-10-12 09:13:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1358,6 +1358,7 @@ sub Data {
       '(Used ticket number format)' => '(U¿ywany format numerowania zg³oszeñ)',
       'Fulltext' => 'Pe³notekstowe',
       'Modified' => 'Zmodyfikowany',
+      'Watched Tickets' => '',
     };
     # $$STOP$$
 }

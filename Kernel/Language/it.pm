@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.33 2006-10-05 04:46:50 martin Exp $
+# $Id: it.pm,v 1.34 2006-10-12 09:13:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1360,6 +1360,7 @@ sub Data {
       '(Used ticket number format)' => '(Formato del numero dei ticket)',
       'Fulltext' => 'Testo libero',
       'Modified' => 'Modificato',
+      'Watched Tickets' => '',
     };
     # $$STOP$$
 }

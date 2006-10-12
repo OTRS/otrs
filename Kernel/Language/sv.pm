@@ -2,7 +2,7 @@
 # Kernel/Language/nb_SW.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.21 2006-10-05 04:46:50 martin Exp $
+# $Id: sv.pm,v 1.22 2006-10-12 09:13:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::sv;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.21 $;
+$VERSION = q$Revision: 1.22 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1371,6 +1371,7 @@ sub Data {
       '(Used ticket number format)' => '(Valt format för ärendenummer)',
       'Fulltext' => 'Fritext',
       'Modified' => 'Ändrat',
+      'Watched Tickets' => '',
     };
     # $$STOP$$
 }

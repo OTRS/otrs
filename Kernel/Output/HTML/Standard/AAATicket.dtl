@@ -99,6 +99,7 @@ $Text{"Send Email and create a new Ticket"}
 $Text{"Create new Phone Ticket"}
 $Text{"Overview of all open Tickets"}
 $Text{"Locked Tickets"}
+$Text{"Watched Tickets"}
 $Text{"New message"}
 $Text{"Lock it to work on it!"}
 $Text{"Unlock to give it back to the queue!"}

@@ -6,7 +6,7 @@
 #		     Vadim Buzek
 #		     Petr Ocasek
 # --
-# $Id: cz.pm,v 1.29 2006-10-05 04:46:50 martin Exp $
+# $Id: cz.pm,v 1.30 2006-10-12 09:13:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1364,9 +1364,9 @@ sub Data {
       '(Used ticket number format)' => '(Pou¾itý formát èísel tiketù)',
       'Fulltext' => '',
       'Modified' => 'Zmìnìno',
+      'Watched Tickets' => '',
     };
     # $$STOP$$
 }
 
 1;
-

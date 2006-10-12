@@ -3,7 +3,7 @@
 # Last Update: 2006/02/01
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # --
-# $Id: da.pm,v 1.5 2006-10-05 04:46:50 martin Exp $
+# $Id: da.pm,v 1.6 2006-10-12 09:13:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub Data {
     my $Self = shift;
     my %Param = @_;
@@ -1359,8 +1358,9 @@ sub Data {
       '(Used ticket number format)' => '(Anvendt billetnummerformat)',
       'Fulltext' => 'Fritekst',
       'Modified' => 'Modificeret',
+      'Watched Tickets' => '',
     };
     # $$STOP$$
 }
-# --
+
 1;

@@ -4,7 +4,7 @@
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 #               2006 Knut Haugen <knuthaug@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.26 2006-10-05 04:46:50 martin Exp $
+# $Id: nb_NO.pm,v 1.27 2006-10-12 09:14:56 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.26 $;
+$VERSION = q$Revision: 1.27 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1357,6 +1357,7 @@ sub Data {
       '(Used ticket number format)' => '(Valgt format for saksnummer)',
       'Fulltext' => 'Fritekst',
       'Modified' => 'Endret',
+      'Watched Tickets' => '',
     };
     # $$STOP$$
 }
