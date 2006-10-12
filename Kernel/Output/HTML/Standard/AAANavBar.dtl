@@ -10,7 +10,7 @@ $Text{"Stats-Area"}
 $Text{"Stats"}
 $Text{"Admin-Area"}
 $Text{"Admin"}
-$Text{""}
+$Text{"Watched Tickets"}
 
 # admin nav bar
 $Text{"Customer Users"}
