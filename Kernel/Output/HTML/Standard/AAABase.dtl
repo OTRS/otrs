@@ -230,4 +230,4 @@ $Text{"uninstalled"}
 
 $Text{"Security Note: You should activate %s because application is already running!"
 
-$Text{"printed at"}  # gedruckt am
+$Text{"printed at"}
