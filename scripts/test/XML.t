@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.t,v 1.8 2006-10-12 14:47:50 martin Exp $
+# $Id: XML.t,v 1.9 2006-10-12 14:50:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -151,7 +151,7 @@ foreach my $Key (@Keys) {
     );
     $Self->True(
         $XMLHashDelete,
-        "XMLHashDelete() (Key $Key)",
+        "XMLHashDelete() (Key=$Key)",
     );
 }
 
@@ -162,7 +162,7 @@ $XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
 );
 $Self->True(
     $XMLHashAdd eq 1,
-    'XMLHashAdd() 1 KeyAutoIncrement',
+    'XMLHashAdd() (1 KeyAutoIncrement)',
 );
 
 $XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
@@ -172,7 +172,7 @@ $XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
 );
 $Self->True(
     $XMLHashAdd eq 2,
-    'XMLHashAdd() 2 KeyAutoIncrement',
+    'XMLHashAdd() (2 KeyAutoIncrement)',
 );
 
 @Keys = $Self->{XMLObject}->XMLHashList(
@@ -185,7 +185,7 @@ foreach my $Key (@Keys) {
     );
     $Self->True(
         $XMLHashDelete,
-        "XMLHashDelete() 2 (Key $Key)",
+        "XMLHashDelete() 2 (Key=$Key)",
     );
 }
 
