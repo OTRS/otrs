@@ -2,7 +2,7 @@
 # Kernel/Language/fa.pm - provides fa language translation
 # Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
 # --
-# $Id: fa.pm,v 1.11 2006-10-12 09:13:13 mh Exp $
+# $Id: fa.pm,v 1.12 2006-10-12 09:23:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fa;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1367,6 +1367,7 @@ sub Data {
       'Fulltext' => 'ØªÙØ§Ù ÙØªÙ',
       'Modified' => 'ØªØºÛÛØ± ÛØ§ÙØªÙ',
       'Watched Tickets' => '',
+      'Watched' => '',
     };
     # $$STOP$$
 }

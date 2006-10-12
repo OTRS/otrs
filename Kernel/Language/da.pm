@@ -3,7 +3,7 @@
 # Last Update: 2006/02/01
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # --
-# $Id: da.pm,v 1.6 2006-10-12 09:13:13 mh Exp $
+# $Id: da.pm,v 1.7 2006-10-12 09:23:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1359,6 +1359,7 @@ sub Data {
       'Fulltext' => 'Fritekst',
       'Modified' => 'Modificeret',
       'Watched Tickets' => '',
+      'Watched' => '',
     };
     # $$STOP$$
 }

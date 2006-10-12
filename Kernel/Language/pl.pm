@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.33 2006-10-12 09:13:13 mh Exp $
+# $Id: pl.pm,v 1.34 2006-10-12 09:23:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1359,6 +1359,7 @@ sub Data {
       'Fulltext' => 'Pe³notekstowe',
       'Modified' => 'Zmodyfikowany',
       'Watched Tickets' => '',
+      'Watched' => '',
     };
     # $$STOP$$
 }
