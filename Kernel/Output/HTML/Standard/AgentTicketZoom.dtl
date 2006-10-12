@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.13 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.14 2006-10-12 10:16:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,13 +12,13 @@
 <!-- start ticket head $Data{"TicketNumber"} -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
   <tr>
-    <td width="50%" class="mainhead">
+    <td width="70%" class="mainhead">
       $Env{"Box0"}$Text{"Zoom"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"} $Env{"Box1"}
 <!-- dtl:block:Title-->
       $QData{"Title","60"}
 <!-- dtl:block:Title-->
     </td>
-    <td align="right" width="50%" class="mainhead">
+    <td align="right" width="30%" class="mainhead">
       $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
     </td>
   </tr>
@@ -32,7 +32,7 @@
       -
 <!-- dtl:block:MenuItemSplit -->
 <!-- dtl:block:MenuItem -->
-      <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"$QData{"Description"}"}">
+      <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"$QData{"Description"}"}">
 $Text{"$QData{"Name"}"}</a>
 <!-- dtl:block:MenuItem -->
 <!-- dtl:block:Menu -->
@@ -58,9 +58,9 @@ $Text{"$QData{"Name"}"}</a>
 <!-- dtl:block:TreeItem -->
         <tr class="$QData{"SenderType"}-$QData{"ArticleType"}">
           <td class="small">
-            <div title="$QData{"From","50"}: $QData{"Subject","200"} - $TimeLong{"$QData{"Created"}"}">$Data{"Space"}$Data{"Start"} $QData{"Count"}. <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}#$QData{"ArticleID"}" onmouseover="window.status='$Text{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})</a>
+            <div title="$QData{"From","50"}: $QData{"Subject","200"} - $TimeLong{"$QData{"Created"}"}">$Data{"Space"}$Data{"Start"} $QData{"Count"}. <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})</a>
 <!-- dtl:block:TreeItemEmail -->
-            (<a href="$Env{"Baselink"}Action=AgentTicketPlain&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}" 'onmouseover="window.status='$Text{"plain"}'; return true;" onmouseout="window.status='';">$Text{"plain"}</a>)
+            (<a href="$Env{"Baselink"}Action=AgentTicketPlain&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}" 'onmouseover="window.status='$JSText{"plain"}'; return true;" onmouseout="window.status='';">$Text{"plain"}</a>)
 <!-- dtl:block:TreeItemEmail -->
             &nbsp $QData{"From","16"}: $QData{"Subject","20"} - $TimeLong{"$QData{"Created"}"}$Data{"Stop"}
 <!-- dtl:block:TreeItemAttachment -->
@@ -129,7 +129,7 @@ $Text{"$QData{"Name"}"}</a>
                 <td>$QData{"Filename"}</td>
                 <td>
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                  <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$Text{"$QData{"Action"}"}: $QData{"Filename"}';return true;" onmouseout="window.status='';"><img src="$Env{"Images"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}"></a>
+                  <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$JSText{"$QData{"Action"}"}: $QData{"Filename"}';return true;" onmouseout="window.status='';"><img src="$Env{"Images"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}"></a>
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
                   <img src="$Env{"Images"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}">
@@ -269,7 +269,7 @@ $Data{"Body"}
               <table border="0">
                 <tr>
                   <td>
-                    <li><a href="$Env{"Baselink"}Action=AgentTicketCustomerFollowUp&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Compose Follow up"}'; return true;" onmouseout="window.status='';">$Text{"Compose Follow up"}</a></li>
+                    <li><a href="$Env{"Baselink"}Action=AgentTicketCustomerFollowUp&TicketID=$Data{"TicketID"}" onmouseover="window.status='$JSText{"Compose Follow up"}'; return true;" onmouseout="window.status='';">$Text{"Compose Follow up"}</a></li>
                   </td>
                 </tr>
               </table>
@@ -295,7 +295,7 @@ $Data{"Body"}
               <table border="0">
                 <tr>
                   <td>
-                    <dtl if ($Data{"AgentTicketPhoneOutbound"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a></li>"; }>
+                    <dtl if ($Data{"AgentTicketPhoneOutbound"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a></li>"; }>
 $Data{"AgentPhoneStrg"}
                   </td>
                 </tr>
@@ -309,15 +309,15 @@ $Data{"AgentPhoneStrg"}
               <table border="0">
                 <tr>
                   <td>
-                    <a href="$Env{"Baselink"}Action=AgentTicketForward&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Forward"}'; return true;" onmouseout="window.status='';">$Text{"Forward"}</a>
+                    <a href="$Env{"Baselink"}Action=AgentTicketForward&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Forward"}'; return true;" onmouseout="window.status='';">$Text{"Forward"}</a>
 # check if bounce should be shown
                     <dtl if ($Data{"ArticleType"} eq "email-external") { $Data{"ArticleBounceString"} = "Bounce"; }>
                     <dtl if ($Data{"SenderType"} ne "customer") { $Data{"ArticleBounceString"} = ""; }>
-                    <a href="$Env{"Baselink"}Action=AgentTicketBounce&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Bounce"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleBounceString"}"}</a>
+                    <a href="$Env{"Baselink"}Action=AgentTicketBounce&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Bounce"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleBounceString"}"}</a>
 # check if split should be shown
                     <dtl if ($Data{"SenderType"} eq "customer") { $Data{"ArticleSplitString"} = "Split"; }>
 
-                    <a href="$Env{"Baselink"}Action=AgentTicketPhone&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Split"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleSplitString"}"}</a>
+                    <a href="$Env{"Baselink"}Action=AgentTicketPhone&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Split"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleSplitString"}"}</a>
                   </td>
                 </tr>
               </table>

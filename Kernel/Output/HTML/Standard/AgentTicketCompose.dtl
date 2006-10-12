@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.17 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentTicketCompose.dtl,v 1.18 2006-10-12 10:15:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,39 +13,39 @@
 function submit_compose()
 {
     if (document.compose.To.value == "") {
-        alert('$Text{"A message should have a To: recipient!"}');
+        alert('$JSText{"A message should have a To: recipient!"}');
         document.compose.To.focus();
         return false;
     }
     else if (document.compose.Subject.value == "") {
-        alert('$Text{"A message should have a subject!"}');
+        alert('$JSText{"A message should have a subject!"}');
         document.compose.Subject.focus();
         return false;
     }
     else if (document.spelling.was_spell_checked != true && $Config{"Ticket::Frontend::NeedSpellCheck"}) {
-        alert('$Text{"A message must be spell checked!"}');
+        alert('$JSText{"A message must be spell checked!"}');
         document.compose.Body.focus();
         return false;
     }
     else if (isNaN(document.compose.Day.value) || isNaN(document.compose.Month.value) || isNaN(document.compose.Year.value) || isNaN(document.compose.Hour.value) || isNaN(document.compose.Minute.value)) {
-        alert('$Text{"Invalid date!"}');
+        alert('$JSText{"Invalid date!"}');
         return false;
     }
     else if (document.compose.Day.value < 1 || document.compose.Day.value > 31 || document.compose.Month.value < 1 || document.compose.Month.value > 31 || document.compose.Year.value < 999 || document.compose.Year.value > 10000 || document.compose.Hour.value < 0 || document.compose.Hour.value > 23 ||document.compose.Minute.value < 0 || document.compose.Minute.value > 59  ) {
-        alert('$Text{"Invalid date!"}');
+        alert('$JSText{"Invalid date!"}');
         return false;
     }
 <!-- dtl:block:TimeUnitsJs -->
     else if (document.compose.TimeUnits.value != "") {
         var reg = /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/;
         if (reg.test(document.compose.TimeUnits.value) == false) {
-            alert('$Text{"Invalid time!"}');
+            alert('$JSText{"Invalid time!"}');
             document.compose.TimeUnits.focus();
             return false;
         }
     }
     else if (document.compose.TimeUnits.value == "" && $Config{"Ticket::Frontend::NeedAccountedTime"}) {
-        alert('$Text{"You need to account time!"}');
+        alert('$JSText{"You need to account time!"}');
         document.compose.Subject.focus();
         return false;
     }
@@ -154,16 +154,16 @@ $Include{"AgentTicketLocked"}
                   <td class="contentkey">$Text{"Options"}:</td>
                   <td class="contentvalue">
 <!-- dtl:block:SpellCheck -->
-                    $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+                    $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
 <!-- dtl:block:SpellCheck -->
 <!-- dtl:block:AddressBook -->
-                    $Env{"Box0"}<a href="" onclick="BookCheckSubmit(); return false;" onmouseover="window.status='$Text{"Address Book"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}contents.png">$Text{"Address Book"}</a>$Env{"Box1"}
+                    $Env{"Box0"}<a href="" onclick="BookCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Address Book"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}contents.png">$Text{"Address Book"}</a>$Env{"Box1"}
 <!-- dtl:block:AddressBook -->
-                    $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
+                    $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$JSText{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
 # --
 # check if the faq link should be shown
 # --
-                    <dtl if ($Env{"UserIsGroupRo[faq]"} eq "Yes") { $Data{"FAQLink"} = "$Env{"Box0"}<a href="" onclick="FAQSubmit(); return false;" onmouseover="window.status='$Text{"FAQ"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}help-small.png">$Text{"FAQ"}</a>$Env{"Box1"}"; }>
+                    <dtl if ($Env{"UserIsGroupRo[faq]"} eq "Yes") { $Data{"FAQLink"} = "$Env{"Box0"}<a href="" onclick="FAQSubmit(); return false;" onmouseover="window.status='$JSText{"FAQ"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}help-small.png">$Text{"FAQ"}</a>$Env{"Box1"}"; }>
                     $Data{"FAQLink"}
                   </td>
                 </tr>

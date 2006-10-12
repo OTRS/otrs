@@ -2,7 +2,7 @@
 # AgentTicketHistory.dtl - provides HTML form for history
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.dtl,v 1.4 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentTicketHistory.dtl,v 1.5 2006-10-12 10:15:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@
   </tr>
   <tr>
     <td class="menu">
-      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
     </td>
   </tr>
   <tr>
@@ -44,7 +44,7 @@
 <!-- dtl:block:Row -->
 # should i show  the zoom link?
         <dtl set $Data{"Link"} = "-">
-        <dtl if ($Data{"ArticleID"} ne "0") { $Data{"Link"} = "<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">x</a>"; }>
+        <dtl if ($Data{"ArticleID"} ne "0") { $Data{"Link"} = "<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';">x</a>"; }>
         <tr>
           <td>
             $Quote{"$Data{"HistoryType"}"}

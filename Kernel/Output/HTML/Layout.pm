@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.16 2006-10-09 14:57:39 mh Exp $
+# $Id: Layout.pm,v 1.17 2006-10-12 10:15:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -798,7 +798,25 @@ sub Output {
         }
         {
             if (defined($2)) {
-                $Self->Ascii2Html(Text => $Self->{LanguageObject}->Get($2, $Param{TemplateFile}));
+                $Self->Ascii2Html(
+                    Text => $Self->{LanguageObject}->Get($2, $Param{TemplateFile}),
+                );
+            }
+            else {
+                '';
+            }
+        }egx;
+    }
+    foreach (1..1) {
+        $Output =~ s{
+            \$JSText({"(.+?)"}|{""})
+        }
+        {
+            if (defined($2)) {
+                $Self->Ascii2Html(
+                    Text => $Self->{LanguageObject}->Get($2, $Param{TemplateFile}),
+                    Type => 'JSText',
+                );
             }
             else {
                 '';
@@ -1298,6 +1316,7 @@ sub Ascii2Html {
     my $NewLine = $Param{NewLine} || '';
     my $HTMLMode = $Param{HTMLResultMode} || '';
     my $StripEmptyLines = $Param{StripEmptyLines} || '';
+    my $Type = $Param{Type} || '';
 
     my %LinkHash = ();
     if ($Param{LinkFeature}) {
@@ -1364,7 +1383,6 @@ sub Ascii2Html {
     $Text =~ s/</&lt;/g;
     $Text =~ s/>/&gt;/g;
     $Text =~ s/"/&quot;/g;
-    $Text =~ s/'/&apos;/g;
     # text -> html format quoting
     if ($Param{LinkFeature} && %LinkHash) {
         foreach my $Key (sort keys %LinkHash) {
@@ -1377,6 +1395,9 @@ sub Ascii2Html {
     if ($HTMLMode) {
         $Text =~ s/\n/<br>\n/g;
         $Text =~ s/  /&nbsp;&nbsp;/g;
+    }
+    if ($Type eq 'JSText') {
+        $Text =~ s/'/\\'/g;
     }
     # return result
     return $Text;
@@ -2635,6 +2656,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2006-10-09 14:57:39 $
+$Revision: 1.17 $ $Date: 2006-10-12 10:15:59 $
 
 =cut

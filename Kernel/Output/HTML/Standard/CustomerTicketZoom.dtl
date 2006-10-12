@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.23 2006-08-29 16:56:06 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.24 2006-10-12 10:16:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,12 +16,12 @@
 function submit_compose()
 {
     if (document.compose.Subject.value == "") {
-        alert('$Text{"A message should have a subject!"}');
+        alert('$JSText{"A message should have a subject!"}');
         document.compose.Subject.focus();
         return false;
     }
     else if (document.compose.Body.value == "") {
-        alert('$Text{"A message should have a body!"}');
+        alert('$JSText{"A message should have a body!"}');
         document.compose.Body.focus();
         return false;
     }
@@ -45,6 +45,8 @@ function submit_compose()
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
   <tr>
     <td width="70%" class="menu">
+
+      <a href="$Env{"Baselink"}Action=CustomerTicketPrint&TicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Print Ticket"}'; return true;" onmouseout="window.status='';" target="_blank">$Text{"Print"}</a>
 
     </td>
     <td align="right" width="30%" class="menu">
@@ -84,7 +86,7 @@ function submit_compose()
                 <td>$QData{"Filename"}</td>
                 <td>
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                  <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$Text{"$QData{"Action"}"}: $QData{"Filename"}';return true;" onmouseout="window.status='';"><img src="$Env{"Images"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}"></a>
+                  <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$JSText{"$QData{"Action"}"}: $QData{"Filename"}';return true;" onmouseout="window.status='';"><img src="$Env{"Images"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}"></a>
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
                   <img src="$Env{"Images"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}">

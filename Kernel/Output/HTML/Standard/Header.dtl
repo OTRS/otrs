@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.45 2006-08-29 14:41:24 martin Exp $
+# $Id: Header.dtl,v 1.46 2006-10-12 10:16:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -48,7 +48,7 @@ $Include{"css"}
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
   <tr>
     <td align="left" width="20%" class="header">
-      <b>$Env{"Box0"}<a href="$Env{"Baselink"}" accesskey="h" onmouseover="window.status='$Text{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">$Config{"ProductName"}</a>$Env{"Box1"}</b>
+      <b>$Env{"Box0"}<a href="$Env{"Baselink"}" accesskey="h" onmouseover="window.status='$JSText{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">$Config{"ProductName"}</a>$Env{"Box1"}</b>
     </td>
     <td align="right" width="80%" class="header">
       $Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"} $Env{"TimeLong"}

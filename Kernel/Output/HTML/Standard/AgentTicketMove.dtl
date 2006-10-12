@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.6 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentTicketMove.dtl,v 1.7 2006-10-12 10:15:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ function change_selected(sel)
 function submit_compose()
 {
     if (document.compose.DestQueueID.value == "") {
-        alert('$Text{"Queue"}');
+        alert('$JSText{"Queue"}');
         document.compose.DestQueueID.focus();
         return false;
     }
@@ -39,13 +39,13 @@ function submit_compose()
     else if (document.compose.TimeUnits.value != "") {
         var reg = /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/;
         if (reg.test(document.compose.TimeUnits.value) == false) {
-            alert('$Text{"Invalid time!"}');
+            alert('$JSText{"Invalid time!"}');
             document.compose.TimeUnits.focus();
             return false;
         }
     }
     else if (document.compose.TimeUnits.value == "" && $Config{"Ticket::Frontend::NeedAccountedTime"}) {
-        alert('$Text{"You need to account time!"}');
+        alert('$JSText{"You need to account time!"}');
         document.compose.TimeUnits.focus();
         return false;
     }
@@ -91,7 +91,7 @@ $Include{"AgentTicketLocked"}
                 <tr>
                   <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
                   <td width="2%" class="contentvalue"><input type="radio" name="UserSelection" value="New" checked="checked"></td>
-                  <td width="80%" class="contentvalue">$Data{"OwnerStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandQueueUsers.value='3'; document.compose.AllUsers.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}</td>
+                  <td width="80%" class="contentvalue">$Data{"OwnerStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandQueueUsers.value='3'; document.compose.AllUsers.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}</td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Previous Owner"}:</td>

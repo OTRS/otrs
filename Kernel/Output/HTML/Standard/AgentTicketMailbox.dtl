@@ -2,7 +2,7 @@
 # AgentMailboxNavBar.dtl - provides HTML AgentMailboxNavBar for AgentAgentMailboxNavBar.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.dtl,v 1.4 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentTicketMailbox.dtl,v 1.5 2006-10-12 10:15:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,15 +20,15 @@
       $Text{"Tickets"}: $Data{"Result"} $Text{"of"} $Data{"TotalHits"} -
       $Text{"Page"}: $Data{"SiteNavBar"} - $Text{"Filter"}:
 
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=All&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"All messages"} ($Data{"All"})'; return true;" onmouseout="window.status='';">$Text{"All"} ($Data{"All"})</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=All&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"All messages"} ($Data{"All"})'; return true;" onmouseout="window.status='';">$Text{"All"} ($Data{"All"})</a>
 #  -
-#  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Open&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"Open messages"} ($Data{"Open"})'; return true;" onmouseout="window.status='';">$Text{"Old messages"} ($Data{"Open"})</a>
+#  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Open&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"Open messages"} ($Data{"Open"})'; return true;" onmouseout="window.status='';">$Text{"Old messages"} ($Data{"Open"})</a>
       -
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=New&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"New messages"} ($Data{"New"})'; return true;" onmouseout="window.status='';">$Text{"New messages"} ($Data{"New"})</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=New&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"New messages"} ($Data{"New"})'; return true;" onmouseout="window.status='';">$Text{"New messages"} ($Data{"New"})</a>
       -
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Pending&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"Pending messages"} ($Data{"Pending"})'; return true;" onmouseout="window.status='';">$Text{"Pending"} ($Data{"Pending"})</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Pending&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"Pending messages"} ($Data{"Pending"})'; return true;" onmouseout="window.status='';">$Text{"Pending"} ($Data{"Pending"})</a>
       -
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reminder&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"Reminder messages"} ($Data{"Reminder"})'; return true;" onmouseout="window.status='';">$Text{"Reminder"} ($Data{"Reminder"})</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reminder&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"Reminder messages"} ($Data{"Reminder"})'; return true;" onmouseout="window.status='';">$Text{"Reminder"} ($Data{"Reminder"})</a>
       <br>
       $Text{"Sort by"}:
       <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&SortBy=Age">$Text{"Age"}</a> -
@@ -73,7 +73,7 @@
       -
 <!-- dtl:block:MenuItemSplit -->
 <!-- dtl:block:MenuItem -->
-      <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"$QData{"Description"}"}">
+      <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"$QData{"Description"}"}">
 $Text{"$QData{"Name"}"}</a>
 <!-- dtl:block:MenuItem -->
 <!-- dtl:block:Menu -->

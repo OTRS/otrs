@@ -2,7 +2,7 @@
 # AdminCustoerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.29 2006-09-05 19:40:14 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.30 2006-10-12 10:15:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,13 +14,13 @@
 function updateMessage(x)
 {
     if (parent.opener.closed) {
-        alert('$Text{"The message being composed has been closed.  Exiting."}');
+        alert('$JSText{"The message being composed has been closed.  Exiting."}');
         this.close();
         return;
     }
 
     if (!parent.opener.document.compose) {
-        alert('$Text{"This window must be called from compose window"}');
+        alert('$JSText{"This window must be called from compose window"}');
         this.close();
         return;
     }
@@ -44,7 +44,7 @@ function updateMessage(x)
     </td>
   </tr>
 # show back link if needed
-  <dtl if ($Env{"CustomerEditReturn"} ne "") { $Data{"Back"} = "<tr><td align="left" colspan="2" class="table2"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Screen=Return" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Back"}">$Text{"Back"}</a></td></tr>"; }>
+  <dtl if ($Env{"CustomerEditReturn"} ne "") { $Data{"Back"} = "<tr><td align="left" colspan="2" class="table2"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Screen=Return" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Back"}">$Text{"Back"}</a></td></tr>"; }>
 $Data{"Back"}
 
   <tr>

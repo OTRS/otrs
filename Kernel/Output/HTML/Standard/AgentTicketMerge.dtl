@@ -2,7 +2,7 @@
 # AgentTicketMerge.dtl - provides HTML form for ticket merge mask
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.dtl,v 1.7 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentTicketMerge.dtl,v 1.8 2006-10-12 10:15:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@
 function submit_compose()
 {
     if (document.compose.MainTicketNumber.value == "") {
-        alert('$Text{"You need to use a ticket number!"}');
+        alert('$JSText{"You need to use a ticket number!"}');
         document.compose.Subject.focus();
         return false;
     }

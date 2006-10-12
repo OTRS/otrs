@@ -2,7 +2,7 @@
 # CustomerMessageNew.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.4 2006-08-29 16:56:06 martin Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.5 2006-10-12 10:16:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,12 +14,12 @@
 function submit_compose()
 {
     if (document.compose.Subject.value == "") {
-        alert('$Text{"A message should have a subject!"}');
+        alert('$JSText{"A message should have a subject!"}');
         document.compose.Subject.focus();
         return false;
     }
     else if (document.compose.Body.value == "") {
-        alert('$Text{"A message should have a body!"}');
+        alert('$JSText{"A message should have a body!"}');
         document.compose.Body.focus();
         return false;
     }

@@ -2,7 +2,7 @@
 # Footer.dtl - provides global HTML footer
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Footer.dtl,v 1.19 2006-08-29 17:10:52 martin Exp $
+# $Id: Footer.dtl,v 1.20 2006-10-12 10:16:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@
       <table border="0">
         <tr>
           <td align="center" class="footer">
-            <a href="#top" onmouseover="window.status='$Text{"Top of Page"}'; return true;" onmouseout="window.status='';" class="footeritem">
+            <a href="#top" onmouseover="window.status='$JSText{"Top of Page"}'; return true;" onmouseout="window.status='';" class="footeritem">
             <img border="0" src="$Env{"Images"}up.png" alt="$Text{"Top of Page"}">
             </a>
           </td>

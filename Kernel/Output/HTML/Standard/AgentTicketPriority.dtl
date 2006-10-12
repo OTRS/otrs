@@ -2,7 +2,7 @@
 # AgentTicketPriority.dtl - set ticket priority
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPriority.dtl,v 1.8 2006-10-11 16:25:39 martin Exp $
+# $Id: AgentTicketPriority.dtl,v 1.9 2006-10-12 10:16:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,12 +15,12 @@ function submit_compose()
 {
 <!-- dtl:block:NoteJs -->
     if (document.compose.Subject.value == "") {
-        alert('$Text{"A message should have a subject!"}');
+        alert('$JSText{"A message should have a subject!"}');
         document.compose.Subject.focus();
         return false;
     }
     else if (document.compose.Body.value == "") {
-        alert('$Text{"A message should have a body!"}');
+        alert('$JSText{"A message should have a body!"}');
         document.compose.Body.focus();
         return false;
     }
@@ -29,13 +29,13 @@ function submit_compose()
     if (document.compose.TimeUnits.value != "") {
         var reg = /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/;
         if (reg.test(document.compose.TimeUnits.value) == false) {
-            alert('$Text{"Invalid time!"}');
+            alert('$JSText{"Invalid time!"}');
             document.compose.TimeUnits.focus();
             return false;
         }
     }
     else if (document.compose.TimeUnits.value == "" && $Config{"Ticket::Frontend::NeedAccountedTime"}) {
-        alert('$Text{"You need to account time!"}');
+        alert('$JSText{"You need to account time!"}');
         document.compose.TimeUnits.focus();
         return false;
     }
@@ -86,7 +86,7 @@ function change_selected(sel)
   <tr>
     <td class="menu">
 <!-- dtl:block:TicketBack -->
-      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
 <!-- dtl:block:TicketBack -->
 <!-- dtl:block:PropertiesLock -->
       <img border="0" src="$Env{"Images"}warning.png" alt="$Text{"Info"}">: <font color="red">$Text{"Ticket locked!"}</font> (<a href="$Env{"CGIHandle"}?Action=AgentTicketLock&Subaction=Unlock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$JSText{"Ticket unlock!"}'; return true;" onmouseout="window.status='';">$Text{"Ticket unlock!"}</a>)

@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.6 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentTicketBulk.dtl,v 1.7 2006-10-12 10:15:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@
 function submit_compose()
 {
     if (document.compose.Body.value && document.compose.Subject.value == "") {
-        alert('$Text{"A message should have a subject!"}');
+        alert('$JSText{"A message should have a subject!"}');
         document.compose.Subject.focus();
         return false;
     }
@@ -44,7 +44,7 @@ function SpellCheckSubmit()
   </tr>
   <tr>
     <td class="menu">
-      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
     </td>
   </tr>
   <tr>
@@ -73,7 +73,7 @@ function SpellCheckSubmit()
                   <td class="contentkey">$Text{"Options"}:</td>
                   <td class="contentvalue">
 <!-- dtl:block:SpellCheck -->
-                    $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+                    $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
 <!-- dtl:block:SpellCheck -->
                   </td>
                 </tr>
