@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.54 2006-10-05 01:18:28 martin Exp $
+# $Id: Config.pm,v 1.55 2006-10-12 10:09:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Main;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -86,7 +86,6 @@ sub new {
     $Self->{ConfigObject} = Kernel::Config->new(%Param, Level => 'First');
     # create config object
     $Self->{ConfigClearObject} = Kernel::Config->new(%Param, Level => 'Clear');
-
 
     # read all config files
     $Self->{ConfigCounter} = $Self->_Init();
@@ -896,6 +895,112 @@ sub ConfigSubGroupConfigItemList {
     }
 }
 
+=item ConfigItemSearch()
+
+search sub groups of config items
+
+    my @List = $ConfigToolObject->ConfigItemSearch(
+        Search => 'some topic'
+    );
+
+=cut
+
+sub ConfigItemSearch {
+    my $Self = shift;
+    my %Param = @_;
+    my @List = ();
+    # check needed stuff
+    foreach (qw(Search)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    $Param{Search} =~ s/\*//;
+    my %Groups = $Self->ConfigGroupList();
+    foreach my $Group (sort keys(%Groups)) {
+        my %SubGroups = $Self->ConfigSubGroupList(Name => $Group);
+        foreach my $SubGroup (sort keys %SubGroups) {
+            my @Items = $Self->ConfigSubGroupConfigItemList(
+                Group => $Group,
+                SubGroup => $SubGroup,
+            );
+            foreach my $Item (@Items) {
+                my $Config = $Self->_ModGet(ConfigName=> $Item);
+                if ($Config) {
+                    if (ref($Config) eq 'ARRAY') {
+                        foreach (@{$Config}) {
+                            if ($_ && $_ =~ /\Q$Param{Search}\E/i) {
+                                push (@List,
+                                    {
+                                        SubGroup => $SubGroup,
+                                        SubGroupCount => $SubGroups{$SubGroup},
+                                        Group    => $Group,
+                                    },
+                                );
+                                next;
+                            }
+                        }
+                    }
+                    elsif (ref($Config) eq 'HASH') {
+                        foreach my $Key (keys %{$Config}) {
+                            if ($Config->{$Key} && $Config->{$Key} =~ /\Q$Param{Search}\E/i) {
+                                push (@List,
+                                    {
+                                        SubGroup => $SubGroup,
+                                        SubGroupCount => $SubGroups{$SubGroup},
+                                        Group    => $Group,
+                                    },
+                                );
+                                next;
+                            }
+                        }
+                    }
+                    else {
+                        if ($Config =~ /\Q$Param{Search}\E/i) {
+                            push (@List,
+                                {
+                                    SubGroup => $SubGroup,
+                                    SubGroupCount => $SubGroups{$SubGroup},
+                                    Group    => $Group,
+                                },
+                            );
+                            next;
+                        }
+                    }
+                }
+                if ($Item =~ /\Q$Param{Search}\E/i) {
+                    push (@List,
+                        {
+                            SubGroup => $SubGroup,
+                            SubGroupCount => $SubGroups{$SubGroup},
+                            Group    => $Group,
+                        },
+                    );
+                    next;
+                }
+                else {
+                    my %ItemHash = $Self->ConfigItemGet(Name => $Item);
+                    foreach my $Index (1...$#{$ItemHash{Description}}) {
+                        my $Description = $ItemHash{Description}[$Index]{Content};
+                        if ($Description =~ /\Q$Param{Search}\E/i) {
+                            push (@List,
+                                {
+                                    SubGroup => $SubGroup,
+                                    SubGroupCount => $SubGroups{$SubGroup},
+                                    Group    => $Group,
+                                },
+                            );
+                            next;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return @List;
+}
+
 sub _ModGet {
     my $Self = shift;
     my %Param = @_;
@@ -1269,6 +1374,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2006-10-05 01:18:28 $
+$Revision: 1.55 $ $Date: 2006-10-12 10:09:41 $
 
 =cut

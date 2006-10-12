@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.55 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminSysConfig.pm,v 1.56 2006-10-12 10:09:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -474,60 +474,12 @@ sub Run {
     # search config
     elsif ($Self->{Subaction} eq 'Search') {
         my $Search = $Self->{ParamObject}->GetParam(Param => 'Search');
-        $Search =~ s/\*//;
-        my %Groups = $Self->{SysConfigObject}->ConfigGroupList();
-        foreach my $Group (sort keys(%Groups)) {
-            my %SubGroups = $Self->{SysConfigObject}->ConfigSubGroupList(Name => $Group);
-            foreach my $SubGroup (sort keys %SubGroups) {
-                my $Found = 0;
-                my @Items = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
-                foreach my $Item (@Items) {
-                    if ($Self->{SysConfigObject}->_ModGet(ConfigName=> $Item)) {
-                        my $Config = $Self->{SysConfigObject}->_ModGet(ConfigName=> $Item);
-                        if (ref($Config) eq 'ARRAY') {
-                            foreach (@{$Config}) {
-                                if ($_ && $_ =~ /\Q$Search\E/i) {
-                                    $Found = 1;
-                                }
-                            }
-                        }
-                        elsif (ref($Config) eq 'HASH') {
-                            foreach my $Key (keys %{$Config}) {
-                                if ($Config->{$Key} && $Config->{$Key} =~ /\Q$Search\E/i) {
-                                    $Found = 1;
-                                }
-                            }
-                        }
-                        else {
-                            if ($Config =~ /\Q$Search\E/i) {
-                                $Found = 1;
-                            }
-                        }
-                    }
-                    if ($Item =~ /\Q$Search\E/i) {
-                        $Found = 1;
-                    }
-                    else {
-                        my %ItemHash = $Self->{SysConfigObject}->ConfigItemGet(Name => $Item);
-                        foreach my $Index (1...$#{$ItemHash{Description}}) {
-                            my $Description = $ItemHash{Description}[$Index]{Content};
-                            if ($Description =~ /\Q$Search\E/i) {
-                                $Found = 1;
-                            }
-                        }
-                    }
-                }
-                if ($Found) {
-                    $Self->{LayoutObject}->Block(
-                        Name  => 'Row',
-                        Data  => {
-                            SubGroup => $SubGroup,
-                            SubGroupCount => $SubGroups{$SubGroup},
-                            Group    => $Group,
-                        },
-                    );
-                }
-            }
+        my @List = $Self->{SysConfigObject}->ConfigItemSearch(Search => $Search);
+        foreach my $Option (@List) {
+            $Self->{LayoutObject}->Block(
+                Name  => 'Row',
+                Data  => $Option,
+            );
         }
     }
     # list subgroups
