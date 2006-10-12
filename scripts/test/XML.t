@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.t,v 1.7 2006-10-04 16:57:16 martin Exp $
+# $Id: XML.t,v 1.8 2006-10-12 14:47:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,15 +38,26 @@ $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{Content} eq '',
     'XMLHashGet() (Telephone2)',
 );
+
+my $XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
+    Type => 'SomeType',
+    Key => '123',
+    XMLHash => \@XMLHash,
+);
 $Self->True(
-    $Self->{XMLObject}->XMLHashAdd(
-        Type => 'SomeType',
-        Key => '123',
-        XMLHash => \@XMLHash,
-    ),
-    'XMLHashAdd()',
+    $XMLHashAdd,
+    'XMLHashAdd() (Key=123)',
 );
 
+$XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
+    Type => 'SomeType',
+    Key => "Some'Key",
+    XMLHash => \@XMLHash,
+);
+$Self->True(
+    $XMLHashAdd eq "Some'Key",
+    'XMLHashAdd() (Key=Some\'Key)',
+);
 
 @XMLHash = $Self->{XMLObject}->XMLHashGet(
     Type => 'SomeType',
@@ -65,7 +76,6 @@ $Self->True(
     'XMLHashGet() (Telephone2)',
 );
 
-
 my @XMLHashUpdate = ();
 $XMLHashUpdate[1]->{Contact}->[1]->{role} = 'admin1';
 $XMLHashUpdate[1]->{Contact}->[1]->{Name}->[1]->{Content} = 'Example Inc. 2';
@@ -79,7 +89,6 @@ $Self->True(
     'XMLHashUpdate() (admin1)',
 );
 
-
 @XMLHash = $Self->{XMLObject}->XMLHashGet(
     Type => 'SomeType',
     Key => '123',
@@ -88,7 +97,6 @@ $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin1',
     'XMLHashGet() (admin1)',
 );
-
 
 @XMLHashUpdate = ();
 $XMLHashUpdate[1]->{Contact}->[1]->{role} = 'admin';
@@ -103,7 +111,6 @@ $Self->True(
     'XMLHashUpdate() (admin)',
 );
 
-
 @XMLHash = $Self->{XMLObject}->XMLHashGet(
     Type => 'SomeType',
     Key => '123',
@@ -112,7 +119,6 @@ $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
     'XMLHashGet() (admin)',
 );
-
 
 my $XML = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
 @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => $XML);
@@ -130,7 +136,6 @@ $Self->True(
     'XMLHash2XML() -> XMLHash2XML() -> XMLParse2XMLHash() -> XMLHash2XML()',
 );
 
-
 my @Keys = $Self->{XMLObject}->XMLHashList(
     Type => 'SomeType',
 );
@@ -147,6 +152,40 @@ foreach my $Key (@Keys) {
     $Self->True(
         $XMLHashDelete,
         "XMLHashDelete() (Key $Key)",
+    );
+}
+
+$XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
+    Type => 'SomeType',
+    KeyAutoIncrement => 1,
+    XMLHash => \@XMLHash,
+);
+$Self->True(
+    $XMLHashAdd eq 1,
+    'XMLHashAdd() 1 KeyAutoIncrement',
+);
+
+$XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
+    Type => 'SomeType',
+    KeyAutoIncrement => 1,
+    XMLHash => \@XMLHash,
+);
+$Self->True(
+    $XMLHashAdd eq 2,
+    'XMLHashAdd() 2 KeyAutoIncrement',
+);
+
+@Keys = $Self->{XMLObject}->XMLHashList(
+    Type => 'SomeType',
+);
+foreach my $Key (@Keys) {
+    my $XMLHashDelete = $Self->{XMLObject}->XMLHashDelete(
+        Type => 'SomeType',
+        Key => $Key,
+    );
+    $Self->True(
+        $XMLHashDelete,
+        "XMLHashDelete() 2 (Key $Key)",
     );
 }
 
