@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.51 2006-10-05 01:20:10 martin Exp $
+# $Id: Package.pm,v 1.52 2006-10-12 09:56:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -133,10 +133,10 @@ sub RepositoryList {
     my @Data = ();
     # check needed stuff
     foreach (qw()) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     my $SQL = "SELECT name, version, install_status, content FROM package_repository ORDER BY name, create_time";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -173,10 +173,10 @@ sub RepositoryGet {
     my $Package = '';
     # check needed stuff
     foreach (qw(Name Version)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # db quote
     foreach (keys %Param) {
@@ -213,10 +213,10 @@ sub RepositoryAdd {
     my %Param = @_;
     # check needed stuff
     foreach (qw(String)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # get package attributes
     my %Structur = $Self->PackageParse(%Param);
@@ -276,10 +276,10 @@ sub RepositoryRemove {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Name)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # db quote
     foreach (keys %Param) {
@@ -304,10 +304,10 @@ sub _CheckFramework {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Framework)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # regexp modify
     $Param{Framework} =~ s/\./\\\./g;
@@ -325,10 +325,10 @@ sub _CheckVersion {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Version1 Version2 Type)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     foreach my $Type (qw(Version1 Version2)) {
         my @Parts = split(/\./, $Param{$Type});
@@ -366,10 +366,10 @@ sub _CheckRequired {
     my %Param = @_;
     # check needed stuff
     foreach (qw(PackageRequired)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # check required packages
     if ($Param{PackageRequired} && ref($Param{PackageRequired}) eq 'ARRAY') {
@@ -416,10 +416,10 @@ sub PackageInstall {
     my %Param = @_;
     # check needed stuff
     foreach (qw(String)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # conflict check
     my %Structur = $Self->PackageParse(%Param);
@@ -572,10 +572,10 @@ sub PackageReinstall {
     my %Param = @_;
     # check needed stuff
     foreach (qw(String)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # parse source file
     my %Structur = $Self->PackageParse(%Param);
@@ -616,10 +616,10 @@ sub PackageUpgrade {
     my %InstalledStructur = ();
     # check needed stuff
     foreach (qw(String)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # conflict check
     my %Structur = $Self->PackageParse(%Param);
@@ -825,10 +825,10 @@ sub PackageUninstall {
     my %Param = @_;
     # check needed stuff
     foreach (qw(String)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # parse source file
     my %Structur = $Self->PackageParse(%Param);
@@ -887,10 +887,10 @@ sub PackageOnlineRepositories {
     my %Param = @_;
     # check needed stuff
     foreach (qw()) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # check if online repository should be fetched
     if (!$Self->{ConfigObject}->Get('Package::RepositoryRoot')) {
@@ -944,10 +944,10 @@ sub PackageOnlineList {
     my %Param = @_;
     # check needed stuff
     foreach (qw(URL Lang)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     my $XML = $Self->_Download(URL => $Param{URL}."/otrs.xml");
     if (!$XML) {
@@ -1070,10 +1070,10 @@ sub PackageOnlineGet {
     my %Param = @_;
     # check needed stuff
     foreach (qw(File Source)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     return $Self->_Download(URL => $Param{Source}."/$Param{File}");
 }
@@ -1094,10 +1094,10 @@ sub DeployCheck {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Name Version)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     my $Package = $Self->RepositoryGet(%Param);
     my %Structur = $Self->PackageParse(String => $Package);
@@ -1151,10 +1151,10 @@ sub DeployCheckInfo {
     my %Param = @_;
     # check needed stuff
     foreach (qw()) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     if ($Self->{DeployCheckInfo}) {
         return %{$Self->{DeployCheckInfo}};
@@ -1169,11 +1169,21 @@ sub DeployCheckInfo {
 build a opm package
 
     my $Package = $PackageObject->PackageBuild(
-        Name => 'SomePackageName',
-        Version => '1.0',
-        Vendor => 'OTRS GmbH',
-        URL => 'http://otrs.org/',
-        License => 'GNU GENERAL PUBLIC LICENSE Version 2, June 1991',
+        Name => {
+            Content => 'SomePackageName',
+        },
+        Version => {
+            Content => '1.0',
+        },
+        Vendor => {
+            Content => 'OTRS GmbH',
+        },
+        URL => {
+            Content => 'http://otrs.org/',
+        },
+        License => {
+            Content => 'GNU GENERAL PUBLIC LICENSE Version 2, June 1991',
+        }
         Description => [
             {
                 Lang => 'en',
@@ -1204,12 +1214,13 @@ sub PackageBuild {
     my $Self = shift;
     my %Param = @_;
     my $XML = '';
+    my $Home = $Param{Home} || $Self->{ConfigObject}->Get('Home');
     # check needed stuff
     foreach (qw(Name Version Vendor License Description)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     if (!$Param{Type}) {
         $XML .= '<?xml version="1.0" encoding="utf-8" ?>';
@@ -1277,7 +1288,7 @@ sub PackageBuild {
                 }
             }
             $XML .= " Encode=\"Base64\">";
-            my $File = $Self->{ConfigObject}->Get('Home')."/$File->{Location}";
+            my $File = $Home."/$File->{Location}";
             my $FileContent = '';
             if (open(IN, "< $File")) {
                 # set bin mode
@@ -1346,10 +1357,10 @@ sub PackageParse {
     my %Param = @_;
     # check needed stuff
     foreach (qw(String)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     my @XMLARRAY = $Self->{XMLObject}->XMLParse(%Param);
     # cleanup global vars
@@ -1434,10 +1445,10 @@ sub PackageExport {
 
     # check needed stuff
     foreach (qw(String Home)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # parse source file
     my %Structur = $Self->PackageParse(%Param);
@@ -1457,10 +1468,10 @@ sub _Download {
     my $Content = '';
     # check needed stuff
     foreach (qw(URL)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # init agent
     my $UserAgent = LWP::UserAgent->new();
@@ -1492,10 +1503,10 @@ sub _FileInstall {
     my $Home = $Param{Home} || $Self->{Home};
     # check needed stuff
     foreach (qw(Location Content Permission)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # check Home
     if (! -e $Home) {
@@ -1566,10 +1577,10 @@ sub _FileRemove {
     my $Home = $Param{Home} || $Self->{Home};
     # check needed stuff
     foreach (qw(Location)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # check Home
     if (! -e $Home) {
@@ -1619,10 +1630,10 @@ sub _FileSystemCheck {
     my $Home = $Param{Home} || $Self->{Home};
     # check needed stuff
     foreach (qw()) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # check Home
     if (! -e $Home) {
@@ -1674,6 +1685,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2006-10-05 01:20:10 $
+$Revision: 1.52 $ $Date: 2006-10-12 09:56:05 $
 
 =cut
