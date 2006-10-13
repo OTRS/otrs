@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.53 2006-08-29 17:30:36 martin Exp $
+# $Id: User.pm,v 1.54 2006-10-13 12:01:22 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CheckItem;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -479,6 +479,7 @@ sub SetPassword {
     my $Self = shift;
     my %Param = @_;
     my $Pw = $Param{PW} || '';
+
     # check needed stuff
     if (!$Param{UserLogin}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin!");
@@ -519,8 +520,10 @@ sub SetPassword {
             chomp $CryptedPw;
         }
     }
-    # set pw history
-    $Self->SetPreferences(UserID => $User{UserID}, Key => 'UserLastPw', Value => $CryptedPw);
+
+    # set md5 string for pw history
+    my $MD5Pw = unix_md5_crypt($Pw, $Param{UserLogin});
+    $Self->SetPreferences(UserID => $User{UserID}, Key => 'UserLastPw', Value => $MD5Pw);
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -791,6 +794,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.54 $ $Date: 2006-10-13 12:01:22 $
 
 =cut

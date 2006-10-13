@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesPassword.pm,v 1.8 2006-10-09 15:42:14 mh Exp $
+# $Id: PreferencesPassword.pm,v 1.9 2006-10-13 12:01:21 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,8 +13,10 @@ package Kernel::Output::HTML::PreferencesPassword;
 
 use strict;
 
+use Crypt::PasswdMD5 qw(unix_md5_crypt);
+
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -118,13 +120,10 @@ sub Run {
         $Self->{Error} = 'Can\'t update password, need min. 2 characters!';
         return;
     }
-    # check current pw
-    if ($Param{UserData}->{UserPw} && (crypt($Pw, $Param{UserData}->{UserLogin}) eq $Param{UserData}->{UserPw})) {
-        $Self->{Error} = 'Password is already in use! Please use an other password!';
-        return;
-    }
-    # check last pw
-    if ($Self->{ConfigItem}->{PasswordHistory} && $Param{UserData}->{UserLastPw} && (crypt($Pw, $Param{UserData}->{UserLogin}) eq $Param{UserData}->{UserLastPw})) {
+
+    # md5 sum for new pw, needed for password history
+    my $MD5Pw = unix_md5_crypt($Pw, $Param{UserData}->{UserLogin});
+    if ($Self->{ConfigItem}->{PasswordHistory} && $Param{UserData}->{UserLastPw} && ($MD5Pw eq $Param{UserData}->{UserLastPw})) {
         $Self->{Error} = "Password is already used! Please use an other password!";
        return;
     }
