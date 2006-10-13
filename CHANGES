@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.300 2006-10-12 10:21:53 martin Exp $
+# $Id: CHANGES,v 1.301 2006-10-13 20:36:05 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.2 (2006/??/??)
+ - (2006/10/13) switched to md5 check sum for password in user_preference table
  - (2006/10/12) fixed bug #1311 - Apostrophes are incorrectly displayed under
     IE 6 & IE7 but correctly displayed under Firefox 1.5.0.6  -=>
     moved from $Text{} to $JSText{} for text translations in Java Script parts
