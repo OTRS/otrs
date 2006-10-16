@@ -108,7 +108,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.120 2006-10-05 13:54:35 cs Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.121 2006-10-16 16:36:38 cs Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -777,7 +777,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone" Required="0" Valid="0">
-        <Description Lang="en">Set the system time zone (required a system with GMT as system time). Otherwise this is a diff time to the local time.</Description>
+        <Description Lang="en">Set the system time zone (required a system with UTC as system time). Otherwise this is a diff time to the local time.</Description>
         <Description Lang="de">Einstellen der Zeitzone. Standardm‰ﬂig wird die lokale Systemzeit verwendet, (+ / - 0).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
@@ -812,8 +812,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZoneUser" Required="0" Valid="0">
-        <Description Lang="en">Set the user time zone per user (required a system with GMT as system time and GMT under TimeZone). Otherwise this is a diff time to the local time.</Description>
-        <Description Lang="de">Einstellen der Zeitzone pro Benutzer (Voraussetzung ist die GMT unter der Option TimeZone). Standardm‰ﬂig wird die lokale Systemzeit verwendet, (+ / - 0).</Description>
+        <Description Lang="en">Set the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.</Description>
+        <Description Lang="de">Einstellen der Zeitzone pro Benutzer (Voraussetzung ist UTC unter der Option TimeZone). Standardm‰ﬂig wird die lokale Systemzeit verwendet, (+ / - 0).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
