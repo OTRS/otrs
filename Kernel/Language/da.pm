@@ -3,7 +3,7 @@
 # Last Update: 2006/02/01
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # --
-# $Id: da.pm,v 1.7 2006-10-12 09:23:31 mh Exp $
+# $Id: da.pm,v 1.8 2006-10-16 19:16:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -210,13 +210,13 @@ sub Data {
       'Timeover' => 'Tidsoverskridelse',
       'Pending till' => 'Afventer til',
       'Don\'t work with UserID 1 (System account)! Create new users!' => 'Arbejd ikke med bruger-ID 1 (systemkonto)! Opret nye brugere!',
-      'Dispatching by email To: field.' => 'Sendes via e-mail til: felt.',
+      'Dispatching by email To: field.' => 'Sendes via email til: felt.',
       'Dispatching by selected Queue.' => 'Sendes via den valgte kø.',
       'No entry found!' => 'Ingen post fundet!',
       'Session has timed out. Please log in again.' => 'Sessionens tidsfrist er udløbet. Vær venlig at logge ind igen.',
       'No Permission!' => 'Ingen tilladelse!',
-      'To: (%s) replaced with database email!' => 'Til: (%s) udskiftet med e-mail til database!',
-      'Cc: (%s) added database email!' => 'Cc: (%s) tilføjet e-mail til database!',
+      'To: (%s) replaced with database email!' => 'Til: (%s) udskiftet med email til database!',
+      'Cc: (%s) added database email!' => 'Cc: (%s) tilføjet email til database!',
       '(Click here to add)' => '(Klik her for at tilføje)',
       'Preview' => 'Vis udskrift',
       'Package not correctly deployed! You should reinstall the Package again!' => '',
@@ -397,8 +397,8 @@ sub Data {
       'Ticket' => 'Billet',
       'Createtime' => 'Opret tidsrum',
       'plain' => 'almindelig',
-      'Email' => 'E-mail',
-      'email' => 'e-mail',
+      'Email' => 'email',
+      'email' => 'email',
       'Close' => 'Luk',
       'Action' => 'Handling',
       'Attachment' => 'Vedhæftet fil',
@@ -407,7 +407,7 @@ sub Data {
       'If it is not displayed correctly,' => 'Vises den ikke korrekt,',
       'This is a' => 'Der er',
       'to open it in a new window.' => 'for at åbne et nyt vindue.',
-      'This is a HTML email. Click here to show it.' => 'Det er en e-mail i HTML. Klik her for at vise den.',
+      'This is a HTML email. Click here to show it.' => 'Det er en email i HTML. Klik her for at vise den.',
       'Free Fields' => 'Frie felter',
       'Merge' => 'Saml',
       'closed successful' => 'lukning lykkedes',
@@ -446,14 +446,14 @@ sub Data {
       'Don\'t show closed Tickets' => 'Vis ikke lukkede billetter',
       'Show closed Tickets' => 'Vis lukkede billetter',
       'Email-Ticket' => 'E-mail-billet',
-      'Create new Email Ticket' => 'Opret ny e-mailbillet',
+      'Create new Email Ticket' => 'Opret ny emailbillet',
       'Phone-Ticket' => 'Telefon-Billet',
       'Create new Phone Ticket' => 'Opret ny telefonbillet',
       'Search Tickets' => 'Søg billetter',
       'Edit Customer Users' => 'Rediger kundebrugere',
       'Bulk-Action' => 'Massehandling',
       'Bulk Actions on Tickets' => 'Massehandlinger vedrørende billetter',
-      'Send Email and create a new Ticket' => 'Send e-mail og opret en ny billet',
+      'Send Email and create a new Ticket' => 'Send email og opret en ny billet',
       'Overview of all open Tickets' => 'Oversigt over alle åbne billetter',
       'Locked Tickets' => 'Låste billetter',
       'Lock it to work on it!' => 'Lås den for at arbejde på den!',
@@ -474,7 +474,7 @@ sub Data {
       'Mark as Spam!' => 'Markér som spam!',
       'My Queues' => 'Mine køer',
       'Shown Tickets' => 'Vis billetter',
-      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Din e-mail med billetnummer "<OTRS_TICKET>" er samlet til "<OTRS_MERGE_TO_TICKET>".',
+      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Din email med billetnummer "<OTRS_TICKET>" er samlet til "<OTRS_MERGE_TO_TICKET>".',
       'New ticket notification' => 'Besked om ny billet',
       'Send me a notification if there is a new ticket in "My Queues".' => 'Send mig en besked, hvis der er en ny billet i "Mine køer".',
       'Follow up notification' => 'Besked om opfølgning',
@@ -483,7 +483,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'Send mig en besked, hvis systemet låser en billet op.',
       'Move notification' => 'Besked om flytning',
       'Send me a notification if a ticket is moved into one of "My Queues".' => 'Send mig en besked, hvis en billet flyttes ind i en af "Mine køer".',
-      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Dit køvalg af foretrukne køer. Du får også besked om disse køer via e-mail, hvis det er aktiveret.',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Dit køvalg af foretrukne køer. Du får også besked om disse køer via email, hvis det er aktiveret.',
       'Custom Queue' => 'Brugertilpas kø',
       'QueueView refresh time' => 'KøVisnings genindlæsningstid',
       'Screen after new ticket' => 'Skærm efter ny billet',
@@ -553,8 +553,8 @@ sub Data {
       'Note' => 'Bemærkning',
       'Useable options' => 'Brugbare valgmuligheder',
       'to get the first 20 character of the subject' => 'for at få emnets første 20 tegn',
-      'to get the first 5 lines of the email' => 'for at få e-mailens første 5 linjer',
-      'to get the from line of the email' => 'for at få e-mailens fra-linje',
+      'to get the first 5 lines of the email' => 'for at få emailens første 5 linjer',
+      'to get the from line of the email' => 'for at få emailens fra-linje',
       'to get the realname of the sender (if given)' => 'for at få afsenderens virkelige navn (hvis det er oplyst)',
       'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Valgmuligheder for billettens data (f.eks. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
       'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfigurationsmuligheder (f.eks. &lt;OTRS_CONFIG_HttpType&gt;)',
@@ -714,7 +714,7 @@ sub Data {
       'List' => '',
       'Trusted' => 'Pålidelig',
       'Dispatching' => 'Sender',
-      'All incoming emails with one account will be dispatched in the selected queue!' => 'Alle indkommende e-mail med 1 konto sendes til den valgte kø!',
+      'All incoming emails with one account will be dispatched in the selected queue!' => 'Alle indkommende email med 1 konto sendes til den valgte kø!',
       'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Er der tillid til din konto, bliver den allerede eksisterende X-OTRS-header ved ankomsttidspunktet (for prioritering, ...) anvendt! Der anvendes PostMaster-filter under alle omstændigheder.',
 
       # Template: AdminPostMasterFilter
@@ -724,7 +724,7 @@ sub Data {
       'Header' => 'Overskrift',
       'Value' => 'Værdi',
       'Set' => 'Indstil',
-      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Send eller filtrer indkommende e-mail baseret på hver e-mails X-header! RegExp er også mulig.',
+      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Send eller filtrer indkommende email baseret på hver emails X-header! RegExp er også mulig.',
       'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Anvender du RegExp, kan du også bruge den matchede værdi i () som [***] i \'Set\'.',
 
       # Template: AdminQueueAutoResponseForm
@@ -746,12 +746,12 @@ sub Data {
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Låser en agent en billet, og vedkommende vil ikke sende et svar inden for dette tidsrum, låses billetten automatisk op. Derved kan alle andre agenter se billetten.',
       'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Besvares en billet ikke inden for det tidsrum, vil kun denne billet blive vist.',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Er en billet lukket, og kunden sender en opfølgning, låses billetten for den gamle indehaver.',
-      'Will be the sender address of this queue for email answers.' => 'Bliver til denne køs afsenderadresse for e-mailsvar.',
-      'The salutation for email answers.' => 'Den hilsen, der bruges til e-mailsvar.',
-      'The signature for email answers.' => 'Den underskrift, der bruges til e-mailsvar.',
-      'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS sender en e-mail med besked til kunden, hvis billetten er flyttet.',
-      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS sender en e-mail med besked til kunden, hvis billettens tilstand er ændret.',
-      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS sender en e-mail med besked til kunden, hvis billetten har fået en anden indehaver.',
+      'Will be the sender address of this queue for email answers.' => 'Bliver til denne køs afsenderadresse for emailsvar.',
+      'The salutation for email answers.' => 'Den hilsen, der bruges til emailsvar.',
+      'The signature for email answers.' => 'Den underskrift, der bruges til emailsvar.',
+      'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS sender en email med besked til kunden, hvis billetten er flyttet.',
+      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS sender en email med besked til kunden, hvis billettens tilstand er ændret.',
+      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS sender en email med besked til kunden, hvis billetten har fået en anden indehaver.',
 
       # Template: AdminQueueResponsesChangeForm
       'Responses <-> Queue Management' => 'Responssvar <-> Køstyring',
@@ -771,7 +771,7 @@ sub Data {
       'Next state' => 'Næste tilstand',
       'All Customer variables like defined in config option CustomerUser.' => 'Alle kundevariabler som definerede i konfigurationsmuligheden KundeBruger.',
       'The current ticket state is' => 'Den aktuelle billettilstand er',
-      'Your email address is new' => 'Din e-mailadresse er ny',
+      'Your email address is new' => 'Din emailadresse er ny',
 
       # Template: AdminRoleForm
       'Role Management' => 'Rollestyring',
@@ -864,9 +864,9 @@ sub Data {
       'AccessKey' => '',
 
       # Template: AdminSystemAddressForm
-      'System Email Addresses Management' => 'Systems e-mailadressestyring',
+      'System Email Addresses Management' => 'Systems emailadressestyring',
       'Realname' => 'VirkeligtNavn',
-      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle indkommende e-mail med denne "E-mail" (Til:) sendes til den valgte kø!',
+      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle indkommende email med denne "E-mail" (Til:) sendes til den valgte kø!',
 
       # Template: AdminUserForm
       'User Management' => 'Brugerstyring',
@@ -1002,7 +1002,7 @@ sub Data {
 
       # Template: AgentTicketBounce
       'A message should have a To: recipient!' => 'En meddelelse skal have en Til: modtager!',
-      'You need a email address (e. g. customer@example.com) in To:!' => 'Der skal være en e-mailadresse (f.eks. customer@eksempel.com) i feltet Til:!',
+      'You need a email address (e. g. customer@example.com) in To:!' => 'Der skal være en emailadresse (f.eks. customer@eksempel.com) i feltet Til:!',
       'Bounce ticket' => 'Billet retur til afsender',
       'Bounce to' => 'Retur til',
       'Next ticket state' => 'Næste billettilstand',
@@ -1049,7 +1049,7 @@ sub Data {
       'Follow up' => 'Opfølgning',
 
       # Template: AgentTicketEmail
-      'Compose Email' => 'Formuler e-mail',
+      'Compose Email' => 'Formuler email',
       'new ticket' => 'ny billet',
       'Refresh' => '',
       'Clear To' => 'Ryd til',
@@ -1256,7 +1256,7 @@ sub Data {
       'System FQDN' => '',
       '(Full qualified domain name of your system)' => '(Hele dit systems brugbare domænenavn) ',
       'AdminEmail' => 'AdminE-mail',
-      '(Email of the system admin)' => '(Systemadministrators e-mail)',
+      '(Email of the system admin)' => '(Systemadministrators email)',
       'Organization' => 'Organisation',
       'Log' => '',
       'LogModule' => 'LogModul',
@@ -1269,7 +1269,7 @@ sub Data {
       'Default Language' => 'Standardsprog',
       '(Used default language)' => '(Anvendt standardsprog)',
       'CheckMXRecord' => '',
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Kontrollerer MX-poster af anvendte e-mailadresser ved at udforme et svar. Anvend ikke CheckMXRecord, hvis OTRS-maskinen befinder sig bag en opkaldslinje $!)',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Kontrollerer MX-poster af anvendte emailadresser ved at udforme et svar. Anvend ikke CheckMXRecord, hvis OTRS-maskinen befinder sig bag en opkaldslinje $!)',
       'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'For at kunne anvende OTRS, er du nødt til at indtaste følgende linje i din kommandolinje (Terminal/Shell) som rod.',
       'Restart your webserver' => 'Genstart webserveren',
       'After doing so your OTRS is up and running.' => 'Når det er gjort, er din OTRS sat i gang og fungerer.',
@@ -1337,7 +1337,7 @@ sub Data {
       'Admin-Email' => 'Admin-E-mail',
       'QueueView' => 'KøVisning',
       'Create new database' => 'Opret ny database',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Din e-mail med billetnummer "<OTRS_TICKET>" er sendt retur til afsender til "<OTRS_BOUNCE_TO>". Kontakt denne adresse for at få flere oplysninger.',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Din email med billetnummer "<OTRS_TICKET>" er sendt retur til afsender til "<OTRS_BOUNCE_TO>". Kontakt denne adresse for at få flere oplysninger.',
       'modified' => 'modificeret',
       'Delete old database' => 'Slet gammel database',
       'Keywords' => 'Søgeord',
@@ -1360,6 +1360,8 @@ sub Data {
       'Modified' => 'Modificeret',
       'Watched Tickets' => '',
       'Watched' => '',
+      'Subscribe' => '',
+      'Unsubscribe' => '',
     };
     # $$STOP$$
 }

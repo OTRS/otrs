@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.6 2006-10-05 04:46:50 martin Exp $
+# $Id: sk_SK.pm,v 1.7 2006-10-16 19:19:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::sk_SK;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -398,7 +398,7 @@ sub Data {
       'Createtime' => 'Doba spracovania',
       'plain' => 'jednoduchý',
       'Email' => 'Realname',
-      'email' => 'e-mail',
+      'email' => 'email',
       'Close' => 'Zatvorit',
       'Action' => 'Akcia',
       'Attachment' => 'Príloha',
@@ -407,7 +407,7 @@ sub Data {
       'If it is not displayed correctly,' => '',
       'This is a' => 'To je',
       'to open it in a new window.' => 'Otvori» v novom okne',
-      'This is a HTML email. Click here to show it.' => 'Toto je HMTL  e-mail. Na otvorenie =>  kliknite tu',
+      'This is a HTML email. Click here to show it.' => 'Toto je HMTL  email. Na otvorenie =>  kliknite tu',
       'Free Fields' => 'Voµné polia',
       'Merge' => 'Zlúèi»',
       'closed successful' => 'zatvorené úspe¹ne',
@@ -419,8 +419,8 @@ sub Data {
       'pending reminder' => 'nevybavená pripomienka',
       'pending auto close+' => 'poèas automatického zatvárania +',
       'pending auto close-' => 'poèas automatického zatvárania -',
-      'email-external' => 'externý e-mail',
-      'email-internal' => 'interný e-mail',
+      'email-external' => 'externý email',
+      'email-internal' => 'interný email',
       'note-external' => 'externá poznámka',
       'note-internal' => 'interná poznámka',
       'note-report' => 'hlásnie poznámky',
@@ -445,15 +445,15 @@ sub Data {
       'No such Ticket Number "%s"! Can\'t link it!' => '',
       'Don\'t show closed Tickets' => 'Nezobrazuj uzavreté po¾iadavky.',
       'Show closed Tickets' => 'Zobraz uzavreté po¾iadavky.',
-      'Email-Ticket' => 'e-mailová po¾iadavka',
-      'Create new Email Ticket' => 'Vytvor novú e-mailovú po¾iadavku',
+      'Email-Ticket' => 'emailová po¾iadavka',
+      'Create new Email Ticket' => 'Vytvor novú emailovú po¾iadavku',
       'Phone-Ticket' => 'Telefonická po¾iadavka',
       'Create new Phone Ticket' => 'Vytvor novú telefonickú po¾iadavku',
       'Search Tickets' => 'Hµadaj po¾iadavky',
       'Edit Customer Users' => 'Uprav zákazníckeho u¾ívateµa.',
       'Bulk-Action' => 'Hromadná akcia',
       'Bulk Actions on Tickets' => 'hromadné akcie na po¾iadavkách.',
-      'Send Email and create a new Ticket' => 'Po¹li e-mail a vytvor novú po¾iadavku',
+      'Send Email and create a new Ticket' => 'Po¹li email a vytvor novú po¾iadavku',
       'Overview of all open Tickets' => 'Prehµad v¹etkých otvorených po¾iadaviek.',
       'Locked Tickets' => 'Lockované po¾iadavky',
       'Lock it to work on it!' => 'Kvôli práci na nich =>  lock.',
@@ -483,7 +483,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'Po¹li mi oznámenie =>  ak je po¾iadavka odblokovaná systémom.',
       'Move notification' => 'Premiestni hlásenie',
       'Send me a notification if a ticket is moved into one of "My Queues".' => '',
-      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Vá¹ výber z obµúbených radov. Tie¾ mô¾ete by» oboznámený s po¾iadavkou cez e-mail =>  ak je to mo¾né.',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Vá¹ výber z obµúbených radov. Tie¾ mô¾ete by» oboznámený s po¾iadavkou cez email =>  ak je to mo¾né.',
       'Custom Queue' => 'Klientské rady.',
       'QueueView refresh time' => '?',
       'Screen after new ticket' => 'Okno po novej po¾iadavke.',
@@ -1049,7 +1049,7 @@ sub Data {
       'Follow up' => 'nasledujúci',
 
       # Template: AgentTicketEmail
-      'Compose Email' => 'vytvori» e-mail',
+      'Compose Email' => 'vytvori» email',
       'new ticket' => 'nová po¾iadavka',
       'Refresh' => '',
       'Clear To' => 'vyma¾: Komu',
@@ -1317,7 +1317,7 @@ sub Data {
       'parameter 1' => 'Param 2',
       'DB Host' => 'DB ',
       'Skupiny' => 'Misc',
-      'Vá¹ e-mail s èíslom po¾iadavky <OTRS_PO®IADAVKA> je pripojený k <OTRS_PRIPOJI«_K_PO®IADAVKE>' => 'Queue ID',
+      'Vá¹ email s èíslom po¾iadavky <OTRS_PO®IADAVKA> je pripojený k <OTRS_PRIPOJI«_K_PO®IADAVKE>' => 'Queue ID',
       'hore' => 'down',
       'Meno' => 'Lastname',
       'Stiahnu»' => 'Rebuild',
@@ -1336,7 +1336,7 @@ sub Data {
       'Admin-heslo' => 'your MySQL DB should have a root password! Default is empty!',
       'strana' => 'Tickets available',
       'riadenie relácie' => 'Sessions',
-      'Podpis pre e-mailovú odpoveï.' => 'OTRS sends an notification email to the customer if the ticket is moved.',
+      'Podpis pre emailovú odpoveï.' => 'OTRS sends an notification email to the customer if the ticket is moved.',
       'Telo správy' => 'send',
       'Po¾iadavky vybrané pre hromadnú akciu!' => 'You need min. one selected Ticket!',
       'hlásenie klientovho pohybu' => 'Customer State Notify',
@@ -1429,7 +1429,7 @@ sub Data {
       'Mo¾nosti aktuálneho pou¾ívateµa =>  ktorý po¾aduje tieto akcie (napr. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
       'ID radu' => 'Move Ticket',
       'pre priezvisko agenta' => 'for agent user id',
-      'OTRS posiela klientom oznámenie e-mailom =>  ak bola po¾iadavka premiestnená.' => 'OTRS sends an notification email to the customer if the ticket state has changed.',
+      'OTRS posiela klientom oznámenie emailom =>  ak bola po¾iadavka premiestnená.' => 'OTRS sends an notification email to the customer if the ticket state has changed.',
       'Posla»' => 'GenericAgent',
       'èas' => 'Users',
       'akceptova» licenciu' => 'don\'t accept license',
@@ -1493,13 +1493,13 @@ sub Data {
       'Naozaj chcete zmaza» tento objekt?' => 'System History',
       'prepojený objekt' => 'Parent-Object',
       'kµúè' => 'Fingerprint',
-      'OTRS posiela klientom oznámenie e-mailom =>  ak sa zmenil majiteµ po¾iadavky.' => 'Responses <-> Queue Management',
-      'V¹etky prichádzajúce e-maily s jedným úètom budú vybavené vo vybranom rade.' => 'If your account is trusted =>  the already existing x-otrs header at arrival time (for priority =>  ...) will be used! PostMaster filter will be used anyway.',
+      'OTRS posiela klientom oznámenie emailom =>  ak sa zmenil majiteµ po¾iadavky.' => 'Responses <-> Queue Management',
+      'V¹etky prichádzajúce emaily s jedným úètom budú vybavené vo vybranom rade.' => 'If your account is trusted =>  the already existing x-otrs header at arrival time (for priority =>  ...) will be used! PostMaster filter will be used anyway.',
       'Správa u¾ívateµov' => 'Firstname',
       'prednastavený' => 'Prio',
       'hlásenie majiteµa klienta' => 'If an agent locks a ticket and he/she will not send an answer within this time =>  the ticket will be unlock automatically. So the ticket is viewable for all other agents.',
       'zvy¹ova» v' => 'Linked-Object',
-      'OTRS posiela klientom oznámenie e-mailom =>  ak sa zmenil stav po¾iadavky.' => 'OTRS sends an notification email to the customer if the ticket owner has changed.',
+      'OTRS posiela klientom oznámenie emailom =>  ak sa zmenil stav po¾iadavky.' => 'OTRS sends an notification email to the customer if the ticket owner has changed.',
       'My Queue' => 'Môj rad',
       'Spusti!' => 'x',
       'Create new database' => 'Vytvor novú databázu',
@@ -1521,7 +1521,7 @@ sub Data {
       'výber' => 'Results',
       'Sajné' => 'Hash',
       'prilo¾i»' => 'Pending Date',
-      'Adresa odosielateµa tohto radu pre e-mailovú odpoveï.' => 'The salutation for email answers.',
+      'Adresa odosielateµa tohto radu pre emailovú odpoveï.' => 'The salutation for email answers.',
       'majiteµ' => 'Permissions to change the ticket owner in this group/queue.',
       'Povolenie vytvori» po¾iadavku v tejto skupine/rade.' => 'owner',
       'Ak nebude na po¾iadavku odpovedané do urèitého èasu =>  bude táto po¾iadavka zobrazená!' => 'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.',
@@ -1538,7 +1538,7 @@ sub Data {
       'Stiahnu» nastavenia.' => 'Download all system config changes.',
       'Zmeò prioritu po¾iadavky.' => 'Tickets shown',
       'Prístupový kµúè' => 'System Email Addresses Management',
-      'Pozdrav pre e-mailovú odpoveï.' => 'The signature for email answers.',
+      'Pozdrav pre emailovú odpoveï.' => 'The signature for email answers.',
       'v¹etky správy' => 'New messages',
       'Dôveryhodný' => 'Dispatching',
       'Zabudli ste heslo?' => 'Request new password',
@@ -1555,7 +1555,7 @@ sub Data {
       'Skutoèné meno' => 'All incoming emails with this Email" (To:) will be dispatched in the selected queue!"',
       'Výsledok z' => 'Save Search-Profile as Template?',
       'èas eskalácie' => '0 = no escalation',
-      'V¹etky prichádzajúce e-maily s príjemcom =>  budú vybavené v radoch.' => 'User Management',
+      'V¹etky prichádzajúce emaily s príjemcom =>  budú vybavené v radoch.' => 'User Management',
       '(Ticket identifier. Some people want to set this to e. g. \'Ticket#\',\'Call#\' or \'MyTicket#\')' => '(Identifikátor po¾iadavky. Niektorí µudia to chcú nastavi» napríklad: \'Ticket#\', \'Call#\' alebo \'MyTicket#\')',
       'pridaj osobný kµúè' => 'Secret',
       'Vykonanie' => 'All incoming emails with one account will be dispatched in the selected queue!',
@@ -1573,7 +1573,7 @@ sub Data {
       'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt; =>  &lt;OTRS_TICKET_ID&gt; =>  &lt;OTRS_TICKET_Queue&gt; =>  &lt;OTRS_TICKET_State&gt;)' => 'Mo¾nosti údajov po¾iadavky (napr. &lt;OTRS_TICKET_Number&gt; =>  &lt;OTRS_TICKET_ID&gt; =>  &lt;OTRS_TICKET_Queue&gt; =>  &lt;OTRS_TICKET_State&gt;)',
       'Ulo¾i» prácu ako?' => 'Is Job Valid?',
       'Platnos»' => 'In this way you can directly edit the keyring configured in SysConfig.',
-      'správa systémovej e-mailovej adresy' => 'Email',
+      'správa systémovej emailovej adresy' => 'Email',
       'Load' => 'Naèíta»',
       'Skutoène chcete odin¹talova» tento balík?' => 'Install',
       'OTRS DB User' => 'OTRS DB pou¾ívateµ',
@@ -1584,7 +1584,7 @@ sub Data {
       'Vytvori» úèet' => 'Welcome %s',
       'Unlock po¾iadavky.' => 'A message should have a body!',
       'Package not correctly deployed =>  you need to deploy it again!' => 'Balík nie je správne rozmiestnený =>  musíte ho rozmiestni» e¹te raz.',
-      'Va¹a e-mailová adresa je nová.' => 'Role Management',
+      'Va¹a emailová adresa je nová.' => 'Role Management',
       'Ulo¾i»' => 'Group Management',
       'login klientského u¾ívateµa' => '(e. g. U5150)',
       'kým' => 'Change priority of ticket',
@@ -1621,7 +1621,7 @@ sub Data {
       'odin¹talova»' => 'Verion',
       'podpis vedenia' => 'SMIME Management',
       'Zamknú»' => 'Traceback',
-      'Vybavi» =>  alebo filtrova» prichádzujúce e-maly =>  na báze e-mailu X-header! Reg-Exp je tie¾ mo¾ný!' => 'If you use RegExp =>  you also can use the matched value in () as [***] in \'Set\'.',
+      'Vybavi» =>  alebo filtrova» prichádzujúce e-maly =>  na báze emailu X-header! Reg-Exp je tie¾ mo¾ný!' => 'If you use RegExp =>  you also can use the matched value in () as [***] in \'Set\'.',
       'Je práca platná?' => 'Is Job Valid',
       'vytvorit nove skupiny pre osetrenie pristupovych prav roznych skupin agentov (napr. Oddelenie nákupu =>  oddelenie predaja => ..)' => 'It\'s useful for ASP solutions.',
       '0 = ¾iadne odomkýnanie' => 'Escalation time',
@@ -1636,6 +1636,8 @@ sub Data {
       'Fulltext' => 'Keyword',
       'Správa by mala ma» predmet!' => 'Ticket Bulk Action',
       'blokova»' => 'NavBar',
+      'Subscribe' => '',
+      'Unsubscribe' => '',
     };
     # $$STOP$$
 }

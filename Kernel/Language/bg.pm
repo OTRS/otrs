@@ -12,7 +12,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1356,6 +1356,8 @@ sub Data {
       'Modified' => '',
       'Watched Tickets' => '',
       'Watched' => '',
+      'Subscribe' => '',
+      'Unsubscribe' => '',
     };
     # $$STOP$$
 }

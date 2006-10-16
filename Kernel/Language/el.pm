@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 #                    George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.8 2006-10-12 09:23:31 mh Exp $
+# $Id: el.pm,v 1.9 2006-10-16 19:18:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::el;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1387,6 +1387,8 @@ department, ...).' => 'Δημιουργία νέων ομάδων για να διαχειρίζονται τα δικαιώματ
       'Modified' => 'Ενημερώθηκε',
       'Watched Tickets' => '',
       'Watched' => '',
+      'Subscribe' => '',
+      'Unsubscribe' => '',
     };
     # $$STOP$$
 }
