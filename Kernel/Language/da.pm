@@ -3,7 +3,7 @@
 # Last Update: 2006/02/01
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # --
-# $Id: da.pm,v 1.8 2006-10-16 19:16:07 mh Exp $
+# $Id: da.pm,v 1.9 2006-10-16 19:28:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -299,7 +299,7 @@ sub Data {
       'Roles <-> Groups' => 'Roller <-> Grupper',
       'Salutations' => 'Hilsner',
       'Signatures' => 'Underskrifter',
-      'Email Addresses' => 'E-mailadresser',
+      'Email Addresses' => 'Emailadresser',
       'Notifications' => 'Beskeder',
       'Category Tree' => 'Kategoritræ',
       'Admin Notification' => 'Besked til admin',
@@ -445,7 +445,7 @@ sub Data {
       'No such Ticket Number "%s"! Can\'t link it!' => 'Intet sådant billetnummer "%s"! Kan ikke linke til det!',
       'Don\'t show closed Tickets' => 'Vis ikke lukkede billetter',
       'Show closed Tickets' => 'Vis lukkede billetter',
-      'Email-Ticket' => 'E-mail-billet',
+      'Email-Ticket' => 'Email-billet',
       'Create new Email Ticket' => 'Opret ny emailbillet',
       'Phone-Ticket' => 'Telefon-Billet',
       'Create new Phone Ticket' => 'Opret ny telefonbillet',
@@ -513,8 +513,8 @@ sub Data {
       'History::SendAnswer' => 'Historik::SendSvar',
       'History::SendAgentNotification' => 'Historik::SendAgentBesked',
       'History::SendCustomerNotification' => 'Historik::SendKundeBesked',
-      'History::EmailAgent' => 'Historik::E-mailAgent',
-      'History::EmailCustomer' => 'Historik::E-mailKunde',
+      'History::EmailAgent' => 'Historik::EmailAgent',
+      'History::EmailCustomer' => 'Historik::EmailKunde',
       'History::PhoneCallAgent' => 'Historik::TelefonOpkaldAgent',
       'History::PhoneCallCustomer' => 'Historik::TelefonOpkaldKunde',
       'History::AddNote' => 'Historik::TilføjBemærkning',
@@ -866,7 +866,7 @@ sub Data {
       # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'Systems emailadressestyring',
       'Realname' => 'VirkeligtNavn',
-      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle indkommende email med denne "E-mail" (Til:) sendes til den valgte kø!',
+      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle indkommende email med denne "Email" (Til:) sendes til den valgte kø!',
 
       # Template: AdminUserForm
       'User Management' => 'Brugerstyring',
@@ -1255,7 +1255,7 @@ sub Data {
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Systemets identificering. Hvert billetnummer og hver http-sessions ID starter med dette tal) ',
       'System FQDN' => '',
       '(Full qualified domain name of your system)' => '(Hele dit systems brugbare domænenavn) ',
-      'AdminEmail' => 'AdminE-mail',
+      'AdminEmail' => 'AdminEmail',
       '(Email of the system admin)' => '(Systemadministrators email)',
       'Organization' => 'Organisation',
       'Log' => '',
@@ -1334,7 +1334,7 @@ sub Data {
       'Termin1' => 'Termin1',
       'Customer history search' => 'Kundehistoriksøgning',
       'Solution' => 'Løsning',
-      'Admin-Email' => 'Admin-E-mail',
+      'Admin-Email' => 'Admin-Email',
       'QueueView' => 'KøVisning',
       'Create new database' => 'Opret ny database',
       'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Din email med billetnummer "<OTRS_TICKET>" er sendt retur til afsender til "<OTRS_BOUNCE_TO>". Kontakt denne adresse for at få flere oplysninger.',

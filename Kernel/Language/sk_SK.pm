@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.7 2006-10-16 19:19:31 mh Exp $
+# $Id: sk_SK.pm,v 1.8 2006-10-16 19:28:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::sk_SK;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1256,7 +1256,7 @@ sub Data {
       'System FQDN' => '',
       '(Full qualified domain name of your system)' => 'Celý názov domény vá¹ho systému',
       'AdminEmail' => '',
-      '(Email of the system admin)' => 'E-mail systémového administrátora',
+      '(Email of the system admin)' => 'Email systémového administrátora',
       'Organization' => 'Organizácia',
       'Log' => '',
       'LogModule' => '',
