@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesPassword.pm,v 1.9 2006-10-13 12:01:21 cs Exp $
+# $Id: PreferencesPassword.pm,v 1.10 2006-10-16 15:54:22 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,10 +13,10 @@ package Kernel::Output::HTML::PreferencesPassword;
 
 use strict;
 
-use Crypt::PasswdMD5 qw(unix_md5_crypt);
+use Digest::MD5;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -122,7 +122,10 @@ sub Run {
     }
 
     # md5 sum for new pw, needed for password history
-    my $MD5Pw = unix_md5_crypt($Pw, $Param{UserData}->{UserLogin});
+    my $MD5 = Digest::MD5->new();
+    $MD5->add($Pw);
+    my $MD5Pw = $MD5->hexdigest;
+
     if ($Self->{ConfigItem}->{PasswordHistory} && $Param{UserData}->{UserLastPw} && ($MD5Pw eq $Param{UserData}->{UserLastPw})) {
         $Self->{Error} = "Password is already used! Please use an other password!";
        return;
