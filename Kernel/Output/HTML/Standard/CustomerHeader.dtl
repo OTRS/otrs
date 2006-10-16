@@ -2,14 +2,14 @@
 # CustomerHeader.dtl - provides global HTML header
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerHeader.dtl,v 1.17 2006-08-29 16:56:06 martin Exp $
+# $Id: CustomerHeader.dtl,v 1.18 2006-10-16 19:52:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+#
 # http headers
-# --
 Content-Type: text/html; charset=$Env{"UserCharset"};
 X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org/)
 X-Wanted: I think you are smart. I'm looking for smart people!
@@ -17,26 +17,23 @@ Expires: Tue, 1 Jan 1980 12:00:00 GMT
 Cache-Control: no-cache
 Pragma: no-cache
 
-
 # include Copyright.dtl
 $Include{"Copyright"}
-# --
+
 # set some html variables
-# --
 #<dtl set $Env{"Box0"} = "&gt;&gt; ">
 #<dtl set $Env{"Box1"} = " &lt;&lt;">
-# --
+
 # check refresh
-# --
 <dtl if ($Data{"Refresh"} ne "") { $Data{"MetaHttpEquiv"} = "<meta http-equiv="refresh" content="$Data{"Refresh"}">"; }>
-# --
+
 <html>
 <head>
   $Data{"MetaHttpEquiv"}
   <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
-# include customer-css.dtl file
-$Include{"customer-css"}
+  $Include{"customer-css"}
 </head>
+
 <a name="top"></a>
 <body>
 

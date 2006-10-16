@@ -2,19 +2,17 @@
 # Login.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.15 2006-08-29 16:56:06 martin Exp $
+# $Id: CustomerLogin.dtl,v 1.16 2006-10-16 19:52:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-# --
+#
 # http headers
-# --
 $Include{"CustomerHeader"}
 
 <!-- start login -->
-
 <p>
   <center>
   <font color="red">$Text{"$Data{"Message"}"}</font>
@@ -24,12 +22,10 @@ $Include{"CustomerHeader"}
     </tr>
     <tr>
       <td class="singleboxbody">
-
         <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
           <input type="hidden" name="Action" value="Login">
           <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
           <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
-
           <table cellspacing="8" cellpadding="2">
             <tr>
               <td>$Text{"Username"}:</td>
@@ -42,7 +38,6 @@ $Include{"CustomerHeader"}
           </table>
           <input class="button" type="submit" value="$Text{"Login"}">
         </form>
-
       </td>
     </tr>
   </table>
@@ -74,14 +69,10 @@ $Include{"CustomerHeader"}
   </table>
 </p>
 <!-- dtl:block:LostPassword -->
-# --
-# language
-# --
 <p>
   <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="Action" value="">
     <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
-
     <table border="0" cellspacing="0" cellpadding="3" width="300">
       <tr>
         <td class="singleboxhead">$Text{"Language"}</td>
@@ -100,7 +91,6 @@ $Include{"CustomerHeader"}
     </table>
   </form>
 </p>
-
 <!-- dtl:block:CreateAccount -->
 <p>
   <table border="0" cellspacing="0" cellpadding="3" width="300">
@@ -125,18 +115,18 @@ $Include{"CustomerHeader"}
               <td>$Text{"Lastname"}: </td>
               <td> <input type="text" name="Lastname" value="$QData{"UserLastname"}" size="25" maxlength="50"></td>
             </tr>
-#    <tr>
-#      <td>$Text{"Login"}: </td>
-#      <td> <input type="text" name="Username" value="$QData{"UserLogin"}" size="25" maxlength="50"></td>
-#    </tr>
+#            <tr>
+#              <td>$Text{"Login"}: </td>
+#              <td> <input type="text" name="Username" value="$QData{"UserLogin"}" size="25" maxlength="50"></td>
+#            </tr>
             <tr>
               <td>$Text{"Email"}/$Text{"Login"}: </td>
               <td> <input type="text" name="Email" value="$QData{"UserEmail"}" size="25" maxlength="50"></td>
             </tr>
-#    <tr>
-#      <td>$Text{"CustomerID"}: </td>
-#      <td> <input type="text" name="CustomerID" value="$QData{"UserCustomerID"}" size="25" maxlength="50"></td>
-#    </tr>
+#            <tr>
+#              <td>$Text{"CustomerID"}: </td>
+#              <td> <input type="text" name="CustomerID" value="$QData{"UserCustomerID"}" size="25" maxlength="50"></td>
+#            </tr>
           </table>
           <input class="button" type="submit" value="$Text{"create"}">
         </form>
