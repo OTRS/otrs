@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.19 2006-10-16 19:11:14 cs Exp $
+# $Id: UPGRADING,v 1.20 2006-10-16 19:46:38 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,7 +26,7 @@ These instructions are for people upgrading OTRS from "2.0" to "2.1".
 
 *) If you use the tar:
 
-    a) the otrs themes between 2.0 and 2.1 are _not_ compatible
+    a) the OTRS themes between 2.0 and 2.1 are _not_ compatible
        (don't use the old themes)!
 
 *) Some configuration files from Version 2.0 are not longer needed and
