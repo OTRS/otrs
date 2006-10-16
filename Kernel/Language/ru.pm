@@ -2,7 +2,7 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.33 2006-10-12 09:23:30 mh Exp $
+# $Id: ru.pm,v 1.34 2006-10-16 19:27:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -397,8 +397,8 @@ sub Data {
       'Ticket' => 'Заявка',
       'Createtime' => 'Время создания',
       'plain' => 'обычный',
-      'Email' => 'e-mail',
-      'email' => 'e-mail',
+      'Email' => 'email',
+      'email' => 'email',
       'Close' => 'Закрыть',
       'Action' => 'Действие',
       'Attachment' => 'Прикрепленный файл',
@@ -407,7 +407,7 @@ sub Data {
       'If it is not displayed correctly,' => 'Если данный текст отображается некорректно,',
       'This is a' => 'Это',
       'to open it in a new window.' => 'открыть в новоем окне',
-      'This is a HTML email. Click here to show it.' => 'Это e-mail в HTML формате. Кликните здесь для просмотра',
+      'This is a HTML email. Click here to show it.' => 'Это email в HTML формате. Кликните здесь для просмотра',
       'Free Fields' => '',
       'Merge' => 'Объединить',
       'closed successful' => 'Закрыт успешно',
@@ -419,8 +419,8 @@ sub Data {
       'pending reminder' => 'отложенное напоминание',
       'pending auto close+' => 'очередь на авто закрытие+',
       'pending auto close-' => 'очередь на авто закрытие-',
-      'email-external' => 'внешний e-mail',
-      'email-internal' => 'внутренний e-mail',
+      'email-external' => 'внешний email',
+      'email-internal' => 'внутренний email',
       'note-external' => 'внешняя заметка',
       'note-internal' => 'внутренняя заметка',
       'note-report' => 'Заметка-отчет',
@@ -864,7 +864,7 @@ sub Data {
       'AccessKey' => '',
 
       # Template: AdminSystemAddressForm
-      'System Email Addresses Management' => 'Управление системными e-mail адресами',
+      'System Email Addresses Management' => 'Управление системными email адресами',
       'Realname' => 'Реальное Имя',
       'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Все входящие сообщения с этим полем (Для:) будут направлены в выбранную очередь',
 
@@ -1007,7 +1007,7 @@ sub Data {
       'Bounce to' => 'Переслать для',
       'Next ticket state' => 'Следующее состояние заявки',
       'Inform sender' => 'Информировать отправителя',
-      'Send mail!' => 'Послать e-mail!',
+      'Send mail!' => 'Послать email!',
 
       # Template: AgentTicketBulk
       'A message should have a subject!' => 'Сообщение должно иметь поле "тема"!',
@@ -1255,8 +1255,8 @@ sub Data {
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(ID системы. Каждый номер Заявки и каждая http сессия будет начинаться с этого числа)',
       'System FQDN' => 'Системное FQDN',
       '(Full qualified domain name of your system)' => '(Полное доменное имя (FQDN) вашей системы)',
-      'AdminEmail' => 'e-mail администратора',
-      '(Email of the system admin)' => '(e-mail системного администратора)',
+      'AdminEmail' => 'email администратора',
+      '(Email of the system admin)' => '(email системного администратора)',
       'Organization' => 'Организация',
       'Log' => '',
       'LogModule' => 'Модуль журнала ',
@@ -1350,7 +1350,7 @@ sub Data {
       'FIXME: WHAT IS PGP?' => '',
       'Solution' => 'Решение',
       '5 Day' => '5 Дней',
-      'Admin-Email' => 'e-mail администратора',
+      'Admin-Email' => 'email администратора',
       'QueueView' => 'Просмотр очереди',
       'Create new database' => '',
       'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '',
@@ -1386,6 +1386,8 @@ sub Data {
       'Modified' => 'Изменено',
       'Watched Tickets' => '',
       'Watched' => '',
+      'Subscribe' => '',
+      'Unsubscribe' => '',
     };
     # $$STOP$$
 }

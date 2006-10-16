@@ -6,37 +6,37 @@
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # Copyright (C) 2005 Jurgen Rutgers (jurgen 'at' besite.nl)
 # --
-# $Id: nl.pm,v 1.48 2006-10-12 09:23:30 mh Exp $
+# $Id: nl.pm,v 1.49 2006-10-16 19:27:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-###########################################################################
-#                                                                         #
-# 14-05-2004                                                              #
-#                                                                         #
-# This update is by: Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl) #
-# Based on the CVS de.pm and nl.pm from 14-05-2004                        #
-#                                                                         #
-# Below you will find a list of specifically not translated words.        #
-# Reason for not translating them is the frequent use of these terms in   #
-# either a. our daily practice at the department 'Interne Automatisering' #
-# of Sogeti Nederland B.V. or b. common Dutch speak in which a lot of     #
-# modern English terms are not translated.                                #
-#                                                                         #
-# 11-11-2005                                                              #
-#                                                                         #
-# This update is by: Jurgen Rutgers (jurgen 'at' besite.nl)               #
-# Based on the CVS de.pm and nl.pm from OTRS 2.0.3                        #
-#                                                                         #
-# 15-03-2006                                                              #
-#                                                                         #
-# This update is by: Jurgen Rutgers (jurgen 'at' besite.nl)               #
-# Based on the CVS de.pm and nl.pm                                        #
-#                                                                         #
-###########################################################################
+# -------------------------------------------------------------------------
+#
+# 14-05-2004
+#
+# This update is by: Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
+# Based on the CVS de.pm and nl.pm from 14-05-2004
+#
+# Below you will find a list of specifically not translated words.
+# Reason for not translating them is the frequent use of these terms in
+# either a. our daily practice at the department 'Interne Automatisering'
+# of Sogeti Nederland B.V. or b. common Dutch speak in which a lot of
+# modern English terms are not translated.
+#
+# 11-11-2005
+#
+# This update is by: Jurgen Rutgers (jurgen 'at' besite.nl)
+# Based on the CVS de.pm and nl.pm from OTRS 2.0.3
+#
+# 15-03-2006
+#
+# This update is by: Jurgen Rutgers (jurgen 'at' besite.nl)
+# Based on the CVS de.pm and nl.pm
+#
+# -------------------------------------------------------------------------
 
 # Not translated terms / words:
 
@@ -56,7 +56,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -252,13 +252,13 @@ sub Data {
       'Timeover' => '',
       'Pending till' => 'In de wacht tot',
       'Don\'t work with UserID 1 (System account)! Create new users!' => 'Werk niet met User# 1 (systeem account)! Maak nieuwe gebruikers aan',
-      'Dispatching by email To: field.' => 'Sorteren per e-mailadres ',
+      'Dispatching by email To: field.' => 'Sorteren per emailadres ',
       'Dispatching by selected Queue.' => 'Sorteren per geselecteerde wachtrij',
       'No entry found!' => 'Niets gevonden!',
       'Session has timed out. Please log in again.' => 'Uw sessie is verlopen. Opnieuw inloggen s.v.p.',
       'No Permission!' => 'Geen toegang! Onvoldoende rechten.',
-      'To: (%s) replaced with database email!' => 'Aan: (%s) vervangen met database e-mail!',
-      'Cc: (%s) added database email!' => 'Cc: (%s) toevoegen met database e-mail',
+      'To: (%s) replaced with database email!' => 'Aan: (%s) vervangen met database email!',
+      'Cc: (%s) added database email!' => 'Cc: (%s) toevoegen met database email',
       '(Click here to add)' => '(Klik hier om toe te voegen)',
       'Preview' => '',
       'Package not correctly deployed! You should reinstall the Package again!' => '',
@@ -342,7 +342,7 @@ sub Data {
       'Roles <-> Groups' => 'Rollen <-> Groepen',
       'Salutations' => 'Aanhef',
       'Signatures' => 'Handtekening',
-      'Email Addresses' => 'E-mail adressen',
+      'Email Addresses' => 'Email adressen',
       'Notifications' => 'Meldingen',
       'Category Tree' => 'Categorie boom',
       'Admin Notification' => 'Admin melding',
@@ -440,8 +440,8 @@ sub Data {
       'Ticket' => '',
       'Createtime' => 'Gemaakt op',
       'plain' => 'zonder opmaak',
-      'Email' => 'E-mail',
-      'email' => 'e-mail',
+      'Email' => 'Email',
+      'email' => 'email',
       'Close' => 'Sluiten',
       'Action' => 'Actie',
       'Attachment' => 'Bijlage',
@@ -450,7 +450,7 @@ sub Data {
       'If it is not displayed correctly,' => 'Als dit niet juist wordt weergegeven,',
       'This is a' => 'Dit is een',
       'to open it in a new window.' => 'om deze in een nieuw venster te openen',
-      'This is a HTML email. Click here to show it.' => 'Dit is een HTML e-mail. Klik hier om deze te tonen.',
+      'This is a HTML email. Click here to show it.' => 'Dit is een HTML email. Klik hier om deze te tonen.',
       'Free Fields' => 'Vrije invulvelden',
       'Merge' => 'Samenvoegen',
       'closed successful' => 'succesvol gesloten',
@@ -462,8 +462,8 @@ sub Data {
       'pending reminder' => 'wachtend op een herinnering',
       'pending auto close+' => 'wachtend op automatisch succesvol sluiten',
       'pending auto close-' => 'wachtend op automatisch niet succesvol sluiten',
-      'email-external' => 'e-mail extern',
-      'email-internal' => 'e-mail intern',
+      'email-external' => 'email extern',
+      'email-internal' => 'email intern',
       'note-external' => 'externe notitie',
       'note-internal' => 'interne notitie',
       'note-report' => 'notitie rapport',
@@ -488,15 +488,15 @@ sub Data {
       'No such Ticket Number "%s"! Can\'t link it!' => 'Ticketnummer "%s" niet gevonden! Kan dus geen link worden gemaakt!',
       'Don\'t show closed Tickets' => 'Gesloten Tickets niet tonen',
       'Show closed Tickets' => 'Gesloten Tickets wel tonen',
-      'Email-Ticket' => 'E-mail Ticket',
-      'Create new Email Ticket' => 'Maak nieuw E-mail Ticket aan',
+      'Email-Ticket' => 'Email Ticket',
+      'Create new Email Ticket' => 'Maak nieuw Email Ticket aan',
       'Phone-Ticket' => 'Telefoon Ticket',
       'Create new Phone Ticket' => 'Maak nieuw Telefoon Ticket aan',
       'Search Tickets' => 'Zoek Tickets',
       'Edit Customer Users' => 'Wijzig klant gebruikers',
       'Bulk-Action' => 'Bulk Actie',
       'Bulk Actions on Tickets' => 'Bulk Actie op Tickets',
-      'Send Email and create a new Ticket' => 'Verstuur e-mail en maak een nieuw Ticket aan',
+      'Send Email and create a new Ticket' => 'Verstuur email en maak een nieuw Ticket aan',
       'Overview of all open Tickets' => 'Laat alle open Tickets zien',
       'Locked Tickets' => 'Gelockte Tickets',
       'Lock it to work on it!' => 'Lock een Ticket om er mee te kunnen werken.',
@@ -517,7 +517,7 @@ sub Data {
       'Mark as Spam!' => 'Markeer als SPAM.',
       'My Queues' => 'Mijn wachtrijen',
       'Shown Tickets' => 'Laat Tickets zien',
-      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Uw e-mail met Ticket nummer "<OTRS_TICKET>" is samengevoegd met "<OTRS_MERGE_TO_TICKET>".',
+      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Uw email met Ticket nummer "<OTRS_TICKET>" is samengevoegd met "<OTRS_MERGE_TO_TICKET>".',
       'New ticket notification' => 'Melding bij een nieuw Ticket',
       'Send me a notification if there is a new ticket in "My Queues".' => 'Stuur mij een melding als er een nieuw Ticket in Mijn wachtrijen komt.',
       'Follow up notification' => 'Melding bij vervolgvragen.',
@@ -553,11 +553,11 @@ sub Data {
       'History::SendAutoFollowUp' => 'Automatische follow-up verstuurd aan "%s".',
       'History::Forward' => 'Doorgestuurd aan "%s".',
       'History::Bounce' => 'Gebounced naar "%s".',
-      'History::SendAnswer' => 'E-mail verstuurd aan "%s".',
+      'History::SendAnswer' => 'Email verstuurd aan "%s".',
       'History::SendAgentNotification' => '"%s"-notificatie verstuurd aan "%s".',
       'History::SendCustomerNotification' => 'Notificatie verstuurd aan "%s".',
-      'History::EmailAgent' => 'E-mail verzonden aan klant.',
-      'History::EmailCustomer' => 'E-mail toegevoegd. %s',
+      'History::EmailAgent' => 'Email verzonden aan klant.',
+      'History::EmailCustomer' => 'Email toegevoegd. %s',
       'History::PhoneCallAgent' => 'Klant gebeld.',
       'History::PhoneCallCustomer' => 'Klant heeft gebeld.',
       'History::AddNote' => 'Notitie toegevoegd (%s)',
@@ -592,12 +592,12 @@ sub Data {
       # Template: AdminAutoResponseForm
       'Auto Response Management' => 'Automatische beantwoordingen beheer',
       'Response' => 'Antwoord',
-      'Auto Response From' => 'E-mailadres',
+      'Auto Response From' => 'Emailadres',
       'Note' => 'Notitie',
       'Useable options' => 'Mogelijkheden',
       'to get the first 20 character of the subject' => 'voor de eerste 20 tekens van het onderwerp',
-      'to get the first 5 lines of the email' => 'voor de eerste vijf regels van het e-mail bericht',
-      'to get the from line of the email' => 'voor het e-mailadres waar vandaan de e-mail komt',
+      'to get the first 5 lines of the email' => 'voor de eerste vijf regels van het email bericht',
+      'to get the from line of the email' => 'voor het emailadres waar vandaan de email komt',
       'to get the realname of the sender (if given)' => 'voor de echte naam van de afzender (indien beschikbaar)',
       'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Mogelijkheden van Ticket gegevens (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
       'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Configuratie opties (b.v. &lt;OTRS_CONFIG_HttpType&gt;)',
@@ -757,7 +757,7 @@ sub Data {
       'List' => '',
       'Trusted' => 'Vertrouwd',
       'Dispatching' => 'Sortering',
-      'All incoming emails with one account will be dispatched in the selected queue!' => 'Alle binnenkomende e-mail\'s in een account zullen worden geplaatst in de geselecteerde wachtrij',
+      'All incoming emails with one account will be dispatched in the selected queue!' => 'Alle binnenkomende email\'s in een account zullen worden geplaatst in de geselecteerde wachtrij',
       'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
       # Template: AdminPostMasterFilter
@@ -767,7 +767,7 @@ sub Data {
       'Header' => 'Type',
       'Value' => 'Waarde',
       'Set' => '...wordt dan gewijzigd met...',
-      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'U kunt hiermee een filtering aanbrengen in het ontvangen van e-mailberichten op basis van e-mail gegevens, zoals het e-mailadres, het onderwerp etc.',
+      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'U kunt hiermee een filtering aanbrengen in het ontvangen van emailberichten op basis van email gegevens, zoals het emailadres, het onderwerp etc.',
       'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '',
 
       # Template: AdminQueueAutoResponseForm
@@ -789,12 +789,12 @@ sub Data {
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Wanneer een agent een ticket locked en hij/zij stuurt geen antwoord binnen de lock tijd dan zal het ticket automatisch unlocked worden. Het ticket kan dan door andere agenten worden ingezien.',
       'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Als een ticket niet binnen deze tijd is beantwoord zal alleen dit ticket worden getoond.',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Wanneer een ticket wordt gesloten and de klant stuurt een follow up wordt het ticket gelocked door de oude eigenaar.',
-      'Will be the sender address of this queue for email answers.' => 'is het afzenderadres van deze wachtrij voor antwoorden per e-mail',
-      'The salutation for email answers.' => 'De aanhef voor beantwoording van berichten per e-mail.',
-      'The signature for email answers.' => 'De handtekening voor beantwoording van berichten per e-mail.',
-      'OTRS sends an notification email to the customer if the ticket is moved.' => 'Het systeem stuurt een notificatie e-mail naar de klant wanneer het ticket wordt verplaatst.',
-      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'Het systeem stuurt een notificatie e-mail naar de klant wanneer de status is veranderd',
-      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'Het systeem stuurt een notificatie e-mail naar de klant wanneer de eigenaar is veranderd',
+      'Will be the sender address of this queue for email answers.' => 'is het afzenderadres van deze wachtrij voor antwoorden per email',
+      'The salutation for email answers.' => 'De aanhef voor beantwoording van berichten per email.',
+      'The signature for email answers.' => 'De handtekening voor beantwoording van berichten per email.',
+      'OTRS sends an notification email to the customer if the ticket is moved.' => 'Het systeem stuurt een notificatie email naar de klant wanneer het ticket wordt verplaatst.',
+      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'Het systeem stuurt een notificatie email naar de klant wanneer de status is veranderd',
+      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'Het systeem stuurt een notificatie email naar de klant wanneer de eigenaar is veranderd',
 
       # Template: AdminQueueResponsesChangeForm
       'Responses <-> Queue Management' => 'Beantwoordingen <-> Wachtrij beheer',
@@ -814,7 +814,7 @@ sub Data {
       'Next state' => 'Volgende status',
       'All Customer variables like defined in config option CustomerUser.' => 'Alle klantvariabelen zoals vastgelegd in de configuratieoptie Klantgebruiker.',
       'The current ticket state is' => 'De huidige ticketstatus is.',
-      'Your email address is new' => 'Uw e-mail adres is nieuw.',
+      'Your email address is new' => 'Uw email adres is nieuw.',
 
       # Template: AdminRoleForm
       'Role Management' => 'Rollen beheer',
@@ -907,7 +907,7 @@ sub Data {
       'AccessKey' => 'Toegangssleutel',
 
       # Template: AdminSystemAddressForm
-      'System Email Addresses Management' => 'Systeem e-mailadressen beheer',
+      'System Email Addresses Management' => 'Systeem emailadressen beheer',
       'Realname' => 'Echte naam',
       'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle binnenkomende emails met deze "To:" worden in de gekozen wachtrij geplaatst.',
 
@@ -1045,7 +1045,7 @@ sub Data {
 
       # Template: AgentTicketBounce
       'A message should have a To: recipient!' => 'Een bericht moet een ontvanger (aan:) hebben!',
-      'You need a email address (e. g. customer@example.com) in To:!' => 'In het Aan-veld is een e-mail adres nodig!',
+      'You need a email address (e. g. customer@example.com) in To:!' => 'In het Aan-veld is een email adres nodig!',
       'Bounce ticket' => 'Bounce Ticket',
       'Bounce to' => 'Bounce naar',
       'Next ticket state' => 'Volgende status van het ticket',
@@ -1092,7 +1092,7 @@ sub Data {
       'Follow up' => '',
 
       # Template: AgentTicketEmail
-      'Compose Email' => 'E-mail opstellen',
+      'Compose Email' => 'Email opstellen',
       'new ticket' => 'nieuw ticket',
       'Refresh' => '',
       'Clear To' => '',
@@ -1143,7 +1143,7 @@ sub Data {
 
       # Template: AgentTicketPhone
       'Phone call' => 'Telefoongesprek',
-      'Clear From' => 'Wis e-mailadres',
+      'Clear From' => 'Wis emailadres',
       'Create' => '',
 
       # Template: AgentTicketPhoneOutbound
@@ -1298,7 +1298,7 @@ sub Data {
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '',
       'System FQDN' => '',
       '(Full qualified domain name of your system)' => '',
-      'AdminEmail' => 'Admin e-mail adres',
+      'AdminEmail' => 'Admin email adres',
       '(Email of the system admin)' => '',
       'Organization' => '',
       'Log' => '',
@@ -1383,11 +1383,11 @@ sub Data {
       'Customer history search' => 'Zoeken in klantgeschiednis',
       'FIXME: WHAT IS PGP?' => '',
       'Solution' => 'Oplossing',
-      'Admin-Email' => 'Admin e-mail adres',
+      'Admin-Email' => 'Admin email adres',
       'QueueView' => 'Wachtrijen',
       'My Queue' => 'Mijn wachtrij',
       'Create new database' => '',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Uw e-mail met Ticket nummer "<OTRS_TICKET>" is gebounced naar "<OTRS_BOUNCE_TO>". Neem contact op met dit adres voor meer informatie.',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Uw email met Ticket nummer "<OTRS_TICKET>" is gebounced naar "<OTRS_BOUNCE_TO>". Neem contact op met dit adres voor meer informatie.',
       'Stunden' => '',
       'modified' => 'aangepast',
       'Delete old database' => '',
@@ -1410,6 +1410,8 @@ sub Data {
       'Modified' => 'Gewijzigd',
       'Watched Tickets' => '',
       'Watched' => '',
+      'Subscribe' => '',
+      'Unsubscribe' => '',
     };
     # $$STOP$$
 }
