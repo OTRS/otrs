@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.18 2006-08-29 17:53:30 martin Exp $
+# $Id: UPGRADING,v 1.19 2006-10-16 19:11:14 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,8 +26,14 @@ These instructions are for people upgrading OTRS from "2.0" to "2.1".
 
 *) If you use the tar:
 
-    a) the otrs themes between 2.0 and 2.1 may are _not_ compatible
-       (don't us the old theme)!
+    a) the otrs themes between 2.0 and 2.1 are _not_ compatible
+       (don't use the old themes)!
+
+*) Some configuration files from Version 2.0 are not longer needed and
+   may confuse OTRS 2.1, so we have to rename them
+   Please rename the files $OTRS_HOME/Kernel/Config/Files/*.pm to *.pm.backup,
+   except for ZZZAuto.pm.
+   (E.g.: rename TicketPostMaster.pm to TicketPostMaster.pm.backup.)
 
 *) Update the database changes with:
     MySQL:
@@ -42,3 +48,5 @@ These instructions are for people upgrading OTRS from "2.0" to "2.1".
 
 *) Restart your services (e. g. rcotrs restart-force or each service manually)
 
+*) Log in as 'root@localhost' and select Admin -> Sysconfig to make sure that
+   OTRS updates the configuration files.
