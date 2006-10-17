@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.5 2006-08-29 17:30:36 martin Exp $
+# $Id: CSV.pm,v 1.6 2006-10-17 10:03:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CSV;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -64,7 +64,7 @@ sub new {
 
 =item Array2CSV()
 
-returns a csv based on a array
+Returns a csv formatted string based on a array with head data.
 
     $CSV = $CSVObject->Array2CSV(
         Head => ['RowA', 'RowB', ],
@@ -82,6 +82,13 @@ sub Array2CSV {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
+    # check required params
+    foreach (qw(Data)){
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => "error", Message => "Got no $_ param!");
+            return;
+        }
+    }
     my @Head = ('##No Head Data##');
     if ($Param{Head}) {
         @Head = @{$Param{Head}};
@@ -91,6 +98,7 @@ sub Array2CSV {
         @Data = @{$Param{Data}};
     }
 
+    # if we have head param fill in header
     foreach my $Entry (@Head) {
         # csv quote
         $Entry =~ s/"/""/g if ($Entry);
@@ -98,29 +106,28 @@ sub Array2CSV {
         $Output .= "\"$Entry\";";
     }
     $Output .= "\n";
-
+    # fill in data
     foreach my $EntryRow (@Data) {
         foreach my $Entry (@{$EntryRow}) {
-            # csv quote
-            $Entry =~ s/"/""/g if ($Entry);
-            $Entry = '' if (!defined($Entry));
-            $Output .= "\"$Entry\";";
+              # csv quote
+              $Entry =~ s/"/""/g if ($Entry);
+              $Entry = '' if (!defined($Entry));
+              $Output .= "\"$Entry\";";
         }
         $Output .= "\n";
     }
+
     return $Output;
 }
 
 =item CSV2Array()
 
-returns a array with csv data
+Returns an array with parsed csv data.
 
     my $RefArray = $CSVObject->CSV2Array(
         String => $CSVString,
-        # optional separator (default is ;)
-        Separator => ';',
-        # optional quote (default is ")
-        Quote => '"',
+        Separator => ';', # optional separator (default is ;)
+        Quote => '"',     # optional quote (default is ")
     );
 
 =cut
@@ -128,30 +135,29 @@ returns a array with csv data
 sub CSV2Array {
     my $Self = shift;
     my %Param = @_;
+    my @Array = ();
+    my @Lines = split(/\n/, $Param{String});
+
     # get separator
     if (!defined($Param{Separator}) || $Param{Separator} eq '') {
         $Param{Separator} = ';';
     }
-    my @Array = ();
-    my @Lines = split(/\\n/, $Param{String});
     foreach (@Lines) {
         my @Fields = split(/$Param{Separator}/, $_);
         push(@Array, \@Fields);
     }
+
     # text quoting
     if (defined($Param{Quote}) && $Param{Quote} ne '') {
-        foreach my $Line (@Array) {
-            foreach my $Index (0..$#{$Line}) {
-                if ($Line->[$Index] =~ /^$Param{Quote}(.*)$Param{Quote}$/) {
-                    $Line->[$Index] = $1;
-                }
-                else {
-                    $Self->{LogObject}->Log(Priority => 'error', Message => "Text quoting error in CSV String!");
-                    return 0;
+        foreach my $Field (@Array) {
+            foreach my $Index (0..scalar@{$Field}) {
+                if (defined($Field->[$Index]) && $Field->[$Index] =~ /^$Param{Quote}(.*)$Param{Quote}$/) {
+                    $Field->[$Index] = $1;
                 }
             }
         }
     }
+
     return \@Array;
 }
 1;
@@ -166,6 +172,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.6 $ $Date: 2006-10-17 10:03:39 $
 
 =cut
