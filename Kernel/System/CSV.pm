@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.6 2006-10-17 10:03:39 martin Exp $
+# $Id: CSV.pm,v 1.7 2006-10-17 12:36:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CSV;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -82,6 +82,8 @@ sub Array2CSV {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
+    my @Head = ();
+    my @Data = (['##No Data##']);
     # check required params
     foreach (qw(Data)){
         if (!$Param{$_}) {
@@ -89,11 +91,9 @@ sub Array2CSV {
             return;
         }
     }
-    my @Head = ('##No Head Data##');
     if ($Param{Head}) {
         @Head = @{$Param{Head}};
     }
-    my @Data = (['##No Data##']);
     if ($Param{Data}) {
         @Data = @{$Param{Data}};
     }
@@ -105,7 +105,9 @@ sub Array2CSV {
         $Entry = '' if (!defined($Entry));
         $Output .= "\"$Entry\";";
     }
-    $Output .= "\n";
+    if ($Output) {
+        $Output .= "\n";
+    }
     # fill in data
     foreach my $EntryRow (@Data) {
         foreach my $Entry (@{$EntryRow}) {
@@ -172,6 +174,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2006-10-17 10:03:39 $
+$Revision: 1.7 $ $Date: 2006-10-17 12:36:04 $
 
 =cut
