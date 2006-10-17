@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.25 2006-09-08 13:23:42 mh Exp $
+# $Id: AdminPackageManager.dtl,v 1.26 2006-10-17 21:14:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -342,6 +342,25 @@
           <td class="contentvalue">($QData{"Lang"}) $QData{"Content"}</td>
         </tr>
 <!-- dtl:block:PackageItemDescription -->
+        <tr>
+          <td class="contentkey">$Text{"ChangeLog"}: </td>
+          <td class="contentvalue">
+            <table border="0" cellspacing="0" cellpadding="2" width="100%">
+              <tr>
+                <td width="10%" class="contentkey">$Text{"Version"}</td>
+                <td width="25%" class="contentkey">$Text{"Date"}</td>
+                <td class="contentkey">$Text{"Comment"}</td>
+              </tr>
+<!-- dtl:block:PackageItemChangeLog -->
+              <tr>
+                <td class="contentvalue">$QData{"Version"}</td>
+                <td class="contentvalue">$QData{"Date"}</td>
+                <td class="contentvalue">$QData{"Content"}</td>
+              </tr>
+<!-- dtl:block:PackageItemChangeLog -->
+            </table>
+          </td>
+        </tr>
 <!-- dtl:block:PackageItemGeneric -->
         <tr>
           <td class="contentkey">$Text{"$QData{"Tag"}"}: </td>
@@ -349,7 +368,7 @@
         </tr>
 <!-- dtl:block:PackageItemGeneric -->
         <tr>
-          <td class="contentkey">Filelist: </td>
+          <td class="contentkey">$Text{"Filelist"}: </td>
           <td class="contentvalue">
             <table border="0" cellspacing="0" cellpadding="2" width="100%">
               <tr>

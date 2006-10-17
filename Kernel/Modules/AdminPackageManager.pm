@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.36 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.37 2006-10-17 21:14:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -222,7 +222,7 @@ sub Run {
             }
             elsif (ref($Structur{$Key}) eq 'ARRAY') {
                 foreach my $Hash (@{$Structur{$Key}}) {
-                    if ($Key =~ /^(Description)$/) {
+                    if ($Key =~ /^(Description|ChangeLog)$/) {
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItem$Key",
                             Data => { %{$Hash}, Tag => $Key, },
