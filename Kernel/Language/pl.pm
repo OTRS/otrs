@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.35 2006-10-16 19:27:47 mh Exp $
+# $Id: pl.pm,v 1.36 2006-10-18 10:24:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -399,8 +399,8 @@ sub Data {
       'Ticket' => 'Zg³oszenie',
       'Createtime' => 'Utworzone o',
       'plain' => 'bez formatowania',
-      'Email' => 'Email',
-      'email' => 'email',
+      'Email' => 'E-Mail',
+      'email' => 'e-mail',
       'Close' => 'Zamknij',
       'Action' => 'Akcja',
       'Attachment' => 'Za³±cznik',
@@ -409,7 +409,7 @@ sub Data {
       'If it is not displayed correctly,' => 'Je¶li nie jest wy¶wietlane poprawnie,',
       'This is a' => 'To jest',
       'to open it in a new window.' => 'by otworzyæ w oddzielnym oknie',
-      'This is a HTML email. Click here to show it.' => 'To jest email w formacie HTML. Kliknij tutaj, by go przeczytaæ.',
+      'This is a HTML email. Click here to show it.' => 'To jest e-mail w formacie HTML. Kliknij tutaj, by go przeczytaæ.',
       'Free Fields' => '',
       'Merge' => '',
       'closed successful' => 'zamkniête z powodzeniem',
@@ -421,8 +421,8 @@ sub Data {
       'pending reminder' => 'oczekuj±ce przypomnienie',
       'pending auto close+' => 'oczekuj±ce na automatyczne zamkniêcie+',
       'pending auto close-' => 'oczekuj±ce na automatyczne zamkniêcie-',
-      'email-external' => 'email zewnêtrzny',
-      'email-internal' => 'email wewnêtrzny',
+      'email-external' => 'e-mail zewnêtrzny',
+      'email-internal' => 'e-mail wewnêtrzny',
       'note-external' => 'Notatka zewnêtrzna',
       'note-internal' => 'Notatka wewnêtrzna',
       'note-report' => 'Notatka raportujaca',
@@ -1258,7 +1258,7 @@ sub Data {
       'System FQDN' => 'Pe³na domena systemu FQDN',
       '(Full qualified domain name of your system)' => '(Pe³na nazwa domeny Twojego systemu FQDN)',
       'AdminEmail' => 'Email od Admina',
-      '(Email of the system admin)' => '(Adres email Administratora Systemu)',
+      '(Email of the system admin)' => '(Adres E-Mail Administratora Systemu)',
       'Organization' => 'Organizacja',
       'Log' => '',
       'LogModule' => 'Modu³ logowania',

@@ -5,7 +5,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.62 2006-10-16 19:27:46 mh Exp $
+# $Id: fr.pm,v 1.63 2006-10-18 10:17:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -219,7 +219,7 @@ sub Data {
       'Session has timed out. Please log in again.' => 'Le délai de votre session est dépassé, veuillez vous ré-authentifier.',
       'No Permission!' => 'Pas de permission!',
       'To: (%s) replaced with database email!' => 'Le champ \'À:\' (%s) a été remplacé avec la valeur de la base de données des des adresses de courriel !',
-      'Cc: (%s) added database email!' => 'Cc: (%s) a été ajouté à la base de donnée d\'email',
+      'Cc: (%s) added database email!' => 'Cc: (%s) a été ajouté à la base de donnée d\'e-mail',
       '(Click here to add)' => '(Cliquez içi pour ajouter)',
       'Preview' => 'Aperçu',
       'Package not correctly deployed! You should reinstall the Package again!' => '',
@@ -281,7 +281,7 @@ sub Data {
       'Logout' => 'Déconnexion',
       'Agent Preferences' => 'Préférences de l\'Agent',
       'Preferences' => 'Préférences',
-      'Agent Mailbox' => 'Boite email de l\'Agent',
+      'Agent Mailbox' => 'Boite e-mail de l\'Agent',
       'Stats' => 'Statistiques',
       'Stats-Area' => 'Statistiques',
       'FAQ-Area' => 'Foire Aux Questions',
@@ -315,7 +315,7 @@ sub Data {
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Les préférences ont bien été mises à jours !',
-      'Mail Management' => 'Gestion des emails',
+      'Mail Management' => 'Gestion des e-mails',
       'Frontend' => 'Interface',
       'Other Options' => 'Autres options',
       'Change Password' => 'Changer de mot de passe',
@@ -454,8 +454,8 @@ sub Data {
       'No such Ticket Number "%s"! Can\'t link it!' => 'Pas de numéro de ticket "%s"! Je ne peut pas le lier',
       'Don\'t show closed Tickets' => 'Ne pas montrer les tickets fermés',
       'Show closed Tickets' => 'Voir les tickets fermés',
-      'Email-Ticket' => 'Écrire un email',
-      'Create new Email Ticket' => 'Créer un nouveau ticket en envoyant un email',
+      'Email-Ticket' => 'Écrire un e-mail',
+      'Create new Email Ticket' => 'Créer un nouveau ticket en envoyant un e-mail',
       'Phone-Ticket' => 'Vue téléphone',
       'Create new Phone Ticket' => 'Saisie d\'une demande téléphonique',
       'Search Tickets' => 'Recherche de tickets',

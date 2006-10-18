@@ -2,18 +2,19 @@
 # Kernel/Language/fa.pm - provides fa language translation
 # Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
 # --
-# $Id: fa.pm,v 1.13 2006-10-16 19:18:42 mh Exp $
+# $Id: fa.pm,v 1.14 2006-10-18 10:15:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 package Kernel::Language::fa;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -217,8 +218,8 @@ sub Data {
       'No entry found!' => 'موردی پیدا نشد!',
       'Session has timed out. Please log in again.' => 'مهلت Session شما به اتمام رسید . لطفا مجددا وارد سیستم شوید..',
       'No Permission!' => 'دسترسی به این قسمت امکانپذیر نیست!',
-      'To: (%s) replaced with database email!' => 'به: (%s) با آدرس email موجود در بانک جایگزین شد!',
-      'Cc: (%s) added database email!' => 'کپی به: (%s) آدرس email اضافه شده',
+      'To: (%s) replaced with database email!' => 'به: (%s) با آدرس e-mail موجود در بانک جایگزین شد!',
+      'Cc: (%s) added database email!' => 'کپی به: (%s) آدرس e-mail اضافه شده',
       '(Click here to add)' => '(برای افزودن کلیک کنید)',
       'Preview' => 'پیش نمایش',
       'Package not correctly deployed! You should reinstall the Package again!' => '',
@@ -302,7 +303,7 @@ sub Data {
       'Roles <-> Groups' => 'وظیفه <-> گروه',
       'Salutations' => 'عنوان',
       'Signatures' => 'امضاء',
-      'Email Addresses' => 'آدرس email',
+      'Email Addresses' => 'آدرس e-mail',
       'Notifications' => 'اخطار',
       'Category Tree' => 'درخت دسته بندی',
       'Admin Notification' => 'اخطار مدیر سیستم',
@@ -401,7 +402,7 @@ sub Data {
       'Createtime' => 'زمان ایجاد ',
       'plain' => 'ساده',
       'Email' => '',
-      'email' => 'email',
+      'email' => 'e-mail',
       'Close' => 'بستن',
       'Action' => 'فعالیت',
       'Attachment' => 'پیوست',
@@ -1342,7 +1343,7 @@ sub Data {
       'Termin1' => '',
       'Customer history search' => 'Ø¬Ø³ØªØ¬Ù Ø¯Ø± Ø³ÙØ§Ø¨Ù ÙØ´ØªØ±Ú©',
       'Solution' => 'Ø±Ø§Ù Ø­Ù',
-      'Admin-Email' => 'email ÙØ¯ÛØ± Ø³ÛØ³ØªÙ',
+      'Admin-Email' => 'e-mail ÙØ¯ÛØ± Ø³ÛØ³ØªÙ',
       'QueueView' => 'ÙÙØ§ÛØ´ ÙÛØ³Øª',
       'Create new database' => 'Ø§ÛØ¬Ø§Ø¯ Ø¨Ø§ÙÚ© Ø¬Ø¯ÛØ¯',
       'Ticket#' => 'Ø´ÙØ§Ø±Ù ØªÛÚ©Øª',

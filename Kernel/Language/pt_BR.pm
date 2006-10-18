@@ -2,7 +2,7 @@
 # Kernel/Language/pt_BR.pm - provides pt_BR language translation
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # --
-# $Id: pt_BR.pm,v 1.41 2006-10-16 19:27:47 mh Exp $
+# $Id: pt_BR.pm,v 1.42 2006-10-18 10:26:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -302,7 +302,7 @@ sub Data {
       'Roles <-> Groups' => 'Regras <-> Grupos',
       'Salutations' => 'Tratamentos (Sr./Sra.)',
       'Signatures' => 'Assinaturas',
-      'Email Addresses' => 'Email',
+      'Email Addresses' => 'E-mail',
       'Notifications' => 'Notificações',
       'Category Tree' => 'Categorias',
       'Admin Notification' => 'Notificação Admin',
@@ -400,7 +400,7 @@ sub Data {
       'Ticket' => 'Chamado',
       'Createtime' => 'Hora de criação',
       'plain' => 'texto',
-      'Email' => 'Email',
+      'Email' => 'E-mail',
       'email' => 'mail',
       'Close' => 'Fechar',
       'Action' => 'Ação',
@@ -410,7 +410,7 @@ sub Data {
       'If it is not displayed correctly,' => 'Se ele não for exibido corretamente,',
       'This is a' => 'Este é um',
       'to open it in a new window.' => 'para abri-lo em uma nova janela.',
-      'This is a HTML email. Click here to show it.' => 'Este email está em formato HTML. Clique aqui para exibi-lo.',
+      'This is a HTML email. Click here to show it.' => 'Este e-mail está em formato HTML. Clique aqui para exibi-lo.',
       'Free Fields' => 'Campos Livres',
       'Merge' => 'Mesclar',
       'closed successful' => 'fechado com êxito',
@@ -486,7 +486,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'Notifique me se um Chamado é desbloqueado pelo sistema.',
       'Move notification' => 'Notificação de movimentos',
       'Send me a notification if a ticket is moved into one of "My Queues".' => 'Notifique-me se  Chamados foram movimentados para "Minhas Filas"',
-      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Suas filas favoritas. Você também será notificado sobre estas filas via email se habilitado.',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Suas filas favoritas. Você também será notificado sobre estas filas via e-mail se habilitado.',
       'Custom Queue' => 'Fila Personalizada',
       'QueueView refresh time' => 'Tempo de atualização das Filas',
       'Screen after new ticket' => 'Tela após novo chamado',
@@ -727,7 +727,7 @@ sub Data {
       'Header' => 'Cabeçalho',
       'Value' => 'Valor',
       'Set' => 'Configurar',
-      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Para despachar ou filtrar os emails entrantes baseados em "X-Headers". Expressões regularos também podem ser utilizadas.',
+      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Para despachar ou filtrar os e-mails entrantes baseados em "X-Headers". Expressões regularos também podem ser utilizadas.',
       'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Se utilizar expressões regulares, você pode usar o valor encontrado no () como [***] em \'Set\'.',
 
       # Template: AdminQueueAutoResponseForm
@@ -752,9 +752,9 @@ sub Data {
       'Will be the sender address of this queue for email answers.' => 'Será o endereço de email de respostas desta fila.',
       'The salutation for email answers.' => 'A saudação para as respostas de emails.',
       'The signature for email answers.' => 'A assinatura para as respostas de emails.',
-      'OTRS sends an notification email to the customer if the ticket is moved.' => 'O OTRS envia uma notificação por email ao cliente, caso o chamado seja movido.',
-      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'O OTRS envia uma notificação por email ao cliente, caso o status do chamado seja alterado.',
-      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'O OTRS envia uma notificação por email ao cliente, caso o dono do chamado seja alterado.',
+      'OTRS sends an notification email to the customer if the ticket is moved.' => 'O OTRS envia uma notificação por e-mail ao cliente, caso o chamado seja movido.',
+      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'O OTRS envia uma notificação por e-mail ao cliente, caso o status do chamado seja alterado.',
+      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'O OTRS envia uma notificação por e-mail ao cliente, caso o dono do chamado seja alterado.',
 
       # Template: AdminQueueResponsesChangeForm
       'Responses <-> Queue Management' => 'Respostas <-> Adm Fila',
@@ -867,7 +867,7 @@ sub Data {
       'AccessKey' => 'Chave de Acesso',
 
       # Template: AdminSystemAddressForm
-      'System Email Addresses Management' => 'Gerenciamento dos Endereços de Email do Sistema',
+      'System Email Addresses Management' => 'Gerenciamento dos Endereços de E-mail do Sistema',
       'Realname' => 'Nome',
       'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Todos os emails entrantes com este Email(To:) serão despachados na fila selecionada!',
 
@@ -1272,7 +1272,7 @@ sub Data {
       'Default Language' => 'Idioma Padrão',
       '(Used default language)' => '(Idioma padrão utilizado)',
       'CheckMXRecord' => 'Averiguar MX',
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => 'Checar os registros do MX de endereços de email utilizados na composição de uma resposta. Não utilizar checagem de registros do MX se o seu servidor OTRS estiver sib um acesso discado $!',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => 'Checar os registros do MX de endereços de e-mail utilizados na composição de uma resposta. Não utilizar checagem de registros do MX se o seu servidor OTRS estiver sib um acesso discado $!',
       'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Para poder utilizar o OTRS você deve',
       'Restart your webserver' => 'Reiniciar o Webserver',
       'After doing so your OTRS is up and running.' => 'Após isto, então seu OTRS está funcionando.',
@@ -1350,6 +1350,7 @@ sub Data {
       'Fulltext' => 'Texto Completo',
       'Modified' => 'Modificado',
       'Watched Tickets' => '',
+      'Watched' => '',
       'Subscribe' => '',
       'Unsubscribe' => '',
     };

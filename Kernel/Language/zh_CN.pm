@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.15 2006-10-16 19:27:47 mh Exp $
+# $Id: zh_CN.pm,v 1.16 2006-10-18 10:30:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -399,7 +399,7 @@ sub Data {
       'Createtime' => '创建时间',
       'plain' => '纯文本',
       'Email' => '邮件地址',
-      'email' => 'email',
+      'email' => 'E-Mail',
       'Close' => '关闭',
       'Action' => '动作',
       'Attachment' => '附件',
@@ -420,8 +420,8 @@ sub Data {
       'pending reminder' => '等待提醒',
       'pending auto close+' => '等待自动关闭+',
       'pending auto close-' => '等待自动关闭-',
-      'email-external' => '外部 Email ',
-      'email-internal' => '内部 Email ',
+      'email-external' => '外部 E-Mail ',
+      'email-internal' => '内部 E-Mail ',
       'note-external' => '外部注解',
       'note-internal' => '内部注解',
       'note-report' => '注解报告',

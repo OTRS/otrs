@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.26 2006-10-16 19:27:46 mh Exp $
+# $Id: hu.pm,v 1.27 2006-10-18 10:18:44 mh Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -18,7 +18,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -776,7 +776,7 @@ sub Data {
       'Next state' => 'Következõ állapot',
       'All Customer variables like defined in config option CustomerUser.' => 'Az összes ügyfél változó ahogyan az ÜgyfélFelhasználó opcióknál lett beállítva.',
       'The current ticket state is' => 'A jegy aktuális állapota',
-      'Your email address is new' => 'Az ön email címe új',
+      'Your email address is new' => 'Az ön e-mail címe új',
 
       # Template: AdminRoleForm
       'Role Management' => 'Szabály Kezelés',
@@ -1261,7 +1261,7 @@ sub Data {
       'System FQDN' => 'Rendszer FQDN',
       '(Full qualified domain name of your system)' => '(Teljes ellenõrzött domain név a rendszerben)',
       'AdminEmail' => 'KezelõEmail',
-      '(Email of the system admin)' => '(Email a rendszergazdának)',
+      '(Email of the system admin)' => '(E-Mail a rendszergazdának)',
       'Organization' => 'Szervezet',
       'Log' => '',
       'LogModule' => 'Log modul',

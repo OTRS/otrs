@@ -4,18 +4,19 @@
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 #               2006 Knut Haugen <knuthaug@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.29 2006-10-16 19:27:47 mh Exp $
+# $Id: nb_NO.pm,v 1.30 2006-10-18 10:20:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 package Kernel::Language::nb_NO;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.29 $;
+$VERSION = q$Revision: 1.30 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
