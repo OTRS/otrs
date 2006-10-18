@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.120 2006-10-18 10:01:50 mh Exp $
+# $Id: de.pm,v 1.121 2006-10-18 10:10:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.120 $';
+$VERSION = '$Revision: 1.121 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -214,8 +214,8 @@ sub Data {
       'No entry found!' => 'Kein Eintrag gefunden!',
       'Session has timed out. Please log in again.' => 'Zeitüberschreitung der Session. Bitte neu anmelden.',
       'No Permission!' => 'Keine Zugriffsrechte!',
-      'To: (%s) replaced with database email!' => 'An: (%s) ersetzt mit Datenbank Email!',
-      'Cc: (%s) added database email!' => 'Cc: (%s) Datenbank Email hinzugefügt!',
+      'To: (%s) replaced with database email!' => 'An: (%s) ersetzt mit Datenbank E-Mail!',
+      'Cc: (%s) added database email!' => 'Cc: (%s) Datenbank E-Mail hinzugefügt!',
       '(Click here to add)' => '(Hier klicken um hinzuzufügen)',
       'Preview' => 'Vorschau',
       'Package not correctly deployed! You should reinstall the Package again!' => 'Paket nicht korrekt installiert! Sie sollten es erneut installieren!',
@@ -289,7 +289,7 @@ sub Data {
       'Roles <-> Groups' => 'Rollen <-> Gruppen',
       'Salutations' => 'Anreden',
       'Signatures' => 'Signaturen',
-      'Email Addresses' => 'Email Adressen',
+      'Email Addresses' => 'E-Mail Adressen',
       'Notifications' => 'Benachrichtigungen',
       'Admin Notification' => 'Admin-Benachrichtigung',
 
@@ -386,8 +386,8 @@ sub Data {
       'Ticket' => '',
       'Createtime' => 'Erstellt am',
       'plain' => 'klar',
-      'Email' => '',
-      'email' => 'Email',
+      'Email' => 'E-Mail',
+      'email' => 'E-Mail',
       'Close' => 'Schließen',
       'Action' => 'Aktion',
       'Attachment' => 'Anlage',
@@ -396,7 +396,7 @@ sub Data {
       'If it is not displayed correctly,' => 'Wenn sie nicht korrekt angezeigt wird,',
       'This is a' => 'Dies ist eine',
       'to open it in a new window.' => 'um sie in einem neuen Fenster angezeigt zu bekommen',
-      'This is a HTML email. Click here to show it.' => 'Dies ist eine HTML Email. Hier klicken, um sie anzuzeigen.',
+      'This is a HTML email. Click here to show it.' => 'Dies ist eine HTML E-Mail. Hier klicken, um sie anzuzeigen.',
       'Free Fields' => 'Freie Felder',
       'Merge' => 'Zusammenfassen',
       'closed successful' => 'erfolgreich geschlossen',
@@ -408,8 +408,8 @@ sub Data {
       'pending reminder' => 'warten zur Erinnerung',
       'pending auto close+' => 'warten auf erfolgreich schließen',
       'pending auto close-' => 'warten auf erfolglos schließen',
-      'email-external' => 'Email an extern',
-      'email-internal' => 'Email an intern',
+      'email-external' => 'E-Mail an extern',
+      'email-internal' => 'E-Mail an intern',
       'note-external' => 'Notiz für extern',
       'note-internal' => 'Notiz für intern',
       'note-report' => 'Notiz für reporting',
@@ -434,15 +434,15 @@ sub Data {
       'No such Ticket Number "%s"! Can\'t link it!' => 'Ticketnummer "%s" nicht gefunden! Ticket konnte nicht verknüpft werden!',
       'Don\'t show closed Tickets' => 'Geschlossene Tickets nicht zeigen',
       'Show closed Tickets' => 'Geschlossene Tickets anzeigen',
-      'Email-Ticket' => '',
-      'Create new Email Ticket' => 'Ein neues Email-Ticket erstellen',
+      'Email-Ticket' => 'E-Mail-Ticket',
+      'Create new Email Ticket' => 'Ein neues E-Mail-Ticket erstellen',
       'Phone-Ticket' => 'Telefon-Ticket',
       'Create new Phone Ticket' => 'Neues Telefon-Ticket erstellen',
       'Search Tickets' => 'Ticket-Suche',
       'Edit Customer Users' => 'Kunden-Benutzer bearbeiten',
       'Bulk-Action' => 'Sammel-Aktion',
       'Bulk Actions on Tickets' => 'Sammel-Action an Tickets',
-      'Send Email and create a new Ticket' => 'Email senden und neues Ticket erstellen',
+      'Send Email and create a new Ticket' => 'E-Mail senden und neues Ticket erstellen',
       'Overview of all open Tickets' => 'Übersicht über alle offenen Tickets',
       'Locked Tickets' => 'Gesperrte Tickets',
       'Lock it to work on it!' => 'Sperren um es zu bearbeiten!',
@@ -463,7 +463,7 @@ sub Data {
       'Mark as Spam!' => 'Als Spam makieren!',
       'My Queues' => 'Meine Queues',
       'Shown Tickets' => 'Gezeigte Tickets',
-      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Ihre Email mit Ticket-Nummer "<OTRS_TICKET>" wurde zu Ticket-Nummer "<OTRS_MERGE_TO_TICKET>" gemerged!',
+      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Ihre E-Mail mit Ticket-Nummer "<OTRS_TICKET>" wurde zu Ticket-Nummer "<OTRS_MERGE_TO_TICKET>" gemerged!',
       'New ticket notification' => 'Mitteilung bei neuem Ticket',
       'Send me a notification if there is a new ticket in "My Queues".' => 'Zusenden einer Mitteilung bei neuem Ticket in "Meine Queues".',
       'Follow up notification' => 'Mitteilung bei Nachfragen',
@@ -472,7 +472,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'Zusenden einer Mitteilung, wenn ein Ticket vom System freigegeben ("unlocked") wird.',
       'Move notification' => 'Mitteilung bei Queue-Wechsel',
       'Send me a notification if a ticket is moved into one of "My Queues".' => 'Zusenden einer Mitteilung beim Verschieben eines Tickets in "Meine Queues".',
-      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Queue Auswahl der bevorzugten Queues. Es werden Email-Benachrichtigungen über diese ausgewählten Queues versendet.',
+      'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Queue Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Queues versendet.',
       'Custom Queue' => 'Bevorzugte Queue',
       'QueueView refresh time' => 'Queue-Ansicht Aktualisierungszeit',
       'Screen after new ticket' => 'Fenster nach neuem Ticket',
@@ -499,11 +499,11 @@ sub Data {
       'History::SendAutoFollowUp' => 'AutoFollowUp an "%s" versandt.',
       'History::Forward' => 'Weitergeleitet an "%s".',
       'History::Bounce' => 'Bounced an "%s".',
-      'History::SendAnswer' => 'Email versandt an "%s".',
+      'History::SendAnswer' => 'E-Mail versandt an "%s".',
       'History::SendAgentNotification' => '"%s"-Benachrichtigung versandt an "%s".',
       'History::SendCustomerNotification' => 'Benachrichtigung versandt an "%s".',
-      'History::EmailAgent' => 'Email an Kunden versandt.',
-      'History::EmailCustomer' => 'Email hinzugefügt. %s',
+      'History::EmailAgent' => 'E-Mail an Kunden versandt.',
+      'History::EmailCustomer' => 'E-Mail hinzugefügt. %s',
       'History::PhoneCallAgent' => 'Kunden angerufen.',
       'History::PhoneCallCustomer' => 'Kunde hat angerufen.',
       'History::AddNote' => 'Notiz hinzugefügt (%s)',
@@ -542,7 +542,7 @@ sub Data {
       'Note' => 'Notiz',
       'Useable options' => 'Verfügbare Optionen',
       'to get the first 20 character of the subject' => 'Um die ersten 20 Zeichen des Betreffs zu erhalten',
-      'to get the first 5 lines of the email' => 'Um die ersten 5 Zeilen der Email zu erhalten',
+      'to get the first 5 lines of the email' => 'Um die ersten 5 Zeilen der E-Mail zu erhalten',
       'to get the from line of the email' => 'Um die From: Zeile zu erhalten',
       'to get the realname of the sender (if given)' => 'Um den Realnamen des Senders zu erhalten (wenn möglich)',
       'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Optionen von Ticket Daten (z. B. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
@@ -703,7 +703,7 @@ sub Data {
       'List' => 'Liste',
       'Trusted' => 'Vertraut',
       'Dispatching' => 'Verteilung',
-      'All incoming emails with one account will be dispatched in the selected queue!' => 'Einkommende Emails von POP3-Konten werden in die ausgewählte Queue einsortiert!',
+      'All incoming emails with one account will be dispatched in the selected queue!' => 'Einkommende E-Mails von POP3-Konten werden in die ausgewählte Queue einsortiert!',
       'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Wird dem Konto vertraut, werden die X-OTRS Header benutzt! PostMaster Filter werden trotzdem benutzt.',
 
       # Template: AdminPostMasterFilter
@@ -713,7 +713,7 @@ sub Data {
       'Header' => '',
       'Value' => 'Wert',
       'Set' => 'Setzen',
-      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Verteilt oder Filtern einkommende Email anhand der X-Headers! RegExp ist auch möglich.',
+      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Verteilt oder Filtern einkommende E-Mail anhand der X-Headers! RegExp ist auch möglich.',
       'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Ist RegExp benutzt, können Sie auch den Inhalt von () als [***] in \'Setzen\' benutzen.',
 
       # Template: AdminQueueAutoResponseForm
@@ -735,12 +735,12 @@ sub Data {
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Wird ein Ticket durch einen Agent gesperrt, jedoch nicht in dieser Zeit beantwortet, wird das Ticket automatisch freigegeben.',
       'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Wird ein Ticket nicht in dieser Zeit beantwortet, wird nur noch dieses Ticket gezeigt.',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Wenn ein Ticket geschlossen ist und der Kunde ein Follow-Up sendet, wird das Ticket für den alten Besitzer gesperrt.',
-      'Will be the sender address of this queue for email answers.' => 'Absenderadresse für Emails aus dieser Queue.',
-      'The salutation for email answers.' => 'Die Anrede für Email-Antworten.',
-      'The signature for email answers.' => 'Die Signatur für Email-Antworten.',
-      'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS sendet eine Info-Email an Kunden beim Verschieben des Tickets.',
-      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS sendet eine Info Email an Kunden beim Ändern des Status.',
-      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS sendet eine Info Email an Kunden beim Ändern des Besitzers.',
+      'Will be the sender address of this queue for email answers.' => 'Absenderadresse für E-Mails aus dieser Queue.',
+      'The salutation for email answers.' => 'Die Anrede für E-Mail-Antworten.',
+      'The signature for email answers.' => 'Die Signatur für E-Mail-Antworten.',
+      'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS sendet eine Info-E-Mail an Kunden beim Verschieben des Tickets.',
+      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS sendet eine Info E-Mail an Kunden beim Ändern des Status.',
+      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS sendet eine Info E-Mail an Kunden beim Ändern des Besitzers.',
 
       # Template: AdminQueueResponsesChangeForm
       'Responses <-> Queue Management' => 'Antworten <-> Queue Verwaltung',
@@ -760,7 +760,7 @@ sub Data {
       'Next state' => 'Nächster Status',
       'All Customer variables like defined in config option CustomerUser.' => 'Alle Kundenvariablen wie definiert im den Konfigoptionen CustomerUser.',
       'The current ticket state is' => 'Der aktuelle Ticket-Status ist',
-      'Your email address is new' => 'Deine Email-Adresse ist neu',
+      'Your email address is new' => 'Deine E-Mail-Adresse ist neu',
 
       # Template: AdminRoleForm
       'Role Management' => 'Rollen Verwaltung',
@@ -853,9 +853,9 @@ sub Data {
       'AccessKey' => '',
 
       # Template: AdminSystemAddressForm
-      'System Email Addresses Management' => 'Email-Adressen Verwaltung',
+      'System Email Addresses Management' => 'E-Mail-Adressen Verwaltung',
       'Realname' => '',
-      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden Emails mit diesem Empfänger (To:) werden in die ausgewählte Queue einsortiert.',
+      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden E-Mails mit diesem Empfänger (To:) werden in die ausgewählte Queue einsortiert.',
 
       # Template: AdminUserForm
       'User Management' => 'Benutzer Verwaltung',
@@ -991,7 +991,7 @@ sub Data {
 
       # Template: AgentTicketBounce
       'A message should have a To: recipient!' => 'Eine Nachricht sollte einen Empfänger im Feld An: haben!',
-      'You need a email address (e. g. customer@example.com) in To:!' => 'Im Feld An: wird eine Email-Adresse (z. B. kunde@example.com) benötigt!',
+      'You need a email address (e. g. customer@example.com) in To:!' => 'Im Feld An: wird eine E-Mail-Adresse (z. B. kunde@example.com) benötigt!',
       'Bounce ticket' => '',
       'Bounce to' => 'Bounce an',
       'Next ticket state' => 'Nächster Status des Tickets',
@@ -1038,7 +1038,7 @@ sub Data {
       'Follow up' => 'Nachfrage',
 
       # Template: AgentTicketEmail
-      'Compose Email' => 'Email erstellen',
+      'Compose Email' => 'E-Mail erstellen',
       'new ticket' => 'Neues Ticket',
       'Refresh' => 'Aktualisieren',
       'Clear To' => 'An: löschen',
@@ -1244,8 +1244,8 @@ sub Data {
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Das Kennzeichnen des Systems. Jede Ticketnummer und http-Sitzung beginnt mit dieser Kennung)',
       'System FQDN' => '',
       '(Full qualified domain name of your system)' => '(Voll qualifizierter Domain-Name des Systems)',
-      'AdminEmail' => '',
-      '(Email of the system admin)' => '(Email des System-Administrators)',
+      'AdminEmail' => 'AdminE-Mail',
+      '(Email of the system admin)' => '(E-Mail des System-Administrators)',
       'Organization' => 'Organisation',
       'Log' => '',
       'LogModule' => '',
@@ -1258,7 +1258,7 @@ sub Data {
       'Default Language' => 'Standard-Sprache',
       '(Used default language)' => '(Standardwert für die Sprache)',
       'CheckMXRecord' => '',
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Überprüfen des MX-Eintrags der benutzen Email-Adressen im Verfassen-Fenster. Benutzen Sie CheckMXRecord nicht, wenn Ihr OTRS hinter einer Wählleitung ist!)',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Überprüfen des MX-Eintrags der benutzen E-Mail-Adressen im Verfassen-Fenster. Benutzen Sie CheckMXRecord nicht, wenn Ihr OTRS hinter einer Wählleitung ist!)',
       'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Um OTRS nutzen zu können, müssen die die folgenden Zeilen als root in die Befehlszeile (Terminal/Shell) eingeben.',
       'Restart your webserver' => 'Starte Deinen Webserver neu.',
       'After doing so your OTRS is up and running.' => 'Danach läuft Dein OTRS.',
@@ -1291,7 +1291,6 @@ sub Data {
 
       # Template: Warning
       # Misc
-      '' => '',
       'Create Database' => 'Datenbank erstellen',
       'DB Host' => 'DB Rechner',
       'verified' => 'verifiziert',
@@ -1335,7 +1334,7 @@ sub Data {
       'Year' => 'Jahr',
       'Service-Port' => 'Service-Port',
       'X-axis' => 'X-Achse',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Die Email mit der Ticketnummer "<OTRS_TICKET>" ist an "<OTRS_BOUNCE_TO>" gebounced. Kontaktieren Sie diese Adresse für weitere Nachfragen.',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Die E-Mail mit der Ticketnummer "<OTRS_TICKET>" ist an "<OTRS_BOUNCE_TO>" gebounced. Kontaktieren Sie diese Adresse für weitere Nachfragen.',
       'The selected Date isn\'t valid!' => 'Sie haben ein ungültiges Datum ausgewählt!',
       'Keywords' => 'Schlüsselwörter',
       'No * possible!' => 'Kein "*" möglich!',
