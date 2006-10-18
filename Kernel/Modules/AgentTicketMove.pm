@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.9 2006-10-12 10:11:27 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.10 2006-10-18 09:09:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -56,7 +55,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -244,7 +243,7 @@ sub Run {
             }
         }
         # add note
-        %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
+        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
         my $ArticleID;
         if ($Self->{Comment} && (!$NewUserID || $NewUserID ne $Ticket{OwnerID})) {
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
@@ -283,7 +282,7 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub AgentMove {
     my $Self = shift;
     my %Param = @_;
@@ -365,7 +364,7 @@ sub AgentMove {
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketMove', Data => \%Param);
 }
-# --
+
 sub _GetUsers {
     my $Self = shift;
     my %Param = @_;
@@ -410,5 +409,5 @@ sub _GetUsers {
     }
     return \%ShownUsers;
 }
-# --
+
 1;
