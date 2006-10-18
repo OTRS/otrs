@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OTRS package
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: suse-otrs-7.3.spec,v 1.28 2006-10-03 14:34:47 mh Exp $
+# $Id: suse-otrs-7.3.spec,v 1.29 2006-10-18 08:52:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -114,6 +114,20 @@ if test -e /tmp/otrs-old.tmp; then
     rm -rf /tmp/otrs-old.tmp
 fi
 
+# OTRS 2.0 -> OTRS 2.1
+# remove old ticket config file
+if test -e /opt/otrs/Kernel/Config/Files/Ticket.pm; then
+    mv /opt/otrs/Kernel/Config/Files/Ticket.pm /opt/otrs/Kernel/Config/Files/Ticket.pm.not_longer_used
+fi;
+# remove old ticket postmaster config file
+if test -e /opt/otrs/Kernel/Config/Files/TicketPostMaster.pm; then
+    mv /opt/otrs/Kernel/Config/Files/TicketPostMaster.pm /opt/otrs/Kernel/Config/Files/TicketPostMaster.pm.not_longer_used;
+fi
+# remove old faq config file
+if test -e /opt/otrs/Kernel/Config/Files/FAQ.pm; then
+    mv /opt/otrs/Kernel/Config/Files/FAQ.pm /opt/otrs/Kernel/Config/Files/FAQ.pm.not_longer_used;
+fi
+
 # note
 HOST=`hostname -f`
 echo ""
@@ -150,6 +164,8 @@ rm -rf $RPM_BUILD_ROOT
 <FILES>
 
 %changelog
+* Thu Oct 18 2006 - martin+rpm@otrs.org
+- added rename of old /opt/otrs/Kernel/Config/Files/(Ticket|TicketPostMaster|FAQ).pm files
 * Thu Jan 02 2003 - martin+rpm@otrs.org
 - moved from /opt/OpenTRS to /opt/otrs
 * Thu Nov 12 2002 - martin+rpm@otrs.org
