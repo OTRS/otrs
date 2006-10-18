@@ -2,14 +2,17 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.301 2006-10-13 20:36:05 cs Exp $
+# $Id: CHANGES,v 1.302 2006-10-18 08:52:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-2.1.2 (2006/??/??)
+2.1.2 (2006/10/18)
  - (2006/10/13) switched to md5 check sum for password in user_preference table
+ - (2006/10/12) fixed #1373 - RH RPM requires sendmail, but works with other MTAs
+ - (2006/10/12) fixed double agent notifications on follow up if agent is
+    owner and responible
  - (2006/10/12) fixed bug #1311 - Apostrophes are incorrectly displayed under
     IE 6 & IE7 but correctly displayed under Firefox 1.5.0.6  -=>
     moved from $Text{} to $JSText{} for text translations in Java Script parts
