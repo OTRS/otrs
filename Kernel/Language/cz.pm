@@ -6,7 +6,7 @@
 #		     Vadim Buzek
 #		     Petr Ocasek
 # --
-# $Id: cz.pm,v 1.32 2006-10-16 19:13:25 mh Exp $
+# $Id: cz.pm,v 1.33 2006-10-18 09:53:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -214,7 +214,7 @@ sub Data {
       'Timeover' => 'Èas vypr¹el',
       'Pending till' => 'Èekání na vyøízení do',
       'Don\'t work with UserID 1 (System account)! Create new users!' => 'Z bezpeènostních dùvodù nepracujte se superu¾ivatelským úètem - vytvoøte si nového u¾ivatele!',
-      'Dispatching by email To: field.' => 'Pøiøadit podle emailu - pole KOMU:.',
+      'Dispatching by email To: field.' => 'Pøiøadit podle e-mailu - pole KOMU:.',
       'Dispatching by selected Queue.' => 'Pøiøadit do vybrané fronty.',
       'No entry found!' => 'Nebyl nalezen ¾ádný záznam!',
       'Session has timed out. Please log in again.' => 'Relace vypr¹ela. Prosím, pøihla¹te se znovu.',
@@ -311,7 +311,7 @@ sub Data {
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Nastavení úspì¹nì aktualizováno!',
-      'Mail Management' => 'Správa emailù',
+      'Mail Management' => 'Správa e-mailù',
       'Frontend' => 'Rozhraní',
       'Other Options' => 'Jiné mo¾nosti',
       'Change Password' => '',
