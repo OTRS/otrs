@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.10 2006-10-18 09:09:34 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.11 2006-10-19 20:13:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -60,15 +60,14 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-
     # check needed stuff
     foreach (qw(TicketID)) {
-      if (!$Self->{$_}) {
-        # error page
-        return $Self->{LayoutObject}->ErrorScreen(
-          Message => "Need $_!",
-        );
-      }
+        if (!$Self->{$_}) {
+            # error page
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need $_!",
+            );
+        }
     }
     # check permissions
     if (!$Self->{TicketObject}->Permission(
@@ -103,6 +102,16 @@ sub Run {
             );
         }
     }
+    # new owner!
+    my $UserSelection = $Self->{ParamObject}->GetParam(Param => 'UserSelection') || '';
+    my $NewUserID = $Self->{ParamObject}->GetParam(Param => 'NewUserID');
+    my $OldUserID = $Self->{ParamObject}->GetParam(Param => 'OldUserID');
+    # check new/old user selection
+    if ($UserSelection eq 'Old') {
+        if ($OldUserID) {
+            $NewUserID = $OldUserID;
+        }
+    }
     # move queue
     if (!$Self->{DestQueueID} || $Self->{ExpandQueueUsers}) {
         $Output .= $Self->{LayoutObject}->Header();
@@ -132,7 +141,6 @@ sub Run {
             }
         }
         else {
-#            $Self->{TicketUnlock} = 0;
             my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
                 TicketID => $Self->{TicketID},
             );
@@ -185,6 +193,8 @@ sub Run {
           QueueID => $Self->{DestQueueID},
           UserID => $Self->{UserID},
           TicketID => $Self->{TicketID},
+          SendNoNotification => $NewUserID,
+          Comment => $Self->{Comment},
       ) ) {
         # set state
         if ($Self->{ConfigObject}->Get('Ticket::Frontend::MoveSetState') && $Self->{NewStateID}) {
@@ -204,16 +214,6 @@ sub Run {
                     Lock => 'unlock',
                     UserID => $Self->{UserID},
                 );
-            }
-        }
-        # new owner!
-        my $UserSelection = $Self->{ParamObject}->GetParam(Param => 'UserSelection') || '';
-        my $NewUserID = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
-        my $OldUserID = $Self->{ParamObject}->GetParam(Param => 'OldUserID') || '';
-        # check new/old user selection
-        if ($UserSelection eq 'Old') {
-            if ($OldUserID) {
-                $NewUserID = $OldUserID;
             }
         }
         # check if new user is given
@@ -245,7 +245,7 @@ sub Run {
         # add note
         my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
         my $ArticleID;
-        if ($Self->{Comment} && (!$NewUserID || $NewUserID ne $Ticket{OwnerID})) {
+        if ($Self->{Comment}) {
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID => $Self->{TicketID},
                 ArticleType => 'note-internal',
@@ -257,6 +257,7 @@ sub Run {
                 UserID => $Self->{UserID},
                 HistoryType => 'AddNote',
                 HistoryComment => '%%Move',
+                NoAgentNotify => 1,
             );
         }
         # time accounting
