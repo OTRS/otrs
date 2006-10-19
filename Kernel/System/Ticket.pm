@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.226 2006-09-27 12:24:03 martin Exp $
+# $Id: Ticket.pm,v 1.227 2006-10-19 20:15:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.226 $';
+$VERSION = '$Revision: 1.227 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -639,7 +639,6 @@ sub TicketSubjectClean {
     return $Subject;
 }
 
-
 =item TicketGet()
 
 get ticket info (TicketNumber, TicketID, State, StateID, StateType,
@@ -1040,6 +1039,14 @@ to move a ticket (send notification to agents of selected my queues, it ticket i
       UserID => 123,
   );
 
+  $TicketObject->MoveTicket(
+      Queue => 'Some Queue Name',
+      TicketID => 123,
+      Comment => 'some comment', # optional
+      ForceNotificationToUserID => [1,43,56], # if you want to force somebody
+      UserID => 123,
+  );
+
 =cut
 
 sub MoveTicket {
@@ -1059,7 +1066,7 @@ sub MoveTicket {
     # get current ticket
     my %Ticket = $Self->TicketGet(%Param);
     # move needed?
-    if ($Param{QueueID} == $Ticket{QueueID}) {
+    if ($Param{QueueID} == $Ticket{QueueID} && !$Param{Comment}) {
         # update not needed
         return 1;
     }
@@ -1095,31 +1102,46 @@ sub MoveTicket {
         );
         # send move notify to queue subscriber
         if (!$Param{SendNoNotification} & $Ticket{StateType} ne 'closed') {
-            foreach ($Self->GetSubscribedUserIDsByQueueID(QueueID => $Param{QueueID})) {
-                my %UserData = $Self->{UserObject}->GetUserData(
-                    UserID => $_,
-                    Cached => 1,
-                    Valid => 1,
-                );
-                if ($UserData{UserSendMoveNotification}) {
-                    # send agent notification
-                    $Self->SendAgentNotification(
-                        Type => 'Move',
-                        UserData => \%UserData,
-                        CustomerMessageParams => { Queue => $Queue },
-                        TicketID => $Param{TicketID},
-                        UserID => $Param{UserID},
+            my %Used = ();
+            my @UserIDs = $Self->GetSubscribedUserIDsByQueueID(QueueID => $Param{QueueID});
+            if ($Param{ForceNotificationToUserID}) {
+                push (@UserIDs, @{$Param{ForceNotificationToUserID}});
+            }
+            foreach my $UserID (@UserIDs) {
+                if (!$Used{$UserID} && $UserID ne $Param{UserID}) {
+                    $Used{$UserID} = 1;
+                    my %UserData = $Self->{UserObject}->GetUserData(
+                        UserID => $UserID,
+                        Cached => 1,
+                        Valid => 1,
                     );
+                    if ($UserData{UserSendMoveNotification}) {
+                        # send agent notification
+                        $Self->SendAgentNotification(
+                            Type => 'Move',
+                            UserData => \%UserData,
+                            CustomerMessageParams => {
+                                Queue => $Queue,
+                                Body => $Param{Comment} || '',
+                            },
+                            TicketID => $Param{TicketID},
+                            UserID => $Param{UserID},
+                        );
+                    }
                 }
             }
             # send customer notification email
             my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{UserID});
             $Self->SendCustomerNotification(
                 Type => 'QueueUpdate',
-                CustomerMessageParams => { %Preferences, Queue => $Queue },
+                CustomerMessageParams => {
+                    %Preferences,
+                    Queue => $Queue,
+                },
                 TicketID => $Param{TicketID},
                 UserID => $Param{UserID},
             );
+
         }
         # ticket event
         $Self->TicketEventHandlerPost(
@@ -1305,7 +1327,6 @@ Note: the current value is accessible over TicketGet()
      FillUp => 1,
      UserID => 123, # or CustomerUserID
   );
-
 
 =cut
 
@@ -4868,6 +4889,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.226 $ $Date: 2006-09-27 12:24:03 $
+$Revision: 1.227 $ $Date: 2006-10-19 20:15:45 $
 
 =cut
