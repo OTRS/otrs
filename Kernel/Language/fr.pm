@@ -5,7 +5,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.63 2006-10-18 10:17:47 mh Exp $
+# $Id: fr.pm,v 1.64 2006-10-19 16:56:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -687,7 +687,6 @@ sub Data {
       'Upgrade' => 'Mise à jour',
       'Local Repository' => '',
       'Status' => 'État',
-      'Package not correctly deployed, you need to deploy it again!' => '',
       'Overview' => 'Aperçu',
       'Download' => 'Téléchargement',
       'Rebuild' => 'Re-construction',

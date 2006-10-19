@@ -3,7 +3,7 @@
 # Last Update: 2006/02/01
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # --
-# $Id: da.pm,v 1.10 2006-10-18 09:54:34 mh Exp $
+# $Id: da.pm,v 1.11 2006-10-19 16:56:52 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -677,7 +677,6 @@ sub Data {
       'Upgrade' => 'Opgrader',
       'Local Repository' => 'Lokalt lagerdepot',
       'Status' => '',
-      'Package not correctly deployed, you need to deploy it again!' => 'Pakken blev ikke korrekt distribueret, den skal distribueres igen!',
       'Overview' => 'Oversigt',
       'Download' => '',
       'Rebuild' => 'Genopbyg',

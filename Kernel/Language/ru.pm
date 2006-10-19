@@ -2,7 +2,7 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.35 2006-10-18 10:27:35 mh Exp $
+# $Id: ru.pm,v 1.36 2006-10-19 16:56:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -678,7 +678,6 @@ sub Data {
       'Upgrade' => 'Обновить',
       'Local Repository' => '',
       'Status' => 'Статус',
-      'Package not correctly deployed, you need to deploy it again!' => '',
       'Overview' => 'Обзор',
       'Download' => 'Скачать',
       'Rebuild' => '',

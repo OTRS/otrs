@@ -2,7 +2,7 @@
 # Kernel/Language/pt_BR.pm - provides pt_BR language translation
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # --
-# $Id: pt_BR.pm,v 1.42 2006-10-18 10:26:33 mh Exp $
+# $Id: pt_BR.pm,v 1.43 2006-10-19 16:56:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -680,7 +680,6 @@ sub Data {
       'Upgrade' => 'Atualizar Versão',
       'Local Repository' => 'Repositório Local',
       'Status' => '',
-      'Package not correctly deployed, you need to deploy it again!' => 'O pacote não foi instalado corretamente, faz-se necessária a reinstalação!',
       'Overview' => '',
       'Download' => '',
       'Rebuild' => 'Reconstruir',

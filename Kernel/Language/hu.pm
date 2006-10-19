@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.27 2006-10-18 10:18:44 mh Exp $
+# $Id: hu.pm,v 1.28 2006-10-19 16:56:51 mh Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -18,7 +18,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -682,7 +682,6 @@ sub Data {
       'Upgrade' => '',
       'Local Repository' => '',
       'Status' => 'Állapot',
-      'Package not correctly deployed, you need to deploy it again!' => '',
       'Overview' => 'Áttekintõ',
       'Download' => 'Letölt',
       'Rebuild' => '',

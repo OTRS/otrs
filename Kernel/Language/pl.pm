@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.36 2006-10-18 10:24:29 mh Exp $
+# $Id: pl.pm,v 1.37 2006-10-19 16:56:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -679,7 +679,6 @@ sub Data {
       'Upgrade' => '',
       'Local Repository' => '',
       'Status' => '',
-      'Package not correctly deployed, you need to deploy it again!' => '',
       'Overview' => 'Podsumowanie',
       'Download' => '',
       'Rebuild' => '',

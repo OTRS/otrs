@@ -4,7 +4,7 @@
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 #               2006 Knut Haugen <knuthaug@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.30 2006-10-18 10:20:51 mh Exp $
+# $Id: nb_NO.pm,v 1.31 2006-10-19 16:56:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.30 $;
+$VERSION = q$Revision: 1.31 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -680,7 +680,6 @@ sub Data {
       'Upgrade' => 'Oppgrader',
       'Local Repository' => 'Lokalt pakkelager',
       'Status' => '',
-      'Package not correctly deployed, you need to deploy it again!' => 'Pakken ble ikke korrekt aktivert. Du må aktivere den igjen!',
       'Overview' => 'Oversikt',
       'Download' => 'Last ned',
       'Rebuild' => 'Bygg på ny',

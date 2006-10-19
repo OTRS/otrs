@@ -6,7 +6,7 @@
 #		     Vadim Buzek
 #		     Petr Ocasek
 # --
-# $Id: cz.pm,v 1.33 2006-10-18 09:53:19 mh Exp $
+# $Id: cz.pm,v 1.34 2006-10-19 16:56:52 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -682,7 +682,6 @@ sub Data {
       'Upgrade' => '',
       'Local Repository' => '',
       'Status' => 'Stav',
-      'Package not correctly deployed, you need to deploy it again!' => '',
       'Overview' => 'Pøehled',
       'Download' => '',
       'Rebuild' => '',

@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 #                    George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.10 2006-10-18 10:11:53 mh Exp $
+# $Id: el.pm,v 1.11 2006-10-19 16:56:52 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::el;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -692,7 +692,6 @@ sub Data {
       'Upgrade' => 'Αναβάθμιση',
       'Local Repository' => 'Τοπικός αποθηκευτικός χώρος',
       'Status' => 'Κατάσταση',
-      'Package not correctly deployed, you need to deploy it again!' => 'Το πακέτο δεν εγκαταστάσθηκε σωστά - Πρεπει να επενεγκατασταθεί!',
       'Overview' => 'Επισκόπηση',
       'Download' => '',
       'Rebuild' => 'Ανακατασκευή',

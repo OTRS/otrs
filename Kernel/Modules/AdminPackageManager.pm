@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.38 2006-10-18 09:43:03 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.39 2006-10-19 16:56:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -911,7 +911,7 @@ sub Run {
         foreach (sort keys %NeedReinstall) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data => "$_ $NeedReinstall{$_}".' - $Text{"Package not correctly deployed, you need to deploy it again! You should reinstall the Package again!"}',
+                Data => "$_ $NeedReinstall{$_}".' - $Text{"Package not correctly deployed! You should reinstall the Package again!"}',
                 Link => '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name='.$_.'&Version='.$NeedReinstall{$_},
             );
         }

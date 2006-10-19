@@ -2,7 +2,7 @@
 # Kernel/Language/fa.pm - provides fa language translation
 # Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
 # --
-# $Id: fa.pm,v 1.14 2006-10-18 10:15:15 mh Exp $
+# $Id: fa.pm,v 1.15 2006-10-19 16:56:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fa;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -681,7 +681,6 @@ sub Data {
       'Upgrade' => 'بروزرسانی',
       'Local Repository' => 'منبع محلی',
       'Status' => 'وضعیت',
-      'Package not correctly deployed, you need to deploy it again!' => 'این بسته بصورت صحیح نصب نشده آنرا مجددا نصب نمائید',
       'Overview' => 'پیش نمایش',
       'Download' => 'دریافت',
       'Rebuild' => 'ساخت مجدد',

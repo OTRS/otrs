@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.37 2006-10-18 10:19:51 mh Exp $
+# $Id: it.pm,v 1.38 2006-10-19 16:56:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -680,7 +680,6 @@ sub Data {
       'Upgrade' => '',
       'Local Repository' => 'Archivio Locale',
       'Status' => 'Stato',
-      'Package not correctly deployed, you need to deploy it again!' => '',
       'Overview' => 'Sommario',
       'Download' => 'Scarica',
       'Rebuild' => 'Ricrea',
