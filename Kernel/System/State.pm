@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: State.pm,v 1.14 2006-10-05 13:54:11 tr Exp $
+# $Id: State.pm,v 1.15 2006-10-19 14:00:32 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::State;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -196,6 +196,13 @@ sub StateGet {
         else {
             $Self->{"StateGet::$Param{ID}"} = \%Data;
         }
+        # no data found...
+        if (!%Data) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "StateType '$Param{Name}' not found!"
+            );
+        }
         # return data
         return %Data;
     }
@@ -262,7 +269,6 @@ get list of state types
       StateType => ['open', 'new'],
       Result => 'ID', # HASH|ID|Name
   );
-
 
   get all state types used by config option named like
 
@@ -385,6 +391,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2006-10-05 13:54:11 $
+$Revision: 1.15 $ $Date: 2006-10-19 14:00:32 $
 
 =cut
