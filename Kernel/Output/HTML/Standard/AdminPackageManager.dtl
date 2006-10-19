@@ -2,12 +2,13 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.26 2006-10-17 21:14:47 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.27 2006-10-19 17:06:48 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
   <tr>
@@ -15,7 +16,6 @@
       $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
     </td>
   </tr>
-
 <!-- dtl:block:Uninstall -->
   <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>
@@ -145,10 +145,8 @@
   </table>
 <!-- dtl:block:Reinstall -->
 <!-- dtl:block:Overview -->
-
   <tr>
     <td width="30%" class="mainbody">
-
 <!-- dtl:block:OverviewFileUpload -->
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -174,10 +172,8 @@
           </tr>
         </table>
       </form>
-
       <br>
 <!-- dtl:block:OverviewFileUpload -->
-
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="ChangeRepository">
@@ -204,7 +200,6 @@
       </form>
     </td>
     <td width="70%" class="mainbody">
-
       <table border="0" width="100%" cellspacing="0" cellpadding="4">
         <tr>
           <td class="contenthead">$Text{"Online Repository"}:</td>
@@ -244,9 +239,7 @@
           </td>
         </tr>
       </table>
-
       <br>
-
       <table border="0" width="100%" cellspacing="0" cellpadding="4">
         <tr>
           <td class="contenthead">$Text{"Local Repository"}:</td>
@@ -271,13 +264,14 @@
                 <td class="contentvalue">$Text{"$QData{"Status"}"}</td>
                 <td class="contentvalue">
 <!-- dtl:block:ShowLocalPackageInstall -->
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Install&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Install"}</a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Install&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Install"}</a><br>
 <!-- dtl:block:ShowLocalPackageInstall -->
 <!-- dtl:block:ShowLocalPackageUninstall -->
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Uninstall&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Uninstall"}</a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Uninstall&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Uninstall"}</a><br>
 <!-- dtl:block:ShowLocalPackageUninstall -->
 <!-- dtl:block:ShowLocalPackageReinstall -->
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reinstall&Name=$QData{"Name"}&Version=$QData{"Version"}" title="$Text{"Package not correctly deployed, you need to deploy it again!"}">$Text{"Reinstall"}</a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reinstall&Name=$QData{"Name"}&Version=$QData{"Version"}"
+                  title="$Text{"Package not correctly deployed! You should reinstall the Package again!"}">$Text{"Reinstall"}</a><br>
 <!-- dtl:block:ShowLocalPackageReinstall -->
                 </td>
               </tr>
@@ -291,12 +285,9 @@
           </td>
         </tr>
       </table>
-
     </td>
   </tr>
-
 </table>
-
 </td>
 </tr>
 <!-- dtl:block:Overview -->
@@ -325,16 +316,13 @@
 </tr>
 <tr>
 <td class="mainbody">
-
 <br>
-
 <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
     <td colspan="2" class="contenthead">$Text{"Options"}</td>
   </tr>
   <tr>
     <td class="contentbody">
-
       <table border="0" width="100%">
 <!-- dtl:block:PackageItemDescription -->
         <tr>
@@ -440,16 +428,13 @@
         </tr>
 <!-- dtl:block:PackageItemDatabase -->
       </table>
-
     </td>
   </tr>
   <tr>
     <td class="contentfooter">&nbsp;</td>
   </tr>
 </table>
-
 <br>
-
 </td>
 </tr>
 <!-- dtl:block:Package -->
@@ -461,9 +446,7 @@
 </tr>
 <tr>
 <td class="mainbody">
-
 <br>
-
 <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
     <td colspan="2" class="contenthead">$Text{"Diff"}: $QData{"Location"}</td>
@@ -479,13 +462,9 @@ $QData{"Diff"}
     <td class="contentfooter">&nbsp;</td>
   </tr>
 </table>
-
 <br>
-
 </td>
 </tr>
-
-
 <!-- dtl:block:FileDiff -->
 </table>
 <!-- end -->
