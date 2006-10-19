@@ -2,12 +2,13 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.14 2006-10-12 10:16:00 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.15 2006-10-19 20:03:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- dtl:block:Header -->
 <!-- start ticket head $Data{"TicketNumber"} -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
@@ -233,8 +234,16 @@ $Data{"Body"}
         <dtl if ($Data{"TicketFreeText6"} ne "") { $Data{"TicketFreeString6"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey6","25"}:</b></td><td><div title="$QData{"TicketFreeText6"}">$QData{"TicketFreeText6","25"}</div></td></tr>"; }>
         <dtl if ($Data{"TicketFreeText7"} ne "") { $Data{"TicketFreeString7"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey7","25"}:</b></td><td><div title="$QData{"TicketFreeText7"}">$QData{"TicketFreeText7","25"}</div></td></tr>"; }>
         <dtl if ($Data{"TicketFreeText8"} ne "") { $Data{"TicketFreeString8"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey8","25"}:</b></td><td><div title="$QData{"TicketFreeText8"}">$QData{"TicketFreeText8","25"}</div></td></tr>"; }>
-        <dtl if ($Data{"TicketFreeTime1"} ne "") { $Data{"TicketFreeString9"} = "<tr valign="top"><td><b>$Text{"$Config{"TicketFreeTimeKey1"}"}:</b></td><td><div title="$TimeShort{"$QData{"TicketFreeTime1"}"}">$TimeShort{"$QData{"TicketFreeTime1"}"}</div></td></tr>"; }>
-        <dtl if ($Data{"TicketFreeTime2"} ne "") { $Data{"TicketFreeString10"} = "<tr valign="top"><td><b>$Text{"$Config{"TicketFreeTimeKey2"}"}:</b></td><td><div title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</div></td></tr>"; }>
+        <dtl if ($Data{"TicketFreeText9"} ne "") { $Data{"TicketFreeString9"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey9","25"}:</b></td><td><div title="$QData{"TicketFreeText9"}">$QData{"TicketFreeText9","25"}</div></td></tr>"; }>
+        <dtl if ($Data{"TicketFreeText10"} ne "") { $Data{"TicketFreeString10"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey10","25"}:</b></td><td><div title="$QData{"TicketFreeText10"}">$QData{"TicketFreeText10","25"}</div></td></tr>"; }>
+        <dtl if ($Data{"TicketFreeText11"} ne "") { $Data{"TicketFreeString11"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey11","25"}:</b></td><td><div title="$QData{"TicketFreeText11"}">$QData{"TicketFreeText11","25"}</div></td></tr>"; }>
+        <dtl if ($Data{"TicketFreeText12"} ne "") { $Data{"TicketFreeString12"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey12","25"}:</b></td><td><div title="$QData{"TicketFreeText12"}">$QData{"TicketFreeText12","25"}</div></td></tr>"; }>
+        <dtl if ($Data{"TicketFreeText13"} ne "") { $Data{"TicketFreeString13"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey13","25"}:</b></td><td><div title="$QData{"TicketFreeText13"}">$QData{"TicketFreeText13","25"}</div></td></tr>"; }>
+        <dtl if ($Data{"TicketFreeText14"} ne "") { $Data{"TicketFreeString14"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey14","25"}:</b></td><td><div title="$QData{"TicketFreeText14"}">$QData{"TicketFreeText14","25"}</div></td></tr>"; }>
+        <dtl if ($Data{"TicketFreeText15"} ne "") { $Data{"TicketFreeString15"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey15","25"}:</b></td><td><div title="$QData{"TicketFreeText15"}">$QData{"TicketFreeText15","25"}</div></td></tr>"; }>
+        <dtl if ($Data{"TicketFreeText16"} ne "") { $Data{"TicketFreeString16"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey16","25"}:</b></td><td><div title="$QData{"TicketFreeText16"}">$QData{"TicketFreeText16","25"}</div></td></tr>"; }>
+        <dtl if ($Data{"TicketFreeTime1"} ne "") { $Data{"TicketFreeTimeString1"} = "<tr valign="top"><td><b>$Text{"$Config{"TicketFreeTimeKey1"}"}:</b></td><td><div title="$TimeShort{"$QData{"TicketFreeTime1"}"}">$TimeShort{"$QData{"TicketFreeTime1"}"}</div></td></tr>"; }>
+        <dtl if ($Data{"TicketFreeTime2"} ne "") { $Data{"TicketFreeTimeString2"} = "<tr valign="top"><td><b>$Text{"$Config{"TicketFreeTimeKey2"}"}:</b></td><td><div title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</div></td></tr>"; }>
         $Data{"TicketFreeString1"}
         $Data{"TicketFreeString2"}
         $Data{"TicketFreeString3"}
@@ -245,6 +254,14 @@ $Data{"Body"}
         $Data{"TicketFreeString8"}
         $Data{"TicketFreeString9"}
         $Data{"TicketFreeString10"}
+        $Data{"TicketFreeString11"}
+        $Data{"TicketFreeString12"}
+        $Data{"TicketFreeString13"}
+        $Data{"TicketFreeString14"}
+        $Data{"TicketFreeString15"}
+        $Data{"TicketFreeString16"}
+        $Data{"TicketFreeTimeString1"}
+        $Data{"TicketFreeTimeString2"}
       </table>
 # show customer info table
 <!-- dtl:block:CustomerTable -->
