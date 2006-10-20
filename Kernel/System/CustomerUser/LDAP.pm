@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.26 2006-08-29 17:31:04 martin Exp $
+# $Id: LDAP.pm,v 1.27 2006-10-20 21:32:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,10 +17,9 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -61,10 +60,17 @@ sub new {
 
     # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
     $Self->{LDAP} = Net::LDAP->new($Self->{Host}, %{$Self->{Params}}) or die "$@";
-    if (!$Self->{LDAP}->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+    my $Result = '';
+    if ($Self->{SearchUserDN} && $Self->{SearchUserPw}) {
+        $Result = $Self->{LDAP}->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+    }
+    else {
+        $Result = $Self->{LDAP}->bind();
+    }
+    if ($Result->code) {
         $Self->{LogObject}->Log(
-          Priority => 'error',
-          Message => "First bind failed!",
+            Priority => 'error',
+            Message => "First bind failed! ".$Result->error(),
         );
         return;
     }
@@ -86,7 +92,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub CustomerName {
     my $Self = shift;
     my %Param = @_;
@@ -109,6 +115,13 @@ sub CustomerName {
         filter => $Filter,
         sizelimit => $Self->{UserSearchListLimit},
     );
+    if ($Result->code) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Search failed! ".$Result->error,
+        );
+        return;
+    }
     foreach my $entry ($Result->all_entries) {
         foreach (@{$Self->{CustomerUserMap}->{CustomerUserNameFields}}) {
             if (defined($entry->get_value($_))) {
@@ -123,7 +136,7 @@ sub CustomerName {
     }
     return $Name;
 }
-# --
+
 sub CustomerSearch {
     my $Self = shift;
     my %Param = @_;
@@ -186,8 +199,11 @@ sub CustomerSearch {
         sizelimit => $Self->{UserSearchListLimit},
     );
     # log ldap errors
-    if ($Result->code()) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => $Result->error());
+    if ($Result->code) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => $Result->error,
+        );
     }
     my %Users = ();
     foreach my $entry ($Result->all_entries) {
@@ -208,7 +224,7 @@ sub CustomerSearch {
     }
     return %Users;
 }
-# --
+
 sub CustomerUserList {
     my $Self = shift;
     my %Param = @_;
@@ -231,7 +247,10 @@ sub CustomerUserList {
     );
     # log ldap errors
     if ($Result->code()) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => $Result->error());
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => $Result->error(),
+        );
     }
     my %Users = ();
     foreach my $entry ($Result->all_entries) {
@@ -243,7 +262,7 @@ sub CustomerUserList {
     }
     return %Users;
 }
-# --
+
 sub CustomerIDs {
     my $Self = shift;
     my %Param = @_;
@@ -281,7 +300,7 @@ sub CustomerIDs {
     }
     return @CustomerIDs;
 }
-# --
+
 sub CustomerUserDataGet {
     my $Self = shift;
     my %Param = @_;
@@ -317,7 +336,10 @@ sub CustomerUserDataGet {
     );
     # log ldap errors
     if ($Result->code()) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => $Result->error());
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => $Result->error(),
+        );
         return;
     }
     # get first entry
@@ -356,28 +378,44 @@ sub CustomerUserDataGet {
     # return data
     return (%Data, %Preferences);
 }
-# --
+
 sub CustomerUserAdd {
     my $Self = shift;
     my %Param = @_;
+    # check ro/rw
+    if ($Self->{ReadOnly}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Customer backend is ro!");
+        return;
+    }
     $Self->{LogObject}->Log(Priority => 'error', Message => "Not supported for this module!");
     return;
 }
-# --
+
 sub CustomerUserUpdate {
     my $Self = shift;
     my %Param = @_;
+    # check ro/rw
+    if ($Self->{ReadOnly}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Customer backend is ro!");
+        return;
+    }
     $Self->{LogObject}->Log(Priority => 'error', Message => "Not supported for this module!");
     return;
 }
-# --
+
 sub SetPassword {
     my $Self = shift;
     my %Param = @_;
+    my $Pw = $Param{PW} || '';
+    # check ro/rw
+    if ($Self->{ReadOnly}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Customer backend is ro!");
+        return;
+    }
     $Self->{LogObject}->Log(Priority => 'error', Message => "Not supported for this module!");
     return;
 }
-# --
+
 sub GenerateRandomPassword {
     my $Self = shift;
     my %Param = @_;
@@ -400,7 +438,7 @@ sub GenerateRandomPassword {
     # Return the password.
     return $Password;
 }
-# --
+
 sub _Convert {
     my $Self = shift;
     my $Text = shift;
@@ -418,7 +456,7 @@ sub _Convert {
         );
     }
 }
-# --
+
 sub _ConvertTo {
     my $Self = shift;
     my $Text = shift;
@@ -437,7 +475,7 @@ sub _ConvertTo {
         );
     }
 }
-# --
+
 sub Destroy {
     my $Self = shift;
     my %Param = @_;
@@ -447,5 +485,5 @@ sub Destroy {
     }
     return 1;
 }
-# --
+
 1;

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.14 2006-10-05 03:07:04 martin Exp $
+# $Id: LDAP.pm,v 1.15 2006-10-20 21:32:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -118,7 +118,13 @@ sub Auth {
     }
     # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
     my $LDAP = Net::LDAP->new($Self->{Host}, %{$Self->{Params}}) or die "$@";
-    my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+    my $Result = '';
+    if ($Self->{SearchUserDN} && $Self->{SearchUserPw}) {
+        $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+    }
+    else {
+        $Result = $LDAP->bind();
+    }
     if ($Result->code) {
         $Self->{LogObject}->Log(
             Priority => 'error',
