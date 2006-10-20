@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerStatusView.dtl,v 1.24 2006-10-12 10:16:00 martin Exp $
+# $Id: CustomerStatusView.dtl,v 1.25 2006-10-20 15:55:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -41,7 +41,7 @@
           </th>
           <th width="20%">$Text{"Age"}<br>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Age&Order=Up&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-          <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Age&Order=Down&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a>
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Age&Order=Down&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a>
           </th>
           <th width="30%">$Text{"Subject"}</th>
           <th width="15%">$Text{"State"}<br>
