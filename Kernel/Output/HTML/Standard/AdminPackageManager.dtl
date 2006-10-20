@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.27 2006-10-19 17:06:48 mh Exp $
+# $Id: AdminPackageManager.dtl,v 1.28 2006-10-20 16:26:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -211,7 +211,7 @@
                 <td class="contentkey">$Text{"Name"}</td>
                 <td class="contentkey">$Text{"Version"}</td>
                 <td class="contentkey">$Text{"Vendor"}</td>
-                <td width="55%" class="contentkey">$Text{"Description"}</td>
+                <td width="40%" class="contentkey">$Text{"Description"}</td>
                 <td class="contentkey">$Text{"Action"}</td>
               </tr>
 <!-- dtl:block:ShowRemotePackage -->
@@ -219,7 +219,7 @@
                 <td class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ViewRemote&Source=$LQData{"Source"}&File=$QData{"File"}&Name=$QData{"Name"}&Version=$QData{"Version"}">$QData{"Name"}</a></td>
                 <td class="contentvalue">$QData{"Version"}</td>
                 <td class="contentvalue"><a href="$QData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
-                <td class="contentvalue" title="$QData{"Description"}">$QData{"Description","70"}</td>
+                <td class="contentvalue" title="$QData{"Description"}">$QData{"Description","55"}</td>
                 <td class="contentvalue">
 <!-- dtl:block:ShowRemotePackageInstall -->
                   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=InstallRemote&Source=$LQData{"Source"}&File=$QData{"File"}&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Install"}</a>
@@ -251,7 +251,7 @@
                 <td class="contentkey">$Text{"Name"}</td>
                 <td class="contentkey">$Text{"Version"}</td>
                 <td class="contentkey">$Text{"Vendor"}</td>
-                <td width="50%" class="contentkey">$Text{"Description"}</td>
+                <td width="40%" class="contentkey">$Text{"Description"}</td>
                 <td class="contentkey">$Text{"Status"}</td>
                 <td class="contentkey">$Text{"Action"}</td>
               </tr>
@@ -260,11 +260,11 @@
                 <td class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name=$QData{"Name"}&Version=$QData{"Version"}">$QData{"Name"}</a></td>
                 <td class="contentvalue">$QData{"Version"}</td>
                 <td class="contentvalue"><a href="$QData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
-                <td class="contentvalue" title="$QData{"Description"}">$QData{"Description","70"}</td>
+                <td class="contentvalue" title="$QData{"Description"}">$QData{"Description","55"}</td>
                 <td class="contentvalue">$Text{"$QData{"Status"}"}</td>
                 <td class="contentvalue">
 <!-- dtl:block:ShowLocalPackageInstall -->
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Install&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Install"}</a><br>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Install&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Install"}</a><br><br>
 <!-- dtl:block:ShowLocalPackageInstall -->
 <!-- dtl:block:ShowLocalPackageUninstall -->
                   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Uninstall&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Uninstall"}</a><br>
