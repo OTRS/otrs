@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Standard/AgentTicketCustomerMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCustomerMessage.dtl,v 1.6 2006-10-12 10:15:59 martin Exp $
+# $Id: AgentTicketCustomerMessage.dtl,v 1.7 2006-10-26 11:18:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -52,19 +52,19 @@ function SpellCheckSubmit()
 
       <br>
 
-      <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
-        <tr>
-          <td colspan="2" class="contenthead">$Text{"Options"}</td>
-        </tr>
-        <tr>
-          <td class="contentbody">
+      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Store">
+        <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+        <input type="hidden" name="FormID" value="$Data{"FormID"}">
+        <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
+          <tr>
+            <td colspan="2" class="contenthead">$Text{"Options"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
 
 
-            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-              <input type="hidden" name="Action" value="$Env{"Action"}">
-              <input type="hidden" name="Subaction" value="Store">
-              <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-              <input type="hidden" name="FormID" value="$Data{"FormID"}">
               <table border="0" width="100%">
                 <tr>
                   <td width="15%" class="contentkey">$Text{"Subject"}:</td>
@@ -88,18 +88,20 @@ function SpellCheckSubmit()
                   <td class="contentkey">$Text{"Attachment"}:</td>
                   <td class="contentvalue"><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<a name="attachment"></td>
                 </tr>
-# should the customer user change the ticket state!
-                <dtl if ($Config{"CustomerPanelNextComposeState"} ne "0") { $Data{"NextStateString"} = "<tr><td class="contentkey">$Text{"Next state"}:</td><td class="contentvalue"> $Data{"NextStatesStrg"}</td></tr>"; }>
-                $Data{"NextStateString"}
-#
+                <tr>
+                  <td class="contentkey">$Text{"Next state"}:</td>
+                  <td class="contentvalue"> $Data{"NextStatesStrg"}</td>
+                </tr>
               </table>
               <br>
-              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">
-            </form>
 
-          </td>
-        </tr>
-      </table>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentfooter"><input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"></td>
+          </tr>
+        </table>
+      </form>
 
       <br>
 

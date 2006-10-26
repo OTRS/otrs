@@ -3,7 +3,7 @@
 # if the agent is customer
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCustomerFollowUp.pm,v 1.6 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketCustomerFollowUp.pm,v 1.7 2006-10-26 11:18:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,10 +18,9 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -43,9 +42,11 @@ sub new {
     $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
     $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
 
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
+
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -65,22 +66,29 @@ sub Run {
             # header
             $Output .= $Self->{LayoutObject}->Header();
             # get user lock data
-            my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-            # build NavigationBar
-            $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+            $Output .= $Self->{LayoutObject}->NavigationBar();
 
             my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
             # next stats
+            my %Selected = ();
             my %NextStates = $Self->{TicketObject}->StateList(
-                Type => 'CustomerPanelDefaultNextCompose',
                 TicketID => $Self->{TicketID},
                 Action => $Self->{Action},
                 CustomerUserID => $Self->{UserID},
             );
+            if ($Param{NextStateID}) {
+                $Selected{SelectedID} = $Param{NextStateID};
+            }
+            elsif ($Self->{Config}->{StateDefault}) {
+                $Selected{Selected} = $Self->{Config}->{StateDefault};
+            }
+            else {
+                $NextStates{''} = '-';
+            }
             $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
                 Data => \%NextStates,
                 Name => 'StateID',
-                Selected => $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeType')
+                %Selected,
             );
 
             # get output back
@@ -128,8 +136,8 @@ sub Run {
         my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
         if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             TicketID => $Self->{TicketID},
-            ArticleType => $Self->{ConfigObject}->Get('CustomerPanelArticleType'),
-            SenderType => $Self->{ConfigObject}->Get('CustomerPanelSenderType'),
+            ArticleType => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketMessage')->{ArticleType},
+            SenderType => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketMessage')->{SenderType},
             From => $From,
             Subject => $Subject,
             Body => $Text,
@@ -141,41 +149,38 @@ sub Run {
                 Subject => $Subject,
                 Body => $Text,
             },
-            HistoryType => $Self->{ConfigObject}->Get('CustomerPanelHistoryType'),
-            HistoryComment => $Self->{ConfigObject}->Get('CustomerPanelHistoryComment') || '%%',
+            HistoryType => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketMessage')->{HistoryType},
+            HistoryComment => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketMessage')->{HistoryComment} || '%%',
         )) {
-          # --
-          # set state
-          # --
-          my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
-              ID => $StateID,
-          );
-          my $NextState = $StateData{Name} ||
-            $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeType') || 'open';;
-          $Self->{TicketObject}->StateSet(
-              TicketID => $Self->{TicketID},
-              ArticleID => $ArticleID,
-              State => $NextState,
-              UserID => $Self->{UserID},
-          );
-          # get attachment
-          my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-              Param => 'file_upload',
-              Source => 'String',
-          );
-          if (%UploadStuff) {
-              $Self->{TicketObject}->ArticleWriteAttachment(
-                  %UploadStuff,
-                  ArticleID => $ArticleID,
-                  UserID => $Self->{UserID},
-              );
-          }
-         # redirect to zoom view
-         return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
-      }
-      else {
-        return $Self->{LayoutObject}->ErrorScreen();
-      }
+            # set state
+            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                ID => $StateID,
+            );
+            my $NextState = $StateData{Name} || $Self->{Config}->{StateDefault} || 'open';;
+            $Self->{TicketObject}->StateSet(
+                TicketID => $Self->{TicketID},
+                ArticleID => $ArticleID,
+                State => $NextState,
+                UserID => $Self->{UserID},
+            );
+            # get attachment
+            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                Param => 'file_upload',
+                Source => 'String',
+            );
+            if (%UploadStuff) {
+                $Self->{TicketObject}->ArticleWriteAttachment(
+                    %UploadStuff,
+                    ArticleID => $ArticleID,
+                    UserID => $Self->{UserID},
+                );
+            }
+           # redirect to zoom view
+           return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
+        }
+        else {
+            return $Self->{LayoutObject}->ErrorScreen();
+        }
     }
     else {
         return $Self->{LayoutObject}->ErrorScreen(
@@ -184,6 +189,5 @@ sub Run {
         );
     }
 }
-# --
 
 1;
