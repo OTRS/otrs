@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.5 2006-09-28 11:35:03 tr Exp $
+# $Id: Stats.pm,v 1.6 2006-10-26 06:29:58 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -363,8 +363,6 @@ sub StatsUpdate {
     return 0;
 }
 
-
-
 =item StatsDelete()
 
 delete a stat
@@ -398,8 +396,8 @@ sub StatsDelete {
 list all id's from stats
 
     my $ArrayRef = $Self->{StatsObject}->GetStatsList(
-        OrderBy   => 'StatID',
-        Direction => 'ASC',
+        OrderBy   => 'ID' || 'Title' || 'Object', # optional
+        Direction => 'ASC' || 'DESC',             # optional
     );
 
 =cut
@@ -477,11 +475,6 @@ sub GetStatsList {
         @SortArray = reverse(@SortArray);
     }
 
-
-
-
-
-
     return \@SortArray;
 }
 
@@ -549,8 +542,6 @@ sub SumBuild {
 
 =cut
 # search for a better way to cache stats (see lines before StatID and Cache)
-
-
 
 sub GenerateDynamicStats {
     my $Self             = shift;
@@ -711,7 +702,6 @@ sub GenerateDynamicStats {
         if ($Param{UseAsValueSeries}[0]{Block} && $Param{UseAsValueSeries}[0]{Block} eq 'Time' && $Element->{SelectedValues}[0] eq 'Day'){
             $Count = 1;
         }
-
 
         if ($Element->{SelectedValues}[0] eq 'Minute') {
             $Second = 0;
@@ -1019,7 +1009,6 @@ sub GenerateDynamicStats {
     elsif ($ArraySelected[0]) {
         unshift(@HeaderLine, $ArraySelected[0]{Name} || '');
     }
-
 
     # push the first array elements in the StatsArray
     my $Title = $Param{Title};
@@ -1478,7 +1467,6 @@ sub CompletenessCheck {
                             $ScalePeriod = 60 * 60 * 24 * 365;
                         }
 
-
                         if ($Xvalue->{TimeStop} && $Xvalue->{TimeStart}) {
                             $TimePeriod = ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Xvalue->{TimeStop})) - ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Xvalue->{TimeStart}));
                         }
@@ -1567,7 +1555,6 @@ sub GetStatsObjectAttributes {
     return @ObjectAttributes;
 }
 
-
 =item GetStaticFiles()
 
 Get all static files
@@ -1619,7 +1606,6 @@ sub GetStaticFiles {
     return \%Filelist;
 }
 
-
 =item GetDynamicFiles()
 
 Get all static objects
@@ -1647,8 +1633,6 @@ sub GetDynamicFiles {
         return;
     }
     $Filelist{'0'} = '-';
-
-
 
     return \%Filelist;
 }
@@ -1685,7 +1669,6 @@ sub ObjectFileCheck {
     }
     return 0;
 }
-
 
 sub _WriteResultCache {
     my $Self     = shift;
@@ -1754,7 +1737,6 @@ sub _WriteResultCache {
     return $Cache;
 }
 
-
 sub _ReadResultCache {
     my $Self     = shift;
     my %Param    = @_;
@@ -1795,7 +1777,6 @@ sub _ReadResultCache {
     return @Data;
 }
 
-
 sub _DeleteCache {
     my $Self  = shift;
     my %Param = @_;
@@ -1811,8 +1792,6 @@ sub _DeleteCache {
     }
     return 0;
 }
-
-
 
 =item Export()
 
@@ -1838,7 +1817,6 @@ sub Export {
         Type => 'Stats',
         Key  => $Param{StatID}
     );
-
 
     $File{Filename} = $Self->StringAndTimestamp2Filename(
         String => $XMLHash[0]->{otrs_stats}[1]{Title}[1]{Content},
@@ -1906,7 +1884,6 @@ sub Export {
     $File{Content} = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
     return \%File;
 }
-
 
 =item Import()
 
@@ -2047,7 +2024,6 @@ sub Import {
     return 0;
 }
 
-
 =item GetParams()
 
   get all edit params from stats for view
@@ -2082,7 +2058,6 @@ sub GetParams {
     }
     return \@Params;
 }
-
 
 =item StatsRun()
 run a stats...
@@ -2234,7 +2209,6 @@ sub StatNumber2StatID {
     my $Self   = shift;
     my %Param  = @_;
 
-
     if (!$Param{StatNumber}) {
         return $Self->{LogObject}->Log(
             Priority => 'error',
@@ -2341,9 +2315,8 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2006-09-28 11:35:03 $
+$Revision: 1.6 $ $Date: 2006-10-26 06:29:58 $
 
 =cut
 
 1;
-
