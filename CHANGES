@@ -2,12 +2,19 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.302 2006-10-18 08:52:51 martin Exp $
+# $Id: CHANGES,v 1.303 2006-10-26 08:14:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+2.1.3 (2006/??/??)
+ - (2006/10/26) added possible - selection for next state in phone view outbount
+ - (2006/10/20) fixed LDAP problems "First bind failed! No password, did you
+    mean noauth or anonymous ?"
+ - (2006/10/19) fixed double agent notifications on ticket move to queue
+    and also selected owner
+
 2.1.2 (2006/10/18)
  - (2006/10/13) switched to md5 check sum for password in user_preference table
  - (2006/10/12) fixed #1373 - RH RPM requires sendmail, but works with other MTAs
