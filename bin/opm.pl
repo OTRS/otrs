@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: opm.pl,v 1.13 2006-09-25 13:36:32 tr Exp $
+# $Id: opm.pl,v 1.14 2006-10-27 06:35:55 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -247,7 +247,7 @@ if ($Opts{'a'} eq 'build') {
         exit;
     }
     else {
-        print STDERR "ERROR: Can't writre $File\n";
+        print STDERR "ERROR: Can't write $File\n";
         exit 1;
     }
 }
@@ -424,7 +424,6 @@ else {
     exit (1);
 }
 
-
 sub BuildPackageIndex {
     my $In = shift;
     my @List = glob("$In/*");
@@ -458,4 +457,3 @@ sub BuildPackageIndex {
         }
     }
 }
-
