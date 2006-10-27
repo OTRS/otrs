@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.24 2006-09-29 16:33:47 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.25 2006-10-27 11:14:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -909,12 +909,6 @@ sub _MaskPhoneNew {
         SelectedID => $Param{UserSelected},
         Name => 'NewUserID',
     );
-    $Param{ResponsibleUsers}->{''} = '-';
-    $Param{'ResponsibleOptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => $Param{ResponsibleUsers},
-        SelectedID => $Param{ResponsibleUserSelected},
-        Name => 'NewResponsibleID',
-    );
     # build next states string
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
@@ -1015,7 +1009,14 @@ sub _MaskPhoneNew {
         }
     }
     # show responsible selection
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::NewResponsibleSelection')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Responsible') &&
+        $Self->{ConfigObject}->Get('Ticket::Frontend::NewResponsibleSelection')) {
+        $Param{ResponsibleUsers}->{''} = '-';
+        $Param{'ResponsibleOptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => $Param{ResponsibleUsers},
+            SelectedID => $Param{ResponsibleUserSelected},
+            Name => 'NewResponsibleID',
+        );
         $Self->{LayoutObject}->Block(
             Name => 'ResponsibleSelection',
             Data => \%Param,
