@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.13 2006-09-01 11:07:06 martin Exp $
+# $Id: AgentLinkObject.pm,v 1.14 2006-10-30 12:48:11 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,6 +56,22 @@ sub new {
             );
         }
     }
+
+    # the following 12 lines check if how much destination objects are available
+    # if only one available this will be automatically selected
+    if (!$Self->{DestinationObject}) {
+        my %DestinationObjects = $Self->{LinkObject}->LinkObjects(SourceObject => $Self->{SourceObject});
+        my $Counter = 0;
+        my $PossibleDestinationObject = '';
+        foreach (keys %DestinationObjects) {
+            $Counter++;
+            $PossibleDestinationObject = $_;
+        }
+        if ($Counter && $Counter == 1) {
+            $Self->{DestinationObject} = $PossibleDestinationObject;
+        }
+    }
+
     if ($Self->{DestinationObject}) {
         $Param{Module} = $Self->{DestinationObject};
         $Param{ID} = $Self->{ID};
@@ -157,8 +173,8 @@ sub Run {
             SourceObject => $Self->{SourceObject},
         },
     );
-    # search mask
 
+    # search mask
     if ($Self->{DestinationObject}) {
         # get backend module params
         my %GetParams = ();
