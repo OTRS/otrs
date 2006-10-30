@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.42 2006-08-27 22:19:28 mh Exp $
+# $Id: INSTALL,v 1.43 2006-10-30 12:15:57 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -171,7 +171,7 @@ Notes:
 ======
 
 Also you should read the OTRS performance tuning chapter on our homepage:
-http://doc.otrs.org/cvs/en/html/.
+http://doc.otrs.org/2.1/en/html/.
 
 For installation questions ask otrs@otrs.org (http://lists.otrs.org/).
 
