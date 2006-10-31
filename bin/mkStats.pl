@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.40 2006-08-26 17:15:32 martin Exp $
+# $Id: mkStats.pl,v 1.41 2006-10-31 09:33:52 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -141,237 +141,240 @@ if ($Opts{'o'} && !-e $Opts{'o'}) {
     exit 1;
 }
 
-if ($Opts{'n'}) {
-    my $StatNumber = $Opts{'n'};
-    my $StatID     = $CommonObject{StatsObject}->StatNumber2StatID(StatNumber => $StatNumber);
-    if (!$StatID) {
-        print STDERR "ERROR: No StatNumber: $Opts{'n'}\n";
-        exit 1;
-    }
+# --
+# process the informations
+# --
 
-    my ($s,$m,$h, $D,$M,$Y) = $CommonObject{TimeObject}->SystemTime2Date(
-        SystemTime => $CommonObject{TimeObject}->SystemTime(),
-    );
+my $StatNumber = $Opts{'n'};
+my $StatID     = $CommonObject{StatsObject}->StatNumber2StatID(StatNumber => $StatNumber);
+if (!$StatID) {
+    print STDERR "ERROR: No StatNumber: $Opts{'n'}\n";
+    exit 1;
+}
 
-    my %GetParam   = ();
-    my $Stat = $CommonObject{StatsObject}->StatsGet(StatID => $StatID);
+my ($s,$m,$h, $D,$M,$Y) = $CommonObject{TimeObject}->SystemTime2Date(
+    SystemTime => $CommonObject{TimeObject}->SystemTime(),
+);
 
-    if ($Stat->{StatType} eq 'static') {
-        $GetParam{Year}  = $Y;
-        $GetParam{Month} = $M;
-        $GetParam{Day}   = $D;
+my %GetParam   = ();
+my $Stat = $CommonObject{StatsObject}->StatsGet(StatID => $StatID);
 
-        # get params from -p
-        # only for static files
-        my $Params = $CommonObject{StatsObject}->GetParams(StatID => $StatID);
-        foreach my $ParamItem (@{$Params}) {
-            if (!$ParamItem->{Multiple}) {
-                my $Value = GetParam(
-                    Param => $ParamItem->{Name},
-                );
-                if (defined($Value)) {
-                    $GetParam{$ParamItem->{Name}} = GetParam(
-                        Param => $ParamItem->{Name},
-                    );
-                }
-                elsif (defined($ParamItem->{SelectedID})) {
-                    $GetParam{$ParamItem->{Name}} = $ParamItem->{SelectedID};
-                }
-            }
-            else {
-                my @Value = GetArray(
-                    Param => $ParamItem->{Name},
-                );
-                if (@Value) {
-                    $GetParam{$ParamItem->{Name}} = \@Value;
-                }
-                elsif (defined($ParamItem->{SelectedID})) {
-                    $GetParam{$ParamItem->{Name}} = [$ParamItem->{SelectedID}];
-                }
-            }
-        }
-    }
-    elsif ($Stat->{StatType} eq 'dynamic') {
-        %GetParam = %{$Stat};
-    }
+if ($Stat->{StatType} eq 'static') {
+    $GetParam{Year}  = $Y;
+    $GetParam{Month} = $M;
+    $GetParam{Day}   = $D;
 
-    # run stat...
-    my @StatArray = @{$CommonObject{StatsObject}->StatsRun(
-        StatID       => $StatID,
-        GetParam => \%GetParam,
-    )};
-
-    # generate output
-    my $TitleArrayRef = shift (@StatArray);
-    my $Title = $TitleArrayRef->[0];
-    my $HeadArrayRef = shift (@StatArray);
-    my $CountStatArray = @StatArray;
-    my $Time = sprintf("%04d-%02d-%02d %02d:%02d:%02d",$Y,$M,$D,$h,$m,$s);
-    if (!@StatArray) {
-        push(@StatArray, [' ',0]);
-    }
-    my %Attachment;
-
-    if ($Format eq 'Print' && $CommonObject{PDFObject}) {
-        # Create the PDF
-        my $PrintedBy = $CommonObject{LayoutObject}->{LanguageObject}->Get('printed by');
-        my $Page = $CommonObject{LayoutObject}->{LanguageObject}->Get('Page');
-        my $Time = $CommonObject{LayoutObject}->Output(Template => '$Env{"Time"}');
-        my %User = $CommonObject{UserObject}->GetUserData(UserID => $CommonObject{UserID});
-
-        # create the content array
-        my $CellData;
-        my $CounterRow = 0;
-        my $CounterHead = 0;
-        foreach my $Content (@{$HeadArrayRef}) {
-            $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
-            $CellData->[$CounterRow]->[$CounterHead]->{Font} = 'HelveticaBold';
-            $CounterHead++;
-        }
-        if ($CounterHead > 0) {
-            $CounterRow++;
-        }
-        foreach my $Row (@StatArray) {
-            my $CounterColumn = 0;
-            foreach my $Content (@{$Row}) {
-                $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
-                $CounterColumn++;
-            }
-            $CounterRow++;
-        }
-        if (!$CellData->[0]->[0]) {
-            $CellData->[0]->[0]->{Content} = $CommonObject{LayoutObject}->{LanguageObject}->Get('No Result!');
-        }
-        # page params
-        my %PageParam;
-        $PageParam{PageOrientation} = 'landscape';
-        $PageParam{MarginTop} = 30;
-        $PageParam{MarginRight} = 40;
-        $PageParam{MarginBottom} = 40;
-        $PageParam{MarginLeft} = 40;
-        $PageParam{HeaderRight} = $CommonObject{ConfigObject}->Get('Stats::StatsHook') . $Stat->{StatNumber};
-        $PageParam{FooterLeft} = 'mkStats.pl';
-        $PageParam{HeadlineLeft} = $Title;
-        $PageParam{HeadlineRight} = $PrintedBy . ' ' .
-            $User{UserFirstname} . ' ' .
-            $User{UserLastname} . ' (' .
-            $User{UserEmail} . ') ' .
-            $Time;
-        # table params
-        my %TableParam;
-        $TableParam{CellData} = $CellData;
-        $TableParam{Type} = 'Cut';
-        $TableParam{FontSize} = 6;
-        $TableParam{Border} = 0;
-        $TableParam{BackgroundColorEven} = '#AAAAAA';
-        $TableParam{BackgroundColorOdd} = '#DDDDDD';
-        $TableParam{Padding} = 1;
-        $TableParam{PaddingTop} = 3;
-        $TableParam{PaddingBottom} = 3;
-        # get maximum number of pages
-        my $MaxPages = $CommonObject{ConfigObject}->Get('PDF::MaxPages');
-        if (!$MaxPages || $MaxPages < 1 || $MaxPages > 1000) {
-            $MaxPages = 100;
-        }
-        # create new pdf document
-        $CommonObject{PDFObject}->DocumentNew(
-            Title => $CommonObject{ConfigObject}->Get('Product') . ': ' . $Title,
-        );
-        # start table output
-        my $Loop = 1;
-        my $Counter = 1;
-        while ($Loop) {
-            # if first page
-            if ($Counter eq 1) {
-                $CommonObject{PDFObject}->PageNew(
-                    %PageParam,
-                    FooterRight => $Page . ' ' . $Counter,
-                );
-            }
-            # output table (or a fragment of it)
-            %TableParam = $CommonObject{PDFObject}->Table(
-                %TableParam,
+    # get params from -p
+    # only for static files
+    my $Params = $CommonObject{StatsObject}->GetParams(StatID => $StatID);
+    foreach my $ParamItem (@{$Params}) {
+        if (!$ParamItem->{Multiple}) {
+            my $Value = GetParam(
+                Param => $ParamItem->{Name},
             );
-            # stop output or another page
-            if ($TableParam{State}) {
-                $Loop = 0;
-            }
-            else {
-                $CommonObject{PDFObject}->PageNew(
-                    %PageParam,
-                    FooterRight => $Page . ' ' . ($Counter + 1),
+            if (defined($Value)) {
+                $GetParam{$ParamItem->{Name}} = GetParam(
+                    Param => $ParamItem->{Name},
                 );
             }
-            $Counter++;
-            # check max pages
-            if ($Counter >= $MaxPages) {
-                $Loop = 0
+            elsif (defined($ParamItem->{SelectedID})) {
+                $GetParam{$ParamItem->{Name}} = $ParamItem->{SelectedID};
             }
-        }
-        # return the document
-        my $PDFString = $CommonObject{PDFObject}->DocumentOutput();
-        # save the pdf with the title and timestamp as filename
-        my $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
-            String => $Title . " Created",
-        );
-        %Attachment = (
-            Filename    => $Filename . ".pdf",
-            ContentType => "application/pdf",
-            Content     => $PDFString,
-            Encoding    => "base64",
-            Disposition => "attachment",
-        );
-    }
-    else {
-        # Create the CVS data
-        my $Output = "Name: $Title; Created: $Time\n";
-        $Output .= $CommonObject{CSVObject}->Array2CSV(
-            Head => $HeadArrayRef,
-            Data => \@StatArray,
-        );
-
-        # save the csv with the title and timestamp as filename
-        my $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
-            String => $Title . " Created",
-        );
-
-        %Attachment = (
-            Filename    => $Filename . ".csv",
-            ContentType => "text/csv",
-            Content     => $Output,
-            Encoding    => "base64",
-            Disposition => "attachment",
-        );
-    }
-
-    # write output
-    if ($Opts{'o'}) {
-        if (open(OUT, "> $Opts{'o'}/$Attachment{Filename}")) {
-            print OUT $Attachment{Content};
-            close (OUT);
-            print "NOTICE: Writing file $Opts{'o'}/$Attachment{Filename}.\n";
-            exit;
         }
         else {
-            print STDERR "ERROR: Can't write $Opts{'o'}/$Attachment{Filename}: $!\n";
-            exit 1;
+            my @Value = GetArray(
+                Param => $ParamItem->{Name},
+            );
+            if (@Value) {
+                $GetParam{$ParamItem->{Name}} = \@Value;
+            }
+            elsif (defined($ParamItem->{SelectedID})) {
+                $GetParam{$ParamItem->{Name}} = [$ParamItem->{SelectedID}];
+            }
         }
     }
-    # send email
-    elsif ($CommonObject{EmailObject}->Send(
-        From       => $Opts{'s'},
-        To         => $Opts{'r'},
-        Subject    => "[Stats - $CountStatArray Records] $Title; Created: $Time",
-        Body       => $Opts{'m'},
-        Attachment => [
-            {
-               %Attachment,
-            },
-        ],
-    )) {
-        print "NOTICE: Email sent to '$Opts{'r'}'.\n";
+}
+elsif ($Stat->{StatType} eq 'dynamic') {
+    %GetParam = %{$Stat};
+}
+
+# run stat...
+my @StatArray = @{$CommonObject{StatsObject}->StatsRun(
+    StatID       => $StatID,
+    GetParam => \%GetParam,
+)};
+
+# generate output
+my $TitleArrayRef = shift (@StatArray);
+my $Title = $TitleArrayRef->[0];
+my $HeadArrayRef = shift (@StatArray);
+my $CountStatArray = @StatArray;
+my $Time = sprintf("%04d-%02d-%02d %02d:%02d:%02d",$Y,$M,$D,$h,$m,$s);
+if (!@StatArray) {
+    push(@StatArray, [' ',0]);
+}
+my %Attachment;
+
+if ($Format eq 'Print' && $CommonObject{PDFObject}) {
+    # Create the PDF
+    my $PrintedBy = $CommonObject{LayoutObject}->{LanguageObject}->Get('printed by');
+    my $Page = $CommonObject{LayoutObject}->{LanguageObject}->Get('Page');
+    my $Time = $CommonObject{LayoutObject}->Output(Template => '$Env{"Time"}');
+    my %User = $CommonObject{UserObject}->GetUserData(UserID => $CommonObject{UserID});
+
+    # create the content array
+    my $CellData;
+    my $CounterRow = 0;
+    my $CounterHead = 0;
+    foreach my $Content (@{$HeadArrayRef}) {
+        $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
+        $CellData->[$CounterRow]->[$CounterHead]->{Font} = 'HelveticaBold';
+        $CounterHead++;
+    }
+    if ($CounterHead > 0) {
+        $CounterRow++;
+    }
+    foreach my $Row (@StatArray) {
+        my $CounterColumn = 0;
+        foreach my $Content (@{$Row}) {
+            $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
+            $CounterColumn++;
+        }
+        $CounterRow++;
+    }
+    if (!$CellData->[0]->[0]) {
+        $CellData->[0]->[0]->{Content} = $CommonObject{LayoutObject}->{LanguageObject}->Get('No Result!');
+    }
+    # page params
+    my %PageParam;
+    $PageParam{PageOrientation} = 'landscape';
+    $PageParam{MarginTop} = 30;
+    $PageParam{MarginRight} = 40;
+    $PageParam{MarginBottom} = 40;
+    $PageParam{MarginLeft} = 40;
+    $PageParam{HeaderRight} = $CommonObject{ConfigObject}->Get('Stats::StatsHook') . $Stat->{StatNumber};
+    $PageParam{FooterLeft} = 'mkStats.pl';
+    $PageParam{HeadlineLeft} = $Title;
+    $PageParam{HeadlineRight} = $PrintedBy . ' ' .
+        $User{UserFirstname} . ' ' .
+        $User{UserLastname} . ' (' .
+        $User{UserEmail} . ') ' .
+        $Time;
+    # table params
+    my %TableParam;
+    $TableParam{CellData} = $CellData;
+    $TableParam{Type} = 'Cut';
+    $TableParam{FontSize} = 6;
+    $TableParam{Border} = 0;
+    $TableParam{BackgroundColorEven} = '#AAAAAA';
+    $TableParam{BackgroundColorOdd} = '#DDDDDD';
+    $TableParam{Padding} = 1;
+    $TableParam{PaddingTop} = 3;
+    $TableParam{PaddingBottom} = 3;
+    # get maximum number of pages
+    my $MaxPages = $CommonObject{ConfigObject}->Get('PDF::MaxPages');
+    if (!$MaxPages || $MaxPages < 1 || $MaxPages > 1000) {
+        $MaxPages = 100;
+    }
+    # create new pdf document
+    $CommonObject{PDFObject}->DocumentNew(
+        Title => $CommonObject{ConfigObject}->Get('Product') . ': ' . $Title,
+    );
+    # start table output
+    my $Loop = 1;
+    my $Counter = 1;
+    while ($Loop) {
+        # if first page
+        if ($Counter eq 1) {
+            $CommonObject{PDFObject}->PageNew(
+                %PageParam,
+                FooterRight => $Page . ' ' . $Counter,
+            );
+        }
+        # output table (or a fragment of it)
+        %TableParam = $CommonObject{PDFObject}->Table(
+            %TableParam,
+        );
+        # stop output or another page
+        if ($TableParam{State}) {
+            $Loop = 0;
+        }
+        else {
+            $CommonObject{PDFObject}->PageNew(
+                %PageParam,
+                FooterRight => $Page . ' ' . ($Counter + 1),
+            );
+        }
+        $Counter++;
+        # check max pages
+        if ($Counter >= $MaxPages) {
+            $Loop = 0;
+        }
+    }
+    # return the document
+    my $PDFString = $CommonObject{PDFObject}->DocumentOutput();
+    # save the pdf with the title and timestamp as filename
+    my $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
+        String => $Title . " Created",
+    );
+    %Attachment = (
+        Filename    => $Filename . ".pdf",
+        ContentType => "application/pdf",
+        Content     => $PDFString,
+        Encoding    => "base64",
+        Disposition => "attachment",
+    );
+}
+else {
+    # Create the CVS data
+    my $Output = "Name: $Title; Created: $Time\n";
+    $Output .= $CommonObject{CSVObject}->Array2CSV(
+        Head => $HeadArrayRef,
+        Data => \@StatArray,
+    );
+
+    # save the csv with the title and timestamp as filename
+    my $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
+        String => $Title . " Created",
+    );
+
+    %Attachment = (
+        Filename    => $Filename . ".csv",
+        ContentType => "text/csv",
+        Content     => $Output,
+        Encoding    => "base64",
+        Disposition => "attachment",
+    );
+}
+
+# write output
+if ($Opts{'o'}) {
+    if (open(OUT, "> $Opts{'o'}/$Attachment{Filename}")) {
+        print OUT $Attachment{Content};
+        close (OUT);
+        print "NOTICE: Writing file $Opts{'o'}/$Attachment{Filename}.\n";
+        exit;
+    }
+    else {
+        print STDERR "ERROR: Can't write $Opts{'o'}/$Attachment{Filename}: $!\n";
+        exit 1;
     }
 }
+# send email
+elsif ($CommonObject{EmailObject}->Send(
+    From       => $Opts{'s'},
+    To         => $Opts{'r'},
+    Subject    => "[Stats - $CountStatArray Records] $Title; Created: $Time",
+    Body       => $Opts{'m'},
+    Attachment => [
+        {
+            %Attachment,
+        },
+    ],
+)) {
+    print "NOTICE: Email sent to '$Opts{'r'}'.\n";
+}
+exit(0);
 
 sub GetParam {
     my %Param = @_;
@@ -387,6 +390,7 @@ sub GetParam {
     }
     return;
 }
+
 sub GetArray {
     my %Param = @_;
     if (!$Param{Param}) {
