@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.56 2006-10-12 10:09:41 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.57 2006-10-31 14:50:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -727,7 +727,6 @@ sub ListConfigItem {
     }
     # ConfigElement FrontendModuleReg
     elsif (defined ($ItemHash{Setting}[1]{FrontendModuleReg})) {
-#    $Self->{LogObject}->Dumper(fdsa => $ItemHash{Setting}[1]{FrontendModuleReg});
         my %Data = ();
         foreach my $Key (qw(Title Description NavBarName)) {
             $Data{'Key'.$Key} = $Key;

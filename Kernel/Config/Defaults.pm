@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.246 2006-10-05 01:19:32 martin Exp $
+# $Id: Defaults.pm,v 1.247 2006-10-31 14:50:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.246 $';
+$VERSION = '$Revision: 1.247 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1048,7 +1048,6 @@ Your OTRS Notification Master
 #        version => 3,
 #    };
 
-
     # This is an example configuration for an apache ($ENV{REMOTE_USER})
     # auth. backend. Use it if you want to have a singe login through
     # apache http-basic-auth
@@ -1178,7 +1177,7 @@ Your OTRS Notification Master
 #        # show now own tickets in customer panel, CompanyTickets
 #        CustomerUserExcludePrimaryCustomerID => 0,
 #        # add a ldap filter for valid users (expert setting)
-##       CustomerUserValidFilter => '(!(description=gesperrt))',
+#        # CustomerUserValidFilter => '(!(description=gesperrt))',
 #        # admin can't change customer preferences
 #        AdminSetPreferences => 0,
 #        Map => [
@@ -1190,7 +1189,7 @@ Your OTRS Notification Master
 #            [ 'UserLogin',      'Username',   'uid',             1, 1, 'var', '', 0 ],
 #            [ 'UserEmail',      'Email',      'mail',            1, 1, 'var', '', 0 ],
 #            [ 'UserCustomerID', 'CustomerID', 'mail',            0, 1, 'var', '', 0 ],
-##            [ 'UserCustomerIDs', 'CustomerIDs', 'second_customer_ids', 1, 0, 'var', '', 0 ],
+#            # [ 'UserCustomerIDs', 'CustomerIDs', 'second_customer_ids', 1, 0, 'var', '', 0 ],
 #            [ 'UserPhone',      'Phone',      'telephonenumber', 1, 0, 'var', '', 0 ],
 #            [ 'UserAddress',    'Address',    'postaladdress',   1, 0, 'var', '', 0 ],
 #            [ 'UserComment',    'Comment',    'description',     1, 0, 'var', '', 0 ],
@@ -1830,6 +1829,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.246 $ $Date: 2006-10-05 01:19:32 $
+$Revision: 1.247 $ $Date: 2006-10-31 14:50:47 $
 
 =cut

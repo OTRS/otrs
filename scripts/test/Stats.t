@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.3 2006-10-06 07:03:47 tr Exp $
+# $Id: Stats.t,v 1.4 2006-10-31 14:50:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -103,7 +103,6 @@ $Self->Is(
 
 # check the available DynamicFiles
 my $DynamicArrayRef = $Self->{StatsObject}->GetDynamicFiles();
-$Self->{LogObject}->Dumper($DynamicArrayRef);
 $Self->True(
     $DynamicArrayRef,
     'GetDynamicFiles() check if dynamic files available',
@@ -208,6 +207,5 @@ $Self->True(
     $Self->{StatsObject}->StatsDelete(StatID => $StatID),
     'StatsDelete() delete import stat',
 );
-
 
 1;
