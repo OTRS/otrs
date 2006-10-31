@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/Cron.pl - a script tp generate a full crontab file for OTRS
-# Copyright (C) 2001-2005 Stefan Rother <sr@otrs.de>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Cron4Win32.pl,v 1.1 2005-08-08 12:57:49 sr Exp $
+# $Id: Cron4Win32.pl,v 1.2 2006-10-31 15:43:24 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use strict;
@@ -61,10 +61,10 @@ else {
             if (! -d $CronData) {
 
                 if (!open (DAT, "<$Directory/$CronData")) {
-#		    print STDERR "ERROR: Can't open directory '$Directory/$CronData: $!";
+#                    print STDERR "ERROR: Can't open directory '$Directory/$CronData: $!";
 #                    exit (1);
                 }
-	        else {
+            else {
                     flock (DAT, 2);
 
                     while (my $Line=<DAT>) {
@@ -81,7 +81,6 @@ else {
             }
         }
     }
-
 
 closedir(DIR);
 closedir(DAT);

@@ -2,7 +2,7 @@
 # .mailfilter - mailfilter of the OTRS user
 # Copyright (C) 2003 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # --
-# $Id: .mailfilter.dist,v 1.1 2004-09-29 09:19:44 martin Exp $
+# $Id: .mailfilter.dist,v 1.2 2006-10-31 15:43:24 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,13 +24,13 @@ YEARFOLDER=`date +%Y`
 # --
 if (/^To:.*@example.com/)
 {
-	xfilter "grep -vi '^X-OTRS-'"
+    xfilter "grep -vi '^X-OTRS-'"
 }
 
 # or just not emails with "X-OTRS-Ident: ahfiw2Fw32r230dddl2foeo3r" header!
 #if (/^X-OTRS-Ident: ahfiw2Fw32r230dddl2foeo3r/)
 #{
-#	xfilter "grep -vi '^X-OTRS-'"
+#    xfilter "grep -vi '^X-OTRS-'"
 #}
 
 
@@ -39,12 +39,12 @@ if (/^To:.*@example.com/)
 # --
 if (/^To:.*@example.com/)
 {
-	xfilter "formail -I \"X-OTRS-Queue: example\""
+    xfilter "formail -I \"X-OTRS-Queue: example\""
 }
 
 if (/^List-Id:.*OpenAntiVirus/)
 {
-	xfilter "formail -I \"X-OTRS-Queue: OpenAntiVirus\""
+    xfilter "formail -I \"X-OTRS-Queue: OpenAntiVirus\""
 }
 
 # --
@@ -52,8 +52,8 @@ if (/^List-Id:.*OpenAntiVirus/)
 # --
 if (/^To:.*@example.com/)
 {
-	xfilter "formail -I \"X-OTRS-ArticleKey1: Test\""
-	xfilter "formail -I \"X-OTRS-ArticleValue1: True!\""
+    xfilter "formail -I \"X-OTRS-ArticleKey1: Test\""
+    xfilter "formail -I \"X-OTRS-ArticleValue1: True!\""
 }
 
 # --

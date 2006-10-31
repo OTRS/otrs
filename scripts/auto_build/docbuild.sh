@@ -3,7 +3,7 @@
 # scripts/auto_build/docbuild.sh - Automated creation of the  OTRS docu
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: docbuild.sh,v 1.6 2006-10-03 14:34:47 mh Exp $
+# $Id: docbuild.sh,v 1.7 2006-10-31 15:43:24 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -110,8 +110,8 @@ for Language in en de; do
         CONVERT=`which convert`
         for i in $PACKAGE_DEST_DIR/$Language/html/screenshots/*.png ; do
             echo "convert image to 60% $i"
-	    $CONVERT $i -resize 60% $i
-	done;
+        $CONVERT $i -resize 60% $i
+    done;
     fi
 
     # xml

@@ -3,7 +3,7 @@
 # scripts/tools/compress-mail.pl - compress email, zip attachments
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: compress-mail.pl,v 1.5 2006-10-03 14:34:47 mh Exp $
+# $Id: compress-mail.pl,v 1.6 2006-10-31 15:43:24 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -88,11 +88,11 @@ if (!$NoTouch) {
                     use bytes;
                     my $FileSize = length($Attachment->{Content});
                     no bytes;
-    	            if ($FileSize > $CompressAttachmentMinSize && $FileSize < $CompressAttachmentMaxSize) {
+                    if ($FileSize > $CompressAttachmentMinSize && $FileSize < $CompressAttachmentMaxSize) {
                         $Compress = 1;
                         $Touch = 1;
                     }
-            	}
+                }
             }
         }
         # compress attachment
