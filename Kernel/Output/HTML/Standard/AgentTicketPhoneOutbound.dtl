@@ -2,7 +2,7 @@
 # AgentPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.6 2006-10-31 14:56:22 cs Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.7 2006-10-31 15:16:06 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -130,12 +130,12 @@ $Include{"AgentTicketLocked"}
               <td class="contentkey">$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
               <td class="contentvalue">$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font> </td>
             </tr>
-#<!-- dtl:block:TicketFreeText -->
-#            <tr>
-#              <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
-#              <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
-#            </tr>
-#<!-- dtl:block:TicketFreeText -->
+<!-- dtl:block:TicketFreeText -->
+            <tr>
+              <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
+              <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
+            </tr>
+<!-- dtl:block:TicketFreeText -->
 #<!-- dtl:block:TicketFreeText1 -->
 #            <tr>
 #              <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
@@ -148,12 +148,12 @@ $Include{"AgentTicketLocked"}
 #              <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
 #            </tr>
 #<!-- dtl:block:TicketFreeText2 -->
-#<!-- dtl:block:TicketFreeTime -->
-#            <tr>
-#              <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
-#              <td class="contentvalue">$Data{"TicketFreeTime"}</td>
-#            </tr>
-#<!-- dtl:block:TicketFreeTime -->
+<!-- dtl:block:TicketFreeTime -->
+            <tr>
+              <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
+              <td class="contentvalue">$Data{"TicketFreeTime"}</td>
+            </tr>
+<!-- dtl:block:TicketFreeTime -->
 #<!-- dtl:block:TicketFreeTime1 -->
 #            <tr>
 #              <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
@@ -166,12 +166,12 @@ $Include{"AgentTicketLocked"}
 #              <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
 #            </tr>
 #<!-- dtl:block:TicketFreeTime2 -->
-#<!-- dtl:block:ArticleFreeText -->
-#            <tr>
-#              <td class="contentkey">$Data{"ArticleFreeKeyField"}:</td>
-#              <td class="contentvalue">$Data{"ArticleFreeTextField"}</td>
-#            </tr>
-#<!-- dtl:block:ArticleFreeText -->
+<!-- dtl:block:ArticleFreeText -->
+            <tr>
+              <td class="contentkey">$Data{"ArticleFreeKeyField"}:</td>
+              <td class="contentvalue">$Data{"ArticleFreeTextField"}</td>
+            </tr>
+<!-- dtl:block:ArticleFreeText -->
 #<!-- dtl:block:ArticleFreeText1 -->
 #                <tr>
 #                  <td class="contentkey">$Data{"ArticleFreeKeyField1"}:</td>
