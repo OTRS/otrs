@@ -2,11 +2,11 @@
 # Kernel/Language/cz.pm - provides cz language translation
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # Copyright (C) 2004 BENETA.cz, s.r.o. <info at beneta dot cz>
-#	Translators: Marta Macalkova
-#		     Vadim Buzek
-#		     Petr Ocasek
+# Translators: Marta Macalkova
+#              Vadim Buzek
+#              Petr Ocasek
 # --
-# $Id: cz.pm,v 1.34 2006-10-19 16:56:52 mh Exp $
+# $Id: cz.pm,v 1.35 2006-10-31 15:26:51 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {

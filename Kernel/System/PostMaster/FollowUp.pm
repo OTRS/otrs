@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FollowUp.pm,v 1.45 2006-08-29 17:27:30 martin Exp $
+# $Id: FollowUp.pm,v 1.46 2006-10-31 15:26:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -104,11 +104,11 @@ sub Run {
     }
 
     if ($Ticket{StateType} !~ /^new/ || $GetParam{'X-OTRS-FollowUp-State'}) {
-	    $Self->{TicketObject}->StateSet(
-    	    State => $GetParam{'X-OTRS-FollowUp-State'} || $State,
-        	TicketID => $Param{TicketID},
-	        UserID => $Param{InmailUserID},
-    	);
+        $Self->{TicketObject}->StateSet(
+            State => $GetParam{'X-OTRS-FollowUp-State'} || $State,
+            TicketID => $Param{TicketID},
+            UserID => $Param{InmailUserID},
+        );
         if ($Self->{Debug} > 0) {
             print "State: $State\n";
         }

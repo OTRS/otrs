@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.124 2006-10-12 10:25:02 martin Exp $
+# $Id: Article.pm,v 1.125 2006-10-31 15:26:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.124 $';
+$VERSION = '$Revision: 1.125 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -64,8 +64,8 @@ create an article
 sub ArticleCreate {
     my $Self = shift;
     my %Param = @_;
-    my $ValidID 	= $Param{ValidID} || 1;
-    my $IncomingTime    = $Self->{TimeObject}->SystemTime();
+    my $ValidID = $Param{ValidID} || 1;
+    my $IncomingTime = $Self->{TimeObject}->SystemTime();
     # create ArticleContentPath
     if (!$Self->{ArticleContentPath}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleContentPath!");

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Reject.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Reject.pm,v 1.4 2006-08-29 17:27:30 martin Exp $
+# $Id: Reject.pm,v 1.5 2006-10-31 15:26:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::Reject;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,7 +56,7 @@ sub Run {
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Param{TicketID});
 
-	my $Comment = $Param{Comment} || '';
+    my $Comment = $Param{Comment} || '';
     my $Lock = $Param{Lock} || '';
     my $AutoResponseType = $Param{AutoResponseType} || '';
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponseAttachment.pm - queue <-> responses
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.pm,v 1.13 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminResponseAttachment.pm,v 1.14 2006-10-31 15:26:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -120,10 +120,10 @@ sub Run {
             # db quote
             $NewID = $Self->{DBObject}->Quote($NewID, 'Integer');
             my $SQL = "INSERT INTO standard_response_attachment (standard_attachment_id, ".
-              "standard_response_id, create_time, create_by, " .
-	          " change_time, change_by)" .
-              " VALUES " .
-              " ($ID, $NewID, current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
+                "standard_response_id, create_time, create_by, " .
+                " change_time, change_by)" .
+                " VALUES " .
+                " ($ID, $NewID, current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
             $Self->{DBObject}->Do(SQL => $SQL);
         }
         $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");

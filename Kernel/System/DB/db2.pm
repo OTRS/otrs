@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.8 2006-09-06 14:25:35 martin Exp $
+# $Id: db2.pm,v 1.9 2006-10-31 15:26:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::DB::db2;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -121,15 +121,15 @@ sub TableCreate {
         if ($SQL) {
             $SQL .= ",\n";
         }
-    	# normal data type
-    	$SQL .= "    $Tag->{Name} $Tag->{Type}";
-    	if ($Tag->{Required} =~ /^true$/i) {
-	        $SQL .= " NOT NULL";
-    	}
+        # normal data type
+        $SQL .= "    $Tag->{Name} $Tag->{Type}";
+        if ($Tag->{Required} =~ /^true$/i) {
+            $SQL .= " NOT NULL";
+        }
         # auto increment
-    	if ($Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i) {
-	        $SQL .= " GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)";
-    	}
+        if ($Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i) {
+            $SQL .= " GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)";
+        }
         # add primary key
         if ($Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i) {
             $PrimaryKey = "    PRIMARY KEY($Tag->{Name})";

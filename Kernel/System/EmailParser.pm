@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.44 2006-08-29 17:30:36 martin Exp $
+# $Id: EmailParser.pm,v 1.45 2006-10-31 15:26:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -487,14 +487,14 @@ sub PartsAttachments {
     my $SubPartCounter = $Param{SubPartCounter} || 0;
     $Self->{PartCounter}++;
     if ($Part->parts() > 0) {
-	    $PartCounter++;
-	    foreach ($Part->parts()) {
-                $SubPartCounter++;
-                if ($Self->{Debug} > 0) {
-                    print STDERR "Sub part($PartCounter/$SubPartCounter)!\n";
-                }
-                $Self->PartsAttachments(Part => $_, PartCounter => $PartCounter);
-	    }
+        $PartCounter++;
+        foreach ($Part->parts()) {
+            $SubPartCounter++;
+            if ($Self->{Debug} > 0) {
+                print STDERR "Sub part($PartCounter/$SubPartCounter)!\n";
+            }
+            $Self->PartsAttachments(Part => $_, PartCounter => $PartCounter);
+        }
     }
     else {
         # get attachment meta stuff
@@ -699,6 +699,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.45 $ $Date: 2006-10-31 15:26:53 $
 
 =cut

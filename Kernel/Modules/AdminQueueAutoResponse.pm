@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.19 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.20 2006-10-31 15:26:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -79,7 +79,7 @@ sub Run {
                 Table => 'auto_response ar, auto_response_type art, queue_auto_response qar',
                 What => 'ar.id, ar.name',
                 Where => " art.id = $_ AND ar.type_id = art.id AND qar.queue_id = $Param{ID} " .
-					"AND qar.auto_response_id = ar.id",
+                    "AND qar.auto_response_id = ar.id",
             );
             $Param{DataStrg} =  $Self->{LayoutObject}->OptionStrgHashRef(
                 Name => 'IDs',
@@ -154,7 +154,7 @@ sub Run {
             $Self->{DBObject}->Prepare(SQL => $SQL);
             while (my @Row = $Self->{DBObject}->FetchrowArray()) {
                 my %AutoResponseData;
-                $AutoResponseData{Name}	= $Row[0];
+                $AutoResponseData{Name} = $Row[0];
                 $AutoResponseData{Type} = $Row[1];
                 $AutoResponseData{ID} = $Row[2];
                 push (@Data, \%AutoResponseData);

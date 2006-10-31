@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPGP.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesPGP.pm,v 1.5 2006-08-27 22:23:35 martin Exp $
+# $Id: PreferencesPGP.pm,v 1.6 2006-10-31 15:26:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -94,8 +94,8 @@ sub Run {
 
         $Self->{UserObject}->SetPreferences(
             UserID => $Param{UserData}->{UserID},
-            Key => "PGPKeyID",	# new parameter PGPKeyID
-            Value => $1,	# write KeyID on a per user base
+            Key => "PGPKeyID", # new parameter PGPKeyID
+            Value => $1, # write KeyID on a per user base
         );
         $Self->{UserObject}->SetPreferences(
             UserID => $Param{UserData}->{UserID},
@@ -144,7 +144,7 @@ sub Download {
         return ();
     }
     else {
-    	$Preferences{'PGPKeyContent'} = $CryptObject->PublicKeyGet(
+        $Preferences{'PGPKeyContent'} = $CryptObject->PublicKeyGet(
             Key => $Preferences{'PGPKeyID'},
         );
     }
