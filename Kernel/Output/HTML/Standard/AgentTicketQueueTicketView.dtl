@@ -2,7 +2,7 @@
 # AgentTicketQueueTicketView.dtl - provides HTML TicketView for AgentTicketQueueView
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueueTicketView.dtl,v 1.7 2006-10-12 10:16:00 martin Exp $
+# $Id: AgentTicketQueueTicketView.dtl,v 1.8 2006-10-31 14:41:10 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -193,7 +193,7 @@ $Data{"Body"}
                 <table border="0">
                   <tr align="left">
                     <td>
-                      <dtl if ($Data{"AgentPhone"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhone&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a></li>"; }>
+                      <dtl if ($Data{"AgentPhone"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a></li>"; }>
 $Data{"AgentPhoneStrg"}
                     </td>
                   </tr>
