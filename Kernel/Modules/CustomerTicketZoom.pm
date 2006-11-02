@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.10 2006-10-11 15:43:09 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.11 2006-11-02 13:02:03 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -258,14 +258,11 @@ sub Run {
         );
         $Article->{Atms} = \%AtmIndex;
     }
-    # --
     # genterate output
-    # --
     my $Output = $Self->{LayoutObject}->CustomerHeader(Value => $Ticket{TicketNumber});
     $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
-    # --
+
     # show ticket
-    # --
     if ($Self->{Subaction} eq 'ShowHTMLeMail') {
         # if it is a html email, drop normal header
         $Ticket{ShowHTMLeMail} = 1;
@@ -278,9 +275,8 @@ sub Run {
         %Ticket,
         %GetParam,
     );
-    # --
+
     # return if HTML email
-    # --
     if ($Self->{Subaction} eq 'ShowHTMLeMail') {
         # if it is a html email, return here
         $Ticket{ShowHTMLeMail} = 1;

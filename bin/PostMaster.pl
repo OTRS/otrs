@@ -3,7 +3,7 @@
 # bin/PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.pl,v 1.23 2006-09-25 13:26:29 tr Exp $
+# $Id: PostMaster.pl,v 1.24 2006-11-02 13:02:04 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,14 +28,13 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use strict;
 
-# --
 # to get it readable for the webserver user and writable for otrs
 # group (just in case)
-# --
+
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -46,9 +45,7 @@ use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::PostMaster;
 
-# --
 # get options
-# --
 my %Opts = ();
 getopt('hqtd', \%Opts);
 if ($Opts{'h'}) {
@@ -67,9 +64,7 @@ if (!$Opts{'q'}) {
     $Opts{'q'} = '';
 }
 
-# --
 # create common objects
-# --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(

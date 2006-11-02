@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Reject.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Reject.pm,v 1.5 2006-10-31 15:26:53 tr Exp $
+# $Id: Reject.pm,v 1.6 2006-11-02 13:02:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::System::PostMaster::Reject;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -39,18 +38,17 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    # --
+
     # check needed stuff
-    # --
     foreach (qw(TicketID InmailUserID GetParam Tn AutoResponseType)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my %GetParam = %{$Param{GetParam}};
     # get ticket data
@@ -83,9 +81,8 @@ sub Run {
     if (!$ArticleID) {
         return;
     }
-    # --
+
     # debug
-    # --
     if ($Self->{Debug} > 0) {
         print "Reject Follow up Ticket\n";
         print "TicketNumber: $Param{Tn}\n";
@@ -98,17 +95,15 @@ sub Run {
         print "SenderType: $GetParam{'X-OTRS-SenderType'}\n";
         print "ArticleType: $GetParam{'X-OTRS-ArticleType'}\n";
     }
-    # --
+
     # write plain email to the storage
-    # --
     $Self->{TicketObject}->ArticleWritePlain(
         ArticleID => $ArticleID,
         Email => $Self->{ParseObject}->GetPlainEmail(),
         UserID => $Param{InmailUserID},
     );
-    # --
+
     # write attachments to the storage
-    # --
     foreach my $Attachment ($Self->{ParseObject}->GetAttachments()) {
         $Self->{TicketObject}->ArticleWriteAttachment(
             Content => $Attachment->{Content},
@@ -118,9 +113,8 @@ sub Run {
             UserID => $Param{InmailUserID},
         );
     }
-    # --
+
     # set free article text
-    # --
     my @Values = ('X-OTRS-FollowUp-ArticleKey', 'X-OTRS-FollowUp-ArticleValue');
     my $CounterTmp = 0;
     while ($CounterTmp <= 3) {
@@ -150,5 +144,5 @@ sub Run {
 
     return 1;
 }
-# --
+
 1;

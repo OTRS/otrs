@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerZoom.pm,v 1.33 2006-08-29 17:17:24 martin Exp $
+# $Id: CustomerZoom.pm,v 1.34 2006-11-02 13:02:03 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -38,7 +37,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -47,5 +46,5 @@ sub Run {
     $Redirect =~ s/CustomerZoom/CustomerTicketZoom/;
     return $Self->{LayoutObject}->Redirect(OP => $Redirect);
 }
-# --
+
 1;

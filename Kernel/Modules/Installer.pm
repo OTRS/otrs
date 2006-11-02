@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.40 2006-10-09 17:38:03 mh Exp $
+# $Id: Installer.pm,v 1.41 2006-11-02 13:02:03 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -120,9 +120,8 @@ sub Run {
             $Dist{Webserver} = '';
         }
     }
-    # --
+
     # print form
-    # --
     if (!$Self->{Subaction}) {
         $Output .= $Self->{LayoutObject}->Header(Title => 'License');
         $Self->{LayoutObject}->Block(
@@ -139,9 +138,8 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    # --
+
     # do database settings
-    # --
     elsif ($Self->{Subaction} eq 'Start') {
         if ($Self->ReConfigure()) {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
@@ -171,9 +169,8 @@ sub Run {
             return $Output;
         }
     }
-    # --
+
     # do database settings
-    # --
     elsif ($Self->{Subaction} eq 'DB') {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Installer');
         # get params
@@ -209,7 +206,6 @@ sub Run {
             );
         }
 
-
         if ($DB{DBAction} eq 'Create') {
           # FIXME !!! use $DB{Type}!!!
             $Self->{LayoutObject}->Block(
@@ -219,9 +215,8 @@ sub Run {
                     Step => '2/4',
                 },
             );
-            # --
+
             # create db
-            # --
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
                 Data => {
@@ -256,9 +251,9 @@ sub Run {
                     Data => { },
                 );
             }
-            # --
+
             # create db tables
-            # --
+
             # read otrs-schema.mysql.sql and process stuff
             my @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/otrs-schema.mysql.sql");
             $DBH->do("use $DB{Database}");
@@ -297,10 +292,10 @@ sub Run {
                 Name => 'DatabaseResultItemDone',
                 Data => { },
             );
-            # --
+
             # inital insert
             # - read initial_insert.sql and process stuff -
-            # --
+
             @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/initial_insert.sql");
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
@@ -337,10 +332,10 @@ sub Run {
                 Name => 'DatabaseResultItemDone',
                 Data => { },
             );
-            # --
+
             # foreign key
             # - read otrs-schema-post.mysql.sql and process stuff -
-            # --
+
             @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/otrs-schema-post.mysql.sql");
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
@@ -377,9 +372,8 @@ sub Run {
                 Name => 'DatabaseResultItemDone',
                 Data => { },
             );
-            # --
+
             # user add
-            # --
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
                 Data => {
@@ -414,9 +408,8 @@ sub Run {
                     Data => { },
                 );
             }
-            # --
+
             # Reload the grant tables of your mysql-daemon
-            # --
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
                 Data => {
@@ -451,9 +444,8 @@ sub Run {
                     Data => { },
                 );
             }
-            # --
+
             # ReConfigure Config.pm
-            # --
             if ($Self->ReConfigure(
                 DatabaseHost => $DB{DatabaseHost},
                 Database => $DB{Database},
@@ -556,9 +548,8 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    # --
+
     # do system settings
-    # --
     elsif ($Self->{Subaction} eq 'System') {
         my %SystemIDs = ();
         foreach (1..99) {
@@ -608,13 +599,11 @@ sub Run {
         );
         $Output .= $Self->{LayoutObject}->Footer();
     }
-    # --
+
     # do system settings action
-    # --
     elsif ($Self->{Subaction} eq 'Finish') {
-        # --
+
         # ReConfigure Config.pm
-        # --
         my %Config = ();
         foreach (qw(SystemID FQDN AdminEmail Organization LogModule LogModule::LogFile
             DefaultCharset DefaultLanguage CheckMXRecord)
@@ -662,9 +651,8 @@ sub Run {
         }
         $Output .= $Self->{LayoutObject}->Footer();
     }
-    # --
+
     # else! error!
-    # --
     else {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => "Unknown Subaction $Self->{Subaction}!",
@@ -679,17 +667,15 @@ sub ReConfigure {
     my $Self = shift;
     my %Param = @_;
     my $Config = '';
-    # --
+
     # perl quote
-    # --
     foreach (keys %Param) {
         if ($Param{$_}) {
             $Param{$_} =~ s/'/\\'/g;
         }
     }
-    # --
+
     # read config file
-    # --
     open (IN, "< $Self->{Path}/Kernel/Config.pm") ||
         return "Can't open $Self->{Path}/Kernel/Config.pm: $!";
     while (<IN>) {
@@ -698,9 +684,7 @@ sub ReConfigure {
         }
         else {
             my $NewConfig = $_;
-            # --
             # replace config with %Param
-            # --
             foreach (keys %Param) {
                 if ($Param{$_} =~ /^[0-9]+$/ && $Param{$_} !~ /^0/) {
                     $NewConfig =~ s/(\$Self->{$_} =.+?);/\$Self->{'$_'} = $Param{$_};/g;
@@ -724,9 +708,7 @@ sub ReConfigure {
             }
         }
     }
-    # --
     # write new config file
-    # --
     open (OUT, "> $Self->{Path}/Kernel/Config.pm") ||
         return "Can't open $Self->{Path}/Kernel/Config.pm: $!";
     print OUT $Config;

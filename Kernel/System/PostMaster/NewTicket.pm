@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.56 2006-08-29 17:27:30 martin Exp $
+# $Id: NewTicket.pm,v 1.57 2006-11-02 13:02:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,10 +16,9 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -39,44 +38,39 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    # --
+
     # check needed stuff
-    # --
     foreach (qw(InmailUserID GetParam)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my %GetParam = %{$Param{GetParam}};
     my $Comment = $Param{Comment} || '';
     my $AutoResponseType = $Param{AutoResponseType} || '';
-    # --
+
     # get queue id and name
-    # --
     my $QueueID = $Param{QueueID} || die "need QueueID!";
     my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $QueueID);
-    # --
+
     # get state
-    # --
     my $State = $Self->{ConfigObject}->Get('PostmasterDefaultState') || 'new';
     if ($GetParam{'X-OTRS-State'}) {
         $State = $GetParam{'X-OTRS-State'};
     }
-    # --
+
     # get priority
-    # --
     my $Priority = $Self->{ConfigObject}->Get('PostmasterDefaultPriority') || '3 normal';
     if ($GetParam{'X-OTRS-Priority'}) {
         $Priority = $GetParam{'X-OTRS-Priority'};
     }
-    # --
+
     # get sender email
-    # --
     my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
         Line => $GetParam{From},
     );
@@ -85,9 +79,8 @@ sub Run {
             Email => $_,
         );
     }
-    # --
+
     # get customer id (sender email) if there is no customer id given
-    # --
     if (!$GetParam{'X-OTRS-CustomerNo'} && $GetParam{'X-OTRS-CustomerUser'}) {
         # get customer user data form X-OTRS-CustomerUser
         my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
@@ -97,9 +90,9 @@ sub Run {
             $GetParam{'X-OTRS-CustomerNo'} = $CustomerData{UserCustomerID};
         }
     }
-    # --
+
     # get customer user data form From: (sender address)
-    # --
+
     if (!$GetParam{'X-OTRS-CustomerUser'}) {
         my %CustomerData = ();
         if ($GetParam{'From'}) {
@@ -140,25 +133,22 @@ sub Run {
             );
         }
     }
-    # --
+
     # if there is no customer id found!
-    # --
     if (!$GetParam{'X-OTRS-CustomerNo'}) {
         $GetParam{'X-OTRS-CustomerNo'} = $GetParam{'SenderEmailAddress'};
     }
-    # --
+
     # if there is no customer user found!
-    # --
     if (!$GetParam{'X-OTRS-CustomerUser'}) {
         $GetParam{'X-OTRS-CustomerUser'} = $GetParam{'SenderEmailAddress'};
     }
-    # --
+
     # create new ticket
-    # --
+
     my $NewTn = $Self->{TicketObject}->CreateTicketNr();
-    # --
+
     # do db insert
-    # --
     my $TicketID = $Self->{TicketObject}->TicketCreate(
         TN => $NewTn,
         Title => $GetParam{Subject},
@@ -184,9 +174,8 @@ sub Run {
         print "CustomerID: $GetParam{'X-OTRS-CustomerNo'}\n";
         print "CustomerUser: $GetParam{'X-OTRS-CustomerUser'}\n";
     }
-    # --
+
     # set free ticket text
-    # --
     my @Values = ('X-OTRS-TicketKey', 'X-OTRS-TicketValue');
     my $CounterTmp = 0;
     while ($CounterTmp <= 8) {
@@ -205,9 +194,8 @@ sub Run {
             }
         }
     }
-    # --
+
     # do article db insert
-    # --
     my $ArticleID = $Self->{TicketObject}->ArticleCreate(
         TicketID => $TicketID,
         ArticleType => $GetParam{'X-OTRS-ArticleType'},
@@ -227,9 +215,8 @@ sub Run {
         AutoResponseType => $AutoResponseType,
         Queue => $Queue,
     );
-    # --
+
     # close ticket if article create failed!
-    # --
     if (!$ArticleID) {
         $Self->{TicketObject}->TicketDelete(
             TicketID => $TicketID,
@@ -242,9 +229,8 @@ sub Run {
         );
         return;
     }
-    # --
+
     # debug
-    # --
     if ($Self->{Debug} > 0) {
         print "From: $GetParam{From}\n";
         print "ReplyTo: $GetParam{ReplyTo}\n" if ($GetParam{ReplyTo});
@@ -256,9 +242,8 @@ sub Run {
         print "SenderType: $GetParam{'X-OTRS-SenderType'}\n";
         print "ArticleType: $GetParam{'X-OTRS-ArticleType'}\n";
     }
-    # --
+
     # set free article text
-    # --
     @Values = ('X-OTRS-ArticleKey', 'X-OTRS-ArticleValue');
     $CounterTmp = 0;
     while ($CounterTmp <= 3) {
@@ -278,17 +263,15 @@ sub Run {
             }
         }
     }
-    # --
+
     # write plain email to the storage
-    # --
     $Self->{TicketObject}->ArticleWritePlain(
         ArticleID => $ArticleID,
         Email => $Self->{ParseObject}->GetPlainEmail(),
         UserID => $Param{InmailUserID},
     );
-    # --
+
     # write attachments to the storage
-    # --
     foreach my $Attachment ($Self->{ParseObject}->GetAttachments()) {
         $Self->{TicketObject}->ArticleWriteAttachment(
             Content => $Attachment->{Content},
@@ -301,6 +284,5 @@ sub Run {
 
     return $TicketID;
 }
-# --
 
 1;
