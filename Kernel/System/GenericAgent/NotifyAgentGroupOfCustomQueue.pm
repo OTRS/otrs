@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent/NotifyAgentGroupOfCustomQueue.pm - generic agent notifications
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.10 2006-08-29 17:31:04 martin Exp $
+# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.11 2006-11-02 12:20:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,10 +17,9 @@ use Kernel::System::Email;
 use Kernel::System::Queue;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -42,7 +41,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -98,5 +97,5 @@ sub Run {
     }
     return 1;
 }
-# --
+
 1;

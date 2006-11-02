@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.53 2006-08-29 17:30:36 martin Exp $
+# $Id: DB.pm,v 1.54 2006-11-02 12:20:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -316,7 +316,6 @@ to insert, update or delete something
 
   $DBObject->Do(SQL => "DELETE FROM table");
 
-
   you also can use DBI bind values (used for large strings):
 
   my $Var1 = 'dog1';
@@ -483,7 +482,7 @@ sub FetchrowArray {
     }
     return @Row;
 }
-# --
+
 # _should_ not used because of database incompat.
 sub FetchrowHashref {
     my $Self = shift;
@@ -743,6 +742,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.54 $ $Date: 2006-11-02 12:20:52 $
 
 =cut

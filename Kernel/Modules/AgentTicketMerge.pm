@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.8 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.9 2006-11-02 12:20:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -43,7 +42,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -173,7 +172,7 @@ sub Run {
                 }
             }
             # send customer info?
-            if ($Param{InformSender}) {
+            if (!$Param{InformSender}) {
                 my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
                 $Param{Body} =~ s/<OTRS_TICKET>/$Ticket{TicketNumber}/g;
                 $Param{Body} =~ s/<OTRS_MERGE_TO_TICKET>/$MainTicketNumber/g;
@@ -192,9 +191,6 @@ sub Run {
                   Type => 'text/plain',
                   Charset => $Self->{LayoutObject}->{UserCharset},
                 )) {
-                  ###
-                }
-                else {
                     # error page
                     return $Self->{LayoutObject}->ErrorScreen();
                 }
@@ -287,5 +283,5 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 1;

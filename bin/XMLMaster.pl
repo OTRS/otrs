@@ -3,7 +3,7 @@
 # XMLMaster.pl - the global xml handle for xml2db
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XMLMaster.pl,v 1.4 2006-09-25 13:35:29 tr Exp $
+# $Id: XMLMaster.pl,v 1.5 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -40,9 +40,7 @@ use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::XMLMaster;
 
-# --
 # get options
-# --
 my %Opts = ();
 getopt('hqtd', \%Opts);
 if ($Opts{'h'}) {
@@ -55,9 +53,7 @@ if (!$Opts{'d'}) {
     $Opts{'d'} = 0;
 }
 
-# --
 # create common objects
-# --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(

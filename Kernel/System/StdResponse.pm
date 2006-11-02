@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.14 2006-08-29 17:30:36 martin Exp $
+# $Id: StdResponse.pm,v 1.15 2006-11-02 12:20:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::System::StdResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -38,7 +37,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub StdResponseAdd {
     my $Self = shift;
     my %Param = @_;
@@ -78,7 +77,7 @@ sub StdResponseAdd {
         return;
     }
 }
-# --
+
 sub StdResponseGet {
     my $Self = shift;
     my %Param = @_;
@@ -114,7 +113,7 @@ sub StdResponseGet {
         return;
     }
 }
-# --
+
 sub StdResponseDelete {
     my $Self = shift;
     my %Param = @_;
@@ -135,7 +134,7 @@ sub StdResponseDelete {
         return;
     }
 }
-# --
+
 sub StdResponseUpdate {
     my $Self = shift;
     my %Param = @_;
@@ -170,20 +169,18 @@ sub StdResponseUpdate {
         return;
     }
 }
-# --
+
 sub StdResponseLookup {
     my $Self = shift;
     my %Param = @_;
-    # --
+
     # check needed stuff
-    # --
     if (!$Param{StdResponse} && !$Param{StdResponseID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Got no StdResponse or StdResponseID!");
         return;
     }
-    # --
+
     # check if we ask the same request?
-    # --
     if ($Param{StdResponseID} && $Self->{"StdResponseLookup$Param{StdResponseID}"}) {
         return $Self->{"StdResponseLookup$Param{StdResponseID}"};
     }
@@ -214,7 +211,7 @@ sub StdResponseLookup {
 
     return $Self->{"StdResponse$Suffix"};
 }
-# --
+
 sub GetAllStdResponses {
     my $Self = shift;
     my %Param = @_;
@@ -228,6 +225,5 @@ sub GetAllStdResponses {
         Valid => $Param{Valid},
     );
 }
-# --
 
 1;

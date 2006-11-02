@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.20 2006-09-29 13:06:25 mh Exp $
+# $Id: AgentTicketQueue.pm,v 1.21 2006-11-02 12:20:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,10 +17,9 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -39,16 +38,13 @@ sub new {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
     }
-    # --
+
     # some new objects
-    # --
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{LockObject} = Kernel::System::Lock->new(%Param);
 
-    # --
     # get config data
-    # --
     $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('Ticket::ViewableSenderTypes')
            || die 'No Config entry "Ticket::ViewableSenderTypes"!';
     $Self->{CustomQueue} = $Self->{ConfigObject}->Get('Ticket::CustomQueue') || '???';
@@ -56,9 +52,7 @@ sub new {
     $Self->{ViewableTickets} = $Self->{UserQueueViewShowTickets} ||
         $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected} || 15;
 
-    # --
     # get params
-    # --
     $Self->{ViewAll} = $Self->{ParamObject}->GetParam(Param => 'ViewAll') || 0;
     $Self->{Start} = $Self->{ParamObject}->GetParam(Param => 'Start') || 1;
     # viewable tickets a page
@@ -68,9 +62,8 @@ sub new {
     if ($Self->{Limit} > $Self->{MaxLimit}) {
         $Self->{Limit} = $Self->{MaxLimit};
     }
-    # --
+
     # all static variables
-    # --
     my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
         Type   => 'Viewable',
         Result => 'ID',
@@ -112,9 +105,8 @@ sub Run {
     $Output .= $Self->{LayoutObject}->NavigationBar();
     # to get the output faster!
     print $Output; $Output = '';
-    # --
+
     # check old tickets, show it and return if needed
-    # --
     my $NoEscalationGroup = $Self->{ConfigObject}->Get('Ticket::Frontend::NoEscalationGroup') || '';
     if ($Self->{UserID} eq '1' ||
         ($Self->{"UserIsGroup[$NoEscalationGroup]"} && $Self->{"UserIsGroup[$NoEscalationGroup]"} eq 'Yes')) {
@@ -142,9 +134,8 @@ sub Run {
             return $Self->{LayoutObject}->Footer();
         }
     }
-    # --
+
     # build queue view ...
-    # --
     my @ViewableQueueIDs = ();
     if ($Self->{QueueID} == 0) {
         @ViewableQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(
@@ -170,9 +161,7 @@ sub Run {
         Result => 'ID',
         Cached => 1,
     );
-    # --
     # get data (viewable tickets...)
-    # --
     my @ViewableTickets = ();
     my $SortBy = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSortBy::Default') || 'Age';
     my %SortOptions = (
@@ -277,9 +266,7 @@ sub Run {
             $Counter++;
         }
     }
-    # --
     # show ticket's
-    # --
     my $Counter = 0;
     foreach (@ViewableTickets) {
         $Counter++;
@@ -339,9 +326,7 @@ sub ShowTicket {
     }
     # fetch all std. responses ...
     my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $Article{QueueID});
-    # --
     # customer info
-    # --
     my %CustomerData = ();
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueue')) {
         if ($Article{CustomerUserID}) {
@@ -355,9 +340,8 @@ sub ShowTicket {
             );
         }
     }
-    # --
+
     # build ticket view
-    # --
     foreach (qw(From To Cc Subject)) {
         if ($Article{$_}) {
             $Self->{LayoutObject}->Block(
@@ -382,9 +366,8 @@ sub ShowTicket {
     }
     # create human age
     $Article{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Article{Age}, Space => ' ');
-    # --
+
     # prepare escalation time
-    # --
     if ($Article{TicketOverTime}) {
         if ($Article{TicketOverTime} <= -60*20) {
             $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
@@ -428,9 +411,8 @@ sub ShowTicket {
         TicketID => $Article{TicketID},
         ArticleID => $Article{ArticleID},
     );
-    # --
+
     # check if just a only html email
-    # --
     if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(%Article, Action => 'AgentTicketZoom')) {
         $Article{BodyNote} = $MimeTypeText;
         $Article{Body} = '';
@@ -598,21 +580,18 @@ sub _MaskQueueView {
     $Param{SelectedQueue} = $AllQueues{$QueueID} || $CustomQueue;
     my @MetaQueue = split(/::/, $Param{SelectedQueue});
     $Level = $#MetaQueue+2;
-    # --
+
     # prepare shown queues (short names)
     # - get queue total count -
-    # --
     foreach my $QueueRef (@QueuesNew) {
         push (@ListedQueues, $QueueRef);
         my %Queue = %$QueueRef;
         my @Queue = split(/::/, $Queue{Queue});
-        # --
+
         # remember counted/used queues
-        # --
         $UsedQueue{$Queue{Queue}} = 1;
-        # --
+
         # move to short queue names
-        # --
         my $QueueName = '';
         foreach (0..$#Queue) {
             if (!$QueueName) {
@@ -668,15 +647,13 @@ sub _MaskQueueView {
                $QueueStrg .= '<b>';
             }
         }
-        # --
+
         # remember to selected queue info
-        # --
         if ($QueueID eq $Queue{QueueID}) {
             $Param{SelectedQueue} = $Queue{Queue};
             $Param{AllSubTickets} = $Counter{$Queue{Queue}};
-            # --
+
             # build Page Navigator for AgentTicketQueue
-            # --
             $Param{PageShown} = $Param{'ViewableTickets'};
             if ($Param{TicketsAvailAll} == 1 || $Param{TicketsAvailAll} == 0) {
                 $Param{Result} = $Param{TicketsAvailAll};

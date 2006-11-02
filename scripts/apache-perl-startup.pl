@@ -4,9 +4,7 @@ use strict;
 # make sure we are in a sane environment.
 $ENV{GATEWAY_INTERFACE} =~ /^CGI-Perl/ or die "GATEWAY_INTERFACE not Perl!";
 
-# --
 # set otrs lib path!
-# --
 use lib "/opt/otrs/";
 use lib "/opt/otrs/Kernel/cpan-lib";
 

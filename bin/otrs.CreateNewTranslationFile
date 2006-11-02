@@ -3,7 +3,7 @@
 # otrs.CreateNewTranslationFile - create new translation file
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.14 2006-08-26 17:22:05 martin Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.15 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -38,20 +38,15 @@ use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::Language;
 
-# --
 # get opts
-# --
 getopt('olst',  \%Opts);
-# --
+
 # print head
-# --
 print "otrs.CreateNewTranslationFile <Revision $VERSION> - create new translation file\n";
 print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
 print "usage: otrs.CreateNewTranslationFile -l <Language> -t <dtl_files_or_directory>\n";
 
-# --
 # common objects
-# --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
@@ -61,9 +56,8 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
 $CommonObject{MainObject} = Kernel::System::Main->new(
     %CommonObject,
 );
-# --
+
 # check params
-# --
 if (!$Opts{'l'}) {
     print "ERROR: -l <Language>!\n";
     exit 1;
@@ -93,18 +87,14 @@ else {
     print "INFO: Output: $Opts{LanguageOutFile}!\n";
 }
 
-# --
 # common objects
-# --
 $CommonObject{LanguageObject} = Kernel::Language->new(
     %CommonObject,
     UserLanguage => $Opts{'l'},
     TranslationFile => 1,
 );
 
-# --
 # open .dtl files and write new translation file
-# --
 my $Data = '';
 my %UsedWords = ();
 my @List = glob("$Opts{t}");
@@ -191,9 +181,8 @@ foreach my $Key (keys %{$CommonObject{LanguageObject}->{Translation}}) {
         }
     }
 }
-# --
+
 # open old translation file
-# --
 my %MetaData = ();
 my $NewOut = '';
 open (IN, "< $Opts{LanguageFile}") || die "Can't open: $Opts{LanguageFile}\n";

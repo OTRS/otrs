@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.17 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminResponse.pm,v 1.18 2006-11-02 12:20:51 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,10 +16,9 @@ use Kernel::System::StdResponse;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -46,7 +45,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -87,9 +86,7 @@ sub Run {
     # update action
     elsif ($Param{Subaction} eq 'ChangeAction') {
         if ($Self->{StdResponseObject}->StdResponseUpdate(%GetParam, UserID => $Self->{UserID})) {
-            # --
             # update attachments to response
-            # --
             my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
             $Self->{StdAttachmentObject}->SetStdAttachmentsOfResponseID(
                 AttachmentIDsRef => \@NewIDs,
@@ -105,18 +102,14 @@ sub Run {
     # add new response
     elsif ($Param{Subaction} eq 'AddAction') {
         if (my $Id = $Self->{StdResponseObject}->StdResponseAdd(%GetParam, UserID => $Self->{UserID})) {
-            # --
             # add attachments to response
-            # --
             my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
             $Self->{StdAttachmentObject}->SetStdAttachmentsOfResponseID(
                 AttachmentIDsRef => \@NewIDs,
                 ID => $Id,
                 UserID => $Self->{UserID},
             );
-            # --
             # show next page
-            # --
             return $Self->{LayoutObject}->Redirect(
                 OP => "Action=AdminQueueResponses&Subaction=Response&ID=$Id",
             );
@@ -148,7 +141,7 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -197,5 +190,5 @@ sub _Mask {
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminResponseForm', Data => \%Param);
 }
-# --
+
 1;

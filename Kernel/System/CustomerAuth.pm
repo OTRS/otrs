@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth.pm - provides the authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerAuth.pm,v 1.7 2006-08-29 17:30:36 martin Exp $
+# $Id: CustomerAuth.pm,v 1.8 2006-11-02 12:20:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -57,7 +57,6 @@ create a object
 
 =cut
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -83,7 +82,6 @@ sub new {
 
     return $Self;
 }
-# --
 
 =item GetOption()
 
@@ -100,7 +98,6 @@ sub GetOption {
     my %Param = @_;
     return $Self->{Backend}->GetOption(%Param);
 }
-# --
 
 =item Auth()
 
@@ -138,7 +135,7 @@ sub Auth {
         return;
     }
 }
-# --
+
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -153,6 +150,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.8 $ $Date: 2006-11-02 12:20:52 $
 
 =cut

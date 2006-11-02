@@ -4,7 +4,7 @@
 # X-OTRS-Queue header for an OTRS system (x-headers for dispatching!).
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: webform.pl,v 1.6 2006-10-03 14:34:47 mh Exp $
+# $Id: webform.pl,v 1.7 2006-11-02 12:21:00 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,13 +27,12 @@ use CGI::Carp qw(fatalsToBrowser);
 # Simple Common Gateway Interface Class
 use CGI;
 
-my $VERSION = '$Revision: 1.6 $';
+my $VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-
-# --
+# --------------------------
 # web form options
-# --
+# --------------------------
 my $Ident = 'ahfiw2Fw32r230dddl2foeo3r';
 # sendmail location and options
 my $Sendmail = '/usr/sbin/sendmail -t -i -f ';
@@ -50,9 +49,10 @@ my %Topics = (
     'Webmaster' => 'webmaster',
 );
 
-# --
+# --------------------------
 # html header
-# --
+# --------------------------
+
 sub Header {
     my %Param = @_;
     (my $Output = <<EOF);
@@ -69,9 +69,11 @@ Content-Type: text/html
 EOF
     return $Output;
 }
-# --
+
+# -------------------------
 # html footer
-# --
+# -------------------------
+
 sub Footer {
     (my $Output = <<EOF);
 <hr>
@@ -81,9 +83,11 @@ sub Footer {
 EOF
     return $Output;
 }
-# --
+
+# -------------------------
 # Thanks
-# --
+# -------------------------
+
 sub Thanks {
     my %Param = @_;
     (my $Output = <<EOF);
@@ -92,9 +96,11 @@ We will answer ASAP.<br>
 EOF
     return $Output;
 }
-# --
+
+# ----------------------
 # error
-# --
+# ----------------------
+
 sub Error {
     my %Param = @_;
     (my $Output = <<EOF);
@@ -103,9 +109,9 @@ EOF
     return $Output;
 }
 
-# --
+# ------------------------
 # start the real actions
-# --
+# ------------------------
 my $CGI = new CGI;
 my %GetParam = ();
 foreach (qw(Action From FromEmail Subject Topic Body)) {
@@ -119,9 +125,9 @@ else {
     WebForm();
 }
 
-# --
+# ------------------------
 # web form
-# --
+# ------------------------
 sub WebForm {
     print Header(Title => 'Submit Request');
 print '
@@ -163,15 +169,15 @@ print '
 ';
     print Footer();
 }
-# --
+# --------------------------
 # send email
-# --
+# --------------------------
+
 sub SendMail {
     my %Param = @_;
     my $Output = '';
-    # --
+
     # check needed params
-    # --
     foreach (qw(From FromEmail Subject Topic Body)) {
         if (!$Param{$_}) {
             $Output .= Error(Message => "Param $_ is needed!");
@@ -183,9 +189,8 @@ sub SendMail {
         print $Output;
         return;
     }
-    # --
+
     # simple email check
-    # ---
     my $NonAscii      = "\x80-\xff"; # Non-ASCII-Chars are not allowed
     my $Nqtext        = "[^\\\\$NonAscii\015\012\"]";
     my $Qchar         = "\\\\[^$NonAscii]";
@@ -206,9 +211,7 @@ sub SendMail {
         print $Output;
         return;
     }
-    # --
     # build email
-    # --
     my @Mail = ("From: $Param{From} <$Param{FromEmail}>\n");
     push @Mail, "To: $Param{Topic} <$OTRSEmail>\n";
     push @Mail, "Subject: $Param{Subject}\n";
@@ -223,16 +226,14 @@ sub SendMail {
     push @Mail, "\n";
     push @Mail, $Param{Body};
     push @Mail, "\n";
-    # --
+
     # send mail
-    # --
     $Param{From} =~ s/"|;|'|<|>|\|| //ig;
     if (open(MAIL, "|$Sendmail $Param{From} ")) {
         print MAIL @Mail;
         close(MAIL);
-        # --
+
         # thanks!
-        # --
         $Output = Header(Title => 'Thanks!');
         $Output .= Thanks(%Param);
         $Output .= Footer();
@@ -246,5 +247,3 @@ sub SendMail {
         print $Output;
     }
 }
-# --
-

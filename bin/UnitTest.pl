@@ -3,7 +3,7 @@
 # UnitTest.pl - the global test handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UnitTest.pl,v 1.7 2006-08-26 17:26:11 martin Exp $
+# $Id: UnitTest.pl,v 1.8 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -40,9 +40,7 @@ use Kernel::System::DB;
 use Kernel::System::UnitTest;
 use Kernel::System::Main;
 
-# --
 # get options
-# --
 my %Opts = ();
 getopt('hqtdno', \%Opts);
 if ($Opts{'h'}) {
@@ -51,9 +49,8 @@ if ($Opts{'h'}) {
     print "usage: UnitTest.pl [-n Name e.g. Ticket or Queue] [-o ASCII|HTML]\n";
     exit 1;
 }
-# --
+
 # create common objects
-# --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(

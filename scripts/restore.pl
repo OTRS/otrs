@@ -3,7 +3,7 @@
 # scripts/restore.pl - the restore script
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: restore.pl,v 1.2 2006-08-29 17:51:09 martin Exp $
+# $Id: restore.pl,v 1.3 2006-11-02 12:21:00 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,13 +29,12 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
-# --
+
 # get options
-# --
 my %Opts = ();
 my $DB = '';
 my $DBDump = '';
@@ -175,4 +174,3 @@ else {
         system("bzip $Opts{'b'}/DatabaseBackup.sql");
     }
 }
-

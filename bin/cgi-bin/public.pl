@@ -3,7 +3,7 @@
 # bin/cgi-bin/public.pl - the global CGI handle file for OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: public.pl,v 1.2 2006-08-26 17:29:03 martin Exp $
+# $Id: public.pl,v 1.3 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,17 +28,13 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 # 0=off;1=on;
-# --
 my $Debug = 0;
 
-# --
 # check @INC for mod_perl (add lib path for "require module"!)
-# --
 push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
 
 # load agent web interface
@@ -49,4 +45,3 @@ my $Interface = Kernel::System::Web::InterfacePublic->new(Debug => $Debug);
 
 # execute object
 $Interface->Run();
-

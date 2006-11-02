@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.59 2006-09-01 13:23:27 martin Exp $
+# $Id: PostMaster.pm,v 1.60 2006-11-02 12:20:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,10 +25,9 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -93,7 +92,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -141,9 +140,10 @@ sub Run {
        );
        return 1;
    }
-   # --
+   # ----------------------
    # ticket section
-   # --
+   # ----------------------
+
    # check if follow up (again, with new GetParam)
    ($Tn, $TicketID) = $Self->CheckFollowUp(%{$GetParam});
    # check if it's a follow up ...
@@ -286,9 +286,9 @@ sub Run {
     # return 1
     return 1;
 }
-# --
+
 # CheckFollowUp
-# --
+
 sub CheckFollowUp {
     my $Self = shift;
     my %Param = @_;
@@ -377,9 +377,9 @@ sub CheckFollowUp {
     }
     return;
 }
-# --
+
 # GetEmailParams
-# --
+
 sub GetEmailParams {
     my $Self = shift;
     my %Param = @_;
@@ -447,5 +447,5 @@ sub GetEmailParams {
     $GetParam{'Charset'} = $Self->{ParseObject}->GetReturnCharset();
     return \%GetParam;
 }
-# --
+
 1;

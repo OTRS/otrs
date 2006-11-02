@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PendingJobs.pl,v 1.24 2006-09-25 13:26:01 tr Exp $
+# $Id: PendingJobs.pl,v 1.25 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
@@ -42,9 +42,7 @@ use Kernel::System::Ticket;
 use Kernel::System::User;
 use Kernel::System::State;
 
-# --
 # common objects
-# --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
@@ -58,16 +56,12 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 $CommonObject{StateObject} = Kernel::System::State->new(%CommonObject);
 
-# --
 # check args
-# --
 my $Command = shift || '--help';
 print "PendingJobs.pl <Revision $VERSION> - check pending tickets\n";
 print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
 
-# --
 # do ticket auto jobs
-# --
 my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
     Type => 'PendingAuto',
     Result => 'ID',
@@ -109,9 +103,8 @@ if (@PendingAutoStateIDs) {
       }
     }
 }
-# --
+
 # do ticket reminder notification jobs
-# --
 
 # get pending states
 my @PendingReminderStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
@@ -159,9 +152,7 @@ if (@PendingReminderStateIDs) {
                     QueueID => $Ticket{QueueID},
                 );
             }
-            # --
             # send reminder notification
-            # --
             print " Send reminder notification (TicketID=$_)\n";
             foreach (@UserID) {
                 # get user data
@@ -198,4 +189,3 @@ if (@PendingReminderStateIDs) {
 }
 
 exit (0);
-

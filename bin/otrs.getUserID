@@ -3,7 +3,7 @@
 # otrs.getUserId - Returns numeric user id
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: otrs.getUserID,v 1.7 2006-02-28 05:55:09 martin Exp $
+# $Id: otrs.getUserID,v 1.8 2006-11-02 12:20:59 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,16 +27,12 @@ use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::User;
 
-# --
-# create common objects 
-# --
+# create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.getUserId');
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
-
-
 
 my %Param = ();
 

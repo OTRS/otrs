@@ -2,7 +2,7 @@
 # --
 # otrs.getGroupID - return numeric group id
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.getGroupID,v 1.6 2003-01-23 22:50:09 martin Exp $
+# $Id: otrs.getGroupID,v 1.7 2006-11-02 12:20:59 tr Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
@@ -25,33 +25,24 @@ use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::Group;
 
-# --
-# create common objects 
-# --
-
+# create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject}  = Kernel::Config->new(%CommonObject);
 $CommonObject{LogObject}     = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.getGroupID');
 $CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
 $CommonObject{GroupObject}   = Kernel::System::Group->new(%CommonObject);
 
-
-
 my %Param;
 undef %Param;
 
 #user id of the person making the query
 $Param{UserID}='1';
-
-
-
 $Param{Group}=$ARGV[0];
-
 
 if (my $gid=$CommonObject{GroupObject}->GetGroupIdByName(%Param)){
    print $gid , "\n";
 } else {
    print "Failed to get Group ID. Perhaps non-existent group..\n";
 }
-# --
+
 exit (0);

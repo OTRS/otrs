@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.35 2006-08-29 13:54:28 martin Exp $
+# $Id: RuntimeDB.pm,v 1.36 2006-11-02 12:20:58 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -23,19 +23,19 @@ sub TicketAcceleratorUpdate {
     my %Param = @_;
     return 1;
 }
-# --
+
 sub TicketAcceleratorDelete {
     my $Self = shift;
     my %Param = @_;
     return 1;
 }
-# --
+
 sub TicketAcceleratorAdd {
     my $Self = shift;
     my %Param = @_;
     return 1;
 }
-# --
+
 sub TicketAcceleratorIndex {
     my $Self = shift;
     my %Param = @_;
@@ -167,13 +167,13 @@ sub TicketAcceleratorIndex {
 
     return %Queues;
 }
-# --
+
 sub TicketAcceleratorRebuild {
     my $Self = shift;
     my %Param = @_;
     return 1;
 }
-# --
+
 sub GetLockedCount {
     my $Self = shift;
     my %Param = @_;
@@ -251,7 +251,7 @@ sub GetLockedCount {
     }
     return %Data;
 }
-# --
+
 sub GetOverTimeTickets {
     my $Self = shift;
     my %Param = @_;
@@ -305,6 +305,5 @@ sub GetOverTimeTickets {
     # return overtime tickets
     return @TicketIDsOverTime;
 }
-# --
 
 1;

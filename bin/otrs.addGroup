@@ -4,7 +4,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.addGroup,v 1.10 2006-10-03 14:36:02 mh Exp $
+# $Id: otrs.addGroup,v 1.11 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -50,9 +50,7 @@ if (!$opts{n}) {
     exit 1;
 }
 
-# --
 # create common objects
-# --
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject}    = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.addGroup');
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.7 2006-09-27 17:09:02 martin Exp $
+# $Id: AgentTicketCustomer.pm,v 1.8 2006-11-02 12:20:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -46,7 +45,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -139,7 +138,7 @@ sub Run {
         return $Self->Form(%Param);
     }
 }
-# --
+
 sub Form {
     my $Self = shift;
     my %Param = @_;
@@ -148,9 +147,8 @@ sub Form {
     $Output .= $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
     my $TicketCustomerID = $Self->{CustomerID};
-    # --
+
     # print change form if ticket id is given
-    # --
     my %CustomerUserData = ();
     if ($Self->{TicketID}) {
         # get ticket data
@@ -184,9 +182,8 @@ sub Form {
             );
         }
     }
-    # --
+
     # get ticket ids with customer id
-    # --
     my @TicketIDs = ();
     if ($CustomerUserData{UserID}) {
         # get secondary customer ids
@@ -283,5 +280,5 @@ sub Form {
     $Output .= $OutputTables.$Self->{LayoutObject}->Footer();
     return $Output;
 }
-# --
+
 1;

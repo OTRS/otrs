@@ -2,7 +2,7 @@
 # Kernel/System/Permission.pm - to control the access permissions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Permission.pm,v 1.12 2006-08-29 17:30:36 martin Exp $
+# $Id: Permission.pm,v 1.13 2006-11-02 12:20:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::System::Permission;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -42,7 +41,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Section {
     my $Self = shift;
     my %Param = @_;
@@ -62,6 +61,5 @@ sub Section {
     }
     return;
 }
-# --
 
 1;

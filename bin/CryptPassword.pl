@@ -3,7 +3,7 @@
 # bin/CryptPassword.pl - to crypt database password for Kernel/Config.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CryptPassword.pl,v 1.2 2006-08-26 17:26:11 martin Exp $
+# $Id: CryptPassword.pl,v 1.3 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,12 +23,10 @@
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 # check args
-# --
 my $Password = shift;
 print "bin/CryptPassword.pl <Revision $VERSION> - to crypt database password for Kernel/Config.pm\n";
 print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";

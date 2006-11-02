@@ -3,7 +3,7 @@
 # UnlockTickets.pl - to unlock tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UnlockTickets.pl,v 1.23 2006-09-25 13:34:46 tr Exp $
+# $Id: UnlockTickets.pl,v 1.24 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
@@ -45,9 +45,7 @@ use Kernel::System::Lock;
 
 my $Debug = 0;
 
-# --
 # common objects
-# --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
@@ -68,15 +66,12 @@ my @UnlockStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
 );
 my @ViewableLockIDs = $CommonObject{LockObject}->LockViewableLock(Type => 'ID');
 
-# --
 # check args
-# --
 my $Command = shift || '--help';
 print "UnlockTickets.pl <Revision $VERSION> - unlock tickets\n";
 print "Copyright (c) 2001-2006 OTRS GmbH, http//otrs.org/\n";
-# --
+
 # unlock all tickets
-# --
 if ($Command eq '--all') {
     print " Unlock all tickets:\n";
     my @Tickets = ();
@@ -106,9 +101,8 @@ if ($Command eq '--all') {
     }
     exit (0);
 }
-# --
+
 # unlock old tickets
-# --
 elsif ($Command eq '--timeout') {
     print " Unlock old tickets:\n";
     my @Tickets = ();
@@ -152,9 +146,8 @@ elsif ($Command eq '--timeout') {
     }
     exit (0);
 }
-# --
+
 # show usage
-# --
 else {
     print "usage: $0 [options] \n";
     print "  Options are as follows:\n";
@@ -163,4 +156,3 @@ else {
     print "  --all         unlock all tickets (force)\n";
     exit (1);
 }
-

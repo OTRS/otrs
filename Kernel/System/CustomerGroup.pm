@@ -2,7 +2,7 @@
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerGroup.pm,v 1.8 2006-08-29 17:30:36 martin Exp $
+# $Id: CustomerGroup.pm,v 1.9 2006-11-02 12:20:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Group;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -32,7 +32,6 @@ All customer group functions. E. g. to add groups or to get a member list of a g
 
 =cut
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -223,7 +222,7 @@ sub GroupMemberList {
         return %Data;
     }
 }
-# --
+
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -238,6 +237,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.9 $ $Date: 2006-11-02 12:20:52 $
 
 =cut

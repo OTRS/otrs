@@ -3,7 +3,7 @@
 # login.pl - a simple external login page for OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: login.pl,v 1.3 2006-08-26 17:44:22 martin Exp $
+# $Id: login.pl,v 1.4 2006-11-02 12:21:00 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,17 +27,13 @@ use CGI::Carp qw(fatalsToBrowser);
 use CGI;
 my $CGI = new CGI;
 
-# --
 # config options
-# --
 my $OTRSLocation = 'http://otrs.example.com/otrs/index.pl';
 my $RequestedURL = $CGI->param('RequestedURL') || '';
 my $User = $CGI->param('User') || '';
 my $Reason = $CGI->param('Reason') || '';
 
-# --
 # reason param translation
-# --
 my $ReasonTranslation = {
     SystemError => 'System error! Contact your admin!',
     LoginFailed => 'Login failed! Your username or password was entered incorrectly.',
@@ -46,9 +42,7 @@ my $ReasonTranslation = {
     '' => '',
 };
 
-# --
 # html page
-# --
 print "Content-Type: text/html
 
 <html>
@@ -85,4 +79,3 @@ print "Content-Type: text/html
 </html>
 
 ";
-

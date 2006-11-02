@@ -3,7 +3,7 @@
 # bin/DeleteSessionIDs.pl - to delete all existing, idle or expired session ids
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DeleteSessionIDs.pl,v 1.17 2006-09-25 13:25:30 tr Exp $
+# $Id: DeleteSessionIDs.pl,v 1.18 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -39,9 +39,7 @@ use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::AuthSession;
 
-# --
 # common objects
-# --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
@@ -56,15 +54,12 @@ $CommonObject{SessionObject} = Kernel::System::AuthSession->new(
     CMD => 1,
 );
 
-# --
 # check args
-# --
 my $Command = shift || '--help';
 print "DeleteSessionIDs.pl <Revision $VERSION> - delete all existing or expired session ids\n";
 print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
-# --
+
 # show/delete all session ids
-# -
 if (($Command eq '--all') || ($Command eq '--showall')) {
     print " Working on all session ids:\n";
     my @List = $CommonObject{SessionObject}->GetAllSessionIDs();
@@ -81,9 +76,8 @@ if (($Command eq '--all') || ($Command eq '--showall')) {
     }
     exit (0);
 }
-# --
+
 # show/delete all expired session ids
-# --
 elsif (($Command eq '--expired') || ($Command eq '--showexpired')) {
     print " Working on expired session ids:\n";
     # get expired session ids
@@ -114,9 +108,8 @@ elsif (($Command eq '--expired') || ($Command eq '--showexpired')) {
     }
     exit (0);
 }
-# --
+
 # show usage
-# --
 else {
     print "usage: $0 [options] \n";
     print "  Options are as follows:\n";
@@ -127,5 +120,3 @@ else {
     print "  --all           delete all session ids\n";
     exit (1);
 }
-# --
-

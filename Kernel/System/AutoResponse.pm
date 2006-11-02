@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.11 2006-08-29 17:30:35 martin Exp $
+# $Id: AutoResponse.pm,v 1.12 2006-11-02 12:20:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -43,7 +42,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub AutoResponseAdd {
     my $Self = shift;
     my %Param = @_;
@@ -76,7 +75,7 @@ sub AutoResponseAdd {
         return;
     }
 }
-# --
+
 sub AutoResponseGet {
     my $Self = shift;
     my %Param = @_;
@@ -117,7 +116,7 @@ sub AutoResponseGet {
         return;
     }
 }
-# --
+
 sub AutoResponseUpdate {
     my $Self = shift;
     my %Param = @_;
@@ -156,7 +155,7 @@ sub AutoResponseUpdate {
         return;
     }
 }
-# --
+
 sub AutoResponseGetByTypeQueueID {
     my $Self = shift;
     my %Param = @_;
@@ -201,6 +200,5 @@ sub AutoResponseGetByTypeQueueID {
     $Data{Address} = $Adresss{Email};
     return (%Adresss, %Data);
 }
-# --
 
 1;

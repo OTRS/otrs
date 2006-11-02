@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.34 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminUser.pm,v 1.35 2006-11-02 12:20:51 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $ ';
+$VERSION = '$Revision: 1.35 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -44,9 +44,8 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     $Param{NextScreen} = 'AdminUser';
-    # --
+
     # get user data 2 form
-    # --
     if ($Self->{ConfigObject}->Get('SwitchToUser') && $Self->{ParamObject}->GetParam(Param => 'Switch')) {
         my $UserID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %UserData = $Self->{UserObject}->GetUserData(UserID => $UserID);
@@ -105,9 +104,8 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    # --
+
     # update action
-    # --
     elsif ($Self->{Subaction} eq 'ChangeAction') {
         # get params
         my %GetParam;
@@ -177,9 +175,9 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen();
         }
     }
-    # --
+
     # add new user
-    # --
+
     elsif ($Self->{Subaction} eq 'AddAction') {
         # get params
         my %GetParam;
@@ -243,9 +241,8 @@ sub Run {
             return $Self->{LayoutObject}->FatalError();
         }
     }
-    # --
+
     # else ! print form
-    # --
     else {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();

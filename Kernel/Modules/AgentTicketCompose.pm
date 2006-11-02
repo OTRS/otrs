@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.19 2006-09-29 16:33:47 mh Exp $
+# $Id: AgentTicketCompose.pm,v 1.20 2006-11-02 12:20:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -268,9 +268,8 @@ sub Run {
                 }
             }
         }
-        # --
+
         # check if there is an error
-        # --
         if (%Error) {
             # get free text config options
             my %TicketFreeText = ();
@@ -505,18 +504,16 @@ sub Run {
             $Data{To} = $Data{From};
             $Data{ReplyTo} = '';
         }
-        # --
+
         # get customer data
-        # --
         my %Customer = ();
         if ($Ticket{CustomerUserID}) {
             %Customer = $Self->{CustomerUserObject}->CustomerUserDataGet(
                 User => $Ticket{CustomerUserID},
             );
         }
-        # --
+
         # check if original content isn't text/plain or text/html, don't use it
-        # --
         if ($Data{'ContentType'}) {
             if($Data{'ContentType'} =~ /text\/html/i) {
                 $Data{Body} =~ s/\<.+?\>//gs;
@@ -525,9 +522,8 @@ sub Run {
                 $Data{Body} = "-> no quotable message <-";
             }
         }
-        # --
+
         # prepare body, subject, ReplyTo ...
-        # --
         # rewrap body if exists
         if ($Data{Body}) {
             my $NewLine = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 75;
@@ -597,7 +593,6 @@ sub Run {
         $Data{RealName} = $Address{RealName};
         $Data{StdResponse} = $Self->{QueueObject}->GetStdResponse(ID => $GetParam{ResponseID});
 
-        # --
         # prepare salutation & signature
         $Data{Salutation} = $Self->{QueueObject}->GetSalutation(%Ticket);
         $Data{Signature} = $Self->{QueueObject}->GetSignature(%Ticket);
@@ -649,9 +644,8 @@ sub Run {
             # replace config options
             $Data{$_} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
         }
-        # --
+
         # check some values
-        # --
         foreach (qw(From To Cc Bcc)) {
             if ($Data{$_}) {
                 foreach my $Email (Mail::Address->parse($Data{$_})) {

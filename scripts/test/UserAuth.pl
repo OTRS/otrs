@@ -3,7 +3,7 @@
 # scripts/test/UserAuth.pl - test script of user auth
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UserAuth.pl,v 1.3 2006-10-03 14:34:47 mh Exp $
+# $Id: UserAuth.pl,v 1.4 2006-11-02 12:21:00 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin).'/../Kernel/cpan-lib';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -37,9 +37,7 @@ use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::Auth;
 
-# --
 # common objects
-# --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(

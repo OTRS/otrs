@@ -3,7 +3,7 @@
 # if the agent is customer
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCustomerFollowUp.pm,v 1.7 2006-10-26 11:18:09 martin Exp $
+# $Id: AgentTicketCustomerFollowUp.pm,v 1.8 2006-11-02 12:20:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -53,9 +53,8 @@ sub Run {
     my $Output;
 
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
-        # --
+
         # if there is no ticket id!
-        # --
         if (!$Self->{TicketID}) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => 'No TicketID!',

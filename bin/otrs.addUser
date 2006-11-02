@@ -3,7 +3,7 @@
 # otrs.addUser - Add User from CLI
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: otrs.addUser,v 1.8 2003-03-06 22:11:59 martin Exp $
+# $Id: otrs.addUser,v 1.9 2006-11-02 12:20:59 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,10 +31,7 @@ use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::User;
 
-# --
-# create common objects 
-# --
-
+# create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject}  = Kernel::Config->new(%CommonObject);
 $CommonObject{LogObject}     = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.addUser');
@@ -65,23 +62,22 @@ if ($opts{'g'}) {
    require Kernel::System::Group;
    import  Kernel::System::Group;
    $CommonObject{GroupObject}   = Kernel::System::Group->new(%CommonObject);
-   
-   
+
+
    $Param{Group}=$opts{'g'};
-   
+
    if ($Param{GID}=$CommonObject{GroupObject}->GetGroupIdByName(%Param)){
         print "Found Group.. GID is $Param{GID}" , "\n";
-   } 
+   }
    else {
         print "Failed to get Group ID. Perhaps non-existent group..\n";
    }
    if ($CommonObject{GroupObject}->GroupMemberAdd(%Param)) {
         print "User added to group\n";
-   } 
+   }
    else {
         print "Failed to add user to group\n";
    }
 }
 
-# --
 exit (0);

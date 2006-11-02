@@ -3,7 +3,7 @@
 # installer.pl - the OTRS Installer
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: installer.pl,v 1.20 2006-10-05 05:22:54 martin Exp $
+# $Id: installer.pl,v 1.21 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,17 +28,13 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 # check @INC for mod_perl (add lib path for "require module"!)
-# --
 push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
 
-# --
 # all OTRS Installer modules
-# --
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::Main;
@@ -49,9 +45,7 @@ use Kernel::Modules::Test;
 use Kernel::Modules::Installer;
 use Kernel::Output::HTML::Layout;
 
-# --
 # create common objects
-# --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
@@ -72,17 +66,13 @@ if ($Debug) {
 $CommonObject{ParamObject} = Kernel::System::Web::Request->new(%CommonObject);
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new(%CommonObject);
 
-# --
 # get common parameters
-# --
 my %Param = ();
 $Param{Action} = $CommonObject{ParamObject}->GetParam(Param => 'Action') || 'Installer';
 $Param{Subaction} = $CommonObject{ParamObject}->GetParam(Param => 'Subaction') || '';
 $Param{NextScreen} = $CommonObject{ParamObject}->GetParam(Param => 'NextScreen') || '';
 
-# --
 # check secure mode
-# --
 if ($CommonObject{ConfigObject}->Get('SecureMode')) {
     print $CommonObject{LayoutObject}->Header();
     print $CommonObject{LayoutObject}->Error(
@@ -91,9 +81,8 @@ if ($CommonObject{ConfigObject}->Get('SecureMode')) {
        );
     print $CommonObject{LayoutObject}->Footer();
 }
-# --
+
 # run modules if exists a version value
-# --
 elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
     $CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new(
         %CommonObject,
@@ -101,9 +90,8 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
     );
     GenericModules(%CommonObject, %Param);
 }
-# --
+
 # else print an error screen
-# --
 else {
     # create new LayoutObject with '%Param'
     print $CommonObject{LayoutObject}->Header();
@@ -113,9 +101,8 @@ else {
        );
     print $CommonObject{LayoutObject}->Footer();
 }
-# --
+
 # debug info
-# --
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
@@ -123,9 +110,7 @@ if ($Debug) {
     );
 }
 
-# --
 # generic funktion
-# --
 sub GenericModules {
     my %Data = @_;
 
@@ -137,14 +122,10 @@ sub GenericModules {
         );
     }
 
-    # --
     # prove of concept! - create $GenericObject
-    # --
     my $GenericObject = ('Kernel::Modules::' . $Data{Action})->new (%Data);
 
-    # --
     # ->Run $Action with $GenericObject
-    # --
     print $GenericObject->Run();
 
     # debug info
@@ -154,6 +135,4 @@ sub GenericModules {
             Message => ''. 'Kernel::Modules::' . $Data{Action} .'->run',
         );
     }
-
 }
-

@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.21 2006-09-25 13:22:22 tr Exp $
+# $Id: GenericAgent.pm,v 1.22 2006-11-02 12:20:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::GenericAgent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $ ';
+$VERSION = '$Revision: 1.22 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -252,9 +252,8 @@ sub JobRun {
         }
     }
     my %Tickets = ();
-    # --
+
     # escalation tickets
-    # --
     if ($Job{Escalation}) {
         if (! $Job{Queue}) {
             my @Tickets = $Self->{TicketObject}->GetOverTimeTickets();
@@ -272,9 +271,8 @@ sub JobRun {
             }
         }
     }
-    # --
+
     # pending tickets
-    # --
     elsif ($Job{PendingReminder} || $Job{PendingAuto}) {
         my $Type = '';
         if ($Job{PendingReminder}) {
@@ -321,9 +319,8 @@ sub JobRun {
             }
         }
     }
-    # --
+
     # get regular tickets
-    # --
     else {
         if (!$Job{Queue}) {
             if ($Self->{NoticeSTDOUT}) {
@@ -357,9 +354,8 @@ sub JobRun {
             );
         }
     }
-    # --
+
     # process each ticket
-    # --
     foreach (sort keys %Tickets) {
         $Self->_JobRunTicket(
             Config => \%Job,
@@ -400,9 +396,7 @@ sub _JobRunTicket {
 
     my $Ticket = "($Param{TicketNumber}/$Param{TicketID})";
 
-    # --
     # move ticket
-    # --
     if ($Param{Config}->{New}->{Queue}) {
         if ($Self->{NoticeSTDOUT}) {
             print "  - Move Ticket $Ticket to Queue '$Param{Config}->{New}->{Queue}'\n";
@@ -425,9 +419,8 @@ sub _JobRunTicket {
             SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
         );
     }
-    # --
+
     # add note if wanted
-    # --
     if ($Param{Config}->{New}->{Note}->{Body} || $Param{Config}->{New}->{NoteBody}) {
         if ($Self->{NoticeSTDOUT}) {
             print "  - Add note to Ticket $Ticket\n";
@@ -444,9 +437,8 @@ sub _JobRunTicket {
             HistoryComment => 'Generic Agent note added.',
         );
     }
-    # --
+
     # set new state
-    # --
     if ($Param{Config}->{New}->{State}) {
         if ($Self->{NoticeSTDOUT}) {
             print "  - changed state of Ticket $Ticket to '$Param{Config}->{New}->{State}'\n";
@@ -469,9 +461,8 @@ sub _JobRunTicket {
             StateID => $Param{Config}->{New}->{StateID},
         );
     }
-    # --
+
     # set customer id and customer user
-    # --
     if ($Param{Config}->{New}->{CustomerID} || $Param{Config}->{New}->{CustomerUserLogin}) {
         if ($Param{Config}->{New}->{CustomerID}) {
             if ($Self->{NoticeSTDOUT}) {
@@ -490,9 +481,8 @@ sub _JobRunTicket {
             UserID => $Param{UserID},
         );
     }
-    # --
+
     # set new priority
-    # --
     if ($Param{Config}->{New}->{Priority}) {
         if ($Self->{NoticeSTDOUT}) {
             print "  - set priority of Ticket $Ticket to '$Param{Config}->{New}->{Priority}'\n";
@@ -513,9 +503,8 @@ sub _JobRunTicket {
             PriorityID => $Param{Config}->{New}->{PriorityID},
         );
     }
-    # --
+
     # set new owner
-    # --
     if ($Param{Config}->{New}->{Owner}) {
         if ($Self->{NoticeSTDOUT}) {
             print "  - set owner of Ticket $Ticket to '$Param{Config}->{New}->{Owner}'\n";
@@ -538,9 +527,8 @@ sub _JobRunTicket {
             SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
         );
     }
-    # --
+
     # set new lock
-    # --
     if ($Param{Config}->{New}->{Lock}) {
         if ($Self->{NoticeSTDOUT}) {
             print "  - set lock of Ticket $Ticket to '$Param{Config}->{New}->{Lock}'\n";
@@ -563,9 +551,8 @@ sub _JobRunTicket {
             SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
         );
     }
-    # --
+
     # set ticket free text options
-    # --
     foreach (1..16) {
         if (defined($Param{Config}->{New}->{"TicketFreeKey$_"}) || defined($Param{Config}->{New}->{"TicketFreeText$_"})) {
             my %Data = ();
@@ -602,9 +589,8 @@ sub _JobRunTicket {
             $Self->{TicketObject}->TicketFreeTextSet(%Data);
         }
     }
-    # --
+
     # run module
-    # --
     if ($Param{Config}->{New}->{Module}) {
         if ($Self->{NoticeSTDOUT}) {
             print "  - Use module ($Param{Config}->{New}->{Module}) for Ticket $Ticket.\n";
@@ -627,9 +613,8 @@ sub _JobRunTicket {
             $Object->Run(%{$Param{Config}}, TicketID => $Param{TicketID});
         }
     }
-    # --
+
     # cmd
-    # --
     if ($Param{Config}->{New}->{CMD}) {
         if ($Self->{NoticeSTDOUT}) {
             print "  - Execut '$Param{Config}->{New}->{CMD}' for Ticket $Ticket.\n";
@@ -640,9 +625,8 @@ sub _JobRunTicket {
         );
         system("$Param{Config}->{New}->{CMD} $Param{TicketNumber} $Param{TicketID} ");
     }
-    # --
+
     # delete ticket
-    # --
     if ($Param{Config}->{New}->{Delete}) {
         if ($Self->{NoticeSTDOUT}) {
             print "  - Delete Ticket $Ticket.\n";
@@ -898,6 +882,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2006-09-25 13:22:22 $
+$Revision: 1.22 $ $Date: 2006-11-02 12:20:53 $
 
 =cut

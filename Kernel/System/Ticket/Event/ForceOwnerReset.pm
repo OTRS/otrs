@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/ForceOwnerReset.pm - reset owner on move
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ForceOwnerReset.pm,v 1.3 2006-08-29 17:25:56 martin Exp $
+# $Id: ForceOwnerReset.pm,v 1.4 2006-11-02 12:20:58 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::System::Ticket::Event::ForceOwnerReset;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -33,7 +32,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -58,6 +57,5 @@ sub Run {
     );
     return 1;
 }
-# --
-1;
 
+1;

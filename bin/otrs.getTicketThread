@@ -3,7 +3,7 @@
 # bin/otrs.getTicketThread - to print the whole ticket thread to STDOUT
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.getTicketThread,v 1.6 2006-08-26 17:22:05 martin Exp $
+# $Id: otrs.getTicketThread,v 1.7 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -39,9 +39,7 @@ use Kernel::System::DB;
 use Kernel::System::Ticket;
 use Kernel::System::User;
 
-# --
 # common objects
-# --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
@@ -74,4 +72,4 @@ foreach (@Index) {
     print "Body:\n";
     print "$Article{Body}\n";
     print "---------------------------------------------------------------------\n";
-} 
+}

@@ -3,7 +3,7 @@
 # bin/PostMasterDaemon.pl - the daemon for the PostMasterClient.pl client
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMasterDaemon.pl,v 1.9 2006-09-25 13:32:08 tr Exp $
+# $Id: PostMasterDaemon.pl,v 1.10 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -63,12 +63,11 @@ my $Server = IO::Socket::INET->new(
     Reuse => 1,
     Listen => 10,
 ) || die $@;
-# --
+
 for (1..$PreForkedServer) {
     MakeNewChild();
 }
 
-# --
 while (1) {
     sleep;
     for (my $i = $Children; $i < $PreForkedServer; $i++) {
@@ -76,7 +75,6 @@ while (1) {
     }
 }
 
-# --
 sub MakeNewChild {
     $Children++;
     if (my $PID = fork ()) {
@@ -119,20 +117,17 @@ sub MakeNewChild {
     }
 }
 
-# --
 sub StopChild {
     my $PID = wait;
     print STDERR "($$)StopChild ($PID) (Current Children $Children)\n";
     $Children --;
     delete $Children{$$};
 }
-# --
+
 sub PipeEmail {
     my @Email = @_;
 
-    # --
     # create common objects
-    # --
     my %CommonObject = ();
     $CommonObject{ConfigObject} = Kernel::Config->new();
     $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
@@ -161,4 +156,3 @@ sub PipeEmail {
         );
     }
 }
-

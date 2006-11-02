@@ -3,7 +3,7 @@
 # SetPermissions.sh - to set the otrs permissions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SetPermissions.sh,v 1.28 2006-10-03 14:36:02 mh Exp $
+# $Id: SetPermissions.sh,v 1.29 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,13 +20,11 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "SetPermissions.sh <\$Revision: 1.28 $> - set OTRS file permissions"
+echo "SetPermissions.sh <\$Revision: 1.29 $> - set OTRS file permissions"
 echo "Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/"
 
 if ! test $1 || ! test $2 || ! test $3; then
-    # --
     # check required options
-    # --
     echo ""
     echo "Usage: SetPermissions.sh <OTRS_HOME> <OTRS_USER> <WEBSERVER_USER> [OTRS_GROUP] [WEB_GROUP]"
     echo ""
@@ -34,9 +32,7 @@ if ! test $1 || ! test $2 || ! test $3; then
     echo ""
     exit 1;
 else
-    # --
     # system settings
-    # --
     WEBUSER=$3
     OTRSUSER=$2
     OTRSDEST=$1
@@ -46,10 +42,7 @@ else
     [ "$5" != "" ]&& WEBGROUP=$5
 fi
 
-
-# --
 # set permission
-# --
 echo "Setting file permissions... "
 # set all files writeabel for webserver user (needed for package manager)
 echo "chown -R $WEBUSER:$OTRSGROUP $OTRSDEST"
@@ -93,9 +86,8 @@ if test -e $OTRSDEST/.forward; then
     chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.forward
 fi
 
-# --
 # var/*
-# --
+
 # set the var directory to OTRS and webserver user
 echo "chown -R $OTRSUSER:$WEBGROUP $OTRSDEST/var/"
 chown -R $OTRSUSER:$WEBGROUP $OTRSDEST/var/
@@ -113,9 +105,9 @@ touch $OTRSDEST/var/log/TicketCounter.log
 chown $OTRSUSER:$WEBGROUP $OTRSDEST/var/log/TicketCounter.log
 chmod 664 $OTRSDEST/var/log/TicketCounter.log
 
-# --
+
 # bin/*
-# --
+
 # set all bin/* as executable
 echo "chmod -R 775 $OTRSDEST/bin/"
 chmod -R 775 $OTRSDEST/bin/

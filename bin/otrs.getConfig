@@ -3,7 +3,7 @@
 # bin/otrs.getConfig - get OTRS config vars
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.getConfig,v 1.7 2006-08-26 17:22:05 martin Exp $
+# $Id: otrs.getConfig,v 1.8 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,24 +27,21 @@ use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
 use Kernel::System::Log;
 
-# --
 # common objects
-# --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'otrs.getConfig',
     %CommonObject,
 );
-# --
+
 # print wanted var
-# --
 my $Key = shift || '';
 if ($Key) {
     chomp $Key;
@@ -65,25 +62,23 @@ if ($Key) {
     }
 }
 else {
-    # --
     # print all vars
-    # --
     foreach (sort keys %{$CommonObject{ConfigObject}}) {
-      print $_.":";
-      if (ref($CommonObject{ConfigObject}->{$_}) eq 'ARRAY') {
-        foreach (@{$CommonObject{ConfigObject}->{$_}}) {
-            print "$_;";
+        print $_.":";
+        if (ref($CommonObject{ConfigObject}->{$_}) eq 'ARRAY') {
+            foreach (@{$CommonObject{ConfigObject}->{$_}}) {
+                print "$_;";
+            }
+            print "\n";
         }
-        print "\n";
-      }
-      elsif (ref($CommonObject{ConfigObject}->{$_}) eq 'HASH') {
-        foreach my $Key (sort keys %{$CommonObject{ConfigObject}->{$_}}) {
-            print "$Key=$CommonObject{ConfigObject}->{$_}->{$Key};";
+        elsif (ref($CommonObject{ConfigObject}->{$_}) eq 'HASH') {
+            foreach my $Key (sort keys %{$CommonObject{ConfigObject}->{$_}}) {
+                print "$Key=$CommonObject{ConfigObject}->{$_}->{$Key};";
+            }
+            print "\n";
         }
-        print "\n";
-      }
-      else {
-        print $CommonObject{ConfigObject}->{$_}."\n";
-      }
+        else {
+            print $CommonObject{ConfigObject}->{$_}."\n";
+        }
     }
 }

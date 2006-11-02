@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.227 2006-10-19 20:15:45 martin Exp $
+# $Id: Ticket.pm,v 1.228 2006-11-02 12:20:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.227 $';
+$VERSION = '$Revision: 1.228 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -161,9 +161,7 @@ sub new {
     $Self->{FQDN} = $Self->{ConfigObject}->Get('FQDN');
     $Self->{Organization} = $Self->{ConfigObject}->Get('Organization');
 
-    # --
     # load ticket number generator
-    # --
     my $GeneratorModule = $Self->{ConfigObject}->Get('Ticket::NumberGenerator')
         || 'Kernel::System::Ticket::Number::AutoIncrement';
     if (!$Self->{MainObject}->Require($GeneratorModule)) {
@@ -171,9 +169,7 @@ sub new {
     }
     push(@ISA, $GeneratorModule);
 
-    # --
     # load ticket index generator
-    # --
     my $GeneratorIndexModule = $Self->{ConfigObject}->Get('Ticket::IndexModule')
       || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
     if (!$Self->{MainObject}->Require($GeneratorIndexModule)) {
@@ -181,9 +177,7 @@ sub new {
     }
     push(@ISA, $GeneratorIndexModule);
 
-    # --
     # load article storage module
-    # --
     my $StorageModule = $Self->{ConfigObject}->Get('Ticket::StorageModule')
         || 'Kernel::System::Ticket::ArticleStorageDB';
     if (!$Self->{MainObject}->Require($StorageModule)) {
@@ -191,9 +185,7 @@ sub new {
     }
     push(@ISA, $StorageModule);
 
-    # --
     # load custom functions
-    # --
     my $CustomModule = $Self->{ConfigObject}->Get('Ticket::CustomModule');
     if ($CustomModule) {
         if (!$Self->{MainObject}->Require($CustomModule)) {
@@ -4889,6 +4881,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.227 $ $Date: 2006-10-19 20:15:45 $
+$Revision: 1.228 $ $Date: 2006-11-02 12:20:53 $
 
 =cut

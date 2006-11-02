@@ -3,7 +3,7 @@
 # bin/CheckSum.pl - a tool to compare changes in a installation
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckSum.pl,v 1.4 2006-08-26 17:22:05 martin Exp $
+# $Id: CheckSum.pl,v 1.5 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $RealBin);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -39,9 +39,8 @@ my $Start = $RealBin.'/../';
 my $Archive = '';
 my $Action = 'compare';
 my %Compare = ();
-# --
+
 # get options
-# --
 my %Opts = ();
 getopt('habd', \%Opts);
 if ($Opts{'h'}) {
@@ -130,4 +129,3 @@ sub R {
         }
     }
 }
-

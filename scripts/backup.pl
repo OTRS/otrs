@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.5 2006-08-29 17:51:09 martin Exp $
+# $Id: backup.pl,v 1.6 2006-11-02 12:21:00 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -39,9 +39,7 @@ use Kernel::System::DB;
 use Kernel::System::Log;
 use Date::Pcalc qw(Today Today_and_Now Add_Delta_Days);
 
-# --
 # get options
-# --
 my %Opts = ();
 my $Compress = '';
 my $CompressCMD = '';
@@ -242,4 +240,3 @@ if (!system("$CompressCMD $Directory/DatabaseBackup.sql")) {
 else {
     print "failed\n";
 }
-

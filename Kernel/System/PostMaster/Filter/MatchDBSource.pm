@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/MatchDBSource.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: MatchDBSource.pm,v 1.3 2006-08-29 17:27:30 martin Exp $
+# $Id: MatchDBSource.pm,v 1.4 2006-11-02 12:20:57 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -38,7 +37,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -99,5 +98,5 @@ sub Run {
     }
     return 1;
 }
-# --
+
 1;

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponseAttachment.pm - queue <-> responses
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.pm,v 1.14 2006-10-31 15:26:52 tr Exp $
+# $Id: AdminResponseAttachment.pm,v 1.15 2006-11-02 12:20:51 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,10 +16,9 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -46,7 +45,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -108,9 +107,8 @@ sub Run {
             );
         $Output .= $Self->{LayoutObject}->Footer();
     }
-    # --
+
     # update responses of attachment
-    # --
     elsif ($Self->{Subaction} eq 'ChangeAttachment') {
         my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
         $Self->{DBObject}->Do(
@@ -128,9 +126,8 @@ sub Run {
         }
         $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
     }
-    # --
+
     # update attachments of response
-    # --
     elsif ($Self->{Subaction} eq 'ChangeResponse') {
         my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
         $Self->{StdAttachmentObject}->SetStdAttachmentsOfResponseID(
@@ -153,7 +150,7 @@ sub Run {
     }
     return $Output;
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -182,7 +179,7 @@ sub _Mask {
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminResponseAttachmentForm', Data => \%Param);
 }
-# --
+
 sub _MaskChange {
     my $Self = shift;
     my %Param = @_;
@@ -225,5 +222,5 @@ sub _MaskChange {
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminResponseAttachmentChangeForm', Data => \%Param);
 }
-# --
+
 1;

@@ -6,9 +6,7 @@ use strict;
 # check $ENV{MOD_PERL}, $ENV{GATEWAY_INTERFACE} is deprecated for mod_perl2
 $ENV{MOD_PERL} =~ /mod_perl/ or die "MOD_PERL not used!";
 
-# --
 # set otrs lib path!
-# --
 use lib "/opt/otrs/";
 use lib "/opt/otrs/Kernel/cpan-lib";
 

@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pl,v 1.39 2006-08-26 17:26:11 martin Exp $
+# $Id: GenericAgent.pl,v 1.40 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -107,9 +107,7 @@ else {
     }
 }
 
-# --
 # process all jobs
-# --
 if ($Opts{'c'} eq 'db') {
     # create pid lock
     if (!$Opts{'f'} && !$CommonObject{PIDObject}->PIDCreate(Name => 'GenericAgent')) {
@@ -193,9 +191,8 @@ if ($Opts{'c'} eq 'db') {
     # delete pid lock
     $CommonObject{PIDObject}->PIDDelete(Name => 'GenericAgent');
 }
-# --
+
 # process all config file jobs
-# --
 else {
     foreach my $Job (sort keys %Jobs) {
         # log event

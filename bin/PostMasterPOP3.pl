@@ -3,7 +3,7 @@
 # bin/PostMasterPOP3.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMasterPOP3.pl,v 1.22 2006-09-25 13:33:20 tr Exp $
+# $Id: PostMasterPOP3.pl,v 1.23 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use strict;
@@ -42,9 +42,7 @@ use Kernel::System::PID;
 use Kernel::System::PostMaster;
 use Kernel::System::POP3Account;
 
-# --
 # get options
-# --
 my %Opts = ();
 getopt('upshdf', \%Opts);
 if ($Opts{'h'}) {
@@ -62,9 +60,8 @@ if (!$Opts{'d'}) {
 if (!$Opts{'popd'}) {
     $Opts{'popd'} = 0;
 }
-# --
+
 # create common objects
-# --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
@@ -140,7 +137,6 @@ $CommonObject{PIDObject}->PIDDelete(Name => 'PostMasterPOP3');
 
 exit (0);
 
-# --
 sub FetchMail {
     my %Param = @_;
     my $User = $Param{Login};
@@ -233,4 +229,3 @@ sub FetchMail {
         FetchMail(%Param);
     }
 }
-# --

@@ -3,7 +3,7 @@
 # xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xml2sql.pl,v 1.7 2006-09-25 13:37:20 tr Exp $
+# $Id: xml2sql.pl,v 1.8 2006-11-02 12:20:59 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::XML;
 
-my $VERSION = '$Revision: 1.7 $';
+my $VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 my %Opts = ();
@@ -62,9 +62,8 @@ if (!$Opts{t}) {
     die "ERROR: Need -t <DATABASE_TYPE>";
 }
 
-# --
 # create common objects
-# --
+
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{ConfigObject}->Set(Key => 'Database::Type', Value => $Opts{t});
@@ -128,4 +127,3 @@ foreach (@SQLPost) {
 if ($Opts{o}) {
     close (OUT);
 }
-

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.12 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketMailbox.pm,v 1.13 2006-11-02 12:20:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -45,10 +44,9 @@ sub new {
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
     $Self->{PageShown} = $Self->{UserShowTickets} || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected} || 10;
 
-
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -71,9 +69,7 @@ sub Run {
         Value => $Self->{RequestedURL},
     );
 
-    # --
     # starting with page ...
-    # --
     my $Refresh = '';
     if ($Self->{UserRefreshTime}) {
         $Refresh = 60 * $Self->{UserRefreshTime};
@@ -83,9 +79,8 @@ sub Run {
     );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-    # --
+
     # get locked  viewable tickets...
-    # --
     my @ViewableTickets = ();
     my $SortByS = $SortBy;
     if ($SortByS eq 'CreateTime') {
@@ -159,9 +154,8 @@ sub Run {
         );
         foreach my $TicketID (@ViewableTicketsTmp) {
             my $Message = '';
-            # --
+
             # put all tickets to ToDo where last sender type is customer / system or ! UserID
-            # --
             # show just unseen tickets as new
             if ($Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen') {
                 my @Index = $Self->{TicketObject}->ArticleIndex(TicketID => $TicketID);
@@ -228,9 +222,8 @@ sub Run {
             Permission => 'ro',
         );
     }
-    # --
+
     # get article data
-    # --
     my $Counter = 0;
     my $CounterShown = 0;
     my $AllTickets = 0;
@@ -256,9 +249,10 @@ sub Run {
             }
 
             my $Message = '';
-            # --
+            # -------------------------------------------
             # put all tickets to ToDo where last sender type is customer / system or ! UserID
-            # --
+            # -------------------------------------------
+
             # show just unseen tickets as new
             if ($Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen') {
                 my %Article = %{$ArticleBody[$#ArticleBody]};
@@ -316,7 +310,7 @@ sub Run {
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
-# --
+
 sub MaskMailboxTicket {
     my $Self = shift;
     my %Param = @_;
@@ -398,6 +392,4 @@ sub MaskMailboxTicket {
         }
     }
 }
-# --
 1;
-
