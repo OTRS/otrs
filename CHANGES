@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.304 2006-11-07 17:20:06 cs Exp $
+# $Id: CHANGES,v 1.305 2006-11-07 19:07:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,9 @@
 2.1.3 (2006/??/??)
  - (2006/11/07) read out CustomerUserSearchListLimit correctly if LDAP agent
     backend is in use
+ - (2006/10/27) fixed always shown responsible selection
+ - (2006/10/27) removed not needed default free text fields from phone outbound
+ - (2006/10/26) fixed agent can be customer follow up feature
  - (2006/10/26) added possible - selection for next state in phone view outbount
  - (2006/10/20) fixed LDAP problems "First bind failed! No password, did you
     mean noauth or anonymous ?"
