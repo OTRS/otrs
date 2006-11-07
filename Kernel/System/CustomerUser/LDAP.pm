@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.28 2006-10-31 15:26:53 tr Exp $
+# $Id: LDAP.pm,v 1.29 2006-11-07 12:09:23 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -32,7 +32,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     # max shown user a search list
-    $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{'Params'}->{'CustomerUserSearchListLimit'} || 200;
+    $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{'CustomerUserSearchListLimit'} || 200;
     # get ldap preferences
     $Self->{Host} = $Self->{CustomerUserMap}->{'Params'}->{'Host'}
      || die "Need CustomerUser->Params->Host in Kernel/Config.pm";
