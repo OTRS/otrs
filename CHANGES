@@ -2,15 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.307 2006-11-08 16:25:54 martin Exp $
+# $Id: CHANGES,v 1.308 2006-11-08 16:26:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.3 (2006/??/??)
- - (2006/11/07) added set auto time zone if agent based on java script offset
-    feature on every login
+ - (2006/11/07) added set auto time zone of agent/customer based on java script
+    offset feature on every login
  - (2006/11/07) fixed not working all owner/responible selection in phone view
  - (2006/11/07) read out CustomerUserSearchListLimit correctly if LDAP customer
     backend is in use
