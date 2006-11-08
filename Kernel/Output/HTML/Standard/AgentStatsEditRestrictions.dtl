@@ -1,8 +1,8 @@
 # --
-# AgentStatEditRestrictions.dtl - provides HTML form for stats edit mask
+# AgentStatsEditRestrictions.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStatsEditRestrictions.dtl,v 1.2 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentStatsEditRestrictions.dtl,v 1.3 2006-11-08 10:25:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -106,7 +106,7 @@
 <!-- dtl:block:TimeExtended -->
                 <tr>
                   <td>
-                    <input type="Checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}>                  </td>
+                    <input type="Checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}>
                   </td>
                   <td colspan="2" class="contentkey">$Text{"$Data{"Name"}"}:</td>
                 </tr>
