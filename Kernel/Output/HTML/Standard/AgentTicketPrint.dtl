@@ -1,8 +1,8 @@
 # --
-# ArticleTicketPrint.dtl - provides HTML print view
+# AgentTicketPrint.dtl - provides HTML print view
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.dtl,v 1.14 2006-10-12 10:16:00 martin Exp $
+# $Id: AgentTicketPrint.dtl,v 1.15 2006-11-08 10:46:34 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,7 +11,7 @@
 <table border="0" cellspacing="1" cellpadding="0" width="100%">
   <tr>
     <td class="mainhead">$Config{"Ticket::Hook"}: $QData{"TicketNumber"} / $QData{"Title"}</td>
-  </td>
+  </tr>
 </table>
 <table border="0" cellspacing="1" cellpadding="10" width="100%">
   <tr>
@@ -44,7 +44,7 @@
         </tr>
         <tr>
           <td class="contentkey">$Text{"CustomerID"}:</td>
-          <td class="contentvalue">$Data{"CustomerID"}</a></td>
+          <td class="contentvalue">$Data{"CustomerID"}</td>
           <td class="contentkey">$Text{"Pending till"}:</td>
           <td class="contentvalue">$Data{"PendingUntil"}</td>
         </tr>
