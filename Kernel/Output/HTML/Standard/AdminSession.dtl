@@ -2,7 +2,7 @@
 # AdminSession.dtl - provides global HTML AdminSession
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSession.dtl,v 1.14 2006-08-29 16:56:06 martin Exp $
+# $Id: AdminSession.dtl,v 1.15 2006-11-08 11:11:36 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,6 @@
   </tr>
   <tr>
     <td width="30%" class="mainbody">
-
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="KillAll">
@@ -70,7 +69,6 @@
           </tr>
           <tr>
             <td class="contentbody">
-
               <table width="100%" border="0" cellspacing="0" cellpadding="3">
                 <tr>
                   <td class="contentkey" width="25%">$Text{"Session"}</td>
@@ -81,7 +79,7 @@
                 <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
                 <tr>
                   <td class="$Env{"Color"}">$QData{"SessionID"}</td>
-                  <td class="$Env{"Color"}"><div class="small">$Data{"Output"}</td>
+                  <td class="$Env{"Color"}"><div class="small">$Data{"Output"}</div></td>
                   <td align="center" class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=AdminSession&Subaction=Kill&WantSessionID=$Data{"SessionID"}">x</a></td>
                 </tr>
                 <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
@@ -97,7 +95,6 @@
             </td>
           </tr>
         </table>
-
       </td>
     </tr>
   </table>

@@ -2,7 +2,7 @@
 # AgentWindowTabStop.dtl - provides HTML form for window tabs
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentWindowTabStop.dtl,v 1.8 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentWindowTabStop.dtl,v 1.9 2006-11-08 11:11:36 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -49,7 +49,7 @@
 <!-- dtl:block:Readonly -->
 
 <!-- dtl:block:Footnote -->
-<div class="footnote">* $Text{"$QData{"Description"}"}<div>
+<div class="footnote">* $Text{"$QData{"Description"}"}</div>
 <!-- dtl:block:Footnote -->
 </td>
 </tr>

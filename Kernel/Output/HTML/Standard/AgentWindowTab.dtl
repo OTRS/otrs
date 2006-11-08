@@ -2,7 +2,7 @@
 # AgentWindowTab.dtl - provides HTML form for window tabs
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentWindowTab.dtl,v 1.3 2006-11-08 10:00:18 tr Exp $
+# $Id: AgentWindowTab.dtl,v 1.4 2006-11-08 11:11:36 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -83,7 +83,7 @@
         <div class="readonly">* $Text{"$QData{"Description"}"}</div>
 <!-- dtl:block:Readonly -->
 <!-- dtl:block:Footnote -->
-        <div class="footnote">* $Text{"$QData{"Description"}"}<div>
+        <div class="footnote">* $Text{"$QData{"Description"}"}</div>
 <!-- dtl:block:Footnote -->
       </td>
     </tr>
