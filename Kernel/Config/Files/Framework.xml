@@ -108,7 +108,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.121 2006-10-16 16:36:38 cs Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.122 2006-11-08 16:25:53 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -783,41 +783,53 @@ TimeWorkingHours
         <SubGroup>Core::Time</SubGroup>
         <Setting>
             <Option SelectedID="+0">
-                <Item Key="+0">+0</Item>
-                <Item Key="+1">+1</Item>
-                <Item Key="+2">+2</Item>
-                <Item Key="+3">+3</Item>
-                <Item Key="+4">+4</Item>
-                <Item Key="+5">+5</Item>
-                <Item Key="+6">+6</Item>
-                <Item Key="+7">+7</Item>
-                <Item Key="+8">+8</Item>
-                <Item Key="+9">+9</Item>
+                <Item Key="+0">+ 0</Item>
+                <Item Key="+1">+ 1</Item>
+                <Item Key="+2">+ 2</Item>
+                <Item Key="+3">+ 3</Item>
+                <Item Key="+4">+ 4</Item>
+                <Item Key="+5">+ 5</Item>
+                <Item Key="+6">+ 6</Item>
+                <Item Key="+7">+ 7</Item>
+                <Item Key="+8">+ 8</Item>
+                <Item Key="+9">+ 9</Item>
                 <Item Key="+10">+10</Item>
                 <Item Key="+11">+11</Item>
                 <Item Key="+12">+12</Item>
-                <Item Key="-1">-1</Item>
-                <Item Key="-2">-2</Item>
-                <Item Key="-3">-3</Item>
-                <Item Key="-4">-4</Item>
-                <Item Key="-5">-5</Item>
-                <Item Key="-6">-6</Item>
-                <Item Key="-7">-7</Item>
-                <Item Key="-8">-8</Item>
-                <Item Key="-9">-9</Item>
+                <Item Key="-1">- 1</Item>
+                <Item Key="-2">- 2</Item>
+                <Item Key="-3">- 3</Item>
+                <Item Key="-4">- 4</Item>
+                <Item Key="-5">- 5</Item>
+                <Item Key="-6">- 6</Item>
+                <Item Key="-7">- 7</Item>
+                <Item Key="-8">- 8</Item>
+                <Item Key="-9">- 9</Item>
                 <Item Key="-10">-10</Item>
                 <Item Key="-11">-11</Item>
                 <Item Key="-12">-12</Item>
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="TimeZoneUser" Required="0" Valid="0">
+    <ConfigItem Name="TimeZoneUser" Required="0" Valid="1">
         <Description Lang="en">Set the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.</Description>
         <Description Lang="de">Einstellen der Zeitzone pro Benutzer (Voraussetzung ist UTC unter der Option TimeZone). Standardm‰ﬂig wird die lokale Systemzeit verwendet, (+ / - 0).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
             <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZoneUserBrowserAutoOffset" Required="0" Valid="1">
+        <Description Lang="en">Set the user time zone per user based on java script / browser time zone offset feature at login time.</Description>
+        <Description Lang="de">Einstellen der Zeitzone pro Benutzer basierent auf der Java Script / Browser "Time Offset" funktionalitaet zur Loginzeit.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
@@ -955,28 +967,28 @@ TimeWorkingHours
         <SubGroup>Core::Time::Calendar1</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">+0</Item>
-                <Item Key="+1">+1</Item>
-                <Item Key="+2">+2</Item>
-                <Item Key="+3">+3</Item>
-                <Item Key="+4">+4</Item>
-                <Item Key="+5">+5</Item>
-                <Item Key="+6">+6</Item>
-                <Item Key="+7">+7</Item>
-                <Item Key="+8">+8</Item>
-                <Item Key="+9">+9</Item>
+                <Item Key="0">+ 0</Item>
+                <Item Key="+1">+ 1</Item>
+                <Item Key="+2">+ 2</Item>
+                <Item Key="+3">+ 3</Item>
+                <Item Key="+4">+ 4</Item>
+                <Item Key="+5">+ 5</Item>
+                <Item Key="+6">+ 6</Item>
+                <Item Key="+7">+ 7</Item>
+                <Item Key="+8">+ 8</Item>
+                <Item Key="+9">+ 9</Item>
                 <Item Key="+10">+10</Item>
                 <Item Key="+11">+11</Item>
                 <Item Key="+12">+12</Item>
-                <Item Key="-1">-1</Item>
-                <Item Key="-2">-2</Item>
-                <Item Key="-3">-3</Item>
-                <Item Key="-4">-4</Item>
-                <Item Key="-5">-5</Item>
-                <Item Key="-6">-6</Item>
-                <Item Key="-7">-7</Item>
-                <Item Key="-8">-8</Item>
-                <Item Key="-9">-9</Item>
+                <Item Key="-1">- 1</Item>
+                <Item Key="-2">- 2</Item>
+                <Item Key="-3">- 3</Item>
+                <Item Key="-4">- 4</Item>
+                <Item Key="-5">- 5</Item>
+                <Item Key="-6">- 6</Item>
+                <Item Key="-7">- 7</Item>
+                <Item Key="-8">- 8</Item>
+                <Item Key="-9">- 9</Item>
                 <Item Key="-10">-10</Item>
                 <Item Key="-11">-11</Item>
                 <Item Key="-12">-12</Item>
@@ -1115,28 +1127,28 @@ TimeWorkingHours
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">+0</Item>
-                <Item Key="+1">+1</Item>
-                <Item Key="+2">+2</Item>
-                <Item Key="+3">+3</Item>
-                <Item Key="+4">+4</Item>
-                <Item Key="+5">+5</Item>
-                <Item Key="+6">+6</Item>
-                <Item Key="+7">+7</Item>
-                <Item Key="+8">+8</Item>
-                <Item Key="+9">+9</Item>
+                <Item Key="0">+ 0</Item>
+                <Item Key="+1">+ 1</Item>
+                <Item Key="+2">+ 2</Item>
+                <Item Key="+3">+ 3</Item>
+                <Item Key="+4">+ 4</Item>
+                <Item Key="+5">+ 5</Item>
+                <Item Key="+6">+ 6</Item>
+                <Item Key="+7">+ 7</Item>
+                <Item Key="+8">+ 8</Item>
+                <Item Key="+9">+ 9</Item>
                 <Item Key="+10">+10</Item>
                 <Item Key="+11">+11</Item>
                 <Item Key="+12">+12</Item>
-                <Item Key="-1">-1</Item>
-                <Item Key="-2">-2</Item>
-                <Item Key="-3">-3</Item>
-                <Item Key="-4">-4</Item>
-                <Item Key="-5">-5</Item>
-                <Item Key="-6">-6</Item>
-                <Item Key="-7">-7</Item>
-                <Item Key="-8">-8</Item>
-                <Item Key="-9">-9</Item>
+                <Item Key="-1">- 1</Item>
+                <Item Key="-2">- 2</Item>
+                <Item Key="-3">- 3</Item>
+                <Item Key="-4">- 4</Item>
+                <Item Key="-5">- 5</Item>
+                <Item Key="-6">- 6</Item>
+                <Item Key="-7">- 7</Item>
+                <Item Key="-8">- 8</Item>
+                <Item Key="-9">- 9</Item>
                 <Item Key="-10">-10</Item>
                 <Item Key="-11">-11</Item>
                 <Item Key="-12">-12</Item>
@@ -1275,28 +1287,28 @@ TimeWorkingHours
         <SubGroup>Core::Time::Calendar3</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">+0</Item>
-                <Item Key="+1">+1</Item>
-                <Item Key="+2">+2</Item>
-                <Item Key="+3">+3</Item>
-                <Item Key="+4">+4</Item>
-                <Item Key="+5">+5</Item>
-                <Item Key="+6">+6</Item>
-                <Item Key="+7">+7</Item>
-                <Item Key="+8">+8</Item>
-                <Item Key="+9">+9</Item>
+                <Item Key="0">+ 0</Item>
+                <Item Key="+1">+ 1</Item>
+                <Item Key="+2">+ 2</Item>
+                <Item Key="+3">+ 3</Item>
+                <Item Key="+4">+ 4</Item>
+                <Item Key="+5">+ 5</Item>
+                <Item Key="+6">+ 6</Item>
+                <Item Key="+7">+ 7</Item>
+                <Item Key="+8">+ 8</Item>
+                <Item Key="+9">+ 9</Item>
                 <Item Key="+10">+10</Item>
                 <Item Key="+11">+11</Item>
                 <Item Key="+12">+12</Item>
-                <Item Key="-1">-1</Item>
-                <Item Key="-2">-2</Item>
-                <Item Key="-3">-3</Item>
-                <Item Key="-4">-4</Item>
-                <Item Key="-5">-5</Item>
-                <Item Key="-6">-6</Item>
-                <Item Key="-7">-7</Item>
-                <Item Key="-8">-8</Item>
-                <Item Key="-9">-9</Item>
+                <Item Key="-1">- 1</Item>
+                <Item Key="-2">- 2</Item>
+                <Item Key="-3">- 3</Item>
+                <Item Key="-4">- 4</Item>
+                <Item Key="-5">- 5</Item>
+                <Item Key="-6">- 6</Item>
+                <Item Key="-7">- 7</Item>
+                <Item Key="-8">- 8</Item>
+                <Item Key="-9">- 9</Item>
                 <Item Key="-10">-10</Item>
                 <Item Key="-11">-11</Item>
                 <Item Key="-12">-12</Item>
@@ -1435,28 +1447,28 @@ TimeWorkingHours
         <SubGroup>Core::Time::Calendar4</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">+0</Item>
-                <Item Key="+1">+1</Item>
-                <Item Key="+2">+2</Item>
-                <Item Key="+3">+3</Item>
-                <Item Key="+4">+4</Item>
-                <Item Key="+5">+5</Item>
-                <Item Key="+6">+6</Item>
-                <Item Key="+7">+7</Item>
-                <Item Key="+8">+8</Item>
-                <Item Key="+9">+9</Item>
+                <Item Key="0">+ 0</Item>
+                <Item Key="+1">+ 1</Item>
+                <Item Key="+2">+ 2</Item>
+                <Item Key="+3">+ 3</Item>
+                <Item Key="+4">+ 4</Item>
+                <Item Key="+5">+ 5</Item>
+                <Item Key="+6">+ 6</Item>
+                <Item Key="+7">+ 7</Item>
+                <Item Key="+8">+ 8</Item>
+                <Item Key="+9">+ 9</Item>
                 <Item Key="+10">+10</Item>
                 <Item Key="+11">+11</Item>
                 <Item Key="+12">+12</Item>
-                <Item Key="-1">-1</Item>
-                <Item Key="-2">-2</Item>
-                <Item Key="-3">-3</Item>
-                <Item Key="-4">-4</Item>
-                <Item Key="-5">-5</Item>
-                <Item Key="-6">-6</Item>
-                <Item Key="-7">-7</Item>
-                <Item Key="-8">-8</Item>
-                <Item Key="-9">-9</Item>
+                <Item Key="-1">- 1</Item>
+                <Item Key="-2">- 2</Item>
+                <Item Key="-3">- 3</Item>
+                <Item Key="-4">- 4</Item>
+                <Item Key="-5">- 5</Item>
+                <Item Key="-6">- 6</Item>
+                <Item Key="-7">- 7</Item>
+                <Item Key="-8">- 8</Item>
+                <Item Key="-9">- 9</Item>
                 <Item Key="-10">-10</Item>
                 <Item Key="-11">-11</Item>
                 <Item Key="-12">-12</Item>
@@ -1595,28 +1607,28 @@ TimeWorkingHours
         <SubGroup>Core::Time::Calendar5</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">+0</Item>
-                <Item Key="+1">+1</Item>
-                <Item Key="+2">+2</Item>
-                <Item Key="+3">+3</Item>
-                <Item Key="+4">+4</Item>
-                <Item Key="+5">+5</Item>
-                <Item Key="+6">+6</Item>
-                <Item Key="+7">+7</Item>
-                <Item Key="+8">+8</Item>
-                <Item Key="+9">+9</Item>
+                <Item Key="0">+ 0</Item>
+                <Item Key="+1">+ 1</Item>
+                <Item Key="+2">+ 2</Item>
+                <Item Key="+3">+ 3</Item>
+                <Item Key="+4">+ 4</Item>
+                <Item Key="+5">+ 5</Item>
+                <Item Key="+6">+ 6</Item>
+                <Item Key="+7">+ 7</Item>
+                <Item Key="+8">+ 8</Item>
+                <Item Key="+9">+ 9</Item>
                 <Item Key="+10">+10</Item>
                 <Item Key="+11">+11</Item>
                 <Item Key="+12">+12</Item>
-                <Item Key="-1">-1</Item>
-                <Item Key="-2">-2</Item>
-                <Item Key="-3">-3</Item>
-                <Item Key="-4">-4</Item>
-                <Item Key="-5">-5</Item>
-                <Item Key="-6">-6</Item>
-                <Item Key="-7">-7</Item>
-                <Item Key="-8">-8</Item>
-                <Item Key="-9">-9</Item>
+                <Item Key="-1">- 1</Item>
+                <Item Key="-2">- 2</Item>
+                <Item Key="-3">- 3</Item>
+                <Item Key="-4">- 4</Item>
+                <Item Key="-5">- 5</Item>
+                <Item Key="-6">- 6</Item>
+                <Item Key="-7">- 7</Item>
+                <Item Key="-8">- 8</Item>
+                <Item Key="-9">- 9</Item>
                 <Item Key="-10">-10</Item>
                 <Item Key="-11">-11</Item>
                 <Item Key="-12">-12</Item>
@@ -1755,28 +1767,28 @@ TimeWorkingHours
         <SubGroup>Core::Time::Calendar6</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">+0</Item>
-                <Item Key="+1">+1</Item>
-                <Item Key="+2">+2</Item>
-                <Item Key="+3">+3</Item>
-                <Item Key="+4">+4</Item>
-                <Item Key="+5">+5</Item>
-                <Item Key="+6">+6</Item>
-                <Item Key="+7">+7</Item>
-                <Item Key="+8">+8</Item>
-                <Item Key="+9">+9</Item>
+                <Item Key="0">+ 0</Item>
+                <Item Key="+1">+ 1</Item>
+                <Item Key="+2">+ 2</Item>
+                <Item Key="+3">+ 3</Item>
+                <Item Key="+4">+ 4</Item>
+                <Item Key="+5">+ 5</Item>
+                <Item Key="+6">+ 6</Item>
+                <Item Key="+7">+ 7</Item>
+                <Item Key="+8">+ 8</Item>
+                <Item Key="+9">+ 9</Item>
                 <Item Key="+10">+10</Item>
                 <Item Key="+11">+11</Item>
                 <Item Key="+12">+12</Item>
-                <Item Key="-1">-1</Item>
-                <Item Key="-2">-2</Item>
-                <Item Key="-3">-3</Item>
-                <Item Key="-4">-4</Item>
-                <Item Key="-5">-5</Item>
-                <Item Key="-6">-6</Item>
-                <Item Key="-7">-7</Item>
-                <Item Key="-8">-8</Item>
-                <Item Key="-9">-9</Item>
+                <Item Key="-1">- 1</Item>
+                <Item Key="-2">- 2</Item>
+                <Item Key="-3">- 3</Item>
+                <Item Key="-4">- 4</Item>
+                <Item Key="-5">- 5</Item>
+                <Item Key="-6">- 6</Item>
+                <Item Key="-7">- 7</Item>
+                <Item Key="-8">- 8</Item>
+                <Item Key="-9">- 9</Item>
                 <Item Key="-10">-10</Item>
                 <Item Key="-11">-11</Item>
                 <Item Key="-12">-12</Item>
@@ -1915,28 +1927,28 @@ TimeWorkingHours
         <SubGroup>Core::Time::Calendar7</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">+0</Item>
-                <Item Key="+1">+1</Item>
-                <Item Key="+2">+2</Item>
-                <Item Key="+3">+3</Item>
-                <Item Key="+4">+4</Item>
-                <Item Key="+5">+5</Item>
-                <Item Key="+6">+6</Item>
-                <Item Key="+7">+7</Item>
-                <Item Key="+8">+8</Item>
-                <Item Key="+9">+9</Item>
+                <Item Key="0">+ 0</Item>
+                <Item Key="+1">+ 1</Item>
+                <Item Key="+2">+ 2</Item>
+                <Item Key="+3">+ 3</Item>
+                <Item Key="+4">+ 4</Item>
+                <Item Key="+5">+ 5</Item>
+                <Item Key="+6">+ 6</Item>
+                <Item Key="+7">+ 7</Item>
+                <Item Key="+8">+ 8</Item>
+                <Item Key="+9">+ 9</Item>
                 <Item Key="+10">+10</Item>
                 <Item Key="+11">+11</Item>
                 <Item Key="+12">+12</Item>
-                <Item Key="-1">-1</Item>
-                <Item Key="-2">-2</Item>
-                <Item Key="-3">-3</Item>
-                <Item Key="-4">-4</Item>
-                <Item Key="-5">-5</Item>
-                <Item Key="-6">-6</Item>
-                <Item Key="-7">-7</Item>
-                <Item Key="-8">-8</Item>
-                <Item Key="-9">-9</Item>
+                <Item Key="-1">- 1</Item>
+                <Item Key="-2">- 2</Item>
+                <Item Key="-3">- 3</Item>
+                <Item Key="-4">- 4</Item>
+                <Item Key="-5">- 5</Item>
+                <Item Key="-6">- 6</Item>
+                <Item Key="-7">- 7</Item>
+                <Item Key="-8">- 8</Item>
+                <Item Key="-9">- 9</Item>
                 <Item Key="-10">-10</Item>
                 <Item Key="-11">-11</Item>
                 <Item Key="-12">-12</Item>
@@ -2075,28 +2087,28 @@ TimeWorkingHours
         <SubGroup>Core::Time::Calendar8</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">+0</Item>
-                <Item Key="+1">+1</Item>
-                <Item Key="+2">+2</Item>
-                <Item Key="+3">+3</Item>
-                <Item Key="+4">+4</Item>
-                <Item Key="+5">+5</Item>
-                <Item Key="+6">+6</Item>
-                <Item Key="+7">+7</Item>
-                <Item Key="+8">+8</Item>
-                <Item Key="+9">+9</Item>
+                <Item Key="0">+ 0</Item>
+                <Item Key="+1">+ 1</Item>
+                <Item Key="+2">+ 2</Item>
+                <Item Key="+3">+ 3</Item>
+                <Item Key="+4">+ 4</Item>
+                <Item Key="+5">+ 5</Item>
+                <Item Key="+6">+ 6</Item>
+                <Item Key="+7">+ 7</Item>
+                <Item Key="+8">+ 8</Item>
+                <Item Key="+9">+ 9</Item>
                 <Item Key="+10">+10</Item>
                 <Item Key="+11">+11</Item>
                 <Item Key="+12">+12</Item>
-                <Item Key="-1">-1</Item>
-                <Item Key="-2">-2</Item>
-                <Item Key="-3">-3</Item>
-                <Item Key="-4">-4</Item>
-                <Item Key="-5">-5</Item>
-                <Item Key="-6">-6</Item>
-                <Item Key="-7">-7</Item>
-                <Item Key="-8">-8</Item>
-                <Item Key="-9">-9</Item>
+                <Item Key="-1">- 1</Item>
+                <Item Key="-2">- 2</Item>
+                <Item Key="-3">- 3</Item>
+                <Item Key="-4">- 4</Item>
+                <Item Key="-5">- 5</Item>
+                <Item Key="-6">- 6</Item>
+                <Item Key="-7">- 7</Item>
+                <Item Key="-8">- 8</Item>
+                <Item Key="-9">- 9</Item>
                 <Item Key="-10">-10</Item>
                 <Item Key="-11">-11</Item>
                 <Item Key="-12">-12</Item>
@@ -2235,28 +2247,28 @@ TimeWorkingHours
         <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">+0</Item>
-                <Item Key="+1">+1</Item>
-                <Item Key="+2">+2</Item>
-                <Item Key="+3">+3</Item>
-                <Item Key="+4">+4</Item>
-                <Item Key="+5">+5</Item>
-                <Item Key="+6">+6</Item>
-                <Item Key="+7">+7</Item>
-                <Item Key="+8">+8</Item>
-                <Item Key="+9">+9</Item>
+                <Item Key="0">+ 0</Item>
+                <Item Key="+1">+ 1</Item>
+                <Item Key="+2">+ 2</Item>
+                <Item Key="+3">+ 3</Item>
+                <Item Key="+4">+ 4</Item>
+                <Item Key="+5">+ 5</Item>
+                <Item Key="+6">+ 6</Item>
+                <Item Key="+7">+ 7</Item>
+                <Item Key="+8">+ 8</Item>
+                <Item Key="+9">+ 9</Item>
                 <Item Key="+10">+10</Item>
                 <Item Key="+11">+11</Item>
                 <Item Key="+12">+12</Item>
-                <Item Key="-1">-1</Item>
-                <Item Key="-2">-2</Item>
-                <Item Key="-3">-3</Item>
-                <Item Key="-4">-4</Item>
-                <Item Key="-5">-5</Item>
-                <Item Key="-6">-6</Item>
-                <Item Key="-7">-7</Item>
-                <Item Key="-8">-8</Item>
-                <Item Key="-9">-9</Item>
+                <Item Key="-1">- 1</Item>
+                <Item Key="-2">- 2</Item>
+                <Item Key="-3">- 3</Item>
+                <Item Key="-4">- 4</Item>
+                <Item Key="-5">- 5</Item>
+                <Item Key="-6">- 6</Item>
+                <Item Key="-7">- 7</Item>
+                <Item Key="-8">- 8</Item>
+                <Item Key="-9">- 9</Item>
                 <Item Key="-10">-10</Item>
                 <Item Key="-11">-11</Item>
                 <Item Key="-12">-12</Item>

@@ -177,6 +177,8 @@ $Text{"Invalid SessionID!"}
 $Text{"Feature not active!"}
 
 # misc
+$Text{"Login is needed!"}
+$Text{"Password is needed!"}
 $Text{"License"}
 $Text{"Take this Customer"}
 $Text{"Take this User"}

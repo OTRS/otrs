@@ -2,7 +2,7 @@
 # Login.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.16 2006-10-16 19:52:29 mh Exp $
+# $Id: CustomerLogin.dtl,v 1.17 2006-11-08 16:25:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,6 +13,31 @@
 $Include{"CustomerHeader"}
 
 <!-- start login -->
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_form()
+{
+
+#    if (!document.login.User.value) {
+#        alert('$JSText{"Login is needed!"}');
+#        return false;
+#    }
+#    else if (!document.login.Password.value) {
+#        alert('$JSText{"Password is needed!"}');
+#        return false;
+#    }
+
+    now = new Date();
+    Diff = now.getTimezoneOffset() / 60;
+    document.login.TimeOffset.value = Diff;
+
+    return true;
+
+}
+//-->
+</script>
+
 <p>
   <center>
   <font color="red">$Text{"$Data{"Message"}"}</font>
@@ -22,10 +47,11 @@ $Include{"CustomerHeader"}
     </tr>
     <tr>
       <td class="singleboxbody">
-        <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+        <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login">
           <input type="hidden" name="Action" value="Login">
           <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
           <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
+          <input type="hidden" name="TimeOffset" value="">
           <table cellspacing="8" cellpadding="2">
             <tr>
               <td>$Text{"Username"}:</td>
@@ -36,7 +62,7 @@ $Include{"CustomerHeader"}
               <td><input type="password" name="Password" size="18"></td>
             </tr>
           </table>
-          <input class="button" type="submit" value="$Text{"Login"}">
+          <input class="button" type="submit" value="$Text{"Login"}" onclick="return submit_form();">
         </form>
       </td>
     </tr>

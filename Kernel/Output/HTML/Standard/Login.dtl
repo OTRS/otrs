@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.25 2006-08-26 17:01:21 martin Exp $
+# $Id: Login.dtl,v 1.26 2006-11-08 16:25:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,6 +28,30 @@ $Include{"css"}
 <!-- end header -->
 <body onLoad="document.login.User.focus();">
 
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_form()
+{
+
+#    if (!document.login.User.value) {
+#        alert('$JSText{"Login is needed!"}');
+#        return false;
+#    }
+#    else if (!document.login.Password.value) {
+#        alert('$JSText{"Password is needed!"}');
+#        return false;
+#    }
+
+    now = new Date();
+    Diff = now.getTimezoneOffset() / 60;
+    document.login.TimeOffset.value = Diff;
+
+    return true;
+
+}
+//-->
+</script>
+
 <center>
 
 <p>
@@ -39,6 +63,7 @@ $Include{"css"}
     <input type="hidden" name="Action" value="Login">
     <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
     <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
+    <input type="hidden" name="TimeOffset" value="">
 
     <table border="0" cellspacing="0" cellpadding="3" width="270">
       <tr>
@@ -56,7 +81,7 @@ $Include{"css"}
               <td class="singleboxvalue"><input type="password" name="Password" size="18"></td>
             </tr>
           </table>
-          <input class="button" type="submit" value="$Text{"Login"}">
+          <input class="button" type="submit" value="$Text{"Login"}" onclick="return submit_form();">
         </td>
       </tr>
     </table>

@@ -27,5 +27,3 @@ $Text{"Can't update password, need min. 8 characters!"}
 $Text{"Can't update password, need 2 lower and 2 upper characters!"}
 $Text{"Can't update password, need min. 1 digit!"}
 $Text{"Can't update password, need min. 2 characters!"}
-$Text{"Password is needed!"}
-

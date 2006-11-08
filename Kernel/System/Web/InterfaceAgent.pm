@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.15 2006-11-02 12:20:58 tr Exp $
+# $Id: InterfaceAgent.pm,v 1.16 2006-11-08 16:25:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed modules
@@ -252,22 +252,41 @@ sub Run {
                 UserLastRequest => $Self->{TimeObject}->SystemTime(),
                 UserType => 'User',
             );
+            # set time zone offset if TimeZoneFeature is active
+            if ($Self->{ConfigObject}->Get('TimeZoneUser') &&
+                $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset') &&
+                    $Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
+                my $TimeOffset = $Self->{ParamObject}->GetParam(Param => 'TimeOffset') || '';
+                if ($TimeOffset > 0) {
+                    $TimeOffset = '+'.$TimeOffset;
+                }
+                $Self->{UserObject}->SetPreferences(
+                    UserID => $UserData{UserID},
+                    Key => 'UserTimeZone',
+                    Value => $TimeOffset,
+                );
+                $Self->{SessionObject}->UpdateSessionID(
+                    SessionID => $NewSessionID,
+                    Key => 'UserTimeZone',
+                    Value => $TimeOffset,
+                );
+            }
             # create a new LayoutObject with SessionIDCookie
             my $Expires = '+'.$Self->{ConfigObject}->Get('SessionMaxTime').'s';
             if (!$Self->{ConfigObject}->Get('SessionUseCookieAfterBrowserClose')) {
                 $Expires = '';
             }
             my $LayoutObject = Kernel::Output::HTML::Layout->new(
-              SetCookies => {
-                  SessionIDCookie => $Self->{ParamObject}->SetCookie(
-                      Key => $Param{SessionName},
-                      Value => $NewSessionID,
-                      Expires => $Expires,
-                  ),
-              },
-              SessionID => $NewSessionID,
-              SessionName => $Param{SessionName},
-              %{$Self},
+                SetCookies => {
+                    SessionIDCookie => $Self->{ParamObject}->SetCookie(
+                        Key => $Param{SessionName},
+                        Value => $NewSessionID,
+                        Expires => $Expires,
+                    ),
+                },
+                SessionID => $NewSessionID,
+                SessionName => $Param{SessionName},
+                %{$Self},
             );
             # redirect with new session id and old params
             # prepare old redirect URL -- do not redirect to Login or Logout (loop)!
@@ -714,6 +733,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2006-11-02 12:20:58 $
+$Revision: 1.16 $ $Date: 2006-11-08 16:25:53 $
 
 =cut

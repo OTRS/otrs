@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.14 2006-11-02 12:20:58 tr Exp $
+# $Id: InterfaceCustomer.pm,v 1.15 2006-11-08 16:25:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed modules
@@ -232,6 +232,25 @@ sub Run {
                 UserLastRequest => $Self->{TimeObject}->SystemTime(),
                 UserType => 'Customer',
             );
+            # set time zone offset if TimeZoneFeature is active
+            if ($Self->{ConfigObject}->Get('TimeZoneUser') &&
+                $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset') &&
+                    $Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
+                my $TimeOffset = $Self->{ParamObject}->GetParam(Param => 'TimeOffset') || '';
+                if ($TimeOffset > 0) {
+                    $TimeOffset = '+'.$TimeOffset;
+                }
+                $Self->{UserObject}->SetPreferences(
+                    UserID => $UserData{UserID},
+                    Key => 'UserTimeZone',
+                    Value => $TimeOffset,
+                );
+                $Self->{SessionObject}->UpdateSessionID(
+                    SessionID => $NewSessionID,
+                    Key => 'UserTimeZone',
+                    Value => $TimeOffset,
+                );
+            }
             # create a new LayoutObject with SessionIDCookie
             my $Expires = '+'.$Self->{ConfigObject}->Get('SessionMaxTime').'s';
             if (!$Self->{ConfigObject}->Get('SessionUseCookieAfterBrowserClose')) {
@@ -737,6 +756,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2006-11-02 12:20:58 $
+$Revision: 1.15 $ $Date: 2006-11-08 16:25:53 $
 
 =cut
