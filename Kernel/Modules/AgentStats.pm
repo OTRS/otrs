@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.18 2006-10-06 14:41:43 tr Exp $
+# $Id: AgentStats.pm,v 1.19 2006-11-08 08:20:19 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -252,7 +252,6 @@ sub Run {
                 Data => {ExchangeAxis => $ExchangeAxis}
             );
         }
-
 
         # get static attributes
         if ($Stat->{StatType} eq 'static') {
@@ -851,7 +850,6 @@ sub Run {
                                     }
                                 }
 
-
                                 $Data{UseAsXvalue}[0]{"Time$Limit"} =
                                     sprintf("%04d-%02d-%02d %02d:%02d:%02d",
                                     $Time{$Limit . "Year"},
@@ -1076,6 +1074,22 @@ sub Run {
             $Stat->{StatNumber} = 'New';
         }
 
+# this is the second suggestion for the filenameproblem, delet it, if the first
+# solution is enough
+#         # show the filename inputfield if conigured
+#         if ($Self->{ConfigObject}->Get('Stats::ExportFilename')) {
+#             $Self->{LayoutObject}->Block(
+#                 Name => 'Filename',
+#                 Data => {
+#                     Name      => 'Dynamic-Object',
+#                     StateType => 'dynamic',
+#                 }
+#             );
+#             $Self->{LayoutObject}->Block(
+#                 Name => 'FilenameExplanation',
+#             );
+#         }
+
         # build the dynamic or/and static stats selection if nothing is selected
         if (!$Stat->{StatType}) {
             my $DynamicFiles      = $Self->{StatsObject}->GetDynamicFiles();
@@ -1104,7 +1118,8 @@ sub Run {
                         Data => {
                             Name      => 'Dynamic-Object',
                             StateType => 'dynamic',
-                        }                    );
+                        }
+                    );
                 }
                 # need a dropdown menue if more dynamic objects available
                 if ($#DynamicFilesArray > 1) {
@@ -1311,8 +1326,6 @@ sub Run {
                  $ObjectAttribute->{Block} = 'MultiSelectField';
             }
 
-
-
             if ($ObjectAttribute->{Block} eq 'MultiSelectField') {
                 $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
                     Data                => $ObjectAttribute->{Values},
@@ -1483,7 +1496,6 @@ sub Run {
                 elsif ($TimeType eq 'Extended') {
                     $ObjectAttribute->{Block} = 'TimeExtended';
                 }
-
 
                 my %TimeData = _Timeoutput($Self, %{$ObjectAttribute});
                 %BlockData = (%BlockData, %TimeData);
@@ -1889,7 +1901,7 @@ sub Run {
         }
         # Gernerate Filename
         my $Filename = $Self->{StatsObject}->StringAndTimestamp2Filename(
-            String => $Title . " Created",
+            String => $Stat->{Title} . " Created",
         );
 
         # csv output
