@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.27 2006-10-20 21:32:38 martin Exp $
+# $Id: LDAP.pm,v 1.28 2006-11-08 15:37:03 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -51,6 +51,7 @@ sub new {
     $Self->{AccessAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::AccessAttr') || 'memberUid';
     $Self->{UserAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UserAttr') || 'DN';
     $Self->{UserSuffix} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UserSuffix') || '';
+    $Self->{UserLowerCase} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UserLowerCase') || 0;
     $Self->{DestCharset} = $Self->{ConfigObject}->Get('AuthModule::LDAP::Charset') || 'utf-8';
 
     # ldap filter always used
@@ -99,6 +100,12 @@ sub Auth {
     # remove leading and trailing spaces
     $Param{User} =~ s/^\s+//;
     $Param{User} =~ s/\s+$//;
+
+    # Convert username to lower case letters
+    if ($Self->{UserLowerCase}) {
+        $Param{User} = lc($Param{User});
+    }
+
     # add user suffix
     if ($Self->{UserSuffix}) {
         $Param{User} .= $Self->{UserSuffix};
@@ -288,6 +295,7 @@ sub Auth {
                     $SyncUser{Pw} = $Self->_ConvertFrom($SyncUser{Pw}, $Self->{ConfigObject}->Get('DefaultCharset'));
                 }
             }
+
             # sync user
             if (%SyncUser) {
                 my %UserData = $Self->{UserObject}->GetUserData(User => $Param{User});
