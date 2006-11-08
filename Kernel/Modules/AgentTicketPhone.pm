@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.26 2006-11-02 12:20:52 tr Exp $
+# $Id: AgentTicketPhone.pm,v 1.27 2006-11-08 11:06:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -68,6 +68,7 @@ sub Run {
     foreach (qw(AttachmentUpload ArticleID PriorityID NewUserID
         From Subject Body NextStateID TimeUnits
         Year Month Day Hour Minute
+        NewResponsibleID ResponsibleAll OwnerAll
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
         AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
@@ -256,18 +257,18 @@ sub Run {
         }
         my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
         my ($NewQueueID, $To) = split(/\|\|/, $Dest);
-        my $AllUsers = $Self->{ParamObject}->GetParam(Param => 'AllUsers') || '';
-        if (!$NewQueueID) {
-            $AllUsers = 1;
-        }
         my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') ||
             $Self->{ParamObject}->GetParam(Param => 'PreSelectedCustomerUser') ||
             $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
-        if ($Self->{ParamObject}->GetParam(Param => 'AllUsersRefresh')) {
-            $AllUsers = 1;
+        if ($Self->{ParamObject}->GetParam(Param => 'OwnerAllRefresh')) {
+            $GetParam{OwnerAll} = 1;
+            $ExpandCustomerName = 3;
+        }
+        if ($Self->{ParamObject}->GetParam(Param => 'ResponsibleAllRefresh')) {
+            $GetParam{ResponsibleAll} = 1;
             $ExpandCustomerName = 3;
         }
         if ($Self->{ParamObject}->GetParam(Param => 'ClearFrom')) {
@@ -480,9 +481,9 @@ sub Run {
             # html output
             $Output .= $Self->_MaskPhoneNew(
                 QueueID => $Self->{QueueID},
-                Users => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $AllUsers),
+                Users => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $GetParam{OwnerAll}),
                 UserSelected => $GetParam{NewUserID},
-                ResponsibleUsers => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $AllUsers),
+                ResponsibleUsers => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $GetParam{ResponsibleAll}),
                 ResponsibleUserSelected => $GetParam{NewResponsibleID},
                 NextStates => $Self->_GetNextStates(QueueID => $NewQueueID),
                 NextState => $NextState,

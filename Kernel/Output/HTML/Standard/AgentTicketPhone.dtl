@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.19 2006-10-12 10:16:00 martin Exp $
+# $Id: AgentTicketPhone.dtl,v 1.20 2006-11-08 11:06:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -119,8 +119,8 @@ function clear_field()
         <input type="hidden" name="Subaction" value="StoreNew">
         <input type="hidden" name="FormID" value="$QData{"FormID"}">
         <input type="hidden" name="ExpandCustomerName" value="0">
-        <input type="hidden" name="OwnerAll" value="0">
-        <input type="hidden" name="ResponsibleAll" value="0">
+        <input type="hidden" name="OwnerAll" value="$QData{"OwnerAll"}">
+        <input type="hidden" name="ResponsibleAll" value="$QData{"ResponsibleAll"}">
         <input type="hidden" name="PreSelectedCustomerUser" value="">
         <input type="hidden" name="SelectedCustomerUser" value="$Data{"CustomerUser"}">
         <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
@@ -167,7 +167,7 @@ function clear_field()
 <!-- dtl:block:ResponsibleSelection -->
           <tr>
             <td class="contentkey">$Text{"Responsible"}:</td>
-            <td class="contentvalue">$Data{"OptionStrg"}
+            <td class="contentvalue">$Data{"ResponsibleOptionStrg"}
 <!-- dtl:block:ResponsibleSelectionAllJS -->
               $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.ResponsibleAll.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
 <!-- dtl:block:ResponsibleSelectionAllJS -->
