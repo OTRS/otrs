@@ -2,7 +2,7 @@
 # AgentMailboxNavBar.dtl - provides HTML AgentMailboxNavBar for AgentAgentMailboxNavBar.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.dtl,v 1.5 2006-10-12 10:15:59 martin Exp $
+# $Id: AgentTicketMailbox.dtl,v 1.6 2006-11-08 11:30:35 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -57,7 +57,7 @@
 <!-- dtl:block:Title-->
       $QData{"Title","60"}
 <!-- dtl:block:Title-->
-      <font color="red">$Text{"$Data{"Message"}"}
+      <font color="red">$Text{"$Data{"Message"}"}</font>
     </td>
     <td align="right" width="34%" class="mainhead">
       $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
