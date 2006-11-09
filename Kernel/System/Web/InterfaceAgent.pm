@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.16 2006-11-08 16:25:53 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.17 2006-11-09 16:48:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed modules
@@ -258,7 +258,11 @@ sub Run {
                     $Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
                 my $TimeOffset = $Self->{ParamObject}->GetParam(Param => 'TimeOffset') || '';
                 if ($TimeOffset > 0) {
-                    $TimeOffset = '+'.$TimeOffset;
+                    $TimeOffset = '-'.($TimeOffset/60);
+                }
+                else {
+                    $TimeOffset = ($TimeOffset/60);
+                    $TimeOffset =~ s/-/+/;
                 }
                 $Self->{UserObject}->SetPreferences(
                     UserID => $UserData{UserID},
@@ -733,6 +737,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2006-11-08 16:25:53 $
+$Revision: 1.17 $ $Date: 2006-11-09 16:48:29 $
 
 =cut

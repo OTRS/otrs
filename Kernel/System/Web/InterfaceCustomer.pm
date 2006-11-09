@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.15 2006-11-08 16:25:53 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.16 2006-11-09 16:48:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed modules
@@ -238,7 +238,11 @@ sub Run {
                     $Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
                 my $TimeOffset = $Self->{ParamObject}->GetParam(Param => 'TimeOffset') || '';
                 if ($TimeOffset > 0) {
-                    $TimeOffset = '+'.$TimeOffset;
+                    $TimeOffset = '-'.($TimeOffset/60);
+                }
+                else {
+                    $TimeOffset = ($TimeOffset/60);
+                    $TimeOffset =~ s/-/+/;
                 }
                 $Self->{UserObject}->SetPreferences(
                     UserID => $UserData{UserID},
@@ -756,6 +760,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2006-11-08 16:25:53 $
+$Revision: 1.16 $ $Date: 2006-11-09 16:48:30 $
 
 =cut
