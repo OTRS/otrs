@@ -2,7 +2,7 @@
 # Kernel/System/Auth/HTTPBasicAuth.pm - provides the $ENV{REMOTE_USER} authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: HTTPBasicAuth.pm,v 1.4 2006-08-29 17:28:44 martin Exp $
+# $Id: HTTPBasicAuth.pm,v 1.5 2006-11-09 08:31:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ package Kernel::System::Auth::HTTPBasicAuth;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -69,6 +69,10 @@ sub Auth {
     my $User = $ENV{REMOTE_USER};
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     if ($User) {
+        my $Replace = $Self->{ConfigObject}->Get('AuthModule::HTTPBasicAuth::Replace');
+        if ($Replace) {
+            $User =~ s/^\Q$Replace\E//;
+        }
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message => "User: $User authentication ok (REMOTE_ADDR: $RemoteAddr).",

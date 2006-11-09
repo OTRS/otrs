@@ -3,7 +3,7 @@
 # authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: HTTPBasicAuth.pm,v 1.3 2006-08-27 20:17:40 martin Exp $
+# $Id: HTTPBasicAuth.pm,v 1.4 2006-11-09 08:31:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ package Kernel::System::CustomerAuth::HTTPBasicAuth;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -70,7 +70,10 @@ sub Auth {
     my $User = $ENV{REMOTE_USER};
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     if ($User) {
-        my $User = $ENV{REMOTE_USER};
+        my $Replace = $Self->{ConfigObject}->Get('Customer::AuthModule::HTTPBasicAuth::Replace');
+        if ($Replace) {
+            $User =~ s/^\Q$Replace\E//;
+        }
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message => "User: $User authentification ok (REMOTE_ADDR: $RemoteAddr).",

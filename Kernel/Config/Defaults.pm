@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.249 2006-11-08 15:37:04 cs Exp $
+# $Id: Defaults.pm,v 1.250 2006-11-09 08:31:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.249 $';
+$VERSION = '$Revision: 1.250 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -335,6 +335,9 @@ sub LoadDefaults {
     # auth. backend. Use it if you want to have a singe login through
     # apache http-basic-auth
 #   $Self->{'AuthModule'} = 'Kernel::System::Auth::HTTPBasicAuth';
+    # In case there is a leading domain in the REMOTE_USER, you can
+    # replace it by the next config option.
+#   $Self->{'AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
     # Note:
     # If you use this module, you should use as fallback the following
     # config settings if user isn't login through apache ($ENV{REMOTE_USER})
@@ -1054,6 +1057,9 @@ Your OTRS Notification Master
     # auth. backend. Use it if you want to have a singe login through
     # apache http-basic-auth
 #   $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::HTTPBasicAuth';
+    # In case there is a leading domain in the REMOTE_USER, you can
+    # replace it by the next config option.
+#   $Self->{'Customer::AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
     # Note:
     # If you use this module, you should use as fallback the following
     # config settings if user isn't login through apache ($ENV{REMOTE_USER})
@@ -1831,6 +1837,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.249 $ $Date: 2006-11-08 15:37:04 $
+$Revision: 1.250 $ $Date: 2006-11-09 08:31:15 $
 
 =cut

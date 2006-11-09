@@ -108,7 +108,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.122 2006-11-08 16:25:53 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.123 2006-11-09 08:31:15 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -3350,6 +3350,15 @@ Your OTRS Notification Master
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
             <String Regex="">some_password</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::HTTPBasicAuth::Replace" Required="0" Valid="0">
+        <Description Lang="en">If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).</Description>
+        <Description Lang="de">Wenn "HTTPBasicAuth" als Customer::AuthModule ausgewählt wurde, kann hier spezifiziert werden, ob führende Teile eines Benutzernamens entfernt werden sollen (z. B. eine Domäne example_domain\user zu user).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::Auth</SubGroup>
+        <Setting>
+            <String Regex="">example_domain\\</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::Host" Required="0" Valid="0">
