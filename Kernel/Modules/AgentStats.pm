@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.19 2006-11-08 08:20:19 tr Exp $
+# $Id: AgentStats.pm,v 1.20 2006-11-10 14:25:29 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -732,7 +732,19 @@ sub Run {
         # save EditSpecification
         if ($Param{Home} eq 'EditSpecification') {
             # save string
-            foreach (qw(Title Description Object File SumRow SumCol Cache StatType Valid)) {
+            foreach (qw(Title Description)) {
+                if (defined ($Self->{ParamObject}->GetParam(Param => $_))) {
+                    my $Param = $Self->{ParamObject}->GetParam(Param => $_);
+                    $Data{$_} = $Param;
+                    $Data{$_} =~ s/^\s+//;
+                    $Data{$_} =~ s/\s+$//;
+                }
+                else {
+                    $Data{$_} = '';
+                }
+            }
+
+            foreach (qw(Object File SumRow SumCol Cache StatType Valid)) {
                 if (defined ($Self->{ParamObject}->GetParam(Param => $_))) {
                     my $Param = $Self->{ParamObject}->GetParam(Param => $_);
                     $Data{$_} = $Param;
@@ -741,6 +753,7 @@ sub Run {
                     $Data{$_} = '';
                 }
             }
+
             if($Data{StatType} eq '') {
                 $Data{File}         = '';
                 $Data{Object}       = '';
