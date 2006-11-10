@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.42 2006-11-08 08:20:20 tr Exp $
+# $Id: mkStats.pl,v 1.43 2006-11-10 14:26:35 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -335,7 +335,7 @@ else {
 
     # save the csv with the title and timestamp as filename
     my $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
-        String => $Title . " Created",
+        String => $Stat->{Title} . " Created",
     );
 
     %Attachment = (
