@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.7 2006-11-08 08:20:19 tr Exp $
+# $Id: Stats.pm,v 1.8 2006-11-10 14:26:00 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -2171,6 +2171,18 @@ sub StringAndTimestamp2Filename {
     $m = sprintf("%02d", $m);
     # replace invalid token like < > ? " : | \ or *
     $Param{String} =~ s/[ <>\?":\\\*\|]/-/g;
+    $Param{String} =~ s/ä/ae/g;
+    $Param{String} =~ s/ö/oe/g;
+    $Param{String} =~ s/ü/ue/g;
+    $Param{String} =~ s/Ä/Ae/g;
+    $Param{String} =~ s/Ö/Oe/g;
+    $Param{String} =~ s/Ü/Ue/g;
+    $Param{String} =~ s/ß/ss/g;
+
+    # Cut the String if to long
+    if (length($Param{String}) > 100) {
+        $Param{String} = substr($Param{String},0,100);
+    }
 
     my $Filename = $Param{String} . "_"."$Y-$M-$D"."_"."$h-$m";
 
@@ -2316,7 +2328,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2006-11-08 08:20:19 $
+$Revision: 1.8 $ $Date: 2006-11-10 14:26:00 $
 
 =cut
 
