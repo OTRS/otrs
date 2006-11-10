@@ -2,20 +2,23 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.310 2006-11-10 13:54:01 cs Exp $
+# $Id: CHANGES,v 1.311 2006-11-10 14:06:43 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.3 (2006/??/??)
- - (2006/11/10) update of Spanish language file  - Thanks to Jorge Becerra
+ - (2006/11/10) update of Dansk language file, thanks to Mads N. Vestergaard
+ - (2006/11/10) update of Spanish language file, thanks to Jorge Becerra
  - (2006/11/09) added AuthModule::HTTPBasicAuth::Replace and
     Customer::AuthModule::HTTPBasicAuth::Replace config option to HTTPBasicAuth
     modules to strip e. g. domains like example_domain\user from login down to user
+ - (2006/11/09) added AuthModule::LDAP::UserLowerCase to allways convert
+     usernames into lower case letters
  - (2006/11/07) added set auto time zone of agent/customer based on java script
     offset feature on every login
- - (2006/11/07) fixed not working all owner/responible selection in phone view
+ - (2006/11/07) fixed not working all owner/responsible selection in phone view
  - (2006/11/07) read out CustomerUserSearchListLimit correctly if LDAP customer
     backend is in use
  - (2006/10/27) fixed always shown responsible selection
