@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.9 2006-11-13 08:45:27 tr Exp $
+# $Id: Stats.pm,v 1.10 2006-11-13 11:58:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -2170,7 +2170,7 @@ sub StringAndTimestamp2Filename {
     $h = sprintf("%02d", $h);
     $m = sprintf("%02d", $m);
     # replace invalid token like < > ? " : | \ or *
-    $Param{String} =~ s/[ <>\?":\\\*\|]/-/g;
+    $Param{String} =~ s/[ <>\?":\\\*\|\/]/-/g;
     $Param{String} =~ s/ä/ae/g;
     $Param{String} =~ s/ö/oe/g;
     $Param{String} =~ s/ü/ue/g;
@@ -2329,7 +2329,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2006-11-13 08:45:27 $
+$Revision: 1.10 $ $Date: 2006-11-13 11:58:15 $
 
 =cut
 
