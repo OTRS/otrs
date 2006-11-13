@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.20 2006-09-28 16:29:53 mh Exp $
+# $Id: PDF.pm,v 1.21 2006-11-13 18:15:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -720,7 +720,7 @@ sub Table {
     $Param{ColumnData} = $Param{ColumnData} || [];
     $Param{RowData} = $Param{RowData} || [];
 
-    if (ref $Param{CellData} && ref $Param{ColumnData} && ref $Param{RowData}) {
+    if (ref($Param{CellData}) eq 'ARRAY' && ref($Param{ColumnData}) eq 'ARRAY' && ref($Param{RowData}) eq 'ARRAY') {
         if (!defined($Param{OutputCount})) {
             # set default values
             $Param{Type} = $Param{Type} || 'ReturnLeftOver';
@@ -952,7 +952,7 @@ sub Table {
         }
     }
     else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need references CellData, ColumnData! Table Output aborted.");
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need array references of CellData, ColumnData and RowData! Table Output aborted.");
         $Param{State} = 1;
     }
 
@@ -1680,6 +1680,10 @@ sub _TableCalculate {
             return;
         }
     }
+    if (ref($Param{CellData}) ne 'ARRAY' || ref($Param{ColumnData}) ne 'ARRAY' || ref($Param{RowData}) ne 'ARRAY') {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need array references of CellData, ColumnData and RowData!");
+        return;
+    }
     if (!$Self->{PDF}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need a PDF Document!");
         return;
@@ -1980,6 +1984,10 @@ sub _TableBlockNextCalculate {
             return;
         }
     }
+    if (ref($Param{CellData}) ne 'ARRAY' || ref($Param{ColumnData}) ne 'ARRAY') {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need array references of CellData and ColumnData!");
+        return;
+    }
     if (!$Self->{PDF}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need a PDF Document!");
         return;
@@ -2067,6 +2075,10 @@ sub _TableRowCalculate {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
+    }
+    if (ref($Param{CellData}) ne 'ARRAY' || ref($Param{ColumnData}) ne 'ARRAY' || ref($Param{RowData}) ne 'ARRAY') {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need array references of CellData, ColumnData and RowData!");
+        return;
     }
     if (!$Self->{PDF}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need a PDF Document!");
@@ -2271,6 +2283,10 @@ sub _TableCellOnCount {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
+    }
+    if (ref($Param{CellData}) ne 'ARRAY') {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need array references of CellData!");
+        return;
     }
     if (!$Self->{PDF}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need a PDF Document!");
@@ -3328,6 +3344,8 @@ sub _CurPositionGet {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -3338,6 +3356,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2006-09-28 16:29:53 $
+$Revision: 1.21 $ $Date: 2006-11-13 18:15:55 $
 
 =cut
