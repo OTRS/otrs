@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.15 2006-08-29 17:30:36 martin Exp $
+# $Id: Time.pm,v 1.16 2006-11-13 06:27:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -116,10 +116,10 @@ sub SystemTime2TimeStamp {
     my %Param = @_;
     # check needed stuff
     foreach (qw(SystemTime)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
 
     my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->SystemTime2Date(
@@ -171,10 +171,10 @@ sub SystemTime2Date {
     my %Param = @_;
     # check needed stuff
     foreach (qw(SystemTime)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # get time format
     my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay) = localtime($Param{SystemTime});
@@ -207,10 +207,10 @@ sub TimeStamp2SystemTime {
     my %Param = @_;
     # check needed stuff
     foreach (qw(String)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my $SytemTime = 0;
     # match iso date format
@@ -296,10 +296,10 @@ sub Date2SystemTime {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Year Month Day Hour Minute Second)) {
-      if (!defined($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my $SytemTime = eval {timelocal($Param{Second},$Param{Minute},$Param{Hour},$Param{Day},($Param{Month}-1),$Param{Year})};
     if ($SytemTime) {
@@ -313,7 +313,6 @@ sub Date2SystemTime {
         return;
     }
 }
-
 
 =item MailTimeStamp()
 
@@ -394,23 +393,20 @@ sub WorkingTime {
     my %Param = @_;
     # check needed stuff
     foreach (qw(StartTime StopTime)) {
-      if (!defined($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my %TimeWorkingHours = %{$Self->{ConfigObject}->Get('TimeWorkingHours')};
     my %TimeVacationDays = %{$Self->{ConfigObject}->Get('TimeVacationDays')};
     my %TimeVacationDaysOneTime = %{$Self->{ConfigObject}->Get('TimeVacationDaysOneTime')};
     if ($Param{Calendar}) {
-        foreach (1..20) {
-            if ($Self->{ConfigObject}->Get("TimeZone::Calendar".$_."Name")) {
-                %TimeWorkingHours = %{$Self->{ConfigObject}->Get("TimeWorkingHours::Calendar$_")};
-                %TimeVacationDays = %{$Self->{ConfigObject}->Get("TimeVacationDays::Calendar$_")};
-                %TimeVacationDaysOneTime = %{$Self->{ConfigObject}->Get("TimeVacationDaysOneTime::Calendar$_")};
-                $Param{StartTime} = $Param{StartTime} + ($Self->{ConfigObject}->Get("TimeZone::Calendar$_") * 60 * 60);
-                $Param{StopTime} = $Param{StopTime} + ($Self->{ConfigObject}->Get("TimeZone::Calendar$_") * 60 * 60);
-            }
+        if ($Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar}."Name")) {
+            %TimeWorkingHours = %{$Self->{ConfigObject}->Get("TimeWorkingHours::Calendar".$Param{Calendar})};
+            %TimeVacationDays = %{$Self->{ConfigObject}->Get("TimeVacationDays::Calendar".$Param{Calendar})};
+            %TimeVacationDaysOneTime = %{$Self->{ConfigObject}->Get("TimeVacationDaysOneTime::Calendar".$Param{Calendar})};
+            $Param{StartTime} = $Param{StartTime} + ($Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar}) * 60 * 60);
         }
     }
     my $Counted = 0;
@@ -487,15 +483,163 @@ sub WorkingTime {
     return $Counted;
 }
 
+=item DestinationTime()
+
+get the destination time (working time cal.) from start plus some time in secondes
+
+    my $DestinationTime = $TimeObject->DestinationTime(
+        StartTime => $Created,
+        Time => 60*60*24*2,
+    );
+
+    my $DestinationTime = $TimeObject->DestinationTime(
+        StartTime => $Created,
+        Time => 60*60*24*2,
+        Calendar => 3, # '' is default
+    );
+
+=cut
+
+sub DestinationTime {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(StartTime Time)) {
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    my %TimeWorkingHours = %{$Self->{ConfigObject}->Get('TimeWorkingHours')};
+    my %TimeVacationDays = %{$Self->{ConfigObject}->Get('TimeVacationDays')};
+    my %TimeVacationDaysOneTime = %{$Self->{ConfigObject}->Get('TimeVacationDaysOneTime')};
+    if ($Param{Calendar}) {
+        if ($Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar}."Name")) {
+            %TimeWorkingHours = %{$Self->{ConfigObject}->Get("TimeWorkingHours::Calendar".$Param{Calendar})};
+            %TimeVacationDays = %{$Self->{ConfigObject}->Get("TimeVacationDays::Calendar".$Param{Calendar})};
+            %TimeVacationDaysOneTime = %{$Self->{ConfigObject}->Get("TimeVacationDaysOneTime::Calendar".$Param{Calendar})};
+            $Param{StartTime} = $Param{StartTime} + ($Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar}) * 60 * 60);
+        }
+    }
+    my $DestinationTime = $Param{StartTime};
+    my $CTime = $Param{StartTime};
+    my $First = 0;
+    my $FirstTurn = 1;
+    my $Count = 1;
+    my ($ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay) = localtime($Param{StartTime});
+    $AYear = $AYear+1900;
+    $AMonth = $AMonth+1;
+    my $ADate = "$AYear-$AMonth-$ADay";
+
+    while ($Param{Time} > 1) {
+        $Count++;
+        if ($Count > 100) {
+            last;
+        }
+        my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay) = localtime($CTime);
+        $Year = $Year+1900;
+        $Month = $Month+1;
+        my $CDate = "$Year-$Month-$Day";
+#print STDERR "aaa $Param{Time} $CDate\n";
+        my %LDay = (
+            1 => 'Mon',
+            2 => 'Tue',
+            3 => 'Wed',
+            4 => 'Thu',
+            5 => 'Fri',
+            6 => 'Sat',
+            0 => 'Sun',
+        );
+        # count noting becouse of vacation
+        if ($TimeVacationDays{$Month}->{$Day} || $TimeVacationDaysOneTime{$Year}->{$Month}->{$Day}) {
+            # do noting
+#print STDERR "Vacation: $Year-$Month-$Day\n";
+            if ($FirstTurn) {
+                $First = 1;
+                $DestinationTime = $Self->Date2SystemTime(
+                    Year => $Year,
+                    Month => $Month,
+                    Day => $Day,
+                    Hour => 0,
+                    Minute => 0,
+                    Second => 0,
+                );
+            }
+            $DestinationTime = $DestinationTime + 60*60*24;
+            $FirstTurn = 0;
+        }
+        else {
+            if ($TimeWorkingHours{$LDay{$WDay}}) {
+#print STDERR "TimeWorkingHours $WDay $LDay{$WDay} $Param{Time}\n";
+                foreach my $H ($Hour..23) {
+                    my $Hit = 0;
+                    foreach (@{$TimeWorkingHours{$LDay{$WDay}}}) {
+                        if ($H+1 == $_) {
+                            $Hit = 1;
+                        }
+                    }
+                    if ($Hit) {
+                        if ($Param{Time} > 59*60) {
+#print STDERR "$Year-$Month-$Day: $LDay{$WDay}: $H ($Param{Time}) \n";
+                            $Param{Time} = $Param{Time} - (60*60);
+                            $DestinationTime = $DestinationTime + (60*60);
+                            $FirstTurn = 0;
+                        }
+                        elsif ($Param{Time} > 1*60) {
+                            foreach my $M (1..59) {
+                                if ($Param{Time} > 1) {
+#print STDERR "$Year-$Month-$Day: $LDay{$WDay}: $H:$M ($Param{Time})\n";
+                                    $Param{Time} = $Param{Time} - 60;
+                                    $DestinationTime = $DestinationTime + 60;
+                                    $FirstTurn = 0;
+                                }
+                            }
+                        }
+                        else {
+                            last;
+                        }
+                    }
+                    else {
+                        if ($FirstTurn) {
+                            $First = 1;
+                            $DestinationTime = $Self->Date2SystemTime(
+                                Year => $Year,
+                                Month => $Month,
+                                Day => $Day,
+                                Hour => $H,
+                                Minute => 0,
+                                Second => 0,
+                            );
+#print STDERR "fffffffffaaa $DestinationTime $Year - $Month - $Day $H\n";
+                        }
+                        $DestinationTime = $DestinationTime + (60*60);
+                    }
+                }
+            }
+        }
+#        $FirstTurn = 0;
+#print STDERR "aaaaaa vccccccccc $CTime $Year-$Month-$Day\n";
+        $CTime = $Self->Date2SystemTime(
+            Year => $Year,
+            Month => $Month,
+            Day => $Day,
+            Hour => 0,
+            Minute => 0,
+            Second => 0,
+        )+(60*60*24);
+    }
+    return $DestinationTime;
+}
+
 =item VacationCheck()
 
 check if the selected day is a vacation (it doesn't matter if you
 insert 01 or 1 for month or day in the function or in the SysConfig)
 
     $TimeAccountingObject->VacationCheck(
-        Year  => '2005',
-        Month => '7', || 07
-        Day   => '13',
+        Year  => 2005,
+        Month => 7 || '07',
+        Day   => 13,
     );
 
 =cut
@@ -518,7 +662,7 @@ sub VacationCheck {
     $Param{Month} = sprintf("%02d", $Param{Month});
     $Param{Day}   = sprintf("%02d", $Param{Day});
 
-    my $TimeVacationDays        = $Self->{ConfigObject}->Get('TimeVacationDays');
+    my $TimeVacationDays = $Self->{ConfigObject}->Get('TimeVacationDays');
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
     if (defined($TimeVacationDays->{$Param{Month}}->{$Param{Day}})) {
         return $TimeVacationDays->{$Param{Month}}->{$Param{Day}};
@@ -535,7 +679,6 @@ sub VacationCheck {
     return;
 }
 
-
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -550,6 +693,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.16 $ $Date: 2006-11-13 06:27:27 $
 
 =cut

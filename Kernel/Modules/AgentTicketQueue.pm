@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.21 2006-11-02 12:20:52 tr Exp $
+# $Id: AgentTicketQueue.pm,v 1.22 2006-11-13 06:27:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -369,22 +369,30 @@ sub ShowTicket {
 
     # prepare escalation time
     if ($Article{TicketOverTime}) {
-        if ($Article{TicketOverTime} <= -60*20) {
+        if ($Article{TicketOverTimeLong} <= -60*20) {
             $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
             $Param{TicketOverTimeFontEnd} = '</font>';
         }
-        elsif ($Article{TicketOverTime} <= -60*40) {
+        elsif ($Article{TicketOverTimeLong} <= -60*40) {
             $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
             $Param{TicketOverTimeFontEnd} = '</font>';
         }
-        # create string
-        $Article{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
+        $Param{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
             Age => $Article{TicketOverTime},
-            Space => '<br>',
+            Space => ' ',
+        );
+        $Param{TicketOverTimeLong} = $Self->{LayoutObject}->CustomerAge(
+            Age => $Article{TicketOverTimeLong},
+            Space => ' ',
         );
         if ($Param{TicketOverTimeFont} && $Param{TicketOverTimeFontEnd}) {
-            $Article{TicketOverTime} = $Param{TicketOverTimeFont}.
-                $Article{TicketOverTime}.$Param{TicketOverTimeFontEnd};
+            $Article{TicketOverTime} = $Param{TicketOverTimeFont}.$Param{TicketOverTimeLong}.'<br>'.
+                '<div title="$Text{"Serivce Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$Article{TicketOverDate}.'"}</div>'.$Param{TicketOverTimeFontEnd};
+        }
+        else {
+            $Article{TicketOverTime} = $Param{TicketOverTimeLong}.'<br>'.
+                '<div title="$Text{"Serivce Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$Article{TicketOverDate}.'"}</div>'
+;
         }
     }
     else {

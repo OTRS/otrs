@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.126 2006-11-02 12:20:57 tr Exp $
+# $Id: Article.pm,v 1.127 2006-11-13 06:27:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.126 $';
+$VERSION = '$Revision: 1.127 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1298,7 +1298,9 @@ sub ArticleGet {
     my %StateData = $Self->{StateObject}->StateGet(ID => $Ticket{StateID}, Cache => 1);
 
     # article stuff
-    my $LastCustomerCreateTime = 0;
+    my $EscalationTime = 0;
+    my $EscalationTimeLong = 0;
+    my $EscalationDate = 0;
     foreach my $Part (@Content) {
         # get owner
         $Part->{Owner} = $Ticket{Owner};
@@ -1333,10 +1335,19 @@ sub ArticleGet {
             StopTime => $Self->{TimeObject}->SystemTime(),
             Calendar => $Queue{Calendar},
         );
-        $LastCustomerCreateTime = ($Queue{EscalationTime}*60) - $CountedTime;
+        $EscalationTime = ($Queue{EscalationTime}*60) - $CountedTime;
+        my $CountedTime1 = $Self->{TimeObject}->DestinationTime(
+            StartTime => $Ticket{EscalationStartTime},
+            Time => $Queue{EscalationTime}*60,
+            Calendar => $Queue{Calendar},
+        );
+        $EscalationDate = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $CountedTime1);
+        $EscalationTimeLong = $CountedTime1 - $Self->{TimeObject}->SystemTime();
     }
     foreach my $Part (@Content) {
-        $Part->{TicketOverTime} = $LastCustomerCreateTime;
+        $Part->{TicketOverTime} = $EscalationTime;
+        $Part->{TicketOverTimeLong} = $EscalationTimeLong;
+        $Part->{TicketOverDate} = $EscalationDate;
     }
     if ($Param{ArticleID}) {
         return %{$Content[0]};
