@@ -2,7 +2,7 @@
 # AdminAttachmentForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminAttachmentForm.dtl,v 1.10 2006-08-29 16:56:06 martin Exp $
+# $Id: AdminAttachmentForm.dtl,v 1.11 2006-11-13 14:23:06 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,6 @@
   </tr>
   <tr>
     <td width="40%" class="mainbody">
-
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Change">
@@ -37,7 +36,6 @@
           </tr>
         </table>
       </form>
-
     </td>
     <td width="60%" class="mainbody">
 
@@ -58,43 +56,41 @@
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">
-              $Text{"$Data{"Headline"}"}:</td>
-            </tr>
-            <tr>
-              <td class="contentbody">
-
-                <table border="0" cellspacing="0" cellpadding="3">
-                  <tr>
-                    <td class="contentkey">$Text{"Name"}: </td>
-                    <td class="contentvalue"> <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"></td>
-                  </tr>
-                  <tr>
-                    <td class="contentkey">$Text{"Attachment"}:</td>
-                    <td class="contentvalue"><input name="file_upload" type="file" size="40">
-                    </tr>
-                    <tr>
-                      <td class="contentkey">$Text{"Valid"}: </td>
-                      <td class="contentvalue"> $Data{"ValidOption"}</td>
-                    </tr>
-                    <tr>
-                      <td class="contentkey">$Text{"Comment"}: </td>
-                      <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="70"></td>
-                    </tr>
-                  </table>
-
-                </td>
-              </tr>
-              <tr>
-                <td class="contentfooter">
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&ID=$Data{"ID"}">$Data{"DeleteLink"}</a>
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>
-                  <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
-                </td>
-              </tr>
-            </table>
-          </form>
-
-        </td>
-      </tr>
-    </table>
+              $Text{"$Data{"Headline"}"}:
+            </td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table border="0" cellspacing="0" cellpadding="3">
+                <tr>
+                  <td class="contentkey">$Text{"Name"}: </td>
+                  <td class="contentvalue"> <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Attachment"}:</td>
+                  <td class="contentvalue"><input name="file_upload" type="file" size="40"></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Valid"}: </td>
+                  <td class="contentvalue"> $Data{"ValidOption"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Comment"}: </td>
+                  <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="70"></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&ID=$Data{"ID"}">$Data{"DeleteLink"}</a>
+              <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>
+              <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
+            </td>
+          </tr>
+        </table>
+      </form>
+    </td>
+  </tr>
+</table>
 <!-- end form -->
