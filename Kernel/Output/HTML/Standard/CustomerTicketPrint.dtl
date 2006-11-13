@@ -2,7 +2,7 @@
 # CustomerTicketPrint.dtl - customer ticket print
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.dtl,v 1.1 2006-10-09 07:55:35 martin Exp $
+# $Id: CustomerTicketPrint.dtl,v 1.2 2006-11-13 10:46:10 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 <table border="0" cellspacing="1" cellpadding="0" width="100%">
   <tr>
     <td class="mainhead">$Config{"Ticket::Hook"}: $QData{"TicketNumber"}</td>
-  </td>
+  </tr>
 </table>
 <table border="0" cellspacing="1" cellpadding="10" width="100%">
   <tr>
@@ -44,7 +44,7 @@
           </tr>
           <tr>
             <td class="contentkey">$Text{"CustomerID"}:</td>
-            <td class="contentvalue">$Data{"CustomerID"}</a></td>
+            <td class="contentvalue">$Data{"CustomerID"}</td>
             <td class="contentkey">$Text{"Pending till"}:</td>
             <td class="contentvalue">$Data{"PendingUntil"}</td>
           </tr>
