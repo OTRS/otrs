@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.11 2006-11-14 13:18:41 tr Exp $
+# $Id: Stats.pm,v 1.12 2006-11-14 13:22:58 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -1925,7 +1925,6 @@ sub Import {
 
     # if-clause if a stat-xml includes a StatNumber
     if ($XMLHash[0]{otrs_stats}[1]{StatNumber}) {
-$Self->{LogObject}->Dumper($XMLHash[0]{otrs_stats}[1]{StatNumber}[1]{Content});
         my $XMLStatsID = $XMLHash[0]{otrs_stats}[1]{StatNumber}[1]{Content} - $Self->{ConfigObject}->Get("Stats::StatsStartNumber");
         foreach my $Key (@Keys) {
             if ($Key eq $XMLStatsID) {
@@ -2352,7 +2351,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2006-11-14 13:18:41 $
+$Revision: 1.12 $ $Date: 2006-11-14 13:22:58 $
 
 =cut
 
