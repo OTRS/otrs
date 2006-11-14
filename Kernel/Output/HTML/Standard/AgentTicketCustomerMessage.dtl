@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Standard/AgentTicketCustomerMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCustomerMessage.dtl,v 1.8 2006-11-14 11:34:24 tr Exp $
+# $Id: AgentTicketCustomerMessage.dtl,v 1.9 2006-11-14 11:38:24 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -49,9 +49,7 @@ function SpellCheckSubmit()
   </tr>
   <tr>
     <td class="mainbody">
-
       <br>
-
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Store">
@@ -63,12 +61,12 @@ function SpellCheckSubmit()
           </tr>
           <tr>
             <td class="contentbody">
-
-
               <table border="0" width="100%">
                 <tr>
                   <td width="15%" class="contentkey">$Text{"Subject"}:</td>
-                  <td width="85%" class="contentvalue"><input type="text" name="Subject" value="" size="70"></td>
+                  <td width="85%" class="contentvalue">
+                    <input type="text" name="Subject" value="" size="70">
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Options"}:</td>
@@ -81,12 +79,15 @@ function SpellCheckSubmit()
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Text"}:</td>
-                  <td class="contentvalue"><textarea name="Body" rows="15" cols="60" wrap="$Env{"BrowserWrap"}"></textarea>
+                  <td class="contentvalue">
+                    <textarea name="Body" rows="15" cols="60" wrap="$Env{"BrowserWrap"}"></textarea>
                   </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Attachment"}:</td>
-                  <td class="contentvalue"><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<a name="attachment"></a></td>
+                  <td class="contentvalue">
+                    <input name="file_upload" type="file" size="40" class="fixed">&nbsp;<a name="attachment"></a>
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Next state"}:</td>
@@ -94,23 +95,21 @@ function SpellCheckSubmit()
                 </tr>
               </table>
               <br>
-
             </td>
           </tr>
           <tr>
-            <td colspan="2" class="contentfooter"><input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"></td>
+            <td colspan="2" class="contentfooter">
+              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">
+            </td>
           </tr>
         </table>
       </form>
-
       <br>
-
       <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
         <input type="hidden" name="Action" value="AgentSpelling">
         <input type="hidden" name="Body" value="">
         <input type="hidden" name="spell_lang" value="">
       </form>
-
     </td>
   </tr>
 </table>
