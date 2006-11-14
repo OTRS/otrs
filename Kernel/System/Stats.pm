@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.10 2006-11-13 11:58:15 mh Exp $
+# $Id: Stats.pm,v 1.11 2006-11-14 13:18:41 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -1797,7 +1797,10 @@ sub _DeleteCache {
 
 get content from stats for export
 
-  my $ExportFile =  $Self->{StatsObject}->Export(StatID => '123');
+    my $ExportFile =  $Self->{StatsObject}->Export(
+        StatID => '123',
+        ExportStatNumber => 1 || 0, # optional, only useful move statistics from the test system to the productive system
+    );
 
 =cut
 
@@ -1854,8 +1857,10 @@ sub Export {
     delete($XMLHash[0]->{otrs_stats}[1]{ChangedBy});
     delete($XMLHash[0]->{otrs_stats}[1]{Created});
     delete($XMLHash[0]->{otrs_stats}[1]{CreatedBy});
-    delete($XMLHash[0]->{otrs_stats}[1]{StatNumber});
     delete($XMLHash[0]->{otrs_stats}[1]{StatID});
+    if (!$Param{ExportStatNumber}) {
+        delete($XMLHash[0]->{otrs_stats}[1]{StatNumber});
+    }
 
     #----
     # wrapper to change ids in used spelling
@@ -1918,11 +1923,29 @@ sub Import {
         Type => 'Stats',
     );
 
-    my @SortKeys = sort {$a <=> $b} @Keys;
-
-    if (@SortKeys) {
-        $StatID = $SortKeys[$#SortKeys] + 1;
+    # if-clause if a stat-xml includes a StatNumber
+    if ($XMLHash[0]{otrs_stats}[1]{StatNumber}) {
+$Self->{LogObject}->Dumper($XMLHash[0]{otrs_stats}[1]{StatNumber}[1]{Content});
+        my $XMLStatsID = $XMLHash[0]{otrs_stats}[1]{StatNumber}[1]{Content} - $Self->{ConfigObject}->Get("Stats::StatsStartNumber");
+        foreach my $Key (@Keys) {
+            if ($Key eq $XMLStatsID) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Import: Can't import StatNumber $Key, becauce this StatNumber is already used!"
+                );
+                return;
+            }
+        }
+        $StatID = $XMLStatsID;
     }
+    # if no stats number available use this function
+    else {
+        my @SortKeys = sort {$a <=> $b} @Keys;
+        if (@SortKeys) {
+            $StatID = $SortKeys[$#SortKeys] + 1;
+        }
+    }
+
     # get time
     my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
         SystemTime => $Self->{TimeObject}->SystemTime(),
@@ -2329,7 +2352,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2006-11-13 11:58:15 $
+$Revision: 1.11 $ $Date: 2006-11-14 13:18:41 $
 
 =cut
 
