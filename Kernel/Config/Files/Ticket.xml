@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.120 2006-11-08 12:17:41 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.121 2006-11-15 06:44:03 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -4633,6 +4633,29 @@ $QData{"Signature"}
             </Option>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketCustomer###Permission" Required="1" Valid="1">
+        <Description Lang="en">Required permissions to use this option.</Description>
+        <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewCustomer</SubGroup>
+        <Setting>
+            <String Regex="">customer</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketCustomer###RequiredLock" Required="0" Valid="1">
+        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewCustomer</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Ticket::Frontend::AgentTicketCustomerFollowUp###StateType" Required="1" Valid="1">
         <Description Lang="en">Default next states after adding a agent-customer follow up.</Description>
         <Description Lang="de">Nächstmögliche Status nach dem Hinzufügen bei Agent-Kunden FollowUp.</Description>

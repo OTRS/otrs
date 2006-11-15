@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.8 2006-11-02 12:20:52 tr Exp $
+# $Id: AgentTicketCustomer.pm,v 1.9 2006-11-15 06:44:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -43,6 +43,8 @@ sub new {
     # customer user object
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
+
     return $Self;
 }
 
@@ -50,6 +52,25 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
+    # check needed stuff
+    if (!$Self->{TicketID}) {
+        # error page
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Need TicketID is given!",
+            Comment => 'Please contact the admin.',
+        );
+    }
+    # check permissions
+    if (!$Self->{TicketObject}->Permission(
+        Type => $Self->{Config}->{Permission},
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID})) {
+        # error screen, don't show ticket
+        return $Self->{LayoutObject}->NoPermission(
+            Message => "You need $Self->{Config}->{Permission} permissions!",
+            WithHeader => 'yes',
+        );
+    }
     # check permissions
     if ($Self->{TicketID}) {
         if (!$Self->{TicketObject}->Permission(
