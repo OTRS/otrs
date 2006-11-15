@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.228 2006-11-02 12:20:53 tr Exp $
+# $Id: Ticket.pm,v 1.229 2006-11-15 07:24:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.228 $';
+$VERSION = '$Revision: 1.229 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -94,7 +94,12 @@ sub new {
 
     # get needed objects
     foreach (qw(ConfigObject LogObject TimeObject DBObject MainObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+        if ($Param{$_}) {
+            $Self->{$_} = $Param{$_};
+        }
+        else {
+            die "Got no $_!";
+        }
     }
 
     # create common needed module objects
@@ -1605,13 +1610,15 @@ sub Permission {
                 else {
                     # return because true is required
                     if ($Modules{$Module}->{Required}) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'notice',
-                            Message => "Permission denied because module ".
-                             "($Modules{$Module}->{Module}) is required ".
-                             "(UserID: $Param{UserID} '$Param{Type}' on ".
-                             "TicketID: $Param{TicketID})!",
-                        );
+                        if (!$Param{LogNo}) {
+                            $Self->{LogObject}->Log(
+                                Priority => 'notice',
+                                Message => "Permission denied because module ".
+                                 "($Modules{$Module}->{Module}) is required ".
+                                 "(UserID: $Param{UserID} '$Param{Type}' on ".
+                                 "TicketID: $Param{TicketID})!",
+                            );
+                        }
                         return;
                     }
                 }
@@ -1624,10 +1631,13 @@ sub Permission {
     }
     # don't grant access to the ticket
     else {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message => "Permission denied (UserID: $Param{UserID} '$Param{Type}' on TicketID: $Param{TicketID})!",
-        );
+        if (!$Param{LogNo}) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "Permission denied (UserID: $Param{UserID} '$Param{Type}' ".
+                    "on TicketID: $Param{TicketID})!",
+            );
+        }
         return;
     }
 }
@@ -4881,6 +4891,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.228 $ $Date: 2006-11-02 12:20:53 $
+$Revision: 1.229 $ $Date: 2006-11-15 07:24:16 $
 
 =cut
