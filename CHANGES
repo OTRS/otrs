@@ -2,13 +2,20 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.311 2006-11-10 14:06:43 cs Exp $
+# $Id: CHANGES,v 1.312 2006-11-15 11:27:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-2.1.3 (2006/??/??)
+2.1.3 (2006/11/15)
+ - (2006/11/15) removed not needed Reply-To of agent notifications
+ - (2006/11/15) fixed missing \n on csv output of customer ticket search
+ - (2006/11/15) fixed not working ticket free time option in phone ticket
+ - (2006/11/15) added missing access permission pre check to show ticket menu
+    items or not
+ - (2006/11/15) fixed bug - not shown empty "-" selection of new onwer if on
+    move if Ticket::ChangeOwnerToEveryone is set
  - (2006/11/10) update of Dansk language file, thanks to Mads N. Vestergaard
  - (2006/11/10) update of Spanish language file, thanks to Jorge Becerra
  - (2006/11/09) added AuthModule::HTTPBasicAuth::Replace and
