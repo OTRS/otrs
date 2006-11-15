@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.127 2006-11-13 06:27:27 martin Exp $
+# $Id: Article.pm,v 1.128 2006-11-15 07:29:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.127 $';
+$VERSION = '$Revision: 1.128 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1836,7 +1836,6 @@ sub SendAgentNotification {
              ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>',
         To => $User{UserEmail},
         Subject => $Notification{Subject},
-        'Reply-To' => $Self->{ConfigObject}->Get('NotificationSenderEmail'),
         Type => 'text/plain',
         Charset => $Notification{Charset},
         Body => $Notification{Body},
