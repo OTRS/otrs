@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.9 2006-11-02 12:20:52 tr Exp $
+# $Id: AgentTicketMerge.pm,v 1.10 2006-11-15 07:47:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -31,9 +31,10 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
-                 QueueObject ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);

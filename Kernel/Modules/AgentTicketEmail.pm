@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.23 2006-09-29 16:33:47 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.24 2006-11-15 07:47:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -38,9 +38,10 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject
-       ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     # anyway, we need to check the email syntax (removed it, because the admins should configure it)
 #    $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 1);

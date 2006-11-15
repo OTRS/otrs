@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.7 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketBounce.pm,v 1.8 2006-11-15 07:47:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,9 +33,10 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
-      QueueObject ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     # needed objects
     $Self->{StateObject} = Kernel::System::State->new(%Param);
