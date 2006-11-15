@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.17 2006-10-12 10:15:59 martin Exp $
+# $Id: Layout.pm,v 1.18 2006-11-15 07:21:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -60,11 +60,12 @@ sub new {
     if (!$Self->{UserTheme}) {
         $Self->{UserTheme} = $Self->{ConfigObject}->Get('DefaultTheme');
     }
-    if ($Self->{UserTimeZone}) {
+    if ($Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone}) {
         $Self->{UserTimeObject} = Kernel::System::Time->new(%Param);
     }
     else {
         $Self->{UserTimeObject} = $Self->{TimeObject};
+        $Self->{UserTimeZone} = '';
     }
     # get use language (from browser) if no language is there!
     if (!$Self->{UserLanguage}) {
@@ -2179,13 +2180,13 @@ sub TransfromDateSelection {
     my $DateInputStyle = $Self->{ConfigObject}->Get('TimeInputFormat');
     my $Prefix = $Param{'Prefix'} || '';
     my $Format = defined($Param{Format}) ? $Param{Format} : 'DateInputFormatLong';
-    if ($Self->{TimeZone}) {
+    if ($Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone}) {
         my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
              String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".$Param{$Prefix."Hour"}.":".$Param{$Prefix."Minute"}.":00",
         );
-        $TimeStamp = $TimeStamp + ($Self->{TimeZone}*60*60);
+        $TimeStamp = $TimeStamp - ($Self->{UserTimeZone}*60*60);
         ($Param{$Prefix."Secunde"}, $Param{$Prefix."Minute"}, $Param{$Prefix."Hour"}, $Param{$Prefix."Day"}, $Param{$Prefix."Month"}, $Param{$Prefix."Year"}) = $Self->{UserTimeObject}->SystemTime2Date(
-            SystemTime => $Self->{UserTimeObject}->SystemTime() - ($Self->{TimeZone} * 60 * 60),
+            SystemTime => $TimeStamp,
         );
     }
     return %Param;
@@ -2656,6 +2657,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2006-10-12 10:15:59 $
+$Revision: 1.18 $ $Date: 2006-11-15 07:21:52 $
 
 =cut
