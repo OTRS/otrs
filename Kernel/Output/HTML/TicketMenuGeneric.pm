@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuGeneric.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TicketMenuGeneric.pm,v 1.3 2006-08-27 22:29:48 martin Exp $
+# $Id: TicketMenuGeneric.pm,v 1.4 2006-11-15 06:58:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::TicketMenuGeneric;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -45,6 +45,16 @@ sub Run {
     # check permission
     if ($Self->{ConfigObject}->Get("Ticket::Frontend::$Param{Config}->{Action}")) {
         my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::$Param{Config}->{Action}");
+        if ($Config->{Permission}) {
+            if (!$Self->{TicketObject}->Permission(
+                Type => $Config->{Permission},
+                TicketID => $Param{TicketID},
+                UserID => $Self->{UserID},
+                LogNo => 1,
+            )) {
+                return $Param{Counter};
+            }
+        }
         if ($Config->{RequiredLock}) {
             if ($Self->{TicketObject}->LockIsTicketLocked(TicketID => $Param{TicketID})) {
                 my $AccessOk = $Self->{TicketObject}->OwnerCheck(

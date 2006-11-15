@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuLock.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TicketMenuLock.pm,v 1.5 2006-10-09 15:42:14 mh Exp $
+# $Id: TicketMenuLock.pm,v 1.6 2006-11-15 06:58:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,9 +14,8 @@ package Kernel::Output::HTML::TicketMenuLock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
-
 
 sub new {
     my $Type = shift;
@@ -42,7 +41,15 @@ sub Run {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need Ticket!");
         return;
     }
-
+    # check permission
+    if (!$Self->{TicketObject}->Permission(
+        Type => 'rw',
+        TicketID => $Param{TicketID},
+        UserID => $Self->{UserID},
+        LogNo => 1,
+        )) {
+        return $Param{Counter};
+    }
     # check permission
     if ($Self->{TicketObject}->LockIsTicketLocked(TicketID => $Param{TicketID})) {
         my $AccessOk = $Self->{TicketObject}->OwnerCheck(
