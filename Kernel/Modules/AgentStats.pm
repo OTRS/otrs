@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.20 2006-11-10 14:25:29 tr Exp $
+# $Id: AgentStats.pm,v 1.21 2006-11-15 08:25:09 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1087,22 +1087,6 @@ sub Run {
             $Stat->{StatNumber} = 'New';
         }
 
-# this is the second suggestion for the filenameproblem, delet it, if the first
-# solution is enough
-#         # show the filename inputfield if conigured
-#         if ($Self->{ConfigObject}->Get('Stats::ExportFilename')) {
-#             $Self->{LayoutObject}->Block(
-#                 Name => 'Filename',
-#                 Data => {
-#                     Name      => 'Dynamic-Object',
-#                     StateType => 'dynamic',
-#                 }
-#             );
-#             $Self->{LayoutObject}->Block(
-#                 Name => 'FilenameExplanation',
-#             );
-#         }
-
         # build the dynamic or/and static stats selection if nothing is selected
         if (!$Stat->{StatType}) {
             my $DynamicFiles      = $Self->{StatsObject}->GetDynamicFiles();
@@ -1116,7 +1100,7 @@ sub Run {
                     Name => 'Selection',
                 );
                 # need a radiobutton if dynamic and static stats available
-                if ($#StaticFilesArray > 0) {
+                if ($StaticFilesArray[0]) {
                     $Self->{LayoutObject}->Block(
                         Name => 'RadioButton',
                         Data => {
@@ -1160,7 +1144,7 @@ sub Run {
                 }
             }
             # build the static stats selection if one or more static stats available
-            if (@StaticFilesArray && $#StaticFilesArray > 0) {
+            if (@StaticFilesArray) {
                 $Self->{LayoutObject}->Block(
                     Name => 'Selection',
                 );
@@ -1184,7 +1168,7 @@ sub Run {
                         }                    );
                 }
                 # more static stats available? than make a SelectField
-                if ($#StaticFilesArray > 1) {
+                if ($#StaticFilesArray > 0) {
                     $Frontend{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
                         Data     => $StaticFiles,
                         Name     => 'File',
