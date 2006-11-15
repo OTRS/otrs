@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.21 2006-11-15 07:25:54 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.22 2006-11-15 07:28:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -473,6 +473,15 @@ sub MaskForm {
         Size => 5,
         SelectedIDRefArray => $Param{StateIDs},
     );
+    $Param{'StateTypeStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+            'Open' => 'open',
+            'Closed' => 'closed',
+        },
+        Name => 'StateType',
+        Size => 5,
+        SelectedID => $Param{StateType},
+    );
     $Param{'PriotitiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{PriorityObject}->PriorityList(
             UserID => $Self->{UserID},
@@ -594,15 +603,6 @@ sub MaskForm {
             DiffTime => +((60*60*24)*30),
         );
     }
-    $Param{'StatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => {
-            'Open' => 'open',
-            'Closed' => 'closed',
-        },
-        Name => 'StateType',
-        Size => 5,
-        SelectedID => $Param{StateType},
-    );
     # html search mask output
     $Self->{LayoutObject}->Block(
         Name => 'Search',
