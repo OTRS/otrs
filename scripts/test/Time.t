@@ -2,7 +2,7 @@
 # Time.t - Time tests
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.t,v 1.6 2006-08-26 17:36:26 martin Exp $
+# $Id: Time.t,v 1.7 2006-11-15 07:47:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,6 @@ $Self->Is(
     'TimeStamp2SystemTime()',
 );
 
-
 my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
     SystemTime => $SystemTime,
 );
@@ -31,7 +30,6 @@ $Self->Is(
     '2005-10-20 10:00:00',
     'SystemTime2Date()',
 );
-
 
 my $SystemTimeUnix = $Self->{TimeObject}->Date2SystemTime(
     Year => 2005,
@@ -136,7 +134,6 @@ my $WorkingTime10 = $Self->{TimeObject}->WorkingTime(
     StopTime => $SystemTime17,
 );
 
-
 $Self->Is(
     $WorkingTime/60/60,
     13,
@@ -197,10 +194,106 @@ $Self->Is(
     'WorkingHours - Mon-Mon',
 );
 
-# Check the Vacations
+my $SystemTimeDestination = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2006-11-12 10:15:00',
+);
+my $DestinationTime = $Self->{TimeObject}->DestinationTime(
+    StartTime => $SystemTimeDestination,
+    Time => 60*60*4,
+);
+($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+    SystemTime => $DestinationTime,
+);
+$Self->Is(
+    "$Year-$Month-$Day $Hour:$Min:$Sec",
+    '2006-11-13 11:00:00',
+    'DestinationTime()',
+);
+
+$SystemTimeDestination = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2006-11-13 10:15:00',
+);
+$DestinationTime = $Self->{TimeObject}->DestinationTime(
+    StartTime => $SystemTimeDestination,
+    Time => 60*60*4,
+);
+($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+    SystemTime => $DestinationTime,
+);
+$Self->Is(
+    "$Year-$Month-$Day $Hour:$Min:$Sec",
+    '2006-11-13 14:15:00',
+    'DestinationTime()',
+);
+
+$SystemTimeDestination = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2006-11-13 10:15:00',
+);
+$DestinationTime = $Self->{TimeObject}->DestinationTime(
+    StartTime => $SystemTimeDestination,
+    Time => 60*60*11,
+);
+($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+    SystemTime => $DestinationTime,
+);
+$Self->Is(
+    "$Year-$Month-$Day $Hour:$Min:$Sec",
+    '2006-11-14 08:15:00',
+    'DestinationTime()',
+);
+
+$SystemTimeDestination = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2006-12-31 10:15:00',
+);
+$DestinationTime = $Self->{TimeObject}->DestinationTime(
+    StartTime => $SystemTimeDestination,
+    Time => 60*60*11,
+);
+($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+    SystemTime => $DestinationTime,
+);
+$Self->Is(
+    "$Year-$Month-$Day $Hour:$Min:$Sec",
+    '2007-01-02 18:00:00',
+    'DestinationTime()',
+);
+
+$SystemTimeDestination = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2006-12-29 10:15:00',
+);
+$DestinationTime = $Self->{TimeObject}->DestinationTime(
+    StartTime => $SystemTimeDestination,
+    Time => 60*60*11,
+);
+($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+    SystemTime => $DestinationTime,
+);
+$Self->Is(
+    "$Year-$Month-$Day $Hour:$Min:$Sec",
+    '2007-01-02 08:15:00',
+    'DestinationTime()',
+);
+
+$SystemTimeDestination = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2006-12-30 10:45:00',
+);
+$DestinationTime = $Self->{TimeObject}->DestinationTime(
+    StartTime => $SystemTimeDestination,
+    Time => 60*60*11,
+);
+($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+    SystemTime => $DestinationTime,
+);
+$Self->Is(
+    "$Year-$Month-$Day $Hour:$Min:$Sec",
+    '2007-01-02 18:00:00',
+    'DestinationTime()',
+);
+
+# check the vacations
 my $Vacation = '';
 
-# 1.1.2005
+# 2005-01-01
 $Vacation = $Self->{TimeObject}->VacationCheck(
     Year  => '2005',
     Month => '1',
@@ -210,10 +303,10 @@ $Vacation = $Self->{TimeObject}->VacationCheck(
 $Self->Is(
     $Vacation,
     "New Year's Eve!",
-    'Vacation - 1.1.2005',
+    'Vacation - 2005-01-01',
 );
 
-# 01.01.2005
+# 2005-01-01
 $Vacation = $Self->{TimeObject}->VacationCheck(
     Year  => '2005',
     Month => '01',
@@ -223,10 +316,10 @@ $Vacation = $Self->{TimeObject}->VacationCheck(
 $Self->Is(
     $Vacation,
     "New Year's Eve!",
-    'Vacation - 01.01.2005',
+    'Vacation - 2005-01-01',
 );
 
-# 31.12.2005
+# 2005-12-31
 
 $Vacation = $Self->{TimeObject}->VacationCheck(
     Year  => '2005',
@@ -237,9 +330,7 @@ $Vacation = $Self->{TimeObject}->VacationCheck(
 $Self->Is(
     $Vacation,
     'Silvester',
-    'Vacation - 31.12.2005',
+    'Vacation - 2005-12-31',
 );
-
-
 
 1;
