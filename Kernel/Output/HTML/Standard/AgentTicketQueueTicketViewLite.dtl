@@ -2,7 +2,7 @@
 # AgentTicketQueueTicketViewLite.dtl - provides HTML TicketView for AgentTicketQueue
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueueTicketViewLite.dtl,v 1.6 2006-10-12 10:16:00 martin Exp $
+# $Id: AgentTicketQueueTicketViewLite.dtl,v 1.7 2006-11-15 11:54:40 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,13 +11,11 @@
 <!-- start ticket -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
-
 <!-- dtl:block:Bulk -->
     <td width="1%" class="mainhead">
       <form name="abulk$Data{"Counter"}"><input type="checkbox" name="Selected" value="1" onclick="BulkChangeSelected($Data{"TicketID"},$Data{"Counter"})"></form>
     </td>
 <!-- dtl:block:Bulk -->
-
     <td align="left" width="50%" class="mainhead">
       $Env{"Box0"}$Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}
 <!-- dtl:block:Title-->
@@ -32,7 +30,6 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
   <tr>
     <td align="left" width="60%" class="menu">
-
 <!-- dtl:block:Menu -->
 <!-- dtl:block:MenuItemSplit -->
       -
@@ -42,7 +39,6 @@
 $Text{"$QData{"Name"}"}</a>
 <!-- dtl:block:MenuItem -->
 <!-- dtl:block:Menu -->
-
     </td>
     <td align="right" width="40%" class="menu">
       <table border="0" cellspacing="0" cellpadding="0">
@@ -131,10 +127,9 @@ $Text{"$QData{"Name"}"}</a>
         $Data{"TicketFreeString7"}
         $Data{"TicketFreeString8"}
 # --
-      </tr>
-    </table>
-  </td>
-</tr>
+      </table>
+    </td>
+  </tr>
 # use the following if you want also a change queue option in this view
 #<tr>
 #  <td valign="top" class="contentkey">&nbsp;</td>
