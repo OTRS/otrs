@@ -2,7 +2,7 @@
 # AgentTicketQueueTicketView.dtl - provides HTML TicketView for AgentTicketQueueView
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueueTicketView.dtl,v 1.8 2006-10-31 14:41:10 cs Exp $
+# $Id: AgentTicketQueueTicketView.dtl,v 1.9 2006-11-15 07:48:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -103,19 +103,19 @@ $Data{"Body"}
     <td width="25%" align="left" valign="top" class="PriorityID-$Data{"PriorityID"}">
       <p>
         <table border="0" cellspacing="0" cellpadding="1">
-          <tr>
+          <tr valign="top">
             <td><b>$Text{"State"}:</b></td>
             <td><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></font></td>
           </tr>
-          <tr>
+          <tr valign="top">
             <td><b>$Text{"Priority"}:</b></td>
             <td><font color="red"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</div></font></td>
           </tr>
-          <tr>
+          <tr valign="top">
             <td><b>$Text{"Queue"}:</b></td>
             <td><font color="red"><div title="$QData{"Queue"}">$QData{"Queue","18"}</div></font></td>
           </tr>
-          <tr>
+          <tr valign="top">
             <td><b>$Text{"CustomerID"}:</b></td>
             <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","18"}</a></td>
           </tr>
@@ -123,7 +123,7 @@ $Data{"Body"}
 #      <td><b>$Text{"Owner"}:</b></td>
 #      <td><div title="$QData{"Owner"}">$QData{"Owner","18"}</div></td>
 #    </tr>
-          <tr>
+          <tr valign="top">
             <td><b>$Text{"Escalation in"}:</b></td>
             <td>$Data{"TicketOverTime"}</td>
           </tr>
