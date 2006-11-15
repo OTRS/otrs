@@ -2,7 +2,7 @@
 # AgentTicketOwner.dtl - set ticket owner
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.dtl,v 1.9 2006-10-12 10:16:00 martin Exp $
+# $Id: AgentTicketOwner.dtl,v 1.10 2006-11-15 11:55:36 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -95,15 +95,12 @@ function change_selected(sel)
   </tr>
   <tr>
     <td class="mainbody">
-
       <br>
-
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Store">
         <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
         <input type="hidden" name="FormID" value="$QData{"FormID"}">
-
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -174,9 +171,15 @@ function change_selected(sel)
 <!-- dtl:block:Attachment -->
                       <tr><td>$QData{"Filename"}</td><td>$QData{"Filesize"}</td><td align="right"><input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td></tr>
 <!-- dtl:block:Attachment -->
-                      <tr><td colspan="2">
-                        <input name="file_upload" type="file" size="40" class="fixed"></td><td align="right"><input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment">
-                      </td></tr>
+                      <tr>
+                        <td colspan="2">
+                          <input name="file_upload" type="file" size="40" class="fixed">
+                        </td>
+                        <td align="right">
+                          <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">
+                          <a name="attachment"></a>
+                        </td>
+                      </tr>
                     </table>
                   </td>
                 </tr>
@@ -275,15 +278,12 @@ function change_selected(sel)
           </tr>
         </table>
       </form>
-
       <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
         <input type="hidden" name="Action" value="AgentSpelling">
         <input type="hidden" name="Body" value="">
         <input type="hidden" name="spell_lang" value="">
       </form>
-
       <br>
-
     </td>
   </tr>
 </table>
