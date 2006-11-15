@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPending.pm - set ticket to pending
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPending.pm,v 1.20 2006-09-29 16:33:47 mh Exp $
+# $Id: AgentTicketPending.pm,v 1.21 2006-11-15 07:39:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -432,6 +432,7 @@ sub Run {
                 );
                 $Self->{TicketObject}->TicketFreeTimeSet(
                     %Time,
+                    Prefix => "TicketFreeTime",
                     TicketID => $Self->{TicketID},
                     Counter => $_,
                     UserID => $Self->{UserID},

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.20 2006-11-02 12:20:52 tr Exp $
+# $Id: AgentTicketCompose.pm,v 1.21 2006-11-15 07:39:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -403,6 +403,7 @@ sub Run {
                     );
                     $Self->{TicketObject}->TicketFreeTimeSet(
                         %Time,
+                        Prefix => "TicketFreeTime",
                         TicketID => $Self->{TicketID},
                         Counter => $_,
                         UserID => $Self->{UserID},

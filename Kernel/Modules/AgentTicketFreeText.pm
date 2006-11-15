@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketFreeText.pm - free text for ticket
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketFreeText.pm,v 1.10 2006-09-29 16:33:47 mh Exp $
+# $Id: AgentTicketFreeText.pm,v 1.11 2006-11-15 07:39:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -432,6 +432,7 @@ sub Run {
                 );
                 $Self->{TicketObject}->TicketFreeTimeSet(
                     %Time,
+                    Prefix => "TicketFreeTime",
                     TicketID => $Self->{TicketID},
                     Counter => $_,
                     UserID => $Self->{UserID},

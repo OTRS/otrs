@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.18 2006-11-15 07:21:52 martin Exp $
+# $Id: Layout.pm,v 1.19 2006-11-15 07:39:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2180,6 +2180,7 @@ sub TransfromDateSelection {
     my $DateInputStyle = $Self->{ConfigObject}->Get('TimeInputFormat');
     my $Prefix = $Param{'Prefix'} || '';
     my $Format = defined($Param{Format}) ? $Param{Format} : 'DateInputFormatLong';
+    # time zone translation
     if ($Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone}) {
         my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
              String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".$Param{$Prefix."Hour"}.":".$Param{$Prefix."Minute"}.":00",
@@ -2203,6 +2204,17 @@ sub BuildDateSelection {
     my ($s,$m,$h, $D,$M,$Y) = $Self->{UserTimeObject}->SystemTime2Date(
         SystemTime => $Self->{UserTimeObject}->SystemTime() + $DiffTime,
     );
+    # time zone translation
+    if ($Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone} &&
+        $Param{$Prefix."Year"} && $Param{$Prefix."Month"} && $Param{$Prefix."Day"}) {
+        my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
+             String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".$Param{$Prefix."Hour"}.":".$Param{$Prefix."Minute"}.":00",
+        );
+        $TimeStamp = $TimeStamp + ($Self->{UserTimeZone}*60*60);
+        ($Param{$Prefix."Secunde"}, $Param{$Prefix."Minute"}, $Param{$Prefix."Hour"}, $Param{$Prefix."Day"}, $Param{$Prefix."Month"}, $Param{$Prefix."Year"}) = $Self->{UserTimeObject}->SystemTime2Date(
+            SystemTime => $TimeStamp,
+        );
+    }
     # year
     if ($DateInputStyle eq 'Option') {
         my %Year = ();
@@ -2657,6 +2669,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2006-11-15 07:21:52 $
+$Revision: 1.19 $ $Date: 2006-11-15 07:39:49 $
 
 =cut
