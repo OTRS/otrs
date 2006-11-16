@@ -15,7 +15,6 @@ Possible SubGroups
     - Core::Web
     - Core::PostMaster
     - Core::Stats
-    - Core::Stats
     - Core::Stats::Graph
     - Crypt::PGP
     - Crypt::SMIME
@@ -108,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.123 2006-11-09 08:31:15 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.124 2006-11-16 15:00:48 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
