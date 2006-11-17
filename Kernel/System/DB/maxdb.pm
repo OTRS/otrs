@@ -2,7 +2,7 @@
 # Kernel/System/DB/maxdb.pm - maxdb database backend
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: maxdb.pm,v 1.8 2006-09-06 14:25:35 martin Exp $
+# $Id: maxdb.pm,v 1.9 2006-11-17 10:21:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,8 +14,23 @@ package Kernel::System::DB::maxdb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+sub new {
+    my $Type = shift;
+    my %Param = @_;
+
+    # allocate new hash for object
+    my $Self = {};
+    bless ($Self, $Type);
+
+    # check needed objects
+    foreach (keys %Param) {
+        $Self->{$_} = $Param{$_};
+    }
+    return $Self;
+}
 
 sub LoadPreferences {
     my $Self = shift;

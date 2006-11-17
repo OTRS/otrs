@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.14 2006-10-04 11:13:49 martin Exp $
+# $Id: oracle.pm,v 1.15 2006-11-17 10:21:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,8 +14,23 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+sub new {
+    my $Type = shift;
+    my %Param = @_;
+
+    # allocate new hash for object
+    my $Self = {};
+    bless ($Self, $Type);
+
+    # check needed objects
+    foreach (keys %Param) {
+        $Self->{$_} = $Param{$_};
+    }
+    return $Self;
+}
 
 sub LoadPreferences {
     my $Self = shift;
@@ -454,4 +469,5 @@ sub _TypeTranslation {
     }
     return $Tag;
 }
+
 1;

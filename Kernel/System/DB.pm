@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.55 2006-11-10 09:05:59 martin Exp $
+# $Id: DB.pm,v 1.56 2006-11-17 10:21:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -140,9 +140,9 @@ sub new {
         if (!eval "require $GenericModule") {
             die "Can't load database backend module $GenericModule! $@";
         }
-        @ISA = ($GenericModule);
+        $Self->{Backend} = $GenericModule->new(%{$Self});
         # set database functions
-        $Self->LoadPreferences();
+        $Self->{Backend}->LoadPreferences();
     }
     else {
         $Self->{LogObject}->Log(
@@ -157,16 +157,17 @@ sub new {
     # (overwrite auto detection with config options)
     foreach (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack)) {
         if (defined($Self->{ConfigObject}->Get("Database::$_"))) {
-            $Self->{"DB::$_"} = $Self->{ConfigObject}->Get("Database::$_");
+            $Self->{Backend}->{"DB::$_"} = $Self->{ConfigObject}->Get("Database::$_");
         }
     }
     # check/get extra database config options
     # (overwrite with params)
     foreach (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack)) {
         if (defined($Param{$_})) {
-            $Self->{"DB::$_"} = $Param{$_};
+            $Self->{Backend}->{"DB::$_"} = $Param{$_};
         }
     }
+
     # do database connect
     if (!$Self->Connect()) {
         return;
@@ -191,7 +192,7 @@ sub Connect {
         );
     }
     # db connect
-    if (!($Self->{dbh} = DBI->connect("$Self->{DSN}", $Self->{USER}, $Self->{PW}, $Self->{'DB::Attribute'}))) {
+    if (!($Self->{dbh} = DBI->connect("$Self->{DSN}", $Self->{USER}, $Self->{PW}, $Self->{Backend}->{'DB::Attribute'}))) {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'Error',
@@ -277,14 +278,14 @@ sub Quote {
     }
     # do quote string
     elsif (!defined($Type)) {
-        if ($Self->{'DB::QuoteBack'}) {
-            $Text =~ s/\\/$Self->{'DB::QuoteBack'}\\/g;
+        if ($Self->{Backend}->{'DB::QuoteBack'}) {
+            $Text =~ s/\\/$Self->{Backend}->{'DB::QuoteBack'}\\/g;
         }
-        if ($Self->{'DB::QuoteSingle'}) {
-            $Text =~ s/'/$Self->{'DB::QuoteSingle'}'/g;
+        if ($Self->{Backend}->{'DB::QuoteSingle'}) {
+            $Text =~ s/'/$Self->{Backend}->{'DB::QuoteSingle'}'/g;
         }
-        if ($Self->{'DB::QuoteSemicolon'}) {
-            $Text =~ s/;/$Self->{'DB::QuoteSemicolon'};/g;
+        if ($Self->{Backend}->{'DB::QuoteSemicolon'}) {
+            $Text =~ s/;/$Self->{Backend}->{'DB::QuoteSemicolon'};/g;
         }
         return $Text;
     }
@@ -358,8 +359,8 @@ sub Do {
     }
     if (!$Self->{ConfigObject}->Get('TimeZone')) {
         # doing timestamp workaround (if needed)
-        if ($Self->{'DB::CurrentTimestamp'}) {
-            $Param{SQL} =~ s/current_timestamp/$Self->{'DB::CurrentTimestamp'}/g;
+        if ($Self->{Backend}->{'DB::CurrentTimestamp'}) {
+            $Param{SQL} =~ s/current_timestamp/$Self->{Backend}->{'DB::CurrentTimestamp'}/g;
         }
     }
     else {
@@ -413,10 +414,10 @@ sub Prepare {
     $Self->{LimitCounter} = 0;
     # build finally select query
     if ($Limit) {
-        if ($Self->{'DB::Limit'} eq 'limit') {
+        if ($Self->{Backend}->{'DB::Limit'} eq 'limit') {
             $SQL .= " LIMIT $Limit";
         }
-        elsif ($Self->{'DB::Limit'} eq 'fetch') {
+        elsif ($Self->{Backend}->{'DB::Limit'} eq 'fetch') {
             $SQL .= " fetch $Limit first row";
         }
         else {
@@ -470,7 +471,7 @@ to get a select return
 sub FetchrowArray {
     my $Self = shift;
     # work with cursers if database don't support limit
-    if (!$Self->{'DB::Limit'} && $Self->{Limit}) {
+    if (!$Self->{Backend}->{'DB::Limit'} && $Self->{Limit}) {
         if ($Self->{Limit} <= $Self->{LimitCounter}) {
             $Self->{Curser}->finish();
             return;
@@ -490,7 +491,7 @@ sub FetchrowArray {
 sub FetchrowHashref {
     my $Self = shift;
     # work with cursers if database don't support limit
-    if (!$Self->{'DB::Limit'} && $Self->{Limit}) {
+    if (!$Self->{Backend}->{'DB::Limit'} && $Self->{Limit}) {
         if ($Self->{Limit} <= $Self->{LimitCounter}) {
             $Self->{Curser}->finish();
             return;
@@ -512,7 +513,7 @@ to get database functions like Limit, DirectBlob, ...
 sub GetDatabaseFunction {
     my $Self = shift;
     my $What = shift;
-    return $Self->{'DB::'.$What};
+    return $Self->{Backend}->{'DB::'.$What};
 }
 
 =item SQLProcessor()
@@ -555,8 +556,9 @@ sub SQLProcessor {
                 push (@Table, $Tag);
             }
             elsif (($Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate') && $Tag->{TagType} eq 'End') {
+        $Self->{Backend}->LoadPreferences();
                 push (@Table, $Tag);
-                push (@SQL, $Self->TableCreate(@Table));
+                push (@SQL, $Self->{Backend}->TableCreate(@Table));
                 @Table = ();
             }
             elsif ($Tag->{Tag} eq 'Column' && $Tag->{TagType} eq 'Start') {
@@ -584,7 +586,7 @@ sub SQLProcessor {
             }
             elsif ($Tag->{Tag} eq 'TableDrop' && $Tag->{TagType} eq 'Start') {
                 push (@Table, $Tag);
-                push (@SQL, $Self->TableDrop(@Table));
+                push (@SQL, $Self->{Backend}->TableDrop(@Table));
                 @Table = ();
             }
             elsif ($Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start') {
@@ -607,7 +609,7 @@ sub SQLProcessor {
             }
             elsif ($Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'End') {
                 push (@Table, $Tag);
-                push (@SQL, $Self->TableAlter(@Table));
+                push (@SQL, $Self->{Backend}->TableAlter(@Table));
                 @Table = ();
             }
             elsif ($Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start') {
@@ -618,7 +620,7 @@ sub SQLProcessor {
             }
             elsif ($Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'End') {
                 push (@Table, $Tag);
-                push (@SQL, $Self->Insert(@Table));
+                push (@SQL, $Self->{Backend}->Insert(@Table));
                 @Table = ();
             }
         }
@@ -745,6 +747,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2006-11-10 09:05:59 $
+$Revision: 1.56 $ $Date: 2006-11-17 10:21:09 $
 
 =cut

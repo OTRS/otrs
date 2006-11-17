@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.4 2006-09-27 16:30:11 martin Exp $
+# $Id: mssql.pm,v 1.5 2006-11-17 10:21:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,13 +14,29 @@ package Kernel::System::DB::mssql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+sub new {
+    my $Type = shift;
+    my %Param = @_;
+
+    # allocate new hash for object
+    my $Self = {};
+    bless ($Self, $Type);
+
+    # check needed objects
+    foreach (keys %Param) {
+        $Self->{$_} = $Param{$_};
+    }
+    return $Self;
+}
 
 sub LoadPreferences {
     my $Self = shift;
     my %Param = @_;
 
+    # db settings
     $Self->{'DB::Limit'} = 0;
     $Self->{'DB::DirectBlob'} = 0;
     $Self->{'DB::QuoteSignle'} = '\'';
@@ -34,6 +50,7 @@ sub LoadPreferences {
     # shell setting
     $Self->{'DB::Comment'} = '-- ';
     $Self->{'DB::ShellCommit'} = ';';
+
     return 1;
 }
 
@@ -446,4 +463,5 @@ sub _TypeTranslation {
     }
     return $Tag;
 }
+
 1;
