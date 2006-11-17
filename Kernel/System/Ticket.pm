@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.229 2006-11-15 07:24:16 martin Exp $
+# $Id: Ticket.pm,v 1.230 2006-11-17 13:02:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.229 $';
+$VERSION = '$Revision: 1.230 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -3178,8 +3178,8 @@ sub OwnerSet {
     }
     # db update
     my $SQL = "UPDATE ticket SET user_id = $Param{NewUserID}, " .
-    " change_time = current_timestamp, change_by = $Param{UserID} " .
-    " WHERE id = $Param{TicketID}";
+        " change_time = current_timestamp, change_by = $Param{UserID} " .
+        " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # add history
         $Self->HistoryAdd(
@@ -3224,7 +3224,8 @@ sub OwnerSet {
             TicketID => $Param{TicketID},
         );
         # set responsible if first change
-        if ($Self->{ConfigObject}->Get('Ticket::Responsible')) {
+        if ($Self->{ConfigObject}->Get('Ticket::Responsible') &&
+            $Self->{ConfigObject}->Get('Ticket::ResponsibleAutoSet')) {
             my %Ticket = $Self->TicketGet(
                 TicketID => $Param{TicketID},
                 UserID => $Param{UserID},
@@ -4891,6 +4892,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.229 $ $Date: 2006-11-15 07:24:16 $
+$Revision: 1.230 $ $Date: 2006-11-17 13:02:08 $
 
 =cut
