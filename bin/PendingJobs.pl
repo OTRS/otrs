@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PendingJobs.pl,v 1.25 2006-11-02 12:20:59 tr Exp $
+# $Id: PendingJobs.pl,v 1.26 2006-11-17 13:03:19 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
@@ -143,7 +143,7 @@ if (@PendingReminderStateIDs) {
         if ($Ticket{UntilTime} < 1) {
             my @UserID = ();
             # send reminder to ticket onwer if ticket is locked
-            if ($Ticket{Lock} eq 'lock') {
+            if ($CommonObject{ConfigObject}->Get('Ticket::PendingNotificationOnlyToOwner') || $Ticket{Lock} eq 'lock') {
                 @UserID = ($Ticket{OwnerID});
             }
             # send reminder to queue subscriber if ticket is unlocked
