@@ -2,13 +2,18 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.313 2006-11-17 10:26:21 martin Exp $
+# $Id: CHANGES,v 1.314 2006-11-22 06:32:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.4 (2006/??/??)
+ - (2006/11/22) fixed bug #1395 - utf-8 - ArticleStorage FS - Attachments with
+    German Umlauts cant be downloaded
+ - (2006/11/17) added config option Ticket::PendingNotificationOnlyToOwner
+    to send reached reminder notifications of unlocked tickets only to ticket
+    owner
  - (2006/11/17) fixed database driver detection/problem if a second database
     connect with different driver is used (wrong sql will not longer be
     generated) Note: old database driver files Kernel/System/DB/*.pm
