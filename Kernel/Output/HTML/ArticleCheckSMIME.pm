@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.8 2006-10-09 15:42:14 mh Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.9 2006-11-22 19:29:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -144,6 +144,7 @@ sub Check {
                 my $Body = $ParserObject->GetMessageBody();
                 # updated article body
                 $Self->{TicketObject}->ArticleUpdate(
+                    TicketID => $Param{Article}->{TicketID},
                     ArticleID => $Self->{ArticleID},
                     Key => 'Body',
                     Value => $Body,

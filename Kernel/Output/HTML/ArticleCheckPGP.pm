@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckPGP.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleCheckPGP.pm,v 1.8 2006-10-09 15:42:14 mh Exp $
+# $Id: ArticleCheckPGP.pm,v 1.9 2006-11-22 19:29:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -71,6 +71,7 @@ sub Check {
             $Param{Article}->{Body} = $Decrypt{Data},
             # updated article body
             $Self->{TicketObject}->ArticleUpdate(
+                TicketID => $Param{Article}->{TicketID},
                 ArticleID => $Self->{ArticleID},
                 Key => 'Body',
                 Value => $Decrypt{Data},
@@ -161,15 +162,16 @@ sub Check {
 #               print STDERR "$Body\n";
                # updated article body
                $Self->{TicketObject}->ArticleUpdate(
-                   ArticleID => $Self->{ArticleID},
-                   Key => 'Body',
-                   Value => $Body,
-                   UserID => $Self->{UserID},
+                    TicketID => $Param{Article}->{TicketID},
+                    ArticleID => $Self->{ArticleID},
+                    Key => 'Body',
+                    Value => $Body,
+                    UserID => $Self->{UserID},
                );
                # delete crypted attachments
                $Self->{TicketObject}->ArticleDeleteAttachment(
-                   ArticleID => $Self->{ArticleID},
-                   UserID => $Self->{UserID},
+                    ArticleID => $Self->{ArticleID},
+                    UserID => $Self->{UserID},
                );
                # write attachments to the storage
                foreach my $Attachment ($ParserObject->GetAttachments()) {
