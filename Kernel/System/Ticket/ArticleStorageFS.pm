@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.32 2006-09-05 21:25:45 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.33 2006-11-22 06:32:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub ArticleStorageInit {
@@ -469,16 +469,35 @@ sub ArticleAttachment {
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
     my %Data = %{$Index{$Param{FileID}}};;
     my $Counter = 0;
-    if (open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}")) {
-        binmode(DATA);
-        while (<DATA>) {
-            $Data{ContentType} = $_ if ($Counter == 0);
-            $Data{Content} .= $_ if ($Counter > 0);
-            $Counter++;
+    my @List = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");
+    if (@List) {
+        foreach my $Filename (@List) {
+            if ($Filename !~ /\/plain.txt/) {
+                # add the info the the hash
+                $Counter++;
+                if ($Counter == $Param{FileID}) {
+                    if (open (DATA, $Filename)) {
+                        my $Counter = 0;
+                        binmode(DATA);
+                        while (<DATA>) {
+                            $Data{ContentType} = $_ if ($Counter == 0);
+                            $Data{Content} .= $_ if ($Counter > 0);
+                            $Counter++;
+                        }
+                        close (DATA);
+                        chomp ($Data{ContentType});
+                        return %Data;
+                    }
+                    else {
+                        $Self->{LogObject}->Log(
+                          Priority => 'error',
+                          Message => "$!: $Filename!",
+                        );
+                        return;
+                    }
+                }
+            }
         }
-        close (DATA);
-        chomp ($Data{ContentType});
-        return %Data;
     }
     else {
         # try database
@@ -505,12 +524,11 @@ sub ArticleAttachment {
         else {
             $Self->{LogObject}->Log(
               Priority => 'error',
-              Message => "$!: $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Index{$Param{FileID}}!",
+              Message => "$!: $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}!",
             );
             return;
         }
     }
 }
-
 
 1;
