@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.19 2006-09-15 09:01:10 martin Exp $
+# $Id: Email.pm,v 1.20 2006-11-23 11:17:07 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -40,29 +40,29 @@ Global module to send email via sendmail or SMTP.
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::Time;
-  use Kernel::System::DB;
-  use Kernel::System::Email;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::Time;
+    use Kernel::System::DB;
+    use Kernel::System::Email;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $TimeObject    = Kernel::System::Time->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $SendObject = Kernel::System::Email->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      DBObject => $DBObject,
-      TimeObject => $TimeObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $TimeObject    = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $SendObject = Kernel::System::Email->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+        TimeObject => $TimeObject,
+    );
 
 =cut
 
@@ -106,41 +106,41 @@ sub new {
 To send an email without already created header:
 
     if ($SendObject->Send(
-      From => 'me@example.com',
-      To => 'friend@example.com',
-      Subject => 'Some words!',
-      Type => 'text/plain',
-      Charset => 'iso-8859-15',
-      Body => 'Some nice text',
-      Loop => 1, # not required, removes smtp from
-      Attachment => [
-        {
-          Filename    => "somefile.csv",
-          Content     => $ContentCSV,
-          ContentType => "text/csv",
-        }
-        {
-          Filename    => "somefile.png",
-          Content     => $ContentPNG,
-          ContentType => "image/png",
-        }
-      ],
-      Sign => {
-          Type => 'PGP',
-          SubType => 'Inline|Detached',
-          Key => '81877F5E',
+        From => 'me@example.com',
+        To => 'friend@example.com',
+        Subject => 'Some words!',
+        Type => 'text/plain',
+        Charset => 'iso-8859-15',
+        Body => 'Some nice text',
+        Loop => 1, # not required, removes smtp from
+        Attachment => [
+            {
+              Filename    => "somefile.csv",
+              Content     => $ContentCSV,
+              ContentType => "text/csv",
+            }
+            {
+              Filename    => "somefile.png",
+              Content     => $ContentPNG,
+              ContentType => "image/png",
+            }
+        ],
+        Sign => {
+            Type => 'PGP',
+            SubType => 'Inline|Detached',
+            Key => '81877F5E',
 
-          Type => 'SMIME',
-          Key => '3b630c80',
-      },
-      Crypt => {
-          Type => 'PGP',
-          SubType => 'Inline|Detached',
-          Key => '81877F5E',
+            Type => 'SMIME',
+            Key => '3b630c80',
+        },
+        Crypt => {
+            Type => 'PGP',
+            SubType => 'Inline|Detached',
+            Key => '81877F5E',
 
-          Type => 'SMIME',
-          Key => '3b630c80',
-      },
+            Type => 'SMIME',
+            Key => '3b630c80',
+        },
     )) {
         print "Email sent!\n";
     }
@@ -422,7 +422,6 @@ sub Send {
         $Entity = $Parser->parse_data($Header.$Crypt);
     }
 
-
     # get header from Entity
     my $head = $Entity->head;
     $Param{Header} = $head->as_string();
@@ -553,7 +552,6 @@ sub Bounce {
         return;
     }
 
-
 }
 
 sub _MessageIDCreate {
@@ -575,7 +573,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2006-09-15 09:01:10 $
+$Revision: 1.20 $ $Date: 2006-11-23 11:17:07 $
 
 =cut
-
