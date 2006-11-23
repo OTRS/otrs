@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.41 2006-10-19 21:51:46 martin Exp $
+# $Id: DB.pm,v 1.42 2006-11-23 09:45:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CheckItem;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -183,12 +183,14 @@ sub CustomerSearch {
     # get data
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{UserSearchListLimit});
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-         foreach (1..8) {
-             if ($Row[$_]) {
-                  $Users{$Row[0]} .= $Row[$_].' ';
+        if (!$Users{$Row[0]}) {
+             foreach (1..8) {
+                 if ($Row[$_]) {
+                      $Users{$Row[0]} .= $Row[$_].' ';
+                 }
              }
-         }
-         $Users{$Row[0]} =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+             $Users{$Row[0]} =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+        }
     }
     return %Users;
 }
