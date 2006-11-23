@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.4 2006-10-09 16:01:57 mh Exp $
+# $Id: LayoutTicket.pm,v 1.5 2006-11-23 11:04:11 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::LayoutTicket;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketStdResponseString {
@@ -126,6 +126,9 @@ sub AgentQueueListOption {
     if ($OnChangeSubmit) {
         $OnChangeSubmit = " onchange=\"submit()\"";
     }
+    else {
+        $OnChangeSubmit = '';
+    }
     if ($Param{OnChange}) {
         $OnChangeSubmit = " onchange=\"$Param{OnChange}\"";
     }
@@ -140,7 +143,7 @@ sub AgentQueueListOption {
         return $Param{MoveQueuesStrg};
     }
     # build tree list
-    $Param{MoveQueuesStrg} = '<select name="'.$Param{Name}."\" $Size $Multiple $OnChangeSubmit>";
+    $Param{MoveQueuesStrg} = '<select name="'.$Param{Name}."\" $Size $Multiple $OnChangeSubmit>\n";
     my %UsedData = ();
     my %Data = ();
     if ($Param{Data} && ref($Param{Data}) eq 'HASH') {
@@ -177,16 +180,16 @@ sub AgentQueueListOption {
             if ($UsedData{$UpQueue}) {
                 if ($SelectedID eq $_ || $Selected eq $Param{Data}->{$_} || $Param{SelectedIDRefArrayOK}->{$_}) {
                     $Param{MoveQueuesStrg} .= '<option selected value="'.$_.'">'.
-                        $Space.$Queue[$#Queue].'</option>';
+                        $Space.$Queue[$#Queue]."</option>\n";
                 }
                 else {
                     $Param{MoveQueuesStrg} .= '<option value="'.$_.'">'.
-                        $Space.$Queue[$#Queue].'</option>';
+                        $Space.$Queue[$#Queue]."</option>\n";
                 }
             }
         }
     }
-    $Param{MoveQueuesStrg} .= '</select>';
+    $Param{MoveQueuesStrg} .= "</select>\n";
 
     return $Param{MoveQueuesStrg};
 }
