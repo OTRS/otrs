@@ -3,7 +3,7 @@
 # xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xml2sql.pl,v 1.8 2006-11-02 12:20:59 tr Exp $
+# $Id: xml2sql.pl,v 1.9 2006-11-26 21:16:08 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::XML;
 
-my $VERSION = '$Revision: 1.8 $';
+my $VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 my %Opts = ();
@@ -88,9 +88,9 @@ foreach (@File) {
 my @XMLARRAY = $CommonObject{XMLObject}->XMLParse(String => $FileString);
 
 # remember header
-my $Head = $CommonObject{DBObject}->{"DB::Comment"}."----------------------------------------------------------\n";
-$Head .= $CommonObject{DBObject}->{"DB::Comment"}." database: $Opts{t}, generated: ".scalar(localtime())."\n";
-$Head .= $CommonObject{DBObject}->{"DB::Comment"}."----------------------------------------------------------\n";
+my $Head = $CommonObject{DBObject}->{Backend}->{"DB::Comment"}."----------------------------------------------------------\n";
+$Head .= $CommonObject{DBObject}->{Backend}->{"DB::Comment"}." database: $Opts{t}, generated: ".scalar(localtime())."\n";
+$Head .= $CommonObject{DBObject}->{Backend}->{"DB::Comment"}."----------------------------------------------------------\n";
 
 # get database sql from parsed xml
 my @SQL = $CommonObject{DBObject}->SQLProcessor(Database => \@XMLARRAY);
@@ -104,7 +104,7 @@ else {
 }
 print OUT $Head;
 foreach (@SQL) {
-    print OUT "$_".$CommonObject{DBObject}->{"DB::ShellCommit"}."\n";
+    print OUT "$_".$CommonObject{DBObject}->{Backend}->{"DB::ShellCommit"}."\n";
 }
 if ($Opts{o}) {
     close (OUT);
