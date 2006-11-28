@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.15 2006-10-19 20:03:38 mh Exp $
+# $Id: AgentTicketZoom.dtl,v 1.16 2006-11-28 10:08:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -61,7 +61,7 @@ $Text{"$QData{"Name"}"}</a>
           <td class="small">
             <div title="$QData{"From","50"}: $QData{"Subject","200"} - $TimeLong{"$QData{"Created"}"}">$Data{"Space"}$Data{"Start"} $QData{"Count"}. <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})</a>
 <!-- dtl:block:TreeItemEmail -->
-            (<a href="$Env{"Baselink"}Action=AgentTicketPlain&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}" 'onmouseover="window.status='$JSText{"plain"}'; return true;" onmouseout="window.status='';">$Text{"plain"}</a>)
+            (<a href="$Env{"Baselink"}Action=AgentTicketPlain&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}" onmouseover="window.status='$JSText{"plain"}'; return true;" onmouseout="window.status='';">$Text{"plain"}</a>)
 <!-- dtl:block:TreeItemEmail -->
             &nbsp $QData{"From","16"}: $QData{"Subject","20"} - $TimeLong{"$QData{"Created"}"}$Data{"Stop"}
 <!-- dtl:block:TreeItemAttachment -->
