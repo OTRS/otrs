@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.230 2006-11-17 13:02:08 martin Exp $
+# $Id: Ticket.pm,v 1.231 2006-11-29 06:23:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.230 $';
+$VERSION = '$Revision: 1.231 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -4028,7 +4028,6 @@ add a history entry to an ticket
       TicketID => 123,
       ArticleID => 1234, # not required!
       QueueID => 123, # not required!
-      UserID => 123,
       CreateUserID => 123,
   );
 
@@ -4892,6 +4891,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.230 $ $Date: 2006-11-17 13:02:08 $
+$Revision: 1.231 $ $Date: 2006-11-29 06:23:17 $
 
 =cut
