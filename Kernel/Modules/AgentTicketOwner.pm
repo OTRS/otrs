@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketOwner.pm - set ticket owner
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.pm,v 1.15 2006-11-15 07:39:48 martin Exp $
+# $Id: AgentTicketOwner.pm,v 1.16 2006-11-29 08:55:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -629,10 +629,17 @@ sub _Mask {
         if (!%UserHash) {
             $UserHash{''} = '-';
         }
+        my $OldOwnerSelectedID = '';
+        if ($Param{OldOwnerID}) {
+            $OldOwnerSelectedID = $Param{OldOwnerID};
+        }
+        elsif ($OldUserInfo[0]->{UserID}) {
+            $OldOwnerSelectedID = $OldUserInfo[0]->{UserID} . '1';
+        }
         # build string
         $Param{'OldOwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => \%UserHash,
-            SelectedID => $Param{OldOwnerID} || $OldUserInfo[0]->{UserID}.'1',
+            SelectedID => $OldOwnerSelectedID,
             Name => 'OldOwnerID',
             OnClick => "change_selected(2)",
         );

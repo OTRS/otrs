@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.12 2006-11-15 06:54:22 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.13 2006-11-29 08:55:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -311,10 +311,14 @@ sub AgentMove {
     if (!%UserHash) {
         $UserHash{''} = '-';
     }
+    my $OldUserSelectedID = '';
+    if ($Param{OldUser}->[0]->{UserID}) {
+        $OldUserSelectedID = $Param{OldUser}->[0]->{UserID} . '1';
+    }
     # build string
     $Param{'OldUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => \%UserHash,
-        SelectedID => $Param{OldUser}->[0]->{UserID}.'1',
+        SelectedID => $OldUserSelectedID,
         Name => 'OldUserID',
         OnClick => "change_selected(2)",
     );
