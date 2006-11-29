@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.28 2006-11-22 19:29:57 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.29 2006-11-29 09:58:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -648,7 +648,10 @@ sub MaskAgentZoom {
         # select the output template
         if ($Article{ArticleType} =~ /^note/i) {
             # without compose links!
-            if ($Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer') && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
+            if ($Param{CustomerUserID} &&
+                $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i &&
+                $Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer')
+            ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'AgentIsCustomer',
                     Data => {%Param, %Article, %AclAction},
@@ -661,7 +664,10 @@ sub MaskAgentZoom {
         }
         else {
             # without all!
-            if ($Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer') &&  $Param{CustomerUserID} && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
+            if ($Param{CustomerUserID} &&
+                $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i &&
+                $Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer')
+            ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'AgentIsCustomer',
                     Data => {%Param, %Article, %AclAction},
