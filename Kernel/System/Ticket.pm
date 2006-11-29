@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.231 2006-11-29 06:23:17 tr Exp $
+# $Id: Ticket.pm,v 1.232 2006-11-29 12:49:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.231 $';
+$VERSION = '$Revision: 1.232 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -804,7 +804,9 @@ sub TicketTitleUpdate {
     }
     # check if update is needed
     my %Ticket = $Self->TicketGet(%Param);
-    if ($Ticket{Title} eq $Param{Title}) {
+    if ($Ticket{Title} &&
+        $Param{Title} &&
+        $Ticket{Title} eq $Param{Title}) {
         return 1;
     }
     # db quote
@@ -4891,6 +4893,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.231 $ $Date: 2006-11-29 06:23:17 $
+$Revision: 1.232 $ $Date: 2006-11-29 12:49:34 $
 
 =cut
