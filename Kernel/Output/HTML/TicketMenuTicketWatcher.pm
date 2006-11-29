@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuTicketWatcher.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TicketMenuTicketWatcher.pm,v 1.2 2006-08-29 17:15:22 martin Exp $
+# $Id: TicketMenuTicketWatcher.pm,v 1.3 2006-11-29 09:33:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::TicketMenuTicketWatcher;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -58,7 +58,7 @@ sub Run {
         }
         else {
             foreach my $Group (@Groups) {
-                if ($Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes') {
+                if ($Self->{LayoutObject}->{"UserIsGroup[$Group]"} && $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes') {
                     $Access = 1;
                 }
             }
