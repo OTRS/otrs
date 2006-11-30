@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.15 2006-11-17 10:21:09 martin Exp $
+# $Id: oracle.pm,v 1.16 2006-11-30 09:18:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -52,6 +52,23 @@ sub LoadPreferences {
     $Self->{'DB::ShellCommit'} = ';';
 
     return 1;
+}
+
+sub Quote {
+    my $Self = shift;
+    my $Text = shift;
+    if (defined(${$Text})) {
+        if ($Self->{'DB::QuoteBack'}) {
+            ${$Text} =~ s/\\/$Self->{'DB::QuoteBack'}\\/g;
+        }
+        if ($Self->{'DB::QuoteSingle'}) {
+            ${$Text} =~ s/'/$Self->{'DB::QuoteSingle'}'/g;
+        }
+        if ($Self->{'DB::QuoteSemicolon'}) {
+            ${$Text} =~ s/;/$Self->{'DB::QuoteSemicolon'};/g;
+        }
+    }
+    return $Text;
 }
 
 sub DatabaseCreate {

@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.56 2006-11-17 10:21:09 martin Exp $
+# $Id: DB.pm,v 1.57 2006-11-30 09:18:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -278,16 +278,7 @@ sub Quote {
     }
     # do quote string
     elsif (!defined($Type)) {
-        if ($Self->{Backend}->{'DB::QuoteBack'}) {
-            $Text =~ s/\\/$Self->{Backend}->{'DB::QuoteBack'}\\/g;
-        }
-        if ($Self->{Backend}->{'DB::QuoteSingle'}) {
-            $Text =~ s/'/$Self->{Backend}->{'DB::QuoteSingle'}'/g;
-        }
-        if ($Self->{Backend}->{'DB::QuoteSemicolon'}) {
-            $Text =~ s/;/$Self->{Backend}->{'DB::QuoteSemicolon'};/g;
-        }
-        return $Text;
+        return ${$Self->{Backend}->Quote(\$Text)};
     }
     else {
         $Self->{LogObject}->Log(
@@ -747,6 +738,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2006-11-17 10:21:09 $
+$Revision: 1.57 $ $Date: 2006-11-30 09:18:06 $
 
 =cut

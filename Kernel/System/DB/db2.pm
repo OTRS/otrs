@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.10 2006-11-17 10:21:09 martin Exp $
+# $Id: db2.pm,v 1.11 2006-11-30 09:18:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::DB::db2;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -52,6 +52,23 @@ sub LoadPreferences {
     $Self->{'DB::ShellCommit'} = ";\n";
 
     return 1;
+}
+
+sub Quote {
+    my $Self = shift;
+    my $Text = shift;
+    if (defined(${$Text})) {
+        if ($Self->{'DB::QuoteBack'}) {
+            ${$Text} =~ s/\\/$Self->{'DB::QuoteBack'}\\/g;
+        }
+        if ($Self->{'DB::QuoteSingle'}) {
+            ${$Text} =~ s/'/$Self->{'DB::QuoteSingle'}'/g;
+        }
+        if ($Self->{'DB::QuoteSemicolon'}) {
+            ${$Text} =~ s/;/$Self->{'DB::QuoteSemicolon'};/g;
+        }
+    }
+    return $Text;
 }
 
 sub DatabaseCreate {
