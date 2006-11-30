@@ -2,13 +2,20 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.315 2006-11-22 19:29:57 martin Exp $
+# $Id: CHANGES,v 1.316 2006-11-30 12:33:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.4 (2006/??/??)
+ - (2006/11/30) fixed double quoted "$Quote{"Cc: (%s) added database email!""}
+    in compose answer screen (Kernel/Modules/AgentTicketCompose.pm)
+ - (2006/11/30) fixed bug #1498 - Typo in QuoteSingle, Kernel/System/DB/mssql.pm
+ - (2006/11/30) moved Quote() from Kernel/System/DB.pm to db backend modules
+    Kernel/System/DB/*.pm because of needed Quote() in xml processing
+ - (2006/11/23) improved handling if there are double customer users in
+    the database used by search result
  - (2006/11/22) fixed PGP/SMIME bug - Can't call method "body" on an undefined
     value at Kernel/System/EmailParser.pm line 382
  - (2006/11/22) fixed bug #1395 - utf-8 - ArticleStorage FS - Attachments with
