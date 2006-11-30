@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.17 2006-10-12 10:15:59 martin Exp $
+# $Id: AgentTicketForward.dtl,v 1.18 2006-11-30 12:40:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -264,7 +264,7 @@ $QData{"Body"}
       </form>
 
       <form action="$Env{"CGIHandle"}" method="post" name="faq" target="faq">
-        <input type="hidden" name="Action" value="FAQ">
+        <input type="hidden" name="Action" value="AgentFAQ">
         <input type="hidden" name="Nav" value="None">
         <input type="hidden" name="Body" value="">
         <input type="hidden" name="Subject" value="">
