@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.16 2006-11-30 09:18:06 martin Exp $
+# $Id: oracle.pm,v 1.17 2006-11-30 11:33:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -427,13 +427,13 @@ sub Insert {
             $SQL = "INSERT INTO $Tag->{Table} "
         }
         if ($Tag->{Tag} eq 'Data' && $Tag->{TagType} eq 'Start') {
-            $Tag->{Key} = $Self->Quote($Tag->{Key});
+            $Tag->{Key} = ${$Self->Quote(\$Tag->{Key})};
             push (@Keys, $Tag->{Key});
             if ($Tag->{Type} && $Tag->{Type} eq 'Quote') {
-                $Tag->{Value} = "'".$Self->Quote($Tag->{Value})."'";
+                $Tag->{Value} = "'".${$Self->Quote(\$Tag->{Value})}."'";
             }
             else {
-                $Tag->{Value} = $Self->Quote($Tag->{Value});
+                $Tag->{Value} = ${$Self->Quote(\$Tag->{Value})};
             }
             push (@Values, $Tag->{Value});
         }
