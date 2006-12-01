@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.57 2006-10-31 14:50:48 tr Exp $
+# $Id: AdminSysConfig.pm,v 1.58 2006-12-01 09:04:03 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -464,7 +464,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
                 Data => '$Text{"Security Note: You should activate %s because application is already running!", "SecureMode"}',
-                Link => '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Core"',
+                Link => '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Core',
             );
         }
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSysConfigEdit', Data => \%Data);
@@ -523,7 +523,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Error',
             Data => '$Text{"Security Note: You should activate %s because application is already running!", "SecureMode"}',
-            Link => '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Core"',
+            Link => '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Core',
         );
     }
     $Output .= $Self->{LayoutObject}->Output(
