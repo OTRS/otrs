@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TODO,v 1.109 2006-10-05 13:52:18 tr Exp $
+# $Id: TODO,v 1.110 2006-12-05 10:44:20 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -95,6 +95,7 @@ ideas (just ideas - nobody is working on it)
 - show agent name in CustomerTicketOverView
 - GenericAgent with forward full message tree to other email address
 - improve fulltext search with 'article-type'
+- if a search is performed, directly open the article where the result is found
 - drop html Content-Type: multipart/alternative parts if text/plain extists
 - have easy insertion into the reply of a response 'template'
 - allow admin to create response templates like this:
@@ -140,3 +141,7 @@ ideas (just ideas - nobody is working on it)
 - Agent ticket search escalate from - to  absorb
 - Package Manager: - If a module will be uninstalled check if other modules depends on it and give an error
                    - If there are dependencies try to load the needed package automatically
+- show only valid queues, users, responses, e.g. via the regarding modules
+  in the admin interfaces and display also the invalid or invalid_temporarily
+  items if wanted (special config item or a buttom that selects all items).
+
