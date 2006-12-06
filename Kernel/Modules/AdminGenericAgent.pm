@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.34 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminGenericAgent.pm,v 1.35 2006-12-06 16:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -83,6 +83,7 @@ sub Run {
             Data => {
                 ScheduleLastRun => '',
             },
+            UserID => $Self->{UserID},
         );
         # redirect
         return $Self->{LayoutObject}->Redirect(
@@ -188,9 +189,16 @@ sub Run {
         }
 
         # remove/clean up old profile stuff
-        $Self->{GenericAgentObject}->JobDelete(Name => $Self->{OldProfile});
+        $Self->{GenericAgentObject}->JobDelete(
+            Name => $Self->{OldProfile},
+            UserID => $Self->{UserID},
+        );
         # insert new profile params
-        $Self->{GenericAgentObject}->JobAdd(Name => $Self->{Profile}, Data => \%GetParam);
+        $Self->{GenericAgentObject}->JobAdd(
+            Name => $Self->{Profile},
+            Data => \%GetParam,
+            UserID => $Self->{UserID},
+        );
 
         # get time settings
         if (!$GetParam{TimeSearchType}) {
@@ -645,7 +653,6 @@ sub Run {
                     );
                 }
 
-
                 $Self->{LayoutObject}->Block(
                     Name => 'NewTicketFreeFieldElement',
                     Data => {
@@ -673,7 +680,10 @@ sub Run {
 
     if ($Self->{Subaction} eq 'Delete' && $Self->{Profile}) {
         if ($Self->{Profile}) {
-            $Self->{GenericAgentObject}->JobDelete(Name => $Self->{Profile});
+            $Self->{GenericAgentObject}->JobDelete(
+                Name => $Self->{Profile},
+                UserID => $Self->{UserID},
+            );
         }
     }
 

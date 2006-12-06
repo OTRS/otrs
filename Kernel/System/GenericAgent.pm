@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.22 2006-11-02 12:20:53 tr Exp $
+# $Id: GenericAgent.pm,v 1.23 2006-12-06 16:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::GenericAgent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $ ';
+$VERSION = '$Revision: 1.23 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -793,6 +793,7 @@ adds a new job to the database
             ...
             Vaild => 1,
         },
+        UserID => 123,
     );
 
 =cut
@@ -801,7 +802,7 @@ sub JobAdd {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(Name Data)) {
+    foreach (qw(Name Data UserID)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -839,6 +840,10 @@ sub JobAdd {
             }
         }
     }
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message => "New GenericAgent job '$Param{Name}' added (UserID=$Param{UserID}).",
+    );
     return 1;
 }
 
@@ -854,7 +859,7 @@ sub JobDelete {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(Name)) {
+    foreach (qw(Name UserID)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -864,6 +869,10 @@ sub JobDelete {
     $Self->{DBObject}->Do(
         SQL => "DELETE FROM generic_agent_jobs WHERE ".
             "job_name = '".$Self->{DBObject}->Quote($Param{Name})."'",
+    );
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message => "GenericAgent job '$Param{Name}' deleted (UserID=$Param{UserID}).",
     );
     return 1;
 }
@@ -882,6 +891,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2006-11-02 12:20:53 $
+$Revision: 1.23 $ $Date: 2006-12-06 16:56:39 $
 
 =cut
