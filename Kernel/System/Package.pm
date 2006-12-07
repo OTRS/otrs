@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.52 2006-10-12 09:56:05 martin Exp $
+# $Id: Package.pm,v 1.53 2006-12-07 15:43:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1476,7 +1476,7 @@ sub _Download {
     # init agent
     my $UserAgent = LWP::UserAgent->new();
     # set timeout
-    $UserAgent->timeout($Self->{ConfigObject}->Get('Package::Timeout') || 12);
+    $UserAgent->timeout($Self->{ConfigObject}->Get('Package::Timeout') || 15);
     # set user agent
     $UserAgent->agent($Self->{ConfigObject}->Get('Product').' '.$Self->{ConfigObject}->Get('Version'));
     # set proxy
@@ -1685,6 +1685,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2006-10-12 09:56:05 $
+$Revision: 1.53 $ $Date: 2006-12-07 15:43:24 $
 
 =cut

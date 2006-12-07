@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.124 2006-11-16 15:00:48 mh Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.125 2006-12-07 15:43:23 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -2609,7 +2609,7 @@ TimeWorkingHours
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
         <Setting>
-            <String Regex="">12</String>
+            <String Regex="">15</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::Proxy" Required="0" Valid="0">

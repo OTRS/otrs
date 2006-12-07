@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.250 2006-11-09 08:31:15 martin Exp $
+# $Id: Defaults.pm,v 1.251 2006-12-07 15:43:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.250 $';
+$VERSION = '$Revision: 1.251 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -745,7 +745,7 @@ sub LoadDefaults {
 
     # Package::Timeout
     # (http/ftp timeout to get packages)
-    $Self->{'Package::Timeout'} = 12;
+    $Self->{'Package::Timeout'} = 15;
 
     # Package::Proxy
     # (fetch packages via proxy)
@@ -1837,6 +1837,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.250 $ $Date: 2006-11-09 08:31:15 $
+$Revision: 1.251 $ $Date: 2006-12-07 15:43:23 $
 
 =cut
