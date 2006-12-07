@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.6 2006-11-02 12:21:00 tr Exp $
+# $Id: backup.pl,v 1.7 2006-12-07 16:31:53 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -94,6 +94,16 @@ my $DatabaseUser = $CommonObject{ConfigObject}->Get('DatabaseUser');
 my $DatabasePw = $CommonObject{ConfigObject}->Get('DatabasePw');
 my $DatabaseDSN = $CommonObject{ConfigObject}->Get('DatabaseDSN');
 my $ArticleDir = $CommonObject{ConfigObject}->Get('ArticleDir');
+# decrypt pw (if needed)
+if ($DatabasePw =~ /^\{(.*)\}$/) {
+    my $Length = length($1)*4;
+    $DatabasePw = pack("h$Length", $1);
+    $DatabasePw = unpack("B$Length", $DatabasePw);
+    $DatabasePw =~ s/1/A/g;
+    $DatabasePw =~ s/0/1/g;
+    $DatabasePw =~ s/A/0/g;
+    $DatabasePw = pack("B$Length", $DatabasePw);
+}
 # check db backup support
 if ($DatabaseDSN =~ /:mysql/i) {
     $DB = 'MySQL';
