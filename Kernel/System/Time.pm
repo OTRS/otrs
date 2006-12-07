@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.17 2006-12-07 08:07:42 martin Exp $
+# $Id: Time.pm,v 1.18 2006-12-07 08:47:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -415,18 +415,6 @@ sub WorkingTime {
                 }
                 $Param{StartTime} = $Param{StartTime} + $Zone;
                 $Param{StopTime} = $Param{StopTime} + $Zone;
-                my %NewTimeWorkingHours = ();
-                foreach my $Day (qw(Mon Tue Wed Thu Fri Sat Sun)) {
-                    if ($TimeWorkingHours{$Day}) {
-                        my @Days = ();
-                        foreach my $Hour (@{$TimeWorkingHours{$Day}}) {
-                            $Hour = int($Hour + $Zone);
-                            push (@Days, $Hour);
-                        }
-                        $NewTimeWorkingHours{$Day} = \@Days;
-                    }
-                }
-                %TimeWorkingHours = %NewTimeWorkingHours;
             }
         }
     }
@@ -703,6 +691,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2006-12-07 08:07:42 $
+$Revision: 1.18 $ $Date: 2006-12-07 08:47:32 $
 
 =cut
