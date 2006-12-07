@@ -2,7 +2,7 @@
 # AgentStatsView.dtl - provides HTML form for view IDMEF
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.5 2006-11-07 10:10:15 tr Exp $
+# $Id: AgentStatsView.dtl,v 1.6 2006-12-07 08:36:35 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@
     <td class="mainbody">
       <br>
       <table border="0" width="700" align="center" cellspacing="0" cellpadding="4" class="contentbody">
-        <form action="$Env{"CGIHandle"}" method="post">
+        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
           <input type="hidden" name="Action"    value="$Env{"Action"}">
           <input type="hidden" name="Subaction" value="Run">
           <input type="hidden" name="StatID"    value="$Data{"StatID"}">
