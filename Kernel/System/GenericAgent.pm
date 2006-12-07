@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.23 2006-12-06 16:56:39 martin Exp $
+# $Id: GenericAgent.pm,v 1.24 2006-12-07 11:25:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::GenericAgent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $ ';
+$VERSION = '$Revision: 1.24 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -228,7 +228,11 @@ sub JobRun {
         );
         my %DBJobRaw = $Self->JobGet(Name => $Param{Job});
         # updated last run time
-        $Self->JobDelete(Name => $Param{Job});
+        $Self->JobDelete(
+            Name => $Param{Job},
+            NoLog => 1,
+            UserID => $Param{UserID},
+        );
         $Self->JobAdd(
             Name => $Param{Job},
             Data => {
@@ -238,6 +242,8 @@ sub JobRun {
                 ),
                 ScheduleLastRunUnixTime => $Self->{TimeObject}->SystemTime(),
             },
+            NoLog => 1,
+            UserID => $Param{UserID},
         );
         # rework
         foreach my $Key (keys %DBJobRaw) {
@@ -840,10 +846,12 @@ sub JobAdd {
             }
         }
     }
-    $Self->{LogObject}->Log(
-        Priority => 'notice',
-        Message => "New GenericAgent job '$Param{Name}' added (UserID=$Param{UserID}).",
-    );
+    if (!$Param{NoLog}) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "New GenericAgent job '$Param{Name}' added (UserID=$Param{UserID}).",
+        );
+    }
     return 1;
 }
 
@@ -870,10 +878,12 @@ sub JobDelete {
         SQL => "DELETE FROM generic_agent_jobs WHERE ".
             "job_name = '".$Self->{DBObject}->Quote($Param{Name})."'",
     );
-    $Self->{LogObject}->Log(
-        Priority => 'notice',
-        Message => "GenericAgent job '$Param{Name}' deleted (UserID=$Param{UserID}).",
-    );
+    if (!$Param{NoLog}) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "GenericAgent job '$Param{Name}' deleted (UserID=$Param{UserID}).",
+        );
+    }
     return 1;
 }
 
@@ -891,6 +901,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2006-12-06 16:56:39 $
+$Revision: 1.24 $ $Date: 2006-12-07 11:25:25 $
 
 =cut
