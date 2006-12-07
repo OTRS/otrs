@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.16 2006-11-13 06:27:27 martin Exp $
+# $Id: Time.pm,v 1.17 2006-12-07 08:07:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -129,7 +129,6 @@ sub SystemTime2TimeStamp {
         my ($CSec, $CMin, $CHour, $CDay, $CMonth, $CYear) = $Self->SystemTime2Date(
             SystemTime => $Self->SystemTime(),
         );
-#print STDERR "aaaaa $CYear == $Year && $CMonth == $Month && $CDay == $Day\n";
         if ($CYear == $Year && $CMonth == $Month && $CDay == $Day) {
             return "$Hour:$Min:$Sec";
         }
@@ -366,8 +365,7 @@ sub MailTimeStamp {
     $GMTime[5] = $GMTime[5] + 1900;
     $LTime[5] = $LTime[5] + 1900;
     my $TimeString = "$DayMap[$LTime[6]], $LTime[3] $MonthMap[$LTime[4]] $LTime[5] ".
-     sprintf("%02d", $LTime[2]).":".sprintf("%02d", $LTime[1]).":".sprintf("%02d", $LTime[0])." $DP$DH$DM";
-#print STDERR "dddd$DifTime dddd $TimeString\n";
+        sprintf("%02d", $LTime[2]).":".sprintf("%02d", $LTime[1]).":".sprintf("%02d", $LTime[0])." $DP$DH$DM";
     return $TimeString;
 }
 
@@ -406,7 +404,30 @@ sub WorkingTime {
             %TimeWorkingHours = %{$Self->{ConfigObject}->Get("TimeWorkingHours::Calendar".$Param{Calendar})};
             %TimeVacationDays = %{$Self->{ConfigObject}->Get("TimeVacationDays::Calendar".$Param{Calendar})};
             %TimeVacationDaysOneTime = %{$Self->{ConfigObject}->Get("TimeVacationDaysOneTime::Calendar".$Param{Calendar})};
-            $Param{StartTime} = $Param{StartTime} + ($Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar}) * 60 * 60);
+            my $Zone = $Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar});
+            if ($Zone) {
+                if ($Zone > 0) {
+                    $Zone = '-'.($Zone* 60 * 60);
+                }
+                else {
+                    $Zone = ($Zone* 60 * 60);
+                    $Zone =~ s/-/+/;
+                }
+                $Param{StartTime} = $Param{StartTime} + $Zone;
+                $Param{StopTime} = $Param{StopTime} + $Zone;
+                my %NewTimeWorkingHours = ();
+                foreach my $Day (qw(Mon Tue Wed Thu Fri Sat Sun)) {
+                    if ($TimeWorkingHours{$Day}) {
+                        my @Days = ();
+                        foreach my $Hour (@{$TimeWorkingHours{$Day}}) {
+                            $Hour = int($Hour + $Zone);
+                            push (@Days, $Hour);
+                        }
+                        $NewTimeWorkingHours{$Day} = \@Days;
+                    }
+                }
+                %TimeWorkingHours = %NewTimeWorkingHours;
+            }
         }
     }
     my $Counted = 0;
@@ -418,7 +439,7 @@ sub WorkingTime {
     $BYear = $BYear+1900;
     $BMonth = $BMonth+1;
     my $BDate = "$BYear-$BMonth-$BDay";
-    while ($Param{StartTime} < $Param{StopTime}+60*60*24) {
+    while ($Param{StartTime} < $Param{StopTime}) {
         my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay) = localtime($Param{StartTime});
         $Year = $Year+1900;
         $Month = $Month+1;
@@ -432,53 +453,42 @@ sub WorkingTime {
             6 => 'Sat',
             0 => 'Sun',
         );
-        # count noting becouse of vacation
+        # count noting because of vacation
         if ($TimeVacationDays{$Month}->{$Day} || $TimeVacationDaysOneTime{$Year}->{$Month}->{$Day}) {
             # do noting
-#print STDERR "Vacation: $Year-$Month-$Day\n";
         }
         else {
             if ($TimeWorkingHours{$LDay{$WDay}}) {
                 foreach (@{$TimeWorkingHours{$LDay{$WDay}}}) {
-#print STDERR "$CDate eq $ADate: $_ - $WDay - $LDay{$WDay}\n";
-#print STDERR "$Year-$Month-$Day: $LDay{$WDay}: $_\n";
-                    if ($Param{StartTime} - 60*60*$_ > $Param{StopTime}) {
-#                        print STDERR "Stop reached at $Year-$Month-$Day ($WDay): $_:00\n";
-                        return $Counted;
+                    # count minutes on same date and same hour of start/end date
+                    # within service hour => start counting and finish immediatly
+                    if ($ADate eq $BDate && $AHour == $BHour && $AHour == $_) {
+                        return (($BMin-$AMin)*60);
                     }
-                    # count minutes
-                    if ($CDate eq $ADate && $AHour == $_ && $CDate eq $BDate && $BHour == $_) {
-                        $Counted = $Counted + ($BMin-$AMin)*60;
-#                         print STDERR "SameHDay.. $_:00 ".($BMin-$AMin)."\n";
+                    # do nothing because we are on start day and not yet within service hour
+                    elsif ($CDate eq $ADate && $_ < $AHour) {
                     }
-                    # do nothing
-                    elsif ($CDate eq $ADate && $AHour > $_) {
-#                         print STDERR "StartDay.. $_:00 (not counted)\n";
-                    }
-                    # count minutes
+                    # count minutes because we are on start day and within start hour
                     elsif ($CDate eq $ADate && $AHour == $_) {
-                        $Counted = $Counted + ((60-$AMin)*60);
-#                         print STDERR "StartDay.. $_:00 ". (60-$AMin)*60 ."\n";
+                        $Counted = $Counted + (60-$AMin)*60;
                     }
-                    # do nothing
+                    # do nothing because we are on end day but greater than service hour
                     elsif ($CDate eq $BDate && $BHour < $_) {
-#                         print STDERR "StopDay.. $_:00 (not counted)\n";
                     }
-                    # count minutes
+                    # count minutes because we are on end day and within end hour
                     elsif ($CDate eq $BDate && $BHour == $_) {
                         $Counted = $Counted + $BMin*60;
-#                         print STDERR "StopDay.. $_:00 ".$BMin."\n";
                     }
-                    # count full hour
+                    # count full hour because we are in service hour that is greater than
+                    # start hour and smaller than end hour
                     else {
                         $Counted = $Counted + (60*60);
-#                         print STDERR "Counted.. $Year-$Month-$Day $_:00 ($WDay/$LDay{$WDay}):".(60*60)."\n";
                     }
                 }
             }
         }
-        # reduce time
-        $Param{StartTime} = $Param{StartTime} + 60*60*24;
+        # reduce time => go to next day 00:00:00
+        $Param{StartTime} = $Param{StartTime} + 60*60*(24-$Hour) - 60*$Min - $Sec;
     }
     return $Counted;
 }
@@ -518,7 +528,15 @@ sub DestinationTime {
             %TimeWorkingHours = %{$Self->{ConfigObject}->Get("TimeWorkingHours::Calendar".$Param{Calendar})};
             %TimeVacationDays = %{$Self->{ConfigObject}->Get("TimeVacationDays::Calendar".$Param{Calendar})};
             %TimeVacationDaysOneTime = %{$Self->{ConfigObject}->Get("TimeVacationDaysOneTime::Calendar".$Param{Calendar})};
-            $Param{StartTime} = $Param{StartTime} + ($Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar}) * 60 * 60);
+            my $Zone = $Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar});
+            if ($Zone > 0) {
+                $Zone = '-'.($Zone* 60 * 60);
+            }
+            else {
+                $Zone = ($Zone* 60 * 60);
+                $Zone =~ s/-/+/;
+            }
+            $Param{StartTime} = $Param{StartTime} + $Zone;
         }
     }
     my $DestinationTime = $Param{StartTime};
@@ -540,7 +558,6 @@ sub DestinationTime {
         $Year = $Year+1900;
         $Month = $Month+1;
         my $CDate = "$Year-$Month-$Day";
-#print STDERR "aaa $Param{Time} $CDate\n";
         my %LDay = (
             1 => 'Mon',
             2 => 'Tue',
@@ -553,7 +570,6 @@ sub DestinationTime {
         # count noting becouse of vacation
         if ($TimeVacationDays{$Month}->{$Day} || $TimeVacationDaysOneTime{$Year}->{$Month}->{$Day}) {
             # do noting
-#print STDERR "Vacation: $Year-$Month-$Day\n";
             if ($FirstTurn) {
                 $First = 1;
                 $DestinationTime = $Self->Date2SystemTime(
@@ -570,7 +586,6 @@ sub DestinationTime {
         }
         else {
             if ($TimeWorkingHours{$LDay{$WDay}}) {
-#print STDERR "TimeWorkingHours $WDay $LDay{$WDay} $Param{Time}\n";
                 foreach my $H ($Hour..23) {
                     my $Hit = 0;
                     foreach (@{$TimeWorkingHours{$LDay{$WDay}}}) {
@@ -580,7 +595,6 @@ sub DestinationTime {
                     }
                     if ($Hit) {
                         if ($Param{Time} > 59*60) {
-#print STDERR "$Year-$Month-$Day: $LDay{$WDay}: $H ($Param{Time}) \n";
                             $Param{Time} = $Param{Time} - (60*60);
                             $DestinationTime = $DestinationTime + (60*60);
                             $FirstTurn = 0;
@@ -588,7 +602,6 @@ sub DestinationTime {
                         elsif ($Param{Time} > 1*60) {
                             foreach my $M (1..59) {
                                 if ($Param{Time} > 1) {
-#print STDERR "$Year-$Month-$Day: $LDay{$WDay}: $H:$M ($Param{Time})\n";
                                     $Param{Time} = $Param{Time} - 60;
                                     $DestinationTime = $DestinationTime + 60;
                                     $FirstTurn = 0;
@@ -610,15 +623,12 @@ sub DestinationTime {
                                 Minute => 0,
                                 Second => 0,
                             );
-#print STDERR "fffffffffaaa $DestinationTime $Year - $Month - $Day $H\n";
                         }
                         $DestinationTime = $DestinationTime + (60*60);
                     }
                 }
             }
         }
-#        $FirstTurn = 0;
-#print STDERR "aaaaaa vccccccccc $CTime $Year-$Month-$Day\n";
         $CTime = $Self->Date2SystemTime(
             Year => $Year,
             Month => $Month,
@@ -645,8 +655,8 @@ insert 01 or 1 for month or day in the function or in the SysConfig)
 =cut
 
 sub VacationCheck {
-    my $Self         = shift;
-    my %Param        = @_;
+    my $Self = shift;
+    my %Param = @_;
     my $VacationName = '';
 
     # check required params
@@ -693,6 +703,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2006-11-13 06:27:27 $
+$Revision: 1.17 $ $Date: 2006-12-07 08:07:42 $
 
 =cut

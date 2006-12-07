@@ -2,7 +2,7 @@
 # Time.t - Time tests
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.t,v 1.7 2006-11-15 07:47:54 martin Exp $
+# $Id: Time.t,v 1.8 2006-12-07 08:07:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -93,6 +93,18 @@ my $SystemTime16 = $Self->{TimeObject}->TimeStamp2SystemTime(
 my $SystemTime17 = $Self->{TimeObject}->TimeStamp2SystemTime(
     String => '2005-10-24 16:13:31',
 );
+my $SystemTime18 = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2006-12-05 22:57:34',
+);
+my $SystemTime19 = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2006-12-06 10:25:34',
+);
+my $SystemTime20 = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2006-12-06 07:50:00',
+);
+my $SystemTime21 = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2006-12-07 08:54:00',
+);
 my $WorkingTime = $Self->{TimeObject}->WorkingTime(
     StartTime => $SystemTime,
     StopTime => $SystemTime2,
@@ -132,6 +144,14 @@ my $WorkingTime9 = $Self->{TimeObject}->WorkingTime(
 my $WorkingTime10 = $Self->{TimeObject}->WorkingTime(
     StartTime => $SystemTime16,
     StopTime => $SystemTime17,
+);
+my $WorkingTime11 = $Self->{TimeObject}->WorkingTime(
+    StartTime => $SystemTime18,
+    StopTime => $SystemTime19,
+);
+my $WorkingTime12 = $Self->{TimeObject}->WorkingTime(
+    StartTime => $SystemTime20,
+    StopTime => $SystemTime21,
 );
 
 $Self->Is(
@@ -192,6 +212,16 @@ $Self->Is(
     $WorkingTime10/60/60,
     4.48333333333333,
     'WorkingHours - Mon-Mon',
+);
+$Self->Is(
+    $WorkingTime11/60/60,
+    2.41666666666667,
+    'WorkingHours - Thu-Wed',
+);
+$Self->Is(
+    $WorkingTime12/60/60,
+    13.9,
+    'WorkingHours - Thu-Wed',
 );
 
 my $SystemTimeDestination = $Self->{TimeObject}->TimeStamp2SystemTime(
@@ -287,6 +317,22 @@ $DestinationTime = $Self->{TimeObject}->DestinationTime(
 $Self->Is(
     "$Year-$Month-$Day $Hour:$Min:$Sec",
     '2007-01-02 18:00:00',
+    'DestinationTime()',
+);
+
+$SystemTimeDestination = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2006-12-06 07:50:00',
+);
+$DestinationTime = $Self->{TimeObject}->DestinationTime(
+    StartTime => $SystemTimeDestination,
+    Time => $WorkingTime12,
+);
+($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+    SystemTime => $DestinationTime,
+);
+$Self->Is(
+    "$Year-$Month-$Day $Hour:$Min:$Sec",
+    '2006-12-07 08:44:00',
     'DestinationTime()',
 );
 
