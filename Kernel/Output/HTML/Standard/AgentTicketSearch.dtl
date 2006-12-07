@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.15 2006-10-04 16:08:57 mh Exp $
+# $Id: AgentTicketSearch.dtl,v 1.16 2006-12-07 07:30:45 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,7 +11,7 @@
 <!-- dtl:block:Search -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
-    <td class="mainhead"">
+    <td class="mainhead">
       $Env{"Box0"}$Text{"Ticket Search"}$Env{"Box1"}
     </td>
   </tr>
