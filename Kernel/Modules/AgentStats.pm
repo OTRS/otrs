@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.21 2006-11-15 08:25:09 tr Exp $
+# $Id: AgentStats.pm,v 1.22 2006-12-07 08:37:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -379,7 +379,8 @@ sub Run {
                             if ($ObjectAttribute->{Block} eq 'MultiSelectField') {
                                 $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
                                     Data                => \%ValueHash,
-                                    Name                => $Use . '->' .$ObjectAttribute->{Element},
+                                    Name                => $Use . $ObjectAttribute->{Element},
+                                    #Name                => $Use . '->' .$ObjectAttribute->{Element},
                                     Multiple            => 1,
                                     Size                => 5,
                                     SelectedIDRefArray  => $ObjectAttribute->{SelectedValues},
@@ -407,13 +408,15 @@ sub Run {
                                 $Self->{LayoutObject}->Block(
                                     Name => 'InputField',
                                     Data => {
-                                        Key => $Use . '->' . $ObjectAttribute->{Element},
+                                        Key => $Use . $ObjectAttribute->{Element},
+                                        #Key => $Use . '->' . $ObjectAttribute->{Element},
                                         Value => $ObjectAttribute->{SelectedValues}[0],
                                      },
                                 );
                             }
                             elsif ($ObjectAttribute->{Block} eq 'Time') {
-                                $ObjectAttribute->{Element} = $Use . '->' .$ObjectAttribute->{Element};
+                                $ObjectAttribute->{Element} = $Use . $ObjectAttribute->{Element};
+                                #$ObjectAttribute->{Element} = $Use . '->' .$ObjectAttribute->{Element};
                                 my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType") || 'Normal';
                                 my %TimeData = _Timeoutput($Self, %{$ObjectAttribute}, OnlySelectedAttributs => 1);
                                 %BlockData = (%BlockData, %TimeData);
@@ -1689,18 +1692,25 @@ sub Run {
                 foreach my $Element (@Array) {
                     if ($Element->{Selected}) {
                         if (!$Element->{Fixed}) {
-                            if ($Self->{ParamObject}->GetArray(Param => $Use . '->' . $Element->{Element})) {
-                                my @SelectedValues = $Self->{ParamObject}->GetArray(Param => $Use . '->' . $Element->{Element});
+                            if ($Self->{ParamObject}->GetArray(Param => $Use . $Element->{Element})) {
+#                            if ($Self->{ParamObject}->GetArray(Param => $Use . '->' . $Element->{Element})) {
+                                my @SelectedValues = $Self->{ParamObject}->GetArray(Param => $Use . $Element->{Element});
+#                                my @SelectedValues = $Self->{ParamObject}->GetArray(Param => $Use . '->' . $Element->{Element});
+
                                 $Element->{SelectedValues} = \@SelectedValues;
                             }
                             if ($Element->{Block} eq 'Time') {
-                                if ($Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . "StartYear")) {
+                                #if ($Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . "StartYear")) {
+                                if ($Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . "StartYear")) {
+
                                     my %Time = ();
                                     foreach my $Limit (qw(Start Stop)) {
                                         foreach my $Unit (qw(Year Month Day Hour Minute Second)) {
-                                            if (defined($Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . "$Limit$Unit"))) {
+                                            #if (defined($Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . "$Limit$Unit"))) {
+                                            if (defined($Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . "$Limit$Unit"))) {
                                                 $Time{$Limit . $Unit} = $Self->{ParamObject}->GetParam(
-                                                    Param => $Use . "->" . $Element->{Element} . "$Limit$Unit"
+                                                    #Param => $Use . "->" . $Element->{Element} . "$Limit$Unit"
+                                                    Param => $Use . $Element->{Element} . "$Limit$Unit"
                                                 );
                                             }
                                         }
@@ -1735,7 +1745,7 @@ sub Run {
                                         ); # Second for later functions
                                     }
                                     # integrate this functionality in the completenesscheck
-                                    if ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Time{TimeStart}) > $Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStart})) {
+                                    if ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Time{TimeStart}) < $Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStart})) {
                                         # redirect to edit
                                         return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&" .
                                             "Subaction=View&StatID=$Param{StatID}&Message=1"
@@ -1743,7 +1753,7 @@ sub Run {
                                         #$Element->{TimeStart} = $Time{TimeStart};
                                     }
                                     # integrate this functionality in the completenesscheck
-                                    if ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Time{TimeStop}) < $Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStop})) {
+                                    if ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Time{TimeStop}) > $Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStop})) {
                                         return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&" .
                                             "Subaction=View&StatID=$Param{StatID}&Message=2"
                                         );
@@ -1758,10 +1768,12 @@ sub Run {
                                     my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
                                         SystemTime => $Self->{TimeObject}->SystemTime(),
                                     );
-
-                                    $Time{TimeRelativeUnit}  = $Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . 'TimeRelativeUnit');
-                                    if ($Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . 'TimeRelativeCount')) {
-                                        $Time{TimeRelativeCount} = $Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . 'TimeRelativeCount');
+                                    #$Time{TimeRelativeUnit}  = $Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . 'TimeRelativeUnit');
+                                    $Time{TimeRelativeUnit}  = $Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . 'TimeRelativeUnit');
+                                    #if ($Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . 'TimeRelativeCount')) {
+                                    if ($Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . 'TimeRelativeCount')) {
+                                        #$Time{TimeRelativeCount} = $Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . 'TimeRelativeCount');
+                                        $Time{TimeRelativeCount} = $Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . 'TimeRelativeCount');
                                     }
                                     if ($Element->{TimeRelativeUnit} eq 'Year') {
                                         $TimePeriodAdmin = $Element->{TimeRelativeCount}*60*60*24*365;
@@ -1811,8 +1823,10 @@ sub Run {
 
                                     $TimePeriod = $TimePeriodAgent;
                                 }
-                                if ($Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . 'TimeScaleCount')) {
-                                    $Element->{TimeScaleCount} = $Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . 'TimeScaleCount');
+#                                if ($Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . 'TimeScaleCount')) {
+                                if ($Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . 'TimeScaleCount')) {
+                                    $Element->{TimeScaleCount} = $Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . 'TimeScaleCount');
+#                                    $Element->{TimeScaleCount} = $Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . 'TimeScaleCount');
                                 }
                                 else {
                                     $Element->{TimeScaleCount} = 1;

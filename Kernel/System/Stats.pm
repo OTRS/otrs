@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.13 2006-11-15 08:22:34 tr Exp $
+# $Id: Stats.pm,v 1.14 2006-12-07 08:37:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -34,25 +34,25 @@ All call functions. E. g. to get,
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::Stats;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::Stats;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $StatsObject = Kernel::System::Stats->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      DBObject => $DBObject,
-      UserID => 123,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $StatsObject = Kernel::System::Stats->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+        UserID => 123,
+    );
 
 =cut
 
@@ -81,7 +81,7 @@ sub new {
 
 add a new stat
 
-    my $StatID = $Self->{StatsObject}->StatsAdd();
+    my $StatID = $StatsObject->StatsAdd();
 
 =cut
 
@@ -127,7 +127,7 @@ sub StatsAdd {
 
 get a hashref with the stat you need
 
-    my $HashRef = $Self->{StatsObject}->StatsGet(
+    my $HashRef = $StatsObject->StatsGet(
         StatID             => '123',
         NoObjectAttributes => 1,       # optional
     );
@@ -185,6 +185,7 @@ sub StatsGet {
                     Use          => $Key,
                 );
 
+                if (@ObjectAttributes) {
                 foreach my $Attribute (@ObjectAttributes) {
                     if ($Attribute->{Block} eq 'Time') {
                         if ($Key eq 'UseAsValueSeries'){
@@ -245,6 +246,7 @@ sub StatsGet {
                     }
                 }
                 $Stat{$Key} = \@StatAttributesSimplified;
+                }
             }
         }
         return \%Stat;
@@ -257,7 +259,7 @@ sub StatsGet {
 
 update a stat
 
-    $Self->{StatsObject}->StatsUpdate(
+    $StatsObject->StatsUpdate(
         StatID => '123',
         Hash => \%Hash
     );
@@ -367,7 +369,7 @@ sub StatsUpdate {
 
 delete a stat
 
-    $Self->{StatsObject}->StatsDelete(StatID => '123');
+    $StatsObject->StatsDelete(StatID => '123');
 
 =cut
 
@@ -395,7 +397,7 @@ sub StatsDelete {
 
 list all id's from stats
 
-    my $ArrayRef = $Self->{StatsObject}->GetStatsList(
+    my $ArrayRef = $StatsObject->GetStatsList(
         OrderBy   => 'ID' || 'Title' || 'Object', # optional
         Direction => 'ASC' || 'DESC',             # optional
     );
@@ -482,7 +484,7 @@ sub GetStatsList {
 
 build sum in x or/and y axis
 
-    $StatArray = $Self->{StatsObject}->SumBuild(
+    $StatArray = $StatsObject->SumBuild(
         Array => \@Result,
         SumRow => 1,
         SumCol => 0,
@@ -529,7 +531,7 @@ sub SumBuild {
 
     take the stat configuration and get the stat table
 
-    my @StatArray = $Self->{StatsObject}->GenerateDynamicStats(
+    my @StatArray = $StatsObject->GenerateDynamicStats(
         ObjectModule      => 'Kernel::System::Stats::Dynamic::Ticket',
         Object            => 'Ticket',
         UseAsXvalue       => \UseAsXvalueElements,
@@ -1124,7 +1126,7 @@ sub GenerateDynamicStats {
 
 make graph from result array
 
-    my $Graph = $Self->{StatsObject}->GenerateGraph(
+    my $Graph = $StatsObject->GenerateGraph(
         Array        => \@StatArray,
         GraphSize    => \%GraphConfig,
         HeadArrayRef => $HeadArrayRef,
@@ -1232,7 +1234,7 @@ sub GenerateGraph {
 
 =item CompletenessCheck()
 
-    my @Notify = $Self->{StatsObject}->CompletenessCheck(
+    my @Notify = $StatsObject->CompletenessCheck(
         StatData => \%StatData,
         Section  => 'All' || 'Specification' || 'ValueSeries' || 'Restrictions || Xaxis'
     );
@@ -1512,7 +1514,7 @@ sub CompletenessCheck {
 
 Get all attributes from the object in dependence of the use
 
-    my %ObjectAttributes => $Self->{StatsObject}->GetStatsObjectAttributes(
+    my %ObjectAttributes => $StatsObject->GetStatsObjectAttributes(
         Object => 'Ticket',
         Use    => 'UseAsXvalue' || 'UseAsValueSeries' || 'UseAsRestriction',
     );
@@ -1559,7 +1561,7 @@ sub GetStatsObjectAttributes {
 
 Get all static files
 
-    my $FileHash => $Self->{StatsObject}->GetStaticFiles();
+    my $FileHash => $StatsObject->GetStaticFiles();
 
 =cut
 
@@ -1616,7 +1618,7 @@ sub GetStaticFiles {
 
 Get all static objects
 
-    my $FileHash => $Self->{StatsObject}->GetDynamicFiles();
+    my $FileHash => $StatsObject->GetDynamicFiles();
 
 =cut
 
@@ -1647,7 +1649,7 @@ sub GetDynamicFiles {
 
 check readable object file
 
-    my $ObjectFileCheck = $Self->{StatsObject}->ObjectFileCheck(
+    my $ObjectFileCheck = $StatsObject->ObjectFileCheck(
         Type => 'static',
         Name => 'NewTickets',
     );
@@ -1803,7 +1805,7 @@ sub _DeleteCache {
 
 get content from stats for export
 
-    my $ExportFile =  $Self->{StatsObject}->Export(
+    my $ExportFile =  $StatsObject->Export(
         StatID => '123',
         ExportStatNumber => 1 || 0, # optional, only useful move statistics from the test system to the productive system
     );
@@ -1900,7 +1902,7 @@ sub Export {
 
 import a stats from xml file
 
-    my $StatID = $Self->{StatsObject}->Import(
+    my $StatID = $StatsObject->Import(
         Content  => $UploadStuff{Content},
     );
 
@@ -2056,7 +2058,7 @@ sub Import {
 
   get all edit params from stats for view
 
-  my $Params = $Self->{StatsObject}->GetParams(StatID => '123');
+  my $Params = $StatsObject->GetParams(StatID => '123');
 
 =cut
 
@@ -2090,7 +2092,7 @@ sub GetParams {
 =item StatsRun()
 run a stats...
 
-    my $StatArray = $Self->{StatsObject}->StatsRun(
+    my $StatArray = $StatsObject->StatsRun(
         StatID       => '123',
         GetParam => \%GetParam,
     );
@@ -2175,7 +2177,7 @@ sub StatsRun {
 builds a filename with a string and a timestamp.
 (space will be replaced with _ and - e.g. Title-of-File_2006-12-31_11-59)
 
-    my $Filename = $Self->{StatsObject}->StringAndTimestamp2Filename(String => 'Title');
+    my $Filename = $StatsObject->StringAndTimestamp2Filename(String => 'Title');
 
 =cut
 
@@ -2347,6 +2349,8 @@ sub _AutomaticSampleImport {
     closedir(DIRE);
 }
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -2357,7 +2361,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2006-11-15 08:22:34 $
+$Revision: 1.14 $ $Date: 2006-12-07 08:37:27 $
 
 =cut
 
