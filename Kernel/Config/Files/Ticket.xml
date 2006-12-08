@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.122 2006-11-17 13:00:38 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.123 2006-12-08 15:02:42 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -7357,8 +7357,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###2-Match" Required="0" Valid="0">
-        <Description Lang="en">Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () as [***] in Set =>.</Description>
-        <Description Lang="de">Modul zum Filtern und Ändern eingehender Nachrichten. Generiert eine 4 stellige Nummer im Ticket-Frei-Text, verwendet reguläre Ausdrücke in Form von => '(.+?)@.+?', und verwendet () als [***] in Set =>.</Description>
+      <Description Lang="en">Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () as [***] in Set =&gt;.</Description>
+        <Description Lang="de">Modul zum Filtern und Ändern eingehender Nachrichten. Generiert eine 4 stellige Nummer im Ticket-Frei-Text, verwendet reguläre Ausdrücke in Form von => '(.+?)@.+?', und verwendet () als [***] in Set =&gt;.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -7512,8 +7512,8 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###TicketFreeFieldDefault" Required="0" Valid="0">
-      <Description Lang="en">Registration of the TicketFreeFieldDefault event module. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all TicketFreeField elements need the same event.</Description>
-      <Description Lang="de">Registrierung des TicketFreeFieldDefault Event-Moduls. Wenn alle über dieses Modul definierten Aktionen bei dem gleichen Event ausgeführt werden kann auch zusätzlich das Event definiert werden (z. B. Event => TicketCreate). Dies bringt weitere Performance für das System.</Description>
+      <Description Lang="en">Registration of the TicketFreeFieldDefault event module. For more performance you can define a trigger event (e. g. Event =&gt; TicketCreate). This is only possible if all TicketFreeField elements need the same event.</Description>
+      <Description Lang="de">Registrierung des TicketFreeFieldDefault Event-Moduls. Wenn alle über dieses Modul definierten Aktionen bei dem gleichen Event ausgeführt werden kann auch zusätzlich das Event definiert werden (z. B. Event =&gt; TicketCreate). Dies bringt weitere Performance für das System.</Description>
       <Group>Ticket</Group>
       <SubGroup>Core::TicketFreeTextDefault</SubGroup>
       <Setting>
