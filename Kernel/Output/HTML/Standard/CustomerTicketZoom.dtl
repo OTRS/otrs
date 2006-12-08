@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.24 2006-10-12 10:16:00 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.25 2006-12-08 11:04:46 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -189,17 +189,25 @@ $Data{"Article::Text"}
 #    </tr>
 # --
 # use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2
-# --
+# -- networkers-ag cj: addes key9-16
       <dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr><td class="contentkey">$QData{"TicketFreeKey1","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText1","20"}</div></td></tr>"; }>
-      <dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td class="contentkey">$QData{"TicketFreeKey2","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText2","20"}</div></td></tr>"; }>
-      <dtl if ($Data{"TicketFreeKey3"} ne "") { $Data{"TicketFreeString3"} = "<tr><td class="contentkey">$QData{"TicketFreeKey3","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText3","20"}</div></td></tr>"; }>
-      <dtl if ($Data{"TicketFreeKey4"} ne "") { $Data{"TicketFreeString4"} = "<tr><td class="contentkey">$QData{"TicketFreeKey4","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText4","20"}</div></td></tr>"; }>
-      <dtl if ($Data{"TicketFreeKey5"} ne "") { $Data{"TicketFreeString5"} = "<tr><td class="contentkey">$QData{"TicketFreeKey5","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText5","20"}</div></td></tr>"; }>
-      <dtl if ($Data{"TicketFreeKey6"} ne "") { $Data{"TicketFreeString6"} = "<tr><td class="contentkey">$QData{"TicketFreeKey6","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText6","20"}</div></td></tr>"; }>
-      <dtl if ($Data{"TicketFreeKey7"} ne "") { $Data{"TicketFreeString7"} = "<tr><td class="contentkey">$QData{"TicketFreeKey7","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText7","20"}</div></td></tr>"; }>
-      <dtl if ($Data{"TicketFreeKey8"} ne "") { $Data{"TicketFreeString8"} = "<tr><td class="contentkey">$QData{"TicketFreeKey8","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText8","20"}</div></td></tr>"; }>
-      <dtl if ($Data{"TicketFreeTime1"} ne "") { $Data{"TicketFreeString9"} = "<tr><td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td><td class="contentvalue"><div title="$TimeShort{"$QData{"TicketFreeTime1"}"}">$TimeShort{"$QData{"TicketFreeTime1"}"}</div></td></tr>"; }>
-      <dtl if ($Data{"TicketFreeTime2"} ne "") { $Data{"TicketFreeString10"} = "<tr><td class="contentkey">$Text{"$Config{"TicketFreeTimeKey2"}"}:</td><td class="contentvalue"><div title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td class="contentkey">$QData{"TicketFreeKey2","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText2"}">$QData{"TicketFreeText2","20"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeKey3"} ne "") { $Data{"TicketFreeString3"} = "<tr><td class="contentkey">$QData{"TicketFreeKey3","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText3"}">$QData{"TicketFreeText3","20"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeKey4"} ne "") { $Data{"TicketFreeString4"} = "<tr><td class="contentkey">$QData{"TicketFreeKey4","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText4"}">$QData{"TicketFreeText4","20"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeKey5"} ne "") { $Data{"TicketFreeString5"} = "<tr><td class="contentkey">$QData{"TicketFreeKey5","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText5"}">$QData{"TicketFreeText5","20"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeKey6"} ne "") { $Data{"TicketFreeString6"} = "<tr><td class="contentkey">$QData{"TicketFreeKey6","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText6"}">$QData{"TicketFreeText6","20"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeKey7"} ne "") { $Data{"TicketFreeString7"} = "<tr><td class="contentkey">$QData{"TicketFreeKey7","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText7"}">$QData{"TicketFreeText7","20"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeKey8"} ne "") { $Data{"TicketFreeString8"} = "<tr><td class="contentkey">$QData{"TicketFreeKey8","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText8"}">$QData{"TicketFreeText8","20"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeKey9"} ne "") { $Data{"TicketFreeString9"} = "<tr><td class="contentkey">$QData{"TicketFreeKey9","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText9"}">$QData{"TicketFreeText9","20"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeKey10"} ne "") { $Data{"TicketFreeString10"} = "<tr><td class="contentkey">$QData{"TicketFreeKey10","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText10"}">$QData{"TicketFreeText10","20"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeKey11"} ne "") { $Data{"TicketFreeString11"} = "<tr><td class="contentkey">$QData{"TicketFreeKey11","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText11"}">$QData{"TicketFreeText11","20"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeKey12"} ne "") { $Data{"TicketFreeString12"} = "<tr><td class="contentkey">$QData{"TicketFreeKey12","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText12"}">$QData{"TicketFreeText12","20"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeKey13"} ne "") { $Data{"TicketFreeString13"} = "<tr><td class="contentkey">$QData{"TicketFreeKey13","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText13"}">$QData{"TicketFreeText13","20"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeKey14"} ne "") { $Data{"TicketFreeString14"} = "<tr><td class="contentkey">$QData{"TicketFreeKey14","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText14"}">$QData{"TicketFreeText14","20"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeKey15"} ne "") { $Data{"TicketFreeString15"} = "<tr><td class="contentkey">$QData{"TicketFreeKey15","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText15"}">$QData{"TicketFreeText15","20"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeKey16"} ne "") { $Data{"TicketFreeString16"} = "<tr><td class="contentkey">$QData{"TicketFreeKey16","20"}:</td><td class="contentvalue"><div title="$QData{"TicketFreeText16"}">$QData{"TicketFreeText16","20"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeTime1"} ne "") { $Data{"TicketFreeString17"} = "<tr><td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td><td class="contentvalue"><div title="$TimeShort{"$QData{"TicketFreeTime1"}"}">$TimeShort{"$QData{"TicketFreeTime1"}"}</div></td></tr>"; }>
+      <dtl if ($Data{"TicketFreeTime2"} ne "") { $Data{"TicketFreeString18"} = "<tr><td class="contentkey">$Text{"$Config{"TicketFreeTimeKey2"}"}:</td><td class="contentvalue"><div title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</div></td></tr>"; }>
       $Data{"TicketFreeString1"}
       $Data{"TicketFreeString2"}
       $Data{"TicketFreeString3"}
@@ -210,6 +218,14 @@ $Data{"Article::Text"}
       $Data{"TicketFreeString8"}
       $Data{"TicketFreeString9"}
       $Data{"TicketFreeString10"}
+      $Data{"TicketFreeString11"}
+      $Data{"TicketFreeString12"}
+      $Data{"TicketFreeString13"}
+      $Data{"TicketFreeString14"}
+      $Data{"TicketFreeString15"}
+      $Data{"TicketFreeString16"}
+      $Data{"TicketFreeString17"}
+      $Data{"TicketFreeString18"}
     </table>
 
   </td>
