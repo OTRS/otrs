@@ -2,7 +2,7 @@
 # AgentTicketQueueTicketView.dtl - provides HTML TicketView for AgentTicketQueueView
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueueTicketView.dtl,v 1.9 2006-11-15 07:48:26 martin Exp $
+# $Id: AgentTicketQueueTicketView.dtl,v 1.10 2006-12-08 10:51:52 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -138,6 +138,14 @@ $Data{"Body"}
           <dtl if ($Data{"TicketFreeKey6"} ne "") { $Data{"TicketFreeString6"} = "<tr><td><b>$QData{"TicketFreeKey6","25"}:</b></td><td><div title="$QData{"TicketFreeText6"}">$QData{"TicketFreeText6","25"}</div></td></tr>"; }>
           <dtl if ($Data{"TicketFreeKey7"} ne "") { $Data{"TicketFreeString7"} = "<tr><td><b>$QData{"TicketFreeKey7","25"}:</b></td><td><div title="$QData{"TicketFreeText7"}">$QData{"TicketFreeText7","25"}</div></td></tr>"; }>
           <dtl if ($Data{"TicketFreeKey8"} ne "") { $Data{"TicketFreeString8"} = "<tr><td><b>$QData{"TicketFreeKey8","25"}:</b></td><td><div title="$QData{"TicketFreeText8"}">$QData{"TicketFreeText8","25"}</div></td></tr>"; }>
+          <dtl if ($Data{"TicketFreeKey9"} ne "") { $Data{"TicketFreeString9"} = "<tr><td><b>$QData{"TicketFreeKey9","25"}:</b></td><td><div title="$QData{"TicketFreeText9"}">$QData{"TicketFreeText9","25"}</div></td></tr>"; }>
+          <dtl if ($Data{"TicketFreeKey10"} ne "") { $Data{"TicketFreeString10"} = "<tr><td><b>$QData{"TicketFreeKey10","25"}:</b></td><td><div title="$QData{"TicketFreeText10"}">$QData{"TicketFreeText10","25"}</div></td></tr>"; }>
+          <dtl if ($Data{"TicketFreeKey11"} ne "") { $Data{"TicketFreeString11"} = "<tr><td><b>$QData{"TicketFreeKey11","25"}:</b></td><td><div title="$QData{"TicketFreeText11"}">$QData{"TicketFreeText11","25"}</div></td></tr>"; }>
+          <dtl if ($Data{"TicketFreeKey12"} ne "") { $Data{"TicketFreeString12"} = "<tr><td><b>$QData{"TicketFreeKey12","25"}:</b></td><td><div title="$QData{"TicketFreeText12"}">$QData{"TicketFreeText12","25"}</div></td></tr>"; }>
+          <dtl if ($Data{"TicketFreeKey13"} ne "") { $Data{"TicketFreeString13"} = "<tr><td><b>$QData{"TicketFreeKey13","25"}:</b></td><td><div title="$QData{"TicketFreeText13"}">$QData{"TicketFreeText13","25"}</div></td></tr>"; }>
+          <dtl if ($Data{"TicketFreeKey14"} ne "") { $Data{"TicketFreeString14"} = "<tr><td><b>$QData{"TicketFreeKey14","25"}:</b></td><td><div title="$QData{"TicketFreeText14"}">$QData{"TicketFreeText14","25"}</div></td></tr>"; }>
+          <dtl if ($Data{"TicketFreeKey15"} ne "") { $Data{"TicketFreeString15"} = "<tr><td><b>$QData{"TicketFreeKey15","25"}:</b></td><td><div title="$QData{"TicketFreeText15"}">$QData{"TicketFreeText15","25"}</div></td></tr>"; }>
+          <dtl if ($Data{"TicketFreeKey16"} ne "") { $Data{"TicketFreeString16"} = "<tr><td><b>$QData{"TicketFreeKey16","25"}:</b></td><td><div title="$QData{"TicketFreeText16"}">$QData{"TicketFreeText16","25"}</div></td></tr>"; }>
           $Data{"TicketFreeString1"}
           $Data{"TicketFreeString2"}
           $Data{"TicketFreeString3"}
@@ -146,6 +154,14 @@ $Data{"Body"}
           $Data{"TicketFreeString6"}
           $Data{"TicketFreeString7"}
           $Data{"TicketFreeString8"}
+          $Data{"TicketFreeString9"}
+          $Data{"TicketFreeString10"}
+          $Data{"TicketFreeString11"}
+          $Data{"TicketFreeString12"}
+          $Data{"TicketFreeString13"}
+          $Data{"TicketFreeString14"}
+          $Data{"TicketFreeString15"}
+          $Data{"TicketFreeString16"}
 # --
         </table>
 
