@@ -2,13 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.318 2006-12-08 10:20:57 martin Exp $
+# $Id: CHANGES,v 1.319 2006-12-08 11:30:43 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.4 (2006/??/??)
+ - (2006/12/08) fixed bug #1523 - update of FreetextValues 9-16 not working
+ - (2006/12/08) fixed bug #1524 - ticketFreeText Fields 9-16 not displayed
+    at CustomerTicketPrint and CustomerTicketZoom
  - (2006/12/07) fixed acl problem if '' is used in properties to match
  - (2006/12/07) fixed bug #1031 - scripts/backup.pl fails in mysqldump with
     encrypted database password
