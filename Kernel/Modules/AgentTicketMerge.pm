@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.11 2006-12-08 15:32:24 cs Exp $
+# $Id: AgentTicketMerge.pm,v 1.12 2006-12-08 17:35:16 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -173,12 +173,6 @@ sub Run {
             }
             # send customer info?
             if ($Param{InformSender}) {
-
-$Self->{LogObject}->Log(
-    Priority => 'error',
-    Message => "InformSender nicht gecheckt!",
-);
-
                 my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
                 $Param{Body} =~ s/<OTRS_TICKET>/$Ticket{TicketNumber}/g;
                 $Param{Body} =~ s/<OTRS_MERGE_TO_TICKET>/$MainTicketNumber/g;
