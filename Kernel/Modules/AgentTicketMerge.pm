@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.10 2006-11-15 07:47:24 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.11 2006-12-08 15:32:24 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -151,7 +151,6 @@ sub Run {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketMerge', Data => {%Param,%Ticket});
-
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
@@ -173,32 +172,43 @@ sub Run {
                 }
             }
             # send customer info?
-            if (!$Param{InformSender}) {
+            if ($Param{InformSender}) {
+
+$Self->{LogObject}->Log(
+    Priority => 'error',
+    Message => "InformSender nicht gecheckt!",
+);
+
                 my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
                 $Param{Body} =~ s/<OTRS_TICKET>/$Ticket{TicketNumber}/g;
                 $Param{Body} =~ s/<OTRS_MERGE_TO_TICKET>/$MainTicketNumber/g;
-                if (my $ArticleID = $Self->{TicketObject}->ArticleSend(
-                  ArticleType => 'email-external',
-                  SenderType => 'agent',
-                  TicketID => $Self->{TicketID},
-                  HistoryType => 'SendAnswer',
-                  HistoryComment => "Merge info to '$Param{To}'.",
-                  From => $Param{From},
-                  Email => $Param{Email},
-                  To => $Param{To},
-                  Subject => $Param{Subject},
-                  UserID => $Self->{UserID},
-                  Body => $Param{Body},
-                  Type => 'text/plain',
-                  Charset => $Self->{LayoutObject}->{UserCharset},
-                )) {
+                my $ArticleID = $Self->{TicketObject}->ArticleSend(
+                    ArticleType => 'email-external',
+                    SenderType => 'agent',
+                    TicketID => $Self->{TicketID},
+                    HistoryType => 'SendAnswer',
+                    HistoryComment => "Merge info to '$Param{To}'.",
+                    From => $Param{From},
+                    Email => $Param{Email},
+                    To => $Param{To},
+                    Subject => $Param{Subject},
+                    UserID => $Self->{UserID},
+                    Body => $Param{Body},
+                    Type => 'text/plain',
+                    Charset => $Self->{LayoutObject}->{UserCharset},
+                );
+                if ($ArticleID) {
+                    return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
+                }
+                else {
                     # error page
                     return $Self->{LayoutObject}->ErrorScreen();
                 }
             }
-            # redirect
-            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
-        }
+            else {
+                return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
+            }
+	}
     }
     else {
         # get last article
