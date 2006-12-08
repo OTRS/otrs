@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.57 2006-11-02 13:02:04 tr Exp $
+# $Id: NewTicket.pm,v 1.58 2006-12-08 09:58:22 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -178,7 +178,7 @@ sub Run {
     # set free ticket text
     my @Values = ('X-OTRS-TicketKey', 'X-OTRS-TicketValue');
     my $CounterTmp = 0;
-    while ($CounterTmp <= 8) {
+    while ($CounterTmp <= 16) {
         $CounterTmp++;
         if ($GetParam{"$Values[0]$CounterTmp"}) {
             $Self->{TicketObject}->TicketFreeTextSet(
