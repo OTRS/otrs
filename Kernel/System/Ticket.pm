@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.232 2006-11-29 12:49:34 mh Exp $
+# $Id: Ticket.pm,v 1.233 2006-12-08 10:20:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.232 $';
+$VERSION = '$Revision: 1.233 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -618,7 +618,7 @@ sub TicketSubjectClean {
     # get ticket data
     my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
-    my $TicketSubjectSize = $Self->{ConfigObject}->Get('Ticket::SubjectSize') || 80;
+    my $TicketSubjectSize = $Self->{ConfigObject}->Get('Ticket::SubjectSize') || 120;
     $Subject =~ s/\[$TicketHook: $Param{TicketNumber}\] //g;
     $Subject =~ s/\[$TicketHook:$Param{TicketNumber}\] //g;
     $Subject =~ s/\[$TicketHook$TicketHookDivider$Param{TicketNumber}\] //g;
@@ -804,8 +804,7 @@ sub TicketTitleUpdate {
     }
     # check if update is needed
     my %Ticket = $Self->TicketGet(%Param);
-    if ($Ticket{Title} &&
-        $Param{Title} &&
+    if (defined($Ticket{Title}) &&
         $Ticket{Title} eq $Param{Title}) {
         return 1;
     }
@@ -4663,7 +4662,7 @@ sub TicketAcl {
                         }
                     }
                 }
-                elsif ($Checks{$Key}->{$Data}) {
+                elsif (defined($Checks{$Key}->{$Data})) {
                     if ($_ eq $Checks{$Key}->{$Data}) {
                         $Match2 = 1;
                         # debug
@@ -4893,6 +4892,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.232 $ $Date: 2006-11-29 12:49:34 $
+$Revision: 1.233 $ $Date: 2006-12-08 10:20:35 $
 
 =cut
