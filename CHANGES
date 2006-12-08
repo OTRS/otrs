@@ -2,13 +2,22 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.317 2006-12-06 16:56:55 martin Exp $
+# $Id: CHANGES,v 1.318 2006-12-08 10:20:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.4 (2006/??/??)
+ - (2006/12/07) fixed acl problem if '' is used in properties to match
+ - (2006/12/07) fixed bug #1031 - scripts/backup.pl fails in mysqldump with
+    encrypted database password
+ - (2006/12/07) fixed bug #1378 - Got no MainObject! in bin/otrs.getTicketThread
+ - (2006/12/07) fixed bug #1200 - not working TicketACL actions AgentTicketCompose,
+    AgentTicketBounce, AgentTicketForward and AgentTicketPhoneOutbound
+ - (2006/12/07) added log notice for switch to user admin feature
+ - (2006/12/07) fixed bug #1210 - wrong calculation of Kernel::System::Time
+    WorkingTime()
  - (2006/12/06) added changes notice of generic agent jobs to log sub
     system (to keep clear who changed the job)
  - (2006/12/05) moved ticket number generator loop check from 1000 to 6000
