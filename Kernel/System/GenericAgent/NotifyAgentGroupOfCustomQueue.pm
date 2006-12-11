@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent/NotifyAgentGroupOfCustomQueue.pm - generic agent notifications
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.11 2006-11-02 12:20:54 tr Exp $
+# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.12 2006-12-11 08:01:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Email;
 use Kernel::System::Queue;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -67,33 +67,35 @@ sub Run {
         QueueID => $Ticket{QueueID},
     );
     # send each agent the escalation notification
-    foreach (@UserIDs) {
-        my %User = $Self->{UserObject}->GetUserData(UserID => $_, Valid => 1);
-        # check if today a reminder is already sent
-        my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
-            SystemTime => $Self->{TimeObject}->SystemTime(),
-        );
-        my @Lines = $Self->{TicketObject}->HistoryGet(
-            TicketID => $Ticket{TicketID},
-            UserID => 1,
-        );
-        my $Sent = 0;
-        foreach my $Line (@Lines) {
-            if ($Line->{Name} =~ /Escalation/ && $Line->{Name} =~ /\Q$User{UserEmail}\E/i && $Line->{CreateTime} =~ /$Year-$Month-$Day/) {
-                $Sent = 1;
+    foreach my $UserID (@UserIDs) {
+        my %User = $Self->{UserObject}->GetUserData(UserID => $UserID, Valid => 1);
+        if (%User) {
+            # check if today a reminder is already sent
+            my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Self->{TimeObject}->SystemTime(),
+            );
+            my @Lines = $Self->{TicketObject}->HistoryGet(
+                TicketID => $Ticket{TicketID},
+                UserID => 1,
+            );
+            my $Sent = 0;
+            foreach my $Line (@Lines) {
+                if ($Line->{Name} =~ /Escalation/ && $Line->{Name} =~ /\Q$User{UserEmail}\E/i && $Line->{CreateTime} =~ /$Year-$Month-$Day/) {
+                    $Sent = 1;
+                }
             }
+            if ($Sent) {
+                next;
+            }
+            # send agent notification
+            $Self->{TicketObject}->SendAgentNotification(
+                Type => 'Escalation',
+                UserData => \%User,
+                CustomerMessageParams => \%Param,
+                TicketID => $Param{TicketID},
+                UserID => 1,
+            );
         }
-        if ($Sent) {
-            next;
-        }
-        # send agent notification
-        $Self->{TicketObject}->SendAgentNotification(
-            Type => 'Escalation',
-            UserData => \%User,
-            CustomerMessageParams => \%Param,
-            TicketID => $Param{TicketID},
-            UserID => 1,
-        );
     }
     return 1;
 }
