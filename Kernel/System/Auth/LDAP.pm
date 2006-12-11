@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.28 2006-11-08 15:37:03 cs Exp $
+# $Id: LDAP.pm,v 1.29 2006-12-11 12:00:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -344,13 +344,20 @@ sub Auth {
                     }
                 }
                 else {
+                    my %CleanUserData = ();
+                    foreach my $Key (keys %UserData) {
+                        if ($Key ne 'UserPw') {
+                            my $CleanKey = $Key;
+                            $CleanKey =~ s/^User(.*)$/$1/;
+                            $CleanUserData{$CleanKey} = $UserData{$Key};
+                        }
+                    }
                     $Self->{UserObject}->UserUpdate(
+                        %CleanUserData,
                         ID => $UserData{UserID},
-                        Salutation => 'Mr/Mrs',
                         Login => $Param{User},
                         %SyncUser,
                         UserType => 'User',
-                        ValidID => 1,
                         UserID => 1,
                     );
                 }
