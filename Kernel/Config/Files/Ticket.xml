@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.124 2006-12-08 15:13:12 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.125 2006-12-11 13:52:20 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -5525,6 +5525,7 @@ $QData{"Signature"}
                 <Item Key="Label">My Queues</Item>
                 <Item Key="Desc">Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.</Item>
                 <Item Key="Prio">2000</Item>
+                <Item Key="Permission">ro</Item>
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>
