@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.19 2006-11-15 07:39:49 martin Exp $
+# $Id: Layout.pm,v 1.20 2006-12-11 07:18:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1327,10 +1327,7 @@ sub Ascii2Html {
         }
         {
             my $Link = $2.$3;
-            my $OrigText = $2.$3;
-            my $OrigTextEnd = $5;
-            my $LinkSmall = $Link;
-            $LinkSmall =~ s/^(.{80}).*$/$2\[\.\.\]/gs;
+            my $End = $5;
             $Link =~ s/ //g;
             $Counter++;
             if ($Link !~ /^(http|https|ftp):\/\//) {
@@ -1345,7 +1342,7 @@ sub Ascii2Html {
                 $String .= '#';
             }
             $LinkHash{"[$String"."$Counter]"} = $Link;
-            "[$String$Counter]";
+            "[$String$Counter]$End";
         }egxi;
     }
 
@@ -1390,7 +1387,7 @@ sub Ascii2Html {
             my $LinkSmall = $LinkHash{$Key};
             $LinkSmall =~ s/^(.{75}).*$/$1\[\.\.\]/gs;
             $LinkHash{$Key} =~ s/ //g;
-            $Text =~ s/\Q$Key\E/<a href=\"$LinkHash{$Key}\" target=\"_blank\" title=\"$LinkHash{$Key}\">$LinkSmall<\/a> /;
+            $Text =~ s/\Q$Key\E/<a href=\"$LinkHash{$Key}\" target=\"_blank\" title=\"$LinkHash{$Key}\">$LinkSmall<\/a>/;
         }
     }
     if ($HTMLMode) {
@@ -2669,6 +2666,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2006-11-15 07:39:49 $
+$Revision: 1.20 $ $Date: 2006-12-11 07:18:30 $
 
 =cut
