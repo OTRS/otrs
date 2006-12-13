@@ -2,13 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.322 2006-12-11 13:53:43 martin Exp $
+# $Id: CHANGES,v 1.323 2006-12-13 14:16:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-2.1.4 (2006/??/??)
+2.1.4 (2006/12/13)
+ - (2006/12/13) fixed not working free time selection in AgentTicketClose,
+    AgentTicketNote, AgentTicketOwner, AgentTicketPending, AgentTicketPriority
+    and AgentTicketResponsible
  - (2006/12/11) added config param for shown my queues/custom queues
     in preferences, default are shown all ro queues, see also
     PreferencesGroups###CustomQueue under Frontend::Agent::Preferences
