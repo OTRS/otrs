@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.42 2006-11-23 09:45:50 martin Exp $
+# $Id: DB.pm,v 1.43 2006-12-13 17:11:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CheckItem;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -465,6 +465,10 @@ sub SetPassword {
     my $CryptedPw = '';
     # md5 pw
     if ($Self->{ConfigObject}->Get('Customer::AuthModule::DB::CryptType') &&
+        $Self->{ConfigObject}->Get('Customer::AuthModule::DB::CryptType') eq 'plain') {
+        $CryptedPw = $Pw;
+    }
+    elsif ($Self->{ConfigObject}->Get('Customer::AuthModule::DB::CryptType') &&
         $Self->{ConfigObject}->Get('Customer::AuthModule::DB::CryptType') eq 'md5') {
         $CryptedPw = unix_md5_crypt($Pw, $Param{UserLogin});
     }

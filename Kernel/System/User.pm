@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.55 2006-10-16 15:54:22 cs Exp $
+# $Id: User.pm,v 1.56 2006-12-13 17:11:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -495,6 +495,10 @@ sub SetPassword {
     my $CryptedPw = '';
     # md5 pw
     if ($Self->{ConfigObject}->Get('AuthModule::DB::CryptType') &&
+        $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') eq 'plain') {
+        $CryptedPw = $Pw;
+    }
+    elsif ($Self->{ConfigObject}->Get('AuthModule::DB::CryptType') &&
         $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') eq 'md5') {
         $CryptedPw = unix_md5_crypt($Pw, $Param{UserLogin});
     }
@@ -799,6 +803,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2006-10-16 15:54:22 $
+$Revision: 1.56 $ $Date: 2006-12-13 17:11:14 $
 
 =cut
