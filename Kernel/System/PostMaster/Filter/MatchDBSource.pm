@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/MatchDBSource.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: MatchDBSource.pm,v 1.4 2006-11-02 12:20:57 tr Exp $
+# $Id: MatchDBSource.pm,v 1.5 2006-12-13 17:07:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub new {
@@ -29,7 +29,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed opbjects
-    foreach (qw(ConfigObject LogObject DBObject)) {
+    foreach (qw(ConfigObject LogObject DBObject ParseObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -63,7 +63,28 @@ sub Run {
         my $Matched = '';
         my $MatchedNot = 0;
         foreach (keys %Match) {
-            if ($Param{GetParam}->{$_} && $Param{GetParam}->{$_} =~ /$Match{$_}/i) {
+            if ($Param{GetParam}->{$_} && $Match{$_} =~ /^EMAILADDRESS:(.*)$/) {
+                my $SearchEmail = $1;
+                my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
+                    Line => $Param{GetParam}->{$_},
+                );
+                foreach my $RawEmail (@EmailAddresses) {
+                    my $Email = $Self->{ParseObject}->GetEmailAddress(
+                        Email => $RawEmail,
+                    );
+                    if ($Email =~ /^$SearchEmail$/i) {
+                        $Matched = $SearchEmail || 1;
+                        if ($Self->{Debug} > 1) {
+                            $Self->{LogObject}->Log(
+                                Priority => 'debug',
+                                Message => "$Prefix'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched!",
+                            );
+                        }
+                    }
+                }
+
+            }
+            elsif ($Param{GetParam}->{$_} && $Param{GetParam}->{$_} =~ /$Match{$_}/i) {
                 $Matched = $1 || '1';
                 if ($Self->{Debug} > 1) {
                     $Self->{LogObject}->Log(
