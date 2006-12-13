@@ -2,12 +2,31 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323 2006-12-13 14:16:55 martin Exp $
+# $Id: CHANGES,v 1.324 2006-12-13 17:13:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+CVS HEAD (????/??/??)
+ - (2006/12/13) added auth and customer password crypt backend for crypt(),
+    md5() and plain().
+ - (2006/12/13) added multi auth feature of agent and customer backend
+ - (2006/12/13) added feature to configure password crypt type of agent and
+    customer auth backend modules
+ - (2006/12/13) added feature to match only exact email addresses of incoming
+    emails in PostMaster filter like "From: EMAILADDRESS:someone@example.com".
+    This only will match for email addresses like 'someone@example.com',
+    'aaa.someone@example.com' will not match! This was a problem if you use
+    normal "From: someone@example.com" match.
+ - (2006/12/13) added config option for online agent and customer module to
+    show/not show email addresses of people (SysConfig: Framework
+    Frontend::Agent::ModuleNotify and Frontend::Customer::ModuleNotify)
+ - (2006/12/13) moved PostMasterPOP3MaxEmailSize default 6 MB to 12 MB
+
+2.1.5 (????/??/??)
+
+
 2.1.4 (2006/12/13)
  - (2006/12/13) fixed not working free time selection in AgentTicketClose,
     AgentTicketNote, AgentTicketOwner, AgentTicketPending, AgentTicketPriority
