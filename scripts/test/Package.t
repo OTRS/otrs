@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.t,v 1.3 2006-08-26 17:36:26 martin Exp $
+# $Id: Package.t,v 1.4 2006-12-13 17:18:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,6 +23,7 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
   <ChangeLog>2005-11-10  New package</ChangeLog>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
+  <Framework>2.2.x</Framework>
   <Framework>2.1.x</Framework>
   <Framework>2.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
@@ -130,6 +131,5 @@ $Self->True(
     $PackageUninstall2,
     'PackageUninstall()',
 );
-
 
 1;
