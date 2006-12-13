@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentOnline.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NotificationAgentOnline.pm,v 1.2 2006-08-27 22:27:29 martin Exp $
+# $Id: NotificationAgentOnline.pm,v 1.3 2006-12-13 17:00:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -45,7 +45,10 @@ sub Run {
             SessionID => $_,
         );
         if ($Self->{UserID} ne $Data{UserID} && $Data{UserType} eq 'User' && $Data{UserFirstname} && $Data{UserLastname}) {
-            $Online{$Data{UserID}} = "$Data{UserFirstname} $Data{UserLastname} ($Data{UserEmail})";
+            $Online{$Data{UserID}} = "$Data{UserFirstname} $Data{UserLastname}";
+            if ($Param{Config}->{ShowEmail}) {
+                $Online{$Data{UserID}} .= " ($Data{UserEmail})";
+            }
         }
     }
     foreach (sort {$Online{$a} cmp $Online{$b}} keys %Online) {
