@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.15 2006-10-20 21:32:38 martin Exp $
+# $Id: LDAP.pm,v 1.16 2006-12-13 17:09:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -39,24 +39,24 @@ sub new {
     $Self->{Debug} = 0;
 
     # get ldap preferences
-    $Self->{Host} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Host')
+    $Self->{Host} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Host'.$Param{Count})
      || die "Need Customer::AuthModule::LDAPHost in Kernel/Config.pm";
-    $Self->{BaseDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::BaseDN')
+    $Self->{BaseDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::BaseDN'.$Param{Count})
      || die "Need Customer::AuthModule::LDAPBaseDN in Kernel/Config.pm";
-    $Self->{UID} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UID')
+    $Self->{UID} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UID'.$Param{Count})
      || die "Need Customer::AuthModule::LDAPBaseDN in Kernel/Config.pm";
-    $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::SearchUserDN') || '';
-    $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::SearchUserPw') || '';
-    $Self->{GroupDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::GroupDN') || '';
-    $Self->{AccessAttr} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::AccessAttr') || '';
-    $Self->{UserAttr} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UserAttr') || 'DN';
-    $Self->{UserSuffix} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UserSuffix') || '';
+    $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::SearchUserDN'.$Param{Count}) || '';
+    $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::SearchUserPw'.$Param{Count}) || '';
+    $Self->{GroupDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::GroupDN'.$Param{Count}) || '';
+    $Self->{AccessAttr} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::AccessAttr'.$Param{Count}) || '';
+    $Self->{UserAttr} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UserAttr'.$Param{Count}) || 'DN';
+    $Self->{UserSuffix} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UserSuffix'.$Param{Count}) || '';
 
     # ldap filter always used
-    $Self->{AlwaysFilter} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::AlwaysFilter') || '';
+    $Self->{AlwaysFilter} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::AlwaysFilter'.$Param{Count}) || '';
     # Net::LDAP new params
-    if ($Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Params')) {
-        $Self->{Params} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Params');
+    if ($Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Params'.$Param{Count})) {
+        $Self->{Params} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Params'.$Param{Count});
     }
     else {
         $Self->{Params} = {};

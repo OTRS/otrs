@@ -2,7 +2,7 @@
 # Kernel/System/Auth.pm - provides the authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Auth.pm,v 1.20 2006-08-29 17:30:35 martin Exp $
+# $Id: Auth.pm,v 1.21 2006-12-13 17:09:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Auth;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -70,13 +70,15 @@ sub new {
     }
 
     # load generator auth module
-    $Self->{GenericModule} = $Self->{ConfigObject}->Get('AuthModule')
-      || 'Kernel::System::Auth::DB';
-    if (!eval "require $Self->{GenericModule}") {
-        die "Can't load auth backend module $Self->{GenericModule}! $@";
+    foreach my $Count ('', 1..10) {
+        my $GenericModule = $Self->{ConfigObject}->Get("AuthModule$Count");
+        if ($GenericModule) {
+            if (!eval "require $GenericModule") {
+                die "Can't load auth backend module $GenericModule! $@";
+            }
+            $Self->{"Backend$Count"} = $GenericModule->new(%Param, Count => $Count);
+        }
     }
-
-    $Self->{Backend} = $Self->{GenericModule}->new(%Param);
 
     return $Self;
 }
@@ -113,7 +115,15 @@ The autentificaion function.
 sub Auth {
     my $Self = shift;
     my %Param = @_;
-    return $Self->{Backend}->Auth(%Param);
+    foreach ('', 1..10) {
+        if ($Self->{"Backend$_"}) {
+            my $Return = $Self->{"Backend$_"}->Auth(%Param);
+            if ($Return) {
+                return $Return;
+            }
+        }
+    }
+    return;
 }
 1;
 
@@ -129,6 +139,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2006-08-29 17:30:35 $
+$Revision: 1.21 $ $Date: 2006-12-13 17:09:57 $
 
 =cut

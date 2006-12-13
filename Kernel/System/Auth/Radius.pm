@@ -3,7 +3,7 @@
 # based on Martin Edenhofer's Kernel::System::Auth::DB
 # Copyright (C) 2004 Andreas Jobs <Andreas.Jobs+dev@ruhr-uni-bochum.de>
 # --
-# $Id: Radius.pm,v 1.3 2006-08-29 17:28:44 martin Exp $
+# $Id: Radius.pm,v 1.4 2006-12-13 17:09:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Authen::Radius;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -36,10 +36,10 @@ sub new {
     $Self->{Debug} = 0;
 
     # get user table
-    $Self->{RadiusHost} = $Self->{ConfigObject}->Get('AuthModule::Radius::Host')
-      || die 'Need AuthModule::Radius::Host in Kernel/Config.pm';
-    $Self->{RadiusSecret} = $Self->{ConfigObject}->Get('AuthModule::Radius::Password')
-      || die 'Need AuthModule::Radius::Password in Kernel/Config.pm';
+    $Self->{RadiusHost} = $Self->{ConfigObject}->Get('AuthModule::Radius::Host'.$Param{Count})
+      || die "Need AuthModule::Radius::Host$Param{Count} in Kernel/Config.pm";
+    $Self->{RadiusSecret} = $Self->{ConfigObject}->Get('AuthModule::Radius::Password'.$Param{Count})
+      || die "Need AuthModule::Radius::Password$Param{Count} in Kernel/Config.pm";
 
     return $Self;
 }

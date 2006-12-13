@@ -2,7 +2,7 @@
 # Kernel/System/Auth/DB.pm - provides the db authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.16 2006-08-29 17:28:44 martin Exp $
+# $Id: DB.pm,v 1.17 2006-12-13 17:09:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -35,13 +35,13 @@ sub new {
     $Self->{Debug} = 0;
 
     # get user table
-    $Self->{UserTable} = $Self->{ConfigObject}->Get('DatabaseUserTable')
+    $Self->{UserTable} = $Self->{ConfigObject}->Get('DatabaseUserTable'.$Param{Count})
         || 'user';
-    $Self->{UserTableUserID} = $Self->{ConfigObject}->Get('DatabaseUserTableUserID')
+    $Self->{UserTableUserID} = $Self->{ConfigObject}->Get('DatabaseUserTableUserID'.$Param{Count})
         || 'id';
-    $Self->{UserTableUserPW} = $Self->{ConfigObject}->Get('DatabaseUserTableUserPW')
+    $Self->{UserTableUserPW} = $Self->{ConfigObject}->Get('DatabaseUserTableUserPW'.$Param{Count})
         || 'pw';
-    $Self->{UserTableUser} = $Self->{ConfigObject}->Get('DatabaseUserTableUser')
+    $Self->{UserTableUser} = $Self->{ConfigObject}->Get('DatabaseUserTableUser'.$Param{Count})
         || 'login';
 
     return $Self;
@@ -93,8 +93,12 @@ sub Auth {
     # crypt given pw
     my $CryptedPw = '';
     my $Salt = $GetPw;
+    if ($Self->{ConfigObject}->Get('AuthModule::DB::CryptType') &&
+        $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') eq 'plain') {
+        $CryptedPw = $Pw;
+    }
     # md5 pw
-    if ($GetPw !~ /^.{13}$/) {
+    elsif ($GetPw !~ /^.{13}$/) {
         # strip Salt
         $Salt =~ s/^\$.+?\$(.+?)\$.*$/$1/;
         $CryptedPw = unix_md5_crypt($Pw, $Salt);

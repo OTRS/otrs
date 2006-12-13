@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth.pm - provides the authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerAuth.pm,v 1.8 2006-11-02 12:20:52 tr Exp $
+# $Id: CustomerAuth.pm,v 1.9 2006-12-13 17:09:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -74,11 +74,15 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     # load generator auth module
-    my $GeneratorModule = $Self->{ConfigObject}->Get('Customer::AuthModule')
-      || 'Kernel::System::CustomerAuth::DB';
-    eval "require $GeneratorModule";
-
-    $Self->{Backend} = $GeneratorModule->new(%Param);
+    foreach my $Count ('', 1..10) {
+        my $GenericModule = $Self->{ConfigObject}->Get("Customer::AuthModule$Count");
+        if ($GenericModule) {
+            if (!eval "require $GenericModule") {
+                die "Can't load auth backend module $GenericModule! $@";
+            }
+            $Self->{"Backend$Count"} = $GenericModule->new(%Param, Count => $Count);
+        }
+    }
 
     return $Self;
 }
@@ -116,7 +120,15 @@ sub Auth {
     my $Self = shift;
     my %Param = @_;
     # auth. request against backend
-    my $User = $Self->{Backend}->Auth(%Param);
+    my $User = '';
+    foreach ('', 1..10) {
+        if ($Self->{"Backend$_"}) {
+            $User = $Self->{"Backend$_"}->Auth(%Param);
+            if ($User) {
+                last;
+            }
+        }
+    }
     # if recorde exists, check if user is vaild
     if ($User) {
         my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $User);
@@ -150,6 +162,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2006-11-02 12:20:52 $
+$Revision: 1.9 $ $Date: 2006-12-13 17:09:57 $
 
 =cut

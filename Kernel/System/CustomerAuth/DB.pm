@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.14 2006-08-27 21:19:13 martin Exp $
+# $Id: DB.pm,v 1.15 2006-12-13 17:09:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -35,22 +35,24 @@ sub new {
     $Self->{Debug} = 0;
 
     # config options
-    $Self->{Table} = $Self->{ConfigObject}->Get('Customer::AuthModule::DB::Table')
-      || die "Need CustomerAuthModule::DB::Table in Kernel/Config.pm!";
-    $Self->{Key} = $Self->{ConfigObject}->Get('Customer::AuthModule::DB::CustomerKey')
-      || die "Need CustomerAuthModule::DB::CustomerKey in Kernel/Config.pm!";
-    $Self->{Pw} = $Self->{ConfigObject}->Get('Customer::AuthModule::DB::CustomerPassword')
-      || die "Need CustomerAuthModule::DB::CustomerPw in Kernel/Config.pm!";
+    $Self->{Table} = $Self->{ConfigObject}->Get('Customer::AuthModule::DB::Table'.$Param{Count})
+      || die "Need CustomerAuthModule::DB::Table$Param{Count} in Kernel/Config.pm!";
+    $Self->{Key} = $Self->{ConfigObject}->Get('Customer::AuthModule::DB::CustomerKey'.$Param{Count})
+      || die "Need CustomerAuthModule::DB::CustomerKey$Param{Count} in Kernel/Config.pm!";
+    $Self->{Pw} = $Self->{ConfigObject}->Get('Customer::AuthModule::DB::CustomerPassword'.$Param{Count})
+      || die "Need CustomerAuthModule::DB::CustomerPw$Param{Count} in Kernel/Config.pm!";
+    $Self->{CryptType} = $Self->{ConfigObject}->Get('Customer::AuthModule::DB::CryptType'.$Param{Count})
+      || '';
 
-
-    if ($Self->{ConfigObject}->Get('Customer::AuthModule::DB::DSN')) {
+    if ($Self->{ConfigObject}->Get('Customer::AuthModule::DB::DSN'.$Param{Count})) {
         $Self->{DBObject} = Kernel::System::DB->new(
             LogObject => $Param{LogObject},
             ConfigObject => $Param{ConfigObject},
-            DatabaseDSN => $Self->{ConfigObject}->Get('Customer::AuthModule::DB::DSN'),
-            DatabaseUser => $Self->{ConfigObject}->Get('Customer::AuthModule::DB::User'),
-            DatabasePw => $Self->{ConfigObject}->Get('Customer::AuthModule::DB::Password'),
-        ) || die "Can't connect to ".$Self->{ConfigObject}->Get('Customer::AuthModule::DB::DSN');
+            DatabaseDSN => $Self->{ConfigObject}->Get('Customer::AuthModule::DB::DSN'.$Param{Count}),
+            DatabaseUser => $Self->{ConfigObject}->Get('Customer::AuthModule::DB::User'.$Param{Count}),
+            DatabasePw => $Self->{ConfigObject}->Get('Customer::AuthModule::DB::Password'.$Param{Count}),
+            Type => $Self->{ConfigObject}->Get('Customer::AuthModule::DB::Type'.$Param{Count}) || '',
+        ) || die "Can't connect to ".$Self->{ConfigObject}->Get('Customer::AuthModule::DB::DSN'.$Param{Count});
         # remember that we have the DBObject not from parent call
         $Self->{NotParentDBObject} = 1;
     }
@@ -114,7 +116,10 @@ sub Auth {
     my $CryptedPw = '';
     my $Salt = $GetPw;
     # md5 pw
-    if ($GetPw !~ /^.{13}$/) {
+    if ($Self->{CryptType} eq 'plain') {
+        $CryptedPw = $Pw;
+    }
+    elsif ($GetPw !~ /^.{13}$/) {
         # strip Salt
         $Salt =~ s/^\$.+?\$(.+?)\$.*$/$1/;
         $CryptedPw = unix_md5_crypt($Pw, $Salt);
