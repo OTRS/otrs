@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.251 2006-12-07 15:43:23 mh Exp $
+# $Id: Defaults.pm,v 1.252 2006-12-13 17:08:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.251 $';
+$VERSION = '$Revision: 1.252 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -283,7 +283,7 @@ sub LoadDefaults {
     # This is the auth. module againt the otrs db
     $Self->{'AuthModule'} = 'Kernel::System::Auth::DB';
 
-    # password crypt type (crypt|md5)
+    # password crypt type (crypt|md5|plain)
 #    $Self->{'AuthModule::DB::CryptType'} = 'crypt';
 
     # This is an example configuration for an LDAP auth. backend.
@@ -501,10 +501,12 @@ sub LoadDefaults {
     # show online agents
 #    $Self->{'Frontend::NotifyModule'}->{'3-ShowAgentOnline'} = {
 #        Module => 'Kernel::Output::HTML::NotificationAgentOnline',
+#        ShowEmail => 1,
 #    };
     # show online customers
 #    $Self->{'Frontend::NotifyModule'}->{'4-ShowCustomerOnline'} = {
 #        Module => 'Kernel::Output::HTML::NotificationCustomerOnline',
+#        ShowEmail => 1,
 #    };
 
     # --------------------------------------------------- #
@@ -927,6 +929,7 @@ Your OTRS Notification Master
     # show online agents
 #    $Self->{'CustomerFrontend::NotifyModule'}->{'1-ShowAgentOnline'} = {
 #        Module => 'Kernel::Output::HTML::NotificationAgentOnline',
+#        ShowEmail => 1,
 #    };
 
     # --------------------------------------------------- #
@@ -1014,6 +1017,10 @@ Your OTRS Notification Master
 #    $Self->{'Customer::AuthModule::DB::DSN'} = "DBI:mysql:database=customerdb;host=customerdbhost";
 #    $Self->{'Customer::AuthModule::DB::User'} = "some_user";
 #    $Self->{'Customer::AuthModule::DB::Password'} = "some_password";
+    # if you use odbc or you want to define a database type (without autodetection)
+#    $Self->{'Customer::AuthModule::DB::Type'} = 'mysql';
+    # password crypt type (crypt|md5|plain)
+#    $Self->{'Customer::AuthModule::DB::CryptType'} = 'crypt';
 
     # This is an example configuration for an LDAP auth. backend.
     # (take care that Net::LDAP is installed!)
@@ -1837,6 +1844,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.251 $ $Date: 2006-12-07 15:43:23 $
+$Revision: 1.252 $ $Date: 2006-12-13 17:08:29 $
 
 =cut

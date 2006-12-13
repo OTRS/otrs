@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.125 2006-12-07 15:43:23 mh Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.126 2006-12-13 17:12:14 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -629,6 +629,7 @@ TimeWorkingHours
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NotificationAgentOnline</Item>
+                <Item Key="ShowEmail">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -640,6 +641,7 @@ TimeWorkingHours
          <Setting>
              <Hash>
                  <Item Key="Module">Kernel::Output::HTML::NotificationCustomerOnline</Item>
+                 <Item Key="ShowEmail">1</Item>
              </Hash>
          </Setting>
     </ConfigItem>
@@ -3135,6 +3137,7 @@ Your OTRS Notification Master
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NotificationAgentOnline</Item>
+                <Item Key="ShowEmail">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3146,6 +3149,7 @@ Your OTRS Notification Master
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NotificationCustomerOnline</Item>
+                <Item Key="ShowEmail">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3293,6 +3297,7 @@ Your OTRS Notification Master
             <Option SelectedID="crypt">
                 <Item Key="crypt">Crypt</Item>
                 <Item Key="md5">MD5</Item>
+                <Item Key="plain">Plain</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -3349,6 +3354,15 @@ Your OTRS Notification Master
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
             <String Regex="">some_password</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::DB::Type" Required="0" Valid="0">
+        <Description Lang="en">If "DB" was selected for Customer::AuthModule, you can specify a database driver (normaly autodetection is used).</Description>
+        <Description Lang="de">Wenn "DB" für Customer::AuthModule ausgewählt wurde, kann ein Datenbank-Treiber definiert werden (normal wird eine automatische Erkennung benutzt).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::Auth</SubGroup>
+        <Setting>
+            <String Regex="">mysql</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::HTTPBasicAuth::Replace" Required="0" Valid="0">
