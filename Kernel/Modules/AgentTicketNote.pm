@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketNote.pm,v 1.18 2006-11-15 07:39:48 martin Exp $
+# $Id: AgentTicketNote.pm,v 1.19 2006-12-13 12:52:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -559,12 +559,11 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(
-#            %Ticket,
+            %GetParam,
+            %Ticket,
             %TicketFreeTextHTML,
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,
-            %GetParam,
-            %Ticket,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
