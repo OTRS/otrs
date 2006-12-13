@@ -2,7 +2,7 @@
 # GenericAgent.t - GenericAgent tests
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.t,v 1.3 2006-09-21 15:07:07 tr Exp $
+# $Id: GenericAgent.t,v 1.4 2006-12-13 17:23:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -95,7 +95,8 @@ my %NewJob = (
 
 $Self->True(
     $Self->{GenericAgentObject}->JobAdd(
-        %NewJob
+        %NewJob,
+        UserID => 1,
     ),
     'JobAdd() check return value',
 );
@@ -123,6 +124,7 @@ my $Return = $Self->{GenericAgentObject}->JobAdd(
     Data => {
         ScheduleLastRun => '',
     },
+    UserID => 1,
 );
 if ($Return) {
     $Return = 0;
@@ -213,7 +215,6 @@ $Self->Is(
     "TicketGet() check if generic agent job changed the ticket settings (Priority)",
 );
 
-
 $Self->True(
     $Self->{TicketObject}->TicketDelete(
         TicketID => $TicketID,
@@ -224,7 +225,10 @@ $Self->True(
 
 # delete the test job
 $Self->True(
-    $Self->{GenericAgentObject}->JobDelete(Name => $Name),
+    $Self->{GenericAgentObject}->JobDelete(
+        Name => $Name,
+        UserID => 1,
+    ),
     'JobDelete() check the return of the delete function',
 );
 
