@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.324 2006-12-13 17:13:33 martin Exp $
+# $Id: CHANGES,v 1.325 2006-12-13 17:49:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD (????/??/??)
+ - (2006/12/13) moved config option SessionMaxTime from 10h to 14h
  - (2006/12/13) added auth and customer password crypt backend for crypt(),
     md5() and plain().
  - (2006/12/13) added multi auth feature of agent and customer backend
