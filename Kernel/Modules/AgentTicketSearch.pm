@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.32 2006-10-04 15:43:34 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.33 2006-12-13 08:43:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -798,10 +798,11 @@ sub MaskForm {
         SelectedID => $Param{Profile},
     );
     $Param{'StatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { $Self->{StateObject}->StateList(
-             UserID => $Self->{UserID},
-             Action => $Self->{Action},
-             )
+        Data => {
+            $Self->{StateObject}->StateList(
+                UserID => $Self->{UserID},
+                Action => $Self->{Action},
+            ),
         },
         Name => 'StateIDs',
         Multiple => 1,
