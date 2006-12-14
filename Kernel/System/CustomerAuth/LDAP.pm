@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.16 2006-12-13 17:09:57 martin Exp $
+# $Id: LDAP.pm,v 1.17 2006-12-14 11:59:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -40,11 +40,11 @@ sub new {
 
     # get ldap preferences
     $Self->{Host} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Host'.$Param{Count})
-     || die "Need Customer::AuthModule::LDAPHost in Kernel/Config.pm";
+        || die "Need Customer::AuthModule::LDAPHost in Kernel/Config.pm";
     $Self->{BaseDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::BaseDN'.$Param{Count})
-     || die "Need Customer::AuthModule::LDAPBaseDN in Kernel/Config.pm";
+        || die "Need Customer::AuthModule::LDAPBaseDN in Kernel/Config.pm";
     $Self->{UID} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UID'.$Param{Count})
-     || die "Need Customer::AuthModule::LDAPBaseDN in Kernel/Config.pm";
+        || die "Need Customer::AuthModule::LDAPBaseDN in Kernel/Config.pm";
     $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::SearchUserDN'.$Param{Count}) || '';
     $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::SearchUserPw'.$Param{Count}) || '';
     $Self->{GroupDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::GroupDN'.$Param{Count}) || '';
@@ -112,8 +112,9 @@ sub Auth {
     # just in case for debug!
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "CustomerUser: '$Param{User}' tried to authentificate with Pw: '$Param{Pw}' (REMOTE_ADDR: $RemoteAddr)",
+            Priority => 'notice',
+            Message => "CustomerUser: '$Param{User}' tried to authentificate with Pw: '$Param{Pw}' ".
+                "(REMOTE_ADDR: $RemoteAddr)",
         );
     }
     # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
@@ -159,9 +160,9 @@ sub Auth {
     if (!$UserDN) {
         # failed login note
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "CustomerUser: $Param{User} authentification failed, no LDAP entry found!".
-            "BaseDN='$Self->{BaseDN}', Filter='$Filter', (REMOTE_ADDR: $RemoteAddr).",
+            Priority => 'notice',
+            Message => "CustomerUser: $Param{User} authentification failed, no LDAP entry found!".
+                "BaseDN='$Self->{BaseDN}', Filter='$Filter', (REMOTE_ADDR: $RemoteAddr).",
         );
         # take down session
         $LDAP->unbind;
@@ -205,9 +206,9 @@ sub Auth {
         if (!$GroupDN) {
             # failed login note
             $Self->{LogObject}->Log(
-              Priority => 'notice',
-              Message => "CustomerUser: $Param{User} authentification failed, no LDAP group entry found".
-                "GroupDN='$Self->{GroupDN}', Filter='$Filter2'! (REMOTE_ADDR: $RemoteAddr).",
+                Priority => 'notice',
+                Message => "CustomerUser: $Param{User} authentification failed, no LDAP group entry found".
+                    "GroupDN='$Self->{GroupDN}', Filter='$Filter2'! (REMOTE_ADDR: $RemoteAddr).",
             );
             # take down session
             $LDAP->unbind;
@@ -220,8 +221,8 @@ sub Auth {
     if ($Result->code) {
         # failed login note
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "CustomerUser: $Param{User} authentification failed: '".$Result->error."' (REMOTE_ADDR: $RemoteAddr).",
+            Priority => 'notice',
+            Message => "CustomerUser: $Param{User} authentification failed: '".$Result->error."' (REMOTE_ADDR: $RemoteAddr).",
         );
         # take down session
         $LDAP->unbind;
@@ -230,8 +231,8 @@ sub Auth {
     else {
         # login note
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "CustomerUser: $Param{User} authentification ok (REMOTE_ADDR: $RemoteAddr).",
+            Priority => 'notice',
+            Message => "CustomerUser: $Param{User} authentification ok (REMOTE_ADDR: $RemoteAddr).",
         );
         # take down session
         $LDAP->unbind;

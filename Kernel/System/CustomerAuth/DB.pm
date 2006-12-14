@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.15 2006-12-13 17:09:57 martin Exp $
+# $Id: DB.pm,v 1.16 2006-12-14 11:59:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -36,13 +36,13 @@ sub new {
 
     # config options
     $Self->{Table} = $Self->{ConfigObject}->Get('Customer::AuthModule::DB::Table'.$Param{Count})
-      || die "Need CustomerAuthModule::DB::Table$Param{Count} in Kernel/Config.pm!";
+        || die "Need CustomerAuthModule::DB::Table$Param{Count} in Kernel/Config.pm!";
     $Self->{Key} = $Self->{ConfigObject}->Get('Customer::AuthModule::DB::CustomerKey'.$Param{Count})
-      || die "Need CustomerAuthModule::DB::CustomerKey$Param{Count} in Kernel/Config.pm!";
+        || die "Need CustomerAuthModule::DB::CustomerKey$Param{Count} in Kernel/Config.pm!";
     $Self->{Pw} = $Self->{ConfigObject}->Get('Customer::AuthModule::DB::CustomerPassword'.$Param{Count})
-      || die "Need CustomerAuthModule::DB::CustomerPw$Param{Count} in Kernel/Config.pm!";
+        || die "Need CustomerAuthModule::DB::CustomerPw$Param{Count} in Kernel/Config.pm!";
     $Self->{CryptType} = $Self->{ConfigObject}->Get('Customer::AuthModule::DB::CryptType'.$Param{Count})
-      || '';
+        || '';
 
     if ($Self->{ConfigObject}->Get('Customer::AuthModule::DB::DSN'.$Param{Count})) {
         $Self->{DBObject} = Kernel::System::DB->new(
@@ -81,8 +81,8 @@ sub Auth {
     my %Param = @_;
     # check needed stuff
     if (!$Param{User}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need User!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need User!");
+        return;
     }
     # get params
     my $User = $Param{User} || '';
@@ -93,10 +93,10 @@ sub Auth {
 
     # sql query
     my $SQL = "SELECT $Self->{Pw}, $Self->{Key}".
-      " FROM ".
-      " $Self->{Table} ".
-      " WHERE ".
-      " $Self->{Key} = '".$Self->{DBObject}->Quote($User)."'";
+        " FROM ".
+        " $Self->{Table} ".
+        " WHERE ".
+        " $Self->{Key} = '".$Self->{DBObject}->Quote($User)."'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $GetPw = $Row[0];
@@ -106,8 +106,9 @@ sub Auth {
     # check if user exists in auth table
     if (!$UserID) {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "CustomerUser: No auth record in '$Self->{Table}' for '$User'  (REMOTE_ADDR: $RemoteAddr)",
+            Priority => 'notice',
+            Message => "CustomerUser: No auth record in '$Self->{Table}' for '$User' ".
+                "(REMOTE_ADDR: $RemoteAddr)",
         );
         return;
     }
@@ -155,40 +156,41 @@ sub Auth {
     # just in case!
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "CustomerUser: '$User' tried to authentificate with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
+            Priority => 'notice',
+            Message => "CustomerUser: '$User' tried to authentificate with Pw: '$Pw' ".
+                "($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
         );
     }
 
     # just a note
     if (!$Pw) {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "CustomerUser: $User authentification without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
+            Priority => 'notice',
+            Message => "CustomerUser: $User authentification without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
         return;
     }
     # login note
     elsif ((($GetPw)&&($User)&&($UserID)) && $CryptedPw eq $GetPw) {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "CustomerUser: $User authentification ok (REMOTE_ADDR: $RemoteAddr).",
+            Priority => 'notice',
+            Message => "CustomerUser: $User authentification ok (REMOTE_ADDR: $RemoteAddr).",
         );
         return $User;
     }
     # just a note
     elsif (($UserID) && ($GetPw)) {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "CustomerUser: $User authentification with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
+            Priority => 'notice',
+            Message => "CustomerUser: $User authentification with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
         );
         return;
     }
     # just a note
     else {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "CustomerUser: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
+            Priority => 'notice',
+            Message => "CustomerUser: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
         );
         return;
     }
