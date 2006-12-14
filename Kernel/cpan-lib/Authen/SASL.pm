@@ -1,4 +1,4 @@
-# Copyright (c) 2002 Graham Barr <gbarr@pobox.com>. All rights reserved.
+# Copyright (c) 2004-2006 Graham Barr <gbarr@pobox.com>. All rights reserved.
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 
@@ -8,12 +8,23 @@ use strict;
 use vars qw($VERSION @Plugins);
 use Carp;
 
-$VERSION = "2.03";
+$VERSION = "2.10";
 
 @Plugins = qw(
 	Authen::SASL::Cyrus
 	Authen::SASL::Perl
 );
+
+
+sub import {
+  shift;
+  return unless @_;
+
+  local $SIG{__DIE__};
+  @Plugins = grep { /^[:\w]+$/ and eval "require $_" } map { /::/ ? $_ : "Authen::SASL::$_" } @_
+    or croak "no valid Authen::SASL plugins found";
+}
+
 
 sub new {
   my $pkg = shift;
@@ -59,12 +70,28 @@ sub client_new { # $self, $service, $host, $secflags
   my $self = shift;
 
   foreach my $pkg (@Plugins) {
-    if (eval "require $pkg") {
+    if (eval "require $pkg" and $pkg->can("client_new")) {
       return ($self->{conn} = $pkg->client_new($self, @_));
     }
   }
 
   croak "Cannot find a SASL Connection library";
+}
+
+sub server_new { # $self, $service, $host, $secflags
+  my $self = shift;
+
+  foreach my $pkg (@Plugins) {
+    if (eval "require $pkg" and $pkg->can("server_new")) {
+      return ($self->{conn} = $pkg->server_new($self, @_));
+    }
+  }
+  croak "Cannot find a SASL Connection library for server-side authentication";
+}
+
+sub error {
+  my $self = shift;
+  $self->{conn} && $self->{conn}->error;
 }
 
 # Compat.
