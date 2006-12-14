@@ -13,8 +13,8 @@
 # can do whatever you want with this stuff. If we meet some day, and you think
 # this stuff is worth it, you can buy me a beer in return.   Poul-Henning Kamp
 # ----------------------------------------------------------------------------
-#
-# $Id: PasswdMD5.pm,v 1.1 2006-08-27 21:21:24 martin Exp $
+# 
+# $Id: PasswdMD5.pm,v 1.2 2006-12-14 19:15:59 mh Exp $
 #
 ################
 
@@ -177,7 +177,7 @@ None by default.
 
 =head1 HISTORY
 
-$Id: PasswdMD5.pm,v 1.1 2006-08-27 21:21:24 martin Exp $
+$Id: PasswdMD5.pm,v 1.2 2006-12-14 19:15:59 mh Exp $
 
  19980710 luismunoz@cpan.org: Initial release
  19990402 bryan@eai.com: Added apache_md5_crypt to create a valid hash
