@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.57 2006-11-30 09:18:06 martin Exp $
+# $Id: DB.pm,v 1.58 2006-12-14 12:00:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -38,29 +38,29 @@ All database functions to connect/insert/update/delete/... to a database.
 
 create database object with database connect
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
 
-  $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject    => $LogObject,
-      # if you don't use the follow params, then this are used
-      # from Kernel/Config.pm!
-      DatabaseDSN  => 'DBI:odbc:database=123;host=localhost;',
-      DatabaseUser => 'user',
-      DatabasePw   => 'somepass',
-      Type         => 'mysql',
-      Attribute    => {
-          LongTruncOk => 1,
-          LongReadLen => 100*1024,
-      },
-  );
+    $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        # if you don't use the follow params, then this are used
+        # from Kernel/Config.pm!
+        DatabaseDSN  => 'DBI:odbc:database=123;host=localhost;',
+        DatabaseUser => 'user',
+        DatabasePw   => 'somepass',
+        Type         => 'mysql',
+        Attribute    => {
+            LongTruncOk => 1,
+            LongReadLen => 100*1024,
+        },
+    );
 
 =cut
 
@@ -76,7 +76,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
-    foreach (qw(ConfigObject LogObject)) {
+    foreach (qw(ConfigObject LogObject MainObject)) {
         if ($Param{$_}) {
             $Self->{$_} = $Param{$_};
         }
@@ -137,8 +137,8 @@ sub new {
     # load backend module
     if ($Self->{'DB::Type'}) {
         my $GenericModule = "Kernel::System::DB::$Self->{'DB::Type'}";
-        if (!eval "require $GenericModule") {
-            die "Can't load database backend module $GenericModule! $@";
+        if (!$Self->{MainObject}->Require($GenericModule)) {
+            return;
         }
         $Self->{Backend} = $GenericModule->new(%{$Self});
         # set database functions
@@ -228,19 +228,19 @@ sub Disconnect {
 
 to quote sql params
 
-  quote strings, date and time:
-  =============================
-  my $DBString = $DBObject->Quote("This isn't a problem!");
+    quote strings, date and time:
+    =============================
+    my $DBString = $DBObject->Quote("This isn't a problem!");
 
-  my $DBString = $DBObject->Quote("2005-10-27 20:15:01");
+    my $DBString = $DBObject->Quote("2005-10-27 20:15:01");
 
-  quote integers:
-  ===============
-  my $DBString = $DBObject->Quote(1234, 'Integer');
+    quote integers:
+    ===============
+    my $DBString = $DBObject->Quote(1234, 'Integer');
 
-  quote numbers (e. g. 1, 1.4, 42342.23424):
-  ==========================================
-  my $DBString = $DBObject->Quote(1234, 'Number');
+    quote numbers (e. g. 1, 1.4, 42342.23424):
+    ==========================================
+    my $DBString = $DBObject->Quote(1234, 'Number');
 
 =cut
 
@@ -294,7 +294,7 @@ sub Quote {
 
 to get database errors back
 
-  my $ErrorMessage = $DBObject->Error();
+    my $ErrorMessage = $DBObject->Error();
 
 =cut
 
@@ -307,19 +307,19 @@ sub Error {
 
 to insert, update or delete something
 
-  $DBObject->Do(SQL => "INSERT INTO table (name) VALUES ('dog')");
+    $DBObject->Do(SQL => "INSERT INTO table (name) VALUES ('dog')");
 
-  $DBObject->Do(SQL => "DELETE FROM table");
+    $DBObject->Do(SQL => "DELETE FROM table");
 
-  you also can use DBI bind values (used for large strings):
+    you also can use DBI bind values (used for large strings):
 
-  my $Var1 = 'dog1';
-  my $Var2 = 'dog2';
+    my $Var1 = 'dog1';
+    my $Var2 = 'dog2';
 
-  $DBObject->Do(
-      SQL => "INSERT INTO table (name1, name2) VALUES (?, ?)",
-      Bind => [\$Var1, \$Var2],
-  );
+    $DBObject->Do(
+        SQL => "INSERT INTO table (name1, name2) VALUES (?, ?)",
+        Bind => [\$Var1, \$Var2],
+    );
 
 =cut
 
@@ -384,10 +384,10 @@ sub Do {
 
 to send a select something to the database
 
-  $DBObject->Prepare(
-      SQL => "SELECT id, name FROM table",
-      Limit => 10
-  );
+    $DBObject->Prepare(
+        SQL => "SELECT id, name FROM table",
+        Limit => 10
+    );
 
 =cut
 
@@ -448,14 +448,14 @@ sub Prepare {
 
 to get a select return
 
-  $DBObject->Prepare(
-      SQL => "SELECT id, name FROM table",
-      Limit => 10
-  );
+    $DBObject->Prepare(
+        SQL => "SELECT id, name FROM table",
+        Limit => 10
+    );
 
-  while (my @Row = $DBObject->FetchrowArray()) {
-      print "$Row[0]:$Row[1]\n";
-  }
+    while (my @Row = $DBObject->FetchrowArray()) {
+        print "$Row[0]:$Row[1]\n";
+    }
 
 =cut
 
@@ -497,7 +497,7 @@ sub FetchrowHashref {
 
 to get database functions like Limit, DirectBlob, ...
 
-  my $What = $DBObject->GetDatabaseFunction('DirectBlob');
+    my $What = $DBObject->GetDatabaseFunction('DirectBlob');
 
 =cut
 
@@ -511,27 +511,27 @@ sub GetDatabaseFunction {
 
 generate database based sql syntax (e. g. CREATE TABLE ...)
 
-  my @SQL = $DBObject->SQLProcessor(
-    Database =>
-      [
-         Tag => 'TableCreate',
-         Name => 'table_name',
-      ],
-      [
-         Tag => 'Column',
-         Name => 'col_name',
-         Type => 'VARCHAR',
-         Size => 150,
-      ],
-      [
-         Tag => 'Column',
-         Name => 'col_name2',
-         Type => 'INTERGER',
-      ],
-      [
-         Tag => 'TableEnd',
-      ],
-  );
+    my @SQL = $DBObject->SQLProcessor(
+        Database =>
+            [
+                Tag => 'TableCreate',
+                Name => 'table_name',
+            ],
+            [
+                Tag => 'Column',
+                Name => 'col_name',
+                Type => 'VARCHAR',
+                Size => 150,
+            ],
+            [
+                Tag => 'Column',
+                Name => 'col_name2',
+                Type => 'INTERGER',
+            ],
+            [
+                Tag => 'TableEnd',
+            ],
+    );
 
 =cut
 
@@ -624,7 +624,7 @@ sub SQLProcessor {
 generate database based sql syntax, post data of SQLProcessor(),
 e. g. foreign keys
 
-  my @SQL = $DBObject->SQLProcessorPost();
+    my @SQL = $DBObject->SQLProcessorPost();
 
 =cut
 
@@ -646,10 +646,10 @@ sub SQLProcessorPost {
 
 to get table data back in a hash
 
-  my %Users = $DBObject->GetTableData(
-      What => 'id, name',
-      Table => 'groups',
-  );
+    my %Users = $DBObject->GetTableData(
+        What => 'id, name',
+        Table => 'groups',
+    );
 
 =cut
 
@@ -726,6 +726,8 @@ sub DESTROY {
 }
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -738,6 +740,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2006-11-30 09:18:06 $
+$Revision: 1.58 $ $Date: 2006-12-14 12:00:31 $
 
 =cut

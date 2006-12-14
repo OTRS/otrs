@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.17 2006-11-30 11:33:04 martin Exp $
+# $Id: oracle.pm,v 1.18 2006-12-14 12:00:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -450,7 +450,13 @@ sub Insert {
         if ($Value) {
             $Value .= ",";
         }
-        $Value .= $_;
+        if ($_ eq 'current_timestamp') {
+            my $Timestamp = $Self->{TimeObject}->CurrentTimestamp();
+            $Value .= '\''.$Timestamp.'\'';
+        }
+        else {
+            $Value .= $_;
+        }
     }
     $SQL .= "($Key) VALUES ($Value)";
     return ($SQL);
