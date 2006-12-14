@@ -1,0 +1,127 @@
+# Copyright (c) 2004 Peter Marschall <peter@adpm.de>. All rights reserved.
+# This program is free software; you can redistribute it and/or
+# modify it under the same terms as Perl itself.
+
+=head1 NAME
+
+Authen::SASL::Perl -- Perl implementation of the SASL Authentication framework
+
+=head1 SYNOPSIS
+
+ use Authen::SASL qw(Perl);
+
+ $sasl = Authen::SASL->new(
+   mechanism => 'CRAM-MD5 PLAIN ANONYMOUS',
+   callback => {
+     user => $user,
+     pass => \&fetch_password
+   }
+ );
+
+=head1 DESCRIPTION
+
+B<Authen::SASL::Perl> is the pure Perl implementation of SASL mechanisms
+in the B<Authen::SASL> framework.
+
+At the time of this writing it provides the client part implementation
+for the following SASL mechanisms:
+
+=over 4
+
+=item ANONYMOUS
+
+The Anonymous SASL Mechanism as defined in RFC 2245 resp. 
+in IETF Draft draft-ietf-sasl-anon-03.txt from February 2004
+provides a method to anonymously access internet services.
+
+Since it does no authentication it does not need to send 
+any confidential information such as passwords in plain text
+over the network.
+
+
+=item CRAM-MD5
+
+The CRAM-MD5 SASL Mechanism as defined in RFC2195 resp.
+in IETF Draft draft-ietf-sasl-crammd5-02.txt from January 2004
+offers a simple challenge-response authentication mechanism.
+
+Since it is a challenge-response authentication mechanism
+no passwords are transferred in clear-text over the wire.
+
+Due to the simplicity of the protocol CRAM-MD5 is susceptible
+to replay and dictionary attacks, so DIGEST-MD5 should be used
+in preferrence.
+
+
+=item DIGEST-MD5
+
+The DIGEST-MD5 SASL Mechanism as defined in RFC 2831 resp.
+in IETF Draft draft-ietf-sasl-rfc2831bis-03.txt from February 2004
+offers the HTTP Digest Access Authentication as SASL mechanism.
+
+Like CRAM-MD5 it is a challenge-response authentication
+method that does not send plain text passwords over the network.
+
+Compared to CRAM-MD5, DIGEST-MD5 prevents chosen plaintext
+attacks, and permits the use of third party authentication servers,
+so that it is recommended to use DIGEST-MD5 instead of CRAM-MD5
+when possible.
+
+
+=item EXTERNAL
+
+The EXTERNAL SASL mechanism as defined in RFC 2222
+allows the use of external authentication systems as SASL mechanisms.
+
+
+=item LOGIN
+
+The LOGIN SASL Mechanism as defined in IETF Draft
+draft-murchison-sasl-login-00.txt from August 2003 allows  the
+combination of username and clear-text password to be used
+in a SASL mechanism.
+
+It does does not provide a security layer and sends the credentials
+in clear over the wire.
+Thus this mechanism should not be used without adequate security
+protection.
+
+
+=item PLAIN
+
+The Plain SASL Mechanism as defined in RFC 2595 resp. IETF Draft
+draft-ietf-sasl-plain-04.txt from February 2004 is another
+SASL mechanism that allows username and clear-text password
+combinations in SASL environments.
+
+Like LOGIN it sends the credentials in clear over the network
+and should not be used without sufficient security protection.
+
+=back
+
+
+=head1 SEE ALSO
+
+L<Authen::SASL>,
+L<Authen::SASL::Cyrus::ANONYMOUS>,
+L<Authen::SASL::Cyrus::CRAM_MD5>,
+L<Authen::SASL::Cyrus::DIGEST_MD5>,
+L<Authen::SASL::Cyrus::EXTERNAL>,
+L<Authen::SASL::Cyrus::LOGIN>,
+L<Authen::SASL::Cyrus::PLAIN>
+
+=head1 AUTHOR
+
+Peter Marschall <peter@adpm.de>
+
+Please report any bugs, or post any suggestions, to the perl-ldap mailing list
+<perl-ldap@perl.org>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2004 Peter Marschall.
+All rights reserved. This document is distributed, and may be redistributed,
+under the same terms as Perl itself.
+
+=cut
+
