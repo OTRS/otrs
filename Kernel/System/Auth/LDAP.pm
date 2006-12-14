@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.30 2006-12-13 17:09:57 martin Exp $
+# $Id: LDAP.pm,v 1.31 2006-12-14 11:45:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -41,11 +41,11 @@ sub new {
     # get ldap preferences
     $Self->{Count} = $Param{Count} || '';
     $Self->{Host} = $Self->{ConfigObject}->Get('AuthModule::LDAP::Host'.$Param{Count})
-     || die "Need AuthModule::LDAP::Host$Param{Count} in Kernel/Config.pm";
+        || die "Need AuthModule::LDAP::Host$Param{Count} in Kernel/Config.pm";
     $Self->{BaseDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::BaseDN'.$Param{Count})
-     || die "Need AuthModule::LDAP::BaseDN$Param{Count} in Kernel/Config.pm";
+        || die "Need AuthModule::LDAP::BaseDN$Param{Count} in Kernel/Config.pm";
     $Self->{UID} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UID'.$Param{Count})
-     || die "Need AuthModule::LDAP::UID$Param{Count} in Kernel/Config.pm";
+        || die "Need AuthModule::LDAP::UID$Param{Count} in Kernel/Config.pm";
     $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserDN'.$Param{Count}) || '';
     $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserPw'.$Param{Count}) || '';
     $Self->{GroupDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::GroupDN'.$Param{Count}) || '';
@@ -121,8 +121,9 @@ sub Auth {
     # just in case for debug!
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: '$Param{User}' tried to authenticate with Pw: '$Param{Pw}' (REMOTE_ADDR: $RemoteAddr)",
+            Priority => 'notice',
+            Message => "User: '$Param{User}' tried to authenticate with Pw: '$Param{Pw}' ".
+                "(REMOTE_ADDR: $RemoteAddr)",
         );
     }
 
@@ -169,9 +170,9 @@ sub Auth {
     if (!$UserDN) {
         # failed login note
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: $Param{User} authentication failed, no LDAP entry found!".
-            "BaseDN='$Self->{BaseDN}', Filter='$Filter', (REMOTE_ADDR: $RemoteAddr).",
+            Priority => 'notice',
+            Message => "User: $Param{User} authentication failed, no LDAP entry found!".
+                "BaseDN='$Self->{BaseDN}', Filter='$Filter', (REMOTE_ADDR: $RemoteAddr).",
         );
         # take down session
         $LDAP->unbind;
@@ -215,9 +216,9 @@ sub Auth {
         if (!$GroupDN) {
             # failed login note
             $Self->{LogObject}->Log(
-              Priority => 'notice',
-              Message => "User: $Param{User} authentication failed, no LDAP group entry found".
-                "GroupDN='$Self->{GroupDN}', Filter='$Filter2'! (REMOTE_ADDR: $RemoteAddr).",
+                Priority => 'notice',
+                Message => "User: $Param{User} authentication failed, no LDAP group entry found".
+                    "GroupDN='$Self->{GroupDN}', Filter='$Filter2'! (REMOTE_ADDR: $RemoteAddr).",
             );
             # take down session
             $LDAP->unbind;
@@ -230,8 +231,8 @@ sub Auth {
     if ($Result->code) {
         # failed login note
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: $Param{User} ($UserDN) authentication failed: '".$Result->error()."' (REMOTE_ADDR: $RemoteAddr).",
+            Priority => 'notice',
+            Message => "User: $Param{User} ($UserDN) authentication failed: '".$Result->error()."' (REMOTE_ADDR: $RemoteAddr).",
         );
         # take down session
         $LDAP->unbind;
@@ -256,8 +257,8 @@ sub Auth {
             my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
             if ($Result->code) {
                 $Self->{LogObject}->Log(
-                  Priority => 'error',
-                  Message => "Sync bind failed! ".$Result->error,
+                    Priority => 'error',
+                    Message => "Sync bind failed! ".$Result->error,
                 );
                 # take down session
                 $LDAP->unbind;
@@ -338,10 +339,10 @@ sub Auth {
                         }
                     }
                     else {
-                       $Self->{LogObject}->Log(
-                           Priority => 'error',
-                           Message => "Can't create user '$Param{User}' ($UserDN) in RDBMS!",
-                       );
+                        $Self->{LogObject}->Log(
+                            Priority => 'error',
+                            Message => "Can't create user '$Param{User}' ($UserDN) in RDBMS!",
+                        );
                     }
                 }
                 else {
@@ -369,8 +370,8 @@ sub Auth {
             my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
             if ($Result->code) {
                 $Self->{LogObject}->Log(
-                  Priority => 'error',
-                  Message => "Sync bind failed! ".$Result->error,
+                    Priority => 'error',
+                    Message => "Sync bind failed! ".$Result->error,
                 );
                 # take down session
                 $LDAP->unbind;
@@ -431,7 +432,7 @@ sub Auth {
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
                         Message => "User: $Param{User} not in ".
-                          "GroupDN='$GroupDN', Filter='$Filter'! (REMOTE_ADDR: $RemoteAddr).",
+                            "GroupDN='$GroupDN', Filter='$Filter'! (REMOTE_ADDR: $RemoteAddr).",
                     );
                 }
                 else {
@@ -472,8 +473,8 @@ sub Auth {
             my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
             if ($Result->code) {
                 $Self->{LogObject}->Log(
-                  Priority => 'error',
-                  Message => "Sync bind failed! ".$Result->error,
+                    Priority => 'error',
+                    Message => "Sync bind failed! ".$Result->error,
                 );
                 # take down session
                 $LDAP->unbind;
@@ -527,7 +528,7 @@ sub Auth {
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
                         Message => "User: $Param{User} not in ".
-                          "GroupDN='$GroupDN', Filter='$Filter'! (REMOTE_ADDR: $RemoteAddr).",
+                            "GroupDN='$GroupDN', Filter='$Filter'! (REMOTE_ADDR: $RemoteAddr).",
                     );
                 }
                 else {
@@ -564,8 +565,8 @@ sub Auth {
             my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
             if ($Result->code) {
                 $Self->{LogObject}->Log(
-                  Priority => 'error',
-                  Message => "Sync bind failed! ".$Result->error,
+                    Priority => 'error',
+                    Message => "Sync bind failed! ".$Result->error,
                 );
                 # take down session
                 $LDAP->unbind;
@@ -648,8 +649,8 @@ sub Auth {
             my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
             if ($Result->code) {
                 $Self->{LogObject}->Log(
-                  Priority => 'error',
-                  Message => "Sync bind failed! ".$Result->error,
+                    Priority => 'error',
+                    Message => "Sync bind failed! ".$Result->error,
                 );
                 # take down session
                 $LDAP->unbind;

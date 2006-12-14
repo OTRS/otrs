@@ -2,7 +2,7 @@
 # Kernel/System/Auth.pm - provides the authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Auth.pm,v 1.21 2006-12-13 17:09:57 martin Exp $
+# $Id: Auth.pm,v 1.22 2006-12-14 11:45:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Auth;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -35,24 +35,24 @@ The autentification module for the agent interface.
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::Auth;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::Auth;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $AuthObject = Kernel::System::Auth->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      DBObject => $DBObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $AuthObject = Kernel::System::Auth->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -127,6 +127,8 @@ sub Auth {
 }
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -139,6 +141,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2006-12-13 17:09:57 $
+$Revision: 1.22 $ $Date: 2006-12-14 11:45:53 $
 
 =cut

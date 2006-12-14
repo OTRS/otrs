@@ -3,7 +3,7 @@
 # based on Martin Edenhofer's Kernel::System::Auth::DB
 # Copyright (C) 2004 Andreas Jobs <Andreas.Jobs+dev@ruhr-uni-bochum.de>
 # --
-# $Id: Radius.pm,v 1.4 2006-12-13 17:09:57 martin Exp $
+# $Id: Radius.pm,v 1.5 2006-12-14 11:45:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Authen::Radius;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -37,9 +37,9 @@ sub new {
 
     # get user table
     $Self->{RadiusHost} = $Self->{ConfigObject}->Get('AuthModule::Radius::Host'.$Param{Count})
-      || die "Need AuthModule::Radius::Host$Param{Count} in Kernel/Config.pm";
+        || die "Need AuthModule::Radius::Host$Param{Count} in Kernel/Config.pm";
     $Self->{RadiusSecret} = $Self->{ConfigObject}->Get('AuthModule::Radius::Password'.$Param{Count})
-      || die "Need AuthModule::Radius::Password$Param{Count} in Kernel/Config.pm";
+        || die "Need AuthModule::Radius::Password$Param{Count} in Kernel/Config.pm";
 
     return $Self;
 }
@@ -78,23 +78,23 @@ sub Auth {
     # just in case for debug!
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: '$User' tried to authenticate with Pw: '$Pw' ($RemoteAddr)",
+            Priority => 'notice',
+            Message => "User: '$User' tried to authenticate with Pw: '$Pw' ($RemoteAddr)",
         );
     }
     # just a note
     if (!$User) {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "No User given!!! (REMOTE_ADDR: $RemoteAddr)",
+            Priority => 'notice',
+            Message => "No User given!!! (REMOTE_ADDR: $RemoteAddr)",
         );
         return;
     }
     # just a note
     if (!$Pw) {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: $User authentication without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
+            Priority => 'notice',
+            Message => "User: $User authentication without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
         return;
     }
@@ -105,16 +105,16 @@ sub Auth {
     # login note
     if (defined($AuthResult) && $AuthResult == 1) {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: $User authentication ok (REMOTE_ADDR: $RemoteAddr).",
+            Priority => 'notice',
+            Message => "User: $User authentication ok (REMOTE_ADDR: $RemoteAddr).",
         );
         return $User;
     }
     # just a note
     else {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: $User authentication with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
+            Priority => 'notice',
+            Message => "User: $User authentication with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
         );
         return;
     }
