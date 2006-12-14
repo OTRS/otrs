@@ -15,7 +15,7 @@ use Date::Format qw(time2str);
 use Date::Parse qw(str2time);
 
 @ISA = qw(Mail::Field);
-$VERSION = '1.60';
+$VERSION = '1.74';
 
 bless([])->register('Date');
 
@@ -66,7 +66,7 @@ sub stringify
  return $self->{TimeStr}
 	if exists $self->{TimeStr};
 
- time2str("%a, %e %b %T %Y %z", $self->time);
+ time2str("%a, %e %b %Y %T %z", $self->time);
 }
 
 sub reformat

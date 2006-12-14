@@ -1,10 +1,17 @@
 
+# Mail::Cap
+#
+# Copyright (c) 1995-2001 Graham Barr <gbarr@pobox.com>.  All rights reserved.
+# Copyright (c) 2002-2005 Mark Overmeer <mailtools@overmeer.net>
+# This program is free software; you can redistribute it and/or
+#
+
 package Mail::Cap;
 use strict;
 
 use vars qw($VERSION $useCache);
 
-$VERSION = "1.60";
+$VERSION = "1.74";
 sub Version { $VERSION; }
 
 =head1 NAME

@@ -1,19 +1,19 @@
 # Mail::Field.pm
 #
 # Copyright (c) 1995-2001 Graham Barr. All rights reserved.
-# Copyright (c) 2002-2003 Mark Overmeer <mailtools@overmeer.net>
+# Copyright (c) 2002-2005 Mark Overmeer <mailtools@overmeer.net>
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 
 package Mail::Field;
 
-# $Id: Field.pm,v 1.2 2004-01-13 23:59:26 martin Exp $
+# $Id: Field.pm,v 1.3 2006-12-14 19:58:52 mh Exp $
 
 use Carp;
 use strict;
 use vars qw($AUTOLOAD $VERSION);
 
-$VERSION = "1.60";
+$VERSION = "1.74";
 
 unless(defined &UNIVERSAL::can) {
     *UNIVERSAL::can = sub {

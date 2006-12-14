@@ -1,7 +1,7 @@
 # Mail::Header.pm
 #
 # Copyright (c) 1995-2001 Graham Barr <gbarr@pobox.com>. All rights reserved.
-# Copyright (c) 2002-2003 Mark Overmeer <mailtools@overmeer.net>
+# Copyright (c) 2002-2005 Mark Overmeer <mailtools@overmeer.net>
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 
@@ -20,7 +20,7 @@ use strict;
 use Carp;
 use vars qw($VERSION $FIELD_NAME);
 
-$VERSION = "1.60";
+$VERSION = "1.74";
 
 my $MAIL_FROM = 'KEEP';
 my %HDR_LENGTHS = ();
@@ -106,7 +106,7 @@ sub _fold_line
  my $min = int($maxlen * 4 / 5) - 4;
  my $ml = $maxlen;
 
- $_[0] =~ s/\s*[\r\n]+\s*/ /og; # Compress any white space around a newline
+ $_[0] =~ s/[\r\n]+/ /og;       # Remove new-lines
  $_[0] =~ s/\s*\Z/\n/so;        # End line with a EOLN
 
  return if $_[0] =~ /^From\s/io;
@@ -121,11 +121,11 @@ sub _fold_line
      # else we are looking at a single word and probably don't want to split
      my $x = "";
 
-     $x .= "$1\n    "
-	while($_[0] =~ s/^\s*(
-			   [^"]{$min,$max}?[\,\;]
+     $x .= "$1\n "
+	while($_[0] =~ s/^\s*
+                          ([^"]{$min,$max}?[\,\;]
 			  |[^"]{1,$max}\s
-			  |[^\s"]*(?:"[^"]*"[^\s"]*)+\s
+			  |[^\s"]*(?:"[^"]*"[ \t]?[^\s"]*)+\s
 			  |[^\s"]+\s
 			  )
 			//x);
@@ -136,7 +136,7 @@ sub _fold_line
     }
    else
     {
-      $_[0] =~ s/(.{$min,$max})\s+/$+\n    /g;
+      $_[0] =~ s/(.{$min,$max})\s+/$+\n /g;
       $_[0] =~ s/\s*$/\n/s;
     }
   }
@@ -155,9 +155,9 @@ sub _tag_case
  $tag =~ s/\:$//;
 
  join('-',
-     map { /^[b-df-hj-np-tv-z]+$|^(?:MIME|SWE|SOAP|LDAP)$/i
+     map { /^[b-df-hj-np-tv-z]+$|^(?:MIME|SWE|SOAP|LDAP|ID)$/i
          ? uc($_) : ucfirst(lc($_)) }
-              split('-', $tag));
+              split(m/\-/, $tag, -1));
 }
 
 # format a complete line
@@ -383,8 +383,8 @@ sub unfold
    $list = $me->{'mail_hdr_hash'}{$tag};
    foreach $ln (@$list)
     {
-     $$ln =~ s/\r?\n\s+/ /sog
-	if defined $ln && defined $$ln;
+       $$ln =~ s/\r?\n\s+/ /sog
+           if defined $ln && defined $$ln;
     }
   }
  else

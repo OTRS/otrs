@@ -1,7 +1,7 @@
 # Mail::Util.pm
 #
 # Copyright (c) 1995-2001 Graham Barr <gbarr@pobox.com>. All rights reserved.
-# Copyright (c) 2002-2003 Mark Overmeer <mailtools@overmeer.net>
+# Copyright (c) 2002-2005 Mark Overmeer <mailtools@overmeer.net>
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 
@@ -15,7 +15,7 @@ use Exporter ();
 BEGIN {
     require 5.000;
 
-    $VERSION = "1.60";
+    $VERSION = "1.74";
 
     *AUTOLOAD = \&AutoLoader::AUTOLOAD;
     @ISA = qw(Exporter);
@@ -69,6 +69,14 @@ methods
 
 Return a guess at the current users mail address. The user can force
 the return value by setting the MAILADDRESS environment variable.
+
+WARNING:
+When not supplied via the environment variable, <mailaddress> looks at
+various configuration files and other environmental data. Although this
+seems to be smart behavior, this is not predictable enough (IMHO) to
+be used.  Please set the MAILADDRESS explicitly, and do not trust on
+the "automatic detection", even when that produces a correct address
+(on the moment)
 
 =head1 AUTHOR
 
@@ -169,7 +177,7 @@ sub maildomain {
             if($domain && $domain =~ m/([A-Za-z0-9](?:[\.\-A-Za-z0-9]+))/ );
 
 	return $domain
-	    if(defined $domain);
+	    if(defined $domain && $domain !~ /\$/);
     }
 
     ##

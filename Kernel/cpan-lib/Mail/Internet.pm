@@ -1,7 +1,7 @@
 # Mail::Internet.pm
 #
 # Copyright (c) 1995-2001 Graham Barr <gbarr@pobox.com>. All rights reserved.
-# Copyright (c) 2002-2003 Mark Overmeer <mailtools@overmeer.net>
+# Copyright (c) 2002-2005 Mark Overmeer <mailtools@overmeer.net>
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 #
@@ -17,7 +17,7 @@ use Mail::Header;
 use vars qw($VERSION);
 
 BEGIN {
-    $VERSION = "1.60";
+    $VERSION = "1.74";
     *AUTOLOAD = \&AutoLoader::AUTOLOAD;
 
     unless(defined &UNIVERSAL::isa) {
@@ -748,9 +748,10 @@ Mail::Internet - manipulate Internet format (RFC 822) mail messages
 This package provides a class object which can be used for reading, creating,
 manipulating and writing a message with RFC822 compliant headers.
 
-If you start writing a new application, you may want to use the
+If you start writing a B<new application>, you may want to use the
 L<Mail::Box> set of packages (requires perl 5.6.1), which has more
-features.  See http://perl.overmeer.net/mailbox.
+features and handles modern messages much better.
+See L<http://perl.overmeer.net/mailbox/>.
 
 =head1 CONSTRUCTOR
 

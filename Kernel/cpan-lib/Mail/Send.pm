@@ -1,14 +1,14 @@
 
 package Mail::Send;
 
-# $Id: Send.pm,v 1.2 2004-01-13 23:59:26 martin Exp $
+# $Id: Send.pm,v 1.3 2006-12-14 19:58:52 mh Exp $
 
 use strict;
 use Carp;
 use vars qw($VERSION);
 require Mail::Mailer;
 
-$VERSION = "1.60";
+$VERSION = "1.74";
 
 sub Version { $VERSION }
 
@@ -69,6 +69,7 @@ Mail::Send - Simple electronic mail interface
     $msg = new Mail::Send Subject=>'example subject', To=>'timbo';
 
     $msg->to('user@host');
+    $msg->to('user@host', 'user2@example.com');
     $msg->subject('example subject');
     $msg->cc('user@host');
     $msg->bcc('someone@else');

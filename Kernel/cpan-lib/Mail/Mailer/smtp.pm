@@ -19,6 +19,11 @@ sub exec {
     my $smtp = Net::SMTP->new($host, %opt)
 	or return undef;
 
+    if ($opt{Auth}) {
+       $smtp->auth(@{$opt{Auth}})
+           or return undef;
+    }
+
     ${*$self}{'sock'} = $smtp;
 
     $smtp->mail(mailaddress());
