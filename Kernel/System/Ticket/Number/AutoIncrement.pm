@@ -2,7 +2,7 @@
 # Ticket/Number/AutoIncrement.pm - a ticket number auto increment generator
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AutoIncrement.pm,v 1.16 2006-12-05 08:04:03 martin Exp $
+# $Id: AutoIncrement.pm,v 1.17 2006-12-14 12:22:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,10 +19,10 @@ package Kernel::System::Ticket::Number::AutoIncrement;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-sub CreateTicketNr {
+sub TicketCreateNumber {
     my $Self = shift;
     my $JumpCounter = shift || 0;
     # get needed config options
@@ -72,14 +72,14 @@ sub CreateTicketNr {
     # create new ticket number
     my $Tn = $SystemID . $Count;
     # Check ticket number. If exists generate new one!
-    if ($Self->CheckTicketNr(Tn=>$Tn)) {
+    if ($Self->TicketCheckNumber(Tn=>$Tn)) {
         $Self->{LoopProtectionCounter}++;
         if ($Self->{LoopProtectionCounter} >= 6000) {
           # loop protection
           $Self->{LogObject}->Log(
             Priority => 'error',
             Message => "CounterLoopProtection is now $Self->{LoopProtectionCounter}!".
-                   " Stoped CreateTicketNr()!",
+                   " Stoped TicketCreateNumber()!",
           );
           return;
         }
@@ -88,11 +88,11 @@ sub CreateTicketNr {
           Priority => 'notice',
           Message => "Tn ($Tn) exists! Creating new one.",
         );
-        $Tn = $Self->CreateTicketNr($Self->{LoopProtectionCounter});
+        $Tn = $Self->TicketCreateNumber($Self->{LoopProtectionCounter});
     }
     return $Tn;
 }
-# --
+
 sub GetTNByString {
     my $Self = shift;
     my $String = shift || return;
@@ -115,5 +115,5 @@ sub GetTNByString {
         }
     }
 }
-# --
+
 1;

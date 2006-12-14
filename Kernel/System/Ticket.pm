@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.233 2006-12-08 10:20:35 martin Exp $
+# $Id: Ticket.pm,v 1.234 2006-12-14 12:22:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.233 $';
+$VERSION = '$Revision: 1.234 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -176,7 +176,7 @@ sub new {
 
     # load ticket index generator
     my $GeneratorIndexModule = $Self->{ConfigObject}->Get('Ticket::IndexModule')
-      || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
+        || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
     if (!$Self->{MainObject}->Require($GeneratorIndexModule)) {
         die "Can't load ticket index backend module $GeneratorIndexModule! $@";
     }
@@ -208,29 +208,20 @@ sub new {
 
 creates a new ticket number
 
-  my $TicketNumber = $TicketObject->TicketCreateNumber();
+    my $TicketNumber = $TicketObject->TicketCreateNumber();
 
 =cut
 
-# just for compat
-sub TicketCreateNumber {
-    my $Self = shift;
-    return $Self->CreateTicketNr(@_);
-}
+# use it from Kernel/System/Ticket/Number/*.pm
 
 =item TicketCheckNumber()
 
 checks if the ticket number exists, returns ticket id if exists
 
-  my $TicketID = $TicketObject->TicketCheckNumber(Tn => '200404051004575');
+    my $TicketID = $TicketObject->TicketCheckNumber(Tn => '200404051004575');
 
 =cut
 
-# just for compat
-sub CheckTicketNr {
-    my $Self = shift;
-    return $Self->TicketCheckNumber(@_);
-}
 sub TicketCheckNumber {
     my $Self = shift;
     my %Param = @_;
@@ -246,9 +237,7 @@ sub TicketCheckNumber {
     }
     # db query
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT id FROM ticket " .
-          " WHERE " .
-          " tn = '$Param{Tn}' ",
+        SQL => "SELECT id FROM ticket WHERE tn = '$Param{Tn}' ",
     );
 
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -276,11 +265,11 @@ sub TicketCheckNumber {
 creates a new ticket
 
     my $TicketID = $TicketObject->TicketCreate(
-        TN => $TicketObject->TicketCreateNumber(),
+        TN => $TicketObject->TicketCreateNumber(), # (optional)
         Title => 'Some Ticket Title',
         Queue => 'Raw',                # or QueueID => 123,
         Lock => 'unlock',
-        Priority => '3 normal',         # or PriorityID => 2,
+        Priority => '3 normal',        # or PriorityID => 2,
         State => 'new',                # or StateID => 5,
         CustomerNo => '123465',
         CustomerUser => 'customer@example.com',
@@ -360,7 +349,7 @@ sub TicketCreate {
 
     # create ticket number if not given
     if (!$Param{TN}) {
-        $Param{TN} = $Self->CreateTicketNr();
+        $Param{TN} = $Self->TicketCreateNumber();
     }
 
     # check ticket title
@@ -412,7 +401,8 @@ sub TicketCreate {
         # log
         $Self->{LogObject}->Log(
             Priority => 'notice',
-                Message => "New Ticket [$Param{TN}/".substr($Param{Title}, 0, 15)."] created (TicketID=$TicketID,Queue=$Param{Queue},Priority=$Param{Priority},State=$Param{State})",
+                Message => "New Ticket [$Param{TN}/".substr($Param{Title}, 0, 15)."] created ".
+                    "(TicketID=$TicketID,Queue=$Param{Queue},Priority=$Param{Priority},State=$Param{State})",
         );
         # ticket event
         $Self->TicketEventHandlerPost(
@@ -434,10 +424,10 @@ sub TicketCreate {
 
 deletes a ticket from storage
 
-  $TicketObject->TicketDelete(
-      TicketID => 123,
-      UserID => 123,
-  );
+    $TicketObject->TicketDelete(
+        TicketID => 123,
+        UserID => 123,
+    );
 
 =cut
 
@@ -483,10 +473,10 @@ sub TicketDelete {
 
 ticket id lookup by ticket number
 
-  my $TicketID = $TicketObject->TicketIDLookup(
-      TicketNumber => '2004040510440485',
-      UserID => 123,
-  );
+    my $TicketID = $TicketObject->TicketIDLookup(
+        TicketNumber => '2004040510440485',
+        UserID => 123,
+    );
 
 =cut
 
@@ -507,8 +497,8 @@ sub TicketIDLookup {
     }
     # db query
     my $SQL = "SELECT id FROM ticket " .
-      " WHERE " .
-      " tn = '$Param{TicketNumber}'";
+        " WHERE " .
+        " tn = '$Param{TicketNumber}'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Id = $Row[0];
@@ -520,10 +510,10 @@ sub TicketIDLookup {
 
 ticket number lookup by ticket id
 
-  my $TicketNumber = $TicketObject->TicketNumberLookup(
-      TicketID => 123,
-      UserID => 123,
-  );
+    my $TicketNumber = $TicketObject->TicketNumberLookup(
+        TicketID => 123,
+        UserID => 123,
+    );
 
 =cut
 
@@ -550,22 +540,22 @@ sub TicketNumberLookup {
 
 rebuild a new ticket subject
 
-  my $NewSubject = $TicketObject->TicketSubjectBuild(
-      TicketNumber => '2004040510440485',
-      Subject => $OldSubject,
-  );
+    my $NewSubject = $TicketObject->TicketSubjectBuild(
+        TicketNumber => '2004040510440485',
+        Subject => $OldSubject,
+    );
 
-  a new subject like "RE: [Ticket# 2004040510440485] Some subject" will
-   be generated
+    a new subject like "RE: [Ticket# 2004040510440485] Some subject" will
+    be generated
 
-  my $NewSubject = $TicketObject->TicketSubjectBuild(
-      TicketNumber => '2004040510440485',
-      Subject => $OldSubject,
-      Type => 'New',
-  );
+    my $NewSubject = $TicketObject->TicketSubjectBuild(
+        TicketNumber => '2004040510440485',
+        Subject => $OldSubject,
+        Type => 'New',
+    );
 
-  a new subject like "[Ticket# 2004040510440485] Some subject" (without RE: )
-   will be generated
+    a new subject like "[Ticket# 2004040510440485] Some subject" (without RE: )
+    will be generated
 
 =cut
 
@@ -597,10 +587,10 @@ sub TicketSubjectBuild {
 
 strip/clean up a ticket subject
 
-  my $NewSubject = $TicketObject->TicketSubjectClean(
-      TicketNumber => '2004040510440485',
-      Subject => $OldSubject,
-  );
+    my $NewSubject = $TicketObject->TicketSubjectClean(
+        TicketNumber => '2004040510440485',
+        Subject => $OldSubject,
+    );
 
 =cut
 
@@ -644,10 +634,10 @@ CustomerID, CustomerUserID, Owner, OwnerID,
 Responsible, ResponsibleID, Created, Changed,
 TicketFreeKey1-16, TicketFreeText1-16, ...)
 
-  my %Ticket = $TicketObject->TicketGet(
-      TicketID => 123,
-      UserID => 123,
-  );
+    my %Ticket = $TicketObject->TicketGet(
+        TicketID => 123,
+        UserID => 123,
+    );
 
 =cut
 
@@ -784,11 +774,11 @@ sub TicketGet {
 
 update ticket title
 
-  $TicketObject->TicketTitleUpdate(
-      Title => 'Some Title',
-      TicketID => 123,
-      UserID => 1,
-  );
+    $TicketObject->TicketTitleUpdate(
+        Title => 'Some Title',
+        TicketID => 123,
+        UserID => 1,
+    );
 
 =cut
 
@@ -816,8 +806,8 @@ sub TicketTitleUpdate {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "UPDATE ticket SET title = '$Param{Title}' ".
-      " WHERE ".
-      " id = $Param{TicketID}";
+        " WHERE ".
+        " id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
@@ -838,11 +828,11 @@ sub TicketTitleUpdate {
 
 update ticket unlock time to now
 
-  $TicketObject->TicketUnlockTimeoutUpdate(
-      UnlockTimeout => $TimeObject->SystemTime(),
-      TicketID => 123,
-      UserID => 143,
-  );
+    $TicketObject->TicketUnlockTimeoutUpdate(
+        UnlockTimeout => $TimeObject->SystemTime(),
+        TicketID => 123,
+        UserID => 143,
+    );
 
 =cut
 
@@ -895,10 +885,10 @@ sub TicketUnlockTimeoutUpdate {
 
 update ticket escalation start time to now
 
-  $TicketObject->TicketEscalationStartUpdate(
-      EscalationStartTime => $TimeObject->SystemTime(),
-      TicketID => 123,
-  );
+    $TicketObject->TicketEscalationStartUpdate(
+        EscalationStartTime => $TimeObject->SystemTime(),
+        TicketID => 123,
+    );
 
 =cut
 
@@ -917,8 +907,8 @@ sub TicketEscalationStartUpdate {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "UPDATE ticket SET escalation_start_time = $Param{EscalationStartTime} ".
-      " WHERE ".
-      " id = $Param{TicketID}";
+        " WHERE ".
+        " id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
@@ -943,9 +933,9 @@ sub TicketEscalationStartUpdate {
 
 get ticket queue id
 
-  my $QueueID = $TicketObject->TicketQueueID(
-      TicketID => 123,
-  );
+    my $QueueID = $TicketObject->TicketQueueID(
+        TicketID => 123,
+    );
 
 =cut
 
@@ -970,20 +960,20 @@ sub TicketQueueID {
 
 to get the move queue list for a ticket (depends on workflow, if configured)
 
-  my %Queues = $TicketObject->MoveList(
-      Type => 'create',
-      UserID => 123,
-  );
+    my %Queues = $TicketObject->MoveList(
+        Type => 'create',
+        UserID => 123,
+    );
 
-  my %Queues = $TicketObject->MoveList(
-      QueueID => 123,
-      UserID => 123,
-  );
+    my %Queues = $TicketObject->MoveList(
+        QueueID => 123,
+        UserID => 123,
+    );
 
-  my %Queues = $TicketObject->MoveList(
-      TicketID => 123,
-      UserID => 123,
-  );
+    my %Queues = $TicketObject->MoveList(
+        TicketID => 123,
+        UserID => 123,
+    );
 
 =cut
 
@@ -1023,27 +1013,27 @@ sub MoveList {
 
 to move a ticket (send notification to agents of selected my queues, it ticket isn't closed)
 
-  $TicketObject->MoveTicket(
-      QueueID => 123,
-      TicketID => 123,
-      SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
-      UserID => 123,
-  );
+    $TicketObject->MoveTicket(
+        QueueID => 123,
+        TicketID => 123,
+        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
+        UserID => 123,
+    );
 
-  $TicketObject->MoveTicket(
-      Queue => 'Some Queue Name',
-      TicketID => 123,
-      SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
-      UserID => 123,
-  );
+    $TicketObject->MoveTicket(
+        Queue => 'Some Queue Name',
+        TicketID => 123,
+        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
+        UserID => 123,
+    );
 
-  $TicketObject->MoveTicket(
-      Queue => 'Some Queue Name',
-      TicketID => 123,
-      Comment => 'some comment', # optional
-      ForceNotificationToUserID => [1,43,56], # if you want to force somebody
-      UserID => 123,
-  );
+    $TicketObject->MoveTicket(
+        Queue => 'Some Queue Name',
+        TicketID => 123,
+        Comment => 'some comment', # optional
+        ForceNotificationToUserID => [1,43,56], # if you want to force somebody
+        UserID => 123,
+    );
 
 =cut
 
@@ -1082,7 +1072,7 @@ sub MoveTicket {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "UPDATE ticket SET queue_id = $Param{QueueID} ".
-      " WHERE id = $Param{TicketID}";
+        " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
         # queue lookup
         my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID});
@@ -1158,15 +1148,15 @@ sub MoveTicket {
 
 returns a list of used queue ids / names
 
-  my @QueueIDList = $TicketObject->MoveQueueList(
-      TicketID => 123,
-      Type => 'ID',
-  );
+    my @QueueIDList = $TicketObject->MoveQueueList(
+        TicketID => 123,
+        Type => 'ID',
+    );
 
-  my @QueueList = $TicketObject->MoveQueueList(
-      TicketID => 123,
-      Type => 'Name',
-  );
+    my @QueueList = $TicketObject->MoveQueueList(
+        TicketID => 123,
+        Type => 'Name',
+    );
 
 =cut
 
@@ -1176,10 +1166,10 @@ sub MoveQueueList {
     my @QueueID = ();
     # check needed stuff
     foreach (qw(TicketID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(TicketID)) {
@@ -1231,12 +1221,12 @@ sub MoveQueueList {
 
 Set customer data of ticket.
 
-  $TicketObject->SetCustomerData(
-      No => 'client123',
-      User => 'client-user-123',
-      TicketID => 123,
-      UserID => 23,
-  );
+    $TicketObject->SetCustomerData(
+        No => 'client123',
+        User => 'client-user-123',
+        TicketID => 123,
+        UserID => 23,
+    );
 
 =cut
 
@@ -1264,8 +1254,8 @@ sub SetCustomerData {
     # db customer id update
     if (defined($Param{No})) {
         my $SQL = "UPDATE ticket SET customer_id = '$Param{No}', " .
-          " change_time = current_timestamp, change_by = $Param{UserID} " .
-          " WHERE id = $Param{TicketID} ";
+            " change_time = current_timestamp, change_by = $Param{UserID} " .
+            " WHERE id = $Param{TicketID} ";
         if ($Self->{DBObject}->Do(SQL => $SQL)) {
             $Param{History} = "CustomerID=$Param{No};";
         }
@@ -1273,8 +1263,8 @@ sub SetCustomerData {
     # db customer user update
     if (defined($Param{User})) {
         my $SQL = "UPDATE ticket SET customer_user_id = '$Param{User}', " .
-          " change_time = current_timestamp, change_by = $Param{UserID} " .
-          " WHERE id = $Param{TicketID} ";
+            " change_time = current_timestamp, change_by = $Param{UserID} " .
+            " WHERE id = $Param{TicketID} ";
         if ($Self->{DBObject}->Do(SQL => $SQL)) {
             $Param{History} .= "CustomerUser=$Param{User};";
         }
@@ -1308,23 +1298,23 @@ get _possible_ ticket free text options
 
 Note: the current value is accessible over TicketGet()
 
-  my $HashRef = $TicketObject->TicketFreeTextGet(
-     Type => 'TicketFreeText3',
-     TicketID => 123,
-     UserID => 123, # or CustomerUserID
-  );
+    my $HashRef = $TicketObject->TicketFreeTextGet(
+        Type => 'TicketFreeText3',
+        TicketID => 123,
+        UserID => 123, # or CustomerUserID
+    );
 
-  my $HashRef = $TicketObject->TicketFreeTextGet(
-     Type => 'TicketFreeText3',
-     UserID => 123, # or CustomerUserID
-  );
+    my $HashRef = $TicketObject->TicketFreeTextGet(
+        Type => 'TicketFreeText3',
+        UserID => 123, # or CustomerUserID
+    );
 
-  # fill up with existing values
-  my $HashRef = $TicketObject->TicketFreeTextGet(
-     Type => 'TicketFreeText3',
-     FillUp => 1,
-     UserID => 123, # or CustomerUserID
-  );
+    # fill up with existing values
+    my $HashRef = $TicketObject->TicketFreeTextGet(
+        Type => 'TicketFreeText3',
+        FillUp => 1,
+        UserID => 123, # or CustomerUserID
+    );
 
 =cut
 
@@ -1340,7 +1330,7 @@ sub TicketFreeTextGet {
             return;
         }
     }
-   if (!$Param{UserID} && !$Param{CustomerUserID}) {
+    if (!$Param{UserID} && !$Param{CustomerUserID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or CustomerUserID!");
         return;
     }
@@ -1392,13 +1382,13 @@ sub TicketFreeTextGet {
 
 Set ticket free text.
 
-  $TicketObject->TicketFreeTextSet(
-      Counter => 1,
-      Key => 'Planet', # optional
-      Value => 'Sun',  # optional
-      TicketID => 123,
-      UserID => 23,
-  );
+    $TicketObject->TicketFreeTextSet(
+        Counter => 1,
+        Key => 'Planet', # optional
+        Value => 'Sun',  # optional
+        TicketID => 123,
+        UserID => 23,
+    );
 
 =cut
 
@@ -1474,17 +1464,17 @@ sub TicketFreeTextSet {
 
 Set ticket free text.
 
-  $TicketObject->TicketFreeTimeSet(
-      Counter => 1,
-      Prefix => '',
-      Year => 1900,
-      Month => 12,
-      Day => 24,
-      Hour => 22,
-      Minute => 01,
-      TicketID => 123,
-      UserID => 23,
-  );
+    $TicketObject->TicketFreeTimeSet(
+        Counter => 1,
+        Prefix => '',
+        Year => 1900,
+        Month => 12,
+        Day => 24,
+        Hour => 22,
+        Minute => 01,
+        TicketID => 123,
+        UserID => 23,
+    );
 
 =cut
 
@@ -1549,6 +1539,27 @@ sub TicketFreeTimeSet {
     }
 }
 
+=item Permission()
+
+returns if the agent has permissions or no
+
+    my $Access = $TicketObject->Permission(
+        Type => 'ro',
+        TicketID => 123,
+        UserID => 123,
+    );
+
+or without logging, for example for to check if a link/action should be shown
+
+    my $Access = $TicketObject->Permission(
+        Type => 'ro',
+        TicketID => 123,
+        LogNo => 1,
+        UserID => 123,
+    );
+
+=cut
+
 sub Permission {
     my $Self = shift;
     my %Param = @_;
@@ -1587,22 +1598,22 @@ sub Permission {
                 # execute Run()
                 if ($ModuleObject->Run(%Param)) {
                     if ($Self->{Debug} > 0) {
-                      $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Got '$Param{Type}' true for TicketID '$Param{TicketID}' ".
-                            "through $Modules{$Module}->{Module}!",
-                      );
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message => "Got '$Param{Type}' true for TicketID '$Param{TicketID}' ".
+                                "through $Modules{$Module}->{Module}!",
+                        );
                     }
                     # set access ok
                     $AccessOk = 1;
                     # check granted option (should I say ok)
                     if ($Modules{$Module}->{Granted}) {
                         if ($Self->{Debug} > 0) {
-                          $Self->{LogObject}->Log(
-                            Priority => 'debug',
-                            Message => "Granted access '$Param{Type}' true for TicketID '$Param{TicketID}' ".
-                                "through $Modules{$Module}->{Module} (no more checks)!",
-                          );
+                            $Self->{LogObject}->Log(
+                                Priority => 'debug',
+                                Message => "Granted access '$Param{Type}' true for TicketID '$Param{TicketID}' ".
+                                    "through $Modules{$Module}->{Module} (no more checks)!",
+                            );
                         }
                         # access ok
                         return 1;
@@ -1615,9 +1626,9 @@ sub Permission {
                             $Self->{LogObject}->Log(
                                 Priority => 'notice',
                                 Message => "Permission denied because module ".
-                                 "($Modules{$Module}->{Module}) is required ".
-                                 "(UserID: $Param{UserID} '$Param{Type}' on ".
-                                 "TicketID: $Param{TicketID})!",
+                                    "($Modules{$Module}->{Module}) is required ".
+                                    "(UserID: $Param{UserID} '$Param{Type}' on ".
+                                    "TicketID: $Param{TicketID})!",
                             );
                         }
                         return;
@@ -1642,6 +1653,27 @@ sub Permission {
         return;
     }
 }
+
+=item CustomerPermission()
+
+returns if the agent has permissions or no
+
+    my $Access = $TicketObject->CustomerPermission(
+        Type => 'ro',
+        TicketID => 123,
+        UserID => 123,
+    );
+
+or without logging, for example for to check if a link/action should be shown
+
+    my $Access = $TicketObject->CustomerPermission(
+        Type => 'ro',
+        TicketID => 123,
+        LogNo => 1,
+        UserID => 123,
+    );
+
+=cut
 
 sub CustomerPermission {
     my $Self = shift;
@@ -1681,22 +1713,22 @@ sub CustomerPermission {
                 # execute Run()
                 if ($ModuleObject->Run(%Param)) {
                     if ($Self->{Debug} > 0) {
-                      $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Got '$Param{Type}' true for TicketID '$Param{TicketID}' ".
-                            "through $Modules{$Module}->{Module}!",
-                      );
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message => "Got '$Param{Type}' true for TicketID '$Param{TicketID}' ".
+                                "through $Modules{$Module}->{Module}!",
+                        );
                     }
                     # set access ok
                     $AccessOk = 1;
                     # check granted option (should I say ok)
                     if ($Modules{$Module}->{Granted}) {
                         if ($Self->{Debug} > 0) {
-                          $Self->{LogObject}->Log(
-                            Priority => 'debug',
-                            Message => "Granted access '$Param{Type}' true for TicketID '$Param{TicketID}' ".
-                                "through $Modules{$Module}->{Module} (no more checks)!",
-                          );
+                            $Self->{LogObject}->Log(
+                                Priority => 'debug',
+                                Message => "Granted access '$Param{Type}' true for TicketID '$Param{TicketID}' ".
+                                    "through $Modules{$Module}->{Module} (no more checks)!",
+                            );
                         }
                         # access ok
                         return 1;
@@ -1708,9 +1740,9 @@ sub CustomerPermission {
                         $Self->{LogObject}->Log(
                             Priority => 'notice',
                             Message => "Permission denied because module ".
-                             "($Modules{$Module}->{Module}) is required ".
-                             "(UserID: $Param{UserID} '$Param{Type}' on ".
-                             "TicketID: $Param{TicketID})!",
+                                "($Modules{$Module}->{Module}) is required ".
+                                "(UserID: $Param{UserID} '$Param{Type}' on ".
+                                "TicketID: $Param{TicketID})!",
                         );
                         return;
                     }
@@ -1736,7 +1768,7 @@ sub CustomerPermission {
 
 Get locked ticket ids for an agent.
 
-  my @TicketIDs = $TicketObject->GetLockedTicketIDs(UserID => 23);
+    my @TicketIDs = $TicketObject->GetLockedTicketIDs(UserID => 23);
 
 =cut
 
@@ -1755,16 +1787,16 @@ sub GetLockedTicketIDs {
     my @ViewableTickets;
     my @ViewableLocks = @{$Self->{ConfigObject}->Get('Ticket::ViewableLocks')};
     my $SQL = "SELECT ti.id " .
-      " FROM " .
-      " ticket ti, ticket_lock_type slt, queue sq" .
-      " WHERE " .
-      " ti.user_id = $Param{UserID} " .
-      " AND ".
-      " slt.id = ti.ticket_lock_id " .
-      " AND ".
-      " sq.id = ti.queue_id".
-      " AND ".
-      " slt.name not IN ( ${\(join ', ', @ViewableLocks)} ) ORDER BY ";
+        " FROM " .
+        " ticket ti, ticket_lock_type slt, queue sq" .
+        " WHERE " .
+        " ti.user_id = $Param{UserID} " .
+        " AND ".
+        " slt.id = ti.ticket_lock_id " .
+        " AND ".
+        " sq.id = ti.queue_id".
+        " AND ".
+        " slt.name not IN ( ${\(join ', ', @ViewableLocks)} ) ORDER BY ";
     # sort by
     if ($Param{SortBy} =~ /^Queue$/i) {
         $SQL .= " sq.name";
@@ -1799,7 +1831,7 @@ returns a array of user ids which selected the given queue id as
 custom queue.
 
     my @UserIDs = $TicketObject->GetSubscribedUserIDsByQueueID(
-        QueueID => 1234,
+        QueueID => 123,
     );
 
 =cut
@@ -1851,15 +1883,15 @@ sub GetSubscribedUserIDsByQueueID {
 
 set ticket pending time
 
-  $TicketObject->TicketPendingTimeSet(
-      Year => 2003,
-      Month => 08,
-      Day => 14,
-      Hour => 22,
-      Minute => 05,
-      TicketID => 123,
-      UserID => 23,
-  );
+    $TicketObject->TicketPendingTimeSet(
+        Year => 2003,
+        Month => 08,
+        Day => 14,
+        Hour => 22,
+        Minute => 05,
+        TicketID => 123,
+        UserID => 23,
+    );
 
 =cut
 
@@ -1888,17 +1920,17 @@ sub TicketPendingTimeSet {
     }
     # db update
     my $SQL = "UPDATE ticket SET until_time = $Time, " .
-    " change_time = current_timestamp, change_by = $Param{UserID} " .
-    " WHERE id = $Param{TicketID} ";
+        " change_time = current_timestamp, change_by = $Param{UserID} " .
+        " WHERE id = $Param{TicketID} ";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # history insert
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
             HistoryType => 'SetPendingTime',
             Name => '%%'.sprintf("%02d", $Param{Year}).
-              '-'.sprintf("%02d", $Param{Month}).'-'.sprintf("%02d", $Param{Day}).' '.
-              sprintf("%02d", $Param{Hour}).':'.sprintf("%02d", $Param{Minute}).'',
-            CreateUserID => $Param{UserID},
+                '-'.sprintf("%02d", $Param{Month}).'-'.sprintf("%02d", $Param{Day}).' '.
+                sprintf("%02d", $Param{Hour}).':'.sprintf("%02d", $Param{Minute}).'',
+                CreateUserID => $Param{UserID},
         );
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
@@ -1919,114 +1951,114 @@ sub TicketPendingTimeSet {
 
 To find tickets in your system.
 
-  my @TicketIDs = $TicketObject->TicketSearch(
-      # result (required)
-      Result => 'ARRAY' || 'HASH',
-      # result limit
-      Limit => 100,
+    my @TicketIDs = $TicketObject->TicketSearch(
+        # result (required)
+        Result => 'ARRAY' || 'HASH',
+        # result limit
+        Limit => 100,
 
-      # ticket number (optional) as STRING or as ARRAYREF
-      TicketNumber => '%123546%',
-      TicketNumber => ['%123546%', '%123666%'],
-      # ticket title (optional) as STRING or as ARRAYREF
-      Title => '%SomeText%',
-      Title => ['%SomeTest1%', '%SomeTest2%'],
+        # ticket number (optional) as STRING or as ARRAYREF
+        TicketNumber => '%123546%',
+        TicketNumber => ['%123546%', '%123666%'],
+        # ticket title (optional) as STRING or as ARRAYREF
+        Title => '%SomeText%',
+        Title => ['%SomeTest1%', '%SomeTest2%'],
 
-      Queues => ['system queue', 'other queue'],
-      QueueIDs => [1, 42, 512],
-      # use also sub queues of Queue|Queues in search
-      UseSubQueues => 0,
+        Queues => ['system queue', 'other queue'],
+        QueueIDs => [1, 42, 512],
+        # use also sub queues of Queue|Queues in search
+        UseSubQueues => 0,
 
-      States => ['new', 'open'],
-      StateIDs => [3, 4],
-      # Open|Closed tickets for all closed or open tickets.
-      StateType => 'Open',
-      # You also can use real state types like new, open, closed,
-      # pending reminder, pending auto, removed and merged.
-      StateType => ['open', 'new'],
+        States => ['new', 'open'],
+        StateIDs => [3, 4],
+        # Open|Closed tickets for all closed or open tickets.
+        StateType => 'Open',
+        # You also can use real state types like new, open, closed,
+        # pending reminder, pending auto, removed and merged.
+        StateType => ['open', 'new'],
 
-      Priorities => ['1 very low', '2 low', '3 normal'],
-      PriorityIDs => [1, 2, 3],
+        Priorities => ['1 very low', '2 low', '3 normal'],
+        PriorityIDs => [1, 2, 3],
 
-      Locks => ['unlock'],
+        Locks => ['unlock'],
 
-      OwnerIDs => [1, 12, 455, 32]
+        OwnerIDs => [1, 12, 455, 32]
 
-      ResponsibleIDs => [1, 12, 455, 32]
+        ResponsibleIDs => [1, 12, 455, 32]
 
-      WatchUserIDs => [1, 12, 455, 32]
+        WatchUserIDs => [1, 12, 455, 32]
 
-      # CustomerID (optional) as STRING or as ARRAYREF
-      CustomerID => '123',
-      CustomerID => ['123', 'ABC'],
-      # CustomerUserLogin (optional) as STRING as ARRAYREF
-      CustomerUserLogin => 'uid123',
-      CustomerUserLogin => ['uid123', 'uid777'],
+        # CustomerID (optional) as STRING or as ARRAYREF
+        CustomerID => '123',
+        CustomerID => ['123', 'ABC'],
+        # CustomerUserLogin (optional) as STRING as ARRAYREF
+        CustomerUserLogin => 'uid123',
+        CustomerUserLogin => ['uid123', 'uid777'],
 
-      # create ticket properties (optional)
-      CreatedUserIDs => [1, 12, 455, 32]
-      CreatedPriorities => ['1 very low', '2 low', '3 normal'],
-      CreatedPriorityIDs => [1, 2, 3],
-      CreatedStates => ['new', 'open'],
-      CreatedStateIDs => [3, 4],
-      CreatedQueues => ['system queue', 'other queue'],
-      CreatedQueueIDs => [1, 42, 512],
+        # create ticket properties (optional)
+        CreatedUserIDs => [1, 12, 455, 32]
+        CreatedPriorities => ['1 very low', '2 low', '3 normal'],
+        CreatedPriorityIDs => [1, 2, 3],
+        CreatedStates => ['new', 'open'],
+        CreatedStateIDs => [3, 4],
+        CreatedQueues => ['system queue', 'other queue'],
+        CreatedQueueIDs => [1, 42, 512],
 
-      # 1..16 (optional)
-      TicketFreeKey1 => 'Product',
-      TicketFreeText1 => 'adasd',
-      # or with multi options as array ref or string possible
-      TicketFreeKey2 => ['Product', 'Product2'],
-      TicketFreeText2 => ['Browser', 'Sound', 'Mouse'],
+        # 1..16 (optional)
+        TicketFreeKey1 => 'Product',
+        TicketFreeText1 => 'adasd',
+        # or with multi options as array ref or string possible
+        TicketFreeKey2 => ['Product', 'Product2'],
+        TicketFreeText2 => ['Browser', 'Sound', 'Mouse'],
 
-      # 1..2 (optional)
-      # tickets with free time after ... (optional)
-      TicketFreeTime1NewerDate => '2006-01-09 00:00:01',
-      # tickets with free time before then .... (optional)
-      TicketFreeTime1OlderDate => '2006-01-19 23:59:59',
+        # 1..2 (optional)
+        # tickets with free time after ... (optional)
+        TicketFreeTime1NewerDate => '2006-01-09 00:00:01',
+        # tickets with free time before then .... (optional)
+        TicketFreeTime1OlderDate => '2006-01-19 23:59:59',
 
-      # article stuff (optional)
-      From => '%spam@example.com%',
-      To => '%support@example.com%',
-      Cc => '%client@example.com%',
-      Subject => '%VIRUS 32%',
-      Body => '%VIRUS 32%',
-      # content search (AND or OR) (optional)
-      ContentSearch => 'AND',
+        # article stuff (optional)
+        From => '%spam@example.com%',
+        To => '%support@example.com%',
+        Cc => '%client@example.com%',
+        Subject => '%VIRUS 32%',
+        Body => '%VIRUS 32%',
+        # content search (AND or OR) (optional)
+        ContentSearch => 'AND',
 
-      # tickets after 60 minutes (optional)
-      TicketCreateTimeOlderMinutes => 60,
-      # tickets before 120 minutes (optional)
-      TicketCreateTimeNewerMinutes => 120,
+        # tickets after 60 minutes (optional)
+        TicketCreateTimeOlderMinutes => 60,
+        # tickets before 120 minutes (optional)
+        TicketCreateTimeNewerMinutes => 120,
 
-      # tickets with create time after ... (optional)
-      TicketCreateTimeNewerDate => '2006-01-09 00:00:01',
-      # tickets with create time before then .... (optional)
-      TicketCreateTimeOlderDate => '2006-01-19 23:59:59',
+        # tickets with create time after ... (optional)
+        TicketCreateTimeNewerDate => '2006-01-09 00:00:01',
+        # tickets with create time before then .... (optional)
+        TicketCreateTimeOlderDate => '2006-01-19 23:59:59',
 
-      # tickets with close time after ... (optional)
-      TicketCloseTimeNewerDate => '2006-01-09 00:00:01',
-      # tickets with close time before then .... (optional)
-      TicketCloseTimeOlderDate => '2006-01-19 23:59:59',
+        # tickets with close time after ... (optional)
+        TicketCloseTimeNewerDate => '2006-01-09 00:00:01',
+        # tickets with close time before then .... (optional)
+        TicketCloseTimeOlderDate => '2006-01-19 23:59:59',
 
-      # tickets with pending time after ... (optional)
-      TicketPendingTimeNewerDate => '2006-01-09 00:00:01',
-      # tickets with pending time before then .... (optional)
-      TicketPendingTimeOlderDate => '2006-01-19 23:59:59',
+        # tickets with pending time after ... (optional)
+        TicketPendingTimeNewerDate => '2006-01-09 00:00:01',
+        # tickets with pending time before then .... (optional)
+        TicketPendingTimeOlderDate => '2006-01-19 23:59:59',
 
-      # OrderBy and SortBy (optional)
-      OrderBy => 'Down',       # Down|Up
-      SortBy => 'Age',         # Owner|CustomerID|State|Ticket|Queue|Priority|Age|
-                               # TicketFreeTime1-2|TicketFreeKey1-8|TicketFreeText1-8
+        # OrderBy and SortBy (optional)
+        OrderBy => 'Down',      # Down|Up
+        SortBy => 'Age',        # Owner|CustomerID|State|Ticket|Queue|Priority|Age|
+                                # TicketFreeTime1-2|TicketFreeKey1-8|TicketFreeText1-8
 
-      # user search (UserID or CustomerUserID is required)
-      UserID => 123,
-      Permission => 'ro' || 'rw',
+        # user search (UserID or CustomerUserID is required)
+        UserID => 123,
+        Permission => 'ro' || 'rw',
 
-      # customer search (UserID or CustomerUserID is required)
-      CustomerUserID => 123,
-      Permission => 'ro' || 'rw',
-  );
+        # customer search (UserID or CustomerUserID is required)
+        CustomerUserID => 123,
+        Permission => 'ro' || 'rw',
+    );
 
 =cut
 
@@ -2365,8 +2397,8 @@ sub TicketSearch {
             $SQLExt .= "LOWER('".$Self->{DBObject}->Quote($_)."')";
         }
         $SQLExt .= ") ".
-          " OR ".
-          " st.customer_user_id = '".$Self->{DBObject}->Quote($Param{CustomerUserID})."') ";
+            " OR ".
+            " st.customer_user_id = '".$Self->{DBObject}->Quote($Param{CustomerUserID})."') ";
 
     }
     if ($Param{UserID} && $Param{UserID} == 1) {
@@ -2711,12 +2743,12 @@ sub TicketSearch {
 
 check if a ticket is locked or not
 
-  if ($TicketObject->LockIsTicketLocked(TicketID => 123)) {
-      print "Ticket not locked!\n";
-  }
-  else {
-      print "Ticket is not locked!\n";
-  }
+    if ($TicketObject->LockIsTicketLocked(TicketID => 123)) {
+        print "Ticket not locked!\n";
+    }
+    else {
+        print "Ticket is not locked!\n";
+    }
 
 =cut
 
@@ -2743,19 +2775,19 @@ sub LockIsTicketLocked {
 
 to set a ticket lock or unlock
 
-  $TicketObject->LockSet(
-      Lock => 'lock',
-      TicketID => 123,
-      SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
-      UserID => 123,
-  );
+    $TicketObject->LockSet(
+        Lock => 'lock',
+        TicketID => 123,
+        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
+        UserID => 123,
+    );
 
-  $TicketObject->LockSet(
-      LockID => 1,
-      TicketID => 123,
-      SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
-      UserID => 123,
-  );
+    $TicketObject->LockSet(
+        LockID => 1,
+        TicketID => 123,
+        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
+        UserID => 123,
+    );
 
 =cut
 
@@ -2870,19 +2902,19 @@ sub LockSet {
 
 to set a ticket state
 
-  $TicketObject->StateSet(
-      State => 'open',
-      TicketID => 123,
-      SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
-      UserID => 123,
-  );
+    $TicketObject->StateSet(
+        State => 'open',
+        TicketID => 123,
+        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
+        UserID => 123,
+    );
 
-  $TicketObject->SateSet(
-      StateID => 3,
-      TicketID => 123,
-      SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
-      UserID => 123,
-  );
+    $TicketObject->StateSet(
+        StateID => 3,
+        TicketID => 123,
+        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
+        UserID => 123,
+    );
 
 =cut
 
@@ -2986,21 +3018,21 @@ sub StateSet {
 
 to get the state list for a ticket (depends on workflow, if configured)
 
-  my %States = $TicketObject->StateList(
-      TicketID => 123,
-      UserID => 123,
-  );
+    my %States = $TicketObject->StateList(
+        TicketID => 123,
+        UserID => 123,
+    );
 
-  my %States = $TicketObject->StateList(
-      QueueID => 123,
-      UserID => 123,
-  );
+    my %States = $TicketObject->StateList(
+        QueueID => 123,
+        UserID => 123,
+    );
 
-  my %States = $TicketObject->StateList(
-      TicketID => 123,
-      Type => 'open',
-      UserID => 123,
-  );
+    my %States = $TicketObject->StateList(
+        TicketID => 123,
+        Type => 'open',
+        UserID => 123,
+    );
 
 =cut
 
@@ -3058,16 +3090,16 @@ sub StateList {
 
 to get the ticket owner
 
-  my ($OwnerID, $Owner) = $TicketObject->OwnerCheck(
-      TicketID => 123,
-  );
+    my ($OwnerID, $Owner) = $TicketObject->OwnerCheck(
+        TicketID => 123,
+    );
 
 or for access control
 
-  my $AccessOk = $TicketObject->OwnerCheck(
-      TicketID => 123,
-      OwnerID => 321,
-  );
+    my $AccessOk = $TicketObject->OwnerCheck(
+        TicketID => 123,
+        OwnerID => 321,
+    );
 
 =cut
 
@@ -3136,12 +3168,12 @@ sub OwnerCheck {
 
 to set the ticket owner (notification to the new owner will be sent)
 
-  $TicketObject->OwnerSet(
-      TicketID => 123,
-      NewUserID => 555,
-      SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
-      UserID => 213,
-  );
+    $TicketObject->OwnerSet(
+        TicketID => 123,
+        NewUserID => 555,
+        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
+        UserID => 123,
+    );
 
 =cut
 
@@ -3253,9 +3285,9 @@ sub OwnerSet {
 returns the owner in the past as array with hash ref of the owner data
 (name, email, ...)
 
-  my @Owner = $TicketObject->OwnerList(
-      TicketID => 123,
-  );
+    my @Owner = $TicketObject->OwnerList(
+        TicketID => 123,
+    );
 
 =cut
 
@@ -3316,12 +3348,12 @@ sub OwnerList {
 
 to set the ticket responsible (notification to the new responsible will be sent)
 
-  $TicketObject->ResponsibleSet(
-      TicketID => 123,
-      NewUserID => 555,
-      SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
-      UserID => 213,
-  );
+    $TicketObject->ResponsibleSet(
+        TicketID => 123,
+        NewUserID => 555,
+        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
+        UserID => 213,
+    );
 
 =cut
 
@@ -3416,9 +3448,9 @@ sub ResponsibleSet {
 returns the responsible in the past as array with hash ref of the owner data
 (name, email, ...)
 
-  my @Responsible = $TicketObject->ResponsibleList(
-      TicketID => 123,
-  );
+    my @Responsible = $TicketObject->ResponsibleList(
+        TicketID => 123,
+    );
 
 =cut
 
@@ -3475,9 +3507,9 @@ sub ResponsibleList {
 
 returns array with hash ref of involved agents of a ticket
 
-  my @InvolvedAgents = $TicketObject->InvolvedAgents(
-      TicketID => 123,
-  );
+    my @InvolvedAgents = $TicketObject->InvolvedAgents(
+        TicketID => 123,
+    );
 
 =cut
 
@@ -3527,6 +3559,16 @@ sub InvolvedAgents {
     }
     return @UserInfo;
 }
+
+=item PriorityLookup()
+
+returns the id or the name of a priority
+
+    my $PriorityID = $TicketObject->PriorityLookup(Type => '3 normal');
+
+    my $Priority = $TicketObject->PriorityLookup(ID => 1);
+
+=cut
 
 sub PriorityLookup {
     my $Self = shift;
@@ -3596,17 +3638,17 @@ sub PriorityLookup {
 
 to set the ticket priority
 
-  $TicketObject->PrioritySet(
-      TicketID => 123,
-      Priority => 'low',
-      UserID => 213,
-  );
+    $TicketObject->PrioritySet(
+        TicketID => 123,
+        Priority => 'low',
+        UserID => 213,
+    );
 
-  $TicketObject->PrioritySet(
-      TicketID => 123,
-      PriorityID => 2,
-      UserID => 213,
-  );
+    $TicketObject->PrioritySet(
+        TicketID => 123,
+        PriorityID => 2,
+        UserID => 213,
+    );
 
 =cut
 
@@ -3658,7 +3700,7 @@ sub PrioritySet {
             CreateUserID => $Param{UserID},
             HistoryType => 'PriorityUpdate',
             Name => "\%\%$Ticket{Priority}\%\%$Ticket{PriorityID}".
-              "\%\%$Param{Priority}\%\%$Param{PriorityID}",
+                "\%\%$Param{Priority}\%\%$Param{PriorityID}",
         );
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
@@ -3679,15 +3721,15 @@ sub PrioritySet {
 
 to get the priority list for a ticket (depends on workflow, if configured)
 
-  my %Priorities = $TicketObject->PriorityList(
-      TicketID => 123,
-      UserID => 123,
-  );
+    my %Priorities = $TicketObject->PriorityList(
+        TicketID => 123,
+        UserID => 123,
+    );
 
-  my %Priorities = $TicketObject->PriorityList(
-      QueueID => 123,
-      UserID => 123,
-  );
+    my %Priorities = $TicketObject->PriorityList(
+        QueueID => 123,
+        UserID => 123,
+    );
 
 =cut
 
@@ -3722,15 +3764,15 @@ sub PriorityList {
 
 to get the priority list for a ticket (depends on workflow, if configured)
 
-  my %Tickets = $TicketObject->HistoryTicketStatusGet(
-      StartDay => 12,
-      StartMonth => 1,
-      StartYear => 2006,
-      StopDay => 18,
-      StopMonth => 1,
-      StopYear => 2006,
-      Force => 0,
-  );
+    my %Tickets = $TicketObject->HistoryTicketStatusGet(
+        StartDay => 12,
+        StartMonth => 1,
+        StartYear => 2006,
+        StopDay => 18,
+        StopMonth => 1,
+        StopYear => 2006,
+        Force => 0,
+    );
 
 =cut
 
@@ -3754,7 +3796,9 @@ sub HistoryTicketStatusGet {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQLExt = '';
-    foreach (qw(NewTicket FollowUp OwnerUpdate PriorityUpdate CustomerUpdate StateUpdate TicketFreeTextUpdate PhoneCallCustomer Forward Bounce SendAnswer EmailCustomer PhoneCallAgent WebRequestCustomer)) {
+    foreach (qw(NewTicket FollowUp OwnerUpdate PriorityUpdate CustomerUpdate StateUpdate
+        TicketFreeTextUpdate PhoneCallCustomer Forward Bounce SendAnswer EmailCustomer
+        PhoneCallAgent WebRequestCustomer)) {
         my $ID = $Self->HistoryTypeLookup(Type => $_);
         if (!$SQLExt) {
             $SQLExt = "AND history_type_id IN ($ID";
@@ -3800,13 +3844,13 @@ sub HistoryTicketStatusGet {
 
 returns a hash of the ticket history info at this time.
 
-  my %HistoryData = $TicketObject->HistoryTicketGet(
-      StopYear => 2003,
-      StopMonth => 12,
-      StopDay => 24,
-      TicketID => 123,
-      Force => 0,
-  );
+    my %HistoryData = $TicketObject->HistoryTicketGet(
+        StopYear => 2003,
+        StopMonth => 12,
+        StopDay => 24,
+        TicketID => 123,
+        Force => 0,
+    );
 
 =cut
 
@@ -3852,7 +3896,8 @@ sub HistoryTicketGet {
     foreach (qw(TicketID StopYear StopMonth StopDay)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
-    my $SQL = "SELECT th.name, tht.name, th.create_time, th.create_by, th.ticket_id, th.article_id, th.queue_id, th.state_id, th.priority_id, th.owner_id FROM ".
+    my $SQL = "SELECT th.name, tht.name, th.create_time, th.create_by, th.ticket_id, ".
+        "th.article_id, th.queue_id, th.state_id, th.priority_id, th.owner_id FROM ".
         "ticket_history th, ticket_history_type tht ".
         "WHERE ".
         "th.history_type_id = tht.id ".
@@ -3864,7 +3909,8 @@ sub HistoryTicketGet {
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 2000);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         if ($Row[1] eq 'NewTicket') {
-            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)$/ || $Row[0] =~ /Ticket=\[(.+?)\],.+?Q\=(.+?);P\=(.+?);S\=(.+?)/) {
+            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)$/ ||
+                $Row[0] =~ /Ticket=\[(.+?)\],.+?Q\=(.+?);P\=(.+?);S\=(.+?)/) {
                 $Ticket{TicketNumber} = $1;
                 $Ticket{Queue} = $2;
                 $Ticket{CreateQueue} = $2;
@@ -3898,12 +3944,19 @@ sub HistoryTicketGet {
             $Ticket{CreateTime} = $Row[2];
         }
         elsif ($Row[1] eq 'Move') {
-            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/ || $Row[0] =~ /^Ticket moved to Queue '(.+?)'/) {
+            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/ ||
+                $Row[0] =~ /^Ticket moved to Queue '(.+?)'/) {
                 $Ticket{Queue} = $1;
             }
         }
-        elsif ($Row[1] eq 'StateUpdate' || $Row[1] eq 'Close successful' || $Row[1] eq 'Close unsuccessful' || $Row[1] eq 'Open' || $Row[1] eq 'Misc') {
-            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/ || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/ || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/) {
+        elsif ($Row[1] eq 'StateUpdate' ||
+            $Row[1] eq 'Close successful' ||
+            $Row[1] eq 'Close unsuccessful' ||
+            $Row[1] eq 'Open' ||
+            $Row[1] eq 'Misc') {
+            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/ ||
+                $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/ ||
+                $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/) {
                 $Ticket{State} = $2;
                 $Ticket{StateTime} = $Row[2];
             }
@@ -3933,7 +3986,11 @@ sub HistoryTicketGet {
         $Ticket{QueueID} = $Row[6] || '';
     }
     if (!%Ticket) {
-        $Self->{LogObject}->Log(Priority => 'notice', Message => "No such TicketID in ticket history till '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ($Param{TicketID})!");
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "No such TicketID in ticket history till ".
+                "'$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ($Param{TicketID})!",
+        );
         return;
     }
     else {
@@ -3982,7 +4039,7 @@ sub HistoryTicketGet {
 
 returns the id of the requested history type.
 
-  my $ID = $TicketObject->HistoryTypeLookup(Type => 'Move');
+    my $ID = $TicketObject->HistoryTypeLookup(Type => 'Move');
 
 =cut
 
@@ -4023,14 +4080,14 @@ sub HistoryTypeLookup {
 
 add a history entry to an ticket
 
-  $TicketObject->HistoryAdd(
-      Name => 'Some Comment',
-      HistoryType => 'Move', # see system tables
-      TicketID => 123,
-      ArticleID => 1234, # not required!
-      QueueID => 123, # not required!
-      CreateUserID => 123,
-  );
+    $TicketObject->HistoryAdd(
+        Name => 'Some Comment',
+        HistoryType => 'Move', # see system tables
+        TicketID => 123,
+        ArticleID => 1234, # not required!
+        QueueID => 123, # not required!
+        CreateUserID => 123,
+    );
 
 =cut
 
@@ -4122,10 +4179,10 @@ sub HistoryAdd {
 get ticket history as array with hashes
 (TicketID, ArticleID, Name, CreateBy, CreateTime and HistoryType)
 
-  my @HistoryLines = $TicketObject->HistoryGet(
-      TicketID => 123,
-      UserID => 123,
-  );
+    my @HistoryLines = $TicketObject->HistoryGet(
+        TicketID => 123,
+        UserID => 123,
+    );
 
 =cut
 
@@ -4155,14 +4212,14 @@ sub HistoryGet {
         " ORDER BY sh.create_time, sh.id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray() ) {
-          my %Data;
-          $Data{TicketID} = $Param{TicketID};
-          $Data{ArticleID} = $Row[1] || 0;
-          $Data{Name} = $Row[0];
-          $Data{CreateBy} = $Row[3];
-          $Data{CreateTime} = $Row[2];
-          $Data{HistoryType} = $Row[4];
-          push (@Lines, \%Data);
+        my %Data;
+        $Data{TicketID} = $Param{TicketID};
+        $Data{ArticleID} = $Row[1] || 0;
+        $Data{Name} = $Row[0];
+        $Data{CreateBy} = $Row[3];
+        $Data{CreateTime} = $Row[2];
+        $Data{HistoryType} = $Row[4];
+        push (@Lines, \%Data);
     }
     # get user data
     foreach my $Data (@Lines) {
@@ -4179,10 +4236,10 @@ sub HistoryGet {
 
 delete a ticket history (from storage)
 
-  $TicketObject->HistoryDelete(
-      TicketID => 123,
-      UserID => 123,
-  );
+    $TicketObject->HistoryDelete(
+        TicketID => 123,
+        UserID => 123,
+    );
 
 =cut
 
@@ -4219,7 +4276,7 @@ sub HistoryDelete {
 
 returns the accounted time of a ticket.
 
-  my $AccountedTime = $TicketObject->TicketAccountedTimeGet(TicketID => 1234);
+    my $AccountedTime = $TicketObject->TicketAccountedTimeGet(TicketID => 1234);
 
 =cut
 
@@ -4255,12 +4312,12 @@ sub TicketAccountedTimeGet {
 
 account time to a ticket.
 
-  $TicketObject->TicketAccountTime(
-      TicketID => 1234,
-      ArticleID => 23542,
-      TimeUnit => '4.5',
-      UserID => 1,
-  );
+    $TicketObject->TicketAccountTime(
+        TicketID => 1234,
+        ArticleID => 23542,
+        TimeUnit => '4.5',
+        UserID => 1,
+    );
 
 =cut
 
@@ -4288,16 +4345,16 @@ sub TicketAccountTime {
     }
     # db update
     my $SQL = "INSERT INTO time_accounting ".
-      " (ticket_id, article_id, time_unit, create_time, create_by, change_time, change_by) ".
-      " VALUES ".
-      " ($Param{TicketID}, $Param{ArticleID}, $Param{TimeUnit}, ".
-      " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID}) ";
+        " (ticket_id, article_id, time_unit, create_time, create_by, change_time, change_by) ".
+        " VALUES ".
+        " ($Param{TicketID}, $Param{ArticleID}, $Param{TimeUnit}, ".
+        " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID}) ";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # add history
         my $AccountedTime = $Self->TicketAccountedTimeGet(TicketID => $Param{TicketID});
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
-             ArticleID => $Param{ArticleID},
+            ArticleID => $Param{ArticleID},
             CreateUserID => $Param{UserID},
             HistoryType => 'TimeAccounting',
             Name => "\%\%$Param{TimeUnit}\%\%$AccountedTime",
@@ -4321,11 +4378,11 @@ sub TicketAccountTime {
 
 merge two tickets
 
-  $TicketObject->TicketMerge(
-      MainTicketID => 412,
-      MergeTicketID => 123,
-      UserID => 123,
-  );
+    $TicketObject->TicketMerge(
+        MainTicketID => 412,
+        MergeTicketID => 123,
+        UserID => 123,
+    );
 
 =cut
 
@@ -4549,6 +4606,33 @@ sub TicketWatchUnsubscribe {
     }
 }
 
+=item TicketAcl()
+
+prepare ACL execution of current state
+
+    $TicketObject->TicketAcl(
+        Data => '-',
+        Action => 'AgentTicketZoom',
+        TicketID => 123,
+        ReturnType => 'Action',
+        ReturnSubType => '-',
+        UserID => 123,
+    );
+
+    or
+
+    $TicketObject->TicketAcl(
+        Data => {
+            1 => 'new',
+            2 => 'open',
+            # ...
+        },
+        ReturnType => 'Ticket',
+        ReturnSubType => 'State',
+    )
+
+=cut
+
 sub TicketAcl {
     my $Self = shift;
     my %Param = @_;
@@ -4645,41 +4729,41 @@ sub TicketAcl {
         my $Match3 = 0;
         my $UseNewParams = 0;
         foreach my $Key (keys %{$Step{Properties}}) {
-          foreach my $Data (keys %{$Step{Properties}->{$Key}}) {
-            my $Match2 = 0;
-            foreach (@{$Step{Properties}->{$Key}->{$Data}}) {
-                if (ref($Checks{$Key}->{$Data}) eq 'ARRAY') {
-                    foreach my $Array (@{$Checks{$Key}->{$Data}}) {
-                        if ($_ eq $Array) {
+            foreach my $Data (keys %{$Step{Properties}->{$Key}}) {
+                my $Match2 = 0;
+                foreach (@{$Step{Properties}->{$Key}->{$Data}}) {
+                    if (ref($Checks{$Key}->{$Data}) eq 'ARRAY') {
+                        foreach my $Array (@{$Checks{$Key}->{$Data}}) {
+                            if ($_ eq $Array) {
+                                $Match2 = 1;
+                                # debug log
+                                if ($Self->{Debug} > 4) {
+                                    $Self->{LogObject}->Log(
+                                        Priority => 'debug',
+                                        Message => "Workflow '$Acl/$Key/$Data' MatchedARRAY ($_ eq $Array)",
+                                    );
+                                }
+                            }
+                        }
+                    }
+                    elsif (defined($Checks{$Key}->{$Data})) {
+                        if ($_ eq $Checks{$Key}->{$Data}) {
                             $Match2 = 1;
-                            # debug log
+                            # debug
                             if ($Self->{Debug} > 4) {
                                 $Self->{LogObject}->Log(
-                                    Priority => 'debug',
-                                    Message => "Workflow '$Acl/$Key/$Data' MatchedARRAY ($_ eq $Array)",
+                                        Priority => 'debug',
+                                        Message => "Workflow '$Acl/$Key/$Data' Matched ($_ eq $Checks{$Key}->{$Data})",
                                 );
                             }
                         }
                     }
                 }
-                elsif (defined($Checks{$Key}->{$Data})) {
-                    if ($_ eq $Checks{$Key}->{$Data}) {
-                        $Match2 = 1;
-                        # debug
-                        if ($Self->{Debug} > 4) {
-                            $Self->{LogObject}->Log(
-                                    Priority => 'debug',
-                                    Message => "Workflow '$Acl/$Key/$Data' Matched ($_ eq $Checks{$Key}->{$Data})",
-                            );
-                        }
-                    }
+                if (!$Match2) {
+                    $Match = 0;
                 }
+                $Match3 = 1;
             }
-            if (!$Match2) {
-                $Match = 0;
-            }
-            $Match3 = 1;
-          }
         }
         # check force option
         if ($ForceMatch) {
@@ -4774,11 +4858,27 @@ sub TicketAcl {
     return;
 }
 
+=item TicketAclData()
+
+return the current ACL data hash after TicketAcl()
+
+    my %Acl = $TicketObject->TicketAclData();
+
+=cut
+
 sub TicketAclData {
     my $Self = shift;
     my %Param = @_;
     return %{$Self->{TicketAclData}};
 }
+
+=item TicketAclActionData()
+
+return the current ACL action data hash after TicketAcl()
+
+    my %AclAction = $TicketObject->TicketAclActionData();
+
+=cut
 
 sub TicketAclActionData {
     my $Self = shift;
@@ -4790,6 +4890,29 @@ sub TicketAclActionData {
         return %{$Self->{ConfigObject}->Get('TicketACL::Default::Action')};
     }
 }
+
+=item TicketEventHandlerPost()
+
+call ticket event post handler, returns true if it's executed successfully
+
+    $TicketObject->TicketEventHandlerPost(
+        TicketID => 123,
+        Event => 'TicketStateUpdate',
+        UserID => 123,
+    );
+
+events available:
+
+TicketCreate, TicketDelete, TicketTitleUpdate, TicketUnlockTimeoutUpdate,
+TicketEscalationStartUpdate, TicketQueueUpdate, TicketCustomerUpdate,
+TicketFreeTextUpdate, TicketFreeTimeUpdate, TicketPendingTimeUpdate,
+TicketLockUpdate, TicketStateUpdate, TicketOwnerUpdate,
+TicketResponsibleUpdate, TicketPriorityUpdate, HistoryAdd, HistoryDelete,
+TicketAccountTime, TicketMerge, ArticleCreate, ArticleFreeTextUpdate,
+ArticleUpdate, ArticleSend, ArticleBounce, ArticleAgentNotification,
+ArticleCustomerNotification, ArticleAutoResponse, ArticleFlagSet;
+
+=cut
 
 sub TicketEventHandlerPost {
     my $Self = shift;
@@ -4882,6 +5005,8 @@ sub TicketEventHandlerPost {
 }
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -4892,6 +5017,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.233 $ $Date: 2006-12-08 10:20:35 $
+$Revision: 1.234 $ $Date: 2006-12-14 12:22:58 $
 
 =cut

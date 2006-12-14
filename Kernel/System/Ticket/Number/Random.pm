@@ -2,7 +2,7 @@
 # Ticket/Number/Random.pm - a ticket number random generator
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Random.pm,v 1.13 2006-12-05 08:04:03 martin Exp $
+# $Id: Random.pm,v 1.14 2006-12-14 12:22:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,10 +19,10 @@ package Kernel::System::Ticket::Number::Random;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-sub CreateTicketNr {
+sub TicketCreateNumber {
     my $Self = shift;
     # get needed config options
     my $SystemID = $Self->{ConfigObject}->Get('SystemID');
@@ -37,14 +37,14 @@ sub CreateTicketNr {
     # create new ticket number
     my $Tn = $SystemID.$Count;
     # Check ticket number. If exists generate new one!
-    if ($Self->CheckTicketNr(Tn=>$Tn)) {
+    if ($Self->TicketCheckNumber(Tn=>$Tn)) {
         $Self->{LoopProtectionCounter}++;
         if ($Self->{LoopProtectionCounter} >= 6000) {
           # loop protection
           $Self->{LogObject}->Log(
             Priority => 'error',
             Message => "CounterLoopProtection is now $Self->{LoopProtectionCounter}!".
-                   " Stoped CreateTicketNr()!",
+                   " Stoped TicketCreateNumber()!",
           );
           return;
         }
@@ -53,11 +53,11 @@ sub CreateTicketNr {
           Priority => 'notice',
           Message => "Tn ($Tn) exists! Creating new one.",
         );
-        $Tn = $Self->CreateTicketNr();
+        $Tn = $Self->TicketCreateNumber();
     }
     return $Tn;
 }
-# --
+
 sub GetTNByString {
     my $Self = shift;
     my $String = shift || return;
@@ -79,5 +79,5 @@ sub GetTNByString {
         }
     }
 }
-# --
+
 1;
