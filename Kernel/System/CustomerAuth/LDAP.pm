@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.15 2006-10-20 21:32:38 martin Exp $
+# $Id: LDAP.pm,v 1.15.2.1 2006-12-14 13:30:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.15.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -51,6 +51,7 @@ sub new {
     $Self->{AccessAttr} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::AccessAttr') || '';
     $Self->{UserAttr} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UserAttr') || 'DN';
     $Self->{UserSuffix} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UserSuffix') || '';
+    $Self->{DestCharset} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Charset') || 'utf-8';
 
     # ldap filter always used
     $Self->{AlwaysFilter} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::AlwaysFilter') || '';
