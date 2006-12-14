@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.13 2006-09-18 11:19:35 tr Exp $
+# $Id: Ticket.t,v 1.14 2006-12-14 12:28:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ $Self->{ConfigObject}->Set(
     Value => 'Kernel::System::Ticket::Number::DateChecksum',
 );
 $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
-my $Tn = $Self->{TicketObject}->CreateTicketNr();
+my $Tn = $Self->{TicketObject}->TicketCreateNumber();
 my $String = "Re: ".$Self->{TicketObject}->TicketSubjectBuild(
     TicketNumber => $Tn,
     Subject => 'Some Test',
@@ -37,7 +37,6 @@ $Self->False(
     $Self->{TicketObject}->GetTNByString("Ticket#: 1234567") || 0,
     "GetTNByString() (DateChecksum: false)",
 );
-
 
 my $TicketID = $Self->{TicketObject}->TicketCreate(
     Title => 'Some Ticket Title',
@@ -247,8 +246,6 @@ foreach (1..16) {
         "TicketGet() (TicketFreeText$_)",
     );
 }
-
-
 
 foreach (1..16) {
     my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
@@ -2833,7 +2830,6 @@ If you feel the urge to write Perl modules, perlnewmod will give you good advice
     NoAgentNotify => 1,            # if you don't want to send agent notifications
 );
 
-
 $Self->True(
     $ArticleID,
     'ArticleCreate()',
@@ -2851,7 +2847,6 @@ $Self->True(
     $Article{From} eq 'Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent <email@example.com>',
     'ArticleGet()',
 );
-
 
 my %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
@@ -3131,7 +3126,6 @@ foreach (1..16) {
     );
 }
 
-
 my @MoveQueueList = $Self->{TicketObject}->MoveQueueList(
     TicketID => $TicketID,
     Type => 'Name',
@@ -3184,7 +3178,6 @@ $Self->True(
     'TicketAccountTime() 3',
 );
 
-
 my $AccountedTime = $Self->{TicketObject}->TicketAccountedTimeGet(TicketID => $TicketID);
 
 $Self->Is(
@@ -3192,8 +3185,6 @@ $Self->Is(
     4132.56,
     'TicketAccountedTimeGet()',
 );
-
-
 
 my $AccountedTime2 = $Self->{TicketObject}->ArticleAccountedTimeGet(
     ArticleID => $ArticleID,
@@ -3204,7 +3195,6 @@ $Self->Is(
     4132.56,
     'ArticleAccountedTimeGet()',
 );
-
 
 my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
     SystemTime  => $Self->{TimeObject}->SystemTime(),
@@ -3286,7 +3276,6 @@ else {
     );
 }
 
-
 $Self->True(
     $Self->{TicketObject}->TicketDelete(
         TicketID => $TicketID,
@@ -3294,6 +3283,5 @@ $Self->True(
     ),
     'TicketDelete()',
 );
-
 
 1;
