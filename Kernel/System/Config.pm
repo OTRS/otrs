@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.57 2006-11-22 12:36:33 tr Exp $
+# $Id: Config.pm,v 1.58 2006-12-14 12:29:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Main;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -39,24 +39,24 @@ All functions to manage config settings.
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::Config;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::Config;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $ConfigToolObject = Kernel::System::Config->new(
-      LogObject => $LogObject,
-      ConfigObject => $ConfigObject,
-      DBObject => $DBObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $ConfigToolObject = Kernel::System::Config->new(
+        LogObject => $LogObject,
+        ConfigObject => $ConfigObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -1371,6 +1371,8 @@ sub DESTROY {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -1383,6 +1385,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2006-11-22 12:36:33 $
+$Revision: 1.58 $ $Date: 2006-12-14 12:29:59 $
 
 =cut

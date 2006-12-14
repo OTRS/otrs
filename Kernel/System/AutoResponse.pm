@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.12 2006-11-02 12:20:52 tr Exp $
+# $Id: AutoResponse.pm,v 1.13 2006-12-14 12:30:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -48,10 +48,10 @@ sub AutoResponseAdd {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Name ValidID Response AddressID TypeID Charset UserID Subject)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(Name Comment Response Charset Subject)) {
@@ -81,8 +81,8 @@ sub AutoResponseGet {
     my %Param = @_;
     # check needed stuff
     if (!$Param{ID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+        return;
     }
     # db quote
     foreach (qw(ID)) {
@@ -122,10 +122,10 @@ sub AutoResponseUpdate {
     my %Param = @_;
     # check needed stuff
     foreach (qw(ID Name ValidID Response AddressID Charset UserID Subject)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(Name Comment Response Charset Subject)) {
@@ -162,10 +162,10 @@ sub AutoResponseGetByTypeQueueID {
     my %Data;
     # check needed stuff
     foreach (qw(QueueID Type)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+          $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+          return;
+        }
     }
     # db quote
     foreach (qw(Type)) {
@@ -176,16 +176,16 @@ sub AutoResponseGetByTypeQueueID {
     }
     # SQL query
     my $SQL = "SELECT ar.text0, ar.text1, ar.charset" .
-    " FROM " .
-    " auto_response_type art, auto_response ar, queue_auto_response qar ".
-    " WHERE " .
-    " qar.queue_id = $Param{QueueID} " .
-    " AND " .
-    " art.id = ar.type_id " .
-    " AND " .
-    " qar.auto_response_id = ar.id " .
-    " AND " .
-    " art.name = '$Param{Type}'";
+        " FROM " .
+        " auto_response_type art, auto_response ar, queue_auto_response qar ".
+        " WHERE " .
+        " qar.queue_id = $Param{QueueID} " .
+        " AND " .
+        " art.id = ar.type_id " .
+        " AND " .
+        " qar.auto_response_id = ar.id " .
+        " AND " .
+        " art.name = '$Param{Type}'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Data{Text} = $Row[0];
