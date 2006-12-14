@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.60 2006-11-02 12:20:53 tr Exp $
+# $Id: PostMaster.pm,v 1.61 2006-12-14 12:27:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -294,7 +294,7 @@ sub CheckFollowUp {
     my %Param = @_;
     my $Subject = $Param{Subject} || '';
     if (my $Tn = $Self->{TicketObject}->GetTNByString($Subject)) {
-        my $TicketID = $Self->{TicketObject}->CheckTicketNr(Tn => $Tn);
+        my $TicketID = $Self->{TicketObject}->TicketCheckNumber(Tn => $Tn);
         if ($TicketID) {
             my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
             if ($Self->{Debug} > 1) {
@@ -328,7 +328,7 @@ sub CheckFollowUp {
     # do body ticket number lookup
     if ($Self->{ConfigObject}->Get('PostmasterFollowUpSearchInBody')) {
         if (my $Tn = $Self->{TicketObject}->GetTNByString($Self->{ParseObject}->GetMessageBody())) {
-            my $TicketID = $Self->{TicketObject}->CheckTicketNr(Tn => $Tn);
+            my $TicketID = $Self->{TicketObject}->TicketCheckNumber(Tn => $Tn);
             if ($TicketID) {
                 my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
                 if ($Self->{Debug} > 1) {
@@ -345,7 +345,7 @@ sub CheckFollowUp {
     if ($Self->{ConfigObject}->Get('PostmasterFollowUpSearchInAttachment')) {
         foreach my $Attachment ($Self->{ParseObject}->GetAttachments()) {
             if (my $Tn = $Self->{TicketObject}->GetTNByString($Attachment->{Content})) {
-                my $TicketID = $Self->{TicketObject}->CheckTicketNr(Tn => $Tn);
+                my $TicketID = $Self->{TicketObject}->TicketCheckNumber(Tn => $Tn);
                 if ($TicketID) {
                     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
                     if ($Self->{Debug} > 1) {
@@ -362,7 +362,7 @@ sub CheckFollowUp {
     # do plain/raw ticket number lookup
     if ($Self->{ConfigObject}->Get('PostmasterFollowUpSearchInRaw')) {
         if (my $Tn = $Self->{TicketObject}->GetTNByString($Self->{ParseObject}->GetPlainEmail())) {
-            my $TicketID = $Self->{TicketObject}->CheckTicketNr(Tn => $Tn);
+            my $TicketID = $Self->{TicketObject}->TicketCheckNumber(Tn => $Tn);
             if ($TicketID) {
                 my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
                 if ($Self->{Debug} > 1) {
@@ -388,18 +388,18 @@ sub GetEmailParams {
     my $WantParamTmp = $Self->{'PostmasterX-Header'} || die "Got no \@WantParam ref";
     my @WantParam = @$WantParamTmp;
     foreach (@WantParam){
-      if (!$Self->{Trusted} && $_ =~ /^x-otrs/i) {
-        # scan not x-otrs header if it's not trusted
-      }
-      else {
-        if ($Self->{Debug} > 2) {
-          $Self->{LogObject}->Log(
-              Priority => 'debug',
-              Message => "$_: " . $Self->{ParseObject}->GetParam(WHAT => $_),
-          );
+        if (!$Self->{Trusted} && $_ =~ /^x-otrs/i) {
+            # scan not x-otrs header if it's not trusted
         }
-        $GetParam{$_} = $Self->{ParseObject}->GetParam(WHAT => $_);
-      }
+        else {
+            if ($Self->{Debug} > 2) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "$_: " . $Self->{ParseObject}->GetParam(WHAT => $_),
+                );
+            }
+            $GetParam{$_} = $Self->{ParseObject}->GetParam(WHAT => $_);
+        }
     }
     # set compat. headers
     if ($GetParam{'Message-Id'}) {
@@ -411,6 +411,17 @@ sub GetEmailParams {
     if ($GetParam{'Mailing-List'} || $GetParam{'Precedence'} || $GetParam{'X-Loop'}
              || $GetParam{'X-No-Loop'} || $GetParam{'X-OTRS-Loop'}) {
         $GetParam{'X-OTRS-Loop'} = 'yes';
+    }
+    if (!$GetParam{'X-Sender'}) {
+        # get sender email
+        my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
+            Line => $GetParam{From},
+        );
+        foreach (@EmailAddresses) {
+            $GetParam{'X-Sender'} = $Self->{ParseObject}->GetEmailAddress(
+                Email => $_,
+            );
+        }
     }
     # set sender type if not given
     foreach my $Key (qw(X-OTRS-SenderType X-OTRS-FollowUp-SenderType)) {

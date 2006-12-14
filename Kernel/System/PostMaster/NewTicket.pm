@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.58 2006-12-08 09:58:22 cs Exp $
+# $Id: NewTicket.pm,v 1.59 2006-12-14 12:27:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -145,10 +145,7 @@ sub Run {
     }
 
     # create new ticket
-
-    my $NewTn = $Self->{TicketObject}->CreateTicketNr();
-
-    # do db insert
+    my $NewTn = $Self->{TicketObject}->TicketCreateNumber();
     my $TicketID = $Self->{TicketObject}->TicketCreate(
         TN => $NewTn,
         Title => $GetParam{Subject},
