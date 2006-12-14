@@ -2,7 +2,7 @@
 # Kernel/System/Crypt.pm - the main crypt module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Crypt.pm,v 1.6 2006-08-29 17:30:36 martin Exp $
+# $Id: Crypt.pm,v 1.7 2006-12-14 12:09:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION @ISA);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -38,25 +38,32 @@ Kernel::System::Crypt::SMIME.
 
 create new object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::Crypt;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::System::DB;
+    use Kernel::System::Crypt;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $CryptObject = Kernel::System::Crypt->new(
-      DBObject => $DBObject,
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      CryptType => 'PGP',   # PGP or SMIME
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $MainObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        MainObject => $MainObject,
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $CryptObject = Kernel::System::Crypt->new(
+        DBObject => $DBObject,
+        MainObject => $MainObject,
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        CryptType => 'PGP',   # PGP or SMIME
+    );
 
 =cut
 
@@ -71,7 +78,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed opbjects
-    foreach (qw(ConfigObject LogObject DBObject CryptType)) {
+    foreach (qw(ConfigObject LogObject DBObject CryptType MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -85,17 +92,19 @@ sub new {
 
     # load generator crypt module
     $Self->{GenericModule} = "Kernel::System::Crypt::$Param{CryptType}";
-    if (!eval "require $Self->{GenericModule}") {
-        die "Can't load crypt backend module $Self->{GenericModule}! $@";
+    if (!$Self->{MainObject}->Require($Self->{GenericModule})) {
+        return;
     }
     # add generator crypt functions
     @ISA = ("$Self->{GenericModule}");
     # call init()
-    $Self->Init();
+    $Self->_Init();
     return $Self;
 }
 
 1;
+
+=back
 
 =head1 TERMS AND CONDITIONS
 
@@ -109,6 +118,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.7 $ $Date: 2006-12-14 12:09:49 $
 
 =cut

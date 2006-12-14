@@ -2,7 +2,7 @@
 # Kernel/System/Email/Sendmail.pm - the global email send module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Sendmail.pm,v 1.17 2006-08-29 17:31:04 martin Exp $
+# $Id: Sendmail.pm,v 1.18 2006-12-14 12:13:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::System::Email::Sendmail;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -39,7 +38,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Send {
     my $Self = shift;
     my %Param = @_;
@@ -89,6 +88,5 @@ sub Send {
         return;
     }
 }
-# --
 
 1;

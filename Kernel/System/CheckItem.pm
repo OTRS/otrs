@@ -1,8 +1,8 @@
 # --
-# Kernel/System/CheckItem.pm - the global spellinf module
+# Kernel/System/CheckItem.pm - the global spelling module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.16 2006-09-05 23:17:44 martin Exp $
+# $Id: CheckItem.pm,v 1.17 2006-12-14 12:07:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,8 +14,41 @@ package Kernel::System::CheckItem;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+=head1 NAME
+
+Kernel::System::CheckItem - check items
+
+=head1 SYNOPSIS
+
+All item check functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a object
+
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::CheckItem;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $CheckItemObject = Kernel::System::CheckItem->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+
+=cut
 
 sub new {
     my $Type = shift;
@@ -35,20 +68,39 @@ sub new {
     return $Self;
 }
 
+=item CheckError()
+
+get the error of check item back
+
+    my $Error = $CheckItemObject->CheckError();
+
+=cut
+
 sub CheckError {
     my $Self = shift;
     return $Self->{Error};
 }
+
+=item CheckEmail()
+
+returns true if check was successful, if it's false, get the error message
+from CheckError()
+
+    my $Valid = $CheckItemObject->CheckEmail(
+        Address => 'info@example.com',
+    );
+
+=cut
 
 sub CheckEmail {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
     foreach (qw(Address)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # check if it's to do
     if (! $Self->{ConfigObject}->Get('CheckEmailAddresses')) {
@@ -131,3 +183,21 @@ sub CheckEmail {
 }
 
 1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.17 $ $Date: 2006-12-14 12:07:58 $
+
+=cut

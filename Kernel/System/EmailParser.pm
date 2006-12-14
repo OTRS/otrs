@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.47 2006-12-11 06:47:22 martin Exp $
+# $Id: EmailParser.pm,v 1.48 2006-12-14 12:17:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -42,20 +42,20 @@ A module to parse and encode a email.
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::EmailParser;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::EmailParser;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $ParseObject = Kernel::System::EmailParser->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      Email => \@ArrayOfEmail,
-      Debug => 0,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $ParseObject = Kernel::System::EmailParser->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        Email => \@ArrayOfEmail,
+        Debug => 0,
+    );
 
 =cut
 
@@ -110,7 +110,7 @@ sub new {
 
 To get a email as a string back (plain email).
 
-  my $Email = $ParseObject->GetPlainEmail();
+    my $Email = $ParseObject->GetPlainEmail();
 
 =cut
 
@@ -124,7 +124,7 @@ sub GetPlainEmail {
 To get a header (e. g. Subject, To, ContentType, ...) of an email
 (mime is already done!).
 
-  my $To = $ParseObject->GetParam(WHAT => 'To');
+    my $To = $ParseObject->GetParam(WHAT => 'To');
 
 =cut
 
@@ -182,7 +182,7 @@ sub GetParam {
 
 To get the senders email address back.
 
-  my $SenderEmail = $ParseObject->GetEmailAddress(Email => 'Juergen Weber <juergen.qeber@air.com>');
+    my $SenderEmail = $ParseObject->GetEmailAddress(Email => 'Juergen Weber <juergen.qeber@air.com>');
 
 =cut
 
@@ -200,7 +200,7 @@ sub GetEmailAddress {
 
 To get an array of email addresses of an To, Cc or Bcc line back.
 
-  my @Addresses = $ParseObject->SplitAddressLine(Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber)');
+    my @Addresses = $ParseObject->SplitAddressLine(Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber)');
 
 This returns an array with ('Juergen Weber <juergen.qeber@air.com>', 'me@example.com', 'hans@example.com (Hans Huber)').
 
@@ -568,7 +568,7 @@ sub PartsAttachments {
 
 To get an array of reference ids of the parsed email
 
-  my @References = $ParseObject->GetReferences();
+    my @References = $ParseObject->GetReferences();
 
 This returns an array with ('fasfda@host.de', '4124.2313.1231@host.com').
 
@@ -619,6 +619,7 @@ sub GetContentTypeParams {
     }
     return %Param;
 }
+
 # just for internal
 sub CheckMessageBody {
     my $Self = shift;
@@ -695,6 +696,8 @@ sub CheckMessageBody {
 }
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -705,6 +708,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2006-12-11 06:47:22 $
+$Revision: 1.48 $ $Date: 2006-12-14 12:17:31 $
 
 =cut

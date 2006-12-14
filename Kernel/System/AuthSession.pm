@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AuthSession.pm,v 1.26 2006-08-29 17:30:35 martin Exp $
+# $Id: AuthSession.pm,v 1.27 2006-12-14 12:06:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,9 +14,8 @@ package Kernel::System::AuthSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
-
 
 =head1 NAME
 
@@ -36,23 +35,23 @@ All session functions.
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::AuthSession;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::AuthSession;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $SesionObject = Kernel::System::AuthSession->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      DBObject => $DBObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $SesionObject = Kernel::System::AuthSession->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+    );
 
 (The session backend (DB, FS or IPC) is configures in Kernel/Config.pm)
 
@@ -73,7 +72,7 @@ sub new {
 
     # load generator backend module
     my $GenericModule = $Self->{ConfigObject}->Get('SessionModule')
-      || 'Kernel::System::AuthSession::DB';
+        || 'Kernel::System::AuthSession::DB';
     if (!eval "require $GenericModule") {
         die "Can't load session backend module $GenericModule! $@";
     }
@@ -87,7 +86,7 @@ sub new {
 
 checks a session, returns true (session ok) or false (session invalid)
 
-  $SessionObject->CheckSessionID(SessionID => '1234567890123456');
+    $SessionObject->CheckSessionID(SessionID => '1234567890123456');
 
 =cut
 
@@ -100,9 +99,9 @@ sub CheckSessionID {
 =item CheckSessionIDMessage()
 
 returns why CheckSessionID() returns false (e. g. invalid session id,
- different remote ip, ...)
+different remote ip, ...)
 
-  my $Message = $SessionObject->CheckSessionIDMessage();
+    my $Message = $SessionObject->CheckSessionIDMessage();
 
 =cut
 
@@ -116,7 +115,7 @@ sub CheckSessionIDMessage {
 
 get session data in a hash
 
-  my %Data = $SessionObject->GetSessionIDData(SessionID => '1234567890123456');
+    my %Data = $SessionObject->GetSessionIDData(SessionID => '1234567890123456');
 
 =cut
 
@@ -130,10 +129,10 @@ sub GetSessionIDData {
 
 create a new session with given data
 
-  my $SessionID = $SessionObject->CreateSessionID(
-      UserLogin => 'root',
-      UserEmail => 'root@example.com',
-  );
+    my $SessionID = $SessionObject->CreateSessionID(
+        UserLogin => 'root',
+        UserEmail => 'root@example.com',
+    );
 
 =cut
 
@@ -156,7 +155,7 @@ sub CreateSessionID {
 removes a session and returns true (session deleted), false (if
 session can't get deleted)
 
-  $SessionObject->RemoveSessionID(SessionID => '1234567890123456');
+    $SessionObject->RemoveSessionID(SessionID => '1234567890123456');
 
 =cut
 
@@ -171,11 +170,11 @@ sub RemoveSessionID {
 update session info by key and value, returns true (if ok) and
 false (if can't update)
 
-  $SessionObject->UpdateSessionID(
-      SessionID => '1234567890123456',
-      Key => 'LastScreenView',
-      Value => 'SomeInfo',
-  );
+    $SessionObject->UpdateSessionID(
+        SessionID => '1234567890123456',
+        Key => 'LastScreenView',
+        Value => 'SomeInfo',
+    );
 
 =cut
 
@@ -196,10 +195,10 @@ sub UpdateSessionID {
 
 returns a array with expired session ids
 
-  my @Sessions = $SessionObject->GetExpiredSessionIDs();
+    my @Sessions = $SessionObject->GetExpiredSessionIDs();
 
-  my @ExpiredSession = @{$Session[0]};
-  my @ExpiredIdle = @{$Session[1]};
+    my @ExpiredSession = @{$Session[0]};
+    my @ExpiredIdle = @{$Session[1]};
 
 =cut
 
@@ -231,7 +230,7 @@ sub GetExpiredSessionIDs {
 
 returns a array with all session ids
 
-  my @Sessions = $SessionObject->GetAllSessionIDs();
+    my @Sessions = $SessionObject->GetAllSessionIDs();
 
 =cut
 
@@ -245,7 +244,7 @@ sub GetAllSessionIDs {
 
 clean up of sessions in your system
 
-  $SessionObject->CleanUp();
+    $SessionObject->CleanUp();
 
 =cut
 
@@ -255,6 +254,8 @@ sub CleanUp {
     return $Self->{Backend}->CleanUp(%Param);
 }
 1;
+
+=back
 
 =head1 TERMS AND CONDITIONS
 
@@ -266,6 +267,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2006-08-29 17:30:35 $
+$Revision: 1.27 $ $Date: 2006-12-14 12:06:48 $
 
 =cut

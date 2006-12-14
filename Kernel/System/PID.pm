@@ -2,7 +2,7 @@
 # Kernel/System/PID.pm - all system pid functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PID.pm,v 1.4 2006-08-29 17:30:36 martin Exp $
+# $Id: PID.pm,v 1.5 2006-12-14 12:12:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PID;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -35,24 +35,24 @@ All functions to manage process ids
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::PID;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::PID;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $PIDObject = Kernel::System::PID->new(
-      LogObject => $LogObject,
-      ConfigObject => $ConfigObject,
-      DBObject => $DBObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $PIDObject = Kernel::System::PID->new(
+        LogObject => $LogObject,
+        ConfigObject => $ConfigObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -217,6 +217,8 @@ sub PIDDelete {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -229,6 +231,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.5 $ $Date: 2006-12-14 12:12:12 $
 
 =cut

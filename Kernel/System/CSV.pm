@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.7 2006-10-17 12:36:04 martin Exp $
+# $Id: CSV.pm,v 1.8 2006-12-14 12:07:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CSV;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -33,16 +33,16 @@ All csv functions.
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
+    use Kernel::Config;
+    use Kernel::System::Log;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $CSVObject = Kernel::System::CSV->new(
-      LogObject => $LogObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $CSVObject = Kernel::System::CSV->new(
+        LogObject => $LogObject,
+    );
 
 =cut
 
@@ -111,10 +111,10 @@ sub Array2CSV {
     # fill in data
     foreach my $EntryRow (@Data) {
         foreach my $Entry (@{$EntryRow}) {
-              # csv quote
-              $Entry =~ s/"/""/g if ($Entry);
-              $Entry = '' if (!defined($Entry));
-              $Output .= "\"$Entry\";";
+            # csv quote
+            $Entry =~ s/"/""/g if ($Entry);
+            $Entry = '' if (!defined($Entry));
+            $Output .= "\"$Entry\";";
         }
         $Output .= "\n";
     }
@@ -164,6 +164,8 @@ sub CSV2Array {
 }
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -174,6 +176,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2006-10-17 12:36:04 $
+$Revision: 1.8 $ $Date: 2006-12-14 12:07:58 $
 
 =cut

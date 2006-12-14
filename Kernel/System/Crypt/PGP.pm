@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.12 2006-08-29 17:31:04 martin Exp $
+# $Id: PGP.pm,v 1.13 2006-12-14 12:09:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::PGP;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -32,10 +32,9 @@ This is a sub module of Kernel::System::Crypt and contains all pgp functions.
 =cut
 
 # just for internal
-sub Init {
+sub _Init {
     my $Self = shift;
     my %Param = @_;
-
 
     $Self->{GPGBin} = $Self->{ConfigObject}->Get('PGP::Bin') || '/usr/bin/gpg';
     $Self->{Options} = $Self->{ConfigObject}->Get('PGP::Options') || '--batch --no-tty --yes';
@@ -49,7 +48,7 @@ sub Init {
 
 check if environment is working
 
-  my $Message = $CryptObject->Check();
+    my $Message = $CryptObject->Check();
 
 =cut
 
@@ -70,10 +69,10 @@ sub Check {
 
 crypt a message
 
-  my $Message = $CryptObject->Crypt(
-      Message => $Message,
-      Key => $PGPPublicKeyID,
-  );
+    my $Message = $CryptObject->Crypt(
+        Message => $Message,
+        Key => $PGPPublicKeyID,
+    );
 
 =cut
 
@@ -84,10 +83,10 @@ sub Crypt {
     my $UsedKey = '';
     # check needed stuff
     foreach (qw(Message Key)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
     my ($FHCrypt, $FilenameCrypt) = $Self->{FileTempObject}->TempFile();
@@ -116,9 +115,9 @@ sub Crypt {
 
 decrypt a message and returns a hash (Successful, Message, Data)
 
-  my %Message = $CryptObject->Decrypt(
-      Message => $CryptedMessage,
-  );
+    my %Message = $CryptObject->Decrypt(
+        Message => $CryptedMessage,
+    );
 
 =cut
 
@@ -129,10 +128,10 @@ sub Decrypt {
     my $Decrypt = '';
     # check needed stuff
     foreach (qw(Message)) {
-      if (!defined($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
     my ($FHDecrypt, $FilenameDecrypt) = $Self->{FileTempObject}->TempFile();
@@ -183,11 +182,11 @@ sub Decrypt {
 
 sign a message
 
-  my $Sign = $CryptObject->Sign(
-      Message => $Message,
-      Key => $PGPPrivateKeyID,
-      Type => 'Detached'  # Detached|Inline
-  );
+    my $Sign = $CryptObject->Sign(
+        Message => $Message,
+        Key => $PGPPrivateKeyID,
+        Type => 'Detached'  # Detached|Inline
+    );
 
 =cut
 
@@ -199,10 +198,10 @@ sub Sign {
     my $AddParams = '';
     # check needed stuff
     foreach (qw(Message Key)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my $Pw = '';
     my %Password = %{$Self->{ConfigObject}->Get('PGP::Key::Password')};
@@ -247,16 +246,16 @@ verify a message signature and returns a hash (Successful, Message, Data)
 
 Inline sign:
 
-  my %Data = $CryptObject->Verify(
-      Message => $Message,
-  );
+    my %Data = $CryptObject->Verify(
+        Message => $Message,
+    );
 
 Attached sign:
 
-  my %Data = $CryptObject->Verify(
-      Message => $Message,
-      Sign => $Sign,
-  );
+    my %Data = $CryptObject->Verify(
+        Message => $Message,
+        Sign => $Sign,
+    );
 
 =cut
 
@@ -307,9 +306,9 @@ sub Verify {
 
 returns a array with serach result (private and public keys)
 
-  my @Keys = $CryptObject->KeySearch(
-      Search => 'something to search'
-  );
+    my @Keys = $CryptObject->KeySearch(
+        Search => 'something to search'
+    );
 
 =cut
 
@@ -326,9 +325,9 @@ sub KeySearch {
 
 returns a array with serach result (private keys)
 
-  my @Keys = $CryptObject->PrivateKeySearch(
-      Search => 'something to search'
-  );
+    my @Keys = $CryptObject->PrivateKeySearch(
+        Search => 'something to search'
+    );
 
 =cut
 
@@ -382,9 +381,9 @@ sub PrivateKeySearch {
 
 returns a array with serach result (public keys)
 
-  my @Keys = $CryptObject->PublicKeySearch(
-      Search => 'something to search'
-  );
+    my @Keys = $CryptObject->PublicKeySearch(
+        Search => 'something to search'
+    );
 
 =cut
 
@@ -432,9 +431,9 @@ sub PublicKeySearch {
 
 returns public key in ascii
 
-  my $Key = $CryptObject->PublicKeyGet(
-      Key => $KeyID,
-  );
+    my $Key = $CryptObject->PublicKeyGet(
+        Key => $KeyID,
+    );
 
 =cut
 
@@ -457,9 +456,9 @@ sub PublicKeyGet {
 
 returns secret key in ascii
 
-  my $Key = $CryptObject->SecretKeyGet(
-      Key => $KeyID,
-  );
+    my $Key = $CryptObject->SecretKeyGet(
+        Key => $KeyID,
+    );
 
 =cut
 
@@ -482,9 +481,9 @@ sub SecretKeyGet {
 
 remove public key from key ring
 
-  $CryptObject->PublicKeyDelete(
-      Key => $KeyID,
-  );
+    $CryptObject->PublicKeyDelete(
+        Key => $KeyID,
+    );
 
 =cut
 
@@ -507,9 +506,9 @@ sub PublicKeyDelete {
 
 remove secret key from key ring
 
-  $CryptObject->SecretKeyDelete(
-      Key => $KeyID,
-  );
+    $CryptObject->SecretKeyDelete(
+        Key => $KeyID,
+    );
 
 =cut
 
@@ -532,9 +531,9 @@ sub SecretKeyDelete {
 
 add key to key ring
 
-  my $Message = $CryptObject->KeyAdd(
-      Key => $KeyString,
-  );
+    my $Message = $CryptObject->KeyAdd(
+        Key => $KeyString,
+    );
 
 =cut
 
@@ -579,6 +578,8 @@ sub _CryptedWithKey {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -591,6 +592,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2006-08-29 17:31:04 $
+$Revision: 1.13 $ $Date: 2006-12-14 12:09:49 $
 
 =cut

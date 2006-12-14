@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.20 2006-11-23 11:17:07 tr Exp $
+# $Id: Email.pm,v 1.21 2006-12-14 12:13:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -42,6 +42,7 @@ create a object
 
     use Kernel::Config;
     use Kernel::System::Log;
+    use Kernel::System::Main;
     use Kernel::System::Time;
     use Kernel::System::DB;
     use Kernel::System::Email;
@@ -50,17 +51,23 @@ create a object
     my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
+    my $MainObject   = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
     my $TimeObject    = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
+        MainObject => $MainObject,
         LogObject => $LogObject,
     );
     my $SendObject = Kernel::System::Email->new(
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
         DBObject => $DBObject,
+        MainObject => $MainObject,
         TimeObject => $TimeObject,
     );
 
@@ -79,14 +86,14 @@ sub new {
     # debug level
     $Self->{Debug} = $Param{Debug} || 0;
     # check all needed objects
-    foreach (qw(ConfigObject LogObject DBObject TimeObject)) {
+    foreach (qw(ConfigObject LogObject DBObject TimeObject MainObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
     # load generator backend module
     my $GenericModule = $Self->{ConfigObject}->Get('SendmailModule')
-      || 'Kernel::System::Email::Sendmail';
-    if (!eval "require $GenericModule") {
-        die "Can't load sendmail backend module $GenericModule! $@";
+        || 'Kernel::System::Email::Sendmail';
+    if (!$Self->{MainObject}->Require($GenericModule)) {
+        return;
     }
     # create backend object
     $Self->{Backend} = $GenericModule->new(%Param);
@@ -115,14 +122,14 @@ To send an email without already created header:
         Loop => 1, # not required, removes smtp from
         Attachment => [
             {
-              Filename    => "somefile.csv",
-              Content     => $ContentCSV,
-              ContentType => "text/csv",
+                Filename    => "somefile.csv",
+                Content     => $ContentCSV,
+                ContentType => "text/csv",
             }
             {
-              Filename    => "somefile.png",
-              Content     => $ContentPNG,
-              ContentType => "image/png",
+                Filename    => "somefile.png",
+                Content     => $ContentPNG,
+                ContentType => "image/png",
             }
         ],
         Sign => {
@@ -561,6 +568,8 @@ sub _MessageIDCreate {
 }
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -573,6 +582,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2006-11-23 11:17:07 $
+$Revision: 1.21 $ $Date: 2006-12-14 12:13:55 $
 
 =cut

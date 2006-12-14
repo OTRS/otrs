@@ -2,7 +2,7 @@
 # Kernel/System/FileTemp.pm - tmp files
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FileTemp.pm,v 1.5 2006-08-29 17:30:36 martin Exp $
+# $Id: FileTemp.pm,v 1.6 2006-12-14 12:07:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use File::Temp qw/ tempfile tempdir /;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -37,14 +37,14 @@ This module is managing tmp files.
 
 create a tmp file object
 
-  use Kernel::Config;
-  use Kernel::System::FileTemp;
+    use Kernel::Config;
+    use Kernel::System::FileTemp;
 
-  my $ConfigObject = Kernel::Config->new();
+    my $ConfigObject = Kernel::Config->new();
 
-  my $TempObject = Kernel::System::FileTemp->new(
-      ConfigObject => $ConfigObject,
-  );
+    my $TempObject = Kernel::System::FileTemp->new(
+        ConfigObject => $ConfigObject,
+    );
 
 =cut
 
@@ -115,6 +115,8 @@ sub DESTROY {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -127,6 +129,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.6 $ $Date: 2006-12-14 12:07:58 $
 
 =cut

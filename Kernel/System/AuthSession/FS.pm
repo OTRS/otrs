@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.19 2006-08-29 17:31:42 martin Exp $
+# $Id: FS.pm,v 1.20 2006-12-14 12:06:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,10 +17,9 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -44,7 +43,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub CheckSessionID {
     my $Self = shift;
     my %Param = @_;
@@ -58,18 +57,18 @@ sub CheckSessionID {
     if (!$Data{UserID} || !$Data{UserLogin}) {
         $Self->{CheckSessionIDMessage} = "SessionID invalid! Need user data!";
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "SessionID: '$SessionID' is invalid!!!",
+            Priority => 'notice',
+            Message => "SessionID: '$SessionID' is invalid!!!",
         );
         return;
     }
     # remote ip check
     if ( $Data{UserRemoteAddr} ne $RemoteAddr &&
-          $Self->{ConfigObject}->Get('SessionCheckRemoteIP') ) {
+        $Self->{ConfigObject}->Get('SessionCheckRemoteIP') ) {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "RemoteIP of '$SessionID' ($Data{UserRemoteAddr}) is different with the ".
-           "request IP ($RemoteAddr). Don't grant access!!!",
+            Priority => 'notice',
+            Message => "RemoteIP of '$SessionID' ($Data{UserRemoteAddr}) is different with the ".
+                "request IP ($RemoteAddr). Don't grant access!!!",
         );
         # delete session id if it isn't the same remote ip?
         if ($Self->{ConfigObject}->Get('SessionDeleteIfNotRemoteID')) {
@@ -80,11 +79,11 @@ sub CheckSessionID {
     # check session idle time
     my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
     if ( ($Self->{TimeObject}->SystemTime() - $MaxSessionIdleTime) >= $Data{UserLastRequest} ) {
-         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
-         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "SessionID ($SessionID) idle timeout (". int(($Self->{TimeObject}->SystemTime() - $Data{UserLastRequest})/(60*60))
-          ."h)! Don't grant access!!!",
+        $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "SessionID ($SessionID) idle timeout (". int(($Self->{TimeObject}->SystemTime() - $Data{UserLastRequest})/(60*60))
+                ."h)! Don't grant access!!!",
         );
         # delete session id if too old?
         if ($Self->{ConfigObject}->Get('SessionDeleteIfTimeToOld')) {
@@ -95,11 +94,11 @@ sub CheckSessionID {
     # check session time
     my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
     if ( ($Self->{TimeObject}->SystemTime() - $MaxSessionTime) >= $Data{UserSessionStart} ) {
-         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
-         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "SessionID ($SessionID) too old (". int(($Self->{TimeObject}->SystemTime() - $Data{UserSessionStart})/(60*60))
-          ."h)! Don't grant access!!!",
+        $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "SessionID ($SessionID) too old (". int(($Self->{TimeObject}->SystemTime() - $Data{UserSessionStart})/(60*60))
+                ."h)! Don't grant access!!!",
         );
         # delete session id if too old?
         if ($Self->{ConfigObject}->Get('SessionDeleteIfTimeToOld')) {
@@ -109,13 +108,13 @@ sub CheckSessionID {
     }
     return 1;
 }
-# --
+
 sub CheckSessionIDMessage {
     my $Self = shift;
     my %Param = @_;
     return $Self->{CheckSessionIDMessage} || '';
 }
-# --
+
 sub GetSessionIDData {
     my $Self = shift;
     my %Param = @_;
@@ -148,7 +147,7 @@ sub GetSessionIDData {
 
     return %Data;
 }
-# --
+
 sub CreateSessionID {
     my $Self = shift;
     my %Param = @_;
@@ -174,14 +173,20 @@ sub CreateSessionID {
     $DataToStore .= "UserRemoteAddr:". encode_base64($RemoteAddr, '') ."\n";
     $DataToStore .= "UserRemoteUserAgent:". encode_base64($RemoteUserAgent, '') ."\n";
     # store SessionID + data
-    open (SESSION, ">> $Self->{SessionSpool}/$SessionID")
-            || die "Can't create $Self->{SessionSpool}/$SessionID: $!";
-    print SESSION "$DataToStore";
-    close (SESSION);
-
-    return $SessionID;
+    if (open (SESSION, ">> $Self->{SessionSpool}/$SessionID")) {
+        print SESSION "$DataToStore";
+        close (SESSION);
+        return $SessionID;
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't create $Self->{SessionSpool}/$SessionID: $!",
+        );
+        return;
+    }
 }
-# --
+
 sub RemoveSessionID {
     my $Self = shift;
     my %Param = @_;
@@ -204,13 +209,21 @@ sub RemoveSessionID {
         return 0;
     }
 }
-# --
+
 sub UpdateSessionID {
     my $Self = shift;
     my %Param = @_;
-    my $Key = $Param{Key} || die 'No Key!';
+    my $Key = defined($Param{Key}) ? $Param{Key} : '';
     my $Value = defined($Param{Value}) ? $Param{Value} : '';
-    my $SessionID = $Param{SessionID} || die 'No SessionID!';
+    my $SessionID = $Param{SessionID};
+    # check needed stuff
+    if (!$SessionID) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need SessionID!",
+        );
+        return;
+    }
     my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
     # update the value
     $SessionData{$Key} = $Value;
@@ -222,20 +235,26 @@ sub UpdateSessionID {
         # Debug
         if ($Self->{Debug}) {
             $Self->{LogObject}->Log(
-              Priority => 'debug',
-              Message => "UpdateSessionID: $_=$SessionData{$_}",
+                Priority => 'debug',
+                Message => "UpdateSessionID: $_=$SessionData{$_}",
             );
         }
     }
     # update fs file
-    open (SESSION, "> $Self->{SessionSpool}/$SessionID")
-         || die "Can't write $Self->{SessionSpool}/$SessionID: $!";
-    print SESSION "$NewDataToStore";
-    close (SESSION);
-
-    return 1;
+    if (open (SESSION, "> $Self->{SessionSpool}/$SessionID")) {
+        print SESSION $NewDataToStore;
+        close (SESSION);
+        return 1;
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't write $Self->{SessionSpool}/$SessionID: $!",
+        );
+        return;
+    }
 }
-# --
+
 sub GetAllSessionIDs {
     my $Self = shift;
     my %Param = @_;
@@ -243,12 +262,12 @@ sub GetAllSessionIDs {
     # read data
     my @List = glob("$Self->{SessionSpool}/$Self->{SystemID}*");
     foreach my $SessionID (@List) {
-       $SessionID =~ s!^.*/!!;
-       push (@SessionIDs, $SessionID);
+        $SessionID =~ s!^.*/!!;
+        push (@SessionIDs, $SessionID);
     }
     return @SessionIDs;
 }
-# --
+
 sub CleanUp {
     my $Self = shift;
     my %Param = @_;
@@ -261,6 +280,5 @@ sub CleanUp {
     }
     return 1;
 }
-# --
 
 1;

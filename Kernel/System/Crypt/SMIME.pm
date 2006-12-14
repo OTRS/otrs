@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.9 2006-08-29 17:31:04 martin Exp $
+# $Id: SMIME.pm,v 1.10 2006-12-14 12:09:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::SMIME;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -31,7 +31,7 @@ This is a sub module of Kernel::System::Crypt and contains all smime functions.
 
 =cut
 
-sub Init {
+sub _Init {
     my $Self = shift;
     my %Param = @_;
 
@@ -53,7 +53,7 @@ sub Init {
 
 check if environment is working
 
-  my $Message = $CryptObject->Check();
+    my $Message = $CryptObject->Check();
 
 =cut
 
@@ -91,10 +91,10 @@ sub Check {
 
 crypt a message
 
-  my $Message = $CryptObject->Crypt(
-      Message => $Message,
-      Hash => $CertificateHash,
-  );
+    my $Message = $CryptObject->Crypt(
+        Message => $Message,
+        Hash => $CertificateHash,
+    );
 
 =cut
 
@@ -105,10 +105,10 @@ sub Crypt {
     my $UsedKey = '';
     # check needed stuff
     foreach (qw(Message Hash)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my $Certificate = $Self->CertificateGet(%Param);
     my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
@@ -139,10 +139,10 @@ sub Crypt {
 
 decrypt a message and returns a hash (Successful, Message, Data)
 
-  my %Message = $CryptObject->Decrypt(
-      Message => $CryptedMessage,
-      Hash => $PrivateKeyHash,
-  );
+    my %Message = $CryptObject->Decrypt(
+        Message => $CryptedMessage,
+        Hash => $PrivateKeyHash,
+    );
 
 =cut
 
@@ -153,10 +153,10 @@ sub Decrypt {
     my $UsedKey = '';
     # check needed stuff
     foreach (qw(Message Hash)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my ($Private, $Secret) = $Self->PrivateGet(%Param);
     my $Certificate = $Self->CertificateGet(%Param);
@@ -198,10 +198,10 @@ sub Decrypt {
 
 sign a message
 
-  my $Sign = $CryptObject->Sign(
-      Message => $Message,
-      Hash => $PrivateKeyHash,
-  );
+    my $Sign = $CryptObject->Sign(
+        Message => $Message,
+        Hash => $PrivateKeyHash,
+    );
 
 =cut
 
@@ -212,10 +212,10 @@ sub Sign {
     my $UsedKey = '';
     # check needed stuff
     foreach (qw(Message Hash)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my ($Private, $Secret) = $Self->PrivateGet(%Param);
     my $Certificate = $Self->CertificateGet(%Param);
@@ -249,9 +249,9 @@ sub Sign {
 
 verify a message with signature and returns a hash (Successful, Message, SignerCertificate)
 
-  my %Data = $CryptObject->Verify(
-      Message => $Message,
-  );
+    my %Data = $CryptObject->Verify(
+        Message => $Message,
+    );
 
 =cut
 
@@ -331,9 +331,9 @@ sub Verify {
 
 search a certifcate or an private key
 
-  my @Result = $CryptObject->Search(
-      Search => 'some text to search',
-  );
+    my @Result = $CryptObject->Search(
+        Search => 'some text to search',
+    );
 
 =cut
 
@@ -349,9 +349,9 @@ sub Search {
 
 search a local certifcate
 
-  my @Result = $CryptObject->CertificateSearch(
-      Search => 'some text to search',
-  );
+    my @Result = $CryptObject->CertificateSearch(
+        Search => 'some text to search',
+    );
 
 =cut
 
@@ -386,9 +386,9 @@ sub CertificateSearch {
 
 add a certificate to local certificates
 
-  $CryptObject->CertificateAdd(
-      Certificate => $CertificateString,
-  );
+    $CryptObject->CertificateAdd(
+        Certificate => $CertificateString,
+    );
 
 =cut
 
@@ -423,9 +423,9 @@ sub CertificateAdd {
 
 get a local certificate
 
-  my $Certificate = $CryptObject->CertificateGet(
-      Hash => $CertificateHash,
-  );
+    my $Certificate = $CryptObject->CertificateGet(
+        Hash => $CertificateHash,
+    );
 
 =cut
 
@@ -456,9 +456,9 @@ sub CertificateGet {
 
 remove a local certificate
 
-  $CryptObject->CertificateRemove(
-      Hash => $CertificateHash,
-  );
+    $CryptObject->CertificateRemove(
+        Hash => $CertificateHash,
+    );
 
 =cut
 
@@ -478,7 +478,7 @@ sub CertificateRemove {
 
 get list of local certificates
 
-  my @HashList = $CryptObject->CertificateList();
+    my @HashList = $CryptObject->CertificateList();
 
 =cut
 
@@ -488,9 +488,9 @@ sub CertificateList {
     my @Hash = ();
     my @List = glob("$Self->{CertPath}/*.0");
     foreach my $File (@List) {
-       $File =~ s!^.*/!!;
-       $File =~ s/(.*)\.0/$1/;
-       push (@Hash, $File);
+        $File =~ s!^.*/!!;
+        $File =~ s/(.*)\.0/$1/;
+        push (@Hash, $File);
     }
     return @Hash;
 }
@@ -499,9 +499,9 @@ sub CertificateList {
 
 get certificate attributes
 
-  my %CertificateArrtibutes = $CryptObject->CertificateAttributes(
-      Certificate => $CertificateString,
-  );
+    my %CertificateArrtibutes = $CryptObject->CertificateAttributes(
+        Certificate => $CertificateString,
+    );
 
 =cut
 
@@ -621,9 +621,9 @@ sub CertificateAttributes {
 
 returns private keys
 
-  my @Result = $CryptObject->PrivateSearch(
-      Search => 'some text to search',
-  );
+    my @Result = $CryptObject->PrivateSearch(
+        Search => 'some text to search',
+    );
 
 =cut
 
@@ -660,10 +660,10 @@ sub PrivateSearch {
 
 add private key
 
-  my $Message = $CryptObject->PrivateAdd(
-      Private => $PrivateKeyString,
-      Secret => 'Password',
-  );
+    my $Message = $CryptObject->PrivateAdd(
+        Private => $PrivateKeyString,
+        Secret => 'Password',
+    );
 
 =cut
 
@@ -684,11 +684,17 @@ sub PrivateAdd {
     # get certificate hash
     my @Certificates = $Self->CertificateSearch(Search => $Attributes{Modulus});
     if (!@Certificates) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Certificate of Private Key first -$Attributes{Modulus})!");
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need Certificate of Private Key first -$Attributes{Modulus})!",
+        );
         return;
     }
     elsif ($#Certificates > 0) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Multible Certificates with the same Modulus, can't add Private Key!");
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Multible Certificates with the same Modulus, can't add Private Key!",
+        );
         return;
     }
     my %CertificateAttributes = $Self->CertificateAttributes(
@@ -720,9 +726,9 @@ sub PrivateAdd {
 
 get private key
 
-  my ($PrivateKey, $Secret) = $CryptObject->PrivateGet(
-      Hash => $PrivateKeyHash,
-  );
+    my ($PrivateKey, $Secret) = $CryptObject->PrivateGet(
+        Hash => $PrivateKeyHash,
+    );
 
 =cut
 
@@ -767,9 +773,9 @@ sub PrivateGet {
 
 remove private key
 
-  $CryptObject->PrivateRemove(
-      Hash => $PrivateKeyHash,
-  );
+    $CryptObject->PrivateRemove(
+        Hash => $PrivateKeyHash,
+    );
 
 =cut
 
@@ -790,7 +796,7 @@ sub PrivateRemove {
 
 returns a list of private key hashs
 
-  my @Hash = $CryptObject->PrivateList();
+    my @Hash = $CryptObject->PrivateList();
 
 =cut
 
@@ -800,9 +806,9 @@ sub PrivateList {
     my @Hash = ();
     my @List = glob("$Self->{PrivatePath}/*.0");
     foreach my $File (@List) {
-       $File =~ s!^.*/!!;
-       $File =~ s/(.*)\.0/$1/;
-       push (@Hash, $File);
+        $File =~ s!^.*/!!;
+        $File =~ s/(.*)\.0/$1/;
+        push (@Hash, $File);
     }
     return @Hash;
 
@@ -812,10 +818,10 @@ sub PrivateList {
 
 returns attributes of private key
 
-  my %Hash = $CryptObject->PrivateAttributes(
-      Private => $PrivateKeyString,
-      Secret => 'Password',
-  );
+    my %Hash = $CryptObject->PrivateAttributes(
+        Private => $PrivateKeyString,
+        Secret => 'Password',
+    );
 
 =cut
 
@@ -855,6 +861,8 @@ sub PrivateAttributes {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -867,6 +875,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2006-08-29 17:31:04 $
+$Revision: 1.10 $ $Date: 2006-12-14 12:09:49 $
 
 =cut
