@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.234 2006-12-14 12:22:58 martin Exp $
+# $Id: Ticket.pm,v 1.235 2006-12-14 14:18:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.234 $';
+$VERSION = '$Revision: 1.235 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -58,6 +58,7 @@ create a object
     use Kernel::Config;
     use Kernel::System::Time;
     use Kernel::System::Log;
+    use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::Ticket;
 
@@ -68,14 +69,20 @@ create a object
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
+    my $MainObject = Kernel::System::Main->new(
+        LogObject => $LogObject,
+        ConfigObject => $ConfigObject,
+    );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
+        MainObject => $MainObject,
         LogObject => $LogObject,
     );
     my $TicketObject = Kernel::System::Ticket->new(
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
         DBObject => $DBObject,
+        MainObject => $MainObject,
         TimeObject => $TimeObject,
     );
 
@@ -5017,6 +5024,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.234 $ $Date: 2006-12-14 12:22:58 $
+$Revision: 1.235 $ $Date: 2006-12-14 14:18:50 $
 
 =cut
