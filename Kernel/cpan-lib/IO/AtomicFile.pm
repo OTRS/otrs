@@ -17,7 +17,7 @@ use IO::File;
 use vars qw($VERSION @ISA);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = substr q$R vision: 2.101 $, 10;
+$VERSION = "2.110";
 
 # Inheritance:
 @ISA = qw(IO::File);
@@ -179,12 +179,18 @@ building.
 
 =head1 AUTHOR
 
+=head2 Primary Maintainer
+
+David F. Skoll (F<dfs@roaringpenguin.com>).
+
+=head2 Original Author
+
 Eryq (F<eryq@zeegee.com>).
 President, ZeeGee Software Inc (F<http://www.zeegee.com>).
 
 
 =head1 REVISION
 
-$Revision: 1.2 $
+$Revision: 1.3 $
 
 =cut 

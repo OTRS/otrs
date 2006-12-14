@@ -150,7 +150,7 @@ use vars qw($VERSION @ISA);
 use IO::Handle;
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = substr q$R vision: 2.103 $, 10;
+$VERSION = "2.110";
 
 # Inheritance:
 @ISA = qw(IO::Handle);
@@ -266,7 +266,7 @@ No-op, provided for OO compatibility.
 
 =cut
 
-sub flush {} 
+sub flush { "0 but true" } 
 
 #------------------------------
 
@@ -305,6 +305,8 @@ sub getline {
 
     ### Case 1: $/ is undef: slurp all...    
     if    (!defined($/)) {
+
+        return undef if ($self->eof);
 
 	### Get the rest of the current string, followed by remaining strings:
 	my $ar = *$self->{AR};
@@ -383,7 +385,7 @@ and generates a new array entry.  This may change in the future.
 
 sub print {
     my $self = shift;
-    push @{*$self->{AR}}, join('', @_);      ### add the data
+    push @{*$self->{AR}}, join('', @_) . (defined($\) ? $\ : "");      ### add the data
     $self->_setpos_to_eof;
     1;
 }
@@ -542,6 +544,7 @@ sub seek {
     elsif ($whence == 1) { $self->_seek_cur($pos); }
     elsif ($whence == 2) { $self->_seek_end($pos); }
     else                 { croak "bad seek whence ($whence)" }
+    return 1;
 }
 
 #------------------------------
@@ -749,10 +752,14 @@ use the OO version; e.g.:
 
 =head1 VERSION
 
-$Id: ScalarArray.pm,v 1.2 2003-01-16 18:54:03 martin Exp $
+$Id: ScalarArray.pm,v 1.3 2006-12-14 19:24:50 mh Exp $
 
 
 =head1 AUTHOR
+
+=head2 Primary Maintainer
+
+David F. Skoll (F<dfs@roaringpenguin.com>).
 
 =head2 Principal author
 

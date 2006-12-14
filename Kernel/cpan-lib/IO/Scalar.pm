@@ -16,27 +16,27 @@ Perform I/O on strings, using the basic OO interface...
 
     ### Open a handle on a string, and append to it:
     $SH = new IO::Scalar \$data;
-    $SH->print("Hello");       
-    $SH->print(", world!\nBye now!\n");  
+    $SH->print("Hello");
+    $SH->print(", world!\nBye now!\n");
     print "The string is now: ", $data, "\n";
 
     ### Open a handle on a string, read it line-by-line, then close it:
     $SH = new IO::Scalar \$data;
-    while (defined($_ = $SH->getline)) { 
+    while (defined($_ = $SH->getline)) {
 	print "Got line: $_";
     }
     $SH->close;
 
     ### Open a handle on a string, and slurp in all the lines:
     $SH = new IO::Scalar \$data;
-    print "All lines:\n", $SH->getlines; 
+    print "All lines:\n", $SH->getlines;
 
     ### Get the current position (either of two ways):
-    $pos = $SH->getpos;         
-    $offset = $SH->tell;  
+    $pos = $SH->getpos;
+    $offset = $SH->tell;
 
     ### Set the current position (either of two ways):
-    $SH->setpos($pos);        
+    $SH->setpos($pos);
     $SH->seek($offset, 0);
 
     ### Open an anonymous temporary scalar:
@@ -45,17 +45,17 @@ Perform I/O on strings, using the basic OO interface...
     print "I printed: ", ${$SH->sref}, "\n";      ### get at value
 
 
-Don't like OO for your I/O?  No problem.  
-Thanks to the magic of an invisible tie(), the following now 
+Don't like OO for your I/O?  No problem.
+Thanks to the magic of an invisible tie(), the following now
 works out of the box, just as it does with IO::Handle:
 
     use 5.005;
     use IO::Scalar;
     $data = "My message:\n";
-     
+
     ### Open a handle on a string, and append to it:
     $SH = new IO::Scalar \$data;
-    print $SH "Hello";    
+    print $SH "Hello";
     print $SH ", world!\nBye now!\n";
     print "The string is now: ", $data, "\n";
 
@@ -88,16 +88,16 @@ though this is I<unnecessary and deprecated>:
     use IO::Scalar;
 
     ### Writing to a scalar...
-    my $s; 
+    my $s;
     tie *OUT, 'IO::Scalar', \$s;
     print OUT "line 1\nline 2\n", "line 3\n";
     print "String is now: $s\n"
 
-    ### Reading and writing an anonymous scalar... 
+    ### Reading and writing an anonymous scalar...
     tie *OUT, 'IO::Scalar';
     print OUT "line 1\nline 2\n", "line 3\n";
     tied(OUT)->seek(0,0);
-    while (<OUT>) { 
+    while (<OUT>) {
         print "Got line: ", $_;
     }
 
@@ -116,9 +116,9 @@ Stringification works, too!
 This class is part of the IO::Stringy distribution;
 see L<IO::Stringy> for change log and general information.
 
-The IO::Scalar class implements objects which behave just like 
-IO::Handle (or FileHandle) objects, except that you may use them 
-to write to (or read from) scalars.  These handles are 
+The IO::Scalar class implements objects which behave just like
+IO::Handle (or FileHandle) objects, except that you may use them
+to write to (or read from) scalars.  These handles are
 automatically tiehandle'd (though please see L<"WARNINGS">
 for information relevant to your Perl version).
 
@@ -137,9 +137,9 @@ Or this:
     print OUT "Hel", "lo, ";           ### non-OO style
     print OUT "world!\n";              ### ditto
 
-Causes $s to be set to:    
+Causes $s to be set to:
 
-    "Hello, world!\n" 
+    "Hello, world!\n"
 
 
 =head1 PUBLIC INTERFACE
@@ -155,10 +155,10 @@ use 5.005;
 
 ### Stringification, courtesy of B. K. Oxley (binkley):  :-)
 use overload '""'   => sub { ${*{$_[0]}->{SR}} };
-use overload 'bool' => sub { 1 };      ### have to do this, so object is true! 
+use overload 'bool' => sub { 1 };      ### have to do this, so object is true!
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = substr q$R vision: 2.104 $, 10;
+$VERSION = "2.110";
 
 ### Inheritance:
 @ISA = qw(IO::Handle);
@@ -168,7 +168,7 @@ require IO::WrapTie and push @ISA, 'IO::WrapTie::Slave' if ($] >= 5.004);
 
 #==============================
 
-=head2 Construction 
+=head2 Construction
 
 =over 4
 
@@ -179,7 +179,7 @@ require IO::WrapTie and push @ISA, 'IO::WrapTie::Slave' if ($] >= 5.004);
 =item new [ARGS...]
 
 I<Class method.>
-Return a new, unattached scalar handle.  
+Return a new, unattached scalar handle.
 If any arguments are given, they're sent to open().
 
 =cut
@@ -192,7 +192,7 @@ sub new {
     $self->open(@_);   ### open on anonymous by default
     $self;
 }
-sub DESTROY { 
+sub DESTROY {
     shift->close;
 }
 
@@ -268,14 +268,14 @@ sub close {
 
 #------------------------------
 
-=item flush 
+=item flush
 
 I<Instance method.>
 No-op, provided for OO compatibility.
 
 =cut
 
-sub flush {} 
+sub flush { "0 but true" }
 
 #------------------------------
 
@@ -290,7 +290,7 @@ sub getc {
     my $self = shift;
 
     ### Return undef right away if at EOF; else, move pos forward:
-    return undef if $self->eof;  
+    return undef if $self->eof;
     substr(${*$self->{SR}}, *$self->{Pos}++, 1);
 }
 
@@ -299,7 +299,7 @@ sub getc {
 =item getline
 
 I<Instance method.>
-Return the next line, or undef on end of string.  
+Return the next line, or undef on end of string.
 Can safely be called in an array context.
 Currently, lines are delimited by "\n".
 
@@ -319,14 +319,14 @@ sub getline {
     ### We do the fast fast thing (no regexps) if using the
     ### classic input record separator.
 
-    ### Case 1: $/ is undef: slurp all...    
+    ### Case 1: $/ is undef: slurp all...
     if    (!defined($/)) {
 	*$self->{Pos} = length $$sr;
         return substr($$sr, $i);
     }
 
     ### Case 2: $/ is "\n": zoom zoom zoom...
-    elsif ($/ eq "\012") {    
+    elsif ($/ eq "\012") {
 
         ### Seek ahead for "\n"... yes, this really is faster than regexps.
         my $len = length($$sr);
@@ -344,27 +344,33 @@ sub getline {
             $line = substr ($$sr, *$self->{Pos}, $i - *$self->{Pos});
             *$self->{Pos} = $len;
         }
-        return $line; 
+        return $line;
     }
 
-    ### Case 3: $/ is ref to int.  Bail out.
+    ### Case 3: $/ is ref to int. Do fixed-size records.
+    ###        (Thanks to Dominique Quatravaux.)
     elsif (ref($/)) {
-        croak '$/ given as a ref to int; currently unsupported';
+        my $len = length($$sr);
+		my $i = ${$/} + 0;
+		my $line = substr ($$sr, *$self->{Pos}, $i);
+		*$self->{Pos} += $i;
+        *$self->{Pos} = $len if (*$self->{Pos} > $len);
+		return $line;
     }
 
     ### Case 4: $/ is either "" (paragraphs) or something weird...
-    ###         This is Graham's general-purpose stuff, which might be 
+    ###         This is Graham's general-purpose stuff, which might be
     ###         a tad slower than Case 2 for typical data, because
     ###         of the regexps.
-    else {                
+    else {
         pos($$sr) = $i;
 
 	### If in paragraph mode, skip leading lines (and update i!):
-        length($/) or 
+        length($/) or
 	    (($$sr =~ m/\G\n*/g) and ($i = pos($$sr)));
 
         ### If we see the separator in the buffer ahead...
-        if (length($/)                       
+        if (length($/)
 	    ?  $$sr =~ m,\Q$/\E,g          ###   (ordinary sep) TBD: precomp!
             :  $$sr =~ m,\n\n,g            ###   (a paragraph)
             ) {
@@ -372,7 +378,7 @@ sub getline {
             return substr($$sr, $i, *$self->{Pos}-$i);
         }
         ### Else if no separator remains, just slurp the rest:
-        else {      
+        else {
             *$self->{Pos} = length $$sr;
             return substr($$sr, $i);
         }
@@ -402,9 +408,9 @@ sub getlines {
 =item print ARGS...
 
 I<Instance method.>
-Print ARGS to the underlying scalar.  
+Print ARGS to the underlying scalar.
 
-B<Warning:> this continues to always cause a seek to the end 
+B<Warning:> this continues to always cause a seek to the end
 of the string, but if you perform seek()s and tell()s, it is
 still safer to explicitly seek-to-end before subsequent print()s.
 
@@ -412,19 +418,19 @@ still safer to explicitly seek-to-end before subsequent print()s.
 
 sub print {
     my $self = shift;
-    *$self->{Pos} = length(${*$self->{SR}} .= join('', @_));
+    *$self->{Pos} = length(${*$self->{SR}} .= join('', @_) . (defined($\) ? $\ : ""));
     1;
 }
 sub _unsafe_print {
     my $self = shift;
-    my $append = join('', @_);
+    my $append = join('', @_) . $\;
     ${*$self->{SR}} .= $append;
-    *$self->{Pos}   += length($append);  
+    *$self->{Pos}   += length($append);
     1;
 }
 sub _old_print {
     my $self = shift;
-    ${*$self->{SR}} .= join('', @_);
+    ${*$self->{SR}} .= join('', @_) . $\;
     *$self->{Pos} = length(${*$self->{SR}});
     1;
 }
@@ -517,14 +523,14 @@ sub syswrite {
 
 #------------------------------
 
-=item autoflush 
+=item autoflush
 
 I<Instance method.>
 No-op, provided for OO compatibility.
 
 =cut
 
-sub autoflush {} 
+sub autoflush {}
 
 #------------------------------
 
@@ -535,7 +541,7 @@ No-op, provided for OO compatibility.
 
 =cut
 
-sub binmode {} 
+sub binmode {}
 
 #------------------------------
 
@@ -549,7 +555,7 @@ sub clearerr { 1 }
 
 #------------------------------
 
-=item eof 
+=item eof
 
 I<Instance method.>  Are we at end of file?
 
@@ -581,7 +587,7 @@ sub seek {
     ### Fixup:
     if (*$self->{Pos} < 0)       { *$self->{Pos} = 0 }
     if (*$self->{Pos} > $eofpos) { *$self->{Pos} = $eofpos }
-    1;
+    return 1;
 }
 
 #------------------------------
@@ -609,7 +615,7 @@ Return the current position in the stream, as a numeric offset.
 sub tell { *{shift()}->{Pos} }
 
 #------------------------------
-# 
+#
 # use_RS [YESNO]
 #
 # I<Instance method.>
@@ -634,7 +640,7 @@ sub setpos { shift->seek($_[0],0) }
 
 #------------------------------
 
-=item getpos 
+=item getpos
 
 I<Instance method.>
 Return the current position in the string, as an opaque object.
@@ -661,9 +667,9 @@ sub sref { *{shift()}->{SR} }
 #------------------------------
 
 # Conventional tiehandle interface:
-sub TIEHANDLE { 
+sub TIEHANDLE {
     ((defined($_[1]) && UNIVERSAL::isa($_[1], "IO::Scalar"))
-     ? $_[1] 
+     ? $_[1]
      : shift->new(@_));
 }
 sub GETC      { shift->getc(@_) }
@@ -695,7 +701,7 @@ __END__
 Perl's TIEHANDLE spec was incomplete prior to 5.005_57;
 it was missing support for C<seek()>, C<tell()>, and C<eof()>.
 Attempting to use these functions with an IO::Scalar will not work
-prior to 5.005_57. IO::Scalar will not have the relevant methods 
+prior to 5.005_57. IO::Scalar will not have the relevant methods
 invoked; and even worse, this kind of bug can lie dormant for a while.
 If you turn warnings on (via C<$^W> or C<perl -w>),
 and you see something like this...
@@ -712,11 +718,14 @@ use the OO version; e.g.:
 
 =head1 VERSION
 
-$Id: Scalar.pm,v 1.2 2003-01-16 18:54:03 martin Exp $
+$Id: Scalar.pm,v 1.3 2006-12-14 19:24:50 mh Exp $
 
 
 =head1 AUTHORS
 
+=head2 Primary Maintainer
+
+David F. Skoll (F<dfs@roaringpenguin.com>).
 
 =head2 Principal author
 
@@ -724,7 +733,7 @@ Eryq (F<eryq@zeegee.com>).
 President, ZeeGee Software Inc (F<http://www.zeegee.com>).
 
 
-=head2 Other contributors 
+=head2 Other contributors
 
 The full set of contributors always includes the folks mentioned
 in L<IO::Stringy/"CHANGE LOG">.  But just the same, special
@@ -741,7 +750,7 @@ I<David Richter,>
 for finding and fixing the bug in C<PRINTF()>.
 
 I<Eric L. Brine,>
-for his offset-using read() and write() implementations. 
+for his offset-using read() and write() implementations.
 
 I<Richard Jones,>
 for his patches to massively improve the performance of C<getline()>
@@ -758,10 +767,10 @@ for the IO::Handle inheritance and automatic tie-ing.
 =head1 SEE ALSO
 
 L<IO::String>, which is quite similar but which was designed
-more-recently and with an IO::Handle-like interface in mind, 
-so you could mix OO- and native-filehandle usage without using tied().  
+more-recently and with an IO::Handle-like interface in mind,
+so you could mix OO- and native-filehandle usage without using tied().
 
-I<Note:> as of version 2.x, these classes all work like 
+I<Note:> as of version 2.x, these classes all work like
 their IO::Handle counterparts, so we have comparable
 functionality to IO::String.
 

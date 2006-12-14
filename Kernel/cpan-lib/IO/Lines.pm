@@ -40,7 +40,7 @@ use IO::ScalarArray;
 use vars qw($VERSION @ISA);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = substr q$R vision: 2.103 $, 10;
+$VERSION = "2.110";
 
 # Inheritance:
 @ISA = qw(IO::ScalarArray);     ### also gets us new_tie  :-)
@@ -127,6 +127,10 @@ sub _getlines_for_newlines {
 # Print ARGS to the underlying line array.  
 #
 sub print {
+    if (defined $\ && $\ ne "\n") {
+	croak 'unsupported $\: must be "\n" or undef';
+    }
+
     my $self = shift;
     ### print STDERR "\n[[ARRAY WAS...\n", @{*$self->{AR}}, "<<EOF>>\n";
     my @lines = split /^/, join('', @_); @lines or return 1;
@@ -149,11 +153,15 @@ __END__
 
 =head1 VERSION
 
-$Id: Lines.pm,v 1.2 2003-01-16 18:54:03 martin Exp $
+$Id: Lines.pm,v 1.3 2006-12-14 19:24:50 mh Exp $
 
 
 =head1 AUTHORS
 
+
+=head2 Primary Maintainer
+
+David F. Skoll (F<dfs@roaringpenguin.com>).
 
 =head2 Principal author
 

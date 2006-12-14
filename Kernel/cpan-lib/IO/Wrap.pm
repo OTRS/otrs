@@ -13,7 +13,7 @@ use FileHandle;
 use Carp;
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = substr q$R vision: 2.102 $, 10;
+$VERSION = "2.110";
 
 
 #------------------------------
@@ -204,10 +204,16 @@ or as C<"Foo::FOO">.  However, C<"STDIN"> and friends will work just fine.
 
 =head1 VERSION
 
-$Id: Wrap.pm,v 1.2 2003-01-16 18:54:04 martin Exp $
+$Id: Wrap.pm,v 1.3 2006-12-14 19:24:50 mh Exp $
     
 
 =head1 AUTHOR
+
+=item Primary Maintainer
+
+David F. Skoll (F<dfs@roaringpenguin.com>).
+
+=item Original Author
 
 Eryq (F<eryq@zeegee.com>).
 President, ZeeGee Software Inc (F<http://www.zeegee.com>).
