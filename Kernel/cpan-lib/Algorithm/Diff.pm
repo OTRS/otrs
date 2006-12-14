@@ -5,14 +5,14 @@ use strict;
 use integer;    # see below in _replaceNextLargerWith() for mod to make
                 # if you don't use this
 use vars qw( $VERSION @EXPORT_OK );
-$VERSION = 1.19_01;
+$VERSION = 1.19_02;
 #          ^ ^^ ^^-- Incremented at will
 #          | \+----- Incremented for non-trivial changes to features
 #          \-------- Incremented for fundamental changes
 require Exporter;
 *import    = \&Exporter::import;
 @EXPORT_OK = qw(
-    prepare LCS LCDidx LCS_length
+    prepare LCS LCSidx LCS_length
     diff sdiff compact_diff
     traverse_sequences traverse_balanced
 );
@@ -803,14 +803,14 @@ Algorithm::Diff - Compute `intelligent' differences between two files / lists
         next   if  $diff->Same();
         my $sep = '';
         if(  ! $diff->Items(2)  ) {
-            sprintf "%d,%dd%d\n",
+            printf "%d,%dd%d\n",
                 $diff->Get(qw( Min1 Max1 Max2 ));
         } elsif(  ! $diff->Items(1)  ) {
-            sprint "%da%d,%d\n",
+            printf "%da%d,%d\n",
                 $diff->Get(qw( Max1 Min2 Max2 ));
         } else {
             $sep = "---\n";
-            sprintf "%d,%dc%d,%d\n",
+            printf "%d,%dc%d,%d\n",
                 $diff->Get(qw( Min1 Max1 Min2 Max2 ));
         }
         print "< $_"   for  $diff->Items(1);

@@ -1,6 +1,6 @@
 # This is a version of Algorithm::Diff that uses only a comparison function,
 # like versions <= 0.59 used to.
-# $Revision: 1.1 $
+# $Revision: 1.2 $
 
 package Algorithm::DiffOld;
 use strict;
@@ -185,7 +185,7 @@ sub _longestCommonSubsequence
 		# that matches $a->[ $i ], in reverse order
 		for ($j = $bFinish; $j >= $bStart; $j--)
 		{
-			next if ! &$compare( $a->[$i], $b->[$j] );
+			next if ! &$compare( $a->[$i], $b->[$j], @_ );
 			# optimization: most of the time this will be true
 			if ( $k
 				and $thresh->[ $k ] > $j
