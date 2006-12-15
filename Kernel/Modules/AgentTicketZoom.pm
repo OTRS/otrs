@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.30 2006-12-07 14:03:58 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.31 2006-12-15 14:11:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -312,11 +312,11 @@ sub MaskAgentZoom {
         );
         if ($Param{TicketOverTimeFont} && $Param{TicketOverTimeFontEnd}) {
             $Param{TicketOverTime} = $Param{TicketOverTimeFont}.$Param{TicketOverTimeLong}.'<br>'.
-                '<div title="$Text{"Serivce Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$TicketOverDate.'"}</div>'.$Param{TicketOverTimeFontEnd};
+                '<div title="$Text{"Service Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$TicketOverDate.'"}</div>'.$Param{TicketOverTimeFontEnd};
         }
         else {
             $Param{TicketOverTime} = $Param{TicketOverTimeLong}.'<br>'.
-                '<div title="$Text{"Serivce Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$TicketOverDate.'"}</div>';
+                '<div title="$Text{"Service Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$TicketOverDate.'"}</div>';
         }
     }
     else {
