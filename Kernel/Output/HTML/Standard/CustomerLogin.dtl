@@ -1,14 +1,15 @@
 # --
-# Login.dtl - provides customer HTML login screen
+# CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.18 2006-11-09 16:48:30 martin Exp $
+# $Id: CustomerLogin.dtl,v 1.19 2006-12-18 00:10:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 #
+
 # http headers
 $Include{"CustomerHeader"}
 
@@ -88,7 +89,7 @@ function submit_form()
               <td colspan="2"><i class="small">($Text{"Request new password"})</i></td>
             </tr>
           </table>
-          <input class="button" type="submit" value="$Text{"submit"}">
+          <input class="button" type="submit" value="$Text{"Submit"}">
         </form>
       </td>
     </tr>
@@ -111,7 +112,7 @@ function submit_form()
               <td>$Data{"Language"}</td>
             </tr>
           </table>
-          <input class="button" type="submit" value="$Text{"submit"}">
+          <input class="button" type="submit" value="$Text{"Submit"}">
         </td>
       </tr>
     </table>
@@ -154,7 +155,7 @@ function submit_form()
 #              <td> <input type="text" name="CustomerID" value="$QData{"UserCustomerID"}" size="25" maxlength="50"></td>
 #            </tr>
           </table>
-          <input class="button" type="submit" value="$Text{"create"}">
+          <input class="button" type="submit" value="$Text{"Create"}">
         </form>
       </td>
     </tr>

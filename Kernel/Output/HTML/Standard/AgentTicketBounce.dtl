@@ -2,12 +2,13 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.6 2006-10-12 10:15:59 martin Exp $
+# $Id: AgentTicketBounce.dtl,v 1.7 2006-12-18 00:10:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start bounce form -->
 
 <!-- This java script is just for nice to have funktions! -->
@@ -32,8 +33,7 @@ function submit_bounce()
 //-->
 </script>
 
-
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="contenthead">
       $Env{"Box0"}$Text{"Bounce ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
@@ -42,9 +42,7 @@ function submit_bounce()
 $Include{"AgentTicketLocked"}
   <tr>
     <td class="mainbody">
-
       <br>
-
       <form action="$Env{"CGIHandle"}" method="post" name="bounce">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Store">
@@ -58,7 +56,6 @@ $Include{"AgentTicketLocked"}
           </tr>
           <tr>
             <td class="contentbody">
-
               <table border="0" width="100%">
                 <tr>
                   <td width="20%" class="contentkey">$Text{"Bounce to"}:</td>
@@ -107,9 +104,7 @@ $Data{"Signature"}
           </tr>
         </table>
       </form>
-
       <br>
-
     </td>
   </tr>
 </table>

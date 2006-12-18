@@ -2,14 +2,15 @@
 # AgentPreferencesForm.dtl - provides HTML form for AgentPreferences
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentPreferencesForm.dtl,v 1.20 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentPreferencesForm.dtl,v 1.21 2006-12-18 00:10:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- dtl:block:Body -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="3">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr align="center">
 <!-- dtl:block:Head -->
     <td width="33%" class="mainhead">
@@ -18,12 +19,12 @@
 <!-- dtl:block:Head -->
   </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="3">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr align="center">
 <!-- dtl:block:Colum -->
     <td width="33%" class="mainbody">
 <!-- dtl:block:Item -->
-      <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+      <table border="0" width="100%" cellspacing="0" cellpadding="3">
         <tr align="center">
           <td class="contenthead">
             $Env{"Box0"}$Text{"$Data{"Label"}"}$Env{"Box1"}
@@ -59,7 +60,7 @@
 <!-- dtl:block:Block -->
                 </table>
               </p>
-              <input class="button" type="submit" value="$Text{"update"}">
+              <input class="button" type="submit" value="$Text{"Update"}">
             </form>
           </td>
         </tr>
@@ -76,4 +77,3 @@
   </tr>
 </table>
 <!-- dtl:block:Body -->
-

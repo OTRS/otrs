@@ -2,12 +2,13 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.10 2006-08-30 09:25:00 martin Exp $
+# $Id: Installer.dtl,v 1.11 2006-12-18 00:10:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
@@ -381,12 +382,12 @@ Public License instead of this License.
                 <td class="contentfooter">
                   <form action="$Env{"CGIHandle"}" method="post">
                     <input type="hidden" name="Subaction" value="Start">
-                    <input class="button" type="submit" value="$Text{"accept license"}">
+                    <input class="button" type="submit" value="$Text{"Accept license"}">
                   </form>
                 </td>
                 <td width="10" class="contentfooter">
                   <form action="$Env{"CGIHandle"}" method="post">
-                    <input class="button" type="submit" value="$Text{"don't accept license"}">
+                    <input class="button" type="submit" value="$Text{"Don't accept license"}">
                   </form>
                 </td>
               </tr>
@@ -613,12 +614,10 @@ Public License instead of this License.
             <td class="contentbody" align="center">
 <!-- dtl:block:Restart -->
 $Text{"To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root."}
-
               <p>
                 <b>$Text{"Restart your webserver"}:</b><br>
                 <font color='red'>$Data{"Webserver"}</font>
               </p>
-
               <p>
 $Text{"After doing so your OTRS is up and running."}
               </p>

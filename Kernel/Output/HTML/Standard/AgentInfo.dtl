@@ -2,14 +2,15 @@
 # AgentInfo.dtl - provides info file
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentInfo.dtl,v 1.3 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentInfo.dtl,v 1.4 2006-12-18 00:10:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
       $Env{"Box0"}$Text{"Info"}$Env{"Box1"}
@@ -17,15 +18,12 @@
   </tr>
   <tr>
     <td class="mainbody">
-
       <p>
         To accept some news, a license or some changes.
       </p>
-
       <p>
         <a href="$Env{"Baselink"}Action=$Env{"Action"}&Accept=1">Yes, accepted.</a>
       </p>
-
     </td>
   </tr>
 </table>

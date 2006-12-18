@@ -1,13 +1,14 @@
 # --
-# ArticleTicketPlain.dtl - provides HTML plain article
+# AgentTicketPlain.dtl - provides HTML plain article
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPlain.dtl,v 1.4 2006-10-12 10:16:00 martin Exp $
+# $Id: AgentTicketPlain.dtl,v 1.5 2006-12-18 00:10:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start plain article -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>

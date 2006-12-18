@@ -2,12 +2,13 @@
 # AgentTicketMerge.dtl - provides HTML form for ticket merge mask
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.dtl,v 1.8 2006-10-12 10:15:59 martin Exp $
+# $Id: AgentTicketMerge.dtl,v 1.9 2006-12-18 00:10:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start form -->
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -25,7 +26,7 @@ function submit_compose()
 //-->
 </script>
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
       $Env{"Box0"}$Text{"Ticket Merge"}: $QData{"TicketNumber"}$Env{"Box1"}
@@ -34,10 +35,7 @@ function submit_compose()
 $Include{"AgentTicketLocked"}
   <tr>
     <td class="mainbody">
-
-
       <br>
-
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
         <input type="hidden" name="Action" value="AgentTicketMerge">
         <input type="hidden" name="Subaction" value="Merge">
@@ -48,7 +46,6 @@ $Include{"AgentTicketLocked"}
           </tr>
           <tr>
             <td class="contentbody">
-
               <table border="0">
                 <tr>
                   <td class="contentkey">$Text{"Merge to"} $Config{"Ticket::Hook"}:</td>
@@ -93,9 +90,7 @@ $Data{"Signature"}
           </tr>
         </table>
       </form>
-
       <br>
-
     </td>
   </tr>
 </table>

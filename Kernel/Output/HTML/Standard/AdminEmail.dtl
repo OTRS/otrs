@@ -2,14 +2,15 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.11 2006-08-29 16:56:06 martin Exp $
+# $Id: AdminEmail.dtl,v 1.12 2006-12-18 00:09:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
       $Env{"Box0"}$Text{"Admin Notification"}$Env{"Box1"}
@@ -18,9 +19,7 @@
   <tr>
     <td align="center" class="mainbody">
       <br>
-
 <!-- dtl:block:Sent -->
-
       <table border="0" width="700" cellspacing="0" cellpadding="4">
         <tr>
           <td class="contenthead">$Text{"Options"}:</td>
@@ -33,22 +32,18 @@
           </td>
         </tr>
       </table>
-
       <br>
 <!-- dtl:block:Sent -->
-
 <!-- dtl:block:Form -->
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Send">
-
         <table border="0" width="700" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Options"}:</td>
           </tr>
           <tr>
             <td class="contentbody">
-
               <table border="0" width="700" cellspacing="0" cellpadding="4">
                 <tr>
                   <td class="contentkey">$Text{"From"}:</td>
@@ -63,7 +58,9 @@
                         <td valign="top">$Text{"Group"}:<br>$Data{"GroupOption"}</td>
                       </tr>
                       <tr>
-                        <td valign="top">$Text{"Permission"}:<br>ro <input type="radio" name="GroupPermission" value="ro" checked> - rw <input type="radio" name="GroupPermission" value="rw"></td>
+                        <td valign="top">
+                          $Text{"Permission"}:<br>ro <input type="radio" name="GroupPermission" value="ro" checked> - rw <input type="radio" name="GroupPermission" value="rw">
+                        </td>
                       </tr>
                     </table>
                   </td>
@@ -82,14 +79,12 @@
             </td>
           </tr>
           <tr>
-            <td class="contentfooter"><input class="button" type="submit" value="$Text{"send"}"></td>
+            <td class="contentfooter"><input class="button" type="submit" value="$Text{"Send"}"></td>
           </tr>
         </table>
       </form>
 <!-- dtl:block:Form -->
-
       <br>
-
     </td>
   </tr>
 </table>

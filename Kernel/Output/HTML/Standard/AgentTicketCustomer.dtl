@@ -2,14 +2,15 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.9 2006-10-12 10:15:59 martin Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.10 2006-12-18 00:10:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- dtl:block:Customer -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
       $Env{"Box0"}$Text{"Change customer of ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
@@ -24,9 +25,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainbody">
-
       <br>
-
       <form action="$Env{"CGIHandle"}" method="post" name="compose">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Update">
@@ -63,11 +62,8 @@
             </td>
           </tr>
         </table>
-
       </form>
-
       <br>
-
       <table border="0" width="500" align="center" cellspacing="0" cellpadding="4">
         <tr>
           <td class="contenthead">$Text{"Customer Data"}: $Data{"CustomerID"}</td>
@@ -85,15 +81,13 @@ $Data{"Table"}
           </td>
         </tr>
       </table>
-
       <br>
-
     </td>
   </tr>
 </table>
 <!-- dtl:block:Customer -->
 <!-- dtl:block:CustomerHistory -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
       $Env{"Box0"}$Text{"Customer history"}$Env{"Box1"}
