@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.20 2006-12-11 07:18:30 martin Exp $
+# $Id: Layout.pm,v 1.21 2006-12-18 07:27:59 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -47,7 +47,7 @@ sub new {
     # set debug
     $Self->{Debug} = 0;
     # check needed objects
-    foreach (qw(ConfigObject LogObject TimeObject MainObject)) {
+    foreach (qw(ConfigObject LogObject TimeObject MainObject EncodeObject)) {
         if (!$Self->{$_}) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -1857,6 +1857,9 @@ sub Attachment {
     if (!$ENV{REQUEST_METHOD} || $ENV{REQUEST_METHOD} ne 'HEAD') {
         $Output .= $Param{Content};
     }
+    if ($Param{ContentType} && $Param{ContentType} =~ /^text\//i) {
+        $Self->{EncodeObject}->EncodeOutput(\$Output);
+    }
     return $Output;
 }
 
@@ -2666,6 +2669,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2006-12-11 07:18:30 $
+$Revision: 1.21 $ $Date: 2006-12-18 07:27:59 $
 
 =cut
