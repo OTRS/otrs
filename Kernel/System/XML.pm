@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.39 2006-12-07 06:35:27 tr Exp $
+# $Id: XML.pm,v 1.39.2.1 2006-12-18 06:53:02 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.39.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -435,7 +435,7 @@ sub XMLHash2XML {
     my $Self = shift;
     my @XMLHash = @_;
 
-    my $Output = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n";
+    my $Output = "<?xml version=\"1.0\" encoding=\"" .$Self->{ConfigObject}->Get('DefaultCharset') . "\"?>\n";
     $Self->{XMLHash2XMLLayer} = 0;
     foreach my $Key (@XMLHash) {
         $Output .= $Self->_ElementBuild(%{$Key});
@@ -1061,6 +1061,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2006-12-07 06:35:27 $
+$Revision: 1.39.2.1 $ $Date: 2006-12-18 06:53:02 $
 
 =cut
