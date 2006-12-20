@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.19 2006-12-14 12:10:18 martin Exp $
+# $Id: Time.pm,v 1.20 2006-12-20 07:06:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -105,7 +105,7 @@ returns a time stamp in "yyyy-mm-dd 23:59:59" format.
 Also if needed a short form "23:59:59" if the date is today (if needed).
 
     my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => $SystenTime,
+        SystemTime => $SystemTime,
         Type => 'Short',
     );
 
@@ -375,12 +375,12 @@ get the working time in secondes between this times
 
     my $WorkingTime = $TimeObject->WorkingTime(
         StartTime => $Created,
-        StopTime => $Self->SystemTime(),
+        StopTime => $TimeObject->SystemTime(),
     );
 
     my $WorkingTime = $TimeObject->WorkingTime(
         StartTime => $Created,
-        StopTime => $Self->SystemTime(),
+        StopTime => $TimeObject->SystemTime(),
         Calendar => 3, # '' is default
     );
 
@@ -693,6 +693,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2006-12-14 12:10:18 $
+$Revision: 1.20 $ $Date: 2006-12-20 07:06:04 $
 
 =cut
