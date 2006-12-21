@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.235 2006-12-14 14:18:50 martin Exp $
+# $Id: Ticket.pm,v 1.236 2006-12-21 12:55:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.235 $';
+$VERSION = '$Revision: 1.236 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -3859,6 +3859,32 @@ returns a hash of the ticket history info at this time.
         Force => 0,
     );
 
+returns
+
+    TicketNumber
+    TicketID
+    Queue
+    QueueID
+    Priority
+    PriorityID
+    State
+    StateID
+    Owner
+    OwnerID
+    CreateUserID
+    CreateTime (timestamp)
+    CreateOwnerID
+    CreatePriority
+    CreatePriorityID
+    CreateState
+    CreateStateID
+    CreateQueue
+    CreateQueueID
+    LockFirst (timestamp)
+    LockLast (timestamp)
+    UnlockFirst (timestamp)
+    UnlockLast (timestamp)
+
 =cut
 
 sub HistoryTicketGet {
@@ -3913,7 +3939,7 @@ sub HistoryTicketGet {
         "AND ".
         "th.create_time <= '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ".
         "ORDER BY th.create_time, th.id ASC";
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 2000);
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 3000);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         if ($Row[1] eq 'NewTicket') {
             if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)$/ ||
@@ -3985,6 +4011,18 @@ sub HistoryTicketGet {
             if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)/ || $Row[0] =~ /^New Owner is '(.+?)'/) {
                 $Ticket{Owner} = $1;
             }
+        }
+        elsif ($Row[1] eq 'Lock') {
+            if (!$Ticket{LockFirst}) {
+                $Ticket{LockFirst} = $Row[2];
+            }
+            $Ticket{LockLast} = $Row[2];
+        }
+        elsif ($Row[1] eq 'Unlock') {
+            if (!$Ticket{UnlockFirst}) {
+                $Ticket{UnlockFirst} = $Row[2];
+            }
+            $Ticket{UnlockLast} = $Row[2];
         }
         # get default options
         $Ticket{OwnerID} = $Row[9] || '';
@@ -5024,6 +5062,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.235 $ $Date: 2006-12-14 14:18:50 $
+$Revision: 1.236 $ $Date: 2006-12-21 12:55:24 $
 
 =cut
