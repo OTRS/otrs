@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.128 2006-12-21 11:15:31 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.129 2006-12-21 11:26:07 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -6240,7 +6240,7 @@ $QData{"Signature"}
                 <Title>Phone-Ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description>Create new Phone Ticket</Description>
+                    <Description>Create new Phone Ticket (Inbound)</Description>
                     <Name>Phone-Ticket</Name>
                     <Image>phone-new.png</Image>
                     <Link>Action=AgentTicketPhone</Link>
@@ -6277,7 +6277,7 @@ $QData{"Signature"}
                 <Title>Email-Ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description>Send email and create a new Ticket</Description>
+                    <Description>Create new Email Ticket and send this out (Outbound)</Description>
                     <Name>Email-Ticket</Name>
                     <Image>mail_new.png</Image>
                     <Link>Action=AgentTicketEmail</Link>

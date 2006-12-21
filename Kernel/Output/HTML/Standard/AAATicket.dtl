@@ -89,14 +89,14 @@ $Text{"Show closed Tickets"}
 $Text{"Email-Ticket"}
 $Text{"Create new Email Ticket"}
 $Text{"Phone-Ticket"}
-$Text{"Create new Phone Ticket"}
 $Text{"Search Tickets"}
 $Text{"Customer"}
 $Text{"Edit Customer Users"}
 $Text{"Bulk-Action"}
 $Text{"Bulk Actions on Tickets"}
 $Text{"Send Email and create a new Ticket"}
-$Text{"Create new Phone Ticket"}
+$Text{"Create new Email Ticket and send this out (Outbound)"}
+$Text{"Create new Phone Ticket (Inbound)"}
 $Text{"Overview of all open Tickets"}
 $Text{"Locked Tickets"}
 $Text{"Watched Tickets"}
