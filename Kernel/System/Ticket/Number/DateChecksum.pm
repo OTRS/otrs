@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
 # --
-# $Id: DateChecksum.pm,v 1.18 2006-12-14 12:22:58 martin Exp $
+# $Id: DateChecksum.pm,v 1.19 2006-12-21 11:17:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,7 +29,7 @@ package Kernel::System::Ticket::Number::DateChecksum;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketCreateNumber {
@@ -53,8 +53,8 @@ sub TicketCreateNumber {
         # just debug
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
-              Priority => 'debug',
-              Message => "Read counter from $CounterLog: $Count",
+                Priority => 'debug',
+                Message => "Read counter from $CounterLog: $Count",
             );
         }
     }
@@ -73,8 +73,8 @@ sub TicketCreateNumber {
         # just debug
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
-              Priority => 'debug',
-              Message => "Write counter: $Count",
+                Priority => 'debug',
+                Message => "Write counter: $Count",
             );
         }
     }
@@ -93,39 +93,39 @@ sub TicketCreateNumber {
     # create new ticket number
     my $Tn = $Year.$Month.$Day.$SystemID.$Count;
     # calculate a checksum
-    my $chksum = 0;
-    my $mult = 1;
+    my $ChkSum = 0;
+    my $Mult = 1;
     for ( my $i = 0; $i<length($Tn); ++$i ) {
         my $Digit = substr( $Tn, $i, 1 );
-        $chksum = $chksum + ( $mult * $Digit );
-        $mult += 1;
-        if ( $mult == 3 ) {
-          $mult = 1;
+        $ChkSum = $ChkSum + ( $Mult * $Digit );
+        $Mult += 1;
+        if ( $Mult == 3 ) {
+            $Mult = 1;
         }
     }
-    $chksum %= 10;
-    $chksum = 10 - $chksum;
-    if ($chksum == 10) {
-        $chksum = 1;
+    $ChkSum %= 10;
+    $ChkSum = 10 - $ChkSum;
+    if ($ChkSum == 10) {
+        $ChkSum = 1;
     }
     # add checksum to ticket number
-    $Tn = $Tn.$chksum;
+    $Tn = $Tn.$ChkSum;
     # Check ticket number. If exists generate new one!
     if ($Self->TicketCheckNumber(Tn=>$Tn)) {
         $Self->{LoopProtectionCounter}++;
         if ($Self->{LoopProtectionCounter} >= 6000) {
-          # loop protection
-          $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "CounterLoopProtection is now $Self->{LoopProtectionCounter}!".
-                   " Stoped TicketCreateNumber()!",
-          );
-          return;
+            # loop protection
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "CounterLoopProtection is now $Self->{LoopProtectionCounter}!".
+                    " Stoped TicketCreateNumber()!",
+            );
+            return;
         }
         # create new ticket number again
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "Tn ($Tn) exists! Creating new one.",
+            Priority => 'notice',
+            Message => "Tn ($Tn) exists! Creating a new one.",
         );
         $Tn = $Self->TicketCreateNumber($Self->{LoopProtectionCounter});
     }
@@ -136,15 +136,20 @@ sub GetTNByString {
     my $Self = shift;
     my $String = shift || return;
     # get needed config options
+    my $CheckSystemID = $Self->{ConfigObject}->Get('Ticket::NumberGenerator::CheckSystemID');
+    my $SystemID = '';
+    if ($CheckSystemID) {
+        $SystemID = $Self->{ConfigObject}->Get('SystemID');
+    }
     my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
     # check current setting
-    if ($String =~ /\Q$TicketHook$TicketHookDivider\E(\d{8,40})/i) {
+    if ($String =~ /\Q$TicketHook$TicketHookDivider\E($SystemID\d{8,40})/i) {
         return $1;
     }
     else {
         # check default setting
-        if ($String =~ /\Q$TicketHook\E:+.{0,1}(\d{8,40})/i) {
+        if ($String =~ /\Q$TicketHook\E:+.{0,2}($SystemID\d{8,40})/i) {
             return $1;
         }
         else {

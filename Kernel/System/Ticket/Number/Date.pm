@@ -2,7 +2,7 @@
 # Ticket/Number/Date.pm - a date ticket number generator
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.17 2006-12-14 12:22:58 martin Exp $
+# $Id: Date.pm,v 1.18 2006-12-21 11:17:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ package Kernel::System::Ticket::Number::Date;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketCreateNumber {
@@ -42,8 +42,8 @@ sub TicketCreateNumber {
         # just debug
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
-              Priority => 'debug',
-              Message => "Read counter from $CounterLog: $Count",
+                Priority => 'debug',
+                Message => "Read counter from $CounterLog: $Count",
             );
         }
     }
@@ -57,8 +57,8 @@ sub TicketCreateNumber {
         close (DATA);
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
-              Priority => 'debug',
-              Message => "Write counter: $Count",
+                Priority => 'debug',
+                Message => "Write counter: $Count",
             );
         }
     }
@@ -75,18 +75,18 @@ sub TicketCreateNumber {
     if ($Self->TicketCheckNumber(Tn=>$Tn)) {
         $Self->{LoopProtectionCounter}++;
         if ($Self->{LoopProtectionCounter} >= 6000) {
-          # loop protection
-          $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "CounterLoopProtection is now $Self->{LoopProtectionCounter}!".
-                   " Stoped TicketCreateNumber()!",
-          );
-          return;
+            # loop protection
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "CounterLoopProtection is now $Self->{LoopProtectionCounter}!".
+                    " Stoped TicketCreateNumber()!",
+            );
+            return;
         }
         # create new ticket number again
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "Tn ($Tn) exists! Creating new one.",
+            Priority => 'notice',
+            Message => "Tn ($Tn) exists! Creating a new one.",
         );
         $Tn = $Self->TicketCreateNumber($Self->{LoopProtectionCounter});
     }
@@ -97,15 +97,20 @@ sub GetTNByString {
     my $Self = shift;
     my $String = shift || return;
     # get needed config options
+    my $CheckSystemID = $Self->{ConfigObject}->Get('Ticket::NumberGenerator::CheckSystemID');
+    my $SystemID = '';
+    if ($CheckSystemID) {
+        $SystemID = $Self->{ConfigObject}->Get('SystemID');
+    }
     my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
     # check current setting
-    if ($String =~ /\Q$TicketHook$TicketHookDivider\E(\d{8,40})/i) {
+    if ($String =~ /\Q$TicketHook$TicketHookDivider\E($SystemID\d{8,40})/i) {
         return $1;
     }
     else {
         # check default setting
-        if ($String =~ /\Q$TicketHook\E:+.{0,1}(\d{8,40})/i) {
+        if ($String =~ /\Q$TicketHook\E:+.{0,2}($SystemID\d{8,40})/i) {
             return $1;
         }
         else {
