@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.31 2006-12-15 14:11:45 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.32 2006-12-21 11:51:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -32,7 +32,7 @@ sub new {
     }
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
-      QueueObject ConfigObject UserObject SessionObject)) {
+        QueueObject ConfigObject UserObject SessionObject)) {
         if (!$Self->{$_}) {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
@@ -377,15 +377,15 @@ sub MaskAgentZoom {
             }
         }
         $Self->{LayoutObject}->Block(
-             Name => 'Body',
-             Data => {%Param, %Article, Body => $Article{"BodyHTML"}, %AclAction},
+            Name => 'Body',
+            Data => {%Param, %Article, Body => $Article{"BodyHTML"}, %AclAction},
         );
         # show article tree
         if ($Count == 1) {
             # show status info
             $Self->{LayoutObject}->Block(
-                 Name => 'Status',
-                 Data => {%Param, %AclAction},
+                Name => 'Status',
+                Data => {%Param, %AclAction},
             );
             # customer info string
             if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoom')) {
@@ -407,8 +407,8 @@ sub MaskAgentZoom {
             );
             if ($Self->{ConfigObject}->Get('Ticket::Responsible')) {
                 $Self->{LayoutObject}->Block(
-                     Name => 'Responsible',
-                     Data => {%Param, %ResponsibleInfo, %AclAction},
+                    Name => 'Responsible',
+                    Data => {%Param, %ResponsibleInfo, %AclAction},
                 );
             }
             # get linked objects
@@ -430,8 +430,8 @@ sub MaskAgentZoom {
                 }
             }
             $Self->{LayoutObject}->Block(
-                 Name => 'Tree',
-                 Data => {%Param, %Article, %AclAction},
+                Name => 'Tree',
+                Data => {%Param, %Article, %AclAction},
             );
             # build thread string
             my $CounterTree = 0;
