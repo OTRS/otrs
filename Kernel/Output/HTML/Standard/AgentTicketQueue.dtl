@@ -2,12 +2,13 @@
 # AgentTicketQueue.dtl - provides HTML QueueView for AgentTicketQueue
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.dtl,v 1.5 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentTicketQueue.dtl,v 1.6 2006-12-21 16:13:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- dtl:block:QueueNav -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
@@ -21,8 +22,8 @@
       $Text{"Page"}: $Data{"PageNavBar"} -
       $Text{"Tickets available"}: $Data{"TicketsAvail"} -
       $Text{"All tickets"}: <a href="$Env{"Baselink"}Action=$Env{"Action"}&QueueID=$QData{"QueueID"}&ViewAll=1">$Data{"AllTickets"}</a>
-#  $Text{"Sub Tickets available"}: $Data{"AllSubTickets"} -
-#  $Text{"All tickets"}: $Data{"AllSubTickets"}
+#      $Text{"Sub Tickets available"}: $Data{"AllSubTickets"} -
+#      $Text{"All tickets"}: $Data{"AllSubTickets"}
     </td>
   </tr>
   <tr>
@@ -46,4 +47,3 @@
   </tr>
 </table>
 <!-- dtl:block:EscalationNav -->
-

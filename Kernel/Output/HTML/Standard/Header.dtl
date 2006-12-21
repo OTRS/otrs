@@ -2,14 +2,14 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.46 2006-10-12 10:16:00 martin Exp $
+# $Id: Header.dtl,v 1.47 2006-12-21 16:12:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 # http headers
-# --
 Content-Type: text/html; charset=$Env{"UserCharset"};
 Content-Disposition: $Data{"ContentDisposition"}
 X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org/)
@@ -17,7 +17,6 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 Expires: Tue, 1 Jan 1980 12:00:00 GMT
 Cache-Control: no-cache
 Pragma: no-cache
-
 
 # include Copyright.dtl
 $Include{"Copyright"}
@@ -44,11 +43,12 @@ $Include{"css"}
 </head>
 <a name="top"></a>
 <body>
-
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td align="left" width="20%" class="header">
-      <b>$Env{"Box0"}<a href="$Env{"Baselink"}" accesskey="h" onmouseover="window.status='$JSText{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">$Config{"ProductName"}</a>$Env{"Box1"}</b>
+      <b>
+      $Env{"Box0"}<a href="$Env{"Baselink"}" accesskey="h" onmouseover="window.status='$JSText{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">$Config{"ProductName"}</a>$Env{"Box1"}
+      </b>
     </td>
     <td align="right" width="80%" class="header">
       $Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"} $Env{"TimeLong"}

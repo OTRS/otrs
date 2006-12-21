@@ -6,6 +6,7 @@
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <script language="JavaScript" type="text/javascript">
 <!--
 <!-- dtl:block:DateFormatOption -->
@@ -43,9 +44,9 @@ function SelectDay(tt, mm, yyyy) {
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
-    <th class="mainhead"><a href="$Env{"CGIHandle"}?Action=$Env{"Action"}&Month=$Data{"Back"}&Prefix=$Data{"Prefix"}" class="headeritem">&#060;&#060;</a></th>
+    <th class="mainhead"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Month=$Data{"Back"}&Prefix=$Data{"Prefix"}" class="headeritem">&#060;&#060;</a></th>
     <th class="mainhead">$Text{"$QData{"Month"}"} $QData{"Year"}</th>
-    <th class="mainhead"><a href="$Env{"CGIHandle"}?Action=$Env{"Action"}&Month=$Data{"Next"}&Prefix=$Data{"Prefix"}" class="headeritem">&#062;&#062;</a></th>
+    <th class="mainhead"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Month=$Data{"Next"}&Prefix=$Data{"Prefix"}" class="headeritem">&#062;&#062;</a></th>
   </tr>
   <tr>
     <td class="mainbody" colspan="3">
@@ -65,7 +66,9 @@ function SelectDay(tt, mm, yyyy) {
           <th></th>
 <!-- dtl:block:ColEmpty -->
 <!-- dtl:block:Col -->
-          <td $Data{"Style"} align="center"><a href="#" onClick="SelectDay($Data{"Day"}, $Data{"Month"}, $Data{"Year"})">$Data{"Day"}</a></td>
+          <td $Data{"Style"} align="center">
+            <a href="#" onClick="SelectDay($Data{"Day"}, $Data{"Month"}, $Data{"Year"})">$Data{"Day"}</a>
+          </td>
 <!-- dtl:block:Col -->
         </tr>
 <!-- dtl:block:Row -->

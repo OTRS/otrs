@@ -2,18 +2,18 @@
 # AgentSpelling.dtl - provides HTML form for AgentSpelling
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentSpelling.dtl,v 1.15 2006-10-12 10:15:59 martin Exp $
+# $Id: AgentSpelling.dtl,v 1.16 2006-12-21 16:13:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start Spelling form -->
 <script language="JavaScript" type="text/javascript">
 <!--
 
-function updateMessage()
-{
+function updateMessage() {
     if (parent.opener.closed) {
         alert('$JSText{"The message being composed has been closed.  Exiting."}');
         this.close();
@@ -27,29 +27,25 @@ function updateMessage()
     }
 
     parent.opener.document.compose.$QData{"Field"}.value = document.spelling.Body.value
-
     this.close();
 }
 
-function change_selected(sel)
-{
-   start_elements = (5 * sel) - 1;
-   if (document.spelling.elements[0].name == "$Config{"SessionName"}") {
-       start_elements = start_elements + 1;
-   }
-   if (!document.spelling.elements[start_elements].checked) {
+function change_selected(sel) {
+    start_elements = (5 * sel) - 1;
+
+    if (document.spelling.elements[0].name == "$Config{"SessionName"}") {
+        start_elements = start_elements + 1;
+    }
+
+    if (!document.spelling.elements[start_elements].checked) {
         document.spelling.elements[start_elements].checked = true;
-   }
-# just for debug!
-#alert(start_elements);
-#alert(document.spelling.elements[start_elements].name)
-#alert(document.spelling.elements[start_elements].checked)
+    }
 }
 
 //-->
 </script>
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
       $Env{"Box0"}$Text{"Spell Checker"} - $Data{"SpellCounter"} $Text{"spelling error(s)"} $Env{"Box1"}
@@ -57,11 +53,9 @@ function change_selected(sel)
   </tr>
   <tr>
     <td class="mainbody">
-
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="spelling">
         <input type="hidden" name="Action" value="AgentSpelling">
         <input type="hidden" name="Field" value="$QData{"Field"}">
-
         <table border="0" width="100%" cellspacing="0" cellpadding="1">
           <tr>
             <th width="50">$Text{"Line"}</th>
@@ -73,15 +67,24 @@ function change_selected(sel)
 <!-- dtl:block:Row -->
           <tr>
             <td align="center">$QData{"Line"}</td>
-            <td><font color="red">$QData{"Word"}</font><input type="hidden" name="SpellCheckOld::$QData{"Count"}" value="$QData{"Word"}"></td>
+            <td>
+              <font color="red">$QData{"Word"}</font>
+              <input type="hidden" name="SpellCheckOld::$QData{"Count"}" value="$QData{"Word"}">
+            </td>
             <td>$Data{"OptionList"}</td>
-            <td> $Text{"or"} <input type="text" name="SpellCheckOrReplace::$QData{"Count"}" value="" size="20" onchange="change_selected($QData{"Count"})"></td>
-            <td align="center"><input type="radio" name="SpellCheck::Replace::$QData{"Count"}" value="$QData{"Word"}"></td>
-            <td align="center"><input type="radio" name="SpellCheck::Replace::$QData{"Count"}" value="" checked="checked"></td>
+            <td>
+              $Text{"or"}
+              <input type="text" name="SpellCheckOrReplace::$QData{"Count"}" value="" size="20" onchange="change_selected($QData{"Count"})">
+            </td>
+            <td align="center">
+              <input type="radio" name="SpellCheck::Replace::$QData{"Count"}" value="$QData{"Word"}">
+            </td>
+            <td align="center">
+              <input type="radio" name="SpellCheck::Replace::$QData{"Count"}" value="" checked="checked">
+            </td>
           </tr>
 <!-- dtl:block:Row -->
         </table>
-
         <hr>
         <table border="0" width="580" cellspacing="0" cellpadding="1">
           <tr>
@@ -94,21 +97,16 @@ function change_selected(sel)
             </td>
           </tr>
         </table>
-
         <pre>
-<textarea name="Body" rows="22" cols="78" wrap="$Env{"BrowserWrap"}">$Data{"Body"}</textarea>
-</pre>
-
-<input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}">
-<i>($Text{"Return to the compose screen"})</i>
-
-<input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}">
-<i>($Text{"Discard all changes and return to the compose screen"})</i>
-    </form>
-
-  <hr>
-
-  </td>
-</tr>
+          <textarea name="Body" rows="22" cols="78" wrap="$Env{"BrowserWrap"}">$Data{"Body"}</textarea>
+        </pre>
+        <input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}">
+        <i>($Text{"Return to the compose screen"})</i>
+        <input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}">
+        <i>($Text{"Discard all changes and return to the compose screen"})</i>
+      </form>
+      <hr>
+    </td>
+  </tr>
 </table>
 <!-- end Spelling form -->

@@ -2,52 +2,36 @@
 # Test.dtl - provides HTML test page
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Test.dtl,v 1.11 2006-08-29 17:09:52 martin Exp $
+# $Id: Test.dtl,v 1.12 2006-12-21 16:12:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-# --
-# you can use '#' at the start of a line for comment of dynamic pages
-# --
-
-
 <h1>$Text{"OTRS Test Page"}</h1>
-
 <hr>
-
 <b>dynamic test</b><br>
-
 <p>
-
   <dtl set $Data{"Test1"} = "German">
   a) Set $Data{\"Test1\"} = "$Data{"Test1"}"
   <br>
   Echo ($Text{\"Lock\"}): $Text{"Lock"}
   <br>
-
   <dtl if ($Text{"Lock"} eq "Lock") { $Data{"Test1"} = "English"; }>
   b) if ($Text{\"Lock\"} eq "Lock") { $Data{\"Test:\"} = "English"; }<br>
-
   Result: $Data{"Test1"}
 </p>
-
 <p>
   <dtl set $Data{"Test2"} = "lala">
   c) Set $Data{\"Test2\"} = "$Data{"Test2"}"
   <br>
-
   <dtl if ($Data{"Test2"} ne "hallo!") { $Data{"Test2"} = "hallo!!"; }>
   d) if ($Data{\"Test2\"} ne "hallo!") { $Data{\"Test2\"} = "hallo!!"; }
   <br>
-
   Result: $Data{"Test2"}
 </p>
-
 <hr>
-
 # --
 # translation test
 # --
@@ -63,14 +47,11 @@
     <td colspan="2">$Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"}"}</td>
   </tr>
 </table>
-
 <hr>
-
 # --
 # show some config options
 # --
 <b>config options</b><br>
-
 <table>
   <tr>
     <td>SystemID:</td><td> $Config{"SystemID"}</td>
@@ -84,18 +65,13 @@
   <tr>
     <td>PostmasterDefaultQueue:</td><td> $Config{"PostmasterDefaultQueue"}</td>
   </tr>
-
 </table>
-
 <hr>
-
 # --
 # show some env variables
 # --
 <b>env variables</b><br>
-
 <table>
-
   <tr>
     <td>Time:</td><td> $Env{"Time"}</td>
   </tr>
@@ -138,15 +114,11 @@
   <tr>
     <td>SCRIPT_FILENAME:</td><td> $Env{"SCRIPT_FILENAME"}</td>
   </tr>
-
   <tr>
     <td>SCRIPT_NAME:</td><td> $Env{"SCRIPT_NAME"}</td>
   </tr>
-
 </table>
-
 <hr>
-
 # --
 # system calls
 # --
@@ -175,9 +147,7 @@ $Data{"w"}
     </td>
   </tr>
 </table>
-
 <hr>
-
 # --
 # blocks
 # --
@@ -187,39 +157,33 @@ $Data{"w"}
 $QData{"Text"} $Text{"Counter"}: $QData{"Counter"}
 <hr size="1">
 <!-- dtl:block:Row -->
-
 <br>
-
 <!-- dtl:block:System -->
 <table border="1">
 <!-- dtl:block:User -->
   <tr>
     <th valign="top">$Data{"Type"}</th>
     <th valign="top">$Data{"Counter"}</th>
-    <tr>
+  </tr>
 <!-- dtl:block:UserID -->
-      <tr>
-        <td valign="top">$Data{"Type"}</td>
-        <td valign="top">$Data{"Counter"}</td>
-      </tr>
+  <tr>
+    <td valign="top">$Data{"Type"}</td>
+    <td valign="top">$Data{"Counter"}</td>
+  </tr>
 <!-- dtl:block:UserID -->
 <!-- dtl:block:UserIDA -->
-      <tr>
-        <td valign="top">$Data{"Type"}</td>
-        <td valign="top">$Data{"Counter"}</td>
-      </tr>
+  <tr>
+    <td valign="top">$Data{"Type"}</td>
+    <td valign="top">$Data{"Counter"}</td>
+  </tr>
 <!-- dtl:block:UserIDA -->
-
 <!-- dtl:block:User -->
 <!-- dtl:block:Times -->
-      <tr>
-        <td valign="top">$Data{"Type"}</td>
-        <td valign="top">$Data{"Counter"}</td>
-      </tr>
+  <tr>
+    <td valign="top">$Data{"Type"}</td>
+    <td valign="top">$Data{"Counter"}</td>
+  </tr>
 <!-- dtl:block:Times -->
-    </table>
-    <br>
+</table>
+<br>
 <!-- dtl:block:System -->
-
-
-

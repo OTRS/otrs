@@ -1,13 +1,14 @@
 # --
-# AgentCustomerTableView - provides HTML customer table view
+# AgentCustomerTableView.dtl - provides HTML customer table view
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentCustomerTableView.dtl,v 1.4 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentCustomerTableView.dtl,v 1.5 2006-12-21 16:13:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start customer table -->
 <table border="0" cellspacing="1" cellpadding="0">
 <!-- dtl:block:CustomerRow -->

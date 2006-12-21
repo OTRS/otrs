@@ -2,19 +2,17 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.27 2006-11-09 16:48:30 martin Exp $
+# $Id: Login.dtl,v 1.28 2006-12-21 16:12:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-# --
+
 # http headers
-# --
 Content-Type: text/html; charset=$Env{"UserCharset"};
 X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org)
 X-Wanted: I think you are smart. I'm looking for smart people!
-
 
 # include Copyright.dtl
 $Include{"Copyright"}
@@ -30,9 +28,7 @@ $Include{"css"}
 
 <script language="JavaScript" type="text/javascript">
 <!--
-function submit_form()
-{
-
+function submit_form() {
 #    if (!document.login.User.value) {
 #        alert('$JSText{"Login is needed!"}');
 #        return false;
@@ -47,24 +43,20 @@ function submit_form()
     document.login.TimeOffset.value = Diff;
 
     return true;
-
 }
 //-->
 </script>
 
 <center>
-
 <p>
   <font color="red">$Text{"$Data{"Message"}"}</font>
 </p>
-
 <p>
   <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login">
     <input type="hidden" name="Action" value="Login">
     <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
     <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
     <input type="hidden" name="TimeOffset" value="">
-
     <table border="0" cellspacing="0" cellpadding="3" width="270">
       <tr>
         <td align="center" class="singleboxhead">$Text{"Welcome to %s", "$Config{"ProductName"}"}</td>
@@ -94,7 +86,6 @@ function submit_form()
   <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="Action" value="">
     <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
-
     <table border="0" cellspacing="0" cellpadding="3" width="270">
       <tr>
         <td align="center" class="singleboxhead">$Text{"Language"}</td>
@@ -107,13 +98,12 @@ function submit_form()
               <td class="singleboxvalue">$Data{"Language"}</td>
             </tr>
           </table>
-          <input class="button" type="submit" value="$Text{"submit"}">
+          <input class="button" type="submit" value="$Text{"Submit"}">
         </td>
       </tr>
     </table>
   </form>
 </p>
-
 <!-- dtl:block:LostPassword -->
 <p>
   <center>
@@ -133,7 +123,7 @@ function submit_form()
               <td class="singleboxvalue"><input type="text" name="User" value="" size="18"></td>
             </tr>
           </table>
-          <input class="button" type="submit" value="$Text{"submit"}">
+          <input class="button" type="submit" value="$Text{"Submit"}">
         </form>
       </td>
     </tr>
@@ -141,14 +131,11 @@ function submit_form()
   </center>
 </p>
 <!-- dtl:block:LostPassword -->
-
 # --
 # Message of the day data!
 # --
 $Data{"Motd"}
-
 </center>
-
 <!-- start footer -->
 </body>
 </html>

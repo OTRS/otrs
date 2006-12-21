@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.8 2006-12-18 00:10:00 mh Exp $
+# $Id: AgentTicketBulk.dtl,v 1.9 2006-12-21 16:13:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,8 +12,7 @@
 <!-- start form -->
 <script language="JavaScript" type="text/javascript">
 <!--
-function submit_compose()
-{
+function submit_compose() {
     if (document.compose.Body.value && document.compose.Subject.value == "") {
         alert('$JSText{"A message should have a subject!"}');
         document.compose.Subject.focus();
@@ -28,8 +27,7 @@ function submit_compose()
 
 <script language="JavaScript" type="text/javascript">
 <!--
-function SpellCheckSubmit()
-{
+function SpellCheckSubmit() {
     document.spelling.Body.value = document.compose.Body.value;
     window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.spelling.submit()
@@ -64,7 +62,9 @@ function SpellCheckSubmit()
               <table border="0" width="100%">
                 <tr>
                   <td width="15%" class="contentkey">$Text{"Subject"}:</td>
-                  <td width="85%" class="contentvalue"><input type="text" name="Subject" value="$Text{"$Config{"Ticket::Frontend::NoteSubject"}"}" size="70"></td>
+                  <td width="85%" class="contentvalue">
+                    <input type="text" name="Subject" value="$Text{"$Config{"Ticket::Frontend::NoteSubject"}"}" size="70">
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Options"}:</td>
@@ -76,7 +76,9 @@ function SpellCheckSubmit()
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Text"}:</td>
-                  <td class="contentvalue"><textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Text{"$Config{"Ticket::Frontend::NoteText"}"}</textarea></td>
+                  <td class="contentvalue">
+                    <textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Text{"$Config{"Ticket::Frontend::NoteText"}"}</textarea>
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Note type"}:</td>
@@ -98,7 +100,9 @@ function SpellCheckSubmit()
             </td>
           </tr>
           <tr>
-            <td colspan="2" class="contentfooter"><input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"></td>
+            <td colspan="2" class="contentfooter">
+              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">
+            </td>
           </tr>
         </table>
       </form>

@@ -2,12 +2,13 @@
 # AgentTicketStatusView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketStatusView.dtl,v 1.6 2006-10-12 10:16:00 martin Exp $
+# $Id: AgentTicketStatusView.dtl,v 1.7 2006-12-21 16:13:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
@@ -27,7 +28,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="4">
   <tr>
     <td class="mainbody">
-      <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="7">
+      <table border="0" width="100%" cellspacing="0" cellpadding="3">
         <tr valign="top" align="left">
           <th width="10%">$Config{"Ticket::Hook"}<br>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Ticket&Order=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
@@ -76,10 +77,13 @@
             $Data{"StartFont"}<div title="$QData{"Queue"}">$QData{"Queue","30"}</div>$Data{"StopFont"}
           </td>
           <td class="PriorityID-$Data{"PriorityID"}">
-            $Data{"StartFont"}<div title="$QData{"Owner"}">$QData{"Owner","30"}</div> <div title="($QData{"UserFirstname"} $QData{"UserLastname"})">($QData{"UserFirstname","15"} $QData{"UserLastname","15"})</div>$Data{"StopFont"}
+            $Data{"StartFont"}<div title="$QData{"Owner"}">$QData{"Owner","30"}</div>
+            <div title="($QData{"UserFirstname"} $QData{"UserLastname"})">($QData{"UserFirstname","15"} $QData{"UserLastname","15"})</div>$Data{"StopFont"}
           </td>
           <td class="PriorityID-$Data{"PriorityID"}">
-            <a href="$Env{"Baselink"}Action=AgentTicketCustomer&TicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Customer history"}'; return true;" onmouseout="window.status='';"><div title="$Data{"CustomerID"}">$Quote{"$Data{"CustomerID"}","15"}</div></a>
+            <a href="$Env{"Baselink"}Action=AgentTicketCustomer&TicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Customer history"}'; return true;" onmouseout="window.status='';">
+            <div title="$Data{"CustomerID"}">$Quote{"$Data{"CustomerID"}","15"}</div>
+            </a>
             <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
           </td>
         </tr>

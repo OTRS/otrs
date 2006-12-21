@@ -2,19 +2,18 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.7 2006-10-12 10:15:59 martin Exp $
+# $Id: AgentTicketMove.dtl,v 1.8 2006-12-21 16:13:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start form -->
 
+<!-- start form -->
 <script language="JavaScript" type="text/javascript">
 <!--
 
-function change_selected(sel)
-{
+function change_selected(sel) {
    start_elements = (sel + 5);
    if (document.compose.elements[0].name == "$Config{"SessionName"}") {
        start_elements = start_elements + 1;
@@ -22,14 +21,9 @@ function change_selected(sel)
    if (!document.compose.elements[start_elements].checked) {
         document.compose.elements[start_elements].checked = true;
    }
-# just for debug!
-#alert(start_elements);
-#alert(document.compose.elements[start_elements].name)
-#alert(document.compose.elements[start_elements].checked)
 }
 
-function submit_compose()
-{
+function submit_compose() {
     if (document.compose.DestQueueID.value == "") {
         alert('$JSText{"Queue"}');
         document.compose.DestQueueID.focus();
@@ -54,7 +48,7 @@ function submit_compose()
 //-->
 </script>
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="contenthead">
       $Env{"Box0"}$Text{"Move Ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
@@ -63,25 +57,21 @@ function submit_compose()
 $Include{"AgentTicketLocked"}
   <tr>
     <td class="mainbody">
-
       <br>
-
       <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
         <tr>
           <td colspan="2" class="contenthead">$Text{"Options"}</td>
         </tr>
         <tr>
           <td class="contentbody">
-
 #$Data{"TicketUnlock"}
             <form action="$Env{"CGIHandle"}" method="post" name="compose">
               <input type="hidden" name="Action" value="$Env{"Action"}">
               <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
               <input type="hidden" name="TicketUnlock" value="$Data{"TicketUnlock"}">
-#  <input type="hidden" name="DestQueueID" value="">
+#              <input type="hidden" name="DestQueueID" value="">
               <input type="hidden" name="ExpandQueueUsers" value="">
               <input type="hidden" name="AllUsers" value="0">
-
               <table border="0" width="100%">
                 <tr>
                   <td class="contentkey">$Text{"New Queue"}:</td>
@@ -90,8 +80,12 @@ $Include{"AgentTicketLocked"}
                 </tr>
                 <tr>
                   <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
-                  <td width="2%" class="contentvalue"><input type="radio" name="UserSelection" value="New" checked="checked"></td>
-                  <td width="80%" class="contentvalue">$Data{"OwnerStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandQueueUsers.value='3'; document.compose.AllUsers.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}</td>
+                  <td width="2%" class="contentvalue">
+                    <input type="radio" name="UserSelection" value="New" checked="checked">
+                  </td>
+                  <td width="80%" class="contentvalue">
+                    $Data{"OwnerStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandQueueUsers.value='3'; document.compose.AllUsers.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Previous Owner"}:</td>
@@ -101,10 +95,10 @@ $Include{"AgentTicketLocked"}
                 <tr>
                   <td class="contentkey">$Text{"Note"}:</td>
                   <td class="contentvalue"></td>
-                  <td class="contentvalue"><textarea name="Comment" rows="8" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Data{"Comment"}</textarea>
+                  <td class="contentvalue">
+                    <textarea name="Comment" rows="8" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Data{"Comment"}</textarea>
                   </td>
                 </tr>
-
 # --
 # use ticket is move
 # --
@@ -122,7 +116,6 @@ $Include{"AgentTicketLocked"}
                   <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
                 </tr>
 <!-- dtl:block:TimeUnits -->
-
               </table>
               <tr>
                 <td class="contentfooter">
@@ -130,13 +123,10 @@ $Include{"AgentTicketLocked"}
                 </td>
               </tr>
             </form>
-
           </td>
         </tr>
       </table>
-
       <br>
-
     </td>
   </tr>
 </table>

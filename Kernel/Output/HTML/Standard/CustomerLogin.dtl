@@ -2,24 +2,20 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.19 2006-12-18 00:10:00 mh Exp $
+# $Id: CustomerLogin.dtl,v 1.20 2006-12-21 16:12:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-#
 
 # http headers
 $Include{"CustomerHeader"}
 
 <!-- start login -->
-
 <script language="JavaScript" type="text/javascript">
 <!--
-function submit_form()
-{
-
+function submit_form() {
 #    if (!document.login.User.value) {
 #        alert('$JSText{"Login is needed!"}');
 #        return false;
@@ -34,7 +30,6 @@ function submit_form()
     document.login.TimeOffset.value = Diff;
 
     return true;
-
 }
 //-->
 </script>

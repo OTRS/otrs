@@ -2,14 +2,15 @@
 # Notify.dtl - provides HTML Notify for AgentNotify.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Notify.dtl,v 1.8 2006-08-29 17:10:52 martin Exp $
+# $Id: Notify.dtl,v 1.9 2006-12-21 16:12:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start Notify -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr align="left">
     <td width="25" align="right" class="contentbody">
 <!-- dtl:block:Warning -->

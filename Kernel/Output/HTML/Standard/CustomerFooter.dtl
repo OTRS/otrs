@@ -2,7 +2,7 @@
 # CustomerFooter.dtl - provides global HTML footer
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerFooter.dtl,v 1.9 2006-10-16 19:52:29 mh Exp $
+# $Id: CustomerFooter.dtl,v 1.10 2006-12-21 16:12:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,16 +18,15 @@
 </tr>
 </table>
 <!-- end CI layout -->
-
 <!-- start footer -->
 <a name="end"></a>
-
 <table border="0" width="800" cellspacing="0" cellpadding="3">
 <tr>
-<td align="right" class="small">$Text{"Powered by"} <a href="http://otrs.org/" class="small">$Config{"Product"} $Config{"Version"}</a></td>
+<td align="right" class="small">
+$Text{"Powered by"} <a href="http://otrs.org/" class="small">$Config{"Product"} $Config{"Version"}</a>
+</td>
 </tr>
 </table>
-
 </body>
 </html>
 <!-- end footer -->

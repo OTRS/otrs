@@ -1,18 +1,18 @@
 # --
-# AgentPhoneNew.dtl - provides HTML form for phone
+# AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.20 2006-11-08 11:06:48 martin Exp $
+# $Id: AgentTicketPhone.dtl,v 1.21 2006-12-21 16:13:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start form -->
 <script language="JavaScript" type="text/javascript">
 <!--
-function submit_compose()
-{
+function submit_compose() {
     if (document.compose.Subject.value == "") {
         alert('$JSText{"A message should have a subject!"}');
         document.compose.Subject.focus();
@@ -55,8 +55,7 @@ function submit_compose()
 
 <script language="JavaScript" type="text/javascript">
 <!--
-function SpellCheckSubmit()
-{
+function SpellCheckSubmit() {
     document.spelling.Body.value = document.compose.Body.value;
     window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.spelling.submit()
@@ -66,8 +65,7 @@ function SpellCheckSubmit()
 
 <script language="JavaScript" type="text/javascript">
 <!--
-function FAQSubmit()
-{
+function FAQSubmit() {
     window.open('', 'faq', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.faq.submit()
 }
@@ -76,8 +74,7 @@ function FAQSubmit()
 
 <script language="JavaScript" type="text/javascript">
 <!--
-function CustomerSubmit()
-{
+function CustomerSubmit() {
     window.open('', 'customer', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.customer.submit()
 }
@@ -86,8 +83,7 @@ function CustomerSubmit()
 
 <script language="JavaScript" type="text/javascript">
 <!--
-function clear_field()
-{
+function clear_field() {
     document.compose.From.value = "";
     document.compose.From.focus();
 }
@@ -111,7 +107,7 @@ function clear_field()
 #        <input type="hidden" name="Body" value="Name:
 #        Product:
 #        Comment:">
-#        <input class="button" type="submit" name="" value="Example Template">
+#        <input class="button" type="submit" name="" value="$Text{"Example Template"}">
 #      </form>
 #      <hr>
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
@@ -127,7 +123,10 @@ function clear_field()
         <table border="0" width="100%">
           <tr>
             <td width="20%" class="contentkey">$Text{"From"}:</td>
-            <td width="60%" class="contentvalue"><input type="text" name="From" value="$QData{"From"}" size="80"> <font color="red" size="-2">$Text{"$Data{"From invalid"}"}</font><br>
+            <td width="60%" class="contentvalue">
+              <input type="text" name="From" value="$QData{"From"}" size="80">
+              <font color="red" size="-2">$Text{"$Data{"From invalid"}"}</font>
+              <br>
               $Data{"CustomerUserStrg"}
               <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br><input class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">"; }>
               $Data{"TakeThisCustomer"}
@@ -179,7 +178,10 @@ function clear_field()
 <!-- dtl:block:ResponsibleSelection -->
           <tr>
             <td class="contentkey">$Text{"Subject"}:</td>
-            <td class="contentvalue"><input type="text" name="Subject" value="$Data{"Subject"}" size="80"> <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font></td>
+            <td class="contentvalue">
+              <input type="text" name="Subject" value="$Data{"Subject"}" size="80">
+              <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
+            </td>
           </tr>
           <tr>
             <td class="contentkey">$Text{"Options"}:</td>
@@ -208,7 +210,11 @@ function clear_field()
               <table cellspacing="0" cellpadding="0" width="400">
 <!-- dtl:block:Attachment -->
                 <tr>
-                  <td>$QData{"Filename"}</td><td>$QData{"Filesize"}</td><td align="right"><input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td>
+                  <td>$QData{"Filename"}</td>
+                  <td>$QData{"Filesize"}</td>
+                  <td align="right">
+                    <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">
+                  </td>
                 </tr>
 <!-- dtl:block:Attachment -->
                 <tr>
@@ -216,7 +222,8 @@ function clear_field()
                     <input name="file_upload" type="file" size="40" class="fixed">
                   </td>
                   <td align="right">
-                    <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment">
+                    <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">
+                    <a name="attachment"></a>
                   </td>
                 </tr>
               </table>

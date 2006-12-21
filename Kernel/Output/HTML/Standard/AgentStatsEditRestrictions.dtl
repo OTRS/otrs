@@ -2,18 +2,19 @@
 # AgentStatsEditRestrictions.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStatsEditRestrictions.dtl,v 1.4 2006-12-07 08:36:35 tr Exp $
+# $Id: AgentStatsEditRestrictions.dtl,v 1.5 2006-12-21 16:13:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start form -->
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-  <input type="hidden" name="Action"    value="$Env{"Action"}">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
   <input type="hidden" name="Subaction" value="Action">
-  <input type="hidden" name="Home"      value="EditRestrictions">
-  <input type="hidden" name="StatID"    value="$QData{"StatID"}">
+  <input type="hidden" name="Home" value="EditRestrictions">
+  <input type="hidden" name="StatID" value="$QData{"StatID"}">
   <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>
       <td class="mainhead">
@@ -179,7 +180,7 @@
     </tr>
   </table>
 </form>
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
       $Env{"Box0"}$Text{"Note"}$Env{"Box1"}

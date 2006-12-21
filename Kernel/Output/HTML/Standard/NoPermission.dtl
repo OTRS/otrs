@@ -2,19 +2,22 @@
 # NoPermission.dtl.dtl - provides HTML NoPermission screen
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NoPermission.dtl,v 1.6 2006-08-29 17:10:52 martin Exp $
+# $Id: NoPermission.dtl,v 1.7 2006-12-21 16:12:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <script type="text/javascript">
 <!--
- function AbGehts()
- {
-  history.back();
- }
- window.setTimeout("AbGehts()",60000);
+
+function AbGehts() {
+    history.back();
+}
+
+window.setTimeout("AbGehts()",60000);
+
 //-->
 </script>
 

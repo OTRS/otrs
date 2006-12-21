@@ -2,18 +2,18 @@
 # AgentLookup.dtl - provides HTML form for AgentLookup
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentLookup.dtl,v 1.4 2006-10-12 10:15:59 martin Exp $
+# $Id: AgentLookup.dtl,v 1.5 2006-12-21 16:13:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start Spelling form -->
 <script language="JavaScript" type="text/javascript">
 <!--
 
-function updateMessage(x)
-{
+function updateMessage(x) {
     if (parent.opener.closed) {
         alert('$JSText{"The message being composed has been closed.  Exiting."}');
         this.close();
@@ -27,14 +27,13 @@ function updateMessage(x)
     }
 
     parent.opener.document.compose.$Data{"What"}.value = x
-
     this.close();
 }
 
 //-->
 </script>
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td align="left" class="mainhead">
       $Env{"Box0"}$Text{"Lookup"}$Env{"Box1"}
@@ -42,12 +41,10 @@ function updateMessage(x)
   </tr>
   <tr>
     <td align="left" valign="top" class="mainbody">
-
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="lookup">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Source" value="$Data{"Source"}">
         <input type="hidden" name="What" value="$Data{"What"}">
-
         <hr>
         <table border="0" cellspacing="0" cellpadding="1">
           <tr>
@@ -59,11 +56,9 @@ function updateMessage(x)
             </td>
           </tr>
         </table>
-
         <table border="0" cellspacing="2" cellpadding="2">
 $Data{"Table"}
         </table>
-
       </form>
       <hr>
     </td>

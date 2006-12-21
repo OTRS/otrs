@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.11 2006-12-18 00:10:00 mh Exp $
+# $Id: Installer.dtl,v 1.12 2006-12-21 16:12:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -407,7 +407,7 @@ Public License instead of this License.
           </tr>
           <tr>
             <td class="contentbody">
-              <table cols="3" width="100%" cellspacing="0" cellpadding="2">
+              <table width="100%" cellspacing="0" cellpadding="2">
                 <tr>
                   <td class="contentkey" width="25%">$Text{"Admin-User"}:</td>
                   <td class="contentvalue" width="35%"><input type="text" name="DBUser" value="root" size="25"></td>
@@ -531,7 +531,7 @@ Public License instead of this License.
           </tr>
           <tr>
             <td class="contentbody">
-              <table cols="3" width="100%" cellspacing="0" cellpadding="2">
+              <table width="100%" cellspacing="0" cellpadding="2">
                 <tr>
                   <td class="contentkey" width="20%">$Text{"SystemID"}:</td>
                   <td class="contentvalue" width="40%">$Data{"SystemIDString"}</td>

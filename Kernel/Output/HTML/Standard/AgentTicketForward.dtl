@@ -2,19 +2,18 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.18 2006-11-30 12:40:04 martin Exp $
+# $Id: AgentTicketForward.dtl,v 1.19 2006-12-21 16:13:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start compose form -->
 
+<!-- start compose form -->
 <!-- This java script is just for nice to have funktions! -->
 <script language="JavaScript" type="text/javascript">
 <!--
-function submit_compose()
-{
+function submit_compose() {
     if (document.compose.To.value == "") {
         alert('$JSText{"A message should have a To: recipient!"}');
         document.compose.To.focus();
@@ -61,8 +60,7 @@ function submit_compose()
 </script>
 <script language="JavaScript" type="text/javascript">
 <!--
-function SpellCheckSubmit()
-{
+function SpellCheckSubmit() {
     document.spelling.Body.value = document.compose.Body.value;
     window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.spelling.submit()
@@ -73,8 +71,7 @@ function SpellCheckSubmit()
 
 <script language="JavaScript" type="text/javascript">
 <!--
-function BookCheckSubmit()
-{
+function BookCheckSubmit() {
     document.book.To.value = document.compose.To.value;
     document.book.Cc.value = document.compose.Cc.value;
     document.book.Bcc.value = document.compose.Bcc.value;
@@ -87,15 +84,14 @@ function BookCheckSubmit()
 
 <script language="JavaScript" type="text/javascript">
 <!--
-function FAQSubmit()
-{
+function FAQSubmit() {
     window.open('', 'faq', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.faq.submit()
 }
 // -->
 </script>
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead2">
       $Env{"Box0"}$Text{"Forward"}: $Data{"TicketNumber"}$Env{"Box1"}
@@ -104,9 +100,7 @@ function FAQSubmit()
 $Include{"AgentTicketLocked"}
   <tr>
     <td class="mainbody">
-
       <br>
-
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="SendEmail">
@@ -120,27 +114,40 @@ $Include{"AgentTicketLocked"}
           </tr>
           <tr>
             <td class="contentbody">
-
               <table border="0" width="100%">
                 <tr>
                   <td class="contentkey" width="20%">$Text{"From"}:</td>
-                  <td class="contentvalue" width="80%">$QData{"From"} <input type="hidden" name="From" value="$QData{"From"}"> <font color="red" size="-2">$Data{"From invalid"}</font></td>
+                  <td class="contentvalue" width="80%">
+                    $QData{"From"} <input type="hidden" name="From" value="$QData{"From"}">
+                    <font color="red" size="-2">$Data{"From invalid"}</font>
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"To"}:</td>
-                  <td class="contentvalue"><input type="text" name="To" value="$QData{"To"}" size="80"> <font color="red" size="-2">$Data{"To invalid"}</font></td>
+                  <td class="contentvalue">
+                    <input type="text" name="To" value="$QData{"To"}" size="80">
+                    <font color="red" size="-2">$Data{"To invalid"}</font>
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Cc"}:</td>
-                  <td class="contentvalue"><input type="text" name="Cc" value="$QData{"Cc"}" size="80"> <font color="red" size="-2">$Data{"Cc invalid"}</font></td>
+                  <td class="contentvalue">
+                    <input type="text" name="Cc" value="$QData{"Cc"}" size="80">
+                    <font color="red" size="-2">$Data{"Cc invalid"}</font>
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Bcc"}:</td>
-                  <td class="contentvalue"><input type="text" name="Bcc" value="$QData{"Bcc"}" size="80"> <font color="red" size="-2">$Data{"Bcc invalid"}</font></td>
+                  <td class="contentvalue">
+                    <input type="text" name="Bcc" value="$QData{"Bcc"}" size="80">
+                    <font color="red" size="-2">$Data{"Bcc invalid"}</font>
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Subject"}:</td>
-                  <td class="contentvalue"><input type="text" name="Subject" value="$QData{"Subject"}" size="80"></td>
+                  <td class="contentvalue">
+                    <input type="text" name="Subject" value="$QData{"Subject"}" size="80">
+                  </td>
                 </tr>
 <!-- dtl:block:Option -->
                 <tr>
@@ -177,11 +184,23 @@ $QData{"Body"}
                   <td class="contentvalue">
                     <table cellspacing="0" cellpadding="0" width="400">
 <!-- dtl:block:Attachment -->
-                      <tr><td>$QData{"Filename"}</td><td>$QData{"Filesize"}</td><td align="right"><input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td></tr>
+                      <tr>
+                        <td>$QData{"Filename"}</td>
+                        <td>$QData{"Filesize"}</td>
+                        <td align="right">
+                          <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">
+                        </td>
+                      </tr>
 <!-- dtl:block:Attachment -->
-                      <tr><td colspan="2">
-                        <input name="file_upload" type="file" size="40" class="fixed"></td><td align="right"><input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment">
-                      </td></tr>
+                      <tr>
+                        <td colspan="2">
+                          <input name="file_upload" type="file" size="40" class="fixed">
+                        </td>
+                        <td align="right">
+                          <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">
+                          <a name="attachment"></a>
+                        </td>
+                      </tr>
                     </table>
                   </td>
                 </tr>
@@ -191,7 +210,9 @@ $QData{"Body"}
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
-                  <td class="contentvalue">$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font> </td>
+                  <td class="contentvalue">$Data{"PendingDateString"}
+                    <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font>
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Article type"}:</td>
@@ -203,36 +224,36 @@ $QData{"Body"}
                   <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
                 </tr>
 <!-- dtl:block:FreeText -->
-#    <tr>
-#      <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
-#      <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
-#    </tr>
-#   <tr>
-#      <td class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
-#      <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
-#   </tr>
-#   <tr>
-#      <td class="contentkey">$Data{"TicketFreeKeyField3"}:</td>
-#      <td class="contentvalue">$Data{"TicketFreeTextField3"}</td>
-#   </tr>
-#   <tr>
-#      <td class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
-#      <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
-#   </tr>
+#              <tr>
+#                <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
+#                <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
+#              </tr>
+#              <tr>
+#                <td class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
+#                <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
+#              </tr>
+#              <tr>
+#                <td class="contentkey">$Data{"TicketFreeKeyField3"}:</td>
+#                <td class="contentvalue">$Data{"TicketFreeTextField3"}</td>
+#              </tr>
+#              <tr>
+#                <td class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
+#                <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
+#              </tr>
 <!-- dtl:block:FreeTime -->
                 <tr>
                   <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
                   <td class="contentvalue">$Data{"TicketFreeTime"}</td>
                 </tr>
 <!-- dtl:block:FreeTime -->
-#  <tr>
-#    <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
-#    <td class="contentvalue">$Data{"TicketFreeTime1"}</td>
-#  </tr>
-#  <tr>
-#    <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey2"}"}:</td>
-#    <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
-#  </tr>
+#              <tr>
+#                <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
+#                <td class="contentvalue">$Data{"TicketFreeTime1"}</td>
+#              </tr>
+#              <tr>
+#                <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey2"}"}:</td>
+#                <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
+#              </tr>
 <!-- dtl:block:TimeUnits -->
                 <tr>
                   <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
@@ -249,20 +270,17 @@ $QData{"Body"}
           </tr>
         </table>
       </form>
-
       <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
         <input type="hidden" name="Action" value="AgentSpelling">
         <input type="hidden" name="Body" value="">
         <input type="hidden" name="spell_lang" value="">
       </form>
-
       <form action="$Env{"CGIHandle"}" method="post" name="book" target="book">
         <input type="hidden" name="Action" value="AgentBook">
         <input type="hidden" name="To" value="">
         <input type="hidden" name="Cc" value="">
         <input type="hidden" name="Bcc" value="">
       </form>
-
       <form action="$Env{"CGIHandle"}" method="post" name="faq" target="faq">
         <input type="hidden" name="Action" value="AgentFAQ">
         <input type="hidden" name="Nav" value="None">
@@ -270,9 +288,7 @@ $QData{"Body"}
         <input type="hidden" name="Subject" value="">
         <input type="hidden" name="What" value="">
       </form>
-
       <br>
-
     </td>
   </tr>
 </table>

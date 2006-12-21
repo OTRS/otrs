@@ -2,14 +2,14 @@
 # AgentWindowTabStart.dtl - provides HTML form for window tabs
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentWindowTabStart.dtl,v 1.7 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentWindowTabStart.dtl,v 1.8 2006-12-21 16:13:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start form -->
 
+<!-- start form -->
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
   <input type="hidden" name="Action" value="$Env{"Action"}">
   <table border="0" width="100%" cellspacing="0" cellpadding="3">
@@ -43,5 +43,3 @@
                 <tr>
                   <td class="tablayer1">&nbsp;<br>&nbsp;
                     <div align="center">
-
-

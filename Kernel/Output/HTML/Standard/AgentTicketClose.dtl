@@ -2,17 +2,17 @@
 # AgentTicketClose.dtl - close mask
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketClose.dtl,v 1.13 2006-10-12 10:15:59 martin Exp $
+# $Id: AgentTicketClose.dtl,v 1.14 2006-12-21 16:13:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- dtl:block:Properties -->
 <script language="JavaScript" type="text/javascript">
 <!--
-function submit_compose()
-{
+function submit_compose() {
 <!-- dtl:block:NoteJs -->
     if (document.compose.Subject.value == "") {
         alert('$JSText{"A message should have a subject!"}');
@@ -47,8 +47,7 @@ function submit_compose()
 
 <script language="JavaScript" type="text/javascript">
 <!--
-function SpellCheckSubmit()
-{
+function SpellCheckSubmit() {
     document.spelling.Body.value = document.compose.Body.value;
     window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.spelling.submit()
@@ -59,19 +58,14 @@ function SpellCheckSubmit()
 <!-- dtl:block:OwnerJs -->
 <script language="JavaScript" type="text/javascript">
 <!--
-function change_selected(sel)
-{
-   start_elements = (sel + 4);
-   if (document.compose.elements[0].name == "$Config{"SessionName"}") {
-       start_elements = start_elements + 1;
-   }
-   if (!document.compose.elements[start_elements].checked) {
+function change_selected(sel) {
+    start_elements = (sel + 4);
+    if (document.compose.elements[0].name == "$Config{"SessionName"}") {
+        start_elements = start_elements + 1;
+    }
+    if (!document.compose.elements[start_elements].checked) {
         document.compose.elements[start_elements].checked = true;
-   }
-# just for debug!
-#alert(start_elements);
-#alert(document.owner.elements[start_elements].name)
-#alert(document.owner.elements[start_elements].checked)
+    }
 }
 //-->
 </script>
@@ -89,21 +83,18 @@ function change_selected(sel)
       <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
 <!-- dtl:block:TicketBack -->
 <!-- dtl:block:PropertiesLock -->
-      <img border="0" src="$Env{"Images"}warning.png" alt="$Text{"Info"}">: <font color="red">$Text{"Ticket locked!"}</font> (<a href="$Env{"CGIHandle"}?Action=AgentTicketLock&Subaction=Unlock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$JSText{"Ticket unlock!"}'; return true;" onmouseout="window.status='';">$Text{"Ticket unlock!"}</a>)
+      <img border="0" src="$Env{"Images"}warning.png" alt="$Text{"Info"}">: <font color="red">$Text{"Ticket locked!"}</font> (<a href="$Env{"Baselink"}Action=AgentTicketLock&Subaction=Unlock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$JSText{"Ticket unlock!"}'; return true;" onmouseout="window.status='';">$Text{"Ticket unlock!"}</a>)
 <!-- dtl:block:PropertiesLock -->
     </td>
   </tr>
   <tr>
     <td class="mainbody">
-
       <br>
-
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Store">
         <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
         <input type="hidden" name="FormID" value="$QData{"FormID"}">
-
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -114,18 +105,25 @@ function change_selected(sel)
 <!-- dtl:block:Title -->
                 <tr>
                   <td colspan="2" width="20%" class="contentkey">$Text{"Title"}:</td>
-                  <td width="80%" class="contentvalue"><input type="text" name="Title" value="$QData{"Title"}" size="70"><font color="red" size="-2">$Text{"$Data{"Title invalid"}"}</font></td>
+                  <td width="80%" class="contentvalue">
+                    <input type="text" name="Title" value="$QData{"Title"}" size="70">
+                    <font color="red" size="-2">$Text{"$Data{"Title invalid"}"}</font>
+                  </td>
                 </tr>
 <!-- dtl:block:Title -->
 <!-- dtl:block:Owner -->
                 <tr>
                   <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
-                  <td width="2%" class="contentvalue"><input type="radio" name="NewOwnerType" value="New" $Data{"NewOwnerType::New"}></td>
+                  <td width="2%" class="contentvalue">
+                    <input type="radio" name="NewOwnerType" value="New" $Data{"NewOwnerType::New"}>
+                  </td>
                   <td width="80%" class="contentvalue">$Data{"OwnerStrg"}</td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Previous Owner"}:</td>
-                  <td class="contentvalue"><input type="radio" name="NewOwnerType" value="Old" $Data{"NewOwnerType::Old"}></td>
+                  <td class="contentvalue">
+                    <input type="radio" name="NewOwnerType" value="Old" $Data{"NewOwnerType::Old"}>
+                  </td>
                   <td class="contentvalue">$Data{"OldOwnerStrg"}</td>
                 </tr>
 <!-- dtl:block:Owner -->
@@ -150,7 +148,10 @@ function change_selected(sel)
 <!-- dtl:block:InvolvedAgent -->
                 <tr>
                   <td colspan="2" width="20%" class="contentkey">$Text{"Subject"}:</td>
-                  <td width="80%" class="contentvalue"><input type="text" name="Subject" value="$QData{"Subject"}" size="70"><font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font></td>
+                  <td width="80%" class="contentvalue">
+                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70">
+                    <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
+                  </td>
                 </tr>
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"Options"}:</td>
@@ -164,7 +165,8 @@ function change_selected(sel)
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue">
-                    <textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea> <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
+                    <textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
                   </td>
                 </tr>
                 <tr>
@@ -175,12 +177,17 @@ function change_selected(sel)
                       <tr>
                         <td>$QData{"Filename"}</td>
                         <td>$QData{"Filesize"}</td>
-                        <td align="right"><input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td>
+                        <td align="right">
+                          <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">
+                        </td>
                       </tr>
 <!-- dtl:block:Attachment -->
                       <tr>
                         <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td>
-                        <td align="right"><input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment"></td>
+                        <td align="right">
+                          <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">
+                          <a name="attachment"></a>
+                        </td>
                       </tr>
                     </table>
                   </td>
@@ -200,7 +207,9 @@ function change_selected(sel)
 <!-- dtl:block:StatePending -->
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"Pending date"}:</td>
-                  <td class="contentvalue">$Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
+                  <td class="contentvalue">$Data{"DateString"}
+                    <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font>
+                  </td>
                 </tr>
 <!-- dtl:block:StatePending -->
 <!-- dtl:block:State -->
@@ -275,20 +284,17 @@ function change_selected(sel)
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
+              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">
             </td>
           </tr>
         </table>
       </form>
-
       <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
         <input type="hidden" name="Action" value="AgentSpelling">
         <input type="hidden" name="Body" value="">
         <input type="hidden" name="spell_lang" value="">
       </form>
-
       <br>
-
     </td>
   </tr>
 </table>

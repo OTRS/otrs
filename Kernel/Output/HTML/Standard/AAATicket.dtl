@@ -1,3 +1,14 @@
+# --
+# AAATicket.dtl - $Text variable file
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# --
+# $Id: AAATicket.dtl,v 1.25 2006-12-21 16:12:27 mh Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
 $Text{"Lock"}
 $Text{"Unlock"}
 $Text{"History"}
@@ -123,6 +134,7 @@ $Text{"Mark as Spam!"}
 $Text{"My Queues"}
 $Text{"Shown Tickets"}
 $Text{"Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>"."}
+
 # preferences
 $Text{"New ticket notification"}
 $Text{"Send me a notification if there is a new ticket in "My Queues"."}
@@ -149,7 +161,6 @@ $Text{"Select your screen after creating a new ticket."}
 $Text{"Closed Tickets"}
 $Text{"Show closed tickets."};
 $Text{"Max. shown Tickets a page in QueueView."}
-
 
 $Text{"CompanyTickets"}
 $Text{"MyTickets"}

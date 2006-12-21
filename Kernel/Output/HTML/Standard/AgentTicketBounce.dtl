@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.7 2006-12-18 00:10:00 mh Exp $
+# $Id: AgentTicketBounce.dtl,v 1.8 2006-12-21 16:13:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,8 +14,7 @@
 <!-- This java script is just for nice to have funktions! -->
 <script language="JavaScript" type="text/javascript">
 <!--
-function submit_bounce()
-{
+function submit_bounce() {
     if (document.bounce.BounceTo.value == "") {
         alert('$JSText{"A message should have a To: recipient!"}');
         document.compose.To.focus();

@@ -1,3 +1,14 @@
+# --
+# AAAStats.dtl - $Text variable file
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# --
+# $Id: AAAStats.dtl,v 1.4 2006-12-21 16:12:27 mh Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
 # Common
 $Text{"Stat"}
 $Text{""}
@@ -51,7 +62,3 @@ $Text{"Created State"}
 $Text{"Create Time"}
 $Text{"CustomerUserLogin"}
 $Text{"Close Time"}
-$Text{""}
-
-
-

@@ -1,13 +1,14 @@
 # --
-# AgentMailboxNavBar.dtl - provides HTML AgentMailboxNavBar for AgentAgentMailboxNavBar.pm
+# AgentTicketMailbox.dtl - provides HTML for AgentTicketMailbox
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.dtl,v 1.6 2006-11-08 11:30:35 tr Exp $
+# $Id: AgentTicketMailbox.dtl,v 1.7 2006-12-21 16:13:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- dtl:block:NavBar -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
@@ -19,10 +20,9 @@
     <td class="menu">
       $Text{"Tickets"}: $Data{"Result"} $Text{"of"} $Data{"TotalHits"} -
       $Text{"Page"}: $Data{"SiteNavBar"} - $Text{"Filter"}:
-
       <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=All&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"All messages"} ($Data{"All"})'; return true;" onmouseout="window.status='';">$Text{"All"} ($Data{"All"})</a>
-#  -
-#  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Open&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"Open messages"} ($Data{"Open"})'; return true;" onmouseout="window.status='';">$Text{"Old messages"} ($Data{"Open"})</a>
+#      -
+#      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Open&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"Open messages"} ($Data{"Open"})'; return true;" onmouseout="window.status='';">$Text{"Old messages"} ($Data{"Open"})</a>
       -
       <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=New&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"New messages"} ($Data{"New"})'; return true;" onmouseout="window.status='';">$Text{"New messages"} ($Data{"New"})</a>
       -
@@ -43,15 +43,15 @@
 </table>
 <!-- dtl:block:NavBar -->
 <!-- dtl:block:Ticket -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
-
 <!-- dtl:block:Bulk -->
     <td width="1%" class="mainhead">
-      <form name="abulk$Data{"Counter"}"><input type="checkbox" name="Selected" value="1" onclick="BulkChangeSelected($Data{"TicketID"},$Data{"Counter"})"></form>
+      <form name="abulk$Data{"Counter"}">
+        <input type="checkbox" name="Selected" value="1" onclick="BulkChangeSelected($Data{"TicketID"},$Data{"Counter"})">
+      </form>
     </td>
 <!-- dtl:block:Bulk -->
-
     <td align="left" width="65%" class="mainhead">
       $Env{"Box0"}$Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}
 <!-- dtl:block:Title-->
@@ -64,20 +64,17 @@
     </td>
   </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="3">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td width="65%" class="menu">
-
 <!-- dtl:block:Menu -->
 <!-- dtl:block:MenuItemSplit -->
       -
 <!-- dtl:block:MenuItemSplit -->
 <!-- dtl:block:MenuItem -->
-      <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"$QData{"Description"}"}">
-$Text{"$QData{"Name"}"}</a>
+      <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Name"}"}</a>
 <!-- dtl:block:MenuItem -->
 <!-- dtl:block:Menu -->
-
     </td>
     <td align="right" width="34%" class="menu">
       <table border="0" cellspacing="0" cellpadding="0">
@@ -89,7 +86,7 @@ $Text{"$QData{"Name"}"}</a>
     </td>
   </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td valign="top" width="60%" class="mainbody">
       <table border="0" width="100%" cellspacing="0" cellpadding="1">
@@ -106,7 +103,6 @@ $Text{"$QData{"Name"}"}</a>
 # --
         <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top" ><b>$Text{"Cc"}:</b></td><td> <div title="$QData{"Cc"}">$QData{"Cc","80"}</div></td></tr>"; }>
         $Data{"ArticleCcString"}
-
         <tr>
           <td valign="top"><b>$Text{"Subject"}:</b></td>
           <td> <div title="$QData{"Subject"}">$QData{"Subject","80"}</div></td>

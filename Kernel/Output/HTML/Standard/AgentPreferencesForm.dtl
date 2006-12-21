@@ -2,7 +2,7 @@
 # AgentPreferencesForm.dtl - provides HTML form for AgentPreferences
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentPreferencesForm.dtl,v 1.21 2006-12-18 00:10:00 mh Exp $
+# $Id: AgentPreferencesForm.dtl,v 1.22 2006-12-21 16:13:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -43,19 +43,37 @@
                 <table border="0">
 <!-- dtl:block:Block -->
 <!-- dtl:block:InputKey -->
-                  <tr><td>$Text{"$QData{"Key"}"}:</td><td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"></td></tr>
+                  <tr>
+                    <td>$Text{"$QData{"Key"}"}:</td>
+                    <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"></td>
+                  </tr>
 <!-- dtl:block:InputKey -->
 <!-- dtl:block:Input -->
-                  <tr><td>$Text{"$QData{"Key"}"}</td><td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"></td></tr>
+                  <tr>
+                    <td>$Text{"$QData{"Key"}"}</td>
+                    <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"></td>
+                  </tr>
 <!-- dtl:block:Input -->
 <!-- dtl:block:Option -->
-                  <tr><td>$Text{"$QData{"Key"}"}</td><td>$Data{"Option"}</td></tr>
+                  <tr>
+                    <td>$Text{"$QData{"Key"}"}</td>
+                    <td>$Data{"Option"}</td>
+                  </tr>
 <!-- dtl:block:Option -->
 <!-- dtl:block:Upload -->
-                  <tr><td>$Text{"$QData{"Key"}"}</td><td><input name="$QData{"Name"}" type="file" size="20" class="fixed"><br><a href="">$QData{"Filename"}</a></td></tr>
+                  <tr>
+                    <td>$Text{"$QData{"Key"}"}</td>
+                    <td>
+                      <input name="$QData{"Name"}" type="file" size="20" class="fixed"><br>
+                      <a href="">$QData{"Filename"}</a>
+                    </td>
+                  </tr>
 <!-- dtl:block:Upload -->
 <!-- dtl:block:Password -->
-                  <tr><td>$Text{"$QData{"Key"}"}:</td><td><input type="password" name="$QData{"Name"}" value="" size="12"></td></tr>
+                  <tr>
+                    <td>$Text{"$QData{"Key"}"}:</td>
+                    <td><input type="password" name="$QData{"Name"}" value="" size="12"></td>
+                  </tr>
 <!-- dtl:block:Password -->
 <!-- dtl:block:Block -->
                 </table>
