@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.9 2006-11-22 19:29:57 martin Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.10 2006-12-30 02:56:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -33,7 +33,6 @@ sub new {
         }
         else {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-#            return;
         }
     }
     $Self->{CryptObject} = Kernel::System::Crypt->new(%Param, CryptType => 'SMIME');
@@ -77,7 +76,6 @@ sub Check {
         );
         use MIME::Parser;
         my $parser = MIME::Parser->new();
-#        $parser->decode_bodies(0);
         $parser->decode_headers(0);
         $parser->extract_nested_messages(0);
         $parser->output_to_core("ALL");
@@ -108,7 +106,6 @@ sub Check {
                 $Head->unfold();
                 $Head->combine('Content-Type');
                 $ContentType = $Head->get('Content-Type');
-#print STDERR "$ContentType--\n";
                 push (@Return, {
                     Key => 'Crypted',
                     Value => $Decrypt{Message},
@@ -169,12 +166,13 @@ sub Check {
         }
     }
     if (%SignCheck) {
-       # return result
-       push (@Return, {
-           Key => 'Signed',
-           Value => $SignCheck{Message},
-           %SignCheck,
-       });
+        # return result
+        push (@Return, {
+                Key => 'Signed',
+                Value => $SignCheck{Message},
+                %SignCheck,
+            }
+        );
     }
     return @Return;
 }

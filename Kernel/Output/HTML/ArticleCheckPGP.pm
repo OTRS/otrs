@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckPGP.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleCheckPGP.pm,v 1.9 2006-11-22 19:29:57 martin Exp $
+# $Id: ArticleCheckPGP.pm,v 1.10 2006-12-30 02:56:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -33,7 +33,6 @@ sub new {
         }
         else {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-#            return;
         }
     }
     $Self->{CryptObject} = Kernel::System::Crypt->new(%Param, CryptType => 'PGP');
@@ -105,7 +104,7 @@ sub Check {
     # check mime pgp
     else {
 # check body
-#if (body =~ application/pgp-encrypted
+# if body =~ application/pgp-encrypted
 # if crypted, decrypt it
 # remember that it was crypted!
 
@@ -120,8 +119,6 @@ sub Check {
         $parser->extract_nested_messages(0);
         $parser->output_to_core("ALL");
         my $Entity = $parser->parse_data($Message);
-#print STDERR "+++ ".$Entity->mime_type()."\n";
-#        if ( $Entity->effective_type() eq 'multipart/signed' ) {
         my $Head = $Entity->head();
         $Head->unfold();
         $Head->combine('Content-Type');
@@ -149,7 +146,6 @@ sub Check {
                 $Head->unfold();
                 $Head->combine('Content-Type');
                 $ContentType = $Head->get('Content-Type');
-#print STDERR "$ContentType--\n";
 
                 use Kernel::System::EmailParser;
 
@@ -157,39 +153,38 @@ sub Check {
                     %{$Self},
                     Entity => $Entity,
                 );
-#print STDERR $Entity->body_as_string."\n";
-               my $Body = $ParserObject->GetMessageBody();
-#               print STDERR "$Body\n";
-               # updated article body
-               $Self->{TicketObject}->ArticleUpdate(
-                    TicketID => $Param{Article}->{TicketID},
-                    ArticleID => $Self->{ArticleID},
-                    Key => 'Body',
-                    Value => $Body,
-                    UserID => $Self->{UserID},
-               );
-               # delete crypted attachments
-               $Self->{TicketObject}->ArticleDeleteAttachment(
-                    ArticleID => $Self->{ArticleID},
-                    UserID => $Self->{UserID},
-               );
-               # write attachments to the storage
-               foreach my $Attachment ($ParserObject->GetAttachments()) {
-                   $Self->{TicketObject}->ArticleWriteAttachment(
-                       Content => $Attachment->{Content},
-                       Filename => $Attachment->{Filename},
-                       ContentType => $Attachment->{ContentType},
-                       ArticleID => $Self->{ArticleID},
-                       UserID => $Self->{UserID},
-                   );
-               }
 
-               push (@Return, {
-                       Key => 'Crypted',
-                       Value => $Decrypt{Message},
-                       %Decrypt,
-                   },
-               );
+                my $Body = $ParserObject->GetMessageBody();
+                # updated article body
+                $Self->{TicketObject}->ArticleUpdate(
+                     TicketID => $Param{Article}->{TicketID},
+                     ArticleID => $Self->{ArticleID},
+                     Key => 'Body',
+                     Value => $Body,
+                     UserID => $Self->{UserID},
+                );
+                # delete crypted attachments
+                $Self->{TicketObject}->ArticleDeleteAttachment(
+                     ArticleID => $Self->{ArticleID},
+                     UserID => $Self->{UserID},
+                );
+                # write attachments to the storage
+                foreach my $Attachment ($ParserObject->GetAttachments()) {
+                    $Self->{TicketObject}->ArticleWriteAttachment(
+                        Content => $Attachment->{Content},
+                        Filename => $Attachment->{Filename},
+                        ContentType => $Attachment->{ContentType},
+                        ArticleID => $Self->{ArticleID},
+                        UserID => $Self->{UserID},
+                    );
+                }
+
+                push (@Return, {
+                        Key => 'Crypted',
+                        Value => $Decrypt{Message},
+                        %Decrypt,
+                    },
+                );
             }
             else {
                 push (@Return, {
@@ -201,7 +196,6 @@ sub Check {
             }
         }
         if ($ContentType && $ContentType =~ /multipart\/signed/i && $ContentType =~ /application\/pgp/i) {
-#    $parser->decode_bodies(0);
             my $signed_text    = $Entity->parts(0)->as_string();
             my $signature_text = $Entity->parts(1)->body_as_string();
             # according to RFC3156 all line endings MUST be CR/LF

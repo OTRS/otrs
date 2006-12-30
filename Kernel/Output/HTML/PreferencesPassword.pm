@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesPassword.pm,v 1.10 2006-10-16 15:54:22 cs Exp $
+# $Id: PreferencesPassword.pm,v 1.11 2006-12-30 02:56:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Digest::MD5;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -76,7 +76,6 @@ sub Run {
 
     # pref update db
     if ($Self->{ConfigObject}->Get('DemoSystem')) {
-#        $Self->{Error} = "Can't change password, it's a demo system!";
         return 1;
     }
 
@@ -106,15 +105,15 @@ sub Run {
     }
     if ($Self->{ConfigItem}->{PasswordMinSize} && $Pw !~ /^.{$Self->{ConfigItem}->{PasswordMinSize}}/) {
         $Self->{Error} = 'Can\'t update password, need min. 8 characters!';
-       return;
+        return;
     }
     if ($Self->{ConfigItem}->{PasswordMin2Lower2UpperCharacters} && ($Pw !~ /[A-Z]/ || $Pw !~ /[a-z]/)) {
         $Self->{Error} = 'Can\'t update password, need 2 lower and 2 upper characters!';
-       return;
+        return;
     }
     if ($Self->{ConfigItem}->{PasswordNeedDigit} && $Pw !~ /\d/) {
         $Self->{Error} = 'Can\'t update password, need min. 1 digit!';
-       return;
+        return;
     }
     if ($Self->{ConfigItem}->{PasswordMin2Characters} && $Pw !~ /[A-z][A-z]/) {
         $Self->{Error} = 'Can\'t update password, need min. 2 characters!';
@@ -126,9 +125,12 @@ sub Run {
     $MD5->add($Pw);
     my $MD5Pw = $MD5->hexdigest;
 
-    if ($Self->{ConfigItem}->{PasswordHistory} && $Param{UserData}->{UserLastPw} && ($MD5Pw eq $Param{UserData}->{UserLastPw})) {
+    if ($Self->{ConfigItem}->{PasswordHistory} &&
+        $Param{UserData}->{UserLastPw} &&
+        ($MD5Pw eq $Param{UserData}->{UserLastPw})
+    ) {
         $Self->{Error} = "Password is already used! Please use an other password!";
-       return;
+        return;
     }
 
     if ($Self->{UserObject}->SetPassword(UserLogin => $Param{UserData}->{UserLogin}, PW => $Pw)) {

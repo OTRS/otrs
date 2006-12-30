@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.5 2006-11-23 11:04:11 tr Exp $
+# $Id: LayoutTicket.pm,v 1.6 2006-12-30 02:56:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::LayoutTicket;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketStdResponseString {
@@ -138,7 +138,6 @@ sub AgentQueueListOption {
         $Param{'MoveQueuesStrg'} = $Self->OptionStrgHashRef(
             %Param,
             HTMLQuote => 0,
-#            OnChangeSubmit => 1,
         );
         return $Param{MoveQueuesStrg};
     }
@@ -258,7 +257,9 @@ sub AgentFreeText {
                        $Ticket{"TicketFreeKey$_"} = '';
                     }
                 }
-                $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Ticket{"TicketFreeKey$_"}).'" size="20">';
+                $Data{"TicketFreeKeyField$_"} =
+                    '<input type="text" name="TicketFreeKey'.$_.
+                    '" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Ticket{"TicketFreeKey$_"}).'" size="20">';
             }
             else {
                 $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="" size="20">';
@@ -289,7 +290,9 @@ sub AgentFreeText {
                         $Ticket{"TicketFreeText$_"} = '';
                     }
                 }
-                $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Ticket{"TicketFreeText$_"}).'" size="30">';
+                $Data{"TicketFreeTextField$_"} =
+                    '<input type="text" name="TicketFreeText'.$_.'" value="'.
+                    $Self->{LayoutObject}->Ascii2Html(Text => $Ticket{"TicketFreeText$_"}).'" size="30">';
             }
             else {
                 $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="" size="30">';
@@ -307,7 +310,6 @@ sub AgentFreeDate {
     my %Ticket = ();
     my %Config = ();
     if ($Param{NullOption}) {
-#        $NullOption{''} = '-';
         $SelectData{Size} = 3;
         $SelectData{Multiple} = 1;
     }
@@ -338,7 +340,6 @@ sub TicketArticleFreeText {
     my %Article = ();
     my %Config = ();
     if ($Param{NullOption}) {
-#        $NullOption{''} = '-';
         $SelectData{Size} = 3;
         $SelectData{Multiple} = 1;
     }
@@ -394,7 +395,9 @@ sub TicketArticleFreeText {
                         $Article{"ArticleFreeKey$_"} = '';
                     }
                 }
-                $Data{"ArticleFreeKeyField$_"} = '<input type="text" name="ArticleFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Article{"ArticleFreeKey$_"}).'" size="20">';
+                $Data{"ArticleFreeKeyField$_"} =
+                    '<input type="text" name="ArticleFreeKey'.$_.
+                    '" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Article{"ArticleFreeKey$_"}).'" size="20">';
             }
             else {
                 $Data{"ArticleFreeKeyField$_"} = '<input type="text" name="ArticleFreeKey'.$_.'" value="" size="20">';
@@ -425,7 +428,9 @@ sub TicketArticleFreeText {
                         $Article{"ArticleFreeText$_"} = '';
                     }
                 }
-                $Data{"ArticleFreeTextField$_"} = '<input type="text" name="ArticleFreeText'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Article{"ArticleFreeText$_"}).'" size="30">';
+                $Data{"ArticleFreeTextField$_"} =
+                    '<input type="text" name="ArticleFreeText'.$_.
+                    '" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Article{"ArticleFreeText$_"}).'" size="30">';
             }
             else {
                 $Data{"ArticleFreeTextField$_"} = '<input type="text" name="ArticleFreeText'.$_.'" value="" size="30">';
@@ -443,7 +448,6 @@ sub CustomerFreeDate {
     my %Ticket = ();
     my %Config = ();
     if ($Param{NullOption}) {
-#        $NullOption{''} = '-';
         $SelectData{Size} = 3;
         $SelectData{Multiple} = 1;
     }
