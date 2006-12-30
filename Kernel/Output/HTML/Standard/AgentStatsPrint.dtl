@@ -2,7 +2,7 @@
 # AgentStatsPrint.dtl - provides HTML form for view IDMEF
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStatsPrint.dtl,v 1.4 2006-12-21 16:13:14 mh Exp $
+# $Id: AgentStatsPrint.dtl,v 1.5 2006-12-30 02:26:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -46,7 +46,7 @@
 #              <tr>
 #                <td colspan="2">
 #                  <hr>
-#                <td>
+#                </td>
 #              </tr>
 <!--dtl:block:Dynamic -->
               <tr>
