@@ -2,12 +2,13 @@
 # Warning.dtl - provides HTML warning screen
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Warning.dtl,v 1.7 2006-08-29 17:11:11 martin Exp $
+# $Id: Warning.dtl,v 1.8 2006-12-30 02:39:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <center>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>

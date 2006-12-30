@@ -2,7 +2,7 @@
 # Motd.dtl - provides HTML message of the day
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Motd.dtl,v 1.4 2006-08-29 17:11:11 martin Exp $
+# $Id: Motd.dtl,v 1.5 2006-12-30 02:39:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,4 +12,3 @@
 <p>
   This is the message of the day. You can edit this in Kernel/Output/HTML/Standard/Motd.dtl.
 </p>
-
