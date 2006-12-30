@@ -2,14 +2,15 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.26 2006-11-07 10:15:02 tr Exp $
+# $Id: AdminGenericAgent.dtl,v 1.27 2006-12-30 02:09:56 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td colspan="2" class="mainhead">
       $Env{"Box0"}$Text{"GenericAgent"}$Env{"Box1"}
@@ -238,243 +239,244 @@
               $Text{"No time settings."}
             </td>
           </tr>
-          <td colspan="2" class="contentbody">
-            <input type="radio" name="TimeSearchType" value="TimePoint" $Data{"TimeSearchType::TimePoint"}>
-            $Text{"Ticket created"} $Data{"TicketCreateTimePointStart"} $Data{"TicketCreateTimePoint"} $Data{"TicketCreateTimePointFormat"}.
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" class="contentbody">
-            <input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}>
-            $Text{"Ticket created between"} $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}.
-          </td>
-        </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="TimeSearchType" value="TimePoint" $Data{"TimeSearchType::TimePoint"}>
+              $Text{"Ticket created"} $Data{"TicketCreateTimePointStart"} $Data{"TicketCreateTimePoint"} $Data{"TicketCreateTimePointFormat"}.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}>
+              $Text{"Ticket created between"} $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}.
+            </td>
+          </tr>
 <!-- new options -->
-        <tr>
-          <td class="mainhead" width="50%">$Text{"New Priority"}</td>
-          <td class="mainhead" width="50%">$Text{"New Queue"}</td>
-        </tr>
-        <tr>
-          <td class="contentbody">$Data{"NewPriotitiesStrg"}</td>
-          <td class="contentbody">$Data{"NewQueuesStrg"}</td>
-        </tr>
-        <tr>
-          <td class="mainhead">$Text{"New State"}</td>
-          <td class="mainhead">$Text{"New Agent"}/$Text{"New Owner"}</td>
-        </tr>
-        <tr>
-          <td class="contentbody">$Data{"NewStatesStrg"}</td>
-          <td class="contentbody">$Data{"NewOwnerStrg"}</td>
-        </tr>
-        <tr>
-          <td class="mainhead" width="50%">$Text{"New Customer"}</td>
-          <td class="mainhead" width="50%">$Text{"New Ticket Lock"}</td>
-        </tr>
-        <tr>
-          <td class="contentbody">
-            <table>
-              <tr>
-                <td>$Text{"CustomerUser"}:</td>
-                <td>
-                  <input type="text" name="NewCustomerUserLogin" value="$QData{"NewCustomerUserLogin"}" size="30">
-                </td>
-              </tr>
-              <tr>
-                <td>$Text{"CustomerID"}:</td>
-                <td>
-                  <input type="text" name="NewCustomerID" value="$QData{"NewCustomerID"}" size="30">
-                </td>
-              </tr>
-            </table>
-          </td>
-          <td class="contentbody">$Data{"NewLockOption"}</td>
-        </tr>
+          <tr>
+            <td class="mainhead" width="50%">$Text{"New Priority"}</td>
+            <td class="mainhead" width="50%">$Text{"New Queue"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">$Data{"NewPriotitiesStrg"}</td>
+            <td class="contentbody">$Data{"NewQueuesStrg"}</td>
+          </tr>
+          <tr>
+            <td class="mainhead">$Text{"New State"}</td>
+            <td class="mainhead">$Text{"New Agent"}/$Text{"New Owner"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">$Data{"NewStatesStrg"}</td>
+            <td class="contentbody">$Data{"NewOwnerStrg"}</td>
+          </tr>
+          <tr>
+            <td class="mainhead" width="50%">$Text{"New Customer"}</td>
+            <td class="mainhead" width="50%">$Text{"New Ticket Lock"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table>
+                <tr>
+                  <td>$Text{"CustomerUser"}:</td>
+                  <td>
+                    <input type="text" name="NewCustomerUserLogin" value="$QData{"NewCustomerUserLogin"}" size="30">
+                  </td>
+                </tr>
+                <tr>
+                  <td>$Text{"CustomerID"}:</td>
+                  <td>
+                    <input type="text" name="NewCustomerID" value="$QData{"NewCustomerID"}" size="30">
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td class="contentbody">$Data{"NewLockOption"}</td>
+          </tr>
 <!-- dtl:block:NewTicketFreeField -->
-        <tr>
-          <td colspan="2" class="mainhead">$Text{"New TicketFreeFields"}</td>
-        </tr>
+          <tr>
+            <td colspan="2" class="mainhead">$Text{"New TicketFreeFields"}</td>
+          </tr>
 <!-- dtl:block:NewTicketFreeFieldElement -->
-        <tr>
-          <td class="contentbody">$Data{"NewTicketFreeKey"}</td>
-          <td class="contentbody">$Data{"NewTicketFreeText"}</td>
-        </tr>
+          <tr>
+            <td class="contentbody">$Data{"NewTicketFreeKey"}</td>
+            <td class="contentbody">$Data{"NewTicketFreeText"}</td>
+          </tr>
 <!-- dtl:block:NewTicketFreeFieldElement -->
 <!-- dtl:block:NewTicketFreeField -->
-        <tr>
-          <td colspan="2" class="mainhead" width="50%">$Text{"Add Note"}</td>
-        </tr>
-        <tr>
-          <td colspan="2" class="contentbody">
-            <table>
-              <tr>
-                <td valign="top">$Text{"From"}:</td>
-                <td>
-                  <input type="text" name="NewNoteFrom" value="$QData{"NewNoteFrom"}" size="60">
-                </td>
-              </tr>
-              <tr>
-                <td valign="top">$Text{"Subject"}:</td>
-                <td>
-                  <input type="text" name="NewNoteSubject" value="$QData{"NewNoteSubject"}" size="60">
-                </td>
-              </tr>
-              <tr>
-                <td valign="top">$Text{"Text"}:</td>
-                <td>
-                  <textarea name="NewNoteBody" rows="7" cols="60" wrap="hard">$QData{"NewNoteBody"}</textarea>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td class="mainhead" width="50%">$Text{"CMD"}</td>
-          <td class="mainhead" width="50%">$Text{"Delete"}</td>
-        </tr>
-        <tr>
-          <td class="contentbody">
-            <input type="text" name="NewCMD" value="$QData{"NewCMD"}" size="40">
-            <br>
-            ($Text{"This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id."})
-          </td>
-          <td class="contentbody">
-            $Text{"Delete tickets"}: $Data{"DeleteOption"}
-            <br>
-            <font color="red">
-            <b>($Text{"Warning! This tickets will be removed from the database! This tickets are lost!"})</b>
-            </font>
-          </td>
-        </tr>
-        <tr>
-          <td class="mainhead" width="50%">$Text{"Module"}</td>
-          <td class="mainhead" width="50%">$Text{"Send Notification"}</td>
-        </tr>
-        <tr>
-          <td class="contentbody">
-            <table>
-              <tr>
-                <td valign="top">$Text{"Module"}:</td>
-                <td><input type="text" name="NewModule" value="$QData{"NewModule"}" size="45"></td>
-              </tr>
-              <tr>
-                <td valign="top">$Text{"Param 1"}:</td>
-                <td>
-                  <input type="text" name="NewParamKey1" value="$QData{"NewParamKey1"}" size="12">=&gt;
-                  <input type="text" name="NewParamValue1" value="$QData{"NewParamValue1"}" size="20">
-                </td>
-              </tr>
-              <tr>
-                <td valign="top">$Text{"Param 2"}:</td>
-                <td>
-                  <input type="text" name="NewParamKey2" value="$QData{"NewParamKey2"}" size="12">=&gt;
-                  <input type="text" name="NewParamValue2" value="$QData{"NewParamValue2"}" size="20">
-                </td>
-              </tr>
-              <tr>
-                <td valign="top">$Text{"Param 3"}:</td>
-                <td>
-                  <input type="text" name="NewParamKey3" value="$QData{"NewParamKey3"}" size="12">=&gt;
-                  <input type="text" name="NewParamValue3" value="$QData{"NewParamValue3"}" size="20">
-                </td>
-              </tr>
-              <tr>
-                <td valign="top">$Text{"Param 4"}:</td>
-                <td>
-                  <input type="text" name="NewParamKey4" value="$QData{"NewParamKey4"}" size="12">=&gt;
-                  <input type="text" name="NewParamValue4" value="$QData{"NewParamValue4"}" size="20">
-                </td>
-              </tr>
-              <tr>
-                <td valign="top">$Text{"Param 5"}:</td>
-                <td>
-                  <input type="text" name="NewParamKey5" value="$QData{"NewParamKey5"}" size="12">=&gt;
-                  <input type="text" name="NewParamValue5" value="$QData{"NewParamValue5"}" size="20">
-                </td>
-              </tr>
-              <tr>
-                <td valign="top">$Text{"Param 6"}:</td>
-                <td>
-                  <input type="text" name="NewParamKey6" value="$QData{"NewParamKey6"}" size="12">=&gt;
-                  <input type="text" name="NewParamValue6" value="$QData{"NewParamValue6"}" size="20">
-                </td>
-              </tr>
-            </table>
-          </td>
-          <td class="contentbody">
-            $Text{"Send no notifications"}: $Data{"SendNoNotificationOption"}
-            <br>
-            $Text{"Yes means, send no agent and customer notifications on changes."}
-            $Text{"No means, send agent and customer notifications on changes."}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" class="contentfooter">
-            <input class="button" type="submit" value="$Text{"Save"}">
-          </td>
-        </tr>
-      </table>
-    </form>
-  </td>
-</tr>
+          <tr>
+            <td colspan="2" class="mainhead" width="50%">$Text{"Add Note"}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <table>
+                <tr>
+                  <td valign="top">$Text{"From"}:</td>
+                  <td>
+                    <input type="text" name="NewNoteFrom" value="$QData{"NewNoteFrom"}" size="60">
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top">$Text{"Subject"}:</td>
+                  <td>
+                    <input type="text" name="NewNoteSubject" value="$QData{"NewNoteSubject"}" size="60">
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top">$Text{"Text"}:</td>
+                  <td>
+                    <textarea name="NewNoteBody" rows="7" cols="60" wrap="hard">$QData{"NewNoteBody"}</textarea>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="mainhead" width="50%">$Text{"CMD"}</td>
+            <td class="mainhead" width="50%">$Text{"Delete"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <input type="text" name="NewCMD" value="$QData{"NewCMD"}" size="40">
+              <br>
+              ($Text{"This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id."})
+            </td>
+            <td class="contentbody">
+              $Text{"Delete tickets"}: $Data{"DeleteOption"}
+              <br>
+              <font color="red">
+              <b>($Text{"Warning! This tickets will be removed from the database! This tickets are lost!"})</b>
+              </font>
+            </td>
+          </tr>
+          <tr>
+            <td class="mainhead" width="50%">$Text{"Module"}</td>
+            <td class="mainhead" width="50%">$Text{"Send Notification"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table>
+                <tr>
+                  <td valign="top">$Text{"Module"}:</td>
+                  <td><input type="text" name="NewModule" value="$QData{"NewModule"}" size="45"></td>
+                </tr>
+                <tr>
+                  <td valign="top">$Text{"Param 1"}:</td>
+                  <td>
+                    <input type="text" name="NewParamKey1" value="$QData{"NewParamKey1"}" size="12">=&gt;
+                    <input type="text" name="NewParamValue1" value="$QData{"NewParamValue1"}" size="20">
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top">$Text{"Param 2"}:</td>
+                  <td>
+                    <input type="text" name="NewParamKey2" value="$QData{"NewParamKey2"}" size="12">=&gt;
+                    <input type="text" name="NewParamValue2" value="$QData{"NewParamValue2"}" size="20">
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top">$Text{"Param 3"}:</td>
+                  <td>
+                    <input type="text" name="NewParamKey3" value="$QData{"NewParamKey3"}" size="12">=&gt;
+                    <input type="text" name="NewParamValue3" value="$QData{"NewParamValue3"}" size="20">
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top">$Text{"Param 4"}:</td>
+                  <td>
+                    <input type="text" name="NewParamKey4" value="$QData{"NewParamKey4"}" size="12">=&gt;
+                    <input type="text" name="NewParamValue4" value="$QData{"NewParamValue4"}" size="20">
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top">$Text{"Param 5"}:</td>
+                  <td>
+                    <input type="text" name="NewParamKey5" value="$QData{"NewParamKey5"}" size="12">=&gt;
+                    <input type="text" name="NewParamValue5" value="$QData{"NewParamValue5"}" size="20">
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top">$Text{"Param 6"}:</td>
+                  <td>
+                    <input type="text" name="NewParamKey6" value="$QData{"NewParamKey6"}" size="12">=&gt;
+                    <input type="text" name="NewParamValue6" value="$QData{"NewParamValue6"}" size="20">
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td class="contentbody">
+              $Text{"Send no notifications"}: $Data{"SendNoNotificationOption"}
+              <br>
+              $Text{"Yes means, send no agent and customer notifications on changes."}
+              $Text{"No means, send agent and customer notifications on changes."}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Save"}">
+            </td>
+          </tr>
+        </table>
+      </form>
+    </td>
+  </tr>
 <!-- dtl:block:Edit -->
 <!-- dtl:block:Result -->
-<tr>
-  <td colspan="2" class="menu">
-    <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Job-List"}</a> -
-    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Update&Profile=$QData{"Name"}">
-    $Text{"Edit"}
-    </a> -
-    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=RunNow&Profile=$QData{"Name"}">$Text{"Run Now!"}</a>
-  </td>
-</tr>
-<tr>
-  <td class="mainbody">
-    <p>
-      $Text{"%s Tickets affected! Do you really want to use this job?", "$QData{"AffectedIDs"}"}<br>
-      $Text{"$QData{"DeleteMessage"}"}
-    </p>
-  </td>
-</tr>
+  <tr>
+    <td colspan="2" class="menu">
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Job-List"}</a> -
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Update&Profile=$QData{"Name"}">
+      $Text{"Edit"}
+      </a> -
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=RunNow&Profile=$QData{"Name"}">$Text{"Run Now!"}</a>
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
+      <p>
+        $Text{"%s Tickets affected! Do you really want to use this job?", "$QData{"AffectedIDs"}"}<br>
+        $Text{"$QData{"DeleteMessage"}"}
+      </p>
+    </td>
+  </tr>
 <!-- dtl:block:ResultBlock -->
-<tr>
-  <td class="mainbody">
-    <br>
-    <table border="0" width="100%" cellpadding="3" cellspacing="0">
-      <tr class="contenthead">
-        <td>$Config{"Ticket::Hook"}</td>
-        <td>$Text{"Age"}</td>
-        <td>$Text{"From"}/$Text{"Subject"}</td>
-        <td>$Text{"State"}</td>
-        <td>$Text{"Queue"}</td>
-        <td>$Text{"Owner"}</td>
-        <td>$Text{"CustomerID"}</td>
-      </tr>
+  <tr>
+    <td class="mainbody">
+      <br>
+      <table border="0" width="100%" cellpadding="3" cellspacing="0">
+        <tr class="contenthead">
+          <td>$Config{"Ticket::Hook"}</td>
+          <td>$Text{"Age"}</td>
+          <td>$Text{"From"}/$Text{"Subject"}</td>
+          <td>$Text{"State"}</td>
+          <td>$Text{"Queue"}</td>
+          <td>$Text{"Owner"}</td>
+          <td>$Text{"CustomerID"}</td>
+        </tr>
 <!-- dtl:block:Ticket -->
-      <tr class="$QData{"css"}">
-        <td class="$Data{"TextCss"}">
-          <a href="$Env{"Baselink"}&Action=AgentTicketZoom&TicketID=$QData{"TicketID"}">$QData{"TicketNumber"}</a>
-        </td>
-        <td class="contentvalue">$QData{"Age"}</td>
-        <td class="contentvalue">
-          $QData{"From","30"}<br>$QData{"Subject","30"}
-        </td>
-        <td class="contentvalue">$Quote{"$Text{"$Data{"State"}"}","30"}</td>
-        <td class="contentvalue">$QData{"Queue","30"}</td>
-        <td class="contentvalue">$QData{"Owner","30"}<br>($QData{"UserFirstname"} $QData{"UserLastname"})</td>
-        <td class="contentvalue">
-          <a href="$Env{"Baselink"}Action=AgentTicketCustomer&TicketID=$QData{"TicketID"}">
-          $Quote{"$Data{"CustomerID"}","15"}
-          </a>
-        </td>
-      </tr>
+        <tr class="$QData{"css"}">
+          <td class="$Data{"TextCss"}">
+            <a href="$Env{"Baselink"}&Action=AgentTicketZoom&TicketID=$QData{"TicketID"}">$QData{"TicketNumber"}</a>
+          </td>
+          <td class="contentvalue">$QData{"Age"}</td>
+          <td class="contentvalue">
+            $QData{"From","30"}<br>$QData{"Subject","30"}
+          </td>
+          <td class="contentvalue">$Quote{"$Text{"$Data{"State"}"}","30"}</td>
+          <td class="contentvalue">$QData{"Queue","30"}</td>
+          <td class="contentvalue">$QData{"Owner","30"}<br>($QData{"UserFirstname"} $QData{"UserLastname"})</td>
+          <td class="contentvalue">
+            <a href="$Env{"Baselink"}Action=AgentTicketCustomer&TicketID=$QData{"TicketID"}">
+            $Quote{"$Data{"CustomerID"}","15"}
+            </a>
+          </td>
+        </tr>
 <!-- dtl:block:Ticket -->
-      <tr>
-        <td colspan="7" class="contentfooter">&nbsp;</td>
-      </tr>
-    </table>
-    <br>
-  </td>
-</tr>
+        <tr>
+          <td colspan="7" class="contentfooter">&nbsp;</td>
+        </tr>
+      </table>
+      <br>
+    </td>
+  </tr>
 <!-- dtl:block:ResultBlock -->
 <!-- dtl:block:Result -->
 </table>

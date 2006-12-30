@@ -2,7 +2,7 @@
 # AdminPOP3.dtl - provides HTML form for AdminPOP3
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPOP3.dtl,v 1.4 2006-12-30 01:38:50 mh Exp $
+# $Id: AdminPOP3.dtl,v 1.5 2006-12-30 02:09:56 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -202,33 +202,35 @@
                 </select>
               </td>
             </tr>
-            <td>$Text{"Queue"}</td>
-            <td><select name="QueueID">
-              <option VALUE="3">Tech (1)</option>
-              <option VALUE="4">Misc (2)</option>
-              <option VALUE="2">Raw (3)</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>$Text{"Valid"}: </td>
-          <td>
-            <select name="ValidID">
-              <option value="2">$Text{"invalid"}</option>
-              <option value="3">$Text{"invalid-temporarily"}</option>
-              <option selected value="1">$Text{"valid"}</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>$Text{"Comment"}: </td>
-          <td> <input type="text" name="Comment" value="$Text{"Comment"}" size="50" maxlength="50"></td>
-        </tr>
-      </table>
-    </form>
-    <hr>
-  </p>
-</td>
-</tr>
+            <tr>
+              <td>$Text{"Queue"}</td>
+              <td>
+                <select name="QueueID">
+                  <option VALUE="3">Tech (1)</option>
+                  <option VALUE="4">Misc (2)</option>
+                  <option VALUE="2">Raw (3)</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>$Text{"Valid"}: </td>
+              <td>
+                <select name="ValidID">
+                  <option value="2">$Text{"invalid"}</option>
+                  <option value="3">$Text{"invalid-temporarily"}</option>
+                  <option selected value="1">$Text{"valid"}</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>$Text{"Comment"}: </td>
+              <td> <input type="text" name="Comment" value="$Text{"Comment"}" size="50" maxlength="50"></td>
+            </tr>
+          </table>
+        </form>
+        <hr>
+      </p>
+    </td>
+  </tr>
 </table>
 <!-- dtl:block:Overview -->
