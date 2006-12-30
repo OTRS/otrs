@@ -2,14 +2,15 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.12 2006-10-05 01:18:29 martin Exp $
+# $Id: AdminSysConfig.dtl,v 1.13 2006-12-30 01:38:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td colspan="2" class="mainhead">
       $Env{"Box0"}$Text{"SysConfig"}$Env{"Box1"}
@@ -41,9 +42,7 @@
           </tr>
         </table>
       </form>
-
       <br>
-
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="SelectGroup">
@@ -69,9 +68,7 @@
           </tr>
         </table>
       </form>
-
       <br>
-
       <form action="$Env{"CGIHandle"}" method="get">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Download">
@@ -96,9 +93,7 @@
           </tr>
         </table>
       </form>
-
       <br>
-
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Upload">
@@ -123,7 +118,6 @@
           </tr>
         </table>
       </form>
-
     </td>
     <td width="70%" class="mainbody">
       <table width="100%" cellspacing="0" cellpadding="4">
@@ -141,7 +135,9 @@
 <!-- dtl:block:Row -->
               <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
               <tr>
-                <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Edit&SysConfigSubGroup=$QData{"SubGroup"}&SysConfigGroup=$QData{"Group"}">$QData{"SubGroup"}</a></td>
+                <td class="$Env{"Color"}">
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Edit&SysConfigSubGroup=$QData{"SubGroup"}&SysConfigGroup=$QData{"Group"}">$QData{"SubGroup"}</a>
+                </td>
                 <td class="$Env{"Color"}">$QData{"SubGroupCount"}</td>
                 <td class="$Env{"Color"}">$QData{"Group"}</td>
               </tr>

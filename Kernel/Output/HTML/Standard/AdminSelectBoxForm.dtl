@@ -2,14 +2,15 @@
 # AdminSelectBoxForm.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSelectBoxForm.dtl,v 1.17 2006-08-29 16:56:06 martin Exp $
+# $Id: AdminSelectBoxForm.dtl,v 1.18 2006-12-30 01:38:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
       $Env{"Box0"}$Text{"Select Box"}$Env{"Box1"}
@@ -17,9 +18,7 @@
   </tr>
   <tr>
     <td align="center" class="mainbody">
-
       <br>
-
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Select">
@@ -36,30 +35,24 @@
             <td class="contentvalue"><input type="text" name="Max" value="$QData{"Max"}" size="2"></td>
           </tr>
           <tr class="contentfooter">
-            <td colspan="2" class="contentkey"><input class="button" type="submit" value="$Text{"go"}"></td>
+            <td colspan="2" class="contentkey"><input class="button" type="submit" value="$Text{"Go"}"></td>
           </tr>
         </table>
       </form>
-
       <br>
-
     </td>
   </tr>
 </table>
 <!-- end form -->
-
 <!-- dtl::block::Result -->
-
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
       $Env{"Box0"}$Text{"Select Box Result"}$Env{"Box1"}
     </td>
   </tr>
-
   <tr>
     <td class="mainbody">
-
       <table width="100%" cellspacing="0" cellpadding="3" border="0">
 <!-- dtl:block:Row -->
         <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "active"; }>
@@ -68,9 +61,7 @@
         <dtl if ($Env{"Color"} eq "active") { $Env{"Color"} = "passive"; }>
 <!-- dtl:block:Row -->
       </table>
-
     </td>
   </tr>
 </table>
 <!-- dtl::block::Result -->
-

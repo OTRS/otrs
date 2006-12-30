@@ -2,14 +2,15 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueueForm.dtl,v 1.31 2006-11-15 12:24:07 tr Exp $
+# $Id: AdminQueueForm.dtl,v 1.32 2006-12-30 01:38:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td colspan="2" class="mainhead">
       $Env{"Box0"}$Text{"Queue Management"}$Env{"Box1"}
@@ -62,69 +63,101 @@
               <table border="0" cellspacing="0" cellpadding="3">
                 <tr>
                   <td class="contentkey">$Text{"Name"}: </td>
-                  <td class="contentvalue"> <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"></td>
+                  <td class="contentvalue">
+                    <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50">
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Sub-Queue of"}: </td>
-                  <td class="contentvalue"> $Data{"QueueOption"}</td>
+                  <td class="contentvalue">
+                    $Data{"QueueOption"}
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Group"}: </td>
-                  <td class="contentvalue"> $Data{"GroupOption"}</td>
+                  <td class="contentvalue">
+                    $Data{"GroupOption"}
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Unlock timeout"} ($Text{"minutes"}): </td>
-                  <td class="contentvalue"> <input type="text" name="UnlockTimeout" value="$QData{"UnlockTimeout"}" size="10" maxlength="10"> $Text{"0 = no unlock"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}</td>
+                  <td class="contentvalue">
+                    <input type="text" name="UnlockTimeout" value="$QData{"UnlockTimeout"}" size="10" maxlength="10"> $Text{"0 = no unlock"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Escalation time"} ($Text{"minutes"}): </td>
-                  <td class="contentvalue"> <input type="text" name="EscalationTime" value="$QData{"EscalationTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}</td>
+                  <td class="contentvalue">
+                    <input type="text" name="EscalationTime" value="$QData{"EscalationTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Follow up Option"}: </td>
-                  <td class="contentvalue"> $Data{"FollowUpOption"}</td>
+                  <td class="contentvalue">
+                    $Data{"FollowUpOption"}
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Ticket lock after a follow up"}: </td>
-                  <td class="contentvalue"> $Data{"FollowUpLockYesNoOption"}</td>
+                  <td class="contentvalue">
+                    $Data{"FollowUpLockYesNoOption"}
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Systemaddress"}: </td>
-                  <td class="contentvalue"> $Data{"SystemAddressOption"}</td>
+                  <td class="contentvalue">
+                    $Data{"SystemAddressOption"}
+                  </td>
                 </tr>
                 <dtl if ($Data{"DefaultSignKeyList"} ne "") { $Data{"DefaultSignKeyLink"} = "<tr><td class="contentkey">$Text{"Default Sign Key"} <i>($QData{"Email","14"})</i>: </td><td class="contentvalue"> $Data{"DefaultSignKeyOption"}</td></tr>"; }>
                 $Data{"DefaultSignKeyLink"}
                 <tr>
                   <td class="contentkey">$Text{"Salutation"}: </td>
-                  <td class="contentvalue"> $Data{"SalutationOption"}</td>
+                  <td class="contentvalue">
+                    $Data{"SalutationOption"}
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Signature"}: </td>
-                  <td class="contentvalue"> $Data{"SignatureOption"}</td>
+                  <td class="contentvalue">
+                    $Data{"SignatureOption"}
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Customer Move Notify"}: </td>
-                  <td class="contentvalue"> $Data{"MoveOption"}</td>
+                  <td class="contentvalue">
+                    $Data{"MoveOption"}
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Customer State Notify"}: </td>
-                  <td class="contentvalue"> $Data{"StateOption"}</td>
+                  <td class="contentvalue">
+                    $Data{"StateOption"}
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Customer Owner Notify"}: </td>
-                  <td class="contentvalue"> $Data{"OwnerOption"}</td>
+                  <td class="contentvalue">
+                    $Data{"OwnerOption"}
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Calendar"}: </td>
-                  <td class="contentvalue"> $Data{"CalendarOption"}</td>
+                  <td class="contentvalue">
+                    $Data{"CalendarOption"}
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Valid"}: </td>
-                  <td class="contentvalue"> $Data{"ValidOption"}</td>
+                  <td class="contentvalue">
+                    $Data{"ValidOption"}
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Comment"}: </td>
-                  <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="70"></td>
+                  <td class="contentvalue">
+                    <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="70">
+                  </td>
                 </tr>
               </table>
             </td>
@@ -140,9 +173,8 @@
   </tr>
 </table>
 <!-- end form -->
-
 <!-- start note -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
       $Env{"Box0"}$Text{"Note"}$Env{"Box1"}

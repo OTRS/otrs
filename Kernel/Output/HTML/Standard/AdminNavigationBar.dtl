@@ -2,19 +2,20 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminNavigationBar.dtl,v 1.31 2006-08-29 16:56:06 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.32 2006-12-30 01:38:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- dtl:block:AdminNavBar -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">$Env{"Box0"}$Text{"Admin-Area"}$Env{"Box1"}</td>
   </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="4">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <th class="menu">$Text{"Users"} & $Text{"Groups"} & $Text{"Roles"}</th>
     <th class="menu">$Text{"Queue"} & $Text{"Responses"}</th>

@@ -2,7 +2,7 @@
 # AdminQueueAutoResponseForm.dtl - provides HTML form for AdminQueueAutoResponse
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueueAutoResponseForm.dtl,v 1.14 2006-12-18 00:09:59 mh Exp $
+# $Id: AdminQueueAutoResponseForm.dtl,v 1.15 2006-12-30 01:38:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -58,7 +58,7 @@
 </table>
 <!-- dtl:block:Overview -->
 <!-- dtl:block:Selection -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
       $Env{"Box0"}$Text{"Queue <-> Auto Responses Management"}: $QData{"Queue"}$Env{"Box1"}
@@ -98,7 +98,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"update"}">
+              <input class="button" type="submit" value="$Text{"Update"}">
             </td>
           </tr>
         </table>

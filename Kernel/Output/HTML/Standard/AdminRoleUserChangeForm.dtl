@@ -2,7 +2,7 @@
 # AdminRoleUserChangeForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminRoleUserChangeForm.dtl,v 1.10 2006-12-18 00:09:59 mh Exp $
+# $Id: AdminRoleUserChangeForm.dtl,v 1.11 2006-12-30 01:38:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,7 +29,9 @@
           </tr>
           <tr>
             <td align="center" class="contentbody">
-              <b>$Text{"$QData{"Type"}"}:</b> <a href="$Env{"Baselink"}Action=Admin$QData{"Type"}&Subaction=Change&ID=$QData{"ID"}">$QData{"Name"}</a> (id=$QData{"ID"})<br>
+              <b>$Text{"$QData{"Type"}"}:</b>
+              <a href="$Env{"Baselink"}Action=Admin$QData{"Type"}&Subaction=Change&ID=$QData{"ID"}">$QData{"Name"}</a>
+              (id=$QData{"ID"})<br>
               <table>
                 <tr>
                   <th>$Text{"$QData{"NeType"}"}</th>
@@ -37,7 +39,9 @@
                 </tr>
 <!-- dtl:block:Row -->
                 <tr>
-                  <td><a href="$Env{"Baselink"}Action=Admin$QData{"NeType"}&Subaction=Change&ID=$QData{"ID"}">$QData{"Name"}</a></td>
+                  <td>
+                    <a href="$Env{"Baselink"}Action=Admin$QData{"NeType"}&Subaction=Change&ID=$QData{"ID"}">$QData{"Name"}</a>
+                  </td>
                   <td>$Data{"InputBox"}</td>
                 </tr>
 <!-- dtl:block:Row -->

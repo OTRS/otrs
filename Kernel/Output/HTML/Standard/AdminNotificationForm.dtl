@@ -2,14 +2,15 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminNotificationForm.dtl,v 1.14 2006-08-29 16:56:06 martin Exp $
+# $Id: AdminNotificationForm.dtl,v 1.15 2006-12-30 01:38:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td colspan="2" class="mainhead">
       $Env{"Box0"}$Text{"Notification Management"}$Env{"Box1"}
@@ -38,19 +39,18 @@
       </form>
     </td>
     <td width="70%" class="mainbody">
-
 # --
 # check subaction
 # --
       <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Botton"} = "<input class="button" type="submit" value="$Text{"Update"}">"; }>
 # --
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action"    value="$Env{"Action"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-        <input type="hidden" name="ID"        value="$QData{"ID"}">
-        <input type="hidden" name="Charset"   value="$Env{"Charset"}">
-        <input type="hidden" name="Language"  value="$QData{"Language"}">
-        <input type="hidden" name="Type"      value="$QData{"Type"}">
+        <input type="hidden" name="ID" value="$QData{"ID"}">
+        <input type="hidden" name="Charset" value="$Env{"Charset"}">
+        <input type="hidden" name="Language" value="$QData{"Language"}">
+        <input type="hidden" name="Type" value="$QData{"Type"}">
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Notification"}:</td>
@@ -64,11 +64,15 @@
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Subject"}: </td>
-                  <td class="contentvalue"> <input type="text" name="Subject" value="$QData{"Subject"}" size="80" maxlength="120"></td>
+                  <td class="contentvalue">
+                    <input type="text" name="Subject" value="$QData{"Subject"}" size="80" maxlength="120">
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Text"}: </td>
-                  <td class="contentvalue"> <textarea rows="12" cols="75" name="Body" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea></td>
+                  <td class="contentvalue">
+                    <textarea rows="12" cols="75" name="Body" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
+                  </td>
                 </tr>
               </table>
             </td>
@@ -84,7 +88,6 @@
   </tr>
 </table>
 <!-- end form -->
-
 <!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
