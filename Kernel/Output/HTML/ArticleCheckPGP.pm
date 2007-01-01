@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleCheckPGP.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleCheckPGP.pm,v 1.10 2006-12-30 02:56:55 mh Exp $
+# $Id: ArticleCheckPGP.pm,v 1.11 2007-01-01 22:36:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -103,10 +103,10 @@ sub Check {
     }
     # check mime pgp
     else {
-# check body
-# if body =~ application/pgp-encrypted
-# if crypted, decrypt it
-# remember that it was crypted!
+        # check body
+        # if body =~ application/pgp-encrypted
+        # if crypted, decrypt it
+        # remember that it was crypted!
 
         # write email to fs
         my $Message = $Self->{TicketObject}->ArticlePlain(
@@ -157,16 +157,16 @@ sub Check {
                 my $Body = $ParserObject->GetMessageBody();
                 # updated article body
                 $Self->{TicketObject}->ArticleUpdate(
-                     TicketID => $Param{Article}->{TicketID},
-                     ArticleID => $Self->{ArticleID},
-                     Key => 'Body',
-                     Value => $Body,
-                     UserID => $Self->{UserID},
+                    TicketID => $Param{Article}->{TicketID},
+                    ArticleID => $Self->{ArticleID},
+                    Key => 'Body',
+                    Value => $Body,
+                    UserID => $Self->{UserID},
                 );
                 # delete crypted attachments
                 $Self->{TicketObject}->ArticleDeleteAttachment(
-                     ArticleID => $Self->{ArticleID},
-                     UserID => $Self->{UserID},
+                    ArticleID => $Self->{ArticleID},
+                    UserID => $Self->{UserID},
                 );
                 # write attachments to the storage
                 foreach my $Attachment ($ParserObject->GetAttachments()) {

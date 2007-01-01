@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.21 2006-12-18 07:27:59 tr Exp $
+# $Id: Layout.pm,v 1.22 2007-01-01 22:36:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -86,17 +86,13 @@ sub new {
         MainObject => $Self->{MainObject},
         Action => $Self->{Action},
     );
-    # --
     # set charset if there is no charset given
-    # --
     $Self->{UserCharset} = $Self->{LanguageObject}->GetRecommendedCharset();
     $Self->{Charset}   = $Self->{UserCharset}; # just for compat.
     $Self->{SessionID} = $Param{SessionID} || '';
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
     $Self->{CGIHandle} = $ENV{'SCRIPT_NAME'} || 'No-$ENV{"SCRIPT_NAME"}';
-    # --
     # baselink
-    # --
     $Self->{Baselink}  = "$Self->{CGIHandle}?";
     $Self->{Time}      = $Self->{LanguageObject}->Time(
         Action => 'GET',
@@ -106,9 +102,7 @@ sub new {
         Action => 'GET',
         Format => 'DateFormatLong',
     );
-    # --
     # check browser (defaut is IE because I don't have IE)
-    # --
     $Self->{BrowserWrap} = 'physical';
     $Self->{Browser} = 'Unknown';
     if ($Self->{ConfigObject}->Get('Frontend::Output::PostFilter') &&
@@ -350,7 +344,7 @@ sub _BlockTemplatesReplace {
         TemplateFile => $TemplateFile,
     );
     foreach my $Block (reverse @Blocks) {
-         $$TemplateString =~ s{
+        $$TemplateString =~ s{
             <!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->(.+?)<!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->
         }
         {
@@ -451,12 +445,12 @@ sub Output {
     # read template from filesystem
     my $TemplateString = '';
     if (defined($Param{Template}) && ref($Param{Template}) eq 'ARRAY') {
-         foreach (@{$Param{Template}}) {
-             $TemplateString .= $_;
-         }
+        foreach (@{$Param{Template}}) {
+            $TemplateString .= $_;
+        }
     }
     elsif (defined($Param{Template})) {
-         $TemplateString = $Param{Template};
+        $TemplateString = $Param{Template};
     }
     elsif ($Param{TemplateFile}) {
         my $File = '';
@@ -510,9 +504,9 @@ sub Output {
         for (my $i = 1; $i <= $Block->{Layer}; $i++) {
             if (defined($ID)) {
                 $ID .= ":";
-             }
-             if (defined($LayerHash{$i})) {
-                 $ID .= $LayerHash{$i};
+            }
+            if (defined($LayerHash{$i})) {
+                $ID .= $LayerHash{$i};
             }
         }
 
@@ -572,184 +566,174 @@ sub Output {
     my $Output = '';
     my $LineCount = 0;
     foreach my $Line (@Template) {
-      $LineCount++;
-      # add missing new line (striped from split)
-      if ($LineCount != $#Template+1) {
-          $Line .= "\n";
-      }
-      if ($Line =~ /<dtl/) {
-          # --
-          # do template set (<dtl set $Data{"adasd"} = "lala">)
-          # do system call (<dtl system-call $Data{"adasd"} = "uptime">)
-          # --
-          $Line =~ s{
-            <dtl\W(system-call|set)\W\$(Data|Env|Config)\{\"(.+?)\"\}\W=\W\"(.+?)\">
-          }
-          {
-            my $Data = '';
-            if ($1 eq "set") {
-              $Data = $4;
-            }
-            else {
-              open (SYSTEM, " $4 | ") || print STDERR "Can't open $4: $!";
-              while (<SYSTEM>) {
-                $Data .= $_;
-              }
-              close (SYSTEM);
-            }
-
-            $GlobalRef->{"$2Ref"}->{$3} = $Data;
-            # output replace with nothing!
-            "";
-          }egx;
-
-          # --
-          # do template if dynamic
-          # --
-          $Line =~ s{
-            <dtl\Wif\W\(\$(Env|Data|Text|Config)\{\"(.*)\"\}\W(eq|ne|=~|!~)\W\"(.*)\"\)\W\{\W\$(Data|Env|Text)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
-          }
-          {
-              my $Type = $1 || '';
-              my $TypeKey = $2 || '';
-              my $Con = $3 || '';
-              my $ConVal = defined $4 ? $4 : '';
-              my $IsType = $5 || '';
-              my $IsKey = $6 || '';
-              my $IsValue = $7 || '';
-              # --
-              # do ne actions
-              # --
-              if ($Type eq 'Text') {
-                  my $Tmp = $Self->{LanguageObject}->Get($TypeKey, $Param{TemplateFile}) || '';
-                  if (eval '($Tmp '.$Con.' $ConVal)') {
-                      $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
-                      # output replace with nothing!
-                      "";
-                }
-              }
-              elsif ($Type eq 'Env' || $Type eq 'Data') {
-                  my $Tmp = $GlobalRef->{$Type.'Ref'}->{$TypeKey};
-                  if (!defined($Tmp)) {
-                      $Tmp = '';
-                  }
-                  if (eval '($Tmp '.$Con.' $ConVal)') {
-                    $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
-                    # output replace with nothing!
-                    "";
-                  }
-                  else {
-                    # output replace with nothing!
-                    "";
-                  }
-              }
-              elsif ($Type eq 'Config') {
-                  my $Tmp = $Self->{ConfigObject}->Get($TypeKey);
-                  if (defined($Tmp) && eval '($Tmp '.$Con.' $ConVal)') {
-                      $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
-                      "";
-                  }
-              }
-          }egx;
+        $LineCount++;
+        # add missing new line (striped from split)
+        if ($LineCount != $#Template+1) {
+            $Line .= "\n";
         }
-        # --
+        if ($Line =~ /<dtl/) {
+            # do template set (<dtl set $Data{"adasd"} = "lala">)
+            # do system call (<dtl system-call $Data{"adasd"} = "uptime">)
+            $Line =~ s{
+                <dtl\W(system-call|set)\W\$(Data|Env|Config)\{\"(.+?)\"\}\W=\W\"(.+?)\">
+            }
+            {
+                my $Data = '';
+                if ($1 eq "set") {
+                    $Data = $4;
+                }
+                else {
+                    open (SYSTEM, " $4 | ") || print STDERR "Can't open $4: $!";
+                    while (<SYSTEM>) {
+                        $Data .= $_;
+                    }
+                    close (SYSTEM);
+                }
+
+                $GlobalRef->{"$2Ref"}->{$3} = $Data;
+                # output replace with nothing!
+                "";
+            }egx;
+
+            # do template if dynamic
+            $Line =~ s{
+                <dtl\Wif\W\(\$(Env|Data|Text|Config)\{\"(.*)\"\}\W(eq|ne|=~|!~)\W\"(.*)\"\)\W\{\W\$(Data|Env|Text)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
+            }
+            {
+                my $Type = $1 || '';
+                my $TypeKey = $2 || '';
+                my $Con = $3 || '';
+                my $ConVal = defined $4 ? $4 : '';
+                my $IsType = $5 || '';
+                my $IsKey = $6 || '';
+                my $IsValue = $7 || '';
+                # do ne actions
+                if ($Type eq 'Text') {
+                    my $Tmp = $Self->{LanguageObject}->Get($TypeKey, $Param{TemplateFile}) || '';
+                    if (eval '($Tmp '.$Con.' $ConVal)') {
+                        $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
+                        # output replace with nothing!
+                        "";
+                    }
+                }
+                elsif ($Type eq 'Env' || $Type eq 'Data') {
+                    my $Tmp = $GlobalRef->{$Type.'Ref'}->{$TypeKey};
+                    if (!defined($Tmp)) {
+                        $Tmp = '';
+                    }
+                    if (eval '($Tmp '.$Con.' $ConVal)') {
+                        $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
+                        # output replace with nothing!
+                        "";
+                    }
+                    else {
+                        # output replace with nothing!
+                        "";
+                    }
+                }
+                elsif ($Type eq 'Config') {
+                    my $Tmp = $Self->{ConfigObject}->Get($TypeKey);
+                    if (defined($Tmp) && eval '($Tmp '.$Con.' $ConVal)') {
+                        $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
+                        "";
+                    }
+                }
+            }egx;
+        }
         # variable & env & config replacement (three times)
-        # --
         foreach (1..3) {
             $Line =~ s{
                 \$(QData|LQData|Data|Env|QEnv|Config|Include){"(.+?)"}
             }
             {
-              if ($1 eq "Data" || $1 eq "Env") {
-                  if (defined $GlobalRef->{"$1Ref"}->{$2}) {
-                      $GlobalRef->{"$1Ref"}->{$2};
-                  }
-                  else {
-                      # output replace with nothing!
-                      "";
-                  }
-              }
-              elsif ($1 eq "QEnv") {
-                  my $Text = $2;
-                  if (!defined($Text) || $Text =~ /^","(.+?)$/) {
-                      "";
-                  }
-                  elsif ($Text =~ /^(.+?)","(.+?)$/) {
-                      if (defined $GlobalRef->{"EnvRef"}->{$1}) {
-                          $Self->Ascii2Html(Text => $GlobalRef->{"EnvRef"}->{$1}, Max => $2);
-                      }
-                      else {
-                          # output replace with nothing!
-                          "";
-                      }
-                  }
-                  else {
-                      if (defined $GlobalRef->{"EnvRef"}->{$Text}) {
-                          $Self->Ascii2Html(Text => $GlobalRef->{"EnvRef"}->{$Text});
-                      }
-                      else {
-                          # output replace with nothing!
-                          "";
-                      }
-                  }
-              }
-              elsif ($1 eq "QData") {
-                  my $Text = $2;
-                  if (!defined($Text) || $Text =~ /^","(.+?)$/) {
-                      "";
-                  }
-                  elsif ($Text =~ /^(.+?)","(.+?)$/) {
-                      if (defined $GlobalRef->{"DataRef"}->{$1}) {
-                          $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$1}, Max => $2);
-                      }
-                      else {
-                          # output replace with nothing!
-                          "";
-                      }
-                  }
-                  else {
-                      if (defined $GlobalRef->{"DataRef"}->{$Text}) {
-                          $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$Text});
-                      }
-                      else {
-                          # output replace with nothing!
-                          "";
-                      }
-                  }
-              }
-              # link encode
-              elsif ($1 eq "LQData") {
-                  if (defined $GlobalRef->{"DataRef"}->{$2}) {
-                      $Self->LinkEncode($GlobalRef->{"DataRef"}->{$2});
-                  }
-                  else {
-                      # output replace with nothing!
-                      "";
-                  }
-              }
-              # replace with
-              elsif ($1 eq "Config") {
-                  if (defined $Self->{ConfigObject}->Get($2)) {
-                      $Self->{ConfigObject}->Get($2);
-                  }
-                  else {
-                      # output replace with nothing!
-                      "";
-                  }
-              }
-              # include dtl files
-              elsif ($1 eq "Include") {
-                  $Param{TemplateFile} = $2;
-                  $Self->Output(%Param);
-              }
+                if ($1 eq "Data" || $1 eq "Env") {
+                    if (defined $GlobalRef->{"$1Ref"}->{$2}) {
+                        $GlobalRef->{"$1Ref"}->{$2};
+                    }
+                    else {
+                        # output replace with nothing!
+                        "";
+                    }
+                }
+                elsif ($1 eq "QEnv") {
+                    my $Text = $2;
+                    if (!defined($Text) || $Text =~ /^","(.+?)$/) {
+                        "";
+                    }
+                    elsif ($Text =~ /^(.+?)","(.+?)$/) {
+                        if (defined $GlobalRef->{"EnvRef"}->{$1}) {
+                            $Self->Ascii2Html(Text => $GlobalRef->{"EnvRef"}->{$1}, Max => $2);
+                        }
+                        else {
+                            # output replace with nothing!
+                            "";
+                        }
+                    }
+                    else {
+                        if (defined $GlobalRef->{"EnvRef"}->{$Text}) {
+                            $Self->Ascii2Html(Text => $GlobalRef->{"EnvRef"}->{$Text});
+                        }
+                        else {
+                            # output replace with nothing!
+                            "";
+                        }
+                    }
+                }
+                elsif ($1 eq "QData") {
+                    my $Text = $2;
+                    if (!defined($Text) || $Text =~ /^","(.+?)$/) {
+                        "";
+                    }
+                    elsif ($Text =~ /^(.+?)","(.+?)$/) {
+                        if (defined $GlobalRef->{"DataRef"}->{$1}) {
+                            $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$1}, Max => $2);
+                        }
+                        else {
+                            # output replace with nothing!
+                            "";
+                        }
+                    }
+                    else {
+                        if (defined $GlobalRef->{"DataRef"}->{$Text}) {
+                            $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$Text});
+                        }
+                        else {
+                            # output replace with nothing!
+                            "";
+                        }
+                    }
+                }
+                # link encode
+                elsif ($1 eq "LQData") {
+                    if (defined $GlobalRef->{"DataRef"}->{$2}) {
+                        $Self->LinkEncode($GlobalRef->{"DataRef"}->{$2});
+                    }
+                    else {
+                        # output replace with nothing!
+                        "";
+                    }
+                }
+                # replace with
+                elsif ($1 eq "Config") {
+                    if (defined $Self->{ConfigObject}->Get($2)) {
+                        $Self->{ConfigObject}->Get($2);
+                    }
+                    else {
+                        # output replace with nothing!
+                        "";
+                    }
+                }
+                # include dtl files
+                elsif ($1 eq "Include") {
+                    $Param{TemplateFile} = $2;
+                    $Self->Output(%Param);
+                }
             }egx;
         }
         # add this line to output
         $Output .= $Line;
     }
-    # --
     # do time translation (with seconds)
-    # --
     foreach (1..1) {
         $Output =~ s{
             \$TimeLong({"(.+?)"}|{""})
@@ -763,9 +747,7 @@ sub Output {
             }
         }egx;
     }
-    # --
     # do time translation (without seconds)
-    # --
     foreach (1..1) {
         $Output =~ s{
             \$TimeShort({"(.+?)"}|{""})
@@ -779,9 +761,7 @@ sub Output {
             }
         }egx;
     }
-    # --
     # do date translation
-    # --
     foreach (1..1) {
         $Output =~ s{
             \$Date({"(.+?)"}|{""})
@@ -790,9 +770,7 @@ sub Output {
             $Self->{LanguageObject}->FormatTimeString($2, 'DateFormatShort');
         }egx;
     }
-    # --
     # do translation
-    # --
     foreach (1..2) {
         $Output =~ s{
             \$Text({"(.+?)"}|{""})
@@ -824,9 +802,7 @@ sub Output {
             }
         }egx;
     }
-    # --
     # do html quote
-    # --
     foreach (1..1) {
         $Output =~ s{
             \$Quote({"(.+?)"}|{""})
@@ -845,10 +821,8 @@ sub Output {
             }
         }egx;
     }
-    # --
     # Check if the browser sends the session id cookie!
     # If not, add the session id to the links and forms!
-    # --
     if (!$Self->{SessionIDCookie}) {
         # rewrite a hrefs
         $Output =~ s{
@@ -860,8 +834,8 @@ sub Output {
             my $End = $3;
             my $RealEnd = $4;
             if ($Target =~ /^(http:|https:|#|ftp:)/i ||
-                 $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
-                 $Target =~ /(\?|&)\Q$Self->{SessionName}\E=/) {
+                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
+                $Target =~ /(\?|&)\Q$Self->{SessionName}\E=/) {
                 $AHref.$Target.$End.$RealEnd;
             }
             else {
@@ -877,8 +851,8 @@ sub Output {
             my $Target = $2;
             my $End = $3;
             if ($Target =~ /^(http:|https:)/i || !$Self->{SessionID} ||
-                 $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
-                 $Target =~ /\Q$Self->{SessionName}\E/) {
+                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
+                $Target =~ /\Q$Self->{SessionName}\E/) {
                 $AHref.$Target.$End;
             }
             else {
@@ -901,9 +875,7 @@ sub Output {
             }
         }iegx;
     }
-    # --
     # do correct direction
-    # --
     if ($Self->{LanguageObject}->{TextDirection} && $Self->{LanguageObject}->{TextDirection} eq 'rtl') {
         $Output =~ s{
             <(table.+?)>
@@ -918,11 +890,11 @@ sub Output {
             }
         }iegx;
         $Output =~ s{
-           align="(left|right)"
+            align="(left|right)"
         }
         {
             if ($1 =~ /left/i) {
-               "align=\"right\"";
+                "align=\"right\"";
             }
             else {
                 "align=\"left\"";
@@ -1419,7 +1391,7 @@ sub LinkQuote {
         if ($Link !~ /^(http|https|ftp):\/\//) {
             $Link = "http://$Link";
         }
-       "<a href=\"$Link\" target=\"$Target\">$OrigText<\/a>$OrigTextEnd";
+        "<a href=\"$Link\" target=\"$Target\">$OrigText<\/a>$OrigTextEnd";
     }egxi;
     # do mail to quote
     $Text =~ s/(mailto:.*?)(\.\s|\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
@@ -1534,9 +1506,7 @@ sub OptionStrgHashRef {
     if ($Param{OnClick}) {
         $OnStuff = " onclick=\"$Param{OnClick}\" ";
     }
-    # --
     # set default value
-    # --
     my $NoSelectedDataGiven = 0;
     if ($Selected eq '-not-possible-to-use-' && $SelectedID eq '-not-possible-to-use-') {
         $NoSelectedDataGiven = 1;
@@ -1553,13 +1523,11 @@ sub OptionStrgHashRef {
     elsif (($Name eq 'LanguageID' || $Name eq 'Language') && $NoSelectedDataGiven) {
         $Selected = $Self->{ConfigObject}->Get('DefaultLanguage');
     }
-    elsif ($NoSelectedDataGiven) {
-        # else set 1?
+#    elsif ($NoSelectedDataGiven) {
+#        # else set 1?
 #        $SelectedID = 1;
-    }
-    # --
+#    }
     # build select string
-    # --
     $Output .= "<select name=\"$Name\" $Multiple $OnStuff $Size>\n";
     if ($PossibleNone) {
         $Output .= '<option VALUE="">-$Text{"none"}-</option>';
@@ -1573,14 +1541,14 @@ sub OptionStrgHashRef {
 
     my @Order = ();
     if ($SortBy eq 'Key') {
-         foreach (sort keys %Data) {
-             push (@Order, $_);
-         }
+        foreach (sort keys %Data) {
+            push (@Order, $_);
+        }
     }
     else {
-         foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
-             push (@Order, $_);
-         }
+        foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
+            push (@Order, $_);
+        }
     }
     foreach (@Order) {
         if (defined($_) && defined($Data{$_})) {
@@ -1594,10 +1562,10 @@ sub OptionStrgHashRef {
             }
             # build select string
             if ($_ eq $SelectedID || $Data{$_} eq $Selected || $Param{SelectedIDRefArrayOK}->{$_}) {
-              $Output .= '  <option selected value="'.$Self->Ascii2Html(Text => $_).'">';
+                $Output .= '  <option selected value="'.$Self->Ascii2Html(Text => $_).'">';
             }
             else {
-              $Output .= '  <option value="'.$Self->Ascii2Html(Text => $_).'">';
+                $Output .= '  <option value="'.$Self->Ascii2Html(Text => $_).'">';
             }
             if ($LT) {
                 $Data{$_} = $Self->{LanguageObject}->Get($Data{$_});
@@ -1752,7 +1720,7 @@ sub CheckCharset {
     my %Param = @_;
     my $Output = '';
     if (!$Param{Action}) {
-       $Param{Action} = '$Env{"Action"}';
+        $Param{Action} = '$Env{"Action"}';
     }
     # with utf-8 can everything be shown
     if ($Self->{UserCharset} !~ /^utf-8$/i) {
@@ -1781,11 +1749,9 @@ sub CheckMimeType {
     my %Param = @_;
     my $Output = '';
     if (!$Param{Action}) {
-       $Param{Action} = '$Env{"Action"}';
+        $Param{Action} = '$Env{"Action"}';
     }
-    # --
     # check if it is a text/plain email
-    # --
     if ($Param{MimeType} && $Param{MimeType} !~ /text\/plain/i) {
         $Output = '<p><i class="small">$Text{"This is a"} '.$Param{MimeType}.
             ' $Text{"email"}, '.
@@ -2183,7 +2149,8 @@ sub TransfromDateSelection {
     # time zone translation
     if ($Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone}) {
         my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
-             String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".$Param{$Prefix."Hour"}.":".$Param{$Prefix."Minute"}.":00",
+            String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".
+                $Param{$Prefix."Hour"}.":".$Param{$Prefix."Minute"}.":00",
         );
         $TimeStamp = $TimeStamp - ($Self->{UserTimeZone}*60*60);
         ($Param{$Prefix."Secunde"}, $Param{$Prefix."Minute"}, $Param{$Prefix."Hour"}, $Param{$Prefix."Day"}, $Param{$Prefix."Month"}, $Param{$Prefix."Year"}) = $Self->{UserTimeObject}->SystemTime2Date(
@@ -2208,7 +2175,8 @@ sub BuildDateSelection {
     if ($Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone} &&
         $Param{$Prefix."Year"} && $Param{$Prefix."Month"} && $Param{$Prefix."Day"}) {
         my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
-             String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".$Param{$Prefix."Hour"}.":".$Param{$Prefix."Minute"}.":00",
+            String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".
+                $Param{$Prefix."Hour"}.":".$Param{$Prefix."Minute"}.":00",
         );
         $TimeStamp = $TimeStamp + ($Self->{UserTimeZone}*60*60);
         ($Param{$Prefix."Secunde"}, $Param{$Prefix."Minute"}, $Param{$Prefix."Hour"}, $Param{$Prefix."Day"}, $Param{$Prefix."Month"}, $Param{$Prefix."Year"}) = $Self->{UserTimeObject}->SystemTime2Date(
@@ -2228,7 +2196,8 @@ sub BuildDateSelection {
         );
     }
     else {
-        $Param{Year} = "<input type=\"text\" name=\"".$Prefix."Year\" size=\"4\" maxlength=\"4\" value=\"".sprintf("%02d", ($Param{$Prefix.'Year'} || $Y))."\">";
+        $Param{Year} = "<input type=\"text\" name=\"".$Prefix."Year\" size=\"4\" maxlength=\"4\" ".
+            "value=\"".sprintf("%02d", ($Param{$Prefix.'Year'} || $Y))."\">";
     }
     # month
     if ($DateInputStyle eq 'Option') {
@@ -2244,7 +2213,8 @@ sub BuildDateSelection {
         );
     }
     else {
-        $Param{Month} = "<input type=\"text\" name=\"".$Prefix."Month\" size=\"2\" maxlength=\"2\" value=\"".sprintf("%02d", ($Param{$Prefix.'Month'} || $M))."\">";
+        $Param{Month} = "<input type=\"text\" name=\"".$Prefix."Month\" size=\"2\" maxlength=\"2\" ".
+            "value=\"".sprintf("%02d", ($Param{$Prefix.'Month'} || $M))."\">";
     }
     # day
     if ($DateInputStyle eq 'Option') {
@@ -2260,7 +2230,8 @@ sub BuildDateSelection {
         );
     }
     else {
-        $Param{Day} = "<input type=\"text\" name=\"".$Prefix."Day\" size=\"2\" maxlength=\"2\" value=\"".($Param{$Prefix.'Day'} || $D)."\">";
+        $Param{Day} = "<input type=\"text\" name=\"".$Prefix."Day\" size=\"2\" maxlength=\"2\" ".
+            "value=\"".($Param{$Prefix.'Day'} || $D)."\">";
     }
     if ($Format eq 'DateInputFormatLong') {
         # hour
@@ -2277,7 +2248,8 @@ sub BuildDateSelection {
             );
         }
         else {
-            $Param{Hour} = "<input type=\"text\" name=\"".$Prefix."Hour\" size=\"2\" maxlength=\"2\" value=\"".sprintf("%02d", (defined($Param{$Prefix.'Hour'}) ? int($Param{$Prefix.'Hour'}) : $h))."\">";
+            $Param{Hour} = "<input type=\"text\" name=\"".$Prefix."Hour\" size=\"2\" maxlength=\"2\" ".
+                "value=\"".sprintf("%02d", (defined($Param{$Prefix.'Hour'}) ? int($Param{$Prefix.'Hour'}) : $h))."\">";
         }
         # minute
         if ($DateInputStyle eq 'Option') {
@@ -2293,7 +2265,8 @@ sub BuildDateSelection {
             );
         }
         else {
-            $Param{Minute} = "<input type=\"text\" name=\"".$Prefix."Minute\" size=\"2\" maxlength=\"2\" value=\"".sprintf("%02d", (defined($Param{$Prefix.'Minute'}) ? int($Param{$Prefix.'Minute'}) : $m))."\">";
+            $Param{Minute} = "<input type=\"text\" name=\"".$Prefix."Minute\" size=\"2\" maxlength=\"2\" ".
+                "value=\"".sprintf("%02d", (defined($Param{$Prefix.'Minute'}) ? int($Param{$Prefix.'Minute'}) : $m))."\">";
         }
     }
     # date format
@@ -2657,6 +2630,8 @@ sub CustomerNoPermission {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This Software is part of the OTRS project (http://otrs.org/).
@@ -2669,6 +2644,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2006-12-18 07:27:59 $
+$Revision: 1.22 $ $Date: 2007-01-01 22:36:24 $
 
 =cut
