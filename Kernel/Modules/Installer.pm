@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/Installer.pm - provides the DB installer
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.41 2006-11-02 13:02:03 tr Exp $
+# $Id: Installer.pm,v 1.42 2007-01-01 23:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -207,7 +207,7 @@ sub Run {
         }
 
         if ($DB{DBAction} eq 'Create') {
-          # FIXME !!! use $DB{Type}!!!
+            # FIXME !!! use $DB{Type}!!!
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResult',
                 Data => {

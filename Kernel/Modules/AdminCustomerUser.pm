@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.43 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminCustomerUser.pm,v 1.44 2007-01-01 23:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $ ';
+$VERSION = '$Revision: 1.44 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -105,13 +105,15 @@ sub Run {
         }
         my $URL = '';
         if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhone}) {
-            $URL .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID\"$OnClick>".$Self->{LayoutObject}->{LanguageObject}->Get('PhoneView')."</a>";
+            $URL .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID\"$OnClick>".
+                $Self->{LayoutObject}->{LanguageObject}->Get('PhoneView')."</a>";
         }
         if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketEmail}) {
             if ($URL) {
                 $URL .= " - ";
             }
-            $URL .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID\"$OnClick>".$Self->{LayoutObject}->{LanguageObject}->Get('Compose Email')."</a>";
+            $URL .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID\"$OnClick>".
+                $Self->{LayoutObject}->{LanguageObject}->Get('Compose Email')."</a>";
         }
         if ($URL) {
             $NavBar .= $Self->{LayoutObject}->Notify(

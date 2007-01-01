@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.12 2006-12-08 17:35:16 cs Exp $
+# $Id: AgentTicketMerge.pm,v 1.13 2007-01-01 23:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -147,7 +147,13 @@ sub Run {
             return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
         }
         # check errors
-        if ($Self->{TicketID} == $MainTicketID || !$Self->{TicketObject}->TicketMerge(MainTicketID => $MainTicketID, MergeTicketID => $Self->{TicketID}, UserID => $Self->{UserID})) {
+        if ($Self->{TicketID} == $MainTicketID ||
+            !$Self->{TicketObject}->TicketMerge(
+                MainTicketID => $MainTicketID,
+                MergeTicketID => $Self->{TicketID},
+                UserID => $Self->{UserID},
+            )
+        ) {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketMerge', Data => {%Param,%Ticket});
@@ -166,7 +172,7 @@ sub Run {
                     # error page
                     return $Self->{LayoutObject}->ErrorScreen(
                         Message => "Can't forward ticket to $Address! It's a local ".
-                          "address! You need to move it!",
+                            "address! You need to move it!",
                         Comment => 'Please contact the admin.',
                     );
                 }
@@ -202,7 +208,7 @@ sub Run {
             else {
                 return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
             }
-	}
+        }
     }
     else {
         # get last article

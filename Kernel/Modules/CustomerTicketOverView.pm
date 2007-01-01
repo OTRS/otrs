@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.39 2006-11-02 13:02:03 tr Exp $
+# $Id: CustomerTicketOverView.pm,v 1.40 2007-01-01 23:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -39,8 +39,8 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     # all static variables
-    $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('Ticket::ViewableSenderTypes')
-          || die 'No Config entry "Ticket::ViewableSenderTypes"!';
+    $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('Ticket::ViewableSenderTypes') ||
+        die 'No Config entry "Ticket::ViewableSenderTypes"!';
     # get params
     $Self->{ShowClosedTickets} = $Self->{ParamObject}->GetParam(Param => 'ShowClosedTickets');
     $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
@@ -103,7 +103,7 @@ sub Run {
     # get data (viewable tickets...)
     my $StateType = '';
     if (!$ShowClosed) {
-       $StateType = 'Open';
+        $StateType = 'Open';
     }
 
     my @ViewableTickets = ();

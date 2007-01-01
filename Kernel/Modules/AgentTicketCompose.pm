@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.22 2006-11-30 12:32:47 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.23 2007-01-01 23:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -225,7 +225,7 @@ sub Run {
             if ($GetParam{$_}) {
                 foreach my $Email (Mail::Address->parse($GetParam{$_})) {
                     if (!$Self->{CheckItemObject}->CheckEmail(Address => $Email->address())) {
-                         $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
+                        $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
                     }
                 }
             }
@@ -653,7 +653,7 @@ sub Run {
             if ($Data{$_}) {
                 foreach my $Email (Mail::Address->parse($Data{$_})) {
                     if (!$Self->{CheckItemObject}->CheckEmail(Address => $Email->address())) {
-                         $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
+                        $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
                     }
                 }
             }

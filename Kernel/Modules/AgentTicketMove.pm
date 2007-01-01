@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.13 2006-11-29 08:55:30 mh Exp $
+# $Id: AgentTicketMove.pm,v 1.14 2007-01-01 23:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -190,12 +190,12 @@ sub Run {
         return $Output;
     }
     elsif ($Self->{TicketObject}->MoveTicket(
-          QueueID => $Self->{DestQueueID},
-          UserID => $Self->{UserID},
-          TicketID => $Self->{TicketID},
-          SendNoNotification => $NewUserID,
-          Comment => $Self->{Comment},
-      ) ) {
+        QueueID => $Self->{DestQueueID},
+        UserID => $Self->{UserID},
+        TicketID => $Self->{TicketID},
+        SendNoNotification => $NewUserID,
+        Comment => $Self->{Comment},
+    )) {
         # set state
         if ($Self->{ConfigObject}->Get('Ticket::Frontend::MoveSetState') && $Self->{NewStateID}) {
             $Self->{TicketObject}->StateSet(
@@ -299,13 +299,13 @@ sub AgentMove {
     if ($Param{OldUser}) {
         my $Counter = 0;
         foreach my $User (reverse @{$Param{OldUser}}) {
-          if ($Counter) {
-            if (!$UserHash{$User->{UserID}}) {
-                $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
-                  "$User->{UserFirstname} ($User->{UserLogin})";
+            if ($Counter) {
+                if (!$UserHash{$User->{UserID}}) {
+                    $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
+                        "$User->{UserFirstname} ($User->{UserLogin})";
+                }
             }
-          }
-          $Counter++;
+            $Counter++;
         }
     }
     if (!%UserHash) {

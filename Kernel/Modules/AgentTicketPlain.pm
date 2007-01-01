@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketPlain.pm - to get a plain view
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPlain.pm,v 1.4 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketPlain.pm,v 1.5 2007-01-01 23:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Modules::AgentTicketPlain;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -41,23 +40,19 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
 
-    # --
     # check needed stuff
-    # --
     if (!$Self->{ArticleID}) {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => "No ArticleID!",
             Comment => 'Please contact your admin'
         );
     }
-    # --
     # check permissions
-    # --
     if (!$Self->{TicketObject}->Permission(
         Type => 'ro',
         TicketID => $Self->{TicketID},
@@ -66,19 +61,17 @@ sub Run {
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
 
-
     my %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $Self->{ArticleID});
     my $Text = $Self->{TicketObject}->ArticlePlain(ArticleID => $Self->{ArticleID});
     if ($Text) {
         if ($Self->{Subaction} eq 'Download') {
             # return new page
             return $Self->{LayoutObject}->Attachment(
-#                Type => 'attached',
                 Filename => "Ticket-$Article{TicketNumber}-TicketID-$Self->{TicketID}-ArticleID-$Self->{ArticleID}.eml",
                 ContentType => 'text/plain',
                 Content => $Text,
                 Type => 'attachment',
-           );
+            );
         }
         else {
             # Ascii2Html
@@ -117,6 +110,5 @@ sub Run {
         );
     }
 }
-# --
 
 1;

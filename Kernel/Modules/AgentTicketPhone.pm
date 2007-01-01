@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.28 2006-11-15 07:21:52 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.29 2007-01-01 23:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -139,7 +139,7 @@ sub Run {
             if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose')) {
                 if ($Article{CustomerUserID}) {
                     %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                         User => $Article{CustomerUserID},
+                        User => $Article{CustomerUserID},
                     );
                 }
                 elsif ($Article{CustomerID}) {
@@ -925,7 +925,7 @@ sub _MaskPhoneNew {
     my %NewTo = ();
     if ($Param{To}) {
         foreach (keys %{$Param{To}}) {
-             $NewTo{"$_||$Param{To}->{$_}"} = $Param{To}->{$_};
+            $NewTo{"$_||$Param{To}->{$_}"} = $Param{To}->{$_};
         }
     }
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue') {

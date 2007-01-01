@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.13 2006-11-02 12:20:52 tr Exp $
+# $Id: AgentTicketMailbox.pm,v 1.14 2007-01-01 23:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -32,15 +32,12 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject
-      UserObject)) {
+    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject UserObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
     $Self->{StateObject} = Kernel::System::State->new(%Param);
-
     $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
-
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
     $Self->{PageShown} = $Self->{UserShowTickets} || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected} || 10;
 
@@ -52,7 +49,6 @@ sub Run {
     my %Param = @_;
     my $Output;
     my $QueueID = $Self->{QueueID};
-
     my $SortBy = $Self->{ParamObject}->GetParam(Param => 'SortBy') || $Self->{ConfigObject}->Get('Ticket::Frontend::MailboxSortBy::Default') || 'Age';
     my $OrderBy = $Self->{ParamObject}->GetParam(Param => 'OrderBy') || $Self->{ConfigObject}->Get('Ticket::Frontend::MailboxOrder::Default') || 'Up';
 
@@ -144,7 +140,6 @@ sub Run {
         my @ViewableTicketsTmp = $Self->{TicketObject}->TicketSearch(
             Result => 'ARRAY',
             Limit => 1000,
-#            StateType => 'Open',
             Locks => ['lock'],
             OwnerIDs => [$Self->{UserID}],
             OrderBy => $OrderBy,
@@ -213,7 +208,6 @@ sub Run {
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
             Result => 'ARRAY',
             Limit => 1000,
-#            StateType => 'Open',
             Locks => ['lock'],
             OwnerIDs => [$Self->{UserID}],
             OrderBy => $OrderBy,
@@ -249,10 +243,7 @@ sub Run {
             }
 
             my $Message = '';
-            # -------------------------------------------
             # put all tickets to ToDo where last sender type is customer / system or ! UserID
-            # -------------------------------------------
-
             # show just unseen tickets as new
             if ($Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen') {
                 my %Article = %{$ArticleBody[$#ArticleBody]};
@@ -262,7 +253,7 @@ sub Run {
                 );
                 if (!$Flag{seen}) {
                     $Message = 'New message!';
-                 }
+                }
             }
             else {
                 my %Article = %{$ArticleBody[$#ArticleBody]};
@@ -328,7 +319,7 @@ sub MaskMailboxTicket {
     # check if the pending ticket is Over Time
     if ($Param{UntilTime} < 0 && $Param{State} !~ /^pending auto/i) {
         $Param{Message} .= $Self->{LayoutObject}->{LanguageObject}->Get('Timeover').' '.
-          $Self->{LayoutObject}->CustomerAge(Age => $Param{UntilTime}, Space => ' ').'!';
+            $Self->{LayoutObject}->CustomerAge(Age => $Param{UntilTime}, Space => ' ').'!';
     }
     # create PendingUntil string if UntilTime is < -1
     if ($Param{UntilTime}) {

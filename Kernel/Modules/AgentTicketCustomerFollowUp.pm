@@ -1,9 +1,9 @@
 # --
 # Kernel/Modules/AgentTicketCustomerFollowUp.pm - to handle customer messages
 # if the agent is customer
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCustomerFollowUp.pm,v 1.8 2006-11-02 12:20:52 tr Exp $
+# $Id: AgentTicketCustomerFollowUp.pm,v 1.9 2007-01-01 23:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -92,8 +92,7 @@ sub Run {
 
             # get output back
             $Output .= $Self->{LayoutObject}->Notify(
-                Info =>
-                  $Self->{LayoutObject}->{LanguageObject}->Get('You are the customer user of this message - customer modus!'),
+                Info => $Self->{LayoutObject}->{LanguageObject}->Get('You are the customer user of this message - customer modus!'),
             );
             # show spell check
             if ($Self->{ConfigObject}->Get('SpellChecker') && $Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
@@ -174,8 +173,8 @@ sub Run {
                     UserID => $Self->{UserID},
                 );
             }
-           # redirect to zoom view
-           return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
+            # redirect to zoom view
+            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();

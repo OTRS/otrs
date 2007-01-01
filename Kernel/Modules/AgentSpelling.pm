@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentSpelling.pm - spelling module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentSpelling.pm,v 1.16 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentSpelling.pm,v 1.17 2007-01-01 23:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::Spelling;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -48,7 +47,7 @@ sub new {
     }
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -58,16 +57,14 @@ sub Run {
     $Param{Field} = $Self->{ParamObject}->GetParam(Param => 'Field') || 'Body';
     $Param{SpellLanguage} = $Self->{ParamObject}->GetParam(Param => 'SpellLanguage') ||
         $Self->{UserSpellDict} || $Self->{ConfigObject}->Get('SpellCheckerDictDefault');
-    # --
     # get and replace all wrong words
-    # --
     my %Words = ();
     foreach (0..300) {
         my $Replace = $Self->{ParamObject}->GetParam(Param => "SpellCheck::Replace::$_");
         if ($Replace) {
             my $Old = $Self->{ParamObject}->GetParam(Param => "SpellCheckOld::$_");
             my $New = $Self->{ParamObject}->GetParam(Param => "SpellCheckOrReplace::$_") ||
-              $Self->{ParamObject}->GetParam(Param => "SpellCheckOption::$_");
+                $Self->{ParamObject}->GetParam(Param => "SpellCheckOption::$_");
             if ($Old && $New) {
                 $Param{Body} =~ s/^$Old$/$New/g;
                 $Param{Body} =~ s/^$Old( |\n|\r|\s)/$New$1/g;
@@ -78,22 +75,16 @@ sub Run {
             }
         }
     }
-    # --
     # do spell check
-    # --
     my %SpellCheck = $Self->{SpellingObject}->Check(
         Text => $Param{Body},
         SpellLanguage => $Param{SpellLanguage},
     );
-    # --
     # check error
-    # --
     if ($Self->{SpellingObject}->Error()) {
         return $Self->{LayoutObject}->ErrorScreen();
     }
-    # --
     # start with page ...
-    # --
     $Output .= $Self->{LayoutObject}->Header(Type => 'Small');
     $Output .= $Self->_Mask(
         SpellCheck => \%SpellCheck,
@@ -102,7 +93,7 @@ sub Run {
     $Output .= $Self->{LayoutObject}->Footer(Type => 'Small');
     return $Output;
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -126,12 +117,12 @@ sub _Mask {
                     $ReplaceWords{''} = 'No suggestions';
                 }
                 $Param{SpellCheckString}  = $Self->{LayoutObject}->OptionStrgHashRef(
-                   Data => \%ReplaceWords,
-                   Name => "SpellCheckOption::$Param{SpellCounter}",
-                   OnChange => "change_selected($Param{SpellCounter})"
+                    Data => \%ReplaceWords,
+                    Name => "SpellCheckOption::$Param{SpellCounter}",
+                    OnChange => "change_selected($Param{SpellCounter})"
                 );
                 $Self->{LayoutObject}->Block(
-                  Name => 'Row',
+                    Name => 'Row',
                     Data => {
                         %{$Param{SpellCheck}->{$_}},
                         OptionList => $Param{SpellCheckString},
@@ -142,7 +133,7 @@ sub _Mask {
         }
     }
     # dict language selection
-    $Param{SpellLanguageString}  .= $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{SpellLanguageString} .= $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Self->{ConfigObject}->Get('PreferencesGroups')->{SpellDict}->{Data},
         Name => "SpellLanguage",
         SelectedID => $Param{SpellLanguage},
@@ -150,5 +141,5 @@ sub _Mask {
     # create & return output
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentSpelling', Data => \%Param);
 }
-# --
+
 1;

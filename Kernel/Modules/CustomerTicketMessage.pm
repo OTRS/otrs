@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.12 2006-11-02 13:02:03 tr Exp $
+# $Id: CustomerTicketMessage.pm,v 1.13 2007-01-01 23:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -32,8 +32,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject
-       ConfigObject)) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
         if (!$Self->{$_}) {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
@@ -114,8 +113,8 @@ sub Run {
         my $Output .= $Self->{LayoutObject}->CustomerHeader();
         $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
         $Output .= $Self->_MaskNew(
-              %TicketFreeTextHTML,
-              %FreeTime,
+            %TicketFreeTextHTML,
+            %FreeTime,
         );
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
@@ -127,8 +126,8 @@ sub Run {
         my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
         my ($NewQueueID, $To) = split(/\|\|/, $Dest);
         if (!$To) {
-          $NewQueueID = $Self->{ParamObject}->GetParam(Param => 'NewQueueID') || '';
-          $To = 'System';
+            $NewQueueID = $Self->{ParamObject}->GetParam(Param => 'NewQueueID') || '';
+            $To = 'System';
         }
         # fallback, if no dest is given
         if (!$NewQueueID) {
@@ -261,24 +260,24 @@ sub Run {
         # get free text params
         %TicketFreeTime = ();
         foreach (1..2) {
-              foreach my $Type (qw(Year Month Day Hour Minute)) {
-                  $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
-              }
+            foreach my $Type (qw(Year Month Day Hour Minute)) {
+                $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+            }
         }
         # set ticket free time
         foreach (1..2) {
-              if (defined($TicketFreeTime{"TicketFreeTime".$_."Year"}) &&
-                  defined($TicketFreeTime{"TicketFreeTime".$_."Month"}) &&
-                  defined($TicketFreeTime{"TicketFreeTime".$_."Day"}) &&
-                  defined($TicketFreeTime{"TicketFreeTime".$_."Hour"}) &&
-                  defined($TicketFreeTime{"TicketFreeTime".$_."Minute"})) {
-                  $Self->{TicketObject}->TicketFreeTimeSet(
-                      %TicketFreeTime,
-                      TicketID => $TicketID,
-                      Counter => $_,
-                      UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                  );
-              }
+            if (defined($TicketFreeTime{"TicketFreeTime".$_."Year"}) &&
+                defined($TicketFreeTime{"TicketFreeTime".$_."Month"}) &&
+                defined($TicketFreeTime{"TicketFreeTime".$_."Day"}) &&
+                defined($TicketFreeTime{"TicketFreeTime".$_."Hour"}) &&
+                defined($TicketFreeTime{"TicketFreeTime".$_."Minute"})) {
+                $Self->{TicketObject}->TicketFreeTimeSet(
+                    %TicketFreeTime,
+                    TicketID => $TicketID,
+                    Counter => $_,
+                    UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                );
+            }
         }
         # create article
         my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
@@ -303,42 +302,42 @@ sub Run {
             },
             Queue => $Self->{QueueObject}->QueueLookup(QueueID => $NewQueueID),
         )) {
-          # get pre loaded attachment
-          my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
-              FormID => $Self->{FormID},
-          );
-          foreach my $Ref (@AttachmentData) {
-              $Self->{TicketObject}->ArticleWriteAttachment(
-                  %{$Ref},
-                  ArticleID => $ArticleID,
-                  UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-              );
-          }
-          # get submit attachment
-          my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-              Param => 'file_upload',
-              Source => 'String',
-          );
-          if (%UploadStuff) {
-              $Self->{TicketObject}->ArticleWriteAttachment(
-                  %UploadStuff,
-                  ArticleID => $ArticleID,
-                  UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-              );
-          }
-          # remove pre submited attachments
-          $Self->{UploadCachObject}->FormIDRemove(FormID => $Self->{FormID});
-          # redirect
-          return $Self->{LayoutObject}->Redirect(
-              OP => "Action=$NextScreen&TicketID=$TicketID",
-          );
-      }
-      else {
-          my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
-          $Output .= $Self->{LayoutObject}->CustomerError();
-          $Output .= $Self->{LayoutObject}->CustomerFooter();
-          return $Output;
-      }
+            # get pre loaded attachment
+            my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+                FormID => $Self->{FormID},
+            );
+            foreach my $Ref (@AttachmentData) {
+                $Self->{TicketObject}->ArticleWriteAttachment(
+                    %{$Ref},
+                    ArticleID => $ArticleID,
+                    UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                );
+            }
+            # get submit attachment
+            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                Param => 'file_upload',
+                Source => 'String',
+            );
+            if (%UploadStuff) {
+                $Self->{TicketObject}->ArticleWriteAttachment(
+                    %UploadStuff,
+                    ArticleID => $ArticleID,
+                    UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                );
+            }
+            # remove pre submited attachments
+            $Self->{UploadCachObject}->FormIDRemove(FormID => $Self->{FormID});
+            # redirect
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=$NextScreen&TicketID=$TicketID",
+            );
+        }
+        else {
+            my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->CustomerError();
+            $Output .= $Self->{LayoutObject}->CustomerFooter();
+            return $Output;
+        }
     }
     else {
         my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
@@ -378,8 +377,8 @@ sub _MaskNew {
     # build to string
     if (%NewTos) {
         foreach (keys %NewTos) {
-             $NewTos{"$_||$NewTos{$_}"} = $NewTos{$_};
-             delete $NewTos{$_};
+            $NewTos{"$_||$NewTos{$_}"} = $NewTos{$_};
+            delete $NewTos{$_};
         }
     }
     $Param{'ToStrg'} = $Self->{LayoutObject}->AgentQueueListOption(

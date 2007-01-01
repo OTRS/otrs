@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketNote.pm,v 1.19 2006-12-13 12:52:59 martin Exp $
+# $Id: AgentTicketNote.pm,v 1.20 2007-01-01 23:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -619,7 +619,7 @@ sub _Mask {
                 if ($Counter) {
                     if (!$UserHash{$User->{UserID}}) {
                         $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
-                          "$User->{UserFirstname} ($User->{UserLogin})";
+                            "$User->{UserFirstname} ($User->{UserLogin})";
                     }
                 }
                 $Counter++;
@@ -693,7 +693,6 @@ sub _Mask {
         );
         if (!$Self->{Config}->{StateDefault}) {
             $StateList{''} = '-';
-#            $State{SelectedID} = $Param{StateID};
         }
         if (!$Param{NewStateID}) {
             if ($Self->{Config}->{StateDefault}) {
@@ -742,7 +741,6 @@ sub _Mask {
         );
         if (!$Self->{Config}->{PriorityDefault}) {
             $PriorityList{''} = '-';
-#            $Priority{SelectedID} = $Param{PriorityID};
         }
         if (!$Param{NewPriorityID}) {
             if ($Self->{Config}->{PriorityDefault}) {
@@ -809,7 +807,7 @@ sub _Mask {
                 $Counter++;
                 if (!$UserHash{$User->{UserID}}) {
                     $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
-                      "$User->{UserFirstname} ($User->{UserLogin})";
+                        "$User->{UserFirstname} ($User->{UserLogin})";
                 }
             }
             $Param{'InvolvedAgentStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(

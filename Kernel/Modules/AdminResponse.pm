@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.18 2006-11-02 12:20:51 tr Exp $
+# $Id: AdminResponse.pm,v 1.19 2007-01-01 23:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -63,9 +63,9 @@ sub Run {
     my %AttachmentData = $Self->{StdAttachmentObject}->GetAllStdAttachments(Valid => 1);
     my %SelectedAttachmentData = ();
     if ($GetParam{ID}) {
-      %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
-        ID => $GetParam{ID},
-      );
+        %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
+            ID => $GetParam{ID},
+        );
     }
 
     # get data 2 form
@@ -149,11 +149,11 @@ sub _Mask {
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'valid',
-            Valid => 0,
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name',
+                Table => 'valid',
+                Valid => 0,
+            )
         },
         Name => 'ValidID',
         SelectedID => $Param{ValidID},
@@ -162,12 +162,12 @@ sub _Mask {
     # build ResponseOption string
     $Param{'ResponseOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name, id',
-            Valid => 0,
-            Clamp => 1,
-            Table => 'standard_response',
-          )
+            $Self->{DBObject}->GetTableData(
+                What => 'id, name, id',
+                Valid => 0,
+                Clamp => 1,
+                Table => 'standard_response',
+            )
         },
         Name => 'ID',
         Size => 15,
@@ -178,13 +178,13 @@ sub _Mask {
     my %DataTmp = %{$Param{SelectedAttachments}};
     $Param{AttachmentOption} .= "<SELECT NAME=\"IDs\" SIZE=3 multiple>\n";
     foreach my $ID (sort keys %SecondDataTmp){
-       $Param{AttachmentOption} .= "<OPTION ";
-       foreach (sort keys %DataTmp){
-         if ($_ eq $ID) {
-               $Param{AttachmentOption} .= 'selected';
-         }
-       }
-      $Param{AttachmentOption} .= " VALUE=\"$ID\">$SecondDataTmp{$ID}</OPTION>\n";
+        $Param{AttachmentOption} .= "<OPTION ";
+        foreach (sort keys %DataTmp){
+            if ($_ eq $ID) {
+                $Param{AttachmentOption} .= 'selected';
+            }
+        }
+        $Param{AttachmentOption} .= " VALUE=\"$ID\">$SecondDataTmp{$ID}</OPTION>\n";
     }
     $Param{AttachmentOption} .= "</SELECT>\n";
 
