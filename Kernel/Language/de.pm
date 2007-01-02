@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/de.pm - provides de language translation
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.122 2006-10-19 16:56:52 mh Exp $
+# $Id: de.pm,v 1.122.2.1 2007-01-02 05:58:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.122 $';
+$VERSION = '$Revision: 1.122.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -983,7 +983,7 @@ sub Data {
       'Exchange Axis' => 'Achsen vertauschen',
       'Configurable params of static stat' => 'Konfigurierbare Parameter der statischen Statistik',
       'No element selected.' => 'Es wurde kein Element ausgewählt.',
-      'maximal period form' => 'maximaler Zeitraum von',
+      'maximal period from' => 'maximaler Zeitraum von',
       'to' => 'bis',
       'Start' => '',
       'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Mit Hilfe der Auswahl- und Eingabefelder kann die Statistik Ihren Bedürfnissen angepasst werden. Welche Elemente der Statistik Sie verändern dürfen ist von der Vorkonfiguration der Statistik abhängig.',
