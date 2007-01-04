@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.18 2006-12-14 13:30:45 martin Exp $
+# $Id: LDAP.pm,v 1.19 2007-01-04 12:14:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -39,6 +39,7 @@ sub new {
     $Self->{Debug} = 0;
 
     # get ldap preferences
+    $Self->{Die} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Die'.$Param{Count});
     $Self->{Host} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Host'.$Param{Count})
         || die "Need Customer::AuthModule::LDAPHost in Kernel/Config.pm";
     $Self->{BaseDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::BaseDN'.$Param{Count})
@@ -119,7 +120,19 @@ sub Auth {
         );
     }
     # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
-    my $LDAP = Net::LDAP->new($Self->{Host}, %{$Self->{Params}}) or die "$@";
+    my $LDAP = Net::LDAP->new($Self->{Host}, %{$Self->{Params}});
+    if (!$LDAP) {
+        if ($Self->{Die}) {
+            die "Can't connect to $Self->{Host}: $@";
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't connect to $Self->{Host}: $@",
+            );
+            return;
+        }
+    }
     my $Result = '';
     if ($Self->{SearchUserDN} && $Self->{SearchUserPw}) {
         $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});

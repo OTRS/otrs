@@ -3,7 +3,7 @@
 # based on Martin Edenhofer's Kernel::System::Auth::DB
 # Copyright (C) 2004 Andreas Jobs <Andreas.Jobs+dev@ruhr-uni-bochum.de>
 # --
-# $Id: Radius.pm,v 1.5 2006-12-14 11:45:53 martin Exp $
+# $Id: Radius.pm,v 1.6 2007-01-04 12:14:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Authen::Radius;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -34,7 +34,8 @@ sub new {
 
     # Debug 0=off 1=on
     $Self->{Debug} = 0;
-
+    # get config
+    $Self->{Die} = $Self->{ConfigObject}->Get('AuthModule::Radius::Die'.$Param{Count});
     # get user table
     $Self->{RadiusHost} = $Self->{ConfigObject}->Get('AuthModule::Radius::Host'.$Param{Count})
         || die "Need AuthModule::Radius::Host$Param{Count} in Kernel/Config.pm";
@@ -99,7 +100,19 @@ sub Auth {
         return;
     }
     # Create a radius object
-    my $Radius = new Authen::Radius (Host => $Self->{RadiusHost}, Secret => $Self->{RadiusSecret});
+    my $Radius = Authen::Radius->new(Host => $Self->{RadiusHost}, Secret => $Self->{RadiusSecret});
+    if (!$Radius) {
+        if ($Self->{Die}) {
+            die "Can't connect to $Self->{RadiusHost}: $@";
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't connect to $Self->{RadiusHost}: $@",
+            );
+            return;
+        }
+    }
     my $AuthResult = $Radius->check_pwd ($User, $Pw);
 
     # login note

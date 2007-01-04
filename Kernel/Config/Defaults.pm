@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.253 2006-12-13 17:49:47 martin Exp $
+# $Id: Defaults.pm,v 1.254 2007-01-04 12:14:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.253 $';
+$VERSION = '$Revision: 1.254 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -331,6 +331,9 @@ sub LoadDefaults {
 #        version => 3,
 #    };
 
+    # Die if backend can't work, e. g. can't connect to server.
+#    $Self->{'AuthModule::LDAP::Die'} = 1;
+
     # This is an example configuration for an apache ($ENV{REMOTE_USER})
     # auth. backend. Use it if you want to have a singe login through
     # apache http-basic-auth
@@ -348,6 +351,9 @@ sub LoadDefaults {
 #    $Self->{'AuthModule'} = 'Kernel::System::Auth::Radius';
 #    $Self->{'AuthModule::Radius::Host'} = 'radiushost';
 #    $Self->{'AuthModule::Radius::Password'} = 'radiussecret';
+
+    # Die if backend can't work, e. g. can't connect to server.
+#    $Self->{'AuthModule::Radius::Die'} = 1;
 
     # UserSyncLDAPMap
     # (map if agent should create/synced from LDAP to DB after login)
@@ -1844,6 +1850,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.253 $ $Date: 2006-12-13 17:49:47 $
+$Revision: 1.254 $ $Date: 2007-01-04 12:14:47 $
 
 =cut
