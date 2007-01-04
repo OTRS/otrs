@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.128 2007-01-04 12:14:47 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.129 2007-01-04 14:49:27 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -4105,7 +4105,7 @@ Your OTRS Notification Master
             </FrontendModuleReg>
         </Setting>
      </ConfigItem>
-     <ConfigItem Name="Frontend::Module###AdminPerformanceLog" Required="0" Valid="0">
+     <ConfigItem Name="Frontend::Module###AdminPerformanceLog" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminPerformanceLog object in the admin area.</Description>
         <Description Lang="de">Frontendmodul-Registration des AdminPerformanceLog-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>

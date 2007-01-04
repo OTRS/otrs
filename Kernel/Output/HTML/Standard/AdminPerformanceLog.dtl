@@ -1,8 +1,8 @@
 # --
 # AdminPerformanceLog.dtl - provides HTML form for AdminPerformanceLog
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.dtl,v 1.4 2006-12-18 00:09:59 mh Exp $
+# $Id: AdminPerformanceLog.dtl,v 1.5 2007-01-04 14:49:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,23 +12,80 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
-    <td class="mainhead">
+    <td colspan="2" class="mainhead">
       $Env{"Box0"}$Text{"Performance Log"}$Env{"Box1"}
     </td>
   </tr>
   <tr>
-    <td class="mainbody">
-      <br>
+    <td width="30%" class="mainbody">
+<!-- dtl:block:Enabled -->
+      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="Action" value="AdminSysConfig">
+        <input type="hidden" name="Subaction" value="Edit">
+        <input type="hidden" name="SysConfigGroup" value="Framework">
+        <input type="hidden" name="SysConfigSubGroup" value="Core::PerformanceLog">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">
+              $Text{"This feature is enabled!"}:
+            </td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <p>$Text{"Just use this feature if you want to log each request."}<font color="red">*</font></p>
+              <p><font color="red">$Text{"Of couse this feature will take some system performance it self!"}</font></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Disable it here!"}">
+            </td>
+          </tr>
+        </table>
+      </form>
+<!-- dtl:block:Enabled -->
+<!-- dtl:block:Disabled -->
+      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="Action" value="AdminSysConfig">
+        <input type="hidden" name="Subaction" value="Edit">
+        <input type="hidden" name="SysConfigGroup" value="Framework">
+        <input type="hidden" name="SysConfigSubGroup" value="Core::PerformanceLog">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">
+              $Text{"This feature is disabled!"}:
+            </td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <p>$Text{"Just use this feature if you want to log each request."}<font color="red">*</font></p>
+              <p><font color="red">$Text{"Of couse this feature will take some system performance it self!"}</font></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Enable it here!"}">
+            </td>
+          </tr>
+        </table>
+      </form>
+<!-- dtl:block:Disabled -->
+    </td>
+    <td width="70%" class="mainbody">
 <!-- dtl:block:Reset -->
-      <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+      <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
         <tr>
-          <td colspan="2" class="contenthead">$Text{"Logfile too large!"} ($QData{"Size"} MB)</td>
+          <td class="contenthead">
+            $Text{"Logfile too large!"} ($QData{"Size"} MB)
+          </td>
         </tr>
         <tr>
           <td class="contentbody">
             <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
               <tr>
-                <td>$Text{"Logfile too large, you need to reset it!"}</td>
+                <td>
+                  $Text{"Logfile too large, you need to reset it!"}
+                </td>
               </tr>
             </table>
           </td>
@@ -46,21 +103,23 @@
       <br>
 <!-- dtl:block:Reset -->
 <!-- dtl:block:Table -->
-      <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+      <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
         <tr>
-          <td colspan="2" class="contenthead">$Text{"Range"} ($Text{"last"} $QData{"Age"})</td>
+          <td class="contenthead">
+            $Text{"Range"} ($Text{"last"} $QData{"Age"})
+          </td>
         </tr>
         <tr>
           <td class="contentbody">
             <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
               <tr>
-                <td>$Text{"Interface"}</td>
-                <td>$Text{"Requests"}</td>
-                <td>$Text{"Min Response"}</td>
-                <td>$Text{"Max Response"}</td>
-                <td>$Text{"Average Response"}</td>
+                <td class="contentkey">$Text{"Interface"}</td>
+                <td class="contentkey">$Text{"Requests"}</td>
+                <td class="contentkey">$Text{"Min Response"}</td>
+                <td class="contentkey">$Text{"Max Response"}</td>
+                <td class="contentkey">$Text{"Average Response"}</td>
               </tr>
-<!-- dtl:block:Row -->
+<!-- dtl:block:Interface -->
               <tr>
                 <td>$QData{"Interface"}</td>
                 <td>$QData{"Sum"}</td>
@@ -69,6 +128,20 @@
                 <td>$QData{"Average"}s</td>
               </tr>
 <!-- dtl:block:Row -->
+              <tr>
+                <td><i> o $QData{"Interface"}</i></td>
+                <td><i>$QData{"Sum"}</i></td>
+                <td><i>$QData{"Min"}s</i></td>
+                <td><i>$QData{"Max"}s</i></td>
+                <td><i>$QData{"Average"}s</i></td>
+              </tr>
+<!-- dtl:block:Row -->
+              <tr>
+                <td colspan="5">
+                  <hr>
+                </td>
+              </tr>
+<!-- dtl:block:Interface -->
             </table>
           </td>
         </tr>

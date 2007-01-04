@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPerformanceLog.pm - provides a log view for admins
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.pm,v 1.4 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminPerformanceLog.pm,v 1.5 2007-01-04 14:49:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminPerformanceLog;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -42,6 +42,25 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
+
+    # performance log is enabled
+    if ($Self->{ConfigObject}->Get('PerformanceLog')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Enabled',
+            Data => {
+                %Param,
+            },
+        );
+    }
+    # performance log is disabled
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'Disabled',
+            Data => {
+                %Param,
+            },
+        );
+    }
 
     # reset log file
     if ($Self->{Subaction} eq 'Reset') {
@@ -103,13 +122,20 @@ sub Run {
         }
         foreach my $Minute (5, 30, 60, 2*60, 24*60, 2*24*60) {
             my %Count = ();
+            my %Action = ();
             my %Sum = ();
             my %Max = ();
             my %Min = ();
             foreach my $Row (reverse @Data) {
                 if ($Row->[0] > time()-(60*$Minute)) {
+                    # whole
                     $Count{$Row->[1]}++;
-                    $Sum{$Row->[1]} = $Sum{$Row->[1]} + $Row->[2];
+                    if ($Sum{$Row->[1]}) {
+                        $Sum{$Row->[1]} = $Sum{$Row->[1]} + $Row->[2];
+                    }
+                    else {
+                        $Sum{$Row->[1]} = $Row->[2];
+                    }
                     if (!defined($Max{$Row->[1]})) {
                         $Max{$Row->[1]} = $Row->[2];
                     }
@@ -121,6 +147,29 @@ sub Run {
                     }
                     elsif ($Min{$Row->[1]} > $Row->[2]) {
                         $Min{$Row->[1]} = $Row->[2];
+                    }
+                    # for each action
+                    if ($Row->[4] =~ /^(.+?|)Action=(.+?)(&.*|)$/) {
+                        my $Module = $2;
+                        $Action{$Module}->{Count}->{$Row->[1]}++;
+                        if ($Action{$Module}->{Sum}->{$Row->[1]}) {
+                            $Action{$Module}->{Sum}->{$Row->[1]} = $Action{$Module}->{Sum}->{$Row->[1]} + $Row->[2];
+                        }
+                        else {
+                            $Action{$Module}->{Sum}->{$Row->[1]} = $Row->[2];
+                        }
+                        if (!defined($Action{$Module}->{Max}->{$Row->[1]})) {
+                            $Action{$Module}->{Max}->{$Row->[1]} = $Row->[2];
+                        }
+                        elsif ($Action{$Module}->{Max}->{$Row->[1]} < $Row->[2]) {
+                            $Action{$Module}->{Max}->{$Row->[1]} = $Row->[2];
+                        }
+                        if (!defined($Action{$Module}->{Min}->{$Row->[1]})) {
+                            $Action{$Module}->{Min}->{$Row->[1]} = $Row->[2];
+                        }
+                        elsif ($Action{$Module}->{Min}->{$Row->[1]} > $Row->[2]) {
+                            $Action{$Module}->{Min}->{$Row->[1]} = $Row->[2];
+                        }
                     }
                 }
                 else {
@@ -140,7 +189,7 @@ sub Run {
                     my $Average = $Sum{$_} / $Count{$_};
                     $Average =~ s/^(.*\.\d\d).+?$/$1/g;
                     $Self->{LayoutObject}->Block(
-                        Name => 'Row',
+                        Name => 'Interface',
                         Data => {
                             Interface => $_,
                             Average => $Average,
@@ -150,6 +199,23 @@ sub Run {
                             Min => $Min{$_} || 0,
                         },
                     );
+                    foreach my $Module (sort keys %Action) {
+                        if ($Action{$Module}->{Sum}->{$_}) {
+                        my $Average = $Action{$Module}->{Sum}->{$_} / $Action{$Module}->{Count}->{$_};
+                        $Average =~ s/^(.*\.\d\d).+?$/$1/g;
+                            $Self->{LayoutObject}->Block(
+                                Name => 'Row',
+                                Data => {
+                                    Interface => $Module,
+                                    Average => $Average,
+                                    Count => $Action{$Module}->{Count}->{$_} || 0,
+                                    Sum => $Action{$Module}->{Sum}->{$_} || 0,
+                                    Max => $Action{$Module}->{Max}->{$_} || 0,
+                                    Min => $Action{$Module}->{Min}->{$_} || 0,
+                                },
+                            );
+                        }
+                    }
                 }
             }
         }

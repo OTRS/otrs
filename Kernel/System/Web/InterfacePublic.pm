@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.9 2006-11-02 12:20:58 tr Exp $
+# $Id: InterfacePublic.pm,v 1.10 2007-01-04 14:49:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfacePublic;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed  modules
@@ -225,7 +225,7 @@ sub Run {
         print $GenericObject->Run();
         # log request time
         if ($Self->{ConfigObject}->Get('PerformanceLog')) {
-            if (!$QueryString && $Param{Action}) {
+            if ((!$QueryString && $Param{Action}) || ($QueryString !~ /Action=/)) {
                 $QueryString = "Action=".$Param{Action};
             }
             my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
@@ -281,6 +281,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2006-11-02 12:20:58 $
+$Revision: 1.10 $ $Date: 2007-01-04 14:49:27 $
 
 =cut
