@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.25 2006-12-20 11:55:56 tr Exp $
+# $Id: AgentTicketQueue.pm,v 1.26 2007-01-04 13:29:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -299,11 +299,7 @@ sub ShowTicket {
             # load module
             if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
                 my $Object = $Jobs{$Job}->{Module}->new(
-                    ConfigObject => $Self->{ConfigObject},
-                    LogObject => $Self->{LogObject},
-                    DBObject => $Self->{DBObject},
-                    LayoutObject => $Self->{LayoutObject},
-                    TicketObject => $Self->{TicketObject},
+                    %{$Self},
                     ArticleID => $Article{ArticleID},
                     UserID => $Self->{UserID},
                     Debug => $Self->{Debug},
@@ -354,12 +350,12 @@ sub ShowTicket {
         }
     }
     foreach (1..3) {
-        if ($Article{"FreeText$_"}) {
+        if ($Article{"ArticleFreeText$_"}) {
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleFreeText',
                 Data => {
-                    Key => $Article{"FreeKey$_"},
-                    Value => $Article{"FreeText$_"},
+                    Key => $Article{"ArticleFreeKey$_"},
+                    Value => $Article{"ArticleFreeText$_"},
                 },
             );
         }
