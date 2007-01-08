@@ -1,8 +1,8 @@
 # --
 # AdminCustomerUserForm.dtl - provides HTML form for AdminCustomerUser
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.31 2006-12-30 01:38:50 mh Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.32 2007-01-08 21:06:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -86,7 +86,7 @@ $Data{"Back"}
               <tr>
                 <td valign="top">$Data{"AddLink"}</td>
                 <td valign="top">
-                  <a href="$Env{"Baselink"}Action=AdminCustomerUser&Subaction=Change&ID=$QData{"UserID"}&Search=$LQData{"Search"}&Nav=$QData{"Nav"}">$QData{"Name","25"}</a>
+                  <a href="$Env{"Baselink"}Action=AdminCustomerUser&Subaction=Change&ID=$LQData{"UserID"}&Search=$LQData{"Search"}&Nav=$QData{"Nav"}">$QData{"Name","25"}</a>
                 </td>
               </tr>
 <!-- dtl:block:CustomerSelection -->
