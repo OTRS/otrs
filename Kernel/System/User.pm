@@ -1,8 +1,8 @@
 # --
 # Kernel/System/User.pm - some user functions
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.55 2006-10-16 15:54:22 cs Exp $
+# $Id: User.pm,v 1.55.2.1 2007-01-08 21:14:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.55.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -133,7 +133,7 @@ sub GetUserData {
         " $Self->{UserTable} " .
         " WHERE ";
     if ($Param{User}) {
-        $SQL .= " $Self->{UserTableUser} = '".$Self->{DBObject}->Quote($Param{User})."'";
+        $SQL .= " LOWER($Self->{UserTableUser}) = LOWER('".$Self->{DBObject}->Quote($Param{User})."')";
     }
     else {
         $SQL .= " $Self->{UserTableUserID} = ".$Self->{DBObject}->Quote($Param{UserID}, 'Integer')."";
@@ -263,7 +263,7 @@ sub UserAdd {
             " FROM " .
             " $Self->{UserTable} " .
             " WHERE " .
-            " $Self->{UserTableUser} = '$Param{Login}'";
+            " LOWER($Self->{UserTableUser}) = LOWER('$Param{Login}')";
         my $UserID = '';
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -540,7 +540,7 @@ sub SetPassword {
                " SET ".
                " $Self->{UserTableUserPW} = '$NewPw' ".
                " WHERE ".
-               " $Self->{UserTableUser} = '$Param{UserLogin}'",
+               " LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')",
     )) {
         # log notice
         $Self->{LogObject}->Log(
@@ -588,7 +588,7 @@ sub UserLookup {
         }
         # build sql query
         my $SQL = "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} ".
-            " WHERE $Self->{UserTableUser} = '$Param{UserLogin}'";
+            " WHERE LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')";
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $ID = $Row[0];
@@ -799,6 +799,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2006-10-16 15:54:22 $
+$Revision: 1.55.2.1 $ $Date: 2007-01-08 21:14:04 $
 
 =cut

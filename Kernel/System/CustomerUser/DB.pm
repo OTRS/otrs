@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.42 2006-11-23 09:45:50 martin Exp $
+# $Id: DB.pm,v 1.42.2.1 2007-01-08 21:14:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CheckItem;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.42.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -89,7 +89,7 @@ sub CustomerName {
         $SQL .= " , first_name, last_name ";
     }
     $SQL .= " FROM $Self->{CustomerTable} WHERE ".
-        " $Self->{CustomerKey} = '".$Self->{DBObject}->Quote($Param{UserLogin})."'";
+        " LOWER($Self->{CustomerKey}) = LOWER('".$Self->{DBObject}->Quote($Param{UserLogin})."')";
     # get data
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -263,10 +263,10 @@ sub CustomerUserDataGet {
     }
     $SQL .= $Self->{CustomerKey}." FROM $Self->{CustomerTable} WHERE ";
     if ($Param{User}) {
-        $SQL .= $Self->{CustomerKey}." = '".$Self->{DBObject}->Quote($Param{User})."'";
+        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('".$Self->{DBObject}->Quote($Param{User})."')";
     }
     elsif ($Param{CustomerID}) {
-        $SQL .= $Self->{CustomerID}." = '".$Self->{DBObject}->Quote($Param{CustomerID})."'";
+        $SQL .= "LOWER($Self->{CustomerID}) = LOWER('".$Self->{DBObject}->Quote($Param{CustomerID})."')";
     }
     # get inital data
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -429,7 +429,7 @@ sub CustomerUserUpdate {
     }
     $SQL .= " change_time = current_timestamp, ";
     $SQL .= " change_by = $Param{UserID} ";
-    $SQL .= " WHERE ".$Self->{CustomerKey}." = '".$Self->{DBObject}->Quote($Param{ID})."'";
+    $SQL .= " WHERE LOWER($Self->{CustomerKey}) = LOWER('".$Self->{DBObject}->Quote($Param{ID})."')";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # log notice
@@ -507,7 +507,7 @@ sub SetPassword {
                 " SET ".
                 " $Param{PasswordCol} = '".$Self->{DBObject}->Quote($CryptedPw)."' ".
                 " WHERE ".
-                " $Param{LoginCol} = '".$Self->{DBObject}->Quote($Param{UserLogin})."'",
+                " LOWER($Param{LoginCol}) = LOWER('".$Self->{DBObject}->Quote($Param{UserLogin})."')",
         )) {
             # log notice
             $Self->{LogObject}->Log(
