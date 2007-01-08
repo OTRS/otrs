@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleComposeSign.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleComposeSign.pm,v 1.8 2006-08-29 17:15:22 martin Exp $
+# $Id: ArticleComposeSign.pm,v 1.9 2007-01-08 17:00:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Crypt;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -29,7 +29,7 @@ sub new {
     bless ($Self, $Type);
 
     # get needed objects
-    foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ParamObject)) {
+    foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ParamObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
