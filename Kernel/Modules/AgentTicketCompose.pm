@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.23 2007-01-01 23:18:15 mh Exp $
+# $Id: AgentTicketCompose.pm,v 1.24 2007-01-08 20:51:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -570,16 +570,20 @@ sub Run {
         # use database email
         if ($Customer{UserEmail} && $Data{ToEmail} !~ /^\Q$Customer{UserEmail}\E$/i) {
             if ($Self->{ConfigObject}->Get('Ticket::Frontend::ComposeReplaceSenderAddress')) {
-                $Output .= $Self->{LayoutObject}->Notify(
-                    Priority => 'Info',
-                    Data => '$Text{"To: (%s) replaced with database email!", "'.$Data{To}.'"}',
+                $Self->{LayoutObject}->Block(
+                    Name => 'PropertiesRecipientTo',
+                    Data => {
+                        To => $Data{To},
+                    },
                 );
                 $Data{To} = $Customer{UserEmail};
             }
             else {
-                $Output .= $Self->{LayoutObject}->Notify(
-                    Priority => 'Info',
-                    Data => '$Text{"Cc: (%s) added database email!", "'.$Customer{UserEmail}.'"}',
+                $Self->{LayoutObject}->Block(
+                    Name => 'PropertiesRecipientCc',
+                    Data => {
+                        Cc => $Customer{UserEmail},
+                    },
                 );
                 if ($Data{Cc}) {
                     $Data{Cc} .= ', '.$Customer{UserEmail};
