@@ -1,8 +1,8 @@
 # --
 # Kernel/System/User.pm - some user functions
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.56 2006-12-13 17:11:14 martin Exp $
+# $Id: User.pm,v 1.57 2007-01-08 21:16:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -40,6 +40,8 @@ create a object
 
   use Kernel::Config;
   use Kernel::System::Log;
+  use Kernel::System::Main;
+  use Kernel::System::Time;
   use Kernel::System::DB;
   use Kernel::System::User;
 
@@ -47,13 +49,24 @@ create a object
   my $LogObject    = Kernel::System::Log->new(
       ConfigObject => $ConfigObject,
   );
+  my $MainObject    = Kernel::System::Main->new(
+      ConfigObject => $ConfigObject,
+  );
+  my $TimeObject    = Kernel::System::Time->new(
+      MainObject => $MainObject,
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+  );
   my $DBObject = Kernel::System::DB->new(
+      MainObject => $MainObject,
       ConfigObject => $ConfigObject,
       LogObject => $LogObject,
   );
   my $UserObject = Kernel::System::User->new(
       ConfigObject => $ConfigObject,
       LogObject => $LogObject,
+      MainObject => $MainObject,
+      TimeObject => $TimeObject,
       DBObject => $DBObject,
   );
 
@@ -67,7 +80,7 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject)) {
+    foreach (qw(DBObject ConfigObject LogObject TimeObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     # get user table
@@ -82,7 +95,7 @@ sub new {
     # load generator customer preferences module
     my $GeneratorModule = $Self->{ConfigObject}->Get('User::PreferencesModule')
       || 'Kernel::System::User::Preferences::DB';
-    eval "require $GeneratorModule";
+    $Self->{MainObject}->Require($GeneratorModule);
     $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
 
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
@@ -133,7 +146,7 @@ sub GetUserData {
         " $Self->{UserTable} " .
         " WHERE ";
     if ($Param{User}) {
-        $SQL .= " $Self->{UserTableUser} = '".$Self->{DBObject}->Quote($Param{User})."'";
+        $SQL .= " LOWER($Self->{UserTableUser}) = LOWER('".$Self->{DBObject}->Quote($Param{User})."')";
     }
     else {
         $SQL .= " $Self->{UserTableUserID} = ".$Self->{DBObject}->Quote($Param{UserID}, 'Integer')."";
@@ -263,7 +276,7 @@ sub UserAdd {
             " FROM " .
             " $Self->{UserTable} " .
             " WHERE " .
-            " $Self->{UserTableUser} = '$Param{Login}'";
+            " LOWER($Self->{UserTableUser}) = LOWER('$Param{Login}')";
         my $UserID = '';
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -544,7 +557,7 @@ sub SetPassword {
                " SET ".
                " $Self->{UserTableUserPW} = '$NewPw' ".
                " WHERE ".
-               " $Self->{UserTableUser} = '$Param{UserLogin}'",
+               " LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')",
     )) {
         # log notice
         $Self->{LogObject}->Log(
@@ -592,7 +605,7 @@ sub UserLookup {
         }
         # build sql query
         my $SQL = "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} ".
-            " WHERE $Self->{UserTableUser} = '$Param{UserLogin}'";
+            " WHERE LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')";
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $ID = $Row[0];
@@ -803,6 +816,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2006-12-13 17:11:14 $
+$Revision: 1.57 $ $Date: 2007-01-08 21:16:04 $
 
 =cut
