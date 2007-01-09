@@ -1,8 +1,8 @@
 # --
 # Kernel/System/SearchProfile.pm - module to manage search profiles
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SearchProfile.pm,v 1.4 2006-08-29 17:30:36 martin Exp $
+# $Id: SearchProfile.pm,v 1.5 2007-01-09 11:36:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::SearchProfile;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -160,7 +160,7 @@ sub SearchProfileGet {
         " WHERE ".
         " profile_name = '$Param{Name}' ".
         " AND ".
-        " login = '$Param{Base}::$Param{UserLogin}'";
+        " LOWER(login) = LOWER('$Param{Base}::$Param{UserLogin}')";
     my %Result = ();
     if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
         while (my @Data = $Self->{DBObject}->FetchrowArray()) {
@@ -206,7 +206,8 @@ sub SearchProfileDelete {
     }
     # sql
     my $SQL = "DELETE FROM search_profile WHERE ".
-          " profile_name = '$Param{Name}' AND login = '$Param{Base}::$Param{UserLogin}'";
+        " profile_name = '$Param{Name}' AND ".
+        " LOWER(login) = LOWER('$Param{Base}::$Param{UserLogin}')";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
     }
@@ -245,7 +246,7 @@ sub SearchProfileList {
         " FROM ".
         " search_profile ".
         " WHERE ".
-        " login = '$Param{Base}::$Param{UserLogin}'";
+        " LOWER(login) = LOWER('$Param{Base}::$Param{UserLogin}')";
     my %Result = ();
     if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
         while (my @Data = $Self->{DBObject}->FetchrowArray()) {
@@ -272,6 +273,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.5 $ $Date: 2007-01-09 11:36:31 $
 
 =cut
