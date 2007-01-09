@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.128 2006-11-15 07:29:19 martin Exp $
+# $Id: Article.pm,v 1.128.2.1 2007-01-09 02:36:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.128 $';
+$VERSION = '$Revision: 1.128.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1712,25 +1712,34 @@ sub SendAgentNotification {
     # replace config options
     $Notification{Body} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
     $Notification{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    # cleanup
+    $Notification{Subject} =~ s/<OTRS_CONFIG_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_CONFIG_.+?>/-/gi;
 
     # get owner data and replace it with <OTRS_OWNER_...
-    my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Article{OwnerID});
-    foreach (keys %Preferences) {
-        if ($Preferences{$_}) {
-            $Notification{Body} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
-            $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
+    my %OwnerPreferences = $Self->{UserObject}->GetUserData(UserID => $Article{OwnerID});
+    foreach (keys %OwnerPreferences) {
+        if ($OwnerPreferences{$_}) {
+            $Notification{Body} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
+            $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
         }
     }
+    # cleanup
+    $Notification{Subject} =~ s/<OTRS_OWNER_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_OWNER_.+?>/-/gi;
+
     # get owner data and replace it with <OTRS_RESPONSIBLE_...
-    if ($Self->{ConfigObject}->Get('Ticket::Responsible') && $Article{ResponsibleID}) {
-        my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Article{ResponsibleID});
-        foreach (keys %Preferences) {
-            if ($Preferences{$_}) {
-                $Notification{Body} =~ s/<OTRS_RESPONSIBLE_$_>/$Preferences{$_}/gi;
-                $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$Preferences{$_}/gi;
-            }
+    my %ResponsiblePreferences = $Self->{UserObject}->GetUserData(UserID => $Article{ResponsibleID});
+    foreach (keys %ResponsiblePreferences) {
+        if ($ResponsiblePreferences{$_}) {
+            $Notification{Body} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
+            $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
         }
     }
+    # cleanup
+    $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
+
     # get current user data
     my %CurrentUser = $Self->{UserObject}->GetUserData(UserID => $Param{UserID});
     foreach (keys %CurrentUser) {
@@ -1739,6 +1748,10 @@ sub SendAgentNotification {
             $Notification{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentUser{$_}/gi;
         }
     }
+    # cleanup
+    $Notification{Subject} =~ s/<OTRS_CURRENT_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_CURRENT_.+?>/-/gi;
+
     # replace it with given user params
     foreach (keys %User) {
         if ($User{$_}) {
@@ -1746,6 +1759,7 @@ sub SendAgentNotification {
             $Notification{Subject} =~ s/<OTRS_$_>/$User{$_}/gi;
         }
     }
+
     # ticket data
     my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID});
     foreach (keys %Ticket) {
@@ -1755,10 +1769,13 @@ sub SendAgentNotification {
         }
     }
     # COMPAT
-    $Notification{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/g;
-    $Notification{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/g;
-    $Notification{Body} =~ s/<OTRS_QUEUE>/$Article{Queue}/g;
-    $Notification{Body} =~ s/<OTRS_COMMENT>/$GetParam{Comment}/g if (defined $GetParam{Comment});
+    $Notification{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
+    $Notification{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/gi;
+    $Notification{Body} =~ s/<OTRS_QUEUE>/$Article{Queue}/gi;
+    $Notification{Body} =~ s/<OTRS_COMMENT>/$GetParam{Comment}/gi if (defined $GetParam{Comment});
+    # cleanup
+    $Notification{Subject} =~ s/<OTRS_TICKET_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_TICKET_.+?>/-/gi;
 
     # prepare subject (insert old subject)
     $GetParam{Subject} = $Self->TicketSubjectClean(
@@ -1799,11 +1816,6 @@ sub SendAgentNotification {
             $Notification{Subject} =~ s/<OTRS_$_>/$Article{$_}/gi;
             $Notification{Body} =~ s/<OTRS_$_>/$Article{$_}/gi;
         }
-        else {
-            # cleanup
-            $Notification{Subject} =~ s/<OTRS_$_>//gi;
-            $Notification{Body} =~ s/<OTRS_$_>//gi;
-        }
     }
 
     foreach (keys %GetParam) {
@@ -1833,7 +1845,7 @@ sub SendAgentNotification {
     # send notify
     $Self->{SendmailObject}->Send(
         From => $Self->{ConfigObject}->Get('NotificationSenderName').
-             ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>',
+            ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>',
         To => $User{UserEmail},
         Subject => $Notification{Subject},
         Type => 'text/plain',
@@ -1962,11 +1974,14 @@ sub SendCustomerNotification {
     # replace config options
     $Notification{Body} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
     $Notification{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    # cleanup
+    $Notification{Subject} =~ s/<OTRS_CONFIG_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_CONFIG_.+?>/-/gi;
 
     # COMPAT
-    $Notification{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/g;
-    $Notification{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/g;
-    $Notification{Body} =~ s/<OTRS_QUEUE>/$Param{Queue}/g if ($Param{Queue});
+    $Notification{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
+    $Notification{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/gi;
+    $Notification{Body} =~ s/<OTRS_QUEUE>/$Param{Queue}/gi if ($Param{Queue});
     # ticket data
     my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID});
     foreach (keys %Ticket) {
@@ -1979,19 +1994,6 @@ sub SendCustomerNotification {
     $Notification{Subject} =~ s/<OTRS_TICKET_.+?>/-/gi;
     $Notification{Body} =~ s/<OTRS_TICKET_.+?>/-/gi;
 
-    # get owner data
-    my ($OwnerID, $Owner) = $Self->OwnerCheck(TicketID => $Param{TicketID});
-    my %Preferences = $Self->{UserObject}->GetUserData(UserID => $OwnerID);
-    foreach (keys %Preferences) {
-        if ($Preferences{$_}) {
-            $Notification{Body} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
-            $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
-        }
-    }
-    # cleanup
-    $Notification{Subject} =~ s/<OTRS_OWNER_.+?>/-/gi;
-    $Notification{Body} =~ s/<OTRS_OWNER_.+?>/-/gi;
-
     # get current user data
     my %CurrentPreferences = $Self->{UserObject}->GetUserData(UserID => $Param{UserID});
     foreach (keys %CurrentPreferences) {
@@ -2003,6 +2005,34 @@ sub SendCustomerNotification {
     # cleanup
     $Notification{Subject} =~ s/<OTRS_CURRENT_.+?>/-/gi;
     $Notification{Body} =~ s/<OTRS_CURRENT_.+?>/-/gi;
+
+    # get owner data
+    my %OwnerPreferences = $Self->{UserObject}->GetUserData(
+        UserID => $Article{OwnerID},
+    );
+    foreach (keys %OwnerPreferences) {
+        if ($OwnerPreferences{$_}) {
+            $Notification{Body} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
+            $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
+        }
+    }
+    # cleanup
+    $Notification{Subject} =~ s/<OTRS_OWNER_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_OWNER_.+?>/-/gi;
+
+    # get responsible data
+    my %ResponsiblePreferences = $Self->{UserObject}->GetUserData(
+        UserID => $Article{ResponsibleID},
+    );
+    foreach (keys %ResponsiblePreferences) {
+        if ($ResponsiblePreferences{$_}) {
+            $Notification{Body} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
+            $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
+        }
+    }
+    # cleanup
+    $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
 
     # get ref of email params
     my %GetParam = %{$Param{CustomerMessageParams}};
@@ -2068,6 +2098,9 @@ sub SendCustomerNotification {
         chomp $NewOldBody;
         $Notification{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
     }
+    # cleanup all not needed <OTRS_CUSTOMER_ tags
+    $Notification{Body} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
+    $Notification{Subject} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
 
     # send notify
     my %Address = $Self->{QueueObject}->GetSystemAddress(QueueID => $Article{QueueID});
@@ -2174,6 +2207,48 @@ sub SendAutoResponse {
             $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
         }
     }
+
+    # get current user data
+    my %CurrentPreferences = $Self->{UserObject}->GetUserData(UserID => $Param{UserID});
+    foreach (keys %CurrentPreferences) {
+        if ($CurrentPreferences{$_}) {
+            $Param{Body} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
+        }
+    }
+    # cleanup
+    $Param{Subject} =~ s/<OTRS_CURRENT_.+?>/-/gi;
+    $Param{Body} =~ s/<OTRS_CURRENT_.+?>/-/gi;
+
+    # get owner data
+    my %OwnerPreferences = $Self->{UserObject}->GetUserData(
+        UserID => $Article{OwnerID},
+    );
+    foreach (keys %OwnerPreferences) {
+        if ($OwnerPreferences{$_}) {
+            $Param{Body} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
+        }
+    }
+    # cleanup
+    $Param{Subject} =~ s/<OTRS_OWNER_.+?>/-/gi;
+    $Param{Body} =~ s/<OTRS_OWNER_.+?>/-/gi;
+
+    # get responsible data
+    my %ResponsiblePreferences = $Self->{UserObject}->GetUserData(
+        UserID => $Article{ResponsibleID},
+    );
+    foreach (keys %ResponsiblePreferences) {
+        if ($ResponsiblePreferences{$_}) {
+            $Param{Body} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
+        }
+    }
+
+    # cleanup
+    $Param{Subject} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
+    $Param{Body} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
+
     # ticket data
     my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID});
     foreach (keys %Ticket) {
@@ -2269,6 +2344,10 @@ sub SendAutoResponse {
         chomp $NewOldBody;
         $Param{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
     }
+    # cleanup all not needed <OTRS_CUSTOMER_ tags
+    $Param{Body} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
+    $Param{Subject} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
+
     # set new To address if customer user id is used
     my $Cc = '';
     my $ToAll = $GetParam{From};
