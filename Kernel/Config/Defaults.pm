@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.254 2007-01-04 12:14:47 martin Exp $
+# $Id: Defaults.pm,v 1.255 2007-01-09 00:47:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.254 $';
+$VERSION = '$Revision: 1.255 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -336,18 +336,18 @@ sub LoadDefaults {
 
     # This is an example configuration for an apache ($ENV{REMOTE_USER})
     # auth. backend. Use it if you want to have a singe login through
-    # apache http-basic-auth
+    # apache http-basic-auth.
 #   $Self->{'AuthModule'} = 'Kernel::System::Auth::HTTPBasicAuth';
     # In case there is a leading domain in the REMOTE_USER, you can
     # replace it by the next config option.
 #   $Self->{'AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
     # Note:
     # If you use this module, you should use as fallback the following
-    # config settings if user isn't login through apache ($ENV{REMOTE_USER})
+    # config settings if user isn't login through apache ($ENV{REMOTE_USER}).
 #   $Self->{LoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
 #   $Self->{LogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
 
-    # This is example configuration to auth. agents against a radius server
+    # This is example configuration to auth. agents against a radius server.
 #    $Self->{'AuthModule'} = 'Kernel::System::Auth::Radius';
 #    $Self->{'AuthModule::Radius::Host'} = 'radiushost';
 #    $Self->{'AuthModule::Radius::Password'} = 'radiussecret';
@@ -1850,6 +1850,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.254 $ $Date: 2007-01-04 12:14:47 $
+$Revision: 1.255 $ $Date: 2007-01-09 00:47:19 $
 
 =cut
