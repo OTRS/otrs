@@ -5,7 +5,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.65 2007-01-09 02:36:23 martin Exp $
+# $Id: fr.pm,v 1.66 2007-01-09 03:51:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.65 $';
+$VERSION = '$Revision: 1.66 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -668,9 +668,9 @@ sub Data {
       'Notification Management' => 'Gestion des notifications',
       'Notification' => '',
       'Notifications are sent to an agent or a customer.' => 'Des notifications sont envoyées à un technicien ou à un client.',
-      'Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)' => 'Options du propriétaire d\'un ticket (ex: <OTRS_OWNER_USERFIRSTNAME>)',
-      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)' => 'Options concernant l\'utilisateur actuel ayant effectué cet action (ex: <OTRS_CURRENT_USERFIRSTNAME>)',
-      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)' => 'Options concernant les données du client actuel (ex: <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)',
+      'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Options du propriétaire d\'un ticket (ex: <OTRS_OWNER_UserFirstname>)',
+      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Options concernant l\'utilisateur actuel ayant effectué cet action (ex: <OTRS_CURRENT_UserFirstname>)',
+      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Options concernant les données du client actuel (ex: <OTRS_CUSTOMER_DATA_UserFirstname>)',
       'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
 
       # Template: AdminPackageManager

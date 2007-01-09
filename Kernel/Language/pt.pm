@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004 CAT <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.37 2007-01-09 01:22:15 martin Exp $
+# $Id: pt.pm,v 1.38 2007-01-09 03:51:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pt;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -659,9 +659,9 @@ sub Data {
       'Notification Management' => 'Gestão de Notificação',
       'Notification' => 'Notificações',
       'Notifications are sent to an agent or a customer.' => 'As notificações são enviadas para um agente ou um cliente.',
-      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Opções do dono do bilhete',
-      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Opções do utilizador que requereu a acção (Ex. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
-      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Opçoes do Cliente corrente (Ex. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
+      'Ticket owner options (e. g. &lt;OTRS_OWNER_UserFirstname&gt;)' => 'Opções do dono do bilhete',
+      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_UserFirstname&gt;)' => 'Opções do utilizador que requereu a acção (Ex. &lt;OTRS_CURRENT_UserFirstname&gt;)',
+      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;)' => 'Opçoes do Cliente corrente (Ex. &lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;)',
       'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
 
       # Template: AdminPackageManager

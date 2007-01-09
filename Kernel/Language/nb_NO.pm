@@ -4,7 +4,7 @@
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 #               2006 Knut Haugen <knuthaug@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.32 2007-01-09 01:22:14 martin Exp $
+# $Id: nb_NO.pm,v 1.33 2007-01-09 03:51:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.32 $;
+$VERSION = q$Revision: 1.33 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -661,9 +661,9 @@ sub Data {
       'Notification Management' => 'Administrasjon: Meldinger i e-poster',
       'Notification' => 'Melding',
       'Notifications are sent to an agent or a customer.' => 'Meldinger som sendes til agenter eller kunder.',
-      'Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)' => 'gir tilgang til data for agenten som står som eier av saken (f.eks. <OTRS_OWNER_USERFIRSTNAME>)',
-      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)' => 'gir tilgang til data for agenten som utfører handlingen (f.eks. <OTRS_CURRENT_USERFIRSTNAME>)',
-      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)' => 'gir tilgang til data for gjeldende kunde (f.eks. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)',
+      'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'gir tilgang til data for agenten som står som eier av saken (f.eks. <OTRS_OWNER_UserFirstname>)',
+      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'gir tilgang til data for agenten som utfører handlingen (f.eks. <OTRS_CURRENT_UserFirstname>)',
+      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'gir tilgang til data for gjeldende kunde (f.eks. <OTRS_CUSTOMER_DATA_UserFirstname>)',
       'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
 
       # Template: AdminPackageManager

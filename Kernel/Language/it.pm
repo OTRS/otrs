@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.39 2007-01-09 01:22:14 martin Exp $
+# $Id: it.pm,v 1.40 2007-01-09 03:51:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -661,9 +661,9 @@ sub Data {
       'Notification Management' => 'Gestione delle notifiche',
       'Notification' => 'Notifica',
       'Notifications are sent to an agent or a customer.' => 'Le notifiche sono inviate ad un operatore o a un cliente',
-      'Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)' => 'Per ottenere il gestore della richiesta (per es. <OTRS_OWNER_USERFIRSTNAME>)',
-      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)' => 'Per ottenere l\'utente che ha richiesto l\'azione (per es. <OTRS_CURRENT_USERFIRSTNAME>)',
-      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)' => 'Per ottenere i dati del cliente (per es. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)',
+      'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Per ottenere il gestore della richiesta (per es. <OTRS_OWNER_UserFirstname>)',
+      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Per ottenere l\'utente che ha richiesto l\'azione (per es. <OTRS_CURRENT_UserFirstname>)',
+      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Per ottenere i dati del cliente (per es. <OTRS_CUSTOMER_DATA_UserFirstname>)',
       'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
 
       # Template: AdminPackageManager

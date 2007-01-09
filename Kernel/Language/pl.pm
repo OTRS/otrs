@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.38 2007-01-09 01:22:15 martin Exp $
+# $Id: pl.pm,v 1.39 2007-01-09 03:51:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -660,9 +660,9 @@ sub Data {
       'Notification Management' => 'Konfiguracja Powiadomieñ',
       'Notification' => '',
       'Notifications are sent to an agent or a customer.' => 'Powiadomienia s± wysy³ane do agenta obs³ugi lub klienta',
-      'Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)' => 'Opcje dotycz±ce w³a¶ciciela zg³oszenia (np. <OTRS_OWNER_USERFIRSTNAME>)',
-      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)' => 'Opcje aktualnego agenta obs³ugi (np. <OTRS_CURRENT_USERFIRSTNAME>)',
-      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)' => 'Opcje aktualnego klienta (np. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)',
+      'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Opcje dotycz±ce w³a¶ciciela zg³oszenia (np. <OTRS_OWNER_UserFirstname>)',
+      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Opcje aktualnego agenta obs³ugi (np. <OTRS_CURRENT_UserFirstname>)',
+      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Opcje aktualnego klienta (np. <OTRS_CUSTOMER_DATA_UserFirstname>)',
       'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
 
       # Template: AdminPackageManager

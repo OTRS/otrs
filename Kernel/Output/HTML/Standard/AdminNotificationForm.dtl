@@ -2,7 +2,7 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminNotificationForm.dtl,v 1.17 2007-01-09 03:22:18 martin Exp $
+# $Id: AdminNotificationForm.dtl,v 1.18 2007-01-09 03:51:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -122,19 +122,19 @@
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)."}</td>
+            <td class="contentvalue">$Text{"Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)."}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_OWNER_*&gt;</td>
-            <td class="contentvalue">$Text{"Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)."}</td>
+            <td class="contentvalue">$Text{"Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)."}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_RESPONSIBLE_*&gt;</td>
-            <td class="contentvalue">$Text{"Ticket responsible options (e. g. <OTRS_RESPONSIBLE_USERFIRSTNAME>)."}</td>
+            <td class="contentvalue">$Text{"Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>)."}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_CURRENT_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)."}</td>
+            <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)."}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
@@ -158,7 +158,7 @@
               <tr>
                 <td>$Text{"Text"}:</td>
                 <td><textarea rows="12" cols="70" name="Response">
-Hi &lt;OTRS_CURRENT_USERFIRSTNAME&gt;,
+Hi &lt;OTRS_CURRENT_UserFirstname&gt;,
 
 there is a new ticket in "&lt;OTRS_TICKET_Queue&gt;"!
 

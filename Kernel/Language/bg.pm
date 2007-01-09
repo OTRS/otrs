@@ -2,7 +2,7 @@
 # Kernel/Language/bg.pm - provides bg language translation
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: bg.pm,v 1.50 2007-01-09 01:22:14 martin Exp $
+# $Id: bg.pm,v 1.51 2007-01-09 03:51:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -658,9 +658,9 @@ sub Data {
       'Notification Management' => '',
       'Notification' => '',
       'Notifications are sent to an agent or a customer.' => '',
-      'Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)' => '',
-      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)' => '',
-      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)' => '',
+      'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => '',
+      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => '',
+      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '',
       'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
 
       # Template: AdminPackageManager
