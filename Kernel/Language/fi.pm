@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.49.2.1 2007-01-09 01:21:30 martin Exp $
+# $Id: fi.pm,v 1.49.2.2 2007-01-09 03:42:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49.2.1 $';
+$VERSION = '$Revision: 1.49.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -659,9 +659,9 @@ sub Data {
       'Notification Management' => '',
       'Notification' => '',
       'Notifications are sent to an agent or a customer.' => '',
-      'Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)' => '',
-      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)' => '',
-      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)' => '',
+      'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => '',
+      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => '',
+      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '',
       'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
 
       # Template: AdminPackageManager

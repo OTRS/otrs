@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminAutoResponseForm.dtl,v 1.21.2.3 2007-01-09 03:21:36 martin Exp $
+# $Id: AdminAutoResponseForm.dtl,v 1.21.2.4 2007-01-09 03:42:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -139,15 +139,15 @@ $Data{"Note"}
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)"}</td>
+            <td class="contentvalue">$Text{"Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)"}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_OWNER_*&gt;</td>
-            <td class="contentvalue">$Text{"Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)"}</td>
+            <td class="contentvalue">$Text{"Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)"}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_CURRENT_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)"}</td>
+            <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)"}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>

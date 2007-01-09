@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.10.2.1 2007-01-09 01:21:30 martin Exp $
+# $Id: sk_SK.pm,v 1.10.2.2 2007-01-09 03:42:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::sk_SK;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10.2.1 $';
+$VERSION = '$Revision: 1.10.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -659,9 +659,9 @@ sub Data {
       'Notification Management' => '',
       'Notification' => '',
       'Notifications are sent to an agent or a customer.' => '',
-      'Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)' => '',
-      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)' => '',
-      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)' => '',
+      'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => '',
+      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => '',
+      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '',
       'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
 
       # Template: AdminPackageManager
@@ -1374,7 +1374,7 @@ sub Data {
       'Don\'t forget to add a new user to groups!' => 'Nezabudnite prida» nového pou¾ívateµa do skupín!',
       'Added User %s""' => 'Pridaný pou¾ívateµ %',
       'Ak pou¾ívate RegExp =>  mô¾ete tie¾ pou¾íva» prepojené hodnoty v () ako [***] v \'Set\'.' => 'Queue <-> Auto Responses Management',
-      'Mo¾nosti údajov aktuálnohe klientského u¾ívateµa (napr. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)' => 'Package Manager',
+      'Mo¾nosti údajov aktuálnohe klientského u¾ívateµa (napr. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Package Manager',
       'Prestava»' => 'Reinstall',
       'Text bez po¾iadavky' => 'Ticket Lock',
       'Rady' => 'Ticket escalation!',
@@ -1426,7 +1426,7 @@ sub Data {
       'Zaèiatok strany' => 'Home',
       'systémový záznam' => 'Time',
       'profil' => 'Search-Template',
-      'Mo¾nosti aktuálneho pou¾ívateµa =>  ktorý po¾aduje tieto akcie (napr. <OTRS_CURRENT_USERFIRSTNAME>)' => 'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)',
+      'Mo¾nosti aktuálneho pou¾ívateµa =>  ktorý po¾aduje tieto akcie (napr. <OTRS_CURRENT_UserFirstname>)' => 'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)',
       'ID radu' => 'Move Ticket',
       'pre priezvisko agenta' => 'for agent user id',
       'OTRS posiela klientom oznámenie e-mailom =>  ak bola po¾iadavka premiestnená.' => 'OTRS sends an notification email to the customer if the ticket state has changed.',
@@ -1457,7 +1457,7 @@ sub Data {
       'riadenie balíka' => 'Uninstall',
       'vyber prieèinok' => 'SQL',
       'Databáza' => 'Create',
-      'mo¾nosti konfigurácie (napr. <OTRS_CONFIG_HttpType>)' => 'Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)',
+      'mo¾nosti konfigurácie (napr. <OTRS_CONFIG_HttpType>)' => 'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)',
       'pripomienková správa' => 'Reminder',
       'generovaný zástupca' => 'Job-List',
       'Ticket %s" created!"' => 'po¾iadavka % vytvorená',
@@ -1577,7 +1577,7 @@ sub Data {
       'Load' => 'Naèíta»',
       'Skutoène chcete odin¹talova» tento balík?' => 'Install',
       'OTRS DB User' => 'OTRS DB pou¾ívateµ',
-      'Mo¾nosti majiteµa po¾iadavky (napr. <OTRS_OWNER_USERFIRSTNAME>)' => 'Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)',
+      'Mo¾nosti majiteµa po¾iadavky (napr. <OTRS_OWNER_UserFirstname>)' => 'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)',
       'systémová adresa' => 'Customer Move Notify',
       'Verion' => 'Do you really want to uninstall this package?',
       'Message for new Owner' => 'správa od nového majiteµa.',
