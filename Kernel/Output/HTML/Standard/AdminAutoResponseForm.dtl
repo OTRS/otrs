@@ -2,7 +2,7 @@
 # AdminAutoResponseForm.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminAutoResponseForm.dtl,v 1.23 2007-01-09 01:22:15 martin Exp $
+# $Id: AdminAutoResponseForm.dtl,v 1.24 2007-01-09 03:22:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -119,27 +119,43 @@ $Data{"Note"}
         <table>
           <tr>
             <td class="contentkey">&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</td>
-            <td class="contentvalue">$Text{"to get the first 20 character of the subject"}</td>
+            <td class="contentvalue">$Text{"To get the first 20 character of the subject."}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_CUSTOMER_EMAIL[5]&gt;</td>
-            <td class="contentvalue">$Text{"to get the first 5 lines of the email"}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_FROM&gt;</td>
-            <td class="contentvalue">$Text{"to get the from line of the email"}</td>
+            <td class="contentvalue">$Text{"To get the first 5 lines of the email."}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_CUSTOMER_REALNAME&gt;</td>
-            <td class="contentvalue">$Text{"to get the realname of the sender (if given)"}</td>
+            <td class="contentvalue">$Text{"To get the realname of the sender (if given)."}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_CUSTOMER_*&gt;</td>
+            <td class="contentvalue">$Text{"To get the article attribut (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>)."}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
+            <td class="contentvalue">$Text{"Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)."}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_OWNER_*&gt;</td>
+            <td class="contentvalue">$Text{"Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)."}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_RESPONSIBLE_*&gt;</td>
+            <td class="contentvalue">$Text{"Ticket responsible options (e. g. <OTRS_RESPONSIBLE_USERFIRSTNAME>)."}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_CURRENT_*&gt;</td>
+            <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)."}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)"}</td>
+            <td class="contentvalue">$Text{"Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)."}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_CONFIG_*&gt;</td>
-            <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)"}</td>
+            <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)."}</td>
           </tr>
         </table>
       </p>
@@ -149,12 +165,12 @@ $Data{"Note"}
         <form action="/">
           <table>
             <tr>
-              <td>$Text{"Subject"}:</td>
-              <td><input type="text" name="Subject" value="RE: &lt;OTRS_CUSTOMER_SUBJECT[22]&gt;" size="80" maxlength="80"></td>
+              <td class="contentkey">$Text{"Subject"}:</td>
+              <td class="contentvalue"><input type="text" name="Subject" value="RE: &lt;OTRS_CUSTOMER_SUBJECT[22]&gt;" size="80" maxlength="80"></td>
             </tr>
             <tr>
-              <td>$Text{"Response"}:</td>
-              <td>
+              <td class="contentkey">$Text{"Response"}:</td>
+              <td class="contentvalue">
                 <textarea rows="12" cols="70" name="Response">
 Thanks for your e-mail.
 
