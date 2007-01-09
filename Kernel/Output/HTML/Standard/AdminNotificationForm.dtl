@@ -2,7 +2,7 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminNotificationForm.dtl,v 1.14.2.1 2007-01-09 01:21:30 martin Exp $
+# $Id: AdminNotificationForm.dtl,v 1.14.2.2 2007-01-09 03:21:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -102,8 +102,24 @@
         $Text{"Useable options"}:
         <table>
           <tr>
-            <td class="contentkey">&lt;OTRS_CONFIG_*&gt;</td>
-            <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)"}</td>
+            <td class="contentkey">&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</td>
+            <td class="contentvalue">$Text{"to get the first 20 character of the subject"}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_CUSTOMER_EMAIL[5]&gt;</td>
+            <td class="contentvalue">$Text{"to get the first 5 lines of the email"}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_CUSTOMER_REALNAME&gt;</td>
+            <td class="contentvalue">$Text{"to get the realname of the sender (if given)"}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_CUSTOMER_From&gt;</td>
+            <td class="contentvalue">$Text{"to get the from line of the email"} (&lt;OTRS_CUSTOMER_From&gt;, &lt;OTRS_CUSTOMER_To&gt;, &lt;OTRS_CUSTOMER_Cc&gt;, &lt;OTRS_CUSTOMER_Subject&gt;, &ltOTRS_CUSTOMER_Body&gt;)</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
+            <td class="contentvalue">$Text{"Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)"}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_OWNER_*&gt;</td>
@@ -114,12 +130,12 @@
             <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)"}</td>
           </tr>
           <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)"}</td>
+            <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
+            <td class="contentvalue">$Text{"Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)"}</td>
           </tr>
           <tr>
-            <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)"}</td>
+            <td class="contentkey">&lt;OTRS_CONFIG_*&gt;</td>
+            <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)"}</td>
           </tr>
         </table>
       </p>

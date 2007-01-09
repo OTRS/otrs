@@ -1,8 +1,8 @@
 # --
 # AdminResponseForm.dtl - provides HTML form for AdminResponse
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminResponseForm.dtl,v 1.19 2006-08-29 16:56:06 martin Exp $
+# $Id: AdminResponseForm.dtl,v 1.19.2.1 2007-01-09 03:21:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -122,26 +122,41 @@
         <p>
           $Text{"Useable options"}:
           <table>
-            <tr>
-              <td><b>&lt;OTRS_TICKET_STATE&gt;</b></td>
-              <td>$Text{"Next state"}</td>
-            </tr>
-            <tr>
-              <td><b>&lt;OTRS_CUSTOMER_*&gt;</b></td>
-              <td>$Text{"All Customer variables like defined in config option CustomerUser."}</td>
-            </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
+            <td class="contentvalue">$Text{"Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)."}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_CUSTOMER_*&gt;</td>
+            <td class="contentvalue">$Text{"All Customer variables like defined in config option CustomerUser."}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_CONFIG_*&gt;</td>
+            <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)."}</td>
+          </tr>
           </table>
         </p>
         <p>
           $Text{"Example"}:
-          <pre>
+        <hr>
+        <form action="/">
+          <table>
+            <tr>
+              <td class="contentkey">$Text{"Response"}:</td>
+              <td class="contentvalue">
+                <textarea rows="12" cols="70" name="Response">
 $Text{"The current ticket state is"}: "&lt;OTRS_TICKET_STATE&gt;"
 
-$Text{"Your email address is new"} "&lt;OTRS_CUSTOMER_UserEmail&gt;"
-          </pre>
-        </p>
+$Text{"Your email address is new"}: "&lt;OTRS_CUSTOMER_UserEmail&gt;"
+                </textarea>
+                  </td>
+                </tr>
+              </table>
+            </form>
+            <hr>
+          </p>
 
-      </td>
-    </tr>
-  </table>
+        </td>
+      </tr>
+    </table>
 <!-- end note -->
