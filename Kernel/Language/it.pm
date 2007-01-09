@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.38 2006-10-19 16:56:51 mh Exp $
+# $Id: it.pm,v 1.38.2.1 2007-01-09 01:21:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.38.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -559,8 +559,8 @@ sub Data {
       'to get the first 5 lines of the email' => 'per avere le prime 5 linee del messaggio',
       'to get the from line of the email' => 'per avere il mittente del messaggio',
       'to get the realname of the sender (if given)' => 'per avere il nome completo del mittente (se indicato)',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
-      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Opzioni di configurazione (per es. &lt;OTRS_CONFIG_HttpType&gt;)',
+      'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
+      'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Opzioni di configurazione (per es. <OTRS_CONFIG_HttpType>)',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => 'La finestra con il messaggio che si stava componendo è stata chiusa. Sto uscendo.',
@@ -661,10 +661,10 @@ sub Data {
       'Notification Management' => 'Gestione delle notifiche',
       'Notification' => 'Notifica',
       'Notifications are sent to an agent or a customer.' => 'Le notifiche sono inviate ad un operatore o a un cliente',
-      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Per ottenere il gestore della richiesta (per es. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
-      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Per ottenere l\'utente che ha richiesto l\'azione (per es. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
-      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Per ottenere i dati del cliente (per es. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)' => 'Per ottenere il gestore della richiesta (per es. <OTRS_OWNER_USERFIRSTNAME>)',
+      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)' => 'Per ottenere l\'utente che ha richiesto l\'azione (per es. <OTRS_CURRENT_USERFIRSTNAME>)',
+      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)' => 'Per ottenere i dati del cliente (per es. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)',
+      'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
 
       # Template: AdminPackageManager
       'Package Manager' => 'Gestione Pacchetti',
@@ -1328,7 +1328,7 @@ sub Data {
       'Keyword' => 'Parola chiave',
       'Close type' => 'Tipologia chiusura',
       'DB Admin User' => 'Nome utente DB Admin',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
       'Change user <-> group settings' => 'Modifica impostazioni Utente <-> Gruppo',
       'Name is required!' => 'Manca il nome!',
       'Problem' => 'Problema',

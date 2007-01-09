@@ -2,7 +2,7 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.36 2006-10-19 16:56:51 mh Exp $
+# $Id: ru.pm,v 1.36.2.1 2007-01-09 01:21:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.36.2.1 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -29,7 +29,7 @@ sub Data {
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
     $Self->{DateFormatLong} = '%T, %A %D %B, %Y г.';
-    $Self->{DateFormatShort} = '';
+    $Self->{DateFormatShort} = '%D.%M.%Y';
     $Self->{DateInputFormat} = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 
@@ -557,8 +557,8 @@ sub Data {
       'to get the first 5 lines of the email' => 'получить первые 5 строк письма',
       'to get the from line of the email' => 'получить поле "от" письма',
       'to get the realname of the sender (if given)' => 'получить (если есть) имя отправителя',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
-      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
+      'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
+      'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => 'создаваемое сообщение было закрыто. выход.',
@@ -659,10 +659,10 @@ sub Data {
       'Notification Management' => 'Управления уведомлениями',
       'Notification' => 'Уведомление',
       'Notifications are sent to an agent or a customer.' => '',
-      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
-      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
-      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)' => '',
+      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)' => '',
+      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)' => '',
+      'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
 
       # Template: AdminPackageManager
       'Package Manager' => '',
@@ -1339,7 +1339,7 @@ sub Data {
       'Keyword' => '',
       'Close type' => 'Тип закрытия',
       'DB Admin User' => '',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
       'Change user <-> group settings' => 'Изменить настройки групп пользователей',
       'Name is required!' => 'Заголовок обязателен!',
       'Problem' => 'Проблема',

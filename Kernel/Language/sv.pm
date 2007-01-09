@@ -2,7 +2,7 @@
 # Kernel/Language/nb_SW.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.26 2006-10-19 16:56:51 mh Exp $
+# $Id: sv.pm,v 1.26.2.1 2007-01-09 01:21:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::sv;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.26 $;
+$VERSION = q$Revision: 1.26.2.1 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -557,8 +557,8 @@ sub Data {
       'to get the first 5 lines of the email' => 'för att få fram de första 5 raderna av emailen',
       'to get the from line of the email' => 'för att få fram avsändarraden i emailen',
       'to get the realname of the sender (if given)' => 'för att få fram avsändarens fulla namn (om möjligt)',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
-      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfigurationsval (t.ex. &lt;OTRS_CONFIG_HttpType&gt;)',
+      'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
+      'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Konfigurationsval (t.ex. <OTRS_CONFIG_HttpType>)',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => 'Det tilhörande redigeringsfönstret har stängts. Avslutar.',
@@ -659,10 +659,10 @@ sub Data {
       'Notification Management' => 'Meddelandehantering',
       'Notification' => '',
       'Notifications are sent to an agent or a customer.' => 'Meddelanden skickats till agenter eller kunder.',
-      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'ger tillgang till data för agenten som står som ägare till ärendet (t.ex. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
-      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'ger tillgång till data för agenten som utför handlingen (t.ex. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
-      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'ger tillgång till data för gällande kund (t.ex. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)' => 'ger tillgang till data för agenten som står som ägare till ärendet (t.ex. <OTRS_OWNER_USERFIRSTNAME>)',
+      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)' => 'ger tillgång till data för agenten som utför handlingen (t.ex. <OTRS_CURRENT_USERFIRSTNAME>)',
+      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)' => 'ger tillgång till data för gällande kund (t.ex. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)',
+      'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
 
       # Template: AdminPackageManager
       'Package Manager' => '',
@@ -1333,7 +1333,7 @@ sub Data {
       'Close type' => 'Stängningstillstånd',
       'DB Admin User' => 'DB Adminanvändare',
       'Article time' => '',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
       'Change user <-> group settings' => 'Ändra användar- <-> grupp-inställningar',
       'Name is required!' => '',
       'Problem' => '',

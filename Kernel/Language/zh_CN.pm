@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.17 2006-10-19 16:56:51 mh Exp $
+# $Id: zh_CN.pm,v 1.17.2.1 2007-01-09 01:21:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.17.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -557,8 +557,8 @@ sub Data {
       'to get the first 5 lines of the email' => '邮件正文前5行',
       'to get the from line of the email' => '邮件来自',
       'to get the realname of the sender (if given)' => '邮件发送人的真实姓名 (如果存在)',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '可用的有关 Ticket 信息 (例如: &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
-      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '配置选项 (例如:&lt;OTRS_CONFIG_HttpType&gt;)',
+      'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '可用的有关 Ticket 信息 (例如: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
+      'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '配置选项 (例如:<OTRS_CONFIG_HttpType>)',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => '进行消息撰写的窗口已经被关闭,退出.',
@@ -659,10 +659,10 @@ sub Data {
       'Notification Management' => '通知管理',
       'Notification' => '通知',
       'Notifications are sent to an agent or a customer.' => '通知被发送到技术支持人员或者客户.',
-      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Ticket 所有者选项 (例如: &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
-      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '动作请求者信息 (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
-      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '当前客户用户信息 (例如: &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)' => 'Ticket 所有者选项 (例如: <OTRS_OWNER_USERFIRSTNAME>)',
+      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)' => '动作请求者信息 (e. g. <OTRS_CURRENT_USERFIRSTNAME>)',
+      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)' => '当前客户用户信息 (例如: <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)',
+      'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
 
       # Template: AdminPackageManager
       'Package Manager' => '软件包管理',

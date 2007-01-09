@@ -2,7 +2,7 @@
 # Kernel/Language/fa.pm - provides fa language translation
 # Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
 # --
-# $Id: fa.pm,v 1.15 2006-10-19 16:56:51 mh Exp $
+# $Id: fa.pm,v 1.15.2.1 2007-01-09 01:21:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fa;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.15.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -29,7 +29,7 @@ sub Data {
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
     $Self->{DateFormatLong} = '%A %D %B %T %Y';
-    $Self->{DateFormatShort} = '';
+    $Self->{DateFormatShort} = '%D.%M.%Y';
     $Self->{DateInputFormat} = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 
@@ -560,8 +560,8 @@ sub Data {
       'to get the first 5 lines of the email' => 'برای گرفتن 5 خط اول email',
       'to get the from line of the email' => 'برای گرفتن خط (از) email',
       'to get the realname of the sender (if given)' => 'برای گرفتن نام فرستنده',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'گزینه های اطلاعات تیکت ها',
-      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'گزینه های تنظیمات ',
+      'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'گزینه های اطلاعات تیکت ها',
+      'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'گزینه های تنظیمات ',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => 'پیامی که ارسال شد بسته شد.',
@@ -662,10 +662,10 @@ sub Data {
       'Notification Management' => 'مدیریت اعلان ها',
       'Notification' => 'اعلان',
       'Notifications are sent to an agent or a customer.' => 'اعلان به یک کارشناس یا مشترک ارسال شد.',
-      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Options du propriétaire d\'un ticket (ex: &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
-      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'گزینه های تنظیمات صاحب تیکت',
-      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'گزینه های مشترک فعلی',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)' => 'Options du propriétaire d\'un ticket (ex: <OTRS_OWNER_USERFIRSTNAME>)',
+      'Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)' => 'گزینه های تنظیمات صاحب تیکت',
+      'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)' => 'گزینه های مشترک فعلی',
+      'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
 
       # Template: AdminPackageManager
       'Package Manager' => 'مدیریت بسته ها',
@@ -1333,7 +1333,7 @@ sub Data {
       'Keyword' => 'Ú©ÙÙÙ Ú©ÙÛØ¯Û',
       'Close type' => 'ÙÙØ¹ Ø¨Ø³ØªÙ',
       'DB Admin User' => 'ÙØ§Ù Ú©Ø§Ø±Ø¨Ø±Û ÙØ¯ÛØ± Ø¨Ø§ÙÚ© Ø§Ø·ÙØ§Ø¹Ø§ØªÛ ',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Ú¯Ø²ÛÙÙ ÙØ§Û Ø§Ø·ÙØ§Ø¹Ø§Øª ØªÛÚ©Øª',
+      'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Ú¯Ø²ÛÙÙ ÙØ§Û Ø§Ø·ÙØ§Ø¹Ø§Øª ØªÛÚ©Øª',
       'Change user <-> group settings' => 'ØªØºÛÛØ± ØªÙØ¸ÛÙØ§Øª Ú©Ø§Ø±Ø¨Ø± <-> Ú¯Ø±ÙÙ',
       'Name is required!' => 'ÙØ§Ù ÙÙØ±Ø¯ ÙÛØ§Ø² Ø§Ø³Øª!',
       'Problem' => 'ÙØ´Ú©Ù',
