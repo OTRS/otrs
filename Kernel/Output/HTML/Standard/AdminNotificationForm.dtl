@@ -2,7 +2,7 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminNotificationForm.dtl,v 1.14.2.3 2007-01-09 03:42:35 martin Exp $
+# $Id: AdminNotificationForm.dtl,v 1.14.2.4 2007-01-09 03:55:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -115,7 +115,7 @@
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_CUSTOMER_From&gt;</td>
-            <td class="contentvalue">$Text{"to get the from line of the email"} (&lt;OTRS_CUSTOMER_From&gt;, &lt;OTRS_CUSTOMER_To&gt;, &lt;OTRS_CUSTOMER_Cc&gt;, &lt;OTRS_CUSTOMER_Subject&gt;, &ltOTRS_CUSTOMER_Body&gt;)</td>
+            <td class="contentvalue">$Text{"to get the from line of the email"} (&lt;OTRS_CUSTOMER_From&gt;, &lt;OTRS_CUSTOMER_To&gt;, &lt;OTRS_CUSTOMER_Cc&gt;, &lt;OTRS_CUSTOMER_Subject&gt;, &lt;OTRS_CUSTOMER_Body&gt;)</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
