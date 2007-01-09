@@ -2,7 +2,7 @@
 # AdminResponseForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminResponseForm.dtl,v 1.19.2.1 2007-01-09 03:21:37 martin Exp $
+# $Id: AdminResponseForm.dtl,v 1.19.2.2 2007-01-09 03:49:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -145,7 +145,7 @@
               <td class="contentkey">$Text{"Response"}:</td>
               <td class="contentvalue">
                 <textarea rows="12" cols="70" name="Response">
-$Text{"The current ticket state is"}: "&lt;OTRS_TICKET_STATE&gt;"
+$Text{"The current ticket state is"}: "&lt;OTRS_TICKET_State&gt;"
 
 $Text{"Your email address is new"}: "&lt;OTRS_CUSTOMER_UserEmail&gt;"
                 </textarea>
