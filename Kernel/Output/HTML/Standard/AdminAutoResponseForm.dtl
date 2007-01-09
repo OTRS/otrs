@@ -1,8 +1,8 @@
 # --
 # AdminAutoResponseForm.dtl - provides HTML form for AdminAutoResponse
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminAutoResponseForm.dtl,v 1.22 2006-12-30 01:38:50 mh Exp $
+# $Id: AdminAutoResponseForm.dtl,v 1.23 2007-01-09 01:22:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -135,11 +135,11 @@ $Data{"Note"}
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)"}</td>
+            <td class="contentvalue">$Text{"Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)"}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_CONFIG_*&gt;</td>
-            <td class="contentvalue">$Text{"Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)"}</td>
+            <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)"}</td>
           </tr>
         </table>
       </p>
@@ -150,32 +150,32 @@ $Data{"Note"}
           <table>
             <tr>
               <td>$Text{"Subject"}:</td>
-              <td><input type="text" name="Subject" value="RE: &lt;OTRS_CUSTOMER_SUBJECT[22]&gt;" size="50" maxlength="60"></td>
+              <td><input type="text" name="Subject" value="RE: &lt;OTRS_CUSTOMER_SUBJECT[22]&gt;" size="80" maxlength="80"></td>
             </tr>
             <tr>
               <td>$Text{"Response"}:</td>
               <td>
                 <textarea rows="12" cols="70" name="Response">
-                Thanks for your e-mail.
+Thanks for your e-mail.
 
-                You wrote:
-                &lt;snip&gt;
-                &lt;OTRS_CUSTOMER_EMAIL[6]&gt;
-                &lt;/snip&gt;
+You wrote:
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[6]&gt;
+&lt;/snip&gt;
 
-                --
-                Super Support Company Inc. - Waterford Business Park
-                5201 Blue Lagoon Drive - 8th Floor & 9th Floor - Miami, 33126 USA
-                Email: hot@florida.com - Web: http://hot.florida.com/
-                --
+--
+Super Support Company Inc. - Waterford Business Park
+5201 Blue Lagoon Drive - 8th Floor & 9th Floor - Miami, 33126 USA
+Email: hot@florida.com - Web: http://hot.florida.com/
+--
                 </textarea>
-              </td>
-            </tr>
-          </table>
-        </form>
-        <hr>
-      </p>
-    </td>
-  </tr>
-</table>
+                </td>
+              </tr>
+            </table>
+          </form>
+          <hr>
+        </p>
+      </td>
+    </tr>
+  </table>
 <!-- end note -->

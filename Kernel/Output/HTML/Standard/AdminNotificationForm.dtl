@@ -1,8 +1,8 @@
 # --
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminNotificationForm.dtl,v 1.15 2006-12-30 01:38:50 mh Exp $
+# $Id: AdminNotificationForm.dtl,v 1.16 2007-01-09 01:22:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -106,44 +106,58 @@
         <table>
           <tr>
             <td class="contentkey">&lt;OTRS_CONFIG_*&gt;</td>
-            <td class="contentvalue">$Text{"Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)"}</td>
+            <td class="contentvalue">$Text{"Config options (e. g. <OTRS_CONFIG_HttpType>)"}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_OWNER_*&gt;</td>
-            <td class="contentvalue">$Text{"Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)"}</td>
+            <td class="contentvalue">$Text{"Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)"}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_CURRENT_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)"}</td>
+            <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)"}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)"}</td>
+            <td class="contentvalue">$Text{"Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)"}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)"}</td>
+            <td class="contentvalue">$Text{"Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)"}</td>
           </tr>
         </table>
       </p>
-      <p>
-        $Text{"Example"}:
-        <pre>
-          Hi &lt;OTRS_CURRENT_USERFIRSTNAME&gt;,
+        <p>
+          $Text{"Example"}:
+          <hr>
+          <form action="/">
+            <table>
+              <tr>
+                <td>$Text{"Subject"}:</td>
+                <td><input type="text" name="Subject" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" size="80" maxlength="80"></td>
+              </tr>
+              <tr>
+                <td>$Text{"Text"}:</td>
+                <td><textarea rows="12" cols="70" name="Response">
+Hi &lt;OTRS_CURRENT_USERFIRSTNAME&gt;,
 
-          there is a new ticket in "&lt;OTRS_QUEUE&gt;"!
+there is a new ticket in "&lt;OTRS_QUEUE&gt;"!
 
-          &lt;OTRS_CUSTOMER_FROM&gt; wrote:
-          &lt;snip&gt;
-          &lt;OTRS_CUSTOMER_EMAIL[16]&gt;
-          &lt;snip&gt;
+&lt;OTRS_CUSTOMER_FROM&gt; wrote:
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[16]&gt;
+&lt;snip&gt;
 
-          &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom&TicketID=&lt;OTRS_TICKET_ID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom&TicketID=&lt;OTRS_TICKET_ID&gt;
 
-          Your OTRS Notification Master
-        </pre>
-      </p>
-    </td>
-  </tr>
-</table>
+Your OTRS Notification Master
+                  </textarea></td>
+                  </tr>
+                </table>
+              </form>
+              <hr>
+            </p>
+            <p>
+            </td>
+          </tr>
+        </table>
 <!-- end note -->
