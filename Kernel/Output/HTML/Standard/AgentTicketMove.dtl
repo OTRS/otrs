@@ -1,8 +1,8 @@
 # --
 # AgentTicketMove.dtl - provides HTML form for move mask
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.8 2006-12-21 16:13:14 mh Exp $
+# $Id: AgentTicketMove.dtl,v 1.9 2007-01-09 03:24:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -54,7 +54,16 @@ function submit_compose() {
       $Env{"Box0"}$Text{"Move Ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
     </td>
   </tr>
-$Include{"AgentTicketLocked"}
+  <tr>
+    <td class="menu">
+<!-- dtl:block:TicketBack -->
+      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+<!-- dtl:block:TicketBack -->
+<!-- dtl:block:PropertiesLock -->
+      <img border="0" src="$Env{"Images"}warning.png" alt="$Text{"Info"}">: <font color="red">$Text{"Ticket locked!"}</font> (<a href="$Env{"Baselink"}Action=AgentTicketLock&Subaction=Unlock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$JSText{"Ticket unlock!"}'; return true;" onmouseout="window.status=''; ">$Text{"Ticket unlock!"}</a>)
+<!-- dtl:block:PropertiesLock -->
+    </td>
+  </tr>
   <tr>
     <td class="mainbody">
       <br>
