@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.24 2007-01-08 20:51:10 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.25 2007-01-09 03:23:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -617,7 +617,7 @@ sub Run {
                 }
                 $Data{$_} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
             }
-            # replace user staff
+            # current user
             my %User = $Self->{UserObject}->GetUserData(
                 UserID => $Self->{UserID},
                 Cached => 1,
@@ -625,13 +625,43 @@ sub Run {
             foreach my $UserKey (keys %User) {
                 if ($User{$UserKey}) {
                     $Data{$_} =~ s/<OTRS_Agent_$UserKey>/$User{$UserKey}/gi;
+                    $Data{$_} =~ s/<OTRS_CURRENT_$UserKey>/$User{$UserKey}/gi;
                 }
             }
-            # cleanup all not needed <OTRS_TICKET_ tags
-            $Data{$_} =~ s/<OTRS_Agent_.+?>/-/gi;
             # replace other needed stuff
             $Data{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
             $Data{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
+            # cleanup
+            $Data{$_} =~ s/<OTRS_Agent_.+?>/-/gi;
+            $Data{$_} =~ s/<OTRS_CURRENT_.+?>/-/gi;
+
+            # owner user
+            my %OwnerUser = $Self->{UserObject}->GetUserData(
+                UserID => $Ticket{OwnerID},
+                Cached => 1,
+            );
+            foreach my $UserKey (keys %OwnerUser) {
+                if ($OwnerUser{$UserKey}) {
+                    $Data{$_} =~ s/<OTRS_OWNER_$UserKey>/$OwnerUser{$UserKey}/gi;
+                }
+            }
+            # cleanup
+            $Data{$_} =~ s/<OTRS_OWNER_.+?>/-/gi;
+
+            # responsible user
+            my %ResponsibleUser = $Self->{UserObject}->GetUserData(
+                UserID => $Ticket{ResponsibleID},
+                Cached => 1,
+            );
+            foreach my $UserKey (keys %ResponsibleUser) {
+                if ($ResponsibleUser{$UserKey}) {
+                    $Data{$_} =~ s/<OTRS_RESPONSIBLE_$UserKey>/$ResponsibleUser{$UserKey}/gi;
+                }
+            }
+            # cleanup
+            $Data{$_} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
+
+            # replace other needed stuff
             # replace ticket data
             foreach my $TicketKey (keys %Ticket) {
                 if ($Ticket{$TicketKey}) {
@@ -644,12 +674,15 @@ sub Run {
             foreach my $CustomerKey (keys %Customer) {
                 if ($Customer{$CustomerKey}) {
                     $Data{$_} =~ s/<OTRS_CUSTOMER_$CustomerKey>/$Customer{$CustomerKey}/gi;
+                    $Data{$_} =~ s/<OTRS_CUSTOMER_DATA_$CustomerKey>/$Customer{$CustomerKey}/gi;
                 }
             }
             # cleanup all not needed <OTRS_CUSTOMER_ tags
             $Data{$_} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
+            $Data{$_} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
             # replace config options
             $Data{$_} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+            $Data{$_} =~ s/<OTRS_CONFIG_.+?>/-/gi;
         }
 
         # check some values

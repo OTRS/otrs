@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.13 2007-01-01 23:18:15 mh Exp $
+# $Id: AgentTicketMerge.pm,v 1.14 2007-01-09 03:23:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -255,7 +255,8 @@ sub Run {
                 }
                 $Param{$_} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
             }
-            # replace user staff
+
+            # current user
             my %User = $Self->{UserObject}->GetUserData(
                 UserID => $Self->{UserID},
                 Cached => 1,
@@ -263,13 +264,42 @@ sub Run {
             foreach my $UserKey (keys %User) {
                 if ($User{$UserKey}) {
                     $Param{$_} =~ s/<OTRS_Agent_$UserKey>/$User{$UserKey}/gi;
+                    $Param{$_} =~ s/<OTRS_CURRENT_$UserKey>/$User{$UserKey}/gi;
                 }
             }
-            # cleanup all not needed <OTRS_TICKET_ tags
-            $Param{$_} =~ s/<OTRS_Agent_.+?>/-/gi;
             # replace other needed stuff
             $Param{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
             $Param{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
+            # cleanup
+            $Param{$_} =~ s/<OTRS_Agent_.+?>/-/gi;
+            $Param{$_} =~ s/<OTRS_CURRENT_.+?>/-/gi;
+
+            # owner user
+            my %OwnerUser = $Self->{UserObject}->GetUserData(
+                UserID => $Ticket{OwnerID},
+                Cached => 1,
+            );
+            foreach my $UserKey (keys %OwnerUser) {
+                if ($OwnerUser{$UserKey}) {
+                    $Param{$_} =~ s/<OTRS_OWNER_$UserKey>/$OwnerUser{$UserKey}/gi;
+                }
+            }
+            # cleanup
+            $Param{$_} =~ s/<OTRS_OWNER_.+?>/-/gi;
+
+            # responsible user
+            my %ResponsibleUser = $Self->{UserObject}->GetUserData(
+                UserID => $Ticket{ResponsibleID},
+                Cached => 1,
+            );
+            foreach my $UserKey (keys %ResponsibleUser) {
+                if ($ResponsibleUser{$UserKey}) {
+                    $Param{$_} =~ s/<OTRS_RESPONSIBLE_$UserKey>/$ResponsibleUser{$UserKey}/gi;
+                }
+            }
+            # cleanup
+            $Param{$_} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
+
             # replace ticket data
             foreach my $TicketKey (keys %Ticket) {
                 if ($Ticket{$TicketKey}) {
@@ -282,12 +312,15 @@ sub Run {
             foreach my $CustomerKey (keys %Customer) {
                 if ($Customer{$CustomerKey}) {
                     $Param{$_} =~ s/<OTRS_CUSTOMER_$CustomerKey>/$Customer{$CustomerKey}/gi;
+                    $Param{$_} =~ s/<OTRS_CUSTOMER_DATA_$CustomerKey>/$Customer{$CustomerKey}/gi;
                 }
             }
             # cleanup all not needed <OTRS_CUSTOMER_ tags
             $Param{$_} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
+            $Param{$_} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
             # replace config options
             $Param{$_} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+            $Param{$_} =~ s/<OTRS_CONFIG_.+?>/-/gi;
         }
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketMerge', Data => {%Param,%Ticket, %Article});
         $Output .= $Self->{LayoutObject}->Footer();
