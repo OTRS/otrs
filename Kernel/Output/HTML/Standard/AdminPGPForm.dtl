@@ -1,8 +1,8 @@
 # --
 # AdminPGPForm.dtl - provides HTML form for AdminPGP html
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPGPForm.dtl,v 1.17 2006-12-30 01:38:50 mh Exp $
+# $Id: AdminPGPForm.dtl,v 1.18 2007-01-11 23:22:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -94,12 +94,12 @@
                 <td class="$Env{"Color"}">$QData{"Type"}</td>
                 <td class="$Env{"Color"}">$QData{"Identifier","80"}</td>
                 <td class="$Env{"Color"}">$QData{"Bit"}</td>
-                <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Type=$QData{"Type"}&Key=$QData{"Key"}">$QData{"Key"}</a>
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=DownloadFingerprint&Type=$QData{"Type"}&Key=$QData{"Key"}"><div title="$QData{"Fingerprint"}">$QData{"Fingerprint","10"}</div></a>
+                <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Type=$LQData{"Type"}&Key=$LQData{"Key"}">$QData{"Key"}</a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=DownloadFingerprint&Type=$LQData{"Type"}&Key=$LQData{"Key"}"><div title="$QData{"Fingerprint"}">$QData{"Fingerprint","10"}</div></a>
                 </td>
                 <td class="$Env{"Color"}">$QData{"Created"}<br>$QData{"Expires"}</td>
                 <td align="center" class="$Env{"Color"}">
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Type=$QData{"Type"}&Key=$QData{"FingerprintShort"}">x</a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Type=$LQData{"Type"}&Key=$LQData{"FingerprintShort"}">x</a>
                 </td>
               </tr>
               <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>

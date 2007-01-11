@@ -1,8 +1,8 @@
 # --
 # AdminAttachmentForm.dtl - provides HTML form for AdminResponse
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminAttachmentForm.dtl,v 1.12 2006-12-30 01:38:49 mh Exp $
+# $Id: AdminAttachmentForm.dtl,v 1.13 2007-01-11 23:22:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -91,7 +91,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&ID=$Data{"ID"}">$Data{"DeleteLink"}</a>
+              <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&ID=$QData{"ID"}">$Data{"DeleteLink"}</a>
               <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>
               <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
             </td>

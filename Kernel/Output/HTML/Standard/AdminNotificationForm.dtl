@@ -2,7 +2,7 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminNotificationForm.dtl,v 1.18 2007-01-09 03:51:04 martin Exp $
+# $Id: AdminNotificationForm.dtl,v 1.19 2007-01-11 23:22:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -156,8 +156,11 @@
                 <td><input type="text" name="Subject" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" size="80" maxlength="80"></td>
               </tr>
               <tr>
-                <td>$Text{"Text"}:</td>
-                <td><textarea rows="12" cols="70" name="Response">
+                <td>
+                  $Text{"Text"}:
+                </td>
+                <td>
+                  <textarea rows="12" cols="70" name="Response">
 Hi &lt;OTRS_CURRENT_UserFirstname&gt;,
 
 there is a new ticket in "&lt;OTRS_TICKET_Queue&gt;"!
@@ -170,14 +173,14 @@ there is a new ticket in "&lt;OTRS_TICKET_Queue&gt;"!
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom&TicketID=&lt;OTRS_TICKET_ID&gt;
 
 Your OTRS Notification Master
-                  </textarea></td>
-                  </tr>
-                </table>
-              </form>
-              <hr>
-            </p>
-            <p>
-            </td>
-          </tr>
-        </table>
+                    </textarea>
+                  </td>
+                </tr>
+              </table>
+            </form>
+            <hr>
+          </p>
+        </td>
+      </tr>
+    </table>
 <!-- end note -->

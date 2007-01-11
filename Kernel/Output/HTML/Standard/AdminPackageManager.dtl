@@ -1,8 +1,8 @@
 # --
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.31 2006-12-30 02:16:19 mh Exp $
+# $Id: AdminPackageManager.dtl,v 1.32 2007-01-11 23:22:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -216,17 +216,17 @@
 <!-- dtl:block:ShowRemotePackage -->
               <tr>
                 <td class="contentvalue">
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ViewRemote&Source=$LQData{"Source"}&File=$QData{"File"}&Name=$QData{"Name"}&Version=$QData{"Version"}">$QData{"Name"}</a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ViewRemote&Source=$LQData{"Source"}&File=$LQData{"File"}&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$QData{"Name"}</a>
                 </td>
                 <td class="contentvalue">$QData{"Version"}</td>
                 <td class="contentvalue"><a href="$QData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
                 <td class="contentvalue" title="$QData{"Description"}">$QData{"Description","55"}</td>
                 <td class="contentvalue">
 <!-- dtl:block:ShowRemotePackageInstall -->
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=InstallRemote&Source=$LQData{"Source"}&File=$QData{"File"}&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Install"}</a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=InstallRemote&Source=$LQData{"Source"}&File=$LQData{"File"}&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Install"}</a>
 <!-- dtl:block:ShowRemotePackageInstall -->
 <!-- dtl:block:ShowRemotePackageUpgrade -->
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=UpgradeRemote&Source=$LQData{"Source"}&File=$QData{"File"}&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Upgrade"}</a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=UpgradeRemote&Source=$LQData{"Source"}&File=$LQData{"File"}&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Upgrade"}</a>
 <!-- dtl:block:ShowRemotePackageUpgrade -->
                 </td>
               </tr>
@@ -259,7 +259,7 @@
 <!-- dtl:block:ShowLocalPackage -->
               <tr>
                 <td class="contentvalue">
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name=$QData{"Name"}&Version=$QData{"Version"}">$QData{"Name"}</a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$QData{"Name"}</a>
                 </td>
                 <td class="contentvalue">$QData{"Version"}</td>
                 <td class="contentvalue"><a href="$QData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
@@ -267,11 +267,11 @@
                 <td class="contentvalue">$Text{"$QData{"Status"}"}</td>
                 <td class="contentvalue">
 <!-- dtl:block:ShowLocalPackageInstall -->
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Install&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Install"}</a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Install&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Install"}</a>
                   <br><br>
 <!-- dtl:block:ShowLocalPackageInstall -->
 <!-- dtl:block:ShowLocalPackageUninstall -->
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Uninstall&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Uninstall"}</a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Uninstall&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Uninstall"}</a>
                   <br>
 <!-- dtl:block:ShowLocalPackageUninstall -->
 <!-- dtl:block:ShowLocalPackageReinstall -->
@@ -306,19 +306,19 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
       <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Overview"}</a>
 <!-- dtl:block:PackageDownloadLocal -->
       -
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Download"}</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Download"}</a>
 <!-- dtl:block:PackageDownloadLocal -->
 <!-- dtl:block:PackageDownloadRemote -->
       -
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=DownloadRemote&File=$QData{"File"}">$Text{"Download"}</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=DownloadRemote&File=$LQData{"File"}">$Text{"Download"}</a>
 <!-- dtl:block:PackageDownloadRemote -->
 <!-- dtl:block:PackageRebuild -->
       -
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=RebuildPackage&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Rebuild"}</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=RebuildPackage&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Rebuild"}</a>
 <!-- dtl:block:PackageRebuild -->
 <!-- dtl:block:PackageReinstall -->
       -
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reinstall&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Reinstall"}</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reinstall&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Reinstall"}</a>
 <!-- dtl:block:PackageReinstall -->
     </td>
   </tr>
@@ -456,7 +456,7 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
   </tr>
   <tr>
     <td class="menu">
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Back"}</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Back"}</a>
     </td>
   </tr>
   <tr>

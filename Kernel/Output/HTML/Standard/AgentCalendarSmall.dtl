@@ -1,6 +1,6 @@
 # --
 # AgentCalendarSmall.dtl - provides HTML form for AgentSpelling
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -44,9 +44,9 @@ function SelectDay(tt, mm, yyyy) {
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
-    <th class="mainhead"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Month=$Data{"Back"}&Prefix=$Data{"Prefix"}" class="headeritem">&#060;&#060;</a></th>
+    <th class="mainhead"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Month=$LQData{"Back"}&Prefix=$LQData{"Prefix"}" class="headeritem">&lt;&lt;</a></th>
     <th class="mainhead">$Text{"$QData{"Month"}"} $QData{"Year"}</th>
-    <th class="mainhead"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Month=$Data{"Next"}&Prefix=$Data{"Prefix"}" class="headeritem">&#062;&#062;</a></th>
+    <th class="mainhead"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Month=$LQData{"Next"}&Prefix=$LQData{"Prefix"}" class="headeritem">&gt;&gt;</a></th>
   </tr>
   <tr>
     <td class="mainbody" colspan="3">

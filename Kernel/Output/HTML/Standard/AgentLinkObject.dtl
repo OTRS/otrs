@@ -1,8 +1,8 @@
 # --
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.16 2006-12-21 16:13:13 mh Exp $
+# $Id: AgentLinkObject.dtl,v 1.17 2007-01-11 23:22:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -148,13 +148,13 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
           <td>$TimeLong{"$Data{"Created"}"}</td>
           <td>$TimeLong{"$Data{"Changed"}"}</td>
           <td align="center">
-            <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QData{"LinkNormal"}Normal&ID=$QData{"ID"}&StartHit=$QData{"StartHit"}">$Text{"$QData{"LinkNormal"}"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$LQData{"LinkNormal"}Normal&ID=$QData{"ID"}&StartHit=$LQData{"StartHit"}">$Text{"$QData{"LinkNormal"}"}</a>
           </td>
           <td align="center">
-            <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QData{"LinkParent"}Parent&ID=$QData{"ID"}&StartHit=$QData{"StartHit"}">$Text{"$QData{"LinkParent"}"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$LQData{"LinkParent"}Parent&ID=$QData{"ID"}&StartHit=$LQData{"StartHit"}">$Text{"$QData{"LinkParent"}"}</a>
           </td>
           <td align="center">
-            <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QData{"LinkChild"}Child&ID=$QData{"ID"}&StartHit=$QData{"StartHit"}">$Text{"$QData{"LinkChild"}"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$LQData{"LinkChild"}Child&ID=$QData{"ID"}&StartHit=$LQData{"StartHit"}">$Text{"$QData{"LinkChild"}"}</a>
           </td>
         </tr>
 <!-- dtl:block:SearchResultItem -->

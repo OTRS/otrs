@@ -2,7 +2,7 @@
 # AdminCustomerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.32 2007-01-08 21:06:37 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.33 2007-01-11 23:22:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -86,7 +86,7 @@ $Data{"Back"}
               <tr>
                 <td valign="top">$Data{"AddLink"}</td>
                 <td valign="top">
-                  <a href="$Env{"Baselink"}Action=AdminCustomerUser&Subaction=Change&ID=$LQData{"UserID"}&Search=$LQData{"Search"}&Nav=$QData{"Nav"}">$QData{"Name","25"}</a>
+                  <a href="$Env{"Baselink"}Action=AdminCustomerUser&Subaction=Change&ID=$LQData{"UserID"}&Search=$LQData{"Search"}&Nav=$LQData{"Nav"}">$QData{"Name","25"}</a>
                 </td>
               </tr>
 <!-- dtl:block:CustomerSelection -->
@@ -149,7 +149,7 @@ $Data{"Back"}
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">
-              $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminCustomerUser&Nav=$Data{"Nav"}">$Text{"$Data{"AddLink"}"}</a>:
+              $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminCustomerUser&Nav=$LQData{"Nav"}">$Text{"$Data{"AddLink"}"}</a>:
             </td>
           </tr>
           <tr>
@@ -234,7 +234,7 @@ $Data{"Back"}
                   </td>
                   <td class="contentvalue">
                     <input name="$QData{"Name"}" type="file" size="25" class="fixed"><br>
-                    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Group=$QData{"Group"}&ID=$QData{"UserID"}&File=$LQData{"Filename"}">$QData{"Filename","80"}</a>
+                    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Group=$LQData{"Group"}&ID=$QData{"UserID"}&File=$LQData{"Filename"}">$QData{"Filename","80"}</a>
                   </td>
                 </tr>
 <!-- dtl:block:Upload -->
