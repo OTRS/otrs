@@ -1,8 +1,8 @@
 # --
 # Kernel/System/GenericAgent.pm - generic agent system module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.24 2006-12-07 11:25:25 martin Exp $
+# $Id: GenericAgent.pm,v 1.25 2007-01-11 21:24:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::GenericAgent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $ ';
+$VERSION = '$Revision: 1.25 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -713,13 +713,13 @@ sub JobGet {
         }
     }
     # get time settings
-    if ($Data{'TimeSearchType::None'}) {
+    if (!$Data{'TimeSearchType'} || $Data{'TimeSearchType'} eq 'None') {
          # do noting ont time stuff
          foreach (qw(TicketCreateTimeStartMonth TicketCreateTimeStopMonth TicketCreateTimeStopDay TicketCreateTimeStartDay TicketCreateTimeStopYear TicketCreateTimePoint TicketCreateTimeStartYear TicketCreateTimePointFormat TicketCreateTimePointStart)) {
              delete ($Data{$_});
          }
     }
-    if ($Data{'TimeSearchType::TimeSlot'}) {
+    elsif ($Data{'TimeSearchType'} && $Data{'TimeSearchType'} eq 'TimeSlot') {
         foreach (qw(TicketCreateTimePoint TicketCreateTimePointFormat TicketCreateTimePointStart)) {
              delete ($Data{$_});
         }
@@ -746,7 +746,7 @@ sub JobGet {
               ' 23:59:59';
         }
     }
-    if ($Data{'TimeSearchType::TimePoint'}) {
+    elsif ($Data{'TimeSearchType'} && $Data{'TimeSearchType'} eq 'TimePoint') {
         foreach (qw(TicketCreateTimeStartMonth TicketCreateTimeStopMonth TicketCreateTimeStopDay TicketCreateTimeStartDay TicketCreateTimeStopYear TicketCreateTimeStartYear)) {
             delete ($Data{$_});
         }
@@ -901,6 +901,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2006-12-07 11:25:25 $
+$Revision: 1.25 $ $Date: 2007-01-11 21:24:23 $
 
 =cut
