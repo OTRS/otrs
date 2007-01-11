@@ -1,8 +1,8 @@
 # --
 # Kernel/System/GenericAgent.pm - generic agent system module
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.11 2005-07-29 11:32:16 cs Exp $
+# $Id: GenericAgent.pm,v 1.11.2.1 2007-01-11 21:23:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Main;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $ ';
+$VERSION = '$Revision: 1.11.2.1 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -681,13 +681,13 @@ sub JobGet {
         }
     }
     # get time settings
-    if ($Data{'TimeSearchType::None'}) {
+    if (!$Data{'TimeSearchType'} || $Data{'TimeSearchType'} eq 'None') {
          # do noting ont time stuff
          foreach (qw(TicketCreateTimeStartMonth TicketCreateTimeStopMonth TicketCreateTimeStopDay TicketCreateTimeStartDay TicketCreateTimeStopYear TicketCreateTimePoint TicketCreateTimeStartYear TicketCreateTimePointFormat TicketCreateTimePointStart)) {
              delete ($Data{$_});
          }
     }
-    if ($Data{'TimeSearchType::TimeSlot'}) {
+    elsif ($Data{'TimeSearchType'} && $Data{'TimeSearchType'} eq 'TimeSlot') {
         foreach (qw(TicketCreateTimePoint TicketCreateTimePointFormat TicketCreateTimePointStart)) {
              delete ($Data{$_});
         }
@@ -714,7 +714,7 @@ sub JobGet {
               ' 23:59:59';
         }
     }
-    if ($Data{'TimeSearchType::TimePoint'}) {
+    elsif ($Data{'TimeSearchType'} && $Data{'TimeSearchType'} eq 'TimePoint') {
         foreach (qw(TicketCreateTimeStartMonth TicketCreateTimeStopMonth TicketCreateTimeStopDay TicketCreateTimeStartDay TicketCreateTimeStopYear TicketCreateTimeStartYear)) {
             delete ($Data{$_});
         }
@@ -856,6 +856,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2005-07-29 11:32:16 $
+$Revision: 1.11.2.1 $ $Date: 2007-01-11 21:23:08 $
 
 =cut
