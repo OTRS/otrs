@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.35 2006-12-06 16:56:39 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.36 2007-01-11 20:19:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -60,7 +60,6 @@ sub Run {
     # ---------------------------------------------------------- #
     # run a generic agent job -> "run now"
     # ---------------------------------------------------------- #
-
     if ($Self->{Subaction} eq 'RunNow') {
         $Self->{GenericAgentObject}->JobRun(
             Job => $Self->{Profile},
@@ -71,11 +70,9 @@ sub Run {
             OP => "Action=$Self->{Action}",
         );
     }
-
     # ---------------------------------------------------------- #
     # add a new generic agent job
     # ---------------------------------------------------------- #
-
     if ($Self->{Subaction} eq 'Add' && $Self->{Profile}) {
         # insert new profile params
         $Self->{GenericAgentObject}->JobAdd(
@@ -90,11 +87,9 @@ sub Run {
             OP => "Action=$Self->{Action}&Subaction=Update&Profile=$Self->{Profile}",
         );
     }
-
     # --------------------------------------------------------------- #
     # save generic agent job and show a view of all affected tickets
     # --------------------------------------------------------------- #
-
     # show result site
     if ($Self->{Subaction} eq 'UpdateAction') {
         # fill up profile name (e.g. with last-search)
@@ -201,7 +196,7 @@ sub Run {
         );
 
         # get time settings
-        if (!$GetParam{TimeSearchType}) {
+        if (!$GetParam{TimeSearchType} || $GetParam{TimeSearchType} eq 'None') {
             # do noting on time stuff
         }
         elsif ($GetParam{TimeSearchType} eq 'TimeSlot') {
@@ -343,9 +338,9 @@ sub Run {
             SelectedIDRefArray => $Param{OwnerIDs},
         );
         $Param{'NewOwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data       => \%ShownUsers,
-            Name       => 'NewOwnerID',
-            Size       => 5,
+            Data      => \%ShownUsers,
+            Name      => 'NewOwnerID',
+            Size      => 5,
             Multiple  => 1,
             SelectedID => $Param{NewOwnerID},
         );
@@ -392,9 +387,10 @@ sub Run {
         );
 
         $Param{'StatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => { $Self->{StateObject}->StateList(
-                UserID => 1,
-                Action => $Self->{Action},
+            Data => {
+                $Self->{StateObject}->StateList(
+                    UserID => 1,
+                    Action => $Self->{Action},
                 ),
             },
             Name     => 'StateIDs',
@@ -403,10 +399,11 @@ sub Run {
             SelectedIDRefArray => $Param{StateIDs},
         );
         $Param{'NewStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => { $Self->{StateObject}->StateList(
-                UserID => 1,
-                Action => $Self->{Action},
-                )
+            Data => {
+                $Self->{StateObject}->StateList(
+                    UserID => 1,
+                    Action => $Self->{Action},
+                ),
             },
             Name       => 'NewStateID',
             Size       => 5,
@@ -414,7 +411,9 @@ sub Run {
             SelectedID => $Param{NewStateID},
         );
         $Param{'QueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
-            Data => { $Self->{QueueObject}->GetAllQueues(),},
+            Data => {
+                $Self->{QueueObject}->GetAllQueues(),
+            },
             Size     => 5,
             Multiple => 1,
             Name     => 'QueueIDs',
@@ -422,7 +421,9 @@ sub Run {
             OnChangeSubmit => 0,
         );
         $Param{'NewQueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
-            Data => { $Self->{QueueObject}->GetAllQueues(),},
+            Data => {
+                $Self->{QueueObject}->GetAllQueues(),
+            },
             Size => 5,
             Multiple => 1,
             Name => 'NewQueueID',
@@ -430,9 +431,10 @@ sub Run {
             OnChangeSubmit => 0,
         );
         $Param{'PriotitiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => { $Self->{PriorityObject}->PriorityList(
-                UserID => 1,
-                Action => $Self->{Action},
+            Data => {
+                $Self->{PriorityObject}->PriorityList(
+                    UserID => 1,
+                    Action => $Self->{Action},
                 ),
             },
             Name => 'PriorityIDs',
@@ -441,9 +443,10 @@ sub Run {
             SelectedIDRefArray => $Param{PriorityIDs},
         );
         $Param{'NewPriotitiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => { $Self->{PriorityObject}->PriorityList(
-                UserID => 1,
-                Action => $Self->{Action},
+            Data => {
+                $Self->{PriorityObject}->PriorityList(
+                    UserID => 1,
+                    Action => $Self->{Action},
                 ),
             },
             Name => 'NewPriorityID',
@@ -514,9 +517,10 @@ sub Run {
             SelectedID => defined($Param{Valid}) ? $Param{Valid} : 1,
         );
         $Param{'LockOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => { $Self->{LockObject}->LockList(
-                UserID => 1,
-                Action => $Self->{Action},
+            Data => {
+                $Self->{LockObject}->LockList(
+                    UserID => 1,
+                    Action => $Self->{Action},
                 ),
             },
             Name => 'LockIDs',
@@ -525,9 +529,10 @@ sub Run {
             SelectedIDRefArray => $Param{LockIDs},
         );
         $Param{'NewLockOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => { $Self->{LockObject}->LockList(
-                UserID => 1,
-                Action => $Self->{Action},
+            Data => {
+                $Self->{LockObject}->LockList(
+                    UserID => 1,
+                    Action => $Self->{Action},
                 ),
             },
             Name => 'NewLockID',
@@ -673,11 +678,9 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-
     # ---------------------------------------------------------- #
     # delete an generic agent job
     # ---------------------------------------------------------- #
-
     if ($Self->{Subaction} eq 'Delete' && $Self->{Profile}) {
         if ($Self->{Profile}) {
             $Self->{GenericAgentObject}->JobDelete(
@@ -686,15 +689,12 @@ sub Run {
             );
         }
     }
-
     # ---------------------------------------------------------- #
     # overview of all generic agent jobs
     # ---------------------------------------------------------- #
-
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
     );
-
     my %Jobs = $Self->{GenericAgentObject}->JobList();
     my $Counter = 1;
     foreach (sort keys %Jobs) {
@@ -703,21 +703,20 @@ sub Run {
         # css setting and text for valid or invalid jobs
         if ($JobData{Valid}) {
             $JobData{ShownValid} = "valid";
-            $JobData{cssValid}   = "";
+            $JobData{cssValid} = "";
         }
         else {
             $JobData{ShownValid} = "invalid";
-            $JobData{cssValid}   = "contentvaluepassiv";
-
+            $JobData{cssValid} = "contentvaluepassiv";
         }
 
         # seperate each searchresult line by using several css
         $Counter++;
         if ($Counter % 2) {
-            $JobData{css}        = "searchpassive";
+            $JobData{css} = "searchpassive";
         }
         else {
-            $JobData{css}        = "searchactive";
+            $JobData{css} = "searchactive";
         }
 
         $Self->{LayoutObject}->Block(
