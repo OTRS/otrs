@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Package.pm - lib package manager
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.53 2006-12-07 15:43:24 mh Exp $
+# $Id: Package.pm,v 1.54 2007-01-11 10:56:23 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -148,8 +148,8 @@ sub RepositoryList {
         );
         # get package attributes
         if ($Row[3]) {
-            my %Structur = $Self->PackageParse(String => $Row[3]);
-            push (@Data, {%Package, %Structur});
+            my %Structure = $Self->PackageParse(String => $Row[3]);
+            push (@Data, {%Package, %Structure});
         }
     }
 
@@ -219,36 +219,36 @@ sub RepositoryAdd {
         }
     }
     # get package attributes
-    my %Structur = $Self->PackageParse(%Param);
-    if (!$Structur{Name}) {
+    my %Structure = $Self->PackageParse(%Param);
+    if (!$Structure{Name}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need Name!");
         return;
     }
-    if (!$Structur{Version}) {
+    if (!$Structure{Version}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need Version!");
         return;
     }
     # check if package already exists
-    if ($Self->RepositoryGet(Name => $Structur{Name}->{Content}, Version => $Structur{Version}->{Content})) {
+    if ($Self->RepositoryGet(Name => $Structure{Name}->{Content}, Version => $Structure{Version}->{Content})) {
 #        $Self->{LogObject}->Log(
 #            Priority => 'error',
-#            Message => "Package $Structur{Name}->{Content}-$Structur{Version}->{Content} already in local repository!",
+#            Message => "Package $Structure{Name}->{Content}-$Structure{Version}->{Content} already in local repository!",
 #        );
 #        return;
         my $SQL = "DELETE FROM package_repository WHERE ".
-            " name = '".$Self->{DBObject}->Quote($Structur{Name}->{Content})."'".
+            " name = '".$Self->{DBObject}->Quote($Structure{Name}->{Content})."'".
             " AND ".
-            " version = '".$Self->{DBObject}->Quote($Structur{Version}->{Content})."'";
+            " version = '".$Self->{DBObject}->Quote($Structure{Version}->{Content})."'";
         $Self->{DBObject}->Do(SQL => $SQL);
     }
     my $SQL = "INSERT INTO package_repository (name, version, vendor, filename, ".
             " content_size, content_type, content, install_status, ".
             " create_time, create_by, change_time, change_by)".
             " VALUES ".
-            " ('".$Self->{DBObject}->Quote($Structur{Name}->{Content})."', ".
-            " '".$Self->{DBObject}->Quote($Structur{Version}->{Content})."', ".
-            " '".$Self->{DBObject}->Quote($Structur{Vendor}->{Content})."', ".
-            " '".$Self->{DBObject}->Quote($Structur{Name}->{Content})."-".$Self->{DBObject}->Quote($Structur{Version}->{Content}).".xml', ".
+            " ('".$Self->{DBObject}->Quote($Structure{Name}->{Content})."', ".
+            " '".$Self->{DBObject}->Quote($Structure{Version}->{Content})."', ".
+            " '".$Self->{DBObject}->Quote($Structure{Vendor}->{Content})."', ".
+            " '".$Self->{DBObject}->Quote($Structure{Name}->{Content})."-".$Self->{DBObject}->Quote($Structure{Version}->{Content}).".xml', ".
             " '213', 'text/xml', ?, 'not installed', ".
             " current_timestamp, 1, current_timestamp, 1)";
 
@@ -422,10 +422,10 @@ sub PackageInstall {
         }
     }
     # conflict check
-    my %Structur = $Self->PackageParse(%Param);
+    my %Structure = $Self->PackageParse(%Param);
     # check if package is already installed
     foreach my $Package ($Self->RepositoryList()) {
-        if ($Structur{Name}->{Content} eq $Package->{Name}->{Content}) {
+        if ($Structure{Name}->{Content} eq $Package->{Name}->{Content}) {
             if ($Package->{Status} =~ /^installed$/i) {
                 if (!$Param{Force}) {
                     $Self->{LogObject}->Log(
@@ -439,47 +439,57 @@ sub PackageInstall {
     }
     # check OS
     my $OSCheckOk = 1;
-    if ($Structur{OS} && ref($Structur{OS}) eq 'ARRAY') {
+    if ($Structure{OS} && ref($Structure{OS}) eq 'ARRAY') {
         $OSCheckOk = 0;
-        foreach my $OS (@{$Structur{OS}}) {
+        foreach my $OS (@{$Structure{OS}}) {
             if ($^O =~ /^$OS$/i) {
                 $OSCheckOk = 1;
             }
         }
     }
     if (!$OSCheckOk && !$Param{Force}) {
+        my $CurrOS = $^O;
+        my $PkgOS = '<unknown OS>';
+        if (defined $Structure{OS} && scalar(@{$Structure{OS}}) > 0) {
+            $PkgOS = $Structure{OS}->[0];
+        }
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Sorry, can't install package, because package is not for your OS!!",
+            Message => "Sorry, can't install package, because OS of package ($PkgOS) does not match your OS ($CurrOS)!!",
         );
         return;
     }
     # check framework
     my $FWCheckOk = 0;
-    if ($Structur{Framework} && ref($Structur{Framework}) eq 'ARRAY') {
-        foreach my $FW (@{$Structur{Framework}}) {
+    if ($Structure{Framework} && ref($Structure{Framework}) eq 'ARRAY') {
+        foreach my $FW (@{$Structure{Framework}}) {
             if ($Self->_CheckFramework(Framework => $FW->{Content})) {
                 $FWCheckOk = 1;
             }
         }
     }
     if (!$FWCheckOk && !$Param{Force}) {
+        my $FwVersion = $Self->{ConfigObject}->Get('Version');
+        my $PkgFwVersion = '<unknown version>';
+        if (defined $Structure{Framework} && scalar(@{$Structure{Framework}}) > 0) {
+            $PkgFwVersion = $Structure{Framework}->[0]->{Content};
+        }
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Sorry, can't install package, because package is not for your Framework!!",
+            Message => "Sorry, can't install package, because the framework version required by the package ($PkgFwVersion) does not match your Framework ($FwVersion)!!",
         );
         return;
     }
     # check required packages
-    if ($Structur{PackageRequired} && ref($Structur{PackageRequired}) eq 'ARRAY') {
-        if (!$Self->_CheckRequired(%Param, PackageRequired => $Structur{PackageRequired}) && !$Param{Force}) {
+    if ($Structure{PackageRequired} && ref($Structure{PackageRequired}) eq 'ARRAY') {
+        if (!$Self->_CheckRequired(%Param, PackageRequired => $Structure{PackageRequired}) && !$Param{Force}) {
             return;
         }
     }
     # check files
     my $FileCheckOk = 1;
-    if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
-        foreach my $File (@{$Structur{Filelist}}) {
+    if ($Structure{Filelist} && ref($Structure{Filelist}) eq 'ARRAY') {
+        foreach my $File (@{$Structure{Filelist}}) {
 #            print STDERR "Notice: Want to install $File->{Location}!\n";
         }
     }
@@ -492,8 +502,8 @@ sub PackageInstall {
     }
     # check if one of this files is already intalled by an other package
     foreach my $Package ($Self->RepositoryList()) {
-        if ($Structur{Name}->{Content} ne $Package->{Name}->{Content}) {
-            foreach my $FileNew (@{$Structur{Filelist}}) {
+        if ($Structure{Name}->{Content} ne $Package->{Name}->{Content}) {
+            foreach my $FileNew (@{$Structure{Filelist}}) {
                 foreach my $FileOld (@{$Package->{Filelist}}) {
                     $FileNew->{Location} =~ s/\/\//\//g;
                     $FileOld->{Location} =~ s/\/\//\//g;
@@ -515,14 +525,14 @@ sub PackageInstall {
         # update package status
         my $SQL = "UPDATE package_repository SET install_status = 'installed'".
             " WHERE ".
-            " name = '".$Self->{DBObject}->Quote($Structur{Name}->{Content})."'".
+            " name = '".$Self->{DBObject}->Quote($Structure{Name}->{Content})."'".
             " AND ".
-            " version = '".$Self->{DBObject}->Quote($Structur{Version}->{Content})."'";
+            " version = '".$Self->{DBObject}->Quote($Structure{Version}->{Content})."'";
         $Self->{DBObject}->Do(SQL => $SQL);
 
         # install files
-        if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
-            foreach my $File (@{$Structur{Filelist}}) {
+        if ($Structure{Filelist} && ref($Structure{Filelist}) eq 'ARRAY') {
+            foreach my $File (@{$Structure{Filelist}}) {
                 # install file
                 $Self->_FileInstall(%{$File});
             }
@@ -531,17 +541,17 @@ sub PackageInstall {
         $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
         $Self->{SysConfigObject}->WriteDefault();
         # install code
-        if ($Structur{CodeInstall} && $Structur{CodeInstall}->{Content}) {
-            if ($Structur{CodeInstall}->{Content}) {
-                print STDERR "Code: $Structur{CodeInstall}->{Content}\n";
-                if (!eval $Structur{CodeInstall}->{Content}) {
+        if ($Structure{CodeInstall} && $Structure{CodeInstall}->{Content}) {
+            if ($Structure{CodeInstall}->{Content}) {
+                print STDERR "Code: $Structure{CodeInstall}->{Content}\n";
+                if (!eval $Structure{CodeInstall}->{Content}) {
                     print STDERR "CodeError: $@\n";
                 }
             }
         }
         # install database
-        if ($Structur{DatabaseInstall} && ref($Structur{DatabaseInstall}) eq 'ARRAY') {
-            my @SQL = $Self->{DBObject}->SQLProcessor(Database => $Structur{DatabaseInstall}, );
+        if ($Structure{DatabaseInstall} && ref($Structure{DatabaseInstall}) eq 'ARRAY') {
+            my @SQL = $Self->{DBObject}->SQLProcessor(Database => $Structure{DatabaseInstall}, );
             foreach my $SQL (@SQL) {
                 print STDERR "Notice: $SQL\n";
                 $Self->{DBObject}->Do(SQL => $SQL);
@@ -578,10 +588,10 @@ sub PackageReinstall {
         }
     }
     # parse source file
-    my %Structur = $Self->PackageParse(%Param);
+    my %Structure = $Self->PackageParse(%Param);
     # install files
-    if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
-        foreach my $File (@{$Structur{Filelist}}) {
+    if ($Structure{Filelist} && ref($Structure{Filelist}) eq 'ARRAY') {
+        foreach my $File (@{$Structure{Filelist}}) {
             # install file
 #            print STDERR "Notice: Reinstall $File->{Location}!\n";
             $Self->_FileInstall(%{$File}, Reinstall => 1);
@@ -591,10 +601,10 @@ sub PackageReinstall {
     $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
     $Self->{SysConfigObject}->WriteDefault();
     # install code
-    if ($Structur{CodeReinstall} && $Structur{CodeReinstall}->{Content}) {
-        if ($Structur{CodeReinstall}->{Content}) {
-            print STDERR "Code: $Structur{CodeReinstall}->{Content}\n";
-            if (!eval $Structur{CodeReinstall}->{Content}) {
+    if ($Structure{CodeReinstall} && $Structure{CodeReinstall}->{Content}) {
+        if ($Structure{CodeReinstall}->{Content}) {
+            print STDERR "Code: $Structure{CodeReinstall}->{Content}\n";
+            if (!eval $Structure{CodeReinstall}->{Content}) {
                 print STDERR "CodeError: $@\n";
             }
         }
@@ -613,7 +623,7 @@ upgrade a package
 sub PackageUpgrade {
     my $Self = shift;
     my %Param = @_;
-    my %InstalledStructur = ();
+    my %InstalledStructure = ();
     # check needed stuff
     foreach (qw(String)) {
         if (!defined $Param{$_}) {
@@ -622,16 +632,16 @@ sub PackageUpgrade {
         }
     }
     # conflict check
-    my %Structur = $Self->PackageParse(%Param);
+    my %Structure = $Self->PackageParse(%Param);
     # check if package is already installed
     my $Installed = 0;
     my $InstalledVersion = 0;
     foreach my $Package ($Self->RepositoryList()) {
-        if ($Structur{Name}->{Content} eq $Package->{Name}->{Content}) {
+        if ($Structure{Name}->{Content} eq $Package->{Name}->{Content}) {
             if ($Package->{Status} =~ /^installed$/i) {
                 $Installed = 1;
                 $InstalledVersion = $Package->{Version}->{Content};
-                %InstalledStructur = %{$Package};
+                %InstalledStructure = %{$Package};
             }
         }
     }
@@ -640,11 +650,11 @@ sub PackageUpgrade {
         return;
     }
     # version check
-    if (!$Self->_CheckVersion(Version1 => $Structur{Version}->{Content}, Version2 => $InstalledVersion, Type => 'Max')) {
-        if ($Structur{Version}->{Content} eq $InstalledVersion) {
+    if (!$Self->_CheckVersion(Version1 => $Structure{Version}->{Content}, Version2 => $InstalledVersion, Type => 'Max')) {
+        if ($Structure{Version}->{Content} eq $InstalledVersion) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Can't upgrade, package '$Structur{Name}->{Content}-$InstalledVersion' already installed!",
+                Message => "Can't upgrade, package '$Structure{Name}->{Content}-$InstalledVersion' already installed!",
             );
             if (!$Param{Force}) {
                 return;
@@ -653,7 +663,7 @@ sub PackageUpgrade {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Can't upgrade, installed package '$InstalledVersion' is newer as '$Structur{Version}->{Content}'!",
+                Message => "Can't upgrade, installed package '$InstalledVersion' is newer as '$Structure{Version}->{Content}'!",
             );
             if (!$Param{Force}) {
                 return;
@@ -662,8 +672,8 @@ sub PackageUpgrade {
     }
     # check if one of this files is already intalled by an other package
     foreach my $Package ($Self->RepositoryList()) {
-        if ($Structur{Name}->{Content} ne $Package->{Name}->{Content}) {
-            foreach my $FileNew (@{$Structur{Filelist}}) {
+        if ($Structure{Name}->{Content} ne $Package->{Name}->{Content}) {
+            foreach my $FileNew (@{$Structure{Filelist}}) {
                 foreach my $FileOld (@{$Package->{Filelist}}) {
                     $FileNew->{Location} =~ s/\/\//\//g;
                     $FileOld->{Location} =~ s/\/\//\//g;
@@ -681,13 +691,13 @@ sub PackageUpgrade {
         }
     }
     # remove old packages
-    $Self->RepositoryRemove(Name => $Structur{Name}->{Content});
+    $Self->RepositoryRemove(Name => $Structure{Name}->{Content});
     if ($Self->RepositoryAdd(String => $Param{String})) {
         # check OS
         my $OSCheckOk = 1;
-        if ($Structur{OS} && ref($Structur{OS}) eq 'ARRAY') {
+        if ($Structure{OS} && ref($Structure{OS}) eq 'ARRAY') {
             $OSCheckOk = 0;
-            foreach my $OS (@{$Structur{OS}}) {
+            foreach my $OS (@{$Structure{OS}}) {
                 if ($^O =~ /^$OS$/i) {
                     $OSCheckOk = 1;
                 }
@@ -702,8 +712,8 @@ sub PackageUpgrade {
         }
         # check framework
         my $FWCheckOk = 0;
-        if ($Structur{Framework} && ref($Structur{Framework}) eq 'ARRAY') {
-            foreach my $FW (@{$Structur{Framework}}) {
+        if ($Structure{Framework} && ref($Structure{Framework}) eq 'ARRAY') {
+            foreach my $FW (@{$Structure{Framework}}) {
                 if ($Self->_CheckFramework(Framework => $FW->{Content})) {
                     $FWCheckOk = 1;
                 }
@@ -717,15 +727,15 @@ sub PackageUpgrade {
             return;
         }
         # check required packages
-        if ($Structur{PackageRequired} && ref($Structur{PackageRequired}) eq 'ARRAY') {
-            if (!$Self->_CheckRequired(%Param, PackageRequired => $Structur{PackageRequired}) && !$Param{Force}) {
+        if ($Structure{PackageRequired} && ref($Structure{PackageRequired}) eq 'ARRAY') {
+            if (!$Self->_CheckRequired(%Param, PackageRequired => $Structure{PackageRequired}) && !$Param{Force}) {
                 return;
             }
         }
         # check if one of this files is already intalled by an other package
         foreach my $Package ($Self->RepositoryList()) {
-            if ($Structur{Name}->{Content} ne $Package->{Name}->{Content}) {
-                foreach my $FileNew (@{$Structur{Filelist}}) {
+            if ($Structure{Name}->{Content} ne $Package->{Name}->{Content}) {
+                foreach my $FileNew (@{$Structure{Filelist}}) {
                     foreach my $FileOld (@{$Package->{Filelist}}) {
                         if ($FileNew eq $FileOld) {
                             if (!$Param{Force}) {
@@ -743,21 +753,21 @@ sub PackageUpgrade {
         # update package status
         my $SQL = "UPDATE package_repository SET install_status = 'installed'".
             " WHERE ".
-            " name = '".$Self->{DBObject}->Quote($Structur{Name}->{Content})."'".
+            " name = '".$Self->{DBObject}->Quote($Structure{Name}->{Content})."'".
             " AND ".
-            " version = '".$Self->{DBObject}->Quote($Structur{Version}->{Content})."'";
+            " version = '".$Self->{DBObject}->Quote($Structure{Version}->{Content})."'";
         $Self->{DBObject}->Do(SQL => $SQL);
 
         # uninstall old package files
-        if ($InstalledStructur{Filelist} && ref($InstalledStructur{Filelist}) eq 'ARRAY') {
-            foreach my $File (@{$InstalledStructur{Filelist}}) {
+        if ($InstalledStructure{Filelist} && ref($InstalledStructure{Filelist}) eq 'ARRAY') {
+            foreach my $File (@{$InstalledStructure{Filelist}}) {
                 # remove file
                 $Self->_FileRemove(%{$File});
             }
         }
         # install files
-        if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
-            foreach my $File (@{$Structur{Filelist}}) {
+        if ($Structure{Filelist} && ref($Structure{Filelist}) eq 'ARRAY') {
+            foreach my $File (@{$Structure{Filelist}}) {
                 # install file
                 $Self->_FileInstall(%{$File});
             }
@@ -766,19 +776,19 @@ sub PackageUpgrade {
         $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
         $Self->{SysConfigObject}->WriteDefault();
         # install code
-        if ($Structur{CodeUpgrade} && $Structur{CodeUpgrade}->{Content}) {
-            if ($Structur{CodeUpgrade}->{Content}) {
-                print STDERR "Code: $Structur{CodeUpgrade}->{Content}\n";
-                if (!eval $Structur{CodeUpgrade}->{Content}) {
+        if ($Structure{CodeUpgrade} && $Structure{CodeUpgrade}->{Content}) {
+            if ($Structure{CodeUpgrade}->{Content}) {
+                print STDERR "Code: $Structure{CodeUpgrade}->{Content}\n";
+                if (!eval $Structure{CodeUpgrade}->{Content}) {
                     print STDERR "CodeError: $@\n";
                 }
             }
         }
         # upgrade database
-        if ($Structur{DatabaseUpgrade} && ref($Structur{DatabaseUpgrade}) eq 'ARRAY') {
+        if ($Structure{DatabaseUpgrade} && ref($Structure{DatabaseUpgrade}) eq 'ARRAY') {
             my @Part = ();
             my $Use = 0;
-            foreach my $S (@{$Structur{DatabaseUpgrade}}) {
+            foreach my $S (@{$Structure{DatabaseUpgrade}}) {
                 if ($S->{TagLevel} == 3 && $S->{Version}) {
                     if (!$Self->_CheckVersion(Version1 => $S->{Version}, Version2 => $InstalledVersion, Type => 'Min')) {
                         $Use = 1;
@@ -831,17 +841,17 @@ sub PackageUninstall {
         }
     }
     # parse source file
-    my %Structur = $Self->PackageParse(%Param);
+    my %Structure = $Self->PackageParse(%Param);
     # files
     my $FileCheckOk = 1;
-    if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
-        foreach my $File (@{$Structur{Filelist}}) {
+    if ($Structure{Filelist} && ref($Structure{Filelist}) eq 'ARRAY') {
+        foreach my $File (@{$Structure{Filelist}}) {
             # remove file
             $Self->_FileRemove(%{$File});
         }
     }
     # remove old packages
-    $Self->RepositoryRemove(Name => $Structur{Name}->{Content});
+    $Self->RepositoryRemove(Name => $Structure{Name}->{Content});
 
     # install config
     $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
@@ -850,17 +860,17 @@ sub PackageUninstall {
 #        return;
     }
     # uninstall code
-    if ($Structur{CodeUninstall} && $Structur{CodeUninstall}->{Content}) {
-        if ($Structur{CodeUninstall}->{Content}) {
-            print STDERR "Code: $Structur{CodeUninstall}->{Content}\n";
-            if (!eval $Structur{CodeUninstall}->{Content}) {
+    if ($Structure{CodeUninstall} && $Structure{CodeUninstall}->{Content}) {
+        if ($Structure{CodeUninstall}->{Content}) {
+            print STDERR "Code: $Structure{CodeUninstall}->{Content}\n";
+            if (!eval $Structure{CodeUninstall}->{Content}) {
                 print STDERR "CodeError: $@\n";
             }
         }
     }
     # uninstall database
-    if ($Structur{DatabaseUninstall} && ref($Structur{DatabaseUninstall}) eq 'ARRAY') {
-        my @SQL = $Self->{DBObject}->SQLProcessor(Database => $Structur{DatabaseUninstall}, );
+    if ($Structure{DatabaseUninstall} && ref($Structure{DatabaseUninstall}) eq 'ARRAY') {
+        my @SQL = $Self->{DBObject}->SQLProcessor(Database => $Structure{DatabaseUninstall}, );
         foreach my $SQL (@SQL) {
             print STDERR "Notice: $SQL\n";
             $Self->{DBObject}->Do(SQL => $SQL);
@@ -1100,11 +1110,11 @@ sub DeployCheck {
         }
     }
     my $Package = $Self->RepositoryGet(%Param);
-    my %Structur = $Self->PackageParse(String => $Package);
+    my %Structure = $Self->PackageParse(String => $Package);
     $Self->{DeployCheckInfo} = undef;
-    if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
+    if ($Structure{Filelist} && ref($Structure{Filelist}) eq 'ARRAY') {
         my $Hit = 0;
-        foreach my $File (@{$Structur{Filelist}}) {
+        foreach my $File (@{$Structure{Filelist}}) {
             my $LocalFile = "$Self->{Home}/$File->{Location}";
             if (! -e $LocalFile) {
                 $Self->{LogObject}->Log(Priority => 'error', Message => "$Param{Name}-$Param{Version}: No such $LocalFile!");
@@ -1348,7 +1358,7 @@ sub PackageBuild {
 
 parse a package
 
-    my %Structur = $PackageObject->PackageParse(String => $FileString);
+    my %Structure = $PackageObject->PackageParse(String => $FileString);
 
 =cut
 
@@ -1451,10 +1461,10 @@ sub PackageExport {
         }
     }
     # parse source file
-    my %Structur = $Self->PackageParse(%Param);
+    my %Structure = $Self->PackageParse(%Param);
     # install files
-    if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
-        foreach my $File (@{$Structur{Filelist}}) {
+    if ($Structure{Filelist} && ref($Structure{Filelist}) eq 'ARRAY') {
+        foreach my $File (@{$Structure{Filelist}}) {
             # install file
             $Self->_FileInstall(%{$File}, Home => $Param{Home});
         }
@@ -1685,6 +1695,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2006-12-07 15:43:24 $
+$Revision: 1.54 $ $Date: 2007-01-11 10:56:23 $
 
 =cut
