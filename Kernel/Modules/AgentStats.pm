@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentStats.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.22 2006-12-07 08:37:27 tr Exp $
+# $Id: AgentStats.pm,v 1.23 2007-01-11 10:54:08 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -38,8 +38,9 @@ sub new {
         $Self->{LayoutObject}->FatalError(Message => "Got no $_!") if (!$Self->{$_});
     }
     # create needed objects
-    $Self->{StatsObject} = Kernel::System::Stats->new(%Param);
     $Self->{CSVObject}   = Kernel::System::CSV->new(%Param);
+    $Param{CSVObject} = $Self->{CSVObject};
+    $Self->{StatsObject} = Kernel::System::Stats->new(%Param);
     $Self->{PDFObject}   = Kernel::System::PDF->new(%Param);
 
     return $Self;

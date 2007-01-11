@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CSV.pm - all csv functions
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.8 2006-12-14 12:07:58 martin Exp $
+# $Id: CSV.pm,v 1.9 2007-01-11 10:54:08 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CSV;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -67,7 +67,7 @@ sub new {
 Returns a csv formatted string based on a array with head data.
 
     $CSV = $CSVObject->Array2CSV(
-        Head => ['RowA', 'RowB', ],
+        Head => ['RowA', 'RowB', ],   # optional
         Data => [
             [1,4],
             [7,3],
@@ -138,26 +138,30 @@ sub CSV2Array {
     my $Self = shift;
     my %Param = @_;
     my @Array = ();
-    my @Lines = split(/\n/, $Param{String});
 
     # get separator
     if (!defined($Param{Separator}) || $Param{Separator} eq '') {
         $Param{Separator} = ';';
     }
-    foreach (@Lines) {
-        my @Fields = split(/$Param{Separator}/, $_);
-        push(@Array, \@Fields);
+
+    # a better solution can be the use of
+    # use Text::ParseWords;
+    # for more information read "PerlKochbuch" page 32
+
+    # get separator
+    if (!defined($Param{Quote})) {
+        $Param{Quote} = '"';
     }
 
-    # text quoting
-    if (defined($Param{Quote}) && $Param{Quote} ne '') {
-        foreach my $Field (@Array) {
-            foreach my $Index (0..scalar@{$Field}) {
-                if (defined($Field->[$Index]) && $Field->[$Index] =~ /^$Param{Quote}(.*)$Param{Quote}$/) {
-                    $Field->[$Index] = $1;
-                }
-            }
-        }
+    # if you change the split options, remember that each value can include \n
+    my @Lines = split(/$Param{Quote}$Param{Separator}\n/, $Param{String});
+
+    foreach (@Lines) {
+        my @Fields = split(/$Param{Quote}$Param{Separator}$Param{Quote}/, $_);
+        $Fields[0] =~ s/^$Param{Quote}//mgs;
+        #$Fields[$#Fields] =~ s/$Param{Quote}$//mgs;
+
+        push(@Array, \@Fields);
     }
 
     return \@Array;
@@ -176,6 +180,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2006-12-14 12:07:58 $
+$Revision: 1.9 $ $Date: 2007-01-11 10:54:08 $
 
 =cut
