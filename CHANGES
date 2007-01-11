@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.7 2007-01-09 02:36:00 martin Exp $
+# $Id: CHANGES,v 1.323.2.8 2007-01-11 21:24:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.5 (????/??/??)
+ - (2007/01/11) fixed not working time selection if time zone feature is used
  - (2007/01/08) fixed not working email notification tags in auto response,
    agent and customer email notifications
  - (2007/01/08) fixed case sensitive of customer user login and agent user
@@ -305,12 +306,14 @@
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2006/??/??)
- - (2006/07/11) fixed bug 1132 - Wrong display of escalation time
+ - (2007/01/11) fixed bug #1496 - GenericAgent: "Ticket created last..."
+    does not work
+ - (2006/07/11) fixed bug #1132 - Wrong display of escalation time
  - (2006/07/11) added missing utf-8 encoding in agent and customer auth
  - (2006/07/11) added missing utf-8 encoding customer user backend
  - (2006/07/04) changed language description from Traditional Chinese to
     Simplified Chinese (bug #1258)
- - (2006/07/04) fixed bug 1151 - Error when changing customer on ticket in
+ - (2006/07/04) fixed bug #1151 - Error when changing customer on ticket in
     TicketStatusView
  - (2006/06/17) fixed bug #1240 - Tickets not shown in "New messages" if
     Auto Response "Reply" is active
