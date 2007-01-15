@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.125 2006-12-11 13:52:20 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.125.2.1 2007-01-15 12:58:38 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -5365,7 +5365,7 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Permission::OwnerCheck</Item>
                 <Item Key="Required">0</Item>
-                <Item Key="Granted">0</Item>
+                <Item Key="Granted">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5380,6 +5380,19 @@ $QData{"Signature"}
                 <Item Key="Required">0</Item>
                 <Item Key="Granted">0</Item>
                 </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Permission###1-ResponsibleCheck" Required="1" Valid="1">
+        <Description Lang="en">Module to check the responible.</Description>
+        <Description Lang="de">Modul zum Überprüfen des Verantwortlichen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Permission::ResponsibleCheck</Item>
+                <Item Key="Required">0</Item>
+                <Item Key="Granted">1</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###1-CustomerUserIDCheck" Required="1" Valid="1">
