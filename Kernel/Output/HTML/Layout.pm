@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.22 2007-01-01 22:36:24 mh Exp $
+# $Id: Layout.pm,v 1.23 2007-01-15 12:57:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2150,7 +2150,7 @@ sub TransfromDateSelection {
     if ($Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone}) {
         my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
             String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".
-                $Param{$Prefix."Hour"}.":".$Param{$Prefix."Minute"}.":00",
+                ($Param{$Prefix."Hour"}||0).":".($Param{$Prefix."Minute"}||0).":00",
         );
         $TimeStamp = $TimeStamp - ($Self->{UserTimeZone}*60*60);
         ($Param{$Prefix."Secunde"}, $Param{$Prefix."Minute"}, $Param{$Prefix."Hour"}, $Param{$Prefix."Day"}, $Param{$Prefix."Month"}, $Param{$Prefix."Year"}) = $Self->{UserTimeObject}->SystemTime2Date(
@@ -2176,7 +2176,7 @@ sub BuildDateSelection {
         $Param{$Prefix."Year"} && $Param{$Prefix."Month"} && $Param{$Prefix."Day"}) {
         my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
             String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".
-                $Param{$Prefix."Hour"}.":".$Param{$Prefix."Minute"}.":00",
+                ($Param{$Prefix."Hour"}||0).":".($Param{$Prefix."Minute"}||0).":00",
         );
         $TimeStamp = $TimeStamp + ($Self->{UserTimeZone}*60*60);
         ($Param{$Prefix."Secunde"}, $Param{$Prefix."Minute"}, $Param{$Prefix."Hour"}, $Param{$Prefix."Day"}, $Param{$Prefix."Month"}, $Param{$Prefix."Year"}) = $Self->{UserTimeObject}->SystemTime2Date(
@@ -2644,6 +2644,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2007-01-01 22:36:24 $
+$Revision: 1.23 $ $Date: 2007-01-15 12:57:40 $
 
 =cut
