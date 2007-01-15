@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.20.2.1 2006-12-18 06:53:02 tr Exp $
+# $Id: Layout.pm,v 1.20.2.2 2007-01-15 12:57:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20.2.1 $';
+$VERSION = '$Revision: 1.20.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2183,7 +2183,7 @@ sub TransfromDateSelection {
     # time zone translation
     if ($Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone}) {
         my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
-             String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".$Param{$Prefix."Hour"}.":".$Param{$Prefix."Minute"}.":00",
+             String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".($Param{$Prefix."Hour"}||0).":".($Param{$Prefix."Minute"}||0).":00",
         );
         $TimeStamp = $TimeStamp - ($Self->{UserTimeZone}*60*60);
         ($Param{$Prefix."Secunde"}, $Param{$Prefix."Minute"}, $Param{$Prefix."Hour"}, $Param{$Prefix."Day"}, $Param{$Prefix."Month"}, $Param{$Prefix."Year"}) = $Self->{UserTimeObject}->SystemTime2Date(
@@ -2208,7 +2208,7 @@ sub BuildDateSelection {
     if ($Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone} &&
         $Param{$Prefix."Year"} && $Param{$Prefix."Month"} && $Param{$Prefix."Day"}) {
         my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
-             String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".$Param{$Prefix."Hour"}.":".$Param{$Prefix."Minute"}.":00",
+             String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".($Param{$Prefix."Hour"}||0).":".($Param{$Prefix."Minute"}||0).":00",
         );
         $TimeStamp = $TimeStamp + ($Self->{UserTimeZone}*60*60);
         ($Param{$Prefix."Secunde"}, $Param{$Prefix."Minute"}, $Param{$Prefix."Hour"}, $Param{$Prefix."Day"}, $Param{$Prefix."Month"}, $Param{$Prefix."Year"}) = $Self->{UserTimeObject}->SystemTime2Date(
@@ -2669,6 +2669,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20.2.1 $ $Date: 2006-12-18 06:53:02 $
+$Revision: 1.20.2.2 $ $Date: 2007-01-15 12:57:46 $
 
 =cut
