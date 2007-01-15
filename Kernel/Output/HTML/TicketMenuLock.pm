@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuLock.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TicketMenuLock.pm,v 1.6.2.1 2007-01-15 13:08:35 martin Exp $
+# $Id: TicketMenuLock.pm,v 1.6.2.2 2007-01-15 13:10:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::TicketMenuLock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6.2.1 $';
+$VERSION = '$Revision: 1.6.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -63,18 +63,18 @@ sub Run {
 
     # check acl
     if (!defined($Param{ACL}->{$Param{Config}->{Action}}) || $Param{ACL}->{$Param{Config}->{Action}}) {
-        $Self->{LayoutObject}->Block(
-            Name => 'Menu',
-            Data => { },
-        );
-        if ($Param{Counter}) {
-            $Self->{LayoutObject}->Block(
-                Name => 'MenuItemSplit',
-                Data => { },
-            );
-        }
         if ($Param{Ticket}->{Lock} eq 'lock') {
             if ($Param{Ticket}->{OwnerID} eq $Self->{UserID}) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Menu',
+                    Data => { },
+                );
+                if ($Param{Counter}) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'MenuItemSplit',
+                        Data => { },
+                    );
+                }
                 $Self->{LayoutObject}->Block(
                     Name => 'MenuItem',
                     Data => {
@@ -86,9 +86,20 @@ sub Run {
                         Link => 'Action=AgentTicketLock&Subaction=Unlock&TicketID=$QData{"TicketID"}',
                     },
                 );
+                $Param{Counter}++;
             }
         }
         else {
+            $Self->{LayoutObject}->Block(
+                Name => 'Menu',
+                Data => { },
+            );
+            if ($Param{Counter}) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'MenuItemSplit',
+                    Data => { },
+                );
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'MenuItem',
                 Data => {
@@ -99,8 +110,8 @@ sub Run {
                     Link => 'Action=AgentTicketLock&Subaction=Lock&TicketID=$QData{"TicketID"}',
                 },
             );
+            $Param{Counter}++;
         }
-        $Param{Counter}++;
     }
     return $Param{Counter};
 }
