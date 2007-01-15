@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Time.pm - time functions
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.20 2006-12-20 07:06:04 tr Exp $
+# $Id: Time.pm,v 1.21 2007-01-15 05:51:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -91,7 +91,7 @@ for Mac OS, and 00:00:00 UTC, January 1, 1970 for most other systems).
 
 sub SystemTime {
     my $Self = shift;
-    return time()+$Self->{TimeSecDiff};
+    return time()+$Self->{TimeSecDiff}+60*60*3;
 }
 
 =item SystemTime2TimeStamp()
@@ -501,6 +501,7 @@ get the destination time (working time cal.) from start plus some time in second
 sub DestinationTime {
     my $Self = shift;
     my %Param = @_;
+    my $Zone = 0;
     # check needed stuff
     foreach (qw(StartTime Time)) {
         if (!defined($Param{$_})) {
@@ -516,7 +517,7 @@ sub DestinationTime {
             %TimeWorkingHours = %{$Self->{ConfigObject}->Get("TimeWorkingHours::Calendar".$Param{Calendar})};
             %TimeVacationDays = %{$Self->{ConfigObject}->Get("TimeVacationDays::Calendar".$Param{Calendar})};
             %TimeVacationDaysOneTime = %{$Self->{ConfigObject}->Get("TimeVacationDaysOneTime::Calendar".$Param{Calendar})};
-            my $Zone = $Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar});
+            $Zone = $Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar});
             if ($Zone > 0) {
                 $Zone = '-'.($Zone* 60 * 60);
             }
@@ -626,6 +627,7 @@ sub DestinationTime {
             Second => 0,
         )+(60*60*24);
     }
+    $DestinationTime = $DestinationTime - $Zone;
     return $DestinationTime;
 }
 
@@ -693,6 +695,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2006-12-20 07:06:04 $
+$Revision: 1.21 $ $Date: 2007-01-15 05:51:27 $
 
 =cut
