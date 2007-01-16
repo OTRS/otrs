@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.23 2007-01-15 12:57:40 martin Exp $
+# $Id: Layout.pm,v 1.24 2007-01-16 17:18:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2168,6 +2168,8 @@ sub BuildDateSelection {
     my $DiffTime = $Param{'DiffTime'} || 0;
     my $Format = defined($Param{Format}) ? $Param{Format} : 'DateInputFormatLong';
     my $Area = $Param{Area} || 'Agent';
+    my $Optional = $Param{$Prefix.'Optional'} || 0;
+    my $Used = $Param{$Prefix.'Used'} || 0;
     my ($s,$m,$h, $D,$M,$Y) = $Self->{UserTimeObject}->SystemTime2Date(
         SystemTime => $Self->{UserTimeObject}->SystemTime() + $DiffTime,
     );
@@ -2269,8 +2271,17 @@ sub BuildDateSelection {
                 "value=\"".sprintf("%02d", (defined($Param{$Prefix.'Minute'}) ? int($Param{$Prefix.'Minute'}) : $m))."\">";
         }
     }
+    my $Output;
+    # optional checkbox
+    if ($Optional) {
+        my $Checked = '';
+        if ($Used) {
+            $Checked = ' checked';
+        }
+        $Output .= "<input type=\"checkbox\" name=\"".$Prefix."Used\" value=\"1\"".$Checked.">&nbsp;";
+    }
     # date format
-    my $Output = $Self->{LanguageObject}->Time(
+    $Output .= $Self->{LanguageObject}->Time(
         Action => 'Return',
         Format => 'DateInputFormat',
         Mode => 'NotNumeric',
@@ -2644,6 +2655,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2007-01-15 12:57:40 $
+$Revision: 1.24 $ $Date: 2007-01-16 17:18:13 $
 
 =cut

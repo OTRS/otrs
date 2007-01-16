@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketFreeText.pm - free text for ticket
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketFreeText.pm,v 1.11 2006-11-15 07:39:48 martin Exp $
+# $Id: AgentTicketFreeText.pm,v 1.12 2007-01-16 17:18:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -162,19 +162,23 @@ sub Run {
     }
     # get ticket free text params
     foreach (1..16) {
-        $GetParam{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
-        $GetParam{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
+        $GetParam{"TicketFreeKey$_"} = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
+        $GetParam{"TicketFreeText$_"} = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
     }
     # get ticket free text params
     foreach (1..2) {
-        foreach my $Type (qw(Year Month Day Hour Minute)) {
-            $GetParam{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+        foreach my $Type (qw(Used Year Month Day Hour Minute)) {
+            $GetParam{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+        }
+        $GetParam{'TicketFreeTime'.$_.'Optional'} = 1;
+        if (!$GetParam{'TicketFreeTime'.$_.'Optional'}) {
+            $GetParam{'TicketFreeTime'.$_.'Used'} = 1;
         }
     }
     # get article free text params
     foreach (1..3) {
-        $GetParam{"ArticleFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "ArticleFreeKey$_");
-        $GetParam{"ArticleFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "ArticleFreeText$_");
+        $GetParam{"ArticleFreeKey$_"} = $Self->{ParamObject}->GetParam(Param => "ArticleFreeKey$_");
+        $GetParam{"ArticleFreeText$_"} = $Self->{ParamObject}->GetParam(Param => "ArticleFreeText$_");
     }
     # rewrap body if exists
     if ($GetParam{Body}) {
@@ -419,17 +423,27 @@ sub Run {
                 );
             }
         }
-        # set ticket free time
         foreach (1..2) {
             if (defined($GetParam{"TicketFreeTime".$_."Year"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Month"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Day"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Hour"}) &&
-                defined($GetParam{"TicketFreeTime".$_."Minute"})) {
-                my %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                    %GetParam,
-                    Prefix => "TicketFreeTime".$_,
-                );
+                defined($GetParam{"TicketFreeTime".$_."Minute"})
+            ) {
+                my %Time;
+                $Time{"TicketFreeTime".$_."Year"} = 0;
+                $Time{"TicketFreeTime".$_."Month"} = 0;
+                $Time{"TicketFreeTime".$_."Day"} = 0;
+                $Time{"TicketFreeTime".$_."Hour"} = 0;
+                $Time{"TicketFreeTime".$_."Minute"} = 0;
+                $Time{"TicketFreeTime".$_."Secunde"} = 0;
+
+                if ($GetParam{"TicketFreeTime".$_."Used"}) {
+                    %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                        %GetParam,
+                        Prefix => "TicketFreeTime".$_,
+                    );
+                }
                 $Self->{TicketObject}->TicketFreeTimeSet(
                     %Time,
                     Prefix => "TicketFreeTime",
@@ -439,6 +453,7 @@ sub Run {
                 );
             }
         }
+
         # set article free text
         foreach (1..3) {
             if (defined($GetParam{"ArticleFreeKey$_"})) {
@@ -523,12 +538,23 @@ sub Run {
         # get free text params
         my %TicketFreeTime = ();
         foreach (1..2) {
+            $TicketFreeTime{"TicketFreeTime".$_.'Optional'} = $GetParam{'TicketFreeTime'.$_.'Optional'};
+            $TicketFreeTime{"TicketFreeTime".$_.'Used'} = $GetParam{'TicketFreeTime'.$_.'Used'};
+
             if ($Ticket{"TicketFreeTime".$_}) {
-                ($TicketFreeTime{"TicketFreeTime".$_.'Secunde'}, $TicketFreeTime{"TicketFreeTime".$_.'Minute'}, $TicketFreeTime{"TicketFreeTime".$_.'Hour'}, $TicketFreeTime{"TicketFreeTime".$_.'Day'}, $TicketFreeTime{"TicketFreeTime".$_.'Month'},  $TicketFreeTime{"TicketFreeTime".$_.'Year'}) = $Self->{TimeObject}->SystemTime2Date(
+                (
+                    $TicketFreeTime{"TicketFreeTime".$_.'Secunde'},
+                    $TicketFreeTime{"TicketFreeTime".$_.'Minute'},
+                    $TicketFreeTime{"TicketFreeTime".$_.'Hour'},
+                    $TicketFreeTime{"TicketFreeTime".$_.'Day'},
+                    $TicketFreeTime{"TicketFreeTime".$_.'Month'},
+                    $TicketFreeTime{"TicketFreeTime".$_.'Year'}
+                ) = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
                         String => $Ticket{"TicketFreeTime".$_},
                     ),
                 );
+                $TicketFreeTime{"TicketFreeTime".$_.'Used'} = 1;
             }
         }
         # free time
@@ -559,7 +585,6 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(
-#            %Ticket,
             %GetParam,
             %Ticket,
             %TicketFreeTextHTML,
@@ -620,7 +645,7 @@ sub _Mask {
                 if ($Counter) {
                     if (!$UserHash{$User->{UserID}}) {
                         $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
-                          "$User->{UserFirstname} ($User->{UserLogin})";
+                            "$User->{UserFirstname} ($User->{UserLogin})";
                     }
                 }
                 $Counter++;
@@ -694,7 +719,6 @@ sub _Mask {
         );
         if (!$Self->{Config}->{StateDefault}) {
             $StateList{''} = '-';
-#            $State{SelectedID} = $Param{StateID};
         }
         if (!$Param{NewStateID}) {
             if ($Self->{Config}->{StateDefault}) {
@@ -743,7 +767,6 @@ sub _Mask {
         );
         if (!$Self->{Config}->{PriorityDefault}) {
             $PriorityList{''} = '-';
-#            $Priority{SelectedID} = $Param{PriorityID};
         }
         if (!$Param{NewPriorityID}) {
             if ($Self->{Config}->{PriorityDefault}) {
@@ -810,7 +833,7 @@ sub _Mask {
                 $Counter++;
                 if (!$UserHash{$User->{UserID}}) {
                     $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
-                      "$User->{UserFirstname} ($User->{UserLogin})";
+                        "$User->{UserFirstname} ($User->{UserLogin})";
                 }
             }
             $Param{'InvolvedAgentStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - the global ticket handle
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.237 2006-12-21 13:08:08 tr Exp $
+# $Id: Ticket.pm,v 1.238 2007-01-16 17:18:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.237 $';
+$VERSION = '$Revision: 1.238 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1518,8 +1518,16 @@ sub TicketFreeTimeSet {
     foreach (qw(TicketID UserID Counter)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
+    my $InsertTime = 'NULL';
+    if ($TimeStamp eq '0000-00-00 00:00:00') {
+        $TimeStamp = 'NULL';
+    }
+    else {
+        $TimeStamp = $Self->{DBObject}->Quote($TimeStamp);
+        $InsertTime = "'".$TimeStamp."'";
+    }
     my $SQL = "UPDATE ticket SET ".
-        " freetime$Param{Counter} = '".$Self->{DBObject}->Quote($TimeStamp)."', " .
+        " freetime$Param{Counter} = $InsertTime, " .
         " change_time = current_timestamp, change_by = $Param{UserID} " .
         " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
@@ -5062,6 +5070,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.237 $ $Date: 2006-12-21 13:08:08 $
+$Revision: 1.238 $ $Date: 2007-01-16 17:18:13 $
 
 =cut
