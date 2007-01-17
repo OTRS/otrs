@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.16 2006-09-29 16:16:37 mh Exp $
+# $Id: AgentTicketForward.pm,v 1.16.2.1 2007-01-17 13:27:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.16.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -354,6 +354,27 @@ sub Form {
         Ticket => \%Ticket,
         Config => \%TicketFreeText,
     );
+    # get ticket free text params
+    foreach (1..2) {
+        foreach my $Type (qw(Year Month Day Hour Minute)) {
+            $GetParam{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+        }
+    }
+    # get free text params
+    my %TicketFreeTime = ();
+    foreach (1..2) {
+        if ($Ticket{"TicketFreeTime".$_}) {
+            ($TicketFreeTime{"TicketFreeTime".$_.'Secunde'}, $TicketFreeTime{"TicketFreeTime".$_.'Minute'}, $TicketFreeTime{"TicketFreeTime".$_.'Hour'}, $TicketFreeTime{"TicketFreeTime".$_.'Day'}, $TicketFreeTime{"TicketFreeTime".$_.'Month'},  $TicketFreeTime{"TicketFreeTime".$_.'Year'}) = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $Ticket{"TicketFreeTime".$_},
+                ),
+            );
+        }
+    }
+    # free time
+    my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
+        Ticket => \%TicketFreeTime,
+    );
     # build view ...
     # start with page ...
     $Output .= $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
@@ -367,6 +388,7 @@ sub Form {
         %Data,
         %GetParam,
         %TicketFreeTextHTML,
+        %TicketFreeTime,
     );
     $Output .= $Self->{LayoutObject}->Footer();
 
@@ -464,6 +486,15 @@ sub SendEmail {
         Config => \%TicketFreeText,
         Ticket => \%TicketFree,
     );
+    # get ticket free text params
+    foreach (1..2) {
+        foreach my $Type (qw(Year Month Day Hour Minute)) {
+            $GetParam{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+        }
+    }
+    my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
+        Ticket => \%GetParam,
+    );
     # --
     # check some values
     # --
@@ -479,7 +510,6 @@ sub SendEmail {
             }
         }
     }
-
     my %ArticleParam = ();
     # run compose modules
     if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
@@ -521,6 +551,7 @@ sub SendEmail {
             Errors => \%Error,
             Attachments => \@Attachments,
             %TicketFreeTextHTML,
+            %TicketFreeTimeHTML,
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -581,6 +612,26 @@ sub SendEmail {
                     Value => $FreeValue,
                     Counter => $_,
                     TicketID => $Self->{TicketID},
+                    UserID => $Self->{UserID},
+                );
+            }
+        }
+        # set ticket free time
+        foreach (1..2) {
+            if (defined($GetParam{"TicketFreeTime".$_."Year"}) &&
+                defined($GetParam{"TicketFreeTime".$_."Month"}) &&
+                defined($GetParam{"TicketFreeTime".$_."Day"}) &&
+                defined($GetParam{"TicketFreeTime".$_."Hour"}) &&
+                defined($GetParam{"TicketFreeTime".$_."Minute"})) {
+                my %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                    %GetParam,
+                    Prefix => "TicketFreeTime".$_,
+                );
+                $Self->{TicketObject}->TicketFreeTimeSet(
+                    %Time,
+                    Prefix => "TicketFreeTime",
+                    TicketID => $Self->{TicketID},
+                    Counter => $_,
                     UserID => $Self->{UserID},
                 );
             }
