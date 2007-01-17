@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.17 2007-01-09 03:23:34 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.18 2007-01-17 12:53:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -39,10 +39,10 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(TicketObject ParamObject DBObject QueueObject LayoutObject
-        ConfigObject LogObject)
-    ) {
-        die "Got no $_" if (!$Self->{$_});
+    foreach (qw(TicketObject ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     # some new objects
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
@@ -60,7 +60,6 @@ sub new {
         FormID)
     ) {
         my $Value = $Self->{ParamObject}->GetParam(Param => $_);
-#        $Self->{GetParam}->{$_} = defined $Value ? $Value : '';
         if (defined($Value)) {
             $Self->{GetParam}->{$_} = $Value;
         }
@@ -194,18 +193,14 @@ sub Form {
         FormID => $GetParam{FormID},
     );
 
-    # --
     # get customer data
-    # --
     my %Customer = ();
     if ($Ticket{CustomerUserID}) {
         %Customer = $Self->{CustomerUserObject}->CustomerUserDataGet(
             User => $Ticket{CustomerUserID},
         );
     }
-    # --
     # prepare salutation
-    # --
     $Data{Salutation} = $Self->{QueueObject}->GetSalutation(%Ticket);
     # prepare signature
     $Data{Signature} = $Self->{QueueObject}->GetSignature(%Ticket);
@@ -289,9 +284,7 @@ sub Form {
         $Data{$_} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
         $Data{$_} =~ s/<OTRS_CONFIG_.+?>/-/gi;
     }
-    # --
     # check if original content isn't text/plain or text/html, don't use it
-    # --
     if ($Data{'ContentType'}) {
         if($Data{'ContentType'} =~ /text\/html/i) {
             $Data{Body} =~ s/\<.+?\>//gs;
@@ -300,9 +293,7 @@ sub Form {
             $Data{Body} = "-> no quotable message <-";
         }
     }
-    # --
     # prepare body, subject, ReplyTo ...
-    # --
     my $NewLine = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 75;
     $Data{Body} =~ s/(^>.+|.{4,$NewLine})(?:\s|\z)/$1\n/gm;
     $Data{Body} =~ s/\t/ /g;
@@ -334,9 +325,7 @@ sub Form {
     $Data{Email} = $Address{Email};
     $Data{RealName} = $Address{RealName};
 
-    # --
     # check some values
-    # --
     foreach (qw(To Cc Bcc)) {
         if ($Data{$_}) {
             delete $Data{$_};
@@ -386,6 +375,41 @@ sub Form {
         Ticket => \%Ticket,
         Config => \%TicketFreeText,
     );
+    # get ticket free time params
+    foreach (1..2) {
+        foreach my $Type (qw(Used Year Month Day Hour Minute)) {
+            $GetParam{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+        }
+        $GetParam{'TicketFreeTime'.$_.'Optional'} = 1;
+        if (!$GetParam{'TicketFreeTime'.$_.'Optional'}) {
+            $GetParam{'TicketFreeTime'.$_.'Used'} = 1;
+        }
+    }
+    # free time
+    my %TicketFreeTime = ();
+    foreach (1..2) {
+        $TicketFreeTime{"TicketFreeTime".$_.'Optional'} = $GetParam{'TicketFreeTime'.$_.'Optional'};
+        $TicketFreeTime{"TicketFreeTime".$_.'Used'} = $GetParam{'TicketFreeTime'.$_.'Used'};
+
+        if ($Ticket{"TicketFreeTime".$_}) {
+            (
+                $TicketFreeTime{"TicketFreeTime".$_.'Secunde'},
+                $TicketFreeTime{"TicketFreeTime".$_.'Minute'},
+                $TicketFreeTime{"TicketFreeTime".$_.'Hour'},
+                $TicketFreeTime{"TicketFreeTime".$_.'Day'},
+                $TicketFreeTime{"TicketFreeTime".$_.'Month'},
+                $TicketFreeTime{"TicketFreeTime".$_.'Year'}
+            ) = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $Ticket{"TicketFreeTime".$_},
+                ),
+            );
+            $TicketFreeTime{"TicketFreeTime".$_.'Used'} = 1;
+        }
+    }
+    my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
+        Ticket => \%TicketFreeTime,
+    );
     # build view ...
     # start with page ...
     $Output .= $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
@@ -399,6 +423,7 @@ sub Form {
         %Data,
         %GetParam,
         %TicketFreeTextHTML,
+        %TicketFreeTimeHTML,
     );
     $Output .= $Self->{LayoutObject}->Footer();
 
@@ -454,7 +479,7 @@ sub SendEmail {
         if ($GetParam{$_}) {
             foreach my $Email (Mail::Address->parse($GetParam{$_})) {
                 if (!$Self->{CheckItemObject}->CheckEmail(Address => $Email->address())) {
-                     $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
+                    $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
                 }
             }
         }
@@ -473,8 +498,8 @@ sub SendEmail {
     # prepare free text
     my %TicketFree = ();
     foreach (1..16) {
-        $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
-        $TicketFree{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
+        $TicketFree{"TicketFreeKey$_"} = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
+        $TicketFree{"TicketFreeText$_"} = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
     }
     # get free text config options
     my %TicketFreeText = ();
@@ -486,7 +511,7 @@ sub SendEmail {
             UserID => $Self->{UserID},
         );
         $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
-           TicketID => $Self->{TicketID},
+            TicketID => $Self->{TicketID},
             Type => "TicketFreeText$_",
             Action => $Self->{Action},
             UserID => $Self->{UserID},
@@ -496,14 +521,25 @@ sub SendEmail {
         Config => \%TicketFreeText,
         Ticket => \%TicketFree,
     );
-    # --
+    # get ticket free time params
+    foreach (1..2) {
+        foreach my $Type (qw(Used Year Month Day Hour Minute)) {
+            $GetParam{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+        }
+        $GetParam{'TicketFreeTime'.$_.'Optional'} = 1;
+        if (!$GetParam{'TicketFreeTime'.$_.'Optional'}) {
+            $GetParam{'TicketFreeTime'.$_.'Used'} = 1;
+        }
+    }
+    my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
+        Ticket => \%GetParam,
+    );
     # check some values
-    # --
     foreach (qw(To Cc Bcc)) {
         if ($GetParam{$_}) {
             foreach my $Email (Mail::Address->parse($GetParam{$_})) {
                 if (!$Self->{CheckItemObject}->CheckEmail(Address => $Email->address())) {
-                     $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
+                    $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
                 }
                 if ($Self->{SystemAddress}->SystemAddressIsLocalAddress(Address => $Email->address())) {
                     $Error{"$_ invalid"} .= "Can't forward ticket to ".$Email->address()."! It's a local address! Move it Tickets!"
@@ -539,9 +575,7 @@ sub SendEmail {
             }
         }
     }
-    # --
     # check if there is an error
-    # --
     if (%Error) {
         my $QueueID = $Self->{TicketObject}->TicketQueueID(TicketID => $Self->{TicketID});
         my $Output = $Self->{LayoutObject}->Header(Value => $Tn);
@@ -553,6 +587,7 @@ sub SendEmail {
             Errors => \%Error,
             Attachments => \@Attachments,
             %TicketFreeTextHTML,
+            %TicketFreeTimeHTML,
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -613,6 +648,37 @@ sub SendEmail {
                     Value => $FreeValue,
                     Counter => $_,
                     TicketID => $Self->{TicketID},
+                    UserID => $Self->{UserID},
+                );
+            }
+        }
+        # set ticket free time
+        foreach (1..2) {
+            if (defined($GetParam{"TicketFreeTime".$_."Year"}) &&
+                defined($GetParam{"TicketFreeTime".$_."Month"}) &&
+                defined($GetParam{"TicketFreeTime".$_."Day"}) &&
+                defined($GetParam{"TicketFreeTime".$_."Hour"}) &&
+                defined($GetParam{"TicketFreeTime".$_."Minute"})
+            ) {
+                my %Time;
+                $Time{"TicketFreeTime".$_."Year"} = 0;
+                $Time{"TicketFreeTime".$_."Month"} = 0;
+                $Time{"TicketFreeTime".$_."Day"} = 0;
+                $Time{"TicketFreeTime".$_."Hour"} = 0;
+                $Time{"TicketFreeTime".$_."Minute"} = 0;
+                $Time{"TicketFreeTime".$_."Secunde"} = 0;
+
+                if ($GetParam{"TicketFreeTime".$_."Used"}) {
+                    %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                        %GetParam,
+                        Prefix => "TicketFreeTime".$_,
+                    );
+                }
+                $Self->{TicketObject}->TicketFreeTimeSet(
+                    %Time,
+                    Prefix => "TicketFreeTime",
+                    TicketID => $Self->{TicketID},
+                    Counter => $_,
                     UserID => $Self->{UserID},
                 );
             }

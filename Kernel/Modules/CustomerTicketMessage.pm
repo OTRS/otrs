@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.13 2007-01-01 23:18:15 mh Exp $
+# $Id: CustomerTicketMessage.pm,v 1.14 2007-01-17 12:54:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -96,11 +96,15 @@ sub Run {
             Config => \%TicketFreeText,
             Ticket => { %TicketFreeDefault },
         );
-        # get free text params
+        # get ticket free time params
         my %TicketFreeTime = ();
         foreach (1..2) {
-            foreach my $Type (qw(Year Month Day Hour Minute)) {
-                $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+            foreach my $Type (qw(Used Year Month Day Hour Minute)) {
+                $TicketFreeTime{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+            }
+            $TicketFreeTime{'TicketFreeTime'.$_.'Optional'} = 1;
+            if (!$TicketFreeTime{'TicketFreeTime'.$_.'Optional'}) {
+                $TicketFreeTime{'TicketFreeTime'.$_.'Used'} = 1;
             }
         }
         # free time
@@ -140,8 +144,8 @@ sub Run {
         }
         my %TicketFree = ();
         foreach (1..16) {
-            $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
-            $TicketFree{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
+            $TicketFree{"TicketFreeKey$_"} = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
+            $TicketFree{"TicketFreeText$_"} = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
         }
         # get free text config options
         my %TicketFreeText = ();
@@ -163,11 +167,15 @@ sub Run {
             Config => \%TicketFreeText,
             Ticket => { %TicketFree },
         );
-        # get free text params
+        # get ticket free time params
         my %TicketFreeTime = ();
         foreach (1..2) {
-            foreach my $Type (qw(Year Month Day Hour Minute)) {
-                $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+            foreach my $Type (qw(Used Year Month Day Hour Minute)) {
+                $TicketFreeTime{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+            }
+            $TicketFreeTime{'TicketFreeTime'.$_.'Optional'} = 1;
+            if (!$TicketFreeTime{'TicketFreeTime'.$_.'Optional'}) {
+                $TicketFreeTime{'TicketFreeTime'.$_.'Used'} = 1;
             }
         }
         # free time
@@ -257,22 +265,31 @@ sub Run {
                 );
             }
         }
-        # get free text params
-        %TicketFreeTime = ();
-        foreach (1..2) {
-            foreach my $Type (qw(Year Month Day Hour Minute)) {
-                $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
-            }
-        }
         # set ticket free time
         foreach (1..2) {
             if (defined($TicketFreeTime{"TicketFreeTime".$_."Year"}) &&
                 defined($TicketFreeTime{"TicketFreeTime".$_."Month"}) &&
                 defined($TicketFreeTime{"TicketFreeTime".$_."Day"}) &&
                 defined($TicketFreeTime{"TicketFreeTime".$_."Hour"}) &&
-                defined($TicketFreeTime{"TicketFreeTime".$_."Minute"})) {
+                defined($TicketFreeTime{"TicketFreeTime".$_."Minute"})
+            ) {
+                my %Time;
+                $Time{"TicketFreeTime".$_."Year"} = 0;
+                $Time{"TicketFreeTime".$_."Month"} = 0;
+                $Time{"TicketFreeTime".$_."Day"} = 0;
+                $Time{"TicketFreeTime".$_."Hour"} = 0;
+                $Time{"TicketFreeTime".$_."Minute"} = 0;
+                $Time{"TicketFreeTime".$_."Secunde"} = 0;
+
+                if ($TicketFreeTime{"TicketFreeTime".$_."Used"}) {
+                    %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                        %TicketFreeTime,
+                        Prefix => "TicketFreeTime".$_,
+                    );
+                }
                 $Self->{TicketObject}->TicketFreeTimeSet(
-                    %TicketFreeTime,
+                    %Time,
+                    Prefix => "TicketFreeTime",
                     TicketID => $TicketID,
                     Counter => $_,
                     UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),

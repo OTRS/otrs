@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.6 2006-10-26 08:11:26 martin Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.7 2007-01-17 12:53:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -151,19 +151,23 @@ sub Run {
     }
     # get ticket free text params
     foreach (1..16) {
-        $GetParam{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
-        $GetParam{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
+        $GetParam{"TicketFreeKey$_"} = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
+        $GetParam{"TicketFreeText$_"} = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
     }
-    # get ticket free text params
+    # get ticket free time params
     foreach (1..2) {
-        foreach my $Type (qw(Year Month Day Hour Minute)) {
-            $GetParam{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+        foreach my $Type (qw(Used Year Month Day Hour Minute)) {
+            $GetParam{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+        }
+        $GetParam{'TicketFreeTime'.$_.'Optional'} = 1;
+        if (!$GetParam{'TicketFreeTime'.$_.'Optional'}) {
+            $GetParam{'TicketFreeTime'.$_.'Used'} = 1;
         }
     }
     # get article free text params
     foreach (1..3) {
-        $GetParam{"ArticleFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "ArticleFreeKey$_");
-        $GetParam{"ArticleFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "ArticleFreeText$_");
+        $GetParam{"ArticleFreeKey$_"} = $Self->{ParamObject}->GetParam(Param => "ArticleFreeKey$_");
+        $GetParam{"ArticleFreeText$_"} = $Self->{ParamObject}->GetParam(Param => "ArticleFreeText$_");
     }
 
     if (!$Self->{Subaction}) {
@@ -208,18 +212,28 @@ sub Run {
             Ticket => \%Ticket,
             Config => \%TicketFreeText,
         );
-        # get free text params
+        # free time
         my %TicketFreeTime = ();
         foreach (1..2) {
+            $TicketFreeTime{"TicketFreeTime".$_.'Optional'} = $GetParam{'TicketFreeTime'.$_.'Optional'};
+            $TicketFreeTime{"TicketFreeTime".$_.'Used'} = $GetParam{'TicketFreeTime'.$_.'Used'};
+
             if ($Ticket{"TicketFreeTime".$_}) {
-                ($TicketFreeTime{"TicketFreeTime".$_.'Secunde'}, $TicketFreeTime{"TicketFreeTime".$_.'Minute'}, $TicketFreeTime{"TicketFreeTime".$_.'Hour'}, $TicketFreeTime{"TicketFreeTime".$_.'Day'}, $TicketFreeTime{"TicketFreeTime".$_.'Month'},  $TicketFreeTime{"TicketFreeTime".$_.'Year'}) = $Self->{TimeObject}->SystemTime2Date(
+                (
+                    $TicketFreeTime{"TicketFreeTime".$_.'Secunde'},
+                    $TicketFreeTime{"TicketFreeTime".$_.'Minute'},
+                    $TicketFreeTime{"TicketFreeTime".$_.'Hour'},
+                    $TicketFreeTime{"TicketFreeTime".$_.'Day'},
+                    $TicketFreeTime{"TicketFreeTime".$_.'Month'},
+                    $TicketFreeTime{"TicketFreeTime".$_.'Year'}
+                ) = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
                         String => $Ticket{"TicketFreeTime".$_},
                     ),
                 );
+                $TicketFreeTime{"TicketFreeTime".$_.'Used'} = 1;
             }
         }
-        # free time
         my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
             Ticket => \%TicketFreeTime,
         );
@@ -454,9 +468,25 @@ sub Run {
                         defined($GetParam{"TicketFreeTime".$_."Month"}) &&
                         defined($GetParam{"TicketFreeTime".$_."Day"}) &&
                         defined($GetParam{"TicketFreeTime".$_."Hour"}) &&
-                        defined($GetParam{"TicketFreeTime".$_."Minute"})) {
+                        defined($GetParam{"TicketFreeTime".$_."Minute"})
+                    ) {
+                        my %Time;
+                        $Time{"TicketFreeTime".$_."Year"} = 0;
+                        $Time{"TicketFreeTime".$_."Month"} = 0;
+                        $Time{"TicketFreeTime".$_."Day"} = 0;
+                        $Time{"TicketFreeTime".$_."Hour"} = 0;
+                        $Time{"TicketFreeTime".$_."Minute"} = 0;
+                        $Time{"TicketFreeTime".$_."Secunde"} = 0;
+
+                        if ($GetParam{"TicketFreeTime".$_."Used"}) {
+                            %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                                %GetParam,
+                                Prefix => "TicketFreeTime".$_,
+                            );
+                        }
                         $Self->{TicketObject}->TicketFreeTimeSet(
-                            %GetParam,
+                            %Time,
+                            Prefix => "TicketFreeTime",
                             TicketID => $Self->{TicketID},
                             Counter => $_,
                             UserID => $Self->{UserID},

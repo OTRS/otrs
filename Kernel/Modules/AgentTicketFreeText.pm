@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketFreeText.pm - free text for ticket
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketFreeText.pm,v 1.12 2007-01-16 17:18:13 mh Exp $
+# $Id: AgentTicketFreeText.pm,v 1.13 2007-01-17 12:53:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -165,7 +165,7 @@ sub Run {
         $GetParam{"TicketFreeKey$_"} = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
         $GetParam{"TicketFreeText$_"} = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
     }
-    # get ticket free text params
+    # get ticket free time params
     foreach (1..2) {
         foreach my $Type (qw(Used Year Month Day Hour Minute)) {
             $GetParam{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
@@ -423,6 +423,7 @@ sub Run {
                 );
             }
         }
+        # set ticket free time
         foreach (1..2) {
             if (defined($GetParam{"TicketFreeTime".$_."Year"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Month"}) &&
@@ -453,7 +454,6 @@ sub Run {
                 );
             }
         }
-
         # set article free text
         foreach (1..3) {
             if (defined($GetParam{"ArticleFreeKey$_"})) {
@@ -535,7 +535,7 @@ sub Run {
             Ticket => \%Ticket,
             Config => \%TicketFreeText,
         );
-        # get free text params
+        # free time
         my %TicketFreeTime = ();
         foreach (1..2) {
             $TicketFreeTime{"TicketFreeTime".$_.'Optional'} = $GetParam{'TicketFreeTime'.$_.'Optional'};
@@ -557,7 +557,6 @@ sub Run {
                 $TicketFreeTime{"TicketFreeTime".$_.'Used'} = 1;
             }
         }
-        # free time
         my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
             Ticket => \%TicketFreeTime,
         );

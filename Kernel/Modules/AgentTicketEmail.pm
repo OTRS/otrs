@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.25 2007-01-09 03:23:34 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.26 2007-01-17 12:53:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -43,8 +43,6 @@ sub new {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
     }
-    # anyway, we need to check the email syntax (removed it, because the admins should configure it)
-#    $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 1);
     # needed objects
     $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
@@ -89,19 +87,23 @@ sub Run {
     }
     # get ticket free text params
     foreach (1..16) {
-        $GetParam{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
-        $GetParam{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
+        $GetParam{"TicketFreeKey$_"} = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
+        $GetParam{"TicketFreeText$_"} = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
     }
-    # get ticket free text params
+    # get ticket free time params
     foreach (1..2) {
-        foreach my $Type (qw(Year Month Day Hour Minute)) {
-            $GetParam{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+        foreach my $Type (qw(Used Year Month Day Hour Minute)) {
+            $GetParam{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+        }
+        $GetParam{'TicketFreeTime'.$_.'Optional'} = 1;
+        if (!$GetParam{'TicketFreeTime'.$_.'Optional'}) {
+            $GetParam{'TicketFreeTime'.$_.'Used'} = 1;
         }
     }
     # get article free text params
     foreach (1..3) {
-        $GetParam{"ArticleFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "ArticleFreeKey$_");
-        $GetParam{"ArticleFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "ArticleFreeText$_");
+        $GetParam{"ArticleFreeKey$_"} = $Self->{ParamObject}->GetParam(Param => "ArticleFreeKey$_");
+        $GetParam{"ArticleFreeText$_"} = $Self->{ParamObject}->GetParam(Param => "ArticleFreeText$_");
     }
 
     if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
@@ -119,9 +121,7 @@ sub Run {
                     Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='.$Ticket{TicketID},
                 );
             }
-            # --
             # get split article if given
-            # --
             # get default selections
             my %TicketFreeDefault = ();
             foreach (1..16) {
@@ -183,25 +183,23 @@ sub Run {
             if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
                 my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')};
                 foreach my $Job (sort keys %Jobs) {
-                        # load module
-                        if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
-                            my $Object = $Jobs{$Job}->{Module}->new(
-                                %{$Self},
-                                Debug => $Self->{Debug},
-                            );
-                            # get params
-                            my %GetParam;
-                            foreach ($Object->Option(%GetParam, Config => $Jobs{$Job})) {
-                                $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
-                            }
-                            # run module
-                            $Object->Run(%GetParam, Config => $Jobs{$Job});
-                            # get errors
-#                            %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
+                    # load module
+                    if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
+                        my $Object = $Jobs{$Job}->{Module}->new(
+                            %{$Self},
+                            Debug => $Self->{Debug},
+                        );
+                        # get params
+                        my %GetParam;
+                        foreach ($Object->Option(%GetParam, Config => $Jobs{$Job})) {
+                            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
                         }
-                        else {
-                            return $Self->{LayoutObject}->FatalError();
-                        }
+                        # run module
+                        $Object->Run(%GetParam, Config => $Jobs{$Job});
+                    }
+                    else {
+                        return $Self->{LayoutObject}->FatalError();
+                    }
                 }
             }
             # html output
@@ -215,7 +213,7 @@ sub Run {
                 Subject => $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Subject}),
                 Body => $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Body}),
                 CustomerID => '',
-                CustomerUser =>  '',
+                CustomerUser => '',
                 CustomerData => {},
                 %TicketFreeTextHTML,
                 %TicketFreeTimeHTML,
@@ -530,14 +528,10 @@ sub Run {
         }
 
         if (%Error) {
-            # --
             # header
-            # --
             $Output .= $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            # --
             # html output
-            # --
             $Output .= $Self->_MaskEmailNew(
                 QueueID => $Self->{QueueID},
                 Users => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $AllUsers),
@@ -683,9 +677,25 @@ sub Run {
                 defined($GetParam{"TicketFreeTime".$_."Month"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Day"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Hour"}) &&
-                defined($GetParam{"TicketFreeTime".$_."Minute"})) {
+                defined($GetParam{"TicketFreeTime".$_."Minute"})
+            ) {
+                my %Time;
+                $Time{"TicketFreeTime".$_."Year"} = 0;
+                $Time{"TicketFreeTime".$_."Month"} = 0;
+                $Time{"TicketFreeTime".$_."Day"} = 0;
+                $Time{"TicketFreeTime".$_."Hour"} = 0;
+                $Time{"TicketFreeTime".$_."Minute"} = 0;
+                $Time{"TicketFreeTime".$_."Secunde"} = 0;
+
+                if ($GetParam{"TicketFreeTime".$_."Used"}) {
+                    %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                        %GetParam,
+                        Prefix => "TicketFreeTime".$_,
+                    );
+                }
                 $Self->{TicketObject}->TicketFreeTimeSet(
-                    %GetParam,
+                    %Time,
+                    Prefix => "TicketFreeTime",
                     TicketID => $TicketID,
                     Counter => $_,
                     UserID => $Self->{UserID},
@@ -981,7 +991,7 @@ sub _MaskEmailNew {
     my %NewTo = ();
     if ($Param{FromList}) {
         foreach (keys %{$Param{FromList}}) {
-             $NewTo{"$_||$Param{FromList}->{$_}"} = $Param{FromList}->{$_};
+            $NewTo{"$_||$Param{FromList}->{$_}"} = $Param{FromList}->{$_};
         }
     }
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue') {
