@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.23 2007-01-01 23:18:15 mh Exp $
+# $Id: CustomerTicketSearch.pm,v 1.24 2007-01-17 12:54:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -59,8 +59,10 @@ sub Run {
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
     $Self->{SearchLimit} = $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SearchLimit') || 200;
     $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SearchPageShown') || 40;
-    $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SortBy::Default') || 'Age';
-    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::Order::Default') || 'Down';
+    $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') ||
+        $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SortBy::Default') || 'Age';
+    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') ||
+        $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::Order::Default') || 'Down';
     $Self->{Profile} = $Self->{ParamObject}->GetParam(Param => 'Profile') || '';
     $Self->{SaveProfile} = $Self->{ParamObject}->GetParam(Param => 'SaveProfile') || '';
     $Self->{TakeLastSearch} = $Self->{ParamObject}->GetParam(Param => 'TakeLastSearch') || '';
@@ -68,7 +70,9 @@ sub Run {
     $Self->{EraseTemplate} = $Self->{ParamObject}->GetParam(Param => 'EraseTemplate') || '';
     # check request
     if ($Self->{ParamObject}->GetParam(Param => 'SearchTemplate') && $Self->{Profile}) {
-        return $Self->{LayoutObject}->Redirect(OP => "Action=CustomerTicketSearchSubaction=Search&TakeLastSearch=1&SaveProfile=1&Profile=$Self->{Profile}");
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=CustomerTicketSearchSubaction=Search&TakeLastSearch=1&SaveProfile=1&Profile=$Self->{Profile}",
+        );
     }
     # get signle params
     my %GetParam = ();
@@ -188,13 +192,19 @@ sub Run {
                     $GetParam{"TicketCreateTimeStop$_"} = '0'.$GetParam{"TicketCreateTimeStop$_"};
                 }
             }
-            if ($GetParam{TicketCreateTimeStartDay} && $GetParam{TicketCreateTimeStartMonth} && $GetParam{TicketCreateTimeStartYear}) {
+            if ($GetParam{TicketCreateTimeStartDay} &&
+                $GetParam{TicketCreateTimeStartMonth} &&
+                $GetParam{TicketCreateTimeStartYear}
+            ) {
                 $GetParam{TicketCreateTimeNewerDate} = $GetParam{TicketCreateTimeStartYear}.
                     '-'.$GetParam{TicketCreateTimeStartMonth}.
                     '-'.$GetParam{TicketCreateTimeStartDay}.
                     ' 00:00:01';
             }
-            if ($GetParam{TicketCreateTimeStopDay} && $GetParam{TicketCreateTimeStopMonth} && $GetParam{TicketCreateTimeStopYear}) {
+            if ($GetParam{TicketCreateTimeStopDay} &&
+                $GetParam{TicketCreateTimeStopMonth} &&
+                $GetParam{TicketCreateTimeStopYear}
+            ) {
                 $GetParam{TicketCreateTimeOlderDate} = $GetParam{TicketCreateTimeStopYear}.
                     '-'.$GetParam{TicketCreateTimeStopMonth}.
                     '-'.$GetParam{TicketCreateTimeStopDay}.
@@ -202,7 +212,10 @@ sub Run {
             }
         }
         elsif ($GetParam{TimeSearchType} eq 'TimePoint') {
-            if ($GetParam{TicketCreateTimePoint} && $GetParam{TicketCreateTimePointStart} && $GetParam{TicketCreateTimePointFormat}) {
+            if ($GetParam{TicketCreateTimePoint} &&
+                $GetParam{TicketCreateTimePointStart} &&
+                $GetParam{TicketCreateTimePointFormat}
+            ) {
                 my $Time = 0;
                 if ($GetParam{TicketCreateTimePointFormat} eq 'minute') {
                     $Time = $GetParam{TicketCreateTimePoint};
@@ -242,13 +255,19 @@ sub Run {
             }
             else {
                 $GetParam{'TicketFreeTime'.$_} = 'checked';
-                if ($GetParam{'TicketFreeTime'.$_.'StartDay'} && $GetParam{'TicketFreeTime'.$_.'StartMonth'} && $GetParam{'TicketFreeTime'.$_.'StartYear'}) {
+                if ($GetParam{'TicketFreeTime'.$_.'StartDay'} &&
+                    $GetParam{'TicketFreeTime'.$_.'StartMonth'} &&
+                    $GetParam{'TicketFreeTime'.$_.'StartYear'}
+                ) {
                     $GetParam{'TicketFreeTime'.$_.'NewerDate'} = $GetParam{'TicketFreeTime'.$_.'StartYear'}.
                     '-'.$GetParam{'TicketFreeTime'.$_.'StartMonth'}.
                     '-'.$GetParam{'TicketFreeTime'.$_.'StartDay'}.
                     ' 00:00:01';
                 }
-                if ($GetParam{'TicketFreeTime'.$_.'StopDay'} && $GetParam{'TicketFreeTime'.$_.'StopMonth'} && $GetParam{'TicketFreeTime'.$_.'StopYear'}) {
+                if ($GetParam{'TicketFreeTime'.$_.'StopDay'} &&
+                    $GetParam{'TicketFreeTime'.$_.'StopMonth'} &&
+                    $GetParam{'TicketFreeTime'.$_.'StopYear'}
+                ) {
                     $GetParam{'TicketFreeTime'.$_.'OlderDate'} = $GetParam{'TicketFreeTime'.$_.'StopYear'}.
                     '-'.$GetParam{'TicketFreeTime'.$_.'StopMonth'}.
                     '-'.$GetParam{'TicketFreeTime'.$_.'StopDay'}.
@@ -286,7 +305,8 @@ sub Run {
                     );
                     foreach my $Articles (@Article) {
                         if ($Articles->{Body}) {
-                            $Data{ArticleTree} .= "\n-->||$Articles->{ArticleType}||$Articles->{From}||".$Articles->{Created}."||<--------------\n".$Articles->{Body};
+                            $Data{ArticleTree} .= "\n-->||$Articles->{ArticleType}||$Articles->{From}||".
+                                $Articles->{Created}."||<--------------\n".$Articles->{Body};
                         }
                     }
                 }
@@ -412,10 +432,6 @@ sub Run {
             );
             %GetParam = ();
             $Self->{Profile} = '';
-        }
-        # set profile to zero
-        elsif (!$Self->{SelectTemplate}) {
-#            $Self->{Profile} = '';
         }
         # get free text config options
         my %TicketFreeText = ();

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.33 2006-12-13 08:43:10 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.34 2007-01-17 12:54:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -89,7 +89,9 @@ sub Run {
     $Self->{EraseTemplate} = $Self->{ParamObject}->GetParam(Param => 'EraseTemplate') || '';
     # check request
     if ($Self->{ParamObject}->GetParam(Param => 'SearchTemplate') && $Self->{Profile}) {
-        return $Self->{LayoutObject}->Redirect(OP => "Action=AgentTicketSearch&Subaction=Search&TakeLastSearch=1&SaveProfile=1&Profile=$Self->{Profile}");
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=AgentTicketSearch&Subaction=Search&TakeLastSearch=1&SaveProfile=1&Profile=$Self->{Profile}"
+        );
     }
     # get signle params
     my %GetParam = ();
@@ -174,7 +176,8 @@ sub Run {
             $Self->{Profile} = 'last-search';
         }
         # store last queue screen
-        my $URL = "Action=AgentTicketSearch&Subaction=Search&Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=1&StartHit=$Self->{StartHit}";
+        my $URL = "Action=AgentTicketSearch&Subaction=Search&Profile=$Self->{Profile}&SortBy=$Self->{SortBy}".
+            "&Order=$Self->{Order}&TakeLastSearch=1&StartHit=$Self->{StartHit}";
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key => 'LastScreenOverview',
@@ -220,13 +223,19 @@ sub Run {
             foreach (qw(Month Day)) {
                 $GetParam{"TicketCreateTimeStop$_"} = sprintf("%02d", $GetParam{"TicketCreateTimeStop$_"});
             }
-            if ($GetParam{TicketCreateTimeStartDay} && $GetParam{TicketCreateTimeStartMonth} && $GetParam{TicketCreateTimeStartYear}) {
+            if ($GetParam{TicketCreateTimeStartDay} &&
+                $GetParam{TicketCreateTimeStartMonth} &&
+                $GetParam{TicketCreateTimeStartYear}
+            ) {
                 $GetParam{TicketCreateTimeNewerDate} = $GetParam{TicketCreateTimeStartYear}.
                     '-'.$GetParam{TicketCreateTimeStartMonth}.
                     '-'.$GetParam{TicketCreateTimeStartDay}.
                     ' 00:00:01';
             }
-            if ($GetParam{TicketCreateTimeStopDay} && $GetParam{TicketCreateTimeStopMonth} && $GetParam{TicketCreateTimeStopYear}) {
+            if ($GetParam{TicketCreateTimeStopDay} &&
+                $GetParam{TicketCreateTimeStopMonth} &&
+                $GetParam{TicketCreateTimeStopYear}
+            ) {
                 $GetParam{TicketCreateTimeOlderDate} = $GetParam{TicketCreateTimeStopYear}.
                     '-'.$GetParam{TicketCreateTimeStopMonth}.
                     '-'.$GetParam{TicketCreateTimeStopDay}.
@@ -234,7 +243,10 @@ sub Run {
             }
         }
         elsif ($GetParam{TimeSearchType} eq 'TimePoint') {
-            if ($GetParam{TicketCreateTimePoint} && $GetParam{TicketCreateTimePointStart} && $GetParam{TicketCreateTimePointFormat}) {
+            if ($GetParam{TicketCreateTimePoint} &&
+                $GetParam{TicketCreateTimePointStart} &&
+                $GetParam{TicketCreateTimePointFormat}
+            ) {
                 my $Time = 0;
                 if ($GetParam{TicketCreateTimePointFormat} eq 'minute') {
                     $Time = $GetParam{TicketCreateTimePoint};
@@ -327,7 +339,8 @@ sub Run {
                     );
                     foreach my $Articles (@Article) {
                         if ($Articles->{Body}) {
-                            $Data{ArticleTree} .= "\n-->||$Articles->{ArticleType}||$Articles->{From}||".$Articles->{Created}."||<--------------\n".$Articles->{Body};
+                            $Data{ArticleTree} .= "\n-->||$Articles->{ArticleType}||$Articles->{From}||".
+                                $Articles->{Created}."||<--------------\n".$Articles->{Body};
                         }
                     }
                 }
@@ -434,8 +447,10 @@ sub Run {
                 elsif ($GetParam{ResultForm} eq 'Print') {
                     if ($Self->{PDFObject}) {
                         my %Info = (%Data, %UserInfo),
-
-                        my $Created = $Self->{LayoutObject}->Output(Template => '$TimeLong{"$Data{"Created"}"}', Data => \%Data);
+                        my $Created = $Self->{LayoutObject}->Output(
+                            Template => '$TimeLong{"$Data{"Created"}"}',
+                            Data => \%Data,
+                        );
                         my $Owner = $Self->{LayoutObject}->Output(
                             Template => '$QData{"Owner","30"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","30"})',
                             Data => \%Info
@@ -701,10 +716,6 @@ sub Run {
             %GetParam = ();
             $Self->{Profile} = '';
         }
-        # set profile to zero
-#        elsif (!$Self->{SelectTemplate}) {
-#            $Self->{Profile} = '';
-#        }
         # generate search mask
         my $Output = $Self->{LayoutObject}->Header();
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
