@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.6 2006-12-30 02:56:55 mh Exp $
+# $Id: LayoutTicket.pm,v 1.7 2007-01-17 08:00:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::LayoutTicket;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketStdResponseString {
@@ -259,10 +259,10 @@ sub AgentFreeText {
                 }
                 $Data{"TicketFreeKeyField$_"} =
                     '<input type="text" name="TicketFreeKey'.$_.
-                    '" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Ticket{"TicketFreeKey$_"}).'" size="20">';
+                    '" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Ticket{"TicketFreeKey$_"}).'" size="18">';
             }
             else {
-                $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="" size="20">';
+                $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="" size="18">';
             }
         }
         # value
@@ -397,10 +397,10 @@ sub TicketArticleFreeText {
                 }
                 $Data{"ArticleFreeKeyField$_"} =
                     '<input type="text" name="ArticleFreeKey'.$_.
-                    '" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Article{"ArticleFreeKey$_"}).'" size="20">';
+                    '" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Article{"ArticleFreeKey$_"}).'" size="18">';
             }
             else {
-                $Data{"ArticleFreeKeyField$_"} = '<input type="text" name="ArticleFreeKey'.$_.'" value="" size="20">';
+                $Data{"ArticleFreeKeyField$_"} = '<input type="text" name="ArticleFreeKey'.$_.'" value="" size="18">';
             }
         }
         # value
