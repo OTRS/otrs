@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.12 2006-11-02 13:02:03 tr Exp $
+# $Id: CustomerTicketMessage.pm,v 1.12.2.1 2007-01-17 13:04:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.12.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -274,6 +274,7 @@ sub Run {
                   defined($TicketFreeTime{"TicketFreeTime".$_."Minute"})) {
                   $Self->{TicketObject}->TicketFreeTimeSet(
                       %TicketFreeTime,
+                      Prefix => "TicketFreeTime",
                       TicketID => $TicketID,
                       Counter => $_,
                       UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
