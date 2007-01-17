@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: initial_insert.sql,v 1.52 2006-10-03 12:41:54 martin Exp $
+-- $Id: initial_insert.sql,v 1.52.2.1 2007-01-17 12:11:57 mh Exp $
 --
 -- $Log: not supported by cvs2svn $
+-- Revision 1.52  2006/10/03 12:41:54  martin
+-- replaced ^M with control ^M
+--
 -- Revision 1.51  2006/10/03 12:33:23  mh
 -- fixed more missing ^M
 --
@@ -439,15 +442,15 @@ INSERT INTO queue
 INSERT INTO queue
     (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Raw', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'all incoming tickets', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Raw', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'ticket inbox', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO queue
     (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Junk', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'all junk tickets', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Junk', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'junk tickets', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO queue
     (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Misc', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'all misk tickets', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Misc', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'misc tickets', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ticket_history_type
 INSERT INTO ticket_history_type
