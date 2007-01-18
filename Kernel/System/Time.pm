@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Time.pm - time functions
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.18 2006-12-07 08:47:32 martin Exp $
+# $Id: Time.pm,v 1.18.2.1 2007-01-18 10:37:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.18.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -37,19 +37,19 @@ This module is managing time functions.
 
 create a language object
 
-  use Kernel::Config;
-  use Kernel::System::Time;
+    use Kernel::Config;
+    use Kernel::System::Time;
 
-  my $ConfigObject = Kernel::Config->new();
+    my $ConfigObject = Kernel::Config->new();
 
-  my $LogObject = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
 
-  my $TimeObject = Kernel::System::Time->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
 
 =cut
 
@@ -105,7 +105,7 @@ returns a time stamp in "yyyy-mm-dd 23:59:59" format.
 Also if needed a short form "23:59:59" if the date is today (if needed).
 
     my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => $SystenTime,
+        SystemTime => $SystemTime,
         Type => 'Short',
     );
 
@@ -375,12 +375,12 @@ get the working time in secondes between this times
 
     my $WorkingTime = $TimeObject->WorkingTime(
         StartTime => $Created,
-        StopTime => $Self->SystemTime(),
+        StopTime => $TimeObject->SystemTime(),
     );
 
     my $WorkingTime = $TimeObject->WorkingTime(
         StartTime => $Created,
-        StopTime => $Self->SystemTime(),
+        StopTime => $TimeObject->SystemTime(),
         Calendar => 3, # '' is default
     );
 
@@ -407,11 +407,11 @@ sub WorkingTime {
             my $Zone = $Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar});
             if ($Zone) {
                 if ($Zone > 0) {
-                    $Zone = '-'.($Zone* 60 * 60);
+                    $Zone = '+'.($Zone * 60 * 60);
                 }
                 else {
-                    $Zone = ($Zone* 60 * 60);
-                    $Zone =~ s/-/+/;
+                    $Zone = ($Zone * 60 * 60);
+                    $Zone =~ s/\+/-/;
                 }
                 $Param{StartTime} = $Param{StartTime} + $Zone;
                 $Param{StopTime} = $Param{StopTime} + $Zone;
@@ -501,6 +501,7 @@ get the destination time (working time cal.) from start plus some time in second
 sub DestinationTime {
     my $Self = shift;
     my %Param = @_;
+    my $Zone = 0;
     # check needed stuff
     foreach (qw(StartTime Time)) {
         if (!defined($Param{$_})) {
@@ -516,13 +517,13 @@ sub DestinationTime {
             %TimeWorkingHours = %{$Self->{ConfigObject}->Get("TimeWorkingHours::Calendar".$Param{Calendar})};
             %TimeVacationDays = %{$Self->{ConfigObject}->Get("TimeVacationDays::Calendar".$Param{Calendar})};
             %TimeVacationDaysOneTime = %{$Self->{ConfigObject}->Get("TimeVacationDaysOneTime::Calendar".$Param{Calendar})};
-            my $Zone = $Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar});
+            $Zone = $Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar});
             if ($Zone > 0) {
-                $Zone = '-'.($Zone* 60 * 60);
+                $Zone = '+'.($Zone * 60 * 60);
             }
             else {
-                $Zone = ($Zone* 60 * 60);
-                $Zone =~ s/-/+/;
+                $Zone = ($Zone * 60 * 60);
+                $Zone =~ s/\+/-/;
             }
             $Param{StartTime} = $Param{StartTime} + $Zone;
         }
@@ -536,10 +537,12 @@ sub DestinationTime {
     $AYear = $AYear+1900;
     $AMonth = $AMonth+1;
     my $ADate = "$AYear-$AMonth-$ADay";
+$Param{Time}++;
 
     while ($Param{Time} > 1) {
         $Count++;
         if ($Count > 100) {
+#print STDERR "LAST        !!!!!!!!!!!!!!!!!\n";
             last;
         }
         my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay) = localtime($CTime);
@@ -577,26 +580,39 @@ sub DestinationTime {
                 foreach my $H ($Hour..23) {
                     my $Hit = 0;
                     foreach (@{$TimeWorkingHours{$LDay{$WDay}}}) {
-                        if ($H+1 == $_) {
+                        if ($H == $_) {
+#print STDERR "aaaaaa $_ \n";
                             $Hit = 1;
                         }
                     }
                     if ($Hit) {
-                        if ($Param{Time} > 59*60) {
-                            $Param{Time} = $Param{Time} - (60*60);
-                            $DestinationTime = $DestinationTime + (60*60);
-                            $FirstTurn = 0;
+                        if ($Param{Time} > 60*60) {
+                            if ($Min != 0 && $FirstTurn) {
+                                my $Max = 60 - $Min;
+                                $Param{Time} = $Param{Time} - ($Max*60);
+                                $DestinationTime = $DestinationTime + ($Max*60);
+#print STDERR "DD Time > $Max*60 DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
+                                $FirstTurn = 0;
+                            }
+                            else {
+                                $Param{Time} = $Param{Time} - (60*60);
+                                $DestinationTime = $DestinationTime + (60*60);
+#print STDERR "DD Time > 60*60 DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
+                                $FirstTurn = 0;
+                            }
                         }
                         elsif ($Param{Time} > 1*60) {
-                            foreach my $M (1..59) {
+                            foreach my $M (0..59) {
                                 if ($Param{Time} > 1) {
                                     $Param{Time} = $Param{Time} - 60;
                                     $DestinationTime = $DestinationTime + 60;
+#print STDERR "DD Time > 1*60 DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
                                     $FirstTurn = 0;
                                 }
                             }
                         }
                         else {
+#print STDERR "DD Time else DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
                             last;
                         }
                     }
@@ -612,7 +628,9 @@ sub DestinationTime {
                                 Second => 0,
                             );
                         }
+#                        $Param{Time} = $Param{Time} - (60*60);
                         $DestinationTime = $DestinationTime + (60*60);
+#print STDERR "DD NOHIT DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
                     }
                 }
             }
@@ -626,6 +644,7 @@ sub DestinationTime {
             Second => 0,
         )+(60*60*24);
     }
+    $DestinationTime = $DestinationTime - $Zone;
     return $DestinationTime;
 }
 
@@ -679,6 +698,8 @@ sub VacationCheck {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -691,6 +712,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2006-12-07 08:47:32 $
+$Revision: 1.18.2.1 $ $Date: 2007-01-18 10:37:16 $
 
 =cut
