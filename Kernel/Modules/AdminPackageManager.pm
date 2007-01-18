@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.39 2006-10-19 16:56:51 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.40 2007-01-18 10:02:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -784,6 +784,7 @@ sub Run {
         my %Frontend = ();
         my %NeedReinstall = ();
         my %List = ();
+        my $OutputNotify = '';
         if ($Self->{ConfigObject}->Get('Package::RepositoryList')) {
             %List = %{$Self->{ConfigObject}->Get('Package::RepositoryList')};
         }
@@ -806,6 +807,17 @@ sub Run {
                 URL => $Source,
                 Lang => $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
             );
+            if (!@List) {
+                $OutputNotify .= $Self->{LayoutObject}->Notify(
+                    Priority => 'Error',
+                );
+                if (!$OutputNotify) {
+                    $OutputNotify .= $Self->{LayoutObject}->Notify(
+                        Priority => 'Info',
+                        Info => 'No packages or no new packages in selected Online-Repository!',
+                    );
+                }
+            }
             foreach my $Data (@List) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ShowRemotePackage',
@@ -908,6 +920,7 @@ sub Run {
 
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $OutputNotify;
         foreach (sort keys %NeedReinstall) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
