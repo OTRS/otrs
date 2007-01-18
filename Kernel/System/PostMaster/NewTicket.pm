@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.59 2006-12-14 12:27:15 martin Exp $
+# $Id: NewTicket.pm,v 1.60 2007-01-18 10:29:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -150,7 +150,7 @@ sub Run {
         TN => $NewTn,
         Title => $GetParam{Subject},
         QueueID => $QueueID,
-        Lock => 'unlock',
+        Lock => $GetParam{'X-OTRS-Lock'} || 'unlock',
         Priority => $Priority,
         State => $State,
         CustomerNo => $GetParam{'X-OTRS-CustomerNo'},

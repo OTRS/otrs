@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FollowUp.pm,v 1.49 2006-12-21 11:14:54 martin Exp $
+# $Id: FollowUp.pm,v 1.50 2007-01-18 10:29:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -64,6 +64,7 @@ sub Run {
     # Check if owner of ticket is still valid
     my %UserInfo = $Self->{UserObject}->GetUserData(
         UserID => $Ticket{OwnerID},
+        VacationCheck => 1,
     );
     # check data
     if ($UserInfo{ValidID} eq 1) {
@@ -134,6 +135,17 @@ sub Run {
         );
         if ($Self->{Debug} > 0) {
             print "QueueUpdate: $GetParam{'X-OTRS-FollowUp-Queue'}\n";
+        }
+    }
+    # set lock
+    if ($GetParam{'X-OTRS-FollowUp-Lock'}) {
+        $Self->{TicketObject}->LockSet(
+            Lock => $GetParam{'X-OTRS-FollowUp-Lock'},
+            TicketID => $Param{TicketID},
+            UserID => $Param{InmailUserID},
+        );
+        if ($Self->{Debug} > 0) {
+            print "Lock: $GetParam{'X-OTRS-FollowUp-Lock'}\n";
         }
     }
     # set free ticket text

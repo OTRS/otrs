@@ -1,8 +1,8 @@
 # --
 # X-OTRS-Headers.txt - X-headers for use in mail
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: X-OTRS-Headers.txt,v 1.11 2006-08-29 21:21:28 martin Exp $
+# $Id: X-OTRS-Headers.txt,v 1.12 2007-01-18 10:29:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,6 +16,10 @@ Set priority of ticket. For FollowUps use X-OTRS-FollowUp-Priority.
 X-OTRS-Queue: [one system queue]
 --------------------------------
 Presort of queue (highest sort priority). For FollowUps use X-OTRS-FollowUp-Queue.
+
+X-OTRS-Lock: [ticket lock state]
+--------------------------------
+Set lock of ticket. For FollowUps use X-OTRS-FollowUp-Lock.
 
 X-OTRS-Ignore: [yes]
 ---------------------
