@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.24 2007-01-16 17:18:13 mh Exp $
+# $Id: Layout.pm,v 1.25 2007-01-18 10:10:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1133,11 +1133,45 @@ sub Warning {
     return $Self->Output(TemplateFile => 'Warning', Data => \%Param);
 }
 
+=item Notify()
+
+create notify lines
+
+    infos, the text will be translated
+
+    my $Output = $LayoutObject->Notify(
+        Priority => 'warning'
+        Info => 'Some Info Message',
+    );
+
+    data with link, the text will be translated
+
+    my $Output = $LayoutObject->Notify(
+        Priority => 'warning'
+        Data => '$Text{"Some DTL Stuff"}',
+        Link => 'http://example.com/',
+    );
+
+    errors, the text will be translated
+
+    my $Output = $LayoutObject->Notify(
+        Priority => 'error'
+        Info => 'Some Error Message',
+    );
+
+    errors from log backend, if no error extists, a '' will be returned
+
+    my $Output = $LayoutObject->Notify(
+        Priority => 'error'
+    );
+
+=cut
+
 sub Notify {
     my $Self = shift;
     my %Param = @_;
     # create & return output
-    if (!$Param{Info}) {
+    if (!$Param{Info} && !$Param{Data}) {
         foreach (qw(Message)) {
             $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
                 Type => 'Notice',
@@ -1148,6 +1182,10 @@ sub Notify {
             ) || '';
         }
         $Param{Info} = $Param{BackendMessage};
+        # return if we have nothing to show
+        if (!$Param{Info}) {
+            return '';
+        }
     }
     if ($Param{Info}) {
         $Param{Info} =~ s/\n//g;
@@ -2655,6 +2693,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2007-01-16 17:18:13 $
+$Revision: 1.25 $ $Date: 2007-01-18 10:10:14 $
 
 =cut
