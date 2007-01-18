@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.30 2007-01-17 12:53:11 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.31 2007-01-18 17:59:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -353,26 +353,26 @@ sub Run {
         my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
             Ticket => \%GetParam,
         );
-            # article free text
-            my %ArticleFreeText = ();
-            foreach (1..3) {
-                $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
-                    TicketID => $Self->{TicketID},
-                    Type => "ArticleFreeKey$_",
-                    Action => $Self->{Action},
-                    UserID => $Self->{UserID},
-                );
-                $ArticleFreeText{"ArticleFreeText$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
-                    TicketID => $Self->{TicketID},
-                    Type => "ArticleFreeText$_",
-                    Action => $Self->{Action},
-                    UserID => $Self->{UserID},
-                );
-            }
-            my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
-                Config => \%ArticleFreeText,
-                Article => \%GetParam,
+        # article free text
+        my %ArticleFreeText = ();
+        foreach (1..3) {
+            $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "ArticleFreeKey$_",
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
             );
+            $ArticleFreeText{"ArticleFreeText$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "ArticleFreeText$_",
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
+            );
+        }
+        my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
+            Config => \%ArticleFreeText,
+            Article => \%GetParam,
+        );
         # expand customer name
         my %CustomerUserData = ();
         if ($ExpandCustomerName == 1) {
