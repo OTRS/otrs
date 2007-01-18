@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.58 2006-12-01 09:04:03 tr Exp $
+# $Id: AdminSysConfig.pm,v 1.58.2.1 2007-01-18 10:36:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.58.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -921,7 +921,7 @@ sub ListConfigItem {
                     $ArrayHours[$ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Hour}[$Index2]{Content}] = 'checked';
                 }
             }
-            foreach my $Z (1...24) {
+            foreach my $Z (0...23) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementTimeWorkingHoursHours',
                     Data => {
