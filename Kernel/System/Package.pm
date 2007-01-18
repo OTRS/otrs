@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.54 2007-01-11 10:56:23 ot Exp $
+# $Id: Package.pm,v 1.55 2007-01-18 10:01:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -40,30 +40,30 @@ All functions to manage application packages/modules.
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::Time;
-  use Kernel::System::Package;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::Time;
+    use Kernel::System::Package;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $TimeObject = Kernel::System::Time->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $PackageObject    = Kernel::System::Package->new(
-      LogObject => $LogObject,
-      ConfigObject => $ConfigObject,
-      TimeObject => $TimeObject,
-      DBObject => $DBObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $PackageObject    = Kernel::System::Package->new(
+        LogObject => $LogObject,
+        ConfigObject => $ConfigObject,
+        TimeObject => $TimeObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -511,7 +511,8 @@ sub PackageInstall {
                         if (!$Param{Force}) {
                             $Self->{LogObject}->Log(
                                 Priority => 'error',
-                                Message => "Can't install package, file $FileNew->{Location} already used in package $Package->{Name}->{Content}-$Package->{Version}->{Content}!",
+                                Message => "Can't install package, file $FileNew->{Location} already ".
+                                    "used in package $Package->{Name}->{Content}-$Package->{Version}->{Content}!",
                             );
                             return;
                         }
@@ -681,7 +682,8 @@ sub PackageUpgrade {
                         if (!$Param{Force}) {
                             $Self->{LogObject}->Log(
                                 Priority => 'error',
-                                Message => "Can't upgrade package, file $FileNew->{Location} already used in package $Package->{Name}->{Content}-$Package->{Version}->{Content}!",
+                                Message => "Can't upgrade package, file $FileNew->{Location} already ".
+                                    "used in package $Package->{Name}->{Content}-$Package->{Version}->{Content}!",
                             );
                             return;
                         }
@@ -690,66 +692,48 @@ sub PackageUpgrade {
             }
         }
     }
+    # check OS
+    my $OSCheckOk = 1;
+    if ($Structure{OS} && ref($Structure{OS}) eq 'ARRAY') {
+        $OSCheckOk = 0;
+        foreach my $OS (@{$Structure{OS}}) {
+            if ($^O =~ /^$OS$/i) {
+                $OSCheckOk = 1;
+            }
+        }
+    }
+    if (!$OSCheckOk && !$Param{Force}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Sorry, can't install package, because package is not for your OS!!",
+        );
+        return;
+    }
+    # check framework
+    my $FWCheckOk = 0;
+    if ($Structure{Framework} && ref($Structure{Framework}) eq 'ARRAY') {
+        foreach my $FW (@{$Structure{Framework}}) {
+            if ($Self->_CheckFramework(Framework => $FW->{Content})) {
+                $FWCheckOk = 1;
+            }
+        }
+    }
+    if (!$FWCheckOk && !$Param{Force}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Sorry, can't install package, because package is not for your Framework!!",
+        );
+        return;
+    }
+    # check required packages
+    if ($Structure{PackageRequired} && ref($Structure{PackageRequired}) eq 'ARRAY') {
+        if (!$Self->_CheckRequired(%Param, PackageRequired => $Structure{PackageRequired}) && !$Param{Force}) {
+            return;
+        }
+    }
     # remove old packages
     $Self->RepositoryRemove(Name => $Structure{Name}->{Content});
     if ($Self->RepositoryAdd(String => $Param{String})) {
-        # check OS
-        my $OSCheckOk = 1;
-        if ($Structure{OS} && ref($Structure{OS}) eq 'ARRAY') {
-            $OSCheckOk = 0;
-            foreach my $OS (@{$Structure{OS}}) {
-                if ($^O =~ /^$OS$/i) {
-                    $OSCheckOk = 1;
-                }
-            }
-        }
-        if (!$OSCheckOk && !$Param{Force}) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "Sorry, can't install package, because package is not for your OS!!",
-            );
-            return;
-        }
-        # check framework
-        my $FWCheckOk = 0;
-        if ($Structure{Framework} && ref($Structure{Framework}) eq 'ARRAY') {
-            foreach my $FW (@{$Structure{Framework}}) {
-                if ($Self->_CheckFramework(Framework => $FW->{Content})) {
-                    $FWCheckOk = 1;
-                }
-            }
-        }
-        if (!$FWCheckOk && !$Param{Force}) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "Sorry, can't install package, because package is not for your Framework!!",
-            );
-            return;
-        }
-        # check required packages
-        if ($Structure{PackageRequired} && ref($Structure{PackageRequired}) eq 'ARRAY') {
-            if (!$Self->_CheckRequired(%Param, PackageRequired => $Structure{PackageRequired}) && !$Param{Force}) {
-                return;
-            }
-        }
-        # check if one of this files is already intalled by an other package
-        foreach my $Package ($Self->RepositoryList()) {
-            if ($Structure{Name}->{Content} ne $Package->{Name}->{Content}) {
-                foreach my $FileNew (@{$Structure{Filelist}}) {
-                    foreach my $FileOld (@{$Package->{Filelist}}) {
-                        if ($FileNew eq $FileOld) {
-                            if (!$Param{Force}) {
-                                $Self->{LogObject}->Log(
-                                    Priority => 'notice',
-                                    Message => "Can't upgrade package, file $FileNew already used in package $Package->{Name}->{Content}-$Package->{Name}->{Version}!",
-                                );
-                                return;
-                            }
-                        }
-                    }
-                }
-            }
-        }
         # update package status
         my $SQL = "UPDATE package_repository SET install_status = 'installed'".
             " WHERE ".
@@ -757,7 +741,6 @@ sub PackageUpgrade {
             " AND ".
             " version = '".$Self->{DBObject}->Quote($Structure{Version}->{Content})."'";
         $Self->{DBObject}->Do(SQL => $SQL);
-
         # uninstall old package files
         if ($InstalledStructure{Filelist} && ref($InstalledStructure{Filelist}) eq 'ARRAY') {
             foreach my $File (@{$InstalledStructure{Filelist}}) {
@@ -945,7 +928,7 @@ sub PackageOnlineRepositories {
 
 returns a list of available online packages
 
-    my %List = $PackageObject->PackageOnlineList();
+    my @List = $PackageObject->PackageOnlineList();
 
 =cut
 
@@ -961,9 +944,16 @@ sub PackageOnlineList {
     }
     my $XML = $Self->_Download(URL => $Param{URL}."/otrs.xml");
     if (!$XML) {
-        return ();
+        return;
     }
-    my @XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
+    my @XMLARRAY = $Self->{XMLObject}->XMLParse(String => 'aaa'.$XML);
+    if (!@XMLARRAY) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Unable to parse repository index document!",
+        );
+        return;
+    }
     my @Packages = ();
     my %Package = ();
     foreach my $Tag (@XMLARRAY) {
@@ -1000,19 +990,27 @@ sub PackageOnlineList {
 
     # just framework packages
     my @NewPackages = ();
+    my $PackageForRequestedFramework = 0;
     foreach my $Package (@Packages) {
         my $FWCheckOk = 0;
         if ($Package->{Framework} && ref($Package->{Framework}) eq 'ARRAY') {
             foreach my $FW (@{$Package->{Framework}}) {
                 if ($Self->_CheckFramework(Framework => $FW->{Content})) {
                     $FWCheckOk = 1;
-#print STDERR "FWCheckOk: $Package->{Name} $Package->{Version} -> $FW->{Content}\n";
+                    $PackageForRequestedFramework = 1;
                 }
             }
         }
         if ($FWCheckOk) {
             push (@NewPackages, $Package);
         }
+    }
+    # return of there are packages but not for this framework
+    if (@Packages && !$PackageForRequestedFramework) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No packages for requested framework in this repository, but packages for other frameworks!",
+        );
     }
     @Packages = @NewPackages;
 
@@ -1024,7 +1022,6 @@ sub PackageOnlineList {
         }
         else {
             if (!$Self->_CheckVersion(Version1 => $Package->{Version}, Version2 => $Newest{$Package->{Name}}->{Version}, Type => 'Min')) {
-#            if ($Newest{$Package->{Name}}->{Version} < $Package->{Version}) {
                 $Newest{$Package->{Name}} = $Package;
             }
         }
@@ -1040,14 +1037,10 @@ sub PackageOnlineList {
                 $Newest{$Data}->{Local} = 1;
                 if ($Package->{Status} eq 'installed') {
                     $Newest{$Data}->{Installed} = 1;
-#                    if ($Newest{$Data}->{Version} > $Package->{Version}->{Content}) {
-#                    if (!$Self->_CheckVersion(Version1 => $Package->{Version}->{Content}, Version2 => $Newest{$Data}->{Version}, Type => 'Max')) {
                     if (!$Self->_CheckVersion(Version1 => $Newest{$Data}->{Version}, Version2 => $Package->{Version}->{Content}, Type => 'Min')) {
                         $Newest{$Data}->{Upgrade} = 1;
                     }
                     # check if version or lower is already installed
-#                    elsif ($Newest{$Data}->{Version} <= $Package->{Version}->{Content}) {
-#                    elsif (!$Self->_CheckVersion(Version1 => $Package->{Version}->{Content}, Version2 => $Newest{$Data}->{Version}, Type => 'Min')) {
                     elsif (!$Self->_CheckVersion(Version1 => $Newest{$Data}->{Version}, Version2 => $Package->{Version}->{Content}, Type => 'Max')) {
                         $InstalledSameVersion = 1;
                     }
@@ -1238,7 +1231,8 @@ sub PackageBuild {
         $XML .= '<otrs_package version="1.0">';
         $XML .= "\n";
     }
-    foreach my $Tag (qw(Name Version Vendor URL License ChangeLog Description Framework OS PackageRequired CodeInstall CodeUpgrade CodeUninstall CodeReinstall)) {
+    foreach my $Tag (qw(Name Version Vendor URL License ChangeLog Description Framework OS
+        PackageRequired CodeInstall CodeUpgrade CodeUninstall CodeReinstall)) {
         if (ref($Param{$Tag}) eq 'HASH') {
             my %OldParam = ();
             foreach (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
@@ -1270,7 +1264,6 @@ sub PackageBuild {
         }
         else {
 #            $XML .= "  <$Tag></$Tag>\n";
-#           die "No Hash no Array: $Tag: $Param{$Tag}\n";
 #            $Self->{LogObject}->Log(Priority => 'error', Message => "Invalid Ref data in tag $Tag!");
 #            return;
         }
@@ -1328,7 +1321,13 @@ sub PackageBuild {
                     }
                     $XML .= $Space."<$Tag->{Tag}";
                     foreach (sort keys %{$Tag}) {
-                        if ($_ ne 'Tag' && $_ ne 'Content' && $_ ne 'TagType' && $_ ne 'TagLevel' && $_ ne 'TagCount' && $_ ne 'TagKey' && $_ ne 'TagLastLevel') {
+                        if ($_ ne 'Tag' &&
+                            $_ ne 'Content' &&
+                            $_ ne 'TagType' &&
+                            $_ ne 'TagLevel' &&
+                            $_ ne 'TagCount' &&
+                            $_ ne 'TagKey' &&
+                            $_ ne 'TagLastLevel') {
                             if (defined($Tag->{$_})) {
                                 $XML .= " ".$Self->_Encode($_)."=\"".$Self->_Encode($Tag->{$_})."\"";
                             }
@@ -1343,8 +1342,8 @@ sub PackageBuild {
                     }
                 }
                 if ($Tag->{TagType} eq 'End') {
-                   $XML .= $Space."</$Tag->{Tag}>\n";
-                   $Space = '    ';
+                    $XML .= $Space."</$Tag->{Tag}>\n";
+                    $Space = '    ';
                 }
             }
             $XML .= "  </$_>\n";
@@ -1424,10 +1423,7 @@ sub PackageParse {
                 $Open = 1;
                 next;
             }
-
-#            if ($Open && $Tag->{Type} eq 'Start') {
             if ($Open) {
-#print STDERR "$Tag->{Tag} $Tag->{Type}\n";
                 push (@{$Self->{Package}->{$_}}, $Tag);
             }
         }
@@ -1683,6 +1679,8 @@ sub _Encode {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -1695,6 +1693,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2007-01-11 10:56:23 $
+$Revision: 1.55 $ $Date: 2007-01-18 10:01:39 $
 
 =cut
