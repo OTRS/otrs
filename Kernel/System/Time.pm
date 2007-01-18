@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.22 2007-01-15 05:54:03 martin Exp $
+# $Id: Time.pm,v 1.23 2007-01-18 10:33:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -407,11 +407,11 @@ sub WorkingTime {
             my $Zone = $Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar});
             if ($Zone) {
                 if ($Zone > 0) {
-                    $Zone = '-'.($Zone* 60 * 60);
+                    $Zone = '+'.($Zone * 60 * 60);
                 }
                 else {
-                    $Zone = ($Zone* 60 * 60);
-                    $Zone =~ s/-/+/;
+                    $Zone = ($Zone * 60 * 60);
+                    $Zone =~ s/\+/-/;
                 }
                 $Param{StartTime} = $Param{StartTime} + $Zone;
                 $Param{StopTime} = $Param{StopTime} + $Zone;
@@ -519,11 +519,11 @@ sub DestinationTime {
             %TimeVacationDaysOneTime = %{$Self->{ConfigObject}->Get("TimeVacationDaysOneTime::Calendar".$Param{Calendar})};
             $Zone = $Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar});
             if ($Zone > 0) {
-                $Zone = '-'.($Zone* 60 * 60);
+                $Zone = '+'.($Zone * 60 * 60);
             }
             else {
-                $Zone = ($Zone* 60 * 60);
-                $Zone =~ s/-/+/;
+                $Zone = ($Zone * 60 * 60);
+                $Zone =~ s/\+/-/;
             }
             $Param{StartTime} = $Param{StartTime} + $Zone;
         }
@@ -537,10 +537,12 @@ sub DestinationTime {
     $AYear = $AYear+1900;
     $AMonth = $AMonth+1;
     my $ADate = "$AYear-$AMonth-$ADay";
+$Param{Time}++;
 
     while ($Param{Time} > 1) {
         $Count++;
         if ($Count > 100) {
+#print STDERR "LAST        !!!!!!!!!!!!!!!!!\n";
             last;
         }
         my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay) = localtime($CTime);
@@ -578,26 +580,39 @@ sub DestinationTime {
                 foreach my $H ($Hour..23) {
                     my $Hit = 0;
                     foreach (@{$TimeWorkingHours{$LDay{$WDay}}}) {
-                        if ($H+1 == $_) {
+                        if ($H == $_) {
+#print STDERR "aaaaaa $_ \n";
                             $Hit = 1;
                         }
                     }
                     if ($Hit) {
-                        if ($Param{Time} > 59*60) {
-                            $Param{Time} = $Param{Time} - (60*60);
-                            $DestinationTime = $DestinationTime + (60*60);
-                            $FirstTurn = 0;
+                        if ($Param{Time} > 60*60) {
+                            if ($Min != 0 && $FirstTurn) {
+                                my $Max = 60 - $Min;
+                                $Param{Time} = $Param{Time} - ($Max*60);
+                                $DestinationTime = $DestinationTime + ($Max*60);
+#print STDERR "DD Time > $Max*60 DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
+                                $FirstTurn = 0;
+                            }
+                            else {
+                                $Param{Time} = $Param{Time} - (60*60);
+                                $DestinationTime = $DestinationTime + (60*60);
+#print STDERR "DD Time > 60*60 DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
+                                $FirstTurn = 0;
+                            }
                         }
                         elsif ($Param{Time} > 1*60) {
-                            foreach my $M (1..59) {
+                            foreach my $M (0..59) {
                                 if ($Param{Time} > 1) {
                                     $Param{Time} = $Param{Time} - 60;
                                     $DestinationTime = $DestinationTime + 60;
+#print STDERR "DD Time > 1*60 DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
                                     $FirstTurn = 0;
                                 }
                             }
                         }
                         else {
+#print STDERR "DD Time else DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
                             last;
                         }
                     }
@@ -613,7 +628,9 @@ sub DestinationTime {
                                 Second => 0,
                             );
                         }
+#                        $Param{Time} = $Param{Time} - (60*60);
                         $DestinationTime = $DestinationTime + (60*60);
+#print STDERR "DD NOHIT DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
                     }
                 }
             }
@@ -695,6 +712,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2007-01-15 05:54:03 $
+$Revision: 1.23 $ $Date: 2007-01-18 10:33:56 $
 
 =cut

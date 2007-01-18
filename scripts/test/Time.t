@@ -1,8 +1,8 @@
 # --
 # Time.t - Time tests
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.t,v 1.8 2006-12-07 08:07:42 martin Exp $
+# $Id: Time.t,v 1.9 2007-01-18 10:33:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -236,7 +236,7 @@ my $DestinationTime = $Self->{TimeObject}->DestinationTime(
 );
 $Self->Is(
     "$Year-$Month-$Day $Hour:$Min:$Sec",
-    '2006-11-13 11:00:00',
+    '2006-11-13 12:00:00',
     'DestinationTime()',
 );
 
@@ -284,7 +284,7 @@ $DestinationTime = $Self->{TimeObject}->DestinationTime(
 );
 $Self->Is(
     "$Year-$Month-$Day $Hour:$Min:$Sec",
-    '2007-01-02 18:00:00',
+    '2007-01-02 19:00:00',
     'DestinationTime()',
 );
 
@@ -316,7 +316,7 @@ $DestinationTime = $Self->{TimeObject}->DestinationTime(
 );
 $Self->Is(
     "$Year-$Month-$Day $Hour:$Min:$Sec",
-    '2007-01-02 18:00:00',
+    '2007-01-02 19:00:00',
     'DestinationTime()',
 );
 
@@ -332,7 +332,23 @@ $DestinationTime = $Self->{TimeObject}->DestinationTime(
 );
 $Self->Is(
     "$Year-$Month-$Day $Hour:$Min:$Sec",
-    '2006-12-07 08:44:00',
+    '2006-12-07 08:54:00',
+    'DestinationTime()',
+);
+
+$SystemTimeDestination = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2007-01-16 20:15:00',
+);
+$DestinationTime = $Self->{TimeObject}->DestinationTime(
+    StartTime => $SystemTimeDestination,
+    Time => 60*60*1.25,
+);
+($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+    SystemTime => $DestinationTime,
+);
+$Self->Is(
+    "$Year-$Month-$Day $Hour:$Min:$Sec",
+    '2007-01-17 08:30:00',
     'DestinationTime()',
 );
 
