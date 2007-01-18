@@ -1,8 +1,8 @@
 # --
 # AAABase.dtl - $Text variable file
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.52 2006-12-21 16:12:27 mh Exp $
+# $Id: AAABase.dtl,v 1.53 2007-01-18 10:05:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -241,6 +241,10 @@ $Text{"Country"}
 $Text{"installed"}
 $Text{"uninstalled"}
 
-$Text{"Security Note: You should activate %s because application is already running!"
+$Text{"Security Note: You should activate %s because application is already running!"}
+
+$Text{"Unable to parse Online Repository index document!"}
+$Text{"No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!"}
+$Text{"No Packages or no new Packages in selected Online Repository!"}
 
 $Text{"printed at"}

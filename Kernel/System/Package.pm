@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.55 2007-01-18 10:01:39 martin Exp $
+# $Id: Package.pm,v 1.56 2007-01-18 10:05:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -950,7 +950,7 @@ sub PackageOnlineList {
     if (!@XMLARRAY) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Unable to parse repository index document!",
+            Message => "Unable to parse Online Repository index document!",
         );
         return;
     }
@@ -1009,7 +1009,7 @@ sub PackageOnlineList {
     if (@Packages && !$PackageForRequestedFramework) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "No packages for requested framework in this repository, but packages for other frameworks!",
+            Message => "No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!",
         );
     }
     @Packages = @NewPackages;
@@ -1693,6 +1693,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2007-01-18 10:01:39 $
+$Revision: 1.56 $ $Date: 2007-01-18 10:05:02 $
 
 =cut

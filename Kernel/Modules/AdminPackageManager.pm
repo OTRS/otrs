@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.40 2007-01-18 10:02:46 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.41 2007-01-18 10:05:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -814,7 +814,7 @@ sub Run {
                 if (!$OutputNotify) {
                     $OutputNotify .= $Self->{LayoutObject}->Notify(
                         Priority => 'Info',
-                        Info => 'No packages or no new packages in selected Online-Repository!',
+                        Info => 'No Packages or no new Packages in selected Online Repository!',
                     );
                 }
             }
