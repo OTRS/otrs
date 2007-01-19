@@ -1,8 +1,8 @@
 # --
 # Ticket.t - ticket module testscript
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.14 2006-12-14 12:28:19 martin Exp $
+# $Id: Ticket.t,v 1.15 2007-01-19 08:32:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -3044,6 +3044,111 @@ my $TicketLock = $Self->{TicketObject}->LockSet(
 $Self->True(
     $TicketLock,
     'LockSet()',
+);
+
+# Test CreatedUserIDs
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CreatedUserIDs => [1, 455, 32],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CreatedUserIDs[Array])',
+);
+
+# Test CreatedPriorities
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CreatedPriorities => ['2 low', '3 normal'],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CreatedPriorities[Array])',
+);
+
+# Test CreatedPriorityIDs
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CreatedPriorityIDs => [2, 3],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CreatedPriorityIDs[Array])',
+);
+
+# Test CreatedStates
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CreatedStates => ['closed successful'],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CreatedStates[Array])',
+);
+
+# Test CreatedStateIDs
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CreatedStateIDs => [2],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CreatedStateIDs[Array])',
+);
+
+# Test CreatedQueues
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CreatedQueues => ['Raw'],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CreatedQueues[Array])',
+);
+
+# Test CreatedQueueIDs
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CreatedQueueIDs => [2,3],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CreatedQueueIDs[Array])',
 );
 
 my %Ticket2 = $Self->{TicketObject}->TicketGet(
