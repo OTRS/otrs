@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.255 2007-01-09 00:47:19 martin Exp $
+# $Id: Defaults.pm,v 1.256 2007-01-19 08:56:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.255 $';
+$VERSION = '$Revision: 1.256 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -1367,7 +1367,10 @@ Your OTRS Notification Master
             Name => 'Preferences',
             Image => 'prefer.png',
             Link => 'Action=AgentPreferences',
-            Prio => 1000,
+            NavBar => 'Preferences',
+            Type => 'Menu',
+            Block => 'ItemArea',
+            Prio => 9900,
             AccessKey => 'p',
          },
        ],
@@ -1850,6 +1853,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.255 $ $Date: 2007-01-09 00:47:19 $
+$Revision: 1.256 $ $Date: 2007-01-19 08:56:07 $
 
 =cut
