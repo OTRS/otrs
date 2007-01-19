@@ -1,8 +1,8 @@
 # --
 # Ticket.t - ticket module testscript
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.13 2006-09-18 11:19:35 tr Exp $
+# $Id: Ticket.t,v 1.13.2.1 2007-01-19 08:35:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,6 @@ $Self->False(
     $Self->{TicketObject}->GetTNByString("Ticket#: 1234567") || 0,
     "GetTNByString() (DateChecksum: false)",
 );
-
 
 my $TicketID = $Self->{TicketObject}->TicketCreate(
     Title => 'Some Ticket Title',
@@ -247,8 +246,6 @@ foreach (1..16) {
         "TicketGet() (TicketFreeText$_)",
     );
 }
-
-
 
 foreach (1..16) {
     my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
@@ -2833,7 +2830,6 @@ If you feel the urge to write Perl modules, perlnewmod will give you good advice
     NoAgentNotify => 1,            # if you don't want to send agent notifications
 );
 
-
 $Self->True(
     $ArticleID,
     'ArticleCreate()',
@@ -2851,7 +2847,6 @@ $Self->True(
     $Article{From} eq 'Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent <email@example.com>',
     'ArticleGet()',
 );
-
 
 my %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
@@ -3051,6 +3046,111 @@ $Self->True(
     'LockSet()',
 );
 
+# Test CreatedUserIDs
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CreatedUserIDs => [1, 455, 32],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CreatedUserIDs[Array])',
+);
+
+# Test CreatedPriorities
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CreatedPriorities => ['2 low', '3 normal'],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CreatedPriorities[Array])',
+);
+
+# Test CreatedPriorityIDs
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CreatedPriorityIDs => [2, 3],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CreatedPriorityIDs[Array])',
+);
+
+# Test CreatedStates
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CreatedStates => ['closed successful'],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CreatedStates[Array])',
+);
+
+# Test CreatedStateIDs
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CreatedStateIDs => [2],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CreatedStateIDs[Array])',
+);
+
+# Test CreatedQueues
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CreatedQueues => ['Raw'],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CreatedQueues[Array])',
+);
+
+# Test CreatedQueueIDs
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CreatedQueueIDs => [2,3],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CreatedQueueIDs[Array])',
+);
+
 my %Ticket2 = $Self->{TicketObject}->TicketGet(
     TicketID => $TicketID,
 );
@@ -3131,7 +3231,6 @@ foreach (1..16) {
     );
 }
 
-
 my @MoveQueueList = $Self->{TicketObject}->MoveQueueList(
     TicketID => $TicketID,
     Type => 'Name',
@@ -3184,7 +3283,6 @@ $Self->True(
     'TicketAccountTime() 3',
 );
 
-
 my $AccountedTime = $Self->{TicketObject}->TicketAccountedTimeGet(TicketID => $TicketID);
 
 $Self->Is(
@@ -3192,8 +3290,6 @@ $Self->Is(
     4132.56,
     'TicketAccountedTimeGet()',
 );
-
-
 
 my $AccountedTime2 = $Self->{TicketObject}->ArticleAccountedTimeGet(
     ArticleID => $ArticleID,
@@ -3204,7 +3300,6 @@ $Self->Is(
     4132.56,
     'ArticleAccountedTimeGet()',
 );
-
 
 my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
     SystemTime  => $Self->{TimeObject}->SystemTime(),
@@ -3286,7 +3381,6 @@ else {
     );
 }
 
-
 $Self->True(
     $Self->{TicketObject}->TicketDelete(
         TicketID => $TicketID,
@@ -3294,6 +3388,5 @@ $Self->True(
     ),
     'TicketDelete()',
 );
-
 
 1;

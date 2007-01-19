@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - the global ticket handle
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.233 2006-12-08 10:20:35 martin Exp $
+# $Id: Ticket.pm,v 1.233.2.1 2007-01-19 08:35:05 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.233 $';
+$VERSION = '$Revision: 1.233.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -2106,7 +2106,7 @@ sub TicketSearch {
     }
     # use also history table if required
     foreach (keys %Param) {
-        if ($_ =~ /^Ticket(Create|Close)/) {
+        if ($_ =~ /^(Ticket(Create|Close)|Created)/) {
             $SQL .= ", ticket_history th ";
             $SQLExt .= " AND st.id = th.ticket_id";
             last;
@@ -4892,6 +4892,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.233 $ $Date: 2006-12-08 10:20:35 $
+$Revision: 1.233.2.1 $ $Date: 2007-01-19 08:35:05 $
 
 =cut
