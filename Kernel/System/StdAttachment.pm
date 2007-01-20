@@ -1,8 +1,8 @@
 # --
 # Kernel/System/StdAttachment.pm - lib for std attachemnt
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.14 2006-09-21 11:22:15 martin Exp $
+# $Id: StdAttachment.pm,v 1.15 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -76,7 +76,7 @@ sub StdAttachmentAdd {
         my $Id = 0;
         $Self->{DBObject}->Prepare(
             SQL => "SELECT id FROM standard_attachment WHERE ".
-              "name = '$Param{Name}' AND content_type = '$Param{ContentType}'",
+                "name = '$Param{Name}' AND content_type = '$Param{ContentType}'",
         );
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Id = $Row[0];
@@ -295,9 +295,9 @@ sub SetStdAttachmentsOfResponseID {
     );
     foreach (@{$Param{AttachmentIDsRef}}) {
         my $SQL = "INSERT INTO standard_response_attachment (standard_attachment_id, ".
-          "standard_response_id, create_time, create_by, change_time, change_by)" .
-          " VALUES " .
-          " ( $_, $Param{ID}, current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+            "standard_response_id, create_time, create_by, change_time, change_by)" .
+            " VALUES " .
+            " ( $_, $Param{ID}, current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
         $Self->{DBObject}->Do(SQL => $SQL);
     }
     return 1;

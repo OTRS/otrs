@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Notification.pm - lib for notifications
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.10 2006-11-02 12:20:53 tr Exp $
+# $Id: Notification.pm,v 1.11 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -46,8 +46,8 @@ sub NotificationGet {
     my %Param = @_;
     # check needed stuff
     if (!$Param{Name}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need Name!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Name!");
+        return;
     }
     my ($Language, $Type);
     if ($Param{Name} =~ /^(.+?)::(.*)/) {
@@ -69,9 +69,8 @@ sub NotificationGet {
     }
     else {
         $SQL .= " notification_type = '$Type' AND ".
-          "notification_language = '$Language'";
+            "notification_language = '$Language'";
     }
-#print STDERR "SQL: $SQL\n";
     if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
         return;
     }
@@ -120,7 +119,7 @@ sub NotificationGet {
         return;
     }
     else {
-       return ( %Data, Language => $Param{Loop} || $Language );
+        return ( %Data, Language => $Param{Loop} || $Language );
     }
 }
 
@@ -153,7 +152,6 @@ sub NotificationList {
     foreach my $Language (keys %Languages) {
         foreach my $Type (keys %Types) {
             $List{$Language.'::'.$Type} = $Language."::$Type";
-#print STDERR "ddd $Language :: $Type\n";
         }
     }
     # get real list
@@ -171,10 +169,10 @@ sub NotificationUpdate {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Type Charset Language Subject Body UserID)) {
-      if (!defined($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # fix some bad stuff from some browsers (Opera)!
     $Param{Body} =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
@@ -194,7 +192,6 @@ sub NotificationUpdate {
         " VALUES ".
         " ('$Param{Type}', '$Param{Charset}', '$Param{Language}', '$Param{Subject}', '$Param{Body}', ".
         " current_timestamp, $Param{UserID}, current_timestamp,  $Param{UserID})";
-#print STDERR "SQL: $SQL\n";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
     }

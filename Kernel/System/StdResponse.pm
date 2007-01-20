@@ -1,8 +1,8 @@
 # --
 # Kernel/System/StdResponse.pm - lib for std responses
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.15 2006-11-02 12:20:53 tr Exp $
+# $Id: StdResponse.pm,v 1.16 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::StdResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -43,10 +43,10 @@ sub StdResponseAdd {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Name ValidID Response UserID)) {
-      if (!defined($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(Name Comment Response)) {
@@ -66,7 +66,7 @@ sub StdResponseAdd {
         my $Id = 0;
         $Self->{DBObject}->Prepare(
             SQL => "SELECT id FROM standard_response WHERE ".
-              "name = '$Param{Name}' AND text like '$Param{Response}'",
+                "name = '$Param{Name}' AND text like '$Param{Response}'",
         );
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Id = $Row[0];
@@ -83,8 +83,8 @@ sub StdResponseGet {
     my %Param = @_;
     # check needed stuff
     if (!$Param{ID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+        return;
     }
     # db quote
     foreach (qw(ID)) {
@@ -119,8 +119,8 @@ sub StdResponseDelete {
     my %Param = @_;
     # check needed stuff
     if (!$Param{ID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+        return;
     }
     # db quote
     foreach (qw(ID)) {
@@ -140,10 +140,10 @@ sub StdResponseUpdate {
     my %Param = @_;
     # check needed stuff
     foreach (qw(ID Name ValidID Response UserID)) {
-      if (!defined($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(Name Comment Response)) {

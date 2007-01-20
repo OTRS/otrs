@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PID.pm - all system pid functions
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PID.pm,v 1.5 2006-12-14 12:12:12 martin Exp $
+# $Id: PID.pm,v 1.6 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PID;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -41,7 +41,7 @@ create a object
     use Kernel::System::PID;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject    = Kernel::System::Log->new(
+    my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
@@ -231,6 +231,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2006-12-14 12:12:12 $
+$Revision: 1.6 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

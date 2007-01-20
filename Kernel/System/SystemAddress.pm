@@ -1,8 +1,8 @@
 # --
 # Kernel/System/SystemAddress.pm - lib for system addresses
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SystemAddress.pm,v 1.10 2006-08-29 17:30:36 martin Exp $
+# $Id: SystemAddress.pm,v 1.11 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::SystemAddress;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -35,24 +35,24 @@ Global module to add/edit/update system addresses.
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::SystemAddress;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::SystemAddress;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $SystemAddressObject = Kernel::System::SystemAddress->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      DBObject => $DBObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $SystemAddressObject = Kernel::System::SystemAddress->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -82,12 +82,12 @@ sub new {
 add system address with attributes
 
     my $ID = $SystemAddressObject->SystemAddressAdd(
-        Name            => 'info@example.com',
-        Realname        => 'Hotline',
-        ValidID         => 1,
-        QueueID         => 123,
-        Comment         => 'some comment',
-        UserID          => 123,
+        Name => 'info@example.com',
+        Realname => 'Hotline',
+        ValidID => 1,
+        QueueID => 123,
+        Comment => 'some comment',
+        UserID => 123,
     );
 
 =cut
@@ -97,10 +97,10 @@ sub SystemAddressAdd {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Name ValidID Realname QueueID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(Name Realname Comment)) {
@@ -120,7 +120,7 @@ sub SystemAddressAdd {
         my $Id = 0;
         $Self->{DBObject}->Prepare(
             SQL => "SELECT id FROM system_address WHERE ".
-              "value0 = '$Param{Name}' AND value1 = '$Param{Realname}'",
+                "value0 = '$Param{Name}' AND value1 = '$Param{Realname}'",
         );
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Id = $Row[0];
@@ -137,7 +137,7 @@ sub SystemAddressAdd {
 get system address with attributes
 
     my %SystemAddress = $SystemAddressObject->SystemAddressGet(
-        ID              => 1,
+        ID => 1,
     );
 
 =cut
@@ -147,8 +147,8 @@ sub SystemAddressGet {
     my %Param = @_;
     # check needed stuff
     if (!$Param{ID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+        return;
     }
     # db quote
     foreach (qw(ID)) {
@@ -183,13 +183,13 @@ sub SystemAddressGet {
 update system address with attributes
 
     $SystemAddressObject->SystemAddressUpdate(
-        ID              => 1,
-        Name            => 'info@example.com',
-        Realname        => 'Hotline',
-        ValidID         => 1,
-        QueueID         => 123,
-        Comment         => 'some comment',
-        UserID          => 123,
+        ID => 1,
+        Name => 'info@example.com',
+        Realname => 'Hotline',
+        ValidID => 1,
+        QueueID => 123,
+        Comment => 'some comment',
+        UserID => 123,
     );
 
 =cut
@@ -199,10 +199,10 @@ sub SystemAddressUpdate {
     my %Param = @_;
     # check needed stuff
     foreach (qw(ID Name ValidID Realname QueueID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(Name Realname Comment)) {
@@ -242,10 +242,10 @@ sub SystemAddressIsLocalAddress {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Address)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my $SQL = "SELECT value0, value1, comments, valid_id, queue_id ".
         " FROM ".
@@ -265,7 +265,10 @@ sub SystemAddressIsLocalAddress {
     }
     return $Hit;
 }
+
 1;
+
+=back
 
 =head1 TERMS AND CONDITIONS
 
@@ -279,6 +282,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.11 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

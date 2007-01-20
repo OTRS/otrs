@@ -1,8 +1,8 @@
 # --
 # Kernel/System/State.pm - All state related function should be here eventually
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: State.pm,v 1.15 2006-10-19 14:00:32 rk Exp $
+# $Id: State.pm,v 1.16 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::State;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -42,10 +42,10 @@ create a object
     use Kernel::System::State;
 
     my $ConfigObject = Kernel::Config->new();
-    my $TimeObject    = Kernel::System::Time->new(
+    my $TimeObject = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
     );
-    my $LogObject    = Kernel::System::Log->new(
+    my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
@@ -83,13 +83,13 @@ sub new {
 
 add new states
 
-  my $ID = $StateObject->StateAdd(
-      Name => 'New State',
-      Comment => 'some comment',
-      ValidID => 1,
-      TypeID => 1,
-      UserID => 123,
-  );
+    my $ID = $StateObject->StateAdd(
+        Name => 'New State',
+        Comment => 'some comment',
+        ValidID => 1,
+        TypeID => 1,
+        UserID => 123,
+    );
 
 =cut
 
@@ -98,10 +98,10 @@ sub StateAdd {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Name ValidID TypeID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # quote params
     foreach (qw(Name Comment)) {
@@ -135,15 +135,15 @@ sub StateAdd {
 
 get states attributes
 
-  my %State = $StateObject->StateGet(
-      Name => 'New State',
-      Cache => 1, # optional
-  );
+    my %State = $StateObject->StateGet(
+        Name => 'New State',
+        Cache => 1, # optional
+    );
 
-  my %State = $StateObject->StateGet(
-      ID => 123,
-      Cache => 1, # optional
-  );
+    my %State = $StateObject->StateGet(
+        ID => 123,
+        Cache => 1, # optional
+    );
 
 =cut
 
@@ -215,14 +215,14 @@ sub StateGet {
 
 update state attributes
 
-  $StateObject->StateUpdate(
-      ID => 123,
-      Name => 'New State',
-      Comment => 'some comment',
-      ValidID => 1,
-      TypeID => 1,
-      UserID => 123,
-  );
+    $StateObject->StateUpdate(
+        ID => 123,
+        Name => 'New State',
+        Comment => 'some comment',
+        ValidID => 1,
+        TypeID => 1,
+        UserID => 123,
+    );
 
 =cut
 
@@ -231,10 +231,10 @@ sub StateUpdate {
     my %Param = @_;
     # check needed stuff
     foreach (qw(ID Name ValidID TypeID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # quote params
     foreach (qw(Name Comment)) {
@@ -245,10 +245,10 @@ sub StateUpdate {
     }
     # sql
     my $SQL = "UPDATE ticket_state SET name = '$Param{Name}', " .
-          " comments = '$Param{Comment}', " .
-          " type_id = $Param{TypeID}, valid_id = $Param{ValidID}, " .
-          " change_time = current_timestamp, change_by = $Param{UserID} " .
-          " WHERE id = $Param{ID}";
+        " comments = '$Param{Comment}', " .
+        " type_id = $Param{TypeID}, valid_id = $Param{ValidID}, " .
+        " change_time = current_timestamp, change_by = $Param{UserID} " .
+        " WHERE id = $Param{ID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
     }
@@ -261,23 +261,23 @@ sub StateUpdate {
 
 get list of state types
 
-  get all states with state type open and new
-  (available: new, open, closed, pending reminder, pending auto,
-  removed, merged)
+    get all states with state type open and new
+    (available: new, open, closed, pending reminder, pending auto,
+    removed, merged)
 
-  my @List = $StateObject->StateGetStatesByType(
-      StateType => ['open', 'new'],
-      Result => 'ID', # HASH|ID|Name
-  );
+    my @List = $StateObject->StateGetStatesByType(
+        StateType => ['open', 'new'],
+        Result => 'ID', # HASH|ID|Name
+    );
 
-  get all state types used by config option named like
+    get all state types used by config option named like
 
-  Ticket::ViewableStateType for "Viewable" state types
+    Ticket::ViewableStateType for "Viewable" state types
 
-  my %List = $StateObject->StateGetStatesByType(
-      Type => 'Viewable',
-      Result => 'HASH', # HASH|ID|Name
-  );
+    my %List = $StateObject->StateGetStatesByType(
+        Type => 'Viewable',
+        Result => 'HASH', # HASH|ID|Name
+    );
 
 =cut
 
@@ -289,10 +289,10 @@ sub StateGetStatesByType {
     my %Data = ();
     # check needed stuff
     foreach (qw(Result)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     if (!$Param{Type} && !$Param{StateType}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type or StateType!");
@@ -310,7 +310,7 @@ sub StateGetStatesByType {
                 Message => "Type 'Ticket::$Param{Type}StateType' not found in Kernel/Config.pm!",
             );
             die;
-       }
+        }
     }
     else {
         @StateType = @{$Param{StateType}};
@@ -346,9 +346,9 @@ sub StateGetStatesByType {
 
 get state list
 
-  my %List = $StateObject->StateList(
-      UserID => 123,
-  );
+    my %List = $StateObject->StateList(
+        UserID => 123,
+    );
 
 =cut
 
@@ -377,7 +377,10 @@ sub StateList {
         return;
     }
 }
+
 1;
+
+=back
 
 =head1 TERMS AND CONDITIONS
 
@@ -391,6 +394,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2006-10-19 14:00:32 $
+$Revision: 1.16 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.9 2007-01-11 10:54:08 tr Exp $
+# $Id: CSV.pm,v 1.10 2007-01-20 23:11:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CSV;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -37,7 +37,7 @@ create a object
     use Kernel::System::Log;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject    = Kernel::System::Log->new(
+    my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $CSVObject = Kernel::System::CSV->new(
@@ -47,7 +47,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
+    my $Type = shift;
     my %Param = @_;
 
     # allocate new hash for object
@@ -85,7 +85,7 @@ sub Array2CSV {
     my @Head = ();
     my @Data = (['##No Data##']);
     # check required params
-    foreach (qw(Data)){
+    foreach (qw(Data)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => "error", Message => "Got no $_ param!");
             return;
@@ -166,6 +166,7 @@ sub CSV2Array {
 
     return \@Array;
 }
+
 1;
 
 =back
@@ -180,6 +181,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2007-01-11 10:54:08 $
+$Revision: 1.10 $ $Date: 2007-01-20 23:11:33 $
 
 =cut

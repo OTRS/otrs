@@ -1,8 +1,8 @@
 # --
 # Kernel/System/POP3Account.pm - lib for POP3 accounts
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: POP3Account.pm,v 1.13 2006-08-29 17:30:36 martin Exp $
+# $Id: POP3Account.pm,v 1.14 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::POP3Account;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -35,24 +35,24 @@ All functions to manage the pop3 accounts.
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::POP3Account;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::POP3Account;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $POP3Object    = Kernel::System::POP3Account->new(
-      LogObject => $LogObject,
-      ConfigObject => $ConfigObject,
-      DBObject => $DBObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $POP3Object = Kernel::System::POP3Account->new(
+        LogObject => $LogObject,
+        ConfigObject => $ConfigObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -99,16 +99,16 @@ sub POP3AccountAdd {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Login Password Host ValidID Trusted DispatchingBy QueueID UserID)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     foreach (qw(Login Password Host ValidID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # check if dispatching is by From
     if ($Param{DispatchingBy} eq 'From') {
@@ -136,7 +136,7 @@ sub POP3AccountAdd {
         my $Id = 0;
         $Self->{DBObject}->Prepare(
             SQL => "SELECT id FROM pop3_account WHERE ".
-              "login = '$Param{Login}' AND host = '$Param{Host}'",
+                "login = '$Param{Login}' AND host = '$Param{Host}'",
         );
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Id = $Row[0];
@@ -165,8 +165,8 @@ sub POP3AccountGet {
     my %Param = @_;
     # check needed stuff
     if (!$Param{ID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+        return;
     }
     # db quote
     foreach (qw(ID)) {
@@ -227,10 +227,10 @@ sub POP3AccountUpdate {
     my %Param = @_;
     # check needed stuff
     foreach (qw(ID Login Password Host ValidID Trusted DispatchingBy QueueID UserID)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # check if dispatching is by From
     if ($Param{DispatchingBy} eq 'From') {
@@ -276,8 +276,8 @@ sub POP3AccountDelete {
     my %Param = @_;
     # check needed stuff
     if (!$Param{ID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+        return;
     }
     # db quote
     foreach (qw(ID)) {
@@ -318,6 +318,8 @@ sub POP3AccountList {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -330,6 +332,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.14 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

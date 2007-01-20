@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Group.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: Group.pm,v 1.40 2006-08-29 17:30:36 martin Exp $
+# $Id: Group.pm,v 1.41 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -36,24 +36,24 @@ All group functions. E. g. to add groups or to get a member list of a group.
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::Group;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::Group;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $GroupObject = Kernel::System::Group->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      DBObject => $DBObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $GroupObject = Kernel::System::Group->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -72,6 +72,7 @@ sub new {
 
     return $Self;
 }
+
 # just for compat!
 sub GetGroupIdByName {
     my $Self = shift;
@@ -89,10 +90,11 @@ sub GetGroupIdByName {
     # sql
     $Self->{DBObject}->Prepare(SQL => "SELECT id from groups where name = '$Param{Group}'");
     while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
-       $ID = $Row[0];
+        $ID = $Row[0];
     }
     return $ID;
 }
+
 # just for compat!
 sub GetRoleIdByName {
     my $Self = shift;
@@ -110,7 +112,7 @@ sub GetRoleIdByName {
     # sql
     $Self->{DBObject}->Prepare(SQL => "SELECT id from roles where name = '$Param{Role}'");
     while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
-       $ID = $Row[0];
+        $ID = $Row[0];
     }
     return $ID;
 }
@@ -119,21 +121,21 @@ sub GetRoleIdByName {
 
 to add a member to a group
 
-  Permission: ro,move_into,priority,create,rw
+    Permission: ro,move_into,priority,create,rw
 
-  $GroupObject->GroupMemberAdd(
-      GID => 12,
-      UID => 6,
-      Permission => {
-          ro => 1,
-          move_into => 1,
-          create => 1,
-          owner => 1,
-          priority => 0,
-          rw => 0,
-      },
-      UserID => 123,
-  );
+    $GroupObject->GroupMemberAdd(
+        GID => 12,
+        UID => 6,
+        Permission => {
+            ro => 1,
+            move_into => 1,
+            create => 1,
+            owner => 1,
+            priority => 0,
+            rw => 0,
+        },
+        UserID => 123,
+    );
 
 =cut
 
@@ -144,8 +146,8 @@ sub GroupMemberAdd {
     # check needed stuff
     foreach (qw(UID GID UserID Permission)) {
         if (!$Param{$_}) {
-           $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-           return;
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
         }
     }
     # db quote
@@ -213,11 +215,11 @@ sub GroupMemberAdd {
 
 to add a group
 
-  my $ID = $GroupObject->GroupAdd(
-      Name => 'example-group',
-      ValidID => 1,
-      UserID => 123,
-  );
+    my $ID = $GroupObject->GroupAdd(
+        Name => 'example-group',
+        ValidID => 1,
+        UserID => 123,
+    );
 
 =cut
 
@@ -227,8 +229,8 @@ sub GroupAdd {
     # check needed stuff
     foreach (qw(Name ValidID UserID)) {
         if (!$Param{$_}) {
-           $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-           return;
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
         }
     }
     # qoute params
@@ -274,7 +276,7 @@ sub GroupAdd {
 
 returns a hash with group data
 
-  %GroupData = $GroupObject->GroupGet(ID => 2);
+    %GroupData = $GroupObject->GroupGet(ID => 2);
 
 =cut
 
@@ -317,12 +319,12 @@ sub GroupGet {
 
 update of a group
 
-  $GroupObject->GroupUpdate(
-      ID => 123,
-      Name => 'example-group',
-      ValidID => 1,
-      UserID => 123,
-  );
+    $GroupObject->GroupUpdate(
+        ID => 123,
+        Name => 'example-group',
+        ValidID => 1,
+        UserID => 123,
+    );
 
 =cut
 
@@ -361,7 +363,7 @@ sub GroupUpdate {
 
 returns a hash of all groups
 
-  my %Groups = $GroupObject->GroupList(Valid => 1);
+    my %Groups = $GroupObject->GroupList(Valid => 1);
 
 =cut
 
@@ -382,31 +384,30 @@ sub GroupList {
 returns a list of users/groups with ro/move_into/create/owner/priority/rw permissions
 based on GroupGroupMemberList() and GroupRoleMemberList().
 
-  UserID: user id
-  GroupID: group id
+    UserID: user id
+    GroupID: group id
 
-  Type: ro|move_into|priority|create|rw
+    Type: ro|move_into|priority|create|rw
 
-  Result: HASH -> returns a hash of key => group id, value => group name
-          Name -> returns an array of user names
-          ID   -> returns an array of user names
+    Result: HASH -> returns a hash of key => group id, value => group name
+            Name -> returns an array of user names
+            ID   -> returns an array of user names
 
+    Example (get groups of user):
 
-  Example (get groups of user):
+    $GroupObject->GroupMemberList(
+        UserID => $ID,
+        Type => 'move_into',
+        Result => 'HASH',
+    );
 
-  $GroupObject->GroupMemberList(
-      UserID => $ID,
-      Type => 'move_into',
-      Result => 'HASH',
-  );
+    Example (get users of group):
 
-  Example (get users of group):
-
-  $GroupObject->GroupMemberList(
-      GroupID => $ID,
-      Type => 'move_into',
-      Result => 'HASH',
-  );
+    $GroupObject->GroupMemberList(
+        GroupID => $ID,
+        Type => 'move_into',
+        Result => 'HASH',
+    );
 
 =cut
 
@@ -533,10 +534,10 @@ sub GroupMemberList {
 
 returns a list of users/groups with ro/move_into/create/owner/priority/rw permissions
 
-  @Users = $GroupObject->GroupMemberInvolvedList(
-      UserID => $ID,
-      Type => 'move_into',
-  );
+    @Users = $GroupObject->GroupMemberInvolvedList(
+        UserID => $ID,
+        Type => 'move_into',
+    );
 
 =cut
 
@@ -593,7 +594,7 @@ sub GroupMemberInvolvedList {
 
     my @ArrayGroups;
     foreach (keys %Groups) {
-       push (@ArrayGroups, $_);
+        push (@ArrayGroups, $_);
     }
     my %AllUsers;
     if (@ArrayGroups) {
@@ -639,33 +640,32 @@ sub GroupMemberInvolvedList {
 
 returns a list of users/groups with ro/move_into/create/owner/priority/rw permissions
 
-  UserID: user id
-  GroupID: group id
-  UserIDs: user ids (array ref)
-  GroupIDs: group ids (array ref)
+    UserID: user id
+    GroupID: group id
+    UserIDs: user ids (array ref)
+    GroupIDs: group ids (array ref)
 
-  Type: ro|move_into|priority|create|rw
+    Type: ro|move_into|priority|create|rw
 
-  Result: HASH -> returns a hash of key => group id, value => group name
-          Name -> returns an array of user names
-          ID   -> returns an array of user names
+    Result: HASH -> returns a hash of key => group id, value => group name
+            Name -> returns an array of user names
+            ID   -> returns an array of user names
 
+    Example (get groups of user):
 
-  Example (get groups of user):
+    $GroupObject->GroupGroupMemberList(
+        UserID => $ID,
+        Type => 'move_into',
+        Result => 'HASH',
+    );
 
-  $GroupObject->GroupGroupMemberList(
-      UserID => $ID,
-      Type => 'move_into',
-      Result => 'HASH',
-  );
+    Example (get users of group):
 
-  Example (get users of group):
-
-  $GroupObject->GroupGroupMemberList(
-      GroupID => $ID,
-      Type => 'move_into',
-      Result => 'HASH',
-  );
+    $GroupObject->GroupGroupMemberList(
+        GroupID => $ID,
+        Type => 'move_into',
+        Result => 'HASH',
+    );
 
 =cut
 
@@ -809,33 +809,32 @@ sub GroupGroupMemberList {
 
 returns a list of role/groups with ro/move_into/create/owner/priority/rw permissions
 
-  RoleID: role id
-  GroupID: group id
-  RoleIDs: role id (array ref)
-  GroupIDs: group id (array ref)
+    RoleID: role id
+    GroupID: group id
+    RoleIDs: role id (array ref)
+    GroupIDs: group id (array ref)
 
-  Type: ro|move_into|priority|create|rw
+    Type: ro|move_into|priority|create|rw
 
-  Result: HASH -> returns a hash of key => group id, value => group name
-          Name -> returns an array of user names
-          ID   -> returns an array of user names
+    Result: HASH -> returns a hash of key => group id, value => group name
+            Name -> returns an array of user names
+            ID   -> returns an array of user names
 
+    Example (get groups of role):
 
-  Example (get groups of role):
+    $GroupObject->GroupRoleMemberList(
+        RoleID => $ID,
+        Type => 'move_into',
+        Result => 'HASH',
+    );
 
-  $GroupObject->GroupRoleMemberList(
-      RoleID => $ID,
-      Type => 'move_into',
-      Result => 'HASH',
-  );
+    Example (get roles of group):
 
-  Example (get roles of group):
-
-  $GroupObject->GroupRoleMemberList(
-      GroupID => $ID,
-      Type => 'move_into',
-      Result => 'HASH',
-  );
+    $GroupObject->GroupRoleMemberList(
+        GroupID => $ID,
+        Type => 'move_into',
+        Result => 'HASH',
+    );
 
 =cut
 
@@ -979,21 +978,21 @@ sub GroupRoleMemberList {
 
 to add a role to a group
 
-  Permission: ro,move_into,priority,create,rw
+    Permission: ro,move_into,priority,create,rw
 
-  $GroupObject->GroupRoleMemberAdd(
-      GID => 12,
-      RID => 6,
-      Permission => {
-          ro => 1,
-          move_into => 1,
-          create => 1,
-          owner => 1,
-          priority => 0,
-          rw => 0,
-      },
-      UserID => 123,
-  );
+    $GroupObject->GroupRoleMemberAdd(
+        GID => 12,
+        RID => 6,
+        Permission => {
+            ro => 1,
+            move_into => 1,
+            create => 1,
+            owner => 1,
+            priority => 0,
+            rw => 0,
+        },
+        UserID => 123,
+    );
 
 =cut
 
@@ -1072,29 +1071,28 @@ sub GroupRoleMemberAdd {
 
 returns a list of role/user members
 
-  RoleID: role id
-  UserID: user id
-  RoleIDs: role ids (array ref)
-  UserIDs: user ids (array ref)
+    RoleID: role id
+    UserID: user id
+    RoleIDs: role ids (array ref)
+    UserIDs: user ids (array ref)
 
+    Result: HASH -> returns a hash of key => group id, value => group name
+            Name -> returns an array of user names
+            ID   -> returns an array of user names
 
-  Result: HASH -> returns a hash of key => group id, value => group name
-          Name -> returns an array of user names
-          ID   -> returns an array of user names
+    Example (get roles of user):
 
-  Example (get roles of user):
+    $GroupObject->GroupUserRoleMemberList(
+        UserID => $ID,
+        Result => 'HASH',
+    );
 
-  $GroupObject->GroupUserRoleMemberList(
-      UserID => $ID,
-      Result => 'HASH',
-  );
+    Example (get user of roles):
 
-  Example (get user of roles):
-
-  $GroupObject->GroupUserRoleMemberList(
-      RoleID => $ID,
-      Result => 'HASH',
-  );
+    $GroupObject->GroupUserRoleMemberList(
+        RoleID => $ID,
+        Result => 'HASH',
+    );
 
 =cut
 
@@ -1140,7 +1138,7 @@ sub GroupUserRoleMemberList {
 #$Param{Cached} = 1;
     if ($Param{RoleID} || $Param{UserID}) {
         if ($Self->{ForceCache}) {
-             $Param{Cached} = $Self->{ForceCache};
+            $Param{Cached} = $Self->{ForceCache};
         }
         if ($Param{Cached} && $Self->{$CacheKey}) {
             if (ref($Self->{$CacheKey}) eq 'ARRAY') {
@@ -1236,12 +1234,12 @@ sub GroupUserRoleMemberList {
 
 to add a member to a role
 
-  $GroupObject->GroupUserRoleMemberAdd(
-      UID => 12,
-      RID => 6,
-      Active => 1,
-      UserID => 123,
-  );
+    $GroupObject->GroupUserRoleMemberAdd(
+        UID => 12,
+        RID => 6,
+        Active => 1,
+        UserID => 123,
+    );
 
 =cut
 
@@ -1297,11 +1295,11 @@ sub GroupUserRoleMemberAdd {
 
 to add a new role
 
-  my $ID = $GroupObject->RoleAdd(
-      Name => 'example-group',
-      ValidID => 1,
-      UserID => 123,
-  );
+    my $ID = $GroupObject->RoleAdd(
+        Name => 'example-group',
+        ValidID => 1,
+        UserID => 123,
+    );
 
 =cut
 
@@ -1358,7 +1356,7 @@ sub RoleAdd {
 
 returns a hash with role data
 
-  %RoleData = $GroupObject->RoleGet(ID => 2);
+    %RoleData = $GroupObject->RoleGet(ID => 2);
 
 =cut
 
@@ -1401,12 +1399,12 @@ sub RoleGet {
 
 update of a role
 
-  $GroupObject->RoleUpdate(
-      ID => 123,
-      Name => 'example-group',
-      ValidID => 1,
-      UserID => 123,
-  );
+    $GroupObject->RoleUpdate(
+        ID => 123,
+        Name => 'example-group',
+        ValidID => 1,
+        UserID => 123,
+    );
 
 =cut
 
@@ -1445,7 +1443,7 @@ sub RoleUpdate {
 
 returns a hash of all roles
 
-  my %Roles = $GroupObject->RoleList(Valid => 1);
+    my %Roles = $GroupObject->RoleList(Valid => 1);
 
 =cut
 
@@ -1463,6 +1461,8 @@ sub RoleList {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -1475,6 +1475,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.41 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

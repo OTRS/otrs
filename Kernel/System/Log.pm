@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Log.pm - log wapper
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Log.pm,v 1.34 2006-08-29 17:30:36 martin Exp $
+# $Id: Log.pm,v 1.35 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Log;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $ ';
+$VERSION = '$Revision: 1.35 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -35,13 +35,13 @@ All log functions.
 
 create a log object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
+    use Kernel::Config;
+    use Kernel::System::Log;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
 
 =cut
 
@@ -61,8 +61,7 @@ sub new {
     $Self->{LogPrefix} = $Param{LogPrefix} || '?LogPrefix?';
     $Self->{LogPrefix} .= '-'.$Param{ConfigObject}->Get('SystemID');
     # load log backend
-    my $GenericModule = $Param{ConfigObject}->Get('LogModule')
-      || 'Kernel::System::Log::SysLog';
+    my $GenericModule = $Param{ConfigObject}->Get('LogModule') || 'Kernel::System::Log::SysLog';
     if (!eval "require $GenericModule") {
         die "Can't load log backend module $GenericModule! $@";
     }
@@ -86,10 +85,10 @@ sub new {
 
 log something, log priorities are 'debug', 'info', 'notice' and 'error'.
 
-  $LogObject->Log(
-      Priority => 'error',
-      Message => "Need something!",
-   );
+    $LogObject->Log(
+        Priority => 'error',
+        Message => "Need something!",
+    );
 
 =cut
 
@@ -103,7 +102,7 @@ sub Log {
     my ($Package1, $Filename1, $Line1, $Subroutine1) = caller($Caller+0);
     my ($Package2, $Filename2, $Line2, $Subroutine2) = caller($Caller+1);
     if (!$Subroutine2) {
-      $Subroutine2 = $0;
+        $Subroutine2 = $0;
     }
     # log backend
     $Self->{Backend}->Log(
@@ -159,10 +158,10 @@ sub Log {
 
 to get the last log info back
 
-  my $Message = $LogObject->GetLogEntry(
-      Type => 'error', # error|info|notice
-      What => 'Message', # Message|Traceback
-  );
+    my $Message = $LogObject->GetLogEntry(
+        Type => 'error', # error|info|notice
+        What => 'Message', # Message|Traceback
+    );
 
 =cut
 
@@ -176,7 +175,7 @@ sub GetLogEntry {
 
 to get the tmp log data (from shared memory - ipc) in csv form
 
-  my $CSVLog = $LogObject->GetLog();
+    my $CSVLog = $LogObject->GetLog();
 
 =cut
 
@@ -193,7 +192,7 @@ sub GetLog {
 
 to clean up tmp log data from shared memory (ipc)
 
-  $LogObject->CleanUp();
+    $LogObject->CleanUp();
 
 =cut
 
@@ -215,11 +214,11 @@ sub CleanUp {
 
 dump a perl variable to log
 
-  $LogObject->Dumper(@Array);
+    $LogObject->Dumper(@Array);
 
-  or
+    or
 
-  $LogObject->Dumper(%Hash);
+    $LogObject->Dumper(%Hash);
 
 =cut
 
@@ -233,7 +232,7 @@ sub Dumper {
     my ($Package1, $Filename1, $Line1, $Subroutine1) = caller($Caller+0);
     my ($Package2, $Filename2, $Line2, $Subroutine2) = caller($Caller+1);
     if (!$Subroutine2) {
-      $Subroutine2 = $0;
+        $Subroutine2 = $0;
     }
 
     # log backend
@@ -249,6 +248,8 @@ sub Dumper {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -259,6 +260,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.35 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

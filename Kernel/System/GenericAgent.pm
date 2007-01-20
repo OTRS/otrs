@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.25 2007-01-11 21:24:23 martin Exp $
+# $Id: GenericAgent.pm,v 1.26 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::GenericAgent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $ ';
+$VERSION = '$Revision: 1.26 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -35,43 +35,43 @@ All functions to manage the generic agent and the generic agent jobs.
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::Time;
-  use Kernel::System::Queue;
-  use Kernel::System::Ticket;
-  use Kernel::System::GenericAgent;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::Time;
+    use Kernel::System::Queue;
+    use Kernel::System::Ticket;
+    use Kernel::System::GenericAgent;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $TimeObject    = Kernel::System::Time->new(
-      LogObject => $LogObject,
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $QueueObject = Kernel::System::Queue->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $TicketObject = Kernel::System::Ticket->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      DBObject => $DBObject,
-  );
-  my $GenericAgentObject = Kernel::System::GenericAgent->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      TimeObject => $TimeObject,
-      TicketObject => $TicketObject,
-      QueueObject => $QueueObject,
-      DBObject => $DBObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        LogObject => $LogObject,
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $QueueObject = Kernel::System::Queue->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $TicketObject = Kernel::System::Ticket->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+    );
+    my $GenericAgentObject = Kernel::System::GenericAgent->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        TimeObject => $TimeObject,
+        TicketObject => $TicketObject,
+        QueueObject => $QueueObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -97,16 +97,16 @@ sub new {
         TicketNumber => 'SCALAR',
         From => 'SCALAR',
         To => 'SCALAR',
-        Cc  => 'SCALAR',
-        Subject  => 'SCALAR',
-        Body  => 'SCALAR',
-        CustomerID  => 'SCALAR',
-        CustomerUserLogin  => 'SCALAR',
-        Agent  => 'SCALAR',
+        Cc => 'SCALAR',
+        Subject => 'SCALAR',
+        Body => 'SCALAR',
+        CustomerID => 'SCALAR',
+        CustomerUserLogin => 'SCALAR',
+        Agent => 'SCALAR',
         TimeSearchType => 'SCALAR',
-        TicketCreateTimePointFormat  => 'SCALAR',
-        TicketCreateTimePoint  => 'SCALAR',
-        TicketCreateTimePointStart  => 'SCALAR',
+        TicketCreateTimePointFormat => 'SCALAR',
+        TicketCreateTimePoint => 'SCALAR',
+        TicketCreateTimePointStart => 'SCALAR',
         TicketCreateTimeStart => 'SCALAR',
         TicketCreateTimeStartDay => 'SCALAR',
         TicketCreateTimeStartMonth => 'SCALAR',
@@ -115,10 +115,10 @@ sub new {
         TicketCreateTimeStopDay => 'SCALAR',
         TicketCreateTimeStopMonth => 'SCALAR',
         TicketCreateTimeStopYear => 'SCALAR',
-        TicketCreateTimeStop  => 'SCALAR',
-        TicketCreateTimeStopDay  => 'SCALAR',
-        TicketCreateTimeStopMonth  => 'SCALAR',
-        TicketCreateTimeStopYear  => 'SCALAR',
+        TicketCreateTimeStop => 'SCALAR',
+        TicketCreateTimeStopDay => 'SCALAR',
+        TicketCreateTimeStopMonth => 'SCALAR',
+        TicketCreateTimeStopYear => 'SCALAR',
         NewCustomerID => 'SCALAR',
         NewCustomerUserLogin => 'SCALAR',
         StateIDs => 'ARRAY',
@@ -563,8 +563,8 @@ sub _JobRunTicket {
         if (defined($Param{Config}->{New}->{"TicketFreeKey$_"}) || defined($Param{Config}->{New}->{"TicketFreeText$_"})) {
             my %Data = ();
             $Data{TicketID} = $Param{TicketID};
-            $Data{UserID}   = $Param{UserID};
-            $Data{Counter}  = $_;
+            $Data{UserID} = $Param{UserID};
+            $Data{Counter} = $_;
 
             if (defined($Param{Config}->{New}->{"TicketFreeKey$_"})) {
                 $Data{Key} = $Param{Config}->{New}->{"TicketFreeKey$_"};
@@ -662,10 +662,10 @@ sub JobList {
     my %Param = @_;
     # check needed stuff
     foreach (qw()) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my $SQL = "SELECT job_name FROM generic_agent_jobs";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -714,36 +714,36 @@ sub JobGet {
     }
     # get time settings
     if (!$Data{'TimeSearchType'} || $Data{'TimeSearchType'} eq 'None') {
-         # do noting ont time stuff
-         foreach (qw(TicketCreateTimeStartMonth TicketCreateTimeStopMonth TicketCreateTimeStopDay TicketCreateTimeStartDay TicketCreateTimeStopYear TicketCreateTimePoint TicketCreateTimeStartYear TicketCreateTimePointFormat TicketCreateTimePointStart)) {
-             delete ($Data{$_});
-         }
+        # do noting ont time stuff
+        foreach (qw(TicketCreateTimeStartMonth TicketCreateTimeStopMonth TicketCreateTimeStopDay TicketCreateTimeStartDay TicketCreateTimeStopYear TicketCreateTimePoint TicketCreateTimeStartYear TicketCreateTimePointFormat TicketCreateTimePointStart)) {
+            delete ($Data{$_});
+        }
     }
     elsif ($Data{'TimeSearchType'} && $Data{'TimeSearchType'} eq 'TimeSlot') {
         foreach (qw(TicketCreateTimePoint TicketCreateTimePointFormat TicketCreateTimePointStart)) {
-             delete ($Data{$_});
+            delete ($Data{$_});
         }
         foreach (qw(Month Day)) {
-           if ($Data{"TicketCreateTimeStart$_"} <= 9) {
-               $Data{"TicketCreateTimeStart$_"} = '0'.$Data{"TicketCreateTimeStart$_"};
-           }
+            if ($Data{"TicketCreateTimeStart$_"} <= 9) {
+                $Data{"TicketCreateTimeStart$_"} = '0'.$Data{"TicketCreateTimeStart$_"};
+            }
         }
         foreach (qw(Month Day)) {
             if ($Data{"TicketCreateTimeStop$_"} <= 9) {
-               $Data{"TicketCreateTimeStop$_"} = '0'.$Data{"TicketCreateTimeStop$_"};
+                $Data{"TicketCreateTimeStop$_"} = '0'.$Data{"TicketCreateTimeStop$_"};
             }
         }
         if ($Data{TicketCreateTimeStartDay} && $Data{TicketCreateTimeStartMonth} && $Data{TicketCreateTimeStartYear}) {
             $Data{TicketCreateTimeNewerDate} = $Data{TicketCreateTimeStartYear}.
-              '-'.$Data{TicketCreateTimeStartMonth}.
-              '-'.$Data{TicketCreateTimeStartDay}.
-              ' 00:00:01';
+                '-'.$Data{TicketCreateTimeStartMonth}.
+                '-'.$Data{TicketCreateTimeStartDay}.
+                ' 00:00:01';
         }
         if ($Data{TicketCreateTimeStopDay} && $Data{TicketCreateTimeStopMonth} && $Data{TicketCreateTimeStopYear}) {
             $Data{TicketCreateTimeOlderDate} = $Data{TicketCreateTimeStopYear}.
-              '-'.$Data{TicketCreateTimeStopMonth}.
-              '-'.$Data{TicketCreateTimeStopDay}.
-              ' 23:59:59';
+                '-'.$Data{TicketCreateTimeStopMonth}.
+                '-'.$Data{TicketCreateTimeStopDay}.
+                ' 23:59:59';
         }
     }
     elsif ($Data{'TimeSearchType'} && $Data{'TimeSearchType'} eq 'TimePoint') {
@@ -889,6 +889,8 @@ sub JobDelete {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -901,6 +903,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2007-01-11 21:24:23 $
+$Revision: 1.26 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

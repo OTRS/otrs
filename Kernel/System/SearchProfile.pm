@@ -2,7 +2,7 @@
 # Kernel/System/SearchProfile.pm - module to manage search profiles
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SearchProfile.pm,v 1.5 2007-01-09 11:36:31 martin Exp $
+# $Id: SearchProfile.pm,v 1.6 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::SearchProfile;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -35,24 +35,24 @@ module with all functions to manage search profiles
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::SearchProfile;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::SearchProfile;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $SearchProfileObject = Kernel::System::SearchProfile->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      DBObject => $DBObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $SearchProfileObject = Kernel::System::SearchProfile->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -76,26 +76,26 @@ sub new {
 
 to add a search profile item
 
-  $SearchProfileObject->SearchProfileAdd(
-      Base => 'TicketSearch',
-      Name => 'last-search',
-      Key => 'Body',
-      Value => $String,    # SCALAR|ARRAYREF
-      UserLogin => 123,
-  );
+    $SearchProfileObject->SearchProfileAdd(
+        Base => 'TicketSearch',
+        Name => 'last-search',
+        Key => 'Body',
+        Value => $String,    # SCALAR|ARRAYREF
+        UserLogin => 123,
+    );
 
 =cut
 
 sub SearchProfileAdd {
-    my $Self  = shift;
+    my $Self = shift;
     my %Param = @_;
-    my @Data  = ();
+    my @Data = ();
     # check needed stuff
     foreach (qw(Base Name Key UserLogin)) {
-      if (!defined($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # check value
     if (!defined($Param{Value})) {
@@ -131,11 +131,11 @@ sub SearchProfileAdd {
 
 returns a hash with search profile
 
-  my %SearchProfileData = $SearchProfileObject->SearchProfileGet(
-      Base => 'TicketSearch',
-      Name => 'last-search',
-      UserLogin => 'me',
-  );
+    my %SearchProfileData = $SearchProfileObject->SearchProfileGet(
+        Base => 'TicketSearch',
+        Name => 'last-search',
+        UserLogin => 'me',
+    );
 
 =cut
 
@@ -144,10 +144,10 @@ sub SearchProfileGet {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Base Name UserLogin)) {
-      if (!defined($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (keys %Param) {
@@ -182,11 +182,11 @@ sub SearchProfileGet {
 
 deletes an profile
 
-  $SearchProfileObject->SearchProfileDelete(
-      Base => 'TicketSearch',
-      Name => 'last-search',
-      UserLogin => 'me',
-  );
+    $SearchProfileObject->SearchProfileDelete(
+        Base => 'TicketSearch',
+        Name => 'last-search',
+        UserLogin => 'me',
+    );
 
 =cut
 
@@ -195,10 +195,10 @@ sub SearchProfileDelete {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Base Name UserLogin)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (keys %Param) {
@@ -220,10 +220,10 @@ sub SearchProfileDelete {
 
 returns a hash of all proviles
 
-  my %SearchProfiles = $SearchProfileObject->SearchProfileList(
-      Base => 'TicketSearch',
-      UserLogin => 'me',
-  );
+    my %SearchProfiles = $SearchProfileObject->SearchProfileList(
+        Base => 'TicketSearch',
+        UserLogin => 'me',
+    );
 
 =cut
 
@@ -232,10 +232,10 @@ sub SearchProfileList {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Base UserLogin)) {
-      if (!defined($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (keys %Param) {
@@ -261,6 +261,8 @@ sub SearchProfileList {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -273,6 +275,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2007-01-09 11:36:31 $
+$Revision: 1.6 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

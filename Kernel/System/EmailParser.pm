@@ -1,8 +1,8 @@
 # --
 # Kernel/System/EmailParser.pm - the global email parser module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.48 2006-12-14 12:17:31 martin Exp $
+# $Id: EmailParser.pm,v 1.49 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -47,7 +47,7 @@ create a object
     use Kernel::System::EmailParser;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject    = Kernel::System::Log->new(
+    my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $ParseObject = Kernel::System::EmailParser->new(
@@ -89,7 +89,6 @@ sub new {
         # create MIME::Parser object and get message body or body of first attachemnt
         my $Parser = new MIME::Parser;
         $Parser->output_to_core("ALL");
-#        $Parser->output_dir($Self->{ConfigObject}->Get('TempDir'));
         $Self->{ParserParts} = $Parser->parse_data($Self->{Email}->as_string());
     }
     else {
@@ -516,7 +515,6 @@ sub PartsAttachments {
         else {
             $PartData{Charset} = 'ISO-8859-1';
         }
-#print STDERR "$PartData{ContentType}:$PartData{MimeType}:$PartData{Charset}\n";
         # get content (if possible)
         if ($Part->bodyhandle()) {
             $PartData{Content} = $Part->bodyhandle()->as_string();
@@ -670,8 +668,7 @@ sub CheckMessageBody {
         $Self->{MessageBody} =~ s/\<style.+?\>.*\<\/style\>//gsi;
         $Self->{MessageBody} =~ s/\<br(\/|)\>/\n/gsi;
         $Self->{MessageBody} =~ s/\<(hr|hr.+?)\>/\n\n/gsi;
-        $Self->{MessageBody} =~ s/\<(\/|)(pre|pre.+?|p|p.+?|table|table.+?|code|code.+?)\>/\n\n/gsi
-;
+        $Self->{MessageBody} =~ s/\<(\/|)(pre|pre.+?|p|p.+?|table|table.+?|code|code.+?)\>/\n\n/gsi;
         $Self->{MessageBody} =~ s/\<(tr|tr.+?|th|th.+?)\>/\n\n/gsi;
         $Self->{MessageBody} =~ s/\.+?<\/(td|td.+?)\>/ /gsi;
         $Self->{MessageBody} =~ s/\<.+?\>//gs;
@@ -694,6 +691,7 @@ sub CheckMessageBody {
     }
     return;
 }
+
 1;
 
 =back
@@ -708,6 +706,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2006-12-14 12:17:31 $
+$Revision: 1.49 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

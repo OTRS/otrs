@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PDF.pm - PDF lib
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.21 2006-11-13 18:15:55 mh Exp $
+# $Id: PDF.pm,v 1.22 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -123,12 +123,12 @@ sub DocumentNew {
             );
             # set document infos
             $Self->{PDF}->info(
-                'Author'       => $ProjectVersion,
+                'Author' => $ProjectVersion,
                 'CreationDate' => "D:" . $NowYear . $NowMonth . $NowDay . $NowHour . $NowMin . $NowSec . "+01'00'",
-                'Creator'      => $ProjectVersion,
-                'Producer'     => "OTRS PDF Creator",
-                'Title'        => $Self->{Document}->{Title},
-                'Subject'      => $Self->{Document}->{Title},
+                'Creator' => $ProjectVersion,
+                'Producer' => "OTRS PDF Creator",
+                'Title' => $Self->{Document}->{Title},
+                'Subject' => $Self->{Document}->{Title},
             );
 
             # set fonts
@@ -1302,7 +1302,7 @@ sub HLine {
         }
         $Cut = 1;
     }
-     $Param{LineWidth} =  0 - $Param{LineWidth};
+    $Param{LineWidth} = 0 - $Param{LineWidth};
 
     # check Width
     if (defined($Param{Width}) && $Param{Width} >= 1) {
@@ -3356,6 +3356,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2006-11-13 18:15:55 $
+$Revision: 1.22 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

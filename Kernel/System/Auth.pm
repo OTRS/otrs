@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Auth.pm - provides the authentification
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Auth.pm,v 1.22 2006-12-14 11:45:53 martin Exp $
+# $Id: Auth.pm,v 1.23 2007-01-20 23:11:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Auth;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -41,7 +41,7 @@ create a object
     use Kernel::System::Auth;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject    = Kernel::System::Log->new(
+    my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
@@ -125,6 +125,7 @@ sub Auth {
     }
     return;
 }
+
 1;
 
 =back
@@ -141,6 +142,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2006-12-14 11:45:53 $
+$Revision: 1.23 $ $Date: 2007-01-20 23:11:33 $
 
 =cut

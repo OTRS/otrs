@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB.pm - the global database wrapper to support different databases
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.58 2006-12-14 12:00:31 martin Exp $
+# $Id: DB.pm,v 1.59 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -43,20 +43,20 @@ create database object with database connect
     use Kernel::System::DB;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject    = Kernel::System::Log->new(
+    my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
 
     $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
+        LogObject => $LogObject,
         # if you don't use the follow params, then this are used
         # from Kernel/Config.pm!
-        DatabaseDSN  => 'DBI:odbc:database=123;host=localhost;',
+        DatabaseDSN => 'DBI:odbc:database=123;host=localhost;',
         DatabaseUser => 'user',
-        DatabasePw   => 'somepass',
-        Type         => 'mysql',
-        Attribute    => {
+        DatabasePw => 'somepass',
+        Type => 'mysql',
+        Attribute => {
             LongTruncOk => 1,
             LongReadLen => 100*1024,
         },
@@ -89,9 +89,9 @@ sub new {
     # time object
     $Self->{TimeObject} = Kernel::System::Time->new(%Param);
     # get config data
-    $Self->{DSN}  = $Param{DatabaseDSN} || $Self->{ConfigObject}->Get('DatabaseDSN');
+    $Self->{DSN} = $Param{DatabaseDSN} || $Self->{ConfigObject}->Get('DatabaseDSN');
     $Self->{USER} = $Param{DatabaseUser} || $Self->{ConfigObject}->Get('DatabaseUser');
-    $Self->{PW}   = $Param{DatabasePw} || $Self->{ConfigObject}->Get('DatabasePw');
+    $Self->{PW} = $Param{DatabasePw} || $Self->{ConfigObject}->Get('DatabasePw');
     # decrypt pw (if needed)
     if ($Self->{PW} =~ /^\{(.*)\}$/) {
         my $Length = length($1)*4;
@@ -186,17 +186,17 @@ sub Connect {
     # debug
     if ($Self->{Debug} > 2) {
         $Self->{LogObject}->Log(
-            Caller   => 1,
+            Caller => 1,
             Priority => 'debug',
-            Message  => "DB.pm->Connect: DSN: $Self->{DSN}, User: $Self->{USER}, Pw: $Self->{PW}, DB Type: $Self->{'DB::Type'};",
+            Message => "DB.pm->Connect: DSN: $Self->{DSN}, User: $Self->{USER}, Pw: $Self->{PW}, DB Type: $Self->{'DB::Type'};",
         );
     }
     # db connect
     if (!($Self->{dbh} = DBI->connect("$Self->{DSN}", $Self->{USER}, $Self->{PW}, $Self->{Backend}->{'DB::Attribute'}))) {
         $Self->{LogObject}->Log(
-            Caller   => 1,
+            Caller => 1,
             Priority => 'Error',
-            Message  => $DBI::errstr,
+            Message => $DBI::errstr,
         );
         return;
     }
@@ -214,9 +214,9 @@ sub Disconnect {
     # debug
     if ($Self->{Debug} > 2) {
         $Self->{LogObject}->Log(
-            Caller   => 1,
+            Caller => 1,
             Priority => 'debug',
-            Message  => "DB.pm->Disconnect",
+            Message => "DB.pm->Disconnect",
         );
     }
     # do disconnect
@@ -268,9 +268,9 @@ sub Quote {
     elsif ($Type && $Type eq 'Number') {
         if ($Text !~ /^(\+|\-|)(\d{1,20}|\d{1,20}\.\d{1,20})$/) {
             $Self->{LogObject}->Log(
-                Caller   => 1,
+                Caller => 1,
                 Priority => 'error',
-                Message  => "Invalid number in query '$Text'!",
+                Message => "Invalid number in query '$Text'!",
             );
             return '';
         }
@@ -363,17 +363,17 @@ sub Do {
     if ($Self->{Debug} > 0) {
         $Self->{DoCounter}++;
         $Self->{LogObject}->Log(
-            Caller   => 1,
+            Caller => 1,
             Priority => 'debug',
-            Message  => "DB.pm->Do ($Self->{DoCounter}) SQL: '$Param{SQL}'",
+            Message => "DB.pm->Do ($Self->{DoCounter}) SQL: '$Param{SQL}'",
         );
     }
     # send sql to database
     if (!$Self->{dbh}->do($Param{SQL}, undef, @Array)) {
         $Self->{LogObject}->Log(
-            Caller   => 1,
+            Caller => 1,
             Priority => 'Error',
-            Message  => "$DBI::errstr, SQL: '$Param{SQL}'",
+            Message => "$DBI::errstr, SQL: '$Param{SQL}'",
         );
         return;
     }
@@ -740,6 +740,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2006-12-14 12:00:31 $
+$Revision: 1.59 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/XML.pm - lib xml
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.40 2006-12-18 07:27:59 tr Exp $
+# $Id: XML.pm,v 1.41 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -42,7 +42,7 @@ create a object
     use Kernel::System::XML;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject    = Kernel::System::Log->new(
+    my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
@@ -209,7 +209,6 @@ sub XMLHashUpdate {
     }
     my %ValueHASH = $Self->XMLHash2D(XMLHash => $Param{XMLHash});
     if (%ValueHASH) {
-#        $Self->XMLHashDelete(%Param);
         # db quote
         foreach (keys %Param) {
             $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -377,7 +376,7 @@ sub XMLHashSearch {
                 return;
             }
             while (my @Data = $Self->{DBObject}->FetchrowArray()) {
-                if ($Hash{$Data[0]}){
+                if ($Hash{$Data[0]}) {
                     $HashNew{$Data[0]} = 1;
                 }
             }
@@ -495,11 +494,11 @@ sub _ElementBuild {
     }
 
     if ($Param{Key}) {
-        if (!$Param{Content}) {
-            foreach (2..$Self->{XMLHash2XMLLayer}) {
+#        if (!$Param{Content}) {
+#            foreach (2..$Self->{XMLHash2XMLLayer}) {
 #                $Output .= "  ";
-            }
-        }
+#            }
+#        }
         $Output .= "</$Param{Key}>\n";
         $Self->{XMLHash2XMLLayer} = $Self->{XMLHash2XMLLayer} - 1;
     }
@@ -515,56 +514,56 @@ parse a xml file and return a XMLHash structur
     XML:
     ====
     <Contact role="admin" type="organization">
-      <Name type="long">Example Inc.</Name>
-      <Email type="primary">info@exampe.com<Domain>1234.com</Domain></Email>
-      <Email type="secundary">sales@example.com</Email>
-      <Telephone country="germany">+49-999-99999</Telephone>
+        <Name type="long">Example Inc.</Name>
+        <Email type="primary">info@exampe.com<Domain>1234.com</Domain></Email>
+        <Email type="secundary">sales@example.com</Email>
+        <Telephone country="germany">+49-999-99999</Telephone>
     </Contact>
 
     ARRAY:
     ======
     $XMLHash = (
-      undef,
-      {
-        Contact => [
-          undef,
-          {
-            role => 'admin',
-            type => 'organization',
-            Name => [
-              undef,
-              {
-                Content => 'Example Inc.',
-                type => 'long',
-              },
-            ]
-            Email => [
-              undef,
-              {
-                type => 'primary',
-                Content => 'info@exampe.com',
-                Domain => [
-                  undef,
-                  {
-                    Content => '1234.com',
-                  },
-                ],
-              },
-              {
-                type => 'secundary',
-                Content => 'sales@exampe.com',
-              },
+        undef,
+        {
+            Contact => [
+                undef,
+                {
+                    role => 'admin',
+                    type => 'organization',
+                    Name => [
+                        undef,
+                        {
+                            Content => 'Example Inc.',
+                            type => 'long',
+                        },
+                    ]
+                    Email => [
+                        undef,
+                        {
+                            type => 'primary',
+                            Content => 'info@exampe.com',
+                            Domain => [
+                                undef,
+                                {
+                                    Content => '1234.com',
+                                },
+                            ],
+                        },
+                        {
+                            type => 'secundary',
+                            Content => 'sales@exampe.com',
+                        },
+                    ],
+                    Telephone => [
+                        undef,
+                        {
+                            country => 'germany',
+                            Content => '+49-999-99999',
+                        },
+                    ],
+                }
             ],
-            Telephone => [
-              undef,
-              {
-                country => 'germany',
-                Content => '+49-999-99999',
-              },
-            ],
-          }
-        ],
-      }
+        }
     );
 
     $XMLHash[1]{Contact}[1]{TagKey} = "[1]{'Contact'}[1]";
@@ -592,8 +591,6 @@ sub XMLParse2XMLHash {
     }
     else {
         my @XMLHash = (undef, $Self->XMLStructur2XMLHash(XMLStructur => \@XMLStructur));
-#    $XMLHash[1]{'IODEF-Document'} = $XMLHash[1]{'otrs_package'};
-#    $XMLHash[0]{Meta}[0]{Created} = 'admin';
         return @XMLHash;
     }
 }
@@ -1061,6 +1058,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2006-12-18 07:27:59 $
+$Revision: 1.41 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Email.pm - the global email send module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.21 2006-12-14 12:13:55 martin Exp $
+# $Id: Email.pm,v 1.22 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -48,14 +48,14 @@ create a object
     use Kernel::System::Email;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject    = Kernel::System::Log->new(
+    my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
-    my $MainObject   = Kernel::System::Main->new(
+    my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
     );
-    my $TimeObject    = Kernel::System::Time->new(
+    my $TimeObject = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
@@ -122,13 +122,13 @@ To send an email without already created header:
         Loop => 1, # not required, removes smtp from
         Attachment => [
             {
-                Filename    => "somefile.csv",
-                Content     => $ContentCSV,
+                Filename => "somefile.csv",
+                Content => $ContentCSV,
                 ContentType => "text/csv",
             }
             {
-                Filename    => "somefile.png",
-                Content     => $ContentPNG,
+                Filename => "somefile.png",
+                Content => $ContentPNG,
                 ContentType => "image/png",
             }
         ],
@@ -277,8 +277,8 @@ sub Send {
                 # attach file to email
                 $Entity->attach(
                     Filename => $Upload{Filename},
-                    Data     => $Upload{Content},
-                    Type     => $Upload{ContentType},
+                    Data => $Upload{Content},
+                    Type => $Upload{ContentType},
                     Disposition => $Upload{Disposition} || 'inline',
                     Encoding => $Upload{Encoding} || 'base64',
                 );
@@ -582,6 +582,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2006-12-14 12:13:55 $
+$Revision: 1.22 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

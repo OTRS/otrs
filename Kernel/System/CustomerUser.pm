@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser.pm - some customer user functions
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.28 2006-08-29 17:30:36 martin Exp $
+# $Id: CustomerUser.pm,v 1.29 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CustomerUser;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -35,24 +35,24 @@ All customer user functions. E. g. to add and updated user and other functions.
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::CustomerUser;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::CustomerUser;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $CustomerUserObject = Kernel::System::CustomerUser->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      DBObject => $DBObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $CustomerUserObject = Kernel::System::CustomerUser->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -68,14 +68,14 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     # load generator customer preferences module
-    my $GeneratorModule = $Self->{ConfigObject}->Get('CustomerPreferences')->{Module}
-      || 'Kernel::System::CustomerUser::Preferences::DB';
+    my $GeneratorModule = $Self->{ConfigObject}->Get('CustomerPreferences')->{Module} ||
+        'Kernel::System::CustomerUser::Preferences::DB';
     eval "require $GeneratorModule";
     $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
 
     # load master backend customer user module
-    $GeneratorModule = $Self->{ConfigObject}->Get('CustomerUser')->{Module}
-      || 'Kernel::System::CustomerUser::DB';
+    $GeneratorModule = $Self->{ConfigObject}->Get('CustomerUser')->{Module} ||
+        'Kernel::System::CustomerUser::DB';
     eval "require $GeneratorModule";
     $Self->{CustomerUser} = $GeneratorModule->new(
         %Param,
@@ -103,7 +103,7 @@ sub new {
 
 return customer source list
 
-  my %List = $CustomerUserObject->CustomerSourceList();
+    my %List = $CustomerUserObject->CustomerSourceList();
 
 =cut
 
@@ -123,20 +123,20 @@ sub CustomerSourceList {
 
 to search users
 
-  my %List = $CustomerUserObject->CustomerSearch(
-      Search => '*some*', # also 'hans+huber' possible
-      ValidID => 1, # not required, default 1
-  );
+    my %List = $CustomerUserObject->CustomerSearch(
+        Search => '*some*', # also 'hans+huber' possible
+        ValidID => 1, # not required, default 1
+    );
 
-  my %List = $CustomerUserObject->CustomerSearch(
-      UserLogin => '*some*',
-      ValidID => 1, # not required, default 1
-  );
+    my %List = $CustomerUserObject->CustomerSearch(
+        UserLogin => '*some*',
+        ValidID => 1, # not required, default 1
+    );
 
-  my %List = $CustomerUserObject->CustomerSearch(
-      PostMasterSearch => 'email@example.com',
-      ValidID => 1, # not required, default 1
-  );
+    my %List = $CustomerUserObject->CustomerSearch(
+        PostMasterSearch => 'email@example.com',
+        ValidID => 1, # not required, default 1
+    );
 
 =cut
 
@@ -162,9 +162,9 @@ sub CustomerSearch {
 
 return a hash with all users (depreciated)
 
-  my %List = $CustomerUserObject->CustomerUserList(
-      Valid => 1, # not required
-  );
+    my %List = $CustomerUserObject->CustomerUserList(
+        Valid => 1, # not required
+    );
 
 =cut
 
@@ -185,9 +185,9 @@ sub CustomerUserList {
 
 get customer user name
 
-  my $Name = $CustomerUserObject->CustomerName(
-      UserLogin => 'some-login',
-  );
+    my $Name = $CustomerUserObject->CustomerName(
+        UserLogin => 'some-login',
+    );
 
 =cut
 
@@ -209,9 +209,9 @@ sub CustomerName {
 
 get customer user customer ids
 
-  my @CustomerIDs = $CustomerUserObject->CustomerIDs(
-      User => 'some-login',
-  );
+    my @CustomerIDs = $CustomerUserObject->CustomerIDs(
+        User => 'some-login',
+    );
 
 =cut
 
@@ -263,17 +263,17 @@ sub CustomerUserDataGet {
 
 to add new customer users
 
-  my $UserLogin = $CustomerUserObject->CustomerUserAdd(
-      Source => 'CustomerUser', # CustomerUser source config
-      UserFirstname => 'Huber',
-      UserLastname => 'Manfred',
-      UserCustomerID => 'A124',
-      UserLogin => 'mhuber',
-      UserPassword => 'some-pass', # not required
-      UserEmail => 'email@example.com',
-      ValidID => 1,
-      UserID => 123,
-  );
+    my $UserLogin = $CustomerUserObject->CustomerUserAdd(
+        Source => 'CustomerUser', # CustomerUser source config
+        UserFirstname => 'Huber',
+        UserLastname => 'Manfred',
+        UserCustomerID => 'A124',
+        UserLogin => 'mhuber',
+        UserPassword => 'some-pass', # not required
+        UserEmail => 'email@example.com',
+        ValidID => 1,
+        UserID => 123,
+    );
 
 =cut
 
@@ -288,8 +288,8 @@ sub CustomerUserAdd {
     if ($Param{UserLogin}) {
         my %User = $Self->CustomerUserDataGet(User => $Param{UserLogin});
         if (%User) {
-           $Self->{LogObject}->Log(Priority => 'error', Message => "User already exists '$Param{UserLogin}'!");
-           return;
+            $Self->{LogObject}->Log(Priority => 'error', Message => "User already exists '$Param{UserLogin}'!");
+            return;
         }
     }
     return $Self->{$Param{Source}}->CustomerUserAdd(@_);
@@ -299,16 +299,16 @@ sub CustomerUserAdd {
 
 to update customer users
 
-  $CustomerUserObject->CustomerUserUpdate(
-      Source => 'CustomerUser', # CustomerUser source config
-      UserLogin => 'mhuber',
-      UserFirstname => 'Huber',
-      UserLastname => 'Manfred',
-      UserPassword => 'some-pass', # not required
-      UserEmail => 'email@example.com',
-      ValidID => 1,
-      UserID => 123,
-  );
+    $CustomerUserObject->CustomerUserUpdate(
+        Source => 'CustomerUser', # CustomerUser source config
+        UserLogin => 'mhuber',
+        UserFirstname => 'Huber',
+        UserLastname => 'Manfred',
+        UserPassword => 'some-pass', # not required
+        UserEmail => 'email@example.com',
+        ValidID => 1,
+        UserID => 123,
+    );
 
 =cut
 
@@ -333,10 +333,10 @@ sub CustomerUserUpdate {
 
 to set customer users passwords
 
-  $CustomerUserObject->SetPassword(
-      UserLogin => 'some-login',
-      PW => 'some-new-password'
-  );
+    $CustomerUserObject->SetPassword(
+        UserLogin => 'some-login',
+        PW => 'some-new-password'
+    );
 
 =cut
 
@@ -361,13 +361,13 @@ sub SetPassword {
 
 generate a random password
 
-  my $Password = $CustomerUserObject->GenerateRandomPassword();
+    my $Password = $CustomerUserObject->GenerateRandomPassword();
 
-  or
+    or
 
-  my $Password = $CustomerUserObject->GenerateRandomPassword(
-      Size => 16,
-  );
+    my $Password = $CustomerUserObject->GenerateRandomPassword(
+        Size => 16,
+    );
 
 =cut
 
@@ -381,11 +381,11 @@ sub GenerateRandomPassword {
 
 set customer user preferences
 
-  $CustomerUserObject->SetPreferences(
-      Key => 'UserComment',
-      Value => 'some comment',
-      UserID => 'some-login',
-  );
+    $CustomerUserObject->SetPreferences(
+        Key => 'UserComment',
+        Value => 'some comment',
+        UserID => 'some-login',
+    );
 
 =cut
 
@@ -398,9 +398,9 @@ sub SetPreferences {
 
 get customer user preferences
 
-  my %Preferences = $CustomerUserObject->GetPreferences(
-      UserID => 'some-login',
-  );
+    my %Preferences = $CustomerUserObject->GetPreferences(
+        UserID => 'some-login',
+    );
 
 =cut
 
@@ -410,6 +410,8 @@ sub GetPreferences {
 }
 
 1;
+
+=back
 
 =head1 TERMS AND CONDITIONS
 
@@ -423,6 +425,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.29 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Lock.pm,v 1.9 2006-08-29 17:30:36 martin Exp $
+# $Id: Lock.pm,v 1.10 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Lock;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -42,10 +42,10 @@ create a object
     use Kernel::System::Lock;
 
     my $ConfigObject = Kernel::Config->new();
-    my $TimeObject    = Kernel::System::Time->new(
+    my $TimeObject = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
     );
-    my $LogObject    = Kernel::System::Log->new(
+    my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
@@ -85,15 +85,15 @@ sub new {
 
 get list of lock types
 
-  my @List = $LockObject->LockViewableLock(
-      Type => 'Viewable',
-      Result => 'Name', # ID|Name
-  );
+    my @List = $LockObject->LockViewableLock(
+        Type => 'Viewable',
+        Result => 'Name', # ID|Name
+    );
 
-  my @List = $LockObject->LockViewableLock(
-      Type => 'Viewable',
-      Result => 'ID', # ID|Name
-  );
+    my @List = $LockObject->LockViewableLock(
+        Type => 'Viewable',
+        Result => 'ID', # ID|Name
+    );
 
 =cut
 
@@ -139,9 +139,9 @@ sub LockViewableLock {
 
 lock lookup
 
-  my $LockID = $LockObject->LockLookup(Type => 'lock');
+    my $LockID = $LockObject->LockLookup(Type => 'lock');
 
-  my $Lock = $LockObject->LockLookup(ID => 2);
+    my $Lock = $LockObject->LockLookup(ID => 2);
 
 =cut
 
@@ -191,9 +191,9 @@ sub LockLookup {
 
 get lock list
 
-  my %List = $LockObject->LockList(
-      UserID => 123,
-  );
+    my %List = $LockObject->LockList(
+        UserID => 123,
+    );
 
 =cut
 
@@ -220,7 +220,10 @@ sub LockList {
     $Self->{LockList} = \%Data;
     return %Data;
 }
+
 1;
+
+=back
 
 =head1 TERMS AND CONDITIONS
 
@@ -234,6 +237,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.10 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

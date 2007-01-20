@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Config.pm - all system config tool functions
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.58 2006-12-14 12:29:59 martin Exp $
+# $Id: Config.pm,v 1.59 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Main;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -45,7 +45,7 @@ create a object
     use Kernel::System::Config;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject    = Kernel::System::Log->new(
+    my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
@@ -89,8 +89,6 @@ sub new {
 
     # read all config files
     $Self->{ConfigCounter} = $Self->_Init();
-#    # write default file
-#    $Self->WriteDefault();
 
     return $Self;
 }
@@ -315,9 +313,9 @@ sub CreateConfig {
                 if (!defined($A1) && !defined($A2)) {
                     # do nothing
                 }
-                elsif ((defined($A1) && !defined($A2)) || (!defined($A1) && defined($A2)) || $Self->DataDiff(Data1 => $A1, Data2 => $A2) || ($Config{Valid} && !$ConfigDefault{Valid})) {
-#            my $Dump = Data::Dumper::Dumper(\%Config);
-#                    print STDERR "\$Self->{'$Name'} = $C - $Dump";
+                elsif ((defined($A1) && !defined($A2)) || (!defined($A1) && defined($A2)) ||
+                    $Self->DataDiff(Data1 => $A1, Data2 => $A2) || ($Config{Valid} && !$ConfigDefault{Valid})
+                ) {
                     $File .= "\$Self->{'$Name'} = $C";
                 }
                 else {
@@ -509,16 +507,16 @@ sub ConfigItemGet {
                 @{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}} = (undef);
                 my %Hash = %{$HashRef};
                 foreach my $Key (sort keys %Hash) {
-                   if (ref($Hash{$Key}) eq 'ARRAY') {
+                    if (ref($Hash{$Key}) eq 'ARRAY') {
                         my @Array = (undef,{Content => '',});
                         @{$Array[1]{Item}} = (undef);
                         foreach my $Content (@{$Hash{$Key}}) {
                             push (@{$Array[1]{Item}}, {Content => $Content});
                         }
                         push (@{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}}, {
-                                Key     => $Key,
+                                Key => $Key,
                                 Content => '',
-                                Array   => \@Array,
+                                Array => \@Array,
                             },
                         );
                     }
@@ -529,29 +527,29 @@ sub ConfigItemGet {
                             push (@{$Array[1]{Item}}, {Content => $Hash{$Key}{$Key2}, Key => $Key2});
                         }
                         push (@{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}}, {
-                                Key     => $Key,
+                                Key => $Key,
                                 Content => '',
-                                Hash    => \@Array,
+                                Hash => \@Array,
                             },
                         );
                     }
                     else {
-                       my $Option = 0;
-                       foreach my $Index (1...$#Array) {
-                           if (defined ($Array[$Index]{Key}) && $Array[$Index]{Key} eq $Key && defined ($Array[$Index]{Option})) {
+                        my $Option = 0;
+                        foreach my $Index (1...$#Array) {
+                            if (defined ($Array[$Index]{Key}) && $Array[$Index]{Key} eq $Key && defined ($Array[$Index]{Option})) {
                                 $Option = 1;
                                 $Array[$Index]{Option}[1]{SelectedID} = $Hash{$Key};
                                 push (@{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}}, {
-                                        Key     => $Key,
+                                        Key => $Key,
                                         Content => '',
-                                        Option  => $Array[$Index]{Option},
+                                        Option => $Array[$Index]{Option},
                                     },
                                 );
                             }
                         }
                         if ($Option == 0) {
                             push (@{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}}, {
-                                    Key     => $Key,
+                                    Key => $Key,
                                     Content => $Hash{$Key},
                                 },
                             );
@@ -829,12 +827,12 @@ sub ConfigSubGroupList {
             if ($Hit) {
                 foreach my $SubGroup (@{$ConfigItem->{SubGroup}}) {
                     if ($SubGroup->{Content}) {
-                         # get sub count
-                         my @List = $Self->ConfigSubGroupConfigItemList(
-                             Group => $Param{Name},
-                             SubGroup => $SubGroup->{Content},
-                         );
-                         $List{$SubGroup->{Content}} = ($#List+1);
+                        # get sub count
+                        my @List = $Self->ConfigSubGroupConfigItemList(
+                            Group => $Param{Name},
+                            SubGroup => $SubGroup->{Content},
+                        );
+                        $List{$SubGroup->{Content}} = ($#List+1);
                     }
                 }
             }
@@ -933,11 +931,10 @@ sub ConfigItemSearch {
                         foreach (@{$Config}) {
                             if (!$Used{$Group.'::'.$SubGroup}) {
                                 if ($_ && $_ =~ /\Q$Param{Search}\E/i) {
-                                    push (@List,
-                                        {
+                                    push (@List, {
                                             SubGroup => $SubGroup,
                                             SubGroupCount => $SubGroups{$SubGroup},
-                                        Group    => $Group,
+                                            Group => $Group,
                                         },
                                     );
                                     $Used{$Group.'::'.$SubGroup} = 1;
@@ -949,11 +946,10 @@ sub ConfigItemSearch {
                         foreach my $Key (keys %{$Config}) {
                             if (!$Used{$Group.'::'.$SubGroup}) {
                                 if ($Config->{$Key} && $Config->{$Key} =~ /\Q$Param{Search}\E/i) {
-                                    push (@List,
-                                        {
+                                    push (@List, {
                                             SubGroup => $SubGroup,
                                             SubGroupCount => $SubGroups{$SubGroup},
-                                            Group    => $Group,
+                                            Group => $Group,
                                         },
                                     );
                                     $Used{$Group.'::'.$SubGroup} = 1;
@@ -963,11 +959,10 @@ sub ConfigItemSearch {
                     }
                     else {
                         if ($Config =~ /\Q$Param{Search}\E/i) {
-                            push (@List,
-                                {
+                            push (@List, {
                                     SubGroup => $SubGroup,
                                     SubGroupCount => $SubGroups{$SubGroup},
-                                    Group    => $Group,
+                                    Group => $Group,
                                 },
                             );
                             $Used{$Group.'::'.$SubGroup} = 1;
@@ -976,11 +971,10 @@ sub ConfigItemSearch {
                 }
                 if ($Item =~ /\Q$Param{Search}\E/i) {
                     if (!$Used{$Group.'::'.$SubGroup}) {
-                        push (@List,
-                            {
+                        push (@List, {
                                 SubGroup => $SubGroup,
                                 SubGroupCount => $SubGroups{$SubGroup},
-                                Group    => $Group,
+                                Group => $Group,
                             },
                         );
                         $Used{$Group.'::'.$SubGroup} = 1;
@@ -992,11 +986,10 @@ sub ConfigItemSearch {
                         if (!$Used{$Group.'::'.$SubGroup}) {
                             my $Description = $ItemHash{Description}[$Index]{Content};
                             if ($Description =~ /\Q$Param{Search}\E/i) {
-                                push (@List,
-                                    {
+                                push (@List, {
                                         SubGroup => $SubGroup,
                                         SubGroupCount => $SubGroups{$SubGroup},
-                                        Group    => $Group,
+                                        Group => $Group,
                                     },
                                 );
                                 $Used{$Group.'::'.$SubGroup} = 1;
@@ -1017,13 +1010,13 @@ sub _ModGet {
     my $ConfigObject;
     # do not use ZZZ files
     if ($Param{Level} && $Param{Level} eq 'Default') {
-         $ConfigObject = $Self->{ConfigDefaultObject};
+        $ConfigObject = $Self->{ConfigDefaultObject};
     }
     elsif ($Param{Level} && $Param{Level} eq 'Clear') {
-         $ConfigObject = $Self->{ConfigClearObject};
+        $ConfigObject = $Self->{ConfigClearObject};
     }
     else {
-         $ConfigObject = $Self->{ConfigObject};
+        $ConfigObject = $Self->{ConfigObject};
     }
     if ($Param{ConfigName} =~ /^(.*)###(.*)###(.*)$/) {
         if (defined($ConfigObject->Get($1))) {
@@ -1306,9 +1299,9 @@ sub _XML2Perl {
                 }
             }
             else {
-               if ($Key ne 'Content') {
-                   $Hash{$Key} = $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[1]->{Content};
-               }
+                if ($Key ne 'Content') {
+                    $Hash{$Key} = $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[1]->{Content};
+                }
             }
         }
         # store in config
@@ -1385,6 +1378,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2006-12-14 12:29:59 $
+$Revision: 1.59 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

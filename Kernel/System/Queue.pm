@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Queue.pm - lib for queue functions
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.62 2006-11-02 12:20:53 tr Exp $
+# $Id: Queue.pm,v 1.63 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -226,7 +226,7 @@ sub SetQueueStdResponse {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need ResponseID, QueueID and UserID!");
         return;
     }
-    if ($Self->QueueHasStdResponse(%Param)){
+    if ($Self->QueueHasStdResponse(%Param)) {
         return;
     }
     # db quote
@@ -236,7 +236,7 @@ sub SetQueueStdResponse {
     # sql
     my $SQL = sprintf(qq|INSERT INTO queue_standard_response (queue_id, standard_response_id, create_time, create_by, change_time, change_by)
     VALUES ( %s, %s, current_timestamp, %s, current_timestamp, %s)| , $Param{QueueID}, $Param{ResponseID}, $Param{UserID}, $Param{UserID});
-   # print "SQL was\n$SQL\n\n";
+
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
     }
@@ -574,17 +574,17 @@ sub GetQueueGroupID {
 add queue with attributes
 
     $QueueObject->QueueAdd(
-        Name            => 'Some::Queue',
-        ValidID         => 1,
-        GroupID         => 1,
+        Name => 'Some::Queue',
+        ValidID => 1,
+        GroupID => 1,
         SystemAddressID => 1,
-        SalutationID    => 1,
-        SignatureID     => 1,
-        UserID          => 123,
-        MoveNotify      => 0,
-        StateNotify     => 0,
-        LockNotify      => 0,
-        OwnerNotify     => 0,
+        SalutationID => 1,
+        SignatureID => 1,
+        UserID => 123,
+        MoveNotify => 0,
+        StateNotify => 0,
+        LockNotify => 0,
+        OwnerNotify => 0,
     );
 
 =cut
@@ -739,10 +739,10 @@ sub QueueAdd {
             }
         }
         return $QueueID;
-   }
-   else {
+    }
+    else {
         return;
-   }
+    }
 }
 
 =item QueueGet()
@@ -840,18 +840,18 @@ sub QueueGet {
 update queue attributes
 
     $QueueObject->QueueUpdate(
-        QueueID         => 123,
-        Name            => 'Some::Queue',
-        ValidID         => 1,
-        GroupID         => 1,
+        QueueID => 123,
+        Name => 'Some::Queue',
+        ValidID => 1,
+        GroupID => 1,
         SystemAddressID => 1,
-        SalutationID    => 1,
-        SignatureID     => 1,
-        UserID          => 123,
-        MoveNotify      => 0,
-        StateNotify     => 0,
-        LockNotify      => 0,
-        OwnerNotify     => 0,
+        SalutationID => 1,
+        SignatureID => 1,
+        UserID => 123,
+        MoveNotify => 0,
+        StateNotify => 0,
+        LockNotify => 0,
+        OwnerNotify => 0,
     );
 
 =cut
@@ -957,7 +957,10 @@ sub QueueUpdate {
         return;
     }
 }
+
 1;
+
+=back
 
 =head1 TERMS AND CONDITIONS
 
@@ -971,6 +974,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.62 $ $Date: 2006-11-02 12:20:53 $
+$Revision: 1.63 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

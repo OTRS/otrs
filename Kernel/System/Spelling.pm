@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Spelling.pm - the global spelling module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Spelling.pm,v 1.15 2006-11-02 12:20:53 tr Exp $
+# $Id: Spelling.pm,v 1.16 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -48,17 +48,20 @@ sub Check {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Text)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # get needed dict
     if ($Param{SpellLanguage}) {
         $Self->{SpellChecker} .= " -d $Param{SpellLanguage}";
     }
     # default ignored words
-    my @Ignore = qw(com org de net Cc www Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec Sun Mon Tue Wed Thu Fri Sat Fwd Re DNS Date To Cc Bcc ca tm COM Co op netscape bcc jpg gif email Tel ie eg otrs suse redhat debian caldera php perl java html unsubscribe queue event day month year ticket);
+    my @Ignore = qw(com org de net Cc www Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec Sun Mon Tue Wed Thu Fri
+        Sat Fwd Re DNS Date To Cc Bcc ca tm COM Co op netscape bcc jpg gif email Tel ie eg otrs suse redhat debian
+        caldera php perl java html unsubscribe queue event day month year ticket
+    );
     # add configured ignored words
     if (ref($Self->{ConfigObject}->Get('SpellCheckerIgnore')) eq 'ARRAY') {
         foreach (@{$Self->{ConfigObject}->Get('SpellCheckerIgnore')}) {

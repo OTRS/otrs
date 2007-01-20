@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.23 2007-01-18 10:33:56 martin Exp $
+# $Id: Time.pm,v 1.24 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -143,7 +143,7 @@ sub SystemTime2TimeStamp {
 
 returns a time stamp in "yyyy-mm-dd 23:59:59" format.
 
-    my $TimeStamp  = $TimeObject->CurrentTimestamp();
+    my $TimeStamp = $TimeObject->CurrentTimestamp();
 
 =cut
 
@@ -179,11 +179,11 @@ sub SystemTime2Date {
     my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay) = localtime($Param{SystemTime});
     $Year = $Year+1900;
     $Month = $Month+1;
-    $Month  = "0$Month" if ($Month <10);
-    $Day  = "0$Day" if ($Day <10);
-    $Hour  = "0$Hour" if ($Hour <10);
-    $Min  = "0$Min" if ($Min <10);
-    $Sec  = "0$Sec" if ($Sec <10);
+    $Month = "0$Month" if ($Month <10);
+    $Day = "0$Day" if ($Day <10);
+    $Hour = "0$Hour" if ($Hour <10);
+    $Min = "0$Min" if ($Min <10);
+    $Sec = "0$Sec" if ($Sec <10);
 
     return ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay);
 }
@@ -654,9 +654,9 @@ check if the selected day is a vacation (it doesn't matter if you
 insert 01 or 1 for month or day in the function or in the SysConfig)
 
     $TimeAccountingObject->VacationCheck(
-        Year  => 2005,
+        Year => 2005,
         Month => 7 || '07',
-        Day   => 13,
+        Day => 13,
     );
 
 =cut
@@ -671,13 +671,13 @@ sub VacationCheck {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "VacationCheck: Need $_!"
+                Message => "VacationCheck: Need $_!"
             );
             return;
         }
     }
     $Param{Month} = sprintf("%02d", $Param{Month});
-    $Param{Day}   = sprintf("%02d", $Param{Day});
+    $Param{Day} = sprintf("%02d", $Param{Day});
 
     my $TimeVacationDays = $Self->{ConfigObject}->Get('TimeVacationDays');
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
@@ -712,6 +712,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2007-01-18 10:33:56 $
+$Revision: 1.24 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

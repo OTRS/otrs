@@ -1,8 +1,8 @@
 # --
 # Kernel/System/XMLMaster.pm - the global XMLMaster module for OTRS
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XMLMaster.pm,v 1.4 2006-11-02 12:20:54 tr Exp $
+# $Id: XMLMaster.pm,v 1.5 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Main;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -51,10 +51,10 @@ sub Run {
     my %Param = @_;
     # check needed stuff
     foreach (qw(XML)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_ !");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_ !");
+            return;
+        }
     }
 
     my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => ${$Param{XML}});

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.62 2006-12-14 14:18:50 martin Exp $
+# $Id: PostMaster.pm,v 1.63 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -132,21 +132,21 @@ sub Run {
 
     # should I ignore the incoming mail?
     if ($GetParam->{'X-OTRS-Ignore'} && $GetParam->{'X-OTRS-Ignore'} =~ /yes/i) {
-       $Self->{LogObject}->Log(
-           Priority => 'notice',
-           Message => "Ignored Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) " .
-           "because the X-OTRS-Ignore is set (X-OTRS-Ignore: $GetParam->{'X-OTRS-Ignore'})."
-       );
-       return 1;
-   }
-   # ----------------------
-   # ticket section
-   # ----------------------
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Ignored Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) " .
+                "because the X-OTRS-Ignore is set (X-OTRS-Ignore: $GetParam->{'X-OTRS-Ignore'})."
+        );
+        return 1;
+    }
+    # ----------------------
+    # ticket section
+    # ----------------------
 
-   # check if follow up (again, with new GetParam)
-   ($Tn, $TicketID) = $Self->CheckFollowUp(%{$GetParam});
-   # check if it's a follow up ...
-   if ($Tn && $TicketID) {
+    # check if follow up (again, with new GetParam)
+    ($Tn, $TicketID) = $Self->CheckFollowUp(%{$GetParam});
+    # check if it's a follow up ...
+    if ($Tn && $TicketID) {
         # get ticket data
         my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
         # check if it is possible to do the follow up
@@ -170,9 +170,9 @@ sub Run {
             # send mail && create new article
             # get queue if of From: and To:
             if (!$Param{QueueID}) {
-              $Param{QueueID} = $Self->{DestQueueObject}->GetQueueID(
-                  Params => $GetParam,
-              );
+                $Param{QueueID} = $Self->{DestQueueObject}->GetQueueID(
+                    Params => $GetParam,
+                );
             }
             # check if trusted returns a new queue id
             my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID(
@@ -288,7 +288,6 @@ sub Run {
 }
 
 # CheckFollowUp
-
 sub CheckFollowUp {
     my $Self = shift;
     my %Param = @_;
@@ -299,8 +298,8 @@ sub CheckFollowUp {
             my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
             if ($Self->{Debug} > 1) {
                 $Self->{LogObject}->Log(
-                  Priority => 'debug',
-                  Message => "CheckFollowUp: ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                    Priority => 'debug',
+                    Message => "CheckFollowUp: ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
                 );
             }
             return ($Ticket{TicketNumber}, $TicketID);
@@ -317,7 +316,7 @@ sub CheckFollowUp {
             );
             if ($TicketID) {
                 my $Tn = $Self->{TicketObject}->TicketNumberLookup(
-                     TicketID => $TicketID,
+                    TicketID => $TicketID,
                 );
                 if ($TicketID && $Tn) {
                     return ($Tn, $TicketID);
@@ -333,8 +332,8 @@ sub CheckFollowUp {
                 my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
                 if ($Self->{Debug} > 1) {
                     $Self->{LogObject}->Log(
-                      Priority => 'debug',
-                      Message => "CheckFollowUp (in body): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                        Priority => 'debug',
+                        Message => "CheckFollowUp (in body): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
                     );
                 }
                 return ($Ticket{TicketNumber}, $TicketID);
@@ -350,8 +349,8 @@ sub CheckFollowUp {
                     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
                     if ($Self->{Debug} > 1) {
                         $Self->{LogObject}->Log(
-                          Priority => 'debug',
-                          Message => "CheckFollowUp (in attachment): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                            Priority => 'debug',
+                            Message => "CheckFollowUp (in attachment): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
                         );
                     }
                     return ($Ticket{TicketNumber}, $TicketID);
@@ -367,8 +366,8 @@ sub CheckFollowUp {
                 my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
                 if ($Self->{Debug} > 1) {
                     $Self->{LogObject}->Log(
-                      Priority => 'debug',
-                      Message => "CheckFollowUp (in plain/raw): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                        Priority => 'debug',
+                        Message => "CheckFollowUp (in plain/raw): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
                     );
                 }
                 return ($Ticket{TicketNumber}, $TicketID);
@@ -379,7 +378,6 @@ sub CheckFollowUp {
 }
 
 # GetEmailParams
-
 sub GetEmailParams {
     my $Self = shift;
     my %Param = @_;
@@ -387,7 +385,7 @@ sub GetEmailParams {
     # parse section
     my $WantParamTmp = $Self->{'PostmasterX-Header'} || die "Got no \@WantParam ref";
     my @WantParam = @$WantParamTmp;
-    foreach (@WantParam){
+    foreach (@WantParam) {
         if (!$Self->{Trusted} && $_ =~ /^x-otrs/i) {
             # scan not x-otrs header if it's not trusted
         }
@@ -408,8 +406,9 @@ sub GetEmailParams {
     if ($GetParam{'Reply-To'}) {
         $GetParam{'ReplyTo'} = $GetParam{'Reply-To'};
     }
-    if ($GetParam{'Mailing-List'} || $GetParam{'Precedence'} || $GetParam{'X-Loop'}
-             || $GetParam{'X-No-Loop'} || $GetParam{'X-OTRS-Loop'}) {
+    if ($GetParam{'Mailing-List'} || $GetParam{'Precedence'} ||
+        $GetParam{'X-Loop'} || $GetParam{'X-No-Loop'} || $GetParam{'X-OTRS-Loop'}
+    ) {
         $GetParam{'X-OTRS-Loop'} = 'yes';
     }
     if (!$GetParam{'X-Sender'}) {

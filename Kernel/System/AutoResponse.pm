@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AutoResponse.pm - lib for auto responses
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.13 2006-12-14 12:30:29 martin Exp $
+# $Id: AutoResponse.pm,v 1.14 2007-01-20 23:11:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -163,8 +163,8 @@ sub AutoResponseGetByTypeQueueID {
     # check needed stuff
     foreach (qw(QueueID Type)) {
         if (!$Param{$_}) {
-          $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-          return;
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
         }
     }
     # db quote

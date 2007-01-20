@@ -1,8 +1,8 @@
 # --
 # Kernel/System/UnitTest.pm - the global test wrapper
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.6 2006-12-14 12:12:12 martin Exp $
+# $Id: UnitTest.pm,v 1.7 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::UnitTest;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -42,11 +42,11 @@ create test object
     use Kernel::System::Test;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject    = Kernel::System::Log->new(
+    my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
-    my $MainObject   = Kernel::System::Main->new(
-        LogObject    => $LogObject,
+    my $MainObject = Kernel::System::Main->new(
+        LogObject => $LogObject,
         ConfigObject => $ConfigObject,
     );
     my $TimeObject = Kernel::System::Time->new(
@@ -54,16 +54,16 @@ create test object
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-        TimeObject   => $TimeObject,
+        LogObject => $LogObject,
+        MainObject => $MainObject,
+        TimeObject => $TimeObject,
     );
     my $UnitTestObject = Kernel::System::UnitTest->new(
         ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-        DBObject     => $DBObject,
-        TimeObject   => $TimeObject,
+        LogObject => $LogObject,
+        MainObject => $MainObject,
+        DBObject => $DBObject,
+        TimeObject => $TimeObject,
     );
 
 =cut
@@ -94,7 +94,7 @@ sub new {
         print "
 <html>
 <head>
-  <title>".$Self->{ConfigObject}->Get('Product')." ".$Self->{ConfigObject}->Get('Version')." - Test Summary</title>
+    <title>".$Self->{ConfigObject}->Get('Product')." ".$Self->{ConfigObject}->Get('Version')." - Test Summary</title>
 </head>
 <a name='top'></a>
 <body>
@@ -357,8 +357,6 @@ sub DESTROY {
         print "</body>\n";
         print "</html>\n";
     }
-    else {
-    }
     return;
 }
 
@@ -378,6 +376,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2006-12-14 12:12:12 $
+$Revision: 1.7 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

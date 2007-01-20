@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.57 2007-01-08 21:16:04 martin Exp $
+# $Id: User.pm,v 1.58 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -38,37 +38,37 @@ All user functions. E. g. to add and updated user and other functions.
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::Main;
-  use Kernel::System::Time;
-  use Kernel::System::DB;
-  use Kernel::System::User;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::System::Time;
+    use Kernel::System::DB;
+    use Kernel::System::User;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $MainObject    = Kernel::System::Main->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $TimeObject    = Kernel::System::Time->new(
-      MainObject => $MainObject,
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      MainObject => $MainObject,
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $UserObject = Kernel::System::User->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      MainObject => $MainObject,
-      TimeObject => $TimeObject,
-      DBObject => $DBObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        MainObject => $MainObject,
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        MainObject => $MainObject,
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $UserObject = Kernel::System::User->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        MainObject => $MainObject,
+        TimeObject => $TimeObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -84,20 +84,14 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     # get user table
-    $Self->{UserTable} = $Self->{ConfigObject}->Get('DatabaseUserTable')
-      || 'user';
-    $Self->{UserTableUserID} = $Self->{ConfigObject}->Get('DatabaseUserTableUserID')
-      || 'id';
-    $Self->{UserTableUserPW} = $Self->{ConfigObject}->Get('DatabaseUserTableUserPW')
-      || 'pw';
-    $Self->{UserTableUser} = $Self->{ConfigObject}->Get('DatabaseUserTableUser')
-      || 'login';
+    $Self->{UserTable} = $Self->{ConfigObject}->Get('DatabaseUserTable') || 'user';
+    $Self->{UserTableUserID} = $Self->{ConfigObject}->Get('DatabaseUserTableUserID') || 'id';
+    $Self->{UserTableUserPW} = $Self->{ConfigObject}->Get('DatabaseUserTableUserPW') || 'pw';
+    $Self->{UserTableUser} = $Self->{ConfigObject}->Get('DatabaseUserTableUser') || 'login';
     # load generator customer preferences module
-    my $GeneratorModule = $Self->{ConfigObject}->Get('User::PreferencesModule')
-      || 'Kernel::System::User::Preferences::DB';
+    my $GeneratorModule = $Self->{ConfigObject}->Get('User::PreferencesModule') || 'Kernel::System::User::Preferences::DB';
     $Self->{MainObject}->Require($GeneratorModule);
     $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
-
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
 
     return $Self;
@@ -211,15 +205,15 @@ sub GetUserData {
 
 to add new users
 
-  my $UserID = $UserObject->UserAdd(
-      Firstname => 'Huber',
-      Lastname => 'Manfred',
-      Login => 'mhuber',
-      Pw => 'some-pass', # not required
-      Email => 'email@example.com',
-      ValidID => 1,
-      UserID => 123,
-  );
+    my $UserID = $UserObject->UserAdd(
+        Firstname => 'Huber',
+        Lastname => 'Manfred',
+        Login => 'mhuber',
+        Pw => 'some-pass', # not required
+        Email => 'email@example.com',
+        ValidID => 1,
+        UserID => 123,
+    );
 
 =cut
 
@@ -228,17 +222,17 @@ sub UserAdd {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Firstname Lastname Login ValidID UserID Email)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # check email address
     if ($Param{Email} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{Email})) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message => "Email address ($Param{Email}) not valid (".
-              $Self->{CheckItemObject}->CheckError().")!",
+                $Self->{CheckItemObject}->CheckError().")!",
         );
         return;
     }
@@ -255,20 +249,20 @@ sub UserAdd {
     }
     # sql
     my $SQL = "INSERT INTO $Self->{UserTable} " .
-       "(salutation, " .
-       " first_name, " .
-       " last_name, " .
-       " $Self->{UserTableUser}, " .
-       " $Self->{UserTableUserPW}, " .
-       " valid_id, create_time, create_by, change_time, change_by)" .
-       " VALUES " .
-       " ('$Param{Salutation}', " .
-       " '$Param{Firstname}', " .
-       " '$Param{Lastname}', " .
-       " '$Param{Login}', " .
-       " '$Param{Pw}', " .
-       " $Param{ValidID}, current_timestamp, $Param{UserID}, ".
-       " current_timestamp, $Param{UserID})";
+        "(salutation, " .
+        " first_name, " .
+        " last_name, " .
+        " $Self->{UserTableUser}, " .
+        " $Self->{UserTableUserPW}, " .
+        " valid_id, create_time, create_by, change_time, change_by)" .
+        " VALUES " .
+        " ('$Param{Salutation}', " .
+        " '$Param{Firstname}', " .
+        " '$Param{Lastname}', " .
+        " '$Param{Login}', " .
+        " '$Param{Pw}', " .
+        " $Param{ValidID}, current_timestamp, $Param{UserID}, ".
+        " current_timestamp, $Param{UserID})";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # get new user id
@@ -302,16 +296,16 @@ sub UserAdd {
 
 to update users
 
-  $UserObject->UserUpdate(
-      ID => 4321,
-      Firstname => 'Huber',
-      Lastname => 'Manfred',
-      Login => 'mhuber',
-      Pw => 'some-pass', # not required
-      Email => 'email@example.com',
-      ValidID => 1,
-      UserID => 123,
-  );
+    $UserObject->UserUpdate(
+        ID => 4321,
+        Firstname => 'Huber',
+        Lastname => 'Manfred',
+        Login => 'mhuber',
+        Pw => 'some-pass', # not required
+        Email => 'email@example.com',
+        ValidID => 1,
+        UserID => 123,
+    );
 
 =cut
 
@@ -320,10 +314,10 @@ sub UserUpdate {
     my %Param = @_;
     # check needed stuff
     foreach (qw(ID Firstname Lastname Login ValidID UserID Email)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # check email address
     if ($Param{Email} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{Email})) {
@@ -357,8 +351,8 @@ sub UserUpdate {
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # log notice
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: '$Param{Login}' updated successfully ($Param{UserID})!",
+            Priority => 'notice',
+            Message => "User: '$Param{Login}' updated successfully ($Param{UserID})!",
         );
         # check pw
         if ($Param{Pw}) {
@@ -377,20 +371,20 @@ sub UserUpdate {
 
 to search users
 
-  my %List = $UserObject->UserSearch(
-      Search => '*some*', # also 'hans+huber' possible
-      ValidID => 1, # not required
-  );
+    my %List = $UserObject->UserSearch(
+        Search => '*some*', # also 'hans+huber' possible
+        ValidID => 1, # not required
+    );
 
-  my %List = $UserObject->UserSearch(
-      UserLogin => '*some*',
-      ValidID => 1, # not required
-  );
+    my %List = $UserObject->UserSearch(
+        UserLogin => '*some*',
+        ValidID => 1, # not required
+    );
 
-  my %List = $UserObject->UserSearch(
-      PostMasterSearch => 'email@example.com',
-      ValidID => 1, # not required
-  );
+    my %List = $UserObject->UserSearch(
+        PostMasterSearch => 'email@example.com',
+        ValidID => 1, # not required
+    );
 
 =cut
 
@@ -414,8 +408,8 @@ sub UserSearch {
     }
     # build SQL string 2/2
     $SQL .= " FROM " .
-      " $Self->{UserTable} ".
-      " WHERE ";
+        " $Self->{UserTable} ".
+        " WHERE ";
     if ($Param{Search}) {
         my $Count = 0;
         my @Parts = split(/\+/, $Param{Search}, 6);
@@ -468,12 +462,12 @@ sub UserSearch {
     # get data
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{UserSearchListLimit});
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-         foreach (1..8) {
-             if ($Row[$_]) {
-                  $Users{$Row[0]} .= $Row[$_].' ';
-             }
-         }
-         $Users{$Row[0]} =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+        foreach (1..8) {
+            if ($Row[$_]) {
+                $Users{$Row[0]} .= $Row[$_].' ';
+            }
+        }
+        $Users{$Row[0]} =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
     }
     return %Users;
 }
@@ -482,10 +476,10 @@ sub UserSearch {
 
 to set users passwords
 
-  $UserObject->SetPassword(
-      UserLogin => 'some-login',
-      PW => 'some-new-password'
-  );
+    $UserObject->SetPassword(
+        UserLogin => 'some-login',
+        PW => 'some-new-password'
+    );
 
 =cut
 
@@ -553,11 +547,11 @@ sub SetPassword {
     my $NewPw = $Self->{DBObject}->Quote($CryptedPw);
     # update db
     if ($Self->{DBObject}->Do(
-            SQL => "UPDATE $Self->{UserTable} ".
-               " SET ".
-               " $Self->{UserTableUserPW} = '$NewPw' ".
-               " WHERE ".
-               " LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')",
+        SQL => "UPDATE $Self->{UserTable} ".
+            " SET ".
+            " $Self->{UserTableUserPW} = '$NewPw' ".
+            " WHERE ".
+            " LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')",
     )) {
         # log notice
         $Self->{LogObject}->Log(
@@ -575,13 +569,13 @@ sub SetPassword {
 
 user login or id lookup
 
-  my $UserLogin = $UserObject->UserLookup(
-      UserID => 1,
-  );
+    my $UserLogin = $UserObject->UserLookup(
+        UserID => 1,
+    );
 
-  my $UserID = $UserObject->UserLookup(
-      UserLogin => 1,
-  );
+    my $UserID = $UserObject->UserLookup(
+        UserLogin => 1,
+    );
 
 =cut
 
@@ -659,15 +653,15 @@ sub UserLookup {
 
 get user name
 
-  my $Name = $UserObject->UserName(
-      UserLogin => 'some-login',
-  );
+    my $Name = $UserObject->UserName(
+        UserLogin => 'some-login',
+    );
 
-  or
+    or
 
-  my $Name = $UserObject->UserName(
-      UserID => 123,
-  );
+    my $Name = $UserObject->UserName(
+        UserID => 123,
+    );
 
 =cut
 
@@ -687,10 +681,10 @@ sub UserName {
 
 return a hash with all users
 
-  my %List = $UserObject->UserList(
-      Type => 'Short', # Short|Long
-      Valid => 1, # not required
-  );
+    my %List = $UserObject->UserList(
+        Type => 'Short', # Short|Long
+        Valid => 1, # not required
+    );
 
 =cut
 
@@ -721,13 +715,13 @@ sub UserList {
 
 generate a random password
 
-  my $Password = $UserObject->GenerateRandomPassword();
+    my $Password = $UserObject->GenerateRandomPassword();
 
-  or
+    or
 
-  my $Password = $UserObject->GenerateRandomPassword(
-      Size => 16,
-  );
+    my $Password = $UserObject->GenerateRandomPassword(
+        Size => 16,
+    );
 
 =cut
 
@@ -758,11 +752,11 @@ sub GenerateRandomPassword {
 
 set user preferences
 
-  $UserObject->SetPreferences(
-      Key => 'UserComment',
-      Value => 'some comment',
-      UserID => 123,
-  );
+    $UserObject->SetPreferences(
+        Key => 'UserComment',
+        Value => 'some comment',
+        UserID => 123,
+    );
 
 =cut
 
@@ -775,9 +769,9 @@ sub SetPreferences {
 
 get user preferences
 
-  my %Preferences = $UserObject->GetPreferences(
-      UserID => 123,
-  );
+    my %Preferences = $UserObject->GetPreferences(
+        UserID => 123,
+    );
 
 =cut
 
@@ -790,10 +784,10 @@ sub GetPreferences {
 
 search in user preferences
 
-  my %UserList = $Self->SearchPreferences(
-      Key => 'UserEmail',
-      Value => 'email@example.com',
-  );
+    my %UserList = $Self->SearchPreferences(
+        Key => 'UserEmail',
+        Value => 'email@example.com',
+    );
 
 =cut
 
@@ -803,6 +797,8 @@ sub SearchPreferences {
 }
 
 1;
+
+=back
 
 =head1 TERMS AND CONDITIONS
 
@@ -816,6 +812,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2007-01-08 21:16:04 $
+$Revision: 1.58 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

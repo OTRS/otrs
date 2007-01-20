@@ -1,8 +1,8 @@
 # --
 # Kernel/System/LinkObject.pm - to link objects
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.13 2006-10-02 12:34:46 martin Exp $
+# $Id: LinkObject.pm,v 1.14 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::LinkObject;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -36,24 +36,24 @@ in Kernel/Config.pm.
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::LinkObject;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::LinkObject;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $LinkObject = Kernel::System::LinkObject->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      DBObject => $DBObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $LinkObject = Kernel::System::LinkObject->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -160,7 +160,7 @@ sub LinkObject {
     my %Param = @_;
     foreach (qw(LinkType LinkID1 LinkObject1 LinkID2 LinkObject2)) {
         if (!$Param{$_}) {
-             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
@@ -186,7 +186,7 @@ sub UnlinkObject {
     my %Param = @_;
     foreach (qw(LinkType LinkID1 LinkObject1 LinkID2 LinkObject2)) {
         if (!$Param{$_}) {
-             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
@@ -225,7 +225,7 @@ sub RemoveLinkObject {
     my %Param = @_;
     foreach (qw(Object ID)) {
         if (!$Param{$_}) {
-             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
@@ -255,7 +255,7 @@ sub LinkedObjects {
     my $SQLB = '';
     foreach (qw(LinkType)) {
         if (!$Param{$_}) {
-             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
@@ -285,69 +285,68 @@ sub LinkedObjects {
     }
 
     if ($Param{LinkType} eq 'Parent') {
-      $SQLA = "SELECT object_link_a_id FROM object_link ".
-        " WHERE ".
-        " object_link_b_id = '$Param{LinkID2}' ".
-        " AND ".
-        " object_link_b_object = '$Param{LinkObject2}' ".
-        " AND ".
-        " object_link_a_object = '$Param{LinkObject1}'".
-        " AND ".
-        " object_link_type = '$Param{LinkType}'";
-      $SQLB = "SELECT object_link_a_id FROM object_link ".
-        " WHERE ".
-        " object_link_b_id = '$Param{LinkID2}' ".
-        " AND ".
-        " object_link_b_object = '$Param{LinkObject2}' ".
-        " AND ".
-        " object_link_a_object = '$Param{LinkObject1}'".
-        " AND ".
-        " object_link_type = 'Child'";
-
+        $SQLA = "SELECT object_link_a_id FROM object_link ".
+            " WHERE ".
+            " object_link_b_id = '$Param{LinkID2}' ".
+            " AND ".
+            " object_link_b_object = '$Param{LinkObject2}' ".
+            " AND ".
+            " object_link_a_object = '$Param{LinkObject1}'".
+            " AND ".
+            " object_link_type = '$Param{LinkType}'";
+        $SQLB = "SELECT object_link_a_id FROM object_link ".
+            " WHERE ".
+            " object_link_b_id = '$Param{LinkID2}' ".
+            " AND ".
+            " object_link_b_object = '$Param{LinkObject2}' ".
+            " AND ".
+            " object_link_a_object = '$Param{LinkObject1}'".
+            " AND ".
+            " object_link_type = 'Child'";
     }
     elsif ($Param{LinkType} eq 'Child') {
-      $SQLA = "SELECT object_link_b_id FROM object_link ".
-        " WHERE ".
-        " object_link_a_id = '$Param{LinkID1}' ".
-        " AND ".
-        " object_link_a_object = '$Param{LinkObject1}' ".
-        " AND ".
-        " object_link_b_object = '$Param{LinkObject2}' ".
-        " AND ".
-        " object_link_type = 'Parent'";
-      $SQLB = "SELECT object_link_b_id FROM object_link ".
-        " WHERE ".
-        " object_link_a_id = '$Param{LinkID1}' ".
-        " AND ".
-        " object_link_a_object = '$Param{LinkObject1}' ".
-        " AND ".
-        " object_link_b_object = '$Param{LinkObject2}' ".
-        " AND ".
-        " object_link_type = '$Param{LinkType}'";
+        $SQLA = "SELECT object_link_b_id FROM object_link ".
+            " WHERE ".
+            " object_link_a_id = '$Param{LinkID1}' ".
+            " AND ".
+            " object_link_a_object = '$Param{LinkObject1}' ".
+            " AND ".
+            " object_link_b_object = '$Param{LinkObject2}' ".
+            " AND ".
+            " object_link_type = 'Parent'";
+        $SQLB = "SELECT object_link_b_id FROM object_link ".
+            " WHERE ".
+            " object_link_a_id = '$Param{LinkID1}' ".
+            " AND ".
+            " object_link_a_object = '$Param{LinkObject1}' ".
+            " AND ".
+            " object_link_b_object = '$Param{LinkObject2}' ".
+            " AND ".
+            " object_link_type = '$Param{LinkType}'";
     }
     elsif ($Param{LinkType} eq 'Normal') {
         $SQLA = "SELECT object_link_a_id ".
-          " FROM ".
-          " object_link ".
-          " WHERE ".
-          " object_link_b_id = '$Param{LinkID1}' ".
-          " AND ".
-          " object_link_b_object = '$Param{LinkObject1}' ".
-          " AND ".
-          " object_link_a_object = '$Param{LinkObject2}' ".
-          " AND ".
-          " object_link_type = '$Param{LinkType}'";
+            " FROM ".
+            " object_link ".
+            " WHERE ".
+            " object_link_b_id = '$Param{LinkID1}' ".
+            " AND ".
+            " object_link_b_object = '$Param{LinkObject1}' ".
+            " AND ".
+            " object_link_a_object = '$Param{LinkObject2}' ".
+            " AND ".
+            " object_link_type = '$Param{LinkType}'";
         $SQLB = " SELECT object_link_b_id ".
-          " FROM ".
-          " object_link ".
-          " WHERE ".
-          " object_link_a_id = '$Param{LinkID1}' ".
-          " AND ".
-          " object_link_a_object = '$Param{LinkObject1}' ".
-          " AND ".
-          " object_link_b_object = '$Param{LinkObject2}' ".
-          " AND ".
-          " object_link_type = '$Param{LinkType}'";
+            " FROM ".
+            " object_link ".
+            " WHERE ".
+            " object_link_a_id = '$Param{LinkID1}' ".
+            " AND ".
+            " object_link_a_object = '$Param{LinkObject1}' ".
+            " AND ".
+            " object_link_b_object = '$Param{LinkObject2}' ".
+            " AND ".
+            " object_link_type = '$Param{LinkType}'";
     }
 
     $Self->{DBObject}->Prepare(SQL => $SQLA);
@@ -372,7 +371,7 @@ sub AllLinkedObjects {
     my %Links = ();
     foreach (qw(Object ObjectID)) {
         if (!$Param{$_}) {
-             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
@@ -408,6 +407,8 @@ sub AllLinkedObjects {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -420,6 +421,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2006-10-02 12:34:46 $
+$Revision: 1.14 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

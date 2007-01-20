@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerAuth.pm - provides the authentification
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerAuth.pm,v 1.10 2006-12-14 11:59:25 martin Exp $
+# $Id: CustomerAuth.pm,v 1.11 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -42,7 +42,7 @@ create a object
     use Kernel::System::CustomerAuth;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject    = Kernel::System::Log->new(
+    my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
@@ -134,8 +134,8 @@ sub Auth {
         my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $User);
         if (defined($CustomerData{ValidID}) && $CustomerData{ValidID} ne 1) {
             $Self->{LogObject}->Log(
-              Priority => 'notice',
-              Message => "CustomerUser: '$User' is set to invalid, can't login!",
+                Priority => 'notice',
+                Message => "CustomerUser: '$User' is set to invalid, can't login!",
             );
             return;
         }
@@ -164,6 +164,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2006-12-14 11:59:25 $
+$Revision: 1.11 $ $Date: 2007-01-20 23:11:34 $
 
 =cut

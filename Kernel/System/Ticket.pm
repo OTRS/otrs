@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.239 2007-01-19 08:32:53 tr Exp $
+# $Id: Ticket.pm,v 1.240 2007-01-20 23:11:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.239 $';
+$VERSION = '$Revision: 1.240 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -140,14 +140,14 @@ sub new {
         $Self->{QueueObject} = $Param{QueueObject};
     }
 
-    $Self->{SendmailObject}       = Kernel::System::Email->new(%Param);
-    $Self->{AutoResponse}         = Kernel::System::AutoResponse->new(%Param);
+    $Self->{SendmailObject} = Kernel::System::Email->new(%Param);
+    $Self->{AutoResponse} = Kernel::System::AutoResponse->new(%Param);
     $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new(%Param);
-    $Self->{StdAttachmentObject}  = Kernel::System::StdAttachment->new(%Param);
-    $Self->{PriorityObject}       = Kernel::System::Priority->new(%Param);
-    $Self->{StateObject}          = Kernel::System::State->new(%Param);
-    $Self->{LockObject}           = Kernel::System::Lock->new(%Param);
-    $Self->{NotificationObject}   = Kernel::System::Notification->new(%Param);
+    $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
+    $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{LockObject} = Kernel::System::Lock->new(%Param);
+    $Self->{NotificationObject} = Kernel::System::Notification->new(%Param);
 
     # get config static var
     my @ViewableStates = $Self->{StateObject}->StateGetStatesByType(
@@ -1403,7 +1403,7 @@ sub TicketFreeTextSet {
     my $Self = shift;
     my %Param = @_;
     my $Value = '';
-    my $Key   = '';
+    my $Key = '';
     # check needed stuff
     foreach (qw(TicketID UserID Counter)) {
         if (!$Param{$_}) {
@@ -3000,7 +3000,7 @@ sub StateSet {
             CreateUserID => $Param{UserID},
         );
         # reset escalation time if ticket will be reopend
-        if ($State{TypeName} ne 'closed' && $Ticket{StateType} eq 'closed'){
+        if ($State{TypeName} ne 'closed' && $Ticket{StateType} eq 'closed') {
             $Self->TicketEscalationStartUpdate(
                 EscalationStartTime => $Self->{TimeObject}->SystemTime(),
                 TicketID => $Param{TicketID},
@@ -5070,6 +5070,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.239 $ $Date: 2007-01-19 08:32:53 $
+$Revision: 1.240 $ $Date: 2007-01-20 23:11:34 $
 
 =cut
