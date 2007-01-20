@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueueResponses.pm - queue <-> responses
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.17 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminQueueResponses.pm,v 1.18 2007-01-20 22:03:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueResponses;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -178,7 +178,7 @@ sub _Mask {
     my $NeType = 'Response';
     $NeType = 'Queue' if ($Param{Type} eq 'Response');
 
-    foreach (sort keys %FirstDataTmp){
+    foreach (sort keys %FirstDataTmp) {
         $FirstDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
             Text => $FirstDataTmp{$_},
             HTMLQuote => 1,
@@ -189,14 +189,14 @@ sub _Mask {
         $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><BR>\n";
     }
     $Param{OptionStrg0} .= "<B>$NeType:</B><BR> <SELECT NAME=\"IDs\" SIZE=10 multiple>\n";
-    foreach my $ID (sort keys %SecondDataTmp){
+    foreach my $ID (sort keys %SecondDataTmp) {
         $SecondDataTmp{$ID} = $Self->{LayoutObject}->Ascii2Html(
             Text => $SecondDataTmp{$ID},
             HTMLQuote => 1,
             LanguageTranslation => 0,
         ) || '';
         $Param{OptionStrg0} .= "<OPTION ";
-        foreach (sort keys %DataTmp){
+        foreach (sort keys %DataTmp) {
             if ($_ eq $ID) {
                 $Param{OptionStrg0} .= 'selected';
             }
@@ -217,7 +217,7 @@ sub _MaskFrom {
     my %GroupDataTmp = %$GroupData;
     my $BaseLink = $Self->{LayoutObject}->{Baselink} . "Action=AdminQueueResponses&";
 
-    foreach (sort {$UserDataTmp{$a} cmp $UserDataTmp{$b}} keys %UserDataTmp){
+    foreach (sort {$UserDataTmp{$a} cmp $UserDataTmp{$b}} keys %UserDataTmp) {
         $UserDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
             Text => $UserDataTmp{$_},
             HTMLQuote => 1,
@@ -225,7 +225,7 @@ sub _MaskFrom {
         );
         $Param{AnswerQueueStrg} .= "<a href=\"$BaseLink"."Subaction=Response&ID=$_\">$UserDataTmp{$_}</a><br>";
     }
-    foreach (sort {$GroupDataTmp{$a} cmp $GroupDataTmp{$b}} keys %GroupDataTmp){
+    foreach (sort {$GroupDataTmp{$a} cmp $GroupDataTmp{$b}} keys %GroupDataTmp) {
         $GroupDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
             Text => $GroupDataTmp{$_},
             HTMLQuote => 1,

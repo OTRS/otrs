@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.20 2006-10-31 15:26:52 tr Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.21 2007-01-20 22:03:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -81,7 +81,7 @@ sub Run {
                 Where => " art.id = $_ AND ar.type_id = art.id AND qar.queue_id = $Param{ID} " .
                     "AND qar.auto_response_id = ar.id",
             );
-            $Param{DataStrg} =  $Self->{LayoutObject}->OptionStrgHashRef(
+            $Param{DataStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
                 Name => 'IDs',
                 SelectedID => $SelectedID || '',
                 Data => \%Data,
@@ -168,7 +168,7 @@ sub Run {
                     %Param,
                 }
             );
-            foreach my $ResponseData (@Data){
+            foreach my $ResponseData (@Data) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ItemList',
                     Data => $ResponseData,

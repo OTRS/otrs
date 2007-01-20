@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPOP3.pm - to add/update/delete POP3 acounts
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPOP3.pm,v 1.16 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminPOP3.pm,v 1.17 2007-01-20 22:03:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::POP3Account;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -79,7 +79,7 @@ sub Run {
             );
         }
         else {
-           return $Self->{LayoutObject}->ErrorScreen();
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # ------------------------------------------------------------ #

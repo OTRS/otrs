@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminResponseAttachment.pm - queue <-> responses
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.pm,v 1.15 2006-11-02 12:20:51 tr Exp $
+# $Id: AdminResponseAttachment.pm,v 1.16 2007-01-20 22:03:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -90,21 +90,23 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         # get queue data
         my %AttachmentData = $Self->{DBObject}->GetTableData(
-                Table => 'standard_attachment',
-                What => 'id, name, filename',
-                Clamp => 1,
-                Where => "id = $ID",);
+            Table => 'standard_attachment',
+            What => 'id, name, filename',
+            Clamp => 1,
+            Where => "id = $ID",
+        );
 
         my %Data = $Self->{DBObject}->GetTableData(
-                Table => 'standard_response_attachment',
-                What => 'standard_response_id, standard_attachment_id',
-                Where => "standard_attachment_id = $ID");
+            Table => 'standard_response_attachment',
+            What => 'standard_response_id, standard_attachment_id',
+            Where => "standard_attachment_id = $ID"
+        );
         $Output .= $Self->_MaskChange(
-                FirstData => \%AttachmentData,
-                SecondData => \%StdResponses,
-                Data => \%Data,
-                Type => 'Attachment',
-            );
+            FirstData => \%AttachmentData,
+            SecondData => \%StdResponses,
+            Data => \%Data,
+            Type => 'Attachment',
+        );
         $Output .= $Self->{LayoutObject}->Footer();
     }
 
@@ -112,7 +114,7 @@ sub Run {
     elsif ($Self->{Subaction} eq 'ChangeAttachment') {
         my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
         $Self->{DBObject}->Do(
-          SQL => "DELETE FROM standard_response_attachment WHERE standard_attachment_id = $ID",
+            SQL => "DELETE FROM standard_response_attachment WHERE standard_attachment_id = $ID",
         );
         foreach my $NewID (@NewIDs) {
             # db quote
@@ -160,7 +162,7 @@ sub _Mask {
     my %GroupDataTmp = %$GroupData;
     my $BaseLink = $Self->{LayoutObject}->{Baselink} . "Action=AdminResponseAttachment&";
 
-    foreach (sort {$UserDataTmp{$a} cmp $UserDataTmp{$b}} keys %UserDataTmp){
+    foreach (sort {$UserDataTmp{$a} cmp $UserDataTmp{$b}} keys %UserDataTmp) {
         $UserDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
             Text => $UserDataTmp{$_},
             HTMLQuote => 1,
@@ -168,7 +170,7 @@ sub _Mask {
         ) || '';
         $Param{AnswerQueueStrg} .= "<a href=\"$BaseLink"."Subaction=Response&ID=$_\">$UserDataTmp{$_}</a><br>";
     }
-    foreach (sort {$GroupDataTmp{$a} cmp $GroupDataTmp{$b}} keys %GroupDataTmp){
+    foreach (sort {$GroupDataTmp{$a} cmp $GroupDataTmp{$b}} keys %GroupDataTmp) {
         $GroupDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
             Text => $GroupDataTmp{$_},
             HTMLQuote => 1,
@@ -193,30 +195,30 @@ sub _MaskChange {
     my $NeType = 'Response';
     $NeType = 'Attachment' if ($Param{Type} eq 'Response');
 
-    foreach (sort keys %FirstDataTmp){
+    foreach (sort keys %FirstDataTmp) {
         $FirstDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
             Text => $FirstDataTmp{$_},
             HTMLQuote => 1,
             LanguageTranslation => 0,
         ) || '';
         $Param{OptionStrg0} .= "<B>$Param{Type}:</B> <A HREF=\"$Self->{LayoutObject}->{Baselink}Action=Admin$Param{Type}&Subaction=Change&ID=$_\">" .
-        "$FirstDataTmp{$_}</A> (id=$_)<BR>";
+            "$FirstDataTmp{$_}</A> (id=$_)<BR>";
         $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><BR>\n";
     }
     $Param{OptionStrg0} .= "<B>$NeType:</B><BR> <SELECT NAME=\"IDs\" SIZE=10 multiple>\n";
-    foreach my $ID (sort keys %SecondDataTmp){
+    foreach my $ID (sort keys %SecondDataTmp) {
         $SecondDataTmp{$ID} = $Self->{LayoutObject}->Ascii2Html(
             Text => $SecondDataTmp{$ID},
             HTMLQuote => 1,
             LanguageTranslation => 0,
         ) || '';
-       $Param{OptionStrg0} .= "<OPTION ";
-       foreach (sort keys %DataTmp){
-         if ($_ eq $ID) {
-               $Param{OptionStrg0} .= 'selected';
-         }
-       }
-      $Param{OptionStrg0} .= " VALUE=\"$ID\">$SecondDataTmp{$ID} (id=$ID)</OPTION>\n";
+        $Param{OptionStrg0} .= "<OPTION ";
+        foreach (sort keys %DataTmp) {
+            if ($_ eq $ID) {
+                $Param{OptionStrg0} .= 'selected';
+            }
+        }
+        $Param{OptionStrg0} .= " VALUE=\"$ID\">$SecondDataTmp{$ID} (id=$ID)</OPTION>\n";
     }
     $Param{OptionStrg0} .= "</SELECT>\n";
 

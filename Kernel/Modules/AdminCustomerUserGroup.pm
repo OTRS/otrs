@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.10 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.11 2007-01-20 22:03:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -230,7 +230,7 @@ sub MaskAdminUserGroupChangeForm {
         $Param{OptionStrg0} .= "<th>$_</th>";
     }
     $Param{OptionStrg0} .= "</tr>\n";
-    foreach (sort {uc($Data{$a}) cmp uc($Data{$b})} keys %Data){
+    foreach (sort {uc($Data{$a}) cmp uc($Data{$b})} keys %Data) {
         $Param{OptionStrg0} .= '<tr><td>';
         $Param{OptionStrg0} .= "<a href=\"$BaseLink"."Action=Admin$NeType&Subaction=Change&ID=$_\">$Param{Data}->{$_}</a></td>";
         foreach my $Type (@{$Self->{ConfigObject}->Get('System::Customer::Permission')}) {
@@ -264,10 +264,10 @@ sub MaskAdminUserGroupForm {
     my %GroupDataTmp = %$GroupData;
     my $BaseLink = $Self->{LayoutObject}->{Baselink} . "Action=AdminCustomerUserGroup&";
 
-    foreach (sort {uc($UserDataTmp{$a}) cmp uc($UserDataTmp{$b})} keys %UserDataTmp){
+    foreach (sort {uc($UserDataTmp{$a}) cmp uc($UserDataTmp{$b})} keys %UserDataTmp) {
         $Param{UserStrg} .= "<A HREF=\"$BaseLink"."Subaction=User&ID=$_\">$UserDataTmp{$_}</A><BR>";
     }
-    foreach (sort {uc($GroupDataTmp{$a}) cmp uc($GroupDataTmp{$b})} keys %GroupDataTmp){
+    foreach (sort {uc($GroupDataTmp{$a}) cmp uc($GroupDataTmp{$b})} keys %GroupDataTmp) {
         $Param{GroupStrg} .= "<A HREF=\"$BaseLink"."Subaction=Group&ID=$_\">$GroupDataTmp{$_}</A><BR>";
     }
     # return output

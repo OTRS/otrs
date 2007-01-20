@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.41 2007-01-18 10:05:02 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.42 2007-01-20 22:03:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -62,11 +62,17 @@ sub Run {
                     }
                 }
                 if (!$ApacheReload) {
-                    return $Self->{LayoutObject}->ErrorScreen(Message => 'Sorry, Apache::Reload or Apache2::Reload is needed as PerlModule and PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf!');
+                    return $Self->{LayoutObject}->ErrorScreen(
+                        Message => 'Sorry, Apache::Reload or Apache2::Reload is needed as PerlModule and ".
+                            "PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf!'
+                    );
                 }
             }
             else {
-                return $Self->{LayoutObject}->ErrorScreen(Message => 'Sorry, for this interface is mod_perl2 with Apache2::Reload required. Other way you need to use the cmd tool bin/opm.pl to install packages!');
+                return $Self->{LayoutObject}->ErrorScreen(
+                    Message => 'Sorry, for this interface is mod_perl2 with Apache2::Reload required. ".
+                        "Other way you need to use the cmd tool bin/opm.pl to install packages!'
+                );
             }
         }
     }
@@ -858,7 +864,9 @@ sub Run {
                     if (!$Description) {
                         $Description = $Tag->{Content};
                     }
-                    if (($Self->{UserLanguage} && $Tag->{Lang} eq $Self->{UserLanguage}) || (!$Self->{UserLanguage} && $Tag->{Lang} eq $Self->{ConfigObject}->Get('DefaultLanguage'))) {
+                    if (($Self->{UserLanguage} && $Tag->{Lang} eq $Self->{UserLanguage}) ||
+                        (!$Self->{UserLanguage} && $Tag->{Lang} eq $Self->{ConfigObject}->Get('DefaultLanguage'))
+                    ) {
                         $Description = $Tag->{Content};
                     }
                 }

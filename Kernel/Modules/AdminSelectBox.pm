@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSelectBox.pm,v 1.21 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminSelectBox.pm,v 1.22 2007-01-20 22:03:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSelectBox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -74,7 +74,7 @@ sub Run {
         );
         # fetch database and add row blocks
         if ($Self->{DBObject}->Prepare(SQL => $Param{SQL}, Limit => $Param{Max})) {
-            while (my @Row = $Self->{DBObject}->FetchrowArray(RowNames => 1) ){
+            while (my @Row = $Self->{DBObject}->FetchrowArray(RowNames => 1) ) {
                 my $Row = '';
                 foreach my $Item (@Row) {
                     my $Item1 = '';

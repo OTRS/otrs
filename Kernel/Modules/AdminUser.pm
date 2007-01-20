@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.36 2006-12-07 12:41:24 martin Exp $
+# $Id: AdminUser.pm,v 1.37 2007-01-20 22:03:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $ ';
+$VERSION = '$Revision: 1.37 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -143,36 +143,11 @@ sub Run {
                         }
                         my $Message = $Object->Run(GetParam => \%GetParam, UserData => \%UserData);
                     }
-#                    return $Self->{LayoutObject}->Redirect(
-#                        OP => "Action=AgentPreferences&What=$Message",
-#                    );
-                  }
-                  else {
-                      return $Self->{LayoutObject}->FatalError();
-                  }
-              }
-#                if ($Type eq 'Upload' && $PrefKey) {
-#                    my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-#                        Param => "GenericTopic::$PrefKey",
-#                        Source => 'String',
-#                    );
-#                    if ($UploadStuff{Content}) {
-#                      $Self->{UserObject}->SetPreferences(
-#                        UserID => $GetParam{ID},
-#                        Key => $PrefKey,
-#                        Value => $UploadStuff{Content},
-#                      );
-#                      $Self->{UserObject}->SetPreferences(
-#                        UserID => $GetParam{ID},
-#                        Key => $PrefKey."::Filename",
-#                        Value => $UploadStuff{Filename},
-#                      );
-#                      $Self->{UserObject}->SetPreferences(
-#                        UserID => $GetParam{ID},
-#                        Key => $PrefKey."::ContentType",
-#                        Value => $UploadStuff{ContentType},
-#                      );
-#                    }
+                }
+                else {
+                    return $Self->{LayoutObject}->FatalError();
+                }
+            }
             # redirect
             return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
@@ -180,9 +155,7 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen();
         }
     }
-
     # add new user
-
     elsif ($Self->{Subaction} eq 'AddAction') {
         # get params
         my %GetParam;
@@ -216,9 +189,6 @@ sub Run {
                         }
                         $Object->Run(GetParam => \%GetParam, UserData => \%UserData);
                     }
-#                    return $Self->{LayoutObject}->Redirect(
-#                        OP => "Action=AgentPreferences&What=$Message",
-#                    );
                 }
                 else {
                     return $Self->{LayoutObject}->FatalError();
@@ -246,7 +216,6 @@ sub Run {
             return $Self->{LayoutObject}->FatalError();
         }
     }
-
     # else ! print form
     else {
         my $Output = $Self->{LayoutObject}->Header();
@@ -320,7 +289,6 @@ sub AdminUserForm {
                 next;
             }
             my %Preference = %{$Self->{ConfigObject}->{PreferencesGroups}->{$Group}};
-#            if (!$Preference{Activ} || $Group eq 'Password') {
             if ($Group eq 'Password') {
                 next;
             }

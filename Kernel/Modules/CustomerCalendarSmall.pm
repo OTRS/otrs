@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerCalendarSmall.pm - small calendar lookup
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerCalendarSmall.pm,v 1.4 2006-11-02 13:02:03 tr Exp $
+# $Id: CustomerCalendarSmall.pm,v 1.5 2007-01-20 22:03:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Date::Pcalc qw(Today Days_in_Month Day_of_Week);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -46,9 +46,9 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $Year  = 0;
+    my $Year = 0;
     my $Month = 0;
-    my $Day   = 1;
+    my $Day = 1;
     my $Prefix = "";
     # Prefix
     if ($Self->{ParamObject}->GetParam(Param => 'Prefix')) {
@@ -142,9 +142,9 @@ sub Run {
                 $Self->{LayoutObject}->Block(
                     Name => "Col",
                     Data => {
-                        Day   => $CalDay,
+                        Day => $CalDay,
                         Month => $Month,
-                        Year  => $Year,
+                        Year => $Year,
                         Style => $Style,
                         Prefix => $Prefix,
                     },

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.36 2007-01-11 20:19:18 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.37 2007-01-20 22:03:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -40,22 +40,22 @@ sub new {
         }
     }
 
-    $Self->{PriorityObject}     = Kernel::System::Priority->new(%Param);
-    $Self->{StateObject}        = Kernel::System::State->new(%Param);
-    $Self->{LockObject}         = Kernel::System::Lock->new(%Param);
+    $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{LockObject} = Kernel::System::Lock->new(%Param);
     $Self->{GenericAgentObject} = Kernel::System::GenericAgent->new(%Param);
 
     return $Self;
 }
 
 sub Run {
-    my $Self   = shift;
-    my %Param  = @_;
+    my $Self = shift;
+    my %Param = @_;
     my $Output = '';
     # get confid data
-    $Self->{Profile}    = $Self->{ParamObject}->GetParam(Param => 'Profile')    || '';
+    $Self->{Profile} = $Self->{ParamObject}->GetParam(Param => 'Profile')    || '';
     $Self->{OldProfile} = $Self->{ParamObject}->GetParam(Param => 'OldProfile') || '';
-    $Self->{Subaction}  = $Self->{ParamObject}->GetParam(Param => 'Subaction')  || '';
+    $Self->{Subaction} = $Self->{ParamObject}->GetParam(Param => 'Subaction')  || '';
 
     # ---------------------------------------------------------- #
     # run a generic agent job -> "run now"
@@ -141,7 +141,7 @@ sub Run {
             }
             # ticket free text
             if ($Self->{ParamObject}->GetParam(Param => "NewTicketFreeText$ID") ||
-               (defined($Self->{ParamObject}->GetParam(Param => "NewTicketFreeText$ID")) && $Self->{ConfigObject}->Get("TicketFreeText$ID"))
+                (defined($Self->{ParamObject}->GetParam(Param => "NewTicketFreeText$ID")) && $Self->{ConfigObject}->Get("TicketFreeText$ID"))
             ) {
                 $GetParam{"NewTicketFreeText$ID"} = $Self->{ParamObject}->GetParam(Param => "NewTicketFreeText$ID");
                 # remove white space on the end
@@ -212,15 +212,15 @@ sub Run {
             }
             if ($GetParam{TicketCreateTimeStartDay} && $GetParam{TicketCreateTimeStartMonth} && $GetParam{TicketCreateTimeStartYear}) {
                 $GetParam{TicketCreateTimeNewerDate} = $GetParam{TicketCreateTimeStartYear}.
-                  '-'.$GetParam{TicketCreateTimeStartMonth}.
-                  '-'.$GetParam{TicketCreateTimeStartDay}.
-                  ' 00:00:01';
+                    '-'.$GetParam{TicketCreateTimeStartMonth}.
+                    '-'.$GetParam{TicketCreateTimeStartDay}.
+                    ' 00:00:01';
             }
             if ($GetParam{TicketCreateTimeStopDay} && $GetParam{TicketCreateTimeStopMonth} && $GetParam{TicketCreateTimeStopYear}) {
                 $GetParam{TicketCreateTimeOlderDate} = $GetParam{TicketCreateTimeStopYear}.
-                  '-'.$GetParam{TicketCreateTimeStopMonth}.
-                  '-'.$GetParam{TicketCreateTimeStopDay}.
-                  ' 23:59:59';
+                    '-'.$GetParam{TicketCreateTimeStopMonth}.
+                    '-'.$GetParam{TicketCreateTimeStopDay}.
+                    ' 23:59:59';
             }
         }
         elsif ($GetParam{TimeSearchType} eq 'TimePoint') {
@@ -261,10 +261,10 @@ sub Run {
         # perform ticket search
         my $Counter = 0;
         my @ViewableIDs = $Self->{TicketObject}->TicketSearch(
-            Result  => 'ARRAY',
-            SortBy  => 'Age',
+            Result => 'ARRAY',
+            SortBy => 'Age',
             OrderBy => 'Down',
-            UserID  => 1,
+            UserID => 1,
             %GetParam,
         );
         if ($GetParam{NewDelete}) {
@@ -295,7 +295,7 @@ sub Run {
                     User => $Data{Owner},
                     Cached => 1
                 );
-                $Data{UserLastname}  = $UserInfo{UserLastname};
+                $Data{UserLastname} = $UserInfo{UserLastname};
                 $Data{UserFirstname} = $UserInfo{UserFirstname};
 
                 $Self->{LayoutObject}->Block(
@@ -309,7 +309,7 @@ sub Run {
             }
         }
         # html search mask output
-        $Output  = $Self->{LayoutObject}->Header(Title => "Affected Tickets");
+        $Output = $Self->{LayoutObject}->Header(Title => "Affected Tickets");
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminGenericAgent',
@@ -327,21 +327,21 @@ sub Run {
         my %Param = $Self->{GenericAgentObject}->JobGet(Name => $Self->{Profile});
         $Param{Profile} = $Self->{Profile};
         my %ShownUsers = $Self->{UserObject}->UserList(
-            Type  => 'Long',
+            Type => 'Long',
             Valid => 1,
         );
         $Param{'OwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data     => \%ShownUsers,
-            Name     => 'OwnerIDs',
+            Data => \%ShownUsers,
+            Name => 'OwnerIDs',
             Multiple => 1,
-            Size     => 5,
+            Size => 5,
             SelectedIDRefArray => $Param{OwnerIDs},
         );
         $Param{'NewOwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data      => \%ShownUsers,
-            Name      => 'NewOwnerID',
-            Size      => 5,
-            Multiple  => 1,
+            Data => \%ShownUsers,
+            Name => 'NewOwnerID',
+            Size => 5,
+            Multiple => 1,
             SelectedID => $Param{NewOwnerID},
         );
         my %Hours = ();
@@ -349,9 +349,9 @@ sub Run {
             $Hours{$_} = sprintf("%02d", $_);
         }
         $Param{'ScheduleHours'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data     => \%Hours,
-            Name     => 'ScheduleHours',
-            Size     => 6,
+            Data => \%Hours,
+            Name => 'ScheduleHours',
+            Size => 6,
             Multiple => 1,
             SelectedIDRefArray => $Param{ScheduleHours},
         );
@@ -364,8 +364,8 @@ sub Run {
                 40 => '40',
                 50 => '50',
             },
-            Name     => 'ScheduleMinutes',
-            Size     => 6,
+            Name => 'ScheduleMinutes',
+            Size => 6,
             Multiple => 1,
             SelectedIDRefArray => $Param{ScheduleMinutes},
         );
@@ -379,9 +379,9 @@ sub Run {
                 6 => 'Sat',
                 0 => 'Sun',
             },
-            SortBy   => 'Key',
-            Name     => 'ScheduleDays',
-            Size     => 6,
+            SortBy => 'Key',
+            Name => 'ScheduleDays',
+            Size => 6,
             Multiple => 1,
             SelectedIDRefArray => $Param{ScheduleDays},
         );
@@ -393,9 +393,9 @@ sub Run {
                     Action => $Self->{Action},
                 ),
             },
-            Name     => 'StateIDs',
+            Name => 'StateIDs',
             Multiple => 1,
-            Size     => 5,
+            Size => 5,
             SelectedIDRefArray => $Param{StateIDs},
         );
         $Param{'NewStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -405,18 +405,18 @@ sub Run {
                     Action => $Self->{Action},
                 ),
             },
-            Name       => 'NewStateID',
-            Size       => 5,
-            Multiple   => 1,
+            Name => 'NewStateID',
+            Size => 5,
+            Multiple => 1,
             SelectedID => $Param{NewStateID},
         );
         $Param{'QueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
             Data => {
                 $Self->{QueueObject}->GetAllQueues(),
             },
-            Size     => 5,
+            Size => 5,
             Multiple => 1,
-            Name     => 'QueueIDs',
+            Name => 'QueueIDs',
             SelectedIDRefArray => $Param{QueueIDs},
             OnChangeSubmit => 0,
         );
@@ -472,12 +472,12 @@ sub Run {
         }
         $Param{'TicketCreateTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => \%Counter,
-            Name       => 'TicketCreateTimePoint',
+            Name => 'TicketCreateTimePoint',
             SelectedID => $Param{TicketCreateTimePoint},
         );
         $Param{'TicketCreateTimePointStart'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
-                'Last'   => 'last',
+                'Last' => 'last',
                 'Before' => 'before',
             },
             Name => 'TicketCreateTimePointStart',
@@ -486,19 +486,19 @@ sub Run {
         $Param{'TicketCreateTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 minute => 'minute(s)',
-                hour   => 'hour(s)',
-                day    => 'day(s)',
-                week   => 'week(s)',
-                month  => 'month(s)',
-                year   => 'year(s)',
+                hour => 'hour(s)',
+                day => 'day(s)',
+                week => 'week(s)',
+                month => 'month(s)',
+                year => 'year(s)',
             },
-            Name       => 'TicketCreateTimePointFormat',
+            Name => 'TicketCreateTimePointFormat',
             SelectedID => $Param{TicketCreateTimePointFormat},
         );
         $Param{TicketCreateTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
             %Param,
-            Prefix   => 'TicketCreateTimeStart',
-            Format   => 'DateInputFormat',
+            Prefix => 'TicketCreateTimeStart',
+            Format => 'DateInputFormat',
             DiffTime => -((60*60*24)*30),
         );
         $Param{TicketCreateTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
@@ -567,7 +567,7 @@ sub Run {
                 # generate free key
                 my %TicketFreeKey = %{$Self->{ConfigObject}->Get('TicketFreeKey' . $ID)};
                 my @FreeKey = keys %TicketFreeKey;
-                my $TicketFreeKey  = '';
+                my $TicketFreeKey = '';
 
                 if ($#FreeKey == 0) {
                     $TicketFreeKey = $TicketFreeKey{$FreeKey[0]};
@@ -584,7 +584,7 @@ sub Run {
                 }
 
                 # generate free text
-                my $TicketFreeText  = '';
+                my $TicketFreeText = '';
                 if (!$Self->{ConfigObject}->Get('TicketFreeText' . $ID)) {
                     $TicketFreeText = '<input type="text" name="TicketFreeText' . $ID . '" size="30" value="' . ($Param{'TicketFreeText' . $ID}[0] || '') . '">';
                 }
@@ -603,7 +603,7 @@ sub Run {
                 $Self->{LayoutObject}->Block(
                     Name => 'TicketFreeFieldElement',
                     Data => {
-                        TicketFreeKey  => $TicketFreeKey,
+                        TicketFreeKey => $TicketFreeKey,
                         TicketFreeText => $TicketFreeText,
                     },
                 );
@@ -625,43 +625,43 @@ sub Run {
                 # generate free key
                 my %TicketFreeKey = %{$Self->{ConfigObject}->Get('TicketFreeKey' . $ID)};
                 my @FreeKey = keys %TicketFreeKey;
-                my $NewTicketFreeKey  = '';
+                my $NewTicketFreeKey = '';
 
                 if ($#FreeKey == 0) {
                     $NewTicketFreeKey = $TicketFreeKey{$FreeKey[0]};
                 }
                 else {
                     $NewTicketFreeKey = $Self->{LayoutObject}->OptionStrgHashRef(
-                        Data                => \%TicketFreeKey,
-                        Name                => 'NewTicketFreeKey' . $ID,
-                        Size                => 4,
-                        Multiple            => 1,
+                        Data => \%TicketFreeKey,
+                        Name => 'NewTicketFreeKey' . $ID,
+                        Size => 4,
+                        Multiple => 1,
                         LanguageTranslation => 0,
-                        SelectedID          => $Param{'NewTicketFreeKey' . $ID},
+                        SelectedID => $Param{'NewTicketFreeKey' . $ID},
                     );
                 }
 
                 # generate free text
-                my $NewTicketFreeText  = '';
+                my $NewTicketFreeText = '';
                 if (!$Self->{ConfigObject}->Get('TicketFreeText' . $ID)) {
                     $NewTicketFreeText = '<input type="text" name="NewTicketFreeText' . $ID . '" size="30" value="' . $Param{'NewTicketFreeText' . $ID} . '">';
                 }
                 else {
                     my %TicketFreeText = %{$Self->{ConfigObject}->Get('TicketFreeText' . $ID)};
                     $NewTicketFreeText = $Self->{LayoutObject}->OptionStrgHashRef(
-                        Data                => \%TicketFreeText,
-                        Name                => 'NewTicketFreeText' . $ID,
-                        Size                => 4,
-                        Multiple            => 1,
+                        Data => \%TicketFreeText,
+                        Name => 'NewTicketFreeText' . $ID,
+                        Size => 4,
+                        Multiple => 1,
                         LanguageTranslation => 0,
-                        SelectedID          => $Param{'NewTicketFreeText' . $ID},
+                        SelectedID => $Param{'NewTicketFreeText' . $ID},
                     );
                 }
 
                 $Self->{LayoutObject}->Block(
                     Name => 'NewTicketFreeFieldElement',
                     Data => {
-                        NewTicketFreeKey  => $NewTicketFreeKey,
+                        NewTicketFreeKey => $NewTicketFreeKey,
                         NewTicketFreeText => $NewTicketFreeText,
                     },
                 );

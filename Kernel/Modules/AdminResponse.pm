@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.19 2007-01-01 23:18:15 mh Exp $
+# $Id: AdminResponse.pm,v 1.20 2007-01-20 22:03:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -177,9 +177,9 @@ sub _Mask {
     my %SecondDataTmp = %{$Param{Attachments}};
     my %DataTmp = %{$Param{SelectedAttachments}};
     $Param{AttachmentOption} .= "<SELECT NAME=\"IDs\" SIZE=3 multiple>\n";
-    foreach my $ID (sort keys %SecondDataTmp){
+    foreach my $ID (sort keys %SecondDataTmp) {
         $Param{AttachmentOption} .= "<OPTION ";
-        foreach (sort keys %DataTmp){
+        foreach (sort keys %DataTmp) {
             if ($_ eq $ID) {
                 $Param{AttachmentOption} .= 'selected';
             }

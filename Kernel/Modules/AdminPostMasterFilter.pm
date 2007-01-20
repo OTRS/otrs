@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.10 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.11 2007-01-20 22:03:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -63,7 +63,7 @@ sub Run {
             return $Self->{LayoutObject}->Redirect(OP => 'Action=$Env{"Action"}');
         }
         else {
-           return $Self->{LayoutObject}->ErrorScreen();
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # ------------------------------------------------------------ #
@@ -79,7 +79,7 @@ sub Run {
             );
         }
         else {
-           return $Self->{LayoutObject}->ErrorScreen();
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # ------------------------------------------------------------ #

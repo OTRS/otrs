@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.59 2007-01-18 10:34:26 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.60 2007-01-20 22:03:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -33,7 +33,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{SysConfigObject} = Kernel::System::Config->new(%Param);
@@ -143,14 +145,14 @@ sub Run {
             }
             # ConfigElement Hash
             elsif (defined ($ItemHash{Setting}[1]{Hash})) {
-                my @Keys   = $Self->{ParamObject}->GetArray(Param => $_.'Key[]');
+                my @Keys = $Self->{ParamObject}->GetArray(Param => $_.'Key[]');
                 my @Values = $Self->{ParamObject}->GetArray(Param => $_.'Content[]');
                 my @DeleteNumber = $Self->{ParamObject}->GetArray(Param => $_.'DeleteNumber[]');
                 my %Content;
                 foreach my $Index (0..$#Keys) {
                     # SubHash
                     if ($Values[$Index] eq '##SubHash##') {
-                        my @SubHashKeys   = $Self->{ParamObject}->GetArray(Param => $_.'##SubHash##'.$Keys[$Index].'Key[]');
+                        my @SubHashKeys = $Self->{ParamObject}->GetArray(Param => $_.'##SubHash##'.$Keys[$Index].'Key[]');
                         my @SubHashValues = $Self->{ParamObject}->GetArray(Param => $_.'##SubHash##'.$Keys[$Index].'Content[]');
                         my %SubHash;
                         foreach my $Index2 (0...$#SubHashKeys) {
@@ -304,7 +306,6 @@ sub Run {
                     }
                     # Create Hash
                     foreach (qw(Group GroupRo Module Name Block Prio)) {
-#                    foreach (qw(Module Name Block Prio)) {
                         if (defined($NavBarModuleParams{$_}[0]) && $NavBarModuleParams{$_}[0] ne '') {
                             $Content{NavBarModule}{$_} = $NavBarModuleParams{$_}[0];
                         }
@@ -317,9 +318,9 @@ sub Run {
             }
             # ConfigElement TimeVacationDaysOneTime
             elsif (defined ($ItemHash{Setting}[1]{TimeVacationDaysOneTime})) {
-                my @Year   = $Self->{ParamObject}->GetArray(Param => $_.'year[]');
-                my @Month  = $Self->{ParamObject}->GetArray(Param => $_.'month[]');
-                my @Day    = $Self->{ParamObject}->GetArray(Param => $_.'day[]');
+                my @Year = $Self->{ParamObject}->GetArray(Param => $_.'year[]');
+                my @Month = $Self->{ParamObject}->GetArray(Param => $_.'month[]');
+                my @Day = $Self->{ParamObject}->GetArray(Param => $_.'day[]');
                 my @Values = $Self->{ParamObject}->GetArray(Param => $_.'Content[]');
                 my %Content;
                 foreach my $Index (0...$#Year) {
@@ -346,8 +347,8 @@ sub Run {
             }
             # ConfigElement TimeVacationDays
             elsif (defined ($ItemHash{Setting}[1]{TimeVacationDays})) {
-                my @Month  = $Self->{ParamObject}->GetArray(Param => $_.'month[]');
-                my @Day    = $Self->{ParamObject}->GetArray(Param => $_.'day[]');
+                my @Month = $Self->{ParamObject}->GetArray(Param => $_.'month[]');
+                my @Day = $Self->{ParamObject}->GetArray(Param => $_.'day[]');
                 my @Values = $Self->{ParamObject}->GetArray(Param => $_.'Content[]');
                 my %Content;
                 foreach my $Index (0...$#Month) {
@@ -378,7 +379,7 @@ sub Run {
                 my %Content;
                 foreach my $Index (1...$#{$ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}}) {
                     my $Weekday = $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Name};
-                    my @Hours   = $Self->{ParamObject}->GetArray(Param => $_.$Weekday.'[]');
+                    my @Hours = $Self->{ParamObject}->GetArray(Param => $_.$Weekday.'[]');
                     $Content{$Weekday} = \@Hours;
                 }
                 # write ConfigItem
@@ -437,12 +438,12 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementBlock',
                 Data => {
-                    Name        => $ItemHash{Name},
-                    ItemKey     => $_,
+                    Name => $ItemHash{Name},
+                    ItemKey => $_,
                     Description => $Description,
-                    Valid       => $Valid,
-                    Validstyle  => $Validstyle,
-                    Required    => $Required,
+                    Valid => $Valid,
+                    Validstyle => $Validstyle,
+                    Required => $Required,
                 },
             );
             if ($ItemHash{Diff}) {
@@ -477,8 +478,8 @@ sub Run {
         my @List = $Self->{SysConfigObject}->ConfigItemSearch(Search => $Search);
         foreach my $Option (@List) {
             $Self->{LayoutObject}->Block(
-                Name  => 'Row',
-                Data  => $Option,
+                Name => 'Row',
+                Data => $Option,
             );
         }
     }
@@ -488,11 +489,11 @@ sub Run {
         my %List = $Self->{SysConfigObject}->ConfigSubGroupList(Name => $Group);
         foreach (sort keys %List) {
             $Self->{LayoutObject}->Block(
-                Name  => 'Row',
-                Data  => {
+                Name => 'Row',
+                Data => {
                     SubGroup => $_,
                     SubGroupCount => $List{$_},
-                    Group    => $Group,
+                    Group => $Group,
                 },
             );
         }
@@ -501,8 +502,8 @@ sub Run {
     # SessionScreen
     if (!$Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
-        Key       => 'LastScreenOverview',
-        Value     => "Action=$Self->{Action}&Subaction=SelectGroup&SysConfigGroup=$Group",
+        Key => 'LastScreenOverview',
+        Value => "Action=$Self->{Action}&Subaction=SelectGroup&SysConfigGroup=$Group",
     )) {
         return $Self->{LayoutObject}->ErrorScreen();
     }
@@ -511,9 +512,9 @@ sub Run {
     my %List = $Self->{SysConfigObject}->ConfigGroupList();
     # create select Box
     $Data{Liste} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data     => \%List,
+        Data => \%List,
         SelectedID => $Group,
-        Name     => 'SysConfigGroup',
+        Name => 'SysConfigGroup',
         LanguageTranslation => 0,
     );
 
@@ -540,7 +541,7 @@ sub Run {
 sub ListConfigItem {
     my $Self = shift;
     my %Param = @_;
-    my %ItemHash    = %{$Param{Hash}};
+    my %ItemHash = %{$Param{Hash}};
     my $Valid = '';
     my $Default = '';
     # ConfigElement String
@@ -564,9 +565,9 @@ sub ListConfigItem {
             Name => 'ConfigElementString',
             Data => {
                 ElementKey => $ItemHash{Name},
-                Content    => $ItemHash{Setting}[1]{String}[1]{Content},
-                Valid      => $Valid,
-                Default    => $Default,
+                Content => $ItemHash{Setting}[1]{String}[1]{Content},
+                Valid => $Valid,
+                Default => $Default,
             },
         );
     }
@@ -576,8 +577,8 @@ sub ListConfigItem {
             Name => 'ConfigElementTextArea',
             Data => {
                 ElementKey => $ItemHash{Name},
-                Content    => $ItemHash{Setting}[1]{TextArea}[1]{Content},
-                Valid      => $Valid,
+                Content => $ItemHash{Setting}[1]{TextArea}[1]{Content},
+                Valid => $Valid,
             },
         );
     }
@@ -592,16 +593,16 @@ sub ListConfigItem {
             }
         }
         my $PulldownMenue = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data       => \%Hash,
+            Data => \%Hash,
             SelectedID => $ItemHash{Setting}[1]{Option}[1]{SelectedID},
-            Name       => $ItemHash{Name},
+            Name => $ItemHash{Name},
         );
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementSelect',
             Data => {
-                Item        => $ItemHash{Name},
-                Liste       => $PulldownMenue,
-                Default     => $Default,
+                Item => $ItemHash{Name},
+                Liste => $PulldownMenue,
+                Default => $Default,
             },
         );
     }
@@ -616,19 +617,18 @@ sub ListConfigItem {
         # Hashelements
         my %SortContainer = ();
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}}) {
-            $SortContainer{$Index} =  $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key};
+            $SortContainer{$Index} = $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key};
         }
-        foreach my $Index (sort {$SortContainer{$a} cmp $SortContainer{$b}} keys %SortContainer){
-#        foreach my $Index (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}}) {
+        foreach my $Index (sort {$SortContainer{$a} cmp $SortContainer{$b}} keys %SortContainer) {
             # SubHash
             if (defined($ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash})) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementHashContent2',
                     Data => {
                         ElementKey => $ItemHash{Name},
-                        Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
-                        Content    => '##SubHash##',
-                        Index      => $Index,
+                        Key => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
+                        Content => '##SubHash##',
+                        Index => $Index,
                     },
                 );
                 # SubHashElements
@@ -637,10 +637,10 @@ sub ListConfigItem {
                         Name => 'ConfigElementSubHashContent',
                         Data => {
                             ElementKey => $ItemHash{Name}.'##SubHash##'.$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
-                            Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}[$Index2]{Key},
-                            Content    => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}[$Index2]{Content},
-                            Index      => $Index,
-                            Index2     => $Index2,
+                            Key => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}[$Index2]{Key},
+                            Content => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}[$Index2]{Content},
+                            Index => $Index,
+                            Index2 => $Index2,
                         },
                     );
                 }
@@ -651,9 +651,9 @@ sub ListConfigItem {
                     Name => 'ConfigElementHashContent2',
                     Data => {
                         ElementKey => $ItemHash{Name},
-                        Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
-                        Content    => '##SubArray##',
-                        Index      => $Index,
+                        Key => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
+                        Content => '##SubArray##',
+                        Index => $Index,
                     },
                 );
                 # SubArrayElements
@@ -662,9 +662,9 @@ sub ListConfigItem {
                         Name => 'ConfigElementSubArrayContent',
                         Data => {
                             ElementKey => $ItemHash{Name}.'##SubArray##'.$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
-                            Content    => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item}[$Index2]{Content},
-                            Index      => $Index,
-                            Index2     => $Index2,
+                            Content => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item}[$Index2]{Content},
+                            Index => $Index,
+                            Index2 => $Index2,
                         },
                     );
                 }
@@ -677,17 +677,17 @@ sub ListConfigItem {
                     $Hash{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{Item}[$Index2]{Key}} = $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{Item}[$Index2]{Content};
                 }
                 my $PulldownMenue = $Self->{LayoutObject}->OptionStrgHashRef(
-                    Data       => \%Hash,
+                    Data => \%Hash,
                     SelectedID => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{SelectedID},
-                    Name       => $ItemHash{Name}.'Content[]',
+                    Name => $ItemHash{Name}.'Content[]',
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementHashContent3',
                     Data => {
                         ElementKey => $ItemHash{Name},
-                        Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
-                        Liste      => $PulldownMenue,
-                        Index      => $Index,
+                        Key => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
+                        Liste => $PulldownMenue,
+                        Index => $Index,
                     },
                 );
             }
@@ -697,9 +697,9 @@ sub ListConfigItem {
                     Name => 'ConfigElementHashContent',
                     Data => {
                         ElementKey => $ItemHash{Name},
-                        Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
-                        Content    => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Content},
-                        Index      => $Index,
+                        Key => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
+                        Content => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Content},
+                        Index => $Index,
                     },
                 );
             }
@@ -719,8 +719,8 @@ sub ListConfigItem {
                 Name => 'ConfigElementArrayContent',
                 Data => {
                     ElementKey => $ItemHash{Name},
-                    Content    => $ItemHash{Setting}[1]{Array}[1]{Item}[$Index]{Content},
-                    Index      => $Index,
+                    Content => $ItemHash{Setting}[1]{Array}[1]{Item}[$Index]{Content},
+                    Index => $Index,
                 },
             );
         }
@@ -746,9 +746,9 @@ sub ListConfigItem {
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementFrontendModuleRegContent'.$ArrayElement,
                     Data => {
-                        Index      => $Index,
+                        Index => $Index,
                         ElementKey => $ItemHash{Name},
-                        Content    => $ItemHash{Setting}[1]{FrontendModuleReg}[1]{$ArrayElement}[$Index]{Content},
+                        Content => $ItemHash{Setting}[1]{FrontendModuleReg}[1]{$ArrayElement}[$Index]{Content},
                     },
                 );
             }
@@ -834,26 +834,26 @@ sub ListConfigItem {
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}}) {
             my %Valid = ();
             if ($ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year} &&
-               $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year} !~ /^\d\d\d\d$/) {
+                $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year} !~ /^\d\d\d\d$/) {
                 $Valid{ValidYear} = 'invalid';
             }
             if ($ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month} &&
-               $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month} !~ /^(1[0-2]|[1-9])$/) {
+                $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month} !~ /^(1[0-2]|[1-9])$/) {
                 $Valid{ValidMonth} = 'invalid';
             }
             if ($ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day} &&
-               $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day} !~ /^([1-3][0-9]|[1-9])$/) {
+                $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day} !~ /^([1-3][0-9]|[1-9])$/) {
                 $Valid{ValidDay} = 'invalid';
             }
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementTimeVacationDaysOneTimeContent',
                 Data => {
                     ElementKey => $ItemHash{Name},
-                    Year       => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year},
-                    Month      => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month},
-                    Day        => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day},
-                    Content    => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Content},
-                    Index      => $Index,
+                    Year => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year},
+                    Month => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month},
+                    Day => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day},
+                    Content => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Content},
+                    Index => $Index,
                     %Valid,
                 },
             );
@@ -875,21 +875,21 @@ sub ListConfigItem {
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}}) {
             my %Valid = ();
             if ($ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Month} &&
-               $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Month} !~ /^(1[0-2]|[1-9])$/) {
+                $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Month} !~ /^(1[0-2]|[1-9])$/) {
                 $Valid{ValidMonth} = 'invalid';
             }
             if ($ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Day} &&
-               $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Day} !~ /^([1-3][0-9]|[1-9])$/) {
+                $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Day} !~ /^([1-3][0-9]|[1-9])$/) {
                 $Valid{ValidDay} = 'invalid';
             }
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementTimeVacationDaysContent',
                 Data => {
                     ElementKey => $ItemHash{Name},
-                    Month      => $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Month},
-                    Day        => $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Day},
-                    Content    => $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Content},
-                    Index      => $Index,
+                    Month => $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Month},
+                    Day => $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Day},
+                    Content => $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Content},
+                    Index => $Index,
                     %Valid,
                 },
             );
@@ -909,8 +909,8 @@ sub ListConfigItem {
                 Name => 'ConfigElementTimeWorkingHoursContent',
                 Data => {
                     ElementKey => $ItemHash{Name},
-                    Weekday    => $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Name},
-                    Index      => $Index,
+                    Weekday => $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Name},
+                    Index => $Index,
                 },
             );
             # Hours
@@ -926,8 +926,8 @@ sub ListConfigItem {
                     Name => 'ConfigElementTimeWorkingHoursHours',
                     Data => {
                         ElementKey => $ItemHash{Name}.$ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Name},
-                        Hour       => $Z,
-                        Aktiv      => $ArrayHours[$Z],
+                        Hour => $Z,
+                        Aktiv => $ArrayHours[$Z],
                     },
                 );
             }

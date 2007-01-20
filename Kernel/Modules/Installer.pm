@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.42 2007-01-01 23:18:15 mh Exp $
+# $Id: Installer.pm,v 1.43 2007-01-20 22:03:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -35,7 +35,9 @@ sub new {
 
     # check needed Opjects
     foreach (qw(ParamObject LayoutObject LogObject ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     return $Self;
@@ -253,7 +255,6 @@ sub Run {
             }
 
             # create db tables
-
             # read otrs-schema.mysql.sql and process stuff
             my @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/otrs-schema.mysql.sql");
             $DBH->do("use $DB{Database}");
@@ -295,7 +296,6 @@ sub Run {
 
             # inital insert
             # - read initial_insert.sql and process stuff -
-
             @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/initial_insert.sql");
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
@@ -335,7 +335,6 @@ sub Run {
 
             # foreign key
             # - read otrs-schema-post.mysql.sql and process stuff -
-
             @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/otrs-schema-post.mysql.sql");
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
@@ -743,7 +742,9 @@ sub ParseSQLFile {
         close (IN);
     }
     else {
-        die "Can't open $File: $!\n";
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Can't open $File: $!");
+        }
     }
     return @SQL;
 }

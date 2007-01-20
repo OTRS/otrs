@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSalutation.pm - to add/update/delete salutations
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSalutation.pm,v 1.20 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminSalutation.pm,v 1.21 2007-01-20 22:03:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSalutation;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -112,7 +112,7 @@ sub Run {
             " ('$GetParam{Name}', $GetParam{ValidID}, '$GetParam{Comment}', '$GetParam{Salutation}', " .
             " current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
         if ($Self->{DBObject}->Do(SQL => $SQL)) {
-             $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
+            $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.24 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminUserGroup.pm,v 1.25 2007-01-20 22:03:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUserGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -215,7 +215,7 @@ sub MaskAdminUserGroupChangeForm {
         $Param{OptionStrg0} .= "<th>$_</th>";
     }
     $Param{OptionStrg0} .= "</tr>\n";
-    foreach (sort {uc($Data{$a}) cmp uc($Data{$b})} keys %Data){
+    foreach (sort {uc($Data{$a}) cmp uc($Data{$b})} keys %Data) {
         $Param{Data}->{$_} = $Self->{LayoutObject}->Ascii2Html(
             Text => $Param{Data}->{$_},
             HTMLQuote => 1,
@@ -254,7 +254,7 @@ sub MaskAdminUserGroupForm {
     my %GroupDataTmp = %$GroupData;
     my $BaseLink = $Self->{LayoutObject}->{Baselink} . "Action=AdminUserGroup&";
 
-    foreach (sort {uc($UserDataTmp{$a}) cmp uc($UserDataTmp{$b})} keys %UserDataTmp){
+    foreach (sort {uc($UserDataTmp{$a}) cmp uc($UserDataTmp{$b})} keys %UserDataTmp) {
         $UserDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
             Text => $UserDataTmp{$_},
             HTMLQuote => 1,
@@ -262,7 +262,7 @@ sub MaskAdminUserGroupForm {
         ) || '';
         $Param{UserStrg} .= "<A HREF=\"$BaseLink"."Subaction=User&ID=$_\">$UserDataTmp{$_}</A><BR>";
     }
-    foreach (sort {uc($GroupDataTmp{$a}) cmp uc($GroupDataTmp{$b})} keys %GroupDataTmp){
+    foreach (sort {uc($GroupDataTmp{$a}) cmp uc($GroupDataTmp{$b})} keys %GroupDataTmp) {
         $GroupDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
             Text => $GroupDataTmp{$_},
             HTMLQuote => 1,
