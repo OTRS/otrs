@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AgentStats.pm
+# Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.23 2007-01-11 10:54:08 tr Exp $
+# $Id: AgentStats.pm,v 1.24 2007-01-20 18:04:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -32,24 +32,25 @@ sub new {
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
-     # check needed Opjects
-    foreach (qw(GroupObject ParamObject DBObject ModuleReg LogObject
-        ConfigObject UserObject MainObject)) {
-        $Self->{LayoutObject}->FatalError(Message => "Got no $_!") if (!$Self->{$_});
+    # check needed Opjects
+    foreach (qw(GroupObject ParamObject DBObject ModuleReg LogObject ConfigObject UserObject MainObject)) {
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     # create needed objects
-    $Self->{CSVObject}   = Kernel::System::CSV->new(%Param);
+    $Self->{CSVObject} = Kernel::System::CSV->new(%Param);
     $Param{CSVObject} = $Self->{CSVObject};
     $Self->{StatsObject} = Kernel::System::Stats->new(%Param);
-    $Self->{PDFObject}   = Kernel::System::PDF->new(%Param);
+    $Self->{PDFObject} = Kernel::System::PDF->new(%Param);
 
     return $Self;
 }
 
 sub Run {
-    my $Self        = shift;
-    my %Param       = @_;
-    my $Output      = '';
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
 
     # ---------------------------------------------------------- #
     # subaction overview
@@ -60,36 +61,36 @@ sub Run {
 
         # Get Params
         $Param{SearchPageShown} = $Self->{ConfigObject}->Get('Stats::SearchPageShown') || 10;
-        $Param{SearchLimit}     = $Self->{ConfigObject}->Get('Stats::SearchLimit')     || 100;
-        $Param{OrderBy}         = $Self->{ParamObject}->GetParam(Param => 'OrderBy')   || 'ID';
-        $Param{Direction}       = $Self->{ParamObject}->GetParam(Param => 'Direction') || 'ASC';
-        $Param{StartHit}        = $Self->{ParamObject}->GetParam(Param => 'StartHit')  || 1;
+        $Param{SearchLimit} = $Self->{ConfigObject}->Get('Stats::SearchLimit') || 100;
+        $Param{OrderBy} = $Self->{ParamObject}->GetParam(Param => 'OrderBy') || 'ID';
+        $Param{Direction} = $Self->{ParamObject}->GetParam(Param => 'Direction') || 'ASC';
+        $Param{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
 
         # store last screen
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
-            Key       => 'LastScreenOverview',
-            Value     => $Self->{RequestedURL},
+            Key => 'LastScreenOverview',
+            Value => $Self->{RequestedURL},
         );
 
         # get all Stats from the db
         my $Result = $Self->{StatsObject}->GetStatsList(
-            OrderBy   => $Param{OrderBy},
+            OrderBy => $Param{OrderBy},
             Direction => $Param{Direction},
         );
 
         # build the info
         my %Frontend = $Self->{LayoutObject}->PageNavBar(
-            Limit     => $Param{SearchLimit},
-            StartHit  => $Param{StartHit},
+            Limit => $Param{SearchLimit},
+            StartHit => $Param{StartHit},
             PageShown => $Param{SearchPageShown},
-            AllHits   => $#{$Result} + 1,
-            Action    => "Action=AgentStats&Subaction=Overview",
-            Link      => "&Direction=".($Param{Direction}||'')."&OrderBy=".($Param{OrderBy}||'')."&",
+            AllHits => $#{$Result} + 1,
+            Action => "Action=AgentStats&Subaction=Overview",
+            Link => "&Direction=".($Param{Direction}||'')."&OrderBy=".($Param{OrderBy}||'')."&",
         );
 
         # list result
-        my $Index  = -1;
+        my $Index = -1;
         my $Counter = 0;
         for (my $Z = 0; ($Z < $Param{SearchPageShown} && $Index < $#{$Result}); $Z++) {
             $Counter++;
@@ -115,7 +116,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Header(Title => "Overview");
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
-            Data         => {%Frontend, %Param},
+            Data => {%Frontend, %Param},
             TemplateFile => 'AgentStatsOverview',
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -131,10 +132,7 @@ sub Run {
         my $StatID = 'new';
 
         # redirect to edit
-
-        return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&" .
-                                                     "Subaction=EditSpecification&" .
-                                                     "StatID=$StatID");
+        return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&Subaction=EditSpecification&StatID=$StatID");
     }
     # ---------------------------------------------------------- #
     # subaction View
@@ -144,8 +142,8 @@ sub Run {
         $Self->{AccessRo} || return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
 
         # get statID
-        my $StatID  = $Self->{ParamObject}->GetParam(Param => 'StatID');
-        if (!$StatID){
+        my $StatID = $Self->{ParamObject}->GetParam(Param => 'StatID');
+        if (!$StatID) {
             return $Self->{LayoutObject}->ErrorScreen(Message => "View: Get no StatID!");
         }
         # get message if one available
@@ -167,16 +165,16 @@ sub Run {
         );
 
         $Stat->{Description} = $Self->{LayoutObject}->Ascii2Html(
-            Text           => $Stat->{Description},
+            Text => $Stat->{Description},
             HTMLResultMode => 1,
-            NewLine        => 72,
+            NewLine => 72,
         );
 
         # create format select box
         my %SelectFormat = ();
-        my $Flag         = 0;
-        my $Counter      = 0;
-        my $Format       = $Self->{ConfigObject}->Get('Stats::Format');
+        my $Flag = 0;
+        my $Counter = 0;
+        my $Format = $Self->{ConfigObject}->Get('Stats::Format');
         foreach my $UseAsValueSeries (@{$Stat->{UseAsValueSeries}}) {
             if ($UseAsValueSeries->{Selected}) {
                 $Counter++;
@@ -193,10 +191,10 @@ sub Run {
             }
         }
         if ($CounterII > 1) {
-            my %Frontend     = ();
+            my %Frontend = ();
             $Frontend{SelectFormat} = $Self->{LayoutObject}->OptionStrgHashRef(
-                Data               => \%SelectFormat,
-                Name               => 'Format',
+                Data => \%SelectFormat,
+                Name => 'Format',
             );
             $Self->{LayoutObject}->Block(
                 Name => 'Format',
@@ -206,7 +204,8 @@ sub Run {
         else {
             $Self->{LayoutObject}->Block(
                 Name => 'FormatFixed',
-                Data => {Format => $Format->{$Stat->{Format}->[0]},
+                Data => {
+                    Format => $Format->{$Stat->{Format}->[0]},
                     FormatKey => $Stat->{Format}->[0],
                 },
             );
@@ -214,8 +213,8 @@ sub Run {
 
         # create graphic size select box
         if ($Stat->{GraphSize} && $Flag) {
-            my %GraphSize    = ();
-            my %Frontend     = ();
+            my %GraphSize = ();
+            my %Frontend = ();
             my $GraphSizeRef = $Self->{ConfigObject}->Get('Stats::GraphSize');
 
             foreach my $Value (@{$Stat->{GraphSize}}) {
@@ -234,7 +233,8 @@ sub Run {
             else {
                 $Self->{LayoutObject}->Block(
                     Name => 'GraphsizeFixed',
-                    Data => {GraphSize => $GraphSizeRef->{$Stat->{GraphSize}->[0]},
+                    Data => {
+                        GraphSize => $GraphSizeRef->{$Stat->{GraphSize}->[0]},
                         GraphSizeKey => $Stat->{GraphSize}->[0],
                     },
                 );
@@ -243,14 +243,19 @@ sub Run {
 
         if ($Self->{ConfigObject}->Get("Stats::ExchangeAxis")) {
             my $ExchangeAxis = $Self->{LayoutObject}->OptionStrgHashRef(
-                Data => {1 => 'Yes', 0 => 'No'},
+                Data => {
+                    1 => 'Yes',
+                    0 => 'No'
+                },
                 Name => 'ExchangeAxis',
                 SelectedID => 0,
             );
 
             $Self->{LayoutObject}->Block(
                 Name => 'ExchangeAxis',
-                Data => {ExchangeAxis => $ExchangeAxis}
+                Data => {
+                    ExchangeAxis => $ExchangeAxis
+                }
             );
         }
 
@@ -268,11 +273,11 @@ sub Run {
                     Data => {
                         Param => $ParamItem->{Frontend},
                         Field => $Self->{LayoutObject}->OptionStrgHashRef(
-                            Data       => $ParamItem->{Data},
-                            Name       => $ParamItem->{Name},
+                            Data => $ParamItem->{Data},
+                            Name => $ParamItem->{Name},
                             SelectedID => $ParamItem->{SelectedID} || '',
-                            Multiple   => $ParamItem->{Multiple}   || 0,
-                            Size       => $ParamItem->{Size}       || '',
+                            Multiple => $ParamItem->{Multiple} || 0,
+                            Size => $ParamItem->{Size} || '',
                         ),
                     },
                 );
@@ -282,7 +287,7 @@ sub Run {
         # get dynamic attributes
         elsif ($Stat->{StatType} eq 'dynamic') {
             my %Name = (
-                UseAsXvalue      => 'X-axis',
+                UseAsXvalue => 'X-axis',
                 UseAsValueSeries => 'Value Series',
                 UseAsRestriction => 'Restrictions',
             );
@@ -290,7 +295,9 @@ sub Run {
                 my $Flag = 0;
                 $Self->{LayoutObject}->Block(
                     Name => 'Dynamic',
-                    Data => {Name => $Name{$Use}},
+                    Data => {
+                        Name => $Name{$Use}
+                    },
                 );
                 foreach my $ObjectAttribute (@{$Stat->{$Use}}) {
                     if ($ObjectAttribute->{Selected}) {
@@ -314,7 +321,9 @@ sub Run {
 
                         $Self->{LayoutObject}->Block(
                             Name => 'Element',
-                            Data => {Name => $ObjectAttribute->{Name}},
+                            Data => {
+                                Name => $ObjectAttribute->{Name}
+                            },
                         );
 
                         # show fixed elements
@@ -329,7 +338,7 @@ sub Run {
                                         Name => 'TimePeriodFixed',
                                         Data => {
                                             TimeStart => $ObjectAttribute->{TimeStart},
-                                            TimeStop  => $ObjectAttribute->{TimeStop},
+                                            TimeStop => $ObjectAttribute->{TimeStop},
                                         },
                                     );
                                 }
@@ -337,7 +346,7 @@ sub Run {
                                     $Self->{LayoutObject}->Block(
                                         Name => 'TimeRelativeFixed',
                                         Data => {
-                                            TimeRelativeUnit  => $TimeScale->{$ObjectAttribute->{TimeRelativeUnit}}{Value},
+                                            TimeRelativeUnit => $TimeScale->{$ObjectAttribute->{TimeRelativeUnit}}{Value},
                                             TimeRelativeCount => $ObjectAttribute->{TimeRelativeCount},
                                         },
                                     );
@@ -361,9 +370,9 @@ sub Run {
                                     $Self->{LayoutObject}->Block(
                                         Name => 'Fixed',
                                         Data => {
-                                            Value   => $Value,
-                                            Key     => $_,
-                                            Use     => $Use,
+                                            Value => $Value,
+                                            Key => $_,
+                                            Use => $Use,
                                             Element => $ObjectAttribute->{Element},
                                         },
                                     );
@@ -373,18 +382,17 @@ sub Run {
                         # show  unfixed elements
                         else {
                             my %BlockData = ();
-                            $BlockData{Name}    = $ObjectAttribute->{Name};
+                            $BlockData{Name} = $ObjectAttribute->{Name};
                             $BlockData{Element} = $ObjectAttribute->{Element};
-                            $BlockData{Value}   = $ObjectAttribute->{SelectedValues}->[0];
+                            $BlockData{Value} = $ObjectAttribute->{SelectedValues}->[0];
 
                             if ($ObjectAttribute->{Block} eq 'MultiSelectField') {
                                 $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                                    Data                => \%ValueHash,
-                                    Name                => $Use . $ObjectAttribute->{Element},
-                                    #Name                => $Use . '->' .$ObjectAttribute->{Element},
-                                    Multiple            => 1,
-                                    Size                => 5,
-                                    SelectedIDRefArray  => $ObjectAttribute->{SelectedValues},
+                                    Data => \%ValueHash,
+                                    Name => $Use . $ObjectAttribute->{Element},
+                                    Multiple => 1,
+                                    Size => 5,
+                                    SelectedIDRefArray => $ObjectAttribute->{SelectedValues},
                                     LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
                                 );
                                 $Self->{LayoutObject}->Block(
@@ -394,8 +402,8 @@ sub Run {
                             }
                             elsif ($ObjectAttribute->{Block} eq 'SelectField') {
                                 $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                                    Data               => \%ValueHash,
-                                    Name                => $ObjectAttribute->{Element},
+                                    Data => \%ValueHash,
+                                    Name => $ObjectAttribute->{Element},
                                     LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
                                 );
                                 $Self->{LayoutObject}->Block(
@@ -405,25 +413,22 @@ sub Run {
                             }
 
                             elsif ($ObjectAttribute->{Block} eq 'InputField') {
-
                                 $Self->{LayoutObject}->Block(
                                     Name => 'InputField',
                                     Data => {
                                         Key => $Use . $ObjectAttribute->{Element},
-                                        #Key => $Use . '->' . $ObjectAttribute->{Element},
                                         Value => $ObjectAttribute->{SelectedValues}[0],
-                                     },
+                                    },
                                 );
                             }
                             elsif ($ObjectAttribute->{Block} eq 'Time') {
                                 $ObjectAttribute->{Element} = $Use . $ObjectAttribute->{Element};
-                                #$ObjectAttribute->{Element} = $Use . '->' .$ObjectAttribute->{Element};
                                 my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType") || 'Normal';
                                 my %TimeData = _Timeoutput($Self, %{$ObjectAttribute}, OnlySelectedAttributs => 1);
                                 %BlockData = (%BlockData, %TimeData);
                                 if ($ObjectAttribute->{TimeStart}) {
                                     $BlockData{TimeStartMax} = $ObjectAttribute->{TimeStart};
-                                    $BlockData{TimeStopMax}  = $ObjectAttribute->{TimeStop};
+                                    $BlockData{TimeStopMax} = $ObjectAttribute->{TimeStop};
                                     $Self->{LayoutObject}->Block(
                                         Name => 'TimePeriod',
                                         Data => \%BlockData,
@@ -431,9 +436,9 @@ sub Run {
                                 }
 
                                 elsif ($ObjectAttribute->{TimeRelativeUnit}) {
-                                    my $TimeScale       = _TimeScale();
+                                    my $TimeScale = _TimeScale();
                                     if ($TimeType eq 'Extended') {
-                                        my @TimeScaleArray  = reverse(keys(%{$TimeScale}));
+                                        my @TimeScaleArray = reverse(keys(%{$TimeScale}));
                                         my %TimeScaleOption = ();
                                         foreach (@TimeScaleArray) {
                                             $TimeScaleOption{$_} = $TimeScale->{$_}{Value};
@@ -447,11 +452,11 @@ sub Run {
                                         );
                                     }
                                     $BlockData{TimeRelativeCountMax} = $ObjectAttribute->{TimeRelativeCount};
-                                    $BlockData{TimeRelativeUnitMax}  = $TimeScale->{$ObjectAttribute->{TimeRelativeUnit}}{Value};
+                                    $BlockData{TimeRelativeUnitMax} = $TimeScale->{$ObjectAttribute->{TimeRelativeUnit}}{Value};
 
                                     $Self->{LayoutObject}->Block(
-                                         Name => 'TimePeriodRelative',
-                                         Data => \%BlockData,
+                                        Name => 'TimePeriodRelative',
+                                        Data => \%BlockData,
                                     );
                                 }
 
@@ -462,7 +467,7 @@ sub Run {
                                         $BlockData{TimeScaleUnit} = $BlockData{TimeSelectField};
                                     }
                                     elsif ($TimeType eq 'Extended') {
-                                        my $TimeScale       = _TimeScale();
+                                        my $TimeScale = _TimeScale();
                                         my %TimeScaleOption = ();
                                         foreach (keys %{$TimeScale}) {
                                             $TimeScaleOption{$_} = $TimeScale->{$_}->{Value};
@@ -481,7 +486,6 @@ sub Run {
                                             Name => 'TimeScaleInfo',
                                             Data => \%BlockData,
                                         );
-
                                     }
                                     if ($ObjectAttribute->{SelectedValues}) {
                                         $Self->{LayoutObject}->Block(
@@ -509,12 +513,12 @@ sub Run {
                 }
             }
         }
-        my %YesNo        = (0 => 'No', 1 => 'Yes');
+        my %YesNo = (0 => 'No', 1 => 'Yes');
         my %ValidInvalid = (0 => 'invalid', 1 => 'valid');
         $Stat->{SumRowValue} = $YesNo{$Stat->{SumRow}};
         $Stat->{SumColValue} = $YesNo{$Stat->{SumCol}};
-        $Stat->{CacheValue}  = $YesNo{$Stat->{Cache}};
-        $Stat->{ValidValue}  = $ValidInvalid{$Stat->{Valid}};
+        $Stat->{CacheValue} = $YesNo{$Stat->{Cache}};
+        $Stat->{ValidValue} = $ValidInvalid{$Stat->{Valid}};
 
         foreach (qw(CreatedBy ChangedBy)) {
             $Stat->{$_} = $Self->{UserObject}->UserName(UserID => $Stat->{$_});
@@ -523,8 +527,8 @@ sub Run {
         # store last screen
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
-            Key       => 'LastScreenView',
-            Value     => $Self->{RequestedURL},
+            Key => 'LastScreenView',
+            Value => $Self->{RequestedURL},
         );
         # show admin links
         if ($Self->{AccessRw}) {
@@ -535,8 +539,8 @@ sub Run {
         }
         # Completenesscheck
         my @Notify = $Self->{StatsObject}->CompletenessCheck(
-              StatData => $Stat,
-              Section  => 'All'
+            StatData => $Stat,
+            Section => 'All'
         );
 
         # show the start buttom if the stat is valid and complettnesscheck true
@@ -566,13 +570,13 @@ sub Run {
                 $Message = 'Your reporting time interval is to small, please use a larger time scale!';
             }
             $Output .= $Self->{LayoutObject}->Notify(
-                Info     => $Message,
+                Info => $Message,
                 Priority => 'Error',
             );
         }
         $Output .= $Self->_Notify(StatData => $Stat, Section => 'All');
         $Output .= $Self->{LayoutObject}->Output(
-            Data         => $Stat,
+            Data => $Stat,
             TemplateFile => 'AgentStatsView',
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -590,7 +594,7 @@ sub Run {
         }
 
         my $StatID = $Self->{ParamObject}->GetParam(Param => 'StatID');
-        if (!$StatID){
+        if (!$StatID) {
             return $Self->{LayoutObject}->ErrorScreen(Message => "Delete: Get no StatID!");
         }
 
@@ -600,8 +604,7 @@ sub Run {
                 $Self->{StatsObject}->StatsDelete(StatID => $StatID);
             }
             # redirect to edit
-            return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&" .
-                                                         "Subaction=Overview");
+            return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&Subaction=Overview");
         }
         else {
             my $Stat = $Self->{StatsObject}->StatsGet(StatID => $StatID);
@@ -611,7 +614,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentStatsDelete',
-                Data         => $Stat,
+                Data => $Stat,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -628,14 +631,14 @@ sub Run {
         my $StatID = $Self->{ParamObject}->GetParam(Param => 'StatID');
 
         # check if available
-        if (!$StatID){
+        if (!$StatID) {
             return $Self->{LayoutObject}->ErrorScreen(Message => "Export: Get no StatID!");
         }
-        my $ExportFile =  $Self->{StatsObject}->Export(StatID => $StatID);
+        my $ExportFile = $Self->{StatsObject}->Export(StatID => $StatID);
 
         return $Self->{LayoutObject}->Attachment(
-            Filename    => $ExportFile->{Filename},
-            Content     => $ExportFile->{Content},
+            Filename => $ExportFile->{Filename},
+            Content => $ExportFile->{Content},
             ContentType => 'text/xml',
         );
     }
@@ -657,13 +660,13 @@ sub Run {
             my $Uploadfile = '';
             if ($Uploadfile = $Self->{ParamObject}->GetParam(Param => 'file_upload')) {
                 my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                    Param    => "file_upload",
-                    Source   => 'string',
+                    Param => "file_upload",
+                    Source => 'string',
                     Encoding => 'Raw'
                 );
                 if ($UploadStuff{Content} =~ /<otrs_stats>/) {
                     my $StatID = $Self->{StatsObject}->Import(
-                        Content  => $UploadStuff{Content},
+                        Content => $UploadStuff{Content},
                     );
 
                     if (!$StatID) {
@@ -671,9 +674,7 @@ sub Run {
                     }
 
                     # redirect to edit
-                    return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&" .
-                                                        "Subaction=View&" .
-                                                        "StatID=$StatID");
+                    return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&Subaction=View&StatID=$StatID");
                 }
                 else {
                     # return to import: doctype not found!
@@ -698,7 +699,7 @@ sub Run {
         }
 
         # show import form
-        $Output  = $Self->{LayoutObject}->Header(Title => "Import");
+        $Output = $Self->{LayoutObject}->Header(Title => "Import");
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentStatsImport');
         $Output .= $Self->{LayoutObject}->Footer();
@@ -716,7 +717,7 @@ sub Run {
         }
         # check if needed params are available
         foreach (qw(StatID Home)) {
-            if (!$Param{$_}){
+            if (!$Param{$_}) {
                 return $Self->{LayoutObject}->ErrorScreen(Message => "EditAction: Need $_!");
             }
         }
@@ -724,13 +725,13 @@ sub Run {
         if ($Param{StatID} eq 'new') {
             # call the StatsAddfunction and get the new StatID
             $Param{StatID} = $Self->{StatsObject}->StatsAdd();
-            if (!$Param{StatID}){
+            if (!$Param{StatID}) {
                 return $Self->{LayoutObject}->ErrorScreen(Message => "Add: Get no StatID!");
             }
         }
 
         # get save data
-        my %Data      = ();
+        my %Data = ();
         my $Subaction = '';
 
         # save EditSpecification
@@ -759,16 +760,16 @@ sub Run {
             }
 
             if($Data{StatType} eq '') {
-                $Data{File}         = '';
-                $Data{Object}       = '';
+                $Data{File} = '';
+                $Data{Object} = '';
                 $Data{ObjectModule} = '';
             }
             elsif($Data{StatType} eq 'dynamic' && $Data{Object}) {
-                $Data{File}         = '';
+                $Data{File} = '';
                 $Data{ObjectModule} = 'Kernel::System::Stats::Dynamic::' . $Data{Object};
             }
             elsif($Data{StatType} eq 'static' && $Data{File}) {
-                $Data{Object}       = '';
+                $Data{Object} = '';
                 $Data{ObjectModule} = 'Kernel::System::Stats::Static::' . $Data{File};
             }
             # save array
@@ -786,8 +787,8 @@ sub Run {
 
             # CompletenessCheck and set next subaction
             my @Notify = $Self->{StatsObject}->CompletenessCheck(
-                 StatData => \%Data,
-                 Section  => 'Specification'
+                StatData => \%Data,
+                Section => 'Specification'
             );
             if (@Notify) {
                 $Subaction = 'EditSpecification';
@@ -798,20 +799,19 @@ sub Run {
             else {
                 $Subaction = 'EditXaxis' ;
             }
-
         }
         # save EditXaxis
         elsif ($Param{Home} eq 'EditXaxis') {
-            my $Stat  = $Self->{StatsObject}->StatsGet(StatID => $Param{StatID});
+            my $Stat = $Self->{StatsObject}->StatsGet(StatID => $Param{StatID});
             $Param{Select} = $Self->{ParamObject}->GetParam(Param => 'Select');
-            $Data{StatType}       = $Stat->{StatType};
+            $Data{StatType} = $Stat->{StatType};
             foreach my $ObjectAttribute (@{$Stat->{UseAsXvalue}}) {
                 if ($Param{Select} eq $ObjectAttribute->{Element}) {
                     my @Array = $Self->{ParamObject}->GetArray(Param => $Param{Select});
                     $Data{UseAsXvalue}[0]{SelectedValues} = \@Array;
-                    $Data{UseAsXvalue}[0]{Element}        = $Param{Select};
-                    $Data{UseAsXvalue}[0]{Block}          = $ObjectAttribute->{Block};
-                    $Data{UseAsXvalue}[0]{Selected}       = 1;
+                    $Data{UseAsXvalue}[0]{Element} = $Param{Select};
+                    $Data{UseAsXvalue}[0]{Block} = $ObjectAttribute->{Block};
+                    $Data{UseAsXvalue}[0]{Selected} = 1;
 
                     if ($Self->{ParamObject}->GetParam(Param => 'Fixed' . $Param{Select})) {
                         $Data{UseAsXvalue}[0]{Fixed} = 1;
@@ -823,17 +823,17 @@ sub Run {
                     # Check if Time was selected
                     if ($ObjectAttribute->{Block} eq 'Time') {
                         my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType") || 'Normal';
-                        # perhaps not useful because the period should unfixed
-                        #if ($TimeType eq 'Normal') {
-                        #    # if the admin has only one unit selected, unfixed is useless
-                        #    if (!$Data{UseAsXvalue}[0]{SelectedValues}[1] && $Data{UseAsXvalue}[0]{SelectedValues}[0]) {
-                        #        $Data{UseAsXvalue}[0]{Fixed} = 1;
-                        #    }
-                        #}
-                        #elsif ($TimeType eq 'TimeExtended') {
-                        #
-                        #}
-                        my %Time    = ();
+#                        # perhaps not useful because the period should unfixed
+#                        if ($TimeType eq 'Normal') {
+#                            # if the admin has only one unit selected, unfixed is useless
+#                            if (!$Data{UseAsXvalue}[0]{SelectedValues}[1] && $Data{UseAsXvalue}[0]{SelectedValues}[0]) {
+#                                $Data{UseAsXvalue}[0]{Fixed} = 1;
+#                            }
+#                        }
+#                        elsif ($TimeType eq 'TimeExtended') {
+#
+#                        }
+                        my %Time = ();
                         my $Element = $Data{UseAsXvalue}[0]{Element};
                         $Data{UseAsXvalue}[0]{TimeScaleCount} = $Self->{ParamObject}->GetParam(Param => $Element . 'TimeScaleCount') || 1;
                         my $TimeSelect = $Self->{ParamObject}->GetParam(Param => $Element . 'TimeSelect')  || 'Absolut';
@@ -842,7 +842,7 @@ sub Run {
                                 foreach my $Unit (qw(Year Month Day Hour Minute Second)) {
                                     if (defined($Self->{ParamObject}->GetParam(Param => "$Element$Limit$Unit"))) {
                                         $Time{$Limit . $Unit} = $Self->{ParamObject}->GetParam(
-                                            Param => "$Element$Limit$Unit"
+                                            Param => "$Element$Limit$Unit",
                                         );
                                     }
                                 }
@@ -879,7 +879,7 @@ sub Run {
                             }
                         }
                         else {
-                            $Data{UseAsXvalue}[0]{TimeRelativeUnit}  = $Self->{ParamObject}->GetParam(Param => $Element . 'TimeRelativeUnit');
+                            $Data{UseAsXvalue}[0]{TimeRelativeUnit} = $Self->{ParamObject}->GetParam(Param => $Element . 'TimeRelativeUnit');
                             $Data{UseAsXvalue}[0]{TimeRelativeCount} = $Self->{ParamObject}->GetParam(Param => $Element . 'TimeRelativeCount');
                         }
                     }
@@ -887,8 +887,8 @@ sub Run {
             }
             # CompletenessCheck and set next subaction
             my @Notify = $Self->{StatsObject}->CompletenessCheck(
-                 StatData => \%Data,
-                 Section  => 'Xaxis'
+                StatData => \%Data,
+                Section => 'Xaxis'
             );
             if (@Notify) {
                 $Subaction = 'EditXaxis';
@@ -903,17 +903,16 @@ sub Run {
 
         # save EditValueSeries
         elsif ($Param{Home} eq 'EditValueSeries') {
-            my $Stat  = $Self->{StatsObject}->StatsGet(StatID => $Param{StatID});
+            my $Stat = $Self->{StatsObject}->StatsGet(StatID => $Param{StatID});
             my $Index = 0;
             $Data{StatType} = $Stat->{StatType};
             foreach my $ObjectAttribute (@{$Stat->{UseAsValueSeries}}) {
-
                 if ($Self->{ParamObject}->GetParam(Param => "Select" . $ObjectAttribute->{Element})) {
                     my @Array = $Self->{ParamObject}->GetArray(Param => $ObjectAttribute->{Element});
                     $Data{UseAsValueSeries}[$Index]{SelectedValues} = \@Array;
-                    $Data{UseAsValueSeries}[$Index]{Element}        = $ObjectAttribute->{Element};
-                    $Data{UseAsValueSeries}[$Index]{Block}          = $ObjectAttribute->{Block};
-                    $Data{UseAsValueSeries}[$Index]{Selected}       = 1;
+                    $Data{UseAsValueSeries}[$Index]{Element} = $ObjectAttribute->{Element};
+                    $Data{UseAsValueSeries}[$Index]{Block} = $ObjectAttribute->{Block};
+                    $Data{UseAsValueSeries}[$Index]{Selected} = 1;
 
                     if ($Self->{ParamObject}->GetParam(Param => 'Fixed' . $ObjectAttribute->{Element})) {
                         $Data{UseAsValueSeries}[$Index]{Fixed} = 1;
@@ -932,7 +931,8 @@ sub Run {
                             }
                         }
                         # for working with extended time
-                        $Data{UseAsValueSeries}[$Index]{TimeScaleCount} = $Self->{ParamObject}->GetParam(Param => $ObjectAttribute->{Element} . 'TimeScaleCount') || 1;
+                        $Data{UseAsValueSeries}[$Index]{TimeScaleCount} =
+                            $Self->{ParamObject}->GetParam(Param => $ObjectAttribute->{Element} . 'TimeScaleCount') || 1;
                     }
                     $Index++;
                 }
@@ -943,8 +943,8 @@ sub Run {
 
             # CompletenessCheck and set next subaction
             my @Notify = $Self->{StatsObject}->CompletenessCheck(
-                 StatData => \%Data,
-                 Section  => 'ValueSeries'
+                StatData => \%Data,
+                Section => 'ValueSeries'
             );
             if (@Notify) {
                 $Subaction = 'EditValueSeries';
@@ -958,18 +958,18 @@ sub Run {
         }
         # save EditRestrictions
         elsif ($Param{Home} eq 'EditRestrictions') {
-            my $Stat  = $Self->{StatsObject}->StatsGet(StatID => $Param{StatID});
+            my $Stat = $Self->{StatsObject}->StatsGet(StatID => $Param{StatID});
             my $Index = 0;
             my $SelectFieldError = 0;
             $Data{StatType} = $Stat->{StatType};
             foreach my $ObjectAttribute (@{$Stat->{UseAsRestriction}}) {
                 if ($Self->{ParamObject}->GetParam(Param => "Select" . $ObjectAttribute->{Element})) {
                     my $Element = $ObjectAttribute->{Element};
-                    my @Array   = $Self->{ParamObject}->GetArray(Param => $Element);
+                    my @Array = $Self->{ParamObject}->GetArray(Param => $Element);
                     $Data{UseAsRestriction}[$Index]{SelectedValues} = \@Array;
-                    $Data{UseAsRestriction}[$Index]{Element}        = $Element;
-                    $Data{UseAsRestriction}[$Index]{Block}          = $ObjectAttribute->{Block};
-                    $Data{UseAsRestriction}[$Index]{Selected}       = 1;
+                    $Data{UseAsRestriction}[$Index]{Element} = $Element;
+                    $Data{UseAsRestriction}[$Index]{Block} = $ObjectAttribute->{Block};
+                    $Data{UseAsRestriction}[$Index]{Selected} = 1;
 
                     if ($Self->{ParamObject}->GetParam(Param => 'Fixed' . $Element)) {
                         $Data{UseAsRestriction}[$Index]{Fixed} = 1;
@@ -986,18 +986,18 @@ sub Run {
                                 foreach my $Unit (qw(Year Month Day Hour Minute Second)) {
                                     if (defined($Self->{ParamObject}->GetParam(Param => "$Element$Limit$Unit"))) {
                                         $Time{$Limit . $Unit} = $Self->{ParamObject}->GetParam(
-                                            Param => "$Element$Limit$Unit"
+                                            Param => "$Element$Limit$Unit",
                                         );
                                     }
                                 }
                                 if (!defined($Time{$Limit . "Hour"})) {
                                     if ($Limit eq 'Start') {
-                                        $Time{"StartHour"}   = 0;
+                                        $Time{"StartHour"} = 0;
                                         $Time{"StartMinute"} = 0;
                                         $Time{"StartSecond"} = 0;
                                     }
                                     elsif ($Limit eq 'Stop') {
-                                        $Time{"StopHour"}   = 23;
+                                        $Time{"StopHour"} = 23;
                                         $Time{"StopMinute"} = 59;
                                         $Time{"StopSecond"} = 59;
                                     }
@@ -1019,12 +1019,14 @@ sub Run {
                                     $Time{$Limit . "Hour"},
                                     $Time{$Limit . "Minute"},
                                     $Time{$Limit . "Second"},
-                                ); # Second for later functions
+                                );
                             }
                         }
                         else {
-                            $Data{UseAsRestriction}[$Index]{TimeRelativeUnit}  = $Self->{ParamObject}->GetParam(Param => $Element . 'TimeRelativeUnit');
-                            $Data{UseAsRestriction}[$Index]{TimeRelativeCount} = $Self->{ParamObject}->GetParam(Param => $Element . 'TimeRelativeCount');
+                            $Data{UseAsRestriction}[$Index]{TimeRelativeUnit} =
+                                $Self->{ParamObject}->GetParam(Param => $Element . 'TimeRelativeUnit');
+                            $Data{UseAsRestriction}[$Index]{TimeRelativeCount} =
+                                $Self->{ParamObject}->GetParam(Param => $Element . 'TimeRelativeCount');
                         }
                     }
                     $Index++;
@@ -1035,8 +1037,8 @@ sub Run {
             }
             # CompletenessCheck and set next subaction
             my @Notify = $Self->{StatsObject}->CompletenessCheck(
-                 StatData => \%Data,
-                 Section  => 'Restrictions'
+                StatData => \%Data,
+                Section => 'Restrictions'
             );
             if (@Notify || $SelectFieldError) {
                 $Subaction = 'EditRestrictions';
@@ -1057,12 +1059,10 @@ sub Run {
         # save xmlhash in db
         $Self->{StatsObject}->StatsUpdate(
             StatID => $Param{StatID},
-            Hash   => \%Data,
+            Hash => \%Data,
         );
         # redirect
-        return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&" .
-                                                     "Subaction=$Subaction&" .
-                                                     "StatID=$Param{StatID}");
+        return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&Subaction=$Subaction&StatID=$Param{StatID}");
     }
     # ---------------------------------------------------------- #
     # edit stats specification
@@ -1077,7 +1077,7 @@ sub Run {
         foreach (qw(StatID)) {
             if (!($Param{$_} = $Self->{ParamObject}->GetParam(Param => $_))) {
                 return $Self->{LayoutObject}->ErrorScreen(
-                    Message => "EditSpecification: Need $_!"
+                    Message => "EditSpecification: Need $_!",
                 );
             }
         }
@@ -1087,16 +1087,16 @@ sub Run {
             $Stat = $Self->{StatsObject}->StatsGet(StatID => $Param{StatID});
         }
         else {
-            $Stat->{StatID}     = 'new';
+            $Stat->{StatID} = 'new';
             $Stat->{StatNumber} = 'New';
         }
 
         # build the dynamic or/and static stats selection if nothing is selected
         if (!$Stat->{StatType}) {
-            my $DynamicFiles      = $Self->{StatsObject}->GetDynamicFiles();
-            my $StaticFiles       = $Self->{StatsObject}->GetStaticFiles();
+            my $DynamicFiles = $Self->{StatsObject}->GetDynamicFiles();
+            my $StaticFiles = $Self->{StatsObject}->GetStaticFiles();
             my @DynamicFilesArray = keys %{$DynamicFiles};
-            my @StaticFilesArray  = keys %{$StaticFiles};
+            my @StaticFilesArray = keys %{$StaticFiles};
 
             # build the Dynamic Object selection
             if (@DynamicFilesArray && $#DynamicFilesArray > 0) {
@@ -1108,16 +1108,17 @@ sub Run {
                     $Self->{LayoutObject}->Block(
                         Name => 'RadioButton',
                         Data => {
-                            Name      => 'Dynamic-Object',
+                            Name => 'Dynamic-Object',
                             StateType => 'dynamic',
-                        }                    );
+                        }
+                    );
                 }
                 # need no radio button if no static stats available
                 else {
                     $Self->{LayoutObject}->Block(
                         Name => 'NoRadioButton',
                         Data => {
-                            Name      => 'Dynamic-Object',
+                            Name => 'Dynamic-Object',
                             StateType => 'dynamic',
                         }
                     );
@@ -1125,8 +1126,8 @@ sub Run {
                 # need a dropdown menue if more dynamic objects available
                 if ($#DynamicFilesArray > 1) {
                     $Frontend{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                        Data     => $DynamicFiles,
-                        Name     => 'Object',
+                        Data => $DynamicFiles,
+                        Name => 'Object',
                         LanguageTranslation => 0,
                     );
                     $Self->{LayoutObject}->Block(
@@ -1142,7 +1143,7 @@ sub Run {
                         Name => 'Selected',
                         Data => {
                             SelectedKey => 'Object',
-                            Selected    => $DynamicFilesArray[0],
+                            Selected => $DynamicFilesArray[0],
                         },
                     );
                 }
@@ -1157,7 +1158,7 @@ sub Run {
                     $Self->{LayoutObject}->Block(
                         Name => 'RadioButton',
                         Data => {
-                            Name      => 'Static-File',
+                            Name => 'Static-File',
                             StateType => 'static',
                         }
                     );
@@ -1167,15 +1168,16 @@ sub Run {
                     $Self->{LayoutObject}->Block(
                         Name => 'NoRadioButton',
                         Data => {
-                            Name      => 'Static-File',
+                            Name => 'Static-File',
                             StateType => 'static',
-                        }                    );
+                        }
+                    );
                 }
                 # more static stats available? than make a SelectField
                 if ($#StaticFilesArray > 0) {
                     $Frontend{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                        Data     => $StaticFiles,
-                        Name     => 'File',
+                        Data => $StaticFiles,
+                        Name => 'File',
                         LanguageTranslation => 0,
                     );
                     $Self->{LayoutObject}->Block(
@@ -1191,7 +1193,7 @@ sub Run {
                         Name => 'Selected',
                         Data => {
                             SelectedKey => 'File',
-                            Selected    => $StaticFilesArray[0],
+                            Selected => $StaticFilesArray[0],
                         },
                     );
                 }
@@ -1205,7 +1207,7 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'NoRadioButton',
                 Data => {
-                    Name      => 'Dynamic-Object',
+                    Name => 'Dynamic-Object',
                     StateType => 'dynamic',
                 }
             );
@@ -1213,7 +1215,7 @@ sub Run {
                 Name => 'Selected',
                 Data => {
                     SelectedKey => 'Object',
-                    Selected    => $Stat->{Object},
+                    Selected => $Stat->{Object},
                 },
             );
         }
@@ -1225,14 +1227,15 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'NoRadioButton',
                 Data => {
-                    Name      => 'Static-File',
+                    Name => 'Static-File',
                     StateType => 'static',
-                }                     );
+                }
+            );
             $Self->{LayoutObject}->Block(
                 Name => 'Selected',
                 Data => {
                     SelectedKey => 'File',
-                    Selected    => $Stat->{File},
+                    Selected => $Stat->{File},
                 },
             );
         }
@@ -1240,54 +1243,63 @@ sub Run {
         # create selectboxes 'Cache', 'SumRow', 'SumCol', and 'Valid'
         foreach my $Key (qw(Cache SumRow SumCol)) {
             $Frontend{'Select' . $Key} = $Self->{LayoutObject}->OptionStrgHashRef(
-                Data       =>{0 => 'No', 1 => 'Yes'},
+                Data => {
+                    0 => 'No',
+                    1 => 'Yes'
+                },
                 SelectedID => $Stat->{$Key},
-                Name       => $Key,
+                Name => $Key,
             );
         }
 
         $Frontend{SelectValid} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data       =>{0 => 'invalid', 1 => 'valid'},
+            Data => {
+                0 => 'invalid',
+                1 => 'valid'
+            },
             SelectedID => $Stat->{Valid},
-            Name       => 'Valid',
+            Name => 'Valid',
         );
 
         # create multiselectboxes 'permission', 'format'  and 'graphsize'
         my %Values = ();
         $Values{Permission} = {$Self->{GroupObject}->GroupList(Valid => 1)};
-        $Values{Format}     = $Self->{ConfigObject}->Get('Stats::Format');
-        $Values{GraphSize}  = $Self->{ConfigObject}->Get('Stats::GraphSize');
+        $Values{Format} = $Self->{ConfigObject}->Get('Stats::Format');
+        $Values{GraphSize} = $Self->{ConfigObject}->Get('Stats::GraphSize');
 
         foreach my $Key (qw(Permission)) {
             $Stat->{'Select' . $Key} = $Self->{LayoutObject}->OptionStrgHashRef(
-                Data                => $Values{$Key},
-                Name                => $Key,
-                Multiple            => 1,
-                Size                => 5,
-                SelectedIDRefArray  => $Stat->{$Key},
+                Data => $Values{$Key},
+                Name => $Key,
+                Multiple => 1,
+                Size => 5,
+                SelectedIDRefArray => $Stat->{$Key},
                 LanguageTranslation => 0,
             );
         }
 
         foreach my $Key (qw(Format GraphSize)) {
             $Stat->{'Select' . $Key} = $Self->{LayoutObject}->OptionStrgHashRef(
-                Data               => $Values{$Key},
-                Name               => $Key,
-                Multiple           => 1,
-                Size               => 5,
+                Data => $Values{$Key},
+                Name => $Key,
+                Multiple => 1,
+                Size => 5,
                 SelectedIDRefArray => $Stat->{$Key},
             );
         }
         # presentation
-        $Output  = $Self->{LayoutObject}->Header(
-            Area  => 'Stats',
-            Title => 'Common Specification'
+        $Output = $Self->{LayoutObject}->Header(
+            Area => 'Stats',
+            Title => 'Common Specification',
         );
         $Output .= $Self->{LayoutObject}->NavigationBar ();
         $Output .= $Self->_Notify(StatData => $Stat, Section => 'Specification');
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentStatsEditSpecification',
-            Data         => {%{$Stat}, %Frontend},
+            Data => {
+                %{$Stat},
+                %Frontend,
+            },
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -1303,7 +1315,7 @@ sub Run {
         foreach (qw(StatID)) {
             if (!($Param{$_} = $Self->{ParamObject}->GetParam(Param => $_))) {
                 return $Self->{LayoutObject}->ErrorScreen(
-                    Message => "EditXaxis: Need $_!"
+                    Message => "EditXaxis: Need $_!",
                 );
             }
         }
@@ -1312,33 +1324,33 @@ sub Run {
         my $Flag = 0;
 
         foreach my $ObjectAttribute (@{$Stat->{UseAsXvalue}}) {
-            my %BlockData       = ();
-            $BlockData{Fixed}   = "checked=\"checked\"";
+            my %BlockData = ();
+            $BlockData{Fixed} = "checked=\"checked\"";
             $BlockData{Checked} = '';
 
             if ($ObjectAttribute->{Selected}) {
-                $BlockData{Checked}    = "checked=\"checked\"";
+                $BlockData{Checked} = "checked=\"checked\"";
                 if (!$ObjectAttribute->{Fixed}) {
-                    $BlockData{Fixed}   = "";
+                    $BlockData{Fixed} = "";
                 }
             }
 
             if ($ObjectAttribute->{Block} eq 'SelectField') {
-                 $ObjectAttribute->{Block} = 'MultiSelectField';
+                $ObjectAttribute->{Block} = 'MultiSelectField';
             }
 
             if ($ObjectAttribute->{Block} eq 'MultiSelectField') {
                 $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                    Data                => $ObjectAttribute->{Values},
-                    Name                => $ObjectAttribute->{Element},
-                    Multiple            => 1,
-                    Size                => 5,
-                    SelectedIDRefArray  => $ObjectAttribute->{SelectedValues},
+                    Data => $ObjectAttribute->{Values},
+                    Name => $ObjectAttribute->{Element},
+                    Multiple => 1,
+                    Size => 5,
+                    SelectedIDRefArray => $ObjectAttribute->{SelectedValues},
                     LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
                 );
             }
 
-            $BlockData{Name}    = $ObjectAttribute->{Name};
+            $BlockData{Name} = $ObjectAttribute->{Name};
             $BlockData{Element} = $ObjectAttribute->{Element};
 
             # show the attribute block
@@ -1373,15 +1385,15 @@ sub Run {
             );
         }
 
-        $Output  = $Self->{LayoutObject}->Header(
-            Area  => 'Stats',
-            Title => 'Xaxis'
+        $Output = $Self->{LayoutObject}->Header(
+            Area => 'Stats',
+            Title => 'Xaxis',
         );
         $Output .= $Self->{LayoutObject}->NavigationBar ();
         $Output .= $Self->_Notify(StatData => $Stat, Section => 'Xaxis');
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentStatsEditXaxis',
-            Data         => $Stat,
+            Data => $Stat,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -1397,7 +1409,7 @@ sub Run {
         foreach (qw(StatID)) {
             if (!($Param{$_} = $Self->{ParamObject}->GetParam(Param => $_))) {
                 return $Self->{LayoutObject}->ErrorScreen(
-                    Message => "EditValueSeries: Need $_!"
+                    Message => "EditValueSeries: Need $_!",
                 );
             }
         }
@@ -1406,33 +1418,33 @@ sub Run {
         my $Flag = 0;
 
         foreach my $ObjectAttribute (@{$Stat->{UseAsValueSeries}}) {
-            my %BlockData       = ();
-            $BlockData{Fixed}   = "checked=\"checked\"";
+            my %BlockData = ();
+            $BlockData{Fixed} = "checked=\"checked\"";
             $BlockData{Checked} = '';
 
             if ($ObjectAttribute->{Selected}) {
-                $BlockData{Checked}   = "checked=\"checked\"";
+                $BlockData{Checked} = "checked=\"checked\"";
                 if (!$ObjectAttribute->{Fixed}) {
                     $BlockData{Fixed} = "";
                 }
             }
 
             if ($ObjectAttribute->{Block} eq 'SelectField') {
-                 $ObjectAttribute->{Block} = 'MultiSelectField';
+                $ObjectAttribute->{Block} = 'MultiSelectField';
             }
 
             if ($ObjectAttribute->{Block} eq 'MultiSelectField') {
                 $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                    Data                => $ObjectAttribute->{Values},
-                    Name                => $ObjectAttribute->{Element},
-                    Multiple            => 1,
-                    Size                => 5,
-                    SelectedIDRefArray  => $ObjectAttribute->{SelectedValues},
+                    Data => $ObjectAttribute->{Values},
+                    Name => $ObjectAttribute->{Element},
+                    Multiple => 1,
+                    Size => 5,
+                    SelectedIDRefArray => $ObjectAttribute->{SelectedValues},
                     LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
                 );
             }
 
-            $BlockData{Name}    = $ObjectAttribute->{Name};
+            $BlockData{Name} = $ObjectAttribute->{Name};
             $BlockData{Element} = $ObjectAttribute->{Element};
 
             # show the attribute block
@@ -1469,26 +1481,26 @@ sub Run {
                             $ObjectAttribute->{SelectedValues} = ['Year'];
                         }
                     }
-                    #needs an emprovement of the OnlySelectedAttributs function or a new Attribute!
-                    #be careful of an clean code!
-                    #elsif ($_->{Selected} && !$_->{Fixed}  && $_->{Block} eq 'Time') {
-                    #    $ObjectAttribute->{OnlySelectedAttributs} = 1;
-                    #    if ($_->{SelectedValues}[0] eq 'Second') {
-                    #        $ObjectAttribute->{SelectedValues} = ['Minute','Hour','Day','Month','Year'];
-                    #    }
-                    #    elsif ($_->{SelectedValues}[0] eq 'Minute') {
-                    #        $ObjectAttribute->{SelectedValues} = ['Hour','Day','Month','Year'];
-                    #    }
-                    #    elsif ($_->{SelectedValues}[0] eq 'Hour') {
-                    #        $ObjectAttribute->{SelectedValues} = ['Day','Month','Year'];
-                    #    }
-                    #    elsif ($_->{SelectedValues}[0] eq 'Day') {
-                    #        $ObjectAttribute->{SelectedValues} = ['Month','Year'];
-                    #    }
-                    #    elsif ($_->{SelectedValues}[0] eq 'Month') {
-                    #        $ObjectAttribute->{SelectedValues} = ['Year'];
-                    #    }
-                    #}
+#                    #needs an emprovement of the OnlySelectedAttributs function or a new Attribute!
+#                    #be careful of an clean code!
+#                    elsif ($_->{Selected} && !$_->{Fixed}  && $_->{Block} eq 'Time') {
+#                        $ObjectAttribute->{OnlySelectedAttributs} = 1;
+#                        if ($_->{SelectedValues}[0] eq 'Second') {
+#                            $ObjectAttribute->{SelectedValues} = ['Minute','Hour','Day','Month','Year'];
+#                        }
+#                        elsif ($_->{SelectedValues}[0] eq 'Minute') {
+#                            $ObjectAttribute->{SelectedValues} = ['Hour','Day','Month','Year'];
+#                        }
+#                        elsif ($_->{SelectedValues}[0] eq 'Hour') {
+#                            $ObjectAttribute->{SelectedValues} = ['Day','Month','Year'];
+#                        }
+#                        elsif ($_->{SelectedValues}[0] eq 'Day') {
+#                            $ObjectAttribute->{SelectedValues} = ['Month','Year'];
+#                        }
+#                        elsif ($_->{SelectedValues}[0] eq 'Month') {
+#                            $ObjectAttribute->{SelectedValues} = ['Year'];
+#                        }
+#                    }
                 }
 
                 if ($TimeType eq 'Normal') {
@@ -1510,7 +1522,7 @@ sub Run {
         }
 
         # presentation
-        $Output  = $Self->{LayoutObject}->Header(
+        $Output = $Self->{LayoutObject}->Header(
             Area => 'Stats',
             Title => 'Value Series',
         );
@@ -1518,7 +1530,7 @@ sub Run {
         $Output .= $Self->_Notify(StatData => $Stat, Section => 'ValueSeries');
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentStatsEditValueSeries',
-            Data         => $Stat,
+            Data => $Stat,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -1542,12 +1554,12 @@ sub Run {
         my $Stat = $Self->{StatsObject}->StatsGet(StatID => $Param{StatID});
         my $Flag = 0;
         foreach my $ObjectAttribute (@{$Stat->{UseAsRestriction}}) {
-            my %BlockData       = ();
-            $BlockData{Fixed}   = "checked=\"checked\"";
+            my %BlockData = ();
+            $BlockData{Fixed} = "checked=\"checked\"";
             $BlockData{Checked} = '';
 
             if ($ObjectAttribute->{Selected}) {
-                $BlockData{Checked}   = "checked=\"checked\"";
+                $BlockData{Checked} = "checked=\"checked\"";
                 if (!$ObjectAttribute->{Fixed}) {
                     $BlockData{Fixed} = "";
                 }
@@ -1557,23 +1569,23 @@ sub Run {
                 $BlockData{SelectedValue} = $ObjectAttribute->{SelectedValues}[0];
             }
             else {
-                $BlockData{SelectedValue}          = '';
+                $BlockData{SelectedValue} = '';
                 $ObjectAttribute->{SelectedValues} = undef;
             }
 
             if ($ObjectAttribute->{Block} eq 'MultiSelectField' || $ObjectAttribute->{Block} eq 'SelectField') {
                 $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                    Data               => $ObjectAttribute->{Values},
-                    Name               => $ObjectAttribute->{Element},
-                    Multiple           => 1,
-                    Size               => 5,
+                    Data => $ObjectAttribute->{Values},
+                    Name => $ObjectAttribute->{Element},
+                    Multiple => 1,
+                    Size => 5,
                     SelectedIDRefArray => $ObjectAttribute->{SelectedValues},
                     LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
                 );
             }
 
             $BlockData{Element} = $ObjectAttribute->{Element};
-            $BlockData{Name}    = $ObjectAttribute->{Name};
+            $BlockData{Name} = $ObjectAttribute->{Name};
 
             # show the attribute block
             $Self->{LayoutObject}->Block(
@@ -1607,15 +1619,15 @@ sub Run {
         }
 
         # presentation
-        $Output  = $Self->{LayoutObject}->Header(
-            Area  => 'Stats',
+        $Output = $Self->{LayoutObject}->Header(
+            Area => 'Stats',
             Title => 'Restrictions',
         );
-        $Output .= $Self->{LayoutObject}->NavigationBar ();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Notify(StatData => $Stat, Section => 'Restrictions');
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentStatsEditRestrictions',
-            Data         => $Stat,
+            Data => $Stat,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -1627,12 +1639,12 @@ sub Run {
         # permission check
         $Self->{AccessRo} || return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
         # get params
-        foreach (qw (Format GraphSize StatID ExchangeAxis)) {
+        foreach (qw(Format GraphSize StatID ExchangeAxis)) {
             $Param{$_} = $Self->{ParamObject}->GetParam(Param => $_);
         }
 
         foreach (qw(Format StatID)) {
-            if (!$Param{$_}){
+            if (!$Param{$_}) {
                 return $Self->{LayoutObject}->ErrorScreen(Message => "Run: Get no $_!");
             }
         }
@@ -1649,7 +1661,7 @@ sub Run {
             # get user groups
             my @Groups = $Self->{GroupObject}->GroupMemberList(
                 UserID => $Self->{UserID},
-                Type   => 'ro',
+                Type => 'ro',
                 Result => 'ID',
             );
             if ($Stat->{Valid}) {
@@ -1663,7 +1675,7 @@ sub Run {
                     }
                 }
             }
-            if(!$UserPermission) {
+            if (!$UserPermission) {
                 return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
             }
         }
@@ -1672,7 +1684,7 @@ sub Run {
         my %GetParam = ();
         # not sure, if this is the right way
         if ($Stat->{StatType} eq 'static') {
-            my $Params   = $Self->{StatsObject}->GetParams(StatID => $Param{StatID});
+            my $Params = $Self->{StatsObject}->GetParams(StatID => $Param{StatID});
             foreach my $ParamItem (@{$Params}) {
                 # param is array
                 if ($ParamItem->{Multiple}) {
@@ -1694,24 +1706,18 @@ sub Run {
                     if ($Element->{Selected}) {
                         if (!$Element->{Fixed}) {
                             if ($Self->{ParamObject}->GetArray(Param => $Use . $Element->{Element})) {
-#                            if ($Self->{ParamObject}->GetArray(Param => $Use . '->' . $Element->{Element})) {
                                 my @SelectedValues = $Self->{ParamObject}->GetArray(Param => $Use . $Element->{Element});
-#                                my @SelectedValues = $Self->{ParamObject}->GetArray(Param => $Use . '->' . $Element->{Element});
 
                                 $Element->{SelectedValues} = \@SelectedValues;
                             }
                             if ($Element->{Block} eq 'Time') {
-                                #if ($Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . "StartYear")) {
                                 if ($Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . "StartYear")) {
-
                                     my %Time = ();
                                     foreach my $Limit (qw(Start Stop)) {
                                         foreach my $Unit (qw(Year Month Day Hour Minute Second)) {
-                                            #if (defined($Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . "$Limit$Unit"))) {
                                             if (defined($Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . "$Limit$Unit"))) {
                                                 $Time{$Limit . $Unit} = $Self->{ParamObject}->GetParam(
-                                                    #Param => $Use . "->" . $Element->{Element} . "$Limit$Unit"
-                                                    Param => $Use . $Element->{Element} . "$Limit$Unit"
+                                                    Param => $Use . $Element->{Element} . "$Limit$Unit",
                                                 );
                                             }
                                         }
@@ -1743,24 +1749,27 @@ sub Run {
                                             $Time{$Limit . "Hour"},
                                             $Time{$Limit . "Minute"},
                                             $Time{$Limit . "Second"},
-                                        ); # Second for later functions
+                                        );
                                     }
                                     # integrate this functionality in the completenesscheck
-                                    if ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Time{TimeStart}) < $Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStart})) {
+                                    if ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Time{TimeStart}) <
+                                        $Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStart})
+                                    ) {
                                         # redirect to edit
-                                        return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&" .
-                                            "Subaction=View&StatID=$Param{StatID}&Message=1"
+                                        return $Self->{LayoutObject}->Redirect(
+                                            OP => "Action=AgentStats&Subaction=View&StatID=$Param{StatID}&Message=1",
                                         );
-                                        #$Element->{TimeStart} = $Time{TimeStart};
                                     }
                                     # integrate this functionality in the completenesscheck
-                                    if ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Time{TimeStop}) > $Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStop})) {
-                                        return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&" .
-                                            "Subaction=View&StatID=$Param{StatID}&Message=2"
+                                    if ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Time{TimeStop}) >
+                                        $Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStop})
+                                    ) {
+                                        return $Self->{LayoutObject}->Redirect(
+                                            OP => "Action=AgentStats&Subaction=View&StatID=$Param{StatID}&Message=2",
                                         );
-                                        #$Element->{TimeStop} = $Time{TimeStop};
                                     }
-                                    $TimePeriod = ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStop})) - ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStart}));
+                                    $TimePeriod = ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStop})) -
+                                        ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStart}));
                                 }
                                 else {
                                     my %Time = ();
@@ -1769,11 +1778,8 @@ sub Run {
                                     my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
                                         SystemTime => $Self->{TimeObject}->SystemTime(),
                                     );
-                                    #$Time{TimeRelativeUnit}  = $Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . 'TimeRelativeUnit');
-                                    $Time{TimeRelativeUnit}  = $Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . 'TimeRelativeUnit');
-                                    #if ($Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . 'TimeRelativeCount')) {
+                                    $Time{TimeRelativeUnit} = $Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . 'TimeRelativeUnit');
                                     if ($Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . 'TimeRelativeCount')) {
-                                        #$Time{TimeRelativeCount} = $Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . 'TimeRelativeCount');
                                         $Time{TimeRelativeCount} = $Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . 'TimeRelativeCount');
                                     }
                                     if ($Element->{TimeRelativeUnit} eq 'Year') {
@@ -1815,34 +1821,30 @@ sub Run {
                                     }
                                     # integrate this functionality in the completenesscheck
                                     if ($TimePeriodAgent < $TimePeriodAdmin) {
-                                        return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&" .
-                                            "Subaction=View&StatID=$Param{StatID}&Message=3"
+                                        return $Self->{LayoutObject}->Redirect(
+                                            OP => "Action=AgentStats&Subaction=View&StatID=$Param{StatID}&Message=3",
                                         );
-                                        #$Element->{TimeRelativeUnit} = $Time{TimeRelativeUnit};
-                                        #$Element->{TimeRelativeCount} = $Time{TimeRelativeCount};
                                     }
 
                                     $TimePeriod = $TimePeriodAgent;
                                 }
-#                                if ($Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . 'TimeScaleCount')) {
                                 if ($Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . 'TimeScaleCount')) {
                                     $Element->{TimeScaleCount} = $Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . 'TimeScaleCount');
-#                                    $Element->{TimeScaleCount} = $Self->{ParamObject}->GetParam(Param => $Use . "->" . $Element->{Element} . 'TimeScaleCount');
                                 }
                                 else {
                                     $Element->{TimeScaleCount} = 1;
                                 }
                             }
                         }
-                        # not realy needed because the GenerateStats function can do the same
-                        #else {
-                        #    if (!$Element->{SelectedValues}) {
-                        #        if (!$Element->{SelectedValues}[0] && $Element->{Block} ne 'Time') {
-                        #            my @Values = keys (%{$Element->{Values}});
-                        #            $Element->{SelectedValues} = \@Values;
-                        #        }
-                        #    }
-                        #}
+#                        # not realy needed because the GenerateStats function can do the same
+#                        else {
+#                            if (!$Element->{SelectedValues}) {
+#                                if (!$Element->{SelectedValues}[0] && $Element->{Block} ne 'Time') {
+#                                    my @Values = keys (%{$Element->{Values}});
+#                                    $Element->{SelectedValues} = \@Values;
+#                                }
+#                            }
+#                        }
                         $GetParam{$Use}[$Counter] = $Element;
                         $Counter++;
                     }
@@ -1852,7 +1854,9 @@ sub Run {
                 }
             }
             # check if the timeperiod is to big or the time scale to small
-            if ($GetParam{UseAsXvalue}[0]{Block} eq 'Time' &&  (!$GetParam{UseAsValueSeries}[0] || ($GetParam{UseAsValueSeries}[0] && $GetParam{UseAsValueSeries}[0]{Block} ne 'Time'))) {
+            if ($GetParam{UseAsXvalue}[0]{Block} eq 'Time' &&
+                (!$GetParam{UseAsValueSeries}[0] || ($GetParam{UseAsValueSeries}[0] && $GetParam{UseAsValueSeries}[0]{Block} ne 'Time'))
+            ) {
                 my $ScalePeriod = 0;
                 if ($GetParam{UseAsXvalue}[0]{SelectedValues}[0] eq 'Second') {
                     $ScalePeriod = 1;
@@ -1873,9 +1877,11 @@ sub Run {
                     $ScalePeriod = 60 * 60 * 24 * 365;
                 }
                 # integrate this functionality in the completenesscheck
-                if ($TimePeriod / ($ScalePeriod * $GetParam{UseAsXvalue}[0]{TimeScaleCount}) > ($Self->{ConfigObject}->Get('Stats::MaxXaxisAttributes') || 100)) {
-                    return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&" .
-                        "Subaction=View&StatID=$Param{StatID}&Message=4"
+                if ($TimePeriod / ($ScalePeriod * $GetParam{UseAsXvalue}[0]{TimeScaleCount}) >
+                    ($Self->{ConfigObject}->Get('Stats::MaxXaxisAttributes') || 100)
+                ) {
+                    return $Self->{LayoutObject}->Redirect(
+                        OP => "Action=AgentStats&Subaction=View&StatID=$Param{StatID}&Message=4",
                     );
                 }
             }
@@ -1883,7 +1889,7 @@ sub Run {
 
         # run stat...
         my @StatArray = @{$Self->{StatsObject}->StatsRun(
-            StatID   => $Param{StatID},
+            StatID => $Param{StatID},
             GetParam => \%GetParam,
         )};
 
@@ -1919,7 +1925,7 @@ sub Run {
         # csv output
         if ($Param{Format} eq 'CSV') {
             my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
-               SystemTime => $Self->{TimeObject}->SystemTime(),
+                SystemTime => $Self->{TimeObject}->SystemTime(),
             );
             my $Time = sprintf("%04d-%02d-%02d %02d:%02d:%02d",$Y,$M,$D,$h,$m,$s);
             my $Output = "Name: $Title; Created: $Time\n";
@@ -1929,9 +1935,9 @@ sub Run {
             );
 
             return $Self->{LayoutObject}->Attachment(
-                Filename    => $Filename . ".csv",
+                Filename => $Filename . ".csv",
                 ContentType => "text/csv",
-                Content     => $Output,
+                Content => $Output,
             );
         }
         # pdf or html output
@@ -2050,7 +2056,7 @@ sub Run {
                 # presentation
                 my $Output = $Self->{LayoutObject}->PrintHeader(Value => $Title);
                 $Output .= $Self->{LayoutObject}->Output(
-                    Data         => $Stat,
+                    Data => $Stat,
                     TemplateFile => 'AgentStatsPrint',
                 );
                 $Output .= $Self->{LayoutObject}->PrintFooter();
@@ -2062,11 +2068,11 @@ sub Run {
             # make graph
             my $Ext = 'png';
             my $Graph = $Self->{StatsObject}->GenerateGraph(
-                Array        => \@StatArray,
+                Array => \@StatArray,
                 HeadArrayRef => $HeadArrayRef,
-                Title        => $Title,
-                Format       => $Param{Format},
-                GraphSize    => $Param{GraphSize},
+                Title => $Title,
+                Format => $Param{Format},
+                GraphSize => $Param{GraphSize},
             );
             if (!$Graph) {
                 return $Self->{LayoutObject}->ErrorScreen(
@@ -2076,10 +2082,10 @@ sub Run {
 
             # return image to bowser
             return $Self->{LayoutObject}->Attachment(
-                Filename    => $Filename . "." . $Ext,
+                Filename => $Filename . "." . $Ext,
                 ContentType => "image/$Ext",
-                Content     => $Graph,
-                Type        => 'inline',
+                Content => $Graph,
+                Type => 'inline',
             );
         }
     }
@@ -2090,7 +2096,7 @@ sub Run {
 }
 
 sub _Notify {
-    my $Self  = shift;
+    my $Self = shift;
     my %Param = @_;
     my $NotifyOutput = '';
 
@@ -2103,7 +2109,7 @@ sub _Notify {
     # CompletenessCheck
     my @Notify = $Self->{StatsObject}->CompletenessCheck(
         StatData => $Param{StatData},
-        Section  => $Param{Section},
+        Section => $Param{Section},
     );
 
     foreach my $Ref (@Notify) {
@@ -2113,7 +2119,7 @@ sub _Notify {
 }
 
 sub _Timeoutput {
-    my $Self  = shift;
+    my $Self = shift;
     my %Param = @_;
     my %Timeoutput = ();
 
@@ -2132,27 +2138,27 @@ sub _Timeoutput {
     my %TimeConfig = ();
     # default time configuration
     $TimeConfig{Format} = $Param{TimePeriodFormat};
-    $TimeConfig{$Element . 'StartYear'}   = $Year -1;
-    $TimeConfig{$Element . 'StartMonth'}  = 1;
-    $TimeConfig{$Element . 'StartDay'}    = 1;
-    $TimeConfig{$Element . 'StartHour'}   = 0;
+    $TimeConfig{$Element . 'StartYear'} = $Year -1;
+    $TimeConfig{$Element . 'StartMonth'} = 1;
+    $TimeConfig{$Element . 'StartDay'} = 1;
+    $TimeConfig{$Element . 'StartHour'} = 0;
     $TimeConfig{$Element . 'StartMinute'} = 0;
     $TimeConfig{$Element . 'StartSecond'} = 1;
-    $TimeConfig{$Element . 'StopYear'}    = $Year;
-    $TimeConfig{$Element . 'StopMonth'}   = 12;
-    $TimeConfig{$Element . 'StopDay'}     = 31;
-    $TimeConfig{$Element . 'StopHour'}    = 23;
-    $TimeConfig{$Element . 'StopMinute'}  = 59;
-    $TimeConfig{$Element . 'StopSecond'}  = 59;
+    $TimeConfig{$Element . 'StopYear'} = $Year;
+    $TimeConfig{$Element . 'StopMonth'} = 12;
+    $TimeConfig{$Element . 'StopDay'} = 31;
+    $TimeConfig{$Element . 'StopHour'} = 23;
+    $TimeConfig{$Element . 'StopMinute'} = 59;
+    $TimeConfig{$Element . 'StopSecond'} = 59;
 
     foreach (qw(Start Stop)) {
         $TimeConfig{Prefix} = $Element . $_;
         # time setting if avialable
         if ($Param{'Time' . $_} && $Param{'Time' . $_} =~ /^(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)$/i) {
-            $TimeConfig{$Element . $_ . 'Year'}   = $1;
-            $TimeConfig{$Element . $_ . 'Month'}  = $2;
-            $TimeConfig{$Element . $_ . 'Day'}    = $3;
-            $TimeConfig{$Element . $_ . 'Hour'}   = $4;
+            $TimeConfig{$Element . $_ . 'Year'} = $1;
+            $TimeConfig{$Element . $_ . 'Month'} = $2;
+            $TimeConfig{$Element . $_ . 'Day'} = $3;
+            $TimeConfig{$Element . $_ . 'Hour'} = $4;
             $TimeConfig{$Element . $_ . 'Minute'} = $5;
             $TimeConfig{$Element . $_ . 'Second'} = $6;
         }
@@ -2163,13 +2169,13 @@ sub _Timeoutput {
     my %TimeLists = ();
     foreach (1..60) {
         $TimeLists{TimeRelativeCount}{$_} = sprintf("%02d",$_);
-        $TimeLists{TimeScaleCount}{$_}    = sprintf("%02d",$_);
+        $TimeLists{TimeScaleCount}{$_} = sprintf("%02d",$_);
     }
 
-    foreach (qw(TimeRelativeCount  TimeScaleCount)) {
+    foreach (qw(TimeRelativeCount TimeScaleCount)) {
         $Timeoutput{$_} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data       => $TimeLists{$_},
-            Name       => $Element . $_,
+            Data => $TimeLists{$_},
+            Name => $Element . $_,
             SelectedID => $Param{$_},
         );
     }
@@ -2187,8 +2193,8 @@ sub _Timeoutput {
     }
 
     $Timeoutput{TimeScaleUnit} = $Self->{LayoutObject}->OptionElement(
-        Name            => $Element,
-        Data            => $Data,
+        Name => $Element,
+        Data => $Data,
     );
 
     $Data = _TimeScale();
@@ -2197,15 +2203,15 @@ sub _Timeoutput {
     }
 
     $Timeoutput{TimeRelativeUnit} = $Self->{LayoutObject}->OptionElement(
-        Name            => $Element . 'TimeRelativeUnit',
-        Data            => $Data,
+        Name => $Element . 'TimeRelativeUnit',
+        Data => $Data,
     );
 
-    $Data     = _TimeScale();
+    $Data = _TimeScale();
     my $Multiple = 1;
-    my $Size     = 5;
+    my $Size = 5;
 
-    foreach (@{$Param{SelectedValues}}){
+    foreach (@{$Param{SelectedValues}}) {
         $Data->{$_}{Selected} = 1
     }
 
@@ -2217,46 +2223,46 @@ sub _Timeoutput {
             }
         }
         $Multiple = 0;
-        $Size     = 0;
+        $Size = 0;
     }
 
     $Timeoutput{TimeSelectField} = $Self->{LayoutObject}->OptionElement(
-        Name            => $Element,
-        Data            => $Data,
-        Multiple        => $Multiple,
-        Size            => $Size,
+        Name => $Element,
+        Data => $Data,
+        Multiple => $Multiple,
+        Size => $Size,
     );
     return %Timeoutput;
 }
 
 sub _TimeScale {
-    my %TimeScale = ('Second'  => {
-            Position    => 1,
-            Value       => 'second(s)',
+    my %TimeScale = ('Second' => {
+            Position => 1,
+            Value => 'second(s)',
         },
         'Minute' => {
-            Position    => 2,
-            Value       => 'minute(s)',
+            Position => 2,
+            Value => 'minute(s)',
         },
         'Hour' => {
-            Position    => 3,
-            Value       => 'hour(s)',
+            Position => 3,
+            Value => 'hour(s)',
         },
         'Day' => {
-            Position    => 4,
-            Value       => 'day(s)',
+            Position => 4,
+            Value => 'day(s)',
         },
         'Month' => {
-            Position    => 5,
-            Value       => 'month(s)',
+            Position => 5,
+            Value => 'month(s)',
         },
         'Year' => {
-            Position    => 6,
-            Value       => 'year(s)',
+            Position => 6,
+            Value => 'year(s)',
         },
     );
 
-   return \%TimeScale;
+    return \%TimeScale;
 }
 
 1;

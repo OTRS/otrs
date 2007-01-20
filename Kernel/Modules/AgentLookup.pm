@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentLookup.pm - a generic lookup module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentLookup.pm,v 1.8 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentLookup.pm,v 1.9 2007-01-20 18:04:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Modules::AgentLookup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -40,7 +39,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -132,14 +131,14 @@ sub Run {
     # start with page ...
     $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Lookup', Type => 'Small');
     $Output .= $Self->_Mask(
-        List   => \%Result,
+        List => \%Result,
         Search => $Search,
         %Param,
     );
     $Output .= $Self->{LayoutObject}->Footer(Type => 'Small');
     return $Output;
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -152,7 +151,7 @@ sub _Mask {
     # create & return output
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentLookup', Data => \%Param);
 }
-# --
+
 sub DESTROY {
     my $Self = shift;
     # disconnect if it's not a parent DBObject
@@ -160,5 +159,5 @@ sub DESTROY {
         $Self->{DBObject}->Disconnect();
     }
 }
-# --
+
 1;

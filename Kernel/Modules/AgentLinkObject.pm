@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentLinkObject.pm - to link objects
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.14 2006-10-30 12:48:11 tr Exp $
+# $Id: AgentLinkObject.pm,v 1.15 2007-01-20 18:04:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -40,7 +39,6 @@ sub new {
 
     # load generic backend link object module
     $Self->{LinkObject} = Kernel::System::LinkObject->new(%Param);
-
     $Self->{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
     $Self->{PreviewID} = $Self->{ParamObject}->GetParam(Param => 'PreviewID') || '';
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
@@ -77,10 +75,9 @@ sub new {
         $Param{ID} = $Self->{ID};
         $Self->{LinkObject}->LoadBackend(%Param);
     }
-
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -190,7 +187,6 @@ sub Run {
         }
         if ($Self->{Subaction} eq 'Search') {
             foreach (keys %GetParams) {
-#                    $GetParams{$_} = $Self->{ParamObject}->GetParam(Param => $_);
                 $Self->{SessionObject}->UpdateSessionID(
                     SessionID => $Self->{SessionID},
                     Key => "ObjectLink_$Self->{DestinationObject}_$_",
@@ -210,8 +206,8 @@ sub Run {
             if (defined($Data->{Select})) {
                 $Data->{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
                     SelectedID => $GetParams{$Data->{Name}},
-                    Data       => $Data->{Select},
-                    Name       => $Data->{Name},
+                    Data => $Data->{Select},
+                    Name => $Data->{Name},
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'SearchItemSelect',
@@ -246,6 +242,7 @@ sub Run {
         my @DataResult = ();
         foreach my $Data (@DataResultRaw) {
             if ($Self->{SourceObject} eq $Self->{DestinationObject} && $Self->{SourceID} eq $Data->{ID}) {
+                # no action
             }
             else {
                 push(@DataResult, $Data);
@@ -330,7 +327,9 @@ sub Run {
                     $Self->{LayoutObject}->Block(
                         Name => 'SearchResultItem',
                         Data => {
-                            %Param, %{$Data}, StartHit => $Self->{StartHit},
+                            %Param,
+                            %{$Data},
+                            StartHit => $Self->{StartHit},
                         },
                     );
                 }
@@ -341,7 +340,8 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'Preview',
                 Data => {
-                    %Param, $Self->{LinkObject}->LinkItemData(ID => $Self->{PreviewID}, UserID => $Self->{UserID}),
+                    %Param,
+                    $Self->{LinkObject}->LinkItemData(ID => $Self->{PreviewID}, UserID => $Self->{UserID}),
                 },
             );
         }
@@ -355,6 +355,5 @@ sub Run {
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
-# --
 
 1;

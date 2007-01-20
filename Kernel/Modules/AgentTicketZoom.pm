@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.32 2006-12-21 11:51:34 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.33 2007-01-20 18:04:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -31,8 +31,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
-        QueueObject ConfigObject UserObject SessionObject)) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject UserObject SessionObject)) {
         if (!$Self->{$_}) {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
@@ -70,30 +69,22 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    # --
     # check needed stuff
-    # --
     if (!$Self->{TicketID}) {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => "No TicketID is given!",
             Comment => 'Please contact the admin.',
         );
     }
-    # --
     # check permissions
-    # --
     if (!$Self->{TicketObject}->Permission(
         Type => 'ro',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
-        # --
         # error screen, don't show ticket
-        # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
-    # --
     # store last screen
-    # --
     if ($Self->{Subaction} ne 'ShowHTMLeMail') {
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
@@ -104,9 +95,7 @@ sub Run {
     # get content
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(TicketID => $Self->{TicketID});
-    # --
     # return if HTML email
-    # --
     if ($Self->{Subaction} eq 'ShowHTMLeMail') {
         # check needed ArticleID
         if (!$Self->{ArticleID}) {
@@ -131,9 +120,7 @@ sub Run {
             Content => $Article{Body},
         );
     }
-    # --
     # else show normal ticket zoom view
-    # --
     # fetch all move queues
     my %MoveQueues = $Self->{TicketObject}->MoveList(
         TicketID => $Self->{TicketID},
@@ -157,14 +144,10 @@ sub Run {
             );
         }
     }
-    # --
     # generate output
-    # --
     $Output .= $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
     $Output .= $Self->{LayoutObject}->NavigationBar();
-    # --
     # show ticket
-    # --
     $Output .= $Self->MaskAgentZoom(
         MoveQueues => \%MoveQueues,
         StdResponses => \%StdResponses,
@@ -250,9 +233,7 @@ sub MaskAgentZoom {
             }
         }
     }
-    # --
     # build article stuff
-    # --
     my $BaseLink = $Self->{LayoutObject}->{Baselink}."TicketID=$Self->{TicketID}&";
     my @ArticleBox = @{$Param{ArticleBox}};
     # get selected or last customer article
@@ -273,9 +254,7 @@ sub MaskAgentZoom {
             }
         }
     }
-    # --
     # build thread string
-    # --
     my $Counter = '';
     my $Space = '';
     my $LastSenderType = '';
@@ -283,14 +262,12 @@ sub MaskAgentZoom {
     my $TicketOverTimeLong = 0;
     my $TicketOverDate = 0;
     foreach my $ArticleTmp (@ArticleBox) {
-      my %Article = %$ArticleTmp;
-      $TicketOverTime = $Article{TicketOverTime};
-      $TicketOverTimeLong = $Article{TicketOverTimeLong};
-      $TicketOverDate = $Article{TicketOverDate};
+        my %Article = %$ArticleTmp;
+        $TicketOverTime = $Article{TicketOverTime};
+        $TicketOverTimeLong = $Article{TicketOverTimeLong};
+        $TicketOverDate = $Article{TicketOverDate};
     }
-    # --
     # prepare escalation time (if needed)
-    # --
     if ($TicketOverTime) {
         # colloring
         if ($TicketOverTimeLong <= -60*20) {
@@ -301,7 +278,6 @@ sub MaskAgentZoom {
             $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
             $Param{TicketOverTimeFontEnd} = '</font>';
         }
-
         $Param{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
             Age => $TicketOverTime,
             Space => ' ',
@@ -312,7 +288,8 @@ sub MaskAgentZoom {
         );
         if ($Param{TicketOverTimeFont} && $Param{TicketOverTimeFontEnd}) {
             $Param{TicketOverTime} = $Param{TicketOverTimeFont}.$Param{TicketOverTimeLong}.'<br>'.
-                '<div title="$Text{"Service Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$TicketOverDate.'"}</div>'.$Param{TicketOverTimeFontEnd};
+                '<div title="$Text{"Service Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$TicketOverDate.
+                '"}</div>'.$Param{TicketOverTimeFontEnd};
         }
         else {
             $Param{TicketOverTime} = $Param{TicketOverTimeLong}.'<br>'.
@@ -322,9 +299,7 @@ sub MaskAgentZoom {
     else {
         $Param{TicketOverTime} = '-';
     }
-    # --
     # get shown article(s)
-    # --
     my @NewArticleBox = ();
     if (!$Self->{ZoomExpand}) {
         foreach my $ArticleTmp (@ArticleBox) {
@@ -346,9 +321,7 @@ sub MaskAgentZoom {
             }
         }
     }
-    # --
     # build shown article(s)
-    # --
     my $Count = 0;
     my $BodyOutput = '';
     foreach my $ArticleTmp (@NewArticleBox) {
@@ -402,8 +375,8 @@ sub MaskAgentZoom {
                 );
             }
             $Self->{LayoutObject}->Block(
-                 Name => 'Owner',
-                 Data => {%Param, %UserInfo, %AclAction},
+                Name => 'Owner',
+                Data => {%Param, %UserInfo, %AclAction},
             );
             if ($Self->{ConfigObject}->Get('Ticket::Responsible')) {
                 $Self->{LayoutObject}->Block(
@@ -572,8 +545,8 @@ sub MaskAgentZoom {
                     my @Data = $Object->Check(Article=> \%Article, %Param, Config => $Jobs{$Job});
                     foreach my $DataRef (@Data) {
                         $Self->{LayoutObject}->Block(
-                             Name => 'ArticleOption',
-                             Data => $DataRef,
+                            Name => 'ArticleOption',
+                            Data => $DataRef,
                         );
                     }
                     # filter option
@@ -612,8 +585,8 @@ sub MaskAgentZoom {
                     %File,
                 },
             );
-             # run article attachment modules
-             if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleAttachmentModule')) eq 'HASH') {
+            # run article attachment modules
+            if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleAttachmentModule')) eq 'HASH') {
                 my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleAttachmentModule')};
                 foreach my $Job (sort keys %Jobs) {
                     # load module
@@ -642,7 +615,7 @@ sub MaskAgentZoom {
                         return $Self->{LayoutObject}->ErrorScreen();
                     }
                 }
-             }
+            }
         }
 
         # select the output template

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.14 2007-01-01 23:18:15 mh Exp $
+# $Id: AgentTicketMailbox.pm,v 1.15 2007-01-20 18:04:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -33,7 +33,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject UserObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{StateObject} = Kernel::System::State->new(%Param);
@@ -49,8 +51,10 @@ sub Run {
     my %Param = @_;
     my $Output;
     my $QueueID = $Self->{QueueID};
-    my $SortBy = $Self->{ParamObject}->GetParam(Param => 'SortBy') || $Self->{ConfigObject}->Get('Ticket::Frontend::MailboxSortBy::Default') || 'Age';
-    my $OrderBy = $Self->{ParamObject}->GetParam(Param => 'OrderBy') || $Self->{ConfigObject}->Get('Ticket::Frontend::MailboxOrder::Default') || 'Up';
+    my $SortBy = $Self->{ParamObject}->GetParam(Param => 'SortBy') ||
+        $Self->{ConfigObject}->Get('Ticket::Frontend::MailboxSortBy::Default') || 'Age';
+    my $OrderBy = $Self->{ParamObject}->GetParam(Param => 'OrderBy') ||
+        $Self->{ConfigObject}->Get('Ticket::Frontend::MailboxOrder::Default') || 'Up';
 
     # store last screen
     $Self->{SessionObject}->UpdateSessionID(
@@ -383,4 +387,5 @@ sub MaskMailboxTicket {
         }
     }
 }
+
 1;

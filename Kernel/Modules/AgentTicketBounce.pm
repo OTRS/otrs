@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.9 2007-01-09 03:23:34 martin Exp $
+# $Id: AgentTicketBounce.pm,v 1.10 2007-01-20 18:04:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -41,9 +41,7 @@ sub new {
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
-
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID') || '';
-
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
     return $Self;
@@ -56,8 +54,8 @@ sub Run {
     foreach (qw(ArticleID TicketID QueueID)) {
         if (! defined $Self->{$_}) {
             return $Self->{LayoutObject}->ErrorScreen(
-              Message => "$_ is needed!",
-              Comment => 'Please contact your admin',
+                Message => "$_ is needed!",
+                Comment => 'Please contact your admin',
             );
         }
     }
@@ -300,12 +298,9 @@ sub Run {
         foreach my $Email (Mail::Address->parse($Param{BounceTo})) {
             my $Address = $Email->address();
             if ($Self->{SystemAddress}->SystemAddressIsLocalAddress(Address => $Address)) {
-                # --
                 # error page
-                # --
                 return $Self->{LayoutObject}->ErrorScreen(
-                    Message => "Can't forward ticket to $Address! It's a local ".
-                      "address! You need to move it!",
+                    Message => "Can't forward ticket to $Address! It's a local address! You need to move it!",
                     Comment => 'Please contact the admin.',
                 );
             }
@@ -326,32 +321,32 @@ sub Run {
             Email => $Param{EmailPlain},
             HistoryType => 'Bounce',
         )) {
-           # error page
-           return $Self->{LayoutObject}->ErrorScreen(
-               Message => "Can't bounce email!",
-               Comment => 'Please contact the admin.',
-           );
+            # error page
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Can't bounce email!",
+                Comment => 'Please contact the admin.',
+            );
         }
         # send customer info?
         if ($Param{InformSender}) {
             $Param{Body} =~ s/<OTRS_TICKET>/$Param{TicketNumber}/g;
             $Param{Body} =~ s/<OTRS_BOUNCE_TO>/$Param{BounceTo}/g;
             if (my $ArticleID = $Self->{TicketObject}->ArticleSend(
-              ArticleType => 'email-external',
-              SenderType => 'agent',
-              TicketID => $Self->{TicketID},
-              HistoryType => 'Bounce',
-              HistoryComment => "Bounced info to '$Param{To}'.",
-              From => $Param{From},
-              Email => $Param{Email},
-              To => $Param{To},
-              Subject => $Param{Subject},
-              UserID => $Self->{UserID},
-              Body => $Param{Body},
-              Charset => $Self->{LayoutObject}->{UserCharset},
-              Type => 'text/plain',
+                ArticleType => 'email-external',
+                SenderType => 'agent',
+                TicketID => $Self->{TicketID},
+                HistoryType => 'Bounce',
+                HistoryComment => "Bounced info to '$Param{To}'.",
+                From => $Param{From},
+                Email => $Param{Email},
+                To => $Param{To},
+                Subject => $Param{Subject},
+                UserID => $Self->{UserID},
+                Body => $Param{Body},
+                Charset => $Self->{LayoutObject}->{UserCharset},
+                Type => 'text/plain',
             )) {
-              ###
+                # null
             }
             else {
                 # error page
@@ -370,7 +365,7 @@ sub Run {
             ArticleID => $Self->{ArticleID},
             StateID => $Param{BounceStateID},
             UserID => $Self->{UserID},
-          );
+        );
         # should i set an unlock?
         if ($StateData{TypeName} =~ /^close/i) {
             $Self->{TicketObject}->LockSet(
@@ -394,4 +389,5 @@ sub Run {
         );
     }
 }
+
 1;

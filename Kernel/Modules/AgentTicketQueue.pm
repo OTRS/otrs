@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.26 2007-01-04 13:29:41 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.27 2007-01-20 18:04:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -45,18 +45,17 @@ sub new {
     $Self->{LockObject} = Kernel::System::Lock->new(%Param);
 
     # get config data
-    $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('Ticket::ViewableSenderTypes')
-           || die 'No Config entry "Ticket::ViewableSenderTypes"!';
+    $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('Ticket::ViewableSenderTypes') ||
+        die 'No Config entry "Ticket::ViewableSenderTypes"!';
     $Self->{CustomQueue} = $Self->{ConfigObject}->Get('Ticket::CustomQueue') || '???';
     # default viewable tickets a page
     $Self->{ViewableTickets} = $Self->{UserQueueViewShowTickets} ||
         $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected} || 15;
-
     # get params
     $Self->{ViewAll} = $Self->{ParamObject}->GetParam(Param => 'ViewAll') || 0;
     $Self->{Start} = $Self->{ParamObject}->GetParam(Param => 'Start') || 1;
     # viewable tickets a page
-    $Self->{Limit} =  $Self->{ViewableTickets} + $Self->{Start} - 1;
+    $Self->{Limit} = $Self->{ViewableTickets} + $Self->{Start} - 1;
     # sure is sure!
     $Self->{MaxLimit} = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueMaxShown') || 1200;
     if ($Self->{Limit} > $Self->{MaxLimit}) {
@@ -65,7 +64,7 @@ sub new {
 
     # all static variables
     my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
-        Type   => 'Viewable',
+        Type => 'Viewable',
         Result => 'ID',
     );
     $Self->{ViewableStateIDs} = \@ViewableStateIDs;
@@ -109,7 +108,8 @@ sub Run {
     # check old tickets, show it and return if needed
     my $NoEscalationGroup = $Self->{ConfigObject}->Get('Ticket::Frontend::NoEscalationGroup') || '';
     if ($Self->{UserID} eq '1' ||
-        ($Self->{"UserIsGroup[$NoEscalationGroup]"} && $Self->{"UserIsGroup[$NoEscalationGroup]"} eq 'Yes')) {
+        ($Self->{"UserIsGroup[$NoEscalationGroup]"} && $Self->{"UserIsGroup[$NoEscalationGroup]"} eq 'Yes')
+    ) {
         # do not show escalated tickets
     }
     else {
@@ -123,7 +123,9 @@ sub Run {
             );
             print $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketQueue',
-                Data => { %Param },
+                Data => {
+                    %Param,
+                },
             );
             my $Counter = 0;
             foreach (@ViewableTickets) {
@@ -139,7 +141,7 @@ sub Run {
     my @ViewableQueueIDs = ();
     if ($Self->{QueueID} == 0) {
         @ViewableQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(
-            UserID => $Self->{UserID}
+            UserID => $Self->{UserID},
         );
     }
     else {
@@ -148,7 +150,9 @@ sub Run {
     $Self->BuildQueueView(QueueIDs => \@ViewableQueueIDs);
     print $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketQueue',
-        Data => { %Param },
+        Data => {
+            %Param,
+        },
     );
     # get user groups
     my $Type = 'rw';
@@ -165,47 +169,47 @@ sub Run {
     my @ViewableTickets = ();
     my $SortBy = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSortBy::Default') || 'Age';
     my %SortOptions = (
-        Owner            => 'st.user_id',
-        CustomerID       => 'st.customer_id',
-        State            => 'st.ticket_state_id',
-        Ticket           => 'st.tn',
-        Title            => 'st.title',
-        Queue            => 'sq.name',
-        Priority         => 'st.ticket_priority_id',
-        Age              => 'st.create_time_unix',
-        TicketFreeTime1  => 'st.freetime1',
-        TicketFreeTime2  => 'st.freetime2',
-        TicketFreeKey1   => 'st.freekey1',
-        TicketFreeText1  => 'st.freetext1',
-        TicketFreeKey2   => 'st.freekey2',
-        TicketFreeText2  => 'st.freetext2',
-        TicketFreeKey3   => 'st.freekey3',
-        TicketFreeText3  => 'st.freetext3',
-        TicketFreeKey4   => 'st.freekey4',
-        TicketFreeText4  => 'st.freetext4',
-        TicketFreeKey5   => 'st.freekey5',
-        TicketFreeText5  => 'st.freetext5',
-        TicketFreeKey6   => 'st.freekey6',
-        TicketFreeText6  => 'st.freetext6',
-        TicketFreeKey7   => 'st.freekey7',
-        TicketFreeText7  => 'st.freetext7',
-        TicketFreeKey8   => 'st.freekey8',
-        TicketFreeText8  => 'st.freetext8',
-        TicketFreeKey9   => 'st.freekey9',
-        TicketFreeText9  => 'st.freetext9',
-        TicketFreeKey10  => 'st.freekey10',
+        Owner => 'st.user_id',
+        CustomerID => 'st.customer_id',
+        State => 'st.ticket_state_id',
+        Ticket => 'st.tn',
+        Title => 'st.title',
+        Queue => 'sq.name',
+        Priority => 'st.ticket_priority_id',
+        Age => 'st.create_time_unix',
+        TicketFreeTime1 => 'st.freetime1',
+        TicketFreeTime2 => 'st.freetime2',
+        TicketFreeKey1 => 'st.freekey1',
+        TicketFreeText1 => 'st.freetext1',
+        TicketFreeKey2 => 'st.freekey2',
+        TicketFreeText2 => 'st.freetext2',
+        TicketFreeKey3 => 'st.freekey3',
+        TicketFreeText3 => 'st.freetext3',
+        TicketFreeKey4 => 'st.freekey4',
+        TicketFreeText4 => 'st.freetext4',
+        TicketFreeKey5 => 'st.freekey5',
+        TicketFreeText5 => 'st.freetext5',
+        TicketFreeKey6 => 'st.freekey6',
+        TicketFreeText6 => 'st.freetext6',
+        TicketFreeKey7 => 'st.freekey7',
+        TicketFreeText7 => 'st.freetext7',
+        TicketFreeKey8 => 'st.freekey8',
+        TicketFreeText8 => 'st.freetext8',
+        TicketFreeKey9 => 'st.freekey9',
+        TicketFreeText9 => 'st.freetext9',
+        TicketFreeKey10 => 'st.freekey10',
         TicketFreeText10 => 'st.freetext10',
-        TicketFreeKey11  => 'st.freekey11',
+        TicketFreeKey11 => 'st.freekey11',
         TicketFreeText11 => 'st.freetext11',
-        TicketFreeKey12  => 'st.freekey12',
+        TicketFreeKey12 => 'st.freekey12',
         TicketFreeText12 => 'st.freetext12',
-        TicketFreeKey13  => 'st.freekey13',
+        TicketFreeKey13 => 'st.freekey13',
         TicketFreeText13 => 'st.freetext13',
-        TicketFreeKey14  => 'st.freekey14',
+        TicketFreeKey14 => 'st.freekey14',
         TicketFreeText14 => 'st.freetext14',
-        TicketFreeKey15  => 'st.freekey15',
+        TicketFreeKey15 => 'st.freekey15',
         TicketFreeText15 => 'st.freetext15',
-        TicketFreeKey16  => 'st.freekey16',
+        TicketFreeKey16 => 'st.freekey16',
         TicketFreeText16 => 'st.freetext16',
     );
 
@@ -255,8 +259,6 @@ sub Run {
         $SQL .= " ) AND ".
             " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
             " ORDER BY st.ticket_priority_id DESC, $SortOptions{$SortBy} $Order";
-#            " ORDER BY st.ticket_priority_id DESC, st.freetime1 ASC";
-#            " ORDER BY st.ticket_priority_id DESC, st.create_time_unix $Order";
         $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});
         my $Counter = 0;
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -383,12 +385,13 @@ sub ShowTicket {
         );
         if ($Param{TicketOverTimeFont} && $Param{TicketOverTimeFontEnd}) {
             $Article{TicketOverTime} = $Param{TicketOverTimeFont}.$Param{TicketOverTimeLong}.'<br>'.
-                '<div title="$Text{"Serivce Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$Article{TicketOverDate}.'"}</div>'.$Param{TicketOverTimeFontEnd};
+                '<div title="$Text{"Serivce Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$Article{TicketOverDate}.
+                '"}</div>'.$Param{TicketOverTimeFontEnd};
         }
         else {
             $Article{TicketOverTime} = $Param{TicketOverTimeLong}.'<br>'.
-                '<div title="$Text{"Serivce Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$Article{TicketOverDate}.'"}</div>'
-;
+                '<div title="$Text{"Serivce Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$Article{TicketOverDate}.
+                '"}</div>';
         }
     }
     else {
@@ -422,7 +425,7 @@ sub ShowTicket {
         $Article{Body} = '';
     }
     else {
-         # html quoting
+        # html quoting
         $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
             NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
             Text => $Article{Body},
@@ -568,9 +571,9 @@ sub BuildQueueView {
     # check start option, if higher then tickets available, set
     # it to the last ticket page (Thanks to Stefan Schmidt!)
     if ($Self->{Start} > $Data{TicketsAvailAll}) {
-           my $PageShown = $Self->{ViewableTickets};
-           my $Pages = int(($Data{TicketsAvailAll} / $PageShown) + 0.99999);
-           $Self->{Start} = (($Pages - 1) * $PageShown) + 1;
+        my $PageShown = $Self->{ViewableTickets};
+        my $Pages = int(($Data{TicketsAvailAll} / $PageShown) + 0.99999);
+        $Self->{Start} = (($Pages - 1) * $PageShown) + 1;
     }
     # build output ...
     my %AllQueues = $Self->{QueueObject}->GetAllQueues();
@@ -662,13 +665,13 @@ sub _MaskQueueView {
                 $QueueStrg .= '<b>';
             }
             if ($#QueueName == 1 && $#MetaQueue >= 1 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]$/) {
-               $QueueStrg .= '<b>';
+                $QueueStrg .= '<b>';
             }
             if ($#QueueName == 2 && $#MetaQueue >= 2 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]$/) {
-               $QueueStrg .= '<b>';
+                $QueueStrg .= '<b>';
             }
             if ($#QueueName == 3 && $#MetaQueue >= 3 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]$/) {
-               $QueueStrg .= '<b>';
+                $QueueStrg .= '<b>';
             }
         }
 
@@ -722,8 +725,7 @@ sub _MaskQueueView {
             $QueueStrg .= "</blink>";
         }
         # should i highlight this queue
-        if ($Queue{MaxAge} >= $Self->{HighlightAge1}
-              || $Queue{MaxAge} >= $Self->{HighlightAge2}) {
+        if ($Queue{MaxAge} >= $Self->{HighlightAge1} || $Queue{MaxAge} >= $Self->{HighlightAge2}) {
             $QueueStrg .= "</font>";
         }
         $QueueStrg .= "</a>";

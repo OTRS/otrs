@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketLock.pm - to set or unset a lock for tickets
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketLock.pm,v 1.3 2006-10-31 15:26:52 tr Exp $
+# $Id: AgentTicketLock.pm,v 1.4 2007-01-20 18:04:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Modules::AgentTicketLock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -32,19 +31,19 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    # --
     # check needed stuff
-    # --
     if (!$Self->{TicketID}) {
         # error page
         return $Self->{LayoutObject}->ErrorScreen(
@@ -52,9 +51,7 @@ sub Run {
             Comment => 'Please contact the admin.',
         );
     }
-    # --
     # check permissions
-    # --
     if (!$Self->{TicketObject}->Permission(
         Type => 'lock',
         TicketID => $Self->{TicketID},
@@ -62,9 +59,7 @@ sub Run {
         # error screen, don't show ticket
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
-    # --
     # start with actions
-    # --
     if ($Self->{Subaction} eq 'Unlock') {
         # check if I'm the owner
         my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
@@ -87,10 +82,10 @@ sub Run {
         )) {
             # redirekt
             if ($Self->{QueueID}) {
-               return $Self->{LayoutObject}->Redirect(OP => "QueueID=$Self->{QueueID}");
+                return $Self->{LayoutObject}->Redirect(OP => "QueueID=$Self->{QueueID}");
             }
             else {
-               return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
+                return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
             }
         }
         else {
@@ -125,10 +120,10 @@ sub Run {
         )) {
             # redirekt
             if ($Self->{QueueID}) {
-               return $Self->{LayoutObject}->Redirect(OP => "&QueueID=$Self->{QueueID}");
+                return $Self->{LayoutObject}->Redirect(OP => "&QueueID=$Self->{QueueID}");
             }
             else {
-               return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
+                return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
             }
         }
         else {
@@ -136,6 +131,5 @@ sub Run {
         }
     }
 }
-# --
 
 1;

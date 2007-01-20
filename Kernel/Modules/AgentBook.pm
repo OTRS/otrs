@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentBook.pm - spelling module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentBook.pm,v 1.9 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentBook.pm,v 1.10 2007-01-20 18:04:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -33,16 +32,17 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(TicketObject ParamObject DBObject QueueObject LayoutObject
-      ConfigObject LogObject)) {
-        $Self->{LayoutObject}->FatalError(Message => "Got no $_!") if (!$Self->{$_});
+    foreach (qw(TicketObject ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -82,5 +82,5 @@ sub Run {
     $Output .= $Self->{LayoutObject}->Footer(Type => 'Small');
     return $Output;
 }
-# --
+
 1;

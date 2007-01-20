@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.7 2007-01-17 12:53:12 mh Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.8 2007-01-20 18:04:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -54,7 +54,6 @@ sub new {
     if (!$Self->{FormID}) {
         $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
     }
-
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
     return $Self;
@@ -86,7 +85,7 @@ sub Run {
             $Self->{TicketObject}->LockSet(
                 TicketID => $Self->{TicketID},
                 Lock => 'lock',
-                UserID => $Self->{UserID}
+                UserID => $Self->{UserID},
             );
             if ($Self->{TicketObject}->OwnerSet(
                 TicketID => $Self->{TicketID},
@@ -172,7 +171,10 @@ sub Run {
 
     if (!$Self->{Subaction}) {
         # check it it's a agent-customer ticket
-        if ($Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer') && $Ticket{CustomerUserID} && $Ticket{CustomerUserID} eq $Self->{UserLogin}) {
+        if ($Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer') &&
+            $Ticket{CustomerUserID} &&
+            $Ticket{CustomerUserID} eq $Self->{UserLogin}
+        ) {
             # redirect for agent follow up screen
             return $Self->{LayoutObject}->Redirect(
                 OP => "Action=AgentTicketCustomerFollowUp&TicketID=$Self->{TicketID}",
@@ -384,7 +386,7 @@ sub Run {
                 }
                 elsif ($Ticket{CustomerID}) {
                     %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                         CustomerID => $Ticket{CustomerID},
+                        CustomerID => $Ticket{CustomerID},
                     );
                 }
             }

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.5 2006-11-02 12:20:51 tr Exp $
+# $Id: AgentTicketAttachment.pm,v 1.6 2007-01-20 18:04:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -77,8 +77,8 @@ sub Run {
 
         # geta attachment
         if (my %Data = $Self->{TicketObject}->ArticleAttachment(
-          ArticleID => $Self->{ArticleID},
-          FileID => $Self->{FileID},
+            ArticleID => $Self->{ArticleID},
+            FileID => $Self->{FileID},
         )) {
             # check viewer
             my $Viewer = '';
@@ -129,8 +129,8 @@ sub Run {
         }
         else {
             $Self->{LogObject}->Log(
-              Message => "No such attacment ($Self->{FileID})! May be an attack!!!",
-              Priority => 'error',
+                Message => "No such attacment ($Self->{FileID})! May be an attack!!!",
+                Priority => 'error',
             );
             return $Self->{LayoutObject}->ErrorScreen();
         }
@@ -140,4 +140,5 @@ sub Run {
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
 }
+
 1;

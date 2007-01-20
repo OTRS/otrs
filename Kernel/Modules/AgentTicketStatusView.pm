@@ -1,9 +1,9 @@
 # --
 # Kernel/Modules/AgentTicketStatusView.pm - status for all open tickets
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketStatusView.pm,v 1.5 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketStatusView.pm,v 1.6 2007-01-20 18:04:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,10 +17,9 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -43,11 +42,11 @@ sub new {
     # needed objects
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-    # --
     # get params
-    # --
-    $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || $Self->{ConfigObject}->Get('Ticket::Frontend::StatusSortBy::Default') || 'Age';
-    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || $Self->{ConfigObject}->Get('Ticket::Frontend::StatusOrder::Default') || 'Up';
+    $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') ||
+        $Self->{ConfigObject}->Get('Ticket::Frontend::StatusSortBy::Default') || 'Age';
+    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') ||
+        $Self->{ConfigObject}->Get('Ticket::Frontend::StatusOrder::Default') || 'Up';
     # viewable tickets a page
     $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit') || 6000;
 
@@ -63,7 +62,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -85,7 +84,7 @@ sub Run {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
     my $Output = $Self->{LayoutObject}->Header(
-       Refresh => $Refresh,
+        Refresh => $Refresh,
     );
     # build NavigationBar
     $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -146,7 +145,6 @@ sub Run {
             );
         }
     }
-
 
     # build search navigation bar
     my %PageNav = $Self->{LayoutObject}->PageNavBar(
