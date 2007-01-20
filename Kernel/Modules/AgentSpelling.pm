@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentSpelling.pm - spelling module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentSpelling.pm,v 1.17 2007-01-01 23:18:15 mh Exp $
+# $Id: AgentSpelling.pm,v 1.18 2007-01-20 18:50:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Spelling;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -116,7 +116,7 @@ sub _Mask {
                 else {
                     $ReplaceWords{''} = 'No suggestions';
                 }
-                $Param{SpellCheckString}  = $Self->{LayoutObject}->OptionStrgHashRef(
+                $Param{SpellCheckString} = $Self->{LayoutObject}->OptionStrgHashRef(
                     Data => \%ReplaceWords,
                     Name => "SpellCheckOption::$Param{SpellCounter}",
                     OnChange => "change_selected($Param{SpellCounter})"
