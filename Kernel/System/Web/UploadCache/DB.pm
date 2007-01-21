@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.6 2006-10-05 01:50:16 martin Exp $
+# $Id: DB.pm,v 1.7 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.6 $ ';
+$VERSION = '$Revision: 1.7 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -47,10 +47,10 @@ sub FormIDRemove {
     my $Self = shift;
     my %Param = @_;
     foreach (qw(FormID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     return $Self->{DBObject}->Do(
         SQL => "DELETE FROM web_upload_cache WHERE form_id = '$Param{FormID}'",
@@ -61,10 +61,10 @@ sub FormIDAddFile {
     my $Self = shift;
     my %Param = @_;
     foreach (qw(FormID Filename Content ContentType)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # get file size
     {
@@ -95,10 +95,10 @@ sub FormIDRemoveFile {
     my $Self = shift;
     my %Param = @_;
     foreach (qw(FormID FileID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my @Index = @{$Self->FormIDGetAllFilesMeta(%Param)};
     my $ID = $Param{FileID}-1;
@@ -117,10 +117,10 @@ sub FormIDGetAllFilesData {
     my $Counter = 0;
     my @Data = ();
     foreach (qw(FormID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my $SQL = "SELECT filename, content_type, content_size, content FROM web_upload_cache ".
         " WHERE ".
@@ -164,10 +164,10 @@ sub FormIDGetAllFilesMeta {
     my $Counter = 0;
     my @Data = ();
     foreach (qw(FormID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my $SQL = "SELECT filename, content_type, content_size FROM web_upload_cache ".
         " WHERE ".

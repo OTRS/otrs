@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.44 2007-01-08 21:16:04 martin Exp $
+# $Id: DB.pm,v 1.45 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CheckItem;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -184,12 +184,12 @@ sub CustomerSearch {
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{UserSearchListLimit});
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         if (!$Users{$Row[0]}) {
-             foreach (1..8) {
-                 if ($Row[$_]) {
-                      $Users{$Row[0]} .= $Row[$_].' ';
-                 }
-             }
-             $Users{$Row[0]} =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+            foreach (1..8) {
+                if ($Row[$_]) {
+                     $Users{$Row[0]} .= $Row[$_].' ';
+                }
+            }
+            $Users{$Row[0]} =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
         }
     }
     return %Users;
@@ -279,17 +279,9 @@ sub CustomerUserDataGet {
     }
     # check data
     if (! exists $Data{UserLogin} && $Param{User}) {
-#        $Self->{LogObject}->Log(
-#          Priority => 'notice',
-#          Message => "Panic! No UserData for customer user: '$Param{User}'!!!",
-#        );
         return;
     }
     if (! exists $Data{UserLogin} && $Param{CustomerID}) {
-#        $Self->{LogObject}->Log(
-#          Priority => 'notice',
-#          Message => "Panic! No UserData for customer id: '$Param{CustomerID}'!!!",
-#        );
         return;
     }
     # compat!
@@ -354,7 +346,7 @@ sub CustomerUserAdd {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message => "Email address ($Param{UserEmail}) not valid (".
-              $Self->{CheckItemObject}->CheckError().")!",
+                $Self->{CheckItemObject}->CheckError().")!",
         );
         return;
     }
@@ -375,16 +367,16 @@ sub CustomerUserAdd {
     }
     $SQL .= "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      # log notice
-      $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "CustomerUser: '$Param{UserLogin}' created successfully ($Param{UserID})!",
-      );
-      # set password
-      if ($Param{UserPassword}) {
-          $Self->SetPassword(UserLogin => $Param{UserLogin}, PW => $Param{UserPassword});
-      }
-      return $Param{UserLogin};
+        # log notice
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "CustomerUser: '$Param{UserLogin}' created successfully ($Param{UserID})!",
+        );
+        # set password
+        if ($Param{UserPassword}) {
+            $Self->SetPassword(UserLogin => $Param{UserLogin}, PW => $Param{UserPassword});
+        }
+        return $Param{UserLogin};
     }
     else {
         return;

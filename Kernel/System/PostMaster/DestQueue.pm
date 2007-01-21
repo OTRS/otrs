@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/DestQueue.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DestQueue.pm,v 1.18 2006-11-02 12:20:55 tr Exp $
+# $Id: DestQueue.pm,v 1.19 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::DestQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub new {
@@ -110,7 +110,8 @@ sub GetTrustedQueueID {
         return $Self->{QueueObject}->QueueLookup(Queue => $GetParam{'X-OTRS-Queue'});
     }
     else {
-         return;
+        return;
     }
 }
+
 1;

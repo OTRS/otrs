@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Reject.pm - the sub part of PostMaster.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Reject.pm,v 1.6 2006-11-02 13:02:04 tr Exp $
+# $Id: Reject.pm,v 1.7 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::Reject;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -74,7 +74,6 @@ sub Run {
         UserID => $Param{InmailUserID},
         HistoryType => 'FollowUp',
         HistoryComment => "\%\%$Param{Tn}\%\%$Comment",
-
         AutoResponseType => $AutoResponseType,
         OrigHeader => \%GetParam,
     );
@@ -139,7 +138,7 @@ sub Run {
     $Self->{LogObject}->Log(
         Priority => 'notice',
         Message => "Reject FollowUp Article to Ticket [$Param{Tn}] created ".
-          "(TicketID=$Param{TicketID}, ArticleID=$ArticleID). $Comment"
+            "(TicketID=$Param{TicketID}, ArticleID=$ArticleID). $Comment"
     );
 
     return 1;

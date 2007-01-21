@@ -1,9 +1,9 @@
 # --
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.29 2006-11-07 12:09:23 cs Exp $
+# $Id: LDAP.pm,v 1.30 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -35,18 +35,18 @@ sub new {
     $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{'CustomerUserSearchListLimit'} || 200;
     # get ldap preferences
     $Self->{Host} = $Self->{CustomerUserMap}->{'Params'}->{'Host'}
-     || die "Need CustomerUser->Params->Host in Kernel/Config.pm";
+       || die "Need CustomerUser->Params->Host in Kernel/Config.pm";
     $Self->{BaseDN} = $Self->{CustomerUserMap}->{'Params'}->{'BaseDN'}
-     || die "Need CustomerUser->Params->BaseDN in Kernel/Config.pm";
+       || die "Need CustomerUser->Params->BaseDN in Kernel/Config.pm";
     $Self->{SScope} = $Self->{CustomerUserMap}->{'Params'}->{'SSCOPE'}
-     || die "Need CustomerUser->Params->SSCOPE in Kernel/Config.pm";
+       || die "Need CustomerUser->Params->SSCOPE in Kernel/Config.pm";
     $Self->{SearchUserDN} = $Self->{CustomerUserMap}->{'Params'}->{'UserDN'} || '';
     $Self->{SearchUserPw} = $Self->{CustomerUserMap}->{'Params'}->{'UserPw'} || '';
 
     $Self->{CustomerKey} = $Self->{CustomerUserMap}->{'CustomerKey'}
-     || die "Need CustomerUser->CustomerKey in Kernel/Config.pm";
+       || die "Need CustomerUser->CustomerKey in Kernel/Config.pm";
     $Self->{CustomerID} = $Self->{CustomerUserMap}->{'CustomerID'}
-     || die "Need CustomerUser->CustomerID in Kernel/Config.pm";
+       || die "Need CustomerUser->CustomerID in Kernel/Config.pm";
 
     # ldap filter always used
     $Self->{AlwaysFilter} = $Self->{CustomerUserMap}->{'Params'}->{'AlwaysFilter'} || '';
@@ -357,17 +357,9 @@ sub CustomerUserDataGet {
     }
     # check data
     if (! exists $Data{UserLogin} && $Param{User}) {
-#        $Self->{LogObject}->Log(
-#          Priority => 'notice',
-#          Message => "Panic! No UserData for customer user: '$Param{User}'!!!",
-#        );
         return;
     }
     if (! exists $Data{UserLogin} && $Param{CustomerID}) {
-#        $Self->{LogObject}->Log(
-#          Priority => 'notice',
-#          Message => "Panic! No UserData for customer id: '$Param{CustomerID}'!!!",
-#        );
         return;
     }
     # compat!

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Log/File.pm - file log backend
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: File.pm,v 1.10 2006-11-02 12:20:55 tr Exp $
+# $Id: File.pm,v 1.11 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Log::File;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $ ';
+$VERSION = '$Revision: 1.11 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 umask 002;
@@ -29,7 +29,7 @@ sub new {
 
     # get logfile location
     $Self->{LogFile} = $Param{ConfigObject}->Get('LogModule::LogFile')
-      || die 'Need LogModule::LogFile param in Config.pm';
+        || die 'Need LogModule::LogFile param in Config.pm';
     # get log file suffix
     if ($Param{ConfigObject}->Get('LogModule::LogFile::Date')) {
         my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time());

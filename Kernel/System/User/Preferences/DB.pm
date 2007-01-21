@@ -1,8 +1,8 @@
 # --
 # Kernel/System/User/Preferences/DB.pm - some user functions
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.10 2006-08-29 17:24:11 martin Exp $
+# $Id: DB.pm,v 1.11 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::System::User::Preferences::DB;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -33,26 +32,26 @@ sub new {
 
     # preferences table data
     $Self->{PreferencesTable} = $Self->{ConfigObject}->Get('PreferencesTable')
-      || 'user_preferences';
+        || 'user_preferences';
     $Self->{PreferencesTableKey} = $Self->{ConfigObject}->Get('PreferencesTableKey')
-      || 'preferences_key';
+        || 'preferences_key';
     $Self->{PreferencesTableValue} = $Self->{ConfigObject}->Get('PreferencesTableValue')
-      || 'preferences_value';
+        || 'preferences_value';
     $Self->{PreferencesTableUserID} = $Self->{ConfigObject}->Get('PreferencesTableUserID')
-      || 'user_id';
+        || 'user_id';
 
     return $Self;
 }
-# --
+
 sub SetPreferences {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
     foreach (qw(UserID Key)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(Key Value)) {
@@ -63,45 +62,45 @@ sub SetPreferences {
     }
     # delete old data
     if (!$Self->{DBObject}->Do(
-       SQL => "DELETE FROM $Self->{PreferencesTable} ".
-              " WHERE ".
-              " $Self->{PreferencesTableUserID} = $Param{UserID} ".
-              " AND ".
-              " $Self->{PreferencesTableKey} = '$Param{Key}'",
+        SQL => "DELETE FROM $Self->{PreferencesTable} ".
+            " WHERE ".
+            " $Self->{PreferencesTableUserID} = $Param{UserID} ".
+            " AND ".
+            " $Self->{PreferencesTableKey} = '$Param{Key}'",
     )) {
         $Self->{LogObject}->Log(
-          Priority => 'error',
-          Message => "Can't delete $Self->{PreferencesTable}!",
+            Priority => 'error',
+            Message => "Can't delete $Self->{PreferencesTable}!",
         );
         return;
     }
 
     # insert new data
     if (!$Self->{DBObject}->Do(
-       SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableUserID}, ".
-              " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) " .
-              " VALUES ($Param{UserID}, '$Param{Key}', '$Param{Value}')",
+        SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableUserID}, ".
+            " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) " .
+            " VALUES ($Param{UserID}, '$Param{Key}', '$Param{Value}')",
     )) {
         $Self->{LogObject}->Log(
-          Priority => 'error',
-          Message => "Can't insert new $Self->{PreferencesTable}!",
+            Priority => 'error',
+            Message => "Can't insert new $Self->{PreferencesTable}!",
         );
         return;
     }
 
     return 1;
 }
-# --
+
 sub GetPreferences {
     my $Self = shift;
     my %Param = @_;
     my %Data;
     # check needed stuff
     foreach (qw(UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(UserID)) {
@@ -121,7 +120,7 @@ sub GetPreferences {
     # return data
     return %Data;
 }
-# --
+
 sub SearchPreferences {
     my $Self = shift;
     my %Param = @_;
@@ -145,6 +144,5 @@ sub SearchPreferences {
     # return data
     return %UserID;
 }
-# --
 
 1;

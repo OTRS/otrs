@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/UploadCache.pm - a fs upload cache
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UploadCache.pm,v 1.3 2006-08-29 17:21:04 martin Exp $
+# $Id: UploadCache.pm,v 1.4 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.3 $ ';
+$VERSION = '$Revision: 1.4 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -36,24 +36,24 @@ All upload cache functions.
 
 create param object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::Web::UploadCache;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::Web::UploadCache;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $UploadParamObject = Kernel::System::Web::UploadCache->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      DBObject => $DBObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $UploadParamObject = Kernel::System::Web::UploadCache->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -71,7 +71,7 @@ sub new {
 
     # load generator auth module
     $Self->{GenericModule} = $Self->{ConfigObject}->Get('WebUploadCacheModule')
-      || 'Kernel::System::Web::UploadCache::DB';
+        || 'Kernel::System::Web::UploadCache::DB';
     if (!eval "require $Self->{GenericModule}") {
         die "Can't load backend module $Self->{GenericModule}! $@";
     }
@@ -85,7 +85,7 @@ sub new {
 
 create a new form id
 
-  my $FormID = $UploadParamObject->FormIDCreate();
+    my $FormID = $UploadParamObject->FormIDCreate();
 
 =cut
 
@@ -98,7 +98,7 @@ sub FormIDCreate {
 
 remove all data with form id
 
-  $UploadParamObject->FormIDRemove(FormID => 123456);
+    $UploadParamObject->FormIDRemove(FormID => 123456);
 
 =cut
 
@@ -111,12 +111,12 @@ sub FormIDRemove {
 
 add a file to the form id
 
-  $UploadParamObject->FormIDAddFile(
-      FormID => 12345,
-      Filename => 'somefile.html',
-      Content => $FileInSting,
-      ContentType => 'text/html',
-  );
+    $UploadParamObject->FormIDAddFile(
+        FormID => 12345,
+        Filename => 'somefile.html',
+        Content => $FileInSting,
+        ContentType => 'text/html',
+    );
 
 =cut
 
@@ -129,10 +129,10 @@ sub FormIDAddFile {
 
 removes a file to the form id
 
-  $UploadParamObject->FormIDRemoveFile(
-      FormID => 12345,
-      FileID => 1,
-  );
+    $UploadParamObject->FormIDRemoveFile(
+        FormID => 12345,
+        FileID => 1,
+    );
 
 =cut
 
@@ -145,11 +145,11 @@ sub FormIDRemoveFile {
 
 returns a array with hash ref of all form id files
 
-  my @Data = $UploadParamObject->FormIDGetAllFilesData(
-      FormID => 12345,
-  );
+    my @Data = $UploadParamObject->FormIDGetAllFilesData(
+        FormID => 12345,
+    );
 
-  Return data of on hash is Content, ContentType, Filename, Filesize, FileID;
+    Return data of on hash is Content, ContentType, Filename, Filesize, FileID;
 
 =cut
 
@@ -164,11 +164,11 @@ returns a array with hash ref of all form id files
 
 Note: No Content will be returned, just meta data.
 
-  my @Data = $UploadParamObject->FormIDGetAllFilesMeta(
-      FormID => 12345,
-  );
+    my @Data = $UploadParamObject->FormIDGetAllFilesMeta(
+        FormID => 12345,
+    );
 
-  Return data of on hash is Filename, Filesize, FileID;
+    Return data of on hash is Filename, Filesize, FileID;
 
 =cut
 
@@ -183,7 +183,7 @@ Removed no longer needed tmp file.
 
 Each file older then 1 day will be removed.
 
-  $UploadParamObject->FormIDCleanUp();
+    $UploadParamObject->FormIDCleanUp();
 
 =cut
 
@@ -193,6 +193,8 @@ sub FormIDCleanUp {
 }
 
 1;
+
+=back
 
 =head1 TERMS AND CONDITIONS
 
@@ -206,6 +208,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2006-08-29 17:21:04 $
+$Revision: 1.4 $ $Date: 2007-01-21 01:26:10 $
 
 =cut

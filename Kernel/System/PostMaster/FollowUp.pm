@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FollowUp.pm,v 1.50 2007-01-18 10:29:33 martin Exp $
+# $Id: FollowUp.pm,v 1.51 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -183,7 +183,6 @@ sub Run {
         UserID => $Param{InmailUserID},
         HistoryType => 'FollowUp',
         HistoryComment => "\%\%$Param{Tn}\%\%$Comment",
-
         AutoResponseType => $AutoResponseType,
         OrigHeader => \%GetParam,
     );
@@ -245,7 +244,7 @@ sub Run {
     $Self->{LogObject}->Log(
         Priority => 'notice',
         Message => "FollowUp Article to Ticket [$Param{Tn}] created ".
-          "(TicketID=$Param{TicketID}, ArticleID=$ArticleID). $Comment,"
+            "(TicketID=$Param{TicketID}, ArticleID=$ArticleID). $Comment,"
     );
 
     return 1;

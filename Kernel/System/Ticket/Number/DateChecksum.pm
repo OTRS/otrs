@@ -1,17 +1,18 @@
 # --
 # Ticket/Number/DateChecksum.pm - a date ticket number generator
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
 # --
-# $Id: DateChecksum.pm,v 1.19 2006-12-21 11:17:05 martin Exp $
+# $Id: DateChecksum.pm,v 1.20 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 # Note:
 # available objects are: ConfigObject, LogObject and DBObject
-# --
+#
 # The algorithm to calculate the checksum is derived from the one
 # Deutsche Bundesbahn (german railway company) uses for calculation
 # of the check digit of their vehikel numbering.
@@ -20,16 +21,15 @@
 # vehikel number. The modulus to 10 of this sum is substracted from
 # 10. See: http://www.pruefziffernberechnung.de/F/Fahrzeugnummer.shtml
 # (german)
-# --
+#
 # Generates ticket numbers like yyyymmddssID#####C (e. g. 2002062310100011)
-# --
 
 package Kernel::System::Ticket::Number::DateChecksum;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketCreateNumber {

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter/Match.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Match.pm,v 1.4 2006-08-29 17:27:30 martin Exp $
+# $Id: Match.pm,v 1.5 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::Filter::Match;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub new {
@@ -72,21 +72,22 @@ sub Run {
                     Message => "'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched NOT!",
                 );
             }
-       }
+        }
     }
     # should I ignore the incoming mail?
     if ($Matched && !$MatchedNot) {
-       foreach (keys %Set) {
-           if ($Set{$_} =~ /\[\*\*\*\]/i) {
-               $Set{$_} = $Matched;
-           }
-           $Param{GetParam}->{$_} = $Set{$_};
-           $Self->{LogObject}->Log(
-               Priority => 'notice',
-               Message => "Set param '$_' to '$Set{$_}' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
-           );
+        foreach (keys %Set) {
+            if ($Set{$_} =~ /\[\*\*\*\]/i) {
+                $Set{$_} = $Matched;
+            }
+            $Param{GetParam}->{$_} = $Set{$_};
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "Set param '$_' to '$Set{$_}' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
+            );
         }
     }
     return 1;
 }
+
 1;

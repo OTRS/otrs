@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.60 2007-01-18 10:29:33 martin Exp $
+# $Id: NewTicket.pm,v 1.61 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -92,7 +92,6 @@ sub Run {
     }
 
     # get customer user data form From: (sender address)
-
     if (!$GetParam{'X-OTRS-CustomerUser'}) {
         my %CustomerData = ();
         if ($GetParam{'From'}) {
@@ -109,7 +108,7 @@ sub Run {
             );
             foreach (keys %List) {
                 %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                  User => $_,
+                    User => $_,
                 );
             }
         }
@@ -120,7 +119,7 @@ sub Run {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
                 Message => "Take UserLogin ($CustomerData{UserLogin}) from ".
-                   "customer source backend based on ($GetParam{'EmailForm'}).",
+                    "customer source backend based on ($GetParam{'EmailForm'}).",
             );
         }
         if ($CustomerData{UserCustomerID} && !$GetParam{'X-OTRS-CustomerNo'}) {
@@ -129,7 +128,7 @@ sub Run {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
                 Message => "Take UserCustomerID ($CustomerData{UserCustomerID})".
-                   " from customer source backend based on ($GetParam{'EmailForm'}).",
+                    " from customer source backend based on ($GetParam{'EmailForm'}).",
             );
         }
     }
@@ -222,7 +221,7 @@ sub Run {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message => "Can't process email with MessageID <$GetParam{'Message-ID'}>! ".
-              "Please create a bug report with this email (var/spool/) on http://bugs.otrs.org/!",
+                "Please create a bug report with this email (var/spool/) on http://bugs.otrs.org/!",
         );
         return;
     }

@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.17 2007-01-04 14:49:27 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.18 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed modules
@@ -49,10 +49,10 @@ the global customer web interface (incl. auth, session, ...)
 
 create customer web interface object
 
-  use Kernel::System::Web::InterfaceCustomer;
+    use Kernel::System::Web::InterfaceCustomer;
 
-  my $Self->{Debug} = 0;
-  my $InterfaceCustomer = Kernel::System::Web::InterfaceCustomer->new(Debug => $Self->{Debug});
+    my $Debug = 0;
+    my $InterfaceCustomer = Kernel::System::Web::InterfaceCustomer->new(Debug => $Debug);
 
 =cut
 
@@ -98,7 +98,7 @@ sub new {
 
 execute the object
 
-  $InterfaceCustomer->Run();
+    $InterfaceCustomer->Run();
 
 =cut
 
@@ -122,16 +122,16 @@ sub Run {
     };
     foreach my $Key (keys %{$FramworkPrams}) {
         $Param{$Key} = $Self->{ParamObject}->GetParam(Param => $Key)
-          || $FramworkPrams->{$Key};
+            || $FramworkPrams->{$Key};
     }
 
     # Check if the brwoser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     if ($Self->{ConfigObject}->Get('SessionUseCookie')) {
-      $Param{SessionIDCookie} = $Self->{ParamObject}->GetCookie(Key => $Param{SessionName});
-      if ($Param{SessionIDCookie}) {
-        $Param{SessionID} = $Param{SessionIDCookie};
-      }
+        $Param{SessionIDCookie} = $Self->{ParamObject}->GetCookie(Key => $Param{SessionName});
+        if ($Param{SessionIDCookie}) {
+            $Param{SessionID} = $Param{SessionIDCookie};
+        }
     }
 
     # create common framework objects 2/3
@@ -288,7 +288,7 @@ sub Run {
                 $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode($Param{RequestedURL});
                 print $Self->{LayoutObject}->Redirect(
                     ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL').
-                      "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
+                        "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
                 );
             }
             else {
@@ -298,7 +298,7 @@ sub Run {
                     Message => $Self->{LogObject}->GetLogEntry(
                         Type => 'Info',
                         What => 'Message',
-                        ) || 'Login failed! Your username or password was entered incorrectly.',
+                    ) || 'Login failed! Your username or password was entered incorrectly.',
                     User => $PostUser,
                     %Param,
                 );
@@ -307,7 +307,7 @@ sub Run {
     }
 
     # Logout
-    elsif ($Param{Action} eq "Logout"){
+    elsif ($Param{Action} eq "Logout") {
         if ($Self->{SessionObject}->CheckSessionID(SessionID => $Param{SessionID})) {
             # get session data
             my %UserData = $Self->{SessionObject}->GetSessionIDData(
@@ -376,7 +376,7 @@ sub Run {
     }
 
     # CustomerLostPassword
-    elsif ($Param{Action} eq "CustomerLostPassword"){
+    elsif ($Param{Action} eq "CustomerLostPassword") {
         # check feature
         if (! $Self->{ConfigObject}->Get('CustomerPanelLostPassword')) {
             # show normal login
@@ -404,22 +404,23 @@ sub Run {
             # send notify email
             my $EmailObject = Kernel::System::Email->new(%{$Self});
             my $Body = $Self->{ConfigObject}->Get('CustomerPanelBodyLostPassword')
-              || "New Password is: <OTRS_NEWPW>";
+                || "New Password is: <OTRS_NEWPW>";
             my $Subject = $Self->{ConfigObject}->Get('CustomerPanelSubjectLostPassword')
-              || 'New Password!';
+                || 'New Password!';
             foreach (keys %UserData) {
                 $Body =~ s/<OTRS_$_>/$UserData{$_}/gi;
             }
             if ($EmailObject->Send(
-              To => $UserData{UserEmail},
-              Subject => $Subject,
-              Charset => 'iso-8859-15',
-              Type => 'text/plain',
-              Body => $Body)) {
+                To => $UserData{UserEmail},
+                Subject => $Subject,
+                Charset => 'iso-8859-15',
+                Type => 'text/plain',
+                Body => $Body)
+            ) {
                 print $Self->{LayoutObject}->CustomerLogin(
-                  Title => 'Login',
-                  Message => "Sent new password to: ".$UserData{"UserEmail"},
-                  User => $User,
+                    Title => 'Login',
+                    Message => "Sent new password to: ".$UserData{"UserEmail"},
+                    User => $User,
                 );
             }
             else {
@@ -431,7 +432,7 @@ sub Run {
     }
 
     # create new customer account
-    elsif ($Param{Action} eq "CustomerCreateAccount"){
+    elsif ($Param{Action} eq "CustomerCreateAccount") {
         # check feature
         if (! $Self->{ConfigObject}->Get('CustomerPanelCreateAccount')) {
             # show normal login
@@ -479,19 +480,20 @@ sub Run {
                 # send notify email
                 my $EmailObject = Kernel::System::Email->new(%{$Self});
                 my $Body = $Self->{ConfigObject}->Get('CustomerPanelBodyNewAccount')
-                  || "No Config Option found!";
+                    || "No Config Option found!";
                 my $Subject = $Self->{ConfigObject}->Get('CustomerPanelSubjectNewAccount')
-                  || 'New OTRS Account!';
+                    || 'New OTRS Account!';
                 foreach (keys %GetParams) {
                     $Body =~ s/<OTRS_$_>/$GetParams{$_}/gi;
                 }
                 # send account info
                 if (!$EmailObject->Send(
-                  To => $GetParams{UserEmail},
-                  Subject => $Subject,
-                  Charset => 'iso-8859-15',
-                  Type => 'text/plain',
-                  Body => $Body)) {
+                    To => $GetParams{UserEmail},
+                    Subject => $Subject,
+                    Charset => 'iso-8859-15',
+                    Type => 'text/plain',
+                    Body => $Body)
+                ) {
                     print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error');
                     print $Self->{LayoutObject}->CustomerWarning(
                         Comment => 'Can\' send account info!'
@@ -504,8 +506,8 @@ sub Run {
                     $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode($Param{RequestedURL});
                     print $Self->{LayoutObject}->Redirect(
                         ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL').
-                         "?RequestedURL=$Param{RequestedURL}&User=$GetParams{UserLogin}&".
-                         "&Email=$GetParams{UserEmail}&Reason=NewAccountCreated",
+                            "?RequestedURL=$Param{RequestedURL}&User=$GetParams{UserLogin}&".
+                            "&Email=$GetParams{UserEmail}&Reason=NewAccountCreated",
                     );
                 }
                 else {
@@ -543,7 +545,7 @@ sub Run {
             $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode($Param{RequestedURL});
             print $Self->{LayoutObject}->Redirect(
                 ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL').
-                 "?RequestedURL=$Param{RequestedURL}",
+                    "?RequestedURL=$Param{RequestedURL}",
             );
         }
         else {
@@ -574,8 +576,8 @@ sub Run {
                 # redirect to alternate login
                 $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode($Param{RequestedURL});
                 print $Self->{LayoutObject}->Redirect(
-                  ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL').
-                   "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
+                    ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL').
+                        "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
                 );
             }
             else {
@@ -748,6 +750,8 @@ sub Run {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -760,6 +764,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2007-01-04 14:49:27 $
+$Revision: 1.18 $ $Date: 2007-01-21 01:26:10 $
 
 =cut

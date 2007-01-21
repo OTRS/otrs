@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser/Preferences/DB.pm - some customer user functions
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.9 2006-08-29 17:31:42 martin Exp $
+# $Id: DB.pm,v 1.10 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CustomerUser::Preferences::DB;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -32,13 +32,13 @@ sub new {
 
     # preferences table data
     $Self->{PreferencesTable} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{Table}
-      || 'customer_preferences';
+        || 'customer_preferences';
     $Self->{PreferencesTableKey} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableKey}
-      || 'preferences_key';
+        || 'preferences_key';
     $Self->{PreferencesTableValue} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableValue}
-      || 'preferences_value';
+        || 'preferences_value';
     $Self->{PreferencesTableUserID} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableUserID}
-      || 'user_id';
+        || 'user_id';
 
     return $Self;
 }
@@ -51,21 +51,21 @@ sub SetPreferences {
     my $Value = defined($Param{Value}) ? $Param{Value} : '';
     # delete old data
     if (!$Self->{DBObject}->Do(
-       SQL => "DELETE FROM $Self->{PreferencesTable} ".
-              " WHERE ".
-              " $Self->{PreferencesTableUserID} = '".$Self->{DBObject}->Quote($UserID)."'".
-              " AND ".
-              " $Self->{PreferencesTableKey} = '".$Self->{DBObject}->Quote($Key)."'",
+        SQL => "DELETE FROM $Self->{PreferencesTable} ".
+            " WHERE ".
+            " $Self->{PreferencesTableUserID} = '".$Self->{DBObject}->Quote($UserID)."'".
+            " AND ".
+            " $Self->{PreferencesTableKey} = '".$Self->{DBObject}->Quote($Key)."'",
     )) {
         return;
     }
     # insert new data
     if (!$Self->{DBObject}->Do(
-       SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableUserID}, ".
-              " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) " .
-              " VALUES ('".$Self->{DBObject}->Quote($UserID)."', ".
-              " '".$Self->{DBObject}->Quote($Key)."', ".
-              " '".$Self->{DBObject}->Quote($Value)."')",
+        SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableUserID}, ".
+            " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) " .
+            " VALUES ('".$Self->{DBObject}->Quote($UserID)."', ".
+            " '".$Self->{DBObject}->Quote($Key)."', ".
+            " '".$Self->{DBObject}->Quote($Value)."')",
     )) {
         return;
     }
@@ -77,9 +77,7 @@ sub GetPreferences {
     my %Param = @_;
     my $UserID = $Param{UserID} || return;
     my %Data;
-    # --
     # get preferences
-    # --
     my $SQL = "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} " .
         " FROM " .
         " $Self->{PreferencesTable} ".
@@ -90,9 +88,7 @@ sub GetPreferences {
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Data{$RowTmp[0]} = $RowTmp[1];
     }
-    # --
     # return data
-    # --
     return %Data;
 }
 

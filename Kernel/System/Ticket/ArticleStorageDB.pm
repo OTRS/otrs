@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.37 2006-12-11 06:47:22 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.38 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub ArticleStorageInit {
@@ -24,7 +24,7 @@ sub ArticleStorageInit {
     my %Param = @_;
     # ArticleDataDir
     $Self->{ArticleDataDir} = $Self->{ConfigObject}->Get('ArticleDir')
-       || die "Got no ArticleDir!";
+        || die "Got no ArticleDir!";
     # create ArticleContentPath
     my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
         SystemTime => $Self->{TimeObject}->SystemTime(),
@@ -39,10 +39,10 @@ sub ArticleDelete {
     my %Param = @_;
     # check needed stuff
     foreach (qw(TicketID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # delete attachments and plain emails
     my @Articles = $Self->ArticleIndex(TicketID => $Param{TicketID});
@@ -117,10 +117,10 @@ sub ArticleDeletePlain {
     my %Param = @_;
     # check needed stuff
     foreach (qw(ArticleID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(ArticleID)) {
@@ -148,10 +148,10 @@ sub ArticleDeleteAttachment {
     my %Param = @_;
     # check needed stuff
     foreach (qw(ArticleID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(ArticleID)) {
@@ -184,10 +184,10 @@ sub ArticleWritePlain {
     my %Param = @_;
     # check needed stuff
     foreach (qw(ArticleID Email UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # encode attachemnt if it's a postgresql backend!!!
     if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
@@ -217,10 +217,10 @@ sub ArticleWriteAttachment {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Content Filename ContentType ArticleID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # check used name (we want just uniq names)
     $Param{Filename} = decode_mimewords($Param{Filename});
@@ -233,10 +233,10 @@ sub ArticleWriteAttachment {
     for (my $i=1; $i<=12; $i++) {
         if (exists $UsedFile{$NewFileName}) {
             if ($Param{Filename} =~ /^(.*)\.(.+?)$/) {
-               $NewFileName = "$1-$i.$2";
+                $NewFileName = "$1-$i.$2";
             }
             else {
-               $NewFileName = "$Param{Filename}-$i";
+                $NewFileName = "$Param{Filename}-$i";
             }
         }
     }
@@ -280,8 +280,8 @@ sub ArticlePlain {
     my %Param = @_;
     # check needed stuff
     if (!$Param{ArticleID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+        return;
     }
     # prepare/filter ArticleID
     $Param{ArticleID} = quotemeta($Param{ArticleID});
@@ -297,8 +297,8 @@ sub ArticlePlain {
             $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
         }
         my $SQL = "SELECT body FROM article_plain ".
-          " WHERE ".
-          " article_id = $Param{ArticleID}";
+            " WHERE ".
+            " article_id = $Param{ArticleID}";
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             # decode attachemnt if it's e. g. a postgresql backend!!!
@@ -343,8 +343,8 @@ sub ArticleAttachmentIndex {
     }
     # check needed stuff
     if (!$Param{ArticleID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+        return;
     }
     # get ContentPath if not given
     if (!$Param{ContentPath}) {
@@ -439,10 +439,10 @@ sub ArticleAttachment {
     my %Param = @_;
     # check needed stuff
     foreach (qw(ArticleID FileID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # prepare/filter ArticleID
     $Param{ArticleID} = quotemeta($Param{ArticleID});

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.10 2006-10-02 11:12:26 rk Exp $
+# $Id: Ticket.pm,v 1.11 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Init {
@@ -32,7 +32,7 @@ sub FillDataMap {
     my %Param = @_;
     foreach (qw(ID)) {
         if (!$Param{$_}) {
-             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
@@ -166,10 +166,10 @@ sub LinkSearch {
             UserID => $Self->{UserID},
         );
         push (@ResultWithData, {
-            %Ticket,
-            ID => $_,
-            Number => $Ticket{TicketNumber},
-          },
+                %Ticket,
+                ID => $_,
+                Number => $Ticket{TicketNumber},
+            },
         );
 
     }
@@ -183,7 +183,7 @@ sub LinkItemData {
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Param{ID});
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(TicketID => $Param{ID});
     foreach my $Article (reverse @ArticleBox) {
-       $Body .= $Article->{Body};
+        $Body .= $Article->{Body};
     }
     return (
         %Ticket,
@@ -193,8 +193,6 @@ sub LinkItemData {
         Body => $Body,
         DetailLink => "Action=AgentTicketZoom&TicketID=$Param{ID}",
     );
-
 }
 
 1;
-

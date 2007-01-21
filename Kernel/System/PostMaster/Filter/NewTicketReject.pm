@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter/NewTicketReject.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NewTicketReject.pm,v 1.4 2006-12-14 14:18:50 martin Exp $
+# $Id: NewTicketReject.pm,v 1.5 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub new {
@@ -77,7 +77,7 @@ sub Run {
                     Message => "'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched NOT!",
                 );
             }
-       }
+        }
     }
     if ($Matched && !$MatchedNot) {
         # check if new ticket
@@ -102,8 +102,8 @@ sub Run {
                 Loop => 1,
                 Attachment => [
                     {
-                        Filename    => "email.txt",
-                        Content     => $Param{GetParam}->{'Body'},
+                        Filename => "email.txt",
+                        Content => $Param{GetParam}->{'Body'},
                         ContentType => "application/octet-stream",
                     }
                 ],

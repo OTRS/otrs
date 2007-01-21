@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter/CMD.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CMD.pm,v 1.3 2006-08-29 17:27:30 martin Exp $
+# $Id: CMD.pm,v 1.4 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::Filter::CMD;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub new {
@@ -67,11 +67,11 @@ sub Run {
         close (IN);
         # set new params
         foreach (keys %Set) {
-           $Param{GetParam}->{$_} = $Set{$_};
-           $Self->{LogObject}->Log(
-               Priority => 'notice',
-               Message => "Set param '$_' to '$Set{$_}' because of '$Ret' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
-           );
+            $Param{GetParam}->{$_} = $Set{$_};
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "Set param '$_' to '$Set{$_}' because of '$Ret' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
+            );
         }
     }
     unlink $TmpFile;

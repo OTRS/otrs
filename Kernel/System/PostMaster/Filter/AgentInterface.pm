@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter/AgentInterface.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentInterface.pm,v 1.6 2006-11-02 13:02:04 tr Exp $
+# $Id: AgentInterface.pm,v 1.7 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,11 +18,10 @@ use Kernel::System::User;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # bulk, list
-
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -218,7 +217,7 @@ sub Run {
         my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $Param{TicketID});
         # set from
         my $From = $Self->{ConfigObject}->Get('NotificationSenderName').
-             ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>';
+            ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>';
         my $Subject = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Ticket{TicketNumber},
             Subject => $Article{Subject} || '',
@@ -251,9 +250,7 @@ sub Run {
         return 1;
     }
     # check command
-
     # close
-
     # lock ticket
     if ($Command{lock}) {
         # check lock

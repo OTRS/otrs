@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/ForceOwnerReset.pm - reset owner on move
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ForceOwnerReset.pm,v 1.4 2006-11-02 12:20:58 tr Exp $
+# $Id: ForceOwnerReset.pm,v 1.5 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Event::ForceOwnerReset;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -38,10 +38,10 @@ sub Run {
     my %Param = @_;
     # check needed stuff
     foreach (qw(TicketID Event Config)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     $Self->{TicketObject}->OwnerSet(
         TicketID => $Param{TicketID},

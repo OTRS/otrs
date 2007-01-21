@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.9 2006-10-05 01:47:51 martin Exp $
+# $Id: Request.pm,v 1.10 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.9 $ ';
+$VERSION = '$Revision: 1.10 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -36,13 +36,13 @@ All cgi param functions.
 
 create param object
 
-  use Kernel::Config;
-  use Kernel::System::Web::Request;
+    use Kernel::Config;
+    use Kernel::System::Web::Request;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $ParamObject = Kernel::System::Web::Request->new(
-      ConfigObject => $ConfigObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $ParamObject = Kernel::System::Web::Request->new(
+        ConfigObject => $ConfigObject,
+    );
 
 =cut
 
@@ -78,9 +78,9 @@ sub new {
 
 to get the error back
 
-  if ($ParamObject->Error()) {
-      print STDERR $Self->{ParamObject}->Error()."\n";
-  }
+    if ($ParamObject->Error()) {
+        print STDERR $Self->{ParamObject}->Error()."\n";
+    }
 
 =cut
 
@@ -98,7 +98,7 @@ sub Error {
 
 to get params
 
-  my $Param = $ParamObject->GetParam(Param => 'ID');
+    my $Param = $ParamObject->GetParam(Param => 'ID');
 
 =cut
 
@@ -115,7 +115,7 @@ sub GetParam {
 
 to get array params
 
-  my @Param = $ParamObject->GetArray(Param => 'ID');
+    my @Param = $ParamObject->GetArray(Param => 'ID');
 
 =cut
 
@@ -157,20 +157,20 @@ sub GetUploadInfo {
 
 to get file upload
 
-  my %File = $ParamObject->GetUploadAll(
-      Param => '123.jpg',
-  );
+    my %File = $ParamObject->GetUploadAll(
+        Param => '123.jpg',
+    );
 
-  to get file upload without uft-8 encoding
+    to get file upload without uft-8 encoding
 
-  my %File = $ParamObject->GetUploadAll(
-      Param => '123.jpg',
-      Encoding => 'Raw', # optional
-  );
+    my %File = $ParamObject->GetUploadAll(
+        Param => '123.jpg',
+        Encoding => 'Raw', # optional
+    );
 
-  print "Filename: $File{Filename}\n";
-  print "ContentType: $File{ContentType}\n";
-  print "Content: $File{Content}\n";
+    print "Filename: $File{Filename}\n";
+    print "ContentType: $File{ContentType}\n";
+    print "Content: $File{Content}\n";
 
 =cut
 
@@ -237,10 +237,10 @@ sub GetUploadAll {
 
 set a cookie
 
-  $ParamObject->SetCookie(
-      Key => ID,
-      Value => 123456,
-  );
+    $ParamObject->SetCookie(
+        Key => ID,
+        Value => 123456,
+    );
 
 =cut
 
@@ -258,9 +258,9 @@ sub SetCookie {
 
 get a cookie
 
-  my $String = $ParamObject->GetCookie(
-      Key => ID,
-  );
+    my $String = $ParamObject->GetCookie(
+        Key => ID,
+    );
 
 =cut
 
@@ -271,6 +271,8 @@ sub GetCookie {
 }
 
 1;
+
+=back
 
 =head1 TERMS AND CONDITIONS
 
@@ -284,6 +286,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2006-10-05 01:47:51 $
+$Revision: 1.10 $ $Date: 2007-01-21 01:26:10 $
 
 =cut

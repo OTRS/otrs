@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter.pm - all functions to add/delete/list pm db filters
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Filter.pm,v 1.7 2006-08-29 17:27:30 martin Exp $
+# $Id: Filter.pm,v 1.8 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::Filter;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -35,24 +35,24 @@ All postmaster database filters
 
 create a object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::Postmaster::Filter;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::Postmaster::Filter;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-  );
-  my $PMFilterObject = Kernel::System::Postmaster::Filter->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      DBObject => $DBObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $PMFilterObject = Kernel::System::Postmaster::Filter->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -76,7 +76,7 @@ sub new {
 
 get all filter
 
-  my %FilterList = $PSFilterObject->FilterList();
+    my %FilterList = $PSFilterObject->FilterList();
 
 =cut
 
@@ -96,16 +96,16 @@ sub FilterList {
 
 add a filter
 
-  $PMFilterObject->FilterAdd(
-      Name => 'some name',
-      Match = {
-          From => 'email@example.com',
-          Subject => '^ADV: 123',
-      },
-      Set {
-          'X-OTRS-Queue' => 'Some::Queue',
-      },
-  );
+    $PMFilterObject->FilterAdd(
+        Name => 'some name',
+        Match = {
+            From => 'email@example.com',
+            Subject => '^ADV: 123',
+        },
+        Set {
+            'X-OTRS-Queue' => 'Some::Queue',
+        },
+    );
 
 =cut
 
@@ -114,18 +114,18 @@ sub FilterAdd {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Name Match Set)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
     foreach my $Type ('Match', 'Set') {
-       my %Data = %{$Param{$Type}};
-       foreach (keys %Data) {
+        my %Data = %{$Param{$Type}};
+        foreach (keys %Data) {
             $Data{$_} = $Self->{DBObject}->Quote($Data{$_}) || '';
             my $SQL = "INSERT INTO postmaster_filter (f_name, f_type, f_key, f_value) VALUES ('$Param{Name}', '$Type', '$_', '$Data{$_}')";
             if (!$Self->{DBObject}->Do(SQL => $SQL)) {
@@ -140,9 +140,9 @@ sub FilterAdd {
 
 delete a filter
 
-  $PMFilterObject->FilterDelete(
-      Name => '123',
-  );
+    $PMFilterObject->FilterDelete(
+        Name => '123',
+    );
 
 =cut
 
@@ -151,10 +151,10 @@ sub FilterDelete {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Name)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     $Param{Name} = $Self->{DBObject}->Quote($Param{Name}) || '';
     if ($Self->{DBObject}->Prepare(SQL => "DELETE FROM postmaster_filter WHERE f_name = '$Param{Name}'")) {
@@ -169,9 +169,9 @@ sub FilterDelete {
 
 get filter properties, returns HASH ref Match and Set
 
-  my %Data = $PMFilterObject->FilterGet(
-      Name => '132',
-  );
+    my %Data = $PMFilterObject->FilterGet(
+        Name => '132',
+    );
 
 =cut
 
@@ -180,10 +180,10 @@ sub FilterGet {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Name)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (keys %Param) {
@@ -201,6 +201,8 @@ sub FilterGet {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -213,6 +215,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2006-08-29 17:27:30 $
+$Revision: 1.8 $ $Date: 2007-01-21 01:26:10 $
 
 =cut

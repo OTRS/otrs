@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession/DB.pm - provides session db backend
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.24 2006-12-14 12:06:48 martin Exp $
+# $Id: DB.pm,v 1.25 2007-01-21 01:26:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -39,14 +39,11 @@ sub new {
     # Debug 0=off 1=on
     $Self->{Debug} = 0;
     # session table data
-    $Self->{SQLSessionTable} = $Self->{ConfigObject}->Get('SessionTable')
-        || 'sessions';
+    $Self->{SQLSessionTable} = $Self->{ConfigObject}->Get('SessionTable') || 'sessions';
     # id row
-    $Self->{SQLSessionTableID} = $Self->{ConfigObject}->Get('SessionTableID')
-        || 'session_id';
+    $Self->{SQLSessionTableID} = $Self->{ConfigObject}->Get('SessionTableID') || 'session_id';
     # value row
-    $Self->{SQLSessionTableValue} = $Self->{ConfigObject}->Get('SessionTableValue')
-        || 'session_value';
+    $Self->{SQLSessionTableValue} = $Self->{ConfigObject}->Get('SessionTableValue') || 'session_value';
 
     return $Self;
 }
@@ -86,8 +83,8 @@ sub CheckSessionID {
     # check session idle time
     my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
     if ( ($Self->{TimeObject}->SystemTime() - $MaxSessionIdleTime) >= $Data{UserLastRequest} ) {
-         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
-         $Self->{LogObject}->Log(
+        $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+        $Self->{LogObject}->Log(
             Priority => 'notice',
             Message => "SessionID ($SessionID) idle timeout (". int(($Self->{TimeObject}->SystemTime() - $Data{UserLastRequest})/(60*60))
                 ."h)! Don't grant access!!!",
@@ -159,11 +156,11 @@ sub GetSessionIDData {
         }
         # Debug
         if ($Self->{Debug}) {
-             $Self->{LogObject}->Log(
-                  Priority => 'debug',
-                  Message => "GetSessionIDData: '$PaarData[0]:".decode_base64($PaarData[1])."'",
-             );
-         }
+            $Self->{LogObject}->Log(
+                Priority => 'debug',
+                Message => "GetSessionIDData: '$PaarData[0]:".decode_base64($PaarData[1])."'",
+            );
+        }
     }
     # return data
     return %Data;
@@ -242,8 +239,7 @@ sub UpdateSessionID {
     }
     my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
     # check needed update! (no changes)
-    if (((exists $SessionData{$Key}) && $SessionData{$Key} eq $Value)
-      || (!exists $SessionData{$Key} && $Value eq '')) {
+    if (((exists $SessionData{$Key}) && $SessionData{$Key} eq $Value) || (!exists $SessionData{$Key} && $Value eq '')) {
         return 1;
     }
     # update the value

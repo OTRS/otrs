@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/TicketFreeFieldDefault.pm - a event module for default ticket free text settings
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TicketFreeFieldDefault.pm,v 1.3 2006-10-19 20:58:25 martin Exp $
+# $Id: TicketFreeFieldDefault.pm,v 1.4 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::Event::TicketFreeFieldDefault;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -48,11 +48,11 @@ sub Run {
             my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Param{TicketID});
             # do some stuff
             $Self->{TicketObject}->TicketFreeTextSet(
-                Counter  => $Element->{Counter},
-                Key      => $Element->{Key},
-                Value    => $Element->{Value},
+                Counter => $Element->{Counter},
+                Key => $Element->{Key},
+                Value => $Element->{Value},
                 TicketID => $Param{TicketID},
-                UserID   => $Param{UserID},
+                UserID => $Param{UserID},
             );
         }
     }

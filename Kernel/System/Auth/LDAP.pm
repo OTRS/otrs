@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.32 2007-01-04 12:14:47 martin Exp $
+# $Id: LDAP.pm,v 1.33 2007-01-21 01:26:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -164,7 +164,7 @@ sub Auth {
     }
     # perform user search
     $Result = $LDAP->search (
-        base   => $Self->{BaseDN},
+        base => $Self->{BaseDN},
         filter => $Filter,
     );
     if ($Result->code) {
@@ -210,7 +210,7 @@ sub Auth {
             $Filter2 = "($Self->{AccessAttr}=$Param{User})";
         }
         my $Result2 = $LDAP->search (
-            base   => $Self->{GroupDN},
+            base => $Self->{GroupDN},
             filter => $Filter2,
         );
         if ($Result2->code) {
@@ -285,7 +285,7 @@ sub Auth {
             }
             # perform user search
             $Result = $LDAP->search (
-                base   => $Self->{BaseDN},
+                base => $Self->{BaseDN},
                 filter => $Filter,
             );
             if ($Result->code) {
@@ -425,7 +425,7 @@ sub Auth {
                     $Filter = "($Self->{AccessAttr}=$Param{User})";
                 }
                 my $Result = $LDAP->search (
-                    base   => $GroupDN,
+                    base => $GroupDN,
                     filter => $Filter,
                 );
                 if ($Result->code) {
@@ -521,7 +521,7 @@ sub Auth {
                     $Filter = "($Self->{AccessAttr}=$Param{User})";
                 }
                 my $Result = $LDAP->search (
-                    base   => $GroupDN,
+                    base => $GroupDN,
                     filter => $Filter,
                 );
                 if ($Result->code) {
@@ -608,7 +608,7 @@ sub Auth {
             my $Filter = "($Self->{UID}=$Param{User})";
             # perform search
             $Result = $LDAP->search (
-                base   => $Self->{BaseDN},
+                base => $Self->{BaseDN},
                 filter => $Filter,
             );
             if ($Result->code) {
@@ -685,7 +685,7 @@ sub Auth {
             my $Filter = "($Self->{UID}=$Param{User})";
             # perform search
             $Result = $LDAP->search (
-                base   => $Self->{BaseDN},
+                base => $Self->{BaseDN},
                 filter => $Filter,
             );
             if ($Result->code) {

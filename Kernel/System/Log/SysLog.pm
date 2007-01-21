@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Log/SysLog.pm - a wrapper for Sys::Syslog or xyz::Syslog
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SysLog.pm,v 1.11 2006-08-29 17:28:44 martin Exp $
+# $Id: SysLog.pm,v 1.12 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,10 +16,9 @@ use Sys::Syslog qw(:DEFAULT setlogsock);
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $ ';
+$VERSION = '$Revision: 1.12 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -44,7 +43,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Log {
     my $Self = shift;
     my %Param = @_;
@@ -79,12 +78,9 @@ sub Log {
         # and of course to syslog
         syslog('err', "[Error][$Param{Module}] Priority: '$Param{Priority}' not defined! Message: $Param{Message}");
     }
-    # --
     # close syslog request
-    # --
     closelog();
     return;
 }
-# --
 
 1;

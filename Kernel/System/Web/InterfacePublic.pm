@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.10 2007-01-04 14:49:27 martin Exp $
+# $Id: InterfacePublic.pm,v 1.11 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfacePublic;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed  modules
@@ -46,10 +46,10 @@ the global public web interface
 
 create public web interface object
 
-  use Kernel::System::Web::InterfacePublic;
+    use Kernel::System::Web::InterfacePublic;
 
-  my $Debug = 0;
-  my $Interface = Kernel::System::Web::InterfacePublic->new(Debug => $Debug);
+    my $Debug = 0;
+    my $Interface = Kernel::System::Web::InterfacePublic->new(Debug => $Debug);
 
 =cut
 
@@ -96,7 +96,7 @@ sub new {
 
 execute the object
 
-  $Interface->Run();
+    $Interface->Run();
 
 =cut
 
@@ -121,16 +121,16 @@ sub Run {
     };
     foreach my $Key (keys %{$FramworkPrams}) {
         $Param{$Key} = $Self->{ParamObject}->GetParam(Param => $Key)
-          || $FramworkPrams->{$Key};
+            || $FramworkPrams->{$Key};
     }
 
     # Check if the brwoser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     if ($Self->{ConfigObject}->Get('SessionUseCookie')) {
-      $Param{SessionIDCookie} = $Self->{ParamObject}->GetCookie(Key => $Param{SessionName});
-      if ($Param{SessionIDCookie}) {
-        $Param{SessionID} = $Param{SessionIDCookie};
-      }
+        $Param{SessionIDCookie} = $Self->{ParamObject}->GetCookie(Key => $Param{SessionName});
+        if ($Param{SessionIDCookie}) {
+            $Param{SessionID} = $Param{SessionIDCookie};
+        }
     }
 
     # create common framework objects 2/3
@@ -157,7 +157,7 @@ sub Run {
             Message => $Self->{ParamObject}->Error(),
             Comment => 'Please contact your admin'
         );
-         print $Self->{LayoutObject}->Footer();
+        print $Self->{LayoutObject}->Footer();
         exit (1);
     }
 
@@ -269,6 +269,8 @@ sub Run {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -281,6 +283,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2007-01-04 14:49:27 $
+$Revision: 1.11 $ $Date: 2007-01-21 01:26:10 $
 
 =cut

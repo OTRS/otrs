@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.18 2007-01-04 14:49:27 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.19 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed modules
@@ -50,10 +50,10 @@ the global agent web interface (incl. auth, session, ...)
 
 create agent web interface object
 
-  use Kernel::System::Web::InterfaceAgent;
+    use Kernel::System::Web::InterfaceAgent;
 
-  my $Debug = 0;
-  my $InterfaceAgent = Kernel::System::Web::InterfaceAgent->new(Debug => $Debug);
+    my $Debug = 0;
+    my $InterfaceAgent = Kernel::System::Web::InterfaceAgent->new(Debug => $Debug);
 
 =cut
 
@@ -99,7 +99,7 @@ sub new {
 
 execute the object
 
-  $InterfaceAgent->Run();
+    $InterfaceAgent->Run();
 
 =cut
 
@@ -123,7 +123,7 @@ sub Run {
     };
     foreach my $Key (keys %{$FramworkPrams}) {
         $Param{$Key} = $Self->{ParamObject}->GetParam(Param => $Key)
-          || $FramworkPrams->{$Key};
+            || $FramworkPrams->{$Key};
     }
 
     # Check if the brwoser sends the SessionID cookie and set the SessionID-cookie
@@ -131,7 +131,7 @@ sub Run {
     if ($Self->{ConfigObject}->Get('SessionUseCookie')) {
         $Param{SessionIDCookie} = $Self->{ParamObject}->GetCookie(Key => $Param{SessionName});
         if ($Param{SessionIDCookie}) {
-           $Param{SessionID} = $Param{SessionIDCookie};
+            $Param{SessionID} = $Param{SessionIDCookie};
         }
     }
 
@@ -157,7 +157,7 @@ sub Run {
             Message => $Self->{ParamObject}->Error(),
             Comment => 'Please contact your admin'
         );
-         print $Self->{LayoutObject}->Footer();
+        print $Self->{LayoutObject}->Footer();
         exit (1);
     }
 
@@ -306,8 +306,8 @@ sub Run {
                 # redirect to alternate login
                 $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode($Param{RequestedURL});
                 print $Self->{LayoutObject}->Redirect(
-                     ExtURL => $Self->{ConfigObject}->Get('LoginURL').
-                       "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
+                    ExtURL => $Self->{ConfigObject}->Get('LoginURL').
+                        "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
                 );
             }
             else {
@@ -326,7 +326,7 @@ sub Run {
     }
 
     # Logout
-    elsif ($Param{Action} eq "Logout"){
+    elsif ($Param{Action} eq "Logout") {
         if ($Self->{SessionObject}->CheckSessionID(SessionID => $Param{SessionID})) {
             # get session data
             my %UserData = $Self->{SessionObject}->GetSessionIDData(
@@ -334,22 +334,22 @@ sub Run {
             );
             # create new LayoutObject with new '%Param' and '%UserData'
             $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
-              SetCookies => {
-                  SessionIDCookie => $Self->{ParamObject}->SetCookie(
-                      Key => $Param{SessionName},
-                      Value => '',
-                  ),
-              },
-              %{$Self},
-              %Param,
-              %UserData,
+                SetCookies => {
+                    SessionIDCookie => $Self->{ParamObject}->SetCookie(
+                        Key => $Param{SessionName},
+                        Value => '',
+                    ),
+                },
+                %{$Self},
+                %Param,
+                %UserData,
             );
             # remove session id
             if ($Self->{SessionObject}->RemoveSessionID(SessionID => $Param{SessionID})) {
                 if ($Self->{ConfigObject}->Get('LogoutURL')) {
                     # redirect to alternate login
                     print $Self->{LayoutObject}->Redirect(
-                         ExtURL => $Self->{ConfigObject}->Get('LogoutURL')."?Reason=Logout",
+                        ExtURL => $Self->{ConfigObject}->Get('LogoutURL')."?Reason=Logout",
                     );
                 }
                 else {
@@ -380,7 +380,7 @@ sub Run {
                 $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode($Param{RequestedURL});
                 print $Self->{LayoutObject}->Redirect(
                     ExtURL => $Self->{ConfigObject}->Get('LoginURL').
-                      "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
+                        "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
                 );
             }
             else {
@@ -395,13 +395,13 @@ sub Run {
     }
 
     # user lost password
-    elsif ($Param{Action} eq "LostPassword"){
+    elsif ($Param{Action} eq "LostPassword") {
         # check feature
         if (! $Self->{ConfigObject}->Get('LostPassword')) {
             # show normal login
             print $Self->{LayoutObject}->Login(
-               Title => 'Login',
-               Message => 'Feature not active!',
+                Title => 'Login',
+                Message => 'Feature not active!',
             );
             exit 0;
         }
@@ -426,9 +426,9 @@ sub Run {
             # send notify email
             my $EmailObject = Kernel::System::Email->new(%{$Self});
             my $Body = $Self->{ConfigObject}->Get('NotificationBodyLostPassword')
-              || "New Password is: <OTRS_NEWPW>";
+                || "New Password is: <OTRS_NEWPW>";
             my $Subject = $Self->{ConfigObject}->Get('NotificationSubjectLostPassword')
-              || 'New Password!';
+                || 'New Password!';
             foreach (keys %UserData) {
                 $Body =~ s/<OTRS_$_>/$UserData{$_}/gi;
             }
@@ -437,7 +437,8 @@ sub Run {
                 Subject => $Subject,
                 Charset => 'iso-8859-15',
                 Type => 'text/plain',
-                Body => $Body)) {
+                Body => $Body)
+            ) {
                     print $Self->{LayoutObject}->Login(
                         Title => 'Login',
                         Message => "Sent new password to: ".$UserData{"UserEmail"},
@@ -471,7 +472,7 @@ sub Run {
             $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode($Param{RequestedURL});
             print $Self->{LayoutObject}->Redirect(
                 ExtURL => $Self->{ConfigObject}->Get('LoginURL').
-                 "?RequestedURL=$Param{RequestedURL}",
+                    "?RequestedURL=$Param{RequestedURL}",
             );
         }
         else {
@@ -489,30 +490,30 @@ sub Run {
         if ( !$Self->{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
             # create new LayoutObject with new '%Param'
             $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
-              SetCookies => {
-                  SessionIDCookie => $Self->{ParamObject}->SetCookie(
-                      Key => $Param{SessionName},
-                      Value => '',
-                  ),
-              },
-              %{$Self},
-              %Param,
+                SetCookies => {
+                    SessionIDCookie => $Self->{ParamObject}->SetCookie(
+                        Key => $Param{SessionName},
+                        Value => '',
+                    ),
+                },
+                %{$Self},
+                %Param,
             );
             # create AuthObject
             my $AuthObject = Kernel::System::Auth->new(%{$Self});
             if ($AuthObject->GetOption(What => 'PreAuth')) {
                 # automatic re-login
                 $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode($Param{RequestedURL});
-                 print $Self->{LayoutObject}->Redirect(
-                      OP => "?Action=Login&RequestedURL=$Param{RequestedURL}",
-                 );
+                print $Self->{LayoutObject}->Redirect(
+                    OP => "?Action=Login&RequestedURL=$Param{RequestedURL}",
+                );
             }
             elsif ($Self->{ConfigObject}->Get('LoginURL')) {
                 # redirect to alternate login
                 $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode($Param{RequestedURL});
                 print $Self->{LayoutObject}->Redirect(
-                     ExtURL => $Self->{ConfigObject}->Get('LoginURL').
-                       "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
+                    ExtURL => $Self->{ConfigObject}->Get('LoginURL').
+                        "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
                 );
             }
             else {
@@ -725,6 +726,8 @@ sub Run {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -737,6 +740,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2007-01-04 14:49:27 $
+$Revision: 1.19 $ $Date: 2007-01-21 01:26:10 $
 
 =cut

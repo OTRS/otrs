@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm - realtime database
 # queue ticket index module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.36 2006-11-02 12:20:58 tr Exp $
+# $Id: RuntimeDB.pm,v 1.37 2007-01-21 01:26:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -41,10 +41,10 @@ sub TicketAcceleratorIndex {
     my %Param = @_;
     # check needed stuff
     foreach (qw(UserID QueueID ShownQueueIDs)) {
-      if (!exists($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!exists($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(UserID)) {
@@ -69,12 +69,12 @@ sub TicketAcceleratorIndex {
     # prepar "All tickets: ??" in Queue
     if (@QueueIDs) {
         my $SQL = "SELECT count(*) ".
-          " FROM ".
-          " ticket st ".
-          " WHERE ".
-          " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) ".
-          " AND ".
-          " st.queue_id IN (";
+            " FROM ".
+            " ticket st ".
+            " WHERE ".
+            " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) ".
+            " AND ".
+            " st.queue_id IN (";
         foreach (0..$#QueueIDs) {
             if ($_ > 0) {
                 $SQL .= ",";
@@ -100,22 +100,22 @@ sub TicketAcceleratorIndex {
     }
     # CustomQueue add on
     my $SQL = "SELECT count(*) FROM ".
-    " ticket st, queue sq, personal_queues suq ".
-    " WHERE ".
-    " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) ".
-    " AND ".
-    " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ".
-    " AND ".
-    " st.queue_id = sq.id ".
-    " AND ".
-    " suq.queue_id = st.queue_id ".
-    " AND ".
-    " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
-    " AND ".
-    # get all custom queues
-    " suq.user_id = $Param{UserID} ".
-    #/ get all custom queues /
-    "";
+        " ticket st, queue sq, personal_queues suq ".
+        " WHERE ".
+        " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) ".
+        " AND ".
+        " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ".
+        " AND ".
+        " st.queue_id = sq.id ".
+        " AND ".
+        " suq.queue_id = st.queue_id ".
+        " AND ".
+        " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
+        " AND ".
+        # get all custom queues
+        " suq.user_id = $Param{UserID} ".
+        #/ get all custom queues /
+        "";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         my %Hashes;
@@ -132,18 +132,18 @@ sub TicketAcceleratorIndex {
     }
     # prepar the tickets in Queue bar (all data only with my/your Permission)
     $SQL = "SELECT st.queue_id, sq.name, min(st.create_time_unix), count(*) ".
-    " FROM " .
-    " ticket st, queue sq " .
-    " WHERE " .
-    " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
-    " AND " .
-    " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
-    " AND " .
-    " st.queue_id = sq.id " .
-    " AND ".
-    " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
-    " GROUP BY st.queue_id,sq.name " .
-    " ORDER BY sq.name";
+        " FROM " .
+        " ticket st, queue sq " .
+        " WHERE " .
+        " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
+        " AND " .
+        " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
+        " AND " .
+        " st.queue_id = sq.id " .
+        " AND ".
+        " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
+        " GROUP BY st.queue_id,sq.name " .
+        " ORDER BY sq.name";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         # store the data into a array
@@ -179,10 +179,10 @@ sub GetLockedCount {
     my %Param = @_;
     # check needed stuff
     foreach (qw(UserID)) {
-      if (!exists($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!exists($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(UserID)) {
@@ -190,24 +190,24 @@ sub GetLockedCount {
     }
     # db query
     $Self->{DBObject}->Prepare(
-       SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by, ti.create_time_unix, ".
-              " ti.until_time, ts.name, tst.name " .
-              " FROM " .
-              " ticket ti, article ar, article_sender_type st, " .
-              " ticket_state ts, ticket_state_type tst " .
-              " WHERE " .
-              " ti.ticket_lock_id not IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
-              " AND " .
-              " ti.user_id = $Param{UserID} " .
-              " AND " .
-              " ar.ticket_id = ti.id " .
-              " AND " .
-              " st.id = ar.article_sender_type_id " .
-              " AND " .
-              " ts.id = ti.ticket_state_id " .
-              " AND " .
-              " ts.type_id = tst.id " .
-              " ORDER BY ar.create_time DESC",
+        SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by, ti.create_time_unix, ".
+            " ti.until_time, ts.name, tst.name " .
+            " FROM " .
+            " ticket ti, article ar, article_sender_type st, " .
+            " ticket_state ts, ticket_state_type tst " .
+            " WHERE " .
+            " ti.ticket_lock_id not IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
+            " AND " .
+            " ti.user_id = $Param{UserID} " .
+            " AND " .
+            " ar.ticket_id = ti.id " .
+            " AND " .
+            " st.id = ar.article_sender_type_id " .
+            " AND " .
+            " ts.id = ti.ticket_state_id " .
+            " AND " .
+            " ts.type_id = tst.id " .
+            " ORDER BY ar.create_time DESC",
     );
     my %TicketIDs = ();
     my %Data = ();
@@ -217,17 +217,17 @@ sub GetLockedCount {
     $Data{'New'} = 0;
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         if (!$Param{"ID$Row[2]"}) {
-          $Data{'All'}++;
-          # put all tickets to ToDo where last sender type is customer / system or ! UserID
-          if ($Row[3] ne $Param{UserID} || $Row[1] eq 'customer' || $Row[1] eq 'system') {
-              $Data{'New'}++;
-          }
-          if ($Row[5] && $Row[7] =~ /^pending/i) {
-              $Data{'Pending'}++;
-              if ($Row[7] !~ /^pending auto/i && $Row[5] <= $Self->{TimeObject}->SystemTime()) {
-                  $Data{'Reminder'}++;
-              }
-          }
+            $Data{'All'}++;
+            # put all tickets to ToDo where last sender type is customer / system or ! UserID
+            if ($Row[3] ne $Param{UserID} || $Row[1] eq 'customer' || $Row[1] eq 'system') {
+                $Data{'New'}++;
+            }
+            if ($Row[5] && $Row[7] =~ /^pending/i) {
+                $Data{'Pending'}++;
+                if ($Row[7] !~ /^pending auto/i && $Row[5] <= $Self->{TimeObject}->SystemTime()) {
+                    $Data{'Reminder'}++;
+                }
+            }
         }
         $Param{"ID$Row[2]"} = 1;
         $Data{"MaxAge"} = $Row[4];
@@ -239,7 +239,6 @@ sub GetLockedCount {
         $Data{'New'} = 0;
         foreach my $TicketID (keys %TicketIDs) {
             my @Index = $Self->ArticleIndex(TicketID => $TicketID);
-#            my %Article = $Self->ArticleGet(ArticleID => $Index[$#Index]);
             my %Flag = $Self->ArticleFlagGet(
                 ArticleID => $Index[$#Index],
                 UserID => $Param{UserID},
