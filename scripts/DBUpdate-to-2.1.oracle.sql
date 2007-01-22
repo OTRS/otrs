@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.0 to 2.1
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.1.oracle.sql,v 1.6 2006-10-20 14:02:12 rk Exp $
+-- $Id: DBUpdate-to-2.1.oracle.sql,v 1.6.2.1 2007-01-22 09:27:40 rk Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.1.oracle.sql | sqlplus "user/password"
@@ -134,25 +134,25 @@ ALTER TABLE faq_category ADD valid_id NUMBER;
 UPDATE faq_category SET parent_id = 0;
 UPDATE faq_category SET valid_id = 1;
 
-ALTER TABLE faq_category CHANGE create_by created_by NUMBER;
-ALTER TABLE faq_category CHANGE change_by changed_by NUMBER;
-ALTER TABLE faq_category CHANGE create_time created DATE;
-ALTER TABLE faq_category CHANGE change_time changed DATE;
+ALTER TABLE faq_category RENAME COLUMN create_by to created_by;
+ALTER TABLE faq_category RENAME COLUMN change_by to changed_by;
+ALTER TABLE faq_category RENAME COLUMN create_time to created;
+ALTER TABLE faq_category RENAME COLUMN change_time to changed;
 
-ALTER TABLE faq_history CHANGE create_by created_by NUMBER;
-ALTER TABLE faq_history CHANGE change_by changed_by NUMBER;
-ALTER TABLE faq_history CHANGE create_time created DATE;
-ALTER TABLE faq_history CHANGE change_time changed DATE;
+ALTER TABLE faq_history RENAME COLUMN create_by to created_by;
+ALTER TABLE faq_history RENAME COLUMN change_by to changed_by;
+ALTER TABLE faq_history RENAME COLUMN create_time to created;
+ALTER TABLE faq_history RENAME COLUMN change_time to changed;
 
-ALTER TABLE faq_item CHANGE create_by created_by NUMBER;
-ALTER TABLE faq_item CHANGE change_by changed_by NUMBER;
-ALTER TABLE faq_item CHANGE create_time created DATE;
-ALTER TABLE faq_item CHANGE change_time changed DATE;
+ALTER TABLE faq_item RENAME COLUMN create_by to created_by;
+ALTER TABLE faq_item RENAME COLUMN change_by to changed_by;
+ALTER TABLE faq_item RENAME COLUMN create_time to created;
+ALTER TABLE faq_item RENAME COLUMN change_time to changed;
 
-ALTER TABLE faq_attachment CHANGE create_by created_by NUMBER;
-ALTER TABLE faq_attachment CHANGE change_by changed_by NUMBER;
-ALTER TABLE faq_attachment CHANGE create_time created DATE;
-ALTER TABLE faq_attachment CHANGE change_time changed DATE;
+ALTER TABLE faq_attachment RENAME COLUMN create_by to created_by;
+ALTER TABLE faq_attachment RENAME COLUMN change_by to changed_by;
+ALTER TABLE faq_attachment RENAME COLUMN create_time to created;
+ALTER TABLE faq_attachment RENAME COLUMN change_time to changed;
 
 
 
