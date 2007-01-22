@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.334 2007-01-17 13:32:37 mh Exp $
+# $Id: CHANGES,v 1.335 2007-01-22 11:38:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD (????/??/??)
+ - (2007/01/17) relocated agent preferences button
  - (2007/01/17) improved freetime feature, unset freetime now possible
  - (2007/01/03) heavy improvement of PerformanceLog feature, show detail
     view of each frontend module
