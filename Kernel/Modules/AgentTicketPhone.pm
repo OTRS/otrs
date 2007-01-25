@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.28 2006-11-15 07:21:52 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.28.2.1 2007-01-25 02:25:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.28.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -691,6 +691,14 @@ sub Run {
                 $Self->{TicketObject}->LockSet(
                     TicketID => $TicketID,
                     Lock => 'lock',
+                    UserID => $Self->{UserID},
+                );
+            }
+            # set responsible (if new user id is given)
+            if ($GetParam{NewResponsibleID}) {
+                $Self->{TicketObject}->ResponsibleSet(
+                    TicketID => $TicketID,
+                    NewUserID => $GetParam{NewResponsibleID},
                     UserID => $Self->{UserID},
                 );
             }
