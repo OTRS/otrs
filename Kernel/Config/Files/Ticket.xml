@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.125.2.1 2007-01-15 12:58:38 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.125.2.2 2007-01-25 01:54:14 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -199,8 +199,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::ChangeOwnerToEveryone" Required="1" Valid="1">
-        <Description Lang="en">Would you like to make it possible to change owner of foreign tickets (useful for ASP). If you move a ticket to a different queue you will have to select an owner.</Description>
-        <Description Lang="de">Soll es möglich sein, den Besitzer eines fremden Tickets zu ändern (kann für ASP nützlich sein)? Bei einem Queue-wechsel muss ein Besitzer gewählt werden.</Description>
+        <Description Lang="en">If you would like to make it possible to change the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.</Description>
+        <Description Lang="de">Wenn es möglich sein soll, jeden Agenten des Systems zum Besitzer eines Tickets machen zu können muss dies aktiviert werden (kann für ASP nützlich sein). Normal werden nur die Agenten angezeigt, welche rw-Rechte in der Queue des Tickets haben.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -5356,7 +5356,7 @@ $QData{"Signature"}
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Permission###1-OwnerCheck" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Permission###1-OwnerCheck" Required="0" Valid="1">
         <Description Lang="en">Module to check the owner.</Description>
         <Description Lang="de">Modul zum Überprüfen des Eigentümers.</Description>
         <Group>Ticket</Group>
@@ -5369,7 +5369,7 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Permission###2-GroupCheck" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Permission###2-GroupCheck" Required="0" Valid="1">
         <Description Lang="en">Module to check, if a user is in a special group. Access is granted, if the user is in the specifyid group and has ro and rw permissions.</Description>
         <Description Lang="de">Modul zur Überprüfung, ob ein Benutzer in einer bestimmten Gruppe ist. Hat der Benutzer ro- und rw-Zugriffsrechte, wird der Zugriff erlaubt.</Description>
         <Group>Ticket</Group>
@@ -5382,7 +5382,7 @@ $QData{"Signature"}
                 </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Permission###1-ResponsibleCheck" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Permission###1-ResponsibleCheck" Required="0" Valid="1">
         <Description Lang="en">Module to check the responible.</Description>
         <Description Lang="de">Modul zum Überprüfen des Verantwortlichen.</Description>
         <Group>Ticket</Group>
@@ -5395,7 +5395,7 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerTicket::Permission###1-CustomerUserIDCheck" Required="1" Valid="1">
+    <ConfigItem Name="CustomerTicket::Permission###1-CustomerUserIDCheck" Required="0" Valid="1">
         <Description Lang="en">Grant access, if customer ID is the same and group is accessible.</Description>
         <Description Lang="de">Den Zugriff erlauben, wenn die Customer ID übereinstimmt und auf die Gruppe zugegriffen werden darf.</Description>
         <Group>Ticket</Group>
@@ -5408,7 +5408,7 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerTicket::Permission###2-CustomerIDCheck" Required="1" Valid="1">
+    <ConfigItem Name="CustomerTicket::Permission###2-CustomerIDCheck" Required="0" Valid="1">
         <Description Lang="en">Module to check customer permissions.</Description>
         <Description Lang="de">Modul zum überprüfen der Rechte eines Customers.</Description>
         <Group>Ticket</Group>
@@ -5421,7 +5421,7 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerTicket::Permission###3-GroupCheck" Required="1" Valid="1">
+    <ConfigItem Name="CustomerTicket::Permission###3-GroupCheck" Required="0" Valid="1">
         <Description Lang="en">Module to check the grouppermissions for the access to customer tickets.</Description>
         <Description Lang="de">Modul zur Überprüfung der Zugriffsrechte für Benutzergruppen auf Customer-Tickets.</Description>
         <Group>Ticket</Group>
