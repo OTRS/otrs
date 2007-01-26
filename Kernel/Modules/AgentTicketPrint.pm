@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.32 2006-10-02 12:55:02 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.32.2.1 2007-01-26 15:41:26 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.32.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -579,10 +579,18 @@ sub _PDFOutputTicketFreeTime {
     my $Row = 0;
     # generate table
     foreach (1..2) {
-        if ($Ticket{"TicketFreeTime$_"} ne "") {
-            $TableParam{CellData}[$Row][0]{Content} = $Ticket{"TicketFreeTimeKey$_"} . ':';
+        if ($Ticket{"TicketFreeTime$_"}) {
+            my $TicketFreeTimeKey = $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$_) || '';
+            my $TicketFreeTime = $Ticket{"TicketFreeTime$_"};
+
+            $TableParam{CellData}[$Row][0]{Content} = $TicketFreeTimeKey . ':';
             $TableParam{CellData}[$Row][0]{Font} = 'HelveticaBold';
-            $TableParam{CellData}[$Row][1]{Content} = $Ticket{"TicketFreeTime$_"};
+            $TableParam{CellData}[$Row][1]{Content} = $Self->{LayoutObject}->Output(
+                Template => '$TimeLong{"$Data{"TicketFreeTime"}"}',
+                Data => {
+                    TicketFreeTime => $TicketFreeTime,
+                },
+            );
 
             $Row++;
             $Output = 1;
@@ -787,10 +795,10 @@ sub _PDFOutputArticles {
         $Row++;
 
         foreach (1..3) {
-            if ($Article{"FreeText$_"}) {
-                $TableParam1{CellData}[$Row][0]{Content} = $Article{"FreeKey$_"} . ':';
+            if ($Article{"ArticleFreeText$_"}) {
+                $TableParam1{CellData}[$Row][0]{Content} = $Article{"ArticleFreeKey$_"} . ':';
                 $TableParam1{CellData}[$Row][0]{Font} = 'HelveticaBold';
-                $TableParam1{CellData}[$Row][1]{Content} = $Article{"FreeText$_"};
+                $TableParam1{CellData}[$Row][1]{Content} = $Article{"ArticleFreeText$_"};
                 $Row++;
             }
         }
@@ -955,12 +963,12 @@ sub _HTMLMask {
         }
         # show article free text
         foreach (1..3) {
-            if ($Article{"FreeText$_"}) {
+            if ($Article{"ArticleFreeText$_"}) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ArticleFreeText',
                     Data => {
-                        Key => $Article{"FreeKey$_"},
-                        Value => $Article{"FreeText$_"},
+                        Key => $Article{"ArticleFreeKey$_"},
+                        Value => $Article{"ArticleFreeText$_"},
                     },
                 );
             }
