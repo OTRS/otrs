@@ -1,8 +1,8 @@
 # --
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.25 2006-12-08 11:04:46 cs Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.25.2.1 2007-01-26 17:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -69,9 +69,9 @@ function submit_compose()
 # --
 # show the Article::FreeKey1-3 and Article::FreeValue1-3
 # --
-        <dtl if ($Data{"Article::FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td class="contentkey">$QData{"FreeKey1"}:</td><td class="contentvalue"> $QData{"FreeValue1"}</td></tr>"; }>
-        <dtl if ($Data{"Article::FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td class="contentkey">$QData{"FreeKey2"}:</td><td class="contentvalue"> $QData{"FreeValue2"}</td></tr>"; }>
-        <dtl if ($Data{"Article::FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td class="contentkey">$QData{"FreeKey3"}:</td><td class="contentvalue"> $QData{"FreeValue3"}</td></tr>"; }>
+        <dtl if ($Data{"ArticleFreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey1"}:</td><td class="contentvalue"> $QData{"ArticleFreeText1"}</td></tr>"; }>
+        <dtl if ($Data{"ArticleFreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey2"}:</td><td class="contentvalue"> $QData{"ArticleFreeText2"}</td></tr>"; }>
+        <dtl if ($Data{"ArticleFreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey3"}:</td><td class="contentvalue"> $QData{"ArticleFreeText3"}</td></tr>"; }>
         $Data{"ArticleFreeString1"}
         $Data{"ArticleFreeString2"}
         $Data{"ArticleFreeString3"}
