@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketPrint - print layout for customer interface
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.2 2006-11-02 13:02:03 tr Exp $
+# $Id: CustomerTicketPrint.pm,v 1.2.2.1 2007-01-26 17:12:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.2.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -96,7 +96,6 @@ sub Run {
         );
         $Article->{Atms} = \%AtmIndex;
     }
-
     # user info
     my %UserInfo = $Self->{UserObject}->GetUserData(
         User => $Ticket{Owner},
@@ -191,13 +190,21 @@ sub Run {
             TicketData => \%Ticket,
             UserData => \%UserInfo,
         );
+        # output ticket freetext fields
+        $Self->_PDFOutputTicketFreeText(
+            PageData => \%Page,
+            TicketData => \%Ticket,
+        );
+        # output ticket freetime fields
+        $Self->_PDFOutputTicketFreeTime(
+            PageData => \%Page,
+            TicketData => \%Ticket,
+        );
         # output linked objects
         $Self->_PDFOutputLinkedObjects(
             PageData => \%Page,
             LinkData => \%Links,
         );
-        # output freetext fields
-        $Self->_PDFOutputFreeTextFields();  # TODO
         # output customer infos
         if (%CustomerData) {
             $Self->_PDFOutputCustomerInfos(
@@ -225,7 +232,7 @@ sub Run {
             Filename => $Filename."_"."$Y-$M-$D"."_"."$h-$m.pdf",
             ContentType => "application/pdf",
             Content => $PDFString,
-            Type => 'inline/attachment',
+            Type => 'attachment',
         );
     }
     # generate html output
@@ -273,7 +280,7 @@ sub _PDFOutputTicketInfos {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(TicketData UserData)) {
+    foreach (qw(PageData TicketData UserData)) {
         if (!defined ($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -341,8 +348,10 @@ sub _PDFOutputTicketInfos {
     $TableParam{CellData}[5][4]{Content} = ' ';
 
     $TableParam{ColumnData}[0]{Width} = 80;
+    $TableParam{ColumnData}[1]{Width} = 170.5;
     $TableParam{ColumnData}[2]{Width} = 4;
     $TableParam{ColumnData}[3]{Width} = 80;
+    $TableParam{ColumnData}[4]{Width} = 170.5;
 
     $TableParam{Type} = 'Cut';
     $TableParam{Border} = 0;
@@ -377,7 +386,7 @@ sub _PDFOutputLinkedObjects {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(LinkData)) {
+    foreach (qw(PageData LinkData)) {
         if (!defined ($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -432,6 +441,7 @@ sub _PDFOutputLinkedObjects {
             $Row++;
         }
         $TableParam{ColumnData}[0]{Width} = 80;
+        $TableParam{ColumnData}[1]{Width} = 431;
 
         # set new position
         $Self->{PDFObject}->PositionSet(
@@ -482,14 +492,174 @@ sub _PDFOutputLinkedObjects {
     }
 }
 
-sub _PDFOutputFreeTextFields { # TODO make
+sub _PDFOutputTicketFreeText {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw()) {
+    foreach (qw(PageData TicketData)) {
         if (!defined ($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
+        }
+    }
+    my $Output = 0;
+    my %Ticket = %{$Param{TicketData}};
+    my %Page = %{$Param{PageData}};
+
+    my %TableParam;
+    my $Row = 0;
+    # generate table
+    foreach (1..16) {
+        if ($Ticket{"TicketFreeText$_"} ne "") {
+            $TableParam{CellData}[$Row][0]{Content} = $Ticket{"TicketFreeKey$_"} . ':';
+            $TableParam{CellData}[$Row][0]{Font} = 'HelveticaBold';
+            $TableParam{CellData}[$Row][1]{Content} = $Ticket{"TicketFreeText$_"};
+
+            $Row++;
+            $Output = 1;
+        }
+    }
+    $TableParam{ColumnData}[0]{Width} = 80;
+    $TableParam{ColumnData}[1]{Width} = 431;
+
+    # output ticket freetext
+    if ($Output) {
+        # set new position
+        $Self->{PDFObject}->PositionSet(
+            Move => 'relativ',
+            Y => -15,
+        );
+        # output headline
+        $Self->{PDFObject}->Text(
+            Text => $Self->{LayoutObject}->{LanguageObject}->Get('TicketFreeText'),
+            Height => 7,
+            Type => 'Cut',
+            Font => 'HelveticaBoldItalic',
+            FontSize => 7,
+            Color => '#666666',
+        );
+        # set new position
+        $Self->{PDFObject}->PositionSet(
+            Move => 'relativ',
+            Y => -4,
+        );
+
+        # table params
+        $TableParam{Type} = 'Cut';
+        $TableParam{Border} = 0;
+        $TableParam{FontSize} = 6;
+        $TableParam{BackgroundColor} = '#DDDDDD';
+        $TableParam{Padding} = 1;
+        $TableParam{PaddingTop} = 3;
+        $TableParam{PaddingBottom} = 3;
+
+        # output table
+        for ($Page{PageCount}..$Page{MaxPages}) {
+            # output table (or a fragment of it)
+            %TableParam = $Self->{PDFObject}->Table(
+                %TableParam,
+            );
+            # stop output or output next page
+            if ($TableParam{State}) {
+                last;
+            }
+            else {
+                $Self->{PDFObject}->PageNew(
+                    %Page,
+                    FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                );
+                $Page{PageCount}++;
+            }
+        }
+    }
+}
+
+sub _PDFOutputTicketFreeTime {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(PageData TicketData)) {
+        if (!defined ($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    my $Output = 0;
+    my %Ticket = %{$Param{TicketData}};
+    my %Page = %{$Param{PageData}};
+
+    my %TableParam;
+    my $Row = 0;
+    # generate table
+    foreach (1..2) {
+        if ($Ticket{"TicketFreeTime$_"}) {
+            my $TicketFreeTimeKey = $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$_) || '';
+            my $TicketFreeTime = $Ticket{"TicketFreeTime$_"};
+
+            $TableParam{CellData}[$Row][0]{Content} = $TicketFreeTimeKey . ':';
+            $TableParam{CellData}[$Row][0]{Font} = 'HelveticaBold';
+            $TableParam{CellData}[$Row][1]{Content} = $Self->{LayoutObject}->Output(
+                Template => '$TimeLong{"$Data{"TicketFreeTime"}"}',
+                Data => {
+                    TicketFreeTime => $TicketFreeTime,
+                },
+            );
+
+            $Row++;
+            $Output = 1;
+        }
+    }
+    $TableParam{ColumnData}[0]{Width} = 80;
+    $TableParam{ColumnData}[1]{Width} = 431;
+
+    # output ticket freetime
+    if ($Output) {
+        # set new position
+        $Self->{PDFObject}->PositionSet(
+            Move => 'relativ',
+            Y => -15,
+        );
+        # output headline
+        $Self->{PDFObject}->Text(
+            Text => $Self->{LayoutObject}->{LanguageObject}->Get('TicketFreeTime'),
+            Height => 7,
+            Type => 'Cut',
+            Font => 'HelveticaBoldItalic',
+            FontSize => 7,
+            Color => '#666666',
+        );
+        # set new position
+        $Self->{PDFObject}->PositionSet(
+            Move => 'relativ',
+            Y => -4,
+        );
+
+        # table params
+        $TableParam{Type} = 'Cut';
+        $TableParam{Border} = 0;
+        $TableParam{FontSize} = 6;
+        $TableParam{BackgroundColor} = '#DDDDDD';
+        $TableParam{Padding} = 1;
+        $TableParam{PaddingTop} = 3;
+        $TableParam{PaddingBottom} = 3;
+
+        # output table
+        for ($Page{PageCount}..$Page{MaxPages}) {
+            # output table (or a fragment of it)
+            %TableParam = $Self->{PDFObject}->Table(
+                %TableParam,
+            );
+            # stop output or output next page
+            if ($TableParam{State}) {
+                last;
+            }
+            else {
+                $Self->{PDFObject}->PageNew(
+                    %Page,
+                    FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                );
+                $Page{PageCount}++;
+            }
         }
     }
 }
@@ -498,7 +668,7 @@ sub _PDFOutputCustomerInfos {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(CustomerData)) {
+    foreach (qw(PageData CustomerData)) {
         if (!defined ($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -519,6 +689,7 @@ sub _PDFOutputCustomerInfos {
         }
     }
     $TableParam{ColumnData}[0]{Width} = 80;
+    $TableParam{ColumnData}[1]{Width} = 431;
 
     # set new position
     $Self->{PDFObject}->PositionSet(
@@ -636,6 +807,15 @@ sub _PDFOutputArticles {
         $TableParam1{CellData}[$Row][1]{Content} .= ' ' . $Article{SenderType};
         $Row++;
 
+        foreach (1..3) {
+            if ($Article{"ArticleFreeText$_"}) {
+                $TableParam1{CellData}[$Row][0]{Content} = $Article{"ArticleFreeKey$_"} . ':';
+                $TableParam1{CellData}[$Row][0]{Font} = 'HelveticaBold';
+                $TableParam1{CellData}[$Row][1]{Content} = $Article{"ArticleFreeText$_"};
+                $Row++;
+            }
+        }
+
         $TableParam1{CellData}[$Row][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Type') . ':';
         $TableParam1{CellData}[$Row][0]{Font} = 'HelveticaBold';
         $TableParam1{CellData}[$Row][1]{Content} = $Article{ArticleType};
@@ -648,6 +828,7 @@ sub _PDFOutputArticles {
             $TableParam1{CellData}[$Row][1]{Content} = $Attachments;
         }
         $TableParam1{ColumnData}[0]{Width} = 80;
+        $TableParam1{ColumnData}[1]{Width} = 431;
 
         $Self->{PDFObject}->PositionSet(
             Move => 'relativ',
@@ -763,7 +944,10 @@ sub _HTMLMask {
         }
         $Self->{LayoutObject}->Block(
             Name => 'Article',
-            Data => {%Param,%Article},
+            Data => {
+                %Param,
+                %Article
+            },
         );
         # do some strips && quoting
         foreach (qw(From To Cc Subject)) {
@@ -791,13 +975,13 @@ sub _HTMLMask {
             );
         }
         # show article free text
-        foreach (qw(1 2 3 4 5)) {
-            if ($Article{"FreeText$_"}) {
+        foreach (1..3) {
+            if ($Article{"ArticleFreeText$_"}) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ArticleFreeText',
                     Data => {
-                        Key => $Article{"FreeKey$_"},
-                        Value => $Article{"FreeText$_"},
+                        Key => $Article{"ArticleFreeKey$_"},
+                        Value => $Article{"ArticleFreeText$_"},
                     },
                 );
             }
