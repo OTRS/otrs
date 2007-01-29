@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.7 2006-09-29 14:14:01 tr Exp $
+# $Id: Ticket.pm,v 1.7.2.1 2007-01-29 15:36:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,9 +15,8 @@ use strict;
 use Kernel::System::Queue;
 use Kernel::System::Ticket;
 
-
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.7.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -67,9 +66,14 @@ sub GetObjectAttributes {
         Result      => 'HASH',
      );
     my %StateTypes = ();
-    foreach (values %StateTypesWithID) {
-        $StateTypes{$_} = $_;
-    }
+    $StateTypes{'new'} = 'new';
+    $StateTypes{'open'} = 'open';
+    $StateTypes{'closed'} = 'closed';
+    $StateTypes{'pending reminder'} = 'pending reminder';
+    $StateTypes{'pending auto'} = 'pending auto';
+    $StateTypes{'removed'} = 'removed';
+    $StateTypes{'merged'} = 'merged';
+
     my %Queues      = $Self->{QueueObject}   ->GetAllQueues();
     my %PriorityIDs = $Self->{PriorityObject}->PriorityList(UserID => 1);
     my %LockWithID  = $Self->{LockObject}    ->LockList    (UserID => 1);
