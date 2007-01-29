@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: State.pm,v 1.16 2007-01-20 23:11:34 mh Exp $
+# $Id: State.pm,v 1.17 2007-01-29 15:42:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::State;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -378,6 +378,40 @@ sub StateList {
     }
 }
 
+=item StateTypeList()
+
+get state type list
+
+    my %ListType = $StateObject->StateTypeList(
+        UserID => 123,
+    );
+
+=cut
+
+sub StateTypeList {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{UserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "UserID!");
+        return;
+    }
+    # sql
+    my $SQL = "SELECT id, name ".
+        " FROM ".
+        " ticket_state_type";
+    my %Data = ();
+    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $Data{$Row[0]} = $Row[1];
+        }
+        return %Data;
+    }
+    else {
+        return;
+    }
+}
+
 1;
 
 =back
@@ -394,6 +428,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.17 $ $Date: 2007-01-29 15:42:17 $
 
 =cut
