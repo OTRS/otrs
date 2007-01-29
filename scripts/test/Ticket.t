@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.15 2007-01-19 08:32:53 tr Exp $
+# $Id: Ticket.t,v 1.16 2007-01-29 16:24:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,13 +18,14 @@ $Self->{ConfigObject}->Set(
     Value => 'Kernel::System::Ticket::Number::DateChecksum',
 );
 $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
-my $Tn = $Self->{TicketObject}->TicketCreateNumber();
+my $Tn = $Self->{TicketObject}->TicketCreateNumber() || 'NONE!!!';
 my $String = "Re: ".$Self->{TicketObject}->TicketSubjectBuild(
     TicketNumber => $Tn,
     Subject => 'Some Test',
 );
+my $TnGet = $Self->{TicketObject}->GetTNByString($String) || 'NOTHING FOUND!!!';
 $Self->Is(
-    $Self->{TicketObject}->GetTNByString($String),
+    $TnGet,
     $Tn,
     "GetTNByString() (DateChecksum: true eq)",
 );
@@ -2994,6 +2995,36 @@ $Self->True(
     'TicketSearch() (HASH:TicketNumber,Title,CustomerID,CustomerUser[ARRAY])',
 );
 
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      TicketNumber => [$Ticket{TicketNumber}, 'ABC'],
+      StateType => 'Closed',
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:TicketNumber,StateType:Closed)',
+);
+
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      TicketNumber => [$Ticket{TicketNumber}, 'ABC'],
+      StateType => 'Open',
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->False(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:TicketNumber,StateType:Open)',
+);
+
 my $TicketMove = $Self->{TicketObject}->MoveTicket(
     Queue => 'Junk',
     TicketID => $TicketID,
@@ -3013,6 +3044,36 @@ my $TicketState = $Self->{TicketObject}->StateSet(
 $Self->True(
     $TicketState,
     'StateSet()',
+);
+
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      TicketNumber => [$Ticket{TicketNumber}, 'ABC'],
+      StateType => 'Open',
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:TicketNumber,StateType:Open)',
+);
+
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      TicketNumber => [$Ticket{TicketNumber}, 'ABC'],
+      StateType => 'Closed',
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->False(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:TicketNumber,StateType:Closed)',
 );
 
 my $TicketPriority = $Self->{TicketObject}->PrioritySet(

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.240 2007-01-20 23:11:34 mh Exp $
+# $Id: Ticket.pm,v 1.241 2007-01-29 16:24:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.240 $';
+$VERSION = '$Revision: 1.241 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1984,18 +1984,23 @@ To find tickets in your system.
         # use also sub queues of Queue|Queues in search
         UseSubQueues => 0,
 
+        # You can use states like new, open, pending reminder, ...
         States => ['new', 'open'],
         StateIDs => [3, 4],
-        # Open|Closed tickets for all closed or open tickets.
+
+        # (Open|Closed) tickets for all closed or open tickets.
         StateType => 'Open',
+
         # You also can use real state types like new, open, closed,
         # pending reminder, pending auto, removed and merged.
         StateType => ['open', 'new'],
+        StateTypeIDs => [1, 2, 3],
 
         Priorities => ['1 very low', '2 low', '3 normal'],
         PriorityIDs => [1, 2, 3],
 
         Locks => ['unlock'],
+        LockIDs => [1, 2, 3],
 
         OwnerIDs => [1, 12, 455, 32]
 
@@ -2224,8 +2229,7 @@ sub TicketSearch {
             Type => 'Viewable',
             Result => 'ID',
         );
-        $SQLExt .= " AND ";
-        $SQLExt .= " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) ";
+        push (@{$Param{StateTypeIDs}}, @ViewableStateIDs);
     }
     elsif ($Param{StateType} && $Param{StateType} eq 'Closed') {
         my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
@@ -2240,8 +2244,19 @@ sub TicketSearch {
             StateType => $Param{StateType},
             Result => 'ID',
         );
-        $SQLExt .= " AND ";
-        $SQLExt .= " st.ticket_state_id IN ( ${\(join ', ', @StateIDs)} ) ";
+        push (@{$Param{StateTypeIDs}}, @StateIDs);
+    }
+    if ($Param{StateTypeIDs} && ref($Param{StateTypeIDs}) eq 'ARRAY') {
+        $SQLExt .= " AND st.ticket_state_id IN (";
+        my $Exists = 0;
+        foreach (@{$Param{StateTypeIDs}}) {
+            if ($Exists) {
+                $SQLExt .= ",";
+            }
+            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $Exists = 1;
+        }
+        $SQLExt .= ")";
     }
     # current lock lookup
     if ($Param{Locks} && ref($Param{Locks}) eq 'ARRAY') {
@@ -5070,6 +5085,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.240 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.241 $ $Date: 2007-01-29 16:24:01 $
 
 =cut
