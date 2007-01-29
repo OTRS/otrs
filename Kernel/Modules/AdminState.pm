@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminState.pm - to add/update/delete system states
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminState.pm,v 1.16 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminState.pm,v 1.17 2007-01-29 15:52:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -113,12 +113,7 @@ sub _Mask {
     );
     $Param{StateOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-            $Self->{DBObject}->GetTableData(
-                What => 'id, name, id',
-                Valid => 0,
-                Clamp => 1,
-                Table => 'ticket_state',
-            )
+            $Self->{StateObject}->StateList(UserID => 1, Valid => 0),
         },
         Size => 15,
         Name => 'ID',
@@ -127,11 +122,7 @@ sub _Mask {
 
     $Param{StateTypeOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-            $Self->{DBObject}->GetTableData(
-                What => 'id, name',
-                Valid => 0,
-                Table => 'ticket_state_type',
-            )
+            $Self->{StateObject}->StateTypeList(UserID => 1),
         },
         Name => 'TypeID',
         SelectedID => $Param{TypeID},
