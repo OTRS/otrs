@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: State.pm,v 1.17 2007-01-29 15:42:17 martin Exp $
+# $Id: State.pm,v 1.18 2007-01-29 15:52:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::State;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -350,22 +350,38 @@ get state list
         UserID => 123,
     );
 
+    my %List = $StateObject->StateList(
+        UserID => 123,
+        Valid => 1, # is default
+    );
+
+    my %List = $StateObject->StateList(
+        UserID => 123,
+        Valid => 0,
+    );
+
 =cut
 
 sub StateList {
     my $Self = shift;
     my %Param = @_;
+    my $Valid = 1;
     # check needed stuff
     if (!$Param{UserID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "UserID!");
         return;
     }
+    if (!$Param{Valid} && defined($Param{Valid})) {
+        $Valid = 0;
+    }
     # sql
     my $SQL = "SELECT id, name ".
         " FROM ".
-        " ticket_state ".
-        " WHERE ".
-        " valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+        " ticket_state";
+    if ($Valid) {
+        $SQL .= " WHERE ".
+            " valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+    }
     my %Data = ();
     if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -428,6 +444,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2007-01-29 15:42:17 $
+$Revision: 1.18 $ $Date: 2007-01-29 15:52:31 $
 
 =cut
