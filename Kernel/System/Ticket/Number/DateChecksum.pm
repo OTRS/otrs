@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
 # --
-# $Id: DateChecksum.pm,v 1.20 2007-01-21 01:26:10 mh Exp $
+# $Id: DateChecksum.pm,v 1.21 2007-01-29 16:18:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,7 +29,7 @@ package Kernel::System::Ticket::Number::DateChecksum;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketCreateNumber {
@@ -144,12 +144,12 @@ sub GetTNByString {
     my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
     # check current setting
-    if ($String =~ /\Q$TicketHook$TicketHookDivider\E($SystemID\d{8,40})/i) {
+    if ($String =~ /\Q$TicketHook$TicketHookDivider\E(\d{4,10}$SystemID\d{4,40})/i) {
         return $1;
     }
     else {
         # check default setting
-        if ($String =~ /\Q$TicketHook\E:+.{0,2}($SystemID\d{8,40})/i) {
+        if ($String =~ /\Q$TicketHook\E:+.{0,2}(\d{4,10}$SystemID\d{4,40})/i) {
             return $1;
         }
         else {
