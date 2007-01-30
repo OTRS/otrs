@@ -5,9 +5,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-  $Id: otrs-schema.xml,v 1.55 2006-10-03 14:34:47 mh Exp $
+  $Id: otrs-schema.xml,v 1.55.2.1 2007-01-30 15:26:55 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.55  2006/10/03 14:34:47  mh
+  change copyright
+
   Revision 1.54  2006/09/27 12:20:49  martin
   removed NOT NULL from xml_content_value of xml_storage table
 
@@ -1223,7 +1226,7 @@
 <!-- ticket_watcher -->
 <Table Name="ticket_watcher">
   <Column Name="ticket_id" Required="true" Type="BIGINT"/>
-  <Column Name="user_id" Required="true" Type="BIGINT"/>
+  <Column Name="user_id" Required="true" Type="INTEGER"/>
   <Column Name="create_time" Required="true" Type="DATE"/>
   <Column Name="create_by" Required="true" Type="INTEGER"/>
   <Column Name="change_time" Required="true" Type="DATE"/>

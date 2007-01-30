@@ -642,7 +642,7 @@ CREATE TABLE time_accounting (
 # ----------------------------------------------------------
 CREATE TABLE ticket_watcher (
     ticket_id BIGINT NOT NULL,
-    user_id BIGINT NOT NULL,
+    user_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
