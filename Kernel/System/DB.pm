@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.59 2007-01-20 23:11:34 mh Exp $
+# $Id: DB.pm,v 1.60 2007-01-30 10:26:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -547,7 +547,6 @@ sub SQLProcessor {
                 push (@Table, $Tag);
             }
             elsif (($Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate') && $Tag->{TagType} eq 'End') {
-        $Self->{Backend}->LoadPreferences();
                 push (@Table, $Tag);
                 push (@SQL, $Self->{Backend}->TableCreate(@Table));
                 @Table = ();
@@ -632,9 +631,9 @@ sub SQLProcessorPost {
     my $Self = shift;
     my %Param = @_;
     my @SQL = ();
-    if ($Self->{Post}) {
-        my @Return = @{$Self->{Post}};
-        undef $Self->{Post};
+    if ($Self->{Backend}->{Post}) {
+        my @Return = @{$Self->{Backend}->{Post}};
+        undef $Self->{Backend}->{Post};
         return @Return;
     }
     else {
@@ -740,6 +739,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.59 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.60 $ $Date: 2007-01-30 10:26:12 $
 
 =cut

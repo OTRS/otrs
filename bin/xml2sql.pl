@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # xml2sql.pl - a xml 2 sql processor
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xml2sql.pl,v 1.9 2006-11-26 21:16:08 martin Exp $
+# $Id: xml2sql.pl,v 1.10 2007-01-30 10:26:12 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::XML;
 
-my $VERSION = '$Revision: 1.9 $';
+my $VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 my %Opts = ();
@@ -122,7 +122,7 @@ else {
 }
 print OUT $Head;
 foreach (@SQLPost) {
-    print OUT "$_".$CommonObject{DBObject}->{"DB::ShellCommit"}."\n";
+    print OUT "$_".$CommonObject{DBObject}->{Backend}->{"DB::ShellCommit"}."\n";
 }
 if ($Opts{o}) {
     close (OUT);
