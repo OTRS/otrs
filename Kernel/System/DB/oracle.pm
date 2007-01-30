@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB/oracle.pm - oracle database backend
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.17 2006-11-30 11:33:04 martin Exp $
+# $Id: oracle.pm,v 1.17.2.1 2007-01-30 15:11:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.17.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -273,10 +273,23 @@ sub TableAlter {
         elsif ($Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start') {
             # Type translation
             $Tag = $Self->_TypeTranslation($Tag);
-            # normal data type
-            my $SQLEnd = $SQLStart." CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type}";
+            # rename oldname to newname
+            if ($Tag->{NameOld} ne $Tag->{NameNew}) {
+                push (@SQL, $SQLStart." RENAME COLUMN $Tag->{NameOld} TO $Tag->{NameNew}");
+            }
+            # alter table tabname modify
+            if (!$Tag->{Name} && $Tag->{NameNew}) {
+                $Tag->{Name} = $Tag->{NameNew};
+            }
+            if (!$Tag->{Name} && $Tag->{NameOld}) {
+                $Tag->{Name} = $Tag->{NameOld};
+            }
+            my $SQLEnd = $SQLStart." MODIFY $Tag->{Name} $Tag->{Type}";
             if ($Tag->{Required} && $Tag->{Required} =~ /^true$/i) {
                 $SQLEnd .= " NOT NULL";
+            }
+            else {
+                $SQLEnd .= " NULL";
             }
             # auto increment
             if ($Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i) {
