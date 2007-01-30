@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: oracle, generated: Tue Jan 30 11:38:39 2007
+--  database: oracle, generated: Tue Jan 30 18:27:13 2007
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -520,6 +520,10 @@ CREATE TABLE ticket (
     freetext16 VARCHAR2 (150),
     freetime1 DATE,
     freetime2 DATE,
+    freetime3 DATE,
+    freetime4 DATE,
+    freetime5 DATE,
+    freetime6 DATE,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time_unix NUMBER (20, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -861,14 +865,14 @@ CREATE TABLE standard_response_attachment (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach85_PK PRIMARY KEY (id);
-DROP SEQUENCE standard_response_attach85_seq;
-CREATE SEQUENCE standard_response_attach85_seq;
-CREATE OR REPLACE TRIGGER standard_response_attach85_s_t
+ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach39_PK PRIMARY KEY (id);
+DROP SEQUENCE standard_response_attach39_seq;
+CREATE SEQUENCE standard_response_attach39_seq;
+CREATE OR REPLACE TRIGGER standard_response_attach39_s_t
 before insert on standard_response_attachment
 for each row
 begin
-    select standard_response_attach85_seq.nextval
+    select standard_response_attach39_seq.nextval
     into :new.id
     from dual;
 end;
@@ -985,7 +989,7 @@ begin
 end;
 /
 --;
-CREATE INDEX index_time_accounting_ticket70 ON time_accounting (ticket_id);
+CREATE INDEX index_time_accounting_ticket10 ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
 --  create table ticket_watcher
 -- ----------------------------------------------------------
@@ -1067,7 +1071,7 @@ CREATE TABLE customer_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_customer_preferences_u48 ON customer_preferences (user_id);
+CREATE INDEX index_customer_preferences_u4 ON customer_preferences (user_id);
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
 -- ----------------------------------------------------------
@@ -1075,8 +1079,8 @@ CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR2 (250) NOT NULL,
     sent_date VARCHAR2 (150) NOT NULL
 );
-CREATE INDEX index_ticket_loop_protection51 ON ticket_loop_protection (sent_to);
-CREATE INDEX index_ticket_loop_protection29 ON ticket_loop_protection (sent_date);
+CREATE INDEX index_ticket_loop_protection13 ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loop_protection67 ON ticket_loop_protection (sent_date);
 -- ----------------------------------------------------------
 --  create table pop3_account
 -- ----------------------------------------------------------

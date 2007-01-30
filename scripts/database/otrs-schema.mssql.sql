@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: mssql, generated: Tue Jan 30 11:38:29 2007
+--  database: mssql, generated: Tue Jan 30 18:27:02 2007
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -352,6 +352,10 @@ CREATE TABLE ticket (
     freetext16 VARCHAR (150),
     freetime1 DATETIME,
     freetime2 DATETIME,
+    freetime3 DATETIME,
+    freetime4 DATETIME,
+    freetime5 DATETIME,
+    freetime6 DATETIME,
     valid_id SMALLINT NOT NULL,
     create_time_unix BIGINT NOT NULL,
     create_time DATETIME NOT NULL,

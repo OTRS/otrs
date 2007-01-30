@@ -5,9 +5,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-  $Id: otrs-schema.xml,v 1.57 2007-01-30 15:27:02 martin Exp $
+  $Id: otrs-schema.xml,v 1.58 2007-01-30 19:58:24 mh Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.57  2007/01/30 15:27:02  martin
+  fixed ticket_watcher.user_id datatype, moved from BIGINT to INTEGER
+
   Revision 1.56  2007/01/30 10:07:38  mh
   add valid_id to ticket_priority table
 
@@ -755,6 +758,10 @@
   <Column Name="freetext16" Required="false" Size="150" Type="VARCHAR"/>
   <Column Name="freetime1" Required="false" Type="DATE"/>
   <Column Name="freetime2" Required="false" Type="DATE"/>
+  <Column Name="freetime3" Required="false" Type="DATE"/>
+  <Column Name="freetime4" Required="false" Type="DATE"/>
+  <Column Name="freetime5" Required="false" Type="DATE"/>
+  <Column Name="freetime6" Required="false" Type="DATE"/>
   <Column Name="valid_id" Required="true" Type="SMALLINT"/>
   <Column Name="create_time_unix" Required="true" Type="BIGINT"/>
   <Column Name="create_time" Required="true" Type="DATE"/>

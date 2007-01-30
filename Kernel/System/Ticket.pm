@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.242 2007-01-30 14:08:06 mh Exp $
+# $Id: Ticket.pm,v 1.243 2007-01-30 19:58:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.242 $';
+$VERSION = '$Revision: 1.243 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -679,7 +679,8 @@ sub TicketGet {
         " st.freekey11, st.freetext11, st.freekey12, st.freetext12,".
         " st.freekey13, st.freetext13, st.freekey14, st.freetext14, ".
         " st.freekey15, st.freetext15, st.freekey16, st.freetext16, ".
-        " st.freetime1, st.freetime2, ".
+        " st.freetime1, st.freetime2, st.freetime3, st.freetime4, ".
+        " st.freetime5, st.freetime6, ".
         " st.change_time, st.title, st.escalation_start_time, st.timeout ".
         " FROM ".
         " ticket st, ticket_priority sp, ".
@@ -694,7 +695,7 @@ sub TicketGet {
 
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Ticket{TicketID} = $Row[0];
-        $Ticket{Title} = $Row[51];
+        $Ticket{Title} = $Row[55];
         $Ticket{QueueID} = $Row[1];
         $Ticket{Queue} = $Row[2];
         $Ticket{StateID} = $Row[3];
@@ -704,9 +705,9 @@ sub TicketGet {
         $Ticket{Age} = $Self->{TimeObject}->SystemTime() - $Row[7];
         $Ticket{CreateTimeUnix} = $Row[7];
         $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $Row[7]);
-        $Ticket{Changed} = $Row[50];
-        $Ticket{EscalationStartTime} = $Row[52];
-        $Ticket{UnlockTimeout} = $Row[53];
+        $Ticket{Changed} = $Row[58];
+        $Ticket{EscalationStartTime} = $Row[56];
+        $Ticket{UnlockTimeout} = $Row[57];
         $Ticket{GroupID} = $Row[9];
         $Ticket{TicketNumber} = $Row[10];
         $Ticket{CustomerID} = $Row[11];
@@ -748,6 +749,10 @@ sub TicketGet {
         $Ticket{TicketFreeText16} = defined($Row[47]) ? $Row[47] : '';
         $Ticket{TicketFreeTime1} = defined($Row[48]) ? $Row[48] : '';
         $Ticket{TicketFreeTime2} = defined($Row[49]) ? $Row[49] : '';
+        $Ticket{TicketFreeTime3} = defined($Row[50]) ? $Row[50] : '';
+        $Ticket{TicketFreeTime4} = defined($Row[51]) ? $Row[51] : '';
+        $Ticket{TicketFreeTime5} = defined($Row[52]) ? $Row[52] : '';
+        $Ticket{TicketFreeTime6} = defined($Row[53]) ? $Row[53] : '';
     }
     # check ticket
     if (!$Ticket{TicketID}) {
@@ -2033,7 +2038,7 @@ To find tickets in your system.
         TicketFreeKey2 => ['Product', 'Product2'],
         TicketFreeText2 => ['Browser', 'Sound', 'Mouse'],
 
-        # 1..2 (optional)
+        # 1..6 (optional)
         # tickets with free time after ... (optional)
         TicketFreeTime1NewerDate => '2006-01-09 00:00:01',
         # tickets with free time before then .... (optional)
@@ -2104,6 +2109,10 @@ sub TicketSearch {
         Age => 'st.create_time_unix',
         TicketFreeTime1 => 'st.freetime1',
         TicketFreeTime2 => 'st.freetime2',
+        TicketFreeTime3 => 'st.freetime3',
+        TicketFreeTime4 => 'st.freetime4',
+        TicketFreeTime5 => 'st.freetime5',
+        TicketFreeTime6 => 'st.freetime6',
         TicketFreeKey1 => 'st.freekey1',
         TicketFreeText1 => 'st.freetext1',
         TicketFreeKey2 => 'st.freekey2',
@@ -2602,7 +2611,7 @@ sub TicketSearch {
             }
         }
     }
-    foreach (1..2) {
+    foreach (1..6) {
         # get tickets older then xxxx-xx-xx xx:xx date
         if ($Param{'TicketFreeTime'.$_.'OlderDate'}) {
             # check time format
@@ -5087,6 +5096,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.242 $ $Date: 2007-01-30 14:08:06 $
+$Revision: 1.243 $ $Date: 2007-01-30 19:58:49 $
 
 =cut

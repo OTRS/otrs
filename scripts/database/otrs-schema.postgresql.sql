@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: postgresql, generated: Tue Jan 30 11:38:49 2007
+--  database: postgresql, generated: Tue Jan 30 18:28:28 2007
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -352,6 +352,10 @@ CREATE TABLE ticket (
     freetext16 VARCHAR (150),
     freetime1 timestamp(0),
     freetime2 timestamp(0),
+    freetime3 timestamp(0),
+    freetime4 timestamp(0),
+    freetime5 timestamp(0),
+    freetime6 timestamp(0),
     valid_id INTEGER NOT NULL,
     create_time_unix INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
