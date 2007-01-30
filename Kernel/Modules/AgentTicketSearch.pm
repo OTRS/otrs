@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.34 2007-01-17 12:54:39 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.35 2007-01-30 19:57:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -118,6 +118,36 @@ sub Run {
             TicketFreeTime2StartYear
             TicketFreeTime2Stop TicketFreeTime2StopDay TicketFreeTime2StopMonth
             TicketFreeTime2StopYear
+            TicketFreeTime3
+            TicketFreeTime3Start TicketFreeTime3StartDay TicketFreeTime3StartMonth
+            TicketFreeTime3StartYear
+            TicketFreeTime3Stop TicketFreeTime3StopDay TicketFreeTime3StopMonth
+            TicketFreeTime3StopYear
+            TicketFreeTime4
+            TicketFreeTime4Start TicketFreeTime4StartDay TicketFreeTime4StartMonth
+            TicketFreeTime4StartYear
+            TicketFreeTime4Stop TicketFreeTime4StopDay TicketFreeTime4StopMonth
+            TicketFreeTime4StopYear
+            TicketFreeTime5
+            TicketFreeTime5Start TicketFreeTime5StartDay TicketFreeTime5StartMonth
+            TicketFreeTime5StartYear
+            TicketFreeTime5Stop TicketFreeTime5StopDay TicketFreeTime5StopMonth
+            TicketFreeTime5StopYear
+            TicketFreeTime6
+            TicketFreeTime6Start TicketFreeTime6StartDay TicketFreeTime6StartMonth
+            TicketFreeTime6StartYear
+            TicketFreeTime6Stop TicketFreeTime6StopDay TicketFreeTime6StopMonth
+            TicketFreeTime6StopYear
+            TicketFreeTime7
+            TicketFreeTime7Start TicketFreeTime7StartDay TicketFreeTime7StartMonth
+            TicketFreeTime7StartYear
+            TicketFreeTime7Stop TicketFreeTime7StopDay TicketFreeTime7StopMonth
+            TicketFreeTime7StopYear
+            TicketFreeTime8
+            TicketFreeTime8Start TicketFreeTime8StartDay TicketFreeTime8StartMonth
+            TicketFreeTime8StartYear
+            TicketFreeTime8Stop TicketFreeTime8StopDay TicketFreeTime8StopMonth
+            TicketFreeTime8StopYear
             TicketCreateTimePointFormat TicketCreateTimePoint
             TicketCreateTimePointStart
             TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
@@ -275,7 +305,7 @@ sub Run {
             }
         }
         # free time
-        foreach (1..2) {
+        foreach (1..6) {
             if (!$GetParam{'TicketFreeTime'.$_}) {
                 foreach my $Type (qw(Year Month Day)) {
                     $GetParam{'TicketFreeTime'.$_.'Start'.$Type} = undef;
@@ -948,7 +978,7 @@ sub MaskForm {
         Prefix => 'TicketCreateTimeStop',
         Format => 'DateInputFormat',
     );
-    foreach (1..2) {
+    foreach (1..6) {
         $Param{'TicketFreeTime'.$_.'Start'} = $Self->{LayoutObject}->BuildDateSelection(
             %Param,
             Prefix => 'TicketFreeTime'.$_.'Start',
@@ -990,7 +1020,7 @@ sub MaskForm {
         }
     }
     $Count = 0;
-    foreach (1..2) {
+    foreach (1..6) {
         $Count++;
         if ($Self->{Config}->{'TicketFreeTime'}->{$Count}) {
             $Self->{LayoutObject}->Block(

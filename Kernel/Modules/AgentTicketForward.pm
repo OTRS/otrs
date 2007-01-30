@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.18 2007-01-17 12:53:11 mh Exp $
+# $Id: AgentTicketForward.pm,v 1.19 2007-01-30 19:57:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -376,19 +376,15 @@ sub Form {
         Config => \%TicketFreeText,
     );
     # get ticket free time params
-    foreach (1..2) {
-        foreach my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
-        }
-        $GetParam{'TicketFreeTime'.$_.'Optional'} = 1;
-        if (!$GetParam{'TicketFreeTime'.$_.'Optional'}) {
+    foreach (1..6) {
+        if (!$Self->{ConfigObject}->Get('TicketFreeTimeOptional'.$_)) {
             $GetParam{'TicketFreeTime'.$_.'Used'} = 1;
         }
     }
     # free time
     my %TicketFreeTime = ();
-    foreach (1..2) {
-        $TicketFreeTime{"TicketFreeTime".$_.'Optional'} = $GetParam{'TicketFreeTime'.$_.'Optional'};
+    foreach (1..6) {
+        $TicketFreeTime{"TicketFreeTime".$_.'Optional'} = $Self->{ConfigObject}->Get('TicketFreeTimeOptional'.$_) || 0;
         $TicketFreeTime{"TicketFreeTime".$_.'Used'} = $GetParam{'TicketFreeTime'.$_.'Used'};
 
         if ($Ticket{"TicketFreeTime".$_}) {
@@ -522,12 +518,11 @@ sub SendEmail {
         Ticket => \%TicketFree,
     );
     # get ticket free time params
-    foreach (1..2) {
+    foreach (1..6) {
         foreach my $Type (qw(Used Year Month Day Hour Minute)) {
             $GetParam{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
         }
-        $GetParam{'TicketFreeTime'.$_.'Optional'} = 1;
-        if (!$GetParam{'TicketFreeTime'.$_.'Optional'}) {
+        if (!$Self->{ConfigObject}->Get('TicketFreeTimeOptional'.$_)) {
             $GetParam{'TicketFreeTime'.$_.'Used'} = 1;
         }
     }
@@ -653,7 +648,7 @@ sub SendEmail {
             }
         }
         # set ticket free time
-        foreach (1..2) {
+        foreach (1..6) {
             if (defined($GetParam{"TicketFreeTime".$_."Year"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Month"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Day"}) &&
@@ -804,7 +799,7 @@ sub _Mask {
         }
     }
     $Count = 0;
-    foreach (1..2) {
+    foreach (1..6) {
         $Count++;
         if ($Self->{Config}->{'TicketFreeTime'}->{$Count}) {
             $Self->{LayoutObject}->Block(

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.31 2007-01-18 17:59:04 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.32 2007-01-30 19:57:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -82,12 +82,12 @@ sub Run {
         $GetParam{"TicketFreeText$_"} = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
     }
     # get ticket free time params
-    foreach (1..2) {
+    foreach (1..6) {
         foreach my $Type (qw(Used Year Month Day Hour Minute)) {
             $GetParam{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
         }
-        $GetParam{'TicketFreeTime'.$_.'Optional'} = 1;
-        if (!$GetParam{'TicketFreeTime'.$_.'Optional'}) {
+        $GetParam{'TicketFreeTime'.$_.'Optional'} = $Self->{ConfigObject}->Get('TicketFreeTimeOptional'.$_) || 0;
+        if (!$Self->{ConfigObject}->Get('TicketFreeTimeOptional'.$_)) {
             $GetParam{'TicketFreeTime'.$_.'Used'} = 1;
         }
     }
@@ -623,7 +623,7 @@ sub Run {
             }
         }
         # set ticket free time
-        foreach (1..2) {
+        foreach (1..6) {
             if (defined($GetParam{"TicketFreeTime".$_."Year"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Month"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Day"}) &&
@@ -1069,7 +1069,7 @@ sub _MaskPhoneNew {
         }
     }
     $Count = 0;
-    foreach (1..2) {
+    foreach (1..6) {
         $Count++;
         if ($Self->{Config}->{'TicketFreeTime'}->{$Count}) {
             $Self->{LayoutObject}->Block(

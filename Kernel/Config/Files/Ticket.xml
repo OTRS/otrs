@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.132 2007-01-30 15:30:30 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.133 2007-01-30 19:57:19 mh Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -949,21 +949,255 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey1" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Define the key of TicketFreeTime field 1.</Description>
+        <Description Lang="de">Definition des Schluessels von TicketFreeTime Feld 1.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeTime</SubGroup>
         <Setting>
             <String>Termin1</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeOptional1" Required="1" Valid="1">
+        <Description Lang="en">Define, if TicketFreeTime field 1 is optional.</Description>
+        <Description Lang="de">Definiert, ob TicketFreeTime Feld 1 optional ist.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeDiff1" Required="0" Valid="0">
+        <Description Lang="en">Define the difference (in seconds) of the defaultvalue in TicketFreeTime field 1.</Description>
+        <Description Lang="de">Definition des Unterschieds (in Sekunden) des Defaultwerts von TicketFreeTime Feld 1.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>0</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimePeriod1" Required="0" Valid="0">
+        <Description Lang="en">Define the period, which can selected in TicketFreeTime field 1.</Description>
+        <Description Lang="de">Definition der Zeitspanne, die im TicketFreeTime Feld 1 selektiert werden kann.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="YearPeriodPast">5</Item>
+                <Item Key="YearPeriodFuture">5</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey2" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Define the key of TicketFreeTime field 2.</Description>
+        <Description Lang="de">Definition des Schluessels von TicketFreeTime Feld 2.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeTime</SubGroup>
         <Setting>
             <String>Termin2</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeOptional2" Required="1" Valid="1">
+        <Description Lang="en">Define, if TicketFreeTime field 2 is optional.</Description>
+        <Description Lang="de">Definiert, ob TicketFreeTime Feld 2 optional ist.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeDiff2" Required="0" Valid="0">
+        <Description Lang="en">Define the difference (in seconds) of the defaultvalue in TicketFreeTime field 2.</Description>
+        <Description Lang="de">Definition des Unterschieds (in Sekunden) des Defaultwerts von TicketFreeTime Feld 2.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>0</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimePeriod2" Required="0" Valid="0">
+        <Description Lang="en">Define the period, which can selected in TicketFreeTime field 2.</Description>
+        <Description Lang="de">Definition der Zeitspanne, die im TicketFreeTime Feld 2 selektiert werden kann.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="YearPeriodPast">5</Item>
+                <Item Key="YearPeriodFuture">5</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeKey3" Required="1" Valid="1">
+        <Description Lang="en">Define the key of TicketFreeTime field 3.</Description>
+        <Description Lang="de">Definition des Schluessels von TicketFreeTime Feld 3.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>Termin3</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeOptional3" Required="1" Valid="1">
+        <Description Lang="en">Define, if TicketFreeTime field 3 is optional.</Description>
+        <Description Lang="de">Definiert, ob TicketFreeTime Feld 3 optional ist.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeDiff3" Required="0" Valid="0">
+        <Description Lang="en">Define the difference (in seconds) of the defaultvalue in TicketFreeTime field 3.</Description>
+        <Description Lang="de">Definition des Unterschieds (in Sekunden) des Defaultwerts von TicketFreeTime Feld 3.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>0</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimePeriod3" Required="0" Valid="0">
+        <Description Lang="en">Define the period, which can selected in TicketFreeTime field 3.</Description>
+        <Description Lang="de">Definition der Zeitspanne, die im TicketFreeTime Feld 3 selektiert werden kann.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="YearPeriodPast">5</Item>
+                <Item Key="YearPeriodFuture">5</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeKey4" Required="1" Valid="1">
+        <Description Lang="en">Define the key of TicketFreeTime field 4.</Description>
+        <Description Lang="de">Definition des Schluessels von TicketFreeTime Feld 4.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>Termin4</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeOptional4" Required="1" Valid="1">
+        <Description Lang="en">Define, if TicketFreeTime field 4 is optional.</Description>
+        <Description Lang="de">Definiert, ob TicketFreeTime Feld 4 optional ist.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeDiff4" Required="0" Valid="0">
+        <Description Lang="en">Define the difference (in seconds) of the defaultvalue in TicketFreeTime field 4.</Description>
+        <Description Lang="de">Definition des Unterschieds (in Sekunden) des Defaultwerts von TicketFreeTime Feld 4.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>0</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimePeriod4" Required="0" Valid="0">
+        <Description Lang="en">Define the period, which can selected in TicketFreeTime field 4.</Description>
+        <Description Lang="de">Definition der Zeitspanne, die im TicketFreeTime Feld 4 selektiert werden kann.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="YearPeriodPast">5</Item>
+                <Item Key="YearPeriodFuture">5</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeKey5" Required="1" Valid="1">
+        <Description Lang="en">Define the key of TicketFreeTime field 5.</Description>
+        <Description Lang="de">Definition des Schluessels von TicketFreeTime Feld 5.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>Termin5</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeOptional5" Required="1" Valid="1">
+        <Description Lang="en">Define, if TicketFreeTime field 5 is optional.</Description>
+        <Description Lang="de">Definiert, ob TicketFreeTime Feld 5 optional ist.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeDiff5" Required="0" Valid="0">
+        <Description Lang="en">Define the difference (in seconds) of the defaultvalue in TicketFreeTime field 5.</Description>
+        <Description Lang="de">Definition des Unterschieds (in Sekunden) des Defaultwerts von TicketFreeTime Feld 5.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>0</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimePeriod5" Required="0" Valid="0">
+        <Description Lang="en">Define the period, which can selected in TicketFreeTime field 5.</Description>
+        <Description Lang="de">Definition der Zeitspanne, die im TicketFreeTime Feld 5 selektiert werden kann.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="YearPeriodPast">5</Item>
+                <Item Key="YearPeriodFuture">5</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeKey6" Required="1" Valid="1">
+        <Description Lang="en">Define the key of TicketFreeTime field 6.</Description>
+        <Description Lang="de">Definition des Schluessels von TicketFreeTime Feld 6.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>Termin6</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeOptional6" Required="1" Valid="1">
+        <Description Lang="en">Define, if TicketFreeTime field 6 is optional.</Description>
+        <Description Lang="de">Definiert, ob TicketFreeTime Feld 6 optional ist.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeDiff6" Required="0" Valid="0">
+        <Description Lang="en">Define the difference (in seconds) of the defaultvalue in TicketFreeTime field 6.</Description>
+        <Description Lang="de">Definition des Unterschieds (in Sekunden) des Defaultwerts von TicketFreeTime Feld 6.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>0</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimePeriod6" Required="0" Valid="0">
+        <Description Lang="en">Define the period, which can selected in TicketFreeTime field 6.</Description>
+        <Description Lang="de">Definition der Zeitspanne, die im TicketFreeTime Feld 6 selektiert werden kann.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="YearPeriodPast">5</Item>
+                <Item Key="YearPeriodFuture">5</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey1" Required="0" Valid="0">
@@ -1529,6 +1763,10 @@ TimeWorkingHours
                 <Item Key="Priority">Priority</Item>
                 <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
                 <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
+                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
+                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
+                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
+                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
                 <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
                 <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
                 <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
@@ -1725,6 +1963,10 @@ TimeWorkingHours
                 <Item Key="Priority">Priority</Item>
                 <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
                 <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
+                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
+                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
+                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
+                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
                 <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
                 <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
                 <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
@@ -1834,6 +2076,10 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -1851,6 +2097,10 @@ TimeWorkingHours
                 <Item Key="Priority">Priority</Item>
                 <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
                 <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
+                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
+                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
+                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
+                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
                 <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
                 <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
                 <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
@@ -1950,6 +2200,10 @@ TimeWorkingHours
                 <Item>TicketFreeText8</Item>
                 <Item>TicketFreeTime1</Item>
                 <Item>TicketFreeTime2</Item>
+                <Item>TicketFreeTime3</Item>
+                <Item>TicketFreeTime4</Item>
+                <Item>TicketFreeTime5</Item>
+                <Item>TicketFreeTime6</Item>
                 <Item>CustomerName</Item>
                 <Item>ArticleTree</Item>
             </Array>
@@ -1997,6 +2251,10 @@ TimeWorkingHours
                 <Item Key="Priority">Priority</Item>
                 <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
                 <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
+                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
+                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
+                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
+                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
                 <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
                 <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
                 <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
@@ -2268,6 +2526,10 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -2418,6 +2680,10 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -2623,6 +2889,10 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -2770,6 +3040,10 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3026,6 +3300,10 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3285,6 +3563,10 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3543,6 +3825,10 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3800,6 +4086,10 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -4058,6 +4348,10 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -4316,6 +4610,10 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -4519,6 +4817,10 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -4633,6 +4935,10 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5823,6 +6129,10 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5960,6 +6270,10 @@ $QData{"Signature"}
                 <Item Key="Priority">Priority</Item>
                 <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
                 <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
+                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
+                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
+                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
+                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
                 <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
                 <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
                 <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
@@ -6042,6 +6356,10 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>

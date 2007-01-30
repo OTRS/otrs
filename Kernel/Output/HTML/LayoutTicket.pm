@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.7 2007-01-17 08:00:30 mh Exp $
+# $Id: LayoutTicket.pm,v 1.8 2007-01-30 20:00:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::LayoutTicket;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketStdResponseString {
@@ -254,7 +254,7 @@ sub AgentFreeText {
                         $Ticket{"TicketFreeKey$_"} = $Ticket{"TicketFreeKey$_"}->[0];
                     }
                     else {
-                       $Ticket{"TicketFreeKey$_"} = '';
+                        $Ticket{"TicketFreeKey$_"} = '';
                     }
                 }
                 $Data{"TicketFreeKeyField$_"} =
@@ -309,6 +309,7 @@ sub AgentFreeDate {
     my %SelectData = ();
     my %Ticket = ();
     my %Config = ();
+
     if ($Param{NullOption}) {
         $SelectData{Size} = 3;
         $SelectData{Multiple} = 1;
@@ -320,13 +321,19 @@ sub AgentFreeDate {
         %Config = %{$Param{Config}};
     }
     my %Data = ();
-    foreach my $Count (1..2) {
+    foreach my $Count (1..6) {
+        my %TimePeriod = ();
+        if ($Self->{ConfigObject}->Get('TicketFreeTimePeriod'.$Count)) {
+            %TimePeriod = %{$Self->{ConfigObject}->Get('TicketFreeTimePeriod'.$Count)};
+        }
+
         $Data{'TicketFreeTime'.$Count} = $Self->BuildDateSelection(
             %Param,
             %Ticket,
             Prefix => 'TicketFreeTime'.$Count,
             Format => 'DateInputFormatLong',
             DiffTime => $Self->{ConfigObject}->Get('TicketFreeTimeDiff'.$Count) || 0,
+            %TimePeriod,
         );
     }
     return %Data;
@@ -458,7 +465,7 @@ sub CustomerFreeDate {
         %Config = %{$Param{Config}};
     }
     my %Data = ();
-    foreach my $Count (1..2) {
+    foreach my $Count (1..6) {
         $Data{'TicketFreeTime'.$Count} = $Self->BuildDateSelection(
             Area => 'Customer',
             %Param,

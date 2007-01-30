@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.15 2007-01-30 16:22:16 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.16 2007-01-30 19:57:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -98,12 +98,11 @@ sub Run {
         );
         # get ticket free time params
         my %TicketFreeTime = ();
-        foreach (1..2) {
+        foreach (1..6) {
             foreach my $Type (qw(Used Year Month Day Hour Minute)) {
                 $TicketFreeTime{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
             }
-            $TicketFreeTime{'TicketFreeTime'.$_.'Optional'} = 1;
-            if (!$TicketFreeTime{'TicketFreeTime'.$_.'Optional'}) {
+            if (!$Self->{ConfigObject}->Get('TicketFreeTimeOptional'.$_)) {
                 $TicketFreeTime{'TicketFreeTime'.$_.'Used'} = 1;
             }
         }
@@ -169,12 +168,11 @@ sub Run {
         );
         # get ticket free time params
         my %TicketFreeTime = ();
-        foreach (1..2) {
+        foreach (1..6) {
             foreach my $Type (qw(Used Year Month Day Hour Minute)) {
                 $TicketFreeTime{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
             }
-            $TicketFreeTime{'TicketFreeTime'.$_.'Optional'} = 1;
-            if (!$TicketFreeTime{'TicketFreeTime'.$_.'Optional'}) {
+            if (!$Self->{ConfigObject}->Get('TicketFreeTimeOptional'.$_)) {
                 $TicketFreeTime{'TicketFreeTime'.$_.'Used'} = 1;
             }
         }
@@ -266,7 +264,7 @@ sub Run {
             }
         }
         # set ticket free time
-        foreach (1..2) {
+        foreach (1..6) {
             if (defined($TicketFreeTime{"TicketFreeTime".$_."Year"}) &&
                 defined($TicketFreeTime{"TicketFreeTime".$_."Month"}) &&
                 defined($TicketFreeTime{"TicketFreeTime".$_."Day"}) &&
@@ -456,7 +454,7 @@ sub _MaskNew {
         }
     }
     $Count = 0;
-    foreach (1..2) {
+    foreach (1..6) {
         $Count++;
         if ($Self->{Config}->{'TicketFreeTime'}->{$Count}) {
             $Self->{LayoutObject}->Block(

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.35 2007-01-26 15:51:17 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.36 2007-01-30 19:57:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -581,7 +581,7 @@ sub _PDFOutputTicketFreeTime {
     my %TableParam;
     my $Row = 0;
     # generate table
-    foreach (1..2) {
+    foreach (1..6) {
         if ($Ticket{"TicketFreeTime$_"}) {
             my $TicketFreeTimeKey = $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$_) || '';
             my $TicketFreeTime = $Ticket{"TicketFreeTime$_"};
