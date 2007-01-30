@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.38 2007-01-30 14:08:06 mh Exp $
+# $Id: AdminUser.pm,v 1.39 2007-01-30 14:31:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $ ';
+$VERSION = '$Revision: 1.39 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -235,7 +235,7 @@ sub AdminUserForm {
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-            $Self->{ValidObject}->ValidIDsGet(),
+            $Self->{ValidObject}->ValidList(),
         },
         Name => 'ValidID',
         SelectedID => $Param{UserData}->{ValidID},
