@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.29 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminQueue.pm,v 1.30 2007-01-30 14:08:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::Modules::AdminQueue;
 
 use strict;
 use Kernel::System::Crypt;
+use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -37,6 +38,7 @@ sub new {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
     }
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
 }
@@ -183,11 +185,7 @@ sub _Mask {
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-            $Self->{DBObject}->GetTableData(
-                What => 'id, name',
-                Table => 'valid',
-                Valid => 0,
-            )
+            $Self->{ValidObject}->ValidList(),
         },
         Name => 'ValidID',
         SelectedID => $Param{ValidID},

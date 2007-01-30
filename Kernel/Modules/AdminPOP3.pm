@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPOP3.pm - to add/update/delete POP3 acounts
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPOP3.pm,v 1.17 2007-01-20 22:03:07 mh Exp $
+# $Id: AdminPOP3.pm,v 1.18 2007-01-30 14:08:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::Modules::AdminPOP3;
 
 use strict;
 use Kernel::System::POP3Account;
+use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -37,8 +38,8 @@ sub new {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
     }
-
     $Self->{POP3Account} = Kernel::System::POP3Account->new(%Param);
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
 }
@@ -150,11 +151,7 @@ sub _MaskUpdate {
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-            $Self->{DBObject}->GetTableData(
-                What => 'id, name',
-                Table => 'valid',
-                Valid => 0,
-            )
+            $Self->{ValidObject}->ValidList(),
         },
         Name => 'ValidID',
         SelectedID => $Param{ValidID},

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: Group.pm,v 1.41 2007-01-20 23:11:34 mh Exp $
+# $Id: Group.pm,v 1.42 2007-01-30 14:08:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@
 package Kernel::System::Group;
 
 use strict;
+use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -69,6 +70,7 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
 }
@@ -559,7 +561,7 @@ sub GroupMemberInvolvedList {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # get valid ids
-    my $ValidID = join (', ', $Self->{DBObject}->GetValidIDs());
+    my $ValidID = join (', ', $Self->{ValidObject}->ValidIDsGet());
 
     # get all groups of the given user
     my %Groups;
@@ -729,7 +731,7 @@ sub GroupGroupMemberList {
         " FROM ".
         " groups g, group_user gu".
         " WHERE " .
-        " g.valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
+        " g.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) ".
         " AND ".
         " g.id = gu.group_id ".
         " AND ".
@@ -898,7 +900,7 @@ sub GroupRoleMemberList {
         " FROM ".
         " groups g, group_role gu".
         " WHERE " .
-        " g.valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
+        " g.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) ".
         " AND ".
         " g.id = gu.group_id ".
         " AND ".
@@ -1158,7 +1160,7 @@ sub GroupUserRoleMemberList {
         " FROM ".
         " role_user ru, roles r".
         " WHERE " .
-        " r.valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
+        " r.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) ".
         " AND ".
         " r.id = ru.role_id ".
         " AND ";
@@ -1475,6 +1477,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.42 $ $Date: 2007-01-30 14:08:06 $
 
 =cut

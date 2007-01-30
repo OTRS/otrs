@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.45 2007-01-21 01:26:10 mh Exp $
+# $Id: DB.pm,v 1.46 2007-01-30 14:08:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,10 +13,11 @@ package Kernel::System::CustomerUser::DB;
 
 use strict;
 use Kernel::System::CheckItem;
+use Kernel::System::Valid;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -30,6 +31,8 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject PreferencesObject CustomerUserMap)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+
     # max shown user a search list
     $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{'CustomerUserSearchListLimit'} || 250;
     # config options
@@ -178,7 +181,7 @@ sub CustomerSearch {
     # add valid option
     if ($Self->{CustomerUserMap}->{CustomerValid} && $Valid) {
         $SQL .= "AND ".$Self->{CustomerUserMap}->{CustomerValid}.
-        " IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ";
+        " IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) ";
     }
     # get data
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{UserSearchListLimit});

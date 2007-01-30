@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.20 2007-01-20 22:03:07 mh Exp $
+# $Id: AdminResponse.pm,v 1.21 2007-01-30 14:08:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,9 +14,10 @@ package Kernel::Modules::AdminResponse;
 use strict;
 use Kernel::System::StdResponse;
 use Kernel::System::StdAttachment;
+use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -38,10 +39,9 @@ sub new {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
     }
-
-    # lib object
     $Self->{StdResponseObject} = Kernel::System::StdResponse->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
 }
@@ -149,11 +149,7 @@ sub _Mask {
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-            $Self->{DBObject}->GetTableData(
-                What => 'id, name',
-                Table => 'valid',
-                Valid => 0,
-            )
+            $Self->{ValidObject}->ValidIDsGet(),
         },
         Name => 'ValidID',
         SelectedID => $Param{ValidID},

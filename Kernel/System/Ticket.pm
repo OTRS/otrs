@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.241 2007-01-29 16:24:01 martin Exp $
+# $Id: Ticket.pm,v 1.242 2007-01-30 14:08:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,9 +30,10 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 use Kernel::System::LinkObject;
+use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.241 $';
+$VERSION = '$Revision: 1.242 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -148,6 +149,7 @@ sub new {
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{LockObject} = Kernel::System::Lock->new(%Param);
     $Self->{NotificationObject} = Kernel::System::Notification->new(%Param);
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     # get config static var
     my @ViewableStates = $Self->{StateObject}->StateGetStatesByType(
@@ -4180,7 +4182,7 @@ sub HistoryAdd {
     }
     # get ValidID!
     if (!$Param{ValidID}) {
-        $Param{ValidID} = $Self->{DBObject}->GetValidIDs();
+        $Param{ValidID} = $Self->{ValidObject}->ValidIDsGet();
     }
     # get QueueID
     if (!$Param{QueueID}) {
@@ -5085,6 +5087,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.241 $ $Date: 2007-01-29 16:24:01 $
+$Revision: 1.242 $ $Date: 2007-01-30 14:08:06 $
 
 =cut

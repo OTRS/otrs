@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Auth/DB.pm - provides the db authentification
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.17 2006-12-13 17:09:57 martin Exp $
+# $Id: DB.pm,v 1.18 2007-01-30 14:08:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,11 @@
 package Kernel::System::Auth::DB;
 
 use strict;
+use Kernel::System::Valid;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -30,6 +31,7 @@ sub new {
     foreach (qw(LogObject ConfigObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     # Debug 0=off 1=on
     $Self->{Debug} = 0;
@@ -82,7 +84,7 @@ sub Auth {
         " FROM ".
         " $Self->{UserTable} ".
         " WHERE ".
-        " valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
+        " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) ".
         " AND ".
         " $Self->{UserTableUser} = '".$Self->{DBObject}->Quote($User)."'";
     $Self->{DBObject}->Prepare(SQL => $SQL);

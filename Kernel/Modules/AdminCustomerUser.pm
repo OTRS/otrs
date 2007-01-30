@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.44 2007-01-01 23:18:15 mh Exp $
+# $Id: AdminCustomerUser.pm,v 1.45 2007-01-30 14:08:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::Modules::AdminCustomerUser;
 
 use strict;
 use Kernel::System::CustomerUser;
+use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.44 $ ';
+$VERSION = '$Revision: 1.45 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -37,9 +38,8 @@ sub new {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
     }
-
-    # needed objects
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
 }
@@ -394,11 +394,7 @@ sub AdminCustomerUserForm {
                 $Block = 'Option';
                 $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
                     Data => {
-                        $Self->{DBObject}->GetTableData(
-                            What => 'id, name',
-                            Table => 'valid',
-                            Valid => 0,
-                        )
+                        $Self->{ValidObject}->ValidList(),
                     },
                     Name => $Entry->[0],
                     SelectedID => defined ($Param{$Entry->[0]}) ? $Param{$Entry->[0]} : 1,

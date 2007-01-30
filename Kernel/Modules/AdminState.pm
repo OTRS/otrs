@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminState.pm - to add/update/delete system states
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminState.pm,v 1.17 2007-01-29 15:52:14 martin Exp $
+# $Id: AdminState.pm,v 1.18 2007-01-30 14:08:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::Modules::AdminState;
 
 use strict;
 use Kernel::System::State;
+use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -34,9 +35,8 @@ sub new {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
     }
-
-    # state object
     $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
 }
@@ -102,11 +102,7 @@ sub _Mask {
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-            $Self->{DBObject}->GetTableData(
-                What => 'id, name',
-                Table => 'valid',
-                Valid => 0,
-            )
+            $Self->{ValidObject}->ValidIDsGet(),
         },
         Name => 'ValidID',
         SelectedID => $Param{ValidID},

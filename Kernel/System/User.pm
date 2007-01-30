@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.58 2007-01-20 23:11:34 mh Exp $
+# $Id: User.pm,v 1.59 2007-01-30 14:08:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,11 +13,12 @@ package Kernel::System::User;
 
 use strict;
 use Kernel::System::CheckItem;
+use Kernel::System::Valid;
 use Digest::MD5;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -83,6 +84,8 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject TimeObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+
     # get user table
     $Self->{UserTable} = $Self->{ConfigObject}->Get('DatabaseUserTable') || 'user';
     $Self->{UserTableUserID} = $Self->{ConfigObject}->Get('DatabaseUserTableUserID') || 'id';
@@ -175,7 +178,7 @@ sub GetUserData {
     # check valid, return if there is locked for valid users
     if ($Param{Valid}) {
         my $Hit = 0;
-        foreach ($Self->{DBObject}->GetValidIDs()) {
+        foreach ($Self->{ValidObject}->ValidIDsGet()) {
             if ($_ eq $Data{ValidID}) {
                 $Hit = 1;
             }
@@ -457,7 +460,7 @@ sub UserSearch {
     }
     # add valid option
     if ($Valid) {
-        $SQL .= "AND valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ";
+        $SQL .= "AND valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) ";
     }
     # get data
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{UserSearchListLimit});
@@ -812,6 +815,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.59 $ $Date: 2007-01-30 14:08:06 $
 
 =cut

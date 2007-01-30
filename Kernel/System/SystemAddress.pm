@@ -2,7 +2,7 @@
 # Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SystemAddress.pm,v 1.11 2007-01-20 23:11:34 mh Exp $
+# $Id: SystemAddress.pm,v 1.12 2007-01-30 14:08:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::SystemAddress;
 
 use strict;
+use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -73,6 +74,7 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
 }
@@ -251,7 +253,7 @@ sub SystemAddressIsLocalAddress {
         " FROM ".
         " system_address ".
         " WHERE ".
-        " valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+        " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
 
     if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
         return;
@@ -282,6 +284,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.12 $ $Date: 2007-01-30 14:08:06 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.130 2007-01-21 01:26:10 mh Exp $
+# $Id: Article.pm,v 1.131 2007-01-30 14:08:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.130 $';
+$VERSION = '$Revision: 1.131 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -765,7 +765,7 @@ sub ArticleTypeList {
         }
     }
     my $SQL = "SELECT id, name FROM article_type ".
-        " WHERE valid_id IN (${\(join ', ', $Self->{DBObject}->GetValidIDs())}) ";
+        " WHERE valid_id IN (${\(join ', ', $Self->{ValidObject}->ValidIDsGet())}) ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         if ($Param{Type} && $Param{Type} eq 'Customer') {

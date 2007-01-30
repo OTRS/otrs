@@ -2,7 +2,7 @@
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Lock.pm,v 1.10 2007-01-20 23:11:34 mh Exp $
+# $Id: Lock.pm,v 1.11 2007-01-30 14:08:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::Lock;
 
 use strict;
+use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -73,6 +74,7 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     # get ViewableLocks
     $Self->{ViewableLocks} = $Self->{ConfigObject}->Get('Ticket::ViewableLocks')
@@ -120,7 +122,7 @@ sub LockViewableLock {
         " WHERE ".
         " name IN ( ${\(join ', ', @{$Self->{ViewableLocks}})} ) " .
         " AND ".
-        " valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+        " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
         while (my @Data = $Self->{DBObject}->FetchrowArray()) {
             push (@Name, $Data[1]);
@@ -237,6 +239,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.11 $ $Date: 2007-01-30 14:08:06 $
 
 =cut

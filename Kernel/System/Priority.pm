@@ -2,7 +2,7 @@
 # Kernel/System/Priority.pm - all ticket priority function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.6 2007-01-30 09:47:25 mh Exp $
+# $Id: Priority.pm,v 1.7 2007-01-30 14:11:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::Priority;
 
 use strict;
+use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -66,6 +67,7 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
 }
@@ -92,7 +94,7 @@ sub PriorityList {
     my %Data = ();
     my $SQL = 'SELECT id, name FROM ticket_priority ';
     if ($Param{Valid}) {
-        $SQL .= "WHERE valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+        $SQL .= "WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     }
 
     if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
@@ -241,6 +243,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2007-01-30 09:47:25 $
+$Revision: 1.7 $ $Date: 2007-01-30 14:11:54 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerGroup.pm,v 1.10 2007-01-20 23:11:34 mh Exp $
+# $Id: CustomerGroup.pm,v 1.11 2007-01-30 14:08:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::System::CustomerGroup;
 
 use strict;
 use Kernel::System::Group;
+use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -44,8 +45,8 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-
     $Self->{GroupObject} = Kernel::System::Group->new(%Param);
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
 }
@@ -167,7 +168,7 @@ sub GroupMemberList {
         " FROM ".
         " groups g, group_customer_user gu".
         " WHERE " .
-        " g.valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
+        " g.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) ".
         " AND ".
         " g.id = gu.group_id ".
         " AND ".
@@ -239,6 +240,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.11 $ $Date: 2007-01-30 14:08:06 $
 
 =cut

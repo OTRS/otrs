@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.63 2007-01-20 23:11:34 mh Exp $
+# $Id: Queue.pm,v 1.64 2007-01-30 14:08:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,9 +15,10 @@ use strict;
 use Kernel::System::StdResponse;
 use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
+use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -48,6 +49,7 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     # lib object
     $Self->{StdResponseObject} = Kernel::System::StdResponse->new(%Param);
@@ -299,7 +301,7 @@ sub GetStdResponses {
         " AND ".
         " qsr.standard_response_id = sr.id".
         " AND ".
-        " sr.valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )".
+        " sr.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )".
         " ORDER BY sr.name";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -342,7 +344,7 @@ sub GetAllQueues {
                 " WHERE ".
                 " group_id IN ( ${\(join ', ', @GroupIDs)} )".
                 " AND ".
-                " valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+                " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
             $Self->{DBObject}->Prepare(SQL => $SQL);
         }
         else {
@@ -361,7 +363,7 @@ sub GetAllQueues {
                 " WHERE ".
                 " group_id IN ( ${\(join ', ', @GroupIDs)} )".
                 " AND ".
-                " valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+                " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
             $Self->{DBObject}->Prepare(SQL => $SQL);
         }
         else {
@@ -371,7 +373,7 @@ sub GetAllQueues {
     else {
         $Self->{DBObject}->Prepare(
             SQL => "SELECT id, name FROM queue WHERE valid_id IN ".
-                "( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )",
+                "( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
             );
     }
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -974,6 +976,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.64 $ $Date: 2007-01-30 14:08:06 $
 
 =cut
