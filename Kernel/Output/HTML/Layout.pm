@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.25 2007-01-18 10:10:14 martin Exp $
+# $Id: Layout.pm,v 1.26 2007-01-30 19:59:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2226,8 +2226,15 @@ sub BuildDateSelection {
     # year
     if ($DateInputStyle eq 'Option') {
         my %Year = ();
-        foreach ($Y-10..$Y+1+($Param{YearDiff}||0)) {
-            $Year{$_} = $_;
+        if (defined($Param{YearPeriodPast}) && defined($Param{YearPeriodFuture})) {
+            foreach ($Y-$Param{YearPeriodPast}..$Y+$Param{YearPeriodFuture}) {
+                $Year{$_} = $_;
+            }
+        }
+        else {
+            foreach ($Y-10..$Y+1+($Param{YearDiff}||0)) {
+                $Year{$_} = $_;
+            }
         }
         $Param{Year} = $Self->OptionStrgHashRef(
             Name => $Prefix.'Year',
@@ -2693,6 +2700,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2007-01-18 10:10:14 $
+$Revision: 1.26 $ $Date: 2007-01-30 19:59:42 $
 
 =cut
