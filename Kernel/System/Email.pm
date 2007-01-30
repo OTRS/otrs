@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.22 2007-01-20 23:11:34 mh Exp $
+# $Id: Email.pm,v 1.23 2007-01-30 15:31:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -292,6 +292,7 @@ sub Send {
             LogObject => $Self->{LogObject},
             DBObject => $Self->{DBObject},
             ConfigObject => $Self->{ConfigObject},
+            MainObject => $Self->{MainObject},
             CryptType => $Param{Sign}->{Type},
         );
         if (!$CryptObject) {
@@ -361,6 +362,7 @@ sub Send {
             LogObject => $Self->{LogObject},
             DBObject => $Self->{DBObject},
             ConfigObject => $Self->{ConfigObject},
+            MainObject => $Self->{MainObject},
             CryptType => $Param{Crypt}->{Type},
         );
         if (!$CryptObject) {
@@ -404,6 +406,7 @@ sub Send {
             LogObject => $Self->{LogObject},
             DBObject => $Self->{DBObject},
             ConfigObject => $Self->{ConfigObject},
+            MainObject => $Self->{MainObject},
             CryptType => $Param{Crypt}->{Type},
         );
         if (!$CryptObject) {
@@ -582,6 +585,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.23 $ $Date: 2007-01-30 15:31:57 $
 
 =cut
