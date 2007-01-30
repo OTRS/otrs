@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt/PGP.pm - the main crypt module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.12 2006-08-29 17:31:04 martin Exp $
+# $Id: PGP.pm,v 1.12.2.1 2007-01-30 11:19:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::PGP;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.12.2.1 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -35,7 +35,6 @@ This is a sub module of Kernel::System::Crypt and contains all pgp functions.
 sub Init {
     my $Self = shift;
     my %Param = @_;
-
 
     $Self->{GPGBin} = $Self->{ConfigObject}->Get('PGP::Bin') || '/usr/bin/gpg';
     $Self->{Options} = $Self->{ConfigObject}->Get('PGP::Options') || '--batch --no-tty --yes';
@@ -568,10 +567,13 @@ sub _CryptedWithKey {
         $Message .= $_;
     }
     close (OUT);
-    if ($Message =~ /encrypted with.+?\sID\s(.+?),\s/i) {
-        my @Result = $Self->KeySearch(Search => $1);
-        if (@Result) {
-            return ($1, $Result[$#Result]->{Key});
+    my @Lines = split(/\n/, $Message);
+    foreach my $Line (@Lines) {
+        if ($Line =~ /encrypted with.+?\sID\s(........)/i) {
+            my @Result = $Self->PrivateKeySearch(Search => $1);
+            if (@Result) {
+                return ($1, $Result[$#Result]->{Key});
+            }
         }
     }
     return;
@@ -591,6 +593,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2006-08-29 17:31:04 $
+$Revision: 1.12.2.1 $ $Date: 2007-01-30 11:19:41 $
 
 =cut
