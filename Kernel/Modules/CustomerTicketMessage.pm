@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.14 2007-01-17 12:54:00 mh Exp $
+# $Id: CustomerTicketMessage.pm,v 1.15 2007-01-30 16:22:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -443,6 +443,14 @@ sub _MaskNew {
                 Data => {
                     TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
                     TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
+                    Count => $Count,
+                },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeText'.$Count,
+                Data => {
+                    %Param,
+                    Count => $Count,
                 },
             );
         }
@@ -456,6 +464,13 @@ sub _MaskNew {
                 Data => {
                     TicketFreeTimeKey => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
                     TicketFreeTime => $Param{'TicketFreeTime'.$Count},
+                    Count => $Count,
+                },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeTime'.$Count,
+                Data => {
+                    %Param,
                     Count => $Count,
                 },
             );
