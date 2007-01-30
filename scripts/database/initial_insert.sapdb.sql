@@ -2,9 +2,12 @@
 // initial_insert.sql - provides initial system data
 // Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 // --
-// $Id: initial_insert.sapdb.sql,v 1.5 2007-01-17 12:10:08 mh Exp $
+// $Id: initial_insert.sapdb.sql,v 1.6 2007-01-30 10:06:54 mh Exp $
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2007/01/17 12:10:08  mh
+// fixed typo
+//
 // Revision 1.4  2006/10/03 12:34:04  mh
 // change copyright
 //
@@ -172,29 +175,29 @@ INSERT INTO valid
 //
 // ticket_priority
 INSERT INTO ticket_priority
-        (name, create_by, create_time, change_by, change_time)
+        (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
-        ('1 very low', 1, timestamp, 1, timestamp)
+        ('1 very low', 1, 1, timestamp, 1, timestamp)
 //
 INSERT INTO ticket_priority
-        (name, create_by, create_time, change_by, change_time)
+        (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
-        ('2 low', 1, timestamp, 1, timestamp)
+        ('2 low', 1, 1, timestamp, 1, timestamp)
 //
 INSERT INTO ticket_priority
-        (name, create_by, create_time, change_by, change_time)
+        (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
-        ('3 normal', 1, timestamp, 1, timestamp)
+        ('3 normal', 1, 1, timestamp, 1, timestamp)
 //
 INSERT INTO ticket_priority
-        (name, create_by, create_time, change_by, change_time)
+        (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
-        ('4 high', 1, timestamp, 1, timestamp)
+        ('4 high', 1, 1, timestamp, 1, timestamp)
 //
 INSERT INTO ticket_priority
-        (name, create_by, create_time, change_by, change_time)
+        (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
-        ('5 very high', 1, timestamp, 1, timestamp)
+        ('5 very high', 1, 1, timestamp, 1, timestamp)
 //
 // ticket_lock_type
 INSERT INTO ticket_lock_type
