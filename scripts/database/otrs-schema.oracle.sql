@@ -991,7 +991,7 @@ CREATE INDEX index_time_accounting_ticket70 ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
 CREATE TABLE ticket_watcher (
     ticket_id NUMBER (20, 0) NOT NULL,
-    user_id NUMBER (20, 0) NOT NULL,
+    user_id NUMBER NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER NOT NULL,
     change_time DATE NOT NULL,

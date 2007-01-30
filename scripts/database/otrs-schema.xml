@@ -5,9 +5,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-  $Id: otrs-schema.xml,v 1.56 2007-01-30 10:07:38 mh Exp $
+  $Id: otrs-schema.xml,v 1.57 2007-01-30 15:27:02 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.56  2007/01/30 10:07:38  mh
+  add valid_id to ticket_priority table
+
   Revision 1.55  2006/10/03 14:34:47  mh
   change copyright
 
@@ -1227,7 +1230,7 @@
 <!-- ticket_watcher -->
 <Table Name="ticket_watcher">
   <Column Name="ticket_id" Required="true" Type="BIGINT"/>
-  <Column Name="user_id" Required="true" Type="BIGINT"/>
+  <Column Name="user_id" Required="true" Type="INTEGER"/>
   <Column Name="create_time" Required="true" Type="DATE"/>
   <Column Name="create_by" Required="true" Type="INTEGER"/>
   <Column Name="change_time" Required="true" Type="DATE"/>

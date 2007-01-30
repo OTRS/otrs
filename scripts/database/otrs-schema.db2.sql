@@ -694,7 +694,7 @@ CREATE INDEX index_time_accou18 ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
 CREATE TABLE ticket_watcher (
     ticket_id BIGINT NOT NULL,
-    user_id BIGINT NOT NULL,
+    user_id INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
