@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/SystemStatsGeneric.pm - generic pure SQL stats module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SystemStatsGeneric.pm,v 1.7 2006-08-29 17:58:46 martin Exp $
+# $Id: SystemStatsGeneric.pm,v 1.8 2007-01-30 17:49:55 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,10 +26,9 @@ package Kernel::Modules::SystemStatsGeneric;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
    my $Type = shift;
    my %Param = @_;
@@ -47,7 +46,7 @@ sub new {
    $Self->{CSV} = $Self->{ParamObject}->GetParam(Param => 'CSV') || 0;
    return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -62,41 +61,33 @@ sub Run {
     my $Group = 'stats';
     # ------------------------------------------------------------------------------ #
 
-    # --
     # permission check (user need to be rw in group stats)
-    # --
     if (!$Self->{"UserIsGroup[$Group]"} || $Self->{"UserIsGroup[$Group]"} ne 'Yes') {
         return $Self->{LayoutObject}->NoPermission(
             Message => "You have to be in the $Group group!"
         );
     }
-    # --
+
     # starting with page ...
-    # --
     my $CSVBody = '';
     my $OutputBody = '';
     my $Records = 0;
     my @HeadData = ();
     my @GlobalData = ();
 
-    # --
     # get table columns names
-    # --
     my $sth = $Self->{DBObject}->{dbh}->prepare($SQL);
     $sth->execute;
     my $names = $sth->{NAME};
     @HeadData = @{$names};
-    # --
+
     # get table columns data
-    # --
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $SQLLimit);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         push (@GlobalData, \@Row);
     }
 
-    # --
     # fillup colomn names
-    # --
     if (!$Self->{CSV}) {
         $OutputBody .= '<table border="0" width="100%" cellspacing="0" cellpadding="3">';
         $OutputBody .= "<tr>\n";
@@ -115,9 +106,8 @@ sub Run {
     else {
         $OutputBody .= "</tr>\n";
     }
-    # --
+
     # fillup columns data
-    # --
     foreach my $RowTmp (@GlobalData) {
         $Records++;
         my @Row = @{$RowTmp};
@@ -139,9 +129,8 @@ sub Run {
             $OutputBody .= "</tr>\n";
         }
     }
-    # --
+
     # return HTML or CSV page
-    # --
     if ($Self->{CSV}) {
         my $CSV = $Self->{LayoutObject}->Output(
           Data => { Title => $Title, DetailText => $DetailText, Records => $Records},
@@ -185,5 +174,4 @@ sub Run {
         return $Output;
     }
 }
-# --
 1;

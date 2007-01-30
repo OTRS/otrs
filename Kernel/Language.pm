@@ -1,8 +1,8 @@
 # --
 # Kernel/Language.pm - provides multi language support
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.41 2006-10-09 17:38:03 mh Exp $
+# $Id: Language.pm,v 1.42 2007-01-30 17:49:56 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -456,6 +456,8 @@ sub CharsetConvert {
 
 1;
 
+=back
+
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (http://otrs.org/).
@@ -468,6 +470,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2006-10-09 17:38:03 $
+$Revision: 1.42 $ $Date: 2007-01-30 17:49:56 $
 
 =cut

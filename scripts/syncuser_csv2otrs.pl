@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # syncuser_csv2otrs.pl - sync csv user list or otrs
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: syncuser_csv2otrs.pl,v 1.2 2006-10-03 14:34:47 mh Exp $
+# $Id: syncuser_csv2otrs.pl,v 1.3 2007-01-30 17:49:55 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,9 +25,7 @@
 # me1;me1@example.com;Nils;Example;somepass;Mr.;
 # [...]
 
-# --
 # config options / csv file - column 0-...
-# --
 my %Fields = ();
 $Fields{Login} = 0;
 $Fields{Email} = 1;
@@ -36,9 +34,7 @@ $Fields{Firstname} = 2;
 $Fields{Lastname} = 3;
 $Fields{Pw} = 4;
 
-# --
 # use ../ as lib location
-# --
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
@@ -49,9 +45,8 @@ use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::User;
-# --
+
 # common objects
-# --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
@@ -60,18 +55,16 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
-# --
+
 # get options
-# --
 my %Opts = ();
 getopt('s',  \%Opts);
 my $End = "\n";
 if (!$Opts{'s'}) {
     die "Need -s <CSV_FILE>\n";
 }
-# --
+
 # read csv file
-# --
 open (IN, "< $Opts{'s'}") || die "Can't read $Opts{'s'}: $!";
 while (<IN>) {
     my @Line = split(/;/, $_);
