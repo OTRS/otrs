@@ -2,7 +2,7 @@
 # CSV.t - CSV tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.t,v 1.5 2007-01-11 10:54:08 tr Exp $
+# $Id: CSV.t,v 1.6 2007-01-30 17:33:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -60,13 +60,11 @@ $Self->True(
 
 # Working with CSVString with \n
 my $String = '"field1";"field2";"field3";'."\n".'"a'."\n" .'b";"FirstLine'."\n" .'SecondLine";"4";'."\n";
-$Self->{LogObject}->Dumper($String);
 $Array = $Self->{CSVObject}->CSV2Array(
     String => $String,
     Separator => ';',
     Quote => '"',
 );
-$Self->{LogObject}->Dumper($Array);
 $Self->True(
     ($Array->[0][0] eq 'field1' && $Array->[0][2] eq 'field3' &&
      $Array->[1][0] eq "a\nb" && $#{$Array} eq 1 && $#{$Array->[1]} eq 2),

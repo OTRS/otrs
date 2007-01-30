@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.64 2007-01-30 14:08:06 mh Exp $
+# $Id: Queue.pm,v 1.65 2007-01-30 17:33:24 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -91,7 +91,7 @@ sub new {
 
 get a queue system email address as hash (Email, RealName)
 
-    my %Adresss = $Self->{QueueObject}->GetSystemAddress(
+    my %Adresss = $QueueObject->GetSystemAddress(
         QueueID => 123,
     );
 
@@ -124,7 +124,7 @@ sub GetSystemAddress {
 
 get a queue salutation
 
-    my $Salutation = $Self->{QueueObject}->GetSalutation(QueueID => 123);
+    my $Salutation = $QueueObject->GetSalutation(QueueID => 123);
 
 =cut
 
@@ -158,7 +158,7 @@ sub GetSalutation {
 
 get a queue signature
 
-    my $Signature = $Self->{QueueObject}->GetSignature(QueueID => 123);
+    my $Signature = $QueueObject->GetSignature(QueueID => 123);
 
 =cut
 
@@ -192,7 +192,7 @@ sub GetSignature {
 
 get std response of a queue
 
-    my $String = $Self->{QueueObject}->GetStdResponse(ID => 123);
+    my $String = $QueueObject->GetStdResponse(ID => 123);
 
 =cut
 
@@ -274,7 +274,7 @@ sub QueueHasStdResponse {
 
 get std responses of a queue
 
-    my %Responses = $Self->{QueueObject}->GetStdResponses(QueueID => 123);
+    my %Responses = $QueueObject->GetStdResponses(QueueID => 123);
 
 =cut
 
@@ -317,11 +317,11 @@ sub GetStdResponses {
 
 get all system queues
 
-    my %Queues = $Self->{QueueObject}->GetAllQueues();
+    my %Queues = $QueueObject->GetAllQueues();
 
 get all system queues of a user with permission type (e. g. ro, move_into, rw, ...)
 
-    my %Queues = $Self->{QueueObject}->GetAllQueues(UserID => 123, Type => 'ro');
+    my %Queues = $QueueObject->GetAllQueues(UserID => 123, Type => 'ro');
 
 =cut
 
@@ -386,7 +386,7 @@ sub GetAllQueues {
 
 get all custom queues of one user
 
-    my %Queues = $Self->{QueueObject}->GetAllCustomQueues(UserID => 123);
+    my %Queues = $QueueObject->GetAllCustomQueues(UserID => 123);
 
 =cut
 
@@ -976,6 +976,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2007-01-30 14:08:06 $
+$Revision: 1.65 $ $Date: 2007-01-30 17:33:24 $
 
 =cut

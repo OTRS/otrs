@@ -1,8 +1,8 @@
 # --
-# Kernel/Language/nl.pm - provides za_CN language translation
+# Kernel/Language/zh_CN.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.19 2007-01-09 03:51:04 martin Exp $
+# $Id: zh_CN.pm,v 1.20 2007-01-30 17:33:24 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {

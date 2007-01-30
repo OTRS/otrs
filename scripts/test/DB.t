@@ -1,8 +1,8 @@
 # --
 # DB.t - database tests
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.6 2006-08-26 17:36:26 martin Exp $
+# $Id: DB.t,v 1.7 2007-01-30 17:33:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,10 +13,7 @@ use Kernel::System::XML;
 
 $Self->{XMLObject} = Kernel::System::XML->new(%{$Self});
 
-# --
 # tests
-# --
-
 $Self->Is(
     $Self->{DBObject}->Quote(1, 'Integer'),
     1,
@@ -121,11 +118,7 @@ else {
     );
 }
 
-
-
-# --
 # XML test 1
-# --
 my $XML = '
 <TableCreate Name="test_a">
     <Column Name="name_a" Required="true" Size="60" Type="VARCHAR"/>
@@ -192,11 +185,7 @@ foreach my $SQL (@SQL) {
     );
 }
 
-
-
-# --
 # XML test 2
-# --
 $XML = '
 <TableCreate Name="test_a">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
@@ -295,7 +284,5 @@ foreach my $SQL (@SQL) {
         "#2 Do() DROP TABLE ($SQL)",
     );
 }
-
-
 
 1;

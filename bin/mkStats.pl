@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # mkStats.pl - send stats output via email
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.43 2006-11-10 14:26:35 tr Exp $
+# $Id: mkStats.pl,v 1.44 2007-01-30 17:33:24 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -48,9 +48,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 use Kernel::Output::HTML::Layout;
 
-# --
 # create common objects
-# --
 my %CommonObject = ();
 $CommonObject{UserID} = 1;
 $CommonObject{ConfigObject}    = Kernel::Config->new();
@@ -69,9 +67,7 @@ $CommonObject{CheckItemObject} = Kernel::System::CheckItem->new(%CommonObject);
 $CommonObject{EmailObject}     = Kernel::System::Email->new(%CommonObject);
 $CommonObject{PDFObject}       = Kernel::System::PDF->new(%CommonObject);
 
-# --
 # get options
-# --
 my %Opts = ();
 getopt('nrsmhoplf', \%Opts);
 if ($Opts{'h'}) {
@@ -141,10 +137,7 @@ if ($Opts{'o'} && !-e $Opts{'o'}) {
     exit 1;
 }
 
-# --
 # process the informations
-# --
-
 my $StatNumber = $Opts{'n'};
 my $StatID     = $CommonObject{StatsObject}->StatNumber2StatID(StatNumber => $StatNumber);
 if (!$StatID) {

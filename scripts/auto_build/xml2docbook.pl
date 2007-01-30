@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # xml2docbook.pl - config xml to docbook
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xml2docbook.pl,v 1.10 2006-10-05 14:15:30 cs Exp $
+# $Id: xml2docbook.pl,v 1.11 2007-01-30 17:33:24 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -57,9 +57,7 @@ $CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
 my @Groups = (qw(Framework Ticket));
 my $UserLang = '';
 
-# --
 # get options
-# --
 my %Opts = ();
 
 getopt('l',  \%Opts);
@@ -71,9 +69,7 @@ else {
    die "Need -l <Language>\n";
 }
 
-# --
 # start xml output
-# --
 
 print '<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
@@ -180,4 +176,3 @@ foreach my $Group (@Groups) {
 print "</appendix> \n";
 
 exit;
-

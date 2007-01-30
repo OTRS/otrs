@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.132 2007-01-30 15:32:47 martin Exp $
+# $Id: Article.pm,v 1.133 2007-01-30 17:33:24 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.132 $';
+$VERSION = '$Revision: 1.133 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -744,7 +744,7 @@ sub ArticleTypeLookup {
 
 get a article type list
 
-    my @ArticleTypeList = $TicketObject->ArticleTypesList();
+    my @ArticleTypeList = $TicketObject->ArticleTypeList();
 
     # to get just customer shown article types
     my @ArticleTypeList = $TicketObject->ArticleTypesList(

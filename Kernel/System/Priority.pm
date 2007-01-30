@@ -2,7 +2,7 @@
 # Kernel/System/Priority.pm - all ticket priority function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.7 2007-01-30 14:11:54 mh Exp $
+# $Id: Priority.pm,v 1.8 2007-01-30 17:33:24 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -110,7 +110,7 @@ sub PriorityList {
 
 get a priority
 
-    my %List = $PriorityObject->PriorityList(
+    my %List = $PriorityObject->PriorityGet(
         PriorityID => 123,
         UserID => 1,
     );
@@ -243,6 +243,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2007-01-30 14:11:54 $
+$Revision: 1.8 $ $Date: 2007-01-30 17:33:24 $
 
 =cut

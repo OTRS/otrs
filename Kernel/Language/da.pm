@@ -5,7 +5,7 @@
 # Original created by Thorsten Rossner
 # Maintained by Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.14 2007-01-09 03:51:04 martin Exp $
+# $Id: da.pm,v 1.15 2007-01-30 17:33:24 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,10 +16,9 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub Data {
     my $Self = shift;
     my %Param = @_;
@@ -1377,5 +1376,4 @@ sub Data {
     };
     # $$STOP$$
 }
-# --
 1;
