@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.60 2007-01-30 10:26:12 martin Exp $
+# $Id: DB.pm,v 1.61 2007-01-30 14:05:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -641,29 +641,36 @@ sub SQLProcessorPost {
     }
 }
 
-=item GetTableData()
-
-to get table data back in a hash
-
-    my %Users = $DBObject->GetTableData(
-        What => 'id, name',
-        Table => 'groups',
-    );
-
-=cut
+# GetTableData()
+#
+# !! DONT USE THIS FUNCTION !!
+#
+# Due to compatibility reason this function is still in use and will be removed
+# in a further release.
 
 sub GetTableData {
     my $Self = shift;
     my %Param = @_;
     my $Table = $Param{Table};
     my $What = $Param{What};
-    my $Whare = $Param{Where} || '';
+    my $Where = $Param{Where} || '';
     my $Valid = $Param{Valid} || '';
     my $Clamp = $Param{Clamp} || '';
     my %Data;
+
     my $SQL = "SELECT $What FROM $Table ";
-    $SQL .= " WHERE " . $Whare if ($Whare);
-    $SQL .= " WHERE valid_id IN ( ${\(join ', ', $Self->GetValidIDs())} )" if ((!$Whare) && ($Valid));
+    $SQL .= " WHERE " . $Where if ($Where);
+
+    if (!$Where && $Valid) {
+        my @ValidIDs;
+
+        $Self->Prepare(SQL => "SELECT id FROM valid WHERE name = 'valid'");
+        while (my @Row = $Self->FetchrowArray()) {
+            push(@ValidIDs, $Row[0]);
+        }
+
+        $SQL .= " WHERE valid_id IN ( ${\(join ', ', @ValidIDs)} )";
+    }
     $Self->Prepare(SQL => $SQL);
     while (my @Row = $Self->FetchrowArray()) {
         if ($Row[3]) {
@@ -687,24 +694,6 @@ sub GetTableData {
         }
     }
     return %Data;
-}
-
-sub GetValidIDs {
-    my $Self = shift;
-    my %Param = @_;
-    my @ValidIDs;
-    if ($Self->{ValidIDs}) {
-        my $ValidIDsTmp = $Self->{ValidIDs};
-        @ValidIDs = @$ValidIDsTmp;
-    }
-    else {
-        $Self->Prepare(SQL => "SELECT id FROM valid WHERE name = 'valid'");
-        while (my @RowTmp = $Self->FetchrowArray()) {
-            push(@ValidIDs, $RowTmp[0]);
-        }
-        $Self->{ValidIDs} = \@ValidIDs;
-    }
-    return @ValidIDs;
 }
 
 sub _TypeCheck {
@@ -739,6 +728,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.60 $ $Date: 2007-01-30 10:26:12 $
+$Revision: 1.61 $ $Date: 2007-01-30 14:05:47 $
 
 =cut
