@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: mssql, generated: Mon Aug 28 00:13:30 2006
+--  database: mssql, generated: Tue Jan 30 11:38:29 2007
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;

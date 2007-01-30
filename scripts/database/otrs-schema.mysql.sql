@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  database: mysql, generated: Mon Aug 28 00:13:13 2006
+#  database: mysql, generated: Tue Jan 30 11:37:12 2007
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -20,6 +20,7 @@ CREATE TABLE valid (
 CREATE TABLE ticket_priority (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (50) NOT NULL,
+    valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -804,7 +805,7 @@ CREATE TABLE xml_storage (
     xml_type VARCHAR (200) NOT NULL,
     xml_key VARCHAR (250) NOT NULL,
     xml_content_key VARCHAR (250) NOT NULL,
-    xml_content_value LONGBLOB NOT NULL,
+    xml_content_value LONGBLOB,
     INDEX xml_content_key (xml_content_key),
     INDEX xml_type (xml_type),
     INDEX xml_key (xml_key)

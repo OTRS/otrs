@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: mssql, generated: Mon Aug 28 00:13:30 2006
+--  database: mssql, generated: Tue Jan 30 11:38:29 2007
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -20,6 +20,7 @@ CREATE TABLE valid (
 CREATE TABLE ticket_priority (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
     name VARCHAR (50) NOT NULL,
+    valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -804,7 +805,7 @@ CREATE TABLE xml_storage (
     xml_type VARCHAR (200) NOT NULL,
     xml_key VARCHAR (250) NOT NULL,
     xml_content_key VARCHAR (250) NOT NULL,
-    xml_content_value VARCHAR(MAX) NOT NULL
+    xml_content_value VARCHAR(MAX)
 );
 CREATE INDEX xml_content_key ON xml_storage (xml_content_key);
 CREATE INDEX xml_type ON xml_storage (xml_type);

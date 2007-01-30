@@ -1,7 +1,6 @@
 -- ----------------------------------------------------------
---  database: oracle, generated: Wed Sep 27 14:15:55 2006
+--  database: oracle, generated: Tue Jan 30 11:38:39 2007
 -- ----------------------------------------------------------
-DROP TABLE valid CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table valid
 -- ----------------------------------------------------------
@@ -27,13 +26,13 @@ begin
 end;
 /
 --;
-DROP TABLE ticket_priority CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table ticket_priority
 -- ----------------------------------------------------------
 CREATE TABLE ticket_priority (
     id NUMBER (5, 0) NOT NULL,
     name VARCHAR2 (50) NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER NOT NULL,
     change_time DATE NOT NULL,
@@ -53,7 +52,6 @@ begin
 end;
 /
 --;
-DROP TABLE ticket_lock_type CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table ticket_lock_type
 -- ----------------------------------------------------------
@@ -80,7 +78,6 @@ begin
 end;
 /
 --;
-DROP TABLE system_user CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table system_user
 -- ----------------------------------------------------------
@@ -111,7 +108,6 @@ begin
 end;
 /
 --;
-DROP TABLE user_preferences CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table user_preferences
 -- ----------------------------------------------------------
@@ -121,7 +117,6 @@ CREATE TABLE user_preferences (
     preferences_value VARCHAR2 (250)
 );
 CREATE INDEX index_user_preferences_user_id ON user_preferences (user_id);
-DROP TABLE groups CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table groups
 -- ----------------------------------------------------------
@@ -149,7 +144,6 @@ begin
 end;
 /
 --;
-DROP TABLE group_user CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table group_user
 -- ----------------------------------------------------------
@@ -163,7 +157,6 @@ CREATE TABLE group_user (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-DROP TABLE group_role CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table group_role
 -- ----------------------------------------------------------
@@ -177,7 +170,6 @@ CREATE TABLE group_role (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-DROP TABLE group_customer_user CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table group_customer_user
 -- ----------------------------------------------------------
@@ -191,7 +183,6 @@ CREATE TABLE group_customer_user (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-DROP TABLE roles CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table roles
 -- ----------------------------------------------------------
@@ -219,7 +210,6 @@ begin
 end;
 /
 --;
-DROP TABLE role_user CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table role_user
 -- ----------------------------------------------------------
@@ -231,7 +221,6 @@ CREATE TABLE role_user (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-DROP TABLE personal_queues CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table personal_queues
 -- ----------------------------------------------------------
@@ -239,7 +228,6 @@ CREATE TABLE personal_queues (
     user_id NUMBER NOT NULL,
     queue_id NUMBER NOT NULL
 );
-DROP TABLE theme CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table theme
 -- ----------------------------------------------------------
@@ -266,7 +254,6 @@ begin
 end;
 /
 --;
-DROP TABLE ticket_state CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table ticket_state
 -- ----------------------------------------------------------
@@ -295,7 +282,6 @@ begin
 end;
 /
 --;
-DROP TABLE ticket_state_type CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table ticket_state_type
 -- ----------------------------------------------------------
@@ -322,7 +308,6 @@ begin
 end;
 /
 --;
-DROP TABLE salutation CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table salutation
 -- ----------------------------------------------------------
@@ -351,7 +336,6 @@ begin
 end;
 /
 --;
-DROP TABLE signature CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table signature
 -- ----------------------------------------------------------
@@ -380,7 +364,6 @@ begin
 end;
 /
 --;
-DROP TABLE system_address CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table system_address
 -- ----------------------------------------------------------
@@ -411,7 +394,6 @@ begin
 end;
 /
 --;
-DROP TABLE follow_up_possible CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table follow_up_possible
 -- ----------------------------------------------------------
@@ -439,7 +421,6 @@ begin
 end;
 /
 --;
-DROP TABLE queue CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table queue
 -- ----------------------------------------------------------
@@ -481,7 +462,6 @@ begin
 end;
 /
 --;
-DROP TABLE ticket CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table ticket
 -- ----------------------------------------------------------
@@ -564,7 +544,6 @@ end;
 CREATE INDEX index_ticket_user ON ticket (user_id);
 CREATE INDEX index_ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id, group_id);
 CREATE INDEX index_ticket_answered ON ticket (ticket_answered);
-DROP TABLE object_link CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table object_link
 -- ----------------------------------------------------------
@@ -575,7 +554,6 @@ CREATE TABLE object_link (
     object_link_b_object VARCHAR2 (200) NOT NULL,
     object_link_type VARCHAR2 (200) NOT NULL
 );
-DROP TABLE ticket_history CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table ticket_history
 -- ----------------------------------------------------------
@@ -610,7 +588,6 @@ end;
 --;
 CREATE INDEX ticket_history_ticket_id ON ticket_history (ticket_id);
 CREATE INDEX ticket_history_create_time ON ticket_history (create_time);
-DROP TABLE ticket_history_type CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table ticket_history_type
 -- ----------------------------------------------------------
@@ -638,7 +615,6 @@ begin
 end;
 /
 --;
-DROP TABLE article_type CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table article_type
 -- ----------------------------------------------------------
@@ -666,7 +642,6 @@ begin
 end;
 /
 --;
-DROP TABLE article_sender_type CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table article_sender_type
 -- ----------------------------------------------------------
@@ -694,7 +669,6 @@ begin
 end;
 /
 --;
-DROP TABLE article_flag CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table article_flag
 -- ----------------------------------------------------------
@@ -706,7 +680,6 @@ CREATE TABLE article_flag (
 );
 CREATE INDEX article_flag_create_by ON article_flag (create_by);
 CREATE INDEX article_flag_article_id ON article_flag (article_id);
-DROP TABLE article CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table article
 -- ----------------------------------------------------------
@@ -752,7 +725,6 @@ end;
 --;
 CREATE INDEX article_ticket_id ON article (ticket_id);
 CREATE INDEX article_message_id ON article (a_message_id);
-DROP TABLE article_plain CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table article_plain
 -- ----------------------------------------------------------
@@ -779,7 +751,6 @@ end;
 /
 --;
 CREATE INDEX article_plain_article_id ON article_plain (article_id);
-DROP TABLE article_attachment CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table article_attachment
 -- ----------------------------------------------------------
@@ -809,7 +780,6 @@ end;
 /
 --;
 CREATE INDEX article_attachment_article_id ON article_attachment (article_id);
-DROP TABLE standard_response CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table standard_response
 -- ----------------------------------------------------------
@@ -838,7 +808,6 @@ begin
 end;
 /
 --;
-DROP TABLE queue_standard_response CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table queue_standard_response
 -- ----------------------------------------------------------
@@ -850,7 +819,6 @@ CREATE TABLE queue_standard_response (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-DROP TABLE standard_attachment CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table standard_attachment
 -- ----------------------------------------------------------
@@ -881,7 +849,6 @@ begin
 end;
 /
 --;
-DROP TABLE standard_response_attachment CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table standard_response_attachment
 -- ----------------------------------------------------------
@@ -894,20 +861,19 @@ CREATE TABLE standard_response_attachment (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach81_PK PRIMARY KEY (id);
-DROP SEQUENCE standard_response_attach81_seq;
-CREATE SEQUENCE standard_response_attach81_seq;
-CREATE OR REPLACE TRIGGER standard_response_attach81_s_t
+ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach85_PK PRIMARY KEY (id);
+DROP SEQUENCE standard_response_attach85_seq;
+CREATE SEQUENCE standard_response_attach85_seq;
+CREATE OR REPLACE TRIGGER standard_response_attach85_s_t
 before insert on standard_response_attachment
 for each row
 begin
-    select standard_response_attach81_seq.nextval
+    select standard_response_attach85_seq.nextval
     into :new.id
     from dual;
 end;
 /
 --;
-DROP TABLE auto_response_type CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table auto_response_type
 -- ----------------------------------------------------------
@@ -935,7 +901,6 @@ begin
 end;
 /
 --;
-DROP TABLE auto_response CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table auto_response
 -- ----------------------------------------------------------
@@ -969,7 +934,6 @@ begin
 end;
 /
 --;
-DROP TABLE queue_auto_response CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table queue_auto_response
 -- ----------------------------------------------------------
@@ -995,7 +959,6 @@ begin
 end;
 /
 --;
-DROP TABLE time_accounting CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table time_accounting
 -- ----------------------------------------------------------
@@ -1022,8 +985,7 @@ begin
 end;
 /
 --;
-CREATE INDEX index_time_accounting_ticket58 ON time_accounting (ticket_id);
-DROP TABLE ticket_watcher CASCADE CONSTRAINTS;
+CREATE INDEX index_time_accounting_ticket70 ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
 --  create table ticket_watcher
 -- ----------------------------------------------------------
@@ -1036,7 +998,6 @@ CREATE TABLE ticket_watcher (
     change_by NUMBER NOT NULL
 );
 CREATE INDEX ticket_id ON ticket_watcher (ticket_id);
-DROP TABLE sessions CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table sessions
 -- ----------------------------------------------------------
@@ -1045,7 +1006,6 @@ CREATE TABLE sessions (
     session_value CLOB NOT NULL
 );
 CREATE INDEX index_session_id ON sessions (session_id);
-DROP TABLE ticket_index CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table ticket_index
 -- ----------------------------------------------------------
@@ -1059,7 +1019,6 @@ CREATE TABLE ticket_index (
     create_time_unix NUMBER (20, 0) NOT NULL
 );
 CREATE INDEX index_ticket_index_ticket_id ON ticket_index (ticket_id);
-DROP TABLE ticket_lock_index CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table ticket_lock_index
 -- ----------------------------------------------------------
@@ -1067,7 +1026,6 @@ CREATE TABLE ticket_lock_index (
     ticket_id NUMBER (20, 0) NOT NULL
 );
 CREATE INDEX index_ticket_lock_ticket_id ON ticket_lock_index (ticket_id);
-DROP TABLE customer_user CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table customer_user
 -- ----------------------------------------------------------
@@ -1101,7 +1059,6 @@ begin
 end;
 /
 --;
-DROP TABLE customer_preferences CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table customer_preferences
 -- ----------------------------------------------------------
@@ -1110,8 +1067,7 @@ CREATE TABLE customer_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_customer_preferences_u17 ON customer_preferences (user_id);
-DROP TABLE ticket_loop_protection CASCADE CONSTRAINTS;
+CREATE INDEX index_customer_preferences_u48 ON customer_preferences (user_id);
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
 -- ----------------------------------------------------------
@@ -1119,9 +1075,8 @@ CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR2 (250) NOT NULL,
     sent_date VARCHAR2 (150) NOT NULL
 );
-CREATE INDEX index_ticket_loop_protection57 ON ticket_loop_protection (sent_to);
-CREATE INDEX index_ticket_loop_protection65 ON ticket_loop_protection (sent_date);
-DROP TABLE pop3_account CASCADE CONSTRAINTS;
+CREATE INDEX index_ticket_loop_protection51 ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loop_protection29 ON ticket_loop_protection (sent_date);
 -- ----------------------------------------------------------
 --  create table pop3_account
 -- ----------------------------------------------------------
@@ -1152,7 +1107,6 @@ begin
 end;
 /
 --;
-DROP TABLE postmaster_filter CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table postmaster_filter
 -- ----------------------------------------------------------
@@ -1162,7 +1116,6 @@ CREATE TABLE postmaster_filter (
     f_key VARCHAR2 (200) NOT NULL,
     f_value VARCHAR2 (200) NOT NULL
 );
-DROP TABLE generic_agent_jobs CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table generic_agent_jobs
 -- ----------------------------------------------------------
@@ -1171,7 +1124,6 @@ CREATE TABLE generic_agent_jobs (
     job_key VARCHAR2 (200) NOT NULL,
     job_value VARCHAR2 (200) NOT NULL
 );
-DROP TABLE search_profile CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table search_profile
 -- ----------------------------------------------------------
@@ -1182,7 +1134,6 @@ CREATE TABLE search_profile (
     profile_key VARCHAR2 (200) NOT NULL,
     profile_value VARCHAR2 (200)
 );
-DROP TABLE process_id CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table process_id
 -- ----------------------------------------------------------
@@ -1192,7 +1143,6 @@ CREATE TABLE process_id (
     process_host VARCHAR2 (200) NOT NULL,
     process_create NUMBER NOT NULL
 );
-DROP TABLE web_upload_cache CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table web_upload_cache
 -- ----------------------------------------------------------
@@ -1204,7 +1154,6 @@ CREATE TABLE web_upload_cache (
     content CLOB NOT NULL,
     create_time_unix NUMBER (20, 0) NOT NULL
 );
-DROP TABLE notifications CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table notifications
 -- ----------------------------------------------------------
@@ -1233,7 +1182,6 @@ begin
 end;
 /
 --;
-DROP TABLE xml_storage CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table xml_storage
 -- ----------------------------------------------------------
@@ -1246,7 +1194,6 @@ CREATE TABLE xml_storage (
 CREATE INDEX xml_content_key ON xml_storage (xml_content_key);
 CREATE INDEX xml_type ON xml_storage (xml_type);
 CREATE INDEX xml_key ON xml_storage (xml_key);
-DROP TABLE package_repository CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table package_repository
 -- ----------------------------------------------------------
