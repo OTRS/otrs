@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.15 2007-01-26 17:51:49 mh Exp $
+# $Id: CHANGES,v 1.323.2.16 2007-01-30 11:21:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.1.6 (????/??/??)
+ - (2007/01/30) improved _CryptedWithKey() of Kernel/System/Crypt/PGP.pm
+    if more keys are used for crypted messages
  - (2007/01/26) fixed ArticleFreeText output in CustomerTicketZoom mask
  - (2007/01/26) fixed bug in agent- and customer-ticket print feature
 
