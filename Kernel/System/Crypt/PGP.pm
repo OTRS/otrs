@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt/PGP.pm - the main crypt module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.13 2006-12-14 12:09:49 martin Exp $
+# $Id: PGP.pm,v 1.14 2007-01-30 11:19:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::PGP;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -567,10 +567,13 @@ sub _CryptedWithKey {
         $Message .= $_;
     }
     close (OUT);
-    if ($Message =~ /encrypted with.+?\sID\s(.+?),\s/i) {
-        my @Result = $Self->KeySearch(Search => $1);
-        if (@Result) {
-            return ($1, $Result[$#Result]->{Key});
+    my @Lines = split(/\n/, $Message);
+    foreach my $Line (@Lines) {
+        if ($Line =~ /encrypted with.+?\sID\s(........)/i) {
+            my @Result = $Self->PrivateKeySearch(Search => $1);
+            if (@Result) {
+                return ($1, $Result[$#Result]->{Key});
+            }
         }
     }
     return;
@@ -592,6 +595,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2006-12-14 12:09:49 $
+$Revision: 1.14 $ $Date: 2007-01-30 11:19:32 $
 
 =cut
