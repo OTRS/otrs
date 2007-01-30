@@ -1,8 +1,8 @@
 # --
-# Kernel/System/Priority.pm - All priority related function should be here eventually
+# Kernel/System/Priority.pm - all ticket priority function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.5 2007-01-20 23:11:34 mh Exp $
+# $Id: Priority.pm,v 1.6 2007-01-30 09:47:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Priority;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -23,7 +23,7 @@ Kernel::System::Priority - priority lib
 
 =head1 SYNOPSIS
 
-All priority functions.
+All ticket priority functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -75,11 +75,7 @@ sub new {
 return a priority list as hash
 
     my %List = $PriorityObject->PriorityList(
-        UserID => 123,
-    );
-
-    my %List = $PriorityObject->PriorityList(
-        CustomerUserID => 'SomeCustomer',
+        Valid => 0,
     );
 
 =cut
@@ -87,25 +83,146 @@ return a priority list as hash
 sub PriorityList {
     my $Self = shift;
     my %Param = @_;
-    # check needed stuff
-    if (!$Param{UserID} && !$Param{CustomerUserID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "UserID or CustomerUserID!");
-        return;
+    # check valid param
+    if (!defined($Param{Valid})) {
+        $Param{Valid} = 1;
     }
-    # check cache
-    if ($Self->{PriorityList}) {
-        return %{$Self->{PriorityList}};
-    }
+
     # sql
     my %Data = ();
-    if ($Self->{DBObject}->Prepare(SQL => 'SELECT id, name FROM ticket_priority')) {
+    my $SQL = 'SELECT id, name FROM ticket_priority ';
+    if ($Param{Valid}) {
+        $SQL .= "WHERE valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+    }
+
+    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Data{$Row[0]} = $Row[1];
         }
     }
-    # cache result
-    $Self->{PriorityList} = \%Data;
+
     return %Data;
+}
+
+=item PriorityGet()
+
+get a priority
+
+    my %List = $PriorityObject->PriorityList(
+        PriorityID => 123,
+        UserID => 1,
+    );
+
+=cut
+
+sub PriorityGet {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(PriorityID UserID)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # quote
+    foreach (qw(PriorityID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+
+    # sql
+    my %Data = ();
+    my $SQL = "SELECT id, name, valid_id, create_time, create_by, change_time, change_by ".
+        "FROM ticket_priority WHERE id = $Param{PriorityID}";
+
+    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $Data{ID} = $Row[0];
+            $Data{Name} = $Row[1];
+            $Data{ValidID} = $Row[2];
+            $Data{CreateTime} = $Row[3];
+            $Data{CreateBy} = $Row[4];
+            $Data{ChangeTime} = $Row[5];
+            $Data{ChangeBy} = $Row[6];
+        }
+    }
+
+    return %Data;
+}
+
+=item PriorityAdd()
+
+add a ticket priority
+
+    my $True = $PriorityObject->PriorityAdd(
+        Name => 'Prio',
+        ValidID => 1,
+        UserID => 1,
+    );
+
+=cut
+
+sub PriorityAdd {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Name ValidID UserID)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # quote
+    foreach (qw(Name)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(ValidID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+
+    my $SQL = "INSERT INTO ticket_priority (name, valid_id, create_time, create_by, change_time, change_by) VALUES ".
+        "('$Param{Name}', $Param{ValidID}, current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+    my $Return = $Self->{DBObject}->Do(SQL => $SQL);
+
+    return $Return;
+}
+
+=item PriorityUpdate()
+
+update a existing ticket priority
+
+    my $True = $PriorityObject->PriorityUpdate(
+        PriorityID => 123,
+        Name => 'New Prio',
+        ValidID => 1,
+        UserID => 1,
+    );
+
+=cut
+
+sub PriorityUpdate {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(PriorityID Name ValidID UserID)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # quote
+    foreach (qw(Name)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(PriorityID ValidID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+
+    my $SQL = "UPDATE ticket_priority SET name = '$Param{Name}', valid_id = $Param{ValidID}, ".
+        "change_time = current_timestamp, change_by = $Param{UserID} WHERE id = $Param{PriorityID}";
+    my $Return = $Self->{DBObject}->Do(SQL => $SQL);
+
+    return $Return;
 }
 
 1;
@@ -124,6 +241,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.6 $ $Date: 2007-01-30 09:47:25 $
 
 =cut
