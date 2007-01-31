@@ -1,8 +1,8 @@
 # --
 # XML.t - XML tests
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.t,v 1.9 2006-10-12 14:50:55 martin Exp $
+# $Id: XML.t,v 1.10 2007-01-31 08:34:07 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,8 +10,10 @@
 # --
 
 use Kernel::System::XML;
+use Kernel::System::Ticket;
 
 $Self->{XMLObject} = Kernel::System::XML->new(%{$Self});
+$Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
 
 my $String = '
     <Contact role="admin" type="organization">
@@ -186,6 +188,98 @@ foreach my $Key (@Keys) {
     $Self->True(
         $XMLHashDelete,
         "XMLHashDelete() 2 (Key=$Key)",
+    );
+}
+#------------------------------------------------#
+# a test to find charset problems with xml files
+#------------------------------------------------#
+
+# get the example xml
+my $Path = $Self->{ConfigObject}->Get('Home');
+$Path .= "/scripts/test";
+my $File = 'XML-Test-file.xml';
+$String = '';
+if (open (DATA, "< $Path/$File")) {
+    while (<DATA>) {
+        $String .= $_;
+    }
+    close (DATA);
+
+    # charset test - use file form the filesystem and parse it
+    @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => $String);
+    $Self->True(
+       $#XMLHash == 1 && $XMLHash[1]->{'EISPP-Advisory'}->[1]->{System_Information}->[1]->{information},
+       'XMLParse2XMLHash() - charset test - use file form the filesystem and parse it',
+    );
+
+    # charset test - use file form the articleattachement and parse it
+    my $TicketID = $Self->{TicketObject}->TicketCreate(
+        Title => 'Some Ticket Title',
+        Queue => 'Raw',
+        Lock => 'unlock',
+        Priority => '3 normal',
+        State => 'closed successful',
+        CustomerNo => '123465',
+        CustomerUser => 'customer@example.com',
+        OwnerID => 1,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketID,
+        'XMLParse2XMLHash() - charset test - create ticket',
+    );
+
+    my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+        TicketID => $TicketID,
+        ArticleType => 'note-internal',
+        SenderType => 'agent',
+        From => 'Some Agent <email@example.com>',
+        To => 'Some Customer <customer-a@example.com>',
+        Cc => 'Some Customer <customer-b@example.com>',
+        ReplyTo => 'Some Customer <customer-b@example.com>',
+        Subject => 'some short description',
+        Body => 'the message text Perl modules provide a range of featurheel, and can be downloaded',
+        ContentType => 'text/plain; charset=ISO-8859-15',
+        HistoryType => 'OwnerUpdate',
+        HistoryComment => 'Some free text!',
+        UserID => 1,
+        NoAgentNotify => 1,            # if you don't want to send agent notifications
+    );
+
+    $Self->True(
+        $ArticleID,
+        'XMLParse2XMLHash() - charset test - create article',
+    );
+
+    my $Feedback = $Self->{TicketObject}->ArticleWriteAttachment(
+        Content => $String,
+        ContentType => 'text/html; charset="iso-8859-15"',
+        Filename => $File,
+        ArticleID => $ArticleID,
+        UserID => 1,
+    );
+    $Self->True(
+        $Feedback,
+        'XMLParse2XMLHash() - charset test - write an article attachemnt to storage',
+    );
+
+    my %Attachment = $Self->{TicketObject}->ArticleAttachment(
+        ArticleID => $ArticleID,
+        FileID => 1,
+        UserID => 1,
+    );
+
+    @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => $Attachment{Content});
+    $Self->True(
+       $#XMLHash == 1 && $XMLHash[1]->{'EISPP-Advisory'}->[1]->{System_Information}->[1]->{information},
+       'XMLParse2XMLHash() - charset test - use file form the articleattachement and parse it',
+    );
+
+}
+else {
+    $Self->True(
+        0,
+        "XMLParse2XMLHash() - charset test - failed because example file not found",
     );
 }
 
