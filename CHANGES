@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.342 2007-01-30 20:02:18 mh Exp $
+# $Id: CHANGES,v 1.343 2007-01-31 08:32:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD (????/??/??)
+ - (2007/01/31) fixed Free Field output in AgentTicketForward and
+    AgentTicketPhoneOutbound
  - (2007/01/30) add 4 ticket freetime fields and improved freetime function
  - (2007/01/30) relocated valid functionality to new Valid.pm
  - (2007/01/18) added X-OTRS-Lock and X-OTRS-FollowUp-Lock header
