@@ -1,8 +1,8 @@
 # --
 # Kernel/System/XML.pm - lib xml
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.39.2.1 2006-12-18 06:53:02 tr Exp $
+# $Id: XML.pm,v 1.39.2.2 2007-01-31 08:21:03 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.39.2.1 $';
+$VERSION = '$Revision: 1.39.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -929,6 +929,7 @@ sub XMLParse {
                 Text => $Param{String},
                 From => $SourceCharset,
                 To => 'utf-8',
+                Force => 1,
             );
         }
     }
@@ -1061,6 +1062,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39.2.1 $ $Date: 2006-12-18 06:53:02 $
+$Revision: 1.39.2.2 $ $Date: 2007-01-31 08:21:03 $
 
 =cut
