@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.33 2007-01-21 01:26:09 mh Exp $
+# $Id: LDAP.pm,v 1.34 2007-02-02 15:16:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -267,7 +267,13 @@ sub Auth {
         );
         # sync user from ldap
         if ($Self->{ConfigObject}->Get('UserSyncLDAPMap'.$Self->{Count})) {
-            my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            my $Result = '';
+            if ($Self->{SearchUserDN} && $Self->{SearchUserPw}) {
+                $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            }
+            else {
+                $Result = $LDAP->bind();
+            }
             if ($Result->code) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
@@ -380,7 +386,13 @@ sub Auth {
         }
         # sync ldap group 2 otrs group permissions
         if ($Self->{ConfigObject}->Get('UserSyncLDAPGroupsDefination'.$Self->{Count})) {
-            my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            my $Result = '';
+            if ($Self->{SearchUserDN} && $Self->{SearchUserPw}) {
+                $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            }
+            else {
+                $Result = $LDAP->bind();
+            }
             if ($Result->code) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
@@ -483,7 +495,13 @@ sub Auth {
         }
         # sync ldap group 2 otrs role permissions
         if ($Self->{ConfigObject}->Get('UserSyncLDAPRolesDefination'.$Self->{Count})) {
-            my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            my $Result = '';
+            if ($Self->{SearchUserDN} && $Self->{SearchUserPw}) {
+                $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            }
+            else {
+                $Result = $LDAP->bind();
+            }
             if ($Result->code) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
@@ -575,7 +593,13 @@ sub Auth {
         }
         # sync ldap attribute 2 otrs group permissions
         if ($Self->{ConfigObject}->Get('UserSyncLDAPAttibuteGroupsDefination'.$Self->{Count})) {
-            my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            my $Result = '';
+            if ($Self->{SearchUserDN} && $Self->{SearchUserPw}) {
+                $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            }
+            else {
+                $Result = $LDAP->bind();
+            }
             if ($Result->code) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
@@ -659,7 +683,13 @@ sub Auth {
         }
         # sync ldap attribute 2 otrs role permissions
         if ($Self->{ConfigObject}->Get('UserSyncLDAPAttibuteRolesDefination'.$Self->{Count})) {
-            my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            my $Result = '';
+            if ($Self->{SearchUserDN} && $Self->{SearchUserPw}) {
+                $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            }
+            else {
+                $Result = $LDAP->bind();
+            }
             if ($Result->code) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
@@ -751,8 +781,8 @@ sub _ConvertTo {
     else {
         return $Self->{EncodeObject}->Convert(
             Text => $Text,
-            From => $Charset,
-            To => $Self->{DestCharset},
+            From => $Self->{DestCharset},
+            To => $Charset,
         );
     }
 }
