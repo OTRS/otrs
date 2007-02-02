@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.29 2006-12-11 12:00:38 martin Exp $
+# $Id: LDAP.pm,v 1.29.2.1 2007-02-02 15:15:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.29.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -149,7 +149,7 @@ sub Auth {
     }
     # perform user search
     $Result = $LDAP->search (
-        base   => $Self->{BaseDN},
+        base => $Self->{BaseDN},
         filter => $Filter,
     );
     if ($Result->code) {
@@ -252,7 +252,13 @@ sub Auth {
         );
         # sync user from ldap
         if ($Self->{ConfigObject}->Get('UserSyncLDAPMap')) {
-            my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            my $Result = '';
+            if ($Self->{SearchUserDN} && $Self->{SearchUserPw}) {
+                $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            }
+            else {
+                $Result = $LDAP->bind();
+            }
             if ($Result->code) {
                 $Self->{LogObject}->Log(
                   Priority => 'error',
@@ -365,7 +371,13 @@ sub Auth {
         }
         # sync ldap group 2 otrs group permissions
         if ($Self->{ConfigObject}->Get('UserSyncLDAPGroupsDefination')) {
-            my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            my $Result = '';
+            if ($Self->{SearchUserDN} && $Self->{SearchUserPw}) {
+                $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            }
+            else {
+                $Result = $LDAP->bind();
+            }
             if ($Result->code) {
                 $Self->{LogObject}->Log(
                   Priority => 'error',
@@ -468,7 +480,13 @@ sub Auth {
         }
         # sync ldap group 2 otrs role permissions
         if ($Self->{ConfigObject}->Get('UserSyncLDAPRolesDefination')) {
-            my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            my $Result = '';
+            if ($Self->{SearchUserDN} && $Self->{SearchUserPw}) {
+                $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            }
+            else {
+                $Result = $LDAP->bind();
+            }
             if ($Result->code) {
                 $Self->{LogObject}->Log(
                   Priority => 'error',
@@ -560,7 +578,13 @@ sub Auth {
         }
         # sync ldap attribute 2 otrs group permissions
         if ($Self->{ConfigObject}->Get('UserSyncLDAPAttibuteGroupsDefination')) {
-            my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            my $Result = '';
+            if ($Self->{SearchUserDN} && $Self->{SearchUserPw}) {
+                $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            }
+            else {
+                $Result = $LDAP->bind();
+            }
             if ($Result->code) {
                 $Self->{LogObject}->Log(
                   Priority => 'error',
@@ -644,7 +668,13 @@ sub Auth {
         }
         # sync ldap attribute 2 otrs role permissions
         if ($Self->{ConfigObject}->Get('UserSyncLDAPAttibuteRolesDefination')) {
-            my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            my $Result = '';
+            if ($Self->{SearchUserDN} && $Self->{SearchUserPw}) {
+                $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            }
+            else {
+                $Result = $LDAP->bind();
+            }
             if ($Result->code) {
                 $Self->{LogObject}->Log(
                   Priority => 'error',
@@ -736,8 +766,8 @@ sub _ConvertTo {
     else {
         return $Self->{EncodeObject}->Convert(
             Text => $Text,
-            From => $Charset,
-            To => $Self->{DestCharset},
+            From => $Self->{DestCharset},
+            To => $Charset,
         );
     }
 }

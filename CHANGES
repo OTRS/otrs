@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.18 2007-01-30 15:27:53 martin Exp $
+# $Id: CHANGES,v 1.323.2.19 2007-02-02 15:15:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,10 @@
 # --
 
 2.1.6 (????/??/??)
+ - (2007/02/02) fixed bug #1056 - UTF-8 mode of OTRS and German Umlaute within
+    agent's name
+ - (2007/02/02) fixed bug #1505 - UserSyncLDAPMap fails with LDAP.pm version
+    1.26 and up
  - (2007/01/30) fixed ticket_watcher.user_id datatype, moved from BIGINT to
     INTEGER
  - (2007/01/30) fixed oracle driver for xml alter table actions
