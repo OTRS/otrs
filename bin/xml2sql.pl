@@ -3,7 +3,7 @@
 # xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xml2sql.pl,v 1.10 2007-01-30 10:26:12 martin Exp $
+# $Id: xml2sql.pl,v 1.11 2007-02-06 19:04:33 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::XML;
 
-my $VERSION = '$Revision: 1.10 $';
+my $VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 my %Opts = ();
@@ -88,8 +88,11 @@ foreach (@File) {
 my @XMLARRAY = $CommonObject{XMLObject}->XMLParse(String => $FileString);
 
 # remember header
+my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $CommonObject{TimeObject}->SystemTime2Date(
+    SystemTime => $CommonObject{TimeObject}->SystemTime(),
+);
 my $Head = $CommonObject{DBObject}->{Backend}->{"DB::Comment"}."----------------------------------------------------------\n";
-$Head .= $CommonObject{DBObject}->{Backend}->{"DB::Comment"}." database: $Opts{t}, generated: ".scalar(localtime())."\n";
+$Head .= $CommonObject{DBObject}->{Backend}->{"DB::Comment"}." database: $Opts{t}, generated: $Year-$Month-$Day $Hour:$Min:$Sec\n";
 $Head .= $CommonObject{DBObject}->{Backend}->{"DB::Comment"}."----------------------------------------------------------\n";
 
 # get database sql from parsed xml
