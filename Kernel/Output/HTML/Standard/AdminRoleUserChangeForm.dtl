@@ -1,8 +1,8 @@
 # --
 # AdminRoleUserChangeForm.dtl - provides HTML form for AdminInterface
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminRoleUserChangeForm.dtl,v 1.11 2006-12-30 01:38:50 mh Exp $
+# $Id: AdminRoleUserChangeForm.dtl,v 1.12 2007-02-06 22:09:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@
           <tr>
             <td align="center" class="contentbody">
               <b>$Text{"$QData{"Type"}"}:</b>
-              <a href="$Env{"Baselink"}Action=Admin$QData{"Type"}&Subaction=Change&ID=$QData{"ID"}">$QData{"Name"}</a>
+              <a href="$Env{"Baselink"}Action=Admin$LQData{"Type"}&Subaction=Change&ID=$LQData{"ID"}">$QData{"Name"}</a>
               (id=$QData{"ID"})<br>
               <table>
                 <tr>
@@ -40,7 +40,7 @@
 <!-- dtl:block:Row -->
                 <tr>
                   <td>
-                    <a href="$Env{"Baselink"}Action=Admin$QData{"NeType"}&Subaction=Change&ID=$QData{"ID"}">$QData{"Name"}</a>
+                    <a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"}&Subaction=Change&ID=$LQData{"ID"}">$QData{"Name"}</a>
                   </td>
                   <td>$Data{"InputBox"}</td>
                 </tr>
