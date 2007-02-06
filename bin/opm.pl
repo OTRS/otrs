@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # opm.pl - otrs package manager cmd version
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: opm.pl,v 1.14 2006-10-27 06:35:55 tr Exp $
+# $Id: opm.pl,v 1.15 2007-02-06 10:18:24 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -87,7 +87,7 @@ if ($Opts{'h'}) {
     print "       opm.pl -a reinstall -p Package\n";
     print "       opm.pl -a uninstall -p Package\n";
     print "       opm.pl -a file -p Kernel/System/File.pm (find package of file)\n";
-    print "       opm.pl -a exportfile -p Kernel/System/File.pm -d /export/to/path/ (export files of package)\n";
+    print "       opm.pl -a exportfile -p Kernel/System/File.opm -d /export/to/path/ (export files of package)\n";
     print "   user (remote):\n";
     print "       opm.pl -a list-repository\n";
     print "       opm.pl -a install -p online:Package\n";
