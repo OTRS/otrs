@@ -3,7 +3,7 @@
 # scripts/tools/compress-mail.pl - compress email, zip attachments
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: compress-mail.pl,v 1.7 2007-01-30 17:49:55 tr Exp $
+# $Id: compress-mail.pl,v 1.8 2007-02-06 22:41:01 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # config
@@ -38,6 +38,7 @@ my @Compress = qw(xls doc dot bmp tiff tif jpg pdf exe class pm pl ps eps ppt rf
 use Compress::Zlib;
 use Kernel::Config;
 use Kernel::System::Log;
+use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::EmailParser;
 
@@ -48,6 +49,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-PM-Compress',
     %CommonObject,
 );
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 my @Email = <STDIN>;
 $CommonObject{ParseObject} = Kernel::System::EmailParser->new(
     Email => \@Email,
