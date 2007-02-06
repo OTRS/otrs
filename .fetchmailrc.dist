@@ -1,8 +1,8 @@
 # --
 # .fetchmailrc - fetchmailrc of the OTRS user
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: .fetchmailrc.dist,v 1.1 2004-09-29 09:19:44 martin Exp $
+# $Id: .fetchmailrc.dist,v 1.2 2007-02-06 16:00:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,13 +11,21 @@
 # Note: Continue lines with whitespace at the beginning of each newline
 # --
 
-## simple example:
+#-----------------#
+# simple example:
+#-----------------#
+
 #poll <MAIL_SERVER> protocol POP3 user <MAIL_USERNAME> pass <MAIL_PASSWORD> is <LOCAL_OTRS_USERNAME> here
 
-## example for polling from an IMAP-Server via SSL.
+#-------------------------------------------------#
+# example for polling from an IMAP-Server via SSL.
+#-------------------------------------------------#
+
 #poll <MAIL_SERVER> protocol IMAP port 993 plugin "openssl s_client -connect %h:%p" user <MAIL_USERNAME> pass <MAIL_PASSWORD> is <LOCAL_OTRS_USERNAME> here
-#
-## The openssl command has to be installed and accessible
-## for the otrs user.
-## If the otrs user cannot find openssl, try:
-##  plugin "/path/to/openssl s_client -connect %h:%p"
+
+#--------------------------------------------------------#
+# The openssl command has to be installed and accessible
+# for the otrs user.
+# If the otrs user cannot find openssl, try:
+#  plugin "/path/to/openssl s_client -connect %h:%p"
+#--------------------------------------------------------#
