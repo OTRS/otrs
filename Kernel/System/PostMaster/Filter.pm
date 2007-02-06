@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter.pm - all functions to add/delete/list pm db filters
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Filter.pm,v 1.8 2007-01-21 01:26:10 mh Exp $
+# $Id: Filter.pm,v 1.9 2007-02-06 21:54:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::Filter;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -120,14 +120,15 @@ sub FilterAdd {
         }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    foreach (qw(Name)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     foreach my $Type ('Match', 'Set') {
         my %Data = %{$Param{$Type}};
         foreach (keys %Data) {
             $Data{$_} = $Self->{DBObject}->Quote($Data{$_}) || '';
-            my $SQL = "INSERT INTO postmaster_filter (f_name, f_type, f_key, f_value) VALUES ('$Param{Name}', '$Type', '$_', '$Data{$_}')";
+            my $SQL = "INSERT INTO postmaster_filter (f_name, f_type, f_key, f_value) ".
+                " VALUES ('$Param{Name}', '$Type', '$_', '$Data{$_}')";
             if (!$Self->{DBObject}->Do(SQL => $SQL)) {
                 return;
             }
@@ -215,6 +216,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2007-01-21 01:26:10 $
+$Revision: 1.9 $ $Date: 2007-02-06 21:54:08 $
 
 =cut
