@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.11 2007-01-21 01:26:10 mh Exp $
+# $Id: InterfacePublic.pm,v 1.12 2007-02-06 11:11:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfacePublic;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed  modules
@@ -144,21 +144,15 @@ sub Run {
     # check common objects
     $Self->{DBObject} = Kernel::System::DB->new(%{$Self});
     if (!$Self->{DBObject}) {
-        print $Self->{LayoutObject}->Header(Area => 'Core', Title => 'Error!');
-        print $Self->{LayoutObject}->Error(
+        $Self->{LayoutObject}->CustomerFatalError(
             Comment => 'Please contact your admin'
         );
-        print $Self->{LayoutObject}->Footer();
-        exit (1);
     }
     if ($Self->{ParamObject}->Error()) {
-        print $Self->{LayoutObject}->Header(Area => 'Core', Title => 'Error!');
-        print $Self->{LayoutObject}->Error(
+        $Self->{LayoutObject}->CustomerFatalError(
             Message => $Self->{ParamObject}->Error(),
             Comment => 'Please contact your admin'
         );
-        print $Self->{LayoutObject}->Footer();
-        exit (1);
     }
 
     # create common framework objects 3/3
@@ -172,10 +166,9 @@ sub Run {
         }
         else {
             # print error
-            print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');
-            print $Self->{LayoutObject}->CustomerError();
-            print $Self->{LayoutObject}->CustomerFooter();
-            exit;
+            $Self->{LayoutObject}->CustomerFatalError(
+                Comment => 'Please contact your admin'
+            );
         }
     }
 
@@ -196,10 +189,9 @@ sub Run {
                 Priority => 'error',
                 Message => "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
             );
-            print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');
-            print $Self->{LayoutObject}->Error();
-            print $Self->{LayoutObject}->CustomerFooter();
-            exit 0;
+            $Self->{LayoutObject}->CustomerFatalError(
+                Comment => 'Please contact your admin'
+            );
         }
         # debug info
         if ($Self->{Debug}) {
@@ -222,7 +214,7 @@ sub Run {
             );
         }
         # ->Run $Action with $GenericObject
-        print $GenericObject->Run();
+        $Self->{LayoutObject}->Print(Output => \$GenericObject->Run());
         # log request time
         if ($Self->{ConfigObject}->Get('PerformanceLog')) {
             if ((!$QueryString && $Param{Action}) || ($QueryString !~ /Action=/)) {
@@ -245,15 +237,13 @@ sub Run {
             }
         }
     }
-
     # else print an error screen
     else {
         # print error
-        print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');
-        print $Self->{LayoutObject}->CustomerError();
-        print $Self->{LayoutObject}->CustomerFooter();
+        $Self->{LayoutObject}->CustomerFatalError(
+            Comment => 'Please contact your admin'
+        );
     }
-
     # debug info
     if ($Self->{Debug}) {
         $Self->{LogObject}->Log(
@@ -283,6 +273,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2007-01-21 01:26:10 $
+$Revision: 1.12 $ $Date: 2007-02-06 11:11:09 $
 
 =cut

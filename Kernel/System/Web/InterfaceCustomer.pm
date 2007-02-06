@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.18 2007-01-21 01:26:10 mh Exp $
+# $Id: InterfaceCustomer.pm,v 1.19 2007-02-06 11:11:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed modules
@@ -143,21 +143,15 @@ sub Run {
     # check common objects
     $Self->{DBObject} = Kernel::System::DB->new(%{$Self});
     if (!$Self->{DBObject}) {
-        print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');
-        print $Self->{LayoutObject}->CustomerError(
+        $Self->{LayoutObject}->CustomerFatalError(
             Comment => 'Please contact your admin'
         );
-        print $Self->{LayoutObject}->CustomerFooter();
-        exit (1);
     }
     if ($Self->{ParamObject}->Error()) {
-        print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');
-        print $Self->{LayoutObject}->CustomerError(
+        $Self->{LayoutObject}->CustomerFatalError(
             Message => $Self->{ParamObject}->Error(),
             Comment => 'Please contact your admin'
         );
-        print $Self->{LayoutObject}->CustomerFooter();
-        exit (1);
     }
 
     # create common framework objects 3/3
@@ -173,10 +167,9 @@ sub Run {
         }
         else {
             # print error
-            print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');
-            print $Self->{LayoutObject}->CustomerError();
-            print $Self->{LayoutObject}->CustomerFooter();
-            exit;
+            $Self->{LayoutObject}->CustomerFatalError(
+                Comment => 'Please contact your admin'
+            );
         }
     }
 
@@ -305,7 +298,6 @@ sub Run {
             }
         }
     }
-
     # Logout
     elsif ($Param{Action} eq "Logout") {
         if ($Self->{SessionObject}->CheckSessionID(SessionID => $Param{SessionID})) {
@@ -343,16 +335,9 @@ sub Run {
                 }
             }
             else {
-                print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Logout');
-                print $Self->{LayoutObject}->CustomerError(
-                    Message => 'Can`t remove SessionID',
-                    Comment => 'Please contact your admin!'
+                $Self->{LayoutObject}->CustomerFatalError(
+                    Comment => 'Please contact your admin'
                 );
-                $Self->{LogObject}->Log(
-                    Message => 'Can`t remove SessionID',
-                    Priority => 'error',
-                );
-                print $Self->{LayoutObject}->CustomerFooter();
             }
         }
         else {
@@ -374,7 +359,6 @@ sub Run {
             }
         }
     }
-
     # CustomerLostPassword
     elsif ($Param{Action} eq "CustomerLostPassword") {
         # check feature
@@ -424,13 +408,12 @@ sub Run {
                 );
             }
             else {
-                print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error');
-                print $Self->{LayoutObject}->CustomerError();
-                print $Self->{LayoutObject}->CustomerFooter();
+                $Self->{LayoutObject}->CustomerFatalError(
+                    Comment => 'Please contact your admin'
+                );
             }
         }
     }
-
     # create new customer account
     elsif ($Param{Action} eq "CustomerCreateAccount") {
         # check feature
@@ -528,7 +511,6 @@ sub Run {
             }
         }
     }
-
     # show login site
     elsif (!$Param{SessionID}) {
         # create AuthObject
@@ -556,7 +538,6 @@ sub Run {
             );
         }
     }
-
     # run modules if exists a version value
     elsif ($Self->{MainObject}->Require("Kernel::Modules::$Param{Action}")) {
         # check session id
@@ -589,7 +570,6 @@ sub Run {
                 );
             }
         }
-
         # run module
         else {
             # get session data
@@ -627,10 +607,9 @@ sub Run {
                     Priority => 'error',
                     Message => "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
                 );
-                print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');
-                print $Self->{LayoutObject}->Error();
-                print $Self->{LayoutObject}->CustomerFooter();
-                exit 0;
+                $Self->{LayoutObject}->CustomerFatalError(
+                    Comment => 'Please contact your admin'
+                );
             }
             # updated last request time
             $Self->{SessionObject}->UpdateSessionID(
@@ -666,7 +645,7 @@ sub Run {
                         );
                         my $Output = $PreModuleObject->PreRun();
                         if ($Output) {
-                            print $PreModuleObject->PreRun();
+                            $Self->{LayoutObject}->Print(Output => \$Output);
                             exit (0);
                         }
                     }
@@ -694,7 +673,7 @@ sub Run {
                 );
             }
             # ->Run $Action with $GenericObject
-            print $GenericObject->Run();
+            $Self->{LayoutObject}->Print(Output => \$GenericObject->Run());
             # log request time
             if ($Self->{ConfigObject}->Get('PerformanceLog')) {
                 if ((!$QueryString && $Param{Action}) || ($QueryString !~ /Action=/)) {
@@ -718,7 +697,6 @@ sub Run {
             }
         }
     }
-
     # else print an error screen
     else {
         # create new LayoutObject with '%Param'
@@ -731,11 +709,10 @@ sub Run {
             %Data,
         );
         # print error
-        print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');
-        print $Self->{LayoutObject}->CustomerError();
-        print $Self->{LayoutObject}->CustomerFooter();
+        $Self->{LayoutObject}->CustomerFatalError(
+            Comment => 'Please contact your admin'
+        );
     }
-
     # debug info
     if ($Self->{Debug}) {
         $Self->{LogObject}->Log(
@@ -764,6 +741,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2007-01-21 01:26:10 $
+$Revision: 1.19 $ $Date: 2007-02-06 11:11:09 $
 
 =cut

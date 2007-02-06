@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketStatusView.pm,v 1.6 2007-01-20 18:04:49 mh Exp $
+# $Id: AgentTicketStatusView.pm,v 1.7 2007-02-06 11:10:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -89,7 +89,7 @@ sub Run {
     # build NavigationBar
     $Output .= $Self->{LayoutObject}->NavigationBar();
     # to get the output faster!
-    print $Output; $Output = '';
+    $Self->{LayoutObject}->Print(Output => \$Output); $Output = '';
 
     if ($Self->{ViewType} =~ /close/i) {
         $Self->{ViewType} = 'Closed';
