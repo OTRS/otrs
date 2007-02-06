@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.24 2007-01-20 23:11:34 mh Exp $
+# $Id: Time.pm,v 1.25 2007-02-06 22:08:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -35,10 +35,10 @@ This module is managing time functions.
 
 =item new()
 
-create a language object
+create a time object
 
     use Kernel::Config;
-    use Kernel::System::Time;
+    use Kernel::System::Log;
 
     my $ConfigObject = Kernel::Config->new();
 
@@ -187,7 +187,6 @@ sub SystemTime2Date {
 
     return ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay);
 }
-1;
 
 =item TimeStamp2SystemTime()
 
@@ -537,7 +536,7 @@ sub DestinationTime {
     $AYear = $AYear+1900;
     $AMonth = $AMonth+1;
     my $ADate = "$AYear-$AMonth-$ADay";
-$Param{Time}++;
+    $Param{Time}++;
 
     while ($Param{Time} > 1) {
         $Count++;
@@ -712,6 +711,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.25 $ $Date: 2007-02-06 22:08:30 $
 
 =cut
