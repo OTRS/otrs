@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.26 2007-01-30 19:59:42 mh Exp $
+# $Id: Layout.pm,v 1.27 2007-02-06 11:17:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -105,8 +105,16 @@ sub new {
     # check browser (defaut is IE because I don't have IE)
     $Self->{BrowserWrap} = 'physical';
     $Self->{Browser} = 'Unknown';
-    if ($Self->{ConfigObject}->Get('Frontend::Output::PostFilter') &&
-        $Self->{ConfigObject}->Get('Frontend::Output::PostFilter')->{ActiveElementFilter}) {
+    if ($Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre') &&
+        $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre')->{ActiveElementFilter}) {
+        $Self->{BrowserJavaScriptSupport} = 0;
+    }
+    elsif ($Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost') &&
+        $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost')->{ActiveElementFilter}) {
+        $Self->{BrowserJavaScriptSupport} = 0;
+    }
+    elsif ($Self->{ConfigObject}->Get('Frontend::Output::FilterContent') &&
+        $Self->{ConfigObject}->Get('Frontend::Output::FilterContent')->{ActiveElementFilter}) {
         $Self->{BrowserJavaScriptSupport} = 0;
     }
     else {
@@ -480,10 +488,27 @@ sub Output {
         );
         $Self->FatalError();
     }
-
+    # custom pre filters
+    if ($Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre')) {
+        my %Filters = %{$Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre')};
+        foreach my $Filter (sort keys %Filters) {
+            if ($Self->{MainObject}->Require($Filters{$Filter}->{Module})) {
+                my $Object = $Filters{$Filter}->{Module}->new(
+                    ConfigObject => $Self->{ConfigObject},
+                    MainObject => $Self->{MainObject},
+                    LogObject => $Self->{LogObject},
+                    Debug => $Self->{Debug},
+                );
+                # run module
+                $Object->Run(%{$Filters{$Filter}}, Data => \$TemplateString);
+            }
+            else {
+                $Self->FatalDie();
+            }
+        }
+    }
     # filtering of comment lines
     $TemplateString =~ s/^#.*\n//gm;
-
     # parse/get text blocks
     my @BR = $Self->_BlockTemplatesReplace(
         Template => \$TemplateString,
@@ -904,12 +929,13 @@ sub Output {
     # save %Env
     $Self->{EnvRef} = $EnvRef;
     # custom post filters
-    if ($Self->{ConfigObject}->Get('Frontend::Output::PostFilter')) {
-        my %Filters = %{$Self->{ConfigObject}->Get('Frontend::Output::PostFilter')};
+    if ($Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost')) {
+        my %Filters = %{$Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost')};
         foreach my $Filter (sort keys %Filters) {
             if ($Self->{MainObject}->Require($Filters{$Filter}->{Module})) {
                 my $Object = $Filters{$Filter}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
+                    MainObject => $Self->{MainObject},
                     LogObject => $Self->{LogObject},
                     Debug => $Self->{Debug},
                 );
@@ -1044,9 +1070,10 @@ sub FatalError {
             Message => "$Param{Message}",
         );
     }
-    print $Self->Header(Area => 'Frontend', Title => 'Fatal Error');
-    print $Self->Error(%Param);
-    print $Self->Footer();
+    my $Output = $Self->Header(Area => 'Frontend', Title => 'Fatal Error');
+    $Output .= $Self->Error(%Param);
+    $Output .= $Self->Footer();
+    $Self->Print(Output => \$Output);
     exit;
 }
 
@@ -1274,6 +1301,31 @@ sub Footer {
     my $Type = $Param{Type} || '';
     # create & return output
     return $Self->Output(TemplateFile => "Footer$Type", Data => \%Param);
+}
+
+sub Print {
+    my $Self = shift;
+    my %Param = @_;
+    # custom post filters
+    if ($Self->{ConfigObject}->Get('Frontend::Output::FilterContent')) {
+        my %Filters = %{$Self->{ConfigObject}->Get('Frontend::Output::FilterContent')};
+        foreach my $Filter (sort keys %Filters) {
+            if ($Self->{MainObject}->Require($Filters{$Filter}->{Module})) {
+                my $Object = $Filters{$Filter}->{Module}->new(
+                    ConfigObject => $Self->{ConfigObject},
+                    MainObject => $Self->{MainObject},
+                    LogObject => $Self->{LogObject},
+                    Debug => $Self->{Debug},
+                );
+                # run module
+                $Object->Run(%{$Filters{$Filter}}, Data => $Param{Output});
+            }
+            else {
+                $Self->FatalDie();
+            }
+        }
+    }
+    print ${$Param{Output}};
 }
 
 sub PrintHeader {
@@ -2543,6 +2595,23 @@ sub CustomerFooter {
     return $Self->Output(TemplateFile => "CustomerFooter$Type", Data => \%Param);
 }
 
+sub CustomerFatalError {
+    my $Self = shift;
+    my %Param = @_;
+    if ($Param{Message}) {
+        $Self->{LogObject}->Log(
+            Caller => 1,
+            Priority => 'error',
+            Message => "$Param{Message}",
+        );
+    }
+    my $Output = $Self->CustomerHeader(Area => 'Frontend', Title => 'Fatal Error');
+    $Output .= $Self->Error(%Param);
+    $Output .= $Self->CustomerFooter();
+    $Self->Print(Output => \$Output);
+    exit;
+}
+
 sub CustomerNavigationBar {
     my $Self = shift;
     my %Param = @_;
@@ -2700,6 +2769,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2007-01-30 19:59:42 $
+$Revision: 1.27 $ $Date: 2007-02-06 11:17:08 $
 
 =cut

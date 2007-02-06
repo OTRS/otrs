@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.256 2007-01-19 08:56:07 mh Exp $
+# $Id: Defaults.pm,v 1.257 2007-02-06 11:17:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.256 $';
+$VERSION = '$Revision: 1.257 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -516,12 +516,12 @@ sub LoadDefaults {
 #    };
 
     # --------------------------------------------------- #
-    # Frontend::Output::PostFilter
+    # Frontend::Output::FilterElementPost
     # --------------------------------------------------- #
-    # Frontend::Output::PostFilter
+    # Frontend::Output::FilterElementPost
     # (a output filter for application html output, e. g. to filter
     # java script, java applets, ...)
-#    $Self->{'Frontend::Output::PostFilter'}->{'ActiveElementFilter'} = {
+#    $Self->{'Frontend::Output::FilterElementPost'}->{'ActiveElementFilter'} = {
 #        Module => 'Kernel::Output::HTML::OutputFilterActiveElement',
 #        Debug => 0,
 #    };
@@ -1853,6 +1853,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.256 $ $Date: 2007-01-19 08:56:07 $
+$Revision: 1.257 $ $Date: 2007-02-06 11:17:08 $
 
 =cut
