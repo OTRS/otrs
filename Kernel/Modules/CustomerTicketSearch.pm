@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.25 2007-01-30 19:57:20 mh Exp $
+# $Id: CustomerTicketSearch.pm,v 1.26 2007-02-06 19:40:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -427,15 +427,11 @@ sub Run {
         elsif ($GetParam{ResultForm} eq 'CSV') {
             # return csv to download
             my $CSVFile = 'search';
-            my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
-            $Y = $Y+1900;
-            $M++;
-            $M = sprintf("%02d", $M);
-            $D = sprintf("%02d", $D);
-            $h = sprintf("%02d", $h);
-            $m = sprintf("%02d", $m);
+            my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Self->{TimeObject}->SystemTime(),
+            );
             return $Self->{LayoutObject}->Attachment(
-                Filename => $CSVFile."_"."$Y-$M-$D"."_"."$h-$m.csv",
+                Filename => $CSVFile."_"."$Year-$Month-$Day"."_"."$Hour-$Min.csv",
                 ContentType => "text/csv",
                 Content => $Param{StatusTable},
             );
