@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSession.pm - to control all session ids
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSession.pm,v 1.26 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminSession.pm,v 1.27 2007-02-06 19:25:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -30,7 +30,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
+    foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject TimeObject)) {
         if (!$Self->{$_}) {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
@@ -97,9 +97,11 @@ sub Run {
                         $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_});
                     }
                     if ($_  eq 'UserSessionStart') {
-                        my $Age = int((time() - $Data{UserSessionStart}) / 3600);
-                        $Data{UserSessionStart} = scalar localtime ($Data{UserSessionStart});
-                        $List .= "" . $_ . "=$Data{$_} / $Age h; ";
+                        my $Age = int(($Self->{TimeObject}->SystemTime() - $Data{UserSessionStart}) / 3600);
+                        my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                            SystemTime => $Data{UserSessionStart},
+                        );
+                        $List .= "" . $_ . "=$TimeStamp / $Age h; ";
                     }
                     else {
                         $List .= "" . $_ . "=$Data{$_}; ";
