@@ -3,7 +3,7 @@
 # scripts/test/TicketHistoryState.pl - test script of user auth
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TicketHistoryState.pl,v 1.3 2007-01-30 17:33:25 tr Exp $
+# $Id: TicketHistoryState.pl,v 1.4 2007-02-06 19:38:36 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,11 +29,13 @@ use lib dirname($RealBin).'/../Kernel/cpan-lib';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
 use Kernel::System::Log;
+use Kernel::System::Main;
+use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::Ticket;
 
@@ -44,21 +46,30 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-test-TicketHistoryState.pl',
     %CommonObject,
 );
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 
 my $TicketID = shift || die "Need TicketID as argument!\n";
-my $TimeStamp = shift || die "Need TimeStamp (e. g. 2004-06-07) as argument!\n";
+my $Year = shift || die "Need Year (e. g. 2004) as argument!\n";
+my $Month = shift || die "Need Month (e. g. 2) as argument!\n";
+my $Day = shift || die "Need Day (e. g. 2) as argument!\n";
 
 print "OTRS::TicketHistoryState::Test ($VERSION)\n";
 print "==============================\n";
 print "TicketID: '$TicketID'\n";
-print "State at: '$TimeStamp'\n";
+print "State at: '$Year-$Month-$Day'\n";
 print "\n";
 print "HistoryTicketGet()\n";
 print "------\n";
 
-my %Ticket = $CommonObject{TicketObject}->HistoryTicketGet(TicketID => $TicketID, TimeStamp => $TimeStamp);
+my %Ticket = $CommonObject{TicketObject}->HistoryTicketGet(
+    TicketID => $TicketID,
+    StopYear => $Year,
+    StopMonth => $Month,
+    StopDay => $Day,
+);
 
 foreach (sort keys %Ticket) {
     print "$_: $Ticket{$_}\n";
