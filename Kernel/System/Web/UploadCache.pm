@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache.pm - a fs upload cache
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UploadCache.pm,v 1.4 2007-01-21 01:26:10 mh Exp $
+# $Id: UploadCache.pm,v 1.5 2007-02-06 21:52:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.4 $ ';
+$VERSION = '$Revision: 1.5 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -38,11 +38,16 @@ create param object
 
     use Kernel::Config;
     use Kernel::System::Log;
+    use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::Web::UploadCache;
 
     my $ConfigObject = Kernel::Config->new();
     my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        LogObject => $LogObject,
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
@@ -65,18 +70,20 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
     # check needed objects
-    foreach (qw(ConfigObject LogObject)) {
+    foreach (qw(ConfigObject LogObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     # load generator auth module
     $Self->{GenericModule} = $Self->{ConfigObject}->Get('WebUploadCacheModule')
         || 'Kernel::System::Web::UploadCache::DB';
-    if (!eval "require $Self->{GenericModule}") {
-        die "Can't load backend module $Self->{GenericModule}! $@";
-    }
 
-    $Self->{Backend} = $Self->{GenericModule}->new(%Param);
+    if ($Self->{MainObject}->Require($Self->{GenericModule})) {
+        $Self->{Backend} = $Self->{GenericModule}->new(%Param);
+    }
+    else {
+        return;
+    }
 
     return $Self;
 }
@@ -208,6 +215,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2007-01-21 01:26:10 $
+$Revision: 1.5 $ $Date: 2007-02-06 21:52:26 $
 
 =cut
