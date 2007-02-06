@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.10 2007-01-21 01:26:10 mh Exp $
+# $Id: Request.pm,v 1.11 2007-02-06 21:53:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.10 $ ';
+$VERSION = '$Revision: 1.11 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -105,7 +105,6 @@ to get params
 sub GetParam {
     my $Self = shift;
     my %Param = @_;
-#return $Self->{P}->{$Param{Param}};
     my $Value = $Self->{Query}->param($Param{Param});
     $Self->{EncodeObject}->Encode(\$Value);
     return $Value;
@@ -158,13 +157,13 @@ sub GetUploadInfo {
 to get file upload
 
     my %File = $ParamObject->GetUploadAll(
-        Param => '123.jpg',
+        Param => 'FileParam',
     );
 
     to get file upload without uft-8 encoding
 
     my %File = $ParamObject->GetUploadAll(
-        Param => '123.jpg',
+        Param => 'FileParam',
         Encoding => 'Raw', # optional
     );
 
@@ -286,6 +285,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2007-01-21 01:26:10 $
+$Revision: 1.11 $ $Date: 2007-02-06 21:53:35 $
 
 =cut
