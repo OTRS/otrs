@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.26 2007-01-20 23:11:34 mh Exp $
+# $Id: GenericAgent.pm,v 1.27 2007-02-06 23:04:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::GenericAgent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $ ';
+$VERSION = '$Revision: 1.27 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -715,7 +715,9 @@ sub JobGet {
     # get time settings
     if (!$Data{'TimeSearchType'} || $Data{'TimeSearchType'} eq 'None') {
         # do noting ont time stuff
-        foreach (qw(TicketCreateTimeStartMonth TicketCreateTimeStopMonth TicketCreateTimeStopDay TicketCreateTimeStartDay TicketCreateTimeStopYear TicketCreateTimePoint TicketCreateTimeStartYear TicketCreateTimePointFormat TicketCreateTimePointStart)) {
+        foreach (qw(TicketCreateTimeStartMonth TicketCreateTimeStopMonth TicketCreateTimeStopDay
+            TicketCreateTimeStartDay TicketCreateTimeStopYear TicketCreateTimePoint
+            TicketCreateTimeStartYear TicketCreateTimePointFormat TicketCreateTimePointStart)) {
             delete ($Data{$_});
         }
     }
@@ -747,7 +749,8 @@ sub JobGet {
         }
     }
     elsif ($Data{'TimeSearchType'} && $Data{'TimeSearchType'} eq 'TimePoint') {
-        foreach (qw(TicketCreateTimeStartMonth TicketCreateTimeStopMonth TicketCreateTimeStopDay TicketCreateTimeStartDay TicketCreateTimeStopYear TicketCreateTimeStartYear)) {
+        foreach (qw(TicketCreateTimeStartMonth TicketCreateTimeStopMonth TicketCreateTimeStopDay
+            TicketCreateTimeStartDay TicketCreateTimeStopYear TicketCreateTimeStartYear)) {
             delete ($Data{$_});
         }
         if ($Data{TicketCreateTimePoint} && $Data{TicketCreateTimePointStart} && $Data{TicketCreateTimePointFormat}) {
@@ -903,6 +906,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.27 $ $Date: 2007-02-06 23:04:53 $
 
 =cut
