@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/backup.pl - the backup script
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.7 2006-12-07 16:31:53 martin Exp $
+# $Id: backup.pl,v 1.8 2007-02-06 18:59:54 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,14 +29,15 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
 use Kernel::Config;
+use Kernel::System::Log;
+use Kernel::System::Main;
 use Kernel::System::Time;
 use Kernel::System::DB;
-use Kernel::System::Log;
 use Date::Pcalc qw(Today Today_and_Now Add_Delta_Days);
 
 # get options
@@ -85,9 +86,8 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-Backup',
     %CommonObject,
 );
-$CommonObject{TimeObject} = Kernel::System::Time->new(
-    %CommonObject,
-);
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 my $DatabaseHost = $CommonObject{ConfigObject}->Get('DatabaseHost');
 my $Database = $CommonObject{ConfigObject}->Get('Database');
 my $DatabaseUser = $CommonObject{ConfigObject}->Get('DatabaseUser');

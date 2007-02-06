@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/tools/sync-ldap2db.pl - sync a ldap directory to database
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: sync-ldap2db.pl,v 1.3 2006-11-02 12:21:00 tr Exp $
+# $Id: sync-ldap2db.pl,v 1.4 2007-02-06 19:01:51 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,12 +29,13 @@ use lib dirname($RealBin)."/../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Net::LDAP;
 use Kernel::Config;
 use Kernel::System::Log;
+use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::Encode;
 
@@ -45,12 +46,9 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-sync-ldap2db',
     %CommonObject,
 );
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(
-    %CommonObject,
-);
-$CommonObject{DBObject} = Kernel::System::DB->new(
-    %CommonObject,
-);
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 
 my $UidLDAP = 'uid';
 my $UidDB = 'login';
