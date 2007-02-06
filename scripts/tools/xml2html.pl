@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # xml2html.pl - a "_simple_" xml2html viewer
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xml2html.pl,v 1.8 2006-10-03 14:34:47 mh Exp $
+# $Id: xml2html.pl,v 1.9 2007-02-06 19:30:26 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,18 +28,26 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 use Kernel::Config;
 use Kernel::System::Log;
+use Kernel::System::Main;
+use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::XML;
 
 my $ConfigObject = Kernel::Config->new();
-my $LogObject    = Kernel::System::Log->new(
+my $LogObject = Kernel::System::Log->new(
     ConfigObject => $ConfigObject,
 );
-my $DBObject    = Kernel::System::DB->new(
+my $MainObject = Kernel::System::Main->new(
+    ConfigObject => $ConfigObject,
+    LogObject => $LogObject,
+);
+my $DBObject = Kernel::System::DB->new(
+    MainObject => $MainObject,
     ConfigObject => $ConfigObject,
     LogObject => $LogObject,
 );
 my $XMLObject = Kernel::System::XML->new(
+    MainObject => $MainObject,
     ConfigObject => $ConfigObject,
     LogObject => $LogObject,
     DBObject => $DBObject,
