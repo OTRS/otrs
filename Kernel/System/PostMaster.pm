@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.63 2007-01-20 23:11:34 mh Exp $
+# $Id: PostMaster.pm,v 1.64 2007-02-06 19:15:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,6 @@
 package Kernel::System::PostMaster;
 
 use strict;
-use Kernel::System::DB;
 use Kernel::System::EmailParser;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
@@ -24,8 +23,61 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+=head1 NAME
+
+Kernel::System::PostMaster - postmaster lib
+
+=head1 SYNOPSIS
+
+All postmaster functions. E. g. to process emails.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a object
+
+    use Kernel::Config;
+    use Kernel::System::Time;
+    use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::System::DB;
+    use Kernel::System::Postmaster;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        LogObject => $LogObject,
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        MainObject => $MainObject,
+        LogObject => $LogObject,
+    );
+    my $PostMasterObject = Kernel::System::PostMasterObject->new(
+        DBObject => DBObject,
+        TimeObject => TimeObject,
+        ConfigObject => $ConfigObject,
+        MainObject => $MainObject,
+        LogObject => $LogObject,
+        Email => \@ArrayOfEmailContent,
+        Trusted => 1, # 1|0 ignore X-OTRS header if false
+    );
+
+=cut
 
 sub new {
     my $Type = shift;
@@ -90,6 +142,14 @@ sub new {
 
     return $Self;
 }
+
+=item Run()
+
+to execute the run process
+
+    $PostMasterObject->Run();
+
+=cut
 
 sub Run {
     my $Self = shift;
@@ -282,12 +342,20 @@ sub Run {
             }
         }
     }
-
     # return 1
     return 1;
 }
 
-# CheckFollowUp
+=item CheckFollowUp()
+
+to detect the ticket number in processing email
+
+    my ($TicketNumber, $TicketID) = $PostMasterObject->CheckFollowUp(
+        Subject => 'Re: [Ticket:#123456] Some Subject',
+    );
+
+=cut
+
 sub CheckFollowUp {
     my $Self = shift;
     my %Param = @_;
@@ -377,7 +445,14 @@ sub CheckFollowUp {
     return;
 }
 
-# GetEmailParams
+=item GetEmailParams()
+
+to get all configured PostmasterX-Header email headers
+
+    my %Header = $PostMasterObject->GetEmailParams();
+
+=cut
+
 sub GetEmailParams {
     my $Self = shift;
     my %Param = @_;
@@ -459,3 +534,21 @@ sub GetEmailParams {
 }
 
 1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This Software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.64 $ $Date: 2007-02-06 19:15:34 $
+
+=cut
