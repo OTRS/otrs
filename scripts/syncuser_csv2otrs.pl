@@ -3,7 +3,7 @@
 # syncuser_csv2otrs.pl - sync csv user list or otrs
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: syncuser_csv2otrs.pl,v 1.3 2007-01-30 17:49:55 tr Exp $
+# $Id: syncuser_csv2otrs.pl,v 1.4 2007-02-06 19:27:01 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -43,6 +43,8 @@ use strict;
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Log;
+use Kernel::System::Main;
+use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::User;
 
@@ -53,6 +55,8 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-syncuser_csv2otrs.pl',
     %CommonObject
 );
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 
