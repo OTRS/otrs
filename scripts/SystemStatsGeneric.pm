@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStatsGeneric.pm - generic pure SQL stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SystemStatsGeneric.pm,v 1.8 2007-01-30 17:49:55 tr Exp $
+# $Id: SystemStatsGeneric.pm,v 1.9 2007-02-06 18:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,7 +26,7 @@ package Kernel::Modules::SystemStatsGeneric;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -40,7 +40,7 @@ sub new {
        $Self->{$_} = $Param{$_};
    }
    # check all needed objects
-   foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
+   foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject TimeObject)) {
        die "Got no $_" if (!$Self->{$_});
    }
    $Self->{CSV} = $Self->{ParamObject}->GetParam(Param => 'CSV') || 0;
@@ -140,13 +140,9 @@ sub Run {
           Template => $DetailText,
         ).";\n";
         # return csv to download
-        my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
-        $Y = $Y+1900;
-        $M++;
-        $M = sprintf("%02d", $M);
-        $D = sprintf("%02d", $D);
-        $h = sprintf("%02d", $h);
-        $m = sprintf("%02d", $m);
+        my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
+            SystemTime => $Self->{TimeObject}->SystemTime(),
+        );
         return $Self->{LayoutObject}->Attachment(
             Filename => "$CSVFile"."_"."$Y-$M-$D"."_"."$h-$m.csv",
             ContentType => "text/csv",
