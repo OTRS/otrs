@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.39 2007-01-30 14:31:37 mh Exp $
+# $Id: AdminUser.pm,v 1.40 2007-02-06 10:49:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $ ';
+$VERSION = '$Revision: 1.40 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -99,7 +99,7 @@ sub Run {
             Message => "Switched to User ($Self->{UserLogin} -=> $UserData{UserLogin})",
         );
         # redirect with new session id
-        print $LayoutObject->Redirect(OP => "");
+        return $LayoutObject->Redirect(OP => "");
     }
     elsif ($Self->{Subaction} eq 'Change') {
         my $UserID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
