@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.11 2007-01-20 23:11:34 mh Exp $
+# $Id: Notification.pm,v 1.12 2007-02-06 21:54:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,8 +15,43 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+=head1 NAME
+
+Kernel::System::Notification - notification functions
+
+=head1 SYNOPSIS
+
+This module is managing notifications.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a notification object
+
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+
+    my $ConfigObject = Kernel::Config->new();
+
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+
+=cut
 
 sub new {
     my $Type = shift;
@@ -40,6 +75,16 @@ sub new {
 
     return $Self;
 }
+
+=item NotificationGet()
+
+get notification attributes
+
+    my %Notification = $NotificationObject->NotificationGet(
+        Name => 'de::NewTicket',
+    );
+
+=cut
 
 sub NotificationGet {
     my $Self = shift;
@@ -123,6 +168,14 @@ sub NotificationGet {
     }
 }
 
+=item NotificationList()
+
+get notification list
+
+    my %List = $NotificationObject->NotificationList();
+
+=cut
+
 sub NotificationList {
     my $Self = shift;
     my %Param = @_;
@@ -144,9 +197,6 @@ sub NotificationList {
     foreach (qw(NewTicket FollowUp LockTimeout OwnerUpdate AddNote Move PendingReminder Escalation)) {
         $Types{'Agent::'.$_} = 1;
     }
-    foreach (qw(QueueUpdate OwnerUpdate StateUpdate)) {
-        $Types{'Customer::'.$_} = 1;
-    }
     # create list
     my %List = ();
     foreach my $Language (keys %Languages) {
@@ -163,6 +213,21 @@ sub NotificationList {
     }
     return %List;
 }
+
+=item NotificationUpdate()
+
+update notification attributes
+
+    $NotificationObject->NotificationUpdate(
+        Type => 'NewTicket',
+        Charset => 'utf-8',
+        Language => 'en',
+        Subject => 'Some Subject with <OTRS_TAGS>',
+        Body => 'Some Body with <OTRS_TAGS>',
+        UserID => 123,
+    );
+
+=cut
 
 sub NotificationUpdate {
     my $Self = shift;
@@ -184,7 +249,10 @@ sub NotificationUpdate {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
-    $Self->{DBObject}->Prepare(SQL => "DELETE FROM notifications WHERE notification_type = '$Param{Type}' AND notification_language = '$Param{Language}'");
+    $Self->{DBObject}->Prepare(
+        SQL => "DELETE FROM notifications WHERE notification_type = '$Param{Type}' ".
+            "AND notification_language = '$Param{Language}'",
+    );
     # sql
     my $SQL = "INSERT INTO notifications ".
         " (notification_type, notification_charset, notification_language, subject, text, ".
@@ -201,3 +269,21 @@ sub NotificationUpdate {
 }
 
 1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.12 $ $Date: 2007-02-06 21:54:53 $
+
+=cut

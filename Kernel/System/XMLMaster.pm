@@ -2,7 +2,7 @@
 # Kernel/System/XMLMaster.pm - the global XMLMaster module for OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XMLMaster.pm,v 1.5 2007-01-20 23:11:34 mh Exp $
+# $Id: XMLMaster.pm,v 1.6 2007-02-06 21:54:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,8 +17,64 @@ use Kernel::System::Main;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+=head1 NAME
+
+Kernel::System::XMLMaster - xml master handle
+
+=head1 SYNOPSIS
+
+This module is managing xml master handle.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a xml master object
+
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::System::Time;
+    use Kernel::System::DB;
+
+    my $ConfigObject = Kernel::Config->new();
+
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+
+    my $TimeObject = Kernel::System::Time->new(
+        MainObject => $MainObject,
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+
+    my $DBObject = Kernel::System::DB->new(
+        MainObject => $MainObject,
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+
+    my $XMLMasterObject = Kernel::System::XMLMaster->new(
+        DBObject => $DBObject,
+        MainObject => $MainObject,
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+
+=cut
 
 sub new {
     my $Type = shift;
@@ -32,7 +88,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
     # check needed objects
-    foreach (qw(DBObject LogObject ConfigObject TimeObject)) {
+    foreach (qw(DBObject LogObject ConfigObject TimeObject MainObject)) {
         die "Got no $_" if (!$Param{$_});
     }
 
@@ -41,10 +97,21 @@ sub new {
 
     # create common objects
     $Self->{XMLObject} = Kernel::System::XML->new(%Param);
-    $Self->{MainObject} = Kernel::System::Main->new(%Param);
 
     return $Self;
 }
+
+=item Run()
+
+to execute the run process
+
+    my $XML = '<SomeXMLString>Test<SomeXMLString>';
+
+    $XMLMasterObject->Run(
+        XML => \$XML,
+    );
+
+=cut
 
 sub Run {
     my $Self = shift;
@@ -88,3 +155,19 @@ sub Run {
 }
 
 1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=head1 VERSION
+
+$Revision: 1.6 $ $Date: 2007-02-06 21:54:36 $
+
+=cut

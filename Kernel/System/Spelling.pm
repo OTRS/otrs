@@ -2,7 +2,7 @@
 # Kernel/System/Spelling.pm - the global spelling module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Spelling.pm,v 1.16 2007-01-20 23:11:34 mh Exp $
+# $Id: Spelling.pm,v 1.17 2007-02-06 21:54:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,8 +15,43 @@ use strict;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+=head1 NAME
+
+Kernel::System::Spelling - spelling lib
+
+=head1 SYNOPSIS
+
+This module is managing spelling functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a spelling object
+
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::Spelling;
+
+    my $ConfigObject = Kernel::Config->new();
+
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+
+    my $SpellingObject = Kernel::System::Spelling->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+
+=cut
 
 sub new {
     my $Type = shift;
@@ -42,6 +77,27 @@ sub new {
 
     return $Self;
 }
+
+=item Check()
+
+spelling check for some text
+
+    my %Result = $SpellingObject->Check(
+        Text => 'Some Text to check.',
+        SpellLanguage => 'en',
+    );
+
+    # a result could be
+    $Result{'SomeWordWithError'} = {
+        Replace => [
+            'SomeWord A',
+            'SomeWord B',
+            'SomeWord C',
+        ],
+        Line => 123,
+    };
+
+=cut
 
 sub Check {
     my $Self = shift;
@@ -83,9 +139,7 @@ sub Check {
         $Param{Text} =~ s/Ü/U"/g;
         $Param{Text} =~ s/ß/sS/g;
     }
-    # ---------------------
     # get spell output
-    # ---------------------
 
     # write text to file and read it with (i|a)spell
     # - can't use IPC::Open* because it's not working with mod_perl* :-/
@@ -169,6 +223,14 @@ sub Check {
     }
 }
 
+=item Error()
+
+check if spelling check returns a system error (read log backend for error message)
+
+    my $TrueIfErro = $SpellObject->Error();
+
+=cut
+
 sub Error {
     my $Self = shift;
     my %Param = @_;
@@ -176,3 +238,19 @@ sub Error {
 }
 
 1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=head1 VERSION
+
+$Revision: 1.17 $ $Date: 2007-02-06 21:54:36 $
+
+=cut
