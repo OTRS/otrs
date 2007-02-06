@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.28 2007-02-06 11:10:37 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.29 2007-02-06 22:55:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -46,7 +46,7 @@ sub new {
 
     # get config data
     $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('Ticket::ViewableSenderTypes') ||
-        die 'No Config entry "Ticket::ViewableSenderTypes"!';
+        $Self->{LayoutObject}->FatalError(Message => 'No Config entry "Ticket::ViewableSenderTypes"!');
     $Self->{CustomQueue} = $Self->{ConfigObject}->Get('Ticket::CustomQueue') || '???';
     # default viewable tickets a page
     $Self->{ViewableTickets} = $Self->{UserQueueViewShowTickets} ||
