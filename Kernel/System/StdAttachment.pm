@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.15 2007-01-20 23:11:34 mh Exp $
+# $Id: StdAttachment.pm,v 1.16 2007-02-06 22:54:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,8 +16,48 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+=head1 NAME
+
+Kernel::System::StdAttachment - std. attachment lib
+
+=head1 SYNOPSIS
+
+All std. attachment functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create std. attachment object
+
+    use Kernel::Config;
+    use Kernel::System::Time;
+    use Kernel::System::Log;
+    use Kernel::System::StdAttachment;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        MainObject => $MainObject,
+        LogObject => $LogObject,
+    );
+    my $StdAttachmentObject = Kernel::System::StdAttachment->new(
+        ConfigObject => $ConfigObject,
+        DBObject => $DBObject,
+        LogObject => $LogObject,
+    );
+
+=cut
 
 sub new {
     my $Type = shift;
@@ -41,6 +81,21 @@ sub new {
 
     return $Self;
 }
+
+=item StdAttachmentAdd()
+
+create a new std. attachment
+
+    my $ID = $StdAttachmentObject->StdAttachmentAdd(
+        Name => 'Some Name',
+        ValidID => 1,
+        Content => $Content,
+        ContentType => 'text/xml',
+        Filename 'SomeFile.xml',
+        UserID => 123,
+    );
+
+=cut
 
 sub StdAttachmentAdd {
     my $Self = shift;
@@ -88,6 +143,16 @@ sub StdAttachmentAdd {
     }
 }
 
+=item StdAttachmentGet()
+
+get a std. attachment
+
+    my %Data = $StdAttachmentObject->StdAttachmentGet(
+        ID => $ID,
+    );
+
+=cut
+
 sub StdAttachmentGet {
     my $Self = shift;
     my %Param = @_;
@@ -129,6 +194,22 @@ sub StdAttachmentGet {
         return;
     }
 }
+
+=item StdAttachmentUpdate()
+
+update a new std. attachment
+
+    my $ID = $StdAttachmentObject->StdAttachmentUpdate(
+        ID => $ID,
+        Name => 'Some Name',
+        ValidID => 1,
+        Content => $Content,
+        ContentType => 'text/xml',
+        Filename 'SomeFile.xml',
+        UserID => 123,
+    );
+
+=cut
 
 sub StdAttachmentUpdate {
     my $Self = shift;
@@ -172,6 +253,16 @@ sub StdAttachmentUpdate {
     }
 }
 
+=item StdAttachmentDelete()
+
+delete a std. attachment
+
+    $StdAttachmentObject->StdAttachmentDelete(
+        ID => $ID,
+    );
+
+=cut
+
 sub StdAttachmentDelete {
     my $Self = shift;
     my %Param = @_;
@@ -193,6 +284,20 @@ sub StdAttachmentDelete {
         return;
     }
 }
+
+=item StdAttachmentLookup()
+
+lookup for a std. attachment
+
+    my $ID = $StdAttachmentObject->StdAttachmentLookup(
+        StdAttachment => 'Some Name',
+    );
+
+    my $Name = $StdAttachmentObject->StdAttachmentLookup(
+        StdAttachmentID => $ID,
+    );
+
+=cut
 
 sub StdAttachmentLookup {
     my $Self = shift;
@@ -234,6 +339,16 @@ sub StdAttachmentLookup {
     return $Self->{"StdAttachment$Suffix"};
 }
 
+=item StdAttachmentsByResponseID()
+
+return a hash (ID => Name) of std. attachment by response id
+
+    my %StdAttachment = $StdAttachmentObject->StdAttachmentsByResponseID(
+        ID => 4711,
+    );
+
+=cut
+
 sub StdAttachmentsByResponseID {
     my $Self = shift;
     my %Param = @_;
@@ -260,6 +375,16 @@ sub StdAttachmentsByResponseID {
     return %Data;
 }
 
+=item GetAllStdAttachments()
+
+return a hash (ID => Name) of std. attachment
+
+    my %List = $StdAttachmentObject->GetAllStdAttachments();
+
+    my %List = $StdAttachmentObject->GetAllStdAttachments(Valid => 1);
+
+=cut
+
 sub GetAllStdAttachments {
     my $Self = shift;
     my %Param = @_;
@@ -274,6 +399,18 @@ sub GetAllStdAttachments {
         Valid => $Param{Valid},
     );
 }
+
+=item SetStdAttachmentsOfResponseID()
+
+set std responses of response id
+
+    $StdAttachmentObject->SetStdAttachmentsOfResponseID(
+        ID => 123,
+        AttachmentIDsRef => [1, 2, 3],
+        UserID => 1,
+    );
+
+=cut
 
 sub SetStdAttachmentsOfResponseID {
     my $Self = shift;
@@ -304,3 +441,21 @@ sub SetStdAttachmentsOfResponseID {
 }
 
 1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.16 $ $Date: 2007-02-06 22:54:05 $
+
+=cut
