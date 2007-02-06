@@ -1,8 +1,8 @@
 # --
 # .procmailrc - procmailrc of the OTRS user
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: .procmailrc.dist,v 1.1 2004-10-29 20:01:55 martin Exp $
+# $Id: .procmailrc.dist,v 1.2 2007-02-06 16:01:38 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,10 +19,10 @@ YEARFOLDER=`date +%Y`
 LOGFILE=$SYS_HOME/var/log/procmail-$MONTHFOLDER.log
 VERBOSE=on
 
-# --
+
 # Remove all X-OTRS Header (allow this only for trusted email)
 # e. g. from *@example.com
-# --
+
 :0 fhw :
 * !^From.*@example.com
 | grep -vi '^X-OTRS-'
@@ -33,9 +33,9 @@ VERBOSE=on
 #| grep -vi '^X-OTRS-'
 
 
-# --
+
 # Examples for queue presorting.
-# --
+
 :0 fhw :
 * TO:.*@example.com
 | formail -I "X-OTRS-Queue: example"
@@ -44,44 +44,44 @@ VERBOSE=on
 * ^List-Id:.*OpenAntiVirus
 | formail -I "X-OTRS-Queue: OpenAntiVirus"
 
-# --
+
 # Example for add free form key and value (max 3).
-# --
+
 :0 fhw :
 * TO:.*@example.com
 | formail -I "X-OTRS-ArticleKey1: Test" |  formail -I "X-OTRS-ArticleValue1: True!"
 
-# --
+
 # Example for assigning the "email domain as customer ID" automaticaly.
-# --
+
 #:0hc
 #CUSTOMERID=|formail -X "From:"|perl -e '$i=<STDIN>; $i=~s/^From: //;$i=~s/\(.*?\)//;$i=~s/<(.*?)>/$1/;$i=~s/ //g;$i=~s/.*@(.*)/$1/;print $i'
 #
 #:0 fhw :
 #| formail -I "X-OTRS-CustomerNo: $CUSTOMERID"
 
-# --
+
 # Backup of all incoming emails.
 # It's always better to have a backup of all incoming emails!
-# --
+
 :0 c :
 $SYS_HOME/var/INBOX.Backup.$MONTHFOLDER
 
 
-# --
+
 # Pipe all email into the PostMaster process.
-# --
+
 :0 :
 | $SYS_HOME/bin/PostMaster.pl
 
-# --
+
 # spool all the rest (which the PostMaster.pl can't process!)
 # If the database is down or the PostMaster.pl exit was not '0'!
-# --
+
 :0 :
 $SYS_HOME/var/spool/.
 
-# --
+
 # end of .procmailrc
-# --
+
 
