@@ -3,7 +3,7 @@
 # xml2docbook.pl - config xml to docbook
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xml2docbook.pl,v 1.11 2007-01-30 17:33:24 tr Exp $
+# $Id: xml2docbook.pl,v 1.12 2007-02-06 19:33:15 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,13 +30,14 @@ use strict;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
+use Kernel::System::Log;
+use Kernel::System::Main;
 use Kernel::System::Time;
 use Kernel::System::DB;
-use Kernel::System::Log;
 use Kernel::System::Config;
 
 # create common objects
@@ -46,9 +47,8 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-xml2docbook',
     %CommonObject,
 );
-$CommonObject{TimeObject} = Kernel::System::Time->new(
-    %CommonObject,
-);
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
 
