@@ -48,7 +48,6 @@ use Kernel::System::AuthSession::DB;
 #use Kernel::System::AuthSession::FS;
 use Kernel::System::User;
 use Kernel::System::User::Preferences::DB;
-use Kernel::System::Permission;
 #use Kernel::System::PDF;
 use Kernel::System::XML;
 use Kernel::System::Log;

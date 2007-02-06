@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.20 2007-02-06 11:11:09 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.21 2007-02-06 21:50:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed modules
@@ -29,7 +29,6 @@ use Kernel::System::Auth;
 use Kernel::System::AuthSession;
 use Kernel::System::User;
 use Kernel::System::Group;
-use Kernel::System::Permission;
 use Kernel::Output::HTML::Layout;
 
 =head1 NAME
@@ -158,7 +157,6 @@ sub Run {
     # create common framework objects 3/3
     $Self->{UserObject} = Kernel::System::User->new(%{$Self});
     $Self->{GroupObject} = Kernel::System::Group->new(%{$Self});
-    $Self->{PermissionObject} = Kernel::System::Permission->new(%{$Self});
     $Self->{SessionObject} = Kernel::System::AuthSession->new(%{$Self});
 
     # application and add on application common objects
@@ -717,6 +715,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2007-02-06 11:11:09 $
+$Revision: 1.21 $ $Date: 2007-02-06 21:50:56 $
 
 =cut
