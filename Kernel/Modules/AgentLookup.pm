@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLookup.pm - a generic lookup module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentLookup.pm,v 1.9 2007-01-20 18:04:49 mh Exp $
+# $Id: AgentLookup.pm,v 1.10 2007-02-06 19:43:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentLookup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -64,9 +64,12 @@ sub Run {
     }
     # config options
     $Self->{Limit} = $Self->{Map}->{$Param{Source}}->{ResultLimit} || 250;
-    $Self->{Table} = $Self->{Map}->{$Param{Source}}->{Params}->{Table} || die "Need DataLookup->$Param{Source}->Params->Table in Kernel/Config.pm!";
-    $Self->{KeyList} = $Self->{Map}->{$Param{Source}}->{KeyList} || die "Need DataLookup->$Param{Source}->KeyList in Kernel/Config.pm!";
-    $Self->{ValueList} = $Self->{Map}->{$Param{Source}}->{ValueList} || die "Need DataLookup->$Param{Source}->ValueList in Kernel/Config.pm!";
+    $Self->{Table} = $Self->{Map}->{$Param{Source}}->{Params}->{Table} ||
+        $Self->{LayoutObject}->FatalError(Message => "Need DataLookup->$Param{Source}->Params->Table in Kernel/Config.pm!");
+    $Self->{KeyList} = $Self->{Map}->{$Param{Source}}->{KeyList} ||
+        $Self->{LayoutObject}->FatalError(Message => "Need DataLookup->$Param{Source}->KeyList in Kernel/Config.pm!");
+    $Self->{ValueList} = $Self->{Map}->{$Param{Source}}->{ValueList} ||
+        $Self->{LayoutObject}->FatalError(Message => "Need DataLookup->$Param{Source}->ValueList in Kernel/Config.pm!");
     $Self->{SearchPrefix} = $Self->{Map}->{$Param{Source}}->{SearchPrefix};
     if (!defined($Self->{SearchPrefix})) {
         $Self->{SearchPrefix} = '';
