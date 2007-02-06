@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.41 2007-01-30 18:05:02 tr Exp $
+# $Id: CustomerTicketOverView.pm,v 1.42 2007-02-06 10:59:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -73,19 +73,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
     }
-    # starting with page ...
-    my $Refresh = '';
-    if ($Self->{UserRefreshTime}) {
-        $Refresh = 60 * $Self->{UserRefreshTime};
-    }
-    my $Output = $Self->{LayoutObject}->CustomerHeader(
-        Title => $Self->{Type},
-        Refresh => $Refresh,
-    );
-    # build NavigationBar
-    $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
-    # to get the output faster!
-    print $Output; $Output = '';
     # check if just open tickets should be shown
     my $SQLExt = '';
     my $ShowClosed = 0;
@@ -150,6 +137,16 @@ sub Run {
         Link => "SortBy=$Self->{SortBy}&Order=$Self->{Order}&ShowClosedTickets=$ShowClosed&Type=$Self->{Type}&",
     );
     # create & return output
+    my $Refresh = '';
+    if ($Self->{UserRefreshTime}) {
+        $Refresh = 60 * $Self->{UserRefreshTime};
+    }
+    my $Output = $Self->{LayoutObject}->CustomerHeader(
+        Title => $Self->{Type},
+        Refresh => $Refresh,
+    );
+    # build NavigationBar
+    $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'CustomerStatusView',
         Data => {
