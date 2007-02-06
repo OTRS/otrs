@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.19 2007-01-30 15:15:36 martin Exp $
+# $Id: oracle.pm,v 1.20 2007-02-06 23:21:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -175,7 +175,15 @@ sub TableCreate {
             }
             push (@Return2, "DROP SEQUENCE $Constraint"."_seq");
             push (@Return2, "CREATE SEQUENCE $Constraint"."_seq");
-            push (@Return2, "CREATE OR REPLACE TRIGGER $Constraint"."_s_t\nbefore insert on $TableName\nfor each row\nbegin\n    select $Constraint"."_seq.nextval\n    into :new.$Tag->{Name}\n    from dual;\nend;\n$Shell");
+            push (@Return2, "CREATE OR REPLACE TRIGGER $Constraint"."_s_t\n".
+                "before insert on $TableName\n".
+                "for each row\n".
+                "begin\n".
+                "    select $Constraint"."_seq.nextval\n".
+                "    into :new.$Tag->{Name}\n".
+                "    from dual;\nend;\n".
+                "$Shell",
+            );
         }
     }
     # add uniq

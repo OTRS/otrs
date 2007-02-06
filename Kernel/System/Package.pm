@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.58 2007-01-20 23:11:34 mh Exp $
+# $Id: Package.pm,v 1.59 2007-02-06 23:23:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -476,7 +476,8 @@ sub PackageInstall {
         }
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Sorry, can't install package, because the framework version required by the package ($PkgFwVersion) does not match your Framework ($FwVersion)!!",
+            Message => "Sorry, can't install package, because the framework version required".
+                " by the package ($PkgFwVersion) does not match your Framework ($FwVersion)!!",
         );
         return;
     }
@@ -1693,6 +1694,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.59 $ $Date: 2007-02-06 23:23:36 $
 
 =cut

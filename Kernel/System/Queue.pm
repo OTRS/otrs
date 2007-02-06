@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.66 2007-02-06 23:13:55 martin Exp $
+# $Id: Queue.pm,v 1.67 2007-02-06 23:25:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.66 $';
+$VERSION = '$Revision: 1.67 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -657,14 +657,16 @@ sub QueueAdd {
         ValidID
     );
 
-    for (qw(UnlockTimeout EscalationTime FollowUpLock SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify DefaultSignKey Calendar)) {
+    for (qw(UnlockTimeout EscalationTime FollowUpLock SystemAddressID SalutationID SignatureID
+        FollowUpID FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify DefaultSignKey Calendar)) {
         # these are coming from Config.pm
         # I added default values in the Load Routine
         $Param{$_} = $Self->{QueueDefaults}{$_} || 0  unless ($Param{$_});
     };
 
     # check needed stuff
-    foreach (qw(Name GroupID SystemAddressID SalutationID SignatureID MoveNotify StateNotify LockNotify OwnerNotify ValidID UserID)) {
+    foreach (qw(Name GroupID SystemAddressID SalutationID SignatureID MoveNotify StateNotify
+        LockNotify OwnerNotify ValidID UserID)) {
         if (!defined($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -688,7 +690,8 @@ sub QueueAdd {
     foreach (qw(Name DefaultSignKey Calendar Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     };
-    foreach (qw(GroupID UnlockTimeout SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock EscalationTime MoveNotify StateNotify ValidID)) {
+    foreach (qw(GroupID UnlockTimeout SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock
+        EscalationTime MoveNotify StateNotify ValidID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "INSERT INTO queue ".
@@ -893,7 +896,8 @@ sub QueueUpdate {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID FollowUpID UserID MoveNotify StateNotify LockNotify OwnerNotify)) {
+    foreach (qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID FollowUpID UserID
+        MoveNotify StateNotify LockNotify OwnerNotify)) {
         if (!defined ($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -908,13 +912,15 @@ sub QueueUpdate {
     # db quote
     my %DB = ();
     # check !!!
-    foreach (qw(UnlockTimeout EscalationTime FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify FollowUpID FollowUpLock DefaultSignKey Calendar)) {
+    foreach (qw(UnlockTimeout EscalationTime FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify
+        FollowUpID FollowUpLock DefaultSignKey Calendar)) {
         $Param{$_} = 0 if (!$Param{$_});
     }
     foreach (qw(Name DefaultSignKey Calendar Comment)) {
         $DB{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     };
-    foreach (qw(QueueID GroupID UnlockTimeout SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock EscalationTime StateNotify LockNotify OwnerNotify MoveNotify StateNotify ValidID UserID)) {
+    foreach (qw(QueueID GroupID UnlockTimeout SystemAddressID SalutationID SignatureID FollowUpID
+        FollowUpLock EscalationTime StateNotify LockNotify OwnerNotify MoveNotify StateNotify ValidID UserID)) {
         $DB{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # check queue name
@@ -1007,6 +1013,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2007-02-06 23:13:55 $
+$Revision: 1.67 $ $Date: 2007-02-06 23:25:12 $
 
 =cut
