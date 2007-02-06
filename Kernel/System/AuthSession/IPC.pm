@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: IPC.pm,v 1.21 2006-12-14 12:06:48 martin Exp $
+# $Id: IPC.pm,v 1.22 2007-02-06 19:45:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -59,6 +59,7 @@ sub _InitSHM {
     $Self->{KeyMeta} = shmget($Self->{IPCKeyMeta}, $Self->{IPCSizeMeta}, 0777 | 0001000) || die $!;
     # init session data mem
     $Self->{Key} = shmget($Self->{IPCKey}, $Self->_GetSHMDataSize(), 0777 | 0001000) || die $!;
+    return 1;
 }
 
 sub _WriteSHM {

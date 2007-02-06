@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.4 2006-10-05 01:49:49 martin Exp $
+# $Id: FS.pm,v 1.5 2007-02-06 19:47:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.4 $ ';
+$VERSION = '$Revision: 1.5 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -62,6 +62,7 @@ sub FormIDRemove {
     foreach my $File (@List) {
         unlink "$File" || die "$!";
     }
+    return 1;
 }
 
 sub FormIDAddFile {
