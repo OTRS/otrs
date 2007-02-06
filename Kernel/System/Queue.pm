@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.65 2007-01-30 17:33:24 tr Exp $
+# $Id: Queue.pm,v 1.66 2007-02-06 23:13:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.65 $';
+$VERSION = '$Revision: 1.66 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -32,6 +32,37 @@ All queue functions. E. g. to add queue or other functions.
 =head1 PUBLIC INTERFACE
 
 =over 4
+
+=cut
+
+=item new()
+
+create a object
+
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::System::DB;
+    use Kernel::System::Queue;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        MainObject => $MainObject,
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $QueueObject = Kernel::System::Queue->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -976,6 +1007,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.65 $ $Date: 2007-01-30 17:33:24 $
+$Revision: 1.66 $ $Date: 2007-02-06 23:13:55 $
 
 =cut

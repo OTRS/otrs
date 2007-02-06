@@ -2,7 +2,7 @@
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerGroup.pm,v 1.11 2007-01-30 14:08:06 mh Exp $
+# $Id: CustomerGroup.pm,v 1.12 2007-02-06 23:13:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Group;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -30,6 +30,37 @@ All customer group functions. E. g. to add groups or to get a member list of a g
 =head1 PUBLIC INTERFACE
 
 =over 4
+
+=cut
+
+=item new()
+
+create a object
+
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::System::DB;
+    use Kernel::System::CustomerGroup;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        MainObject => $MainObject,
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $CustomerGroupObject = Kernel::System::CustomerGroup->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+    );
 
 =cut
 
@@ -240,6 +271,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2007-01-30 14:08:06 $
+$Revision: 1.12 $ $Date: 2007-02-06 23:13:55 $
 
 =cut
