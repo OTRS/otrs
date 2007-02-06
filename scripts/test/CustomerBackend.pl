@@ -3,7 +3,7 @@
 # scripts/test/CustomerBackend.pl - test script of customer backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerBackend.pl,v 1.4 2007-01-30 17:33:25 tr Exp $
+# $Id: CustomerBackend.pl,v 1.5 2007-02-06 19:41:25 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,11 +29,12 @@ use lib dirname($RealBin).'/../Kernel/cpan-lib';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
 use Kernel::System::Log;
+use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::CustomerUser;
 
@@ -44,6 +45,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-test-CustomerBackend.pl',
     %CommonObject,
 );
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{CustomerObject} = Kernel::System::CustomerUser->new(%CommonObject);
 
