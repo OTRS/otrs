@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentStats.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.22 2006-12-07 08:37:27 tr Exp $
+# $Id: AgentStats.pm,v 1.22.2.1 2007-02-07 08:49:59 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.22.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1098,7 +1098,7 @@ sub Run {
             my @StaticFilesArray  = keys %{$StaticFiles};
 
             # build the Dynamic Object selection
-            if (@DynamicFilesArray && $#DynamicFilesArray > 0) {
+            if (@DynamicFilesArray) {
                 $Self->{LayoutObject}->Block(
                     Name => 'Selection',
                 );
@@ -1122,7 +1122,7 @@ sub Run {
                     );
                 }
                 # need a dropdown menue if more dynamic objects available
-                if ($#DynamicFilesArray > 1) {
+                if ($#DynamicFilesArray > 0) {
                     $Frontend{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
                         Data     => $DynamicFiles,
                         Name     => 'Object',
