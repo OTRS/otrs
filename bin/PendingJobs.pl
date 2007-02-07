@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # PendingJobs.pl - check pending tickets
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PendingJobs.pl,v 1.26 2006-11-17 13:03:19 martin Exp $
+# $Id: PendingJobs.pl,v 1.27 2007-02-07 05:27:22 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
@@ -69,38 +69,38 @@ my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
 if (@PendingAutoStateIDs) {
     my @TicketIDs = ();
     my $SQL = "SELECT st.id FROM " .
-      " ticket st " .
-      " WHERE " .
-      " st.ticket_state_id IN ( ${\(join ', ', @PendingAutoStateIDs)} ) ";
+        " ticket st " .
+        " WHERE " .
+        " st.ticket_state_id IN ( ${\(join ', ', @PendingAutoStateIDs)} ) ";
     $CommonObject{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $CommonObject{DBObject}->FetchrowArray()) {
         push (@TicketIDs, $Row[0]);
     }
     foreach (@TicketIDs) {
-      my %Ticket = $CommonObject{TicketObject}->TicketGet(TicketID => $_);
-      if ($Ticket{UntilTime} < 1) {
-        my %States = %{$CommonObject{ConfigObject}->Get('Ticket::StateAfterPending')};
-        if ($States{$Ticket{State}}) {
-            print " Update ticket state for ticket $Ticket{TicketNumber} ($_) to '$States{$Ticket{State}}'...";
-            if ($CommonObject{TicketObject}->StateSet(TicketID => $_, State => $States{$Ticket{State}}, UserID => 1,)) {
-              if ($States{$Ticket{State}} =~ /^close/i) {
-                $CommonObject{TicketObject}->LockSet(
-                    TicketID => $_,
-                    Lock => 'unlock',
-                    UserID => 1,
-                    Notification => 0,
-                );
-              }
-                print " done.\n";
+        my %Ticket = $CommonObject{TicketObject}->TicketGet(TicketID => $_);
+        if ($Ticket{UntilTime} < 1) {
+            my %States = %{$CommonObject{ConfigObject}->Get('Ticket::StateAfterPending')};
+            if ($States{$Ticket{State}}) {
+                print " Update ticket state for ticket $Ticket{TicketNumber} ($_) to '$States{$Ticket{State}}'...";
+                if ($CommonObject{TicketObject}->StateSet(TicketID => $_, State => $States{$Ticket{State}}, UserID => 1,)) {
+                    if ($States{$Ticket{State}} =~ /^close/i) {
+                        $CommonObject{TicketObject}->LockSet(
+                            TicketID => $_,
+                            Lock => 'unlock',
+                            UserID => 1,
+                            Notification => 0,
+                        );
+                    }
+                    print " done.\n";
+                }
+                else {
+                    print " failed.\n";
+                }
             }
             else {
-                print " failed.\n";
+                print STDERR "ERROR: No Ticket::StateAfterPending found for '$Ticket{State}' in Kernel/Config.pm!\n";
             }
         }
-        else {
-            print STDERR "ERROR: No Ticket::StateAfterPending found for '$Ticket{State}' in Kernel/Config.pm!\n";
-        }
-      }
     }
 }
 
@@ -115,11 +115,11 @@ my @PendingReminderStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
 if (@PendingReminderStateIDs) {
     my @TicketIDs = ();
     my $SQL = "SELECT st.tn, st.id, st.user_id FROM " .
-      " ticket st, ticket_state tsd " .
-      " WHERE " .
-      " st.ticket_state_id = tsd.id " .
-      " AND " .
-      " st.ticket_state_id IN ( ${\(join ', ', @PendingReminderStateIDs)} ) ";
+        " ticket st, ticket_state tsd " .
+        " WHERE " .
+        " st.ticket_state_id = tsd.id " .
+        " AND " .
+        " st.ticket_state_id IN ( ${\(join ', ', @PendingReminderStateIDs)} ) ";
     $CommonObject{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
         push (@TicketIDs, $RowTmp[1]);

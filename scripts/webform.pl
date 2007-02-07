@@ -2,9 +2,9 @@
 # --
 # webform.pl - a simple web form script to generate email with
 # X-OTRS-Queue header for an OTRS system (x-headers for dispatching!).
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: webform.pl,v 1.7 2006-11-02 12:21:00 tr Exp $
+# $Id: webform.pl,v 1.8 2007-02-07 05:27:22 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use CGI::Carp qw(fatalsToBrowser);
 # Simple Common Gateway Interface Class
 use CGI;
 
-my $VERSION = '$Revision: 1.7 $';
+my $VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --------------------------
@@ -132,39 +132,39 @@ sub WebForm {
     print Header(Title => 'Submit Request');
 print '
     <form action="webform.pl" method="post">
-    <input type="hidden" name="Action" value="SendMail">
-    <table>
-    <tr>
-      <td>Topic:</td>
-      <td>
+        <input type="hidden" name="Action" value="SendMail">
+        <table>
+            <tr>
+                <td>Topic:</td>
+                <td>
 ';
     foreach (sort keys %Topics) {
         print $_.'<input type="radio" name="Topic" value="'.$Topics{$_}.'">';
     }
 print '
-      </td>
-    </tr>
-    <tr>
-      <td>From:</td>
-      <td><input type="text" name="From" size="45" value=""></td>
-    </tr>
-    <tr>
-      <td>Email:</td>
-      <td><input type="text" name="FromEmail" size="45" value=""></td>
-    </tr>
-    <tr>
-      <td>Subject:</td>
-      <td><input type="text" name="Subject" size="45" value=""></td>
-    </tr>
-    <tr valign="top">
-      <td>Message:</td>
-      <td><textarea name="Body" rows="15" cols="45"></textarea></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><input type="submit" value="Submit"></td>
-    </tr>
-    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>From:</td>
+                <td><input type="text" name="From" size="45" value=""></td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><input type="text" name="FromEmail" size="45" value=""></td>
+            </tr>
+            <tr>
+                <td>Subject:</td>
+                <td><input type="text" name="Subject" size="45" value=""></td>
+            </tr>
+            <tr valign="top">
+                <td>Message:</td>
+                <td><textarea name="Body" rows="15" cols="45"></textarea></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Submit"></td>
+            </tr>
+        </table>
     </form>
 ';
     print Footer();

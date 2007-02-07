@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/PostMasterDaemon.pl - the daemon for the PostMasterClient.pl client
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMasterDaemon.pl,v 1.10 2006-11-02 12:20:59 tr Exp $
+# $Id: PostMasterDaemon.pl,v 1.11 2007-02-07 05:27:22 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -78,42 +78,42 @@ while (1) {
 sub MakeNewChild {
     $Children++;
     if (my $PID = fork ()) {
-      # parrent
-      print STDERR "($$)Started new child ($PID)\n";
-      $Children{$PID} = 1;
+        # parrent
+        print STDERR "($$)Started new child ($PID)\n";
+        $Children{$PID} = 1;
     }
     else {
-      # child
-      my $MaxConnectsCount = 0;
-      while (my $Client = $Server->accept()) {
-          $MaxConnectsCount ++;
-          print $Client "* --OK-- ($PID/$$)\n";
-          my @Input = ();
-          my $Data = 0;
-          while (my $Line = <$Client>) {
-              if ($Line =~ /^\* --END EMAIL--$/) {
-                  $Data = 0;
-                  if (@Input) {
-                      PipeEmail(@Input);
-                      print $Client "* --DONE--\n";
-                  }
-                  else {
-                      print $Client "* --ERROR-- Got no data!\n";
-                      exit 1;
-                  }
-              }
-              if ($Data) {
-                  push (@Input, $Line);
-              }
-              if ($Line =~ /^\* --SEND EMAIL--$/) {
-                  $Data = 1;
-              }
-          }
-          # check max connects
-          if ($MaxConnects <= $MaxConnectsCount) {
-              exit;
-          }
-      }
+        # child
+        my $MaxConnectsCount = 0;
+        while (my $Client = $Server->accept()) {
+            $MaxConnectsCount ++;
+            print $Client "* --OK-- ($PID/$$)\n";
+            my @Input = ();
+            my $Data = 0;
+            while (my $Line = <$Client>) {
+                if ($Line =~ /^\* --END EMAIL--$/) {
+                    $Data = 0;
+                    if (@Input) {
+                        PipeEmail(@Input);
+                        print $Client "* --DONE--\n";
+                    }
+                    else {
+                        print $Client "* --ERROR-- Got no data!\n";
+                        exit 1;
+                    }
+                }
+                if ($Data) {
+                    push (@Input, $Line);
+                }
+                if ($Line =~ /^\* --SEND EMAIL--$/) {
+                    $Data = 1;
+                }
+            }
+            # check max connects
+            if ($MaxConnects <= $MaxConnectsCount) {
+                exit;
+            }
+        }
     }
 }
 

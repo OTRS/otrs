@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.257 2007-02-06 11:17:08 martin Exp $
+# $Id: Defaults.pm,v 1.258 2007-02-07 05:27:22 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.257 $';
+$VERSION = '$Revision: 1.258 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -1229,10 +1229,10 @@ Your OTRS Notification Master
     $Self->{'CustomerPreferences'} = {
         Module => 'Kernel::System::CustomerUser::Preferences::DB',
         Params => {
-             Table => 'customer_preferences',
-             TableKey => 'preferences_key',
-             TableValue => 'preferences_value',
-             TableUserID => 'user_id',
+            Table => 'customer_preferences',
+            TableKey => 'preferences_key',
+            TableValue => 'preferences_value',
+            TableUserID => 'user_id',
         },
     };
 
@@ -1308,7 +1308,7 @@ Your OTRS Notification Master
     # --------------------------------------------------- #
     $Self->{'Frontend::CommonObject'} = {
         # key => module
-#        SomeObject => 'Kernel::System::Some',
+        # SomeObject => 'Kernel::System::Some',
     };
     $Self->{'Frontend::CommonParam'} = {
         # param => default value
@@ -1345,16 +1345,16 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'Logout'} = {
         Description => 'Logout',
         NavBar => [
-          {
-            Description => 'Logout',
-            Name => 'Logout',
-            Image => 'exit.png',
-            Link => 'Action=Logout',
-            NavBar => '',
-            Block => 'ItemPre',
-            Prio => 100,
-            AccessKey => 'l',
-          },
+            {
+                Description => 'Logout',
+                Name => 'Logout',
+                Image => 'exit.png',
+                Link => 'Action=Logout',
+                NavBar => '',
+                Block => 'ItemPre',
+                Prio => 100,
+                AccessKey => 'l',
+            },
         ],
     };
 
@@ -1362,17 +1362,17 @@ Your OTRS Notification Master
         Description => 'Agent Preferences',
         Title => 'Preferences',
         NavBar => [
-          {
-            Description => 'Agent Preferences',
-            Name => 'Preferences',
-            Image => 'prefer.png',
-            Link => 'Action=AgentPreferences',
-            NavBar => 'Preferences',
-            Type => 'Menu',
-            Block => 'ItemArea',
-            Prio => 9900,
-            AccessKey => 'p',
-         },
+            {
+                Description => 'Agent Preferences',
+                Name => 'Preferences',
+                Image => 'prefer.png',
+                Link => 'Action=AgentPreferences',
+                NavBar => 'Preferences',
+                Type => 'Menu',
+                Block => 'ItemArea',
+                Prio => 9900,
+                AccessKey => 'p',
+          },
        ],
     };
     $Self->{'Frontend::Module'}->{'AgentSpelling'} = {
@@ -1408,17 +1408,17 @@ Your OTRS Notification Master
         Title => '',
         NavBarName => 'Admin',
         NavBar => [
-          {
-            Description => 'Admin-Area',
-            Type => 'Menu',
-            Block => 'ItemArea',
-            Name => 'Admin',
-            Image => 'admin.png',
-            Link => 'Action=Admin',
-            NavBar => 'Admin',
-            Prio => 10000,
-            AccessKey => 'a',
-          },
+            {
+                Description => 'Admin-Area',
+                Type => 'Menu',
+                Block => 'ItemArea',
+                Name => 'Admin',
+                Image => 'admin.png',
+                Link => 'Action=Admin',
+                NavBar => 'Admin',
+                Prio => 10000,
+                AccessKey => 'a',
+            },
         ],
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1472,15 +1472,15 @@ Your OTRS Notification Master
         Title => 'Customer User',
         NavBarName => '',
         NavBar => [
-          {
-            Description => 'Edit Customer Users',
-            Name => 'Customer',
-            Image => 'folder_yellow.png',
-            Link => 'Action=AdminCustomerUser&Nav=Agent',
-            NavBar => 'Ticket',
-            Prio => 9000,
-            AccessKey => 'c',
-          }
+            {
+                Description => 'Edit Customer Users',
+                Name => 'Customer',
+                Image => 'folder_yellow.png',
+                Link => 'Action=AdminCustomerUser&Nav=Agent',
+                NavBar => 'Ticket',
+                Prio => 9000,
+                AccessKey => 'c',
+            }
         ],
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1666,14 +1666,14 @@ Your OTRS Notification Master
         NavBarName => '',
         Title => 'Preferences',
         NavBar => [
-          {
-            Description => 'Logout',
-            Name => 'Logout',
-            Image => 'exit.png',
-            Link => 'Action=Logout',
-            Prio => 10,
-            AccessKey => 'l',
-          },
+            {
+                Description => 'Logout',
+                Name => 'Logout',
+                Image => 'exit.png',
+                Link => 'Action=Logout',
+                Prio => 10,
+                AccessKey => 'l',
+            },
         ],
     };
     $Self->{'CustomerFrontend::Module'}->{'CustomerPreferences'} = {
@@ -1681,14 +1681,14 @@ Your OTRS Notification Master
         NavBarName => '',
         Title => 'Preferences',
         NavBar => [
-          {
-            Description => 'Preferences',
-            Name => 'Preferences',
-            Image => 'prefer.png',
-            Link => 'Action=CustomerPreferences',
-            Prio => 1000,
-            AccessKey => 'p',
-          },
+            {
+                Description => 'Preferences',
+                Name => 'Preferences',
+                Image => 'prefer.png',
+                Link => 'Action=CustomerPreferences',
+                Prio => 1000,
+                AccessKey => 'p',
+            },
         ],
     };
     $Self->{'CustomerFrontend::Module'}->{'CustomerCalendarSmall'} = {
@@ -1853,6 +1853,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.257 $ $Date: 2007-02-06 11:17:08 $
+$Revision: 1.258 $ $Date: 2007-02-07 05:27:22 $
 
 =cut
