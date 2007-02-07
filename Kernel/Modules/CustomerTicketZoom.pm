@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.11 2006-11-02 13:02:03 tr Exp $
+# $Id: CustomerTicketZoom.pm,v 1.12 2007-02-07 17:44:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -329,42 +329,88 @@ sub _Mask {
         }
     }
     # build thread string
-    my $ThreadStrg = '';
+    $Self->{LayoutObject}->Block(
+        Name => 'Tree',
+        Data => {%Param},
+    );
+    my $CounterTree = 0;
     my $Counter = '';
     my $Space = '';
     my $LastSenderType = '';
     $Param{ArticleStrg} = '';
     foreach my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;
+        my $Start = '';
+        my $Stop = '';
         if ($Article{ArticleType} !~ /int/) {
+            $CounterTree++;
+            my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
+                TicketNumber => $Article{TicketNumber},
+                Subject => $Article{Subject} || '',
+            );
             if ($LastSenderType ne $Article{SenderType}) {
-                $Counter .= "&nbsp;&nbsp;&nbsp;&nbsp;";
-                $Space = "$Counter |-->";
+                $Counter .= "&nbsp;";
+                $Space = "$Counter&nbsp;|--&gt;";
             }
             $LastSenderType = $Article{SenderType};
-            $ThreadStrg .= "$Space";
             # if this is the shown article -=> add <b>
-            if ($ArticleID eq $Article{ArticleID} ||
-                (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})
-            ) {
-                $ThreadStrg .= ">><b><i><u>";
+            if ($ArticleID eq $Article{ArticleID}) {
+                $Start = '&gt;&gt;<i><b><u>';
             }
-            # the full part thread string
-            $ThreadStrg .= "<A HREF=\"$BaseLink"."Action=CustomerTicketZoom&ArticleID=$Article{ArticleID}\" ";
-            $ThreadStrg .= 'onmouseover="window.status=\'$Text{"Zoom"}\'; return true;" onmouseout="window.status=\'\';">';
-            $ThreadStrg .= "\$Text{\"$Article{SenderType}\"} (\$Text{\"$Article{ArticleType}\"})</A> ";
-            $ThreadStrg .= ' $TimeLong{"'.$Article{Created}.'"}';
-            $ThreadStrg .= "<BR>";
             # if this is the shown article -=> add </b>
-            if ($ArticleID eq $Article{ArticleID} ||
-                (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})
-            ) {
-                $ThreadStrg .= "</u></i></b>";
+            if ($ArticleID eq $Article{ArticleID}) {
+                $Stop = '</u></b></i>';
+            }
+            $Self->{LayoutObject}->Block(
+                Name => 'TreeItem',
+                Data => {
+                    %Article,
+                    Subject => $TmpSubject,
+                    Space => $Space,
+                    Start => $Start,
+                    Stop => $Stop,
+                    Count => $CounterTree,
+                },
+            );
+            # add attachment icon
+            if ($Article{Atms}->{1} && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay')) {
+                my $Title = '';
+                # download type
+                my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
+                # if attachment will be forced to download, don't open a new download window!
+                my $Target = '';
+                if ($Type =~ /inline/i) {
+                    $Target = 'target="attachment" ';
+                }
+                foreach my $Count (1..($Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount')+1)) {
+                    if ($Article{Atms}->{$Count}) {
+                        if ($Count > $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount')) {
+                            $Self->{LayoutObject}->Block(
+                                Name => 'TreeItemAttachmentMore',
+                                Data => {
+                                    %Article,
+                                    %{$Article{Atms}->{$Count}},
+                                    FileID => $Count,
+                                    Target => $Target,
+                                },
+                            );
+                        }
+                        elsif ($Article{Atms}->{$Count}) {
+                            $Self->{LayoutObject}->Block(
+                                Name => 'TreeItemAttachment',
+                                Data => {
+                                    %Article,
+                                    %{$Article{Atms}->{$Count}},
+                                    FileID => $Count,
+                                    Target => $Target,
+                                },
+                            );
+                        }
+                    }
+                }
             }
         }
     }
-    $ThreadStrg .= '';
-    $Param{ArticleStrg} .= $ThreadStrg;
 
     my $ArticleOB = $ArticleBox[$LastCustomerArticle];
     my %Article = %$ArticleOB;

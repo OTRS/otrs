@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.28 2007-01-26 17:49:30 mh Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.29 2007-02-07 17:44:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -54,7 +54,25 @@ function submit_compose() {
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td valign="top" width="75%" class="small">
-      $Data{"ArticleStrg"}
+<!-- dtl:block:Tree -->
+      <table border="0" width="100%" cellspacing="0" cellpadding="0">
+<!-- dtl:block:TreeItem -->
+        <tr class="$QData{"SenderType"}-$QData{"ArticleType"}">
+          <td class="small">
+            <div title="$QData{"From","50"}: $QData{"Subject","200"} - $TimeLong{"$QData{"Created"}"}">$Data{"Space"}$Data{"Start"} $QData{"Count"}. <a href="$Env{"Baselink"}Action=CustomerTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})</a>
+            $QData{"From","16"}: $QData{"Subject","20"} - $TimeLong{"$QData{"Created"}"}$Data{"Stop"}
+<!-- dtl:block:TreeItemAttachment -->
+            &nbsp;<a href="$Env{"Baselink"}Action=CustomerTicketAttachment&ArticleID=$QData{"ArticleID"}&FileID=$QData{"FileID"}" title="$QData{"Filename"} - $QData{"Filesize"}" $Data{"Target"}><img border="0" src="$Env{"Images"}attach-small.png"></a>
+<!-- dtl:block:TreeItemAttachment -->
+<!-- dtl:block:TreeItemAttachmentMore -->
+            &nbsp;[..]
+<!-- dtl:block:TreeItemAttachmentMore -->
+            </div>
+          </td>
+        </tr>
+<!-- dtl:block:TreeItem -->
+      </table>
+<!-- dtl:block:Tree -->
       <hr>
       <table border="0" width="100%" cellspacing="0" cellpadding="1">
 <!-- dtl:block:Row -->
