@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # installer.pl - the OTRS Installer
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: installer.pl,v 1.21 2006-11-02 12:20:59 tr Exp $
+# $Id: installer.pl,v 1.22 2007-02-07 11:37:26 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # check @INC for mod_perl (add lib path for "require module"!)
@@ -76,9 +76,9 @@ $Param{NextScreen} = $CommonObject{ParamObject}->GetParam(Param => 'NextScreen')
 if ($CommonObject{ConfigObject}->Get('SecureMode')) {
     print $CommonObject{LayoutObject}->Header();
     print $CommonObject{LayoutObject}->Error(
-       Message => "SecureMode active!",
-       Comment => "If you want to run the Installler, disable SecureMode in Config.pm!",
-       );
+        Message => "SecureMode active!",
+        Comment => "If you want to run the Installler, disable SecureMode in Config.pm!",
+    );
     print $CommonObject{LayoutObject}->Footer();
 }
 
@@ -96,9 +96,9 @@ else {
     # create new LayoutObject with '%Param'
     print $CommonObject{LayoutObject}->Header();
     print $CommonObject{LayoutObject}->Error(
-       Message => "Action '$Param{Action}' not found!",
-       Comment => "Contact your admin!",
-       );
+        Message => "Action '$Param{Action}' not found!",
+        Comment => "Contact your admin!",
+    );
     print $CommonObject{LayoutObject}->Footer();
 }
 

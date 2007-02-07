@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pl,v 1.40 2006-11-02 12:20:59 tr Exp $
+# $Id: GenericAgent.pl,v 1.41 2007-02-07 11:37:26 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -51,7 +51,7 @@ if ($Opts{'h'}) {
     print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
     print "usage: GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] [-l <limit>] [-f force]\n";
     print "usage: GenericAgent.pl [-c db || -c 'Kernel::Config::GenericAgentJobModule'] " .
-          "[-d 1] [-l <limit>] [-f force]\n";
+        "[-d 1] [-l <limit>] [-f force]\n";
     print "Use -d for debug mode.\n";
     exit 1;
 }
@@ -149,8 +149,8 @@ if ($Opts{'c'} eq 'db') {
         my $Match = 0;
         foreach (@{$DBJobRaw{ScheduleMinutes}}) {
             if ($_ == $Min) {
-                 $Match = 1;
-                 $Run = 1;
+                $Match = 1;
+                $Run = 1;
             }
         }
         if (!$Match) {

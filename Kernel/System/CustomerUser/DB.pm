@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.46 2007-01-30 14:08:06 mh Exp $
+# $Id: DB.pm,v 1.47 2007-02-07 11:37:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Valid;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -189,7 +189,7 @@ sub CustomerSearch {
         if (!$Users{$Row[0]}) {
             foreach (1..8) {
                 if ($Row[$_]) {
-                     $Users{$Row[0]} .= $Row[$_].' ';
+                    $Users{$Row[0]} .= $Row[$_].' ';
                 }
             }
             $Users{$Row[0]} =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;

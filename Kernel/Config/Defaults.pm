@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.258 2007-02-07 05:27:22 tr Exp $
+# $Id: Defaults.pm,v 1.259 2007-02-07 11:37:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.258 $';
+$VERSION = '$Revision: 1.259 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -1372,8 +1372,8 @@ Your OTRS Notification Master
                 Block => 'ItemArea',
                 Prio => 9900,
                 AccessKey => 'p',
-          },
-       ],
+            },
+        ],
     };
     $Self->{'Frontend::Module'}->{'AgentSpelling'} = {
         Description => 'Spell checker',
@@ -1853,6 +1853,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.258 $ $Date: 2007-02-07 05:27:22 $
+$Revision: 1.259 $ $Date: 2007-02-07 11:37:25 $
 
 =cut

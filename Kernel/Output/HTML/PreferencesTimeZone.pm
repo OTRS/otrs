@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesTimeZone.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesTimeZone.pm,v 1.3 2006-11-10 09:07:04 martin Exp $
+# $Id: PreferencesTimeZone.pm,v 1.4 2007-02-07 11:37:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::PreferencesTimeZone;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -45,7 +45,7 @@ sub Param {
     if ($Self->{ConfigObject}->Get('TimeZoneUser') &&
         ((!$Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset')) ||
         ($Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset') &&
-         !$Self->{LayoutObject}->{BrowserJavaScriptSupport}))
+        !$Self->{LayoutObject}->{BrowserJavaScriptSupport}))
     ) {
         push (@Params, {
             %Param,

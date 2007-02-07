@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/PostMasterClient.pl - the PostMasterDaemon.pl client
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMasterClient.pl,v 1.5 2006-08-26 17:26:11 martin Exp $
+# $Id: PostMasterClient.pl,v 1.6 2007-02-07 11:37:26 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@ use strict;
 use IO::Socket;
 
 my $Client = IO::Socket::INET->new(
-   PeerHost => 'localhost',
-   PeerPort => '5555',
+    PeerHost => 'localhost',
+    PeerPort => '5555',
 ) || die $@;
 # get email
 my @Email = <STDIN>;
@@ -54,4 +54,3 @@ else {
     close ($Client);
     exit 1;
 }
-

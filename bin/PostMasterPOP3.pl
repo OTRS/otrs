@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/PostMasterPOP3.pl - the global eMail handle for email2db
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMasterPOP3.pl,v 1.23 2006-11-02 12:20:59 tr Exp $
+# $Id: PostMasterPOP3.pl,v 1.24 2007-02-07 11:37:26 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use strict;
@@ -113,9 +113,9 @@ if ($Opts{'s'} || $Opts{'u'} || $Opts{'p'}) {
         exit 1;
     }
     FetchMail(
-       Login => $Opts{'u'},
-       Password => $Opts{'p'},
-       Host => $Opts{'s'},
+        Login => $Opts{'u'},
+        Password => $Opts{'p'},
+        Host => $Opts{'s'},
     );
 }
 else {
@@ -181,7 +181,7 @@ sub FetchMail {
                 $CommonObject{LogObject}->Log(
                     Priority => 'error',
                     Message => "Can't fetch email $NOM from $User\@$Host. Email to ".
-                      "big ($MessageSize KB - max $MaxEmailSize KB)!",
+                        "big ($MessageSize KB - max $MaxEmailSize KB)!",
                 );
             }
             else {
@@ -210,10 +210,10 @@ sub FetchMail {
                 $PopObject->delete($Messageno);
             }
             print "\n";
-       }
+        }
     }
     else {
-         print "No messages ($User\@$Host)\n";
+        print "No messages ($User\@$Host)\n";
     }
     # log status
     if ($Opts{'d'} > 0 || $FetchCounter) {
