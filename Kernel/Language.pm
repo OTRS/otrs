@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.42 2007-01-30 17:49:56 tr Exp $
+# $Id: Language.pm,v 1.43 2007-02-08 14:39:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -164,7 +164,7 @@ sub new {
 
 Translate a words.
 
-  my $Text = $LanguageObject->Get('Hello');
+    my $Text = $LanguageObject->Get('Hello');
 
 =cut
 
@@ -249,7 +249,7 @@ sub Get {
 
 Get date format in used language formate (based on translation file).
 
-  my $Date = $LanguageObject->FormatTimeString('2005-12-12 12:12:12', 'DateFormat');
+    my $Date = $LanguageObject->FormatTimeString('2005-12-12 12:12:12', 'DateFormat');
 
 =cut
 
@@ -304,7 +304,7 @@ sub FormatTimeString {
 Returns the recommended charset for frontend (based on translation
 file or from DefaultCharset (from Kernel/Config.pm) is utf-8).
 
-  my $Charset = $LanguageObject->GetRecommendedCharset().
+    my $Charset = $LanguageObject->GetRecommendedCharset().
 
 =cut
 
@@ -328,7 +328,7 @@ sub GetRecommendedCharset {
 
 Returns an array of possible charsets (based on translation file).
 
-  my @Charsets = $LanguageObject->GetPossibleCharsets().
+    my @Charsets = $LanguageObject->GetPossibleCharsets().
 
 =cut
 
@@ -431,11 +431,11 @@ sub Time {
 Converts charset from a source string (if no To is given, the the
 GetRecommendedCharset() will be used).
 
-  my $Text = $LanguageObject->CharsetConvert(
-      Text => $String,
-      From => 'iso-8859-15',
-      To => 'utf-8',
-  );
+    my $Text = $LanguageObject->CharsetConvert(
+        Text => $String,
+        From => 'iso-8859-15',
+        To => 'utf-8',
+    );
 
 =cut
 
@@ -470,6 +470,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2007-01-30 17:49:56 $
+$Revision: 1.43 $ $Date: 2007-02-08 14:39:04 $
 
 =cut
