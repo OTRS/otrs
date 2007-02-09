@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TODO,v 1.111 2007-01-08 10:45:46 tr Exp $
+# $Id: TODO,v 1.112 2007-02-09 13:37:49 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,9 +38,6 @@
   Solution 1: insert the settings from the Webinstaller in ZZZAAuto
   Solution 2: Checkfunction in SysConfig, witch check if the current
               value is also configured in the Config.pm
-- stats functionality: - stats doku in admin manual
-                       - include a step 4 mask for static stats,
-                         because the actual solution is irritating
 - Change the logout message of OTRS from 'Logout successful. Thank you for using OTRS!' to
   'Logout successful. Thank you for using <Productname>!' in Kernel/System/Web/AgentInterface.pm.
   (Don't forget the translation file)
@@ -60,9 +57,14 @@
                          to have two ways for handling stats! (var/Stats - a possible location for stats
                          coming from the package manager)
                        - insert a function to handle new default stats
-                       - when a agent but the start button (or in the view mode) give a expertise how long
+                       - when a agent hit the start button (in the view mode) give a expertise how long
                          it takes to generate the stat.
-
+                       - stats doku in admin manual
+                       - include a step 4 mask for static stats,
+                         because the actual solution is irritating
+                       - a the moment it is not allowed to select only one attribute of for x-axis and value series.
+                         Now I (tr) can say it is usefull to select one attribute
+                       - a ticket timeaccounting stats is especially useful as default stats
 3.0
 - new templates without logic
 - use more references in functions
