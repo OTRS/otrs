@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.344 2007-02-02 15:16:02 martin Exp $
+# $Id: CHANGES,v 1.345 2007-02-09 13:43:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -47,6 +47,8 @@ CVS HEAD (????/??/??)
  - (2006/12/13) moved PostMasterPOP3MaxEmailSize default 6 MB to 12 MB
 
 2.1.6 (????/??/??)
+ - (2007/02/09) fixed bug in _XMLHashAddAutoIncrement() - function could not
+    return keys greater than '9'.
  - (2007/02/02) fixed bug #1056 - UTF-8 mode of OTRS and German Umlaute within
     agent's name
  - (2007/02/02) fixed bug #1505 - UserSyncLDAPMap fails with LDAP.pm version
