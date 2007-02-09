@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.39.2.2 2007-01-31 08:21:03 tr Exp $
+# $Id: XML.pm,v 1.39.2.3 2007-02-09 13:39:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.39.2.2 $';
+$VERSION = '$Revision: 1.39.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -149,6 +149,7 @@ sub _XMLHashAddAutoIncrement {
     my $Self = shift;
     my %Param = @_;
     my $KeyAutoIncrement = 0;
+    my @KeysExists;
     # check needed stuff
     foreach (qw(Type KeyAutoIncrement)) {
         if (!$Param{$_}) {
@@ -156,7 +157,7 @@ sub _XMLHashAddAutoIncrement {
             return;
         }
     }
-    my $SQL = "SELECT max(xml_key) " .
+    my $SQL = "SELECT DISTINCT(xml_key) " .
         " FROM " .
         " xml_storage " .
         " WHERE " .
@@ -167,20 +168,24 @@ sub _XMLHashAddAutoIncrement {
     }
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
         if ($Data[0]) {
-            $KeyAutoIncrement = $Data[0];
+            push (@KeysExists, $Data[0]);
         }
     }
-    if ($KeyAutoIncrement !~ /^\d{1,999}$/) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "No KeyAutoIncrement possible, no int key exists ($KeyAutoIncrement)!",
-        );
-        return;
+    foreach my $Key (@KeysExists) {
+        if ($Key !~ /^\d{1,99}$/) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "No KeyAutoIncrement possible, no int key exists ($Key)!",
+            );
+            return;
+        }
+        if ($Key > $KeyAutoIncrement) {
+            $KeyAutoIncrement = $Key;
+        }
     }
-    else {
-        $KeyAutoIncrement++;
-        return $KeyAutoIncrement;
-    }
+
+    $KeyAutoIncrement++;
+    return $KeyAutoIncrement;
 }
 
 =item XMLHashUpdate()
@@ -1062,6 +1067,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39.2.2 $ $Date: 2007-01-31 08:21:03 $
+$Revision: 1.39.2.3 $ $Date: 2007-02-09 13:39:20 $
 
 =cut
