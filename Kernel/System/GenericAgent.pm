@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.27 2007-02-06 23:04:53 martin Exp $
+# $Id: GenericAgent.pm,v 1.28 2007-02-12 11:43:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::GenericAgent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $ ';
+$VERSION = '$Revision: 1.28 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -115,10 +115,18 @@ sub new {
         TicketCreateTimeStopDay => 'SCALAR',
         TicketCreateTimeStopMonth => 'SCALAR',
         TicketCreateTimeStopYear => 'SCALAR',
-        TicketCreateTimeStop => 'SCALAR',
-        TicketCreateTimeStopDay => 'SCALAR',
-        TicketCreateTimeStopMonth => 'SCALAR',
-        TicketCreateTimeStopYear => 'SCALAR',
+        TimePendingSearchType => 'SCALAR',
+        TicketPendingTimePointFormat => 'SCALAR',
+        TicketPendingTimePoint => 'SCALAR',
+        TicketPendingTimePointStart => 'SCALAR',
+        TicketPendingTimeStart => 'SCALAR',
+        TicketPendingTimeStartDay => 'SCALAR',
+        TicketPendingTimeStartMonth => 'SCALAR',
+        TicketPendingTimeStartYear => 'SCALAR',
+        TicketPendingTimeStop => 'SCALAR',
+        TicketPendingTimeStopDay => 'SCALAR',
+        TicketPendingTimeStopMonth => 'SCALAR',
+        TicketPendingTimeStopYear => 'SCALAR',
         NewCustomerID => 'SCALAR',
         NewCustomerUserLogin => 'SCALAR',
         StateIDs => 'ARRAY',
@@ -164,14 +172,6 @@ sub new {
         TicketFreeText15 => 'ARRAY',
         TicketFreeKey16 => 'ARRAY',
         TicketFreeText16 => 'ARRAY',
-        'TimeSearchType::None' => 'SCALAR',
-        TicketCreateTimeStopDay => 'SCALAR',
-        TicketCreateTimeStartYear => 'SCALAR',
-        TicketCreateTimePoint => 'SCALAR',
-        TicketCreateTimeStopYear => 'SCALAR',
-        TicketCreateTimeStartDay => 'SCALAR',
-        TicketCreateTimeStartMonth => 'SCALAR',
-        TicketCreateTimeStopMonth => 'SCALAR',
         ScheduleLastRun => 'SCALAR',
         ScheduleLastRunUnixTime => 'SCALAR',
         Valid => 'SCALAR',
@@ -712,9 +712,9 @@ sub JobGet {
             $Data{"New$Data{$Key}"} = $Data{"$1Value$2"} if ($Data{"$1Value$2"});
         }
     }
-    # get time settings
+    # get create time settings
     if (!$Data{'TimeSearchType'} || $Data{'TimeSearchType'} eq 'None') {
-        # do noting ont time stuff
+        # do noting on time stuff
         foreach (qw(TicketCreateTimeStartMonth TicketCreateTimeStopMonth TicketCreateTimeStopDay
             TicketCreateTimeStartDay TicketCreateTimeStopYear TicketCreateTimePoint
             TicketCreateTimeStartYear TicketCreateTimePointFormat TicketCreateTimePointStart)) {
@@ -778,6 +778,75 @@ sub JobGet {
             }
             else {
                 $Data{TicketCreateTimeNewerMinutes} = $Time;
+            }
+        }
+    }
+    # get pending time settings
+    if (!$Data{'TimePendingSearchType'} || $Data{'TimePendingSearchType'} eq 'None') {
+        # do noting on time stuff
+        foreach (qw(TicketPendingTimeStartMonth TicketPendingTimeStopMonth TicketPendingTimeStopDay
+            TicketPendingTimeStartDay TicketPendingTimeStopYear TicketPendingTimePoint
+            TicketPendingTimeStartYear TicketPendingTimePointFormat TicketPendingTimePointStart)) {
+            delete ($Data{$_});
+        }
+    }
+    elsif ($Data{'TimePendingSearchType'} && $Data{'TimePendingSearchType'} eq 'TimeSlot') {
+        foreach (qw(TicketPendingTimePoint TicketPendingTimePointFormat TicketPendingTimePointStart)) {
+            delete ($Data{$_});
+        }
+        foreach (qw(Month Day)) {
+            if ($Data{"TicketPendingTimeStart$_"} <= 9) {
+                $Data{"TicketPendingTimeStart$_"} = '0'.$Data{"TicketPendingTimeStart$_"};
+            }
+        }
+        foreach (qw(Month Day)) {
+            if ($Data{"TicketPendingTimeStop$_"} <= 9) {
+                $Data{"TicketPendingTimeStop$_"} = '0'.$Data{"TicketPendingTimeStop$_"};
+            }
+        }
+        if ($Data{TicketPendingTimeStartDay} && $Data{TicketPendingTimeStartMonth} && $Data{TicketPendingTimeStartYear}) {
+            $Data{TicketPendingTimeNewerDate} = $Data{TicketPendingTimeStartYear}.
+                '-'.$Data{TicketPendingTimeStartMonth}.
+                '-'.$Data{TicketPendingTimeStartDay}.
+                ' 00:00:01';
+        }
+        if ($Data{TicketPendingTimeStopDay} && $Data{TicketPendingTimeStopMonth} && $Data{TicketPendingTimeStopYear}) {
+            $Data{TicketPendingTimeOlderDate} = $Data{TicketPendingTimeStopYear}.
+                '-'.$Data{TicketPendingTimeStopMonth}.
+                '-'.$Data{TicketPendingTimeStopDay}.
+                ' 23:59:59';
+        }
+    }
+    elsif ($Data{'TimePendingSearchType'} && $Data{'TimePendingSearchType'} eq 'TimePoint') {
+        foreach (qw(TicketPendingTimeStartMonth TicketPendingTimeStopMonth TicketPendingTimeStopDay
+            TicketPendingTimeStartDay TicketPendingTimeStopYear TicketPendingTimeStartYear)) {
+            delete ($Data{$_});
+        }
+        if ($Data{TicketPendingTimePoint} && $Data{TicketPendingTimePointStart} && $Data{TicketPendingTimePointFormat}) {
+            my $Time = 0;
+            if ($Data{TicketPendingTimePointFormat} eq 'minute') {
+                $Time = $Data{TicketPendingTimePoint};
+            }
+            elsif ($Data{TicketPendingTimePointFormat} eq 'hour') {
+                $Time = $Data{TicketPendingTimePoint} * 60;
+            }
+            elsif ($Data{TicketPendingTimePointFormat} eq 'day') {
+                $Time = $Data{TicketPendingTimePoint} * 60 * 24;
+            }
+            elsif ($Data{TicketPendingTimePointFormat} eq 'week') {
+                $Time = $Data{TicketPendingTimePoint} * 60 * 24 * 7;
+            }
+            elsif ($Data{TicketPendingTimePointFormat} eq 'month') {
+                $Time = $Data{TicketPendingTimePoint} * 60 * 24 * 30;
+            }
+            elsif ($Data{TicketPendingTimePointFormat} eq 'year') {
+                $Time = $Data{TicketPendingTimePoint} * 60 * 24 * 356;
+            }
+            if ($Data{TicketPendingTimePointStart} eq 'Before') {
+                $Data{TicketPendingTimeOlderMinutes} = $Time;
+            }
+            else {
+                $Data{TicketPendingTimeNewerMinutes} = $Time;
             }
         }
     }
@@ -906,6 +975,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2007-02-06 23:04:53 $
+$Revision: 1.28 $ $Date: 2007-02-12 11:43:00 $
 
 =cut

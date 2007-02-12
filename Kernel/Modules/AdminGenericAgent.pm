@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.37 2007-01-20 22:03:07 mh Exp $
+# $Id: AdminGenericAgent.pm,v 1.38 2007-02-12 11:43:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -102,14 +102,19 @@ sub Run {
 
         # get single params
         my %GetParam = ();
-        foreach (qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin
-            Agent TimeSearchType
-            TicketCreateTimePointFormat TicketCreateTimePoint
+        foreach (qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin Agent
+            TimeSearchType TicketCreateTimePointFormat TicketCreateTimePoint
             TicketCreateTimePointStart
             TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
             TicketCreateTimeStartYear
             TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
             TicketCreateTimeStopYear
+            TimePendingSearchType TicketPendingTimePointFormat TicketPendingTimePoint
+            TicketPendingTimePointStart
+            TicketPendingTimeStart TicketPendingTimeStartDay TicketPendingTimeStartMonth
+            TicketPendingTimeStartYear
+            TicketPendingTimeStop TicketPendingTimeStopDay TicketPendingTimeStopMonth
+            TicketPendingTimeStopYear
             NewCustomerID NewCustomerUserLogin
             NewStateID NewQueueID NewPriorityID NewOwnerID
             NewNoteFrom NewNoteSubject NewNoteBody NewModule
@@ -249,6 +254,63 @@ sub Run {
                 }
                 else {
                     $GetParam{TicketCreateTimeNewerMinutes} = $Time;
+                }
+            }
+        }
+        # get time settings
+        if (!$GetParam{TimePendingSearchType} || $GetParam{TimePendingSearchType} eq 'None') {
+            # do noting on time stuff
+        }
+        elsif ($GetParam{TimePendingSearchType} eq 'TimeSlot') {
+            foreach (qw(Month Day)) {
+                if ($GetParam{"TicketPendingTimeStart$_"} <= 9) {
+                    $GetParam{"TicketPendingTimeStart$_"} = '0'.$GetParam{"TicketPendingTimeStart$_"};
+                }
+            }
+            foreach (qw(Month Day)) {
+                if ($GetParam{"TicketPendingTimeStop$_"} <= 9) {
+                    $GetParam{"TicketPendingTimeStop$_"} = '0'.$GetParam{"TicketPendingTimeStop$_"};
+                }
+            }
+            if ($GetParam{TicketPendingTimeStartDay} && $GetParam{TicketPendingTimeStartMonth} && $GetParam{TicketPendingTimeStartYear}) {
+                $GetParam{TicketPendingTimeNewerDate} = $GetParam{TicketPendingTimeStartYear}.
+                    '-'.$GetParam{TicketPendingTimeStartMonth}.
+                    '-'.$GetParam{TicketPendingTimeStartDay}.
+                    ' 00:00:01';
+            }
+            if ($GetParam{TicketPendingTimeStopDay} && $GetParam{TicketPendingTimeStopMonth} && $GetParam{TicketPendingTimeStopYear}) {
+                $GetParam{TicketPendingTimeOlderDate} = $GetParam{TicketPendingTimeStopYear}.
+                    '-'.$GetParam{TicketPendingTimeStopMonth}.
+                    '-'.$GetParam{TicketPendingTimeStopDay}.
+                    ' 23:59:59';
+            }
+        }
+        elsif ($GetParam{TimePendingSearchType} eq 'TimePoint') {
+            if ($GetParam{TicketPendingTimePoint} && $GetParam{TicketPendingTimePointStart} && $GetParam{TicketPendingTimePointFormat}) {
+                my $Time = 0;
+                if ($GetParam{TicketPendingTimePointFormat} eq 'minute') {
+                    $Time = $GetParam{TicketPendingTimePoint};
+                }
+                elsif ($GetParam{TicketPendingTimePointFormat} eq 'hour') {
+                    $Time = $GetParam{TicketPendingTimePoint} * 60;
+                }
+                elsif ($GetParam{TicketPendingTimePointFormat} eq 'day') {
+                    $Time = $GetParam{TicketPendingTimePoint} * 60 * 24;
+                }
+                elsif ($GetParam{TicketPendingTimePointFormat} eq 'week') {
+                    $Time = $GetParam{TicketPendingTimePoint} * 60 * 24 * 7;
+                }
+                elsif ($GetParam{TicketPendingTimePointFormat} eq 'month') {
+                    $Time = $GetParam{TicketPendingTimePoint} * 60 * 24 * 30;
+                }
+                elsif ($GetParam{TicketPendingTimePointFormat} eq 'year') {
+                    $Time = $GetParam{TicketPendingTimePoint} * 60 * 24 * 365;
+                }
+                if ($GetParam{TicketPendingTimePointStart} eq 'Before') {
+                    $GetParam{TicketPendingTimeOlderMinutes} = $Time;
+                }
+                else {
+                    $GetParam{TicketPendingTimeNewerMinutes} = $Time;
                 }
             }
         }
@@ -455,7 +517,7 @@ sub Run {
             SelectedID => $Param{NewPriorityID},
         );
 
-        # get time option
+        # get create time option
         if (!$Param{TimeSearchType}) {
             $Param{'TimeSearchType::None'} = 'checked';
         }
@@ -465,11 +527,22 @@ sub Run {
         elsif ($Param{TimeSearchType} eq 'TimeSlot') {
             $Param{'TimeSearchType::TimeSlot'} = 'checked';
         }
+        # get pending time option
+        if (!$Param{TimePendingSearchType}) {
+            $Param{'TimePendingSearchType::None'} = 'checked';
+        }
+        elsif ($Param{TimePendingSearchType} eq 'TimePoint') {
+            $Param{'TimePendingSearchType::TimePoint'} = 'checked';
+        }
+        elsif ($Param{TimePendingSearchType} eq 'TimeSlot') {
+            $Param{'TimePendingSearchType::TimeSlot'} = 'checked';
+        }
 
         my %Counter = ();
         foreach (1..60) {
             $Counter{$_} = sprintf("%02d", $_);
         }
+        # create time
         $Param{'TicketCreateTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => \%Counter,
             Name => 'TicketCreateTimePoint',
@@ -504,6 +577,43 @@ sub Run {
         $Param{TicketCreateTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
             %Param,
             Prefix => 'TicketCreateTimeStop',
+            Format => 'DateInputFormat',
+        );
+        # pending time
+        $Param{'TicketPendingTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%Counter,
+            Name => 'TicketPendingTimePoint',
+            SelectedID => $Param{TicketPendingTimePoint},
+        );
+        $Param{'TicketPendingTimePointStart'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => {
+                'Last' => 'last',
+                'Before' => 'before',
+            },
+            Name => 'TicketPendingTimePointStart',
+            SelectedID => $Param{TicketPendingTimePointStart} || 'Last',
+        );
+        $Param{'TicketPendingTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => {
+                minute => 'minute(s)',
+                hour => 'hour(s)',
+                day => 'day(s)',
+                week => 'week(s)',
+                month => 'month(s)',
+                year => 'year(s)',
+            },
+            Name => 'TicketPendingTimePointFormat',
+            SelectedID => $Param{TicketPendingTimePointFormat},
+        );
+        $Param{TicketPendingTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix => 'TicketPendingTimeStart',
+            Format => 'DateInputFormat',
+            DiffTime => -((60*60*24)*30),
+        );
+        $Param{TicketPendingTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix => 'TicketPendingTimeStop',
             Format => 'DateInputFormat',
         );
         $Param{'DeleteOption'} = $Self->{LayoutObject}->OptionStrgHashRef(

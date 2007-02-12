@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.28 2007-01-11 22:13:25 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.29 2007-02-12 11:43:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -231,12 +231,12 @@
 <!-- dtl:block:TicketFreeFieldElement -->
 <!-- dtl:block:TicketFreeField -->
           <tr>
-            <td colspan="2" class="contenthead">$Text{"Times"}</td>
+            <td colspan="2" class="contenthead">$Text{"Create Times"}</td>
           </tr>
           <tr>
             <td colspan="2" class="contentbody">
               <input type="radio" name="TimeSearchType" value="" $Data{"TimeSearchType::None"}>
-              $Text{"No time settings."}
+              $Text{"No create time settings."}
             </td>
           </tr>
           <tr>
@@ -249,6 +249,27 @@
             <td colspan="2" class="contentbody">
               <input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}>
               $Text{"Ticket created between"} $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contenthead">$Text{"Pending Times"}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="TimePendingSearchType" value="" $Data{"TimePendingSearchType::None"}>
+              $Text{"No pending time settings."}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="TimePendingSearchType" value="TimePoint" $Data{"TimePendingSearchType::TimePoint"}>
+              $Text{"Ticket pending time reached"} $Data{"TicketPendingTimePointStart"} $Data{"TicketPendingTimePoint"} $Data{"TicketPendingTimePointFormat"}.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="TimePendingSearchType" value="TimeSlot" $Data{"TimePendingSearchType::TimeSlot"}>
+              $Text{"Ticket pending time reached between"} $Data{"TicketPendingTimeStart"} $Text{"and"} $Data{"TicketPendingTimeStop"}.
             </td>
           </tr>
 <!-- new options -->

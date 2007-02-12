@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.244 2007-02-06 22:38:59 martin Exp $
+# $Id: Ticket.pm,v 1.245 2007-02-12 11:43:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.244 $';
+$VERSION = '$Revision: 1.245 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -2053,20 +2053,25 @@ To find tickets in your system.
         # content search (AND or OR) (optional)
         ContentSearch => 'AND',
 
-        # tickets after 60 minutes (optional)
+        # tickets created after 60 minutes (optional)
         TicketCreateTimeOlderMinutes => 60,
-        # tickets before 120 minutes (optional)
+        # tickets created before 120 minutes (optional)
         TicketCreateTimeNewerMinutes => 120,
 
-        # tickets with create time after ... (optional)
+        # tickets with created time after ... (optional)
         TicketCreateTimeNewerDate => '2006-01-09 00:00:01',
-        # tickets with create time before then .... (optional)
+        # tickets with created time before then .... (optional)
         TicketCreateTimeOlderDate => '2006-01-19 23:59:59',
 
-        # tickets with close time after ... (optional)
+        # tickets with closed time after ... (optional)
         TicketCloseTimeNewerDate => '2006-01-09 00:00:01',
-        # tickets with close time before then .... (optional)
+        # tickets with closed time before then .... (optional)
         TicketCloseTimeOlderDate => '2006-01-19 23:59:59',
+
+        # tickets pending after 60 minutes (optional)
+        TicketPendingTimeOlderMinutes => 60,
+        # tickets pending before 120 minutes (optional)
+        TicketPendingTimeNewerMinutes => 120,
 
         # tickets with pending time after ... (optional)
         TicketPendingTimeNewerDate => '2006-01-09 00:00:01',
@@ -2723,6 +2728,28 @@ sub TicketSearch {
                     " th.change_time >= '".$Self->{DBObject}->Quote($Param{TicketCloseTimeNewerDate})."'";
             }
         }
+    }
+    # check if only pending states are used
+    if ($Param{TicketPendingTimeOlderMinutes} || $Param{TicketPendingTimeNewerMinutes} ||
+        $Param{TicketPendingTimeOlderDate} || $Param{TicketPendingTimeNewerDate}) {
+        # get close state ids
+        my @List = $Self->{StateObject}->StateGetStatesByType(
+            StateType => ['pending reminder', 'pending auto'],
+            Result => 'ID',
+        );
+        if (@List) {
+            $SQLExt .= " AND th.state_id IN (${\(join ', ', @List)}) ";
+        }
+    }
+    # get tickets pending older then x minutes
+    if ($Param{TicketPendingTimeOlderMinutes}) {
+        my $Time = $Self->{TimeObject}->SystemTime()-($Param{TicketPendingTimeOlderMinutes}*60);
+        $SQLExt .= " AND st.until_time <= ".$Self->{DBObject}->Quote($Time);
+    }
+    # get tickets pending newer then x minutes
+    if ($Param{TicketPendingTimeNewerMinutes}) {
+        my $Time = $Self->{TimeObject}->SystemTime()-($Param{TicketPendingTimeNewerMinutes}*60);
+        $SQLExt .= " AND st.until_time >= ".$Self->{DBObject}->Quote($Time);
     }
     # get pending tickets older then xxxx-xx-xx xx:xx date
     if ($Param{TicketPendingTimeOlderDate}) {
@@ -5096,6 +5123,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.244 $ $Date: 2007-02-06 22:38:59 $
+$Revision: 1.245 $ $Date: 2007-02-12 11:43:00 $
 
 =cut
