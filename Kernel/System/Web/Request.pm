@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.11 2007-02-06 21:53:35 martin Exp $
+# $Id: Request.pm,v 1.12 2007-02-12 15:52:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.11 $ ';
+$VERSION = '$Revision: 1.12 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -79,7 +79,7 @@ sub new {
 to get the error back
 
     if ($ParamObject->Error()) {
-        print STDERR $Self->{ParamObject}->Error()."\n";
+        print STDERR $ParamObject->Error()."\n";
     }
 
 =cut
@@ -285,6 +285,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2007-02-06 21:53:35 $
+$Revision: 1.12 $ $Date: 2007-02-12 15:52:53 $
 
 =cut
