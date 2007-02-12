@@ -2,16 +2,20 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.345 2007-02-09 13:43:22 mh Exp $
+# $Id: CHANGES,v 1.346 2007-02-12 11:43:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD (????/??/??)
+ - (2007/02/12) added pending time selection feature for generic agent
+ - (2007/02/07) moved to dtl block in customer ticket zoom view
+ - (2007/02/07) moved default WebMaxFileUpload config option from 5 MB
+    to 10 MB
  - (2007/01/31) fixed Free Field output in AgentTicketForward and
     AgentTicketPhoneOutbound
- - (2007/01/30) add 4 ticket freetime fields and improved freetime function
+ - (2007/01/30) added 4 ticket freetime fields and improved freetime function
  - (2007/01/30) relocated valid functionality to new Valid.pm
  - (2007/01/18) added X-OTRS-Lock and X-OTRS-FollowUp-Lock header
  - (2007/01/17) relocated agent preferences button
