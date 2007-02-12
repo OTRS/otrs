@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.245 2007-02-12 11:43:00 martin Exp $
+# $Id: Ticket.pm,v 1.246 2007-02-12 13:37:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.245 $';
+$VERSION = '$Revision: 1.246 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -2738,7 +2738,7 @@ sub TicketSearch {
             Result => 'ID',
         );
         if (@List) {
-            $SQLExt .= " AND th.state_id IN (${\(join ', ', @List)}) ";
+            $SQLExt .= " AND st.ticket_state_id IN (${\(join ', ', @List)}) ";
         }
     }
     # get tickets pending older then x minutes
@@ -5123,6 +5123,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.245 $ $Date: 2007-02-12 11:43:00 $
+$Revision: 1.246 $ $Date: 2007-02-12 13:37:45 $
 
 =cut
