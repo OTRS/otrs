@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.259 2007-02-07 11:37:25 tr Exp $
+# $Id: Defaults.pm,v 1.260 2007-02-12 11:44:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.259 $';
+$VERSION = '$Revision: 1.260 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -663,8 +663,8 @@ sub LoadDefaults {
     # Web Settings
     # --------------------------------------------------- #
     # WebMaxFileUpload
-    # (Max size for browser file uploads - default 5 MB)
-    $Self->{WebMaxFileUpload} = 1024 * 1024 * 5;
+    # (Max size for browser file uploads - default 10 MB)
+    $Self->{WebMaxFileUpload} = 1024 * 1024 * 10;
 
     # WebUploadCacheModule
     # (select you WebUploadCacheModule module, default DB [DB|FS])
@@ -1853,6 +1853,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.259 $ $Date: 2007-02-07 11:37:25 $
+$Revision: 1.260 $ $Date: 2007-02-12 11:44:00 $
 
 =cut
