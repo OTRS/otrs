@@ -3,7 +3,7 @@
 # otrs.CreateNewTranslationFile - create new translation file
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.15 2006-11-02 12:20:59 tr Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.16 2007-02-12 15:46:55 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -109,7 +109,7 @@ foreach my $File (@List) {
         close (IN);
         $File =~ s!^.*/(.+?)\.dtl!$1!;
         print "# Template: $File\n";
-        $Data .= "\n      # Template: $File\n";
+        $Data .= "\n        # Template: $File\n";
         # do dtl
         $Content =~ s{
             <dtl\sif.+?;\s\}>
@@ -158,7 +158,7 @@ foreach my $File (@List) {
                 my $Key = $Word;
                 $Key =~ s/'/\\'/g;
                 if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
-                    $Data .= "      '$Key' => '$Translation',\n";
+                    $Data .= "        '$Key' => '$Translation',\n";
                 }
             }
             '';
@@ -170,14 +170,14 @@ foreach my $File (@List) {
 }
 # add misc words
 print "# Misc\n";
-$Data .= "      # Misc\n";
+$Data .= "        # Misc\n";
 foreach my $Key (keys %{$CommonObject{LanguageObject}->{Translation}}) {
     if (!$UsedWords{$Key}) {
         my $Translation = $CommonObject{LanguageObject}->{Translation}->{$Key};
         $Translation =~ s/'/\\'/g;
         $Key =~ s/'/\\'/g;
         if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
-            $Data .= "      '$Key' => '$Translation',\n";
+            $Data .= "        '$Key' => '$Translation',\n";
         }
     }
 }
