@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/en.pm - provides en languag translation
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: en.pm,v 1.16 2006-10-18 10:13:11 mh Exp $
+# $Id: en.pm,v 1.17 2007-02-12 16:59:40 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::en;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -36,38 +36,38 @@ sub Data {
 
     # maybe nothing ... or help texts
     %Hash = (
-      'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
-      'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
-      'History::FollowUp' => 'FollowUp for [%s]. %s',
-      'History::SendAutoReject' => 'AutoReject sent to "%s".',
-      'History::SendAutoReply' => 'AutoReply sent to "%s".',
-      'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
-      'History::Forward' => 'Forwarded to "%s".',
-      'History::Bounce' => 'Bounced to "%s".',
-      'History::SendAnswer' => 'Email sent to "%s".',
-      'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
-      'History::SendCustomerNotification' => 'Notification sent to "%s".',
-      'History::EmailAgent' => 'Email sent to customer.',
-      'History::EmailCustomer' => 'Added email. %s',
-      'History::PhoneCallAgent' => 'Agent called customer.',
-      'History::PhoneCallCustomer' => 'Customer called us.',
-      'History::AddNote' => 'Added note (%s)',
-      'History::Lock' => 'Locked ticket.',
-      'History::Unlock' => 'Unlocked ticket.',
-      'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
-      'History::Remove' => '%s',
-      'History::CustomerUpdate' => 'Updated: %s',
-      'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
-      'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
-      'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
-      'History::Misc' => '%s',
-      'History::SetPendingTime' => 'Updated: %s',
-      'History::StateUpdate' => 'Old: "%s" New: "%s"',
-      'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
-      'History::WebRequestCustomer' => 'Customer request via web.',
-      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
-      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
-      'History::SystemRequest' => 'System Request (%s).',
+        'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
+        'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
+        'History::FollowUp' => 'FollowUp for [%s]. %s',
+        'History::SendAutoReject' => 'AutoReject sent to "%s".',
+        'History::SendAutoReply' => 'AutoReply sent to "%s".',
+        'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
+        'History::Forward' => 'Forwarded to "%s".',
+        'History::Bounce' => 'Bounced to "%s".',
+        'History::SendAnswer' => 'Email sent to "%s".',
+        'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
+        'History::SendCustomerNotification' => 'Notification sent to "%s".',
+        'History::EmailAgent' => 'Email sent to customer.',
+        'History::EmailCustomer' => 'Added email. %s',
+        'History::PhoneCallAgent' => 'Agent called customer.',
+        'History::PhoneCallCustomer' => 'Customer called us.',
+        'History::AddNote' => 'Added note (%s)',
+        'History::Lock' => 'Locked ticket.',
+        'History::Unlock' => 'Unlocked ticket.',
+        'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
+        'History::Remove' => '%s',
+        'History::CustomerUpdate' => 'Updated: %s',
+        'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
+        'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
+        'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
+        'History::Misc' => '%s',
+        'History::SetPendingTime' => 'Updated: %s',
+        'History::StateUpdate' => 'Old: "%s" New: "%s"',
+        'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
+        'History::WebRequestCustomer' => 'Customer request via web.',
+        'History::TicketLinkAdd' => 'Added link to ticket "%s".',
+        'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
+        'History::SystemRequest' => 'System Request (%s).',
     );
     # $$STOP$$
 
