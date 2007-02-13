@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.22.2.1 2007-02-07 08:49:59 tr Exp $
+# $Id: AgentStats.pm,v 1.22.2.2 2007-02-13 09:55:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22.2.1 $';
+$VERSION = '$Revision: 1.22.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1759,6 +1759,9 @@ sub Run {
                                         );
                                         #$Element->{TimeStop} = $Time{TimeStop};
                                     }
+                                    $Element->{TimeStart} = $Time{TimeStart};
+                                    $Element->{TimeStop} = $Time{TimeStop};
+
                                     $TimePeriod = ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStop})) - ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStart}));
                                 }
                                 else {
@@ -1872,7 +1875,9 @@ sub Run {
                     $ScalePeriod = 60 * 60 * 24 * 365;
                 }
                 # integrate this functionality in the completenesscheck
-                if ($TimePeriod / ($ScalePeriod * $GetParam{UseAsXvalue}[0]{TimeScaleCount}) > ($Self->{ConfigObject}->Get('Stats::MaxXaxisAttributes') || 100)) {
+                if ($TimePeriod / ($ScalePeriod * $GetParam{UseAsXvalue}[0]{TimeScaleCount}) >
+                    ($Self->{ConfigObject}->Get('Stats::MaxXaxisAttributes') || 100)
+                ) {
                     return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&" .
                         "Subaction=View&StatID=$Param{StatID}&Message=4"
                     );
