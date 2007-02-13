@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.44 2007-01-30 17:33:24 tr Exp $
+# $Id: mkStats.pl,v 1.45 2007-02-13 14:59:50 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -46,7 +46,7 @@ use Kernel::System::Group;
 use Kernel::System::User;
 use Kernel::System::CSV;
 use Kernel::System::PDF;
-use Kernel::Output::HTML::Layout;
+use Kernel::Language;
 
 # create common objects
 my %CommonObject = ();
@@ -92,7 +92,7 @@ if (!$Opts{'n'}) {
 if (!$Opts{'m'} && $Opts{'p'}) {
     $Opts{'m'} .= "Stats with following options:\n\n";
     $Opts{'m'} .= "StatNumber: $Opts{'n'}\n";
-    my @P = split(/&/, $Opts{'p'}||'');
+    my @P = split(/&/, $Opts{'p'});
     foreach (@P) {
         my ($Key, $Value) = split(/=/, $_, 2);
         $Opts{'m'} .= "$Key: $Value\n";
@@ -108,9 +108,14 @@ my $Lang = $CommonObject{ConfigObject}->Get('DefaultLanguage') || 'en';
 if ($Opts{'l'}) {
     $Lang = $Opts{'l'};
 }
-$CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new(
-    %CommonObject,
-    Lang => $Lang,
+
+$CommonObject{LanguageObject} = Kernel::Language->new(
+    UserTimeZone => $CommonObject{UserTimeZone},
+    UserLanguage => $CommonObject{UserLanguage},
+    LogObject => $CommonObject{LogObject},
+    ConfigObject => $CommonObject{ConfigObject},
+    MainObject => $CommonObject{MainObject},
+    Action => $CommonObject{Action},
 );
 
 # format
@@ -210,10 +215,15 @@ my %Attachment;
 
 if ($Format eq 'Print' && $CommonObject{PDFObject}) {
     # Create the PDF
-    my $PrintedBy = $CommonObject{LayoutObject}->{LanguageObject}->Get('printed by');
-    my $Page = $CommonObject{LayoutObject}->{LanguageObject}->Get('Page');
-    my $Time = $CommonObject{LayoutObject}->Output(Template => '$Env{"Time"}');
     my %User = $CommonObject{UserObject}->GetUserData(UserID => $CommonObject{UserID});
+
+    my $PrintedBy = $CommonObject{LanguageObject}->Get('printed by');
+    my $Page = $CommonObject{LanguageObject}->Get('Page');
+    my $SystemTime = $CommonObject{TimeObject}->SystemTime();
+    my $TimeStamp = $CommonObject{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $SystemTime,
+    );
+    my $Time = $CommonObject{LanguageObject}->FormatTimeString($TimeStamp, 'DateFormat');
 
     # create the content array
     my $CellData;
@@ -236,7 +246,7 @@ if ($Format eq 'Print' && $CommonObject{PDFObject}) {
         $CounterRow++;
     }
     if (!$CellData->[0]->[0]) {
-        $CellData->[0]->[0]->{Content} = $CommonObject{LayoutObject}->{LanguageObject}->Get('No Result!');
+        $CellData->[0]->[0]->{Content} = $CommonObject{LanguageObject}->Get('No Result!');
     }
     # page params
     my %PageParam;
