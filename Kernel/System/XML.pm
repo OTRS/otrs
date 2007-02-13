@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.43 2007-02-09 13:40:16 mh Exp $
+# $Id: XML.pm,v 1.44 2007-02-13 16:29:44 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -938,7 +938,7 @@ sub XMLParse {
     # load parse package and parse
     my $Parser;
     if (eval "require XML::Parser") {
-        $Parser = XML::Parser->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
+        $Parser = XML::Parser->new(Handlers => {Start => \&_HS, End => \&_ES, Char => \&_CS});
         if (!eval { $Parser->parse($Param{String}) }) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "C-Parser: $@!");
             return ();
@@ -946,7 +946,7 @@ sub XMLParse {
     }
     else {
         eval "require XML::Parser::Lite";
-        $Parser = XML::Parser::Lite->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
+        $Parser = XML::Parser::Lite->new(Handlers => {Start => \&_HS, End => \&_ES, Char => \&_CS});
         $Parser->parse($Param{String});
     }
     # quote
@@ -980,9 +980,10 @@ sub _Decode{
             );
         }
     }
+    return 1;
 }
 
-sub HS {
+sub _HS {
     my ($Expat, $Element, %Attr) = @_;
 #    print "s:'$Element'\n";
     if ($S->{LastTag}) {
@@ -1019,18 +1020,20 @@ sub HS {
 #        TagKey => $Key,
         TagLastLevel => $S->{XMLLevelTag}->{($S->{XMLLevel}-1)},
     };
+    return 1;
 }
 
-sub CS {
+sub _CS {
     my ($Expat, $Element, $I, $II) = @_;
 #    $Element = $Expat->recognized_string();
 #    print "v:'$Element'\n";
     if ($S->{LastTag}) {
         $S->{C} .= $Element;
     }
+    return 1;
 }
 
-sub ES {
+sub _ES {
     my ($Expat, $Element) = @_;
 #    print "e:'$Element'\n";
     $S->{XMLTagCount}++;
@@ -1046,6 +1049,7 @@ sub ES {
         Tag => $Element},
     );
     $S->{XMLLevel} = $S->{XMLLevel} - 1;
+    return 1;
 }
 
 1;
@@ -1064,6 +1068,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2007-02-09 13:40:16 $
+$Revision: 1.44 $ $Date: 2007-02-13 16:29:44 $
 
 =cut
