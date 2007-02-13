@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.19 2007-02-08 12:33:11 tr Exp $
+# $Id: Stats.pm,v 1.20 2007-02-13 15:01:33 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -893,7 +893,9 @@ sub GenerateDynamicStats {
                 while ($Self->{TimeObject}->TimeStamp2SystemTime(String => $TimeStop) < $TimeAbsolutStopUnixTime) {
                     $TimeStart = sprintf("%04d-01-01 00:00:00",$VSYear);
                     ($ToYear, $ToMonth, $ToDay) = Add_Delta_YMD($VSYear, $VSMonth, $VSDay, $Count, 0, 0);
-                    ($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond) = Add_Delta_DHMS($ToYear, $ToMonth, $ToDay, $VSHour, $VSMinute, $VSSecond, 0, 0, 0, -1);
+                    ($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond) = Add_Delta_DHMS(
+                        $ToYear, $ToMonth, $ToDay, $VSHour, $VSMinute, $VSSecond, 0, 0, 0, -1
+                    );
                     $TimeStop = sprintf("%04d-12-31 23:59:59",$ToYear);
                     #if ($Count == 1) {
                         $ValueSeries{$VSYear} = {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
@@ -901,56 +903,80 @@ sub GenerateDynamicStats {
                     #else {
                     #    $ValueSeries{$VSYear . '-' . $ToYear} = {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
                     #}
-                    ($VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond) = Add_Delta_DHMS($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0, 0, 0, 1);
+                    ($VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond) = Add_Delta_DHMS(
+                        $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0, 0, 0, 1
+                    );
                 }
             }
             elsif ($Ref1->{SelectedValues}[0] eq 'Month') {
                 while ($Self->{TimeObject}->TimeStamp2SystemTime(String => $TimeStop) < $TimeAbsolutStopUnixTime) {
                     $TimeStart = sprintf("%04d-%02d-01 00:00:00",$VSYear,$VSMonth);
                     ($ToYear, $ToMonth, $ToDay) = Add_Delta_YMD($VSYear, $VSMonth, $VSDay, 0, $Count, 0);
-                    ($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond) = Add_Delta_DHMS($ToYear, $ToMonth, $ToDay, $VSHour, $VSMinute, $VSSecond, 0, 0, 0, -1);
+                    ($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond) = Add_Delta_DHMS(
+                        $ToYear, $ToMonth, $ToDay, $VSHour, $VSMinute, $VSSecond, 0, 0, 0, -1
+                    );
                     $TimeStop = sprintf("%04d-%02d-%02d 23:59:59",$ToYear,$ToMonth,$ToDay);
 #                    if ($Count == 1) {
-                        $ValueSeries{$VSYear . '-' . sprintf("%02d", $VSMonth) . ' ' . $MonthArrayRef->[$VSMonth]} = {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
+                        $ValueSeries{$VSYear . '-' . sprintf("%02d", $VSMonth) . ' ' . $MonthArrayRef->[$VSMonth]} =
+                            {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
 #                    }
 #                    else {
-#                        $ValueSeries{$VSYear . ' ' . $MonthArrayRef->[$VSMonth] . '-' . $MonthArrayRef->[$ToMonth]} = {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
+#                        $ValueSeries{$VSYear . ' ' . $MonthArrayRef->[$VSMonth] . '-' . $MonthArrayRef->[$ToMonth]} =
+#                            {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
 #                    }
-                    ($VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond) = Add_Delta_DHMS($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0, 0, 0, 1);
+                    ($VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond) = Add_Delta_DHMS
+                        ($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0, 0, 0, 1
+                    );
                 }
 
             }
             elsif ($Ref1->{SelectedValues}[0] eq 'Day') {
                 while ($Self->{TimeObject}->TimeStamp2SystemTime(String => $TimeStop) < $TimeAbsolutStopUnixTime) {
                     $TimeStart = sprintf("%04d-%02d-%02d 00:00:00",$VSYear,$VSMonth,$VSDay);
-                    ($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond) = Add_Delta_DHMS($VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond, $Count, 0, 0, -1);
+                    ($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond) = Add_Delta_DHMS(
+                        $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond, $Count, 0, 0, -1
+                    );
                     $TimeStop = sprintf("%04d-%02d-%02d 23:59:59",$ToYear,$ToMonth,$ToDay);
 #                    if ($Count == 1) {
-                        $ValueSeries{sprintf("%04d-%02d-%02d",$VSYear,$VSMonth,$VSDay)} = {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
+                        $ValueSeries{sprintf("%04d-%02d-%02d",$VSYear,$VSMonth,$VSDay)} =
+                            {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
 #                    }
 #                    else {
-#                        $ValueSeries{sprintf("%04d-%02d-%02d - %04d-%02d-%02d",$VSYear,$VSMonth,$VSDay,$ToYear,$ToMonth,$ToDay)} = {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
+#                        $ValueSeries{sprintf("%04d-%02d-%02d - %04d-%02d-%02d",$VSYear,$VSMonth,$VSDay,$ToYear,$ToMonth,$ToDay)} =
+#                            {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
 #                    }
-                    ($VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond) = Add_Delta_DHMS($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0, 0, 0, 1);
+                    ($VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond) = Add_Delta_DHMS(
+                        $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0, 0, 0, 1
+                    );
                 }
             }
             elsif ($Ref1->{SelectedValues}[0] eq 'Hour') {
                 while ($Self->{TimeObject}->TimeStamp2SystemTime(String => $TimeStop) < $TimeAbsolutStopUnixTime) {
                     $TimeStart = sprintf("%04d-%02d-%02d %02d:00:00",$VSYear,$VSMonth,$VSDay,$VSHour);
-                    ($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond) = Add_Delta_DHMS($VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond,0, $Count, 0, -1);
+                    ($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond) = Add_Delta_DHMS(
+                        $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond,0, $Count, 0, -1
+                    );
                     $TimeStop = sprintf("%04d-%02d-%02d %02d:59:59",$ToYear,$ToMonth,$ToDay,$ToHour);
-                    $ValueSeries{sprintf("%04d-%02d-%02d %02d:00:00 - %02d:59:59",$VSYear,$VSMonth,$VSDay,$VSHour,$ToHour)} = {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
-                    ($VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond) = Add_Delta_DHMS($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0, 0, 0, 1);
+                    $ValueSeries{sprintf("%04d-%02d-%02d %02d:00:00 - %02d:59:59",$VSYear,$VSMonth,$VSDay,$VSHour,$ToHour)} =
+                        {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
+                    ($VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond) = Add_Delta_DHMS(
+                        $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0, 0, 0, 1)
+                    ;
                 }
             }
 
             elsif ($Ref1->{SelectedValues}[0] eq 'Minute') {
                 while ($Self->{TimeObject}->TimeStamp2SystemTime(String => $TimeStop) < $TimeAbsolutStopUnixTime) {
                     $TimeStart = sprintf("%04d-%02d-%02d %02d:%02d:00",$VSYear,$VSMonth,$VSDay,$VSHour,$VSMinute);
-                    ($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond) = Add_Delta_DHMS($VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond,0, 0, $Count, -1);
+                    ($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond) = Add_Delta_DHMS(
+                        $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond, 0, 0, $Count, -1
+                    );
                     $TimeStop = sprintf("%04d-%02d-%02d %02d:%02d:59",$ToYear,$ToMonth,$ToDay,$ToHour,$ToMinute);
-                    $ValueSeries{sprintf("%04d-%02d-%02d %02d:%02d:00 - %02d:%02d:59",$VSYear,$VSMonth,$VSDay,$VSHour,$VSMinute,$ToHour,$ToMinute)} = {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
-                    ($VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond) = Add_Delta_DHMS($ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0, 0, 0, 1);
+                    $ValueSeries{sprintf("%04d-%02d-%02d %02d:%02d:00 - %02d:%02d:59",$VSYear,$VSMonth,$VSDay,$VSHour,$VSMinute,$ToHour,$ToMinute)} =
+                        {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
+                    ($VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond) = Add_Delta_DHMS(
+                        $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0, 0, 0, 1
+                    );
                 }
             }
         }
@@ -990,7 +1016,8 @@ sub GenerateDynamicStats {
                 elsif ($ArraySelected[1]{Block} eq 'MultiSelectField') {
                     $Value1 = [$SubKey];
                 }
-                $ValueSeries{$ArraySelected[0]{Values}{$Key} . ' - ' . $ArraySelected[1]{Values}{$SubKey}} = {$ArraySelected[0]{Element} => $Value0, $ArraySelected[1]{Element} => $Value1};
+                $ValueSeries{$ArraySelected[0]{Values}{$Key} . ' - ' . $ArraySelected[1]{Values}{$SubKey}} =
+                    {$ArraySelected[0]{Element} => $Value0, $ArraySelected[1]{Element} => $Value1};
             }
         }
     }
@@ -1057,8 +1084,11 @@ sub GenerateDynamicStats {
         foreach my $Cell (@{$Xvalue->{SelectedValues}}) {  # get each cell
             if ($Xvalue->{Block} eq 'Time') {
                 if ($ValueSeries{$Row}{$Xvalue->{Values}{TimeStop}} && $ValueSeries{$Row}{$Xvalue->{Values}{TimeStart}}) {
-                    if ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Cell->{TimeStop}) > $Self->{TimeObject}->TimeStamp2SystemTime(String => $ValueSeries{$Row}{$Xvalue->{Values}{TimeStop}}) ||
-                        $Self->{TimeObject}->TimeStamp2SystemTime(String => $Cell->{TimeStart}) < $Self->{TimeObject}->TimeStamp2SystemTime(String => $ValueSeries{$Row}{$Xvalue->{Values}{TimeStart}})) {
+                    if ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Cell->{TimeStop}) >
+                        $Self->{TimeObject}->TimeStamp2SystemTime(String => $ValueSeries{$Row}{$Xvalue->{Values}{TimeStop}}) ||
+                        $Self->{TimeObject}->TimeStamp2SystemTime(String => $Cell->{TimeStart}) <
+                        $Self->{TimeObject}->TimeStamp2SystemTime(String => $ValueSeries{$Row}{$Xvalue->{Values}{TimeStart}})
+                    ) {
                         next;
                     }
                 }
@@ -1208,7 +1238,8 @@ sub GenerateGraph {
         shadowclr => $Self->{ConfigObject}->Get("Stats::Graph::shadowclr") || 'black',
         legendclr => $Self->{ConfigObject}->Get("Stats::Graph::legendclr") || 'black',
         textclr => $Self->{ConfigObject}->Get("Stats::Graph::textclr") || 'black',
-        dclrs => $Self->{ConfigObject}->Get("Stats::Graph::dclrs") || [ qw(red green blue yellow black purple orange pink marine cyan lgray lblue lyellow lgreen lred lpurple lorange lbrown) ],
+        dclrs => $Self->{ConfigObject}->Get("Stats::Graph::dclrs") ||
+            [ qw(red green blue yellow black purple orange pink marine cyan lgray lblue lyellow lgreen lred lpurple lorange lbrown) ],
         x_tick_offset => 0,
         x_label_position => 1/2,
         y_label_position => 1/2,
@@ -1504,7 +1535,8 @@ sub CompletenessCheck {
                         }
 
                         if ($Xvalue->{TimeStop} && $Xvalue->{TimeStart}) {
-                            $TimePeriod = ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Xvalue->{TimeStop})) - ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Xvalue->{TimeStart}));
+                            $TimePeriod = ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Xvalue->{TimeStop})) -
+                                ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Xvalue->{TimeStart}));
                         }
                         else {
                             if ($Xvalue->{TimeRelativeUnit} eq 'Year') {
@@ -2395,6 +2427,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2007-02-08 12:33:11 $
+$Revision: 1.20 $ $Date: 2007-02-13 15:01:33 $
 
 =cut
