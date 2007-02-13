@@ -3,7 +3,7 @@
 # xml2docbook.pl - config xml to docbook
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xml2docbook.pl,v 1.12 2007-02-06 19:33:15 martin Exp $
+# $Id: xml2docbook.pl,v 1.13 2007-02-13 15:04:06 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -66,14 +66,14 @@ if ($Opts{'l'}) {
     $UserLang = $Opts{'l'};
 }
 else {
-   die "Need -l <Language>\n";
+    die "Need -l <Language>\n";
 }
 
 # start xml output
 
-print '<?xml version="1.0" encoding="ISO-8859-1"?>
+print '<?xml version="1.0" encoding="' . $CommonObject{ConfigObject}->Get('DefaultCharset') . '"?>
 <!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+    "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 ';
 print "\n<appendix id=\"config\"><title>Config Referenzliste</title>\n";
 foreach my $Group (@Groups) {
