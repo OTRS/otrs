@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.25 2007-02-07 08:58:05 tr Exp $
+# $Id: AgentStats.pm,v 1.26 2007-02-13 09:54:41 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1768,6 +1768,8 @@ sub Run {
                                             OP => "Action=AgentStats&Subaction=View&StatID=$Param{StatID}&Message=2",
                                         );
                                     }
+                                    $Element->{TimeStart} = $Time{TimeStart};
+                                    $Element->{TimeStop} = $Time{TimeStop};
                                     $TimePeriod = ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStop})) -
                                         ($Self->{TimeObject}->TimeStamp2SystemTime(String => $Element->{TimeStart}));
                                 }
