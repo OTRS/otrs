@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # StatsExportToOPM.pl - export all stats of a system and create a package for the package manager
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StatsExportToOPM.pl,v 1.3 2006-12-07 06:40:37 tr Exp $
+# $Id: StatsExportToOPM.pl,v 1.4 2007-02-14 07:55:32 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -179,13 +179,11 @@ my ($s,$m,$h, $D,$M,$Y) = $CommonObject{TimeObject}->SystemTime2Date(
 
 $OPMS{Version}    {Content}    = $PackageVersion;
 $OPMS{Name}       {Content}    = $PackageName;
-$OPMS{Framework}  {Content}    = '2.1.x';
+$OPMS{Framework}  {Content}    = '2.2.x';
 $OPMS{Vendor}     {Content}    = 'OTRS GmbH';
 $OPMS{URL}        {Content}    = 'http://otrs.org/';
 $OPMS{License}    {Content}    = 'GNU GENERAL PUBLIC LICENSE Version 2, June 1991';
 $OPMS{ChangeLog}  {Content}    = "$Y-$M-$D Created per StatsExportToOPM.pl";
-$OPMS{BuildDate}  {Content}    = '?';
-$OPMS{BuildHost}  {Content}    = '?';
 $OPMS{Description}[0]{Content} = 'Ein Modul um ein Paket mit allen Statistiken eines Systems zu generieren.';
 $OPMS{Description}[0]{Lang}    = 'de';
 $OPMS{Description}[1]{Content} = 'A module to make a package with all stats of an system.';
