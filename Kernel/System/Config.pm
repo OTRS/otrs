@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.59 2007-01-20 23:11:34 mh Exp $
+# $Id: Config.pm,v 1.60 2007-02-14 07:28:49 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,11 +14,10 @@ package Kernel::System::Config;
 use strict;
 
 use Kernel::System::XML;
-use Kernel::System::Main;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -48,6 +47,12 @@ create a object
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
+
+    my $MainObject = Kernel::System::Main->new(
+        LogObject => $LogObject,
+        ConfigObject => $ConfigObject,
+    );
+
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
@@ -69,7 +74,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject TimeObject)) {
+    foreach (qw(DBObject ConfigObject LogObject TimeObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -78,7 +83,6 @@ sub new {
     # create xml object
     $Self->{XMLObject} = Kernel::System::XML->new(%Param);
     # create main object to load Data::Dumper
-    $Self->{MainObject} = Kernel::System::Main->new(%Param);
     $Self->{MainObject}->Require('Data::Dumper');
     # create config object
     $Self->{ConfigDefaultObject} = Kernel::Config->new(%Param, Level => 'Default');
@@ -1378,6 +1382,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.59 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.60 $ $Date: 2007-02-14 07:28:49 $
 
 =cut
