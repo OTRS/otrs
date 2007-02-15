@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.27 2007-02-06 11:17:08 martin Exp $
+# $Id: Layout.pm,v 1.28 2007-02-15 07:08:34 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2181,6 +2181,12 @@ sub WindowTabStart {
         );
         $Self->FatalError();
     }
+
+    $Self->Block(
+        Name => 'WindowTabStart',
+        Data => \%Param,
+    );
+
     my @Tabs = @{$Param{Tab}};
     my $Size = int(100/($#Tabs+1));
     foreach my $Hash (@Tabs) {
@@ -2198,7 +2204,7 @@ sub WindowTabStart {
             },
         );
     }
-    $Output .= $Self->Output(TemplateFile => 'AgentWindowTabStart', Data => \%Param);
+    $Output .= $Self->Output(TemplateFile => 'AgentWindowTab', Data => \%Param);
     return $Output;
 }
 
@@ -2206,6 +2212,12 @@ sub WindowTabStop {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
+
+    $Self->Block(
+        Name => 'WindowTabStop',
+        Data => \%Param,
+    );
+
     if ($Param{"Layer0Footer"}) {
         foreach my $Hash (@{$Param{"Layer0Footer"}}) {
             $Self->Block(
@@ -2226,7 +2238,7 @@ sub WindowTabStop {
             );
         }
     }
-    $Output .= $Self->Output(TemplateFile => 'AgentWindowTabStop', Data => \%Param);
+    $Output .= $Self->Output(TemplateFile => 'AgentWindowTab', Data => \%Param);
     return $Output;
 }
 
@@ -2769,6 +2781,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2007-02-06 11:17:08 $
+$Revision: 1.28 $ $Date: 2007-02-15 07:08:34 $
 
 =cut
