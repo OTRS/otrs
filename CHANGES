@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.347 2007-02-13 10:53:38 martin Exp $
+# $Id: CHANGES,v 1.348 2007-02-15 16:14:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD (????/??/??)
+ - (2007/02/15) Add BuildSelection(). This function replaced OptionStrgHashRef(),
+    OptionElement() AgentQueueListOption()
  - (2007/02/12) Added pending time selection feature for generic agent.
  - (2007/02/07) Moved to dtl block in customer ticket zoom view.
  - (2007/02/07) Moved default WebMaxFileUpload config option from 5 MB

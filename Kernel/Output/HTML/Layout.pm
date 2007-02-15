@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.29 2007-02-15 12:16:01 martin Exp $
+# $Id: Layout.pm,v 1.30 2007-02-15 16:12:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1562,6 +1562,13 @@ sub CustomerAge {
     return $AgeStrg;
 }
 
+# OptionStrgHashRef()
+#
+# !! DONT USE THIS FUNCTION !! Use BuildSelection() instead.
+#
+# Due to compatibility reason this function is still in use and will be removed
+# in a further release.
+
 sub OptionStrgHashRef {
     my $Self = shift;
     my %Param = @_;
@@ -1680,32 +1687,36 @@ sub OptionStrgHashRef {
     return $Output;
 }
 
-=item OptionElement()
-
-build a html option element based on given data
-
-    my $HTML = $LayoutObject->OptionElement(
-        Name            => 'SomeParamName',
-        Data            => {
-            ParamA => {
-                Position    => 1,
-                Value       => 'Some Nice Text A',
-            },
-            ParamB => {
-                Position    => 2,
-                Value       => 'Some Nice Text B',
-                Selected    => 1,
-            },
-        },
-        # optional
-        Max             => 80, # max size of the shown value
-        Multiple        => 0, # 1|0
-        Size            => '', # option element size
-        HTMLQuote       => 1, # 1|0
-        PossibleNone    => 0, # 1|0 add a leading empty selection
-    );
-
-=cut
+# OptionElement()
+#
+# !! DONT USE THIS FUNCTION !! Use BuildSelection() instead.
+#
+# Due to compatibility reason this function is still in use and will be removed
+# in a further release.
+#
+#
+# build a html option element based on given data
+#
+#    my $HTML = $LayoutObject->OptionElement(
+#        Name            => 'SomeParamName',
+#        Data            => {
+#            ParamA => {
+#                Position    => 1,
+#                Value       => 'Some Nice Text A',
+#            },
+#            ParamB => {
+#                Position    => 2,
+#                Value       => 'Some Nice Text B',
+#                Selected    => 1,
+#            },
+#        },
+#        # optional
+#        Max             => 80, # max size of the shown value
+#        Multiple        => 0, # 1|0
+#        Size            => '', # option element size
+#        HTMLQuote       => 1, # 1|0
+#        PossibleNone    => 0, # 1|0 add a leading empty selection
+#    );
 
 sub OptionElement {
     my $Self = shift;
@@ -1796,6 +1807,441 @@ sub OptionElement {
         $Self->FatalError();
     }
     return $Output;
+}
+
+=item BuildSelection()
+
+build a html option element based on given data
+
+    my $HTML = $LayoutObject->BuildSelection(
+        Data => $ArrayRef,              # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
+
+        Name => 'TheName',              # name of element
+        Multiple => 1,                  # (optional) default 0 (0|1)
+        Size => 4,                      # (optional) default 1 element size
+        Class => 'class',               # (optional) a css class
+        Disabled => 1,                  # (optional) default 0 (0|1) disable the element
+        OnChange => 'javascript',       # (optional)
+
+        SelectedKey => [1, 5, 3],      # (optional) use integer or arrayref (unable to use with ArrayHashRef)
+        SelectedValue => 'test',       # (optional) use string or arrayref (unable to use with ArrayHashRef)
+        Sort => 'NumericValue',         # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey) unable to use with ArrayHashRef
+        SortReverse => 1,               # (optional) reverse the list
+        Translation => 1,               # (optional) default 0 (0|1) translate value
+        PossibleNone => 0,              # (optional) default 0 (0|1) add a leading empty selection
+        TreeView => 1,                  # (optional) default 0 (0|1)
+        Max => 80,                      # (optional) default 100 max size of the shown value
+        HTMLQuote => 0,                 # (optional) default 1 (0|1) disable html quote
+    );
+
+    my $HashRef = {
+        'Key1' => 'Value1',
+        'Key2' => 'Value2',
+        'Key3' => 'Value3',
+    };
+
+    my $ArrayRef = [
+        'KeyValue1',
+        'KeyValue2',
+        'KeyValue3',
+        'KeyValue4',
+    ];
+
+    my $ArrayHashRef = [
+        {
+            Key => '1',
+            Value => 'Value1',
+        },
+        {
+            Key => '2',
+            Value => 'Value1::Subvalue1',
+            Selected => 1,
+        },
+        {
+            Key => '3',
+            Value => 'Value1::Subvalue2',
+        },
+        {
+            Key => '4',
+            Value => 'Value2',
+            Disabled => 1,
+        }
+    ];
+
+=cut
+
+sub BuildSelection {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Data)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # create OptionRef
+    my $OptionRef = $Self->_BuildSelectionOptionRefCreate(%Param);
+    # create AttributeRef
+    my $AttributeRef = $Self->_BuildSelectionAttributeRefCreate(%Param);
+    # create DataRef
+    my $DataRef = $Self->_BuildSelectionDataRefCreate(
+        Data => $Param{Data},
+        AttributeRef => $AttributeRef,
+        OptionRef => $OptionRef,
+    );
+
+    # generate output
+    my $String = $Self->_BuildSelectionOutput(
+        AttributeRef => $AttributeRef,
+        DataRef => $DataRef,
+    );
+
+    return $String;
+}
+
+=item _BuildSelectionOptionRefCreate()
+
+create the option hash
+
+    my $OptionRef = $LayoutObject->_BuildSelectionOptionRefCreate(
+        %Param,
+    );
+
+    my $OptionRef = {
+        Sort => 'numeric',
+        PossibleNone => 0,
+        Max => 100,
+    }
+
+=cut
+
+sub _BuildSelectionOptionRefCreate {
+    my $Self = shift;
+    my %Param = @_;
+    my $OptionRef = {};
+
+    # set SelectedKey option
+    if ($Param{SelectedKey}) {
+        if (ref($Param{SelectedKey}) eq 'ARRAY') {
+            foreach my $Key (@{$Param{SelectedKey}}) {
+                $OptionRef->{SelectedKey}->{$Key} = 1;
+            }
+        }
+        else {
+            $OptionRef->{SelectedKey}->{$Param{SelectedKey}} = 1;
+        }
+    }
+    # set SelectedValue option
+    if ($Param{SelectedValue}) {
+        if (ref($Param{SelectedValue}) eq 'ARRAY') {
+            foreach my $Value (@{$Param{SelectedValue}}) {
+                $OptionRef->{SelectedValue}->{$Value} = 1;
+            }
+        }
+        else {
+            $OptionRef->{SelectedValue}->{$Param{SelectedValue}} = 1;
+        }
+    }
+    # set Sort option
+    $OptionRef->{Sort} = 0;
+    if ($Param{Sort}) {
+        $OptionRef->{Sort} = $Param{Sort};
+    }
+    # set SortReverse option
+    $OptionRef->{SortReverse} = 0;
+    if ($Param{SortReverse}) {
+        $OptionRef->{SortReverse} = 1;
+    }
+    # set Translation option
+    $OptionRef->{Translation} = 0;
+    if ($Param{Translation}) {
+        $OptionRef->{Translation} = 1;
+    }
+    # set PossibleNone option
+    $OptionRef->{PossibleNone} = 0;
+    if ($Param{PossibleNone}) {
+        $OptionRef->{PossibleNone} = 1;
+    }
+    # set TreeView option
+    $OptionRef->{TreeView} = 0;
+    if ($Param{TreeView}) {
+        $OptionRef->{TreeView} = 1;
+        $OptionRef->{Sort} = 'AlphanumericValue';
+    }
+    # set Max option
+    $OptionRef->{Max} = $Param{Max} || 100;
+    # set HTMLQuote option
+    $OptionRef->{HTMLQuote} = 1;
+    if ($Param{HTMLQuote}) {
+        $OptionRef->{HTMLQuote} = 0;
+    }
+
+    return $OptionRef;
+}
+
+=item _BuildSelectionAttributeRefCreate()
+
+create the attribute hash
+
+    my $AttributeRef = $LayoutObject->_BuildSelectionAttributeRefCreate(
+        %Param,
+    );
+
+    my $AttributeRef = {
+        name => 'TheName',
+        multiple => undef,
+        size => 5,
+    }
+
+=cut
+
+sub _BuildSelectionAttributeRefCreate {
+    my $Self = shift;
+    my %Param = @_;
+    my $AttributeRef = {};
+
+    # check params with key and value
+    foreach (qw(Name Size Class OnChange)) {
+        if ($Param{$_}) {
+            $AttributeRef->{lc($_)} = $Param{$_};
+        }
+    }
+    # check key only params
+    foreach (qw(Multiple Disabled)) {
+        if ($Param{$_}) {
+            $AttributeRef->{lc($_)} = undef;
+        }
+    }
+
+    return $AttributeRef;
+}
+
+=item _BuildSelectionDataRefCreate()
+
+create the data hash
+
+    my $DataRef = $LayoutObject->_BuildSelectionDataRefCreate(
+        Data => $ArrayRef,              # use $HashRef, $ArrayRef or $ArrayHashRef
+        AttributeRef => $AttributeRef,
+        OptionRef => $OptionRef,
+    );
+
+    my $DataRef  = [
+        {
+            Key => 11,
+            Value => 'Text',
+        },
+        {
+            Key => 'abc',
+            Value => '&nbsp;&nbsp;Text',
+            Selected => 1,
+        },
+    ];
+
+=cut
+
+sub _BuildSelectionDataRefCreate {
+    my $Self = shift;
+    my %Param = @_;
+    my $AttributeRef = $Param{AttributeRef};
+    my $OptionRef = $Param{OptionRef};
+    my $DataRef = [];
+
+    my $Counter;
+    # if HashRef was given
+    if (ref($Param{Data}) eq 'HASH') {
+        # sort hash
+        my @SortKeys;
+        if ($OptionRef->{Sort} eq 'NumericKey') {
+            @SortKeys = sort {$a <=> $b} (keys %{$Param{Data}});
+        }
+        elsif ($OptionRef->{Sort} eq 'NumericValue') {
+            @SortKeys = sort {${$Param{Data}}{$a} <=> ${$Param{Data}}{$b}} (keys %{$Param{Data}});
+        }
+        elsif ($OptionRef->{Sort} eq 'AlphanumericKey') {
+            @SortKeys = sort(keys %{$Param{Data}});
+        }
+        else {
+            @SortKeys = sort {${$Param{Data}}{$a} cmp ${$Param{Data}}{$b}} (keys %{$Param{Data}});
+            $OptionRef->{Sort} = 'AlphanumericValue';
+        }
+        # create DataRef
+        foreach my $Row (@SortKeys) {
+            $DataRef->[$Counter]->{Key} = $Row;
+            # translate value
+            if ($OptionRef->{Translation}) {
+                $DataRef->[$Counter]->{Value} = $Self->{LanguageObject}->Get($Param{Data}->{$Row}) || '';
+            }
+            else {
+                $DataRef->[$Counter]->{Value} = $Param{Data}->{$Row} || '';
+            }
+            $Counter++;
+        }
+    }
+    # if ArrayHashRef was given
+    elsif (ref($Param{Data}) eq 'ARRAY' && ref($Param{Data}->[0]) eq 'HASH') {
+        # create DataRef
+        foreach my $Row (@{$Param{Data}}) {
+            if (ref($Row) eq 'HASH' && $Row->{Key}) {
+                $DataRef->[$Counter]->{Key} = $Row->{Key};
+                $DataRef->[$Counter]->{Value} = $Row->{Value} || '';
+                # translate value
+                if ($OptionRef->{Translation}) {
+                    $DataRef->[$Counter]->{Value} = $Self->{LanguageObject}->Get($DataRef->[$Counter]->{Value});
+                }
+
+                if ($Row->{Selected}) {
+                    $DataRef->[$Counter]->{Selected} = 1;
+                }
+                elsif ($Row->{Disabled}) {
+                    $DataRef->[$Counter]->{Disabled} = 1;
+                }
+                $Counter++;
+            }
+        }
+    }
+    # if ArrayRef was given
+    elsif (ref($Param{Data}) eq 'ARRAY') {
+        # sort array
+        if ($OptionRef->{Sort} eq 'AlphanumericKey' || $OptionRef->{Sort} eq 'AlphanumericValue') {
+            my @SortArray = sort(@{$Param{Data}});
+            $Param{Data} = \@SortArray;
+        }
+        elsif ($OptionRef->{Sort} eq 'NumericKey' || $OptionRef->{Sort} eq 'NumericValue') {
+            my @SortArray = sort {$a <=> $b} (@{$Param{Data}});
+            $Param{Data} = \@SortArray;
+        }
+        # create DataRef
+        foreach my $Row (@{$Param{Data}}) {
+            $DataRef->[$Counter]->{Key} = $Row;
+            # translate value
+            if ($OptionRef->{Translation}) {
+                $DataRef->[$Counter]->{Value} = $Self->{LanguageObject}->Get($Row) || '';
+            }
+            else {
+                $DataRef->[$Counter]->{Value} = $Row || '';
+            }
+            $Counter++;
+        }
+    }
+
+    # SelectedKey and SelectedValue option
+    if ($OptionRef->{SelectedKey} || $OptionRef->{SelectedValue}) {
+        foreach my $Row (@{$DataRef}) {
+            if ($OptionRef->{SelectedKey}->{$Row->{Key}} ||
+                $OptionRef->{SelectedValue}->{$Row->{Value}}
+            ) {
+                $Row->{Selected} = 1;
+            }
+        }
+    }
+    # HTMLQuote option
+    if ($OptionRef->{HTMLQuote}) {
+        foreach my $Row (@{$DataRef}) {
+            $Row->{Key} = $Self->Ascii2Html(Text => $Row->{Key});
+            $Row->{Value} = $Self->Ascii2Html(Text => $Row->{Value});
+        }
+    }
+    # SortReverse option
+    if ($OptionRef->{SortReverse}) {
+        @{$DataRef} = reverse(@{$DataRef});
+    }
+    # PossibleNone option
+    if ($OptionRef->{PossibleNone}) {
+        my %None;
+        $None{Key} = '';
+        $None{Value} = '-';
+
+        unshift(@{$DataRef}, \%None);
+    }
+    # Max option
+    if ($OptionRef->{Max}) {
+        foreach my $Row (@{$DataRef}) {
+            $Row->{Value} = substr($Row->{Value}, 0, $OptionRef->{Max});
+        }
+    }
+    # TreeView option
+    if ($OptionRef->{TreeView}) {
+        foreach my $Row (@{$DataRef}) {
+            my @Fragment = split('::', $Row->{Value});
+            $Row->{Value} = pop(@Fragment);
+            my $Space;
+            foreach (@Fragment) {
+                $Space .= '&nbsp;&nbsp;';
+            }
+            $Row->{Value} = $Space . $Row->{Value};
+        }
+    }
+
+    return $DataRef;
+}
+
+=item _BuildSelectionOutput()
+
+create the html string
+
+    my $HTMLString = $LayoutObject->_BuildSelectionOutput(
+        AttributeRef => $AttributeRef,
+        DataRef => $DataRef,
+    );
+
+    my $AttributeRef = {
+        name => 'TheName',
+        multiple => undef,
+        size => 5,
+    }
+
+    my $DataRef  = [
+        {
+            Key => 11,
+            Value => 'Text',
+            Disabled => 1,
+        },
+        {
+            Key => 'abc',
+            Value => '&nbsp;&nbsp;Text',
+            Selected => 1,
+        },
+    ];
+
+=cut
+
+sub _BuildSelectionOutput {
+    my $Self = shift;
+    my %Param = @_;
+    my $String;
+
+    # start generation, if AttributeRef and DataRef was found
+    if ($Param{AttributeRef} && $Param{DataRef}) {
+        # generate <select> row
+        $String = "<select";
+        foreach my $Key (%{$Param{AttributeRef}}) {
+            if ($Key && defined($Param{AttributeRef}->{$Key})) {
+                $String .= " $Key=\"$Param{AttributeRef}->{$Key}\"";
+            }
+            elsif ($Key) {
+                $String .= " $Key";
+            }
+        }
+        $String .= ">\n";
+        # generate <option> rows
+        foreach my $Row (@{$Param{DataRef}}) {
+            my $Key = $Row->{Key} || '';
+            my $Value = $Row->{Value} || '';
+
+            my $SelectedDisabled;
+            if ($Row->{Selected}) {
+                $SelectedDisabled = " selected";
+            }
+            elsif ($Row->{Disabled}) {
+                $SelectedDisabled = " disabled";
+            }
+            $String .= "  <option value=\"$Key\"$SelectedDisabled>$Value</option>\n";
+        }
+        $String .= "</select>";
+    }
+    return $String;
 }
 
 sub NoPermission {
@@ -2795,6 +3241,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2007-02-15 12:16:01 $
+$Revision: 1.30 $ $Date: 2007-02-15 16:12:55 $
 
 =cut
