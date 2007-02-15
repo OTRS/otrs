@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.8 2007-01-30 20:00:22 mh Exp $
+# $Id: LayoutTicket.pm,v 1.9 2007-02-15 16:15:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::LayoutTicket;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketStdResponseString {
@@ -112,6 +112,13 @@ sub AgentCustomerViewTable {
     # create & return output
     return $Self->Output(TemplateFile => 'AgentCustomerTableView', Data => \%Param);
 }
+
+# AgentQueueListOption()
+#
+# !! DONT USE THIS FUNCTION !! Use BuildSelection() instead.
+#
+# Due to compatibility reason this function is still in use and will be removed
+# in a further release.
 
 sub AgentQueueListOption {
     my $Self = shift;
