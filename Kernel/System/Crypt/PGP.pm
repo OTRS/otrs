@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.14 2007-01-30 11:19:32 martin Exp $
+# $Id: PGP.pm,v 1.15 2007-02-15 14:13:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::PGP;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -124,8 +124,7 @@ decrypt a message and returns a hash (Successful, Message, Data)
 sub Decrypt {
     my $Self = shift;
     my %Param = @_;
-    my $LogMessage = '';
-    my $Decrypt = '';
+    my %Return = ();
     # check needed stuff
     foreach (qw(Message)) {
         if (!defined($Param{$_})) {
@@ -134,31 +133,64 @@ sub Decrypt {
         }
     }
     my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
-    my ($FHDecrypt, $FilenameDecrypt) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Message};
-    if (!$Param{Password}) {
-        my $Pw;
-        my @Keys = $Self->_CryptedWithKey(File => $Filename);
-        my %Password = %{$Self->{ConfigObject}->Get('PGP::Key::Password')};
-        foreach (@Keys) {
-            if (defined ($Password{$_})) {
-                $Pw = $Password{$_};
+    my @Keys = $Self->_CryptedWithKey(File => $Filename);
+    foreach my $Key (@Keys) {
+        my $Password = $Param{Password};
+        if (!$Password) {
+            my $Pw;
+            my %PasswordHash = %{$Self->{ConfigObject}->Get('PGP::Key::Password')};
+            if (defined($PasswordHash{$Key})) {
+                $Pw = $PasswordHash{$Key};
+            }
+            if (defined($Pw)) {
+                $Password = $Pw;
+            }
+            else {
+                $Password = '';
             }
         }
-        if (defined($Pw)) {
-            $Param{Password} = $Pw;
-        }
-        else {
-            $Param{Password} = '';
+        %Return = $Self->_DecryptPart(
+            Filename => $Filename,
+            Key => $Key,
+            Password => $Password,
+        );
+        if ($Return{Successful}) {
+            last;
         }
     }
-    open (SIGN, "echo ".quotemeta($Param{Password})." | $Self->{GPGBin} --passphrase-fd 0 --always-trust --yes -d -o $FilenameDecrypt $Filename 2>&1 | ");
+    if (!%Return) {
+        return (
+            Successful => 0,
+            Message => 'gpg: No privat key found to decrypt this message!',
+        );
+    }
+    else {
+        return %Return;
+    }
+}
+
+sub _DecryptPart {
+    my $Self = shift;
+    my %Param = @_;
+    my $LogMessage = '';
+    my $Decrypt = '';
+    # check needed stuff
+    foreach (qw(Key Password Filename)) {
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+
+    my ($FHDecrypt, $FilenameDecrypt) = $Self->{FileTempObject}->TempFile();
+    open (SIGN, "echo ".quotemeta($Param{Password})." | $Self->{GPGBin} --passphrase-fd 0 --always-trust --yes -d -o $FilenameDecrypt $Param{Filename} 2>&1 | ");
     while (<SIGN>) {
         $LogMessage .= $_;
     }
     close (SIGN);
     if ($LogMessage =~ /failed/i) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$LogMessage!");
+        $Self->{LogObject}->Log(Priority => 'notice', Message => "$LogMessage!");
         return (
             Successful => 0,
             Message => $LogMessage,
@@ -172,7 +204,7 @@ sub Decrypt {
         close (TMP);
         return (
             Successful => 1,
-            Message => "$LogMessage",
+            Message => $LogMessage,
             Data => $Decrypt,
         );
     }
@@ -557,6 +589,7 @@ sub _CryptedWithKey {
     my $Self = shift;
     my %Param = @_;
     my $Message = '';
+    my @Keys = ();
     # check needed stuff
     if (!$Param{File}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need File!");
@@ -572,11 +605,11 @@ sub _CryptedWithKey {
         if ($Line =~ /encrypted with.+?\sID\s(........)/i) {
             my @Result = $Self->PrivateKeySearch(Search => $1);
             if (@Result) {
-                return ($1, $Result[$#Result]->{Key});
+                push (@Keys, ($Result[$#Result]->{Key} || $1));
             }
         }
     }
-    return;
+    return @Keys;
 }
 
 1;
@@ -595,6 +628,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2007-01-30 11:19:32 $
+$Revision: 1.15 $ $Date: 2007-02-15 14:13:12 $
 
 =cut
