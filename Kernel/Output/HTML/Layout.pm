@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.28 2007-02-15 07:08:34 tr Exp $
+# $Id: Layout.pm,v 1.29 2007-02-15 12:16:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1289,6 +1289,13 @@ sub Header {
         if ($Param{$_}) {
             $Param{TitleArea} .= " :: ".$Self->{LanguageObject}->Get($Param{$_});
         }
+    }
+    # check if refresh block should be used
+    if ($Param{Refresh}) {
+        $Self->Block(
+            Name => 'MetaHttpEquivRefresh',
+            Data => \%Param,
+        );
     }
     # create & return output
     $Output .= $Self->Output(TemplateFile => "Header$Type", Data => \%Param);
@@ -2594,6 +2601,13 @@ sub CustomerHeader {
             $Param{TitleArea} .= " :: ".$Self->{LanguageObject}->Get($Param{$_});
         }
     }
+    # check if refresh block should be used
+    if ($Param{Refresh}) {
+        $Self->Block(
+            Name => 'MetaHttpEquivRefresh',
+            Data => \%Param,
+        );
+    }
     # create & return output
     $Output .= $Self->Output(TemplateFile => "CustomerHeader$Type", Data => \%Param);
     return $Output;
@@ -2781,6 +2795,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2007-02-15 07:08:34 $
+$Revision: 1.29 $ $Date: 2007-02-15 12:16:01 $
 
 =cut
