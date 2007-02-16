@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.32 2007-02-16 15:55:15 mh Exp $
+# $Id: Layout.pm,v 1.33 2007-02-16 17:19:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1825,7 +1825,7 @@ build a html option element based on given data
 
         SelectedKey => [1, 5, 3],  # (optional) use integer or arrayref (unable to use with ArrayHashRef)
         SelectedValue => 'test',   # (optional) use string or arrayref (unable to use with ArrayHashRef)
-        Sort => 'NumericValue',    # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey) unable to use with ArrayHashRef
+        Sort => 'NumericValue',    # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView) unable to use with ArrayHashRef
         SortReverse => 0,          # (optional) reverse the list
         Translation => 1,          # (optional) default 1 (0|1) translate value
         PossibleNone => 0,         # (optional) default 0 (0|1) add a leading empty selection
@@ -1967,7 +1967,7 @@ sub _BuildSelectionOptionRefCreate {
     $OptionRef->{TreeView} = 0;
     if ($Param{TreeView}) {
         $OptionRef->{TreeView} = 1;
-        $OptionRef->{Sort} = 'AlphanumericValue';
+        $OptionRef->{Sort} = 'TreeView';
     }
     # set Max option
     $OptionRef->{Max} = $Param{Max} || 100;
@@ -2068,6 +2068,14 @@ sub _BuildSelectionDataRefCreate {
         elsif ($OptionRef->{Sort} eq 'AlphanumericKey') {
             @SortKeys = sort(keys %{$Param{Data}});
         }
+        elsif ($OptionRef->{Sort} eq 'TreeView') {
+            # add suffix for correct sorting
+            my %SortHash;
+            foreach (sort {$Param{Data}->{$a} cmp $Param{Data}->{$b}} (keys %{$Param{Data}})) {
+                $SortHash{$_} = $Param{Data}->{$_} . '::';
+            }
+            @SortKeys = sort {$Param{Data}->{$a} cmp $Param{Data}->{$b}} (keys %SortHash);
+        }
         else {
             @SortKeys = sort {$Param{Data}->{$a} cmp $Param{Data}->{$b}} (keys %{$Param{Data}});
             $OptionRef->{Sort} = 'AlphanumericValue';
@@ -2119,6 +2127,23 @@ sub _BuildSelectionDataRefCreate {
         }
         elsif ($OptionRef->{Sort} eq 'NumericKey' || $OptionRef->{Sort} eq 'NumericValue') {
             my @SortArray = sort {$a <=> $b} (@{$Param{Data}});
+            $Param{Data} = \@SortArray;
+        }
+        elsif ($OptionRef->{Sort} eq 'TreeView') {
+            # add suffix for correct sorting
+            my @SortArray;
+            foreach my $Row (@{$Param{Data}}) {
+                push (@SortArray, ($Row . '::'));
+            }
+            # sort array
+            @SortArray = sort(@SortArray);
+            # remove suffix
+            my @SortArray2;
+            foreach my $Row (@SortArray) {
+                $/ = '::';
+                chomp($Row);
+                push (@SortArray2, $Row);
+            }
             $Param{Data} = \@SortArray;
         }
         # create DataRef
@@ -3244,6 +3269,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2007-02-16 15:55:15 $
+$Revision: 1.33 $ $Date: 2007-02-16 17:19:01 $
 
 =cut
