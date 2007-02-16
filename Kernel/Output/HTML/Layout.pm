@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.31 2007-02-15 16:58:12 mh Exp $
+# $Id: Layout.pm,v 1.32 2007-02-16 15:55:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2051,31 +2051,31 @@ sub _BuildSelectionDataRefCreate {
     my $Counter;
     # if HashRef was given
     if (ref($Param{Data}) eq 'HASH') {
+        # translate value
+        if ($OptionRef->{Translation}) {
+            foreach my $Row (keys %{$Param{Data}}) {
+                $Param{Data}->{$Row} = $Self->{LanguageObject}->Get($Param{Data}->{$Row}) || '';
+            }
+        }
         # sort hash
         my @SortKeys;
         if ($OptionRef->{Sort} eq 'NumericKey') {
             @SortKeys = sort {$a <=> $b} (keys %{$Param{Data}});
         }
         elsif ($OptionRef->{Sort} eq 'NumericValue') {
-            @SortKeys = sort {${$Param{Data}}{$a} <=> ${$Param{Data}}{$b}} (keys %{$Param{Data}});
+            @SortKeys = sort {$Param{Data}->{$a} <=> $Param{Data}->{$b}} (keys %{$Param{Data}});
         }
         elsif ($OptionRef->{Sort} eq 'AlphanumericKey') {
             @SortKeys = sort(keys %{$Param{Data}});
         }
         else {
-            @SortKeys = sort {${$Param{Data}}{$a} cmp ${$Param{Data}}{$b}} (keys %{$Param{Data}});
+            @SortKeys = sort {$Param{Data}->{$a} cmp $Param{Data}->{$b}} (keys %{$Param{Data}});
             $OptionRef->{Sort} = 'AlphanumericValue';
         }
         # create DataRef
         foreach my $Row (@SortKeys) {
             $DataRef->[$Counter]->{Key} = $Row;
-            # translate value
-            if ($OptionRef->{Translation}) {
-                $DataRef->[$Counter]->{Value} = $Self->{LanguageObject}->Get($Param{Data}->{$Row}) || '';
-            }
-            else {
-                $DataRef->[$Counter]->{Value} = $Param{Data}->{$Row} || '';
-            }
+            $DataRef->[$Counter]->{Value} = $Param{Data}->{$Row};
             $Counter++;
         }
     }
@@ -2103,6 +2103,15 @@ sub _BuildSelectionDataRefCreate {
     }
     # if ArrayRef was given
     elsif (ref($Param{Data}) eq 'ARRAY') {
+        # translate value
+        if ($OptionRef->{Translation}) {
+            my @TranslateArray;
+            foreach my $Row (@{$Param{Data}}) {
+                my $TranslateString = $Self->{LanguageObject}->Get($Row) || '';
+                push (@TranslateArray, $TranslateString);
+            }
+            $Param{Data} = \@TranslateArray;
+        }
         # sort array
         if ($OptionRef->{Sort} eq 'AlphanumericKey' || $OptionRef->{Sort} eq 'AlphanumericValue') {
             my @SortArray = sort(@{$Param{Data}});
@@ -2115,13 +2124,7 @@ sub _BuildSelectionDataRefCreate {
         # create DataRef
         foreach my $Row (@{$Param{Data}}) {
             $DataRef->[$Counter]->{Key} = $Row;
-            # translate value
-            if ($OptionRef->{Translation}) {
-                $DataRef->[$Counter]->{Value} = $Self->{LanguageObject}->Get($Row) || '';
-            }
-            else {
-                $DataRef->[$Counter]->{Value} = $Row || '';
-            }
+            $DataRef->[$Counter]->{Value} = $Row;
             $Counter++;
         }
     }
@@ -3241,6 +3244,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2007-02-15 16:58:12 $
+$Revision: 1.32 $ $Date: 2007-02-16 15:55:15 $
 
 =cut
