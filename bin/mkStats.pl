@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.45 2007-02-13 14:59:50 tr Exp $
+# $Id: mkStats.pl,v 1.46 2007-02-19 10:51:07 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -51,21 +51,21 @@ use Kernel::Language;
 # create common objects
 my %CommonObject = ();
 $CommonObject{UserID} = 1;
-$CommonObject{ConfigObject}    = Kernel::Config->new();
-$CommonObject{LogObject}       = Kernel::System::Log->new(
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-SendStats',
     %CommonObject,
 );
-$CommonObject{CSVObject}       = Kernel::System::CSV->new(%CommonObject);
-$CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
-$CommonObject{GroupObject}     = Kernel::System::Group->new(%CommonObject);
-$CommonObject{UserObject}      = Kernel::System::User->new(%CommonObject);
-$CommonObject{StatsObject}     = Kernel::System::Stats->new(%CommonObject);
+$CommonObject{CSVObject} = Kernel::System::CSV->new(%CommonObject);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
+$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
+$CommonObject{StatsObject} = Kernel::System::Stats->new(%CommonObject);
 $CommonObject{CheckItemObject} = Kernel::System::CheckItem->new(%CommonObject);
-$CommonObject{EmailObject}     = Kernel::System::Email->new(%CommonObject);
-$CommonObject{PDFObject}       = Kernel::System::PDF->new(%CommonObject);
+$CommonObject{EmailObject} = Kernel::System::Email->new(%CommonObject);
+$CommonObject{PDFObject} = Kernel::System::PDF->new(%CommonObject);
 
 # get options
 my %Opts = ();
@@ -144,7 +144,7 @@ if ($Opts{'o'} && !-e $Opts{'o'}) {
 
 # process the informations
 my $StatNumber = $Opts{'n'};
-my $StatID     = $CommonObject{StatsObject}->StatNumber2StatID(StatNumber => $StatNumber);
+my $StatID = $CommonObject{StatsObject}->StatNumber2StatID(StatNumber => $StatNumber);
 if (!$StatID) {
     print STDERR "ERROR: No StatNumber: $Opts{'n'}\n";
     exit 1;
@@ -154,13 +154,13 @@ my ($s,$m,$h, $D,$M,$Y) = $CommonObject{TimeObject}->SystemTime2Date(
     SystemTime => $CommonObject{TimeObject}->SystemTime(),
 );
 
-my %GetParam   = ();
+my %GetParam = ();
 my $Stat = $CommonObject{StatsObject}->StatsGet(StatID => $StatID);
 
 if ($Stat->{StatType} eq 'static') {
-    $GetParam{Year}  = $Y;
+    $GetParam{Year} = $Y;
     $GetParam{Month} = $M;
-    $GetParam{Day}   = $D;
+    $GetParam{Day} = $D;
 
     # get params from -p
     # only for static files
@@ -198,7 +198,7 @@ elsif ($Stat->{StatType} eq 'dynamic') {
 
 # run stat...
 my @StatArray = @{$CommonObject{StatsObject}->StatsRun(
-    StatID       => $StatID,
+    StatID => $StatID,
     GetParam => \%GetParam,
 )};
 
@@ -321,10 +321,10 @@ if ($Format eq 'Print' && $CommonObject{PDFObject}) {
         String => $Stat->{Title} . " Created",
     );
     %Attachment = (
-        Filename    => $Filename . ".pdf",
+        Filename => $Filename . ".pdf",
         ContentType => "application/pdf",
-        Content     => $PDFString,
-        Encoding    => "base64",
+        Content => $PDFString,
+        Encoding => "base64",
         Disposition => "attachment",
     );
 }
@@ -342,10 +342,10 @@ else {
     );
 
     %Attachment = (
-        Filename    => $Filename . ".csv",
+        Filename => $Filename . ".csv",
         ContentType => "text/csv",
-        Content     => $Output,
-        Encoding    => "base64",
+        Content => $Output,
+        Encoding => "base64",
         Disposition => "attachment",
     );
 }
@@ -365,10 +365,10 @@ if ($Opts{'o'}) {
 }
 # send email
 elsif ($CommonObject{EmailObject}->Send(
-    From       => $Opts{'s'},
-    To         => $Opts{'r'},
-    Subject    => "[Stats - $CountStatArray Records] $Title; Created: $Time",
-    Body       => $Opts{'m'},
+    From => $Opts{'s'},
+    To => $Opts{'r'},
+    Subject => "[Stats - $CountStatArray Records] $Title; Created: $Time",
+    Body => $Opts{'m'},
     Attachment => [
         {
             %Attachment,
