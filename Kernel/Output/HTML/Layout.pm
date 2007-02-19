@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.33 2007-02-16 17:19:01 mh Exp $
+# $Id: Layout.pm,v 1.34 2007-02-19 11:49:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2071,10 +2071,10 @@ sub _BuildSelectionDataRefCreate {
         elsif ($OptionRef->{Sort} eq 'TreeView') {
             # add suffix for correct sorting
             my %SortHash;
-            foreach (sort {$Param{Data}->{$a} cmp $Param{Data}->{$b}} (keys %{$Param{Data}})) {
+            foreach (keys %{$Param{Data}}) {
                 $SortHash{$_} = $Param{Data}->{$_} . '::';
             }
-            @SortKeys = sort {$Param{Data}->{$a} cmp $Param{Data}->{$b}} (keys %SortHash);
+            @SortKeys = sort {$SortHash{$a} cmp $SortHash{$b}} (keys %SortHash);
         }
         else {
             @SortKeys = sort {$Param{Data}->{$a} cmp $Param{Data}->{$b}} (keys %{$Param{Data}});
@@ -3269,6 +3269,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2007-02-16 17:19:01 $
+$Revision: 1.34 $ $Date: 2007-02-19 11:49:01 $
 
 =cut
