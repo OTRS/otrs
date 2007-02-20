@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.349 2007-02-20 08:31:39 martin Exp $
+# $Id: CHANGES,v 1.350 2007-02-20 09:40:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -62,6 +62,8 @@ CVS HEAD (????/??/??)
     to 12 MB.
 
 2.1.6 (????/??/??)
+ - (2007/02/20) fixed bug #980 - Use of uninitialized value in
+    Kernel/System/AuthSession/FS.pm
  - (2007/02/15) changed unlock time reset mechanism, added unlock time reset
     if a agent sends an external message to the customer (like escalation
     reset mechanism)
