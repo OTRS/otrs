@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.128.2.2 2007-01-30 15:32:41 martin Exp $
+# $Id: Article.pm,v 1.128.2.3 2007-02-20 08:21:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.128.2.2 $';
+$VERSION = '$Revision: 1.128.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -215,6 +215,11 @@ sub ArticleCreate {
                 TicketID => $Param{TicketID},
                 UserID => $Param{UserID},
            );
+            $Self->TicketUnlockTimeoutUpdate(
+                 UnlockTimeout => $Self->{TimeObject}->SystemTime(),
+                 TicketID => $Param{TicketID},
+                 UserID => $Param{UserID},
+            );
         }
     }
     elsif ($Param{SenderType} eq 'agent' && $Param{ArticleType} =~ /email-ext|phone|fax|sms|note-ext/) {
@@ -223,6 +228,11 @@ sub ArticleCreate {
             EscalationStartTime => $Self->{TimeObject}->SystemTime(),
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
+        );
+        $Self->TicketUnlockTimeoutUpdate(
+             UnlockTimeout => $Self->{TimeObject}->SystemTime(),
+             TicketID => $Param{TicketID},
+             UserID => $Param{UserID},
         );
     }
     # send auto response
