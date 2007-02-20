@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.34 2007-02-19 11:49:01 mh Exp $
+# $Id: Layout.pm,v 1.35 2007-02-20 14:36:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1922,7 +1922,7 @@ sub _BuildSelectionOptionRefCreate {
     my $OptionRef = {};
 
     # set SelectedKey option
-    if ($Param{SelectedKey}) {
+    if (defined($Param{SelectedKey})) {
         if (ref($Param{SelectedKey}) eq 'ARRAY') {
             foreach my $Key (@{$Param{SelectedKey}}) {
                 $OptionRef->{SelectedKey}->{$Key} = 1;
@@ -1933,7 +1933,7 @@ sub _BuildSelectionOptionRefCreate {
         }
     }
     # set SelectedValue option
-    if ($Param{SelectedValue}) {
+    if (defined($Param{SelectedValue})) {
         if (ref($Param{SelectedValue}) eq 'ARRAY') {
             foreach my $Value (@{$Param{SelectedValue}}) {
                 $OptionRef->{SelectedValue}->{$Value} = 1;
@@ -2098,7 +2098,7 @@ sub _BuildSelectionDataRefCreate {
                 if ($OptionRef->{Translation}) {
                     $DataRef->[$Counter]->{Value} = $Self->{LanguageObject}->Get($DataRef->[$Counter]->{Value});
                 }
-
+                # set Selected and Disabled options
                 if ($Row->{Selected}) {
                     $DataRef->[$Counter]->{Selected} = 1;
                 }
@@ -2111,14 +2111,21 @@ sub _BuildSelectionDataRefCreate {
     }
     # if ArrayRef was given
     elsif (ref($Param{Data}) eq 'ARRAY') {
+        my %ReverseHash;
         # translate value
         if ($OptionRef->{Translation}) {
             my @TranslateArray;
             foreach my $Row (@{$Param{Data}}) {
                 my $TranslateString = $Self->{LanguageObject}->Get($Row) || '';
                 push (@TranslateArray, $TranslateString);
+                $ReverseHash{$TranslateString} = $Row;
             }
             $Param{Data} = \@TranslateArray;
+        }
+        else {
+            foreach my $Row (@{$Param{Data}}) {
+                $ReverseHash{$Row} = $Row;
+            }
         }
         # sort array
         if ($OptionRef->{Sort} eq 'AlphanumericKey' || $OptionRef->{Sort} eq 'AlphanumericValue') {
@@ -2148,7 +2155,7 @@ sub _BuildSelectionDataRefCreate {
         }
         # create DataRef
         foreach my $Row (@{$Param{Data}}) {
-            $DataRef->[$Counter]->{Key} = $Row;
+            $DataRef->[$Counter]->{Key} = $ReverseHash{$Row};
             $DataRef->[$Counter]->{Value} = $Row;
             $Counter++;
         }
@@ -2255,9 +2262,14 @@ sub _BuildSelectionOutput {
         $String .= ">\n";
         # generate <option> rows
         foreach my $Row (@{$Param{DataRef}}) {
-            my $Key = $Row->{Key} || '';
-            my $Value = $Row->{Value} || '';
-
+            my $Key = '';
+            if (defined($Row->{Key})) {
+                $Key = $Row->{Key};
+            }
+            my $Value = '';
+            if (defined($Row->{Value})) {
+                $Value = $Row->{Value};
+            }
             my $SelectedDisabled;
             if ($Row->{Selected}) {
                 $SelectedDisabled = " selected";
@@ -3269,6 +3281,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2007-02-19 11:49:01 $
+$Revision: 1.35 $ $Date: 2007-02-20 14:36:13 $
 
 =cut
