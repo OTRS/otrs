@@ -2,15 +2,20 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.348 2007-02-15 16:14:13 mh Exp $
+# $Id: CHANGES,v 1.349 2007-02-20 08:31:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD (????/??/??)
+ - (2007/02/15) Improved PGP decryption of files if more the one possible
+    private key exists in the system and one of it is invalid (e. g. no
+    configured password).
+ - (2007/02/15) Fixed bug-ticket# 2007020542000593 - Queue refresh "off"
+    can't be used on oracle database.
  - (2007/02/15) Add BuildSelection(). This function replaced OptionStrgHashRef(),
-    OptionElement() AgentQueueListOption()
+    OptionElement() AgentQueueListOption().
  - (2007/02/12) Added pending time selection feature for generic agent.
  - (2007/02/07) Moved to dtl block in customer ticket zoom view.
  - (2007/02/07) Moved default WebMaxFileUpload config option from 5 MB
@@ -57,6 +62,9 @@ CVS HEAD (????/??/??)
     to 12 MB.
 
 2.1.6 (????/??/??)
+ - (2007/02/15) changed unlock time reset mechanism, added unlock time reset
+    if a agent sends an external message to the customer (like escalation
+    reset mechanism)
  - (2007/02/09) fixed bug in _XMLHashAddAutoIncrement() - function could not
     return keys greater than '9'.
  - (2007/02/02) fixed bug #1056 - UTF-8 mode of OTRS and German Umlaute within
