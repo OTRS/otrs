@@ -2,15 +2,14 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TODO,v 1.112 2007-02-09 13:37:49 tr Exp $
+# $Id: TODO,v 1.113 2007-02-20 08:42:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-2.1
-- -default- selection option in all state, answer type, ... fields
+2.2
 - GenericAgent modules for PendingJobs.pl, UnlockTickets.pl and DeleteSessionIDs.pl
 - add "--please select--" in queue selection of customer panel
 - disable form multi submit
@@ -22,18 +21,13 @@
 - rework responses and relations in resposes (sort order)
 - A better way to reset password, hash confirmation...
    http://bugs.otrs.org/show_bug.cgi?id=443
-- otrs installation: Check if perl is insert in ApacheModules
 - change SysConfig XML-files form iso8859-1 to utf8 - Warning, be careful of
   conflicts between the modules
 - add possebility (maybe a Configoption) that for external notes not the
   email address of the agent but the queue address is used:
    http://lists.otrs.org/pipermail/otrs-de/2005-December/005103.html
-- if you need two times the same ConfigItem you it should be possible
-  to leave out the Description.
-- configoption which shows or masking the Freetextfilds individual
 - insert in each form requierd field stars, because of the patency to the other modules
 - GenericAgent: insert a delete.dtl if job should be removed (tr)
-- a todo for tr: remove AgentWindowTabStart and Stop an change the Incident, Advisory and Statistic-Module
 - dublicate configuration in Config.pm (Webinstaller) and SysConfig
   Solution 1: insert the settings from the Webinstaller in ZZZAAuto
   Solution 2: Checkfunction in SysConfig, witch check if the current
@@ -41,15 +35,10 @@
 - Change the logout message of OTRS from 'Logout successful. Thank you for using OTRS!' to
   'Logout successful. Thank you for using <Productname>!' in Kernel/System/Web/AgentInterface.pm.
   (Don't forget the translation file)
-
-
-2.2
-- master ticket feature
 - wording problem of these config settings Ticket::Frontend::QueueSort Ticket::Frontend::QueueSortByDefault Ticket::Frontend::QueueOrder::Default
   + a better description
 - localisation emails for "New OTRS Password!" and "New Account"
 - insert a function which marks all config settings in the SysConfig which still defined in the Config.pm
-- implement new bulk action with own sysconfig settings for all params
 - stats functionality: - add a function, to handle stats with the package manager
                          especially for quality assurance in customer systems dev->test>productive.
                          At the same time the actual import and export function should have the
@@ -66,7 +55,8 @@
                          Now I (tr) can say it is usefull to select one attribute
                        - a ticket timeaccounting stats is especially useful as default stats
 3.0
-- new templates without logic
+- master ticket feature
+- new templates without logic (no <dtl if>)
 - use more references in functions
 - log with log level
 
