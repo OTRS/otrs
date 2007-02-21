@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.1 2007-02-20 10:56:05 mh Exp $
+# $Id: Service.pm,v 1.2 2007-02-21 10:23:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Service;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -124,7 +124,7 @@ sub _ServiceList {
     # ask database
     my %Data;
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT id, service FROM service WHERE $Where ORDER BY service",
+        SQL => "SELECT id, name FROM service WHERE $Where ORDER BY name",
         LIMIT => 1,
     );
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -168,7 +168,7 @@ return a service as hash reference
 Return
     $ServiceData{ServiceID}
     $ServiceData{ParentID}
-    $ServiceData{Service}
+    $ServiceData{Name}
     $ServiceData{ValidID}
     $ServiceData{Comment}
     $ServiceData{CreateTime}
@@ -200,7 +200,7 @@ sub ServiceGet {
     # get service from db
     my %ServiceData = ();
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT id, parent_id, service, valid_id, comments, ".
+        SQL => "SELECT id, parent_id, name, valid_id, comments, ".
             "create_time, create_by, change_time, change_by ".
             "FROM service WHERE id = $Param{ServiceID}",
         LIMIT => 1,
@@ -208,7 +208,7 @@ sub ServiceGet {
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $ServiceData{ServiceID} = $Row[0];
         $ServiceData{ParentID} = $Row[1] || '';
-        $ServiceData{Service} = $Row[2];
+        $ServiceData{Name} = $Row[2];
         $ServiceData{ValidID} = $Row[3];
         $ServiceData{Comment} = $Row[4] || '';
         $ServiceData{CreateTime} = $Row[5];
@@ -226,7 +226,7 @@ add a service
 
     my $True = $ServiceObject->ServiceAdd(
         ParentID => 5,              # (optional)
-        Service => 'Service Name',
+        Name => 'Service Name',
         Comment => 'Comment',     # (optional)
         ValidID => 1,
     );
@@ -237,14 +237,14 @@ sub ServiceAdd {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(Service ValidID)) {
+    foreach (qw(Name ValidID)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
     # quote
-    foreach (qw(Service Comment)) {
+    foreach (qw(Name Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     foreach (qw(ValidID)) {
@@ -270,7 +270,7 @@ sub ServiceAdd {
     }
     my $Exists;
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT id FROM service WHERE service = '$Param{Service}' AND parent_id $Parent",
+        SQL => "SELECT id FROM service WHERE name = '$Param{Name}' AND parent_id $Parent",
         LIMIT => 1,
     );
     while ($Self->{DBObject}->FetchrowArray()) {
@@ -281,9 +281,9 @@ sub ServiceAdd {
     if (!$Exists) {
         $Self->{DBObject}->Do(
             SQL =>"INSERT INTO service ".
-                "(parent_id, service, valid_id, comments, ".
+                "(parent_id, name, valid_id, comments, ".
                 "create_time, create_by, change_time, change_by) VALUES ".
-                "($Param{ParentID}, '$Param{Service}', $Param{ValidID}, ".
+                "($Param{ParentID}, '$Param{Name}', $Param{ValidID}, ".
                 "$Param{Comment}, current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})",
         );
         $Return = 1;
@@ -304,7 +304,7 @@ update a existing service
     my $True = $ServiceObject->ServiceUpdate(
         ServiceID => 123,
         ParentID => 5,              # (optional)
-        Service => 'Service Name',
+        Name => 'Service Name',
         Comment => 'Comment',     # (optional)
         ValidID => 1,
     );
@@ -315,14 +315,14 @@ sub ServiceUpdate {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(ServiceID Service ValidID)) {
+    foreach (qw(ServiceID Name ValidID)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
     # quote
-    foreach (qw(Service Comment)) {
+    foreach (qw(Name Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     foreach (qw(ValidID)) {
@@ -348,7 +348,7 @@ sub ServiceUpdate {
     }
     my $Exists;
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT id FROM service WHERE service = '$Param{Service}' AND parent_id $Parent",
+        SQL => "SELECT id FROM service WHERE name = '$Param{Name}' AND parent_id $Parent",
         LIMIT => 1,
     );
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -360,7 +360,7 @@ sub ServiceUpdate {
     my $Return;
     if (!$Exists) {
         $Self->{DBObject}->Do(
-            SQL => "UPDATE service SET parent_id = $Param{ParentID}, service = '$Param{Service}', ".
+            SQL => "UPDATE service SET parent_id = $Param{ParentID}, name = '$Param{Name}', ".
                 "valid_id = $Param{ValidID}, ".
                 "comments = $Param{Comment}, change_time = current_timestamp, change_by = $Self->{UserID} ".
                 "WHERE id = $Param{ServiceID}",
@@ -392,6 +392,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2007-02-20 10:56:05 $
+$Revision: 1.2 $ $Date: 2007-02-21 10:23:58 $
 
 =cut
