@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.35 2007-02-20 14:36:13 mh Exp $
+# $Id: Layout.pm,v 1.36 2007-02-21 21:19:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1823,7 +1823,7 @@ build a html option element based on given data
         Disabled => 0,             # (optional) default 0 (0|1) disable the element
         OnChange => 'javascript',  # (optional)
 
-        SelectedKey => [1, 5, 3],  # (optional) use integer or arrayref (unable to use with ArrayHashRef)
+        SelectedID => [1, 5, 3],   # (optional) use integer or arrayref (unable to use with ArrayHashRef)
         SelectedValue => 'test',   # (optional) use string or arrayref (unable to use with ArrayHashRef)
         Sort => 'NumericValue',    # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView) unable to use with ArrayHashRef
         SortReverse => 0,          # (optional) reverse the list
@@ -1921,15 +1921,15 @@ sub _BuildSelectionOptionRefCreate {
     my %Param = @_;
     my $OptionRef = {};
 
-    # set SelectedKey option
-    if (defined($Param{SelectedKey})) {
-        if (ref($Param{SelectedKey}) eq 'ARRAY') {
-            foreach my $Key (@{$Param{SelectedKey}}) {
-                $OptionRef->{SelectedKey}->{$Key} = 1;
+    # set SelectedID option
+    if (defined($Param{SelectedID})) {
+        if (ref($Param{SelectedID}) eq 'ARRAY') {
+            foreach my $Key (@{$Param{SelectedID}}) {
+                $OptionRef->{SelectedID}->{$Key} = 1;
             }
         }
         else {
-            $OptionRef->{SelectedKey}->{$Param{SelectedKey}} = 1;
+            $OptionRef->{SelectedID}->{$Param{SelectedID}} = 1;
         }
     }
     # set SelectedValue option
@@ -2048,13 +2048,13 @@ sub _BuildSelectionDataRefCreate {
     my $OptionRef = $Param{OptionRef};
     my $DataRef = [];
 
-    my $Counter;
+    my $Counter = 0;
     # if HashRef was given
     if (ref($Param{Data}) eq 'HASH') {
         # translate value
         if ($OptionRef->{Translation}) {
             foreach my $Row (keys %{$Param{Data}}) {
-                $Param{Data}->{$Row} = $Self->{LanguageObject}->Get($Param{Data}->{$Row}) || '';
+                $Param{Data}->{$Row} = $Self->{LanguageObject}->Get($Param{Data}->{$Row});
             }
         }
         # sort hash
@@ -2093,7 +2093,7 @@ sub _BuildSelectionDataRefCreate {
         foreach my $Row (@{$Param{Data}}) {
             if (ref($Row) eq 'HASH' && $Row->{Key}) {
                 $DataRef->[$Counter]->{Key} = $Row->{Key};
-                $DataRef->[$Counter]->{Value} = $Row->{Value} || '';
+                $DataRef->[$Counter]->{Value} = $Row->{Value};
                 # translate value
                 if ($OptionRef->{Translation}) {
                     $DataRef->[$Counter]->{Value} = $Self->{LanguageObject}->Get($DataRef->[$Counter]->{Value});
@@ -2116,7 +2116,7 @@ sub _BuildSelectionDataRefCreate {
         if ($OptionRef->{Translation}) {
             my @TranslateArray;
             foreach my $Row (@{$Param{Data}}) {
-                my $TranslateString = $Self->{LanguageObject}->Get($Row) || '';
+                my $TranslateString = $Self->{LanguageObject}->Get($Row);
                 push (@TranslateArray, $TranslateString);
                 $ReverseHash{$TranslateString} = $Row;
             }
@@ -2161,10 +2161,10 @@ sub _BuildSelectionDataRefCreate {
         }
     }
 
-    # SelectedKey and SelectedValue option
-    if ($OptionRef->{SelectedKey} || $OptionRef->{SelectedValue}) {
+    # SelectedID and SelectedValue option
+    if ($OptionRef->{SelectedID} || $OptionRef->{SelectedValue}) {
         foreach my $Row (@{$DataRef}) {
-            if ($OptionRef->{SelectedKey}->{$Row->{Key}} ||
+            if ($OptionRef->{SelectedID}->{$Row->{Key}} ||
                 $OptionRef->{SelectedValue}->{$Row->{Value}}
             ) {
                 $Row->{Selected} = 1;
@@ -2199,13 +2199,15 @@ sub _BuildSelectionDataRefCreate {
     # TreeView option
     if ($OptionRef->{TreeView}) {
         foreach my $Row (@{$DataRef}) {
-            my @Fragment = split('::', $Row->{Value});
-            $Row->{Value} = pop(@Fragment);
-            my $Space;
-            foreach (@Fragment) {
-                $Space .= '&nbsp;&nbsp;';
+            if ($Row->{Value}) {
+                my @Fragment = split('::', $Row->{Value});
+                $Row->{Value} = pop(@Fragment);
+                my $Space = '';
+                foreach (@Fragment) {
+                    $Space .= '&nbsp;&nbsp;';
+                }
+                $Row->{Value} = $Space . $Row->{Value};
             }
-            $Row->{Value} = $Space . $Row->{Value};
         }
     }
 
@@ -2270,7 +2272,7 @@ sub _BuildSelectionOutput {
             if (defined($Row->{Value})) {
                 $Value = $Row->{Value};
             }
-            my $SelectedDisabled;
+            my $SelectedDisabled = '';
             if ($Row->{Selected}) {
                 $SelectedDisabled = " selected";
             }
@@ -3281,6 +3283,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2007-02-20 14:36:13 $
+$Revision: 1.36 $ $Date: 2007-02-21 21:19:25 $
 
 =cut
