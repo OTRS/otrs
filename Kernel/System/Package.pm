@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.59 2007-02-06 23:23:36 martin Exp $
+# $Id: Package.pm,v 1.60 2007-02-21 20:20:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1234,6 +1234,10 @@ sub PackageBuild {
     }
     foreach my $Tag (qw(Name Version Vendor URL License ChangeLog Description Framework OS
         PackageRequired CodeInstall CodeUpgrade CodeUninstall CodeReinstall)) {
+        # dont use CodeInstall CodeUpgrade CodeUninstall CodeReinstall in index mode
+        if ($Param{Type} && $Tag =~ /Code(Install|Upgrade|Uninstall|Reinstall)/) {
+            next;
+        }
         if (ref($Param{$Tag}) eq 'HASH') {
             my %OldParam = ();
             foreach (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
@@ -1269,6 +1273,7 @@ sub PackageBuild {
 #            return;
         }
     }
+    # dont use Build*, Filelist and Database* in index mode
     if ($Param{Type}) {
         return $XML;
     }
@@ -1694,6 +1699,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.59 $ $Date: 2007-02-06 23:23:36 $
+$Revision: 1.60 $ $Date: 2007-02-21 20:20:13 $
 
 =cut
