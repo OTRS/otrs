@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.22.2.1 2007-01-08 20:51:17 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.22.2.2 2007-02-22 09:02:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22.2.1 $';
+$VERSION = '$Revision: 1.22.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -716,30 +716,6 @@ sub Run {
             Config => \%ArticleFreeText,
             Article => \%GetParam,
         );
-        # run compose modules
-        if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
-            my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')};
-            foreach my $Job (sort keys %Jobs) {
-                # load module
-                if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
-                    my $Object = $Jobs{$Job}->{Module}->new(
-                        %{$Self},
-                        Debug => $Self->{Debug},
-                    );
-                    # get params
-                    foreach ($Object->Option(%Data, %GetParam, Config => $Jobs{$Job})) {
-                        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
-                    }
-                    # run module
-                    $Object->Run(%Data, %GetParam, Config => $Jobs{$Job});
-                    # get errors
-                    %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
-                }
-                else {
-                    return $Self->{LayoutObject}->FatalError();
-                }
-            }
-        }
         # build view ...
         $Output .= $Self->_Mask(
             TicketID => $Self->{TicketID},
@@ -747,9 +723,9 @@ sub Run {
             ResponseFormat => $Self->{ResponseFormat},
             Attachments => \@Attachments,
             Errors => \%Error,
+            GetParam => \%GetParam,
             %Ticket,
             %Data,
-#            %GetParam,
             %TicketFreeTextHTML,
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,
@@ -809,6 +785,30 @@ sub _Mask {
             %Param,
         },
     );
+    # run compose modules
+    if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
+        my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')};
+        foreach my $Job (sort keys %Jobs) {
+            # load module
+            if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    %{$Self},
+                    Debug => $Self->{Debug},
+                );
+                # get params
+                foreach ($Object->Option(%Param, %{$Param{GetParam}}, Config => $Jobs{$Job})) {
+                    $Param{GetParam}->{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+                }
+                # run module
+                $Object->Run(%Param, %{$Param{GetParam}}, Config => $Jobs{$Job});
+                # get errors
+                %{$Param{Errors}} = (%{$Param{Errors}}, $Object->Error(%{$Param{GetParam}}, Config => $Jobs{$Job}));
+            }
+            else {
+                return $Self->{LayoutObject}->FatalError();
+            }
+        }
+    }
     # ticket free text
     my $Count = 0;
     foreach (1..16) {
