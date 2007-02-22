@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.37 2007-02-22 13:27:37 mh Exp $
+# $Id: Layout.pm,v 1.38 2007-02-22 14:09:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1814,25 +1814,25 @@ sub OptionElement {
 build a html option element based on given data
 
     my $HTML = $LayoutObject->BuildSelection(
-        Data => $ArrayRef,          # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
+        Data => $ArrayRef,           # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
 
-        Name => 'TheName',          # name of element
-        Multiple => 0,              # (optional) default 0 (0|1)
-        Size => 1,                  # (optional) default 1 element size
-        Class => 'class',           # (optional) a css class
-        Disabled => 0,              # (optional) default 0 (0|1) disable the element
-        OnChange => 'javascript',   # (optional)
+        Name => 'TheName',           # name of element
+        Multiple => 0,               # (optional) default 0 (0|1)
+        Size => 1,                   # (optional) default 1 element size
+        Class => 'class',            # (optional) a css class
+        Disabled => 0,               # (optional) default 0 (0|1) disable the element
+        OnChange => 'javascript',    # (optional)
 
-        SelectedID => [1, 5, 3],    # (optional) use integer or arrayref (unable to use with ArrayHashRef)
-        SelectedValue => 'test',    # (optional) use string or arrayref (unable to use with ArrayHashRef)
-        Sort => 'NumericValue',     # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView) unable to use with ArrayHashRef
-        SortReverse => 0,           # (optional) reverse the list
-        Translation => 1,           # (optional) default 1 (0|1) translate value
-        PossibleNone => 0,          # (optional) default 0 (0|1) add a leading empty selection
-        TreeView => 0,              # (optional) default 0 (0|1)
-        DisabledElement => 'Self',  # (optional) default None (None|Child|All)
-        Max => 100,                 # (optional) default 100 max size of the shown value
-        HTMLQuote => 0,             # (optional) default 1 (0|1) disable html quote
+        SelectedID => [1, 5, 3],     # (optional) use integer or arrayref (unable to use with ArrayHashRef)
+        SelectedValue => 'test',     # (optional) use string or arrayref (unable to use with ArrayHashRef)
+        Sort => 'NumericValue',      # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView) unable to use with ArrayHashRef
+        SortReverse => 0,            # (optional) reverse the list
+        Translation => 1,            # (optional) default 1 (0|1) translate value
+        PossibleNone => 0,           # (optional) default 0 (0|1) add a leading empty selection
+        TreeView => 0,               # (optional) default 0 (0|1)
+        DisabledBranch => 'Branch',  # (optional) disable all elements of this branch (use string or arrayref)
+        Max => 100,                  # (optional) default 100 max size of the shown value
+        HTMLQuote => 0,              # (optional) default 1 (0|1) disable html quote
     );
 
     my $HashRef = {
@@ -1970,13 +1970,16 @@ sub _BuildSelectionOptionRefCreate {
         $OptionRef->{TreeView} = 1;
         $OptionRef->{Sort} = 'TreeView';
     }
-    # set DisabledElement option
-    $OptionRef->{DisabledElement} = 0;
-    if ($Param{DisabledElement} && (
-        $Param{DisabledElement} eq 'All' ||
-        $Param{DisabledElement} eq 'Child')
-    ) {
-        $OptionRef->{DisabledElement} = $Param{DisabledElement};
+    # set DisabledBranch option
+    if ($Param{DisabledBranch}) {
+        if (ref($Param{DisabledBranch}) eq 'ARRAY') {
+            foreach my $Branch (@{$Param{DisabledBranch}}) {
+                $OptionRef->{DisabledBranch}->{$Branch} = 1;
+            }
+        }
+        else {
+            $OptionRef->{DisabledBranch}->{$Param{DisabledBranch}} = 1;
+        }
     }
     # set Max option
     $OptionRef->{Max} = $Param{Max} || 100;
@@ -2180,31 +2183,11 @@ sub _BuildSelectionDataRefCreate {
             }
         }
     }
-    # DisabledElement option
-    if ($OptionRef->{DisabledElement}) {
-        if ($OptionRef->{DisabledElement} eq 'All') {
-            foreach my $Row (@{$DataRef}) {
-                $Row->{Disabled} = 1;
-            }
-        }
-        elsif ($OptionRef->{DisabledElement} eq 'Child') {
-            my @SelectedValue;
-            foreach my $Row (@{$DataRef}) {
-                if ($Row->{Selected}) {
-                    push(@SelectedValue, $Row->{Value});
-                }
-            }
-            foreach my $Row (@{$DataRef}) {
-                my $Disabled;
-                foreach my $Selected (@SelectedValue) {
-                    if ($Row->{Value} &&
-                        $Selected &&
-                        $Row->{Value} =~ /^($Selected)::/
-                    ) {
-                        $Disabled = 1;
-                    }
-                }
-                if ($Disabled) {
+    # DisabledBranch option
+    if ($OptionRef->{DisabledBranch}) {
+        foreach my $Row (@{$DataRef}) {
+            foreach my $Branch (keys %{$OptionRef->{DisabledBranch}}) {
+                if ($Row->{Value} =~ /^($Branch)::/) {
                     $Row->{Disabled} = 1;
                 }
             }
@@ -3322,6 +3305,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2007-02-22 13:27:37 $
+$Revision: 1.38 $ $Date: 2007-02-22 14:09:53 $
 
 =cut
