@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.23 2007-02-22 09:03:44 martin Exp $
+# $Id: CHANGES,v 1.323.2.24 2007-02-22 10:19:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.1.6 (????/??/??)
+ - (2007/02/22) fixed ticket# 2007022042000288 - error on creating postmaster
+    filter on oracle database
  - (2007/02/20) fixed not working crypt/sign option in AgentTicketCompose mask
  - (2007/02/20) fixed bug #980 - Use of uninitialized value in
     Kernel/System/AuthSession/FS.pm
