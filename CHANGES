@@ -2,13 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.350 2007-02-20 09:40:36 martin Exp $
+# $Id: CHANGES,v 1.351 2007-02-22 10:19:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD (????/??/??)
+ - (2007/02/22) Added Type, Service, SLA as ticket default attribute.
+    Each an be activated by a config setting over SysConfig under
+    Ticket :: Core :: Ticket.
  - (2007/02/15) Improved PGP decryption of files if more the one possible
     private key exists in the system and one of it is invalid (e. g. no
     configured password).
@@ -62,6 +65,9 @@ CVS HEAD (????/??/??)
     to 12 MB.
 
 2.1.6 (????/??/??)
+ - (2007/02/22) fixed ticket# 2007022042000288 - error on creating postmaster
+    filter on oracle database
+ - (2007/02/20) fixed not working crypt/sign option in AgentTicketCompose mask
  - (2007/02/20) fixed bug #980 - Use of uninitialized value in
     Kernel/System/AuthSession/FS.pm
  - (2007/02/15) changed unlock time reset mechanism, added unlock time reset
