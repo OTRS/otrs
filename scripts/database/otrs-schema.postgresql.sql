@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: postgresql, generated: Tue Jan 30 18:28:28 2007
+--  database: postgresql, generated: 2007-02-23 13:05:49
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -654,6 +654,34 @@ CREATE TABLE ticket_watcher (
     change_by INTEGER NOT NULL
 );
 CREATE INDEX ticket_id ON ticket_watcher (ticket_id);
+CREATE TABLE service (
+    id serial,
+    name VARCHAR (200) NOT NULL,
+    valid_id INTEGER NOT NULL,
+    comments VARCHAR (200) NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+CREATE TABLE sla (
+    id serial,
+    service_id INTEGER NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    calendar_name VARCHAR (100),
+    response_time INTEGER NOT NULL,
+    max_time_to_repair INTEGER NOT NULL,
+    min_time_between_incidents INTEGER NOT NULL,
+    valid_id INTEGER NOT NULL,
+    comments VARCHAR (200) NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
 -- ----------------------------------------------------------
 --  create table sessions
 -- ----------------------------------------------------------

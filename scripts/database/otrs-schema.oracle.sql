@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: oracle, generated: Tue Jan 30 18:27:13 2007
+--  database: oracle, generated: 2007-02-23 13:05:39
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -865,14 +865,14 @@ CREATE TABLE standard_response_attachment (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach39_PK PRIMARY KEY (id);
-DROP SEQUENCE standard_response_attach39_seq;
-CREATE SEQUENCE standard_response_attach39_seq;
-CREATE OR REPLACE TRIGGER standard_response_attach39_s_t
+ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach7_PK PRIMARY KEY (id);
+DROP SEQUENCE standard_response_attach7_seq;
+CREATE SEQUENCE standard_response_attach7_seq;
+CREATE OR REPLACE TRIGGER standard_response_attach7_s_t
 before insert on standard_response_attachment
 for each row
 begin
-    select standard_response_attach39_seq.nextval
+    select standard_response_attach7_seq.nextval
     into :new.id
     from dual;
 end;
@@ -989,7 +989,7 @@ begin
 end;
 /
 --;
-CREATE INDEX index_time_accounting_ticket10 ON time_accounting (ticket_id);
+CREATE INDEX index_time_accounting_ticket64 ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
 --  create table ticket_watcher
 -- ----------------------------------------------------------
@@ -1002,6 +1002,58 @@ CREATE TABLE ticket_watcher (
     change_by NUMBER NOT NULL
 );
 CREATE INDEX ticket_id ON ticket_watcher (ticket_id);
+CREATE TABLE service (
+    id NUMBER NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    comments VARCHAR2 (200) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER NOT NULL,
+    CONSTRAINT service_U_1 UNIQUE (name)
+);
+ALTER TABLE service ADD CONSTRAINT service_PK PRIMARY KEY (id);
+DROP SEQUENCE service_seq;
+CREATE SEQUENCE service_seq;
+CREATE OR REPLACE TRIGGER service_s_t
+before insert on service
+for each row
+begin
+    select service_seq.nextval
+    into :new.id
+    from dual;
+end;
+/
+--;
+CREATE TABLE sla (
+    id NUMBER NOT NULL,
+    service_id NUMBER NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    calendar_name VARCHAR2 (100),
+    response_time NUMBER NOT NULL,
+    max_time_to_repair NUMBER NOT NULL,
+    min_time_between_incidents NUMBER NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    comments VARCHAR2 (200) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER NOT NULL
+);
+ALTER TABLE sla ADD CONSTRAINT sla_PK PRIMARY KEY (id);
+DROP SEQUENCE sla_seq;
+CREATE SEQUENCE sla_seq;
+CREATE OR REPLACE TRIGGER sla_s_t
+before insert on sla
+for each row
+begin
+    select sla_seq.nextval
+    into :new.id
+    from dual;
+end;
+/
+--;
 -- ----------------------------------------------------------
 --  create table sessions
 -- ----------------------------------------------------------
@@ -1071,7 +1123,7 @@ CREATE TABLE customer_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_customer_preferences_u4 ON customer_preferences (user_id);
+CREATE INDEX index_customer_preferences_u97 ON customer_preferences (user_id);
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
 -- ----------------------------------------------------------
@@ -1079,8 +1131,8 @@ CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR2 (250) NOT NULL,
     sent_date VARCHAR2 (150) NOT NULL
 );
-CREATE INDEX index_ticket_loop_protection13 ON ticket_loop_protection (sent_to);
-CREATE INDEX index_ticket_loop_protection67 ON ticket_loop_protection (sent_date);
+CREATE INDEX index_ticket_loop_protection28 ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loop_protection23 ON ticket_loop_protection (sent_date);
 -- ----------------------------------------------------------
 --  create table pop3_account
 -- ----------------------------------------------------------
