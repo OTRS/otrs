@@ -1,0 +1,132 @@
+# --
+# AdminService.dtl - provides HTML form for AdminService
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# --
+# $Id: AdminService.dtl,v 1.1 2007-02-23 11:37:42 mh Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+<!-- dtl:block:Overview -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+  <tr>
+    <td colspan="2" class="mainhead">
+      $Env{"Box0"}$Text{"Service Management"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td width="30%" class="mainbody">
+      <form action="$Env{"CGIHandle"}" method="get">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="ServiceEdit">
+        <input type="hidden" name="ServiceID" value="NEW">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">$Text{"Add"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table>
+                <tr>
+                  <td class="contentkey">$Text{"Service"}:</td>
+                  <td class="contentvalue"><input type="text" name="Name" size="25" maxlength="200"></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Add"}">
+            </td>
+          </tr>
+        </table>
+      </form>
+    </td>
+    <td width="70%" class="mainbody">
+<!-- dtl:block:OverviewList -->
+      <table width="100%" cellspacing="0" cellpadding="4">
+        <tr>
+          <td class="contenthead">$Text{"List"}:</td>
+        </tr>
+        <tr>
+          <td class="contentbody">
+            <table width="100%" border="0" cellspacing="0" cellpadding="3">
+              <tr>
+                <td class="contentkey" width="60%">$Text{"Service"}</td>
+                <td align="center" class="contentkey">$Text{"Valid"}</td>
+              </tr>
+<!-- dtl:block:OverviewListRow -->
+              <tr>
+                <td class="$QData{"CssClass"}">
+<!-- dtl:block:OverviewListRowSpace -->
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+<!-- dtl:block:OverviewListRowSpace -->
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ServiceEdit&ServiceID=$QData{"ServiceID"}">
+                  $QData{"Name"}
+                  </a>
+                </td>
+                <td align="center" class="$QData{"CssClass"}">
+                  $Text{"$QData{"Valid"}"}
+                </td>
+              </tr>
+<!-- dtl:block:OverviewListRow -->
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="contentfooter">
+            &nbsp;
+          </td>
+        </tr>
+      </table>
+<!-- dtl:block:OverviewList -->
+<!-- dtl:block:ServiceEdit -->
+      <form action="$Env{"CGIHandle"}" method="get">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="ServiceSave">
+        <input type="hidden" name="ServiceID" value="$QData{"ServiceID"}">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">$Text{"Edit"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table border="0" cellspacing="0" cellpadding="3">
+                <tr>
+                  <td class="contentkey">$Text{"Service"}: </td>
+                  <td class="contentvalue">
+                    <input type="text" name="Name" value="$QData{"NameShort"}" size="45" maxlength="200">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Sub-Service of"}: </td>
+                  <td class="contentvalue">$Data{"ParentOptionStrg"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Valid"}: </td>
+                  <td class="contentvalue">$Data{"ValidOptionStrg"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Comment"}: </td>
+                  <td class="contentvalue">
+                    <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="200">
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Submit"}">
+            </td>
+          </tr>
+        </table>
+      </form>
+<!-- dtl:block:ServiceEdit -->
+    </td>
+  </tr>
+</table>
+<!-- end form -->
+<!-- dtl:block:Overview -->
