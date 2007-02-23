@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.126 2007-02-12 15:51:11 tr Exp $
+# $Id: de.pm,v 1.127 2007-02-23 11:34:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.126 $';
+$VERSION = '$Revision: 1.127 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -800,6 +800,15 @@ sub Data {
         'Select Box' => '',
         'Limit' => '',
         'Select Box Result' => 'Select Box Ergebnis',
+
+        # Template: AdminService
+        'Sub-Service of' => 'Unterservice von',
+        'Add new service failed! See System Log for details.' => 'Hinzufügen des neuen Service fehlgeschlagen! Im System Log finden Sie weitere Informationen.',
+        'Update service faild! See System Log for details.' => 'Updaten des Service fehlgeschlagen! Im System Log finden Sie weitere Informationen.',
+
+        # Template: AdminSLA
+        'Add new SLA failed! See System Log for details.' => 'Hinzufügen des neuen SLA fehlgeschlagen! Im System Log finden Sie weitere Informationen.',
+        'Update SLA faild! See System Log for details.' => 'Updaten des SLA fehlgeschlagen! Im System Log finden Sie weitere Informationen.',
 
         # Template: AdminSession
         'Session Management' => 'Sitzungsverwaltung',
