@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.135 2007-02-15 12:16:01 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.136 2007-02-23 11:33:26 mh Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1502,9 +1502,9 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::QueueListType" Required="1" Valid="1">
-        <Description Lang="en">Show queues in system as tree or as list.</Description>
-        <Description Lang="de">Anzeige der Queues als Liste (list) oder in Baumstruktur (tree).</Description>
+    <ConfigItem Name="Ticket::Frontend::ListType" Required="1" Valid="1">
+        <Description Lang="en">Show parent/child lists in system as tree or as list.</Description>
+        <Description Lang="de">Anzeige aller Eltern/Kind Listen als Liste (list) oder in Baumstruktur (tree).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -7194,6 +7194,46 @@ $QData{"Signature"}
                     <Name>Notification</Name>
                     <Block>Block3</Block>
                     <Prio>400</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminService" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AdminService configuration in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration der AdminService Konfiguration im Admin-Bereich.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>Service</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Service</Name>
+                    <Block>Block3</Block>
+                    <Prio>480</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminSLA" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AdminSLA configuration in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration der AdminSLA Konfiguration im Admin-Bereich.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>SLA</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>SLA</Name>
+                    <Block>Block3</Block>
+                    <Prio>490</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
