@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.59 2007-02-14 07:26:56 tr Exp $
+    $Id: otrs-schema.xml,v 1.60 2007-02-23 11:36:57 mh Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.59  2007/02/14 07:26:56  tr
+    Include the two spaces shifting
+
     Revision 1.58  2007/01/30 19:58:24  mh
     add 4 ticket freetime fields
 
@@ -1249,6 +1252,49 @@
         <IndexColumn Name="ticket_id"></IndexColumn>
     </Index>
 </Table>
+
+<!-- service - service -->
+<TableCreate Name="service">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="comments" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique>
+        <UniqueColumn Name="name"/>
+    </Unique>
+    <ForeignKey ForeignTable="system_user">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</TableCreate>
+
+<!-- service - sla -->
+<TableCreate Name="sla">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <Column Name="service_id" Required="true" Type="INTEGER"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="calendar_name" Required="false" Size="100" Type="VARCHAR"/>
+    <Column Name="response_time" Required="true" Type="INTEGER"/>
+    <Column Name="max_time_to_repair" Required="true" Type="INTEGER"/>
+    <Column Name="min_time_between_incidents" Required="true" Type="INTEGER"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="comments" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <ForeignKey ForeignTable="service">
+        <Reference Local="service_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="system_user">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</TableCreate>
 
 <!-- sessions -->
 <Table Name="sessions">

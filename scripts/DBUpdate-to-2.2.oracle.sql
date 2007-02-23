@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.oracle.sql,v 1.3 2007-01-30 19:58:24 mh Exp $
+-- $Id: DBUpdate-to-2.2.oracle.sql,v 1.4 2007-02-23 11:36:57 mh Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.oracle.sql | sqlplus "user/password"
@@ -23,3 +23,67 @@ ALTER TABLE ticket ADD freetime6 DATE;
 ALTER TABLE ticket_priority ADD valid_id INTEGER;
 UPDATE ticket_priority SET valid_id = 1;
 
+--
+-- service
+--
+CREATE TABLE service (
+    id NUMBER NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    comments VARCHAR2 (200) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER NOT NULL,
+    CONSTRAINT service_U_1 UNIQUE (name)
+);
+ALTER TABLE service ADD CONSTRAINT service_PK PRIMARY KEY (id);
+DROP SEQUENCE service_seq;
+CREATE SEQUENCE service_seq;
+CREATE OR REPLACE TRIGGER service_s_t
+before insert on service
+for each row
+begin
+    select service_seq.nextval
+    into :new.id
+    from dual;
+end;
+/
+--;
+ALTER TABLE service ADD CONSTRAINT fk_service_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
+ALTER TABLE service ADD CONSTRAINT fk_service_change_by_id FOREIGN KEY (change_by) REFERENCES system_user(id);
+
+--
+-- sla
+--
+CREATE TABLE sla (
+    id NUMBER NOT NULL,
+    service_id NUMBER NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    calendar_name VARCHAR2 (100),
+    response_time NUMBER NOT NULL,
+    max_time_to_repair NUMBER NOT NULL,
+    min_time_between_incidents NUMBER NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    comments VARCHAR2 (200) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER NOT NULL
+);
+ALTER TABLE sla ADD CONSTRAINT sla_PK PRIMARY KEY (id);
+DROP SEQUENCE sla_seq;
+CREATE SEQUENCE sla_seq;
+CREATE OR REPLACE TRIGGER sla_s_t
+before insert on sla
+for each row
+begin
+    select sla_seq.nextval
+    into :new.id
+    from dual;
+end;
+/
+--;
+ALTER TABLE sla ADD CONSTRAINT fk_sla_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
+ALTER TABLE sla ADD CONSTRAINT fk_sla_change_by_id FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE sla ADD CONSTRAINT fk_sla_service_id_id FOREIGN KEY (service_id) REFERENCES service(id);
