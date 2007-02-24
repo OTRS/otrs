@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.1 2007-02-23 11:37:42 mh Exp $
+# $Id: AdminSLA.pm,v 1.2 2007-02-24 11:14:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -150,7 +150,7 @@ sub Run {
     # ------------------------------------------------------------ #
     # sla save
     # ------------------------------------------------------------ #
-    if ($Self->{Subaction} eq 'SLASave') {
+    elsif ($Self->{Subaction} eq 'SLASave') {
         my $ErrorNotify = '';
         my %SLAData;
         # get params
