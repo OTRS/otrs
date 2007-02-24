@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminService.pm,v 1.2 2007-02-23 14:24:47 mh Exp $
+# $Id: AdminService.pm,v 1.3 2007-02-24 11:13:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -120,7 +120,7 @@ sub Run {
     # ------------------------------------------------------------ #
     # service save
     # ------------------------------------------------------------ #
-    if ($Self->{Subaction} eq 'ServiceSave') {
+    elsif ($Self->{Subaction} eq 'ServiceSave') {
         my $ErrorNotify = '';
         my %ServiceData;
         # get params
