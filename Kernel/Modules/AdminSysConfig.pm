@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.60 2007-01-20 22:03:08 mh Exp $
+# $Id: AdminSysConfig.pm,v 1.61 2007-02-26 14:25:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -517,6 +517,13 @@ sub Run {
         Name => 'SysConfigGroup',
         LanguageTranslation => 0,
     );
+    # check if sysconfig download link should be shown
+    if ($Self->{SysConfigObject}->Download(Type => 'Check')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Download',
+            Data => { },
+        );
+    }
 
     my $Output .= $Self->{LayoutObject}->Header(Value => $Group);
     $Output .= $Self->{LayoutObject}->NavigationBar();

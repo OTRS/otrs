@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.61 2007-02-26 09:52:52 martin Exp $
+# $Id: Config.pm,v 1.62 2007-02-26 14:24:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::Config;
 use Digest::MD5 qw(md5_hex);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -263,6 +263,10 @@ download config changes
 
     $ConfigToolObject->Download();
 
+or if you want to check if it exists (returns true or false)
+
+    $ConfigToolObject->Download(Type => 'Check');
+
 =cut
 
 sub Download {
@@ -278,15 +282,31 @@ sub Download {
         }
     }
     if (!open(IN, "< $Home/Kernel/Config/Files/ZZZAuto.pm")) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't open $Home/Kernel/Config/Files/ZZZAuto.pm!");
-        return '';
+        if ($Param{Type}) {
+            return;
+        }
+        else {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Can't open $Home/Kernel/Config/Files/ZZZAuto.pm!");
+            return '';
+        }
     }
     else {
         while (<IN>) {
             $File .= $_;
         }
         close (IN);
-        return $File;
+        if ($Param{Type}) {
+            my $Length = length($File);
+            if ($Length > 25) {
+                return 1;
+            }
+            else {
+                return;
+            }
+        }
+        else {
+            return $File;
+        }
     }
 }
 
@@ -1435,6 +1455,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2007-02-26 09:52:52 $
+$Revision: 1.62 $ $Date: 2007-02-26 14:24:59 $
 
 =cut

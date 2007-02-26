@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.14 2007-01-11 23:22:27 martin Exp $
+# $Id: AdminSysConfig.dtl,v 1.15 2007-02-26 14:25:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -69,6 +69,7 @@
         </table>
       </form>
       <br>
+<!-- dtl:block:Download -->
       <form action="$Env{"CGIHandle"}" method="get">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Download">
@@ -94,6 +95,7 @@
         </table>
       </form>
       <br>
+<!-- dtl:block:Download -->
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Upload">
