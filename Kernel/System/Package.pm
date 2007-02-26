@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.60 2007-02-21 20:20:13 martin Exp $
+# $Id: Package.pm,v 1.61 2007-02-26 22:58:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1244,9 +1244,9 @@ sub PackageBuild {
                 $OldParam{$_} = $Param{$Tag}->{$_};
                 delete $Param{$Tag}->{$_};
             }
-            $XML .= "  <$Tag";
+            $XML .= "    <$Tag";
             foreach (sort keys %{$Param{$Tag}}) {
-                $XML .= " $_=\"".$Self->_Encode($Param{$Tag}->{$_})."\"";
+                $XML .= "   $_=\"".$Self->_Encode($Param{$Tag}->{$_})."\"";
             }
             $XML .= ">";
             $XML .= $Self->_Encode($OldParam{Content})."</$Tag>\n";
@@ -1259,9 +1259,9 @@ sub PackageBuild {
                     $OldParam{$_} = $Hash{$_};
                     delete $Hash{$_};
                 }
-                $XML .= "  <$Tag";
+                $XML .= "    <$Tag";
                 foreach (keys %Hash) {
-                    $XML .= " $_=\"".$Self->_Encode($Hash{$_})."\"";
+                    $XML .= "   $_=\"".$Self->_Encode($Hash{$_})."\"";
                 }
                 $XML .= ">";
                 $XML .= $Self->_Encode($OldParam{Content})."</$Tag>\n";
@@ -1277,12 +1277,12 @@ sub PackageBuild {
     if ($Param{Type}) {
         return $XML;
     }
-    $XML .= "  <BuildDate>".$Self->{TimeObject}->SystemTime2TimeStamp(
+    $XML .= "    <BuildDate>".$Self->{TimeObject}->SystemTime2TimeStamp(
         SystemTime => $Self->{TimeObject}->SystemTime(),
     )."</BuildDate>\n";
-    $XML .= "  <BuildHost>".$Self->{ConfigObject}->Get('FQDN')."</BuildHost>\n";
+    $XML .= "    <BuildHost>".$Self->{ConfigObject}->Get('FQDN')."</BuildHost>\n";
     if ($Param{Filelist}) {
-        $XML .= "  <Filelist>\n";
+        $XML .= "    <Filelist>\n";
         foreach my $File (@{$Param{Filelist}}) {
             my %OldParam = ();
             foreach (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
@@ -1290,7 +1290,7 @@ sub PackageBuild {
                 delete $File->{$_};
             }
 
-            $XML .= "    <File";
+            $XML .= "        <File";
             foreach (sort keys %{$File}) {
                 if ($_ ne 'Tag' && $_ ne 'Content' && $_ ne 'TagType' && $_ ne 'Size') {
                     $XML .= " ".$Self->_Encode($_)."=\"".$Self->_Encode($File->{$_})."\"";
@@ -1313,11 +1313,11 @@ sub PackageBuild {
             $XML .= encode_base64($FileContent, '');
             $XML .= "</File>\n";
         }
-        $XML .= "  </Filelist>\n";
+        $XML .= "    </Filelist>\n";
     }
     foreach (qw(DatabaseInstall DatabaseUpgrade DatabaseReinstall DatabaseUninstall)) {
         if ($Param{$_}) {
-            $XML .= "  <$_>\n";
+            $XML .= "    <$_>\n";
             my @Close = ();
             my $Space = '    ';
             foreach my $Tag (@{$Param{$_}}) {
@@ -1352,7 +1352,7 @@ sub PackageBuild {
                     $Space = '    ';
                 }
             }
-            $XML .= "  </$_>\n";
+            $XML .= "    </$_>\n";
         }
     }
     $XML .= '</otrs_package>';
@@ -1699,6 +1699,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.60 $ $Date: 2007-02-21 20:20:13 $
+$Revision: 1.61 $ $Date: 2007-02-26 22:58:32 $
 
 =cut
