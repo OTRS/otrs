@@ -3,7 +3,7 @@
 # if the agent is customer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCustomerFollowUp.pm,v 1.9 2007-01-01 23:18:15 mh Exp $
+# $Id: AgentTicketCustomerFollowUp.pm,v 1.10 2007-02-26 11:23:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -174,7 +174,7 @@ sub Run {
                 );
             }
             # redirect to zoom view
-            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
+            return $Self->{LayoutObject}->Redirect(OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID");
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();

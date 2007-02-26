@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.20 2007-01-31 08:27:02 mh Exp $
+# $Id: AgentTicketForward.pm,v 1.21 2007-02-26 11:23:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -712,7 +712,7 @@ sub SendEmail {
             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
         }
         else {
-            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
+            return $Self->{LayoutObject}->Redirect(OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID");
         }
     }
     else {
