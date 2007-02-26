@@ -2,14 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.24 2007-02-22 10:19:25 martin Exp $
+# $Id: CHANGES,v 1.323.2.25 2007-02-26 09:52:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-2.1.6 (????/??/??)
+2.1.6 (2007/02/27)
+ - (2007/02/26) improved speed of SysConfig core module, added cache mechanism
+    (it's about 2 times faster)
  - (2007/02/22) fixed ticket# 2007022042000288 - error on creating postmaster
     filter on oracle database
  - (2007/02/20) fixed not working crypt/sign option in AgentTicketCompose mask
