@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.67 2007-02-06 23:25:12 martin Exp $
+# $Id: Queue.pm,v 1.68 2007-02-26 11:25:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.67 $';
+$VERSION = '$Revision: 1.68 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -678,6 +678,9 @@ sub QueueAdd {
             return;
         }
     }
+    # cleanup queue name
+    $Param{Name} =~ s/(\n|\r)//g;
+    $Param{Name} =~ s/\s$//g;
     # check queue name
     if ($Param{Name} =~ /::$/i) {
         $Self->{LogObject}->Log(
@@ -923,6 +926,9 @@ sub QueueUpdate {
         FollowUpLock EscalationTime StateNotify LockNotify OwnerNotify MoveNotify StateNotify ValidID UserID)) {
         $DB{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
+    # cleanup queue name
+    $Param{Name} =~ s/(\n|\r)//g;
+    $Param{Name} =~ s/\s$//g;
     # check queue name
     if ($Param{Name} =~ /::$/i) {
         $Self->{LogObject}->Log(
@@ -1013,6 +1019,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2007-02-06 23:25:12 $
+$Revision: 1.68 $ $Date: 2007-02-26 11:25:52 $
 
 =cut
