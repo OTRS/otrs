@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.29 2007-02-06 22:55:32 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.30 2007-02-26 14:02:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -441,7 +441,7 @@ sub ShowTicket {
     else {
         # html quoting
         $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
-            NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
+            NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
             Text => $Article{Body},
             VMax => $Self->{ConfigObject}->Get('DefaultPreViewLines') || 25,
             LinkFeature => 1,
@@ -505,13 +505,15 @@ sub ShowTicket {
             Name => 'AgentAnswer',
             Data => {%Param, %Article, %AclAction},
         );
-        if (!defined($AclAction{AgentTicketCompose}) || $AclAction{AgentTicketCompose}) {
+        if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketCompose} &&
+            (!defined($AclAction{AgentTicketCompose}) || $AclAction{AgentTicketCompose})) {
             $Self->{LayoutObject}->Block(
                 Name => 'AgentAnswerCompose',
                 Data => {%Param, %Article, %AclAction},
             );
         }
-        if (!defined($AclAction{AgentTicketPhoneOutbound}) || $AclAction{AgentTicketPhoneOutbound}) {
+        if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhoneOutbound} &&
+            (!defined($AclAction{AgentTicketPhoneOutbound}) || $AclAction{AgentTicketPhoneOutbound})) {
             $Self->{LayoutObject}->Block(
                 Name => 'AgentAnswerPhoneOutbound',
                 Data => {%Param, %Article, %AclAction},
@@ -519,7 +521,8 @@ sub ShowTicket {
         }
     }
     # ticket bulk block
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature')) {
+    if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketBulk} &&
+        ($Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature'))) {
         $Self->{LayoutObject}->Block(
             Name => "Bulk",
             Data => { %Param, %Article },
@@ -540,7 +543,8 @@ sub ShowTicket {
             SelectedID => $Article{QueueID},
         );
     }
-    if (!defined($AclAction{AgentTicketMove}) || $AclAction{AgentTicketMove}) {
+    if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketMove} &&
+        (!defined($AclAction{AgentTicketMove}) || $AclAction{AgentTicketMove})) {
         $Self->{LayoutObject}->Block(
             Name => 'Move',
             Data => {%Param, %AclAction},
