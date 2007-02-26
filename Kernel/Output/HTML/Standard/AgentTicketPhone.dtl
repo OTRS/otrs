@@ -1,8 +1,8 @@
 # --
 # AgentPhoneNew.dtl - provides HTML form for phone
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.20 2006-11-08 11:06:48 martin Exp $
+# $Id: AgentTicketPhone.dtl,v 1.20.2.1 2007-02-26 15:24:13 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -240,7 +240,7 @@ function clear_field()
           </tr>
 <!-- dtl:block:TicketFreeText -->
           <tr>
-            <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
+            <td class="contentkey">$Data{"TicketFreeKeyField"}:</td>
             <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
           </tr>
 <!-- dtl:block:TicketFreeText -->
@@ -258,7 +258,7 @@ function clear_field()
 #<!-- dtl:block:TicketFreeText2 -->
 <!-- dtl:block:TicketFreeTime -->
           <tr>
-            <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
+            <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
             <td class="contentvalue">$Data{"TicketFreeTime"}</td>
           </tr>
 <!-- dtl:block:TicketFreeTime -->

@@ -1,8 +1,8 @@
 # --
 # AgentPhone.dtl - provides HTML form for phone
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.7 2006-10-31 15:16:06 cs Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.7.2.1 2007-02-26 15:24:13 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -132,7 +132,7 @@ $Include{"AgentTicketLocked"}
             </tr>
 <!-- dtl:block:TicketFreeText -->
             <tr>
-              <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
+              <td class="contentkey">$Data{"TicketFreeKeyField"}:</td>
               <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
             </tr>
 <!-- dtl:block:TicketFreeText -->
@@ -150,7 +150,7 @@ $Include{"AgentTicketLocked"}
 #<!-- dtl:block:TicketFreeText2 -->
 <!-- dtl:block:TicketFreeTime -->
             <tr>
-              <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
+              <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
               <td class="contentvalue">$Data{"TicketFreeTime"}</td>
             </tr>
 <!-- dtl:block:TicketFreeTime -->

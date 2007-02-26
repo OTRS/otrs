@@ -1,8 +1,8 @@
 # --
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.18 2006-11-30 12:40:04 martin Exp $
+# $Id: AgentTicketForward.dtl,v 1.18.2.1 2007-02-26 15:24:13 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -199,7 +199,7 @@ $QData{"Body"}
                 </tr>
 <!-- dtl:block:FreeText -->
                 <tr>
-                  <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
+                  <td class="contentkey">$Data{"TicketFreeKeyField"}:</td>
                   <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
                 </tr>
 <!-- dtl:block:FreeText -->
@@ -221,7 +221,7 @@ $QData{"Body"}
 #   </tr>
 <!-- dtl:block:FreeTime -->
                 <tr>
-                  <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
+                  <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
                   <td class="contentvalue">$Data{"TicketFreeTime"}</td>
                 </tr>
 <!-- dtl:block:FreeTime -->

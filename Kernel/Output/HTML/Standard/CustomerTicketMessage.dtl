@@ -1,8 +1,8 @@
 # --
 # CustomerMessageNew.dtl - provides HTML form for customer message
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.5 2006-10-12 10:16:00 martin Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.5.2.1 2007-02-26 15:24:13 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -92,7 +92,7 @@ function submit_compose()
 <!-- dtl:block:Priority -->
 <!-- dtl:block:FreeText -->
                 <tr>
-                  <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
+                  <td class="contentkey">$Data{"TicketFreeKeyField"}:</td>
                   <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
                 </tr>
 <!-- dtl:block:FreeText -->
@@ -114,7 +114,7 @@ function submit_compose()
 #       </tr>
 <!-- dtl:block:FreeTime -->
                 <tr>
-                  <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
+                  <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
                   <td class="contentvalue">$Data{"TicketFreeTime"}</td>
                 </tr>
 <!-- dtl:block:FreeTime -->
