@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketFreeText.pm - free text for ticket
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketFreeText.pm,v 1.11 2006-11-15 07:39:48 martin Exp $
+# $Id: AgentTicketFreeText.pm,v 1.11.2.1 2007-02-26 11:12:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.11.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -178,7 +178,7 @@ sub Run {
     }
     # rewrap body if exists
     if ($GetParam{Body}) {
-        my $Size = $Self->{Config}->{DefaultBodySize} || 60;
+        my $Size = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote') || 70;
         $GetParam{Body} =~ s/(^>.+|.{4,$Size})(?:\s|\z)/$1\n/gm;
     }
 
