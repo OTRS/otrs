@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.352 2007-02-26 09:52:52 martin Exp $
+# $Id: CHANGES,v 1.353 2007-02-26 11:14:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -65,6 +65,8 @@ CVS HEAD (????/??/??)
     to 12 MB.
 
 2.1.6 (2007/02/27)
+ - (2007/02/26) fixed ticket# 2007022242000293 hard line rewrap of body content
+    in frontend modules
  - (2007/02/26) improved speed of SysConfig core module, added cache mechanism
     (it's about 2 times faster)
  - (2007/02/22) fixed ticket# 2007022042000288 - error on creating postmaster

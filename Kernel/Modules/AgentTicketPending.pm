@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPending.pm - set ticket to pending
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPending.pm,v 1.24 2007-01-30 19:57:20 mh Exp $
+# $Id: AgentTicketPending.pm,v 1.25 2007-02-26 11:14:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -181,7 +181,7 @@ sub Run {
     }
     # rewrap body if exists
     if ($GetParam{Body}) {
-        my $Size = $Self->{Config}->{DefaultBodySize} || 60;
+        my $Size = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote') || 70;
         $GetParam{Body} =~ s/(^>.+|.{4,$Size})(?:\s|\z)/$1\n/gm;
     }
 
@@ -504,7 +504,7 @@ sub Run {
             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
         }
         # redirect
-        return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
+        return $Self->{LayoutObject}->Redirect(OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID");
     }
     else {
         # fillup vars
