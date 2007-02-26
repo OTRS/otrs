@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.57.2.1 2007-02-26 08:46:02 martin Exp $
+# $Id: Config.pm,v 1.57.2.2 2007-02-26 09:34:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Main;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.57.2.1 $';
+$VERSION = '$Revision: 1.57.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -121,14 +121,18 @@ sub _Init {
             else {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message => "Can't open file $File!",
+                    Message => "Can't open file $File: $!",
                 );
             }
+            my $FileCachePart = $File;
+            $FileCachePart =~ s/$Self->{Home}//;
+            $FileCachePart =~ s/\/\//\//g;
+            $FileCachePart =~ s/\//_/g;
             if ($ConfigFile) {
                 my $CacheFileUsed = 0;
                 use Digest::MD5 qw(md5_hex);
                 my $Digest = md5_hex($ConfigFile);
-                my $FileCache = "$Self->{Home}/var/tmp/SysConfig-Cache-$Digest.pm";
+                my $FileCache = "$Self->{Home}/var/tmp/SysConfig-Cache$FileCachePart-$Digest.pm";
                 if (-e $FileCache) {
                     my $ConfigFileCache = '';
                     if (open (IN, "< $FileCache")) {
@@ -145,11 +149,19 @@ sub _Init {
                     else {
                         $Self->{LogObject}->Log(
                             Priority => 'error',
-                            Message => "Can't open cache file $FileCache!",
+                            Message => "Can't open cache file $FileCache: $!",
                         );
                     }
 
                 }
+                else {
+                    # remove all cache files
+                    my @List = glob("$Self->{Home}/var/tmp/SysConfig-Cache$FileCachePart-*.pm");
+                    foreach my $File (@List) {
+                        unlink $File;
+                    }
+                }
+                # parse config files
                 if (!$CacheFileUsed) {
                     my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => $ConfigFile);
                     $Data{$File} = \@XMLHash;
@@ -162,7 +174,7 @@ sub _Init {
                     else {
                         $Self->{LogObject}->Log(
                             Priority => 'error',
-                            Message => "Can't write cache file $FileCache!",
+                            Message => "Can't write cache file $FileCache: $!",
                         );
                     }
                 }
@@ -1425,6 +1437,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.57.2.1 $ $Date: 2007-02-26 08:46:02 $
+$Revision: 1.57.2.2 $ $Date: 2007-02-26 09:34:09 $
 
 =cut
