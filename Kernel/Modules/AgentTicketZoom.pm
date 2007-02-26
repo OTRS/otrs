@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.30.2.2 2007-02-26 11:12:28 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.30.2.3 2007-02-26 14:02:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30.2.2 $';
+$VERSION = '$Revision: 1.30.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -678,13 +678,15 @@ sub MaskAgentZoom {
                     Name => 'AgentAnswer',
                     Data => {%Param, %Article, %AclAction},
                 );
-                if (!defined($AclAction{AgentTicketCompose}) || $AclAction{AgentTicketCompose}) {
+                if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketCompose} &&
+                    (!defined($AclAction{AgentTicketCompose}) || $AclAction{AgentTicketCompose})) {
                     $Self->{LayoutObject}->Block(
                         Name => 'AgentAnswerCompose',
                         Data => {%Param, %Article, %AclAction},
                     );
                 }
-                if (!defined($AclAction{AgentTicketPhoneOutbound}) || $AclAction{AgentTicketPhoneOutbound}) {
+                if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhoneOutbound} &&
+                    (!defined($AclAction{AgentTicketPhoneOutbound}) || $AclAction{AgentTicketPhoneOutbound})) {
                     $Self->{LayoutObject}->Block(
                         Name => 'AgentAnswerPhoneOutbound',
                         Data => {%Param, %Article, %AclAction},
@@ -695,19 +697,22 @@ sub MaskAgentZoom {
                 Name => 'AgentArticleCom',
                 Data => {%Param, %Article, %AclAction},
             );
-            if (!defined($AclAction{AgentTicketForward}) || $AclAction{AgentTicketForward}) {
+            if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketForward} &&
+                (!defined($AclAction{AgentTicketForward}) || $AclAction{AgentTicketForward})) {
                 $Self->{LayoutObject}->Block(
                     Name => 'AgentArticleComForward',
                     Data => {%Param, %Article, %AclAction},
                 );
             }
-            if (!defined($AclAction{AgentTicketBounce}) || $AclAction{AgentTicketBounce}) {
+            if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketBounce} &&
+                (!defined($AclAction{AgentTicketBounce}) || $AclAction{AgentTicketBounce})) {
                 $Self->{LayoutObject}->Block(
                     Name => 'AgentArticleComBounce',
                     Data => {%Param, %Article, %AclAction},
                 );
             }
-            if (!defined($AclAction{AgentTicketPhone}) || $AclAction{AgentTicketPhone}) {
+            if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhone} &&
+                (!defined($AclAction{AgentTicketPhone}) || $AclAction{AgentTicketPhone})) {
                 $Self->{LayoutObject}->Block(
                     Name => 'AgentArticleComPhone',
                     Data => {%Param, %Article, %AclAction},
@@ -723,7 +728,8 @@ sub MaskAgentZoom {
             SelectedID => $Param{QueueID},
         );
     }
-    if (!defined($AclAction{AgentTicketMove}) || $AclAction{AgentTicketMove}) {
+    if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketMove} &&
+        (!defined($AclAction{AgentTicketMove}) || $AclAction{AgentTicketMove})) {
         $Self->{LayoutObject}->Block(
             Name => 'Move',
             Data => {%Param, %AclAction},

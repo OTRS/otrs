@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.26 2007-02-26 11:12:28 martin Exp $
+# $Id: CHANGES,v 1.323.2.27 2007-02-26 14:02:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.1.6 (2007/02/27)
+ - (2007/02/26) fixed bug# 1097 - Disabling Bounce Feature via SysConfig does
+    not work properly
  - (2007/02/26) fixed ticket# 2007022242000293 hard line rewrap of body content
     in frontend modules
  - (2007/02/26) improved speed of SysConfig core module, added cache mechanism
