@@ -1,8 +1,8 @@
 # --
 # AgentTicketEmail.dtl - provides HTML form for agent email
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.21 2006-12-21 16:13:14 mh Exp $
+# $Id: AgentTicketEmail.dtl,v 1.22 2007-02-26 15:04:36 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -265,7 +265,7 @@ function clear_field() {
             </tr>
 <!-- dtl:block:TicketFreeText -->
             <tr>
-              <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
+              <td class="contentkey">$Data{"TicketFreeKeyField"}:</td>
               <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
             </tr>
 <!-- dtl:block:TicketFreeText -->
@@ -283,7 +283,7 @@ function clear_field() {
 #<!-- dtl:block:TicketFreeText2 -->
 <!-- dtl:block:TicketFreeTime -->
             <tr>
-              <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
+              <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
               <td class="contentvalue">$Data{"TicketFreeTime"}</td>
             </tr>
 <!-- dtl:block:TicketFreeTime -->
