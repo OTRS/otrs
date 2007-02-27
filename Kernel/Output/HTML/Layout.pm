@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.20.2.2 2007-01-15 12:57:46 martin Exp $
+# $Id: Layout.pm,v 1.20.2.3 2007-02-27 12:08:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20.2.2 $';
+$VERSION = '$Revision: 1.20.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1323,11 +1323,16 @@ sub Ascii2Html {
     if ($Param{LinkFeature}) {
         my $Counter = 0;
         $Text =~ s{
-            (>|<|&gt;|&lt;|)(https|http|ftp|www)((:\/\/|\.).*?)(\.\s|\s|\)|\"|&quot;|&nbsp;|]|'|>|<|&gt;|&lt;)
+            (>|<|&gt;|&lt;|)(https|http|\sftp|\swww)((:\/\/|\.).*?)(\.\s|\s|\)|\"|&quot;|&nbsp;|]|'|>|<|&gt;|&lt;)
         }
         {
+            my $Start = $1;
             my $Link = $2.$3;
             my $End = $5;
+            if ($Link =~ /^(\s)/) {
+                $Start .= $1;
+            }
+            $Link =~ s/^\s//g;
             $Link =~ s/ //g;
             $Counter++;
             if ($Link !~ /^(http|https|ftp):\/\//) {
@@ -1342,7 +1347,7 @@ sub Ascii2Html {
                 $String .= '#';
             }
             $LinkHash{"[$String"."$Counter]"} = $Link;
-            "[$String$Counter]$End";
+            $Start."[$String$Counter]".$End;
         }egxi;
     }
 
@@ -1355,7 +1360,7 @@ sub Ascii2Html {
         $Text =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
         $Text =~ s/\r/\n/g;
         $Text =~ s/(.{4,$NewLine})(?:\s|\z)/$1\n/gm;
-        my $ForceNewLine = $NewLine+5;
+        my $ForceNewLine = $NewLine+10;
 #        $Text =~ s/([A-z-_#=\.]{$ForceNewLine})/$1\n/g;
         $Text =~ s/(.{$ForceNewLine})(.+?)/$1\n$2/g;
     }
@@ -1419,7 +1424,7 @@ sub LinkQuote {
         if ($Link !~ /^(http|https|ftp):\/\//) {
             $Link = "http://$Link";
         }
-       "<a href=\"$Link\" target=\"$Target\">$OrigText<\/a>$OrigTextEnd";
+        "<a href=\"$Link\" target=\"$Target\">$OrigText<\/a>$OrigTextEnd";
     }egxi;
     # do mail to quote
     $Text =~ s/(mailto:.*?)(\.\s|\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
@@ -2669,6 +2674,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20.2.2 $ $Date: 2007-01-15 12:57:46 $
+$Revision: 1.20.2.3 $ $Date: 2007-02-27 12:08:00 $
 
 =cut
