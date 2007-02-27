@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.15 2007-01-20 18:04:49 mh Exp $
+# $Id: AgentTicketMailbox.pm,v 1.16 2007-02-27 10:49:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -41,7 +41,7 @@ sub new {
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
-    $Self->{PageShown} = $Self->{UserShowTickets} || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected} || 10;
+    $Self->{PageShown} = $Self->{UserQueueViewShowTickets} || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected} || 10;
 
     return $Self;
 }
@@ -360,6 +360,29 @@ sub MaskMailboxTicket {
             Name => 'Title',
             Data => { %Param },
         );
+    }
+    # build ticket view
+    foreach (qw(From To Cc Subject)) {
+        if ($Param{$_}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'Row',
+                Data => {
+                    Key => $_,
+                    Value => $Param{$_},
+                },
+            );
+        }
+    }
+    foreach (1..3) {
+        if ($Param{"ArticleFreeText$_"}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleFreeText',
+                Data => {
+                    Key => $Param{"ArticleFreeKey$_"},
+                    Value => $Param{"ArticleFreeText$_"},
+                },
+            );
+        }
     }
     # run ticket pre menu modules
     if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')) eq 'HASH') {
