@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.13 2006-11-02 12:20:52 tr Exp $
+# $Id: AgentTicketMailbox.pm,v 1.13.2.1 2007-02-27 10:48:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.13.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -42,7 +42,7 @@ sub new {
     $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
 
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
-    $Self->{PageShown} = $Self->{UserShowTickets} || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected} || 10;
+    $Self->{PageShown} = $Self->{UserQueueViewShowTickets} || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected} || 10;
 
     return $Self;
 }

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.28 2007-02-26 14:24:01 martin Exp $
+# $Id: CHANGES,v 1.323.2.29 2007-02-27 10:48:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,15 +10,17 @@
 # --
 
 2.1.6 (2007/02/27)
- - (2007/02/26) fixed bug# 1291 - Download link in SysConfig skips config
+ - (2007/02/27) fixed bug #1545 - Wrong Variableusage in $Self->{PageShown}
+    (Kernel/Modules/AgentTicketMailbox.pm)
+ - (2007/02/26) fixed bug #1291 - Download link in SysConfig skips config
     options -> now download link will be shown if no changes are done
- - (2007/02/26) fixed bug# 1097 - Disabling Bounce Feature via SysConfig does
+ - (2007/02/26) fixed bug #1097 - Disabling Bounce Feature via SysConfig does
     not work properly
- - (2007/02/26) fixed ticket# 2007022242000293 hard line rewrap of body content
+ - (2007/02/26) fixed ticket #2007022242000293 hard line rewrap of body content
     in frontend modules
  - (2007/02/26) improved speed of SysConfig core module, added cache mechanism
     (it's about 2 times faster)
- - (2007/02/22) fixed ticket# 2007022042000288 - error on creating postmaster
+ - (2007/02/22) fixed ticket #2007022042000288 - error on creating postmaster
     filter on oracle database
  - (2007/02/20) fixed not working crypt/sign option in AgentTicketCompose mask
  - (2007/02/20) fixed bug #980 - Use of uninitialized value in
