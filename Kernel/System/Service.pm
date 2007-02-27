@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.3 2007-02-23 11:35:39 mh Exp $
+# $Id: Service.pm,v 1.4 2007-02-27 19:55:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Service;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -148,7 +148,7 @@ sub ServiceGet {
     $Self->{DBObject}->Prepare(
         SQL => "SELECT id, name, valid_id, comments, create_time, create_by, change_time, change_by ".
             "FROM service WHERE id = $Param{ServiceID}",
-        LIMIT => 1,
+        Limit => 1,
     );
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $ServiceData{ServiceID} = $Row[0];
@@ -204,7 +204,7 @@ sub ServiceLookup {
         # lookup
         $Self->{DBObject}->Prepare(
             SQL => "SELECT name FROM service WHERE id = $Param{ServiceID}",
-            LIMIT => 1,
+            Limit => 1,
         );
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $ServiceName = $Row[0];
@@ -218,7 +218,7 @@ sub ServiceLookup {
         # lookup
         $Self->{DBObject}->Prepare(
             SQL => "SELECT id FROM service WHERE name = '$Param{Name}'",
-            LIMIT => 1,
+            Limit => 1,
         );
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $ServiceID = $Row[0];
@@ -282,7 +282,7 @@ sub ServiceAdd {
     my $Exists;
     $Self->{DBObject}->Prepare(
         SQL => "SELECT id FROM service WHERE name = '$Param{FullName}'",
-        LIMIT => 1,
+        Limit => 1,
     );
     while ($Self->{DBObject}->FetchrowArray()) {
         $Exists = 1;
@@ -375,7 +375,7 @@ sub ServiceUpdate {
     my $Exists;
     $Self->{DBObject}->Prepare(
         SQL => "SELECT id FROM service WHERE name = '$Param{FullName}'",
-        LIMIT => 1,
+        Limit => 1,
     );
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         if ($Param{ServiceID} ne $Row[0]) {
@@ -436,6 +436,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2007-02-23 11:35:39 $
+$Revision: 1.4 $ $Date: 2007-02-27 19:55:58 $
 
 =cut

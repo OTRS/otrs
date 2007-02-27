@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.1 2007-02-23 11:37:42 mh Exp $
+# $Id: SLA.pm,v 1.2 2007-02-27 19:55:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::SLA;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -159,7 +159,7 @@ sub SLAGet {
         SQL => "SELECT id, service_id, name, calendar_name, response_time, max_time_to_repair, ".
             "min_time_between_incidents, valid_id, comments, create_time, create_by, change_time, change_by ".
             "FROM sla WHERE id = $Param{SLAID}",
-        LIMIT => 1,
+        Limit => 1,
     );
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $SLAData{SLAID} = $Row[0];
@@ -211,7 +211,7 @@ sub SLALookup {
         # lookup
         $Self->{DBObject}->Prepare(
             SQL => "SELECT name FROM sla WHERE id = $Param{SLAID}",
-            LIMIT => 1,
+            Limit => 1,
         );
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $SLAName = $Row[0];
@@ -226,7 +226,7 @@ sub SLALookup {
         # lookup
         $Self->{DBObject}->Prepare(
             SQL => "SELECT id FROM sla WHERE service_id = $Param{ServiceID} AND name = '$Param{Name}'",
-            LIMIT => 1,
+            Limit => 1,
         );
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $SLAID = $Row[0];
@@ -291,7 +291,7 @@ sub SLAAdd {
     my $Exists;
     $Self->{DBObject}->Prepare(
         SQL => "SELECT id FROM sla WHERE service_id = $Param{ServiceID} AND name = '$Param{Name}'",
-        LIMIT => 1,
+        Limit => 1,
     );
     while ($Self->{DBObject}->FetchrowArray()) {
         $Exists = 1;
@@ -375,7 +375,7 @@ sub SLAUpdate {
     my $Exists;
     $Self->{DBObject}->Prepare(
         SQL => "SELECT id FROM sla WHERE service_id = $Param{ServiceID} AND name = '$Param{Name}'",
-        LIMIT => 1,
+        Limit => 1,
     );
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         if ($Param{SLAID} ne $Row[0]) {
@@ -421,6 +421,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2007-02-23 11:37:42 $
+$Revision: 1.2 $ $Date: 2007-02-27 19:55:58 $
 
 =cut
