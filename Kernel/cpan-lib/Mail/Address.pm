@@ -1,7 +1,7 @@
 # Mail::Address.pm
 #
 # Copyright (c) 1995-2001 Graham Barr <gbarr@pobox.com>.  All rights reserved.
-# Copyright (c) 2002-2003 Mark Overmeer <mailtools@overmeer.net>
+# Copyright (c) 2002-2005 Mark Overmeer <mailtools@overmeer.net>
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 
@@ -10,9 +10,9 @@ use strict;
 
 use Carp;
 use vars qw($VERSION);
-use locale;
+# use locale;   removed in version 1.74, because it causes taint problems
 
-$VERSION = "1.60";
+$VERSION = "1.74";
 sub Version { $VERSION }
 
 #
@@ -25,7 +25,10 @@ sub _extract_name
     my $self = @_ && ref $_[0] ? shift : undef;
 
     local $_ = shift or return '';
-    
+
+    # Using encodings, too hard. See Mail::Message::Field::Full.
+    return '' if m/\=\?.*?\?\=/;
+
     # Bug in unicode \U, perl 5.8.0 breaks when casing utf8 in regex
     if($] eq 5.008)
     {   require utf8;
@@ -41,13 +44,19 @@ sub _extract_name
     return "" if /^[\d ]+$/;
 
     # remove outermost parenthesis
-    s/^\((.*)\)$/$1/g;
+    s/^\((.*)\)$/$1/;
 
     # remove outer quotation marks
-    s/^"|"$//g;
+    s/^"(.*)"$/$1/;
 
-    # remove embedded comments
-    s/\(.*\)//g;
+    # remove minimal embedded comments
+    s/\(.*?\)//g;
+
+    # remove all escapes
+    s/\\//g;
+
+    # remove internal quotation marks
+    s/^"(.*)"$/$1/;
 
     # reverse "Last, First M." if applicable
     s/^([^\s]+) ?, ?(.*)$/$2 $1/;
@@ -67,7 +76,7 @@ sub _extract_name
         s/\bo'(\w)/O'\u$1/igo;
 
         # Roman numerals, eg 'Level III Support'
-        s/\b(x*(ix)?v*(iv)?i*)\b/\U$1/igo; 
+        s/\b(x*(ix)?v*(iv)?i*)\b/\U$1/igo;
     }
 
     # some cleanup
@@ -81,10 +90,12 @@ sub _extract_name
 sub _tokenise {
  local($_) = join(',', @_);
  my(@words,$snippet,$field);
- 
+
  s/\A\s+//;
  s/[\r\n]+/ /g;
 
+#use Scalar::Util qw/tainted/;
+#warn tainted($_);
  while ($_ ne '')
   {
    $field = '';
@@ -113,18 +124,21 @@ sub _tokenise {
      next;
     }
 
-      s/^("([^"\\]|\\.)*")\s*//       # "..."
-   || s/^(\[([^\]\\]|\\.)*\])\s*//    # [...]
-   || s/^([^\s\Q()<>\@,;:\\".[]\E]+)\s*//
-   || s/^([\Q()<>\@,;:\\".[]\E])\s*//
-     and do { push(@words, $1); next; };
+    if( s/^("(?:[^"\\]+|\\.)*")\s*//       # "..."
+     || s/^(\[(?:[^\]\\]+|\\.)*\])\s*//    # [...]
+     || s/^([^\s()<>\@,;:\\".[\]]+)\s*//
+     || s/^([()<>\@,;:\\".[\]])\s*//
+    )
+    {   push(@words, $1);
+        next;
+    }
 
-   croak "Unrecognised line: $_";
+    croak "Unrecognised line: $_";
   }
 
- push(@words, ",");
+  push(@words, ",");
 
- \@words;
+  \@words;
 }
 
 sub _find_next {
@@ -133,7 +147,7 @@ sub _find_next {
  my $len = shift;
  while($idx < $len) {
    my $c = $tokens->[$idx];
-   return $c if($c eq "," || $c eq "<");
+   return $c if $c eq ',' || $c eq ';' || $c eq '<';
    $idx++;
  }
  return "";
@@ -147,7 +161,7 @@ sub _complete {
  my $o = undef;
 
  if(@{$phrase} || @{$comment} || @{$address}) {
-  $o = $pkg->new(join(" ",@{$phrase}), 
+  $o = $pkg->new(join(" ",@{$phrase}),
                  join("", @{$address}),
                  join(" ",@{$comment}));
   @{$phrase} = ();
@@ -195,7 +209,7 @@ sub parse {
   elsif($_ eq '>') {
    $depth-- if $depth;
   }
-  elsif($_ eq ',') {
+  elsif($_ eq ',' || $_ eq ';') {
    warn "Unmatched '<>' in $line" if($depth);
    my $o = _complete($pkg,\@phrase, \@address, \@comment);
    push(@objs, $o) if(defined $o);
@@ -239,16 +253,21 @@ sub comment { set_or_get(shift,2,@_) }
 
 
 sub format {
- my @fmts = ();
+ my @fmts  = ();
  my $me;
+
+ my $atext = '[\-\w !#$%&\'*+/=?^`{|}~]';
 
  foreach $me (@_) {
    my($phrase,$addr,$comment) = @{$me};
    my @tmp = ();
 
    if(defined $phrase && length($phrase)) {
-    push(@tmp, $phrase);
-    push(@tmp, "<" . $addr . ">") if(defined $addr && length($addr));
+     push @tmp, $phrase =~ /^(?:\s*$atext\s*)+$/ ? $phrase
+              : $phrase =~ /(?<!\\)"/            ? $phrase
+              :                                    qq("$phrase");
+
+     push(@tmp, "<" . $addr . ">") if(defined $addr && length($addr));
    }
    else {
     push(@tmp, $addr) if(defined $addr && length($addr));
@@ -265,38 +284,38 @@ sub format {
 }
 
 
-sub name 
+sub name
 {
     my $me = shift;
     my $phrase = $me->phrase;
     my $addr = $me->address;
-    
+
     $phrase  = $me->comment unless(defined($phrase) && length($phrase));
     my $name = $me->_extract_name($phrase);
-    
+
     # first.last@domain address
     if($name eq '' && $addr =~ /([^\%\.\@_]+([\._][^\%\.\@_]+)+)[\@\%]/o)
     {
 	($name = $1) =~ s/[\._]+/ /go;
 	$name = _extract_name($name);
     }
-    
-    if($name eq '' && $addr =~ m#/g=#oi)	
+
+    if($name eq '' && $addr =~ m#/g=#oi)
     # X400 style address
     {
 	my ($f) = $addr =~ m#g=([^/]*)#oi;
 	my ($l) = $addr =~ m#s=([^/]*)#io;
-	
+
 	$name = _extract_name($f . " " . $l);
-    }   
-       
+    }
+
        return length($name) ? $name : undef;
 }
 
 
 sub host {
  my $me = shift;
- my $addr = $me->address;
+ my $addr = $me->address || '';
  my $i = rindex($addr,'@');
 
  my $host = ($i >= 0) ? substr($addr,$i+1) : undef;
@@ -338,19 +357,59 @@ Mail::Address - Parse mail addresses
 =head1 SYNOPSIS
 
     use Mail::Address;
-    
+
     my @addrs = Mail::Address->parse($line);
-    
+
     foreach $addr (@addrs) {
 	print $addr->format,"\n";
     }
 
 =head1 DESCRIPTION
 
-C<Mail::Address> extracts and manipulates RFC822 compilant email
-addresses. As well as being able to create C<Mail::Address> objects
-in the normal manner, C<Mail::Address> can extract addresses from
-the To and Cc lines found in an email message.
+C<Mail::Address> extracts and manipulates email addresses from a message
+header.  It cannot be used to extract addresses from some random text.
+You can use this module to create RFC822 compliant fields.
+
+Although C<Mail::Address> is a very popular subject for books, and is
+used in many applications, it does a very poor job on the more complex
+message fields.  It does only handle simple address formats (which
+covers about 95% of what can be found). Problems are with
+
+=over 4
+
+=item *
+
+no support for address groups, even not with the semi-colon as
+separator between addresses
+
+=item *
+
+Limitted support for escapes in phrases and comments.  There are
+cases where it can get wrong.
+
+=item *
+
+You have to take care of most escaping when you create an address yourself:
+C<Mail::Address> does not do that for you.
+
+=back
+
+Often requests are made to improve this situation, but this is not a
+good idea, where it will break zillions of existing applications.  If
+you wish for a fully RFC2822 compliant implementation you may take a look
+at L<Mail::Message::Field::Full>, part of MailBox.
+
+Example:
+
+  my $s = Mail::Message::Field::Full->parse($header);
+  # ref $s isa Mail::Message::Field::Addresses;
+
+  my @g = $s->groups;          # all groups, at least one
+  # ref $g[0] isa Mail::Message::Field::AddrGroup;
+  my $ga = $g[0]->addresses;   # group addresses
+
+  my @a = $s->addresses;       # all addresses
+  # ref $a[0] isa Mail::Message::Field::Address;
 
 =head1 CONSTRUCTORS
 
@@ -425,7 +484,7 @@ Graham Barr.  Maintained by Mark Overmeer <mailtools@overmeer.net>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2002-2003 Mark Overmeer, 1995-2001 Graham Barr. All rights
+Copyright (c) 2002-2005 Mark Overmeer, 1995-2001 Graham Barr. All rights
 reserved. This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 

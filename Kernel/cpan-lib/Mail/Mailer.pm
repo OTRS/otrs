@@ -2,6 +2,8 @@
 
 package Mail::Mailer;
 
+use POSIX qw/_exit/;
+
 =head1 NAME
 
 Mail::Mailer - Simple interface to electronic mailing mechanisms 
@@ -9,7 +11,7 @@ Mail::Mailer - Simple interface to electronic mailing mechanisms
 =head1 SYNOPSIS
 
     use Mail::Mailer;
-    use Mail::Mailer qw(mail);
+    use Mail::Mailer qw(mail);    # specifies default mailer
 
     $mailer = new Mail::Mailer;
 
@@ -24,15 +26,13 @@ Mail::Mailer - Simple interface to electronic mailing mechanisms
 
 =head1 DESCRIPTION
 
-Sends mail using any of the built-in methods.  You can alter the
-behaviour of a method by passing C<$command> to the C<new> method.
+Sends mail using any of the built-in methods. As C<$type> you can specify
+any of:
 
 =over 4
 
 =item C<sendmail>
-
-Use the C<sendmail> program to deliver the mail.  C<$command> is the
-path to C<sendmail>.
+Use the C<sendmail> program to deliver the mail.
 
 =item C<smtp>
 
@@ -45,14 +45,18 @@ The smtp mailer does not handle C<Cc> and C<Bcc> lines, neither their
 C<Resent-*> fellows. The C<Debug> options enables debugging output
 from C<Net::SMTP>.
 
+You may also use the C<< Auth => [ $user, $password ] >> option for SASL
+authentication (requires L<Authen::SASL> and L<MIME::Base64>).
+
 =item C<qmail>
 
 Use qmail's qmail-inject program to deliver the mail.
 
-=item C<test>
+=item C<testfile>
 
-Used for debugging, this displays the data on STDOUT.  No mail is ever
-sent.  C<$command> is ignored.
+Used for debugging, this displays the data to the file named in
+C<$Mail::Mailer::testfile::config{outfile}> which defaults to a file
+named C<mailer.testfile>.  No mail is ever sent.
 
 =back
 
@@ -61,9 +65,8 @@ default mailer will be the first one found.
 
 =head2 ARGUMENTS
 
-C<new> can optionally be given a C<$command> and C<$type>.  C<$type>
-is one C<sendmail>, C<mail>, ... given above.  The meaning of
-C<$command> depends on C<$type>.
+C<new> can optionally be given a C<$type>, which
+is one C<sendmail>, C<mail>, ... given above.
 
 C<open> is given a reference to a hash.  The hash consists of key and
 value pairs, the key being the name of the header field (eg, C<To>),
@@ -126,7 +129,7 @@ use vars qw(@ISA $VERSION $MailerBinary $MailerType %Mailers @Mailers);
 use Config;
 use strict;
 
-$VERSION = "1.60";
+$VERSION = "1.74";
 
 sub Version { $VERSION }
 
@@ -140,7 +143,7 @@ sub Version { $VERSION }
 
     'smtp'	=> undef,
     'qmail'     => '/usr/sbin/qmail-inject;/var/qmail/bin/qmail-inject',
-    'test'	=> undef
+    'testfile'	=> undef
 );
 
 if($ENV{PERL_MAILERS})
@@ -228,8 +231,7 @@ sub new {
     my($class, $type, @args) = @_;
 
     $type = $MailerType unless $type;
-    croak "Mailer '$type' not known, please specify correct type"
-	unless $type;
+    croak "No MailerType specified" unless defined $type;
 
     my $exe = $Mailers{$type};
 
@@ -255,17 +257,34 @@ sub new {
 
 sub open {
     my($self, $hdrs) = @_;
-    my $exe = *$self->{Exe}; # || Carp::croak "$self->open: bad exe";
+    my $exe  = *$self->{Exe};   # no exe, then direct smtp
     my $args = *$self->{Args};
-    _cleanup_hdrs($hdrs);
+
+# removed MO 20050331: destroyed the folding
+#   _cleanup_hdrs($hdrs);
+
     my @to = $self->who_to($hdrs);
     
     $self->close;	# just in case;
 
-    # Fork and start a mailer
-    (defined($exe) && open($self,"|-"))
-	|| $self->exec($exe, $args, \@to)
-	|| die $!;
+    if(defined $exe)
+    {   # Fork and start a mailer
+        my $child = open $self, '|-';
+        defined $child or die "Failed to send: $!";
+
+        if($child==0)
+        {   # Child process will handle sending, but this is not real exec()
+            # this is a setup!!!
+            unless($self->exec($exe, $args, \@to))
+            {   warn $!;     # setup failed
+                _exit(1);    # no DESTROY(), keep it for parent
+            }
+        }
+    }
+    else
+    {   $self->exec($exe, $args, \@to)
+            or die $!;
+    }
 
     # Set the headers
     $self->set_headers($hdrs);

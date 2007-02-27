@@ -1,7 +1,7 @@
 # Mail::Filter.pm
 #
 # Copyright (c) 1997-2001 Graham Barr <gbarr@pobox.com>. All rights reserved.
-# Copyright (c) 2002-2003 Mark Overmeer <mailtools@overmeer.net>
+# Copyright (c) 2002-2005 Mark Overmeer <mailtools@overmeer.net>
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 
@@ -11,7 +11,7 @@ use Carp;
 use strict;
 use vars qw($VERSION);
 
-$VERSION = "1.60";
+$VERSION = "1.74";
 
 sub new {
     my $self = shift;
