@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.27 2007-01-30 19:57:20 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.28 2007-03-02 00:15:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -125,8 +125,8 @@ sub Run {
             # get default selections
             my %TicketFreeDefault = ();
             foreach (1..16) {
-                $TicketFreeDefault{'TicketFreeKey'.$_} = $Self->{ConfigObject}->Get('TicketFreeKey'.$_.'::DefaultSelection');
-                $TicketFreeDefault{'TicketFreeText'.$_} = $Self->{ConfigObject}->Get('TicketFreeText'.$_.'::DefaultSelection');
+                $TicketFreeDefault{'TicketFreeKey'.$_} = $GetParam{'TicketFreeKey'.$_} || $Self->{ConfigObject}->Get('TicketFreeKey'.$_.'::DefaultSelection');
+                $TicketFreeDefault{'TicketFreeText'.$_} = $GetParam{'TicketFreeText'.$_} || $Self->{ConfigObject}->Get('TicketFreeText'.$_.'::DefaultSelection');
             }
             # get free text config options
             my %TicketFreeText = ();
@@ -237,6 +237,7 @@ sub Run {
             );
         }
         my $NextState = $StateData{Name};
+        my $NewResponsibleID = $Self->{ParamObject}->GetParam(Param => 'NewResponsibleID') || '';
         my $NewUserID = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
         my $Lock = $Self->{ParamObject}->GetParam(Param => 'Lock') || '';
         if ($Lock) {
@@ -299,6 +300,11 @@ sub Run {
         $GetParam{ExpandCustomerName} = $ExpandCustomerName;
         if ($Self->{ParamObject}->GetParam(Param => 'AllUsersRefresh')) {
             $AllUsers = 1;
+            $ExpandCustomerName = 3;
+        }
+        my $ResponsibleAll = $Self->{ParamObject}->GetParam(Param => 'ResponsibleAllRefresh');
+        if ($ResponsibleAll) {
+            $ResponsibleAll = 1;
             $ExpandCustomerName = 3;
         }
         if ($Self->{ParamObject}->GetParam(Param => 'ClearTo')) {
@@ -536,9 +542,11 @@ sub Run {
                 QueueID => $Self->{QueueID},
                 Users => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $AllUsers),
                 UserSelected => $NewUserID,
-                NextStates => $Self->_GetNextStates(QueueID => $NewQueueID),
+                ResponsibleUsers => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $ResponsibleAll),
+                ResponsibleUsersSelected => $NewResponsibleID,
+                NextStates => $Self->_GetNextStates(QueueID => $NewQueueID || 1),
                 NextState => $NextState,
-                Priorities => $Self->_GetPriorities(QueueID => $NewQueueID),
+                Priorities => $Self->_GetPriorities(QueueID => $NewQueueID || 1),
                 CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
                 CustomerUser => $CustomerUser,
                 CustomerData => \%CustomerData,
@@ -655,7 +663,7 @@ sub Run {
             StateID => $NextStateID,
             PriorityID => $GetParam{PriorityID},
             OwnerID => $Self->{UserID},
-            CustomerNo => $CustomerID,
+            CustomerID => $CustomerID,
             CustomerUser => $SelectedCustomerUser,
             UserID => $Self->{UserID},
         );
@@ -777,6 +785,14 @@ sub Run {
                 $Self->{TicketObject}->LockSet(
                     TicketID => $TicketID,
                     Lock => 'lock',
+                    UserID => $Self->{UserID},
+                );
+            }
+            # set responsible (if new user id is given)
+            if ($NewResponsibleID) {
+                $Self->{TicketObject}->ResponsibleSet(
+                    TicketID => $TicketID,
+                    NewUserID => $NewResponsibleID,
                     UserID => $Self->{UserID},
                 );
             }
@@ -1072,6 +1088,32 @@ sub _MaskEmailNew {
         else {
             $Self->{LayoutObject}->Block(
                 Name => 'OwnerSelectionAllSubmit',
+                Data => { },
+            );
+        }
+    }
+    # show responsible selection
+    if ($Self->{ConfigObject}->Get('Ticket::Responsible') &&
+        $Self->{ConfigObject}->Get('Ticket::Frontend::NewResponsibleSelection')) {
+        $Param{ResponsibleUsers}->{''} = '-';
+        $Param{'ResponsibleOptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => $Param{ResponsibleUsers},
+            SelectedID => $Param{ResponsibleUsersSelected},
+            Name => 'NewResponsibleID',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ResponsibleSelection',
+            Data => \%Param,
+        );
+        if ($Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ResponsibleSelectionAllJS',
+                Data => { },
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'ResponsibleSelectionAllSubmit',
                 Data => { },
             );
         }

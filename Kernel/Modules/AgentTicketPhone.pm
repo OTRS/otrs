@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.32 2007-01-30 19:57:20 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.33 2007-03-02 00:15:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -163,8 +163,8 @@ sub Run {
         # get default selections
         my %TicketFreeDefault = ();
         foreach (1..16) {
-            $TicketFreeDefault{'TicketFreeKey'.$_} = $Self->{ConfigObject}->Get('TicketFreeKey'.$_.'::DefaultSelection');
-            $TicketFreeDefault{'TicketFreeText'.$_} = $Self->{ConfigObject}->Get('TicketFreeText'.$_.'::DefaultSelection');
+            $TicketFreeDefault{'TicketFreeKey'.$_} = $GetParam{'TicketFreeKey'.$_} || $Self->{ConfigObject}->Get('TicketFreeKey'.$_.'::DefaultSelection');
+            $TicketFreeDefault{'TicketFreeText'.$_} = $GetParam{'TicketFreeText'.$_} || $Self->{ConfigObject}->Get('TicketFreeText'.$_.'::DefaultSelection');
         }
         # get free text config options
         my %TicketFreeText = ();
@@ -488,9 +488,9 @@ sub Run {
                 UserSelected => $GetParam{NewUserID},
                 ResponsibleUsers => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $GetParam{ResponsibleAll}),
                 ResponsibleUserSelected => $GetParam{NewResponsibleID},
-                NextStates => $Self->_GetNextStates(QueueID => $NewQueueID),
+                NextStates => $Self->_GetNextStates(QueueID => $NewQueueID || 1),
                 NextState => $NextState,
-                Priorities => $Self->_GetPriorities(QueueID => $NewQueueID),
+                Priorities => $Self->_GetPriorities(QueueID => $NewQueueID || 1),
                 CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
                 CustomerUser => $CustomerUser,
                 CustomerData => \%CustomerData,
