@@ -1,9 +1,9 @@
 # --
 # Kernel/System/DB/db2.pm - db2 database backend
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.12.2.1 2006-12-14 12:31:45 martin Exp $
+# $Id: db2.pm,v 1.12.2.2 2007-03-02 01:21:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::DB::db2;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12.2.1 $';
+$VERSION = '$Revision: 1.12.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -42,7 +42,7 @@ sub LoadPreferences {
     $Self->{'DB::DirectBlob'} = 0;
     $Self->{'DB::QuoteSingle'} = '\'';
     $Self->{'DB::QuoteBack'} = 0;
-    $Self->{'DB::QuoteSemicolon'} = '\'';
+    $Self->{'DB::QuoteSemicolon'} = '';
     $Self->{'DB::Attribute'} = {
         LongTruncOk => 1,
         LongReadLen => 100*1024,
