@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Package.pm - lib package manager
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.53 2006-12-07 15:43:24 mh Exp $
+# $Id: Package.pm,v 1.53.2.1 2007-03-02 02:17:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.53.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1643,7 +1643,7 @@ sub _FileSystemCheck {
         );
         return;
     }
-    foreach (qw(/ /bin/ /Kernel/ /Kernel/System/ /Kernel/Output/ /Kernel/Modules/)) {
+    foreach (qw(/bin/ /Kernel/ /Kernel/System/ /Kernel/Output/ /Kernel/Output/HTML/ /Kernel/Modules/)) {
         my $File = "$Home/$_/check_permissons.$$";
         if (open(OUT, "> $File")) {
             print OUT "test";
@@ -1685,6 +1685,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2006-12-07 15:43:24 $
+$Revision: 1.53.2.1 $ $Date: 2007-03-02 02:17:18 $
 
 =cut
