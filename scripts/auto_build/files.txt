@@ -9,6 +9,7 @@
 %config(noreplace) /opt/otrs/Kernel/Output/HTML/Lite/*.dtl
 %config(noreplace) /opt/otrs/Kernel/Language/*.pm
 %config(noreplace) /opt/otrs/var/cron/*
+%config(noreplace) /opt/otrs/var/logo-otrs.png
 
 %dir /opt/otrs/
 /opt/otrs/RELEASE
