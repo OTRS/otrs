@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.32 2007-03-02 00:30:48 martin Exp $
+# $Id: CHANGES,v 1.323.2.33 2007-03-02 01:21:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,10 @@
 # --
 
 2.1.6 (2007/03/02)
+ - (2007/03/02) fixed bug #1504 - Ticket Creation fails with DB2 due to
+    character quoting issues
+ - (2007/03/02) fixed bug #1506 - Error creating Tickets in DB2 due to conflict
+    in string/numerical comparison
  - (2007/03/02) fixed bug #1445 - OTRS is not encoding Umlauts correctly in
     Organization email header
  - (2007/03/02) fixed bug #1548 - submitting AgentTicketPhone or
