@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.21 2007-02-26 11:23:59 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.22 2007-03-02 08:15:50 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -512,6 +512,10 @@ sub SendEmail {
             Action => $Self->{Action},
             UserID => $Self->{UserID},
         );
+        # check required FreeTextField (if configured)
+        if ($Self->{Config}{'TicketFreeText'}{$_} == 2 && $TicketFree{"TicketFreeText$_"} eq '') {
+            $Error{"TicketFreeTextField$_ invalid"} = 'invalid';
+        }
     }
     my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
         Config => \%TicketFreeText,
@@ -794,6 +798,7 @@ sub _Mask {
                 Data => {
                     TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
                     TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
+                    %Param,
                 },
             );
             $Self->{LayoutObject}->Block(
@@ -857,6 +862,18 @@ sub _Mask {
             Name => 'Attachment',
             Data => $DataRef,
         );
+    }
+    # jscript check freetextfields by submit
+    foreach my $Key (keys %{$Self->{Config}{TicketFreeText}}) {
+        if ($Self->{Config}{TicketFreeText}{$Key} == 2) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTextCheckJs',
+                Data => {
+                    TicketFreeTextField => "TicketFreeText$Key",
+                    TicketFreeKeyField => "TicketFreeKey$Key",
+                },
+            );
+        }
     }
     # create & return output
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketForward', Data => \%Param);

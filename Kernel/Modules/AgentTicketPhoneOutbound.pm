@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.10 2007-01-31 08:27:02 mh Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.11 2007-03-02 08:15:50 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -283,6 +283,12 @@ sub Run {
         if ($GetParam{Body}) {
             $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
+        # check required FreeTextField (if configured)
+        foreach (1..16) {
+            if ($Self->{Config}{'TicketFreeText'}{$_} == 2 && $GetParam{"TicketFreeText$_"} eq '' && !$GetParam{AttachmentUpload}) {
+                $Error{"TicketFreeTextField$_ invalid"} = 'invalid';
+            }
+        }
         # attachment delete
         foreach (1..10) {
             if ($GetParam{"AttachmentDelete$_"}) {
@@ -304,6 +310,10 @@ sub Run {
                 FormID => $Self->{FormID},
                 %UploadStuff,
             );
+        }
+        # check subject
+        if (!$GetParam{Subject} && !$GetParam{AttachmentUpload}) {
+            $Error{"Subject invalid"} = 'invalid';
         }
         # get all attachments meta data
         my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
@@ -402,6 +412,7 @@ sub Run {
                 %TicketFreeTextHTML,
                 %TicketFreeTimeHTML,
                 %ArticleFreeTextHTML,
+                Errors => \%Error,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -724,6 +735,7 @@ sub _MaskPhone {
                 Data => {
                     TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
                     TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
+                    %Param,
                 },
             );
             $Self->{LayoutObject}->Block(
@@ -802,6 +814,18 @@ sub _MaskPhone {
             Name => 'Attachment',
             Data => $DataRef,
         );
+    }
+    # jscript check freetextfields by submit
+    foreach my $Key (keys %{$Self->{Config}{TicketFreeText}}) {
+        if ($Self->{Config}{TicketFreeText}{$Key} == 2) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTextCheckJs',
+                Data => {
+                    TicketFreeTextField => "TicketFreeText$Key",
+                    TicketFreeKeyField => "TicketFreeKey$Key",
+                },
+            );
+        }
     }
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketPhoneOutbound', Data => \%Param);

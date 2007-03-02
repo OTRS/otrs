@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.16 2007-01-30 19:57:20 mh Exp $
+# $Id: CustomerTicketMessage.pm,v 1.17 2007-03-02 08:15:50 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -161,6 +161,10 @@ sub Run {
                 Type => "TicketFreeText$_",
                 CustomerUserID => $Self->{UserID},
             );
+            # check required FreeTextField (if configured)
+            if ($Self->{Config}{'TicketFreeText'}{$_} == 2 && $TicketFree{"TicketFreeText$_"} eq '') {
+                $Error{"TicketFreeTextField$_ invalid"} = '* invalid';
+            }
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Config => \%TicketFreeText,
@@ -229,6 +233,7 @@ sub Run {
                 ToSelected => $Dest,
                 %TicketFreeTextHTML,
                 %FreeTime,
+                Errors => \%Error,
             );
             $Output .= $Self->{LayoutObject}->CustomerFooter();
             return $Output;
@@ -430,6 +435,12 @@ sub _MaskNew {
             },
         );
     }
+    # prepare errors!
+    if ($Param{Errors}) {
+        foreach (keys %{$Param{Errors}}) {
+            $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
+        }
+    }
 
     # ticket free text
     my $Count = 0;
@@ -442,6 +453,7 @@ sub _MaskNew {
                     TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
                     TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
                     Count => $Count,
+                    %Param,
                 },
             );
             $Self->{LayoutObject}->Block(
@@ -480,6 +492,18 @@ sub _MaskNew {
             Name => 'Attachment',
             Data => $DataRef,
         );
+    }
+    # jscript check freetextfields by submit
+    foreach my $Key (keys %{$Self->{Config}{TicketFreeText}}) {
+        if ($Self->{Config}{TicketFreeText}{$Key} == 2) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTextCheckJs',
+                Data => {
+                    TicketFreeTextField => "TicketFreeText$Key",
+                    TicketFreeKeyField => "TicketFreeKey$Key",
+                },
+            );
+        }
     }
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'CustomerTicketMessage', Data => \%Param);

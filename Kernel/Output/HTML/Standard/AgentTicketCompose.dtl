@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.22 2007-01-08 20:51:10 martin Exp $
+# $Id: AgentTicketCompose.dtl,v 1.23 2007-03-02 08:15:50 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,6 +35,13 @@ function submit_compose() {
         alert('$JSText{"Invalid date!"}');
         return false;
     }
+<!-- dtl:block:TicketFreeTextCheckJs -->
+    else if (document.compose.$Data{"TicketFreeTextField"}.value == "") {
+        alert('$JSText{"A required field is:"} ' + document.compose.$Data{"TicketFreeKeyField"}.value + '!');
+        document.compose.$Data{"TicketFreeTextField"}.focus();
+        return false;
+    }
+<!-- dtl:block:TicketFreeTextCheckJs -->
 <!-- dtl:block:TimeUnitsJs -->
     else if (document.compose.TimeUnits.value != "") {
         var reg = /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/;

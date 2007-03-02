@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.10 2007-02-23 11:35:03 mh Exp $
+# $Id: LayoutTicket.pm,v 1.11 2007-03-02 08:15:50 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::LayoutTicket;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketStdResponseString {
@@ -305,6 +305,7 @@ sub AgentFreeText {
                 $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="" size="30">';
             }
         }
+        $Data{"TicketFreeTextField$_"} .= '<font color="red" size="-2">$Text{"$Data{"TicketFreeTextField'.$_.' invalid"}"}</font>';
     }
     return %Data;
 }

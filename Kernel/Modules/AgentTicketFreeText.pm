@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketFreeText.pm - free text for ticket
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketFreeText.pm,v 1.15 2007-02-26 11:14:20 martin Exp $
+# $Id: AgentTicketFreeText.pm,v 1.16 2007-03-02 08:15:50 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -218,6 +218,12 @@ sub Run {
             # check body
             if (!$GetParam{Body}) {
                 $Error{"Body invalid"} = '* invalid';
+            }
+        }
+        # check required FreeTextField (if configured)
+        foreach (1..16) {
+            if ($Self->{Config}{'TicketFreeText'}{$_} == 2 && $GetParam{"TicketFreeText$_"} eq '') {
+                $Error{"TicketFreeTextField$_ invalid"} = 'invalid';
             }
         }
         # attachment delete
@@ -911,6 +917,7 @@ sub _Mask {
                 Data => {
                     TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
                     TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
+                    %Param,
                 },
             );
             $Self->{LayoutObject}->Block(
@@ -961,6 +968,18 @@ sub _Mask {
                 Data => {
                     %Param,
                     Count => $Count,
+                },
+            );
+        }
+    }
+    # jscript check freetextfields by submit
+    foreach my $Key (keys %{$Self->{Config}{TicketFreeText}}) {
+        if ($Self->{Config}{TicketFreeText}{$Key} == 2) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTextCheckJs',
+                Data => {
+                    TicketFreeTextField => "TicketFreeText$Key",
+                    TicketFreeKeyField => "TicketFreeKey$Key",
                 },
             );
         }

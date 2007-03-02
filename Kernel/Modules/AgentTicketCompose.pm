@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.28 2007-02-22 09:03:15 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.29 2007-03-02 08:15:50 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -195,6 +195,12 @@ sub Run {
         if ($StateData{TypeName} && $StateData{TypeName} =~ /^pending/i) {
             if (!$Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0)) {
                 $Error{"Date invalid"} = 'invalid';
+            }
+        }
+        # check required FreeTextField (if configured)
+        foreach (1..16) {
+            if ($Self->{Config}{'TicketFreeText'}{$_} == 2 && $GetParam{"TicketFreeText$_"} eq '') {
+                $Error{"TicketFreeTextField$_ invalid"} = 'invalid';
             }
         }
         # attachment delete
@@ -878,6 +884,7 @@ sub _Mask {
                     TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
                     TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
                     Count => $Count,
+                    %Param,
                 },
             );
             $Self->{LayoutObject}->Block(
@@ -959,6 +966,18 @@ sub _Mask {
             Name => 'Attachment',
             Data => $DataRef,
         );
+    }
+    # jscript check freetextfields by submit
+    foreach my $Key (keys %{$Self->{Config}{TicketFreeText}}) {
+        if ($Self->{Config}{TicketFreeText}{$Key} == 2) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTextCheckJs',
+                Data => {
+                    TicketFreeTextField => "TicketFreeText$Key",
+                    TicketFreeKeyField => "TicketFreeKey$Key",
+                },
+            );
+        }
     }
     # create & return output
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketCompose', Data => \%Param);

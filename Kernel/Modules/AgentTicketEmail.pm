@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.28 2007-03-02 00:15:01 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.29 2007-03-02 08:15:50 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -337,6 +337,10 @@ sub Run {
                 QueueID => $NewQueueID || 0,
                 UserID => $Self->{UserID},
             );
+            # check required FreeTextField (if configured)
+            if ($Self->{Config}{'TicketFreeText'}{$_} == 2 && $GetParam{"TicketFreeText$_"} eq '' && $ExpandCustomerName == 0) {
+                $Error{"TicketFreeTextField$_ invalid"} = 'invalid';
+            }
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Config => \%TicketFreeText,
@@ -1129,6 +1133,7 @@ sub _MaskEmailNew {
                     TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
                     TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
                     Count => $Count,
+                    %Param,
                 },
             );
             $Self->{LayoutObject}->Block(
@@ -1214,6 +1219,18 @@ sub _MaskEmailNew {
             Name => 'Attachment',
             Data => $DataRef,
         );
+    }
+    # jscript check freetextfields by submit
+    foreach my $Key (keys %{$Self->{Config}{TicketFreeText}}) {
+        if ($Self->{Config}{TicketFreeText}{$Key} == 2) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTextCheckJs',
+                Data => {
+                    TicketFreeTextField => "TicketFreeText$Key",
+                    TicketFreeKeyField => "TicketFreeKey$Key",
+                },
+            );
+        }
     }
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketEmail', Data => \%Param);
