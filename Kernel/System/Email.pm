@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.23 2007-01-30 15:31:57 martin Exp $
+# $Id: Email.pm,v 1.24 2007-03-02 00:30:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -260,7 +260,7 @@ sub Send {
     $Header{'Date'} = "Date: ".$Self->{TimeObject}->MailTimeStamp();
     # add organisation header
     if ($Self->{Organization}) {
-        $Header{'Organization'} = $Self->{Organization};
+        $Header{'Organization'} = encode_mimewords(Encode::encode($Param{Charset}, $Self->{Organization}), Charset => $Param{Charset}) || '';;
     }
     # body encode
     $Self->{EncodeObject}->EncodeOutput(\$Param{Body});
@@ -585,6 +585,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2007-01-30 15:31:57 $
+$Revision: 1.24 $ $Date: 2007-03-02 00:30:10 $
 
 =cut
