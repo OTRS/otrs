@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.24 2006-11-15 07:47:24 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.24.2.1 2007-03-02 00:09:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.24.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -533,9 +533,9 @@ sub Run {
                 QueueID => $Self->{QueueID},
                 Users => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $AllUsers),
                 UserSelected => $NewUserID,
-                NextStates => $Self->_GetNextStates(QueueID => $NewQueueID),
+                NextStates => $Self->_GetNextStates(QueueID => $NewQueueID || 1),
                 NextState => $NextState,
-                Priorities => $Self->_GetPriorities(QueueID => $NewQueueID),
+                Priorities => $Self->_GetPriorities(QueueID => $NewQueueID || 1),
                 CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
                 CustomerUser => $CustomerUser,
                 CustomerData => \%CustomerData,
