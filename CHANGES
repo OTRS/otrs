@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.31 2007-03-02 00:09:47 martin Exp $
+# $Id: CHANGES,v 1.323.2.32 2007-03-02 00:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.1.6 (2007/03/02)
+ - (2007/03/02) fixed bug #1445 - OTRS is not encoding Umlauts correctly in
+    Organization email header
  - (2007/03/02) fixed bug #1548 - submitting AgentTicketPhone or
     AgentTicketEmail form without queueid leads to broken fields
  - (2007/02/27) fixed bug #1581 - Garbled paths containing domain names
