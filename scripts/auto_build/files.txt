@@ -38,6 +38,7 @@
 %dir /opt/otrs/var/
 %dir /opt/otrs/var/article/
 /opt/otrs/var/httpd/
+%dir /opt/otrs/var/log/
 %dir /opt/otrs/var/sessions/
 %dir /opt/otrs/var/spool/
 %dir /opt/otrs/var/cron/
