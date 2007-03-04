@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/CheckSum.pl - a tool to compare changes in a installation
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckSum.pl,v 1.5 2006-11-02 12:20:59 tr Exp $
+# $Id: CheckSum.pl,v 1.6 2007-03-04 23:59:50 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $RealBin);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -103,7 +103,7 @@ sub R {
             $File =~ s/$Start//;
             $File =~ s/^\/(.*)$/$1/;
 #            print "File: $File\n";
-            if ($File !~ /Entries|Repository|Root|CVS/ && $File !~ /^doc\// && $File !~ /^var\/tmp/) {
+            if ($File !~ /Entries|Repository|Root|CVS|ARCHIVE/ && $File !~ /^doc\// && $File !~ /^var\/tmp/) {
                 my $Content = '';
                 open (IN, "< $OrigFile") || die "ERROR: $!";
                 while (<IN>) {
