@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.260 2007-02-12 11:44:00 martin Exp $
+# $Id: Defaults.pm,v 1.261 2007-03-04 23:10:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.260 $';
+$VERSION = '$Revision: 1.261 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -175,7 +175,7 @@ sub LoadDefaults {
     # DefaultViewNewLine
     # (insert new line in text messages after max x chars and
     # the next word)
-    $Self->{DefaultViewNewLine} = 85;
+    $Self->{DefaultViewNewLine} = 90;
 
     # DefaultPreViewLines
     # (Max viewable lines in pre view text messages (like ticket
@@ -747,9 +747,9 @@ sub LoadDefaults {
 
     # Package::RepositoryList
     # (repository list)
-    $Self->{'Package::RepositoryList'} = {
+#    $Self->{'Package::RepositoryList'} = {
 #        'ftp://ftp.example.com/pub/otrs/misc/packages/' => '[Example] ftp://ftp.example.com/',
-    };
+#    };
 
     # Package::Timeout
     # (http/ftp timeout to get packages)
@@ -1853,6 +1853,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.260 $ $Date: 2007-02-12 11:44:00 $
+$Revision: 1.261 $ $Date: 2007-03-04 23:10:10 $
 
 =cut
