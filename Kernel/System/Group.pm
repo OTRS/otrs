@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: Group.pm,v 1.42 2007-01-30 14:08:06 mh Exp $
+# $Id: Group.pm,v 1.43 2007-03-04 23:51:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -39,6 +39,7 @@ create a object
 
     use Kernel::Config;
     use Kernel::System::Log;
+    use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::Group;
 
@@ -46,7 +47,12 @@ create a object
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
     my $DBObject = Kernel::System::DB->new(
+        MainObject => $MainObject,
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
     );
@@ -1477,6 +1483,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2007-01-30 14:08:06 $
+$Revision: 1.43 $ $Date: 2007-03-04 23:51:19 $
 
 =cut
