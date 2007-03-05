@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.16 2007-01-29 16:24:01 martin Exp $
+# $Id: Ticket.t,v 1.17 2007-03-05 13:20:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -2847,6 +2847,30 @@ $Self->Is(
 $Self->True(
     $Article{From} eq 'Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent <email@example.com>',
     'ArticleGet()',
+);
+
+# article attachment checks
+my $Content = '';
+open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/Ticket-Article-Test1.xls") || die $!;
+binmode(IN);
+while (<IN>) {
+    $Content .= $_;
+}
+close(IN);
+$Self->{TicketObject}->ArticleWriteAttachment(
+    Content => $Content,
+    Filename => 'Ticket-Article-Test1.xls',
+    ContentType => 'application/vnd.ms-excel',
+    ArticleID => $ArticleID,
+    UserID => 1,
+);
+my %Data = $Self->{TicketObject}->ArticleAttachment(
+    ArticleID => $ArticleID,
+    FileID => 1,
+);
+$Self->True(
+    $Data{Content} eq $Content,
+    'ArticleWriteAttachment() / ArticleAttachment()',
 );
 
 my %TicketIDs = $Self->{TicketObject}->TicketSearch(
