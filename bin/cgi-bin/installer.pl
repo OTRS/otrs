@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# installer.pl - the OTRS Installer
+# bin/cgi-bin/installer.pl - the web Installer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: installer.pl,v 1.22 2007-02-07 11:37:26 tr Exp $
+# $Id: installer.pl,v 1.23 2007-03-05 02:10:23 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-# OTRS root directory
+# use ../../ as lib location
 use FindBin qw($Bin);
 use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # check @INC for mod_perl (add lib path for "require module"!)
