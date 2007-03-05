@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB/mysql.pm - mysql database backend
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.11 2006-11-30 11:33:04 martin Exp $
+# $Id: mysql.pm,v 1.11.2.1 2007-03-05 00:41:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::mysql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.11.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -422,14 +422,14 @@ sub Insert {
     }
     my $Key = '';
     foreach (@Keys) {
-        if ($Key) {
+        if ($Key ne '') {
             $Key .= ",";
         }
         $Key .= $_;
     }
     my $Value = '';
     foreach (@Values) {
-        if ($Value) {
+        if ($Value ne '') {
             $Value .= ",";
         }
         $Value .= $_;
