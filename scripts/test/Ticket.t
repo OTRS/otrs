@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.17 2007-03-05 13:20:43 martin Exp $
+# $Id: Ticket.t,v 1.18 2007-03-05 15:14:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -2850,28 +2850,46 @@ $Self->True(
 );
 
 # article attachment checks
-my $Content = '';
-open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/Ticket-Article-Test1.xls") || die $!;
-binmode(IN);
-while (<IN>) {
-    $Content .= $_;
+foreach my $File (qw(xls txt doc png pdf)) {
+    my $Content = '';
+    open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/Ticket-Article-Test1.$File") || die $!;
+    binmode(IN);
+    while (<IN>) {
+        $Content .= $_;
+    }
+    close(IN);
+    my $ArticleWriteAttachment = $Self->{TicketObject}->ArticleWriteAttachment(
+        Content => $Content,
+        Filename => 'Ticket-Article-Test1.'.$File,
+        ContentType => 'image/png',
+        ArticleID => $ArticleID,
+        UserID => 1,
+    );
+    $Self->True(
+        $ArticleWriteAttachment,
+        'ArticleWriteAttachment() - .'.$File,
+    );
+    my %Data = $Self->{TicketObject}->ArticleAttachment(
+        ArticleID => $ArticleID,
+        FileID => 1,
+    );
+    $Self->True(
+        $Data{Content},
+        'ArticleAttachment() - .'.$File,
+    );
+    $Self->True(
+        $Data{Content} eq $Content,
+        "ArticleWriteAttachment() / ArticleAttachment() - .".$File,
+    );
+    my $Delete = $Self->{TicketObject}->ArticleDeleteAttachment(
+        ArticleID => $ArticleID,
+        UserID => 1,
+    );
+    $Self->True(
+        $Delete,
+        "ArticleDeleteAttachment() - .".$File,
+    );
 }
-close(IN);
-$Self->{TicketObject}->ArticleWriteAttachment(
-    Content => $Content,
-    Filename => 'Ticket-Article-Test1.xls',
-    ContentType => 'application/vnd.ms-excel',
-    ArticleID => $ArticleID,
-    UserID => 1,
-);
-my %Data = $Self->{TicketObject}->ArticleAttachment(
-    ArticleID => $ArticleID,
-    FileID => 1,
-);
-$Self->True(
-    $Data{Content} eq $Content,
-    'ArticleWriteAttachment() / ArticleAttachment()',
-);
 
 my %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
