@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.14 2007-03-02 01:21:23 martin Exp $
+# $Id: db2.pm,v 1.15 2007-03-05 00:43:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::DB::db2;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -429,14 +429,14 @@ sub Insert {
     }
     my $Key = '';
     foreach (@Keys) {
-        if ($Key) {
+        if ($Key ne '') {
             $Key .= ",";
         }
         $Key .= $_;
     }
     my $Value = '';
     foreach (@Values) {
-        if ($Value) {
+        if ($Value ne '') {
             $Value .= ",";
         }
         if ($_ eq 'current_timestamp') {
