@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.134 2007-02-20 08:27:56 martin Exp $
+# $Id: Article.pm,v 1.135 2007-03-05 02:06:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.134 $';
+$VERSION = '$Revision: 1.135 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -480,6 +480,31 @@ sub ArticleCreate {
             }
         }
     }
+    # update note to: field
+    if (%AlreadySent) {
+        if (!$Param{ArticleType}) {
+            $Param{ArticleType} = $Self->ArticleTypeLookup(ArticleTypeID => $Param{ArticleTypeID});
+        }
+        if ($Param{ArticleType} =~ /^note\-/) {
+            my $NewTo = $Param{To} || '';
+            foreach my $UserID (keys %AlreadySent) {
+                my %UserData = $Self->{UserObject}->GetUserData(
+                    UserID => $UserID,
+                    Cached => 1,
+                    Valid => 1,
+                );
+                if ($NewTo) {
+                    $NewTo .= ", ";
+                }
+                $NewTo .= "$UserData{UserFirstname} $UserData{UserLastname} <$UserData{UserEmail}>";
+            }
+            if ($NewTo) {
+                $Self->{DBObject}->Do(
+                    SQL => "UPDATE article SET a_to = '".$Self->{DBObject}->Quote($NewTo)."' WHERE id = $ArticleID",
+                );
+            }
+        }
+    }
     # return ArticleID
     return $ArticleID;
 }
@@ -517,7 +542,7 @@ sub _ArticleGetId {
     if ($Param{Subject}) {
         $SQL .= "a_subject = '$Param{Subject}' AND ";
     }
-    $SQL .= " incoming_time = '$Param{IncomingTime}'";
+    $SQL .= " incoming_time = $Param{IncomingTime}";
     # start query
     $Self->{DBObject}->Prepare(SQL => $SQL);
     my $Id;
@@ -1162,7 +1187,8 @@ sub ArticleGet {
         " st.freekey13, st.freetext13, st.freekey14, st.freetext14, ".
         " st.freekey15, st.freetext15, st.freekey16, st.freetext16, ".
         " st.ticket_lock_id, st.title, st.escalation_start_time, ".
-        " st.freetime1 , st.freetime2 ".
+        " st.freetime1 , st.freetime2, st.freetime3, st.freetime4, st.freetime5, st.freetime6, ".
+        " st.type_id, st.service_id, st.sla_id ".
         " FROM ".
         " article sa, ticket st ".
         " WHERE ";
@@ -1277,23 +1303,43 @@ sub ArticleGet {
         $Data{TicketFreeText16} = $Row[63];
         $Data{TicketFreeTime1} = $Row[67];
         $Data{TicketFreeTime2} = $Row[68];
+        $Data{TicketFreeTime3} = $Row[69];
+        $Data{TicketFreeTime4} = $Row[70];
+        $Data{TicketFreeTime5} = $Row[71];
+        $Data{TicketFreeTime6} = $Row[72];
         $Data{IncomingTime} = $Row[30];
         $Data{RealTillTimeNotUsed} = $Row[17];
         $Ticket{LockID} = $Row[64];
+        $Data{TypeID} = $Row[73];
+        $Ticket{TypeID} = $Row[73];
+        $Data{ServiceID} = $Row[74];
+        $Ticket{ServiceID} = $Row[74];
+        $Data{SLAID} = $Row[75];
+        $Ticket{SLAID} = $Row[75];
         # strip not wanted stuff
         foreach (qw(From To Cc Subject)) {
             $Data{$_} =~ s/\n|\r//g if ($Data{$_});
         }
         push (@Content, {%Data, %Ticket});
     }
+    # get type
+    $Ticket{Type} = $Self->TypeLookup(TypeID => $Ticket{TypeID});
     # get owner
     $Ticket{Owner} = $Self->{UserObject}->UserLookup(UserID => $Ticket{OwnerID});
     # get responsible
     $Ticket{Responsible} = $Self->{UserObject}->UserLookup(UserID => $Ticket{ResponsibleID} || 1);
     # get priority
-    $Ticket{Priority} = $Self->PriorityLookup(ID => $Ticket{PriorityID});
+    $Ticket{Priority} = $Self->{PriorityObject}->PriorityLookup(PriorityID => $Ticket{PriorityID});
     # get lock
-    $Ticket{Lock} = $Self->{LockObject}->LockLookup(ID => $Ticket{LockID});
+    $Ticket{Lock} = $Self->{LockObject}->LockLookup(LockID => $Ticket{LockID});
+    # get service
+    if ($Ticket{ServiceID}) {
+        $Ticket{Service} = $Self->{ServiceObject}->ServiceLookup(ServiceID => $Ticket{ServiceID});
+    }
+    # get sla
+    if ($Ticket{SLAID}) {
+        $Ticket{SLA} = $Self->{SLAObject}->SLALookup(SLAID => $Ticket{SLAID});
+    }
     # get queue name and other stuff
     my %Queue = $Self->{QueueObject}->QueueGet(ID => $Ticket{QueueID}, Cache => 1);
     # get state info
@@ -1304,6 +1350,8 @@ sub ArticleGet {
     my $EscalationTimeLong = 0;
     my $EscalationDate = 0;
     foreach my $Part (@Content) {
+        # get type
+        $Part->{Type} = $Ticket{Type};
         # get owner
         $Part->{Owner} = $Ticket{Owner};
         # get responsible
@@ -1321,6 +1369,8 @@ sub ArticleGet {
         $Part->{LockID} = $Ticket{LockID};
         $Part->{Lock} = $Ticket{Lock};
         $Part->{Queue} = $Queue{Name};
+        $Part->{Service} = $Ticket{Service} || '';
+        $Part->{SLA} = $Ticket{SLA} || '';
         if (!$Part->{RealTillTimeNotUsed} || $StateData{TypeName} !~ /^pending/i) {
             $Part->{UntilTime} = 0;
         }

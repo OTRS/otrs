@@ -2,7 +2,7 @@
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Lock.pm,v 1.11 2007-01-30 14:08:06 mh Exp $
+# $Id: Lock.pm,v 1.12 2007-03-05 02:06:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -141,9 +141,9 @@ sub LockViewableLock {
 
 lock lookup
 
-    my $LockID = $LockObject->LockLookup(Type => 'lock');
+    my $LockID = $LockObject->LockLookup(Lock => 'lock');
 
-    my $Lock = $LockObject->LockLookup(ID => 2);
+    my $Lock = $LockObject->LockLookup(LockID => 2);
 
 =cut
 
@@ -152,14 +152,14 @@ sub LockLookup {
     my %Param = @_;
     my $Key = '';
     # check needed stuff
-    if (!$Param{Type} && $Param{ID}) {
-        $Key = 'ID';
+    if (!$Param{Lock} && $Param{LockID}) {
+        $Key = 'LockID';
     }
-    if ($Param{Type} && !$Param{ID}) {
-        $Key = 'Type';
+    if ($Param{Lock} && !$Param{LockID}) {
+        $Key = 'Lock';
     }
-    if (!$Param{Type} && !$Param{ID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type od ID!");
+    if (!$Param{Lock} && !$Param{LockID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Lock or LockID!");
         return;
     }
     # check if we ask the same request?
@@ -168,11 +168,11 @@ sub LockLookup {
     }
     # db query
     my $SQL = '';
-    if ($Param{Type}) {
-        $SQL = "SELECT id FROM ticket_lock_type WHERE name = '".$Self->{DBObject}->Quote($Param{Type})."'";
+    if ($Param{Lock}) {
+        $SQL = "SELECT id FROM ticket_lock_type WHERE name = '".$Self->{DBObject}->Quote($Param{Lock})."'";
     }
     else {
-        $SQL = "SELECT name FROM ticket_lock_type WHERE id = ".$Self->{DBObject}->Quote($Param{ID}, 'Integer');
+        $SQL = "SELECT name FROM ticket_lock_type WHERE id = ".$Self->{DBObject}->Quote($Param{LockID}, 'Integer');
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -181,7 +181,7 @@ sub LockLookup {
     }
     # check if data exists
     if (!exists $Self->{"Lock::Lookup::$Param{$Key}"}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "No Type/TypeID for $Param{$Key} found!");
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No Lock/LockID for $Param{$Key} found!");
         return;
     }
     else {
@@ -239,6 +239,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2007-01-30 14:08:06 $
+$Revision: 1.12 $ $Date: 2007-03-05 02:06:32 $
 
 =cut

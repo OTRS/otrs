@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FollowUp.pm,v 1.51 2007-01-21 01:26:10 mh Exp $
+# $Id: FollowUp.pm,v 1.52 2007-03-05 02:06:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -146,6 +146,39 @@ sub Run {
         );
         if ($Self->{Debug} > 0) {
             print "Lock: $GetParam{'X-OTRS-FollowUp-Lock'}\n";
+        }
+    }
+    # set ticket type
+    if ($GetParam{'X-OTRS-FollowUp-Type'}) {
+        $Self->{TicketObject}->TicketTypeSet(
+            Type => $GetParam{'X-OTRS-FollowUp-Type'},
+            TicketID => $Param{TicketID},
+            UserID => $Param{InmailUserID},
+        );
+        if ($Self->{Debug} > 0) {
+            print "Type: $GetParam{'X-OTRS-FollowUp-Type'}\n";
+        }
+    }
+    # set ticket service
+    if ($GetParam{'X-OTRS-FollowUp-Service'}) {
+        $Self->{TicketObject}->TicketServiceSet(
+            Service => $GetParam{'X-OTRS-FollowUp-Service'},
+            TicketID => $Param{TicketID},
+            UserID => $Param{InmailUserID},
+        );
+        if ($Self->{Debug} > 0) {
+            print "Service: $GetParam{'X-OTRS-FollowUp-Service'}\n";
+        }
+    }
+    # set ticket sla
+    if ($GetParam{'X-OTRS-FollowUp-SLA'}) {
+        $Self->{TicketObject}->TicketSLASet(
+            SLA => $GetParam{'X-OTRS-FollowUp-SLA'},
+            TicketID => $Param{TicketID},
+            UserID => $Param{InmailUserID},
+        );
+        if ($Self->{Debug} > 0) {
+            print "SLA: $GetParam{'X-OTRS-FollowUp-SLA'}\n";
         }
     }
     # set free ticket text

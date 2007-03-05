@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.60 2007-02-23 11:36:57 mh Exp $
+    $Id: otrs-schema.xml,v 1.61 2007-03-05 02:01:44 martin Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.60  2007/02/23 11:36:57  mh
+    Add service and sla tables.
+
     Revision 1.59  2007/02/14 07:26:56  tr
     Include the two spaces shifting
 
@@ -302,6 +305,27 @@
     <Unique>
         <UniqueColumn Name="name"/>
     </Unique>
+    <ForeignKey ForeignTable="system_user">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- ticket_type - all ticket types -->
+<Table Name="ticket_type">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+    <Column Name="name" Required="true" Size="50" Type="VARCHAR"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique>
+        <UniqueColumn Name="name"/>
+    </Unique>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
     <ForeignKey ForeignTable="system_user">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
@@ -716,6 +740,9 @@
     <Column Name="queue_id" Required="true" Type="INTEGER"/>
     <Column Name="ticket_lock_id" Required="true" Type="SMALLINT"/>
     <Column Name="ticket_answered" Required="true" Type="SMALLINT"/>
+    <Column Name="type_id" Required="false" Type="INTEGER"/>
+    <Column Name="service_id" Required="false" Type="INTEGER"/>
+    <Column Name="sla_id" Required="false" Type="INTEGER"/>
     <Column Name="user_id" Required="true" Type="INTEGER"/>
     <Column Name="responsible_user_id" Required="true" Type="INTEGER"/>
     <Column Name="group_id" Required="true" Type="INTEGER"/>
@@ -782,6 +809,9 @@
         <IndexColumn Name="ticket_lock_id"/>
         <IndexColumn Name="group_id"/>
     </Index>
+    <Index Name="index_ticket_type">
+        <IndexColumn Name="type_id"/>
+    </Index>
     <Index Name="index_ticket_user">
         <IndexColumn Name="user_id"/>
     </Index>
@@ -793,6 +823,15 @@
     </ForeignKey>
     <ForeignKey ForeignTable="queue">
         <Reference Local="queue_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="ticket_type">
+        <Reference Local="type_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="service">
+        <Reference Local="service_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="sla">
+        <Reference Local="sla_id" Foreign="id"/>
     </ForeignKey>
     <ForeignKey ForeignTable="ticket_priority">
         <Reference Local="ticket_priority_id" Foreign="id"/>
@@ -827,6 +866,7 @@
     <Column Name="history_type_id" Required="true" Type="SMALLINT"/>
     <Column Name="ticket_id" Required="true" Type="BIGINT"/>
     <Column Name="article_id" Required="false" Type="BIGINT"/>
+    <Column Name="type_id" Required="true" Type="INTEGER"/>
     <Column Name="queue_id" Required="true" Type="INTEGER"/>
     <Column Name="owner_id" Required="true" Type="INTEGER"/>
     <Column Name="priority_id" Required="true" Type="SMALLINT"/>
@@ -847,6 +887,9 @@
     </ForeignKey>
     <ForeignKey ForeignTable="ticket">
         <Reference Local="ticket_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="ticket_type">
+        <Reference Local="type_id" Foreign="id"/>
     </ForeignKey>
     <ForeignKey ForeignTable="article">
         <Reference Local="article_id" Foreign="id"/>

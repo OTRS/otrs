@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.61 2007-01-21 01:26:10 mh Exp $
+# $Id: NewTicket.pm,v 1.62 2007-03-05 02:06:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -152,7 +152,10 @@ sub Run {
         Lock => $GetParam{'X-OTRS-Lock'} || 'unlock',
         Priority => $Priority,
         State => $State,
-        CustomerNo => $GetParam{'X-OTRS-CustomerNo'},
+        Type => $GetParam{'X-OTRS-Type'} || '',
+        Service => $GetParam{'X-OTRS-Service'} || '',
+        SLA => $GetParam{'X-OTRS-SLA'} || '',
+        CustomerID => $GetParam{'X-OTRS-CustomerNo'},
         CustomerUser => $GetParam{'X-OTRS-CustomerUser'},
         OwnerID => $Param{InmailUserID},
         UserID => $Param{InmailUserID},
@@ -169,8 +172,12 @@ sub Run {
         print "State: $State\n";
         print "CustomerID: $GetParam{'X-OTRS-CustomerNo'}\n";
         print "CustomerUser: $GetParam{'X-OTRS-CustomerUser'}\n";
+        foreach (qw(Type Service SLA Lock)) {
+            if ($GetParam{'X-OTRS-'.$_}) {
+                print "Type: ".$GetParam{'X-OTRS-'.$_}."\n";
+            }
+        }
     }
-
     # set free ticket text
     my @Values = ('X-OTRS-TicketKey', 'X-OTRS-TicketValue');
     my $CounterTmp = 0;

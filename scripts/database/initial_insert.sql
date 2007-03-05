@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: initial_insert.sql,v 1.55 2007-01-30 16:24:30 martin Exp $
+-- $Id: initial_insert.sql,v 1.56 2007-03-05 01:59:59 martin Exp $
 --
 -- $Log: not supported by cvs2svn $
+-- Revision 1.55  2007/01/30 16:24:30  martin
+-- improved tags of notifications
+--
 -- Revision 1.54  2007/01/30 10:06:54  mh
 -- add valid_id to ticket_priority table
 --
@@ -286,41 +289,47 @@ INSERT INTO valid
     VALUES
     ('invalid-temporarily', 1, current_timestamp, 1, current_timestamp);
 
+-- ticket_type
+INSERT INTO ticket_type
+    (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('default', 1, 1, current_timestamp, 1, current_timestamp);
+
 -- ticket_priority
 INSERT INTO ticket_priority
-        (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('1 very low', 1, 1, current_timestamp, 1, current_timestamp);
+    (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('1 very low', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_priority
-        (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('2 low', 1, 1, current_timestamp, 1, current_timestamp);
+    (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('2 low', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_priority
-        (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('3 normal', 1, 1, current_timestamp, 1, current_timestamp);
+    (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('3 normal', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_priority
-        (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('4 high', 1, 1, current_timestamp, 1, current_timestamp);
+    (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('4 high', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_priority
-        (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('5 very high', 1, 1, current_timestamp, 1, current_timestamp);
+    (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('5 very high', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ticket_lock_type
 INSERT INTO ticket_lock_type
-        (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('unlock', 1, 1, current_timestamp, 1, current_timestamp);
+    (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('unlock', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_lock_type
     (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('lock', 1, 1, current_timestamp, 1, current_timestamp);
+    VALUES
+    ('lock', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_lock_type
-        (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('tmp_lock', 1, 1, current_timestamp, 1, current_timestamp);
+    (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('tmp_lock', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- user
 INSERT INTO system_user
@@ -603,6 +612,18 @@ INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('Unsubscribe', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('TypeUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('ServiceUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('SLAUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- article_type
 INSERT INTO article_type

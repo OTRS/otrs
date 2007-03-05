@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.26 2007-02-12 15:51:41 tr Exp $
+# $Id: AAATicket.dtl,v 1.27 2007-03-05 02:06:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -181,7 +181,10 @@ $Text{"Attachments <-> Responses"}
 $Text{""}
 
 # hticket history text
-$Text{"History::Move"}...
+$Text{"History::Move"}
+$Text{"History::TypeUpdate"}
+$Text{"History::ServiceUpdate"}
+$Text{"History::SLAUpdate"}
 $Text{"History::NewTicket"}
 $Text{"History::FollowUp"}
 $Text{"History::SendAutoReject"}

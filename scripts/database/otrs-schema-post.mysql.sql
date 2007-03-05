@@ -1,10 +1,13 @@
 # ----------------------------------------------------------
-#  database: mysql, generated: 2007-02-23 13:04:50
+#  database: mysql, generated: 2007-03-05 02:47:35
 # ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
 ALTER TABLE ticket_priority ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE ticket_priority ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
+ALTER TABLE ticket_type ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
+ALTER TABLE ticket_type ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
+ALTER TABLE ticket_type ADD FOREIGN KEY (valid_id) REFERENCES `valid(id)`;
 ALTER TABLE ticket_lock_type ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE ticket_lock_type ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
 ALTER TABLE ticket_lock_type ADD FOREIGN KEY (valid_id) REFERENCES `valid(id)`;
@@ -64,14 +67,17 @@ ALTER TABLE queue ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE queue ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
 ALTER TABLE queue ADD FOREIGN KEY (valid_id) REFERENCES `valid(id)`;
 ALTER TABLE ticket ADD FOREIGN KEY (ticket_lock_id) REFERENCES `ticket_lock_type(id)`;
-ALTER TABLE ticket ADD FOREIGN KEY (ticket_state_id) REFERENCES `ticket_state(id)`;
 ALTER TABLE ticket ADD FOREIGN KEY (ticket_priority_id) REFERENCES `ticket_priority(id)`;
-ALTER TABLE ticket ADD FOREIGN KEY (queue_id) REFERENCES `queue(id)`;
 ALTER TABLE ticket ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE ticket ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
 ALTER TABLE ticket ADD FOREIGN KEY (user_id) REFERENCES `system_user(id)`;
 ALTER TABLE ticket ADD FOREIGN KEY (responsible_user_id) REFERENCES `system_user(id)`;
+ALTER TABLE ticket ADD FOREIGN KEY (service_id) REFERENCES `service(id)`;
 ALTER TABLE ticket ADD FOREIGN KEY (valid_id) REFERENCES `valid(id)`;
+ALTER TABLE ticket ADD FOREIGN KEY (sla_id) REFERENCES `sla(id)`;
+ALTER TABLE ticket ADD FOREIGN KEY (ticket_state_id) REFERENCES `ticket_state(id)`;
+ALTER TABLE ticket ADD FOREIGN KEY (queue_id) REFERENCES `queue(id)`;
+ALTER TABLE ticket ADD FOREIGN KEY (type_id) REFERENCES `ticket_type(id)`;
 ALTER TABLE ticket_history ADD FOREIGN KEY (priority_id) REFERENCES `ticket_priority(id)`;
 ALTER TABLE ticket_history ADD FOREIGN KEY (owner_id) REFERENCES `system_user(id)`;
 ALTER TABLE ticket_history ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
@@ -81,6 +87,7 @@ ALTER TABLE ticket_history ADD FOREIGN KEY (state_id) REFERENCES `ticket_state(i
 ALTER TABLE ticket_history ADD FOREIGN KEY (history_type_id) REFERENCES `ticket_history_type(id)`;
 ALTER TABLE ticket_history ADD FOREIGN KEY (article_id) REFERENCES `article(id)`;
 ALTER TABLE ticket_history ADD FOREIGN KEY (queue_id) REFERENCES `queue(id)`;
+ALTER TABLE ticket_history ADD FOREIGN KEY (type_id) REFERENCES `ticket_type(id)`;
 ALTER TABLE ticket_history ADD FOREIGN KEY (ticket_id) REFERENCES `ticket(id)`;
 ALTER TABLE ticket_history_type ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE ticket_history_type ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;

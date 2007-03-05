@@ -2,7 +2,7 @@
 # Kernel/System/Priority.pm - all ticket priority function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.8 2007-01-30 17:33:24 tr Exp $
+# $Id: Priority.pm,v 1.9 2007-03-05 02:06:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -227,6 +227,80 @@ sub PriorityUpdate {
     return $Return;
 }
 
+=item PriorityLookup()
+
+returns the id or the name of a priority
+
+    my $PriorityID = $PriorityObject->PriorityLookup(Priority => '3 normal');
+
+    my $Priority = $PriorityObject->PriorityLookup(PriorityID => 1);
+
+=cut
+
+sub PriorityLookup {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{Priority} && !$Param{PriorityID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Priority or PriorityID!");
+        return;
+    }
+    # check if we ask the same request?
+    if ($Param{Priority}) {
+        if (exists $Self->{"Ticket::Priority::PriorityLookup::$Param{Priority}"}) {
+            return $Self->{"Ticket::Priority::PriorityLookup::$Param{Priority}"};
+        }
+    }
+    else {
+        if (exists $Self->{"Ticket::Priority::PriorityIDLookup::$Param{PriorityID}"}) {
+            return $Self->{"Ticket::Priority::PriorityIDLookup::$Param{PriorityID}"};
+        }
+    }
+    # db query
+    my $SQL = '';
+    if ($Param{Priority}) {
+        $SQL = "SELECT id FROM ticket_priority WHERE name = '".$Self->{DBObject}->Quote($Param{Priority})."'";
+    }
+    else {
+        $SQL = "SELECT name FROM ticket_priority WHERE id = ".$Self->{DBObject}->Quote($Param{PriorityID}, 'Integer')."";
+    }
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        # store result
+        if ($Param{Priority}) {
+            $Self->{"Ticket::Priority::PriorityLookup::$Param{Priority}"} = $Row[0];
+        }
+        else {
+            $Self->{"Ticket::Priority::PriorityIDLookup::$Param{PriorityID}"} = $Row[0];
+        }
+    }
+    # check if data exists
+    if ($Param{Priority}) {
+        if (!exists $Self->{"Ticket::Priority::PriorityLookup::$Param{Priority}"}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "No PriorityID for $Param{Priority} found!",
+            );
+            return;
+        }
+        else {
+            return $Self->{"Ticket::Priority::PriorityLookup::$Param{Priority}"};
+        }
+    }
+    else {
+        if (!exists $Self->{"Ticket::Priority::PriorityIDLookup::$Param{PriorityID}"}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "No Priority for $Param{PriorityID} found!",
+            );
+            return;
+        }
+        else {
+            return $Self->{"Ticket::Priority::PriorityIDLookup::$Param{PriorityID}"};
+        }
+    }
+}
+
 1;
 
 =back
@@ -243,6 +317,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2007-01-30 17:33:24 $
+$Revision: 1.9 $ $Date: 2007-03-05 02:06:32 $
 
 =cut

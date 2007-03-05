@@ -2,7 +2,7 @@
 # X-OTRS-Headers.txt - X-headers for use in mail
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: X-OTRS-Headers.txt,v 1.12 2007-01-18 10:29:33 martin Exp $
+# $Id: X-OTRS-Headers.txt,v 1.13 2007-03-05 02:06:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,6 +28,18 @@ Ignore this email.
 X-OTRS-State: (new|open|closed successful|closed unsuccessful|...)
 --------------------------------------------
 Set state of ticket! Be careful! For FollowUps use X-OTRS-FollowUp-State.
+
+X-OTRS-Type: (default)
+--------------------------------------------
+Set type of ticket! Be careful! For FollowUps use X-OTRS-FollowUp-Type.
+
+X-OTRS-Service: (depends on created services)
+--------------------------------------------
+Set service of ticket! Be careful! For FollowUps use X-OTRS-FollowUp-Service.
+
+X-OTRS-SLA: (depends on created sla)
+--------------------------------------------
+Set sla of ticket! Be careful! For FollowUps use X-OTRS-FollowUp-SLA.
 
 X-OTRS-CustomerUser: [CustomerUser]
 -------------------------------

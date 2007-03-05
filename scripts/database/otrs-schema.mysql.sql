@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  database: mysql, generated: 2007-02-23 13:04:50
+#  database: mysql, generated: 2007-03-05 02:47:35
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -18,6 +18,20 @@ CREATE TABLE valid (
 #  create table ticket_priority
 # ----------------------------------------------------------
 CREATE TABLE ticket_priority (
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (50) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+# ----------------------------------------------------------
+#  create table ticket_type
+# ----------------------------------------------------------
+CREATE TABLE ticket_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (50) NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -304,6 +318,9 @@ CREATE TABLE ticket (
     queue_id INTEGER NOT NULL,
     ticket_lock_id SMALLINT NOT NULL,
     ticket_answered SMALLINT NOT NULL,
+    type_id INTEGER,
+    service_id INTEGER,
+    sla_id INTEGER,
     user_id INTEGER NOT NULL,
     responsible_user_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
@@ -365,6 +382,7 @@ CREATE TABLE ticket (
     PRIMARY KEY(id),
     UNIQUE (tn),
     INDEX index_ticket_user (user_id),
+    INDEX index_ticket_type (type_id),
     INDEX index_ticket_queue_view (ticket_state_id, ticket_lock_id, group_id),
     INDEX index_ticket_answered (ticket_answered)
 );
@@ -387,6 +405,7 @@ CREATE TABLE ticket_history (
     history_type_id SMALLINT NOT NULL,
     ticket_id BIGINT NOT NULL,
     article_id BIGINT,
+    type_id INTEGER NOT NULL,
     queue_id INTEGER NOT NULL,
     owner_id INTEGER NOT NULL,
     priority_id SMALLINT NOT NULL,

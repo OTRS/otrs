@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent/AutoPriorityIncrease.pm - generic agent auto priority increase
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AutoPriorityIncrease.pm,v 1.3 2007-01-21 01:26:10 mh Exp $
+# $Id: AutoPriorityIncrease.pm,v 1.4 2007-03-05 02:06:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::GenericAgent::AutoPriorityIncrease;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -85,7 +85,7 @@ sub Run {
     }
     else {
         # increase priority
-        my $Priority = $Self->{TicketObject}->PriorityLookup(ID => ($Ticket{PriorityID}+1));
+        my $Priority = $Self->{PriorityObject}->PriorityLookup(PriorityID => ($Ticket{PriorityID}+1));
         # do nothing if already highest priority
         if (!$Priority) {
             $Self->{LogObject}->Log(
