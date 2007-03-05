@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.19 2007-02-06 11:11:09 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.20 2007-03-05 01:44:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed modules
@@ -203,10 +203,12 @@ sub Run {
                 }
                 else {
                     # show login screen
-                    print $Self->{LayoutObject}->CustomerLogin(
-                        Title => 'Panic!',
-                        Message => 'Panic! No UserData!!!',
-                        %Param,
+                    $Self->{LayoutObject}->Print(
+                        Output =>  \$Self->{LayoutObject}->CustomerLogin(
+                            Title => 'Panic!',
+                            Message => 'Panic! No UserData!!!',
+                            %Param,
+                        ),
                     );
                     exit (0);
                 }
@@ -286,14 +288,16 @@ sub Run {
             }
             else {
                 # show normal login
-                print $Self->{LayoutObject}->CustomerLogin(
-                    Title => 'Login',
-                    Message => $Self->{LogObject}->GetLogEntry(
-                        Type => 'Info',
-                        What => 'Message',
-                    ) || 'Login failed! Your username or password was entered incorrectly.',
-                    User => $PostUser,
-                    %Param,
+                $Self->{LayoutObject}->Print(
+                    Output =>  \$Self->{LayoutObject}->CustomerLogin(
+                        Title => 'Login',
+                        Message => $Self->{LogObject}->GetLogEntry(
+                            Type => 'Info',
+                            What => 'Message',
+                        ) || 'Login failed! Your username or password was entered incorrectly.',
+                        User => $PostUser,
+                        %Param,
+                    ),
                 );
             }
         }
@@ -327,10 +331,12 @@ sub Run {
                 }
                 else {
                     # show logout screen
-                    print $Self->{LayoutObject}->CustomerLogin(
-                        Title => 'Logout',
-                        Message => 'Logout successful. Thank you for using OTRS!',
-                        %Param,
+                    $Self->{LayoutObject}->Print(
+                        Output =>  \$Self->{LayoutObject}->CustomerLogin(
+                            Title => 'Logout',
+                            Message => 'Logout successful. Thank you for using OTRS!',
+                            %Param,
+                        ),
                     );
                 }
             }
@@ -364,9 +370,11 @@ sub Run {
         # check feature
         if (! $Self->{ConfigObject}->Get('CustomerPanelLostPassword')) {
             # show normal login
-            print $Self->{LayoutObject}->CustomerLogin(
-                Title => 'Login',
-                Message => 'Feature not active!',
+            $Self->{LayoutObject}->Print(
+                Output =>  \$Self->{LayoutObject}->CustomerLogin(
+                    Title => 'Login',
+                    Message => 'Feature not active!',
+                ),
             );
             exit 0;
         }
@@ -375,9 +383,11 @@ sub Run {
         # get user data
         my %UserData = $Self->{UserObject}->CustomerUserDataGet(User => $User);
         if (! $UserData{UserID}) {
-            print $Self->{LayoutObject}->CustomerLogin(
-                Title => 'Login',
-                Message => 'There is no account with that login name.',
+            $Self->{LayoutObject}->Print(
+                Output =>  \$Self->{LayoutObject}->CustomerLogin(
+                    Title => 'Login',
+                    Message => 'There is no account with that login name.',
+                ),
             );
         }
         else {
@@ -401,10 +411,12 @@ sub Run {
                 Type => 'text/plain',
                 Body => $Body)
             ) {
-                print $Self->{LayoutObject}->CustomerLogin(
-                    Title => 'Login',
-                    Message => "Sent new password to: ".$UserData{"UserEmail"},
-                    User => $User,
+                $Self->{LayoutObject}->Print(
+                    Output =>  \$Self->{LayoutObject}->CustomerLogin(
+                        Title => 'Login',
+                        Message => "Sent new password to: ".$UserData{"UserEmail"},
+                        User => $User,
+                    ),
                 );
             }
             else {
@@ -419,9 +431,11 @@ sub Run {
         # check feature
         if (! $Self->{ConfigObject}->Get('CustomerPanelCreateAccount')) {
             # show normal login
-            print $Self->{LayoutObject}->CustomerLogin(
-                Title => 'Login',
-                Message => 'Feature not active!',
+            $Self->{LayoutObject}->Print(
+                Output =>  \$Self->{LayoutObject}->CustomerLogin(
+                    Title => 'Login',
+                    Message => 'Feature not active!',
+                ),
             );
             exit 0;
         }
@@ -443,12 +457,14 @@ sub Run {
         # get user data
         my %UserData = $Self->{UserObject}->CustomerUserDataGet(User => $GetParams{UserLogin});
         if ($UserData{UserID} || ! $GetParams{UserLogin}) {
-            print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error');
-            print $Self->{LayoutObject}->CustomerWarning(
+            my $Output = '';
+            $Output .= $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error');
+            $Output .= $Self->{LayoutObject}->CustomerWarning(
                 Message => 'This account exists.',
                 Comment => 'Please press Back and try again.'
             );
-            print $Self->{LayoutObject}->CustomerFooter();
+            $Output .= $Self->{LayoutObject}->CustomerFooter();
+            $Self->{LayoutObject}->Print(Output =>  \$Output);
         }
         else {
             if ($Self->{UserObject}->CustomerUserAdd(
@@ -477,11 +493,13 @@ sub Run {
                     Type => 'text/plain',
                     Body => $Body)
                 ) {
-                    print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error');
-                    print $Self->{LayoutObject}->CustomerWarning(
+                    my $Output = '';
+                    $Output .= $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error');
+                    $Output .= $Self->{LayoutObject}->CustomerWarning(
                         Comment => 'Can\' send account info!'
                     );
-                    print $Self->{LayoutObject}->CustomerFooter();
+                    $Output .= $Self->{LayoutObject}->CustomerFooter();
+                    $Self->{LayoutObject}->Print(Output =>  \$Output);
                 }
                 # show sent account info
                 if ($Self->{ConfigObject}->Get('CustomerPanelLoginURL')) {
@@ -495,19 +513,23 @@ sub Run {
                 }
                 else {
                     # login screen
-                    print $Self->{LayoutObject}->CustomerLogin(
-                        Title => 'Login',
-                        Message => "New account created. Sent Login-Account to '$GetParams{UserEmail}'",
-                        User => $GetParams{UserLogin},
+                    $Self->{LayoutObject}->Print(
+                        Output => \$Self->{LayoutObject}->CustomerLogin(
+                            Title => 'Login',
+                            Message => "New account created. Sent Login-Account to '$GetParams{UserEmail}'",
+                            User => $GetParams{UserLogin},
+                        ),
                     );
                 }
             }
             else {
-                print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error');
-                print $Self->{LayoutObject}->CustomerWarning(
+                my $Output = '';
+                $Output .= $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error');
+                $Output .= $Self->{LayoutObject}->CustomerWarning(
                     Comment => 'Please press Back and try again.'
                 );
-                print $Self->{LayoutObject}->CustomerFooter();
+                $Output .= $Self->{LayoutObject}->CustomerFooter();
+                $Self->{LayoutObject}->Print(Output =>  \$Output);
             }
         }
     }
@@ -532,9 +554,11 @@ sub Run {
         }
         else {
             # login screen
-            print $Self->{LayoutObject}->CustomerLogin(
-                Title => 'Login',
-                %Param,
+            $Self->{LayoutObject}->Print(
+                Output => \$Self->{LayoutObject}->CustomerLogin(
+                    Title => 'Login',
+                    %Param,
+                ),
             );
         }
     }
@@ -563,10 +587,12 @@ sub Run {
             }
             else {
                 # show login
-                print $Self->{LayoutObject}->CustomerLogin(
-                    Title => 'Login',
-                    Message => $Self->{SessionObject}->CheckSessionIDMessage(),
-                    %Param,
+                $Self->{LayoutObject}->Print(
+                    Output => \$Self->{LayoutObject}->CustomerLogin(
+                        Title => 'Login',
+                        Message => $Self->{SessionObject}->CheckSessionIDMessage(),
+                        %Param,
+                    ),
                 );
             }
         }
@@ -586,10 +612,12 @@ sub Run {
                 }
                 else {
                     # show login screen
-                    print $Self->{LayoutObject}->CustomerLogin(
-                        Title => 'Panic!',
-                        Message => 'Panic! Invalid Session!!!',
-                        %Param,
+                    $Self->{LayoutObject}->Print(
+                        Output => \$Self->{LayoutObject}->CustomerLogin(
+                            Title => 'Panic!',
+                            Message => 'Panic! Invalid Session!!!',
+                            %Param,
+                        ),
                     );
                     exit (0);
                 }
@@ -741,6 +769,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2007-02-06 11:11:09 $
+$Revision: 1.20 $ $Date: 2007-03-05 01:44:21 $
 
 =cut

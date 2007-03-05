@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.21 2007-02-06 21:50:56 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.22 2007-03-05 01:44:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed modules
@@ -203,10 +203,12 @@ sub Run {
                 }
                 else {
                     # show need user data error message
-                    print $Self->{LayoutObject}->Login(
-                        Title => 'Panic!',
-                        Message => 'Panic! No UserData!!!',
-                        %Param,
+                    $Self->{LayoutObject}->Print(
+                        Output =>  \$Self->{LayoutObject}->Login(
+                            Title => 'Panic!',
+                            Message => 'Panic! No UserData!!!',
+                            %Param,
+                        ),
                     );
                     exit (0);
                 }
@@ -303,14 +305,16 @@ sub Run {
             }
             else {
                 # show normal login
-                print $Self->{LayoutObject}->Login(
-                    Title => 'Login',
-                    Message => $Self->{LogObject}->GetLogEntry(
-                        Type => 'Info',
-                        What => 'Message',
-                        ) || 'Login failed! Your username or password was entered incorrectly.',
-                    User => $User,
-                    %Param,
+                $Self->{LayoutObject}->Print(
+                    Output =>  \$Self->{LayoutObject}->Login(
+                        Title => 'Login',
+                        Message => $Self->{LogObject}->GetLogEntry(
+                            Type => 'Info',
+                            What => 'Message',
+                            ) || 'Login failed! Your username or password was entered incorrectly.',
+                        User => $User,
+                        %Param,
+                    ),
                 );
             }
         }
@@ -344,10 +348,12 @@ sub Run {
                 }
                 else {
                     # show logout screen
-                    print $Self->{LayoutObject}->Login(
-                        Title => 'Logout',
-                        Message => 'Logout successful. Thank you for using OTRS!',
-                        %Param,
+                    $Self->{LayoutObject}->Print(
+                        Output =>  \$Self->{LayoutObject}->Login(
+                            Title => 'Logout',
+                            Message => 'Logout successful. Thank you for using OTRS!',
+                            %Param,
+                        ),
                     );
                 }
             }
@@ -369,10 +375,12 @@ sub Run {
             }
             else {
                 # show login screen
-                print $Self->{LayoutObject}->Login(
-                    Title => 'Logout',
-                    Message => 'Invalid SessionID!',
-                    %Param,
+                $Self->{LayoutObject}->Print(
+                    Output =>  \$Self->{LayoutObject}->Login(
+                        Title => 'Logout',
+                        Message => 'Invalid SessionID!',
+                        %Param,
+                    ),
                 );
             }
         }
@@ -382,9 +390,11 @@ sub Run {
         # check feature
         if (! $Self->{ConfigObject}->Get('LostPassword')) {
             # show normal login
-            print $Self->{LayoutObject}->Login(
-                Title => 'Login',
-                Message => 'Feature not active!',
+            $Self->{LayoutObject}->Print(
+                Output =>  \$Self->{LayoutObject}->Login(
+                    Title => 'Login',
+                    Message => 'Feature not active!',
+                ),
             );
             exit 0;
         }
@@ -394,10 +404,12 @@ sub Run {
         my %UserData = $Self->{UserObject}->GetUserData(User => $User, Valid => 1);
         if (! $UserData{UserID}) {
             # show normal login
-            print $Self->{LayoutObject}->Login(
-                Title => 'Login',
-                Message => 'There is no account with that login name.',
-                %Param,
+            $Self->{LayoutObject}->Print(
+                Output =>  \$Self->{LayoutObject}->Login(
+                    Title => 'Login',
+                    Message => 'There is no account with that login name.',
+                    %Param,
+                ),
             );
             exit 0;
         }
@@ -422,11 +434,13 @@ sub Run {
                 Type => 'text/plain',
                 Body => $Body)
             ) {
-                print $Self->{LayoutObject}->Login(
-                    Title => 'Login',
-                    Message => "Sent new password to: ".$UserData{"UserEmail"},
-                    User => $User,
-                    %Param,
+                $Self->{LayoutObject}->Print(
+                    Output =>  \$Self->{LayoutObject}->Login(
+                        Title => 'Login',
+                        Message => "Sent new password to: ".$UserData{"UserEmail"},
+                        User => $User,
+                        %Param,
+                    ),
                 );
                 exit 0;
             }
@@ -458,9 +472,11 @@ sub Run {
         }
         else {
             # login screen
-            print $Self->{LayoutObject}->Login(
-                Title => 'Login',
-                %Param,
+            $Self->{LayoutObject}->Print(
+                Output =>  \$Self->{LayoutObject}->Login(
+                    Title => 'Login',
+                    %Param,
+                ),
             );
         }
     }
@@ -498,10 +514,12 @@ sub Run {
             }
             else {
                 # show login
-                print $Self->{LayoutObject}->Login(
-                    Title => 'Login',
-                    Message => $Self->{SessionObject}->CheckSessionIDMessage(),
-                    %Param,
+                $Self->{LayoutObject}->Print(
+                    Output =>  \$Self->{LayoutObject}->Login(
+                        Title => 'Login',
+                        Message => $Self->{SessionObject}->CheckSessionIDMessage(),
+                        %Param,
+                    ),
                 );
             }
         }
@@ -521,10 +539,12 @@ sub Run {
                 }
                 else {
                     # show login screen
-                    print $Self->{LayoutObject}->Login(
-                        Title => 'Panic!',
-                        Message => 'Panic! Invalid Session!!!',
-                        %Param,
+                    $Self->{LayoutObject}->Print(
+                        Output =>  \$Self->{LayoutObject}->Login(
+                            Title => 'Panic!',
+                            Message => 'Panic! Invalid Session!!!',
+                            %Param,
+                        ),
                     );
                     exit (0);
                 }
@@ -715,6 +735,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2007-02-06 21:50:56 $
+$Revision: 1.22 $ $Date: 2007-03-05 01:44:21 $
 
 =cut
