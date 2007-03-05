@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.mysql.sql,v 1.5 2007-03-05 01:58:42 martin Exp $
+-- $Id: DBUpdate-to-2.2.mysql.sql,v 1.6 2007-03-05 02:26:29 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.mysql.sql | mysql -f -u root otrs
@@ -47,6 +47,11 @@ INSERT INTO ticket_type
 
 --
 -- ticket_history
+--
+ALTER TABLE ticket_history ADD type_id INTEGER;
+
+--
+-- ticket_history_type
 --
 INSERT INTO ticket_history_type
     (name, valid_id, create_by, create_time, change_by, change_time)
