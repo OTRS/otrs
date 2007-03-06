@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.34 2007-03-02 08:15:50 rk Exp $
+# $Id: AgentTicketPhone.pm,v 1.35 2007-03-06 15:10:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -246,18 +246,6 @@ sub Run {
             );
         }
         my $NextState = $StateData{Name} || '';
-        if ($GetParam{Lock}) {
-            $Self->{ConfigObject}->Set(
-                Key => 'PhoneDefaultNewLock',
-                Value => $GetParam{Lock},
-            );
-        }
-        if ($GetParam{NewUserID}) {
-            $Self->{ConfigObject}->Set(
-                Key => 'PhoneDefaultNewLock',
-                Value => 'lock',
-            );
-        }
         my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
         my ($NewQueueID, $To) = split(/\|\|/, $Dest);
         my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') ||

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.29 2007-03-02 08:15:50 rk Exp $
+# $Id: AgentTicketEmail.pm,v 1.30 2007-03-06 15:08:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -239,19 +239,6 @@ sub Run {
         my $NextState = $StateData{Name};
         my $NewResponsibleID = $Self->{ParamObject}->GetParam(Param => 'NewResponsibleID') || '';
         my $NewUserID = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
-        my $Lock = $Self->{ParamObject}->GetParam(Param => 'Lock') || '';
-        if ($Lock) {
-            $Self->{ConfigObject}->Set(
-                Key => 'EmailDefaultNewLock',
-                Value => $Lock,
-            );
-        }
-        if ($NewUserID) {
-            $Self->{ConfigObject}->Set(
-                Key => 'EmailDefaultNewLock',
-                Value => 'lock',
-            );
-        }
         my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
         my ($NewQueueID, $From) = split(/\|\|/, $Dest);
         my $AllUsers = $Self->{ParamObject}->GetParam(Param => 'AllUsers') || '';
@@ -806,12 +793,6 @@ sub Run {
                     TicketID => $TicketID,
                     ArticleID => $ArticleID,
                     TimeUnit => $GetParam{TimeUnits},
-                    UserID => $Self->{UserID},
-                );
-                # set lock
-                $Self->{TicketObject}->LockSet(
-                    TicketID => $TicketID,
-                    Lock => $Self->{ConfigObject}->Get('EmailDefaultNewLock'),
                     UserID => $Self->{UserID},
                 );
             }
