@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.34 2007-03-05 00:42:26 martin Exp $
+# $Id: CHANGES,v 1.323.2.35 2007-03-06 11:17:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.1.7 (2007/??/??)
+ - (2007/03/05) fixed ticket# 2007022342000586 - attachment problem with oracle
+    backend if utf-8 is used
  - (2007/03/05) fixed database driver if 0 is used in begining of an xml insert
 
 2.1.6 (2007/03/02)
