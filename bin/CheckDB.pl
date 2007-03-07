@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # CheckDB.pl - to check the db access
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckDB.pl,v 1.15 2006-09-25 13:24:21 tr Exp $
+# $Id: CheckDB.pl,v 1.16 2007-03-07 14:59:46 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -46,10 +46,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     ConfigObject => $CommonObject{ConfigObject},
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new(
-    LogObject => $CommonObject{LogObject},
-    ConfigObject => $CommonObject{ConfigObject},
-);
+$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 
 # get options
 my %Opts = ();
