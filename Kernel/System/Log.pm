@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Log.pm,v 1.36 2007-03-07 08:22:12 martin Exp $
+# $Id: Log.pm,v 1.37 2007-03-07 08:27:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $ ';
+$VERSION = '$Revision: 1.37 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -188,7 +188,7 @@ sub GetLog {
     if ($Self->{IPC}) {
         shmread($Self->{Key}, $String, 0, $Self->{IPCSize}) || die "$!";
     }
-#    $Self->{EncodeObject}->Encode(\$String);
+    $Self->{EncodeObject}->Encode(\$String);
     return $String;
 }
 
@@ -264,6 +264,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2007-03-07 08:22:12 $
+$Revision: 1.37 $ $Date: 2007-03-07 08:27:20 $
 
 =cut

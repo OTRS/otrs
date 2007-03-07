@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.361 2007-03-06 11:18:11 martin Exp $
+# $Id: CHANGES,v 1.362 2007-03-07 08:27:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD (????/??/??)
+ - (2007/03/07) Fixed bug# 1398 - Malformed UTF-8 charaters in Admin Backend -
+    System Log.
  - (2007/03/05) Added Type, Service, SLA as ticket default attribute.
     Each an be activated by a config setting over SysConfig under
     Ticket :: Core :: Ticket.
@@ -79,7 +81,7 @@ CVS HEAD (????/??/??)
  - (2007/03/02) fixed bug #1548 - submitting AgentTicketPhone or
     AgentTicketEmail form without queueid leads to broken fields
  - (2007/02/27) fixed bug #1581 - Garbled paths containing domain names
- - (2007/02/27) updated Mail::Tools from 1.60 to 1.75 - fixed bug #1642 -
+ - (2007/02/27) updated Mail::Tools from 1.60 to 1.74 - fixed bug #1642 -
     Cant get mails via PostmasterPop3.pl - Unrecognised line
  - (2007/02/27) fixed bug #1545 - Wrong Variableusage in $Self->{PageShown}
     (Kernel/Modules/AgentTicketMailbox.pm)
