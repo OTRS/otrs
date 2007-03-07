@@ -2,13 +2,18 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.362 2007-03-07 08:27:20 martin Exp $
+# $Id: CHANGES,v 1.363 2007-03-07 18:38:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD (????/??/??)
+ - (2007/03/07) Added Intro support for .opm format to add intros for packages.
+    For example to add infos where the module can be found, if you need to add
+    some groups to access the module or some other useful stuff.
+    Intro(Install|Reinstall|Upgrade|Uninstall)(Pre|Post) can be used. For more
+    infos see the developer manual in section "Package Spec File".
  - (2007/03/07) Fixed bug# 1398 - Malformed UTF-8 charaters in Admin Backend -
     System Log.
  - (2007/03/05) Added Type, Service, SLA as ticket default attribute.

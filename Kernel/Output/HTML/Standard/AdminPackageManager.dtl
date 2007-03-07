@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.32 2007-01-11 23:22:27 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.33 2007-03-07 18:38:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,11 @@
 
 <!-- dtl:block:Uninstall -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
+  <tr>
+    <td colspan="2" class="mainhead">
+      $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
+    </td>
+  </tr>
   <tr>
     <td class="menu">
       <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="menuitem">$Text{"Back"}</a>
@@ -76,6 +81,11 @@
 <!-- dtl:block:Reinstall -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
+    <td colspan="2" class="mainhead">
+      $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
     <td class="menu">
       <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="menuitem">$Text{"Back"}</a>
     </td>
@@ -137,6 +147,59 @@
   </tr>
 </table>
 <!-- dtl:block:Reinstall -->
+<!-- dtl:block:Intro -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+  <tr>
+    <td colspan="2" class="mainhead">
+      $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
+      <br>
+      <table border="0" width="350" align="center" cellspacing="0" cellpadding="4">
+        <tr>
+          <td colspan="2" class="contenthead"><div title="$QData{"Name"} $QData{"Version"}: $QData{"Title"}">$QData{"Name"}: $QData{"Title"}</div></td>
+        </tr>
+        <tr>
+          <td class="contentbody">
+            $Data{"Description"}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="contentfooter">
+            <table width="100%" border="0" cellspacing="0" cellpadding="1">
+              <tr>
+                <td class="contentfooter">
+<!-- dtl:block:IntroCancle -->
+                  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="Action" value="$Env{"Action"}">
+                    <input type="hidden" name="Subaction" value="">
+                    <input class="button" type="submit" value="$Text{"Cancle"}">
+                  </form>
+<!-- dtl:block:IntroCancle -->
+                </td>
+                <td width="10" class="contentfooter">
+                  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="Action" value="$Env{"Action"}">
+                    <input type="hidden" name="Subaction" value="$QData{"Subaction"}">
+                    <input type="hidden" name="FormID" value="$QData{"FormID"}">
+                    <input type="hidden" name="$QData{"Type"}" value="1">
+                    <input type="hidden" name="Name" value="$QData{"Name"}">
+                    <input type="hidden" name="Version" value="$QData{"Version"}">
+                    <input class="button" type="submit" value="$Text{"Continue"}">
+                  </form>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br>
+    </td>
+  </tr>
+</table>
+<!-- dtl:block:Intro -->
 <!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
@@ -149,7 +212,8 @@
 <!-- dtl:block:OverviewFileUpload -->
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="InstallPackage">
+        <input type="hidden" name="Subaction" value="InstallUpload">
+        <input type="hidden" name="FormID" value="$QData{"FormID"}">
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Install"}:</td>
@@ -435,6 +499,18 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
                 </td>
               </tr>
 <!-- dtl:block:PackageItemDatabase -->
+<!-- dtl:block:PackageItemCode -->
+              <tr>
+                <td class="contentkey">$Text{"$QData{"Tag"}"}: </td>
+                <td class="contentvalue">$Data{"Content"}</td>
+              </tr>
+<!-- dtl:block:PackageItemCode -->
+<!-- dtl:block:PackageItemIntro -->
+              <tr>
+                <td class="contentkey">$Text{"$QData{"Tag"}"}: </td>
+                <td class="contentvalue">($QData{"Lang"}) $QData{"Content"}</td>
+              </tr>
+<!-- dtl:block:PackageItemIntro -->
             </table>
           </td>
         </tr>

@@ -1,8 +1,8 @@
 # --
 # Package.t - Package tests
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.t,v 1.4 2006-12-13 17:18:28 martin Exp $
+# $Id: Package.t,v 1.5 2007-03-07 18:38:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -82,12 +82,12 @@ $Self->True(
     'DeployCheck()',
 );
 
-my %Structur = $Self->{PackageObject}->PackageParse(
+my %Structure = $Self->{PackageObject}->PackageParse(
     String => $String,
 );
 
 my $PackageBuild = $Self->{PackageObject}->PackageBuild(
-    %Structur,
+    %Structure,
 );
 
 $Self->True(

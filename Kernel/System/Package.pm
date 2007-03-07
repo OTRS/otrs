@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.61 2007-02-26 22:58:32 martin Exp $
+# $Id: Package.pm,v 1.62 2007-03-07 18:38:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -99,6 +99,14 @@ sub new {
         Framework => 'ARRAY',
         OS => 'ARRAY',
         PackageRequired => 'ARRAY',
+        IntroInstallPre => 'ARRAY',
+        IntroInstallPost => 'ARRAY',
+        IntroUninstallPre => 'ARRAY',
+        IntroUninstallPost => 'ARRAY',
+        IntroReinstallPre => 'ARRAY',
+        IntroReinstallPost => 'ARRAY',
+        IntroUpgradePre => 'ARRAY',
+        IntroUpgradePost => 'ARRAY',
         CodeInstall => 'SCALAR',
         CodeUpgrade => 'SCALAR',
         CodeUninstall => 'SCALAR',
@@ -1233,9 +1241,11 @@ sub PackageBuild {
         $XML .= "\n";
     }
     foreach my $Tag (qw(Name Version Vendor URL License ChangeLog Description Framework OS
+        IntroInstallPre IntroInstallPost IntroUninstallPre IntroUninstallPost
+        IntroReinstallPre IntroReinstallPost IntroUpgradePre IntroUpgradePost
         PackageRequired CodeInstall CodeUpgrade CodeUninstall CodeReinstall)) {
         # dont use CodeInstall CodeUpgrade CodeUninstall CodeReinstall in index mode
-        if ($Param{Type} && $Tag =~ /Code(Install|Upgrade|Uninstall|Reinstall)/) {
+        if ($Param{Type} && $Tag =~ /(Code|Intro)(Install|Upgrade|Uninstall|Reinstall)/) {
             next;
         }
         if (ref($Param{$Tag}) eq 'HASH') {
@@ -1246,7 +1256,7 @@ sub PackageBuild {
             }
             $XML .= "    <$Tag";
             foreach (sort keys %{$Param{$Tag}}) {
-                $XML .= "   $_=\"".$Self->_Encode($Param{$Tag}->{$_})."\"";
+                $XML .= " $_=\"".$Self->_Encode($Param{$Tag}->{$_})."\"";
             }
             $XML .= ">";
             $XML .= $Self->_Encode($OldParam{Content})."</$Tag>\n";
@@ -1261,7 +1271,7 @@ sub PackageBuild {
                 }
                 $XML .= "    <$Tag";
                 foreach (keys %Hash) {
-                    $XML .= "   $_=\"".$Self->_Encode($Hash{$_})."\"";
+                    $XML .= " $_=\"".$Self->_Encode($Hash{$_})."\"";
                 }
                 $XML .= ">";
                 $XML .= $Self->_Encode($OldParam{Content})."</$Tag>\n";
@@ -1528,16 +1538,39 @@ sub _FileInstall {
         );
         return;
     }
+    my $RealFile = "$Home/$Param{Location}";
     # backup old file (if reinstall, don't overwrite .backup an .save files)
-    if (-e "$Home/$Param{Location}") {
+    if (-e $RealFile) {
         if ($Param{Type} && $Param{Type} =~ /^replace$/i) {
-            if (!$Param{Reinstall} || ($Param{Reinstall} && -e ! "$Home/$Param{Location}.backup")) {
-                move("$Home/$Param{Location}", "$Home/$Param{Location}.backup");
+            if (!$Param{Reinstall} || ($Param{Reinstall} && ! -e "$RealFile.backup")) {
+                move($RealFile, "$RealFile.backup");
             }
         }
         else {
-            if (!$Param{Reinstall} || ($Param{Reinstall} && -e ! "$Home/$Param{Location}.save")) {
-                move("$Home/$Param{Location}", "$Home/$Param{Location}.save");
+            # check if we reinstall the same file, create a .save it not the same one
+            my $Save = 0;
+            if ($Param{Reinstall} && ! -e "$RealFile.save") {
+                # check if it's not the same
+                my $Content = '';
+                if (open(IN, "< $RealFile")) {
+                    # set bin mode
+                    binmode IN;
+                    while (<IN>) {
+                        $Content .= $_;
+                    }
+                    close (IN);
+                }
+                if ($Content ne $Param{Content}) {
+                    # check if it's framework file
+                    $RealFile =~ s/\/\///g;
+                    my %File = $Self->_ReadDistArchive();
+                    if ($File{$RealFile}) {
+                        $Save = 1;
+                    }
+                }
+            }
+            if (!$Param{Reinstall} || ($Param{Reinstall} && $Save)) {
+                move($RealFile, "$RealFile.save");
             }
         }
     }
@@ -1562,7 +1595,7 @@ sub _FileInstall {
         }
     }
     # write file
-    if (open(OUT, "> $Home/$Param{Location}")) {
+    if (open(OUT, "> $RealFile")) {
         print STDERR "Notice: Install $Param{Location} ($Param{Permission})!\n";
         # set bin mode
         binmode OUT;
@@ -1572,12 +1605,12 @@ sub _FileInstall {
         if (length($Param{Permission}) == 3) {
             $Param{Permission} = "0$Param{Permission}";
         }
-        chmod(oct($Param{Permission}), "$Home/$Param{Location}");
+        chmod(oct($Param{Permission}), $RealFile);
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can't write file: $Home/$Param{Location}: $!",
+            Message => "Can't write file: $RealFile: $!",
         );
     }
     return 1;
@@ -1605,6 +1638,22 @@ sub _FileRemove {
     my $RealFile = "$Home/$Param{Location}";
     # check if file exists
     if (-e $RealFile) {
+        # check if we should backup this file if it is touched/different
+        if ($Param{Content}) {
+            my $Content = '';
+            if (open(IN, "< $RealFile")) {
+                # set bin mode
+                binmode IN;
+                while (<IN>) {
+                    $Content .= $_;
+                }
+                close (IN);
+            }
+            if ($Param{Content} ne $Content) {
+                print STDERR "Notice: Backup for changed file: $RealFile.backup\n";
+                copy($RealFile,  "$RealFile.custom_backup");
+            }
+        }
         # remove old file
         if (unlink $RealFile) {
             print STDERR "Notice: Removed file: $RealFile\n";
@@ -1613,6 +1662,7 @@ sub _FileRemove {
                 print STDERR "Notice: Recovered: $RealFile.backup\n";
                 move("$RealFile.backup", $RealFile);
             }
+            # restore old file (if exists)
             elsif (-e "$RealFile.save") {
                 print STDERR "Notice: Recovered: $RealFile.save\n";
                 move("$RealFile.save", $RealFile);
@@ -1636,6 +1686,30 @@ sub _FileRemove {
     }
 }
 
+sub _ReadDistArchive {
+    my $Self = shift;
+    my %Param = @_;
+    my %File = ();
+    my $Home = $Param{Home} || $Self->{Home};
+    if (-e "$Home/ARCHIVE") {
+        if (open(IN, "< $Home/ARCHIVE")) {
+            while (<IN>) {
+                my @Row = split(/::/, $_);
+                $Row[1] =~ s/\/\///g;
+                $File{$Row[1]} = $Row[0];
+            }
+            close (IN);
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't open $Home/ARCHIVE: $!",
+            );
+        }
+    }
+    return %File;
+}
+
 sub _FileSystemCheck {
     my $Self = shift;
     my %Param = @_;
@@ -1655,7 +1729,7 @@ sub _FileSystemCheck {
         );
         return;
     }
-    foreach (qw(/ /bin/ /Kernel/ /Kernel/System/ /Kernel/Output/ /Kernel/Modules/)) {
+    foreach (qw(/bin/ /Kernel/ /Kernel/System/ /Kernel/Output/ /Kernel/Output/HTML/ /Kernel/Modules/)) {
         my $File = "$Home/$_/check_permissons.$$";
         if (open(OUT, "> $File")) {
             print OUT "test";
@@ -1699,6 +1773,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2007-02-26 22:58:32 $
+$Revision: 1.62 $ $Date: 2007-03-07 18:38:31 $
 
 =cut

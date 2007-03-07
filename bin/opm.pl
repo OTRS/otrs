@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: opm.pl,v 1.15 2007-02-06 10:18:24 martin Exp $
+# $Id: opm.pl,v 1.16 2007-03-07 18:38:31 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -174,13 +174,14 @@ if ($Opts{'a'} eq 'file') {
     foreach my $Package ($CommonObject{PackageObject}->RepositoryList()) {
         foreach my $File (@{$Package->{Filelist}}) {
             if ($Opts{'p'} =~ /^\Q$File->{Location}\E$/) {
-                print "+-----------------------------------------------------------------+\n";
+                print "+----------------------------------------------------------------------------+\n";
                 print "| File:        $File->{Location}!\n";
                 print "| Name:        $Package->{Name}->{Content}\n";
                 print "| Version:     $Package->{Version}->{Content}\n";
                 print "| Vendor:      $Package->{Vendor}->{Content}\n";
                 print "| URL:         $Package->{URL}->{Content}\n";
-                print "+-----------------------------------------------------------------+\n";
+                print "| License:     $Package->{License}->{Content}\n";
+                print "+----------------------------------------------------------------------------+\n";
                 $Hit = 1;
             }
         }
@@ -219,11 +220,11 @@ if ($Opts{'a'} eq 'exportfile') {
         exit 1;
     }
     # export it
-    print "+-----------------------------------------------------------------+\n";
+    print "+----------------------------------------------------------------------------+\n";
     print "| Export files of:\n";
     print "| Package: $Opts{'p'}\n";
     print "| To:      $Opts{'d'}\n";
-    print "+-----------------------------------------------------------------+\n";
+    print "+----------------------------------------------------------------------------+\n";
     $CommonObject{PackageObject}->PackageExport(
         String => $String,
         Home => $Opts{'d'},
@@ -232,17 +233,17 @@ if ($Opts{'a'} eq 'exportfile') {
 }
 # build
 if ($Opts{'a'} eq 'build') {
-    my %Structur = $CommonObject{PackageObject}->PackageParse(
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
         String => $FileString,
     );
     if (!-e $Opts{'o'}) {
         print STDERR "ERROR: $Opts{'o'} doesn't exist!\n";
         exit 1;
     }
-    my $File = "$Opts{'o'}/$Structur{Name}->{Content}-$Structur{Version}->{Content}.opm";
+    my $File = "$Opts{'o'}/$Structure{Name}->{Content}-$Structure{Version}->{Content}.opm";
     if (open (OUT, "> $File")) {
         print "Writing $File\n";
-        print OUT $CommonObject{PackageObject}->PackageBuild(%Structur);
+        print OUT $CommonObject{PackageObject}->PackageBuild(%Structure);
         close (OUT);
         exit;
     }
@@ -253,75 +254,153 @@ if ($Opts{'a'} eq 'build') {
 }
 elsif ($Opts{'a'} eq 'uninstall') {
     # get package file from db
+    # parse package
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
+    # intro screen
+    if ($Structure{IntroUninstallPre}) {
+        my %Data = _MessageGet(Info => $Structure{IntroUninstallPre});
+        print "+----------------------------------------------------------------------------+\n";
+        print "| $Structure{Name}->{Content}-$Structure{Version}->{Content}\n";
+        print "$Data{Title}";
+        print "$Data{Description}";
+        print "+----------------------------------------------------------------------------+\n";
+    }
     # uninstall
     $CommonObject{PackageObject}->PackageUninstall(
         String => $FileString,
         Force => $Opts{'f'},
     );
+    # intro screen
+    if ($Structure{IntroUninstallPost}) {
+        my %Data = _MessageGet(Info => $Structure{IntroUninstallPost});
+        print "+----------------------------------------------------------------------------+\n";
+        print "| $Structure{Name}->{Content}-$Structure{Version}->{Content}\n";
+        print "$Data{Title}";
+        print "$Data{Description}";
+        print "+----------------------------------------------------------------------------+\n";
+    }
     exit;
 }
 elsif ($Opts{'a'} eq 'install') {
+    # parse package
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
+    # intro screen
+    if ($Structure{IntroInstallPre}) {
+        my %Data = _MessageGet(Info => $Structure{IntroInstallPre});
+        print "+----------------------------------------------------------------------------+\n";
+        print "| $Structure{Name}->{Content}-$Structure{Version}->{Content}\n";
+        print "$Data{Title}";
+        print "$Data{Description}";
+        print "+----------------------------------------------------------------------------+\n";
+    }
     # install
     $CommonObject{PackageObject}->PackageInstall(
         String => $FileString,
         Force => $Opts{'f'},
     );
+    # intro screen
+    if ($Structure{IntroInstallPost}) {
+        my %Data = _MessageGet(Info => $Structure{IntroInstallPost});
+        print "+----------------------------------------------------------------------------+\n";
+        print "| $Structure{Name}->{Content}-$Structure{Version}->{Content}\n";
+        print "$Data{Title}";
+        print "$Data{Description}";
+        print "+----------------------------------------------------------------------------+\n";
+    }
     exit;
 }
 elsif ($Opts{'a'} eq 'reinstall') {
+    # parse package
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
+    # intro screen
+    if ($Structure{IntroReinstallPre}) {
+        my %Data = _MessageGet(Info => $Structure{IntroReinstallPre});
+        print "+----------------------------------------------------------------------------+\n";
+        print "| $Structure{Name}->{Content}-$Structure{Version}->{Content}\n";
+        print "$Data{Title}";
+        print "$Data{Description}";
+        print "+----------------------------------------------------------------------------+\n";
+    }
     # install
     $CommonObject{PackageObject}->PackageReinstall(
         String => $FileString,
         Force => $Opts{'f'},
     );
+    # intro screen
+    if ($Structure{IntroReinstallPost}) {
+        my %Data = _MessageGet(Info => $Structure{IntroReinstallPost});
+        print "+----------------------------------------------------------------------------+\n";
+        print "| $Structure{Name}->{Content}-$Structure{Version}->{Content}\n";
+        print "$Data{Title}";
+        print "$Data{Description}";
+        print "+----------------------------------------------------------------------------+\n";
+    }
     exit;
 }
 elsif ($Opts{'a'} eq 'upgrade') {
+    # parse package
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
+    # intro screen
+    if ($Structure{IntroUpgradePre}) {
+        my %Data = _MessageGet(Info => $Structure{IntroUpgradePre});
+        print "+----------------------------------------------------------------------------+\n";
+        print "| $Structure{Name}->{Content}-$Structure{Version}->{Content}\n";
+        print "$Data{Title}";
+        print "$Data{Description}";
+        print "+----------------------------------------------------------------------------+\n";
+    }
     # upgrade
     $CommonObject{PackageObject}->PackageUpgrade(
         String => $FileString,
         Force => $Opts{'f'},
     );
+    # intro screen
+    if ($Structure{IntroUpgradePost}) {
+        my %Data = _MessageGet(Info => $Structure{IntroUpgradePost});
+        print "+----------------------------------------------------------------------------+\n";
+        print "| $Structure{Name}->{Content}-$Structure{Version}->{Content}\n";
+        print "$Data{Title}";
+        print "$Data{Description}";
+        print "+----------------------------------------------------------------------------+\n";
+    }
     exit;
 }
 elsif ($Opts{'a'} eq 'list') {
     foreach my $Package ($CommonObject{PackageObject}->RepositoryList()) {
-        my $Description = '';
-        foreach my $Tag (@{$Package->{Description}}) {
-            # just use start tags
-            if ($Tag->{TagType} ne 'Start') {
-                next;
-            }
-            if ($Tag->{Tag} eq 'Description') {
-                if (!$Description) {
-                    $Description = $Tag->{Content};
-                }
-                if ($Tag->{Lang} eq 'en') {
-                    $Description = $Tag->{Content};
-                }
-            }
-        }
-        print "+-----------------------------------------------------------------+\n";
+        my %Data = _MessageGet(Info => $Package->{Description}, Reformat => 'No');
+        print "+----------------------------------------------------------------------------+\n";
         print "| Name:        $Package->{Name}->{Content}\n";
         print "| Version:     $Package->{Version}->{Content}\n";
         print "| Vendor:      $Package->{Vendor}->{Content}\n";
         print "| URL:         $Package->{URL}->{Content}\n";
-        print "| Description: $Description\n";
+        print "| License:     $Package->{License}->{Content}\n";
+        print "| Description: $Data{Description}\n";
     }
-    print "+-----------------------------------------------------------------+\n";
+    print "+----------------------------------------------------------------------------+\n";
     exit;
 }
 elsif ($Opts{'a'} eq 'list-repository') {
     my $Count = 0;
-    my %List = %{$CommonObject{ConfigObject}->Get('Package::RepositoryList')};
+    my %List = ();
+    if ($CommonObject{ConfigObject}->Get('Package::RepositoryList')) {
+        %List = %{$CommonObject{ConfigObject}->Get('Package::RepositoryList')};
+    }
     %List = (%List, $CommonObject{PackageObject}->PackageOnlineRepositories());
-    foreach my $URL (sort keys %List) {
+    foreach my $URL (sort {$List{$a} cmp $List{$b}} keys %List) {
         $Count++;
-        print "+-----------------------------------------------------------------+\n";
+        print "+----------------------------------------------------------------------------+\n";
         print "| $Count) Name: $List{$URL}\n";
         print "|    URL:  $URL\n";
     }
-    print "+-----------------------------------------------------------------+\n";
+    print "+----------------------------------------------------------------------------+\n";
     print "| Select the repository [1]: ";
     my $Repository = <STDIN>;
     chomp ($Repository);
@@ -329,10 +408,10 @@ elsif ($Opts{'a'} eq 'list-repository') {
         $Repository = 1;
     }
     $Count = 0;
-    foreach my $URL (sort keys %List) {
+    foreach my $URL (sort {$List{$a} cmp $List{$b}} keys %List) {
         $Count++;
         if ($Count == $Repository) {
-            print "+-----------------------------------------------------------------+\n";
+            print "+----------------------------------------------------------------------------+\n";
             print "| Package Overview:\n";
             my @Packages = $CommonObject{PackageObject}->PackageOnlineList(
                 URL => $URL,
@@ -341,15 +420,17 @@ elsif ($Opts{'a'} eq 'list-repository') {
             my $Count = 0;
             foreach my $Package (@Packages) {
                 $Count++;
-                print "+-----------------------------------------------------------------+\n";
+                print "+----------------------------------------------------------------------------+\n";
                 print "| $Count) Name:        $Package->{Name}\n";
                 print "|    Version:     $Package->{Version}\n";
+                print "|    Vendor:      $Package->{Vendor}\n";
                 print "|    URL:         $Package->{URL}\n";
+                print "|    License:     $Package->{License}\n";
                 print "|    Description: $Package->{Description}\n";
                 print "|    Install:     -p $URL:$Package->{File}\n";
             }
-            print "+-----------------------------------------------------------------+\n";
-            print "| Install/upgrade package: ";
+            print "+----------------------------------------------------------------------------+\n";
+            print "| Install/Upgrade Package: ";
             my $PackageCount = <STDIN>;
             chomp ($PackageCount);
             $Count = 0;
@@ -379,12 +460,12 @@ elsif ($Opts{'a'} eq 'p') {
     }
 }
 elsif ($Opts{'a'} eq 'parse') {
-    my %Structur = $CommonObject{PackageObject}->PackageParse(
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
         String => $FileString,
     );
-    foreach my $Key (sort keys %Structur) {
-        if (ref($Structur{$Key}) eq 'ARRAY') {
-            foreach my $Data (@{$Structur{$Key}}) {
+    foreach my $Key (sort keys %Structure) {
+        if (ref($Structure{$Key}) eq 'ARRAY') {
+            foreach my $Data (@{$Structure{$Key}}) {
                 print "--------------------------------------\n";
                 print "$Key:\n";
                 foreach (%{$Data}) {
@@ -397,9 +478,9 @@ elsif ($Opts{'a'} eq 'parse') {
         else {
             print "--------------------------------------\n";
             print "$Key:\n";
-            foreach my $Data (%{$Structur{$Key}}) {
-                if (defined($Structur{$Key}->{$Data})) {
-                    print "  $Data: $Structur{$Key}->{$Data}\n";
+            foreach my $Data (%{$Structure{$Key}}) {
+                if (defined($Structure{$Key}->{$Data})) {
+                    print "  $Data: $Structure{$Key}->{$Data}\n";
                 }
             }
         }
@@ -447,8 +528,8 @@ sub BuildPackageIndex {
                     $Content .= $_;
                 }
                 close (IN);
-                my %Structur = $CommonObject{PackageObject}->PackageParse(String => $Content);
-                my $XML = $CommonObject{PackageObject}->PackageBuild(%Structur, Type => 'Index');
+                my %Structure = $CommonObject{PackageObject}->PackageParse(String => $Content);
+                my $XML = $CommonObject{PackageObject}->PackageBuild(%Structure, Type => 'Index');
                 print "<Package>\n";
                 print $XML;
                 print "  <File>$File</File>\n";
@@ -456,4 +537,50 @@ sub BuildPackageIndex {
             }
         }
     }
+}
+
+sub _MessageGet {
+    my %Param = @_;
+    my $Title = '';
+    my $Description = '';
+    if ($Param{Info}) {
+        foreach my $Tag (@{$Param{Info}}) {
+            if (!$Description && $Tag->{Lang} eq 'en') {
+                $Description = $Tag->{Content} || '';
+                $Title = $Tag->{Title} || '';
+            }
+        }
+        if (!$Description) {
+            foreach my $Tag (@{$Param{Info}}) {
+                if (!$Description) {
+                    $Description = $Tag->{Content} || '';
+                    $Title = $Tag->{Title} || '';
+                }
+            }
+        }
+    }
+    if (!$Param{Reformat} || $Param{Reformat} ne 'No') {
+        $Title =~ s/(.{4,78})(?:\s|\z)/| $1\n/gm;
+        $Description =~ s/^\s*//mg;
+        $Description =~ s/\n//gs;
+        $Description =~ s/\<style.+?\>.*\<\/style\>//gsi;
+        $Description =~ s/\<br(\/|)\>/\n/gsi;
+        $Description =~ s/\<(hr|hr.+?)\>/\n\n/gsi;
+        $Description =~ s/\<(\/|)(pre|pre.+?|p|p.+?|table|table.+?|code|code.+?)\>/\n\n/gsi;
+        $Description =~ s/\<(tr|tr.+?|th|th.+?)\>/\n\n/gsi;
+        $Description =~ s/\.+?<\/(td|td.+?)\>/ /gsi;
+        $Description =~ s/\<.+?\>//gs;
+        $Description =~ s/  / /mg;
+        $Description =~ s/&amp;/&/g;
+        $Description =~ s/&lt;/</g;
+        $Description =~ s/&gt;/>/g;
+        $Description =~ s/&quot;/"/g;
+        $Description =~ s/&nbsp;/ /g;
+        $Description =~ s/^\s*\n\s*\n/\n/mg;
+        $Description =~ s/(.{4,78})(?:\s|\z)/| $1\n/gm;
+    }
+    return (
+        Description => $Description,
+        Title => $Title,
+    );
 }
