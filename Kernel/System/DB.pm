@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.61 2007-01-30 14:05:47 mh Exp $
+# $Id: DB.pm,v 1.62 2007-03-08 21:24:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -200,6 +200,9 @@ sub Connect {
         );
         return;
     }
+    if ($Self->{Backend}->{"DB::Connect"}) {
+        $Self->Do(SQL => $Self->{Backend}->{"DB::Connect"});
+    }
     return $Self->{dbh};
 }
 
@@ -366,6 +369,14 @@ sub Do {
             Caller => 1,
             Priority => 'debug',
             Message => "DB.pm->Do ($Self->{DoCounter}) SQL: '$Param{SQL}'",
+        );
+    }
+    # check length, don't use more the 4 k
+    if (length($Param{SQL}) > 4*1024) {
+        $Self->{LogObject}->Log(
+            Caller => 1,
+            Priority => 'error',
+            Message => "Your SQL is longer the 4k, this probably not work on many databases (use Bind instead)!",
         );
     }
     # send sql to database
@@ -728,6 +739,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2007-01-30 14:05:47 $
+$Revision: 1.62 $ $Date: 2007-03-08 21:24:01 $
 
 =cut
