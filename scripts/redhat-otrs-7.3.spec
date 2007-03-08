@@ -1,8 +1,8 @@
 # --
 # RPM spec file for RedHat Linux of the OTRS package
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: redhat-otrs-7.3.spec,v 1.11 2006-10-18 08:52:13 martin Exp $
+# $Id: redhat-otrs-7.3.spec,v 1.12 2007-03-08 19:36:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ Version:      0.0
 Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
 Group:        Applications/Mail
 Provides:     otrs
-Requires:     perl perl-DBI perl-DBD-MySQL perl-Digest-MD5 perl-URI perl-MIME-Base64 mod_perl apache mysql mysqlclient9 mysql-server fetchmail procmail
+Requires:     perl perl-DBI perl-DBD-MySQL perl-Digest-MD5 perl-URI perl-MIME-Base64 mod_perl apache mysql mysqlclient9 mysql-server fetchmail procmail perl-libwww-perl
 Autoreqprov:  no
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
