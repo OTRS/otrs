@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.36 2007-03-08 19:35:07 martin Exp $
+# $Id: CHANGES,v 1.323.2.37 2007-03-08 22:03:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.1.7 (2007/??/??)
+ - (2007/03/08) fixed bug# 1658 - Subqueues of Queues with brackets are not
+    shown in the QueueView
  - (2007/03/08) added rpm packages for Fedora Core 4, 5 and 6 to auto build
     service
  - (2007/03/05) fixed ticket# 2007022342000586 - attachment problem with oracle
