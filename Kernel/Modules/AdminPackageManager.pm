@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.43 2007-03-07 18:38:31 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.44 2007-03-08 21:37:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1132,7 +1132,11 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
-            return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
+            else {
+                # remove pre submited package
+                $Self->{UploadCachObject}->FormIDRemove(FormID => $FormID);
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
+            }
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();
