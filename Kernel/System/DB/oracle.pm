@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.22 2007-03-08 19:55:02 martin Exp $
+# $Id: oracle.pm,v 1.23 2007-03-08 21:22:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -314,7 +314,7 @@ sub TableAlter {
             push (@SQL, $SQLEnd);
         }
         elsif ($Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start') {
-            my $SQLEnd = $SQLStart." DROP $Tag->{Name}";
+            my $SQLEnd = $SQLStart." DROP COLUMN $Tag->{Name}";
             push (@SQL, $SQLEnd);
         }
     }
