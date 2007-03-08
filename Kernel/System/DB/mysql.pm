@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.13 2007-03-05 00:43:55 martin Exp $
+# $Id: mysql.pm,v 1.14 2007-03-08 19:55:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::mysql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -47,6 +47,12 @@ sub LoadPreferences {
     # shell setting
     $Self->{'DB::Comment'} = '# ';
     $Self->{'DB::ShellCommit'} = ';';
+
+    # init setting
+    if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /(utf(\-8|8))/i) {
+#        $Self->{'DB::Connect'} = 'SET NAMES utf8';
+print STDERR "utf 8\n";
+    }
 
     return 1;
 }
@@ -115,9 +121,11 @@ sub TableCreate {
     my @Return = ();
     foreach my $Tag (@Param) {
         if ($Tag->{Tag} eq 'Table' && $Tag->{TagType} eq 'Start') {
-            $SQLStart .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
-            $SQLStart .= $Self->{'DB::Comment'}." create table $Tag->{Name}\n";
-            $SQLStart .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
+            if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
+                $SQLStart .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
+                $SQLStart .= $Self->{'DB::Comment'}." create table $Tag->{Name}\n";
+                $SQLStart .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
+            }
         }
         if (($Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate') && $Tag->{TagType} eq 'Start') {
             $SQLStart .= "CREATE TABLE $Tag->{Name} (\n";
@@ -246,9 +254,11 @@ sub TableDrop {
     my $SQL = '';
     foreach my $Tag (@Param) {
         if ($Tag->{Tag} eq 'Table' && $Tag->{TagType} eq 'Start') {
-            $SQL .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
-            $SQL .= $Self->{'DB::Comment'}." drop table $Tag->{Name}\n";
-            $SQL .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
+            if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
+                $SQL .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
+                $SQL .= $Self->{'DB::Comment'}." drop table $Tag->{Name}\n";
+                $SQL .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
+            }
         }
         $SQL .= "DROP TABLE IF EXISTS $Tag->{Name}";
         return ($SQL);
@@ -411,41 +421,68 @@ sub Insert {
     my @Values = ();
     foreach my $Tag (@Param) {
         if ($Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start') {
-            $SQL = "INSERT INTO $Tag->{Table} "
+            if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
+                $SQL .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
+                $SQL .= $Self->{'DB::Comment'}." insert into table $Tag->{Table}\n";
+                $SQL .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
+            }
+            $SQL .= "INSERT INTO $Tag->{Table} "
         }
         if ($Tag->{Tag} eq 'Data' && $Tag->{TagType} eq 'Start') {
             $Tag->{Key} = ${$Self->Quote(\$Tag->{Key})};
             push (@Keys, $Tag->{Key});
-            if ($Tag->{Type} && $Tag->{Type} eq 'Quote') {
-                $Tag->{Value} = "'".${$Self->Quote(\$Tag->{Value})}."'";
+            my $Value;
+            if (defined($Tag->{Value})) {
+                $Value = $Tag->{Value};
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "The content for inserts is not longer appreciated attribut Value, use Content from now on! Reason: You can't use new lines in attributes.",
+                );
+            }
+            elsif (defined($Tag->{Content})) {
+                $Value = $Tag->{Content};
             }
             else {
-                $Tag->{Value} = ${$Self->Quote(\$Tag->{Value})};
+                $Value = '';
             }
-            push (@Values, $Tag->{Value});
+            if ($Tag->{Type} && $Tag->{Type} eq 'Quote') {
+                $Value = "'".${$Self->Quote(\$Value)}."'";
+            }
+            else {
+                $Value = ${$Self->Quote(\$Value)};
+            }
+            push (@Values, $Value);
         }
     }
     my $Key = '';
     foreach (@Keys) {
         if ($Key ne '') {
-            $Key .= ",";
+            $Key .= ", ";
         }
         $Key .= $_;
     }
     my $Value = '';
-    foreach (@Values) {
+    foreach my $Tmp (@Values) {
         if ($Value ne '') {
-            $Value .= ",";
+            $Value .= ", ";
         }
-        if ($_ eq 'current_timestamp') {
-            my $Timestamp = $Self->{TimeObject}->CurrentTimestamp();
-            $Value .= '\''.$Timestamp.'\'';
+        if ($Tmp eq 'current_timestamp') {
+            if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
+                $Value .= '\''.$Tmp.'\'';
+            }
+            else {
+                my $Timestamp = $Self->{TimeObject}->CurrentTimestamp();
+                $Value .= '\''.$Timestamp.'\'';
+            }
         }
         else {
-            $Value .= $_;
+            if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
+                $Tmp =~ s/\n/\r/g;
+            }
+            $Value .= $Tmp;
         }
     }
-    $SQL .= "($Key) VALUES ($Value)";
+    $SQL .= "($Key)\n    VALUES\n    ($Value)";
     return ($SQL);
 }
 
