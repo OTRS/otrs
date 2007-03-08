@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.43 2007-03-08 19:10:56 martin Exp $
+# $Id: auto_build.sh,v 1.44 2007-03-08 19:15:28 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.43 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.44 $>"
 echo "Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/"
 
 PATH_TO_CVS_SRC=$1
@@ -100,7 +100,8 @@ mkdir $PACKAGE_DEST_DIR/RPMS/suse/10.0
 mkdir $PACKAGE_DEST_DIR/RPMS/redhat
 mkdir $PACKAGE_DEST_DIR/RPMS/redhat/7.x
 mkdir $PACKAGE_DEST_DIR/RPMS/redhat/8.0
-mkdir $PACKAGE_DEST_DIR/RPMS/fedora/4/
+mkdir $PACKAGE_DEST_DIR/RPMS/fedora
+mkdir $PACKAGE_DEST_DIR/RPMS/fedora/4
 mkdir $PACKAGE_DEST_DIR/SRPMS
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse/7.3
@@ -111,7 +112,8 @@ mkdir $PACKAGE_DEST_DIR/SRPMS/suse/10.0
 mkdir $PACKAGE_DEST_DIR/SRPMS/redhat
 mkdir $PACKAGE_DEST_DIR/SRPMS/redhat/7.x
 mkdir $PACKAGE_DEST_DIR/SRPMS/redhat/8.0
-mkdir $PACKAGE_DEST_DIR/SRPMS/fedora/4/
+mkdir $PACKAGE_DEST_DIR/SRPMS/fedora
+mkdir $PACKAGE_DEST_DIR/SRPMS/fedora/4
 
 # --
 # build
