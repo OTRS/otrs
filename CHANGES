@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.365 2007-03-08 22:04:09 martin Exp $
+# $Id: CHANGES,v 1.366 2007-03-08 22:20:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD (????/??/??)
+ - (2007/03/08) Fixed enhacement bug# 1668 - removed unnecessary dependency for
+    fetchmail from .srpms.
  - (2007/03/07) Added Intro support for .opm format to add intros for packages.
     For example to add infos where the module can be found, if you need to add
     some groups to access the module or some other useful stuff.
