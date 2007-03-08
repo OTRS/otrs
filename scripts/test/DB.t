@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.8 2007-03-08 19:48:34 martin Exp $
+# $Id: DB.t,v 1.9 2007-03-08 21:20:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -109,6 +109,19 @@ if ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /pg/i) {
         'Quote() String - Test\'l;',
     );
 }
+elsif ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /oracle/i) {
+    $Self->Is(
+        $Self->{DBObject}->Quote("Test'l"),
+        'Test\'\'l',
+        'Quote() String - Test\'l',
+    );
+
+    $Self->Is(
+        $Self->{DBObject}->Quote("Test'l;"),
+        'Test\'\'l;',
+        'Quote() String - Test\'l;',
+    );
+}
 else {
     $Self->Is(
         $Self->{DBObject}->Quote("Test'l"),
@@ -142,7 +155,7 @@ $Self->True(
 
 foreach my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do(SQL => $SQL),
+        $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#1 Do() CREATE TABLE ($SQL)",
     );
 }
@@ -150,7 +163,7 @@ foreach my $SQL (@SQL) {
 $Self->True(
     $Self->{DBObject}->Do(
         SQL => 'INSERT INTO test_a (name_a, name_b) VALUES (\'Some\', \'Lalala\')',
-    ),
+    ) || 0,
     '#1 Do() INSERT',
 );
 
@@ -171,7 +184,7 @@ $Self->True(
 $Self->True(
     $Self->{DBObject}->Do(
         SQL => 'DELETE FROM valid WHERE name = \'Some\'',
-    ),
+    ) || 0,
     '#1 Do() DELETE',
 );
 
@@ -185,7 +198,7 @@ $Self->True(
 
 foreach my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do(SQL => $SQL),
+        $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#1 Do() DROP TABLE ($SQL)",
     );
 }
@@ -210,7 +223,7 @@ $Self->True(
 
 foreach my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do(SQL => $SQL),
+        $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#2 Do() CREATE TABLE ($SQL)",
     );
 }
@@ -218,8 +231,8 @@ foreach my $SQL (@SQL) {
 $XML = '
 <TableAlter Name="test_a">
     <ColumnAdd Name="test2" Type="varchar" Size="20" Required="true"/>
-    <ColumnChange NameOld="test2" NameNew="test3" Type="varchar" Size="30" Required="true"/>
-    <ColumnChange NameOld="test3" NameNew="test3" Type="varchar" Size="30" Required="false"/>
+    <ColumnChange NameOld="test2" NameNew="test3" Type="varchar" Size="30" Required="false"/>
+    <ColumnChange NameOld="test3" NameNew="test3" Type="varchar" Size="30" Required="true"/>
     <ColumnDrop Name="test3"/>
 </TableAlter>
 ';
@@ -232,7 +245,7 @@ $Self->True(
 
 foreach my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do(SQL => $SQL),
+        $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#2 Do() CREATE TABLE ($SQL)",
     );
 }
@@ -252,7 +265,7 @@ $Self->True(
 
 foreach my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do(SQL => $SQL),
+        $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#2 Do() XML INSERT 1 ($SQL)",
     );
 }
@@ -260,13 +273,24 @@ foreach my $SQL (@SQL) {
 $Self->True(
     $Self->{DBObject}->Do(
         SQL => 'INSERT INTO test_a (name_a, name_b) VALUES (\'Some2\', \'Lalala2\')',
-    ),
+    ) || 0,
     '#2 Do() SQL INSERT 1',
 );
 # xml
 my $String = '';
-foreach (1..14) {
-    $String .= $String." $_ abcdefghijklmno1234567890";
+foreach (1..6) {
+    $String .= $String.$_."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz";
+    my $Length = length($String);
+    my $Size = $Length;
+    if ($Size > (1024*1024)) {
+         $Size = sprintf "%.1f MBytes", ($Size/(1024*1024));
+    }
+    elsif ($Size > 1024) {
+         $Size = sprintf "%.1f KBytes", (($Size/1024));
+    }
+    else {
+         $Size = $Size.' Bytes';
+    }
     $XML = '
         <Insert Table="test_a">
             <Data Key="name_a" Type="Quote">Some1</Data>
@@ -282,20 +306,55 @@ foreach (1..14) {
 
     foreach my $SQL (@SQL) {
         $Self->True(
-            $Self->{DBObject}->Do(SQL => $SQL),
-            "#2 Do() XML INSERT 2 - $_ (length:".length($String).")",
+            $Self->{DBObject}->Do(SQL => $SQL) || 0,
+            "#2 Do() XML INSERT 2 - $_ (length:$Length/$Size)",
         );
     }
 }
 # sql
 $String = '';
-foreach (1..14) {
-    $String .= $String." $_ abcdefghijklmno1234567890";
+foreach (1..6) {
+    $String .= $String.$_."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz";
+    my $Length = length($String);
+    my $Size = $Length;
+    if ($Size > (1024*1024)) {
+         $Size = sprintf "%.1f MBytes", ($Size/(1024*1024));
+    }
+    elsif ($Size > 1024) {
+         $Size = sprintf "%.1f KBytes", (($Size/1024));
+    }
+    else {
+         $Size = $Size.' Bytes';
+    }
     $Self->True(
         $Self->{DBObject}->Do(
-            SQL => "INSERT INTO test_a (name_a, name_b) VALUES ('Some2', 'Lalala $String')",
-        ),
-        "#2 Do() SQL INSERT 2 - $_ (length:".length($String).")",
+            SQL => "INSERT INTO test_a (name_a, name_b) VALUES ('Some2', '$String')",
+        ) || 0,
+        "#2 Do() SQL INSERT 2 - $_ (length:$Length/$Size)",
+    );
+}
+# sql bind
+$String = '';
+foreach (1..18) {
+    $String .= $String." $_ abcdefghijklmno1234567890";
+    my $Length = length($String);
+    my $Size = $Length;
+    if ($Size > (1024*1024)) {
+         $Size = sprintf "%.1f MBytes", ($Size/(1024*1024));
+    }
+    elsif ($Size > 1024) {
+         $Size = sprintf "%.1f KBytes", (($Size/1024));
+    }
+    else {
+         $Size = $Size.' Bytes';
+    }
+    $Self->True(
+        $Self->{DBObject}->Do(
+            SQL => "INSERT INTO test_a (name_a, name_b) VALUES ('Some2', ?)",
+            Bind => [\$String],
+        ) || 0,
+        "#2 Do() SQL INSERT (bind) 2 - $_ (length:$Length/$Size)",
+
     );
 }
 
@@ -303,7 +362,7 @@ $Self->True(
     $Self->{DBObject}->Prepare(
         SQL => 'SELECT * FROM test_a WHERE name_a = \'Some1\'',
         Limit => 1,
-    ),
+    ) || 0,
     '#2 Prepare() SELECT - Prepare',
 );
 
@@ -316,7 +375,7 @@ $Self->True(
 $Self->True(
     $Self->{DBObject}->Do(
         SQL => 'DELETE FROM valid WHERE name = \'Some\'',
-    ),
+    ) || 0,
     '#2 Do() DELETE',
 );
 
@@ -330,7 +389,7 @@ $Self->True(
 
 foreach my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do(SQL => $SQL),
+        $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#2 Do() DROP TABLE ($SQL)",
     );
 }
