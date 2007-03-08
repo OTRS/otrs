@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.7 2007-01-30 17:33:25 tr Exp $
+# $Id: DB.t,v 1.8 2007-03-08 19:48:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,6 +14,11 @@ use Kernel::System::XML;
 $Self->{XMLObject} = Kernel::System::XML->new(%{$Self});
 
 # tests
+$Self->Is(
+    $Self->{DBObject}->Quote(0, 'Integer'),
+    0,
+    'Quote() Integer - 0',
+);
 $Self->Is(
     $Self->{DBObject}->Quote(1, 'Integer'),
     1,
@@ -232,26 +237,71 @@ foreach my $SQL (@SQL) {
     );
 }
 
+$XML = '
+<Insert Table="test_a">
+    <Data Key="name_a" Type="Quote">Some1</Data>
+    <Data Key="name_b" Type="Quote">Lalala1</Data>
+</Insert>
+';
+@XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
+@SQL = $Self->{DBObject}->SQLProcessor(Database => \@XMLARRAY);
+$Self->True(
+    $SQL[0],
+    '#2 SQLProcessorPost() INSERT 1',
+);
+
+foreach my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do(SQL => $SQL),
+        "#2 Do() XML INSERT 1 ($SQL)",
+    );
+}
+
 $Self->True(
     $Self->{DBObject}->Do(
-        SQL => 'INSERT INTO test_a (name_a, name_b) VALUES (\'Some\', \'Lalala\')',
+        SQL => 'INSERT INTO test_a (name_a, name_b) VALUES (\'Some2\', \'Lalala2\')',
     ),
-    '#2 Do() INSERT 1',
+    '#2 Do() SQL INSERT 1',
 );
+# xml
 my $String = '';
+foreach (1..14) {
+    $String .= $String." $_ abcdefghijklmno1234567890";
+    $XML = '
+        <Insert Table="test_a">
+            <Data Key="name_a" Type="Quote">Some1</Data>
+            <Data Key="name_b" Type="Quote">Lalala '.$String.'</Data>
+        </Insert>
+    ';
+    @XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
+    @SQL = $Self->{DBObject}->SQLProcessor(Database => \@XMLARRAY);
+    $Self->True(
+        $SQL[0],
+        "#2 SQLProcessorPost() INSERT 2 - $_",
+    );
+
+    foreach my $SQL (@SQL) {
+        $Self->True(
+            $Self->{DBObject}->Do(SQL => $SQL),
+            "#2 Do() XML INSERT 2 - $_ (length:".length($String).")",
+        );
+    }
+}
+# sql
+$String = '';
 foreach (1..14) {
     $String .= $String." $_ abcdefghijklmno1234567890";
     $Self->True(
         $Self->{DBObject}->Do(
-            SQL => "INSERT INTO test_a (name_a, name_b) VALUES ('Some', 'Lalala $String')",
+            SQL => "INSERT INTO test_a (name_a, name_b) VALUES ('Some2', 'Lalala $String')",
         ),
-        "#2 Do() INSERT 2 - $_ (length:".length($String).")",
+        "#2 Do() SQL INSERT 2 - $_ (length:".length($String).")",
     );
 }
 
 $Self->True(
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT * FROM test_a WHERE name_a = \'Some\'',
+        SQL => 'SELECT * FROM test_a WHERE name_a = \'Some1\'',
         Limit => 1,
     ),
     '#2 Prepare() SELECT - Prepare',
