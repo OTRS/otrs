@@ -1,8 +1,8 @@
 # --
 # RPM spec file for SuSE Linux of the OTRS package
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: suse-otrs-7.3.spec,v 1.29 2006-10-18 08:52:13 martin Exp $
+# $Id: suse-otrs-7.3.spec,v 1.29.2.1 2007-03-08 19:36:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ Version:      0.0
 Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
 Group:        Applications/Mail
 Provides:     otrs
-Requires:     perl perl-DBI perl-GD perl-Net-DNS perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared fetchmail procmail perl-MIME-Base64
+Requires:     perl perl-DBI perl-GD perl-Net-DNS perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared fetchmail procmail perl-MIME-Base64 perl-libwww-perl
 Autoreqprov:  on
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
