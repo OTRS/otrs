@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.30 2007-02-26 14:02:49 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.31 2007-03-08 22:04:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -678,17 +678,17 @@ sub _MaskQueueView {
         $Queue{MaxAge} = $Queue{MaxAge} / 60;
         $Queue{QueueID} = 0 if (!$Queue{QueueID});
         # should i highlight this queue
-        if ($Param{SelectedQueue} =~ /^$QueueName[0]/ && $Level-1 >= $#QueueName) {
-            if ($#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^$MetaQueue[0]$/) {
+        if ($Param{SelectedQueue} =~ /^\Q$QueueName[0]\E/ && $Level-1 >= $#QueueName) {
+            if ($#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^\Q$MetaQueue[0]\E$/) {
                 $QueueStrg .= '<b>';
             }
-            if ($#QueueName == 1 && $#MetaQueue >= 1 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]$/) {
+            if ($#QueueName == 1 && $#MetaQueue >= 1 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]\E$/) {
                 $QueueStrg .= '<b>';
             }
-            if ($#QueueName == 2 && $#MetaQueue >= 2 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]$/) {
+            if ($#QueueName == 2 && $#MetaQueue >= 2 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]\E$/) {
                 $QueueStrg .= '<b>';
             }
-            if ($#QueueName == 3 && $#MetaQueue >= 3 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]$/) {
+            if ($#QueueName == 3 && $#MetaQueue >= 3 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]\E$/) {
                 $QueueStrg .= '<b>';
             }
         }
@@ -748,17 +748,17 @@ sub _MaskQueueView {
         }
         $QueueStrg .= "</a>";
         # should i highlight this queue
-        if ($Param{SelectedQueue} =~ /^$QueueName[0]/ && $Level >= $#QueueName) {
-            if ($#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^$MetaQueue[0]$/) {
+        if ($Param{SelectedQueue} =~ /^\Q$QueueName[0]\E/ && $Level >= $#QueueName) {
+            if ($#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^\Q$MetaQueue[0]\E$/) {
                 $QueueStrg .= '</b>';
             }
-            if ($#QueueName == 1 && $#MetaQueue >= 1 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]$/) {
+            if ($#QueueName == 1 && $#MetaQueue >= 1 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]\E$/) {
                 $QueueStrg .= '</b>';
             }
-            if ($#QueueName == 2 && $#MetaQueue >= 2 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]$/) {
+            if ($#QueueName == 2 && $#MetaQueue >= 2 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]\E$/) {
                 $QueueStrg .= '</b>';
             }
-            if ($#QueueName == 3 && $#MetaQueue >= 3 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]$/) {
+            if ($#QueueName == 3 && $#MetaQueue >= 3 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]\E$/) {
                 $QueueStrg .= '</b>';
             }
         }
@@ -769,19 +769,19 @@ sub _MaskQueueView {
             }
             $Param{QueueStrg} .= $QueueStrg;
         }
-        elsif ($#QueueName == 1 && $Level >= 2 && $Queue{Queue} =~ /^$MetaQueue[0]::/) {
+        elsif ($#QueueName == 1 && $Level >= 2 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::\E/) {
             if ($Param{QueueStrg1}) {
                 $QueueStrg = ' - '.$QueueStrg;
             }
             $Param{QueueStrg1} .= $QueueStrg;
         }
-        elsif ($#QueueName == 2 && $Level >= 3 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::/) {
+        elsif ($#QueueName == 2 && $Level >= 3 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::\E/) {
             if ($Param{QueueStrg2}) {
                 $QueueStrg = ' - '.$QueueStrg;
             }
             $Param{QueueStrg2} .= $QueueStrg;
         }
-        elsif ($#QueueName == 3 && $Level >= 4 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::/) {
+        elsif ($#QueueName == 3 && $Level >= 4 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::\E/) {
             if ($Param{QueueStrg3}) {
                 $QueueStrg = ' - '.$QueueStrg;
             }
