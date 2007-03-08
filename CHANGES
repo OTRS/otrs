@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.35 2007-03-06 11:17:30 martin Exp $
+# $Id: CHANGES,v 1.323.2.36 2007-03-08 19:35:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.1.7 (2007/??/??)
+ - (2007/03/08) added rpm packages for Fedora Core 4, 5 and 6 to auto build
+    service
  - (2007/03/05) fixed ticket# 2007022342000586 - attachment problem with oracle
     backend if utf-8 is used
  - (2007/03/05) fixed database driver if 0 is used in begining of an xml insert
@@ -24,7 +26,7 @@
  - (2007/03/02) fixed bug #1548 - submitting AgentTicketPhone or
     AgentTicketEmail form without queueid leads to broken fields
  - (2007/02/27) fixed bug #1581 - Garbled paths containing domain names
- - (2007/02/27) updated Mail::Tools from 1.60 to 1.75 - fixed bug #1642 -
+ - (2007/02/27) updated Mail::Tools from 1.60 to 1.74 - fixed bug #1642 -
     Cant get mails via PostmasterPop3.pl - Unrecognised line
  - (2007/02/27) fixed bug #1545 - Wrong Variableusage in $Self->{PageShown}
     (Kernel/Modules/AgentTicketMailbox.pm)
