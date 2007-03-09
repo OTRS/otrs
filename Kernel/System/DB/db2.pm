@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.16 2007-03-08 19:55:02 martin Exp $
+# $Id: db2.pm,v 1.17 2007-03-09 13:10:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::DB::db2;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -47,10 +47,12 @@ sub LoadPreferences {
         LongTruncOk => 1,
         LongReadLen => 100*1024,
     };
+#    $Self->{'DB::CurrentTimestamp'} = '';
 
     # shell setting
     $Self->{'DB::Comment'} = '-- ';
     $Self->{'DB::ShellCommit'} = ";\n";
+#    $Self->{'DB::ShellConnect'} = '';
 
     return 1;
 }
@@ -439,10 +441,7 @@ sub Insert {
                 $Value = $Tag->{Content};
             }
             else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "No Value define in Content!",
-                );
+                $Value = '';
             }
             if ($Tag->{Type} && $Tag->{Type} eq 'Quote') {
                 $Value = "'".${$Self->Quote(\$Value)}."'";

@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.15 2007-03-08 19:55:02 martin Exp $
+# $Id: postgresql.pm,v 1.16 2007-03-09 13:10:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::postgresql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -43,10 +43,12 @@ sub LoadPreferences {
     $Self->{'DB::QuoteBack'} = '\\';
     $Self->{'DB::QuoteSemicolon'} = '\\';
     $Self->{'DB::Attribute'} = {};
+#    $Self->{'DB::CurrentTimestamp'} = '';
 
     # shell setting
     $Self->{'DB::Comment'} = '-- ';
     $Self->{'DB::ShellCommit'} = ';';
+#    $Self->{'DB::ShellConnect'} = '';
 
     return 1;
 }
@@ -421,10 +423,7 @@ sub Insert {
                 $Value = $Tag->{Content};
             }
             else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "No Value define in Content!",
-                );
+                $Value = '';
             }
             if ($Tag->{Type} && $Tag->{Type} eq 'Quote') {
                 $Value = "'".${$Self->Quote(\$Value)}."'";

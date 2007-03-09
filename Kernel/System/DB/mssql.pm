@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.10 2007-03-08 19:55:02 martin Exp $
+# $Id: mssql.pm,v 1.11 2007-03-09 13:10:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::mssql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -46,10 +46,12 @@ sub LoadPreferences {
         LongTruncOk => 1,
         LongReadLen => 100*1024,
     };
+#    $Self->{'DB::CurrentTimestamp'} = '';
 
     # shell setting
     $Self->{'DB::Comment'} = '-- ';
     $Self->{'DB::ShellCommit'} = ';';
+#    $Self->{'DB::ShellConnect'} = '';
 
     return 1;
 }
@@ -443,10 +445,7 @@ sub Insert {
                 $Value = $Tag->{Content};
             }
             else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "No Value define in Content!",
-                );
+                $Value = '';
             }
             if ($Tag->{Type} && $Tag->{Type} eq 'Quote') {
                 $Value = "'".${$Self->Quote(\$Value)}."'";

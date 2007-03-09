@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.15 2007-03-08 21:24:36 martin Exp $
+# $Id: mysql.pm,v 1.16 2007-03-09 13:10:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::mysql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -43,10 +43,12 @@ sub LoadPreferences {
     $Self->{'DB::QuoteBack'} = '\\';
     $Self->{'DB::QuoteSemicolon'} = '\\';
     $Self->{'DB::Attribute'} = {};
+#    $Self->{'DB::CurrentTimestamp'} = '';
 
     # shell setting
     $Self->{'DB::Comment'} = '# ';
     $Self->{'DB::ShellCommit'} = ';';
+#    $Self->{'DB::ShellConnect'} = '';
 
     # init setting
     if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /(utf(\-8|8))/i) {

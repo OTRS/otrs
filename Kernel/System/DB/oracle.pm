@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.23 2007-03-08 21:22:23 martin Exp $
+# $Id: oracle.pm,v 1.24 2007-03-09 13:10:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -46,10 +46,12 @@ sub LoadPreferences {
         LongTruncOk => 1,
         LongReadLen => 4*1024*1024,
     };
+#    $Self->{'DB::CurrentTimestamp'} = '';
 
     # shell setting
     $Self->{'DB::Comment'} = '-- ';
     $Self->{'DB::ShellCommit'} = ';';
+    $Self->{'DB::ShellConnect'} = 'SET DEFINE OFF';
 
     return 1;
 }
@@ -471,10 +473,7 @@ sub Insert {
                 $Value = $Tag->{Content};
             }
             else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "No Value define in Content!",
-                );
+                $Value = '';
             }
             if ($Tag->{Type} && $Tag->{Type} eq 'Quote') {
                 $Value = "'".${$Self->Quote(\$Value)}."'";
