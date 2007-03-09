@@ -1,8 +1,8 @@
 # --
 # README - readme file of OTRS
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: README,v 1.25 2006-08-27 22:12:39 martin Exp $
+# $Id: README,v 1.26 2007-03-09 13:00:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -196,7 +196,7 @@ $HOME (e. g. /opt/otrs/)
 |--/scripts/
 |   |----  /database/
 |           |--- /otrs-schema.(mysql|postgrsql).sql (create database script)
-|           |--- /initial_insert.sql (all inital sql data - e. g. root user)
+|           |--- /initial_insert.sql (all initial sql data - e. g. root user)
 |
 
 EOF

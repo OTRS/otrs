@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.261 2007-03-04 23:10:10 martin Exp $
+# $Id: Defaults.pm,v 1.262 2007-03-09 13:00:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.261 $';
+$VERSION = '$Revision: 1.262 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -364,7 +364,7 @@ sub LoadDefaults {
 #        Email => 'mail',
 #    };
     # UserSyncLDAPGroups
-    # (If "LDAP" was selected for AuthModule, you can specify inital
+    # (If "LDAP" was selected for AuthModule, you can specify initial
     # user groups for first login.)
 #    $Self->{UserSyncLDAPGroups} = [
 #        'users',
@@ -1853,6 +1853,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.261 $ $Date: 2007-03-04 23:10:10 $
+$Revision: 1.262 $ $Date: 2007-03-09 13:00:05 $
 
 =cut

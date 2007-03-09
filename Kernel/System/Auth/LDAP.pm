@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.34 2007-02-02 15:16:02 martin Exp $
+# $Id: LDAP.pm,v 1.35 2007-03-09 13:00:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -334,7 +334,7 @@ sub Auth {
                             Priority => 'notice',
                             Message => "Initial data for '$Param{User}' ($UserDN) created in RDBMS.",
                         );
-                        # sync inital groups
+                        # sync initial groups
                         if ($Self->{ConfigObject}->Get('UserSyncLDAPGroups'.$Self->{Count})) {
                             my %Groups = $Self->{GroupObject}->GroupList();
                             foreach (@{$Self->{ConfigObject}->Get('UserSyncLDAPGroups'.$Self->{Count})}) {

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.47 2007-02-07 11:37:25 tr Exp $
+# $Id: DB.pm,v 1.48 2007-03-09 13:00:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Valid;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -271,7 +271,7 @@ sub CustomerUserDataGet {
     elsif ($Param{CustomerID}) {
         $SQL .= "LOWER($Self->{CustomerID}) = LOWER('".$Self->{DBObject}->Quote($Param{CustomerID})."')";
     }
-    # get inital data
+    # get initial data
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         my $MapCounter = 0;

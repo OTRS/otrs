@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.133 2007-02-14 07:26:56 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.134 2007-03-09 13:00:05 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -281,7 +281,7 @@ TimeWorkingHours
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,3}$">85</String>
+            <String Regex="^[0-9]{1,3}$">90</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultPreViewLines" Required="1" Valid="1">
@@ -562,7 +562,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="UserSyncLDAPGroups" Required="0" Valid="0">
-        <Description Lang="en">If "LDAP" was selected for AuthModule, you can specify inital user groups for first login.</Description>
+        <Description Lang="en">If "LDAP" was selected for AuthModule, you can specify initial user groups for first login.</Description>
         <Description Lang="de">Wenn "LDAP" als AuthModule ausgewählt wurde, können hier initiale Benutzergruppen definiert werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Auth::LDAP</SubGroup>
