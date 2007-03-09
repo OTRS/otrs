@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.43 2007-01-20 22:03:08 mh Exp $
+# $Id: Installer.pm,v 1.44 2007-03-09 13:10:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -294,9 +294,9 @@ sub Run {
                 Data => { },
             );
 
-            # inital insert
+            # initial insert
             # - read initial_insert.sql and process stuff -
-            @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/initial_insert.sql");
+            @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/otrs-initial_insert.mysql.sql");
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
                 Data => {
