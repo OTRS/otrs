@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.63 2007-03-08 21:29:42 martin Exp $
+# $Id: DB.pm,v 1.64 2007-03-09 14:48:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -399,7 +399,15 @@ to send a select something to the database
 
     $DBObject->Prepare(
         SQL => "SELECT id, name FROM table",
-        Limit => 10
+        Limit => 10,
+    );
+
+or in case you want just to get row 10 till 30
+
+    $DBObject->Prepare(
+        SQL => "SELECT id, name FROM table",
+        Start => 10,
+        Limit => 20,
     );
 
 =cut
@@ -409,15 +417,21 @@ sub Prepare {
     my %Param = @_;
     my $SQL = $Param{SQL};
     my $Limit = $Param{Limit} || '';
+    my $Start = $Param{Start} || '';
     # check needed stuff
     if (!$Param{SQL}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need SQL!");
         return;
     }
     $Self->{Limit} = 0;
+    $Self->{LimitStart} = 0;
     $Self->{LimitCounter} = 0;
     # build finally select query
     if ($Limit) {
+        if ($Start) {
+            $Limit = $Limit + $Start;
+            $Self->{LimitStart} = $Start;
+        }
         if ($Self->{Backend}->{'DB::Limit'} eq 'limit') {
             $SQL .= " LIMIT $Limit";
         }
@@ -482,6 +496,13 @@ sub FetchrowArray {
         }
         $Self->{LimitCounter}++;
     }
+    # fetch first not used rows
+    if ($Self->{LimitStart}) {
+        foreach (1..$Self->{LimitStart}) {
+            $Self->{Curser}->fetchrow_array();
+        }
+        $Self->{LimitStart} = 0;
+    }
     # return
     my @Row = $Self->{Curser}->fetchrow_array();
     # e. g. set utf-8 flag
@@ -501,6 +522,13 @@ sub FetchrowHashref {
             return;
         }
         $Self->{LimitCounter}++;
+    }
+    # fetch first not used rows
+    if ($Self->{LimitStart}) {
+        foreach (1..$Self->{LimitStart}) {
+            $Self->{Curser}->fetchrow_array();
+        }
+        $Self->{LimitStart} = 0;
     }
     # return
     return $Self->{Curser}->fetchrow_hashref();
@@ -741,6 +769,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2007-03-08 21:29:42 $
+$Revision: 1.64 $ $Date: 2007-03-09 14:48:55 $
 
 =cut
