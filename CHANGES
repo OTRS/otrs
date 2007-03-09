@@ -2,13 +2,21 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.366 2007-03-08 22:20:52 martin Exp $
+# $Id: CHANGES,v 1.367 2007-03-09 13:22:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD (????/??/??)
+ - (2007/03/08) Moved from scripts/database/initial_insert.sql to database depend
+    initial insert files located under scripts/database/otrs-initial_insert.*.sql.
+    This files are generated from scripts/database/otrs-initial_insert.xml.
+
+    Note: The scripts/database/initial_insert.sql exists not longer, use
+    scripts/database/otrs-initial_insert.*.sql from now on for installations.
+
+ - (2007/03/08) Fixed bug# 1017 - script initial_insert.sql, ampersand and oracle.
  - (2007/03/08) Fixed enhacement bug# 1668 - removed unnecessary dependency for
     fetchmail from .srpms.
  - (2007/03/07) Added Intro support for .opm format to add intros for packages.
@@ -371,7 +379,7 @@ CVS HEAD (????/??/??)
  - (2006/03/11) fixed some spelling mistakes for the English original in
     language templates and language files
  - (2006/03/10) added admin init (Kernel/Modules/AdminInit.pm) to init
-    config files .xml->.pm after a new setup (after inital root login)
+    config files .xml->.pm after a new setup (after initial root login)
  - (2006/03/04) splited Kernel::Modules::AgentTicketPhone into
     two modules Kernel::Modules::AgentTicketPhone and
     Kernel::Modules::AgentTicketPhoneOutbound (phone calls for existing
@@ -609,8 +617,8 @@ CVS HEAD (????/??/??)
  - (2005/09/28) fixed not deleting var/tmp/XXXXXX.tmp files
  - (2005/09/26) fixed not working cache in Kernel::System::User->UserGetData()
  - (2005/09/24) fixed small oracle database driver bugs
- - (2005/09/24) added inital user groups add (UserSyncLDAPGroups) after
-    inital login
+ - (2005/09/24) added initial user groups add (UserSyncLDAPGroups) after
+    initial login
  - (2005/09/19) moved ldap user sync after login from Kernel/System/User.pm
     to Kernel/System/Auth/LDAP.pm (already an existing ldap module)
  - (2005/09/19) fixed ticket search create day and month selection
