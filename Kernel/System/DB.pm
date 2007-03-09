@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.64 2007-03-09 14:48:55 martin Exp $
+# $Id: DB.pm,v 1.65 2007-03-09 15:49:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -500,6 +500,7 @@ sub FetchrowArray {
     if ($Self->{LimitStart}) {
         foreach (1..$Self->{LimitStart}) {
             $Self->{Curser}->fetchrow_array();
+            $Self->{LimitCounter}++;
         }
         $Self->{LimitStart} = 0;
     }
@@ -519,6 +520,7 @@ sub FetchrowHashref {
     if (!$Self->{Backend}->{'DB::Limit'} && $Self->{Limit}) {
         if ($Self->{Limit} <= $Self->{LimitCounter}) {
             $Self->{Curser}->finish();
+            $Self->{LimitCounter}++;
             return;
         }
         $Self->{LimitCounter}++;
@@ -769,6 +771,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2007-03-09 14:48:55 $
+$Revision: 1.65 $ $Date: 2007-03-09 15:49:34 $
 
 =cut
