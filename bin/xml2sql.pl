@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# xml2sql.pl - a xml 2 sql processor
+# bin/xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xml2sql.pl,v 1.11 2007-02-06 19:04:33 martin Exp $
+# $Id: xml2sql.pl,v 1.12 2007-03-09 13:06:36 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,21 +37,21 @@ use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::XML;
 
-my $VERSION = '$Revision: 1.11 $';
+my $VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 my %Opts = ();
-getopt('hton', \%Opts);
+getopt('htosi', \%Opts);
 if ($Opts{'h'}) {
     print "xml2sql.pl <Revision $VERSION> - xml2sql\n";
-    print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
-    print "usage: xml2sql.pl -t <DATABASE_TYPE> [-o <OUTPUTDIR> -n <NAME>]\n";
+    print "Copyright (c) 2001-2007 OTRS GmbH, http://otrs.org/\n";
+    print "usage: xml2sql.pl -t <DATABASE_TYPE> (or 'all') [-o <OUTPUTDIR> -s <SCHEMA> -i <INITIAL_INSERT>]\n";
     exit 1;
 }
 
 # name
-if (!$Opts{n} && $Opts{o}) {
-    die "ERROR: Need -n <NAME>";
+if ((!$Opts{s} && !$Opts{i}) && $Opts{o}) {
+    die "ERROR: Need -s <SCHEMA> or -i <INITIAL_INSERT>";
 }
 # output dir
 if ($Opts{o} && ! -e $Opts{o}) {
@@ -61,72 +61,117 @@ if ($Opts{o} && ! -e $Opts{o}) {
 if (!$Opts{t}) {
     die "ERROR: Need -t <DATABASE_TYPE>";
 }
+my @DatabaseType = ();
+if ($Opts{t} eq 'all') {
+    my $ConfigObject = Kernel::Config->new();
+    my @List = glob($ConfigObject->Get('Home')."/Kernel/System/DB/*.pm");
+    foreach my $File (@List) {
+        $File =~ s/^.*\/(.+?).pm$/$1/;
+        push (@DatabaseType, $File);
+    }
+}
+else {
+    push (@DatabaseType, $Opts{t});
+}
 
-# create common objects
-
-my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{ConfigObject}->Set(Key => 'Database::Type', Value => $Opts{t});
-$CommonObject{ConfigObject}->Set(Key => 'Database::ShellOutput', Value => 1);
-$CommonObject{LogObject} = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-xml2sql',
-    %CommonObject,
-);
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
-$CommonObject{XMLObject} = Kernel::System::XML->new(%CommonObject);
-
-my @Table = ();
+# read xml file
 my @File = <STDIN>;
 my $FileString = '';
 foreach (@File) {
     $FileString .= $_;
 }
 
-# parse xml package
-my @XMLARRAY = $CommonObject{XMLObject}->XMLParse(String => $FileString);
+foreach my $DatabaseType (@DatabaseType) {
+    # create common objects
+    my %CommonObject = ();
+    $CommonObject{ConfigObject} = Kernel::Config->new();
+    $CommonObject{ConfigObject}->Set(Key => 'Database::Type', Value => $DatabaseType);
+    $CommonObject{ConfigObject}->Set(Key => 'Database::ShellOutput', Value => 1);
+    $CommonObject{LogObject} = Kernel::System::Log->new(
+        LogPrefix => 'OTRS-xml2sql',
+        %CommonObject,
+    );
+    $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+    $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+    $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+    $CommonObject{XMLObject} = Kernel::System::XML->new(%CommonObject);
 
-# remember header
-my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $CommonObject{TimeObject}->SystemTime2Date(
-    SystemTime => $CommonObject{TimeObject}->SystemTime(),
-);
-my $Head = $CommonObject{DBObject}->{Backend}->{"DB::Comment"}."----------------------------------------------------------\n";
-$Head .= $CommonObject{DBObject}->{Backend}->{"DB::Comment"}." database: $Opts{t}, generated: $Year-$Month-$Day $Hour:$Min:$Sec\n";
-$Head .= $CommonObject{DBObject}->{Backend}->{"DB::Comment"}."----------------------------------------------------------\n";
+    # parse xml package
+    my @XMLARRAY = $CommonObject{XMLObject}->XMLParse(String => $FileString);
 
-# get database sql from parsed xml
-my @SQL = $CommonObject{DBObject}->SQLProcessor(Database => \@XMLARRAY);
-# write create script
-if ($Opts{o}) {
-    open (OUT, "> $Opts{o}/$Opts{n}-schema.$Opts{t}.sql") || die "Can't write: $!";
-    print "writing: $Opts{o}/$Opts{n}-schema.$Opts{t}.sql\n";
-}
-else {
-    *OUT = *STDOUT;
-}
-print OUT $Head;
-foreach (@SQL) {
-    print OUT "$_".$CommonObject{DBObject}->{Backend}->{"DB::ShellCommit"}."\n";
-}
-if ($Opts{o}) {
-    close (OUT);
-}
+    # remember header
+    my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $CommonObject{TimeObject}->SystemTime2Date(
+        SystemTime => $CommonObject{TimeObject}->SystemTime(),
+    );
+    my $Head = $CommonObject{DBObject}->{Backend}->{"DB::Comment"}."----------------------------------------------------------\n";
+    $Head .= $CommonObject{DBObject}->{Backend}->{"DB::Comment"}." driver: $DatabaseType, generated: $Year-$Month-$Day $Hour:$Min:$Sec\n";
+    $Head .= $CommonObject{DBObject}->{Backend}->{"DB::Comment"}."----------------------------------------------------------\n";
 
-# get database sql from parsed xml
-my @SQLPost = $CommonObject{DBObject}->SQLProcessorPost();
-# write post script
-if ($Opts{o}) {
-    open (OUT, "> $Opts{o}/$Opts{n}-schema-post.$Opts{t}.sql") || die "Can't write: $!";
-    print "writing: $Opts{o}/$Opts{n}-schema-post.$Opts{t}.sql\n";
-}
-else {
-    *OUT = *STDOUT;
-}
-print OUT $Head;
-foreach (@SQLPost) {
-    print OUT "$_".$CommonObject{DBObject}->{Backend}->{"DB::ShellCommit"}."\n";
-}
-if ($Opts{o}) {
-    close (OUT);
+    if ($Opts{i}) {
+        # get database sql from parsed xml
+        my @SQL = ();
+        if ($CommonObject{DBObject}->{Backend}->{"DB::ShellConnect"}) {
+            push (@SQL, $CommonObject{DBObject}->{Backend}->{"DB::ShellConnect"});
+        }
+        push (@SQL, $CommonObject{DBObject}->SQLProcessor(Database => \@XMLARRAY));
+        # write create script
+        if ($Opts{o}) {
+            open (OUT, "> $Opts{o}/$Opts{i}-initial_insert.$DatabaseType.sql") || die "Can't write: $!";
+            print "writing: $Opts{o}/$Opts{i}-initial_insert.$DatabaseType.sql\n";
+        }
+        else {
+            *OUT = *STDOUT;
+        }
+        print OUT $Head;
+        foreach (@SQL) {
+            print OUT "$_".$CommonObject{DBObject}->{Backend}->{"DB::ShellCommit"}."\n";
+        }
+        if ($Opts{o}) {
+            close (OUT);
+        }
+    }
+    else {
+        # get database sql from parsed xml
+        my @SQL = ();
+        if ($CommonObject{DBObject}->{Backend}->{"DB::ShellConnect"}) {
+            push (@SQL, $CommonObject{DBObject}->{Backend}->{"DB::ShellConnect"});
+        }
+        push (@SQL, $CommonObject{DBObject}->SQLProcessor(Database => \@XMLARRAY));
+        # write create script
+        if ($Opts{o}) {
+            open (OUT, "> $Opts{o}/$Opts{s}-schema.$DatabaseType.sql") || die "Can't write: $!";
+            print "writing: $Opts{o}/$Opts{s}-schema.$DatabaseType.sql\n";
+        }
+        else {
+            *OUT = *STDOUT;
+        }
+        print OUT $Head;
+        foreach (@SQL) {
+            print OUT "$_".$CommonObject{DBObject}->{Backend}->{"DB::ShellCommit"}."\n";
+        }
+        if ($Opts{o}) {
+            close (OUT);
+        }
+        # get database sql from parsed xml
+        my @SQLPost = ();
+        if ($CommonObject{DBObject}->{Backend}->{"DB::ShellConnect"}) {
+            push (@SQLPost, $CommonObject{DBObject}->{Backend}->{"DB::ShellConnect"});
+        }
+        push (@SQLPost, $CommonObject{DBObject}->SQLProcessorPost());
+        # write post script
+        if ($Opts{o}) {
+            open (OUT, "> $Opts{o}/$Opts{s}-schema-post.$DatabaseType.sql") || die "Can't write: $!";
+            print "writing: $Opts{o}/$Opts{s}-schema-post.$DatabaseType.sql\n";
+        }
+        else {
+            *OUT = *STDOUT;
+        }
+        print OUT $Head;
+        foreach (@SQLPost) {
+            print OUT "$_".$CommonObject{DBObject}->{Backend}->{"DB::ShellCommit"}."\n";
+        }
+        if ($Opts{o}) {
+            close (OUT);
+        }
+    }
 }

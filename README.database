@@ -1,8 +1,8 @@
 # --
 # README.database - database description of OTRS
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: README.database,v 1.15 2006-08-29 17:55:46 martin Exp $
+# $Id: README.database,v 1.16 2007-03-09 13:06:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,8 @@ Where can I find the database description files?
 
 XML:
 ====
-$HOME_OTRS/scripts/database/otrs-schema.xml
+$HOME_OTRS/scripts/database/otrs-schema.xml (table definition)
+$HOME_OTRS/scripts/database/otrs-initial_insert.xml (initial inserts)
 
 The XML description files for torque which generate the SQL for your
 target database e. g. MySQL, PostgreSQL, MaxDB/SAPDB, DB2, Oracle, ...)
@@ -28,17 +29,21 @@ You will find all transformed files under "$HOME_OTRS/scripts/database/*.sql"
 MySQL sql files:
 ----------------
 $HOME_OTRS/scripts/database/otrs-schema.mysql.sql
+$HOME_OTRS/scripts/database/otrs-initial_insert.mysql.sql
 $HOME_OTRS/scripts/database/otrs-schema-post.mysql.sql
 
 PostgreSQL sql files:
 ---------------------
 $HOME_OTRS/scripts/database/otrs-schema.postgresql.sql
+$HOME_OTRS/scripts/database/otrs-initial_insert.postgresql.sql
 $HOME_OTRS/scripts/database/otrs-schema-post.postgresql.sql
 
 Own transform:
 --------------
 In case you transform the .xml file to .sql, use:
 
+a) table definitions
+--------------------
 shell> cat scripts/database/otrs-schema.xml | bin/xml2sql.pl -n otrs_own -o /tmp/ -t postgresql
 
 Then you will find
@@ -47,10 +52,18 @@ o /tmp/otrs_own-schema.postgresql.sql (create tables, uniques and indexes)
 o /tmp/otrs_own-schema-post.postgresql.sql (create foreign keys to other tables)
 
 
+a) initial inserts
+-----------------
+shell> cat scripts/database/otrs-initial_insert.xml | bin/xml2sql.pl -n otrs_own -o /tmp/ -t postgresql
+
+Then you will find
+
+o /tmp/otrs_own-initial_insert.postgresql.sql (initial inserts)
+
 Initial insert file:
 ====================
-$HOME_OTRS/scripts/database/initial_insert.sql contains all needed standard
-values. At first use the otrs-schema.*.sql and the insert this file.
+$HOME_OTRS/scripts/database/otrs-initial_insert.*.sql contains all needed
+standard values. At first use the otrs-schema.*.sql and the insert this file.
 
 
 DB - Setup Example (MySQL):
@@ -63,9 +76,9 @@ Create the OTRS tables:
 -----------------------
 shell> mysql -u root -p otrs < scripts/database/otrs-schema.mysql.sql
 
-Insert inital data:
+Insert initial data:
 -------------------
-shell> mysql -u root -p otrs < scripts/database/initial_insert.sql
+shell> mysql -u root -p otrs < scripts/database/otrs-initial_insert.mysql.sql
 
 Create foreign keys to other tables:
 ------------------------------------
