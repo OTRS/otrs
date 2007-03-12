@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# CheckDB.pl - to check the db access
+# bin/CheckDB.pl - to check the db access
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckDB.pl,v 1.16 2007-03-07 14:59:46 martin Exp $
+# $Id: CheckDB.pl,v 1.17 2007-03-12 11:28:46 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -60,7 +60,7 @@ if ($Opts{'s'}) {
 if ($CommonObject{DBObject}) {
     $CommonObject{DBObject}->Prepare(SQL => "SELECT * FROM valid");
     my $Check = 0;
-    while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
+    while (my @Row = $CommonObject{DBObject}->FetchrowArray()) {
         $Check++;
     }
     if (!$Check) {
