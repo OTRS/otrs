@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.7 2007-01-20 23:11:34 mh Exp $
+# $Id: UnitTest.pm,v 1.8 2007-03-12 23:18:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::UnitTest;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -79,7 +79,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
-    foreach (qw(ConfigObject DBObject LogObject TimeObject MainObject)) {
+    foreach (qw(ConfigObject DBObject LogObject TimeObject MainObject EncodeObject)) {
         if ($Param{$_}) {
             $Self->{$_} = $Param{$_};
         }
@@ -376,6 +376,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.8 $ $Date: 2007-03-12 23:18:06 $
 
 =cut
