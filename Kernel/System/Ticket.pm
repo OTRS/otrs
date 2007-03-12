@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.247 2007-03-05 02:06:32 martin Exp $
+# $Id: Ticket.pm,v 1.248 2007-03-12 11:28:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,8 +16,8 @@ use File::Path;
 use Kernel::System::Ticket::Article;
 use Kernel::System::State;
 use Kernel::System::Priority;
-#use Kernel::System::Service;
-#use Kernel::System::SLA;
+use Kernel::System::Service;
+use Kernel::System::SLA;
 use Kernel::System::Lock;
 use Kernel::System::Queue;
 use Kernel::System::User;
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.247 $';
+$VERSION = '$Revision: 1.248 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -148,8 +148,8 @@ sub new {
     $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
-#    $Self->{ServiceObject} = Kernel::System::Service->new(%Param);
-#    $Self->{SLAObject} = Kernel::System::SLA->new(%Param);
+    $Self->{ServiceObject} = Kernel::System::Service->new(%Param);
+    $Self->{SLAObject} = Kernel::System::SLA->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{LockObject} = Kernel::System::Lock->new(%Param);
     $Self->{NotificationObject} = Kernel::System::Notification->new(%Param);
@@ -315,7 +315,6 @@ sub TicketCreate {
     my %Param = @_;
     my $GroupID = $Param{GroupID} || 1;
     my $ValidID = $Param{ValidID} || 1;
-    my $TypeID = $Param{TypeID} || 1;
     my $Age = $Self->{TimeObject}->SystemTime();
     my $EscalationStartTime = $Self->{TimeObject}->SystemTime();
     # check needed stuff
@@ -327,6 +326,9 @@ sub TicketCreate {
     }
     if (!$Param{ResponsibleID}) {
         $Param{ResponsibleID} = 1;
+    }
+    if (!$Param{TypeID}) {
+        $Param{TypeID} = 1;
     }
 
     # TypeID/Type lookup!
@@ -737,10 +739,9 @@ sub TicketGet {
         " st.freetime1, st.freetime2, st.freetime3, st.freetime4, ".
         " st.freetime5, st.freetime6, ".
         " st.change_time, st.title, st.escalation_start_time, st.timeout, ".
-        " tt.id, tt.name ".
+        " st.type_id, st.service_id, st.sla_id ".
         " FROM ".
-        " ticket st, ticket_priority sp, ticket_type tt".
-        " queue sq ".
+        " ticket st, ticket_priority sp, queue sq ".
         " WHERE ".
         " sp.id = st.ticket_priority_id ".
         " AND ".
@@ -771,9 +772,8 @@ sub TicketGet {
         $Ticket{ResponsibleID} = $Row[14];
         $Ticket{RealTillTimeNotUsed} = $Row[15];
         $Ticket{TypeID} = $Row[58];
-        $Ticket{Type} = $Row[59];
-        $Ticket{ServiceID} = $Row[60];
-        $Ticket{SLAID} = $Row[61];
+        $Ticket{ServiceID} = $Row[59];
+        $Ticket{SLAID} = $Row[60];
         $Ticket{TicketFreeKey1} = defined($Row[16]) ? $Row[16] : '';
         $Ticket{TicketFreeText1} = defined($Row[17]) ? $Row[17] : '';
         $Ticket{TicketFreeKey2} = defined($Row[18]) ? $Row[18] : '';
@@ -827,6 +827,8 @@ sub TicketGet {
     $Ticket{Responsible} = $Self->{UserObject}->UserLookup(UserID => $Ticket{ResponsibleID} || 1);
     # get lock
     $Ticket{Lock} = $Self->{LockObject}->LockLookup(LockID => $Ticket{LockID});
+    # get service
+    $Ticket{Type} = $Self->TypeLookup(TypeID => $Ticket{TypeID} || 1);
     # get service
     if ($Ticket{ServiceID}) {
         $Ticket{Service} = $Self->{ServiceObject}->ServiceLookup(ServiceID => $Ticket{ServiceID});
@@ -1426,6 +1428,13 @@ sub TicketTypeSet {
     }
 }
 
+sub TypeLookup {
+    my $Self = shift;
+    my %Param = @_;
+
+#        $Param{TypeID} = $Self->TypeLookup(Type => $Param{Type});
+    return 1;
+}
 =item TicketServiceList()
 
 to get all possible services for a ticket (depends on workflow, if configured)
@@ -1467,8 +1476,8 @@ sub TicketServiceList {
     # workflow
     if ($Self->TicketAcl(
         %Param,
-        ReturnService => 'Ticket',
-        ReturnSubService => 'Service',
+        ReturnType => 'Ticket',
+        ReturnSubType => 'Service',
         Data => \%Services,
     )) {
         return $Self->TicketAclData();
@@ -1595,8 +1604,8 @@ sub TicketSLAList {
     # workflow
     if ($Self->TicketAcl(
         %Param,
-        ReturnSLA => 'Ticket',
-        ReturnSubSLA => 'SLA',
+        ReturnType => 'Ticket',
+        ReturnSubType => 'SLA',
         Data => \%SLAs,
     )) {
         return $Self->TicketAclData();
@@ -5626,6 +5635,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.247 $ $Date: 2007-03-05 02:06:32 $
+$Revision: 1.248 $ $Date: 2007-03-12 11:28:31 $
 
 =cut
