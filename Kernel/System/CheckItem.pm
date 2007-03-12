@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spelling module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.18 2007-01-20 23:11:33 mh Exp $
+# $Id: CheckItem.pm,v 1.19 2007-03-12 14:29:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CheckItem;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -113,7 +113,7 @@ sub CheckEmail {
     }
     my $Error = '';
     # email address syntax check
-    if ($Param{Address} !~ /^(()|([a-zA-Z0-9]+([a-zA-Z0-9_+\.&%-]*[a-zA-Z0-9_\.-]+)?@([a-zA-Z0-9]+([a-zA-Z0-9\.-]*[a-zA-Z0-9]+)?\.+[a-zA-Z]{2,8}|\[\d+\.\d+\.\d+\.\d+])))$/) {
+    if ($Param{Address} !~ /^(()|([a-zA-Z0-9]+([a-zA-Z0-9_+\.&%-]*[a-zA-Z0-9_'\.-]+)?@([a-zA-Z0-9]+([a-zA-Z0-9\.-]*[a-zA-Z0-9]+)?\.+[a-zA-Z]{2,8}|\[\d+\.\d+\.\d+\.\d+])))$/) {
         $Error = "Invalid syntax";
     }
     # mx check
@@ -198,6 +198,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2007-01-20 23:11:33 $
+$Revision: 1.19 $ $Date: 2007-03-12 14:29:02 $
 
 =cut

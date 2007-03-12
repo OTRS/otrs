@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.369 2007-03-12 11:55:35 mh Exp $
+# $Id: CHANGES,v 1.370 2007-03-12 14:29:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -111,7 +111,8 @@ CVS HEAD (????/??/??)
     to 12 MB.
 
 2.1.7 (2007/??/??)
- - (2007/03/12) fixed bug# 1442 and 1559. ArticleFreeKey and ArticleFreeText
+ - (2007/03/12) fixed bug# 1228 - Apostrophe not valid in email address.
+ - (2007/03/12) fixed bug# 1442 and 1559 - ArticleFreeKey and ArticleFreeText
     default selection does not work.
  - (2007/03/12) fixed ticket# 2007031242000149 - session backend fails to insert
     sessions bigger the 4k on oracle database backend
