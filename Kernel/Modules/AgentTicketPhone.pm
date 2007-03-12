@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.28.2.2 2007-03-02 00:09:47 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.28.2.3 2007-03-12 11:52:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28.2.2 $';
+$VERSION = '$Revision: 1.28.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -193,6 +193,12 @@ sub Run {
             %Param,
             Ticket => \%GetParam,
         );
+        # get article free text default selections
+        my %ArticleFreeDefault = ();
+        foreach (1..3) {
+            $ArticleFreeDefault{'ArticleFreeKey'.$_} = $GetParam{'ArticleFreeKey'.$_} || $Self->{ConfigObject}->Get('ArticleFreeKey'.$_.'::DefaultSelection');
+            $ArticleFreeDefault{'ArticleFreeText'.$_} = $GetParam{'ArticleFreeText'.$_} || $Self->{ConfigObject}->Get('ArticleFreeText'.$_.'::DefaultSelection');
+        }
         # article free text
         my %ArticleFreeText = ();
         foreach (1..3) {
@@ -211,7 +217,10 @@ sub Run {
         }
         my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
             Config => \%ArticleFreeText,
-            Article => \%GetParam,
+            Article => {
+                %GetParam,
+                %ArticleFreeDefault,
+            },
         );
         # html output
         $Output .= $Self->_MaskPhoneNew(
