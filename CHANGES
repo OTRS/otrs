@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.37 2007-03-08 22:03:55 martin Exp $
+# $Id: CHANGES,v 1.323.2.38 2007-03-12 00:22:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.1.7 (2007/??/??)
+ - (2007/03/11) fixed bug# 1115 - HTML error in NewTicket Customer's interface.
  - (2007/03/08) fixed bug# 1658 - Subqueues of Queues with brackets are not
     shown in the QueueView
  - (2007/03/08) added rpm packages for Fedora Core 4, 5 and 6 to auto build
