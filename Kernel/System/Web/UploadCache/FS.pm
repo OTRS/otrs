@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.5 2007-02-06 19:47:18 martin Exp $
+# $Id: FS.pm,v 1.6 2007-03-12 22:53:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.5 $ ';
+$VERSION = '$Revision: 1.6 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -78,7 +78,6 @@ sub FormIDAddFile {
     umask(066);
     open (OUT, "> $Self->{TempDir}/$Param{FormID}.$Param{Filename}") || die "$!";
     binmode(OUT);
-    $Self->{EncodeObject}->EncodeOutput(\$Param{Content});
     print OUT $Param{Content};
     close (OUT);
     open (OUT, "> $Self->{TempDir}/$Param{FormID}.$Param{Filename}.ContentType") || die "$!";
@@ -120,6 +119,11 @@ sub FormIDGetAllFilesData {
         if ($File !~ /\.ContentType$/) {
             $Counter++;
             my $FileSize = -s $File;
+            # convert the file name in utf-8 if utf-8 is used
+            $File = $Self->{EncodeObject}->Decode(
+                Text => $File,
+                From => 'utf-8',
+            );
             # human readable file size
             if ($FileSize) {
                 # remove meta data in files
@@ -147,7 +151,6 @@ sub FormIDGetAllFilesData {
                 $ContentType .= $_;
             }
             close (IN);
-            $Self->{EncodeObject}->Encode(\$Content);
             # strip filename
             $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
             push (@Data, {
@@ -179,6 +182,11 @@ sub FormIDGetAllFilesMeta {
         if ($File !~ /\.ContentType$/) {
             $Counter++;
             my $FileSize = -s $File;
+            # convert the file name in utf-8 if utf-8 is used
+            $File = $Self->{EncodeObject}->Decode(
+                Text => $File,
+                From => 'utf-8',
+            );
             # human readable file size
             if ($FileSize) {
                 # remove meta data in files
