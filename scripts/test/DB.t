@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.10 2007-03-09 14:48:56 martin Exp $
+# $Id: DB.t,v 1.11 2007-03-12 09:34:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -476,7 +476,7 @@ $Self->True(
         Start => 15,
         Limit => 12,
     ) || 0,
-    '#2 Prepare() SELECT - Prepare - Start 15 - Limit 12 - like',
+    '#3 Prepare() SELECT - Prepare - Start 15 - Limit 12 - like',
 );
 
 my $Count = 0;
@@ -506,6 +506,44 @@ $Self->Is(
     $End,
     27,
     '#3 FetchrowArray () SELECT - Start 15 - Limit 12 - like - end',
+);
+
+$Self->True(
+    $Self->{DBObject}->Prepare(
+        SQL => 'SELECT * FROM test_b WHERE name_a like \'Some%\' ORDER BY id',
+        Start => 15,
+        Limit => 40,
+    ) || 0,
+    '#3 Prepare() SELECT - Prepare - Start 15 - Limit 40 - like',
+);
+
+$Count = 0;
+$Start = '';
+$End = '';
+while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+    if (!$Start) {
+        $Start = $Row[2];
+    }
+    $End = $Row[2];
+    $Count++;
+}
+
+$Self->Is(
+    $Count,
+    25,
+    '#3 FetchrowArray () SELECT - Start 15 - Limit 40 - like - count',
+);
+
+$Self->Is(
+    $Start,
+    16,
+    '#3 FetchrowArray () SELECT - Start 15 - Limit 40 - like - start',
+);
+
+$Self->Is(
+    $End,
+    40,
+    '#3 FetchrowArray () SELECT - Start 15 - Limit 40 - like - end',
 );
 
 $XML = '<TableDrop Name="test_b"/>';
