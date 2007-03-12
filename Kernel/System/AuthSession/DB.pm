@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession/DB.pm - provides session db backend
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.23 2006-08-29 17:31:42 martin Exp $
+# $Id: DB.pm,v 1.23.2.1 2007-03-12 09:23:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.23.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -200,8 +200,8 @@ sub CreateSessionID {
     my $SQL = "INSERT INTO $Self->{SQLSessionTable} ".
            " ($Self->{SQLSessionTableID}, $Self->{SQLSessionTableValue}) ".
            " VALUES ".
-           " ('$SessionID', '$DataToStore')";
-    $Self->{DBObject}->Do(SQL => $SQL) || die "Can't insert session id!";
+           " ('$SessionID', ?)";
+    $Self->{DBObject}->Do(SQL => $SQL, Bind => [\$DataToStore]) || die "Can't insert session id!";
 
     return $SessionID;
 }
@@ -253,10 +253,10 @@ sub UpdateSessionID {
     # update db enrty
     my $SQL = "UPDATE $Self->{SQLSessionTable} ".
             " SET ".
-            " $Self->{SQLSessionTableValue} = '".$Self->{DBObject}->Quote($NewDataToStore)."' ".
+            " $Self->{SQLSessionTableValue} = ? ".
             " WHERE ".
             " $Self->{SQLSessionTableID} = '".$Self->{DBObject}->Quote($SessionID)."'";
-    $Self->{DBObject}->Do(SQL => $SQL) || die "Can't update session table!";
+    $Self->{DBObject}->Do(SQL => $SQL, Bind => [\$NewDataToStore]) || die "Can't update session table!";
 
     return 1;
 }
