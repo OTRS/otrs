@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CheckItem.pm - the global spellinf module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.16 2006-09-05 23:17:44 martin Exp $
+# $Id: CheckItem.pm,v 1.16.2.1 2007-03-12 14:28:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CheckItem;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.16.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -61,7 +61,7 @@ sub CheckEmail {
     }
     my $Error = '';
     # email address syntax check
-    if ($Param{Address} !~ /^(()|([a-zA-Z0-9]+([a-zA-Z0-9_+\.&%-]*[a-zA-Z0-9_\.-]+)?@([a-zA-Z0-9]+([a-zA-Z0-9\.-]*[a-zA-Z0-9]+)?\.+[a-zA-Z]{2,8}|\[\d+\.\d+\.\d+\.\d+])))$/) {
+    if ($Param{Address} !~ /^(()|([a-zA-Z0-9]+([a-zA-Z0-9_+\.&%-]*[a-zA-Z0-9_'\.-]+)?@([a-zA-Z0-9]+([a-zA-Z0-9\.-]*[a-zA-Z0-9]+)?\.+[a-zA-Z]{2,8}|\[\d+\.\d+\.\d+\.\d+])))$/) {
         $Error = "Invalid syntax";
     }
     # mx check
