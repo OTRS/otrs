@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.31 2007-03-09 13:00:54 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.32 2007-03-12 11:30:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -78,6 +78,7 @@ sub Run {
     my %GetParam = ();
     foreach (qw(AttachmentUpload
         Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
+        TypeID ServiceID SLAID
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
         AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
@@ -207,6 +208,9 @@ sub Run {
                 QueueID => $Self->{QueueID},
                 NextStates => $Self->_GetNextStates(QueueID => 1),
                 Priorities => $Self->_GetPriorities(QueueID => 1),
+                Types => $Self->_GetTypes(QueueID => 1),
+                Services => $Self->_GetServices(QueueID => 1),
+                SLAs => $Self->_GetSLAs(QueueID => 1),
                 Users => $Self->_GetUsers(),
                 FromList => $Self->_GetTos(),
                 To => '',
@@ -538,6 +542,9 @@ sub Run {
                 NextStates => $Self->_GetNextStates(QueueID => $NewQueueID || 1),
                 NextState => $NextState,
                 Priorities => $Self->_GetPriorities(QueueID => $NewQueueID || 1),
+                Types => $Self->_GetTypes(QueueID => $NewQueueID || 1),
+                Services => $Self->_GetServices(QueueID => $NewQueueID || 1),
+                SLAs => $Self->_GetSLAs(QueueID => $NewQueueID || 1),
                 CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
                 CustomerUser => $CustomerUser,
                 CustomerData => \%CustomerData,
@@ -906,6 +913,51 @@ sub _GetPriorities {
     return \%Priorities;
 }
 
+sub _GetTypes {
+    my $Self = shift;
+    my %Param = @_;
+    my %Type = ();
+    # get priority
+    if ($Param{QueueID} || $Param{TicketID}) {
+        %Type = $Self->{TicketObject}->TicketTypeList(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+    }
+    return \%Type;
+}
+
+sub _GetServices {
+    my $Self = shift;
+    my %Param = @_;
+    my %Service = ();
+    # get priority
+    if ($Param{QueueID} || $Param{TicketID}) {
+        %Service = $Self->{TicketObject}->TicketServiceList(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+    }
+    return \%Service;
+}
+
+sub _GetSLAs {
+    my $Self = shift;
+    my %Param = @_;
+    my %SLA = ();
+    # get priority
+    if ($Param{QueueID} || $Param{TicketID}) {
+        %SLA = $Self->{TicketObject}->TicketSLAList(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+    }
+    return \%SLA;
+}
+
 sub _GetTos {
     my $Self = shift;
     my %Param = @_;
@@ -1025,9 +1077,47 @@ sub _MaskEmailNew {
             Data => \%Param,
         );
     }
-    # do html quoting
-    foreach (qw(From To Cc Bcc)) {
-        $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}) || '';
+    # build type string
+    if ($Self->{ConfigObject}->Get('Ticket::Type')) {
+        $Param{Types}->{''} = '-';
+        $Param{'TypeStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => $Param{Types},
+            Name => 'TypeID',
+            SelectedID => $Param{TypeID},
+            OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketType',
+            Data => {%Param},
+        );
+    }
+    # build service string
+    if ($Self->{ConfigObject}->Get('Ticket::Service') && $Param{To}) {
+        $Param{Services}->{''} = '-';
+        $Param{'ServiceStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => $Param{Services},
+            Name => 'ServiceID',
+            SelectedID => $Param{ServiceID},
+            OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketService',
+            Data => {%Param},
+        );
+    }
+    # build sla string
+    if ($Self->{ConfigObject}->Get('Ticket::SLA') && $Param{ServiceID}) {
+        $Param{SLAs}->{''} = '-';
+        $Param{'SLAStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => $Param{SLAs},
+            Name => 'SLAID',
+            SelectedID => $Param{SLAID},
+            OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketSLA',
+            Data => {%Param},
+        );
     }
     # build priority string
     if (!$Param{PriorityID}) {

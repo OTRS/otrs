@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.31 2007-03-08 22:04:09 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.32 2007-03-12 11:29:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -532,6 +532,27 @@ sub ShowTicket {
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::Title')) {
         $Self->{LayoutObject}->Block(
             Name => 'Title',
+            Data => { %Param, %Article },
+        );
+    }
+    # ticket type
+    if ($Self->{ConfigObject}->Get('Ticket::Type')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Type',
+            Data => { %Param, %Article },
+        );
+    }
+    # ticket service
+    if ($Self->{ConfigObject}->Get('Ticket::Service') && $Article{Service}) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Service',
+            Data => { %Param, %Article },
+        );
+    }
+    # ticket sla
+    if ($Self->{ConfigObject}->Get('Ticket::SLA') && $Article{SLA}) {
+        $Self->{LayoutObject}->Block(
+            Name => 'SLA',
             Data => { %Param, %Article },
         );
     }

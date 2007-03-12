@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.20 2007-01-30 19:58:24 mh Exp $
+# $Id: AgentTicketZoom.dtl,v 1.21 2007-03-12 11:29:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -71,7 +71,6 @@
           </td>
         </tr>
 <!-- dtl:block:TreeItem -->
-        $Data{"ArticleStrg"}
       </table>
 <!-- dtl:block:Tree -->
       <hr size="2">
@@ -148,6 +147,14 @@ $Data{"Body"}
 # show ticket status (state, lock, ...)
 <!-- dtl:block:Status -->
       <table border="0" cellspacing="1" cellpadding="0" width="100%">
+<!-- dtl:block:Type -->
+        <tr valign="top">
+          <td><b>$Text{"Type"}:</b></td>
+          <td>
+            <div title="$Text{"$Data{"Type"}"}">$Quote{"$Text{"$Data{"Type"}"}","18"}</div></font>
+          </td>
+        </tr>
+<!-- dtl:block:Type -->
         <tr valign="top">
           <td><b>$Text{"State"}:</b></td>
           <td>
@@ -172,6 +179,22 @@ $Data{"Body"}
             </font>
           </td>
         </tr>
+<!-- dtl:block:Service -->
+        <tr valign="top">
+          <td><b>$Text{"Service"}:</b></td>
+          <td>
+            <div title="$Text{"$Data{"Service"}"}">$Quote{"$Text{"$Data{"Service"}"}","18"}</div></font>
+          </td>
+        </tr>
+<!-- dtl:block:Service -->
+<!-- dtl:block:SLA -->
+        <tr valign="top">
+          <td><b>$Text{"SLA"}:</b></td>
+          <td>
+            <div title="$Text{"$Data{"SLA"}"}">$Quote{"$Text{"$Data{"SLA"}"}","18"}</div></font>
+          </td>
+        </tr>
+<!-- dtl:block:SLA -->
         <tr valign="top">
           <td><b>$Text{"Locked"}:</b></td>
           <td>

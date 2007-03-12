@@ -1,8 +1,8 @@
 # --
 # AgentTicketQueueTicketView.dtl - provides HTML TicketView for AgentTicketQueueView
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueueTicketView.dtl,v 1.12 2006-12-21 16:13:14 mh Exp $
+# $Id: AgentTicketQueueTicketView.dtl,v 1.13 2007-03-12 11:29:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -99,6 +99,12 @@ $Data{"Body"}
     <td width="25%" align="left" valign="top" class="PriorityID-$Data{"PriorityID"}">
       <p>
         <table border="0" cellspacing="0" cellpadding="1">
+<!-- dtl:block:Type -->
+          <tr valign="top">
+            <td><b>$Text{"Type"}:</b></td>
+            <td><div title="$Text{"$Data{"Type"}"}">$Quote{"$Text{"$Data{"Type"}"}","18"}</div></font></td>
+          </tr>
+<!-- dtl:block:Type -->
           <tr valign="top">
             <td><b>$Text{"State"}:</b></td>
             <td><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></font></td>
@@ -111,6 +117,18 @@ $Data{"Body"}
             <td><b>$Text{"Queue"}:</b></td>
             <td><font color="red"><div title="$QData{"Queue"}">$QData{"Queue","18"}</div></font></td>
           </tr>
+<!-- dtl:block:Service -->
+          <tr valign="top">
+            <td><b>$Text{"Service"}:</b></td>
+            <td><div title="$Text{"$Data{"Service"}"}">$Quote{"$Text{"$Data{"Service"}"}","18"}</div></font></td>
+          </tr>
+<!-- dtl:block:Service -->
+<!-- dtl:block:SLA -->
+          <tr valign="top">
+            <td><b>$Text{"SLA"}:</b></td>
+            <td><div title="$Text{"$Data{"SLA"}"}">$Quote{"$Text{"$Data{"SLA"}"}","18"}</div></font></td>
+          </tr>
+<!-- dtl:block:SLA -->
           <tr valign="top">
             <td><b>$Text{"CustomerID"}:</b></td>
             <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","18"}</a></td>

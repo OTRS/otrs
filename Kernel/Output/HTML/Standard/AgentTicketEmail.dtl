@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.24 2007-03-02 08:15:50 rk Exp $
+# $Id: AgentTicketEmail.dtl,v 1.25 2007-03-12 11:30:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -130,6 +130,12 @@ function clear_field() {
           <input type="hidden" name="SelectedCustomerUser" value="$Data{"CustomerUser"}">
           <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
           <table border="0" width="100%">
+<!-- dtl:block:TicketType -->
+            <tr>
+              <td class="contentkey">$Text{"Type"}:</td>
+              <td class="contentvalue"> $Data{"TypeStrg"}</td>
+            </tr>
+<!-- dtl:block:TicketType -->
             <tr>
               <td width="20%" class="contentkey">$Text{"From"}:</td>
               <td width="60%" class="contentvalue">$Data{"FromStrg"} <font color="red" size="-2">$Text{"$Data{"Destination invalid"}"}</font>
@@ -150,7 +156,7 @@ function clear_field() {
             <tr>
               <td class="contentkey">$Text{"To"}:</td>
               <td class="contentvalue">
-                <input type="text" name="To" value="$Data{"To"}" size="70">
+                <input type="text" name="To" value="$QData{"To"}" size="70">
                 <font color="red" size="-2">$Text{"$Data{"To invalid"}"}</font>
                 <br>
                 $Data{"CustomerUserStrg"}
@@ -163,24 +169,36 @@ function clear_field() {
             <tr>
               <td class="contentkey">$Text{"Cc"}:</td>
               <td class="contentvalue">
-                <input type="text" name="Cc" value="$Data{"Cc"}" size="70">
+                <input type="text" name="Cc" value="$QData{"Cc"}" size="70">
                 <font color="red" size="-2">$Text{"$Data{"Cc invalid"}"}</font>
               </td>
             </tr>
             <tr>
               <td class="contentkey">$Text{"Bcc"}:</td>
               <td class="contentvalue">
-                <input type="text" name="Bcc" value="$Data{"Bcc"}" size="70">
+                <input type="text" name="Bcc" value="$QData{"Bcc"}" size="70">
                 <font color="red" size="-2">$Text{"$Data{"Bcc invalid"}"}</font>
               </td>
             </tr>
             <tr>
               <td class="contentkey">$Text{"Subject"}:</td>
               <td class="contentvalue">
-                <input type="text" name="Subject" value="$Data{"Subject"}" size="70">
+                <input type="text" name="Subject" value="$QData{"Subject"}" size="70">
                 <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
               </td>
             </tr>
+<!-- dtl:block:TicketService -->
+            <tr>
+              <td class="contentkey">$Text{"Service"}:</td>
+              <td class="contentvalue"> $Data{"ServiceStrg"}</td>
+            </tr>
+<!-- dtl:block:TicketService -->
+<!-- dtl:block:TicketSLA -->
+            <tr>
+              <td class="contentkey">$Text{"SLA"}:</td>
+              <td class="contentvalue"> $Data{"SLAStrg"}</td>
+            </tr>
+<!-- dtl:block:TicketSLA -->
 <!-- dtl:block:OwnerSelection -->
             <tr>
               <td class="contentkey">$Text{"Owner"}:</td>

@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.23 2007-03-02 08:15:50 rk Exp $
+# $Id: AgentTicketPhone.dtl,v 1.24 2007-03-12 11:30:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -128,6 +128,12 @@ function clear_field() {
         <input type="hidden" name="SelectedCustomerUser" value="$Data{"CustomerUser"}">
         <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
         <table border="0" width="100%">
+<!-- dtl:block:TicketType -->
+          <tr>
+            <td class="contentkey">$Text{"Type"}:</td>
+            <td class="contentvalue"> $Data{"TypeStrg"}</td>
+          </tr>
+<!-- dtl:block:TicketType -->
           <tr>
             <td width="20%" class="contentkey">$Text{"From"}:</td>
             <td width="60%" class="contentvalue">
@@ -157,6 +163,25 @@ function clear_field() {
 <!-- dtl:block:ToUpdateSubmit -->
             </td>
           </tr>
+          <tr>
+            <td class="contentkey">$Text{"Subject"}:</td>
+            <td class="contentvalue">
+              <input type="text" name="Subject" value="$Data{"Subject"}" size="80">
+              <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
+            </td>
+          </tr>
+<!-- dtl:block:TicketService -->
+          <tr>
+            <td class="contentkey">$Text{"Service"}:</td>
+            <td class="contentvalue"> $Data{"ServiceStrg"}</td>
+          </tr>
+<!-- dtl:block:TicketService -->
+<!-- dtl:block:TicketSLA -->
+          <tr>
+            <td class="contentkey">$Text{"SLA"}:</td>
+            <td class="contentvalue"> $Data{"SLAStrg"}</td>
+          </tr>
+<!-- dtl:block:TicketSLA -->
 <!-- dtl:block:OwnerSelection -->
           <tr>
             <td class="contentkey">$Text{"Owner"}:</td>
@@ -183,13 +208,6 @@ function clear_field() {
             </td>
           </tr>
 <!-- dtl:block:ResponsibleSelection -->
-          <tr>
-            <td class="contentkey">$Text{"Subject"}:</td>
-            <td class="contentvalue">
-              <input type="text" name="Subject" value="$Data{"Subject"}" size="80">
-              <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
-            </td>
-          </tr>
           <tr>
             <td class="contentkey">$Text{"Options"}:</td>
             <td class="contentvalue">

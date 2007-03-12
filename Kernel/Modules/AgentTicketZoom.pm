@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.34 2007-02-26 14:02:49 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.35 2007-03-12 11:29:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -360,6 +360,27 @@ sub MaskAgentZoom {
                 Name => 'Status',
                 Data => {%Param, %AclAction},
             );
+            # ticket type
+            if ($Self->{ConfigObject}->Get('Ticket::Type')) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Type',
+                    Data => {%Param, %AclAction},
+                );
+            }
+            # ticket service
+            if ($Self->{ConfigObject}->Get('Ticket::Service') && $Param{Service}) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Service',
+                    Data => {%Param, %AclAction},
+                );
+            }
+            # ticket sla
+            if ($Self->{ConfigObject}->Get('Ticket::SLA') && $Param{SLA}) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'SLA',
+                    Data => {%Param, %AclAction},
+                );
+            }
             # customer info string
             if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoom')) {
                 $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
