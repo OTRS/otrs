@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache.pm - a fs upload cache
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UploadCache.pm,v 1.5 2007-02-06 21:52:26 martin Exp $
+# $Id: UploadCache.pm,v 1.6 2007-03-12 22:54:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.5 $ ';
+$VERSION = '$Revision: 1.6 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -38,6 +38,7 @@ create param object
 
     use Kernel::Config;
     use Kernel::System::Log;
+    use Kernel::System::Encode;
     use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::Web::UploadCache;
@@ -50,14 +51,19 @@ create param object
         LogObject => $LogObject,
         ConfigObject => $ConfigObject,
     );
+    my $EncodeObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
     );
-    my $UploadParamObject = Kernel::System::Web::UploadCache->new(
+    my $UploadCache= Kernel::System::Web::UploadCache->new(
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
         DBObject => $DBObject,
+        EncodeObject => $EncodeObject,
     );
 
 =cut
@@ -70,7 +76,7 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
     # check needed objects
-    foreach (qw(ConfigObject LogObject MainObject)) {
+    foreach (qw(ConfigObject LogObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -92,7 +98,7 @@ sub new {
 
 create a new form id
 
-    my $FormID = $UploadParamObject->FormIDCreate();
+    my $FormID = $UploadCacheObject->FormIDCreate();
 
 =cut
 
@@ -105,7 +111,7 @@ sub FormIDCreate {
 
 remove all data with form id
 
-    $UploadParamObject->FormIDRemove(FormID => 123456);
+    $UploadCacheObject->FormIDRemove(FormID => 123456);
 
 =cut
 
@@ -118,7 +124,7 @@ sub FormIDRemove {
 
 add a file to the form id
 
-    $UploadParamObject->FormIDAddFile(
+    $UploadCacheObject->FormIDAddFile(
         FormID => 12345,
         Filename => 'somefile.html',
         Content => $FileInSting,
@@ -136,7 +142,7 @@ sub FormIDAddFile {
 
 removes a file to the form id
 
-    $UploadParamObject->FormIDRemoveFile(
+    $UploadCacheObject->FormIDRemoveFile(
         FormID => 12345,
         FileID => 1,
     );
@@ -152,7 +158,7 @@ sub FormIDRemoveFile {
 
 returns a array with hash ref of all form id files
 
-    my @Data = $UploadParamObject->FormIDGetAllFilesData(
+    my @Data = $UploadCacheObject->FormIDGetAllFilesData(
         FormID => 12345,
     );
 
@@ -171,7 +177,7 @@ returns a array with hash ref of all form id files
 
 Note: No Content will be returned, just meta data.
 
-    my @Data = $UploadParamObject->FormIDGetAllFilesMeta(
+    my @Data = $UploadCacheObject->FormIDGetAllFilesMeta(
         FormID => 12345,
     );
 
@@ -190,7 +196,7 @@ Removed no longer needed tmp file.
 
 Each file older then 1 day will be removed.
 
-    $UploadParamObject->FormIDCleanUp();
+    $UploadCacheObject->FormIDCleanUp();
 
 =cut
 
@@ -215,6 +221,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2007-02-06 21:52:26 $
+$Revision: 1.6 $ $Date: 2007-03-12 22:54:45 $
 
 =cut

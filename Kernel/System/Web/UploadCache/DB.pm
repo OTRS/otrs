@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.7 2007-01-21 01:26:10 mh Exp $
+# $Id: DB.pm,v 1.8 2007-03-12 22:52:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.7 $ ';
+$VERSION = '$Revision: 1.8 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -73,13 +73,13 @@ sub FormIDAddFile {
         no bytes;
     }
     # encode attachemnt if it's a postgresql backend!!!
+    $Self->{EncodeObject}->EncodeOutput(\$Param{Content});
     if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
-        $Self->{EncodeObject}->EncodeOutput(\$Param{Content});
         $Param{Content} = encode_base64($Param{Content});
     }
     # db quote (just not Content, use db Bind values)
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) if ($_ ne 'Content');
+    foreach (qw(FormID Filename ContentType Filesize)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     my $SQL = "INSERT INTO web_upload_cache ".
         " (form_id, filename, content_type, content_size, content, ".
@@ -102,12 +102,13 @@ sub FormIDRemoveFile {
     }
     my @Index = @{$Self->FormIDGetAllFilesMeta(%Param)};
     my $ID = $Param{FileID}-1;
+    $Param{Filename} = $Index[$ID]->{Filename};
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(FormID Filename)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     return $Self->{DBObject}->Do(
-        SQL => "DELETE FROM web_upload_cache WHERE form_id = '$Param{FormID}' AND filename = '$Index[$ID]->{Filename}'",
+        SQL => "DELETE FROM web_upload_cache WHERE form_id = '$Param{FormID}' AND filename = '$Param{Filename}'",
     );
 }
 
