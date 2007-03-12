@@ -1,8 +1,8 @@
 # --
 # Kernel/System/UnitTest.pm - the global test wrapper
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.5 2006-08-29 17:30:36 martin Exp $
+# $Id: UnitTest.pm,v 1.5.2.1 2007-03-12 23:59:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::UnitTest;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.5.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -35,29 +35,36 @@ All test functions
 
 create test object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::System::DB;
-  use Kernel::System::Test;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::System::DB;
+    use Kernel::System::Test;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $TimeObject = Kernel::System::Time->new(
-      ConfigObject => $ConfigObject,
-  );
-  my $DBObject = Kernel::System::DB->new(
-      ConfigObject => $ConfigObject,
-      LogObject    => $LogObject,
-      TimeObject   => $TimeObject,
-  );
-  my $UnitTestObject = Kernel::System::UnitTest->new(
-      ConfigObject => $ConfigObject,
-      LogObject    => $LogObject,
-      DBObject     => $DBObject,
-      TimeObject   => $TimeObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        LogObject => $LogObject,
+        ConfigObject => $ConfigObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        MainObject => $MainObject,
+        TimeObject => $TimeObject,
+    );
+    my $UnitTestObject = Kernel::System::UnitTest->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        MainObject => $MainObject,
+        DBObject => $DBObject,
+        TimeObject => $TimeObject,
+    );
 
 =cut
 
@@ -72,7 +79,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
-    foreach (qw(ConfigObject DBObject LogObject TimeObject MainObject)) {
+    foreach (qw(ConfigObject DBObject LogObject TimeObject MainObject EncodeObject)) {
         if ($Param{$_}) {
             $Self->{$_} = $Param{$_};
         }
@@ -87,7 +94,7 @@ sub new {
         print "
 <html>
 <head>
-  <title>".$Self->{ConfigObject}->Get('Product')." ".$Self->{ConfigObject}->Get('Version')." - Test Summary</title>
+    <title>".$Self->{ConfigObject}->Get('Product')." ".$Self->{ConfigObject}->Get('Version')." - Test Summary</title>
 </head>
 <a name='top'></a>
 <body>
@@ -157,7 +164,6 @@ sub Run {
         print $Self->{Content};
     }
 
-
     return 1;
 }
 
@@ -165,9 +171,9 @@ sub Run {
 
 A true test.
 
-     $Self->True(1, 'Test Name');
+    $UnitTestObject->True(1, 'Test Name');
 
-     $Self->True($A eq $B, 'Test Name');
+    $UnitTestObject->True($A eq $B, 'Test Name');
 
 =cut
 
@@ -189,9 +195,9 @@ sub True {
 
 A false test.
 
-     $Self->False(0, 'Test Name');
+    $UnitTestObject->False(0, 'Test Name');
 
-     $Self->False($A ne $B, 'Test Name');
+    $UnitTestObject->False($A ne $B, 'Test Name');
 
 =cut
 
@@ -213,7 +219,7 @@ sub False {
 
 A Is $A (is) eq $B (should be) test.
 
-     $Self->Is($A, $B, 'Test Name');
+    $UnitTestObject->Is($A, $B, 'Test Name');
 
 =cut
 
@@ -236,7 +242,7 @@ sub Is {
 
 A Is $A (is) nq $B (should not be) test.
 
-     $Self->IsNot($A, $B, 'Test Name');
+    $UnitTestObject->IsNot($A, $B, 'Test Name');
 
 =cut
 
@@ -351,12 +357,12 @@ sub DESTROY {
         print "</body>\n";
         print "</html>\n";
     }
-    else {
-    }
-
+    return;
 }
 
 1;
+
+=back
 
 =head1 TERMS AND CONDITIONS
 
@@ -370,6 +376,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.5.2.1 $ $Date: 2007-03-12 23:59:56 $
 
 =cut
