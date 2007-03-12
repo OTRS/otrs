@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.32 2007-03-12 11:30:46 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.33 2007-03-12 11:51:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -160,6 +160,12 @@ sub Run {
                 %Param,
                 Ticket => \%GetParam,
             );
+            # get article free text default selections
+            my %ArticleFreeDefault = ();
+            foreach (1..3) {
+                $ArticleFreeDefault{'ArticleFreeKey'.$_} = $GetParam{'ArticleFreeKey'.$_} || $Self->{ConfigObject}->Get('ArticleFreeKey'.$_.'::DefaultSelection');
+                $ArticleFreeDefault{'ArticleFreeText'.$_} = $GetParam{'ArticleFreeText'.$_} || $Self->{ConfigObject}->Get('ArticleFreeText'.$_.'::DefaultSelection');
+            }
             # article free text
             my %ArticleFreeText = ();
             foreach (1..3) {
@@ -178,7 +184,10 @@ sub Run {
             }
             my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
                 Config => \%ArticleFreeText,
-                Article => \%GetParam,
+                Article => {
+                    %GetParam,
+                    %ArticleFreeDefault,
+                },
             );
             # run compose modules
             if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
