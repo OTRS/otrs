@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.11 2007-03-02 08:15:50 rk Exp $
+# $Id: LayoutTicket.pm,v 1.12 2007-03-12 00:23:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::LayoutTicket;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketStdResponseString {
@@ -123,13 +123,13 @@ sub AgentCustomerViewTable {
 sub AgentQueueListOption {
     my $Self = shift;
     my %Param = @_;
-    my $Size = defined($Param{Size}) ? "size='$Param{Size}'" : '';
+    my $Size = $Param{Size} ? "size='$Param{Size}'" : '';
     my $MaxLevel = defined($Param{MaxLevel}) ? $Param{MaxLevel} : 10;
     my $SelectedID = defined($Param{SelectedID}) ? $Param{SelectedID} : '';
     my $Selected = defined($Param{Selected}) ? $Param{Selected} : '';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
     my $Multiple = $Param{Multiple} ? 'multiple' : '';
-    my $OnChangeSubmit = defined($Param{OnChangeSubmit}) ? $Param{OnChangeSubmit} : 0;
+    my $OnChangeSubmit = defined($Param{OnChangeSubmit}) ? $Param{OnChangeSubmit} : '';
     if ($OnChangeSubmit) {
         $OnChangeSubmit = " onchange=\"submit()\"";
     }
