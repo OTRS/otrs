@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/restore.pl - the restore script
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: restore.pl,v 1.3 2006-11-02 12:21:00 tr Exp $
+# $Id: restore.pl,v 1.3.2.1 2007-03-12 00:28:24 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.3.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -69,17 +69,21 @@ if (-e "$Opts{'b'}/Config.tar.gz") {
 
 require Kernel::Config;
 require Kernel::System::Time;
+require Kernel::System::Main;
 require Kernel::System::DB;
 require Kernel::System::Log;
 
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{TimeObject} = Kernel::System::Time->new(
-    %CommonObject,
-);
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-Restore',
+    %CommonObject,
+);
+$CommonObject{MainObject} = Kernel::System::Main->new(
+    %CommonObject,
+);
+$CommonObject{TimeObject} = Kernel::System::Time->new(
     %CommonObject,
 );
 my $DatabaseHost = $CommonObject{ConfigObject}->Get('DatabaseHost');
