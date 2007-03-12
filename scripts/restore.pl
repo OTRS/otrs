@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/restore.pl - the restore script
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: restore.pl,v 1.3 2006-11-02 12:21:00 tr Exp $
+# $Id: restore.pl,v 1.4 2007-03-12 00:08:30 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -41,12 +41,11 @@ my $DBDump = '';
 getopt('hbd', \%Opts);
 if ($Opts{'h'}) {
     print "restore.pl <Revision $VERSION> - restore script\n";
-    print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
+    print "Copyright (c) 2001-2007 OTRS GmbH, http://otrs.org/\n";
     print "usage: restore.pl -b /data_backup/<TIME>/ -d /opt/otrs/\n";
     exit 1;
-}
-if (!$Opts{'b'}) {
-    print STDERR "ERROR: Need -d for backup directory\n";
+} if (!$Opts{'b'}) {
+    print STDERR "ERROR: Need -b for backup directory\n";
     exit (1);
 }
 elsif (! -d $Opts{'b'}) {
@@ -69,19 +68,20 @@ if (-e "$Opts{'b'}/Config.tar.gz") {
 
 require Kernel::Config;
 require Kernel::System::Time;
-require Kernel::System::DB;
 require Kernel::System::Log;
+require Kernel::System::Main;
+require Kernel::System::DB;
 
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{TimeObject} = Kernel::System::Time->new(
-    %CommonObject,
-);
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-Restore',
     %CommonObject,
 );
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 my $DatabaseHost = $CommonObject{ConfigObject}->Get('DatabaseHost');
 my $Database = $CommonObject{ConfigObject}->Get('Database');
 my $DatabaseUser = $CommonObject{ConfigObject}->Get('DatabaseUser');
@@ -114,6 +114,34 @@ foreach my $CMD ('cp', 'tar', $DBDump) {
         exit (1);
     }
 }
+# check database env
+if ($CommonObject{DBObject}) {
+    if ($DB =~ /mysql/i) {
+        $CommonObject{DBObject}->Prepare(SQL => "SHOW TABLES");
+        my $Check = 0;
+        while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
+            $Check++;
+        }
+        if ($Check) {
+            print STDERR "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
+            exit (1);
+        }
+    }
+    else {
+        $CommonObject{DBObject}->Prepare(
+            SQL => "SELECT table_name FROM information_schema.tables WHERE table_catalog = 'otrs' AND table_schema = 'public'",
+        );
+        my $Check = 0;
+        while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
+            $Check++;
+        }
+        if ($Check) {
+            print STDERR "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
+            exit (1);
+        }
+    }
+}
+
 # restore
 my $Home = $CommonObject{ConfigObject}->Get('Home');
 
@@ -143,7 +171,7 @@ if ($DB =~ /mysql/i) {
         print "decompresses SQL-file ...\n";
         system("gunzip $Opts{'b'}/DatabaseBackup.sql.gz");
         print "cat SQL-file into $DB database\n";
-        system("cat $Opts{'b'}/DatabaseBackup.sql | mysql -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database");
+        system("cat $Opts{'b'}/DatabaseBackup.sql | mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database");
         print "compress SQL-file...\n";
         system("gzip $Opts{'b'}/DatabaseBackup.sql");
     }
@@ -151,7 +179,7 @@ if ($DB =~ /mysql/i) {
         print "decompresses SQL-file ...\n";
         system("bunzip $Opts{'b'}/DatabaseBackup.sql.bz2");
         print "cat SQL-file into $DB database\n";
-        system("cat $Opts{'b'}/DatabaseBackup.sql | mysql -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database");
+        system("cat $Opts{'b'}/DatabaseBackup.sql | mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database");
         print "compress SQL-file...\n";
         system("bzip $Opts{'b'}/DatabaseBackup.sql");
     }

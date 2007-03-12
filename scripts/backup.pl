@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.8 2007-02-06 18:59:54 martin Exp $
+# $Id: backup.pl,v 1.9 2007-03-12 00:08:30 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -50,7 +50,7 @@ my $DBDump = '';
 getopt('hcrtd', \%Opts);
 if ($Opts{'h'}) {
     print "backup.pl <Revision $VERSION> - backup script\n";
-    print "Copyright (c) 2001-2006 OTRS GmbH, http//otrs.org/\n";
+    print "Copyright (c) 2001-2007 OTRS GmbH, http//otrs.org/\n";
     print "usage: backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r 30] [-t fullbackup|nofullbackup]\n";
     exit 1;
 }
