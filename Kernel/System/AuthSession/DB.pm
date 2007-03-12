@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.25 2007-01-21 01:26:09 mh Exp $
+# $Id: DB.pm,v 1.26 2007-03-12 09:24:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -196,8 +196,8 @@ sub CreateSessionID {
     my $SQL = "INSERT INTO $Self->{SQLSessionTable} ".
         " ($Self->{SQLSessionTableID}, $Self->{SQLSessionTableValue}) ".
         " VALUES ".
-        " ('$SessionID', '$DataToStore')";
-    $Self->{DBObject}->Do(SQL => $SQL);
+        " ('$SessionID', ?)";
+    $Self->{DBObject}->Do(SQL => $SQL, Bind => [\$DataToStore]);
 
     return $SessionID;
 }
@@ -260,10 +260,10 @@ sub UpdateSessionID {
     # update db enrty
     my $SQL = "UPDATE $Self->{SQLSessionTable} ".
         " SET ".
-        " $Self->{SQLSessionTableValue} = '".$Self->{DBObject}->Quote($NewDataToStore)."' ".
+        " $Self->{SQLSessionTableValue} = ? ".
         " WHERE ".
         " $Self->{SQLSessionTableID} = '".$Self->{DBObject}->Quote($SessionID)."'";
-    return $Self->{DBObject}->Do(SQL => $SQL);
+    return $Self->{DBObject}->Do(SQL => $SQL, Bind => [\$NewDataToStore]);
 }
 
 sub GetAllSessionIDs {
