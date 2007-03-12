@@ -2,13 +2,42 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.367 2007-03-09 13:22:24 martin Exp $
+# $Id: CHANGES,v 1.368 2007-03-12 09:24:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD (????/??/??)
+ - (2007/03/11) Added enhancement bug# 1102 - restore.pl should check for
+    existing tables and stop if already one exists.
+ - (2007/03/11) Added enhancement bug# 1664 - increase max. WebMaxFileUpload
+    size.
+ - (2007/03/08) Improved Prepare() of Kernel::System::DB to fetch also rows
+   between 10 and 30 (with start option of result). For example:
+
+   $DBObject->Prepare(
+       SQL => "SELECT id, name FROM table",
+       Start => 10,
+       Limit => 20,
+   );
+
+ - (2007/03/08) Improved XML database database backend for <Insert>. Content
+    in xml attribut is not longer allowed, use the content instead. Now it's
+    also possible to use new lines (\n) or more lines as content.
+
+    Old style:
+    <Insert Table="table_name">
+        <Data Key="name_a" Value="Some Message A." Type="Quote"/>
+        <Data Key="name_b" Value="Some Message B." Type="Quote"/>
+    </Insert>
+
+    New style:
+    <Insert Table="table_name">
+        <Data Key="name_a" Type="Quote">Some Message A.</Data>
+        <Data Key="name_b" Type="Quote">Some Message B.</Data>
+    </Insert>
+
  - (2007/03/08) Moved from scripts/database/initial_insert.sql to database depend
     initial insert files located under scripts/database/otrs-initial_insert.*.sql.
     This files are generated from scripts/database/otrs-initial_insert.xml.
@@ -82,6 +111,10 @@ CVS HEAD (????/??/??)
     to 12 MB.
 
 2.1.7 (2007/??/??)
+ - (2007/03/12) fixed ticket# 2007031242000149 - session backend fails to insert
+    sessions bigger the 4k on oracle database backend
+ - (2007/03/11) fixed bug# 1671 - restore.pl fails with "Got no LogObject"
+ - (2007/03/11) fixed bug# 1115 - HTML error in NewTicket Customer's interface.
  - (2007/03/08) fixed bug# 1658 - Subqueues of Queues with brackets are not
     shown in the QueueView
  - (2007/03/08) added rpm packages for Fedora Core 4, 5 and 6 to auto build
