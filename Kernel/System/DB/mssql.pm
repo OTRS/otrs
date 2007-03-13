@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.11 2007-03-09 13:10:00 martin Exp $
+# $Id: mssql.pm,v 1.12 2007-03-13 23:10:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::mssql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -94,7 +94,7 @@ sub DatabaseDrop {
         return;
     }
     # return SQL
-    return ("DROP DATABASE IF EXISTS $Param{Name}");
+    return ("DROP DATABASE $Param{Name}");
 }
 
 sub TableCreate {
@@ -262,7 +262,7 @@ sub TableDrop {
                 $SQL .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
             }
         }
-        $SQL .= "DROP TABLE IF EXISTS $Tag->{Name}";
+        $SQL .= "DROP TABLE $Tag->{Name}";
         return ($SQL);
     }
     return ();
@@ -290,8 +290,18 @@ sub TableAlter {
         elsif ($Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start') {
             # Type translation
             $Tag = $Self->_TypeTranslation($Tag);
-            # normal data type
-            my $SQLEnd = $SQLStart." CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type}";
+            # rename oldname to newname
+            if ($Tag->{NameOld} ne $Tag->{NameNew}) {
+                push (@SQL, "EXECUTE sp_rename N'$Tag->{NameOld}', N'$Tag->{NameNew}', 'COLUMN'");
+            }
+            # alter table name modify
+            if (!$Tag->{Name} && $Tag->{NameNew}) {
+                $Tag->{Name} = $Tag->{NameNew};
+            }
+            if (!$Tag->{Name} && $Tag->{NameOld}) {
+                $Tag->{Name} = $Tag->{NameOld};
+            }
+            my $SQLEnd = $SQLStart." ALTER COLUMN $Tag->{Name} $Tag->{Type}";
             if ($Tag->{Required} && $Tag->{Required} =~ /^true$/i) {
                 $SQLEnd .= " NOT NULL";
             }
