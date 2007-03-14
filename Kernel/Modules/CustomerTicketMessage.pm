@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.18 2007-03-14 12:55:00 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.19 2007-03-14 16:10:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -102,12 +102,13 @@ sub Run {
             foreach my $Type (qw(Used Year Month Day Hour Minute)) {
                 $TicketFreeTime{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
             }
+            $TicketFreeTime{'TicketFreeTime'.$_.'Optional'} = $Self->{ConfigObject}->Get('TicketFreeTimeOptional'.$_) || 0;
             if (!$Self->{ConfigObject}->Get('TicketFreeTimeOptional'.$_)) {
                 $TicketFreeTime{'TicketFreeTime'.$_.'Used'} = 1;
             }
         }
         # free time
-        my %FreeTime = $Self->{LayoutObject}->AgentFreeDate(
+        my %FreeTime = $Self->{LayoutObject}->CustomerFreeDate(
             %Param,
             Ticket => \%TicketFreeTime,
         );
@@ -176,6 +177,7 @@ sub Run {
             foreach my $Type (qw(Used Year Month Day Hour Minute)) {
                 $TicketFreeTime{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
             }
+            $TicketFreeTime{'TicketFreeTime'.$_.'Optional'} = $Self->{ConfigObject}->Get('TicketFreeTimeOptional'.$_) || 0;
             if (!$Self->{ConfigObject}->Get('TicketFreeTimeOptional'.$_)) {
                 $TicketFreeTime{'TicketFreeTime'.$_.'Used'} = 1;
             }

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.12 2007-03-12 00:23:14 martin Exp $
+# $Id: LayoutTicket.pm,v 1.13 2007-03-14 16:10:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::LayoutTicket;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketStdResponseString {
@@ -334,7 +334,6 @@ sub AgentFreeDate {
         if ($Self->{ConfigObject}->Get('TicketFreeTimePeriod'.$Count)) {
             %TimePeriod = %{$Self->{ConfigObject}->Get('TicketFreeTimePeriod'.$Count)};
         }
-
         $Data{'TicketFreeTime'.$Count} = $Self->BuildDateSelection(
             %Param,
             %Ticket,
@@ -474,6 +473,10 @@ sub CustomerFreeDate {
     }
     my %Data = ();
     foreach my $Count (1..6) {
+        my %TimePeriod = ();
+        if ($Self->{ConfigObject}->Get('TicketFreeTimePeriod'.$Count)) {
+            %TimePeriod = %{$Self->{ConfigObject}->Get('TicketFreeTimePeriod'.$Count)};
+        }
         $Data{'TicketFreeTime'.$Count} = $Self->BuildDateSelection(
             Area => 'Customer',
             %Param,
@@ -481,6 +484,7 @@ sub CustomerFreeDate {
             Prefix => 'TicketFreeTime'.$Count,
             Format => 'DateInputFormatLong',
             DiffTime => $Self->{ConfigObject}->Get('TicketFreeTimeDiff'.$Count) || 0,
+            %TimePeriod,
         );
     }
     return %Data;
