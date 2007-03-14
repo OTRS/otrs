@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.16 2007-03-09 13:10:00 martin Exp $
+# $Id: mysql.pm,v 1.17 2007-03-14 15:48:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::mysql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -469,7 +469,7 @@ sub Insert {
         }
         if ($Tmp eq 'current_timestamp') {
             if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
-                $Value .= '\''.$Tmp.'\'';
+                $Value .= $Tmp;
             }
             else {
                 my $Timestamp = $Self->{TimeObject}->CurrentTimestamp();

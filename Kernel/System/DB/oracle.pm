@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.24 2007-03-09 13:10:00 martin Exp $
+# $Id: oracle.pm,v 1.25 2007-03-14 15:48:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -291,7 +291,7 @@ sub TableAlter {
             if ($Tag->{NameOld} ne $Tag->{NameNew}) {
                 push (@SQL, $SQLStart." RENAME COLUMN $Tag->{NameOld} TO $Tag->{NameNew}");
             }
-            # alter table tabname modify
+            # alter table name modify
             if (!$Tag->{Name} && $Tag->{NameNew}) {
                 $Tag->{Name} = $Tag->{NameNew};
             }
@@ -498,7 +498,7 @@ sub Insert {
         }
         if ($Tmp eq 'current_timestamp') {
             if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
-                $Value .= '\''.$Tmp.'\'';
+                $Value .= $Tmp;
             }
             else {
                 my $Timestamp = $Self->{TimeObject}->CurrentTimestamp();

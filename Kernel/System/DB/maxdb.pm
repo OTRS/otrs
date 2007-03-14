@@ -2,7 +2,7 @@
 # Kernel/System/DB/maxdb.pm - maxdb database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: maxdb.pm,v 1.15 2007-03-09 13:10:00 martin Exp $
+# $Id: maxdb.pm,v 1.16 2007-03-14 15:48:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::maxdb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -468,7 +468,7 @@ sub Insert {
         }
         if ($Tmp eq 'current_timestamp') {
             if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
-                $Value .= '\''.$Self->{'DB::CurrentTimestamp'}.'\'';
+                $Value .= $Self->{'DB::CurrentTimestamp'};
             }
             else {
                 my $Timestamp = $Self->{TimeObject}->CurrentTimestamp();

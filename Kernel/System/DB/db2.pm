@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.17 2007-03-09 13:10:00 martin Exp $
+# $Id: db2.pm,v 1.18 2007-03-14 15:48:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::DB::db2;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -466,7 +466,7 @@ sub Insert {
         }
         if ($Tmp eq 'current_timestamp') {
             if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
-                $Value .= '\''.$Tmp.'\'';
+                $Value .= $Tmp;
             }
             else {
                 my $Timestamp = $Self->{TimeObject}->CurrentTimestamp();
