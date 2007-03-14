@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.37 2007-03-12 11:51:39 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.38 2007-03-14 12:55:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1053,20 +1053,19 @@ sub _MaskPhoneNew {
             Name => 'TicketService',
             Data => {%Param},
         );
-    }
-    # build sla string
-    if ($Self->{ConfigObject}->Get('Ticket::SLA') && $Param{ServiceID}) {
-        $Param{SLAs}->{''} = '-';
-        $Param{'SLAStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => $Param{SLAs},
-            Name => 'SLAID',
-            SelectedID => $Param{SLAID},
-            OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketSLA',
-            Data => {%Param},
-        );
+        if ($Param{ServiceID}) {
+            $Param{SLAs}->{''} = '-';
+            $Param{'SLAStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                Data => $Param{SLAs},
+                Name => 'SLAID',
+                SelectedID => $Param{SLAID},
+                OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketSLA',
+                Data => {%Param},
+            );
+        }
     }
     # build priority string
     if (!$Param{PriorityID}) {
@@ -1234,8 +1233,8 @@ sub _MaskPhoneNew {
         );
     }
     # jscript check freetextfields by submit
-    foreach my $Key (keys %{$Self->{Config}{TicketFreeText}}) {
-        if ($Self->{Config}{TicketFreeText}{$Key} == 2) {
+    foreach my $Key (keys %{$Self->{Config}->{TicketFreeText}}) {
+        if ($Self->{Config}->{TicketFreeText}->{$Key} == 2) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeTextCheckJs',
                 Data => {

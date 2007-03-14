@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketClose.pm,v 1.23 2007-03-02 08:15:50 rk Exp $
+# $Id: AgentTicketClose.pm,v 1.24 2007-03-14 12:55:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -972,8 +972,8 @@ sub _Mask {
         }
     }
     # jscript check freetextfields by submit
-    foreach my $Key (keys %{$Self->{Config}{TicketFreeText}}) {
-        if ($Self->{Config}{TicketFreeText}{$Key} == 2) {
+    foreach my $Key (keys %{$Self->{Config}->{TicketFreeText}}) {
+        if ($Self->{Config}->{TicketFreeText}->{$Key} == 2) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeTextCheckJs',
                 Data => {

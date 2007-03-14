@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.29 2007-03-02 08:15:50 rk Exp $
+# $Id: AgentTicketCompose.pm,v 1.30 2007-03-14 12:55:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -860,6 +860,11 @@ sub _Mask {
                     Debug => $Self->{Debug},
                 );
                 # get params
+                foreach (sort keys %{$Param{GetParam}}) {
+                    if (!$Param{GetParam}->{$_} && $Param{$_}) {
+                        $Param{GetParam}->{$_} = $Param{$_};
+                    }
+                }
                 foreach ($Object->Option(%Param, %{$Param{GetParam}}, Config => $Jobs{$Job})) {
                     $Param{GetParam}->{$_} = $Self->{ParamObject}->GetParam(Param => $_);
                 }
@@ -968,8 +973,8 @@ sub _Mask {
         );
     }
     # jscript check freetextfields by submit
-    foreach my $Key (keys %{$Self->{Config}{TicketFreeText}}) {
-        if ($Self->{Config}{TicketFreeText}{$Key} == 2) {
+    foreach my $Key (keys %{$Self->{Config}->{TicketFreeText}}) {
+        if ($Self->{Config}->{TicketFreeText}->{$Key} == 2) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeTextCheckJs',
                 Data => {
