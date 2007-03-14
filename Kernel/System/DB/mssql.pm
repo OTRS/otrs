@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.12 2007-03-13 23:10:05 martin Exp $
+# $Id: mssql.pm,v 1.13 2007-03-14 14:19:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::mssql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -44,7 +44,7 @@ sub LoadPreferences {
     $Self->{'DB::QuoteSemicolon'} = '\\';
     $Self->{'DB::Attribute'} = {
         LongTruncOk => 1,
-        LongReadLen => 100*1024,
+        LongReadLen => 70*1024*1024,
     };
 #    $Self->{'DB::CurrentTimestamp'} = '';
 
@@ -273,9 +273,11 @@ sub TableAlter {
     my @Param = @_;
     my $SQLStart = '';
     my @SQL = ();
+    my $Table = '';
     foreach my $Tag (@Param) {
         if ($Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start') {
             $SQLStart .= "ALTER TABLE $Tag->{Name}";
+            $Table = $Tag->{Name};
         }
         elsif ($Tag->{Tag} eq 'ColumnAdd' && $Tag->{TagType} eq 'Start') {
             # Type translation
@@ -292,7 +294,7 @@ sub TableAlter {
             $Tag = $Self->_TypeTranslation($Tag);
             # rename oldname to newname
             if ($Tag->{NameOld} ne $Tag->{NameNew}) {
-                push (@SQL, "EXECUTE sp_rename N'$Tag->{NameOld}', N'$Tag->{NameNew}', 'COLUMN'");
+                push (@SQL, "EXECUTE sp_rename N'$Table.$Tag->{NameOld}', N'$Tag->{NameNew}', 'COLUMN'");
             }
             # alter table name modify
             if (!$Tag->{Name} && $Tag->{NameNew}) {
@@ -308,7 +310,7 @@ sub TableAlter {
             push (@SQL, $SQLEnd);
         }
         elsif ($Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start') {
-            my $SQLEnd = $SQLStart." DROP $Tag->{Name}";
+            my $SQLEnd = $SQLStart." DROP COLUMN $Tag->{Name}";
             push (@SQL, $SQLEnd);
         }
     }
@@ -480,7 +482,7 @@ sub Insert {
         }
         if ($Tmp eq 'current_timestamp') {
             if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
-                $Value .= '\''.$Tmp.'\'';
+                $Value .= $Tmp;
             }
             else {
                 my $Timestamp = $Self->{TimeObject}->CurrentTimestamp();
@@ -505,24 +507,15 @@ sub _TypeTranslation {
         $Tag->{Type} = 'DATETIME';
     }
     elsif ($Tag->{Type} =~ /^VARCHAR$/i) {
-        if ($Tag->{Size} > 16777215) {
-#            $Tag->{Type} = "LONGTEXT";
-            $Tag->{Type} = "VARCHAR(MAX)";
+        if ($Tag->{Size} > 8000) {
+            $Tag->{Type} = "TEXT";
         }
-        elsif ($Tag->{Size} > 6000) {
-#            $Tag->{Type} = "MEDIUMTEXT";
-            $Tag->{Type} = "VARCHAR(MAX)";
-        }
-#        elsif ($Tag->{Size} > 255) {
-#            $Tag->{Type} = "TEXT";
-#        }
         else {
             $Tag->{Type} = "VARCHAR ($Tag->{Size})";
         }
     }
     elsif ($Tag->{Type} =~ /^longblob$/i) {
-        $Tag->{Type} = "VARCHAR(MAX)";
-#        $Tag->{Type} = 'CLOB';
+         $Tag->{Type} = "TEXT";
     }
     elsif ($Tag->{Type} =~ /^DECIMAL$/i) {
         $Tag->{Type} = "DECIMAL ($Tag->{Size})";

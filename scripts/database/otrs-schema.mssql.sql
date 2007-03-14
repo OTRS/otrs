@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: mssql, generated: 2007-03-05 02:51:37
+--  driver: mssql, generated: 2007-03-14 11:09:55
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -490,7 +490,7 @@ CREATE TABLE article (
     a_subject VARCHAR (3800),
     a_message_id VARCHAR (3800),
     a_content_type VARCHAR (250),
-    a_body VARCHAR(MAX) NOT NULL,
+    a_body TEXT NOT NULL,
     incoming_time INTEGER NOT NULL,
     content_path VARCHAR (250),
     a_freekey1 VARCHAR (250),
@@ -514,7 +514,7 @@ CREATE INDEX article_message_id ON article (a_message_id);
 CREATE TABLE article_plain (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     article_id BIGINT NOT NULL,
-    body VARCHAR(MAX) NOT NULL,
+    body TEXT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -531,7 +531,7 @@ CREATE TABLE article_attachment (
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
-    content VARCHAR(MAX) NOT NULL,
+    content TEXT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -545,7 +545,7 @@ CREATE INDEX article_attachment_article_id ON article_attachment (article_id);
 CREATE TABLE standard_response (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     name VARCHAR (80) NOT NULL,
-    text VARCHAR(MAX),
+    text TEXT,
     comments VARCHAR (100),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -573,7 +573,7 @@ CREATE TABLE standard_attachment (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
     name VARCHAR (150) NOT NULL,
     content_type VARCHAR (150) NOT NULL,
-    content VARCHAR(MAX) NOT NULL,
+    content TEXT NOT NULL,
     filename VARCHAR (250) NOT NULL,
     comments VARCHAR (200),
     valid_id SMALLINT NOT NULL,
@@ -706,7 +706,7 @@ CREATE TABLE sla (
 -- ----------------------------------------------------------
 CREATE TABLE sessions (
     session_id VARCHAR (150) NOT NULL,
-    session_value VARCHAR(MAX) NOT NULL
+    session_value TEXT NOT NULL
 );
 CREATE INDEX index_session_id ON sessions (session_id);
 -- ----------------------------------------------------------
@@ -830,7 +830,7 @@ CREATE TABLE web_upload_cache (
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
-    content VARCHAR(MAX) NOT NULL,
+    content TEXT NOT NULL,
     create_time_unix BIGINT NOT NULL
 );
 -- ----------------------------------------------------------
@@ -856,7 +856,7 @@ CREATE TABLE xml_storage (
     xml_type VARCHAR (200) NOT NULL,
     xml_key VARCHAR (250) NOT NULL,
     xml_content_key VARCHAR (250) NOT NULL,
-    xml_content_value VARCHAR(MAX)
+    xml_content_value TEXT
 );
 CREATE INDEX xml_content_key ON xml_storage (xml_content_key);
 CREATE INDEX xml_type ON xml_storage (xml_type);
@@ -873,7 +873,7 @@ CREATE TABLE package_repository (
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
-    content VARCHAR(MAX) NOT NULL,
+    content TEXT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
