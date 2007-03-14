@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.11 2007-03-12 09:34:45 martin Exp $
+# $Id: DB.t,v 1.12 2007-03-14 14:36:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -119,6 +119,19 @@ elsif ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /oracle/i) {
     $Self->Is(
         $Self->{DBObject}->Quote("Test'l;"),
         'Test\'\'l;',
+        'Quote() String - Test\'l;',
+    );
+}
+elsif ($Self->{DBObject}->{'DB::Type'} =~ /mssql/i) {
+    $Self->Is(
+        $Self->{DBObject}->Quote("Test'l"),
+        'Test\'\'l',
+        'Quote() String - Test\'l',
+    );
+
+    $Self->Is(
+        $Self->{DBObject}->Quote("Test'l;"),
+        'Test\'\'l\\;',
         'Quote() String - Test\'l;',
     );
 }
@@ -335,7 +348,7 @@ foreach (1..6) {
 }
 # sql bind
 $String = '';
-foreach (1..18) {
+foreach (1..19) {
     $String .= $String." $_ abcdefghijklmno1234567890";
     my $Length = length($String);
     my $Size = $Length;
@@ -395,6 +408,7 @@ $Self->True(
 );
 
 $Self->True(
+    ref($Self->{DBObject}->FetchrowArray()) eq '' &&
     ref($Self->{DBObject}->FetchrowArray()) eq '' &&
     ref($Self->{DBObject}->FetchrowArray()) eq '' &&
         ref($Self->{DBObject}->FetchrowArray()) eq '',
