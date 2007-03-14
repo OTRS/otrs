@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2007-03-14 01:43:56
+--  driver: db2, generated: 2007-03-14 16:42:29
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -823,9 +823,9 @@ INSERT INTO article (ticket_id, article_type_id, article_sender_type_id, a_from,
 -- ----------------------------------------------------------
 --  insert into table ticket_history
 -- ----------------------------------------------------------
-INSERT INTO ticket_history (name, history_type_id, ticket_id, article_id, priority_id, owner_id, state_id, queue_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history (name, history_type_id, ticket_id, type_id, article_id, priority_id, owner_id, state_id, queue_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('New Ticket [1010001] created.', 1, 1, 1, 3, 1, 1, 1, 1, 1, current_timestamp, 1, current_timestamp);
+    ('New Ticket [1010001] created.', 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table notifications

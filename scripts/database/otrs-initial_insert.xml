@@ -5,9 +5,17 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-initial_insert.xml,v 1.1 2007-03-09 13:06:35 martin Exp $
+    $Id: otrs-initial_insert.xml,v 1.2 2007-03-14 15:44:45 martin Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.1  2007/03/09 13:06:35  martin
+    Moved from scripts/database/initial_insert.sql to database depend
+    initial insert files located under scripts/database/otrs-initial_insert.*.sql.
+    This files are generated from scripts/database/otrs-initial_insert.xml.
+
+    Note: The scripts/database/initial_insert.sql exists not longer, use
+    scripts/database/otrs-initial_insert.*.sql from now on for installations.
+
 
 -->
 
@@ -1181,6 +1189,7 @@ Communication with success!
         <Data Key="name" Type="Quote">New Ticket [1010001] created.</Data>
         <Data Key="history_type_id">1</Data>
         <Data Key="ticket_id">1</Data>
+        <Data Key="type_id">1</Data>
         <Data Key="article_id">1</Data>
         <Data Key="priority_id">3</Data>
         <Data Key="owner_id">1</Data>
