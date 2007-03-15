@@ -1,8 +1,8 @@
 # --
 # Kernel/System/User.pm - some user functions
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.50 2005-10-31 10:07:03 martin Exp $
+# $Id: User.pm,v 1.50.2.1 2007-03-15 09:45:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.50.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -391,7 +391,7 @@ sub UserSearch {
     }
     # build SQL string 1/2
     my $SQL = "SELECT $Self->{UserTableUser} ";
-    my @Fields = ('first_name', 'last_name', 'email');
+    my @Fields = ('first_name', 'last_name');
     if (@Fields) {
         foreach my $Entry (@Fields) {
             $SQL .= ", $Entry";
@@ -775,6 +775,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2005-10-31 10:07:03 $
+$Revision: 1.50.2.1 $ $Date: 2007-03-15 09:45:47 $
 
 =cut
