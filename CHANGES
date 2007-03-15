@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.370 2007-03-12 14:29:02 martin Exp $
+# $Id: CHANGES,v 1.371 2007-03-15 08:34:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD (????/??/??)
+ - (2007/03/14) Fixed not shown optional ticket free time option fields in
+    customer panel.
  - (2007/03/11) Added enhancement bug# 1102 - restore.pl should check for
     existing tables and stop if already one exists.
  - (2007/03/11) Added enhancement bug# 1664 - increase max. WebMaxFileUpload
@@ -111,6 +113,19 @@ CVS HEAD (????/??/??)
     to 12 MB.
 
 2.1.7 (2007/??/??)
+ - (2007/03/14) fixed bug# 1659 - Uploading and Saving Pictures in MSSQL won't
+    work with bigger Files (~700KB)
+    ->MSSQL ONLY<- You also need to change some tables by using: ->MSSQL ONLY<-
+        ALTER TABLE web_upload_cache ALTER COLUMN content TEXT NOT NULL;
+        ALTER TABLE article_plain ALTER COLUMN body TEXT NOT NULL;
+        ALTER TABLE article_attachment ALTER COLUMN content TEXT NOT NULL;
+        ALTER TABLE article ALTER COLUMN a_body TEXT NOT NULL;
+        ALTER TABLE standard_response ALTER COLUMN text TEXT NOT NULL;
+        ALTER TABLE standard_attachment ALTER COLUMN content TEXT;
+        ALTER TABLE sessions ALTER COLUMN session_value TEXT;
+        ALTER TABLE xml_storage ALTER COLUMN xml_content_value TEXT;
+        ALTER TABLE package_repository ALTER COLUMN content TEXT NOT NULL;
+ - (2007/03/12) fixed upload cache problem in win32 .pdf files
  - (2007/03/12) fixed bug# 1228 - Apostrophe not valid in email address.
  - (2007/03/12) fixed bug# 1442 and 1559 - ArticleFreeKey and ArticleFreeText
     default selection does not work.
