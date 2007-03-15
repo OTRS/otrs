@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.55.2.1 2007-01-08 21:14:04 martin Exp $
+# $Id: User.pm,v 1.55.2.2 2007-03-15 09:42:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.55.2.1 $';
+$VERSION = '$Revision: 1.55.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -393,7 +393,7 @@ sub UserSearch {
     }
     # build SQL string 1/2
     my $SQL = "SELECT $Self->{UserTableUser} ";
-    my @Fields = ('first_name', 'last_name', 'email');
+    my @Fields = ('first_name', 'last_name');
     if (@Fields) {
         foreach my $Entry (@Fields) {
             $SQL .= ", $Entry";
@@ -799,6 +799,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.55.2.1 $ $Date: 2007-01-08 21:14:04 $
+$Revision: 1.55.2.2 $ $Date: 2007-03-15 09:42:35 $
 
 =cut
