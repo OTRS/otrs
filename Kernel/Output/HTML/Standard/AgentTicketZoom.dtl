@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.21 2007-03-12 11:29:54 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.22 2007-03-15 08:22:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -164,6 +164,14 @@ $Data{"Body"}
           </td>
         </tr>
         <tr valign="top">
+          <td><b>$Text{"Locked"}:</b></td>
+          <td>
+            <font color="red">
+            <div title="$Quote{"$Text{"$Data{"Lock"}"}"}">$Quote{"$Text{"$Data{"Lock"}"}","18"}</div>
+            </font>
+          </td>
+        </tr>
+        <tr valign="top">
           <td><b>$Text{"Priority"}:</b></td>
           <td>
             <font color="red">
@@ -194,15 +202,35 @@ $Data{"Body"}
             <div title="$Text{"$Data{"SLA"}"}">$Quote{"$Text{"$Data{"SLA"}"}","18"}</div></font>
           </td>
         </tr>
-<!-- dtl:block:SLA -->
+<!-- dtl:block:SLAResponsTime -->
         <tr valign="top">
-          <td><b>$Text{"Locked"}:</b></td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;<b>$Text{"First Response"}:</b></td>
           <td>
+<!-- dtl:block:SLAResponsTimeFontStart -->
             <font color="red">
-            <div title="$Quote{"$Text{"$Data{"Lock"}"}"}">$Quote{"$Text{"$Data{"Lock"}"}","18"}</div>
+<!-- dtl:block:SLAResponsTimeFontStart -->
+            <div title="$Text{"Service Time"}: $QData{"ResponseWorkingTime"}">$QData{"ResponseTimeHuman"} / $TimeShort{"$QData{"ResponseTimeDestinationDate"}"}</div>
+<!-- dtl:block:SLAResponsTimeFontStop -->
             </font>
+<!-- dtl:block:SLAResponsTimeFontStop -->
           </td>
         </tr>
+<!-- dtl:block:SLAResponsTime -->
+<!-- dtl:block:SLAMaxTimeToRepairTime -->
+        <tr valign="top">
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;<b>$Text{"MTTR"}:</b></td>
+          <td>
+<!-- dtl:block:SLAMaxTimeToRepairTimeFontStart -->
+            <font color="red">
+<!-- dtl:block:SLAMaxTimeToRepairTimeFontStart -->
+            <div title="$Text{"Service Time"}: $QData{"MaxTimeToRepairTimeWorkingTime"}">$QData{"MaxTimeToRepairTimeHuman"} / $TimeShort{"$QData{"MaxTimeToRepairDestinationDate"}"}</div>
+<!-- dtl:block:SLAMaxTimeToRepairTimeFontStop -->
+            </font>
+<!-- dtl:block:SLAMaxTimeToRepairTimeFontStop -->
+          </td>
+        </tr>
+<!-- dtl:block:SLAMaxTimeToRepairTime -->
+<!-- dtl:block:SLA -->
         <tr valign="top">
           <td><b>$Text{"CustomerID"}:</b></td>
           <td>
