@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.248 2007-03-12 11:28:31 martin Exp $
+# $Id: Ticket.pm,v 1.249 2007-03-15 08:21:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.248 $';
+$VERSION = '$Revision: 1.249 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -836,6 +836,9 @@ sub TicketGet {
     # get sla
     if ($Ticket{SLAID}) {
         $Ticket{SLA} = $Self->{SLAObject}->SLALookup(SLAID => $Ticket{SLAID});
+        # get sla attributes
+        my %SLA = $Self->TicketSLAState(Ticket => \%Ticket, SLAID => $Ticket{SLAID}, UserID => $Param{UserID} || 1);
+        %Ticket = (%SLA, %Ticket);
     }
     # get state info
     my %StateData = $Self->{StateObject}->StateGet(ID => $Ticket{StateID}, Cache => 1);
@@ -1320,7 +1323,7 @@ to get all possible types for a ticket (depends on workflow, if configured)
 
 =cut
 
-sub TicketTypeList{
+sub TicketTypeList {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -1329,10 +1332,10 @@ sub TicketTypeList{
         return;
     }
     # check needed stuff
-    if (!$Param{QueueID} && !$Param{TicketID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID or TicketID!");
-        return;
-    }
+#    if (!$Param{QueueID} && !$Param{TicketID}) {
+#        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID or TicketID!");
+#        return;
+#    }
     my %Types = ();
     $Self->{DBObject}->Prepare(SQL => "SELECT id, name FROM ticket_type");
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -1537,7 +1540,7 @@ sub TicketServiceSet {
     foreach (qw(TicketID ServiceID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
-    my $SQL = "UPDATE ticket SET type_id = $Param{ServiceID} ".
+    my $SQL = "UPDATE ticket SET service_id = $Param{ServiceID} ".
         " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
         my %TicketNew = $Self->TicketGet(%Param);
@@ -1563,21 +1566,104 @@ sub TicketServiceSet {
     }
 }
 
+sub TicketSLAState {
+    my $Self = shift;
+    my %Param = @_;
+    my %Data = ();
+    # check needed stuff
+    foreach (qw(Ticket SLAID UserID)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    my %SLA = $Self->{SLAObject}->SLAGet(
+        SLAID => $Param{SLAID},
+        UserID => $Param{UserID},
+    );
+    my %Ticket = %{$Param{Ticket}};
+    # check response time
+    if ($SLA{ResponseTime}) {
+# check if first response is already done
+        my $DestinationTime = $Self->{TimeObject}->DestinationTime(
+            StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(String => $Ticket{Created}),
+            Time => $SLA{ResponseTime}*60,
+            Calendar => $SLA{Calendar},
+        );
+        my $Time = $DestinationTime-$Self->{TimeObject}->SystemTime();
+        my $WorkingTime = 0;
+        if ($Time > 0) {
+            $WorkingTime = $Self->{TimeObject}->WorkingTime(
+                StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(String => $Ticket{Created}),
+                StopTime => $DestinationTime,
+                Calendar => $SLA{Calendar},
+            );
+        }
+        else {
+            $WorkingTime = $Self->{TimeObject}->WorkingTime(
+                StartTime => $DestinationTime,
+                StopTime => $Self->{TimeObject}->SystemTime(),
+                Calendar => $SLA{Calendar},
+            );
+            $WorkingTime = "-$WorkingTime";
+        }
+        my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $DestinationTime);
+        $Data{"ResponseTimeDestinationTime"} = $DestinationTime;
+        $Data{"ResponseTimeDestinationDate"} = $DestinationDate;
+        $Data{"ResponseTimeWorkingTime"} = $WorkingTime;
+        $Data{"ResponseTimeTime"} = $Time;
+    }
+    # check max time to repair
+    if ($SLA{MaxTimeToRepair}) {
+        my $DestinationTime = $Self->{TimeObject}->DestinationTime(
+            StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(String => $Ticket{Created}),
+            Time => $SLA{MaxTimeToRepair}*60,
+            Calendar => $SLA{Calendar},
+        );
+        my $Time = $DestinationTime-$Self->{TimeObject}->SystemTime();
+        my $WorkingTime = 0;
+        if ($Time > 0) {
+            $WorkingTime = $Self->{TimeObject}->WorkingTime(
+                StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(String => $Ticket{Created}),
+                StopTime => $DestinationTime,
+                Calendar => $SLA{Calendar},
+            );
+        }
+        else {
+            $WorkingTime = $Self->{TimeObject}->WorkingTime(
+                StartTime => $DestinationTime,
+                StopTime => $Self->{TimeObject}->SystemTime(),
+                Calendar => $SLA{Calendar},
+            );
+            $WorkingTime = "-$WorkingTime";
+        }
+        my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $DestinationTime);
+        $Data{"MaxTimeToRepairDestinationTime"} = $DestinationTime;
+        $Data{"MaxTimeToRepairDestinationDate"} = $DestinationDate;
+        $Data{"MaxTimeToRepairWorkingTime"} = $WorkingTime;
+        $Data{"MaxTimeToRepairTime"} = $Time;
+    }
+    return %Data;
+}
+
 =item TicketSLAList()
 
 to get all possible SLAs for a ticket (depends on workflow, if configured)
 
     my %SLAs = $TicketObject->TicketSLAList(
+        ServiceID => 1,
         UserID => 123,
     );
 
     my %SLAs = $TicketObject->TicketSLAList(
         QueueID => 123,
+        ServiceID => 1,
         UserID => 123,
     );
 
     my %SLAs = $TicketObject->TicketSLAList(
         TicketID => 123,
+        ServiceID => 1,
         UserID => 123,
     );
 
@@ -1596,8 +1682,19 @@ sub TicketSLAList {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID or TicketID!");
         return;
     }
+    # check needed stuff
+    foreach (qw(ServiceID)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # db quote
+    foreach (qw(ServiceID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     my %SLAs = ();
-    $Self->{DBObject}->Prepare(SQL => "SELECT id, name FROM sla");
+    $Self->{DBObject}->Prepare(SQL => "SELECT id, name FROM sla WHERE service_id = $Param{ServiceID}");
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $SLAs{$Row[0]} = $Row[1];
     }
@@ -1665,7 +1762,7 @@ sub TicketSLASet {
     foreach (qw(TicketID SLAID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
-    my $SQL = "UPDATE ticket SET type_id = $Param{SLAID} ".
+    my $SQL = "UPDATE ticket SET sla_id = $Param{SLAID} ".
         " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
         my %TicketNew = $Self->TicketGet(%Param);
@@ -5635,6 +5732,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.248 $ $Date: 2007-03-12 11:28:31 $
+$Revision: 1.249 $ $Date: 2007-03-15 08:21:08 $
 
 =cut
