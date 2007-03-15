@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.35 2007-03-12 11:29:54 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.36 2007-03-15 08:20:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -278,7 +278,7 @@ sub MaskAgentZoom {
             $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
             $Param{TicketOverTimeFontEnd} = '</font>';
         }
-        $Param{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
+        $Param{TicketOverTime} = $Self->{LayoutObject}->CustomerAgeInHours(
             Age => $TicketOverTime,
             Space => ' ',
         );
@@ -373,13 +373,60 @@ sub MaskAgentZoom {
                     Name => 'Service',
                     Data => {%Param, %AclAction},
                 );
-            }
-            # ticket sla
-            if ($Self->{ConfigObject}->Get('Ticket::SLA') && $Param{SLA}) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'SLA',
-                    Data => {%Param, %AclAction},
-                );
+                if ($Param{SLA}) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'SLA',
+                        Data => {%Param, %AclAction},
+                    );
+                    if (defined($Param{ResponseTimeTime})) {
+                        $Param{ResponseTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
+                            Age => $Param{'ResponseTimeWorkingTime'},
+                            Space => ' ',
+                        );
+                        $Param{ResponseWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
+                            Age => $Param{'ResponseTimeWorkingTime'},
+                            Space => ' ',
+                        );
+                        $Self->{LayoutObject}->Block(
+                            Name => 'SLAResponsTime',
+                            Data => {%Param, %AclAction},
+                        );
+                        if (60*60*1 > $Param{ResponseTimeTime}) {
+                            $Self->{LayoutObject}->Block(
+                                Name => 'SLAResponsTimeFontStart',
+                                Data => {%Param, %AclAction},
+                            );
+                            $Self->{LayoutObject}->Block(
+                                Name => 'SLAResponsTimeFontStop',
+                                Data => {%Param, %AclAction},
+                            );
+                        }
+                    }
+                    if (defined($Param{MaxTimeToRepairTime})) {
+                        $Param{MaxTimeToRepairTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
+                            Age => $Param{'MaxTimeToRepairTime'},
+                            Space => ' ',
+                        );
+                        $Param{MaxTimeToRepairTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
+                            Age => $Param{'MaxTimeToRepairTimeWorkingTime'},
+                            Space => ' ',
+                        );
+                        $Self->{LayoutObject}->Block(
+                            Name => 'SLAMaxTimeToRepairTime',
+                            Data => {%Param, %AclAction},
+                        );
+                        if (60*60*1 > $Param{MaxTimeToRepairTime}) {
+                            $Self->{LayoutObject}->Block(
+                                Name => 'SLAMaxTimeToRepairTimeFontStart',
+                                Data => {%Param, %AclAction},
+                            );
+                            $Self->{LayoutObject}->Block(
+                                Name => 'SLAMaxTimeToRepairTimeFontStop',
+                                Data => {%Param, %AclAction},
+                            );
+                        }
+                    }
+                }
             }
             # customer info string
             if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoom')) {

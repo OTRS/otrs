@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.12 2007-02-07 17:44:31 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.13 2007-03-15 08:20:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -484,7 +484,7 @@ sub _Mask {
     else {
         # html quoting
         $Param{"Article::Text"} = $Self->{LayoutObject}->Ascii2Html(
-            NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
+            NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
             Text => $Article{Body},
             VMax => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
             HTMLResultMode => 1,
@@ -593,6 +593,26 @@ sub _Mask {
             $Self->{LayoutObject}->Block(
                 Name => 'Attachment',
                 Data => $DataRef,
+            );
+        }
+    }
+    # ticket type
+    if ($Self->{ConfigObject}->Get('Ticket::Type')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Type',
+            Data => {%Param, %Article},
+        );
+    }
+    # ticket service
+    if ($Self->{ConfigObject}->Get('Ticket::Service') && $Article{Service}) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Service',
+            Data => {%Param, %Article},
+        );
+        if ($Article{SLA}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'SLA',
+                Data => {%Param, %Article},
             );
         }
     }

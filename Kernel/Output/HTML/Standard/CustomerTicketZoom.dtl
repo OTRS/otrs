@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.29 2007-02-07 17:44:31 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.30 2007-03-15 08:24:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -181,6 +181,12 @@ $Data{"Article::Text"}
     </td>
     <td width="25%" align="center" class="menu">
       <table border="0" cellspacing="0" cellpadding="1" width="95%">
+<!-- dtl:block:Type -->
+        <tr>
+          <td class="contentkey">$Text{"Type"}:</td>
+          <td class="contentvalue"><font color="red"><div title="$Quote{"$Text{"$Data{"Type"}"}"}">$Quote{"$Text{"$Data{"Type"}"}","18"}</div></font></td>
+        </tr>
+<!-- dtl:block:Type -->
         <tr>
           <td class="contentkey">$Text{"State"}:</td>
           <td class="contentvalue"><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></font></td>
@@ -193,6 +199,18 @@ $Data{"Article::Text"}
           <td class="contentkey">$Text{"Queue"}:</td>
           <td class="contentvalue"><font color="red"><div title="$QData{"Queue"}">$QData{"Queue","18"}</div></font></td>
         </tr>
+<!-- dtl:block:Service -->
+        <tr>
+          <td class="contentkey">$Text{"Service"}:</td>
+          <td class="contentvalue"><font color="red"><div title="$QData{"Service"}">$QData{"Service","18"}</div></font></td>
+        </tr>
+<!-- dtl:block:Service -->
+<!-- dtl:block:SLA -->
+        <tr>
+          <td class="contentkey">$Text{"SLA"}:</td>
+          <td class="contentvalue"><font color="red"><div title="$QData{"SLA"}">$QData{"SLA","18"}</div></font></td>
+        </tr>
+<!-- dtl:block:SLA -->
         <tr>
           <td class="contentkey">$Text{"CustomerID"}:</td>
           <td class="contentvalue"><div title="$QData{"CustomerID"}">$QData{"CustomerID","18"}</div></td>

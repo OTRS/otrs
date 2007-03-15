@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.8 2007-03-02 08:15:50 rk Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.9 2007-03-15 08:24:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -55,8 +55,27 @@ function submit_compose() {
             <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data">
               <input type="hidden" name="Action" value="$Env{"Action"}">
               <input type="hidden" name="Subaction" value="StoreNew">
+              <input type="hidden" name="Expand" value="">
               <input type="hidden" name="FormID" value="$QData{"FormID"}">
               <table border="0">
+<!-- dtl:block:TicketType -->
+                <tr>
+                  <td class="contentkey">$Text{"Type"}:</td>
+                  <td class="contentvalue"> $Data{"TypeStrg"}</td>
+                </tr>
+<!-- dtl:block:TicketType -->
+<!-- dtl:block:TicketService -->
+                <tr>
+                  <td class="contentkey">$Text{"Service"}:</td>
+                  <td class="contentvalue"> $Data{"ServiceStrg"}</td>
+                </tr>
+<!-- dtl:block:TicketService -->
+<!-- dtl:block:TicketSLA -->
+                <tr>
+                  <td class="contentkey">$Text{"SLA"}:</td>
+                  <td class="contentvalue"> $Data{"SLAStrg"}</td>
+                </tr>
+<!-- dtl:block:TicketSLA -->
                 <tr>
                   <td width="15%" class="contentkey">$Text{"To"}:</td>
                   <td width="85%" class="contentvalue">$Data{"ToStrg"}</td>
