@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.1 2007-02-23 11:37:42 mh Exp $
+# $Id: AdminSLA.dtl,v 1.2 2007-03-15 08:17:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -142,7 +142,7 @@
                 <tr>
                   <td class="contentkey">$Text{"Comment"}: </td>
                   <td class="contentvalue">
-                    <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="200">
+                    <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150">
                   </td>
                 </tr>
               </table>
