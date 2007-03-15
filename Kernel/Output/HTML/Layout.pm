@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.41 2007-03-07 19:32:45 martin Exp $
+# $Id: Layout.pm,v 1.42 2007-03-15 08:32:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1536,6 +1536,40 @@ sub LinkEncode {
     $Link =~ s/§/\%A7/g;
     $Link =~ s/ /\+/g;
     return $Link;
+}
+
+sub CustomerAgeInHours {
+    my $Self = shift;
+    my %Param = @_;
+    my $Age = defined($Param{Age}) ? $Param{Age} : return;
+    my $Space = $Param{Space} || '<BR>';
+    my $AgeStrg = '';
+    if ($Age =~ /^-(.*)/) {
+        $Age = $1;
+        $AgeStrg = '-';
+    }
+    # get hours
+    if ($Age >= 3600) {
+        $AgeStrg .= int( ($Age / 3600)) . ' ';
+        if (int( ($Age / 3600) % 24 ) > 1) {
+            $AgeStrg .= $Self->{LanguageObject}->Get('hours');
+        }
+        else {
+            $AgeStrg .= $Self->{LanguageObject}->Get('hour');
+        }
+        $AgeStrg .= $Space;
+    }
+    # get minutes (just if age < 1 day)
+    if (int( ($Age / 60) % 60)) {
+        $AgeStrg .= int( ($Age / 60) % 60) . ' ';
+        if (int( ($Age / 60) % 60) > 1) {
+            $AgeStrg .= $Self->{LanguageObject}->Get('minutes');
+        }
+        else {
+            $AgeStrg .= $Self->{LanguageObject}->Get('minute');
+        }
+    }
+    return $AgeStrg;
 }
 
 sub CustomerAge {
@@ -3342,6 +3376,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2007-03-07 19:32:45 $
+$Revision: 1.42 $ $Date: 2007-03-15 08:32:53 $
 
 =cut
