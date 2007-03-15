@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.42 2007-03-15 08:32:53 martin Exp $
+# $Id: Layout.pm,v 1.43 2007-03-15 18:26:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1560,7 +1560,7 @@ sub CustomerAgeInHours {
         $AgeStrg .= $Space;
     }
     # get minutes (just if age < 1 day)
-    if (int( ($Age / 60) % 60)) {
+    if ($Age <= 3600 || int( ($Age / 60) % 60)) {
         $AgeStrg .= int( ($Age / 60) % 60) . ' ';
         if (int( ($Age / 60) % 60) > 1) {
             $AgeStrg .= $Self->{LanguageObject}->Get('minutes');
@@ -3376,6 +3376,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2007-03-15 08:32:53 $
+$Revision: 1.43 $ $Date: 2007-03-15 18:26:31 $
 
 =cut
