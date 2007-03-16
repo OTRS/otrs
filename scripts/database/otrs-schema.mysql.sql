@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  database: mysql, generated: 2007-03-05 02:47:35
+#  driver: mysql, generated: 2007-03-16 11:00:01
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -287,7 +287,9 @@ CREATE TABLE queue (
     name VARCHAR (200) NOT NULL,
     group_id INTEGER NOT NULL,
     unlock_timeout INTEGER,
-    escalation_time INTEGER,
+    first_response_time INTEGER,
+    update_time INTEGER,
+    solution_time INTEGER,
     system_address_id SMALLINT NOT NULL,
     calendar_name VARCHAR (100),
     default_sign_key VARCHAR (100),
@@ -690,16 +692,17 @@ CREATE TABLE sla (
     service_id INTEGER NOT NULL,
     name VARCHAR (200) NOT NULL,
     calendar_name VARCHAR (100),
-    response_time INTEGER NOT NULL,
-    max_time_to_repair INTEGER NOT NULL,
-    min_time_between_incidents INTEGER NOT NULL,
+    first_response_time INTEGER NOT NULL,
+    update_time INTEGER NOT NULL,
+    solution_time INTEGER NOT NULL,
     valid_id SMALLINT NOT NULL,
     comments VARCHAR (200) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE (name)
 );
 # ----------------------------------------------------------
 #  create table sessions

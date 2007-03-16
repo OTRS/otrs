@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.2 2007-03-15 08:17:15 martin Exp $
+# $Id: AdminSLA.dtl,v 1.3 2007-03-16 10:11:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,6 @@
       <form action="$Env{"CGIHandle"}" method="get">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="SLAEdit">
-        <input type="hidden" name="SLAID" value="NEW">
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Add"}:</td>
@@ -58,22 +57,28 @@
           <td class="contentbody">
             <table width="100%" border="0" cellspacing="0" cellpadding="3">
               <tr>
-                <td class="contentkey" width="60%">$Text{"SLA"}</td>
+                <td class="contentkey" width="40%">$Text{"SLA"}</td>
                 <td class="contentkey">$Text{"Service"}</td>
                 <td align="center" class="contentkey">$Text{"Valid"}</td>
+                <td class="contentkey">$Text{"Changed"}</td>
+                <td class="contentkey">$Text{"Created"}</td>
               </tr>
 <!-- dtl:block:OverviewListRow -->
               <tr>
                 <td class="$QData{"CssClass"}">
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=SLAEdit&SLAID=$QData{"SLAID"}">
-                  $QData{"Name"}
-                  </a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=SLAEdit&SLAID=$QData{"SLAID"}">$QData{"Name"}</a>
                 </td>
                 <td class="$QData{"CssClass"}">
                   $Text{"$QData{"Service"}"}
                 </td>
                 <td align="center" class="$QData{"CssClass"}">
                   $Text{"$QData{"Valid"}"}
+                </td>
+                <td class="$QData{"CssClass"}">
+                  $TimeShort{"$QData{"ChangeTime"}"}
+                </td>
+                <td class="$QData{"CssClass"}">
+                  $TimeShort{"$QData{"CreateTime"}"}
                 </td>
               </tr>
 <!-- dtl:block:OverviewListRow -->
@@ -92,7 +97,6 @@
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="SLASave">
         <input type="hidden" name="SLAID" value="$QData{"SLAID"}">
-        <input type="hidden" name="ServiceID" value="$QData{"ServiceID"}">
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Edit"}:</td>
@@ -101,37 +105,37 @@
             <td class="contentbody">
               <table border="0" cellspacing="0" cellpadding="3">
                 <tr>
-                  <td class="contentkey">$Text{"Service"}: </td>
-                  <td class="contentvalue">$QData{"Service"}</td>
-                </tr>
-                <tr>
                   <td class="contentkey">$Text{"SLA"}: </td>
                   <td class="contentvalue">
                     <input type="text" name="Name" value="$QData{"Name"}" size="45" maxlength="200">
                   </td>
                 </tr>
                 <tr>
+                  <td class="contentkey">$Text{"Service"}: </td>
+                  <td class="contentvalue">$Data{"ServiceOptionStrg"}</td>
+                </tr>
+                <tr>
                   <td class="contentkey">$Text{"Calendar"}: </td>
                   <td class="contentvalue">$Data{"CalendarOptionStrg"}</td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Response Time"}: </td>
+                  <td class="contentkey">$Text{"First Response Time"}: </td>
                   <td class="contentvalue">
-                    <input type="text" name="ResponseTime" value="$QData{"ResponseTime"}" size="20" maxlength="20">
+                    <input type="text" name="FirstResponseTime" value="$QData{"FirstResponseTime"}" size="10" maxlength="15">
                     $Text{"minutes"}
                   </td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Max Time To Repair"}: </td>
+                  <td class="contentkey">$Text{"Update Time"}: </td>
                   <td class="contentvalue">
-                    <input type="text" name="MaxTimeToRepair" value="$QData{"MaxTimeToRepair"}" size="20" maxlength="20">
+                    <input type="text" name="UpdateTime" value="$QData{"UpdateTime"}" size="10" maxlength="15">
                     $Text{"minutes"}
                   </td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Min Time Between Incidents"}: </td>
+                  <td class="contentkey">$Text{"Solution Time"}: </td>
                   <td class="contentvalue">
-                    <input type="text" name="MinTimeBetweenIncidents" value="$QData{"MinTimeBetweenIncidents"}" size="20" maxlength="20">
+                    <input type="text" name="SolutionTime" value="$QData{"SolutionTime"}" size="10" maxlength="15">
                     $Text{"minutes"}
                   </td>
                 </tr>

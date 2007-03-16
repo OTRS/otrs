@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.61 2007-03-05 02:01:44 martin Exp $
+    $Id: otrs-schema.xml,v 1.62 2007-03-16 10:02:13 martin Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.61  2007/03/05 02:01:44  martin
+    Added Ticket-Service, -SLA and -Type support.
+
     Revision 1.60  2007/02/23 11:36:57  mh
     Add service and sla tables.
 
@@ -687,7 +690,9 @@
     <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="group_id" Required="true" Type="INTEGER"/>
     <Column Name="unlock_timeout" Required="false" Type="INTEGER"/>
-    <Column Name="escalation_time" Required="false" Type="INTEGER"/>
+    <Column Name="first_response_time" Required="false" Type="INTEGER"/>
+    <Column Name="update_time" Required="false" Type="INTEGER"/>
+    <Column Name="solution_time" Required="false" Type="INTEGER"/>
     <Column Name="system_address_id" Required="true" Type="SMALLINT"/>
     <Column Name="calendar_name" Required="false" Size="100" Type="VARCHAR"/>
     <Column Name="default_sign_key" Required="false" Size="100" Type="VARCHAR"/>
@@ -1321,15 +1326,18 @@
     <Column Name="service_id" Required="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="calendar_name" Required="false" Size="100" Type="VARCHAR"/>
-    <Column Name="response_time" Required="true" Type="INTEGER"/>
-    <Column Name="max_time_to_repair" Required="true" Type="INTEGER"/>
-    <Column Name="min_time_between_incidents" Required="true" Type="INTEGER"/>
+    <Column Name="first_response_time" Required="true" Type="INTEGER"/>
+    <Column Name="update_time" Required="true" Type="INTEGER"/>
+    <Column Name="solution_time" Required="true" Type="INTEGER"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="comments" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique>
+        <UniqueColumn Name="name"/>
+    </Unique>
     <ForeignKey ForeignTable="service">
         <Reference Local="service_id" Foreign="id"/>
     </ForeignKey>

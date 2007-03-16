@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.22 2007-03-15 08:22:34 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.23 2007-03-16 10:08:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -202,35 +202,49 @@ $Data{"Body"}
             <div title="$Text{"$Data{"SLA"}"}">$Quote{"$Text{"$Data{"SLA"}"}","18"}</div></font>
           </td>
         </tr>
-<!-- dtl:block:SLAResponsTime -->
-        <tr valign="top">
-          <td>&nbsp;&nbsp;&nbsp;&nbsp;<b>$Text{"First Response"}:</b></td>
-          <td>
-<!-- dtl:block:SLAResponsTimeFontStart -->
-            <font color="red">
-<!-- dtl:block:SLAResponsTimeFontStart -->
-            <div title="$Text{"Service Time"}: $QData{"ResponseWorkingTime"}">$QData{"ResponseTimeHuman"} / $TimeShort{"$QData{"ResponseTimeDestinationDate"}"}</div>
-<!-- dtl:block:SLAResponsTimeFontStop -->
-            </font>
-<!-- dtl:block:SLAResponsTimeFontStop -->
-          </td>
-        </tr>
-<!-- dtl:block:SLAResponsTime -->
-<!-- dtl:block:SLAMaxTimeToRepairTime -->
-        <tr valign="top">
-          <td>&nbsp;&nbsp;&nbsp;&nbsp;<b>$Text{"MTTR"}:</b></td>
-          <td>
-<!-- dtl:block:SLAMaxTimeToRepairTimeFontStart -->
-            <font color="red">
-<!-- dtl:block:SLAMaxTimeToRepairTimeFontStart -->
-            <div title="$Text{"Service Time"}: $QData{"MaxTimeToRepairTimeWorkingTime"}">$QData{"MaxTimeToRepairTimeHuman"} / $TimeShort{"$QData{"MaxTimeToRepairDestinationDate"}"}</div>
-<!-- dtl:block:SLAMaxTimeToRepairTimeFontStop -->
-            </font>
-<!-- dtl:block:SLAMaxTimeToRepairTimeFontStop -->
-          </td>
-        </tr>
-<!-- dtl:block:SLAMaxTimeToRepairTime -->
 <!-- dtl:block:SLA -->
+<!-- dtl:block:FirstResponseTime -->
+        <tr valign="top">
+          <td><b>$Text{"First Response"}:</b></td>
+          <td>
+<!-- dtl:block:FirstResponseTimeFontStart -->
+            <font color="red">
+<!-- dtl:block:FirstResponseTimeFontStart -->
+            <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">$QData{"FirstResponseTimeHuman"} / $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</div>
+<!-- dtl:block:FirstResponseTimeFontStop -->
+            </font>
+<!-- dtl:block:FirstResponseTimeFontStop -->
+          </td>
+        </tr>
+<!-- dtl:block:FirstResponseTime -->
+<!-- dtl:block:UpdateTime -->
+        <tr valign="top">
+          <td><b>$Text{"Update Time"}:</b></td>
+          <td>
+<!-- dtl:block:UpdateTimeFontStart -->
+            <font color="red">
+<!-- dtl:block:UpdateTimeFontStart -->
+            <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">$QData{"UpdateTimeHuman"} / $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
+<!-- dtl:block:UpdateTimeFontStop -->
+            </font>
+<!-- dtl:block:UpdateTimeFontStop -->
+          </td>
+        </tr>
+<!-- dtl:block:UpdateTime -->
+<!-- dtl:block:SolutionTime -->
+        <tr valign="top">
+          <td><b>$Text{"Solution Time"}:</b></td>
+          <td>
+<!-- dtl:block:SolutionTimeFontStart -->
+            <font color="red">
+<!-- dtl:block:SolutionTimeFontStart -->
+            <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">$QData{"SolutionTimeHuman"} / $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}</div>
+<!-- dtl:block:SolutionTimeFontStop -->
+            </font>
+<!-- dtl:block:SolutionTimeFontStop -->
+          </td>
+        </tr>
+<!-- dtl:block:SolutionTime -->
         <tr valign="top">
           <td><b>$Text{"CustomerID"}:</b></td>
           <td>

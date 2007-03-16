@@ -2,12 +2,19 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.mysql.sql,v 1.6 2007-03-05 02:26:29 martin Exp $
+-- $Id: DBUpdate-to-2.2.mysql.sql,v 1.7 2007-03-16 10:02:13 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.mysql.sql | mysql -f -u root otrs
 --
 -- --
+
+--
+-- queue
+--
+ALTER TABLE queue CHANGE escalation_time update_time INTEGER;
+ALTER TABLE queue ADD first_response_time INTEGER;
+ALTER TABLE queue ADD solution_time INTEGER;
 
 --
 -- ticket

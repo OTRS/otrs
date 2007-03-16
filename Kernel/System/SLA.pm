@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.2 2007-02-27 19:55:58 mh Exp $
+# $Id: SLA.pm,v 1.3 2007-03-16 10:02:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::SLA;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -121,10 +121,10 @@ Return
     $SLAData{SLAID}
     $SLAData{ServiceID}
     $SLAData{Name}
-    $SLAData{CalendarName}
-    $SLAData{ResponseTime}
-    $SLAData{MaxTimeToRepair}
-    $SLAData{MinTimeBetweenIncidents}
+    $SLAData{Calendar}
+    $SLAData{FirstResponseTime}
+    $SLAData{UpdateTime}
+    $SLAData{SolutionTime}
     $SLAData{ValidID}
     $SLAData{Comment}
     $SLAData{CreateTime}
@@ -156,8 +156,8 @@ sub SLAGet {
     # get sla from db
     my %SLAData = ();
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT id, service_id, name, calendar_name, response_time, max_time_to_repair, ".
-            "min_time_between_incidents, valid_id, comments, create_time, create_by, change_time, change_by ".
+        SQL => "SELECT id, service_id, name, calendar_name, first_response_time, update_time, solution_time, ".
+            "valid_id, comments, create_time, create_by, change_time, change_by ".
             "FROM sla WHERE id = $Param{SLAID}",
         Limit => 1,
     );
@@ -165,10 +165,10 @@ sub SLAGet {
         $SLAData{SLAID} = $Row[0];
         $SLAData{ServiceID} = $Row[1];
         $SLAData{Name} = $Row[2];
-        $SLAData{CalendarName} = $Row[3];
-        $SLAData{ResponseTime} = $Row[4];
-        $SLAData{MaxTimeToRepair} = $Row[5];
-        $SLAData{MinTimeBetweenIncidents} = $Row[6];
+        $SLAData{Calendar} = $Row[3] || '';
+        $SLAData{FirstResponseTime} = $Row[4];
+        $SLAData{UpdateTime} = $Row[5];
+        $SLAData{SolutionTime} = $Row[6];
         $SLAData{ValidID} = $Row[7];
         $SLAData{Comment} = $Row[8];
         $SLAData{CreateTime} = $Row[9];
@@ -190,7 +190,6 @@ return a sla id, name and service_id
     or
 
     my $SLAID = $SLAObject->SLALookup(
-        ServiceID => 5,
         Name => 'SLA Name',
     );
 
@@ -200,12 +199,12 @@ sub SLALookup {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    if (!$Param{SLAID} && !($Param{ServiceID} && $Param{Name})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need SLAID OR ServiceID and Name!");
+    if (!$Param{SLAID} && !$Param{Name}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need SLAID or Name!");
         return;
     }
     if ($Param{SLAID}) {
-        my $SLAName;
+        my $Name;
         # quote
         $Param{SLAID} = $Self->{DBObject}->Quote($Param{SLAID}, 'Integer');
         # lookup
@@ -214,24 +213,23 @@ sub SLALookup {
             Limit => 1,
         );
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-            $SLAName = $Row[0];
+            $Name = $Row[0];
         }
-        return $SLAName;
+        return $Name;
     }
     else {
-        my $SLAID;
+        my $ID;
         # quote
-        $Param{ServiceID} = $Self->{DBObject}->Quote($Param{ServiceID}, 'Integer');
         $Param{Name} = $Self->{DBObject}->Quote($Param{Name});
         # lookup
         $Self->{DBObject}->Prepare(
-            SQL => "SELECT id FROM sla WHERE service_id = $Param{ServiceID} AND name = '$Param{Name}'",
+            SQL => "SELECT id FROM sla WHERE name = '$Param{Name}'",
             Limit => 1,
         );
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-            $SLAID = $Row[0];
+            $ID = $Row[0];
         }
-        return $SLAID;
+        return $ID;
     }
 }
 
@@ -242,12 +240,12 @@ add a sla
     my $True = $SLAObject->SLAAdd(
         ServiceID => 1,
         Name => 'Service Name',
-        CalendarName => 'Calendar1',
-        ResponseTime => 120,
-        MaxTimeToRepair => 500,
-        MinTimeBetweenIncidents => 3443,
+        Calendar => 'Calendar1',
+        FirstResponseTime => 120,
+        UpdateTime => 180,
+        SolutionTime => 580,
         ValidID => 1,
-        Comment => 'Comment',             # (optional)
+        Comment => 'Comment', # (optional)
         UserID => 1,
     );
 
@@ -257,65 +255,47 @@ sub SLAAdd {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(ServiceID Name CalendarName ValidID UserID)) {
-        if (!$Param{$_}) {
+    foreach (qw(ServiceID Name Calendar ValidID UserID)) {
+        if (!defined($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
-    # check integers
-    foreach (qw(ResponseTime MaxTimeToRepair MinTimeBetweenIncidents)) {
-        chomp($Param{$_});
-        if ($Param{$_}) {
-            if ($Param{$_} !~ /^\d{1,10}$/) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Invalid integer in $_!",
-                );
-                return;
-            }
-        }
-        else {
+    # check escalation times
+    foreach (qw(FirstResponseTime UpdateTime SolutionTime)) {
+        if (!$Param{$_}) {
             $Param{$_} = 0;
         }
     }
     # quote
-    foreach (qw(Name CalendarName Comment)) {
+    foreach (qw(Name Calendar Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    foreach (qw(ServiceID ResponseTime MaxTimeToRepair MinTimeBetweenIncidents ValidID UserID)) {
+    foreach (qw(ServiceID FirstResponseTime UpdateTime SolutionTime ValidID UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
-    chomp($Param{Name});
     # find exists sla
-    my $Exists;
-    $Self->{DBObject}->Prepare(
-        SQL => "SELECT id FROM sla WHERE service_id = $Param{ServiceID} AND name = '$Param{Name}'",
-        Limit => 1,
-    );
-    while ($Self->{DBObject}->FetchrowArray()) {
-        $Exists = 1;
-    }
-    # insert sla
-    my $Return;
-    if (!$Exists) {
-        $Self->{DBObject}->Do(
-            SQL =>"INSERT INTO sla ".
-                "(service_id, name, calendar_name, response_time, max_time_to_repair, min_time_between_incidents, ".
-                "valid_id, comments, create_time, create_by, change_time, change_by) VALUES ".
-                "($Param{ServiceID}, '$Param{Name}', '$Param{CalendarName}', $Param{ResponseTime}, ".
-                "$Param{MaxTimeToRepair}, $Param{MinTimeBetweenIncidents}, $Param{ValidID}, '$Param{Comment}', ".
-                "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})",
+    if ($Self->{DBObject}->Do(
+        SQL =>"INSERT INTO sla ".
+            "(service_id, name, calendar_name, first_response_time, update_time, solution_time, ".
+            "valid_id, comments, create_time, create_by, change_time, change_by) VALUES ".
+            "($Param{ServiceID}, '$Param{Name}', '$Param{Calendar}', $Param{FirstResponseTime}, ".
+            "$Param{UpdateTime}, $Param{SolutionTime}, $Param{ValidID}, '$Param{Comment}', ".
+            "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})",
+    )) {
+        my $ID = '';
+        $Self->{DBObject}->Prepare(
+            SQL => "SELECT id FROM sla WHERE name = '$Param{Name}'",
+            Limit => 1,
         );
-        $Return = 1;
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $ID = $Row[0];
+        }
+        return $ID;
     }
     else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Can't add sla! SLA with same name already exists for this service."
-        );
+        return;
     }
-    return $Return;
 }
 
 =item SLAUpdate()
@@ -326,12 +306,13 @@ update a existing sla
         SLAID => 2,
         ServiceID => 1,
         Name => 'Service Name',
-        CalendarName => 'Calendar1',
-        ResponseTime => 120,
-        MaxTimeToRepair => 500,
-        MinTimeBetweenIncidents => 3443,
+        Calendar => 'Calendar1',
+        FirstResponseTime => 120,
+        UpdateTime => 120,
+        SolutionTime => 180,
+        ResponseTime => 560,
         ValidID => 1,
-        Comment => 'Comment',             # (optional)
+        Comment => 'Comment', # (optional)
         UserID => 1,
     );
 
@@ -341,68 +322,34 @@ sub SLAUpdate {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(SLAID ServiceID Name CalendarName ValidID UserID)) {
-        if (!$Param{$_}) {
+    foreach (qw(SLAID ServiceID Name Calendar ValidID UserID)) {
+        if (!defined($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
-    # check integers
-    foreach (qw(ResponseTime MaxTimeToRepair MinTimeBetweenIncidents)) {
-        chomp($Param{$_});
-        if ($Param{$_}) {
-            if ($Param{$_} !~ /^\d{1,10}$/) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Invalid integer in $_!",
-                );
-                return;
-            }
-        }
-        else {
+    # check escalation times
+    foreach (qw(FirstResponseTime UpdateTime SolutionTime)) {
+        if (!$Param{$_}) {
             $Param{$_} = 0;
         }
     }
     # quote
-    foreach (qw(Name CalendarName Comment)) {
+    foreach (qw(Name Calendar Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    foreach (qw(SLAID ServiceID ResponseTime MaxTimeToRepair MinTimeBetweenIncidents ValidID UserID)) {
+    foreach (qw(ServiceID FirstResponseTime UpdateTime SolutionTime ValidID UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
-    chomp($Param{Name});
-    # find exists sla
-    my $Exists;
-    $Self->{DBObject}->Prepare(
-        SQL => "SELECT id FROM sla WHERE service_id = $Param{ServiceID} AND name = '$Param{Name}'",
-        Limit => 1,
-    );
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        if ($Param{SLAID} ne $Row[0]) {
-            $Exists = 1;
-        }
-    }
     # update service
-    my $Return;
-    if (!$Exists) {
-        # update service
-        $Self->{DBObject}->Do(
-            SQL => "UPDATE sla SET service_id = $Param{ServiceID}, name = '$Param{Name}', ".
-                "calendar_name = '$Param{CalendarName}', response_time = $Param{ResponseTime}, ".
-                "max_time_to_repair = $Param{MaxTimeToRepair}, ".
-                "min_time_between_incidents = $Param{MinTimeBetweenIncidents}, valid_id = $Param{ValidID}, ".
-                "comments = '$Param{Comment}', change_time = current_timestamp, change_by = $Param{UserID} ".
-                "WHERE id = $Param{SLAID}",
-        );
-        $Return = 1;
-    }
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Can't update sla! SLA with same name already exists for this service."
-        );
-    }
-    return $Return;
+    return $Self->{DBObject}->Do(
+        SQL => "UPDATE sla SET service_id = $Param{ServiceID}, name = '$Param{Name}', ".
+            "calendar_name = '$Param{Calendar}', first_response_time = $Param{FirstResponseTime}, ".
+            "update_time = $Param{UpdateTime}, ".
+            "solution_time = $Param{SolutionTime}, valid_id = $Param{ValidID}, ".
+            "comments = '$Param{Comment}', change_time = current_timestamp, change_by = $Param{UserID} ".
+            "WHERE id = $Param{SLAID}",
+    );
 }
 
 1;
@@ -421,6 +368,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2007-02-27 19:55:58 $
+$Revision: 1.3 $ $Date: 2007-03-16 10:02:50 $
 
 =cut

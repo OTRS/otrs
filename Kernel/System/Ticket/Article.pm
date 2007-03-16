@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.135 2007-03-05 02:06:32 martin Exp $
+# $Id: Article.pm,v 1.136 2007-03-16 10:04:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.135 $';
+$VERSION = '$Revision: 1.136 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1226,6 +1226,7 @@ sub ArticleGet {
         $Data{Body} = $Row[7];
         $Data{Age} = $Self->{TimeObject}->SystemTime() - $Row[8];
         $Ticket{CreateTimeUnix} = $Row[8];
+        $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $Row[8]);
 #        $Ticket{Age} = $Data{Age},
         $Data{PriorityID} = $Row[18];
         $Ticket{PriorityID} = $Row[18];
@@ -1323,7 +1324,7 @@ sub ArticleGet {
         push (@Content, {%Data, %Ticket});
     }
     # get type
-    $Ticket{Type} = $Self->TypeLookup(TypeID => $Ticket{TypeID});
+    $Ticket{Type} = $Self->TypeLookup(TypeID => $Ticket{TypeID} || 1);
     # get owner
     $Ticket{Owner} = $Self->{UserObject}->UserLookup(UserID => $Ticket{OwnerID});
     # get responsible
@@ -1340,15 +1341,15 @@ sub ArticleGet {
     if ($Ticket{SLAID}) {
         $Ticket{SLA} = $Self->{SLAObject}->SLALookup(SLAID => $Ticket{SLAID});
     }
+    # get esclation attributes
+    my %Escalation = $Self->TicketEscalationState(Ticket => \%Ticket, UserID => $Param{UserID} || 1);
+    %Ticket = (%Escalation, %Ticket);
     # get queue name and other stuff
     my %Queue = $Self->{QueueObject}->QueueGet(ID => $Ticket{QueueID}, Cache => 1);
     # get state info
     my %StateData = $Self->{StateObject}->StateGet(ID => $Ticket{StateID}, Cache => 1);
 
     # article stuff
-    my $EscalationTime = 0;
-    my $EscalationTimeLong = 0;
-    my $EscalationDate = 0;
     foreach my $Part (@Content) {
         # get type
         $Part->{Type} = $Ticket{Type};
@@ -1381,25 +1382,10 @@ sub ArticleGet {
         $Part->{State} = $StateData{Name};
     }
     # get escalation time
-    if ($Queue{EscalationTime} && $Ticket{EscalationStartTime} && ($Param{TicketID}||$Param{TicketOverTime}) && $StateData{TypeName} !~ /^close/i) {
-        my $CountedTime = $Self->{TimeObject}->WorkingTime(
-            StartTime => $Ticket{EscalationStartTime},
-            StopTime => $Self->{TimeObject}->SystemTime(),
-            Calendar => $Queue{Calendar},
-        );
-        $EscalationTime = ($Queue{EscalationTime}*60) - $CountedTime;
-        my $CountedTime1 = $Self->{TimeObject}->DestinationTime(
-            StartTime => $Ticket{EscalationStartTime},
-            Time => $Queue{EscalationTime}*60,
-            Calendar => $Queue{Calendar},
-        );
-        $EscalationDate = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $CountedTime1);
-        $EscalationTimeLong = $CountedTime1 - $Self->{TimeObject}->SystemTime();
-    }
     foreach my $Part (@Content) {
-        $Part->{TicketOverTime} = $EscalationTime;
-        $Part->{TicketOverTimeLong} = $EscalationTimeLong;
-        $Part->{TicketOverDate} = $EscalationDate;
+        foreach (keys %Escalation) {
+            $Part->{$_} = $Escalation{$_};
+        }
     }
     if ($Param{ArticleID}) {
         return %{$Content[0]};
@@ -1552,7 +1538,6 @@ sub ArticleSend {
     # clean up
     $Param{Body} =~ s/(\r\n|\n\r)/\n/g;
     $Param{Body} =~ s/\r/\n/g;
-
     # create article
     my $MessageID = "<$Time.$Random.$Param{TicketID}.$Param{UserID}\@$Self->{FQDN}>";
     if ($Param{ArticleID} = $Self->ArticleCreate(

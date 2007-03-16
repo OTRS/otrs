@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.249 2007-03-15 08:21:08 martin Exp $
+# $Id: Ticket.pm,v 1.250 2007-03-16 10:04:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.249 $';
+$VERSION = '$Revision: 1.250 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -836,10 +836,10 @@ sub TicketGet {
     # get sla
     if ($Ticket{SLAID}) {
         $Ticket{SLA} = $Self->{SLAObject}->SLALookup(SLAID => $Ticket{SLAID});
-        # get sla attributes
-        my %SLA = $Self->TicketSLAState(Ticket => \%Ticket, SLAID => $Ticket{SLAID}, UserID => $Param{UserID} || 1);
-        %Ticket = (%SLA, %Ticket);
     }
+    # get escalation attributes
+    my %Escalation = $Self->TicketEscalationState(Ticket => \%Ticket, UserID => $Param{UserID} || 1);
+    %Ticket = (%Escalation, %Ticket);
     # get state info
     my %StateData = $Self->{StateObject}->StateGet(ID => $Ticket{StateID}, Cache => 1);
     $Ticket{StateType} = $StateData{TypeName};
@@ -1566,82 +1566,122 @@ sub TicketServiceSet {
     }
 }
 
-sub TicketSLAState {
+sub TicketEscalationState {
     my $Self = shift;
     my %Param = @_;
     my %Data = ();
     # check needed stuff
-    foreach (qw(Ticket SLAID UserID)) {
+    foreach (qw(Ticket UserID)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
-    my %SLA = $Self->{SLAObject}->SLAGet(
-        SLAID => $Param{SLAID},
-        UserID => $Param{UserID},
-    );
+    # get ticket
     my %Ticket = %{$Param{Ticket}};
+    my %Escalation = ();
+    if ($Self->{ConfigObject}->Get('Ticket::Service') && $Ticket{SLAID}) {
+        %Escalation = $Self->{SLAObject}->SLAGet(
+            SLAID => $Ticket{SLAID},
+            UserID => $Param{UserID},
+        );
+    }
+    else {
+        %Escalation = $Self->{QueueObject}->QueueGet(
+            ID => $Ticket{QueueID},
+            UserID => $Param{UserID},
+        );
+    }
     # check response time
-    if ($SLA{ResponseTime}) {
+    if ($Escalation{FirstResponseTime}) {
 # check if first response is already done
         my $DestinationTime = $Self->{TimeObject}->DestinationTime(
             StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(String => $Ticket{Created}),
-            Time => $SLA{ResponseTime}*60,
-            Calendar => $SLA{Calendar},
+            Time => $Escalation{FirstResponseTime}*60,
+            Calendar => $Escalation{Calendar},
         );
         my $Time = $DestinationTime-$Self->{TimeObject}->SystemTime();
         my $WorkingTime = 0;
         if ($Time > 0) {
             $WorkingTime = $Self->{TimeObject}->WorkingTime(
-                StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(String => $Ticket{Created}),
+                StartTime => $Self->{TimeObject}->SystemTime(),
                 StopTime => $DestinationTime,
-                Calendar => $SLA{Calendar},
+                Calendar => $Escalation{Calendar},
             );
         }
         else {
             $WorkingTime = $Self->{TimeObject}->WorkingTime(
                 StartTime => $DestinationTime,
                 StopTime => $Self->{TimeObject}->SystemTime(),
-                Calendar => $SLA{Calendar},
+                Calendar => $Escalation{Calendar},
             );
             $WorkingTime = "-$WorkingTime";
         }
         my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $DestinationTime);
-        $Data{"ResponseTimeDestinationTime"} = $DestinationTime;
-        $Data{"ResponseTimeDestinationDate"} = $DestinationDate;
-        $Data{"ResponseTimeWorkingTime"} = $WorkingTime;
-        $Data{"ResponseTimeTime"} = $Time;
+        $Data{"FirstResponseTimeDestinationTime"} = $DestinationTime;
+        $Data{"FirstResponseTimeDestinationDate"} = $DestinationDate;
+        $Data{"FirstResponseTimeWorkingTime"} = $WorkingTime;
+        $Data{"FirstResponseTime"} = $Time;
     }
-    # check max time to repair
-    if ($SLA{MaxTimeToRepair}) {
+    # check update time
+    if ($Escalation{UpdateTime}) {
+        my $DestinationTime = $Self->{TimeObject}->DestinationTime(
+            StartTime => $Ticket{EscalationStartTime},
+            Time => $Escalation{UpdateTime}*60,
+            Calendar => $Escalation{Calendar},
+        );
+        my $Time = $DestinationTime-$Self->{TimeObject}->SystemTime();
+        my $WorkingTime = 0;
+        if ($Time > 0) {
+            $WorkingTime = $Self->{TimeObject}->WorkingTime(
+                StartTime => $Self->{TimeObject}->SystemTime(),
+                StopTime => $DestinationTime,
+                Calendar => $Escalation{Calendar},
+            );
+        }
+        else {
+            $WorkingTime = $Self->{TimeObject}->WorkingTime(
+                StartTime => $DestinationTime,
+                StopTime => $Self->{TimeObject}->SystemTime(),
+                Calendar => $Escalation{Calendar},
+            );
+            $WorkingTime = "-$WorkingTime";
+        }
+        my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $DestinationTime);
+        $Data{"UpdateTimeDestinationTime"} = $DestinationTime;
+        $Data{"UpdateTimeDestinationDate"} = $DestinationDate;
+        $Data{"UpdateTimeWorkingTime"} = $WorkingTime;
+        $Data{"UpdateTime"} = $Time;
+    }
+    # check solution time
+    if ($Escalation{SolutionTime}) {
         my $DestinationTime = $Self->{TimeObject}->DestinationTime(
             StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(String => $Ticket{Created}),
-            Time => $SLA{MaxTimeToRepair}*60,
-            Calendar => $SLA{Calendar},
+            Time => $Escalation{SolutionTime}*60,
+            Calendar => $Escalation{Calendar},
         );
         my $Time = $DestinationTime-$Self->{TimeObject}->SystemTime();
         my $WorkingTime = 0;
         if ($Time > 0) {
             $WorkingTime = $Self->{TimeObject}->WorkingTime(
-                StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(String => $Ticket{Created}),
+                StartTime => $Self->{TimeObject}->SystemTime(),
                 StopTime => $DestinationTime,
-                Calendar => $SLA{Calendar},
+                Calendar => $Escalation{Calendar},
             );
         }
         else {
             $WorkingTime = $Self->{TimeObject}->WorkingTime(
                 StartTime => $DestinationTime,
                 StopTime => $Self->{TimeObject}->SystemTime(),
-                Calendar => $SLA{Calendar},
+                Calendar => $Escalation{Calendar},
             );
             $WorkingTime = "-$WorkingTime";
         }
         my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $DestinationTime);
-        $Data{"MaxTimeToRepairDestinationTime"} = $DestinationTime;
-        $Data{"MaxTimeToRepairDestinationDate"} = $DestinationDate;
-        $Data{"MaxTimeToRepairWorkingTime"} = $WorkingTime;
-        $Data{"MaxTimeToRepairTime"} = $Time;
+        $Data{"SolutionTimeDestinationTime"} = $DestinationTime;
+        $Data{"SolutionTimeDestinationDate"} = $DestinationDate;
+        $Data{"SolutionTimeWorkingTime"} = $WorkingTime;
+        $Data{"SolutionTime"} = $Time;
     }
     return %Data;
 }
@@ -1750,7 +1790,7 @@ sub TicketSLASet {
         return 1;
     }
     # permission check
-    my %SLAList = $Self->TicketSLAList(%Param);
+    my %SLAList = $Self->TicketSLAList(%Param, ServiceID => $Ticket{ServiceID});
     if (!$SLAList{$Param{SLAID}}) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
@@ -5732,6 +5772,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.249 $ $Date: 2007-03-15 08:21:08 $
+$Revision: 1.250 $ $Date: 2007-03-16 10:04:39 $
 
 =cut

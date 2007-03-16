@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueueForm.dtl,v 1.33 2007-03-15 08:17:15 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.34 2007-03-16 10:08:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -86,9 +86,21 @@
                   </td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Escalation time"} ($Text{"minutes"}): </td>
+                  <td class="contentkey">$Text{"Escalation - First Response Time"} ($Text{"minutes"}): </td>
                   <td class="contentvalue">
-                    <input type="text" name="EscalationTime" value="$QData{"EscalationTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}
+                    <input type="text" name="FirstResponseTime" value="$QData{"FirstResponseTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Escalation - Update Time"} ($Text{"minutes"}): </td>
+                  <td class="contentvalue">
+                    <input type="text" name="UpdateTime" value="$QData{"UpdateTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Escalation - Solution Time"} ($Text{"minutes"}): </td>
+                  <td class="contentvalue">
+                    <input type="text" name="SolutionTime" value="$QData{"SolutionTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}
                   </td>
                 </tr>
                 <tr>

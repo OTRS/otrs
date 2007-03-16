@@ -2,7 +2,7 @@
 # AgentTicketQueueTicketViewLite.dtl - provides HTML TicketView for AgentTicketQueue
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueueTicketViewLite.dtl,v 1.10 2007-03-12 11:29:54 martin Exp $
+# $Id: AgentTicketQueueTicketViewLite.dtl,v 1.11 2007-03-16 10:08:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -110,10 +110,6 @@
           <td><b>$Text{"CustomerID"}:</b></td>
           <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","14"}</a></td>
         </tr>
-        <tr valign="top">
-          <td><b>$Text{"Escalation in"}:</b></td>
-          <td>$Data{"TicketOverTime"}</td>
-        </tr>
 <!-- dtl:block:Service -->
         <tr valign="top">
           <td><b>$Text{"Service"}:</b></td>
@@ -126,6 +122,48 @@
           <td><div title="$Text{"$Data{"SLA"}"}">$Quote{"$Text{"$Data{"SLA"}"}","18"}</div></font></td>
         </tr>
 <!-- dtl:block:SLA -->
+<!-- dtl:block:FirstResponseTime -->
+        <tr valign="top">
+          <td><b>$Text{"First Response"}:</b></td>
+          <td>
+<!-- dtl:block:FirstResponseTimeFontStart -->
+            <font color="red">
+<!-- dtl:block:FirstResponseTimeFontStart -->
+            <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">$QData{"FirstResponseTimeHuman"} / $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</div>
+<!-- dtl:block:FirstResponseTimeFontStop -->
+            </font>
+<!-- dtl:block:FirstResponseTimeFontStop -->
+          </td>
+        </tr>
+<!-- dtl:block:FirstResponseTime -->
+<!-- dtl:block:UpdateTime -->
+        <tr valign="top">
+          <td><b>$Text{"Update Time"}:</b></td>
+          <td>
+<!-- dtl:block:UpdateTimeFontStart -->
+            <font color="red">
+<!-- dtl:block:UpdateTimeFontStart -->
+            <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">$QData{"UpdateTimeHuman"} / $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
+<!-- dtl:block:UpdateTimeFontStop -->
+            </font>
+<!-- dtl:block:UpdateTimeFontStop -->
+          </td>
+        </tr>
+<!-- dtl:block:UpdateTime -->
+<!-- dtl:block:SolutionTime -->
+        <tr valign="top">
+          <td><b>$Text{"Solution Time"}:</b></td>
+          <td>
+<!-- dtl:block:SolutionTimeFontStart -->
+            <font color="red">
+<!-- dtl:block:SolutionTimeFontStart -->
+            <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">$QData{"SolutionTimeHuman"} / $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}</div>
+<!-- dtl:block:SolutionTimeFontStop -->
+            </font>
+<!-- dtl:block:SolutionTimeFontStop -->
+          </td>
+        </tr>
+<!-- dtl:block:SolutionTime -->
 # --
 # show TicketFreeKey1-2 and TicketFreeValue1-2
 # --

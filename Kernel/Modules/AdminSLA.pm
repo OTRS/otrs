@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.2 2007-02-24 11:14:02 mh Exp $
+# $Id: AdminSLA.pm,v 1.3 2007-03-16 10:02:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -57,26 +57,16 @@ sub Run {
         my %SLAData;
         # get params
         $SLAData{SLAID} = $Self->{ParamObject}->GetParam(Param => "SLAID");
-        if ($SLAData{SLAID} eq 'NEW') {
-            $SLAData{Name} = $Self->{ParamObject}->GetParam(Param => "Name");
-            $SLAData{ServiceID} = $Self->{ParamObject}->GetParam(Param => "ServiceID");
-            $SLAData{ResponseTime} = 0;
-            $SLAData{MaxTimeToRepair} = 0;
-            $SLAData{MinTimeBetweenIncidents} = 0;
-
-            if (!$SLAData{ServiceID}) {
-                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
-            }
-        }
-        else {
+        if ($SLAData{SLAID}) {
             %SLAData = $Self->{SLAObject}->SLAGet(
                 SLAID => $SLAData{SLAID},
                 UserID => $Self->{UserID},
             );
         }
-        # output header
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        else {
+            $SLAData{Name} = $Self->{ParamObject}->GetParam(Param => "Name");
+            $SLAData{ServiceID} = $Self->{ParamObject}->GetParam(Param => "ServiceID");
+        }
         # get service list
         my %ServiceList = $Self->{ServiceObject}->ServiceList(
             UserID => $Self->{UserID},
@@ -86,7 +76,7 @@ sub Run {
         if ($Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree') {
             $TreeView = 1;
         }
-        my $ServiceOptionStrg = $Self->{LayoutObject}->BuildSelection(
+        $Param{ServiceOptionStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => \%ServiceList,
             Name => 'ServiceID',
             PossibleNone => 1,
@@ -94,14 +84,6 @@ sub Run {
             Sort => 'TreeView',
             Translation => 0,
             SelectedID => $SLAData{ServiceID},
-        );
-        # output overview
-        $Self->{LayoutObject}->Block(
-            Name => 'Overview',
-            Data => {
-                %Param,
-                ServiceOptionStrg => $ServiceOptionStrg,
-            },
         );
         # generate CalendarOptionStrg
         my %CalendarList;
@@ -112,14 +94,18 @@ sub Run {
         }
         $SLAData{CalendarOptionStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => \%CalendarList,
-            Name => 'CalendarName',
-            SelectedID => $SLAData{CalendarName},
+            Name => 'Calendar',
+            SelectedID => $SLAData{Calendar},
             PossibleNone => 1,
         );
-        # get service
-        my %ServiceData = $Self->{ServiceObject}->ServiceGet(
-            ServiceID => $SLAData{ServiceID},
-            UserID => $Self->{UserID},
+        $Param{ServiceOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data => \%ServiceList,
+            Name => 'ServiceID',
+            SelectedID => $SLAData{ServiceID} || '',
+            PossibleNone => 1,
+            TreeView => $TreeView,
+            Sort => 'TreeView',
+            Translation => 0,
         );
         # generate ValidOptionStrg
         my %ValidList = $Self->{ValidObject}->ValidList();
@@ -130,21 +116,26 @@ sub Run {
         );
         # output sla edit
         $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+            Data => {
+                %Param,
+            },
+        );
+        $Self->{LayoutObject}->Block(
             Name => 'SLAEdit',
             Data => {
                 %Param,
                 %SLAData,
-                Service => $ServiceData{Name},
-                ServiceID => $ServiceData{ServiceID},
             },
         );
-        # generate output
+        # output overview
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSLA',
             Data => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
-
         return $Output;
     }
     # ------------------------------------------------------------ #
@@ -154,17 +145,17 @@ sub Run {
         my $ErrorNotify = '';
         my %SLAData;
         # get params
-        foreach (qw(SLAID ServiceID Name CalendarName ResponseTime MaxTimeToRepair MinTimeBetweenIncidents ValidID Comment)) {
+        foreach (qw(SLAID ServiceID Name Calendar FirstResponseTime SolutionTime UpdateTime ValidID Comment)) {
             $SLAData{$_} = $Self->{ParamObject}->GetParam(Param => "$_") || '';
         }
         # save to database
-        if ($SLAData{SLAID} eq 'NEW') {
+        if (!$SLAData{SLAID}) {
             my $Success = $Self->{SLAObject}->SLAAdd(
                 %SLAData,
                 UserID => $Self->{UserID},
             );
             if (!$Success) {
-                $ErrorNotify .= "&ErrorAdd=1"
+                return $Self->{LayoutObject}->ErrorScreen();
             }
         }
         else {
@@ -173,11 +164,11 @@ sub Run {
                 UserID => $Self->{UserID},
             );
             if (!$Success) {
-                $ErrorNotify .= "&ErrorUpdate=1"
+                return $Self->{LayoutObject}->ErrorScreen();
             }
         }
         # redirect to overview
-        return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}$ErrorNotify");
+        return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
     }
 
     # ------------------------------------------------------------ #
@@ -198,7 +189,7 @@ sub Run {
         elsif ($Self->{ParamObject}->GetParam(Param => "ErrorUpdate")) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data => '$Text{"Update SLA faild! See System Log for details."}',
+#                Data => '$Text{"Update SLA faild! See System Log for details."}',
             );
         }
         # get service list

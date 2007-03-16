@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.36 2007-03-15 08:20:30 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.37 2007-03-16 10:08:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -258,47 +258,6 @@ sub MaskAgentZoom {
     my $Counter = '';
     my $Space = '';
     my $LastSenderType = '';
-    my $TicketOverTime = 0;
-    my $TicketOverTimeLong = 0;
-    my $TicketOverDate = 0;
-    foreach my $ArticleTmp (@ArticleBox) {
-        my %Article = %$ArticleTmp;
-        $TicketOverTime = $Article{TicketOverTime};
-        $TicketOverTimeLong = $Article{TicketOverTimeLong};
-        $TicketOverDate = $Article{TicketOverDate};
-    }
-    # prepare escalation time (if needed)
-    if ($TicketOverTime) {
-        # colloring
-        if ($TicketOverTimeLong <= -60*20) {
-            $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
-            $Param{TicketOverTimeFontEnd} = '</font>';
-        }
-        elsif ($TicketOverTimeLong <= -60*40) {
-            $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
-            $Param{TicketOverTimeFontEnd} = '</font>';
-        }
-        $Param{TicketOverTime} = $Self->{LayoutObject}->CustomerAgeInHours(
-            Age => $TicketOverTime,
-            Space => ' ',
-        );
-        $Param{TicketOverTimeLong} = $Self->{LayoutObject}->CustomerAge(
-            Age => $TicketOverTimeLong,
-            Space => ' ',
-        );
-        if ($Param{TicketOverTimeFont} && $Param{TicketOverTimeFontEnd}) {
-            $Param{TicketOverTime} = $Param{TicketOverTimeFont}.$Param{TicketOverTimeLong}.'<br>'.
-                '<div title="$Text{"Service Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$TicketOverDate.
-                '"}</div>'.$Param{TicketOverTimeFontEnd};
-        }
-        else {
-            $Param{TicketOverTime} = $Param{TicketOverTimeLong}.'<br>'.
-                '<div title="$Text{"Service Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$TicketOverDate.'"}</div>';
-        }
-    }
-    else {
-        $Param{TicketOverTime} = '-';
-    }
     # get shown article(s)
     my @NewArticleBox = ();
     if (!$Self->{ZoomExpand}) {
@@ -378,54 +337,81 @@ sub MaskAgentZoom {
                         Name => 'SLA',
                         Data => {%Param, %AclAction},
                     );
-                    if (defined($Param{ResponseTimeTime})) {
-                        $Param{ResponseTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
-                            Age => $Param{'ResponseTimeWorkingTime'},
-                            Space => ' ',
-                        );
-                        $Param{ResponseWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
-                            Age => $Param{'ResponseTimeWorkingTime'},
-                            Space => ' ',
-                        );
-                        $Self->{LayoutObject}->Block(
-                            Name => 'SLAResponsTime',
-                            Data => {%Param, %AclAction},
-                        );
-                        if (60*60*1 > $Param{ResponseTimeTime}) {
-                            $Self->{LayoutObject}->Block(
-                                Name => 'SLAResponsTimeFontStart',
-                                Data => {%Param, %AclAction},
-                            );
-                            $Self->{LayoutObject}->Block(
-                                Name => 'SLAResponsTimeFontStop',
-                                Data => {%Param, %AclAction},
-                            );
-                        }
-                    }
-                    if (defined($Param{MaxTimeToRepairTime})) {
-                        $Param{MaxTimeToRepairTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
-                            Age => $Param{'MaxTimeToRepairTime'},
-                            Space => ' ',
-                        );
-                        $Param{MaxTimeToRepairTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
-                            Age => $Param{'MaxTimeToRepairTimeWorkingTime'},
-                            Space => ' ',
-                        );
-                        $Self->{LayoutObject}->Block(
-                            Name => 'SLAMaxTimeToRepairTime',
-                            Data => {%Param, %AclAction},
-                        );
-                        if (60*60*1 > $Param{MaxTimeToRepairTime}) {
-                            $Self->{LayoutObject}->Block(
-                                Name => 'SLAMaxTimeToRepairTimeFontStart',
-                                Data => {%Param, %AclAction},
-                            );
-                            $Self->{LayoutObject}->Block(
-                                Name => 'SLAMaxTimeToRepairTimeFontStop',
-                                Data => {%Param, %AclAction},
-                            );
-                        }
-                    }
+                }
+            }
+            # show first response time if needed
+            if (defined($Param{FirstResponseTime})) {
+                $Param{FirstResponseTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
+                    Age => $Param{'FirstResponseTime'},
+                    Space => ' ',
+                );
+                $Param{FirstResponseTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
+                    Age => $Param{'FirstResponseTimeWorkingTime'},
+                    Space => ' ',
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'FirstResponseTime',
+                    Data => {%Param, %AclAction},
+                );
+                if (60*60*1 > $Param{FirstResponseTime}) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'FirstResponseTimeFontStart',
+                        Data => {%Param, %AclAction},
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'FirstResponseTimeFontStop',
+                        Data => {%Param, %AclAction},
+                    );
+                }
+            }
+            # show update time if needed
+            if (defined($Param{UpdateTime})) {
+                $Param{UpdateTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
+                    Age => $Param{'UpdateTime'},
+                    Space => ' ',
+                );
+                $Param{UpdateTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
+                    Age => $Param{'UpdateTimeWorkingTime'},
+                    Space => ' ',
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'UpdateTime',
+                    Data => {%Param, %AclAction},
+                );
+                if (60*60*1 > $Param{UpdateTime}) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'UpdateTimeFontStart',
+                        Data => {%Param, %AclAction},
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'UpdateTimeFontStop',
+                        Data => {%Param, %AclAction},
+                    );
+                }
+            }
+            # show solution time if needed
+            if (defined($Param{SolutionTime})) {
+                $Param{SolutionTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
+                    Age => $Param{'SolutionTime'},
+                    Space => ' ',
+                );
+                $Param{SolutionTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
+                    Age => $Param{'SolutionTimeWorkingTime'},
+                    Space => ' ',
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'SolutionTime',
+                    Data => {%Param, %AclAction},
+                );
+                if (60*60*1 > $Param{SolutionTime}) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'SolutionTimeFontStart',
+                        Data => {%Param, %AclAction},
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'SolutionTimeFontStop',
+                        Data => {%Param, %AclAction},
+                    );
                 }
             }
             # customer info string

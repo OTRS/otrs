@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.33 2007-03-15 08:20:30 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.34 2007-03-16 10:08:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -379,38 +379,6 @@ sub ShowTicket {
     # create human age
     $Article{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Article{Age}, Space => ' ');
 
-    # prepare escalation time
-    if ($Article{TicketOverTime}) {
-        if ($Article{TicketOverTimeLong} <= -60*20) {
-            $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
-            $Param{TicketOverTimeFontEnd} = '</font>';
-        }
-        elsif ($Article{TicketOverTimeLong} <= -60*40) {
-            $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
-            $Param{TicketOverTimeFontEnd} = '</font>';
-        }
-        $Param{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
-            Age => $Article{TicketOverTime},
-            Space => ' ',
-        );
-        $Param{TicketOverTimeLong} = $Self->{LayoutObject}->CustomerAge(
-            Age => $Article{TicketOverTimeLong},
-            Space => ' ',
-        );
-        if ($Param{TicketOverTimeFont} && $Param{TicketOverTimeFontEnd}) {
-            $Article{TicketOverTime} = $Param{TicketOverTimeFont}.$Param{TicketOverTimeLong}.'<br>'.
-                '<div title="$Text{"Serivce Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$Article{TicketOverDate}.
-                '"}</div>'.$Param{TicketOverTimeFontEnd};
-        }
-        else {
-            $Article{TicketOverTime} = $Param{TicketOverTimeLong}.'<br>'.
-                '<div title="$Text{"Serivce Time"}: '.$Param{TicketOverTime}.'">$TimeShort{"'.$Article{TicketOverDate}.
-                '"}</div>';
-        }
-    }
-    else {
-        $Article{TicketOverTime} = '$Text{"none"}';
-    }
     # customer info string
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueue')) {
         $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
@@ -551,6 +519,81 @@ sub ShowTicket {
         if ($Article{SLA}) {
             $Self->{LayoutObject}->Block(
                 Name => 'SLA',
+                Data => { %Param, %Article },
+            );
+        }
+    }
+    # show first response time if needed
+    if (defined($Article{FirstResponseTime})) {
+        $Article{FirstResponseTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
+            Age => $Article{'FirstResponseTime'},
+            Space => ' ',
+        );
+        $Article{FirstResponseTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
+            Age => $Article{'FirstResponseTimeWorkingTime'},
+            Space => ' ',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'FirstResponseTime',
+            Data => { %Param, %Article },
+        );
+        if (60*60*1 > $Article{FirstResponseTime}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FirstResponseTimeFontStart',
+                Data => { %Param, %Article },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'FirstResponseTimeFontStop',
+                Data => { %Param, %Article },
+            );
+        }
+    }
+    # show update time if needed
+    if (defined($Article{UpdateTime})) {
+        $Article{UpdateTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
+            Age => $Article{'UpdateTime'},
+            Space => ' ',
+        );
+        $Article{UpdateTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
+            Age => $Article{'UpdateTimeWorkingTime'},
+            Space => ' ',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'UpdateTime',
+            Data => { %Param, %Article },
+        );
+        if (60*60*1 > $Article{UpdateTime}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'UpdateTimeFontStart',
+                Data => { %Param, %Article },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'UpdateTimeFontStop',
+                Data => { %Param, %Article },
+            );
+        }
+    }
+    # show solution time if needed
+    if (defined($Article{SolutionTime})) {
+        $Article{SolutionTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
+            Age => $Article{'SolutionTime'},
+            Space => ' ',
+        );
+        $Article{SolutionTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
+            Age => $Article{'SolutionTimeWorkingTime'},
+            Space => ' ',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'SolutionTime',
+            Data => { %Param, %Article },
+        );
+        if (60*60*1 > $Article{SolutionTime}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'SolutionTimeFontStart',
+                Data => { %Param, %Article },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'SolutionTimeFontStop',
                 Data => { %Param, %Article },
             );
         }

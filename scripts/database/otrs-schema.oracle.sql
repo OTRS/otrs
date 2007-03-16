@@ -1,6 +1,7 @@
 -- ----------------------------------------------------------
---  database: oracle, generated: 2007-03-05 02:51:58
+--  driver: oracle, generated: 2007-03-16 11:00:02
 -- ----------------------------------------------------------
+SET DEFINE OFF;
 -- ----------------------------------------------------------
 --  create table valid
 -- ----------------------------------------------------------
@@ -455,7 +456,9 @@ CREATE TABLE queue (
     name VARCHAR2 (200) NOT NULL,
     group_id NUMBER NOT NULL,
     unlock_timeout NUMBER,
-    escalation_time NUMBER,
+    first_response_time NUMBER,
+    update_time NUMBER,
+    solution_time NUMBER,
     system_address_id NUMBER (5, 0) NOT NULL,
     calendar_name VARCHAR2 (100),
     default_sign_key VARCHAR2 (100),
@@ -896,14 +899,14 @@ CREATE TABLE standard_response_attachment (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach73_PK PRIMARY KEY (id);
-DROP SEQUENCE standard_response_attach73_seq;
-CREATE SEQUENCE standard_response_attach73_seq;
-CREATE OR REPLACE TRIGGER standard_response_attach73_s_t
+ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach89_PK PRIMARY KEY (id);
+DROP SEQUENCE standard_response_attach89_seq;
+CREATE SEQUENCE standard_response_attach89_seq;
+CREATE OR REPLACE TRIGGER standard_response_attach89_s_t
 before insert on standard_response_attachment
 for each row
 begin
-    select standard_response_attach73_seq.nextval
+    select standard_response_attach89_seq.nextval
     into :new.id
     from dual;
 end;
@@ -1020,7 +1023,7 @@ begin
 end;
 /
 --;
-CREATE INDEX index_time_accounting_ticket15 ON time_accounting (ticket_id);
+CREATE INDEX index_time_accounting_ticket59 ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
 --  create table ticket_watcher
 -- ----------------------------------------------------------
@@ -1062,15 +1065,16 @@ CREATE TABLE sla (
     service_id NUMBER NOT NULL,
     name VARCHAR2 (200) NOT NULL,
     calendar_name VARCHAR2 (100),
-    response_time NUMBER NOT NULL,
-    max_time_to_repair NUMBER NOT NULL,
-    min_time_between_incidents NUMBER NOT NULL,
+    first_response_time NUMBER NOT NULL,
+    update_time NUMBER NOT NULL,
+    solution_time NUMBER NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     comments VARCHAR2 (200) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER NOT NULL,
     change_time DATE NOT NULL,
-    change_by NUMBER NOT NULL
+    change_by NUMBER NOT NULL,
+    CONSTRAINT sla_U_1 UNIQUE (name)
 );
 ALTER TABLE sla ADD CONSTRAINT sla_PK PRIMARY KEY (id);
 DROP SEQUENCE sla_seq;
@@ -1154,7 +1158,7 @@ CREATE TABLE customer_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_customer_preferences_u5 ON customer_preferences (user_id);
+CREATE INDEX index_customer_preferences_u96 ON customer_preferences (user_id);
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
 -- ----------------------------------------------------------
@@ -1162,8 +1166,8 @@ CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR2 (250) NOT NULL,
     sent_date VARCHAR2 (150) NOT NULL
 );
-CREATE INDEX index_ticket_loop_protection53 ON ticket_loop_protection (sent_to);
-CREATE INDEX index_ticket_loop_protection41 ON ticket_loop_protection (sent_date);
+CREATE INDEX index_ticket_loop_protection22 ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loop_protection61 ON ticket_loop_protection (sent_date);
 -- ----------------------------------------------------------
 --  create table pop3_account
 -- ----------------------------------------------------------
