@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.34 2007-03-14 12:55:00 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.35 2007-03-16 11:46:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -219,7 +219,7 @@ sub Run {
                 Priorities => $Self->_GetPriorities(QueueID => 1),
                 Types => $Self->_GetTypes(QueueID => 1),
                 Services => $Self->_GetServices(QueueID => 1),
-                SLAs => $Self->_GetSLAs(QueueID => 1),
+                SLAs => $Self->_GetSLAs(QueueID => 1, %GetParam),
                 Users => $Self->_GetUsers(),
                 FromList => $Self->_GetTos(),
                 To => '',
@@ -553,7 +553,7 @@ sub Run {
                 Priorities => $Self->_GetPriorities(QueueID => $NewQueueID || 1),
                 Types => $Self->_GetTypes(QueueID => $NewQueueID || 1),
                 Services => $Self->_GetServices(QueueID => $NewQueueID || 1),
-                SLAs => $Self->_GetSLAs(QueueID => $NewQueueID || 1),
+                SLAs => $Self->_GetSLAs(QueueID => $NewQueueID || 1, %GetParam),
                 CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
                 CustomerUser => $CustomerUser,
                 CustomerData => \%CustomerData,
@@ -667,6 +667,9 @@ sub Run {
             QueueID => $NewQueueID,
             Subject => $GetParam{Subject},
             Lock => 'unlock',
+            TypeID => $GetParam{TypeID} || '',
+            ServiceID => $GetParam{ServiceID} || '',
+            SLAID => $GetParam{SLAID} || '',
             StateID => $NextStateID,
             PriorityID => $GetParam{PriorityID},
             OwnerID => $Self->{UserID},
@@ -957,7 +960,7 @@ sub _GetSLAs {
     my %Param = @_;
     my %SLA = ();
     # get priority
-    if ($Param{QueueID} || $Param{TicketID}) {
+    if ($Param{ServiceID}) {
         %SLA = $Self->{TicketObject}->TicketSLAList(
             %Param,
             Action => $Self->{Action},

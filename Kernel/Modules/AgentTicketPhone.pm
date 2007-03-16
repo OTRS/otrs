@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.38 2007-03-14 12:55:00 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.39 2007-03-16 11:46:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -232,7 +232,7 @@ sub Run {
             Priorities => $Self->_GetPriorities(QueueID => $Self->{QueueID} || 1),
             Types => $Self->_GetTypes(QueueID => $Self->{QueueID} || 1),
             Services => $Self->_GetServices(QueueID => $Self->{QueueID} || 1),
-            SLAs => $Self->_GetSLAs(QueueID => $Self->{QueueID} || 1),
+            SLAs => $Self->_GetSLAs(QueueID => $Self->{QueueID} || 1, %GetParam),
             Users => $Self->_GetUsers(QueueID => $Self->{QueueID}),
             To => $Self->_GetTos(QueueID => $Self->{QueueID}),
             From => $Article{From},
@@ -497,7 +497,7 @@ sub Run {
                 Priorities => $Self->_GetPriorities(QueueID => $NewQueueID || 1),
                 Types => $Self->_GetTypes(QueueID => $NewQueueID || 1),
                 Services => $Self->_GetServices(QueueID => $NewQueueID || 1),
-                SLAs => $Self->_GetSLAs(QueueID => $NewQueueID || 1),
+                SLAs => $Self->_GetSLAs(QueueID => $NewQueueID || 1, %GetParam),
                 CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
                 CustomerUser => $CustomerUser,
                 CustomerData => \%CustomerData,
@@ -896,7 +896,7 @@ sub _GetSLAs {
     my %Param = @_;
     my %SLA = ();
     # get priority
-    if ($Param{QueueID} || $Param{TicketID}) {
+    if ($Param{ServiceID}) {
         %SLA = $Self->{TicketObject}->TicketSLAList(
             %Param,
             Action => $Self->{Action},
