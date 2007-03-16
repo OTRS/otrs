@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.26 2007-02-13 14:58:19 tr Exp $
+# $Id: Time.pm,v 1.27 2007-03-16 10:05:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -628,7 +628,9 @@ sub DestinationTime {
                             );
                         }
 #                        $Param{Time} = $Param{Time} - (60*60);
-                        $DestinationTime = $DestinationTime + (60*60);
+                        if ($Param{Time} > 59) {
+                            $DestinationTime = $DestinationTime + (60*60);
+                        }
 #print STDERR "DD NOHIT DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
                     }
                 }
@@ -711,6 +713,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2007-02-13 14:58:19 $
+$Revision: 1.27 $ $Date: 2007-03-16 10:05:42 $
 
 =cut

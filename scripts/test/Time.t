@@ -2,7 +2,7 @@
 # Time.t - Time tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.t,v 1.10 2007-03-15 08:23:40 martin Exp $
+# $Id: Time.t,v 1.11 2007-03-16 10:05:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -382,6 +382,7 @@ $Self->Is(
     '2007-03-15 09:00:00',
     'DestinationTime()',
 );
+
 $SystemTimeDestination = $Self->{TimeObject}->TimeStamp2SystemTime(
     String => '2007-03-12 11:56:01',
 );
@@ -395,6 +396,22 @@ $DestinationTime = $Self->{TimeObject}->DestinationTime(
 $Self->Is(
     "$Year-$Month-$Day $Hour:$Min:$Sec",
     '2007-03-12 13:56:01',
+    'DestinationTime()',
+);
+
+$SystemTimeDestination = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2007-03-15 17:21:27',
+);
+$DestinationTime = $Self->{TimeObject}->DestinationTime(
+    StartTime => $SystemTimeDestination,
+    Time => 60*60*3,
+);
+($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+    SystemTime => $DestinationTime,
+);
+$Self->Is(
+    "$Year-$Month-$Day $Hour:$Min:$Sec",
+    '2007-03-15 20:21:27',
     'DestinationTime()',
 );
 
