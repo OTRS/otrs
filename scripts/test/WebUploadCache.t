@@ -2,7 +2,7 @@
 # AuthSession.t - auth session tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: WebUploadCache.t,v 1.2 2007-03-14 14:06:56 martin Exp $
+# $Id: WebUploadCache.t,v 1.3 2007-03-16 10:13:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ foreach my $Module (qw(DB FS)) {
         close(IN);
         my $Add = $Self->{UploadCacheObject}->FormIDAddFile(
             FormID => $FormID,
-            Filename => 'UploadCache-Test1äöüß.'.$File,
+            Filename => 'UploadCache Test1äöüß.'.$File,
             Content => $Content,
             ContentType => 'text/html',
         );
@@ -53,7 +53,7 @@ foreach my $Module (qw(DB FS)) {
             my %File = %{$Data[$#Data]};
             $Self->Is(
                 $File{Filename},
-                "UploadCache-Test1äöüß.$File",
+                "UploadCache Test1äöüß.$File",
                 "#$Module - FormIDGetAllFilesData() - Filename .".$File,
             );
             $Self->True(
