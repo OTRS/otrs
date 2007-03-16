@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2007-03-14 16:42:30
+//  driver: maxdb, generated: 2007-03-16 11:27:08
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  insert into table valid
@@ -242,30 +242,30 @@ INSERT INTO follow_up_possible (name, comments, valid_id, create_by, create_time
 // ----------------------------------------------------------
 //  insert into table queue
 // ----------------------------------------------------------
-INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Postmaster', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'Post master queue.', 1, 1, timestamp, 1, timestamp)
+    ('Postmaster', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'Post master queue.', 1, 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
 //  insert into table queue
 // ----------------------------------------------------------
-INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Raw', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'All default incoming ticket.', 1, 1, timestamp, 1, timestamp)
+    ('Raw', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'All default incoming ticket.', 1, 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
 //  insert into table queue
 // ----------------------------------------------------------
-INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Junk', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'All junk tickets.', 1, 1, timestamp, 1, timestamp)
+    ('Junk', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'All junk tickets.', 1, 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
 //  insert into table queue
 // ----------------------------------------------------------
-INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Misc', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'All misc tickets.', 1, 1, timestamp, 1, timestamp)
+    ('Misc', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'All misc tickets.', 1, 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
 //  insert into table standard_response
@@ -809,9 +809,9 @@ INSERT INTO article_sender_type (name, valid_id, create_by, create_time, change_
 // ----------------------------------------------------------
 //  insert into table ticket
 // ----------------------------------------------------------
-INSERT INTO ticket (tn, queue_id, ticket_lock_id, ticket_answered, user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id, create_time_unix, escalation_start_time, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket (tn, queue_id, ticket_lock_id, ticket_answered, user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id, create_time_unix, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('1010001', 2, 1, 0, 1, 1, 1, 3, 1, 1173345999, 0, 1, 1, timestamp, 1, timestamp)
+    ('1010001', 2, 1, 0, 1, 1, 1, 3, 1, 1173345999, 1, 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
 //  insert into table article

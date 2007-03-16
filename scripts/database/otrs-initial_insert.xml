@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-initial_insert.xml,v 1.2 2007-03-14 15:44:45 martin Exp $
+    $Id: otrs-initial_insert.xml,v 1.3 2007-03-16 10:29:04 martin Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.2  2007/03/14 15:44:45  martin
+    Added missing type_id in ticket_history insert.
+
     Revision 1.1  2007/03/09 13:06:35  martin
     Moved from scripts/database/initial_insert.sql to database depend
     initial insert files located under scripts/database/otrs-initial_insert.*.sql.
@@ -359,7 +362,6 @@ Your Ticket-Team
         <Data Key="signature_id">1</Data>
         <Data Key="follow_up_id">1</Data>
         <Data Key="follow_up_lock">1</Data>
-        <Data Key="escalation_time">0</Data>
         <Data Key="unlock_timeout">0</Data>
         <Data Key="move_notify">0</Data>
         <Data Key="lock_notify">0</Data>
@@ -380,7 +382,6 @@ Your Ticket-Team
         <Data Key="signature_id">1</Data>
         <Data Key="follow_up_id">1</Data>
         <Data Key="follow_up_lock">1</Data>
-        <Data Key="escalation_time">0</Data>
         <Data Key="unlock_timeout">0</Data>
         <Data Key="move_notify">0</Data>
         <Data Key="lock_notify">0</Data>
@@ -401,7 +402,6 @@ Your Ticket-Team
         <Data Key="signature_id">1</Data>
         <Data Key="follow_up_id">1</Data>
         <Data Key="follow_up_lock">1</Data>
-        <Data Key="escalation_time">0</Data>
         <Data Key="unlock_timeout">0</Data>
         <Data Key="move_notify">0</Data>
         <Data Key="lock_notify">0</Data>
@@ -422,7 +422,6 @@ Your Ticket-Team
         <Data Key="signature_id">1</Data>
         <Data Key="follow_up_id">1</Data>
         <Data Key="follow_up_lock">1</Data>
-        <Data Key="escalation_time">0</Data>
         <Data Key="unlock_timeout">0</Data>
         <Data Key="move_notify">0</Data>
         <Data Key="lock_notify">0</Data>
@@ -1146,7 +1145,6 @@ Your OTRS Team
         <Data Key="ticket_priority_id">3</Data>
         <Data Key="ticket_state_id">1</Data>
         <Data Key="create_time_unix">1173345999</Data>
-        <Data Key="escalation_start_time">0</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
