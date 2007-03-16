@@ -2,7 +2,7 @@
 # SLA.t - SLA tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SLA.t,v 1.1 2007-03-16 10:02:50 martin Exp $
+# $Id: SLA.t,v 1.2 2007-03-16 10:10:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -56,18 +56,21 @@ $Self->Is(
     'Some Comment',
     'SLAGet() - Comment',
 );
-$Self->True(
-    $SLAGet{FirstResponseTime} eq 30,
+$Self->Is(
+    $SLAGet{FirstResponseTime} || '',
+    30,
     'SLAGet() - FirstResponseTime',
 );
 
-$Self->True(
-    $SLAGet{UpdateTime} eq 240,
+$Self->Is(
+    $SLAGet{UpdateTime} || '',
+    240,
     'SLAGet() - EscalationUpdateTime',
 );
 
-$Self->True(
-    $SLAGet{SolutionTime} eq 2440,
+$Self->Is(
+    $SLAGet{SolutionTime} || '',
+    2440,
     'SLAGet() - SolutionTime',
 );
 
@@ -94,49 +97,58 @@ $Self->True(
     UserID => 1,
 );
 
-$Self->True(
-    $SLAGet{Name} eq $SLARand."1",
+$Self->Is(
+    $SLAGet{Name} || '',
+    $SLARand."1",
     'SLAGet() - Name',
 );
-$Self->True(
-    $SLAGet{ValidID} eq 2,
+$Self->Is(
+    $SLAGet{ValidID} || '',
+    2,
     'SLAGet() - ValidID',
 );
-$Self->True(
-    $SLAGet{Calendar} eq 1,
+$Self->Is(
+    $SLAGet{Calendar} || '',
+    1,
     'SLAGet() - Calendar',
 );
-$Self->True(
-    $SLAGet{Comment} eq 'Some Comment1',
+$Self->Is(
+    $SLAGet{Comment} || '',
+    'Some Comment1',
     'SLAGet() - Comment',
 );
 
-$Self->True(
-    $SLAGet{FirstResponseTime} eq 60,
+$Self->Is(
+    $SLAGet{FirstResponseTime} || '',
+    60,
     'SLAGet() - FirstResponseTime',
 );
 
-$Self->True(
-    $SLAGet{UpdateTime} eq 480,
+$Self->Is(
+    $SLAGet{UpdateTime} || '',
+    480,
     'SLAGet() - UpdateTime',
 );
 
-$Self->True(
-    $SLAGet{SolutionTime} eq 4880,
+$Self->Is(
+    $SLAGet{SolutionTime} || '',
+    4880,
     'SLAGet() - SolutionTime',
 );
 
 my $SLA = $Self->{SLAObject}->SLALookup(SLAID => $SLAID);
 
-$Self->True(
-    $SLA eq $SLARand."1",
+$Self->Is(
+    $SLA || '',
+    $SLARand."1",
     'SLALookup() by ID',
 );
 
 my $SLAIDLookup = $Self->{SLAObject}->SLALookup(Name => $SLA);
 
-$Self->True(
-    $SLAID eq $SLAIDLookup,
+$Self->Is(
+    $SLAID || '',
+    $SLAIDLookup,
     'SLALookup() by Name',
 );
 
