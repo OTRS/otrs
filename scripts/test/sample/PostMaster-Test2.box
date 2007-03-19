@@ -1,0 +1,31 @@
+From darthvader@otrs.org  Fri Dec 21 23:55:24 2001
+Return-Path: <darthvader@otrs.org>
+Received: (from darthvader@localhost)
+	by avro.de (8.11.3/8.11.3/SuSE Linux 8.11.1-0.5) id f3MMSE303694
+	for martin@localhost; Fri, 21 Dec 2001 23:55:24 +0200
+Date: Fri, 21 Dec 2001 23:55:24 +0200
+From: System Tester II <darthvader@otrs.org>
+To: skywalker@otrs.org
+Subject: test 2
+Message-ID: <20011221002814.A3599@avro>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Operating-System: Linux 2.4.10-4GB i686
+X-Uptime: 12:23am  up  5:19,  6 users,  load average: 0.11, 0.13, 0.18
+X-CVS: $Id: PostMaster-Test2.box,v 1.1 2007-03-19 22:27:19 martin Exp $
+Content-Length: 139
+Lines: 11
+
+This is the second test.
+
+Cordially
+
+  Darthvader 
+
+--
+System Tester II - <darthvader@otrs.org>
+--
+"The number of Unix installations has grown to 10, with more expected."
+                      The Unix Programmer's Manual, 2nd Edition, June 1972
+

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.64 2007-02-06 19:15:34 martin Exp $
+# $Id: PostMaster.pm,v 1.65 2007-03-19 22:27:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -149,11 +149,21 @@ to execute the run process
 
     $PostMasterObject->Run();
 
+return params
+
+    0 = error (also false)
+    1 = new ticket created
+    2 = follow up / open/reopen
+    3 = follow up / close -> new ticket
+    4 = follow up / close -> reject
+    5 = ignored (because of X-OTRS-Ignore header)
+
 =cut
 
 sub Run {
     my $Self = shift;
     my %Param = @_;
+    my @Return = ();
     # ConfigObject section / get params
     my $GetParam = $Self->GetEmailParams();
 
@@ -197,7 +207,7 @@ sub Run {
             Message => "Ignored Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) " .
                 "because the X-OTRS-Ignore is set (X-OTRS-Ignore: $GetParam->{'X-OTRS-Ignore'})."
         );
-        return 1;
+        return (5);
     }
     # ----------------------
     # ticket section
@@ -251,6 +261,9 @@ sub Run {
             if (!$TicketID) {
                 return;
             }
+            else {
+                @Return = (3, $TicketID);
+            }
         }
         # reject follow up
         elsif ($FollowUpPossible =~ /reject/i && $State{TypeName} =~ /^close/i) {
@@ -270,6 +283,9 @@ sub Run {
             )) {
                 return;
             }
+            else {
+                @Return = (4, $TicketID);
+            }
         }
         # create normal follow up
         else {
@@ -282,6 +298,9 @@ sub Run {
                 AutoResponseType => 'auto follow up',
             )) {
                 return;
+            }
+            else {
+                @Return = (2, $TicketID);
             }
         }
     }
@@ -310,6 +329,9 @@ sub Run {
         );
         if (!$TicketID) {
             return;
+        }
+        else {
+            @Return = (1, $TicketID);
         }
     }
 
@@ -342,8 +364,7 @@ sub Run {
             }
         }
     }
-    # return 1
-    return 1;
+    return @Return;
 }
 
 =item CheckFollowUp()
@@ -549,6 +570,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2007-02-06 19:15:34 $
+$Revision: 1.65 $ $Date: 2007-03-19 22:27:19 $
 
 =cut

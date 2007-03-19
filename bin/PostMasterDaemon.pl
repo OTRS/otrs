@@ -3,7 +3,7 @@
 # bin/PostMasterDaemon.pl - the daemon for the PostMasterClient.pl client
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMasterDaemon.pl,v 1.11 2007-02-07 05:27:22 tr Exp $
+# $Id: PostMasterDaemon.pl,v 1.12 2007-03-19 22:27:19 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -146,7 +146,13 @@ sub PipeEmail {
     }
     # ... common objects ...
     $CommonObject{PostMaster} = Kernel::System::PostMaster->new(%CommonObject, Email => \@Email);
-    $CommonObject{PostMaster}->Run();
+    my @Return = $CommonObject{PostMaster}->Run();
+    if (!$Return[0]) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't process mail, see log sub system!",
+        );
+    }
     undef $CommonObject{PostMaster};
     # debug info
     if ($Debug) {

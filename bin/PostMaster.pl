@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/PostMaster.pl - the global eMail handle for email2db
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.pl,v 1.24 2006-11-02 13:02:04 tr Exp $
+# $Id: PostMaster.pl,v 1.25 2007-03-19 22:27:19 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ use strict;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -105,7 +105,8 @@ eval {
         Trusted => $Opts{'t'},
         Debug => $Opts{'d'},
     );
-    if (!$CommonObject{PostMaster}->Run(Queue => $Opts{'q'})) {
+    my @Return = $CommonObject{PostMaster}->Run(Queue => $Opts{'q'});
+    if (!$Return[0]) {
         die "Can't process mail, see log sub system!";
     }
 
