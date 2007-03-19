@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/LoopProtection/FS.pm - backend module of LoopProtection
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.6 2007-01-21 01:26:10 mh Exp $
+# $Id: FS.pm,v 1.7 2007-03-19 22:24:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::LoopProtection::FS;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -49,9 +49,16 @@ sub SendEmail {
     my $To = $Param{To} || return;
 
     # write log
-    open (DATA, ">> $Self->{LoopProtectionLog}") || die "Can't open $Self->{LoopProtectionLog}: $!";
-    print DATA "$To;".localtime().";\n";
-    close (DATA);
+    if (open (DATA, ">> $Self->{LoopProtectionLog}")) {
+        print DATA "$To;".localtime().";\n";
+        close (DATA);
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "LoopProtection! Can't write '$Self->{LoopProtectionLog}': $!!",
+        );
+    }
 
     return 1;
 }
@@ -63,20 +70,23 @@ sub Check {
     my $Count = 0;
 
     # check existing logfile
-    if (! open (DATA, "< $Self->{LoopProtectionLog}")) {
+    if (!open (DATA, "< $Self->{LoopProtectionLog}")) {
         # create new log file
-        open (DATA, "> $Self->{LoopProtectionLog}") ||
+        if (!open (DATA, "> $Self->{LoopProtectionLog}")) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "LoopProtection!!! Can't create '$Self->{LoopProtectionLog}': $!! ",
+                Message => "LoopProtection! Can't write '$Self->{LoopProtectionLog}': $!!",
             );
-        close (DATA);
+        }
+        else {
+            close (DATA);
+        }
     }
     else {
         # open old log file
         while (<DATA>) {
             my @Data = split(/;/, $_);
-            if ($Data[0] eq "$To") {
+            if ($Data[0] eq $To) {
                 $Count++;
             }
         }
@@ -86,8 +96,8 @@ sub Check {
     # check possible loop
     if ($Count >= $Self->{PostmasterMaxEmails}) {
         $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "LoopProtection!!! Send no more emails to '$To'! Max. count of $Count has been reached!",
+            Priority => 'notice',
+            Message => "LoopProtection!!! Send no more emails to '$To'! Max. count of $Self->{PostmasterMaxEmails} has been reached!",
         );
         return;
     }
