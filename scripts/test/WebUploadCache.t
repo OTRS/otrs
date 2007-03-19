@@ -2,7 +2,7 @@
 # AuthSession.t - auth session tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: WebUploadCache.t,v 1.3 2007-03-16 10:13:18 martin Exp $
+# $Id: WebUploadCache.t,v 1.4 2007-03-19 22:28:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,10 @@ use utf8;
 
 foreach my $Module (qw(DB FS)) {
 
-    $Self->{ConfigObject}->Set(Key => 'WebUploadCacheModule', Value => "Kernel::System::Web::UploadCache::$Module");
+    $Self->{ConfigObject}->Set(
+        Key => 'WebUploadCacheModule',
+        Value => "Kernel::System::Web::UploadCache::$Module",
+    );
 
     $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new(%{$Self});
 
