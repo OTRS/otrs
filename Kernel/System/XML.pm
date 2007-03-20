@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.45 2007-03-06 18:33:09 mh Exp $
+# $Id: XML.pm,v 1.46 2007-03-20 15:31:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -590,12 +590,12 @@ parse a xml file and return a XMLHash structur
 sub XMLParse2XMLHash {
     my $Self = shift;
     my %Param = @_;
-    my @XMLStructur = $Self->XMLParse(%Param);
-    if (!@XMLStructur) {
+    my @XMLStructure = $Self->XMLParse(%Param);
+    if (!@XMLStructure) {
         return ();
     }
     else {
-        my @XMLHash = (undef, $Self->XMLStructur2XMLHash(XMLStructur => \@XMLStructur));
+        my @XMLHash = (undef, $Self->XMLStructure2XMLHash(XMLStructure => \@XMLStructure));
         return @XMLHash;
     }
 }
@@ -615,7 +615,7 @@ return a hash with long hash key and content
 sub XMLHash2D {
     my $Self = shift;
     my %Param = @_;
-    my @NewXMLStructur;
+    my @NewXMLStructure;
     # check needed stuff
     foreach (qw(XMLHash)) {
         if (!defined $Param{$_}) {
@@ -684,20 +684,20 @@ sub _XMLHash2D {
     }
 }
 
-=item XMLStructur2XMLHash()
+=item XMLStructure2XMLHash()
 
-get a @XMLHash from a @XMLStructur with current TagKey param
+get a @XMLHash from a @XMLStructure with current TagKey param
 
-    my @XMLHash = $XMLObject->XMLStructur2XMLHash(XMLStructur => \@XMLStructur);
+    my @XMLHash = $XMLObject->XMLStructure2XMLHash(XMLStructure => \@XMLStructure);
 
 =cut
 
-sub XMLStructur2XMLHash {
+sub XMLStructure2XMLHash {
     my $Self = shift;
     my %Param = @_;
-    my @NewXMLStructur;
+    my @NewXMLStructure;
     # check needed stuff
-    foreach (qw(XMLStructur)) {
+    foreach (qw(XMLStructure)) {
         if (!defined $Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
             return;
@@ -710,16 +710,16 @@ sub XMLStructur2XMLHash {
     undef $Self->{XMLLevelTag};
     undef $Self->{XMLLevelCount};
     my $Output = '';
-    foreach my $Item (@{$Param{XMLStructur}}) {
+    foreach my $Item (@{$Param{XMLStructure}}) {
         if (ref($Item) eq 'HASH') {
-            $Self->_XMLStructur2XMLHash(Key => $Item->{Tag}, Item => $Item, Type => 'ARRAY');
+            $Self->_XMLStructure2XMLHash(Key => $Item->{Tag}, Item => $Item, Type => 'ARRAY');
         }
     }
     $Self->{XMLHashReturn} = 0;
     return (\%{$Self->{XMLHash2}});
 }
 
-sub _XMLStructur2XMLHash {
+sub _XMLStructure2XMLHash {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
@@ -901,7 +901,7 @@ sub _XMLStructur2XMLHash {
 
 parse a xml file
 
-    my @XMLStructur = $XMLObject->XMLParse(String => $FileString);
+    my @XMLStructure = $XMLObject->XMLParse(String => $FileString);
 
 =cut
 
@@ -956,7 +956,7 @@ sub XMLParse {
     return @{$Self->{XMLARRAY}};
 }
 
-sub _Decode{
+sub _Decode {
     my $Self = shift;
     my $A = shift;
     foreach (keys %{$A}) {
@@ -1068,6 +1068,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2007-03-06 18:33:09 $
+$Revision: 1.46 $ $Date: 2007-03-20 15:31:53 $
 
 =cut
