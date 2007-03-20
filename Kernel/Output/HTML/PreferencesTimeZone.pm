@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesTimeZone.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesTimeZone.pm,v 1.4 2007-02-07 11:37:25 tr Exp $
+# $Id: PreferencesTimeZone.pm,v 1.5 2007-03-20 14:24:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::PreferencesTimeZone;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -77,7 +77,9 @@ sub Param {
                 '-11' => '-11',
                 '-12' => '-12',
             },
-            SelectedID => $Param{UserData}->{UserTimeZone} || '0',
+            SelectedID => $Self->{ParamObject}->GetParam(Param => 'UserTimeZone') ||
+                $Param{UserData}->{UserTimeZone} ||
+                '0',
             Block => 'Option',
             },
         );

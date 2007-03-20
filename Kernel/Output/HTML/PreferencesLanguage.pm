@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesLanguage.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesLanguage.pm,v 1.3 2006-08-27 22:23:35 martin Exp $
+# $Id: PreferencesLanguage.pm,v 1.4 2007-03-20 14:24:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::PreferencesLanguage;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -47,7 +47,9 @@ sub Param {
             Name => $Self->{ConfigItem}->{PrefKey},
             Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
             HTMLQuote => 0,
-            SelectedID => $Param{UserData}->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
+            SelectedID => $Self->{ParamObject}->GetParam(Param => 'UserLanguage') ||
+                $Param{UserData}->{UserLanguage} ||
+                $Self->{ConfigObject}->Get('DefaultLanguage'),
             Block => 'Option',
         },
     );

@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesCustomQueue.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesCustomQueue.pm,v 1.6 2006-12-11 13:52:20 martin Exp $
+# $Id: PreferencesCustomQueue.pm,v 1.7 2007-03-20 14:24:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::PreferencesCustomQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -43,8 +43,10 @@ sub Param {
     my %Param = @_;
     my @Params = ();
     my %QueueData = ();
-    my @CustomQueueIDs = ();
+    my @CustomQueueIDs;
+    # check needed param
     if (!$Param{UserData}->{UserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
         return ();
     }
     if ($Param{UserData}->{UserID}) {
@@ -53,10 +55,12 @@ sub Param {
             Type => $Self->{ConfigItem}->{Permission} || 'ro',
         );
     }
-    if ($Param{UserData}->{UserID}) {
+    if ($Self->{ParamObject}->GetArray(Param => 'QueueID')) {
+        @CustomQueueIDs = $Self->{ParamObject}->GetArray(Param => 'QueueID');
+    }
+    elsif ($Param{UserData}->{UserID} && !defined($CustomQueueIDs[0])) {
         @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $Param{UserData}->{UserID});
     }
-
     push (@Params, {
             %Param,
             Option => $Self->{LayoutObject}->AgentQueueListOption(

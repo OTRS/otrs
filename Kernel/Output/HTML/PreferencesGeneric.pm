@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesGeneric.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesGeneric.pm,v 1.3 2006-08-27 22:23:35 martin Exp $
+# $Id: PreferencesGeneric.pm,v 1.4 2007-03-20 14:24:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::PreferencesGeneric;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -42,10 +42,14 @@ sub Param {
     my $Self = shift;
     my %Param = @_;
     my @Params = ();
+    my $GetParam = $Self->{ParamObject}->GetParam(Param => $Self->{ConfigItem}->{PrefKey});
+    if (!defined($GetParam)) {
+        $GetParam = defined($Param{UserData}->{$Self->{ConfigItem}->{PrefKey}}) ? $Param{UserData}->{$Self->{ConfigItem}->{PrefKey}} : $Self->{ConfigItem}->{DataSelected};
+    }
     push (@Params, {
             %Param,
             Name => $Self->{ConfigItem}->{PrefKey},
-            SelectedID => defined($Param{UserData}->{$Self->{ConfigItem}->{PrefKey}}) ? $Param{UserData}->{$Self->{ConfigItem}->{PrefKey}} : $Self->{ConfigItem}->{DataSelected},
+            SelectedID => $GetParam,
         },
     );
     return @Params;
