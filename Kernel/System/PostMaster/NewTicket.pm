@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.62 2007-03-05 02:06:33 martin Exp $
+# $Id: NewTicket.pm,v 1.63 2007-03-20 15:18:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -178,6 +178,19 @@ sub Run {
             }
         }
     }
+    # set pending time
+    if ($GetParam{'X-OTRS-State-PendingTime'}) {
+        if ($Self->{TicketObject}->TicketPendingTimeSet(
+            String => $GetParam{'X-OTRS-State-PendingTime'},
+            TicketID => $TicketID,
+            UserID => $Param{InmailUserID},
+        )) {
+            # debug
+            if ($Self->{Debug} > 0) {
+                print "State-PendingTime: $GetParam{'X-OTRS-State-PendingTime'}\n";
+            }
+        }
+    }
     # set free ticket text
     my @Values = ('X-OTRS-TicketKey', 'X-OTRS-TicketValue');
     my $CounterTmp = 0;
@@ -266,7 +279,6 @@ sub Run {
             }
         }
     }
-
     # write plain email to the storage
     $Self->{TicketObject}->ArticleWritePlain(
         ArticleID => $ArticleID,
