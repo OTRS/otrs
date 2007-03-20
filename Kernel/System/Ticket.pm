@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.251 2007-03-20 13:27:13 martin Exp $
+# $Id: Ticket.pm,v 1.252 2007-03-20 15:16:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.251 $';
+$VERSION = '$Revision: 1.252 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -2512,22 +2512,44 @@ set ticket pending time
         UserID => 23,
     );
 
+or use a time stamp
+
+    $TicketObject->TicketPendingTimeSet(
+        String => '2003-08-14 22:05:00',
+        TicketID => 123,
+        UserID => 23,
+    );
+
 =cut
 
 sub TicketPendingTimeSet {
     my $Self = shift;
     my %Param = @_;
+    my $Time;
     # check needed stuff
-    foreach (qw(Year Month Day Hour Minute TicketID UserID)) {
-        if (!defined($Param{$_})) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-            return;
+    if (!$Param{String}) {
+        foreach (qw(Year Month Day Hour Minute TicketID UserID)) {
+            if (!defined($Param{$_})) {
+                $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+                return;
+            }
         }
     }
-    # get system time from string
-    my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
-        String => "$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:00",
-    );
+    # get system time from string/params
+    if ($Param{String}) {
+        $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{String},
+        );
+        ($Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year}) =
+        $Self->{TimeObject}->SystemTime2Date(
+            SystemTime => $Time,
+        );
+    }
+    else {
+        $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => "$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:00",
+        );
+    }
     # return if no convert is possible
     if (!$Time) {
         return;
@@ -5780,6 +5802,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.251 $ $Date: 2007-03-20 13:27:13 $
+$Revision: 1.252 $ $Date: 2007-03-20 15:16:41 $
 
 =cut
