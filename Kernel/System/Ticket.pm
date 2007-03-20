@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.250 2007-03-16 10:04:39 martin Exp $
+# $Id: Ticket.pm,v 1.251 2007-03-20 13:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.250 $';
+$VERSION = '$Revision: 1.251 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -2763,6 +2763,14 @@ sub TicketSearch {
         TicketFreeKey16 => 'st.freekey16',
         TicketFreeText16 => 'st.freetext16',
     );
+    # check required params
+    if (!$Param{UserID} && !$Param{CustomerUserID}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need UserID or CustomerUserID params for permission check!",
+        );
+        return;
+    }
     # check options
     if (!$SortOptions{$SortBy}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need valid SortBy ($SortBy)!");
@@ -5772,6 +5780,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.250 $ $Date: 2007-03-16 10:04:39 $
+$Revision: 1.251 $ $Date: 2007-03-20 13:27:13 $
 
 =cut
