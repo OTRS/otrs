@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.62 2007-03-07 18:38:31 martin Exp $
+# $Id: Package.pm,v 1.63 2007-03-20 13:28:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1327,14 +1327,15 @@ sub PackageBuild {
     }
     foreach (qw(DatabaseInstall DatabaseUpgrade DatabaseReinstall DatabaseUninstall)) {
         if ($Param{$_}) {
+            my $Counter = 2;
             $XML .= "    <$_>\n";
-            my @Close = ();
-            my $Space = '    ';
             foreach my $Tag (@{$Param{$_}}) {
                 if ($Tag->{TagType} eq 'Start') {
-                    if ($Tag->{Tag} eq 'Data' || $Tag->{Tag} eq 'Column') {
+                    my $Space = '';
+                    foreach (1..$Counter) {
                         $Space .= '    ';
                     }
+                    $Counter++;
                     $XML .= $Space."<$Tag->{Tag}";
                     foreach (sort keys %{$Tag}) {
                         if ($_ ne 'Tag' &&
@@ -1350,16 +1351,25 @@ sub PackageBuild {
                         }
                     }
                     $XML .= ">";
-                    if ($Tag->{Content}) {
+                    if ($Tag->{TagLevel} <= 3 || $Tag->{Tag} =~ /(Foreign|Reference|Index)/) {
                         $XML .= "\n";
                     }
-                    else {
-                        $Space = '';
-                    }
+                }
+                if ($Tag->{Content} && $Tag->{TagLevel} >= 4 && $Tag->{Tag} !~ /(Foreign|Reference|Index)/) {
+                    $XML .= $Tag->{Content};
                 }
                 if ($Tag->{TagType} eq 'End') {
-                    $XML .= $Space."</$Tag->{Tag}>\n";
-                    $Space = '    ';
+                    $Counter = $Counter - 1;
+                    if ($Tag->{TagLevel} > 3 && $Tag->{Tag} !~ /(Foreign|Reference|Index)/) {
+                        $XML .= "</$Tag->{Tag}>\n";
+                    }
+                    else {
+                        my $Space = '';
+                        foreach (1..$Counter) {
+                            $Space .= '    ';
+                        }
+                        $XML .= $Space."</$Tag->{Tag}>\n";
+                    }
                 }
             }
             $XML .= "    </$_>\n";
@@ -1773,6 +1783,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.62 $ $Date: 2007-03-07 18:38:31 $
+$Revision: 1.63 $ $Date: 2007-03-20 13:28:29 $
 
 =cut
