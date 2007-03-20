@@ -2,7 +2,7 @@
 # X-OTRS-Headers.txt - X-headers for use in mail
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: X-OTRS-Headers.txt,v 1.13 2007-03-05 02:06:33 martin Exp $
+# $Id: X-OTRS-Headers.txt,v 1.14 2007-03-20 15:00:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,7 @@
 # --
 
 X-OTRS-Priority: (1 very low|2 low|3 normal|4 high|5 very high)
------------------------------------------------------
+---------------------------------------------------------------
 Set priority of ticket. For FollowUps use X-OTRS-FollowUp-Priority.
 
 X-OTRS-Queue: [one system queue]
@@ -28,6 +28,10 @@ Ignore this email.
 X-OTRS-State: (new|open|closed successful|closed unsuccessful|...)
 --------------------------------------------
 Set state of ticket! Be careful! For FollowUps use X-OTRS-FollowUp-State.
+
+X-OTRS-State-PendingTime: 2007-03-20 00:00:00
+---------------------------------------------
+Set pending time of ticket! Be careful! For FollowUps use X-OTRS-FollowUp-State-PendingTime.
 
 X-OTRS-Type: (default)
 --------------------------------------------
@@ -70,12 +74,12 @@ note-report)
 Article type. For FollowUps use X-OTRS-FollowUp-ArticleType.
 
 X-OTRS-TicketKey(1|2|...|16): [additional info key]
---------------------------------------------
+---------------------------------------------------
 Save additional info "key" to the incoming ticket.
 For FollowUps use X-OTRS-FollowUp-TicketKey.
 
 X-OTRS-TicketValue(1|2|...|16): [additional info value]
-------------------------------------------------
+-------------------------------------------------------
 Save additional info "value" to the incoming ticket.
 For FollowUps use X-OTRS-FollowUp-TicketValue.
 
