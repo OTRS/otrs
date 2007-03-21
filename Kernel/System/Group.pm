@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: Group.pm,v 1.43 2007-03-04 23:51:19 martin Exp $
+# $Id: Group.pm,v 1.44 2007-03-21 11:13:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -301,7 +301,7 @@ sub GroupGet {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
-    my $SQL = "SELECT name, valid_id, comments ".
+    my $SQL = "SELECT name, valid_id, comments, change_time, create_time ".
         " FROM ".
         " groups ".
         " WHERE ".
@@ -314,6 +314,8 @@ sub GroupGet {
                 Name => $Data[0],
                 Comment => $Data[2],
                 ValidID => $Data[1],
+                ChangeTime => $Data[3],
+                CreateTime => $Data[4],
             );
         }
         return %GroupData;
@@ -1381,7 +1383,7 @@ sub RoleGet {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
-    my $SQL = "SELECT name, valid_id, comments ".
+    my $SQL = "SELECT name, valid_id, comments, change_time, create_time ".
         " FROM ".
         " roles ".
         " WHERE ".
@@ -1394,6 +1396,8 @@ sub RoleGet {
                 Name => $Data[0],
                 Comment => $Data[2],
                 ValidID => $Data[1],
+                ChangeTime => $Data[3],
+                CreateTime => $Data[4],
             );
         }
         return %RoleData;
@@ -1483,6 +1487,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2007-03-04 23:51:19 $
+$Revision: 1.44 $ $Date: 2007-03-21 11:13:27 $
 
 =cut
