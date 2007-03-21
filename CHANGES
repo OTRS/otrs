@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.372 2007-03-21 13:21:27 mh Exp $
+# $Id: CHANGES,v 1.373 2007-03-21 15:09:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,31 @@
 # --
 CVS HEAD (????/??/??)
  - (2007/03/21) Updated cpan module CGI to version 3.27.
+ - (2007/03/20) Added support of new set ticket pending time over X-OTRS-Header
+    X-OTRS-State-PendingTime and X-OTRS-FollowUp-State-PendingTime.
+ - (2007/03/20) Rewrite of Kernel::System::User module (cleanup of used params
+    for UserAdd() and UserUpdate()).
+
+    If you use this API, you need to change your custom implemention!
+
+    Note If you use UserSyncLDAPMap you need to reconfigure it!
+
+    Old:
+    $Self->{UserSyncLDAPMap} = {
+        # DB -> LDAP
+        Firstname => 'givenName',
+        Lastname => 'sn',
+        Email => 'mail',
+    };
+
+    New:
+    $Self->{UserSyncLDAPMap} = {
+        # DB -> LDAP
+        UserFirstname => 'givenName',
+        UserLastname => 'sn',
+        UserEmail => 'mail',
+    };
+
  - (2007/03/14) Fixed not shown optional ticket free time option fields in
     customer panel.
  - (2007/03/11) Added enhancement bug# 1102 - restore.pl should check for
@@ -114,6 +139,7 @@ CVS HEAD (????/??/??)
     to 12 MB.
 
 2.1.7 (2007/??/??)
+ - (2007/03/14) fixed bug# 1650 - crypt/sign bug in AgentTicketCompose screen
  - (2007/03/14) fixed bug# 1659 - Uploading and Saving Pictures in MSSQL won't
     work with bigger Files (~700KB)
     ->MSSQL ONLY<- You also need to change some tables by using: ->MSSQL ONLY<-
