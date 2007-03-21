@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: State.pm,v 1.19 2007-01-30 14:08:06 mh Exp $
+# $Id: State.pm,v 1.20 2007-03-21 11:15:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -168,7 +168,8 @@ sub StateGet {
         }
     }
     # sql
-    my $SQL = "SELECT ts.id, ts.name, ts.valid_id, ts.comments, ts.type_id, tst.name ".
+    my $SQL = "SELECT ts.id, ts.name, ts.valid_id, ts.comments, ts.type_id, tst.name, ".
+        " ts.change_time, ts.create_time ".
         " FROM ".
         " ticket_state ts, ticket_state_type tst ".
         " WHERE ".
@@ -190,6 +191,8 @@ sub StateGet {
                 ValidID => $Data[2],
                 TypeID => $Data[4],
                 TypeName => $Data[5],
+                ChangeTime => $Data[6],
+                CreateTime => $Data[7],
             );
         }
         # cache data
@@ -447,6 +450,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2007-01-30 14:08:06 $
+$Revision: 1.20 $ $Date: 2007-03-21 11:15:29 $
 
 =cut
