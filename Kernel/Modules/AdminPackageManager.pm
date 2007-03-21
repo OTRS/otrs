@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.44 2007-03-08 21:37:59 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.45 2007-03-21 14:36:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1210,12 +1210,21 @@ sub Run {
                     );
                 }
             }
+            my $CssClass = '';
             foreach my $Data (@List) {
+                # set output class
+                if ($CssClass && $CssClass eq 'searchactive') {
+                    $CssClass = 'searchpassive';
+                }
+                else {
+                    $CssClass = 'searchactive';
+                }
                 $Self->{LayoutObject}->Block(
                     Name => 'ShowRemotePackage',
                     Data => {
                         %{$Data},
                         Source => $Source,
+                        CssClass => $CssClass,
                     },
                 );
                 if ($Data->{Upgrade}) {
@@ -1238,8 +1247,15 @@ sub Run {
                 }
             }
         }
-
+        my $CssClass = '';
         foreach my $Package ($Self->{PackageObject}->RepositoryList()) {
+            # set output class
+            if ($CssClass && $CssClass eq 'searchactive') {
+                $CssClass = 'searchpassive';
+            }
+            else {
+                $CssClass = 'searchactive';
+            }
             my %Data = $Self->_MessageGet(Info => $Package->{Description});
             $Self->{LayoutObject}->Block(
                 Name => 'ShowLocalPackage',
@@ -1250,6 +1266,7 @@ sub Run {
                     Version => $Package->{Version}->{Content},
                     Vendor => $Package->{Vendor}->{Content},
                     URL => $Package->{URL}->{Content},
+                    CssClass => $CssClass,
                 },
             );
             if ($Package->{Status} eq 'installed') {

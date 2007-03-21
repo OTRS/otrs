@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.33 2007-03-07 18:38:31 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.34 2007-03-21 14:36:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -269,7 +269,7 @@
         </tr>
         <tr>
           <td class="contentbody">
-            <table border="0" width="100%">
+            <table border="0" cellspacing="0" cellpadding="4" width="100%">
               <tr>
                 <td class="contentkey">$Text{"Name"}</td>
                 <td class="contentkey">$Text{"Version"}</td>
@@ -279,13 +279,13 @@
               </tr>
 <!-- dtl:block:ShowRemotePackage -->
               <tr>
-                <td class="contentvalue">
+                <td class="$QData{"CssClass"}">
                   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ViewRemote&Source=$LQData{"Source"}&File=$LQData{"File"}&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$QData{"Name"}</a>
                 </td>
-                <td class="contentvalue">$QData{"Version"}</td>
-                <td class="contentvalue"><a href="$QData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
-                <td class="contentvalue" title="$QData{"Description"}">$QData{"Description","55"}</td>
-                <td class="contentvalue">
+                <td class="$QData{"CssClass"}">$QData{"Version"}</td>
+                <td class="$QData{"CssClass"}"><a href="$QData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
+                <td class="$QData{"CssClass"}" title="$QData{"Description"}">$QData{"Description","55"}</td>
+                <td class="$QData{"CssClass"}">
 <!-- dtl:block:ShowRemotePackageInstall -->
                   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=InstallRemote&Source=$LQData{"Source"}&File=$LQData{"File"}&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Install"}</a>
 <!-- dtl:block:ShowRemotePackageInstall -->
@@ -311,7 +311,7 @@
         </tr>
         <tr>
           <td class="contentbody">
-            <table border="0" width="100%">
+            <table border="0" cellspacing="0" cellpadding="4" width="100%">
               <tr>
                 <td class="contentkey">$Text{"Name"}</td>
                 <td class="contentkey">$Text{"Version"}</td>
@@ -322,14 +322,14 @@
               </tr>
 <!-- dtl:block:ShowLocalPackage -->
               <tr>
-                <td class="contentvalue">
+                <td class="$QData{"CssClass"}">
                   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$QData{"Name"}</a>
                 </td>
-                <td class="contentvalue">$QData{"Version"}</td>
-                <td class="contentvalue"><a href="$QData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
-                <td class="contentvalue" title="$QData{"Description"}">$QData{"Description","55"}</td>
-                <td class="contentvalue">$Text{"$QData{"Status"}"}</td>
-                <td class="contentvalue">
+                <td class="$QData{"CssClass"}">$QData{"Version"}</td>
+                <td class="$QData{"CssClass"}"><a href="$QData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
+                <td class="$QData{"CssClass"}" title="$QData{"Description"}">$QData{"Description","55"}</td>
+                <td class="$QData{"CssClass"}">$Text{"$QData{"Status"}"}</td>
+                <td class="$QData{"CssClass"}">
 <!-- dtl:block:ShowLocalPackageInstall -->
                   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Install&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Install"}</a>
                   <br><br>

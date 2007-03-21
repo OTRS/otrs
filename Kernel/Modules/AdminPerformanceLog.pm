@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPerformanceLog.pm - provides a log view for admins
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.pm,v 1.5 2007-01-04 14:49:27 martin Exp $
+# $Id: AdminPerformanceLog.pm,v 1.6 2007-03-21 14:36:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminPerformanceLog;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -185,7 +185,15 @@ sub Run {
                 );
             }
             foreach (qw(Agent Customer Public)) {
+                my $CssClass = '';
                 if ($Sum{$_}) {
+                    # set output class
+                    if ($CssClass && $CssClass eq 'searchactive') {
+                        $CssClass = 'searchpassive';
+                    }
+                    else {
+                        $CssClass = 'searchactive';
+                    }
                     my $Average = $Sum{$_} / $Count{$_};
                     $Average =~ s/^(.*\.\d\d).+?$/$1/g;
                     $Self->{LayoutObject}->Block(
@@ -197,12 +205,20 @@ sub Run {
                             Sum => $Sum{$_} || 0,
                             Max => $Max{$_} || 0,
                             Min => $Min{$_} || 0,
+                            CssClass => $CssClass,
                         },
                     );
                     foreach my $Module (sort keys %Action) {
                         if ($Action{$Module}->{Sum}->{$_}) {
-                        my $Average = $Action{$Module}->{Sum}->{$_} / $Action{$Module}->{Count}->{$_};
-                        $Average =~ s/^(.*\.\d\d).+?$/$1/g;
+                            # set output class
+                            if ($CssClass && $CssClass eq 'searchactive') {
+                                $CssClass = 'searchpassive';
+                            }
+                            else {
+                                $CssClass = 'searchactive';
+                            }
+                            my $Average = $Action{$Module}->{Sum}->{$_} / $Action{$Module}->{Count}->{$_};
+                            $Average =~ s/^(.*\.\d\d).+?$/$1/g;
                             $Self->{LayoutObject}->Block(
                                 Name => 'Row',
                                 Data => {
@@ -212,6 +228,7 @@ sub Run {
                                     Sum => $Action{$Module}->{Sum}->{$_} || 0,
                                     Max => $Action{$Module}->{Max}->{$_} || 0,
                                     Min => $Action{$Module}->{Min}->{$_} || 0,
+                                    CssClass => $CssClass,
                                 },
                             );
                         }
