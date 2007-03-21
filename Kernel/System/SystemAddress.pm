@@ -2,7 +2,7 @@
 # Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SystemAddress.pm,v 1.12 2007-01-30 14:08:06 mh Exp $
+# $Id: SystemAddress.pm,v 1.13 2007-03-21 11:17:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -157,7 +157,7 @@ sub SystemAddressGet {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
-    my $SQL = "SELECT value0, value1, comments, valid_id, queue_id ".
+    my $SQL = "SELECT value0, value1, comments, valid_id, queue_id, change_time, create_time ".
         " FROM ".
         " system_address ".
         " WHERE ".
@@ -175,6 +175,8 @@ sub SystemAddressGet {
             Comment => $Data[2],
             ValidID => $Data[3],
             QueueID => $Data[4],
+            ChangeTime => $Data[5],
+            CreateTime => $Data[6],
         );
     }
     return %Data;
@@ -224,6 +226,31 @@ sub SystemAddressUpdate {
     else {
         return;
     }
+}
+
+=item SystemAddressList()
+
+get a system address list
+
+    my %List = $SystemAddessObject->SystemAddressList();
+
+    my %List = $SystemAddessObject->SystemAddressList(Valid => 1);
+
+=cut
+
+sub SystemAddressList {
+    my $Self = shift;
+    my %Param = @_;
+    my $Valid = 1;
+    if (!$Param{Valid} && defined($Param{Valid})) {
+        $Valid = 0;
+    }
+    return $Self->{DBObject}->GetTableData(
+        What => 'id, value1, value0',
+        Valid => $Valid,
+        Clamp => 1,
+        Table => 'system_address',
+    );
 }
 
 =item SystemAddressIsLocalAddress()
@@ -284,6 +311,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2007-01-30 14:08:06 $
+$Revision: 1.13 $ $Date: 2007-03-21 11:17:57 $
 
 =cut
