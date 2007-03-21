@@ -2,112 +2,145 @@
 # AdminStateForm.dtl - provides HTML form for AdminState
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminStateForm.dtl,v 1.22 2007-03-15 08:17:15 martin Exp $
+# $Id: AdminStateForm.dtl,v 1.23 2007-03-21 11:12:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-
-<!-- start form -->
+<!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td colspan="2" class="mainhead">
-      $Env{"Box0"}$Text{"System State Management"}$Env{"Box1"}
+      $Env{"Box0"}$Text{"State Management"}$Env{"Box1"}
     </td>
   </tr>
   <tr>
-    <td width="40%" class="mainbody">
+    <td width="30%" class="mainbody">
+
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Change">
+        <input type="hidden" name="Subaction" value="Add">
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
-            <td class="contenthead">$Text{"Change"}</td>
+            <td class="contenthead">$Text{"Add State"}:</td>
           </tr>
           <tr>
             <td class="contentbody">
-              $Data{"StateOption"}
+              $Text{"Add a new State."}
             </td>
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" name="Change" value="$Text{"Change"}">
+              <input class="button" type="submit" value="$Text{"Add"}">
             </td>
           </tr>
         </table>
       </form>
+
     </td>
     <td width="60%" class="mainbody">
-# --
-# check subaction
-# --
-      <dtl set $Data{"Headline"} = "Add">
-      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
-# set subaction!
-      <dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
-# check add link
-      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
-# --
-      <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-        <input type="hidden" name="ID" value="$QData{"ID"}">
-        <table width="100%" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="contenthead">
-              $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>:
-            </td>
-          </tr>
-          <tr>
-            <td class="contentbody">
-              <table border="0" cellspacing="0" cellpadding="3">
-                <tr>
-                  <td class="contentkey">$Text{"State"}: </td>
-                  <td class="contentvalue"> <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"></td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"State Type"}: </td>
-                  <td class="contentvalue"> $Data{"StateTypeOption"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Valid"}: </td>
-                  <td class="contentvalue"> $Data{"ValidOption"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Comment"}: </td>
-                  <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"></td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
-            </td>
-          </tr>
+<!-- dtl:block:OverviewResult -->
+      <table width="100%" cellspacing="0" cellpadding="4">
+        <tr>
+          <td class="contenthead">$Text{"List"}:</td>
+        </tr>
+        <tr>
+          <td class="contentbody">
+            <table width="100%" border="0" cellspacing="0" cellpadding="3">
+              <tr>
+                <td class="contentkey" width="20%">$Text{"Name"}</td>
+                <td class="contentkey">$Text{"Type"}</td>
+#                <td class="contentkey" width="25%">$Text{"Comment"}</td>
+                <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
+                <td class="contentkey">$Text{"Changed"}</td>
+                <td class="contentkey">$Text{"Created"}</td>
+              </tr>
+<!-- dtl:block:OverviewResultRow -->
+              <tr>
+                <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Change&ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                <td class="$QData{"CssClass"}"><div title="$Text{"$QData{"TypeName"}"}">$Text{"$QData{"TypeName"}"}</div></td>
+#                <td class="$QData{"CssClass"}"><div title="$QData{"Comment"}">$QData{"Comment","20"}</div></td>
+                <td align="center" class="$QData{"CssClass"}">$Text{"$QData{"Valid"}"}</td>
+                <td class="$QData{"CssClass"}">$TimeShort{"$QData{"ChangeTime"}"}</td>
+                <td class="$QData{"CssClass"}">$TimeShort{"$QData{"CreateTime"}"}</td>
+              </tr>
+<!-- dtl:block:OverviewResultRow -->
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="contentfooter">
+            &nbsp;
+          </td>
         </table>
-      </form>
-    </td>
-  </tr>
-</table>
-<!-- end form -->
-<!-- start note -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="mainbody">
-      <p>
-        $Text{"Attention"}: $Text{"Take care that you also updated the default states in you Kernel/Config.pm!"}
-      </p>
-      <p>
-        $Text{"See also"}: <a href="http://doc.otrs.org/cvs/en/html/state.html" target="doc">http://doc.otrs.org/cvs/en/html/state.html</a>
-      </p>
-    </td>
-  </tr>
-</table>
-<!-- end note -->
+<!-- dtl:block:OverviewResult -->
+<!-- dtl:block:OverviewUpdate -->
+
+        <form action="$Env{"CGIHandle"}" method="post">
+          <input type="hidden" name="Action" value="$Env{"Action"}">
+          <input type="hidden" name="Subaction" value="$LQData{"Action"}Action">
+          <input type="hidden" name="ID" value="$Data{"ID"}">
+          <table width="100%" cellspacing="0" cellpadding="4">
+            <tr>
+              <td class="contenthead">
+                $Text{"Edit"} ($Text{"$QData{"Action"}"}):
+              </td>
+            </tr>
+            <tr>
+              <td class="contentbody">
+                <table border="0" cellspacing="0" cellpadding="3">
+                  <tr>
+                    <td class="contentkey">$Text{"Name"}: </td>
+                    <td class="contentvalue">
+                      <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="contentkey">$Text{"State Type"}: </td>
+                    <td class="contentvalue"> $Data{"StateTypeOption"}</td>
+                  </tr>
+                  <tr>
+                    <td class="contentkey">$Text{"Valid"}: </td>
+                    <td class="contentvalue">$Data{"ValidOption"}</td>
+                  </tr>
+                  <tr>
+                    <td class="contentkey">$Text{"Comment"}: </td>
+                    <td class="contentvalue">
+                      <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150">
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td class="contentfooter">
+                <input class="button" type="submit" value="$Text{"Submit"}">
+              </td>
+            </tr>
+          </table>
+        </form>
+
+<!-- dtl:block:OverviewUpdate -->
+
+      </td>
+    </tr>
+  </table>
+  <table border="0" width="100%" cellspacing="0" cellpadding="3">
+    <tr>
+      <td class="mainhead">
+        $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
+      </td>
+    </tr>
+    <tr>
+      <td class="mainbody">
+        <p>
+          $Text{"Attention"}: $Text{"Take care that you also updated the default states in you Kernel/Config.pm!"}
+        </p>
+        <p>
+          $Text{"See also"}: <a href="http://doc.otrs.org/cvs/en/html/state.html" target="doc">http://doc.otrs.org/cvs/en/html/state.html</a>
+        </p>
+      </td>
+    </tr>
+  </table>
+<!-- dtl:block:Overview -->

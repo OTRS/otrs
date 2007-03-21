@@ -1,15 +1,14 @@
 # --
 # AdminUserForm.dtl - provides HTML form for AdminUser
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminUserForm.dtl,v 1.30 2006-12-30 01:38:50 mh Exp $
+# $Id: AdminUserForm.dtl,v 1.31 2007-03-21 11:12:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-
-<!-- start form -->
+<!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td colspan="2" class="mainhead">
@@ -18,48 +17,105 @@
   </tr>
   <tr>
     <td width="30%" class="mainbody">
+
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Change">
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
-            <td class="contenthead">$Text{"Change"}:</td>
+            <td class="contenthead">$Text{"Search"}:</td>
           </tr>
           <tr>
             <td class="contentbody">
-              $Data{"UserOption"}
+              <table>
+                <tr>
+                  <td class="contentkey">$Text{"Search for"}:</td>
+                  <td class="contentvalue"><input type="text" name="Search" value="$QData{"Search"}" size="20"></td>
+                </tr>
+              </table>
             </td>
           </tr>
           <tr>
             <td class="contentfooter">
-<!-- dtl:block:SwitchToUser -->
-              <input class="button" name="Switch" type="submit" value="$Text{"Login as"}">
-<!-- dtl:block:SwitchToUser -->
-              <input class="button" type="submit" value="$Text{"Change"}">
+              <input class="button" type="submit" value="$Text{"Search"}">
             </td>
           </tr>
         </table>
       </form>
-    </td>
-    <td width="70%" class="mainbody">
-# --
-# check subaction
-# --
-      <dtl set $Data{"Headline"} = "Add">
-      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
-# set subaction!
-      <dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
-# check add link
-      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
-# --
+
+      <br>
+
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-        <input type="hidden" name="ID" value="$Data{"UserID"}">
+        <input type="hidden" name="Subaction" value="Add">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">$Text{"Add User"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              $Text{"Add a new Agent."}
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Add"}">
+            </td>
+          </tr>
+        </table>
+      </form>
+
+
+    </td>
+    <td width="70%" class="mainbody">
+<!-- dtl:block:OverviewResult -->
+      <table width="100%" cellspacing="0" cellpadding="4">
+        <tr>
+          <td class="contenthead">$Text{"List"}:</td>
+        </tr>
+        <tr>
+          <td class="contentbody">
+            <table width="100%" border="0" cellspacing="0" cellpadding="3">
+              <tr>
+                <td class="contentkey">$Text{"Username"}</td>
+                <td width="40%" class="contentkey">$Text{"Name"}</td>
+                <td class="contentkey">$Text{"Email"}</td>
+<!-- dtl:block:OverviewResultSwitchToUser -->
+                <td align="center" class="contentkey">$Text{"Login as"}</td>
+<!-- dtl:block:OverviewResultSwitchToUser -->
+                <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
+              </tr>
+<!-- dtl:block:OverviewResultRow -->
+              <tr>
+                <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Change&UserID=$LQData{"UserID"}&Search=$LQData{"Search"}">$QData{"UserLogin"}</a></td>
+                <td class="$QData{"CssClass"}">$QData{"UserFirstname"} $QData{"UserLastname"}</td>
+                <td class="$QData{"CssClass"}"><div title="$QData{"UserEmail"}">$QData{"UserEmail","26"}</div></td>
+<!-- dtl:block:OverviewResultRowSwitchToUser -->
+                <td align="center" class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Switch&UserID=$LQData{"UserID"}">x</a></td>
+<!-- dtl:block:OverviewResultRowSwitchToUser -->
+                <td align="center" class="$QData{"CssClass"}">$Text{"$QData{"Valid"}"}</td>
+              </tr>
+<!-- dtl:block:OverviewResultRow -->
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="contentfooter">
+            &nbsp;
+          </td>
+        </tr>
+      </table>
+<!-- dtl:block:OverviewResult -->
+<!-- dtl:block:OverviewUpdate -->
+
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="$QData{"Action"}Action">
+        <input type="hidden" name="UserID" value="$QData{"UserID"}">
+        <input type="hidden" name="Search" value="$QData{"Search"}">
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">
-              $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminUser">$Text{"$Data{"AddLink"}"}</a>:
+              $Text{"Edit"} ($Text{"$QData{"Action"}"}):
             </td>
           </tr>
           <tr>
@@ -67,27 +123,27 @@
               <table border="0" cellspacing="0" cellpadding="3">
                 <tr>
                   <td width="40%" class="contentkey">$Text{"Username"}: </td>
-                  <td width="60%" class="contentvalue"> <input type="text" name="Login" value="$QData{"UserLogin"}" size="35" maxlength="50"></td>
+                  <td width="60%" class="contentvalue"> <input type="text" name="UserLogin" value="$QData{"UserLogin"}" size="35" maxlength="50"></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Salutation"}: </td>
-                  <td class="contentvalue"> <input type="text" name="Salutation" value="$QData{"UserSalutation"}" size="35" maxlength="50"></td>
+                  <td class="contentvalue"> <input type="text" name="UserSalutation" value="$QData{"UserSalutation"}" size="35" maxlength="50"></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Firstname"}: </td>
-                  <td class="contentvalue"> <input type="text" name="Firstname" value="$QData{"UserFirstname"}" size="35" maxlength="50"></td>
+                  <td class="contentvalue"> <input type="text" name="UserFirstname" value="$QData{"UserFirstname"}" size="35" maxlength="50"></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Lastname"}: </td>
-                  <td class="contentvalue"> <input type="text" name="Lastname" value="$QData{"UserLastname"}" size="35" maxlength="50"></td>
+                  <td class="contentvalue"> <input type="text" name="UserLastname" value="$QData{"UserLastname"}" size="35" maxlength="50"></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Password"}: </td>
-                  <td class="contentvalue"> <input type="password" name="Pw" value="" size="35" maxlength="50"></td>
+                  <td class="contentvalue"> <input type="password" name="UserPw" value="" size="35" maxlength="50"></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Email"}: </td>
-                  <td class="contentvalue"> <input type="text" name="Email" value="$QData{"UserEmail"}" size="35" maxlength="50"></td>
+                  <td class="contentvalue"> <input type="text" name="UserEmail" value="$QData{"UserEmail"}" size="35" maxlength="50"></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Valid"}: </td>
@@ -137,16 +193,17 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
+              <input class="button" type="submit" value="$Text{"Submit"}">
             </td>
           </tr>
         </table>
       </form>
+
+<!-- dtl:block:OverviewUpdate -->
+
     </td>
   </tr>
 </table>
-<!-- end form -->
-<!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
@@ -164,4 +221,4 @@
     </td>
   </tr>
 </table>
-<!-- end note -->
+<!-- dtl:block:Overview -->

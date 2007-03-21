@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGroup.pm - to add/update/delete groups
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGroup.pm,v 1.22 2007-01-30 14:08:06 mh Exp $
+# $Id: AdminGroup.pm,v 1.23 2007-03-21 11:12:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -32,7 +32,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
+    foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject GroupObject)) {
         if (!$Self->{$_}) {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
@@ -45,54 +45,108 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output = '';
-    $Param{NextScreen} = 'AdminGroup';
-    my %Groups = $Self->{GroupObject}->GroupList(Valid => 0);
-    # get group data
+
+    # ------------------------------------------------------------ #
+    # change
+    # ------------------------------------------------------------ #
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        my %GroupData = $Self->{GroupObject}->GroupGet(ID => $ID);
-        $Output = $Self->{LayoutObject}->Header();
+        my %Data = $Self->{GroupObject}->GroupGet(
+            ID => $ID,
+        );
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->_Mask(
-            %GroupData,
-            GroupList => \%Groups
+        $Self->_Edit(
+            Action => "Change",
+            %Data,
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminGroupForm',
+            Data => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    # update action
+    # ------------------------------------------------------------ #
+    # change action
+    # ------------------------------------------------------------ #
     elsif ($Self->{Subaction} eq 'ChangeAction') {
+        my $Note = '';
         my %GetParam;
-        my @Params = ('ID', 'Name', 'Comment', 'ValidID');
-        foreach (@Params) {
+        foreach (qw(ID Name Comment ValidID)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
+        # update group
         if ($Self->{GroupObject}->GroupUpdate(%GetParam, UserID => $Self->{UserID})) {
-            return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
+            $Self->_Overview();
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Notify(Info => 'Group updated!');
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AdminGroupForm',
+                Data => \%Param,
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
         else {
-            return $Self->{LayoutObject}->ErrorScreen();
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Notify(Priority => 'Error');
+            $Self->_Edit(
+                Action => "Change",
+                %GetParam,
+            );
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AdminGroupForm',
+                Data => \%Param,
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
     }
-    # add group
+    # ------------------------------------------------------------ #
+    # add
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'Add') {
+        my %GetParam = ();
+        foreach (qw(Name)) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+        }
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Self->_Edit(
+            Action => "Add",
+            %GetParam,
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminGroupForm',
+            Data => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+    # ------------------------------------------------------------ #
+    # add action
+    # ------------------------------------------------------------ #
     elsif ($Self->{Subaction} eq 'AddAction') {
+        my $Note = '';
         my %GetParam;
-        my @Params = ('Name', 'Comment', 'ValidID');
-        foreach (@Params) {
+        foreach (qw(ID Name Comment ValidID)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
-        if (my $Id = $Self->{GroupObject}->GroupAdd(%GetParam, UserID => $Self->{UserID})) {
+        # add user
+        if (my $GroupID = $Self->{GroupObject}->GroupAdd(%GetParam, UserID => $Self->{UserID})) {
             # redirect
             if (!$Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup} &&
                 $Self->{ConfigObject}->Get('Frontend::Module')->{AdminRoleGroup}) {
                 return $Self->{LayoutObject}->Redirect(
-                    OP => "Action=AdminRoleGroup&Subaction=Group&ID=$Id",
+                    OP => "Action=AdminRoleGroup&Subaction=Group&ID=$GroupID",
                 );
             }
             if ($Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup}) {
                 return $Self->{LayoutObject}->Redirect(
-                    OP => "Action=AdminUserGroup&Subaction=Group&ID=$Id",
+                    OP => "Action=AdminUserGroup&Subaction=Group&ID=$GroupID",
                 );
             }
             else {
@@ -102,24 +156,46 @@ sub Run {
             }
         }
         else {
-            return $Self->{LayoutObject}->ErrorScreen();
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Notify(Priority => 'Error');
+            $Self->_Edit(
+                Action => "Add",
+                %GetParam,
+            );
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AdminGroupForm',
+                Data => \%Param,
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
     }
-    # else ! print form
+    # ------------------------------------------------------------
+    # overview
+    # ------------------------------------------------------------
     else {
-        $Output = $Self->{LayoutObject}->Header();
+        $Self->_Overview();
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->_Mask(GroupList => \%Groups);
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminGroupForm',
+            Data => \%Param,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
+
 }
 
-sub _Mask {
+sub _Edit {
     my $Self = shift;
     my %Param = @_;
 
-    # build ValidID string
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+        Data => \%Param,
+    );
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             $Self->{ValidObject}->ValidList(),
@@ -128,15 +204,53 @@ sub _Mask {
         SelectedID => $Param{ValidID},
     );
 
-    $Param{GroupOption} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => $Param{GroupList},
-        Size => 15,
-        Name => 'ID',
-        LanguageTranslation => 0,
-        SelectedID => $Param{ID},
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewUpdate',
+        Data => \%Param,
     );
+    return 1;
+}
 
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminGroupForm', Data => \%Param);
+sub _Overview {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+        Data => \%Param,
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewResult',
+        Data => \%Param,
+    );
+    my %List = $Self->{GroupObject}->GroupList(
+        ValidID => 0,
+    );
+    # get valid list
+    my %ValidList = $Self->{ValidObject}->ValidList();
+    my $CssClass = '';
+    foreach (sort {$List{$a} cmp $List{$b}}  keys %List) {
+        # set output class
+        if ($CssClass && $CssClass eq 'searchactive') {
+            $CssClass = 'searchpassive';
+        }
+        else {
+            $CssClass = 'searchactive';
+        }
+        my %Data = $Self->{GroupObject}->GroupGet(
+            ID => $_,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResultRow',
+            Data => {
+                Valid => $ValidList{$Data{ValidID}},
+                CssClass => $CssClass,
+                %Data,
+            },
+        );
+    }
+    return 1;
 }
 
 1;

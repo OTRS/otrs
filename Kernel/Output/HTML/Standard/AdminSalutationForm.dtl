@@ -2,14 +2,13 @@
 # AdminSalutationForm.dtl - provides HTML form for AdminSalutation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSalutationForm.dtl,v 1.26 2007-03-15 08:17:15 martin Exp $
+# $Id: AdminSalutationForm.dtl,v 1.27 2007-03-21 11:12:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-
-<!-- start form -->
+<!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td colspan="2" class="mainhead">
@@ -18,60 +17,87 @@
   </tr>
   <tr>
     <td width="30%" class="mainbody">
+
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Change">
+        <input type="hidden" name="Subaction" value="Add">
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
-            <td class="contenthead">$Text{"Change"}:</td>
+            <td class="contenthead">$Text{"Add Salutation"}:</td>
           </tr>
           <tr>
             <td class="contentbody">
-              $Data{"SalutationOption"}
+              $Text{"Add a new Salutation."}
             </td>
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Change"}">
+              <input class="button" type="submit" value="$Text{"Add"}">
             </td>
           </tr>
         </table>
       </form>
+
     </td>
-    <td width="70%" class="mainbody">
-# --
-# check subaction
-# --
-      <dtl set $Data{"Headline"} = "Add">
-      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
-# set subaction!
-      <dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
-# check add link
-      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
-# --
-      <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-        <input type="hidden" name="ID" value="$QData{"ID"}">
-        <table width="100%" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="contenthead">
-              $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminSalutation">$Text{"$Data{"AddLink"}"}</a>:
-            </td>
-          </tr>
-          <tr>
-            <td class="contentbody">
-              <table border="0" cellspacing="0" cellpadding="4">
-                <tr>
-                  <td class="contentkey">$Text{"Name"}: </td>
-                  <td class="contentvalue">
-                    <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50">
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Salutation"}: </td>
-                  <td class="contentvalue">
-                    <textarea rows="10" cols="78" name="Salutation">$QData{"Salutation"}</textarea>
+    <td width="60%" class="mainbody">
+<!-- dtl:block:OverviewResult -->
+      <table width="100%" cellspacing="0" cellpadding="4">
+        <tr>
+          <td class="contenthead">$Text{"List"}:</td>
+        </tr>
+        <tr>
+          <td class="contentbody">
+            <table width="100%" border="0" cellspacing="0" cellpadding="3">
+              <tr>
+                <td class="contentkey" width="20%">$Text{"Name"}</td>
+                <td class="contentkey" width="25%">$Text{"Comment"}</td>
+                <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
+                <td class="contentkey">$Text{"Changed"}</td>
+                <td class="contentkey">$Text{"Created"}</td>
+              </tr>
+<!-- dtl:block:OverviewResultRow -->
+              <tr>
+                <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Change&ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                <td class="$QData{"CssClass"}"><div title="$QData{"Comment"}">$QData{"Comment","20"}</div></td>
+                <td align="center" class="$QData{"CssClass"}">$Text{"$QData{"Valid"}"}</td>
+                <td class="$QData{"CssClass"}">$TimeShort{"$QData{"ChangeTime"}"}</td>
+                <td class="$QData{"CssClass"}">$TimeShort{"$QData{"CreateTime"}"}</td>
+              </tr>
+<!-- dtl:block:OverviewResultRow -->
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="contentfooter">
+            &nbsp;
+          </td>
+        </table>
+<!-- dtl:block:OverviewResult -->
+<!-- dtl:block:OverviewUpdate -->
+
+        <form action="$Env{"CGIHandle"}" method="post">
+          <input type="hidden" name="Action" value="$Env{"Action"}">
+          <input type="hidden" name="Subaction" value="$LQData{"Action"}Action">
+          <input type="hidden" name="ID" value="$Data{"ID"}">
+          <table width="100%" cellspacing="0" cellpadding="4">
+            <tr>
+              <td class="contenthead">
+                $Text{"Edit"} ($Text{"$QData{"Action"}"}):
+              </td>
+            </tr>
+            <tr>
+              <td class="contentbody">
+                <table border="0" cellspacing="0" cellpadding="3">
+                  <tr>
+                    <td class="contentkey">$Text{"Name"}: </td>
+                    <td class="contentvalue">
+                      <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="contentkey">$Text{"Salutation"}: </td>
+                    <td class="contentvalue">
+                    <textarea rows="10" cols="74" name="Text">$QData{"Text"}</textarea>
                   </td>
                 </tr>
                 <tr>
@@ -89,16 +115,17 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
+              <input class="button" type="submit" value="$Text{"Submit"}">
             </td>
           </tr>
         </table>
       </form>
+
+<!-- dtl:block:OverviewUpdate -->
+
     </td>
   </tr>
 </table>
-<!-- end form -->
-<!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
@@ -107,6 +134,7 @@
   </tr>
   <tr>
     <td class="mainbody">
+
       <p>
         $Text{"Useable options"}:
         <table>
@@ -136,6 +164,7 @@
           </tr>
         </table>
       </p>
+
       <p>
         $Text{"Example"}:
         <hr>
@@ -145,18 +174,25 @@
               <td class="contentkey">$Text{"Salutation"}:</td>
               <td class="contentvalue">
                 <textarea rows="12" cols="70" name="Response">
-Dear &lt;OTRS_CUSTOMER_Realname&gt;,
+Your OTRS-Team
 
-Thank you for your request. Your email address in our database
-is "&lt;OTRS_CUSTOMER_DATA_UserEmail&gt;".
+&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;
+
+--
+Super Support Company Inc. - Waterford Business Park
+5201 Blue Lagoon Drive - 8th Floor & 9th Floor - Miami, 33126 USA
+Email: hot@florida.com - Web: http://hot.florida.com/
+--
+PS: Your email address in our database is "&lt;OTRS_CUSTOMER_DATA_UserEmail&gt;".
                 </textarea>
-                  </td>
-                </tr>
-              </table>
-            </form>
-            <hr>
-          </p>
-        </td>
-      </tr>
-    </table>
-<!-- end note -->
+                    </td>
+                  </tr>
+                </table>
+              </form>
+              <hr>
+            </p>
+
+          </td>
+        </tr>
+      </table>
+<!-- dtl:block:Overview -->

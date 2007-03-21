@@ -2,13 +2,13 @@
 # AdminCustomerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.33 2007-01-11 23:22:27 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.34 2007-03-21 11:12:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-
+<!-- dtl:block:Overview -->
 <script language="JavaScript" type="text/javascript">
 <!--
 
@@ -48,6 +48,7 @@ function updateMessage(x) {
 $Data{"Back"}
   <tr>
     <td width="30%" class="mainbody">
+
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Search">
@@ -73,40 +74,16 @@ $Data{"Back"}
           </tr>
         </table>
       </form>
+
       <br>
-      <table width="100%" cellspacing="0" cellpadding="4">
-        <tr>
-          <td class="contenthead">$Text{"Result"}:</td>
-        </tr>
-        <tr>
-          <td class="contentbody">
-            <table border="0" width="100%">
-<!-- dtl:block:CustomerSelection -->
-              $Data{"UserLinkList"}
-              <tr>
-                <td valign="top">$Data{"AddLink"}</td>
-                <td valign="top">
-                  <a href="$Env{"Baselink"}Action=AdminCustomerUser&Subaction=Change&ID=$LQData{"UserID"}&Search=$LQData{"Search"}&Nav=$LQData{"Nav"}">$QData{"Name","25"}</a>
-                </td>
-              </tr>
-<!-- dtl:block:CustomerSelection -->
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td class="contentfooter">&nbsp;</td>
-        </tr>
-      </table>
-      <br>
+
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="">
+        <input type="hidden" name="Subaction" value="Add">
         <input type="hidden" name="Nav" value="$Data{"Nav"}">
-#        <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-#        <input type="hidden" name="ID" value="$Data{"UserID"}">
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
-            <td class="contenthead">$Text{"Select Source (for add)"}:</td>
+            <td class="contenthead">$Text{"Add User"}:</td>
           </tr>
           <tr>
             <td class="contentbody">
@@ -120,36 +97,66 @@ $Data{"Back"}
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Change"}">
+              <input class="button" type="submit" value="$Text{"Create"}">
             </td>
           </tr>
         </table>
       </form>
+
     </td>
     <td width="70%" align="center" class="mainbody">
-<!-- dtl:block:Body -->
-# --
-# check subaction
-# --
-      <dtl set $Data{"Headline"} = "Add">
-      <dtl if ($Env{"Subaction"} =~ "Change") { $Data{"Headline"} = "Update"; }>
-# set subaction!
-      <dtl if ($Env{"Subaction"} !~ "Change") { $Env{"Subaction"} = "Add"; }>
-      <dtl if ($Env{"Subaction"} =~ "Change") { $Env{"Subaction"} = "Change"; }>
-# check add link
-      <dtl if ($Env{"Subaction"} =~ "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
-# --
+<!-- dtl:block:OverviewResult -->
+      <table width="100%" cellspacing="0" cellpadding="4">
+        <tr>
+          <td class="contenthead">$Text{"List"}:</td>
+        </tr>
+        <tr>
+          <td class="contentbody">
+            <table width="100%" border="0" cellspacing="0" cellpadding="3">
+              <tr>
+                <td class="contentkey">$Text{"Username"}</td>
+                <td width="40%" class="contentkey">$Text{"Name"}</td>
+                <td class="contentkey">$Text{"Email"}</td>
+                <td class="contentkey">$Text{"CustomerID"}</td>
+                <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
+              </tr>
+<!-- dtl:block:OverviewResultRow -->
+              <tr>
+<!-- dtl:block:OverviewResultRowLink -->
+                <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Change&ID=$LQData{"UserLogin"}&Search=$LQData{"Search"}">$QData{"UserLogin"}</a></td>
+<!-- dtl:block:OverviewResultRowLink -->
+<!-- dtl:block:OverviewResultRowLinkNone -->
+                <td class="contentvalue"><a href="" onclick="updateMessage('$QData{"UserLogin"}')">$QData{"UserLogin"}</a></td>
+<!-- dtl:block:OverviewResultRowLinkNone -->
+                <td class="$QData{"CssClass"}">$QData{"UserFirstname"} $QData{"UserLastname"}</td>
+                <td class="$QData{"CssClass"}">$QData{"UserEmail"}</td>
+                <td class="$QData{"CssClass"}">$QData{"UserCustomerID"}</td>
+                <td class="$QData{"CssClass"}">$Text{"$QData{"Valid"}"}</td>
+              </tr>
+<!-- dtl:block:OverviewResultRow -->
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="contentfooter">
+            &nbsp;
+          </td>
+        </tr>
+      </table>
+<!-- dtl:block:OverviewResult -->
+<!-- dtl:block:OverviewUpdate -->
+
       <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post" name="compose">
         <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-        <input type="hidden" name="ID" value="$QData{"UserID"}">
+        <input type="hidden" name="Subaction" value="$QData{"Action"}Action">
+        <input type="hidden" name="ID" value="$QData{"ID"}">
         <input type="hidden" name="Source" value="$QData{"Source"}">
         <input type="hidden" name="Nav" value="$QData{"Nav"}">
         <input type="hidden" name="Search" value="$QData{"Search"}">
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">
-              $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminCustomerUser&Nav=$LQData{"Nav"}">$Text{"$Data{"AddLink"}"}</a>:
+              $Text{"Edit"} ($Text{"$QData{"Action"}"}):
             </td>
           </tr>
           <tr>
@@ -254,17 +261,17 @@ $Data{"Back"}
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
+              <input class="button" type="submit" value="$Text{"Submit"}">
             </td>
           </tr>
         </table>
       </form>
-<!-- dtl:block:Body -->
+
+<!-- dtl:block:OverviewUpdate -->
+
     </td>
   </tr>
 </table>
-<!-- end form -->
-<!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
@@ -283,4 +290,4 @@ $Data{"Back"}
     </td>
   </tr>
 </table>
-<!-- end note -->
+<!-- dtl:block:Overview -->

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.45 2007-01-30 14:08:06 mh Exp $
+# $Id: AdminCustomerUser.pm,v 1.46 2007-03-21 11:12:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.45 $ ';
+$VERSION = '$Revision: 1.46 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -48,11 +48,9 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $NavBar = '';
-    my $Link = '';
     my $Nav = $Self->{ParamObject}->GetParam(Param => 'Nav') || 0;
     my $Source = $Self->{ParamObject}->GetParam(Param => 'Source') || 'CustomerUser';
     my $Search = $Self->{ParamObject}->GetParam(Param => 'Search');
-    my $AddedUID = $Self->{ParamObject}->GetParam(Param => 'AddedUID') || '';
     my $Screen = $Self->{ParamObject}->GetParam(Param => 'Screen') || '';
     if ($Screen eq 'Remember' && $Self->{LastScreenEdit}) {
         $Self->{SessionObject}->UpdateSessionID(
@@ -76,7 +74,6 @@ sub Run {
             OP => $Self->{CustomerEditReturn},
         );
     }
-    my %UserList = ();
     # check nav bar
     if (!$Nav) {
         if ($ENV{HTTP_REFERER} && $ENV{HTTP_REFERER} !~ /Admin/) {
@@ -86,87 +83,64 @@ sub Run {
             $Nav = 'Admin';
         }
     }
+    # build source string
+    $Param{'SourceOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {$Self->{CustomerUserObject}->CustomerSourceList()},
+        Name => 'Source',
+        SelectedID => $Source,
+    );
     if ($Nav eq 'Admin') {
         $NavBar = $Self->{LayoutObject}->Header();
         $NavBar .= $Self->{LayoutObject}->NavigationBar();
+        $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+            Data => {
+                %Param,
+                Search => $Search,
+                Nav => $Nav,
+            },
+        );
     }
     elsif ($Nav eq 'None') {
         $NavBar = $Self->{LayoutObject}->Header(Type => 'Small');
+        $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+            Data => {
+                %Param,
+                Search => $Search,
+                Nav => $Nav,
+            },
+        );
     }
     else {
         $NavBar = $Self->{LayoutObject}->Header();
         $NavBar .= $Self->{LayoutObject}->NavigationBar(Type => $Self->{LastNavBarName});
-    }
-    # add notify
-    if ($AddedUID) {
-        my $OnClick = '';
-        if ($Nav eq 'None') {
-            $OnClick = " onclick=\"updateMessage('$AddedUID')\"";
-        }
-        my $URL = '';
-        if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhone}) {
-            $URL .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID\"$OnClick>".
-                $Self->{LayoutObject}->{LanguageObject}->Get('PhoneView')."</a>";
-        }
-        if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketEmail}) {
-            if ($URL) {
-                $URL .= " - ";
-            }
-            $URL .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID\"$OnClick>".
-                $Self->{LayoutObject}->{LanguageObject}->Get('Compose Email')."</a>";
-        }
-        if ($URL) {
-            $NavBar .= $Self->{LayoutObject}->Notify(
-                Data => $Self->{LayoutObject}->{LanguageObject}->Get('Added User "%s"", "'.$AddedUID).
-                    " ( $URL )!",
-            );
-        }
+        $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+            Data => {
+                %Param,
+                Search => $Search,
+                Nav => $Nav,
+            },
+        );
     }
     # search user list
-    if ($Search) {
-        %UserList = $Self->{CustomerUserObject}->CustomerSearch(
-            Valid => 0,
+    if ($Self->{Subaction} eq 'Search') {
+        $Self->_Overview(
+            Nav => $Nav,
             Search => $Search,
         );
-        # build user result list
-        if (%UserList) {
-            foreach (sort keys %UserList) {
-                my $AddLink = '';
-                if ($Nav eq 'None') {
-                    $AddLink = "<a href=\"\" onclick=\"updateMessage('$_')\">\$Text{\"Take this Customer\"}</a>";
-                }
-                else {
-                    $AddLink = $_;
-                }
-                $Self->{LayoutObject}->Block(
-                    Name => 'CustomerSelection',
-                    Data => {
-                        AddLink => $AddLink,
-                        Nav => $Nav,
-                        Search => $Search,
-                        Name => $UserList{$_},
-                        UserID => $_,
-                    },
-                );
-            }
-        }
-    }
-    # get user data 2 form
-    if ($Self->{Subaction} eq 'Change') {
-        my $User = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        # get user data
-        my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $User);
-        my $Output = $NavBar.$Self->AdminCustomerUserForm(
-            Nav => $Nav,
-            UserLinkList => $Link,
-            Source => $Source,
-            Search => $Search,
-            %UserData,
+        my $Output = $NavBar;
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminCustomerUserForm',
+            Data => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
+    # ------------------------------------------------------------ #
     # download file preferences
+    # ------------------------------------------------------------ #
     elsif ($Self->{Subaction} eq 'Download') {
         my $Group = $Self->{ParamObject}->GetParam(Param => 'Group') || '';
         my $User = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
@@ -190,15 +164,37 @@ sub Run {
             return $Self->{LayoutObject}->FatalError();
         }
     }
-    # update action
+    # ------------------------------------------------------------ #
+    # change
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'Change') {
+        my $User = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
+        # get user data
+        my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $User);
+        my $Output = $NavBar.$Self->_Edit(
+            Nav => $Nav,
+            Action => "Change",
+            Source => $Source,
+            Nav => $Nav,
+            Search => $Search,
+            ID => $User,
+            %UserData,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+    # ------------------------------------------------------------ #
+    # change action
+    # ------------------------------------------------------------ #
     elsif ($Self->{Subaction} eq 'ChangeAction') {
         my $Note = '';
-        # get params
         my %GetParam;
         foreach my $Entry (@{$Self->{ConfigObject}->Get($Source)->{Map}}) {
             $GetParam{$Entry->[0]} = $Self->{ParamObject}->GetParam(Param => $Entry->[0]) || '';
         }
-        $GetParam{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
+        foreach (qw(ID)) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+        }
         # update user
         if ($Self->{CustomerUserObject}->CustomerUserUpdate(%GetParam, UserID => $Self->{UserID})) {
             # update preferences
@@ -234,36 +230,59 @@ sub Run {
                 }
             }
             # get user data and show screen again
-            $Note .= $Self->{LayoutObject}->Notify(Info => 'Customer updated!');
-            my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $GetParam{ID});
-            my $Output = $NavBar.$Note.$Self->AdminCustomerUserForm(
-                Nav => $Nav,
-                UserLinkList => $Link,
-                Source => $Source,
-                Search => $Search,
-                %UserData,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            if (!$Note) {
+                $Self->_Overview(
+                    Nav => $Nav,
+                    Search => $Search,
+                );
+                my $Output = $NavBar.$Note;
+                $Output .= $Self->{LayoutObject}->Notify(Info => 'Customer updated!');
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminCustomerUserForm',
+                    Data => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
         }
-        else {
-            return $Self->{LayoutObject}->ErrorScreen();
-        }
-    }
-    # search
-    elsif ($Self->{Subaction} eq 'Search') {
-        my $Output .= $NavBar.$Self->AdminCustomerUserForm(
+        # something has gone wrong
+        my $Output = $NavBar;
+        $Output .= $Self->{LayoutObject}->Notify(Priority => 'Error');
+        $Output .= $Note;
+        $Output .= $Self->_Edit(
             Nav => $Nav,
-            UserLinkList => $Link,
-            Search => $Search,
+            Action => "Change",
+            Nav => $Nav,
             Source => $Source,
+            Search => $Search,
+            %GetParam,
+         );
+         $Output .= $Self->{LayoutObject}->Footer();
+         return $Output;
+    }
+    # ------------------------------------------------------------ #
+    # add
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'Add') {
+        my %GetParam;
+        foreach (qw(UserLogin)) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+        }
+        my $Output = $NavBar.$Self->_Edit(
+            Nav => $Nav,
+            Action => "Add",
+            Source => $Source,
+            Search => $Search,
+            %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    # add new user
+    # ------------------------------------------------------------ #
+    # add action
+    # ------------------------------------------------------------ #
     elsif ($Self->{Subaction} eq 'AddAction') {
-        # get params
+        my $Note = '';
         my %GetParam;
         foreach my $Entry (@{$Self->{ConfigObject}->Get($Source)->{Map}}) {
             $GetParam{$Entry->[0]} = $Self->{ParamObject}->GetParam(Param => $Entry->[0]) || '';
@@ -294,7 +313,7 @@ sub Run {
                             $GetParam{$ParamItem->{Name}} = \@Array;
                         }
                         if (!$Object->Run(GetParam => \%GetParam, UserData => \%UserData)) {
-#                            $Note .= $Self->{LayoutObject}->Notify(Info => $Object->Error());
+                            $Note .= $Self->{LayoutObject}->Notify(Info => $Object->Error());
                         }
                     }
                 }
@@ -302,51 +321,151 @@ sub Run {
                     return $Self->{LayoutObject}->FatalError();
                 }
             }
-            # redirect
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AdminCustomerUser&Nav=$Nav&Search=$Search&AddedUID=$User",
-            );
+            # get user data and show screen again
+            if (!$Note) {
+                $Self->_Overview(
+                    Nav => $Nav,
+                    Search => $Search,
+                );
+                my $Output = $NavBar.$Note;
+                my $OnClick = '';
+                if ($Nav eq 'None') {
+                    $OnClick = " onclick=\"updateMessage('$User')\"";
+                }
+                my $URL = '';
+                if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhone}) {
+                    $URL .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$User\"$OnClick>".
+                        $Self->{LayoutObject}->{LanguageObject}->Get('PhoneView')."</a>";
+                }
+                if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketEmail}) {
+                    if ($URL) {
+                        $URL .= " - ";
+                    }
+                    $URL .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$User\"$OnClick>".
+                        $Self->{LayoutObject}->{LanguageObject}->Get('Compose Email')."</a>";
+                }
+                if ($URL) {
+                    $Output .= $Self->{LayoutObject}->Notify(
+                        Data => $Self->{LayoutObject}->{LanguageObject}->Get('Added User "%s"", "'.$User).
+                            " ( $URL )!",
+                    );
+                }
+                else {
+                    $Output .= $Self->{LayoutObject}->Notify(
+                        Data => $Self->{LayoutObject}->{LanguageObject}->Get('Added User "%s"", "'.$User)."!",
+                    );
+                }
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminCustomerUserForm',
+                    Data => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
         }
-        else {
-            return $Self->{LayoutObject}->ErrorScreen();
-        }
-    }
-    # else ! print form
-    else {
-        # get params
-        my %GetParam;
-        foreach my $Entry (@{$Self->{ConfigObject}->Get($Source)->{Map}}) {
-            $GetParam{$Entry->[0]} = $Self->{ParamObject}->GetParam(Param => $Entry->[0]);
-        }
-        my $Output .= $NavBar.$Self->AdminCustomerUserForm(
+        # something has gone wrong
+        my $Output = $NavBar;
+        $Output .= $Self->{LayoutObject}->Notify(Priority => 'Error');
+        $Output .= $Note;
+        $Output .= $Self->_Edit(
             Nav => $Nav,
-            UserLinkList => $Link,
-            Search => $Search,
+            Action => "Add",
+            Nav => $Nav,
             Source => $Source,
+            Search => $Search,
             %GetParam,
+         );
+         $Output .= $Self->{LayoutObject}->Footer();
+         return $Output;
+    }
+    # ------------------------------------------------------------ #
+    # overview
+    # ------------------------------------------------------------ #
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResult',
+            Data => {
+                %Param,
+            },
+        );
+        my $Output = $NavBar;
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminCustomerUserForm',
+            Data => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-
-    # set header, navbar and footer
-    # all stuff
-        # user search
-        # source selection
-    # overview
-    # edit
-    # addaction
-    # change
-    # changeaction
 }
 
-sub AdminCustomerUserForm {
+sub _Overview {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
 
     $Self->{LayoutObject}->Block(
-        Name => 'Body',
+        Name => 'OverviewResult',
+        Data => \%Param,
+    );
+    if ($Param{Search}) {
+        my %List = $Self->{CustomerUserObject}->CustomerSearch(
+            Search => $Param{Search},
+            Valid => 0,
+        );
+        if (%List) {
+            # get valid list
+            my %ValidList = $Self->{ValidObject}->ValidList();
+            my $CssClass = '';
+            foreach (sort keys %List) {
+                # set output class
+                if ($CssClass && $CssClass eq 'searchactive') {
+                    $CssClass = 'searchpassive';
+                }
+                else {
+                    $CssClass = 'searchactive';
+                }
+                my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $_);
+                $Self->{LayoutObject}->Block(
+                    Name => 'OverviewResultRow',
+                    Data => {
+                        Valid => $ValidList{$UserData{ValidID} || ''} || '-',
+                        CssClass => $CssClass,
+                        Search => $Param{Search},
+                        %UserData,
+                    },
+                );
+                if ($Param{Nav} eq 'None') {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'OverviewResultRowLinkNone',
+                        Data => {
+                            CssClass => $CssClass,
+                            Search => $Param{Search},
+                            %UserData,
+                        },
+                    );
+                }
+                else {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'OverviewResultRowLink',
+                        Data => {
+                            CssClass => $CssClass,
+                            Search => $Param{Search},
+                            %UserData,
+                        },
+                    );
+                }
+            }
+        }
+    }
+}
+
+sub _Edit {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewUpdate',
         Data => {
             %Param,
         },
@@ -357,7 +476,6 @@ sub AdminCustomerUserForm {
         Name => 'Source',
         SelectedID => $Param{Source},
     );
-
     foreach my $Entry (@{$Self->{ConfigObject}->Get($Param{Source})->{Map}}) {
         if ($Entry->[0]) {
             my $Block = 'Input';
