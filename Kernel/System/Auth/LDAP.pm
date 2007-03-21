@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.35 2007-03-09 13:00:05 martin Exp $
+# $Id: LDAP.pm,v 1.36 2007-03-21 15:09:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -322,12 +322,12 @@ sub Auth {
                 my %UserData = $Self->{UserObject}->GetUserData(User => $Param{User});
                 if (!%UserData) {
                     my $UserID = $Self->{UserObject}->UserAdd(
-                        Salutation => 'Mr/Mrs',
-                        Login => $Param{User},
+                        UserSalutation => 'Mr/Mrs',
+                        UserLogin => $Param{User},
                         %SyncUser,
                         UserType => 'User',
                         ValidID => 1,
-                        UserID => 1,
+                        ChangeUserID => 1,
                     );
                     if ($UserID) {
                         $Self->{LogObject}->Log(
@@ -365,21 +365,13 @@ sub Auth {
                     }
                 }
                 else {
-                    my %CleanUserData = ();
-                    foreach my $Key (keys %UserData) {
-                        if ($Key ne 'UserPw') {
-                            my $CleanKey = $Key;
-                            $CleanKey =~ s/^User(.*)$/$1/;
-                            $CleanUserData{$CleanKey} = $UserData{$Key};
-                        }
-                    }
                     $Self->{UserObject}->UserUpdate(
-                        %CleanUserData,
-                        ID => $UserData{UserID},
-                        Login => $Param{User},
+                        %UserData,
+                        UserID => $UserData{UserID},
+                        UserLogin => $Param{User},
                         %SyncUser,
                         UserType => 'User',
-                        UserID => 1,
+                        ChangeUserID => 1,
                     );
                 }
             }

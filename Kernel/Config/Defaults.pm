@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.262 2007-03-09 13:00:05 martin Exp $
+# $Id: Defaults.pm,v 1.263 2007-03-21 15:09:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.262 $';
+$VERSION = '$Revision: 1.263 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -359,9 +359,9 @@ sub LoadDefaults {
     # (map if agent should create/synced from LDAP to DB after login)
 #    $Self->{UserSyncLDAPMap} = {
 #        # DB -> LDAP
-#        Firstname => 'givenName',
-#        Lastname => 'sn',
-#        Email => 'mail',
+#        UserFirstname => 'givenName',
+#        UserLastname => 'sn',
+#        UserEmail => 'mail',
 #    };
     # UserSyncLDAPGroups
     # (If "LDAP" was selected for AuthModule, you can specify initial
@@ -1853,6 +1853,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.262 $ $Date: 2007-03-09 13:00:05 $
+$Revision: 1.263 $ $Date: 2007-03-21 15:09:22 $
 
 =cut

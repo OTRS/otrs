@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.62 2007-03-15 09:42:06 martin Exp $
+# $Id: User.pm,v 1.63 2007-03-21 15:09:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -209,13 +209,13 @@ sub GetUserData {
 to add new users
 
     my $UserID = $UserObject->UserAdd(
-        Firstname => 'Huber',
-        Lastname => 'Manfred',
-        Login => 'mhuber',
-        Pw => 'some-pass', # not required
-        Email => 'email@example.com',
+        UserFirstname => 'Huber',
+        UserLastname => 'Manfred',
+        UserLogin => 'mhuber',
+        UserPw => 'some-pass', # not required
+        UserEmail => 'email@example.com',
         ValidID => 1,
-        UserID => 123,
+        ChangeUserID => 123,
     );
 
 =cut
@@ -224,30 +224,30 @@ sub UserAdd {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(Firstname Lastname Login ValidID UserID Email)) {
+    foreach (qw(UserFirstname UserLastname UserLogin UserEmail ValidID ChangeUserID)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
     # check email address
-    if ($Param{Email} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{Email})) {
+    if ($Param{UserEmail} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{UserEmail})) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Email address ($Param{Email}) not valid (".
+            Message => "Email address ($Param{UserEmail}) not valid (".
                 $Self->{CheckItemObject}->CheckError().")!",
         );
         return;
     }
     # check password
-    if (!$Param{Pw}) {
-        $Param{Pw} = $Self->GenerateRandomPassword();
+    if (!$Param{UserPw}) {
+        $Param{UserPw} = $Self->GenerateRandomPassword();
     }
     # quote params
-    foreach (qw(Salutation Firstname Lastname Login Pw)) {
+    foreach (qw(UserSalutation UserFirstname UserLastname UserLogin UserPw)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    foreach (qw(ValidID UserID)) {
+    foreach (qw(ValidID ChangeUserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
@@ -259,13 +259,13 @@ sub UserAdd {
         " $Self->{UserTableUserPW}, " .
         " valid_id, create_time, create_by, change_time, change_by)" .
         " VALUES " .
-        " ('$Param{Salutation}', " .
-        " '$Param{Firstname}', " .
-        " '$Param{Lastname}', " .
-        " '$Param{Login}', " .
-        " '$Param{Pw}', " .
-        " $Param{ValidID}, current_timestamp, $Param{UserID}, ".
-        " current_timestamp, $Param{UserID})";
+        " ('$Param{UserSalutation}', " .
+        " '$Param{UserFirstname}', " .
+        " '$Param{UserLastname}', " .
+        " '$Param{UserLogin}', " .
+        " '$Param{UserPw}', " .
+        " $Param{ValidID}, current_timestamp, $Param{ChangeUserID}, ".
+        " current_timestamp, $Param{ChangeUserID})";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # get new user id
@@ -273,7 +273,7 @@ sub UserAdd {
             " FROM " .
             " $Self->{UserTable} " .
             " WHERE " .
-            " LOWER($Self->{UserTableUser}) = LOWER('$Param{Login}')";
+            " LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')";
         my $UserID = '';
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -282,12 +282,12 @@ sub UserAdd {
         # log notice
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "User: '$Param{Login}' ID: '$UserID' created successfully ($Param{UserID})!",
+            Message => "User: '$Param{UserLogin}' ID: '$UserID' created successfully ($Param{ChangeUserID})!",
         );
         # set password
-        $Self->SetPassword(UserLogin => $Param{Login}, PW => $Param{Pw});
+        $Self->SetPassword(UserLogin => $Param{UserLogin}, PW => $Param{UserPw});
         # set email address
-        $Self->SetPreferences(UserID => $UserID, Key => 'UserEmail', Value => $Param{Email});
+        $Self->SetPreferences(UserID => $UserID, Key => 'UserEmail', Value => $Param{UserEmail});
         return $UserID;
     }
     else {
@@ -300,14 +300,14 @@ sub UserAdd {
 to update users
 
     $UserObject->UserUpdate(
-        ID => 4321,
-        Firstname => 'Huber',
-        Lastname => 'Manfred',
-        Login => 'mhuber',
-        Pw => 'some-pass', # not required
-        Email => 'email@example.com',
+        UserID => 4321,
+        UserFirstname => 'Huber',
+        UserLastname => 'Manfred',
+        UserLogin => 'mhuber',
+        UserPw => 'some-pass', # not required
+        UserEmail => 'email@example.com',
         ValidID => 1,
-        UserID => 123,
+        ChangeUserID => 123,
     );
 
 =cut
@@ -316,53 +316,53 @@ sub UserUpdate {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(ID Firstname Lastname Login ValidID UserID Email)) {
+    foreach (qw(UserID UserFirstname UserLastname UserLogin ValidID UserID ChangeUserID)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
     # check email address
-    if ($Param{Email} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{Email})) {
+    if ($Param{UserEmail} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{UserEmail})) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Email address ($Param{Email}) not valid (".
+            Message => "Email address ($Param{UserEmail}) not valid (".
                 $Self->{CheckItemObject}->CheckError().")!",
         );
         return;
     }
     # get old user data (pw)
-    my %UserData = $Self->GetUserData(UserID => $Param{ID});
+    my %UserData = $Self->GetUserData(UserID => $Param{UserID});
     # quote params
-    foreach (qw(Salutation Firstname Lastname)) {
+    foreach (qw(UserSalutation UserFirstname UserLastname)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    foreach (qw(ID ValidID UserID)) {
+    foreach (qw(ID ValidID UserID ChangeUserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # update db
     my $SQL = "UPDATE $Self->{UserTable} SET " .
-        " salutation = '$Param{Salutation}', " .
-        " first_name = '$Param{Firstname}'," .
-        " last_name = '$Param{Lastname}', " .
-        " $Self->{UserTableUser} = '$Param{Login}', " .
+        " salutation = '$Param{UserSalutation}', " .
+        " first_name = '$Param{UserFirstname}'," .
+        " last_name = '$Param{UserLastname}', " .
+        " $Self->{UserTableUser} = '$Param{UserLogin}', " .
         " valid_id = $Param{ValidID}, " .
         " change_time = current_timestamp, " .
-        " change_by = $Param{UserID} " .
-        " WHERE $Self->{UserTableUserID} = $Param{ID}";
+        " change_by = $Param{ChangeUserID} " .
+        " WHERE $Self->{UserTableUserID} = $Param{UserID}";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # log notice
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "User: '$Param{Login}' updated successfully ($Param{UserID})!",
+            Message => "User: '$Param{UserLogin}' updated successfully ($Param{ChangeUserID})!",
         );
         # check pw
-        if ($Param{Pw}) {
-            $Self->SetPassword(UserLogin => $Param{Login}, PW => $Param{Pw});
+        if ($Param{UserPw}) {
+            $Self->SetPassword(UserLogin => $Param{UserLogin}, PW => $Param{UserPw});
         }
         # set email address
-        $Self->SetPreferences(UserID => $Param{ID}, Key => 'UserEmail', Value => $Param{Email});
+        $Self->SetPreferences(UserID => $Param{UserID}, Key => 'UserEmail', Value => $Param{UserEmail});
         return 1;
     }
     else {
@@ -381,6 +381,7 @@ to search users
 
     my %List = $UserObject->UserSearch(
         UserLogin => '*some*',
+        Limit => 50,
         ValidID => 1, # not required
     );
 
@@ -402,8 +403,8 @@ sub UserSearch {
         return;
     }
     # build SQL string 1/2
-    my $SQL = "SELECT $Self->{UserTableUser} ";
-    my @Fields = ('first_name', 'last_name');
+    my $SQL = "SELECT $Self->{UserTableUserID} ";
+    my @Fields = qw(login first_name last_name);
     if (@Fields) {
         foreach my $Entry (@Fields) {
             $SQL .= ", $Entry";
@@ -417,7 +418,7 @@ sub UserSearch {
         my $Count = 0;
         my @Parts = split(/\+/, $Param{Search}, 6);
         foreach my $Part (@Parts) {
-            $Part = $Self->{SearchPrefix}.$Part.$Self->{SearchSuffix};
+#            $Part = $Self->{SearchPrefix}.$Part.$Self->{SearchSuffix};
             $Part =~ s/\*/%/g;
             $Part =~ s/%%/%/g;
             if ($Count) {
@@ -463,7 +464,7 @@ sub UserSearch {
         $SQL .= "AND valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) ";
     }
     # get data
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{UserSearchListLimit});
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{UserSearchListLimit} || $Param{Limit});
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         foreach (1..8) {
             if ($Row[$_]) {
@@ -815,6 +816,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.62 $ $Date: 2007-03-15 09:42:06 $
+$Revision: 1.63 $ $Date: 2007-03-21 15:09:22 $
 
 =cut

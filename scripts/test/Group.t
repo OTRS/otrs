@@ -1,8 +1,8 @@
 # --
 # Group.t - Group tests
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Group.t,v 1.5 2006-09-21 09:47:57 tr Exp $
+# $Id: Group.t,v 1.6 2007-03-21 15:09:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,26 +20,18 @@ my $UserRand1 = 'example-user'.int(rand(1000000));
 my $UserRand2 = 'example-user'.int(rand(1000000));
 my $UserRand3 = 'example-user'.int(rand(1000000));
 
-my $EmailCheck = $Self->{ConfigObject}->Get('CheckEmailInvalidAddress');
-
-if ($EmailCheck =~ /example\|/) {
-    print "Group.t has changed the config option 'CheckEmailInvalidAddress'\n";
-    print "temporally because of invalid check of 'example'\n";
-    $EmailCheck =~ s/example\|//;
-}
-
 $Self->{ConfigObject}->Set(
     Key => 'CheckEmailInvalidAddress',
-    Value => $EmailCheck,
+    Value => 0,
 );
 
 my $UserID1 = $Self->{UserObject}->UserAdd(
-    Firstname => 'Test1',
-    Lastname => 'Test1',
-    Login => $UserRand1,
-    Email => $UserRand1 . '@example.com',
+    UserFirstname => 'Test1',
+    UserLastname => 'Test1',
+    UserLogin => $UserRand1,
+    UserEmail => $UserRand1 . '@example.com',
     ValidID => 1,
-    UserID => 1,
+    ChangeUserID => 1,
 );
 
 $Self->True(
@@ -48,12 +40,12 @@ $Self->True(
 );
 
 my $UserID2 = $Self->{UserObject}->UserAdd(
-    Firstname => 'Test2',
-    Lastname => 'Test2',
-    Login => $UserRand2,
-    Email => $UserRand2 . '@example.com',
+    UserFirstname => 'Test2',
+    UserLastname => 'Test2',
+    UserLogin => $UserRand2,
+    UserEmail => $UserRand2 . '@example.com',
     ValidID => 1,
-    UserID => 1,
+    ChangeUserID => 1,
 );
 
 $Self->True(
@@ -62,12 +54,12 @@ $Self->True(
 );
 
 my $UserID3 = $Self->{UserObject}->UserAdd(
-    Firstname => 'Test3',
-    Lastname => 'Test3',
-    Login => $UserRand3,
-    Email => $UserRand3 . '@example.com',
+    UserFirstname => 'Test3',
+    UserLastname => 'Test3',
+    UserLogin => $UserRand3,
+    UserEmail => $UserRand3 . '@example.com',
     ValidID => 1,
-    UserID => 1,
+    ChangeUserID => 1,
 );
 
 $Self->True(
