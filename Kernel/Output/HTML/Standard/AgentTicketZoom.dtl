@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.23 2007-03-16 10:08:48 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.24 2007-03-22 09:05:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -210,7 +210,9 @@ $Data{"Body"}
 <!-- dtl:block:FirstResponseTimeFontStart -->
             <font color="red">
 <!-- dtl:block:FirstResponseTimeFontStart -->
-            <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">$QData{"FirstResponseTimeHuman"} / $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</div>
+            <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">$QData{"FirstResponseTimeHuman"}
+            <br>
+            $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</div>
 <!-- dtl:block:FirstResponseTimeFontStop -->
             </font>
 <!-- dtl:block:FirstResponseTimeFontStop -->
@@ -224,7 +226,9 @@ $Data{"Body"}
 <!-- dtl:block:UpdateTimeFontStart -->
             <font color="red">
 <!-- dtl:block:UpdateTimeFontStart -->
-            <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">$QData{"UpdateTimeHuman"} / $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
+            <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">$QData{"UpdateTimeHuman"}
+            <br>
+            $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
 <!-- dtl:block:UpdateTimeFontStop -->
             </font>
 <!-- dtl:block:UpdateTimeFontStop -->
@@ -238,7 +242,9 @@ $Data{"Body"}
 <!-- dtl:block:SolutionTimeFontStart -->
             <font color="red">
 <!-- dtl:block:SolutionTimeFontStart -->
-            <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">$QData{"SolutionTimeHuman"} / $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}</div>
+            <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">$QData{"SolutionTimeHuman"}
+            <br>
+            $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}</div>
 <!-- dtl:block:SolutionTimeFontStop -->
             </font>
 <!-- dtl:block:SolutionTimeFontStop -->
