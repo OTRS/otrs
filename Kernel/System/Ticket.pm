@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.252 2007-03-20 15:16:41 martin Exp $
+# $Id: Ticket.pm,v 1.253 2007-03-22 09:03:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,6 +14,7 @@ package Kernel::System::Ticket;
 use strict;
 use File::Path;
 use Kernel::System::Ticket::Article;
+use Kernel::System::Type;
 use Kernel::System::State;
 use Kernel::System::Priority;
 use Kernel::System::Service;
@@ -35,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.252 $';
+$VERSION = '$Revision: 1.253 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -147,6 +148,7 @@ sub new {
     $Self->{AutoResponse} = Kernel::System::AutoResponse->new(%Param);
     $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
+    $Self->{TypeObject} = Kernel::System::Type->new(%Param);
     $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
     $Self->{ServiceObject} = Kernel::System::Service->new(%Param);
     $Self->{SLAObject} = Kernel::System::SLA->new(%Param);
@@ -333,10 +335,10 @@ sub TicketCreate {
 
     # TypeID/Type lookup!
     if (!$Param{TypeID} && $Param{Type}) {
-        $Param{TypeID} = $Self->TypeLookup(Type => $Param{Type});
+        $Param{TypeID} = $Self->{TypeObject}->TypeLookup(Type => $Param{Type});
     }
     elsif ($Param{TypeID} && !$Param{Type}) {
-        $Param{Type} = $Self->TypeLookup(TypeID => $Param{TypeID});
+        $Param{Type} = $Self->{TypeObject}->TypeLookup(TypeID => $Param{TypeID});
     }
     if (!$Param{TypeID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "No TypeID for '$Param{Type}'!");
@@ -828,7 +830,7 @@ sub TicketGet {
     # get lock
     $Ticket{Lock} = $Self->{LockObject}->LockLookup(LockID => $Ticket{LockID});
     # get service
-    $Ticket{Type} = $Self->TypeLookup(TypeID => $Ticket{TypeID} || 1);
+    $Ticket{Type} = $Self->{TypeObject}->TypeLookup(TypeID => $Ticket{TypeID} || 1);
     # get service
     if ($Ticket{ServiceID}) {
         $Ticket{Service} = $Self->{ServiceObject}->ServiceLookup(ServiceID => $Ticket{ServiceID});
@@ -1336,11 +1338,7 @@ sub TicketTypeList {
 #        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID or TicketID!");
 #        return;
 #    }
-    my %Types = ();
-    $Self->{DBObject}->Prepare(SQL => "SELECT id, name FROM ticket_type");
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $Types{$Row[0]} = $Row[1];
-    }
+    my %Types = $Self->{TypeObject}->TypeList(Valid => 1);
     # workflow
     if ($Self->TicketAcl(
         %Param,
@@ -1376,7 +1374,7 @@ sub TicketTypeSet {
     my %Param = @_;
     # queue lookup
     if ($Param{Type} && !$Param{TypeID}) {
-        $Param{TypeID} = $Self->TypeLookup(Type => $Param{Type});
+        $Param{TypeID} = $Self->{TypeObject}->TypeLookup(Type => $Param{Type});
     }
     # check needed stuff
     foreach (qw(TicketID TypeID UserID)) {
@@ -1431,13 +1429,6 @@ sub TicketTypeSet {
     }
 }
 
-sub TypeLookup {
-    my $Self = shift;
-    my %Param = @_;
-
-#        $Param{TypeID} = $Self->TypeLookup(Type => $Param{Type});
-    return 1;
-}
 =item TicketServiceList()
 
 to get all possible services for a ticket (depends on workflow, if configured)
@@ -5802,6 +5793,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.252 $ $Date: 2007-03-20 15:16:41 $
+$Revision: 1.253 $ $Date: 2007-03-22 09:03:50 $
 
 =cut

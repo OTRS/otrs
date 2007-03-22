@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.136 2007-03-16 10:04:38 martin Exp $
+# $Id: Article.pm,v 1.137 2007-03-22 09:03:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.136 $';
+$VERSION = '$Revision: 1.137 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1324,7 +1324,7 @@ sub ArticleGet {
         push (@Content, {%Data, %Ticket});
     }
     # get type
-    $Ticket{Type} = $Self->TypeLookup(TypeID => $Ticket{TypeID} || 1);
+    $Ticket{Type} = $Self->{TypeObject}->TypeLookup(TypeID => $Ticket{TypeID} || 1);
     # get owner
     $Ticket{Owner} = $Self->{UserObject}->UserLookup(UserID => $Ticket{OwnerID});
     # get responsible
