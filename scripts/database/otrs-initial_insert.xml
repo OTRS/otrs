@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-initial_insert.xml,v 1.3 2007-03-16 10:29:04 martin Exp $
+    $Id: otrs-initial_insert.xml,v 1.4 2007-03-22 09:11:19 martin Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.3  2007/03/16 10:29:04  martin
+    Removed not needed queue.escalation_time for default queues.
+
     Revision 1.2  2007/03/14 15:44:45  martin
     Added missing type_id in ticket_history insert.
 
@@ -60,6 +63,7 @@
 
     <Insert Table="groups">
         <Data Key="name" Type="Quote">users</Data>
+        <Data Key="comments" Type="Quote">Group for default access.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -68,6 +72,7 @@
     </Insert>
     <Insert Table="groups">
         <Data Key="name" Type="Quote">admin</Data>
+        <Data Key="comments" Type="Quote">Group of all admins.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -76,6 +81,7 @@
     </Insert>
     <Insert Table="groups">
         <Data Key="name" Type="Quote">stats</Data>
+        <Data Key="comments" Type="Quote">Group for stats access.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>

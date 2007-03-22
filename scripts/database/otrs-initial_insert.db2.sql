@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2007-03-16 11:27:07
+--  driver: db2, generated: 2007-03-22 10:12:19
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -32,23 +32,23 @@ INSERT INTO system_user (first_name, last_name, login, pw, valid_id, create_by, 
 -- ----------------------------------------------------------
 --  insert into table groups
 -- ----------------------------------------------------------
-INSERT INTO groups (name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO groups (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('users', 1, 1, current_timestamp, 1, current_timestamp);
+    ('users', 'Group for default access.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table groups
 -- ----------------------------------------------------------
-INSERT INTO groups (name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO groups (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('admin', 1, 1, current_timestamp, 1, current_timestamp);
+    ('admin', 'Group of all admins.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table groups
 -- ----------------------------------------------------------
-INSERT INTO groups (name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO groups (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('stats', 1, 1, current_timestamp, 1, current_timestamp);
+    ('stats', 'Group for stats access.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table group_user
