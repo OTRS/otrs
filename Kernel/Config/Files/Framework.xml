@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.136 2007-03-21 15:09:22 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.137 2007-03-22 09:10:04 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -4000,7 +4000,7 @@ Your OTRS Notification Master
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>S/MIME</Name>
                     <Block>Block3</Block>
-                    <Prio>500</Prio>
+                    <Prio>1100</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
@@ -4020,7 +4020,7 @@ Your OTRS Notification Master
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>PGP</Name>
                     <Block>Block3</Block>
-                    <Prio>600</Prio>
+                    <Prio>1200</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>

@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.263 2007-03-21 15:09:22 martin Exp $
+# $Id: Defaults.pm,v 1.264 2007-03-22 09:10:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.263 $';
+$VERSION = '$Revision: 1.264 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -1546,7 +1546,7 @@ Your OTRS Notification Master
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
             Name => 'S/MIME',
             Block => 'Block3',
-            Prio => 500,
+            Prio => 1100,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminPGP'} = {
@@ -1558,19 +1558,7 @@ Your OTRS Notification Master
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
             Name => 'PGP',
             Block => 'Block3',
-            Prio => 600,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminSysConfig'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'SysConfig',
-        NavBarName => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'SysConfig',
-            Block => 'Block3',
-            Prio => 1100,
+            Prio => 1200,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminPOP3'} = {
@@ -1643,6 +1631,18 @@ Your OTRS Notification Master
             Name => 'SQL Box',
             Block => 'Block4',
             Prio => 700,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminSysConfig'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        Title => 'SysConfig',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'SysConfig',
+            Block => 'Block4',
+            Prio => 800,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminPackageManager'} = {
@@ -1853,6 +1853,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.263 $ $Date: 2007-03-21 15:09:22 $
+$Revision: 1.264 $ $Date: 2007-03-22 09:10:04 $
 
 =cut
