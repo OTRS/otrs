@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.36 2007-03-23 13:55:59 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.37 2007-03-23 14:04:26 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -946,10 +946,6 @@ sub _GetServices {
     my %Service = ();
     # get priority
     if ($Param{QueueID} || $Param{TicketID}) {
-
-print STDERR "Queue: " . $Param{QueueID};
-print STDERR "Ticket: " . $Param{TicketID};
-
         %Service = $Self->{TicketObject}->TicketServiceList(
             %Param,
             Action => $Self->{Action},
