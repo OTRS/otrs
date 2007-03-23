@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.1 2007-03-16 10:06:40 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.2 2007-03-23 15:39:45 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::NotificationAgentTicketEscalation;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -51,65 +51,65 @@ sub Run {
         my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
         # check response time
         if (defined($Ticket{'FirstResponseTime'})) {
-                my $TimeHuman = $Self->{LayoutObject}->CustomerAgeInHours(
-                    Age => $Ticket{'FirstResponseTimeWorkingTime'},
-                    Space => ' ',
+            my $TimeHuman = $Self->{LayoutObject}->CustomerAgeInHours(
+                Age => $Ticket{'FirstResponseTimeWorkingTime'},
+                Space => ' ',
+            );
+            if (0 > $Ticket{'FirstResponseTimeWorkingTime'}) {
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Priority => 'Error',
+                    Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='. $TicketID,
+                    Data => '$Text{"Ticket %s response time is over!", "'.$Ticket{TicketNumber}.'"}'." vor ($TimeHuman/$Ticket{'FirstResponseTimeDestinationDate'})",
                 );
-                if (0 > $Ticket{'FirstResponseTimeWorkingTime'}) {
-                    $Output .= $Self->{LayoutObject}->Notify(
-                        Priority => 'Error',
-                        Link => '$Env{"Baselink"}Action=AgentTicketMailbox&Subaction=New',
-                        Data => '$Text{"Ticket %s response time is over!", "'.$Ticket{TicketNumber}.'"}'." vor ($TimeHuman/$Ticket{'FirstResponseTimeDestinationDate'})",
-                    );
-                }
-                elsif (60*60*2 > $Ticket{'FirstResponseTimeWorkingTime'}) {
-                    $Output .= $Self->{LayoutObject}->Notify(
-                        Priority => 'Notice',
-                        Link => '$Env{"Baselink"}Action=AgentTicketMailbox&Subaction=New',
-                        Data => '$Text{"Ticket %s response time will be over!", "'.$Ticket{TicketNumber}.'"}'." in ($TimeHuman/$Ticket{'FirstResponseTimeDestinationDate'})",
-                    );
-                }
+            }
+            elsif (60*60*2 > $Ticket{'FirstResponseTimeWorkingTime'}) {
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Priority => 'Notice',
+                    Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='. $TicketID,
+                    Data => '$Text{"Ticket %s response time will be over!", "'.$Ticket{TicketNumber}.'"}'." in ($TimeHuman/$Ticket{'FirstResponseTimeDestinationDate'})",
+                );
+            }
         }
         # check update time
         if (defined($Ticket{'UpdateTime'})) {
             my $TimeHuman = $Self->{LayoutObject}->CustomerAgeInHours(
-                    Age => $Ticket{'UpdateTimeWorkingTime'},
-                    Space => ' ',
+                Age => $Ticket{'UpdateTimeWorkingTime'},
+                Space => ' ',
             );
             if (0 >= $Ticket{'UpdateTimeWorkingTime'}) {
-                    $Output .= $Self->{LayoutObject}->Notify(
-                        Priority => 'Error',
-                        Link => '$Env{"Baselink"}Action=AgentTicketMailbox&Subaction=New',
-                        Data => '$Text{"Ticket %s update time is over!", "'.$Ticket{TicketNumber}.'"}'." vor ($TimeHuman/$Ticket{'UpdateTimeDestinationDate'})",
-                    );
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Priority => 'Error',
+                    Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='. $TicketID,
+                    Data => '$Text{"Ticket %s update time is over!", "'.$Ticket{TicketNumber}.'"}'." vor ($TimeHuman/$Ticket{'UpdateTimeDestinationDate'})",
+                );
             }
             elsif (60*60*2.2 > $Ticket{'UpdateTimeWorkingTime'}) {
-                    $Output .= $Self->{LayoutObject}->Notify(
-                        Priority => 'Notice',
-                        Link => '$Env{"Baselink"}Action=AgentTicketMailbox&Subaction=New',
-                        Data => '$Text{"Ticket %s update time will be over!", "'.$Ticket{TicketNumber}.'"}'." in ($TimeHuman/$Ticket{'UpdateTimeDestinationDate'})",
-                    );
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Priority => 'Notice',
+                    Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='. $TicketID,
+                    Data => '$Text{"Ticket %s update time will be over!", "'.$Ticket{TicketNumber}.'"}'." in ($TimeHuman/$Ticket{'UpdateTimeDestinationDate'})",
+                );
             }
         }
         # check solution
         if (defined($Ticket{'SolutionTime'})) {
             my $TimeHuman = $Self->{LayoutObject}->CustomerAgeInHours(
-                    Age => $Ticket{'SolutionTimeWorkingTime'},
-                    Space => ' ',
+                Age => $Ticket{'SolutionTimeWorkingTime'},
+                Space => ' ',
             );
             if (0 >= $Ticket{'SolutionTimeWorkingTime'}) {
-                    $Output .= $Self->{LayoutObject}->Notify(
-                        Priority => 'Error',
-                        Link => '$Env{"Baselink"}Action=AgentTicketMailbox&Subaction=New',
-                        Data => '$Text{"Ticket %s solution tim is over!", "'.$Ticket{TicketNumber}.'"}'." vor ($TimeHuman/$Ticket{'SolutionTimeDestinationDate'})",
-                    );
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Priority => 'Error',
+                    Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='. $TicketID,
+                    Data => '$Text{"Ticket %s solution tim is over!", "'.$Ticket{TicketNumber}.'"}'." vor ($TimeHuman/$Ticket{'SolutionTimeDestinationDate'})",
+                );
             }
             elsif (60*60*2.2 > $Ticket{'SolutionTimeWorkingTime'}) {
-                    $Output .= $Self->{LayoutObject}->Notify(
-                        Priority => 'Notice',
-                        Link => '$Env{"Baselink"}Action=AgentTicketMailbox&Subaction=New',
-                        Data => '$Text{"Ticket %s solution time will be over!", "'.$Ticket{TicketNumber}.'"}'." in ($TimeHuman/$Ticket{'SolutionTimeDestinationDate'})",
-                    );
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Priority => 'Notice',
+                    Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='. $TicketID,
+                    Data => '$Text{"Ticket %s solution time will be over!", "'.$Ticket{TicketNumber}.'"}'." in ($TimeHuman/$Ticket{'SolutionTimeDestinationDate'})",
+                );
             }
         }
     }
