@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.39 2007-03-16 11:46:08 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.40 2007-03-23 13:25:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1041,7 +1041,7 @@ sub _MaskPhoneNew {
         );
     }
     # build service string
-    if ($Self->{ConfigObject}->Get('Ticket::Service') && $Param{From}) {
+    if ($Self->{ConfigObject}->Get('Ticket::Service')) {
         $Param{Services}->{''} = '-';
         $Param{'ServiceStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => $Param{Services},
@@ -1053,19 +1053,17 @@ sub _MaskPhoneNew {
             Name => 'TicketService',
             Data => {%Param},
         );
-        if ($Param{ServiceID}) {
-            $Param{SLAs}->{''} = '-';
-            $Param{'SLAStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-                Data => $Param{SLAs},
-                Name => 'SLAID',
-                SelectedID => $Param{SLAID},
-                OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketSLA',
-                Data => {%Param},
-            );
-        }
+        $Param{SLAs}->{''} = '-';
+        $Param{'SLAStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => $Param{SLAs},
+            Name => 'SLAID',
+            SelectedID => $Param{SLAID},
+            OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketSLA',
+            Data => {%Param},
+        );
     }
     # build priority string
     if (!$Param{PriorityID}) {
