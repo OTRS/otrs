@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.20 2007-03-15 08:20:30 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.21 2007-03-23 14:49:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -465,11 +465,14 @@ sub _MaskNew {
     }
     # services
     if ($Self->{ConfigObject}->Get('Ticket::Service')) {
-        my %Service = ($Self->{TicketObject}->TicketServiceList(
-            %Param,
-            Action => $Self->{Action},
-            CustomerUserID => $Self->{UserID},
-        ), '' => '-');
+        my %Service = ('' => '-');
+        if ($Param{QueueID} || $Param{TicketID}) {
+            %Service = ($Self->{TicketObject}->TicketServiceList(
+                %Param,
+                Action => $Self->{Action},
+                CustomerUserID => $Self->{UserID},
+            ), '' => '-');
+        }
         $Param{'ServiceStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => \%Service,
             Name => 'ServiceID',
@@ -480,23 +483,24 @@ sub _MaskNew {
             Name => 'TicketService',
             Data => {%Param},
         );
+        my %SLA = ('' => '-');
         if ($Param{ServiceID}) {
-            my %SLA = ($Self->{TicketObject}->TicketSLAList(
+            %SLA = ($Self->{TicketObject}->TicketSLAList(
                 %Param,
                 Action => $Self->{Action},
                 CustomerUserID => $Self->{UserID},
             ), '' => '-');
-            $Param{'SLAStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-                Data => \%SLA,
-                Name => 'SLAID',
-                SelectedID => $Param{SLAID},
-                OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketSLA',
-                Data => {%Param},
-            );
         }
+        $Param{'SLAStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%SLA,
+            Name => 'SLAID',
+            SelectedID => $Param{SLAID},
+            OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketSLA',
+            Data => {%Param},
+        );
     }
     # prepare errors!
     if ($Param{Errors}) {
