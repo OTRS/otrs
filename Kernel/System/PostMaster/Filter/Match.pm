@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/Match.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Match.pm,v 1.5 2007-01-21 01:26:10 mh Exp $
+# $Id: Match.pm,v 1.6 2007-03-27 14:58:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::Filter::Match;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub new {
@@ -77,9 +77,7 @@ sub Run {
     # should I ignore the incoming mail?
     if ($Matched && !$MatchedNot) {
         foreach (keys %Set) {
-            if ($Set{$_} =~ /\[\*\*\*\]/i) {
-                $Set{$_} = $Matched;
-            }
+            $Set{$_} =~ s/\[\*\*\*\]/$Matched/;
             $Param{GetParam}->{$_} = $Set{$_};
             $Self->{LogObject}->Log(
                 Priority => 'notice',
