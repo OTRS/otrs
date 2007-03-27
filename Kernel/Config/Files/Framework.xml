@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.137 2007-03-22 09:10:04 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.138 2007-03-27 14:35:25 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -517,17 +517,21 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailNotificationEnvelopeFrom" Required="0" Valid="0">
-        <Description Lang="en">If set, this address is used as envelope
-            from header in outgoing notifications. If no address is specified, the envelope from header is empty.
-        </Description>
-        <Description Lang="de">Die hier angegebene Adresse wird für
-            ausgehende Benachrichtigungen als envelope from Header genutzt.
-            Wird keine Adresse angegeben, bleibt der envelope from Header leer.
-        </Description>
+        <Description Lang="en">If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.</Description>
+        <Description Lang="de">Die hier angegebene Adresse wird für ausgehende Benachrichtigungen als envelope from Header genutzt. Wird keine Adresse angegeben, bleibt der envelope from Header leer.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
             <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="SendmailEncodingForce" Required="0" Valid="0">
+        <Description Lang="en">To force encoding of outboing emails (7bit|8bit|quoted-printable|base64).</Description>
+        <Description Lang="de">Erzwingen des Email-Encoding von ausgehenden Emails (7bit|8bit|quoted-printable|base64).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Sendmail</SubGroup>
+        <Setting>
+            <String Regex="">base64</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LoginURL" Required="0" Valid="0">

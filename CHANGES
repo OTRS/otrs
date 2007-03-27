@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.373 2007-03-21 15:09:42 martin Exp $
+# $Id: CHANGES,v 1.374 2007-03-27 14:35:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD (????/??/??)
+ - (2007/03/27) Added enhancement #1600 - Adjustable encoding for mails.
  - (2007/03/21) Updated cpan module CGI to version 3.27.
  - (2007/03/20) Added support of new set ticket pending time over X-OTRS-Header
     X-OTRS-State-PendingTime and X-OTRS-FollowUp-State-PendingTime.

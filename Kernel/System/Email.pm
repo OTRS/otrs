@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.24 2007-03-02 00:30:10 martin Exp $
+# $Id: Email.pm,v 1.25 2007-03-27 14:35:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -237,13 +237,16 @@ sub Send {
     $Header{'X-Mailer'} = $Self->{ConfigObject}->Get('Product')." Mail Service (".$Self->{ConfigObject}->Get('Version').")";
     $Header{'X-Powered-By'} = 'OTRS - Open Ticket Request System (http://otrs.org/)';
     $Header{'Type'} = $Param{Type} || 'text/plain';
+    # define email encoding
     if ($Param{Charset} && $Param{Charset} =~ /utf(8|-8)/i) {
-#        $Header{'Encoding'} = '8bit';
-        $Header{'Encoding'} = 'base64';
+        $Header{'Encoding'} = '8bit';
     }
     else {
-#        $Header{'Encoding'} = '7bit';
         $Header{'Encoding'} = 'quoted-printable';
+    }
+    # check if we need to force the encoding
+    if ($Self->{ConfigObject}->Get('SendmailEncodingForce')) {
+         $Header{'Encoding'} = $Self->{ConfigObject}->Get('SendmailEncodingForce');
     }
     # check and create message id
     if ($Param{'Message-ID'}) {
@@ -585,6 +588,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2007-03-02 00:30:10 $
+$Revision: 1.25 $ $Date: 2007-03-27 14:35:25 $
 
 =cut
