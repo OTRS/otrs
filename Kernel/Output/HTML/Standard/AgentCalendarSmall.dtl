@@ -11,19 +11,19 @@
 <!--
 <!-- dtl:block:DateFormatOption -->
 function SelectDay(tt, mm, yyyy) {
-    for(var z=0;z < opener.document.compose.$Data{"Prefix"}Day.length;z++) {
-        if (opener.document.compose.$Data{"Prefix"}Day.options[z].value == tt) {
-            opener.document.compose.$Data{"Prefix"}Day.options[z].selected = true;
+    for(var z=0;z < opener.document.compose["$Data{"Prefix"}Day"].length;z++) {
+        if (opener.document.compose["$Data{"Prefix"}Day"].options[z].value == tt) {
+            opener.document.compose["$Data{"Prefix"}Day"].options[z].selected = true;
         }
     }
-    for(var z=0;z < opener.document.compose.$Data{"Prefix"}Month.length;z++) {
-        if (opener.document.compose.$Data{"Prefix"}Month.options[z].value == mm) {
-            opener.document.compose.$Data{"Prefix"}Month.options[z].selected = true;
+    for(var z=0;z < opener.document.compose["$Data{"Prefix"}Month"].length;z++) {
+        if (opener.document.compose["$Data{"Prefix"}Month"].options[z].value == mm) {
+            opener.document.compose["$Data{"Prefix"}Month"].options[z].selected = true;
         }
     }
-    for(var z=0;z < opener.document.compose.$Data{"Prefix"}Year.length;z++) {
-        if (opener.document.compose.$Data{"Prefix"}Year.options[z].value == yyyy) {
-            opener.document.compose.$Data{"Prefix"}Year.options[z].selected = true;
+    for(var z=0;z < opener.document.compose["$Data{"Prefix"}Year"].length;z++) {
+        if (opener.document.compose["$Data{"Prefix"}Year"].options[z].value == yyyy) {
+            opener.document.compose["$Data{"Prefix"}Year"].options[z].selected = true;
         }
     }
     this.close();
@@ -31,9 +31,9 @@ function SelectDay(tt, mm, yyyy) {
 <!-- dtl:block:DateFormatOption -->
 <!-- dtl:block:DateFormatInput -->
 function SelectDay(tt, mm, yyyy) {
-    opener.document.compose.$Data{"Prefix"}Day.value = tt;
-    opener.document.compose.$Data{"Prefix"}Month.value = mm;
-    opener.document.compose.$Data{"Prefix"}Year.value = yyyy;
+    opener.document.compose["$Data{"Prefix"}Day"].value = tt;
+    opener.document.compose["$Data{"Prefix"}Month"].value = mm;
+    opener.document.compose["$Data{"Prefix"}Year"].value = yyyy;
 
     this.close();
 }
