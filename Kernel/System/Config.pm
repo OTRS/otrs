@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.63 2007-03-04 23:09:53 martin Exp $
+# $Id: Config.pm,v 1.64 2007-03-27 10:12:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,9 +16,10 @@ use strict;
 use Kernel::System::XML;
 use Kernel::Config;
 use Digest::MD5 qw(md5_hex);
+use Data::Dumper;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -83,8 +84,8 @@ sub new {
 
     # create xml object
     $Self->{XMLObject} = Kernel::System::XML->new(%Param);
-    # create main object to load Data::Dumper
-    $Self->{MainObject}->Require('Data::Dumper');
+    # mild pretty print
+    $Data::Dumper::Indent = 1;
     # create config object
     $Self->{ConfigDefaultObject} = Kernel::Config->new(%Param, Level => 'Default');
     # create config object
@@ -1458,6 +1459,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2007-03-04 23:09:53 $
+$Revision: 1.64 $ $Date: 2007-03-27 10:12:02 $
 
 =cut
