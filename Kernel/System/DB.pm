@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.65 2007-03-09 15:49:34 martin Exp $
+# $Id: DB.pm,v 1.66 2007-03-28 12:16:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.65 $';
+$VERSION = '$Revision: 1.66 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -499,7 +499,10 @@ sub FetchrowArray {
     # fetch first not used rows
     if ($Self->{LimitStart}) {
         foreach (1..$Self->{LimitStart}) {
-            $Self->{Curser}->fetchrow_array();
+            if (!$Self->{Curser}->fetchrow_array()) {
+                $Self->{LimitStart} = 0;
+                return ();
+            }
             $Self->{LimitCounter}++;
         }
         $Self->{LimitStart} = 0;
@@ -771,6 +774,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.65 $ $Date: 2007-03-09 15:49:34 $
+$Revision: 1.66 $ $Date: 2007-03-28 12:16:11 $
 
 =cut

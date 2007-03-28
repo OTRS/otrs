@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.12 2007-03-14 14:36:05 martin Exp $
+# $Id: DB.t,v 1.13 2007-03-28 12:16:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -522,6 +522,9 @@ $Self->Is(
     '#3 FetchrowArray () SELECT - Start 15 - Limit 12 - like - end',
 );
 
+$Count = 0;
+$Start = '';
+$End = '';
 $Self->True(
     $Self->{DBObject}->Prepare(
         SQL => 'SELECT * FROM test_b WHERE name_a like \'Some%\' ORDER BY id',
@@ -530,10 +533,6 @@ $Self->True(
     ) || 0,
     '#3 Prepare() SELECT - Prepare - Start 15 - Limit 40 - like',
 );
-
-$Count = 0;
-$Start = '';
-$End = '';
 while (my @Row = $Self->{DBObject}->FetchrowArray()) {
     if (!$Start) {
         $Start = $Row[2];
@@ -558,6 +557,43 @@ $Self->Is(
     $End,
     40,
     '#3 FetchrowArray () SELECT - Start 15 - Limit 40 - like - end',
+);
+
+$Count = 0;
+$Start = 0;
+$End = 0;
+$Self->True(
+    $Self->{DBObject}->Prepare(
+        SQL => 'SELECT * FROM test_b WHERE name_a like \'Some%\' ORDER BY id',
+        Start => 200,
+        Limit => 10,
+    ) || 0,
+    '#4 Prepare() SELECT - Prepare - Start 10 - Limit 200 - like',
+);
+while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+    if (!$Start) {
+        $Start = $Row[2];
+    }
+    $End = $Row[2];
+    $Count++;
+}
+
+$Self->Is(
+    $Count,
+    0,
+    '#4 FetchrowArray () SELECT - Start 10 - Limit 200 - like - count',
+);
+
+$Self->Is(
+    $Start,
+    0,
+    '#4 FetchrowArray () SELECT - Start 10 - Limit 200 - like - start',
+);
+
+$Self->Is(
+    $End,
+    0,
+    '#4 FetchrowArray () SELECT - Start 10 - Limit 200 - like - end',
 );
 
 $XML = '<TableDrop Name="test_b"/>';
