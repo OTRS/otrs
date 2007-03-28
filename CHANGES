@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.43 2007-03-14 14:53:50 martin Exp $
+# $Id: CHANGES,v 1.323.2.44 2007-03-28 15:57:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.1.7 (2007/??/??)
+ - (2007/03/27) updated Kernel/Language/pt_BR.pm translation file - Thanks
+    to Fabricio Luiz Machado!
+ - (2007/03/14) fixed bug# 1650 - crypt/sign bug in AgentTicketCompose screen
  - (2007/03/14) fixed bug# 1659 - Uploading and Saving Pictures in MSSQL won't
     work with bigger Files (~700KB)
     ->MSSQL ONLY<- You also need to change some tables by using: ->MSSQL ONLY<-
