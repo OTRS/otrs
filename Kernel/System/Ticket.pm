@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.253 2007-03-22 09:03:50 martin Exp $
+# $Id: Ticket.pm,v 1.254 2007-03-28 21:21:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.253 $';
+$VERSION = '$Revision: 1.254 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -774,8 +774,8 @@ sub TicketGet {
         $Ticket{ResponsibleID} = $Row[14];
         $Ticket{RealTillTimeNotUsed} = $Row[15];
         $Ticket{TypeID} = $Row[58];
-        $Ticket{ServiceID} = $Row[59];
-        $Ticket{SLAID} = $Row[60];
+        $Ticket{ServiceID} = $Row[59] || '';
+        $Ticket{SLAID} = $Row[60] || '';
         $Ticket{TicketFreeKey1} = defined($Row[16]) ? $Row[16] : '';
         $Ticket{TicketFreeText1} = defined($Row[17]) ? $Row[17] : '';
         $Ticket{TicketFreeKey2} = defined($Row[18]) ? $Row[18] : '';
@@ -1514,13 +1514,13 @@ sub TicketServiceSet {
     # get current ticket
     my %Ticket = $Self->TicketGet(%Param);
     # move needed?
-    if ($Param{ServiceID} == $Ticket{ServiceID}) {
+    if ($Param{ServiceID} eq $Ticket{ServiceID}) {
         # update not needed
         return 1;
     }
     # permission check
     my %ServiceList = $Self->TicketServiceList(%Param);
-    if (!$ServiceList{$Param{ServiceID}}) {
+    if ($Param{ServiceID} ne '' && !$ServiceList{$Param{ServiceID}}) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message => "Permission denied on TicketID: $Param{TicketID}!",
@@ -1528,8 +1528,16 @@ sub TicketServiceSet {
         return;
     }
     # db quote
-    foreach (qw(TicketID ServiceID)) {
+    foreach (qw(TicketID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    if (defined($Param{ServiceID})) {
+        if ($Param{ServiceID}) {
+            $Param{ServiceID} = $Self->{DBObject}->Quote($Param{ServiceID}, 'Integer');
+        }
+        else {
+            $Param{ServiceID} = 'NULL';
+        }
     }
     my $SQL = "UPDATE ticket SET service_id = $Param{ServiceID} ".
         " WHERE id = $Param{TicketID}";
@@ -1768,7 +1776,7 @@ sub TicketSLASet {
     }
     # check needed stuff
     foreach (qw(TicketID SLAID UserID)) {
-        if (!$Param{$_}) {
+        if (!defined($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
@@ -1776,13 +1784,13 @@ sub TicketSLASet {
     # get current ticket
     my %Ticket = $Self->TicketGet(%Param);
     # move needed?
-    if ($Param{SLAID} == $Ticket{SLAID}) {
+    if ($Param{SLAID} eq $Ticket{SLAID}) {
         # update not needed
         return 1;
     }
     # permission check
     my %SLAList = $Self->TicketSLAList(%Param, ServiceID => $Ticket{ServiceID});
-    if (!$SLAList{$Param{SLAID}}) {
+    if ($Param{SLAID} ne '' && !$SLAList{$Param{SLAID}}) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message => "Permission denied on TicketID: $Param{TicketID}!",
@@ -1790,8 +1798,16 @@ sub TicketSLASet {
         return;
     }
     # db quote
-    foreach (qw(TicketID SLAID)) {
+    foreach (qw(TicketID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    if (defined($Param{SLAID})) {
+        if ($Param{SLAID}) {
+            $Param{SLAID} = $Self->{DBObject}->Quote($Param{SLAID}, 'Integer');
+        }
+        else {
+            $Param{SLAID} = 'NULL';
+        }
     }
     my $SQL = "UPDATE ticket SET sla_id = $Param{SLAID} ".
         " WHERE id = $Param{TicketID}";
@@ -2729,6 +2745,7 @@ sub TicketSearch {
         Responsible => 'st.responsible_user_id',
         CustomerID => 'st.customer_id',
         State => 'st.ticket_state_id',
+        Lock => 'st.ticket_lock_id',
         Ticket => 'st.tn',
         Title => 'st.title',
         Queue => 'sq.name',
@@ -5793,6 +5810,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.253 $ $Date: 2007-03-22 09:03:50 $
+$Revision: 1.254 $ $Date: 2007-03-28 21:21:56 $
 
 =cut
