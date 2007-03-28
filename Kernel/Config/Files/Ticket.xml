@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.142 2007-03-22 09:07:45 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.143 2007-03-28 15:16:03 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2347,6 +2347,30 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###TicketType" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the ticket type (Ticket::Type needs to be activated).</Description>
+        <Description Lang="de">Wenn der Ticket-Typ gesetzt werden soll (Ticket::Type muss aktiv sein).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###Service" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the service (Ticket::Service needs to be activated).</Description>
+        <Description Lang="de">Wenn der Service gesetzt werden soll (Ticket::Service muss aktiv sein).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###Owner" Required="0" Valid="1">
         <Description Lang="en">If you want to set the owner.</Description>
         <Description Lang="de">Wenn der Besitzer gesetzt werden soll.</Description>
@@ -3124,6 +3148,30 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###TicketType" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the ticket type (Ticket::Type needs to be activated).</Description>
+        <Description Lang="de">Wenn der Ticket-Typ gesetzt werden soll (Ticket::Type muss aktiv sein).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Service" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the service (Ticket::Service needs to be activated).</Description>
+        <Description Lang="de">Wenn der Service gesetzt werden soll (Ticket::Service muss aktiv sein).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Owner" Required="0" Valid="1">
         <Description Lang="en">If you want to set the owner.</Description>
         <Description Lang="de">Wenn der Besitzer gesetzt werden soll.</Description>
@@ -3375,6 +3423,30 @@ TimeWorkingHours
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###RequiredLock" Required="0" Valid="1">
         <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
         <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###TicketType" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the ticket type (Ticket::Type needs to be activated).</Description>
+        <Description Lang="de">Wenn der Ticket-Typ gesetzt werden soll (Ticket::Type muss aktiv sein).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Service" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the service (Ticket::Service needs to be activated).</Description>
+        <Description Lang="de">Wenn der Service gesetzt werden soll (Ticket::Service muss aktiv sein).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
@@ -3647,6 +3719,30 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###TicketType" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the ticket type (Ticket::Type needs to be activated).</Description>
+        <Description Lang="de">Wenn der Ticket-Typ gesetzt werden soll (Ticket::Type muss aktiv sein).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Service" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the service (Ticket::Service needs to be activated).</Description>
+        <Description Lang="de">Wenn der Service gesetzt werden soll (Ticket::Service muss aktiv sein).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Owner" Required="0" Valid="1">
         <Description Lang="en">If you want to set the owner.</Description>
         <Description Lang="de">Wenn der Besitzer gesetzt werden soll.</Description>
@@ -3904,6 +4000,30 @@ TimeWorkingHours
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
             <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###TicketType" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the ticket type (Ticket::Type needs to be activated).</Description>
+        <Description Lang="de">Wenn der Ticket-Typ gesetzt werden soll (Ticket::Type muss aktiv sein).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Service" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the service (Ticket::Service needs to be activated).</Description>
+        <Description Lang="de">Wenn der Service gesetzt werden soll (Ticket::Service muss aktiv sein).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
@@ -4170,6 +4290,30 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###TicketType" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the ticket type (Ticket::Type needs to be activated).</Description>
+        <Description Lang="de">Wenn der Ticket-Typ gesetzt werden soll (Ticket::Type muss aktiv sein).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###Service" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the service (Ticket::Service needs to be activated).</Description>
+        <Description Lang="de">Wenn der Service gesetzt werden soll (Ticket::Service muss aktiv sein).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###Owner" Required="0" Valid="1">
         <Description Lang="en">If you want to set the owner.</Description>
         <Description Lang="de">Wenn der Besitzer gesetzt werden soll.</Description>
@@ -4423,6 +4567,30 @@ TimeWorkingHours
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###RequiredLock" Required="0" Valid="1">
         <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the ticket gets locked and the current agent will be set automatically as ticket owner.</Description>
         <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###TicketType" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the ticket type (Ticket::Type needs to be activated).</Description>
+        <Description Lang="de">Wenn der Ticket-Typ gesetzt werden soll (Ticket::Type muss aktiv sein).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Service" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the service (Ticket::Service needs to be activated).</Description>
+        <Description Lang="de">Wenn der Service gesetzt werden soll (Ticket::Service muss aktiv sein).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
         <Setting>

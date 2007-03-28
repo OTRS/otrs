@@ -2,7 +2,7 @@
 # AgentTicketFreeText.dtl - provides HTML form for free text mask
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketFreeText.dtl,v 1.16 2007-03-02 08:15:50 rk Exp $
+# $Id: AgentTicketFreeText.dtl,v 1.17 2007-03-28 15:16:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -101,6 +101,7 @@ function change_selected(sel) {
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Store">
         <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
+        <input type="hidden" name="Expand" value="">
         <input type="hidden" name="FormID" value="$QData{"FormID"}">
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
@@ -117,7 +118,31 @@ function change_selected(sel) {
                     <font color="red" size="-2">$Text{"$Data{"Title invalid"}"}</font>
                   </td>
                 </tr>
+<!-- dtl:block:Type -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"Type"}:</td>
+                  <td class="contentvalue">$Data{"TypeStrg"}</td>
+                </tr>
+<!-- dtl:block:Type -->
+<!-- dtl:block:Service -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"Service"}:</td>
+                  <td class="contentvalue">$Data{"ServiceStrg"}</td>
+                </tr>
+<!-- dtl:block:Service -->
+<!-- dtl:block:SLA -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"SLA"}:</td>
+                  <td class="contentvalue">$Data{"SLAStrg"}</td>
+                </tr>
+<!-- dtl:block:SLA -->
 <!-- dtl:block:Title -->
+<!-- dtl:block:TicketType -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"Type"}:</td>
+                  <td class="contentvalue">$Data{"TypeStrg"}</td>
+                </tr>
+<!-- dtl:block:TicketType -->
 <!-- dtl:block:Owner -->
                 <tr>
                   <td width="18%" class="contentkey">$Text{"New Owner"}:</td>

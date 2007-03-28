@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketClose.pm,v 1.24 2007-03-14 12:55:00 martin Exp $
+# $Id: AgentTicketClose.pm,v 1.25 2007-03-28 15:16:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -152,10 +152,12 @@ sub Run {
     foreach (qw(
         NewStateID NewPriorityID TimeUnits ArticleTypeID Title Body Subject
         Year Month Day Hour Minute NewOwnerID NewOwnerType OldOwnerID NewResponsibleID
+        TypeID ServiceID SLAID Expand
         AttachmentUpload
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-        AttachmentDelete9 AttachmentDelete10
+        AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
+        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
     )) {
         $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
     }
@@ -226,7 +228,7 @@ sub Run {
             }
         }
         # attachment delete
-        foreach (1..10) {
+        foreach (1..16) {
             if ($GetParam{"AttachmentDelete$_"}) {
                 $Error{AttachmentDelete} = 1;
                 $Self->{UploadCachObject}->FormIDRemoveFile(
@@ -251,6 +253,11 @@ sub Run {
         my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
         );
+        # check expand
+        if ($GetParam{Expand}) {
+            %Error = ();
+            $Error{"Expand"} = 1;
+        }
         # check errors
         if (%Error) {
             # ticket free text
@@ -322,6 +329,31 @@ sub Run {
             }
         }
         if ($Self->{Config}->{Owner}) {
+        if ($Self->{ConfigObject}->Get('Ticket::Type') && $Self->{Config}->{TicketType}) {
+            if (defined($GetParam{TypeID})) {
+                $Self->{TicketObject}->TicketTypeSet(
+                    TypeID => $GetParam{TypeID},
+                    TicketID => $Self->{TicketID},
+                    UserID => $Self->{UserID},
+                );
+            }
+        }
+        if ($Self->{ConfigObject}->Get('Ticket::Service') && $Self->{Config}->{Service}) {
+            if (defined($GetParam{ServiceID})) {
+                $Self->{TicketObject}->TicketServiceSet(
+                    ServiceID => $GetParam{ServiceID},
+                    TicketID => $Self->{TicketID},
+                    UserID => $Self->{UserID},
+                );
+            }
+            if (defined($GetParam{SLAID})) {
+                $Self->{TicketObject}->TicketSLASet(
+                    SLAID => $GetParam{SLAID},
+                    TicketID => $Self->{TicketID},
+                    UserID => $Self->{UserID},
+                );
+            }
+        }
             if ($GetParam{NewOwnerType} eq 'Old' && $GetParam{OldOwnerID}) {
                 $Self->{TicketObject}->LockSet(
                     TicketID => $Self->{TicketID},
@@ -509,7 +541,9 @@ sub Run {
             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
         }
         # redirect
-        return $Self->{LayoutObject}->Redirect(OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID");
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID",
+        );
     }
     else {
         # fillup vars
@@ -608,6 +642,60 @@ sub _Mask {
         $Self->{LayoutObject}->Block(
             Name => 'Title',
             Data => \%Param,
+        );
+    }
+    # types
+    if ($Self->{ConfigObject}->Get('Ticket::Type') && $Self->{Config}->{TicketType}) {
+        my %Type = ($Self->{TicketObject}->TicketTypeList(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        ), '' => '-');
+        $Param{'TypeStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%Type,
+            Name => 'TypeID',
+            SelectedID => $Param{TypeID},
+            OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'Type',
+            Data => {%Param},
+        );
+    }
+    # services
+    if ($Self->{ConfigObject}->Get('Ticket::Service') && $Self->{Config}->{Service}) {
+        my %Service = ($Self->{TicketObject}->TicketServiceList(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        ), '' => '-');
+        $Param{'ServiceStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%Service,
+            Name => 'ServiceID',
+            SelectedID => $Param{ServiceID},
+            OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'Service',
+            Data => {%Param},
+        );
+        my %SLA = ('' => '-');
+        if ($Param{ServiceID}) {
+            %SLA = ($Self->{TicketObject}->TicketSLAList(
+                %Param,
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
+            ), '' => '-');
+        }
+        $Param{'SLAStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%SLA,
+            Name => 'SLAID',
+            SelectedID => $Param{SLAID},
+            OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'SLA',
+            Data => {%Param},
         );
     }
     if ($Self->{Config}->{Owner}) {
@@ -960,6 +1048,7 @@ sub _Mask {
                 Data => {
                     ArticleFreeKeyField => $Param{'ArticleFreeKeyField'.$Count},
                     ArticleFreeTextField => $Param{'ArticleFreeTextField'.$Count},
+                    Count => $Count,
                 },
             );
             $Self->{LayoutObject}->Block(
