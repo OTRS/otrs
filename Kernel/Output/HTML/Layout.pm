@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.44 2007-03-27 10:28:01 mh Exp $
+# $Id: Layout.pm,v 1.45 2007-03-28 14:23:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2242,7 +2242,7 @@ sub _BuildSelectionDataRefCreate {
     if ($OptionRef->{DisabledBranch}) {
         foreach my $Row (@{$DataRef}) {
             foreach my $Branch (keys %{$OptionRef->{DisabledBranch}}) {
-                if ($Row->{Value} =~ /^($Branch)::/) {
+                if ($Row->{Value} =~ /^($Branch)$/ || $Row->{Value} =~ /^($Branch)::/) {
                     $Row->{Disabled} = 1;
                 }
             }
@@ -3376,6 +3376,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2007-03-27 10:28:01 $
+$Revision: 1.45 $ $Date: 2007-03-28 14:23:50 $
 
 =cut
