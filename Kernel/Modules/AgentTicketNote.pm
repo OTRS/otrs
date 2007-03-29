@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketNote.pm,v 1.26 2007-03-28 15:16:03 martin Exp $
+# $Id: AgentTicketNote.pm,v 1.27 2007-03-29 13:51:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -211,12 +211,6 @@ sub Run {
                 }
             }
         }
-        # check required FreeTextField (if configured)
-        foreach (1..16) {
-            if ($Self->{Config}{'TicketFreeText'}{$_} == 2 && $GetParam{"TicketFreeText$_"} eq '') {
-                $Error{"TicketFreeTextField$_ invalid"} = 'invalid';
-            }
-        }
         if ($Self->{Config}->{Note}) {
             # check subject
             if (!$GetParam{Subject}) {
@@ -225,6 +219,12 @@ sub Run {
             # check body
             if (!$GetParam{Body}) {
                 $Error{"Body invalid"} = '* invalid';
+            }
+        }
+        # check required FreeTextField (if configured)
+        foreach (1..16) {
+            if ($Self->{Config}->{'TicketFreeText'}->{$_} == 2 && $GetParam{"TicketFreeText$_"} eq '') {
+                $Error{"TicketFreeTextField$_ invalid"} = 'invalid';
             }
         }
         # attachment delete
