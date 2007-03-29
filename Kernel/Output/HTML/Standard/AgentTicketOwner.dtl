@@ -2,7 +2,7 @@
 # AgentTicketOwner.dtl - set ticket owner
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.dtl,v 1.14 2007-03-28 15:16:03 martin Exp $
+# $Id: AgentTicketOwner.dtl,v 1.15 2007-03-29 13:08:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -118,7 +118,6 @@ function change_selected(sel) {
                   </td>
                 </tr>
 <!-- dtl:block:Title -->
-<!-- dtl:block:Owner -->
 <!-- dtl:block:Type -->
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"Type"}:</td>
@@ -137,6 +136,7 @@ function change_selected(sel) {
                   <td class="contentvalue">$Data{"SLAStrg"}</td>
                 </tr>
 <!-- dtl:block:SLA -->
+<!-- dtl:block:Owner -->
                 <tr>
                   <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
                   <td width="2%" class="contentvalue">

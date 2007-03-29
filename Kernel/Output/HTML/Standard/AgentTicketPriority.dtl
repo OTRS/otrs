@@ -2,7 +2,7 @@
 # AgentTicketPriority.dtl - set ticket priority
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPriority.dtl,v 1.13 2007-03-28 15:16:03 martin Exp $
+# $Id: AgentTicketPriority.dtl,v 1.14 2007-03-29 13:08:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -119,26 +119,26 @@ function change_selected(sel) {
                     <input type="text" name="Title" value="$QData{"Title"}" size="70">
                     <font color="red" size="-2">$Text{"$Data{"Title invalid"}"}</font>
                   </td>
-<!-- dtl:block:Type -->
-                  <tr>
-                    <td colspan="2" class="contentkey">$Text{"Type"}:</td>
-                    <td class="contentvalue">$Data{"TypeStrg"}</td>
-                  </tr>
-<!-- dtl:block:Type -->
-<!-- dtl:block:Service -->
-                  <tr>
-                    <td colspan="2" class="contentkey">$Text{"Service"}:</td>
-                    <td class="contentvalue">$Data{"ServiceStrg"}</td>
-                  </tr>
-<!-- dtl:block:Service -->
-<!-- dtl:block:SLA -->
-                  <tr>
-                    <td colspan="2" class="contentkey">$Text{"SLA"}:</td>
-                    <td class="contentvalue">$Data{"SLAStrg"}</td>
-                  </tr>
-<!-- dtl:block:SLA -->
                 </tr>
 <!-- dtl:block:Title -->
+<!-- dtl:block:Type -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"Type"}:</td>
+                  <td class="contentvalue">$Data{"TypeStrg"}</td>
+                </tr>
+<!-- dtl:block:Type -->
+<!-- dtl:block:Service -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"Service"}:</td>
+                  <td class="contentvalue">$Data{"ServiceStrg"}</td>
+                </tr>
+<!-- dtl:block:Service -->
+<!-- dtl:block:SLA -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"SLA"}:</td>
+                  <td class="contentvalue">$Data{"SLAStrg"}</td>
+                </tr>
+<!-- dtl:block:SLA -->
 <!-- dtl:block:Owner -->
                 <tr>
                   <td width="18%" class="contentkey">$Text{"New Owner"}:</td>

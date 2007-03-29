@@ -2,7 +2,7 @@
 # AgentTicketResponsible.dtl - set ticket responsible
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketResponsible.dtl,v 1.8 2007-03-28 15:16:03 martin Exp $
+# $Id: AgentTicketResponsible.dtl,v 1.9 2007-03-29 13:08:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -117,26 +117,26 @@ function change_selected(sel) {
                   </td>
                 </tr>
 <!-- dtl:block:Title -->
+<!-- dtl:block:Type -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"Type"}:</td>
+                  <td class="contentvalue">$Data{"TypeStrg"}</td>
+                </tr>
+<!-- dtl:block:Type -->
+<!-- dtl:block:Service -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"Service"}:</td>
+                  <td class="contentvalue">$Data{"ServiceStrg"}</td>
+                </tr>
+<!-- dtl:block:Service -->
+<!-- dtl:block:SLA -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"SLA"}:</td>
+                  <td class="contentvalue">$Data{"SLAStrg"}</td>
+                </tr>
+<!-- dtl:block:SLA -->
 <!-- dtl:block:Owner -->
                 <tr>
-<!-- dtl:block:Type -->
-                  <tr>
-                    <td colspan="2" class="contentkey">$Text{"Type"}:</td>
-                    <td class="contentvalue">$Data{"TypeStrg"}</td>
-                  </tr>
-<!-- dtl:block:Type -->
-<!-- dtl:block:Service -->
-                  <tr>
-                    <td colspan="2" class="contentkey">$Text{"Service"}:</td>
-                    <td class="contentvalue">$Data{"ServiceStrg"}</td>
-                  </tr>
-<!-- dtl:block:Service -->
-<!-- dtl:block:SLA -->
-                  <tr>
-                    <td colspan="2" class="contentkey">$Text{"SLA"}:</td>
-                    <td class="contentvalue">$Data{"SLAStrg"}</td>
-                  </tr>
-<!-- dtl:block:SLA -->
                   <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
                   <td width="2%" class="contentvalue">
                     <input type="radio" name="NewOwnerType" value="New" $Data{"NewOwnerType::New"}>
