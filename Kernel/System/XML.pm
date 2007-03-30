@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.46 2007-03-20 15:31:53 martin Exp $
+# $Id: XML.pm,v 1.47 2007-03-30 08:36:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -334,7 +334,12 @@ search a xml hash from database
             {
                 "[%]{'ElementA'}[%]{'ElementB'}[%]{'Content'}" => '%contentB%',
                 "[%]{'ElementA'}[%]{'ElementC'}[%]{'Content'}" => '%contentB%',
-            }
+            },
+            {
+                # use array reference if different content with same key was searched
+                "[%]{'ElementA'}[%]{'ElementB'}[%]{'Content'}" => ['%contentC%', '%contentD%', '%contentE%'],
+                "[%]{'ElementA'}[%]{'ElementC'}[%]{'Content'}" => ['%contentC%', '%contentD%', '%contentE%'],
+            },
         ],
     );
 
@@ -355,7 +360,7 @@ sub XMLHashSearch {
         }
     }
 
-    $SQL = "SELECT xml_key FROM xml_storage WHERE xml_type = '$Param{Type}' GROUP BY xml_key";
+    $SQL = "SELECT DISTINCT(xml_key) FROM xml_storage WHERE xml_type = '$Param{Type}' GROUP BY xml_key";
     if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
         return;
     }
@@ -363,20 +368,29 @@ sub XMLHashSearch {
         $Hash{$Data[0]} = 1;
     }
 
-    if ($Param{What}) {
+    if ($Param{What} && ref($Param{What}) eq 'ARRAY') {
         foreach my $And (@{$Param{What}}) {
             my %HashNew = ();
             my $SQL = '';
             foreach my $Key (sort keys %{$And}) {
-                if ($SQL) {
-                    $SQL .= " OR ";
-                }
                 my $Value = $Self->{DBObject}->Quote($And->{$Key});
                 $Key = $Self->{DBObject}->Quote($Key);
-                $SQL .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Value')";
-
+                if ($Value && ref($Value) eq 'ARRAY') {
+                    foreach my $Element (@{$Value}) {
+                        if ($SQL) {
+                            $SQL .= " OR ";
+                        }
+                        $SQL .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Element')";
+                    }
+                }
+                else {
+                    if ($SQL) {
+                        $SQL .= " OR ";
+                    }
+                    $SQL .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Value')";
+                }
             }
-            $SQL = "SELECT xml_key FROM xml_storage WHERE $SQL AND xml_type = '$Param{Type}' GROUP BY xml_key";
+            $SQL = "SELECT DISTINCT(xml_key) FROM xml_storage WHERE $SQL AND xml_type = '$Param{Type}' GROUP BY xml_key";
             if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
                 return;
             }
@@ -1068,6 +1082,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2007-03-20 15:31:53 $
+$Revision: 1.47 $ $Date: 2007-03-30 08:36:23 $
 
 =cut
