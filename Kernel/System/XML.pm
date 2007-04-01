@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.47 2007-03-30 08:36:23 mh Exp $
+# $Id: XML.pm,v 1.48 2007-04-01 13:13:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -315,6 +315,40 @@ sub XMLHashDelete {
     }
     return $Self->{DBObject}->Do(
         SQL => "DELETE FROM xml_storage WHERE xml_type = '$Param{Type}' AND xml_key = '$Param{Key}'",
+    );
+}
+
+=item XMLHashMove()
+
+move a XMLHash from one type or/and key to another
+
+    $XMLObject->XMLHashMove(
+        OldType => 'SomeType',
+        OldKey => '123',
+        NewType => 'NewType',
+        NewKey => '321',
+    );
+
+=cut
+
+sub XMLHashMove {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(OldType OldKey NewType NewKey)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # db quote
+    foreach (qw(OldType OldKey NewType NewKey)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # update xml hash
+    return $Self->{DBObject}->Do(
+        SQL => "UPDATE xml_storage SET xml_type = '$Param{NewType}', xml_key = '$Param{NewKey}' ".
+            "WHERE xml_type = '$Param{OldType}' AND xml_key = '$Param{OldKey}'",
     );
 }
 
@@ -1082,6 +1116,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2007-03-30 08:36:23 $
+$Revision: 1.48 $ $Date: 2007-04-01 13:13:55 $
 
 =cut
