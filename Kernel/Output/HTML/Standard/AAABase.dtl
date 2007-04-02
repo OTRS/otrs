@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.53 2007-01-18 10:05:02 martin Exp $
+# $Id: AAABase.dtl,v 1.54 2007-04-02 14:54:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -109,6 +109,7 @@ $Text{"customer"}
 $Text{"agent"}
 $Text{"system"}
 $Text{"Customer Info"}
+$Text{"Customer Company"}
 $Text{"go!"}
 $Text{"go"}
 $Text{"All"}
