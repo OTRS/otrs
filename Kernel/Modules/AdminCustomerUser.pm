@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.46 2007-03-21 11:12:05 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.47 2007-04-02 13:13:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,10 +13,11 @@ package Kernel::Modules::AdminCustomerUser;
 
 use strict;
 use Kernel::System::CustomerUser;
+use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46 $ ';
+$VERSION = '$Revision: 1.47 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -39,6 +40,7 @@ sub new {
         }
     }
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
@@ -471,6 +473,12 @@ sub _Edit {
         },
     );
     # build source string
+    $Param{'CompanyOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {$Self->{CustomerCompanyObject}->CustomerCompanyList()},
+        Name => 'CustomerID',
+        SelectedID => $Param{CustomerID},
+    );
+    # build source string
     $Param{'SourceOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {$Self->{CustomerUserObject}->CustomerSourceList()},
         Name => 'Source',
@@ -497,7 +505,6 @@ sub _Edit {
             }
             # build selections or input fields
             if ($Self->{ConfigObject}->Get($Param{Source})->{Selections}->{$Entry->[0]}) {
-                # build ValidID string
                 $Block = 'Option';
                 $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
                     Data => $Self->{ConfigObject}->Get($Param{Source})->{Selections}->{$Entry->[0]},
@@ -516,6 +523,23 @@ sub _Edit {
                     },
                     Name => $Entry->[0],
                     SelectedID => defined ($Param{$Entry->[0]}) ? $Param{$Entry->[0]} : 1,
+                );
+            }
+            elsif ($Entry->[0] =~ /^UserCustomerID/i &&
+                $Self->{ConfigObject}->Get($Param{Source})->{CustomerCompanySupport}) {
+                my %Company = ();
+                my %CompanyList = ($Self->{CustomerCompanyObject}->CustomerCompanyList(), '' => '-');
+                if ($Param{$Entry->[0]}) {
+                    %Company = $Self->{CustomerCompanyObject}->CustomerCompanyGet(CustomerID => $Param{$Entry->[0]});
+                    if (!%Company) {
+                        $CompanyList{$Param{$Entry->[0]}} = $Param{$Entry->[0]}. ' (-)';
+                    }
+                }
+                $Block = 'Option';
+                $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
+                    Data => \%CompanyList,
+                    Name => $Entry->[0],
+                    SelectedID => $Param{$Entry->[0]},
                 );
             }
             else {

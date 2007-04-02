@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.13 2007-03-14 16:10:13 martin Exp $
+# $Id: LayoutTicket.pm,v 1.14 2007-04-02 13:13:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::LayoutTicket;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketStdResponseString {
@@ -73,6 +73,11 @@ sub AgentCustomerViewTable {
         return '$Text{"none"}';
     }
     my $Map = $Param{Data}->{Config}->{Map};
+    # check if customer company support is enabled
+    if ($Param{Data}->{Config}->{CustomerCompanySupport}) {
+        my $Map2 = $Param{Data}->{CompanyConfig}->{Map};
+        push (@{$Map}, @{$Map2});
+    }
     if ($Param{Type} && $Param{Type} eq 'Lite') {
         $ShownType = 2;
         # check if min one lite view item is configured, if not, use

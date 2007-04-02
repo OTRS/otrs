@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.138 2007-03-27 14:35:25 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.139 2007-04-02 13:13:14 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -3905,6 +3905,39 @@ Your OTRS Notification Master
                     <Name>Customer Users</Name>
                     <Block>Block1</Block>
                     <Prio>300</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminCustomerCompany" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AdminCustomerCompany object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminCustomerCompany-Objekts im Admin-Bereich.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <GroupRo></GroupRo>
+                <Group>admin</Group>
+                <Group>users</Group>
+                <Description>Admin</Description>
+                <Title>Customer Company</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBar>
+                    <Description>Edit Customer Company</Description>
+                    <Name>Company</Name>
+                    <Image>folder_yellow.png</Image>
+                    <Link>Action=AdminCustomerCompany&amp;Nav=Agent</Link>
+                    <NavBar>Ticket</NavBar>
+                    <Type></Type>
+                    <Block></Block>
+                    <AccessKey>c</AccessKey>
+                    <Prio>9000</Prio>
+                </NavBar>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Customer Company</Name>
+                    <Block>Block1</Block>
+                    <Prio>310</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>

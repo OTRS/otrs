@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.29 2007-01-20 23:11:34 mh Exp $
+# $Id: CustomerUser.pm,v 1.30 2007-04-02 13:13:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::CustomerUser;
 
 use strict;
+use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -95,6 +96,8 @@ sub new {
             );
         }
     }
+
+    $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
 
     return $Self;
 }
@@ -244,14 +247,24 @@ sub CustomerUserDataGet {
     my %Param = @_;
     foreach ('', 1..10) {
         if ($Self->{"CustomerUser$_"}) {
-            my %GetData = $Self->{"CustomerUser$_"}->CustomerUserDataGet(
+            my %Customer = $Self->{"CustomerUser$_"}->CustomerUserDataGet(
                 %Param,
             );
-            if (%GetData) {
+            if (%Customer) {
+                my %Company = ();
+                # check if customer company support is enabled
+                if ($Self->{ConfigObject}->Get("CustomerCompany") &&
+                        $Self->{ConfigObject}->Get("CustomerUser$_")->{CustomerCompanySupport}) {
+                    %Company = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
+                        CustomerID => $Customer{UserCustomerID},
+                    );
+                }
                 return (
-                    %GetData,
+                    %Company,
+                    %Customer,
                     Source => "CustomerUser$_",
                     Config => $Self->{ConfigObject}->Get("CustomerUser$_"),
+                    CompanyConfig => $Self->{ConfigObject}->Get("CustomerCompany"),
                 );
             }
         }
@@ -425,6 +438,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.30 $ $Date: 2007-04-02 13:13:15 $
 
 =cut
