@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.3 2007-03-16 10:11:19 martin Exp $
+# $Id: AdminSLA.dtl,v 1.4 2007-04-02 14:05:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -65,21 +65,11 @@
               </tr>
 <!-- dtl:block:OverviewListRow -->
               <tr>
-                <td class="$QData{"CssClass"}">
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=SLAEdit&SLAID=$QData{"SLAID"}">$QData{"Name"}</a>
-                </td>
-                <td class="$QData{"CssClass"}">
-                  $Text{"$QData{"Service"}"}
-                </td>
-                <td align="center" class="$QData{"CssClass"}">
-                  $Text{"$QData{"Valid"}"}
-                </td>
-                <td class="$QData{"CssClass"}">
-                  $TimeShort{"$QData{"ChangeTime"}"}
-                </td>
-                <td class="$QData{"CssClass"}">
-                  $TimeShort{"$QData{"CreateTime"}"}
-                </td>
+                <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=SLAEdit&SLAID=$QData{"SLAID"}">$QData{"Name"}</a></td>
+                <td class="$QData{"CssClass"}">$Text{"$QData{"Service"}"}</td>
+                <td align="center" class="$QData{"CssClass"}">$Text{"$QData{"Valid"}"}</td>
+                <td class="$QData{"CssClass"}">$TimeShort{"$QData{"ChangeTime"}"}</td>
+                <td class="$QData{"CssClass"}">$TimeShort{"$QData{"CreateTime"}"}</td>
               </tr>
 <!-- dtl:block:OverviewListRow -->
             </table>
