@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2007-03-16 11:00:01
+#  driver: mysql, generated: 2007-04-02 15:39:21
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -861,8 +861,7 @@ CREATE TABLE xml_storage (
     xml_content_key VARCHAR (250) NOT NULL,
     xml_content_value LONGBLOB,
     INDEX xml_content_key (xml_content_key),
-    INDEX xml_type (xml_type),
-    INDEX xml_key (xml_key)
+    INDEX xml_type_key (xml_type, xml_key)
 );
 # ----------------------------------------------------------
 #  create table package_repository

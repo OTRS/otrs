@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: db2, generated: 2007-03-05 02:51:51
+--  driver: db2, generated: 2007-04-02 15:40:20
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 

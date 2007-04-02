@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.62 2007-03-16 10:02:13 martin Exp $
+    $Id: otrs-schema.xml,v 1.63 2007-04-02 13:41:36 mh Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.62  2007/03/16 10:02:13  martin
+    Moved to new escalataion params like first_response_time, update_time and solution time.
+
     Revision 1.61  2007/03/05 02:01:44  martin
     Added Ticket-Service, -SLA and -Type support.
 
@@ -1517,10 +1520,8 @@
     <Column Name="xml_key" Required="true" Size="250" Type="VARCHAR"/>
     <Column Name="xml_content_key" Required="true" Size="250" Type="VARCHAR"/>
     <Column Name="xml_content_value" Required="false" Type="LONGBLOB"/>
-    <Index Name="xml_type">
+    <Index Name="xml_type_key">
         <IndexColumn Name="xml_type"/>
-    </Index>
-    <Index Name="xml_key">
         <IndexColumn Name="xml_key"/>
     </Index>
     <Index Name="xml_content_key">

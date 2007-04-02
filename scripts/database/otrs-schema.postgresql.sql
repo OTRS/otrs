@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2007-03-16 11:00:02
+--  driver: postgresql, generated: 2007-04-02 15:40:55
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -862,8 +862,7 @@ CREATE TABLE xml_storage (
     xml_content_value TEXT
 );
 CREATE INDEX xml_content_key ON xml_storage (xml_content_key);
-CREATE INDEX xml_type ON xml_storage (xml_type);
-CREATE INDEX xml_key ON xml_storage (xml_key);
+CREATE INDEX xml_type_key ON xml_storage (xml_type, xml_key);
 -- ----------------------------------------------------------
 --  create table package_repository
 -- ----------------------------------------------------------
