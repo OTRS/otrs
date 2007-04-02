@@ -2,20 +2,21 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.t,v 1.10 2007-01-31 08:34:07 tr Exp $
+# $Id: XML.t,v 1.11 2007-04-02 07:38:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
+use utf8;
 use Kernel::System::XML;
 use Kernel::System::Ticket;
 
 $Self->{XMLObject} = Kernel::System::XML->new(%{$Self});
 $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
 
-my $String = '
+my $String = '<?xml version="1.0" encoding="utf-8" ?>
     <Contact role="admin" type="organization">
       <Name type="long">Example Inc.</Name>
       <Email type="primary">info@exampe.com<Domain>1234.com</Domain></Email>
@@ -23,9 +24,9 @@ my $String = '
       <Telephone country="germany">+49-999-99999</Telephone>
       <Telephone2></Telephone2>
       <SpecialCharacters>\'</SpecialCharacters>
+      <GermanText>German Umlaute öäü ÄÜÖ ß</GermanText>
     </Contact>
 ';
-#       <Germantext>Alle Deutschen Umlaute ��� ��� �</Germantext>
 
 my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => $String);
 $Self->True(
@@ -77,11 +78,72 @@ $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{Content} eq '',
     'XMLHashGet() (Telephone2)',
 );
+$Self->Is(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
+    'German Umlaute öäü ÄÜÖ ß',
+    'XMLHashGet() (GermanText)',
+);
+
+@XMLHash = $Self->{XMLObject}->XMLHashGet(
+    Type => 'SomeType',
+    Key => '123',
+    Cache => 0,
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
+    'XMLHashGet() (admin) - without cache',
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone}->[1]->{country} eq 'germany',
+    'XMLHashGet() (Telephone->country) - without cache',
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{Content} eq '',
+    'XMLHashGet() (Telephone2) - without cache',
+);
+$Self->Is(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
+    'German Umlaute öäü ÄÜÖ ß',
+    'XMLHashGet() (GermanText) - without cache',
+);
+
+my $XMLHashUpdateTrue = $Self->{XMLObject}->XMLHashUpdate(
+    Type => 'SomeType',
+    Key => '123',
+    XMLHash => \@XMLHash,
+);
+$Self->True(
+    $XMLHashUpdateTrue,
+    'XMLHashUpdate() (admin)',
+);
+
+@XMLHash = $Self->{XMLObject}->XMLHashGet(
+    Type => 'SomeType',
+    Key => '123',
+    Cache => 0,
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
+    'XMLHashGet() (admin) - without cache',
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone}->[1]->{country} eq 'germany',
+    'XMLHashGet() (Telephone->country) - without cache',
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{Content} eq '',
+    'XMLHashGet() (Telephone2) - without cache',
+);
+$Self->Is(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
+    'German Umlaute öäü ÄÜÖ ß',
+    'XMLHashGet() (GermanText) - without cache',
+);
 
 my @XMLHashUpdate = ();
 $XMLHashUpdate[1]->{Contact}->[1]->{role} = 'admin1';
 $XMLHashUpdate[1]->{Contact}->[1]->{Name}->[1]->{Content} = 'Example Inc. 2';
-my $XMLHashUpdateTrue = $Self->{XMLObject}->XMLHashUpdate(
+$XMLHashUpdateTrue = $Self->{XMLObject}->XMLHashUpdate(
     Type => 'SomeType',
     Key => '123',
     XMLHash => \@XMLHashUpdate,
@@ -120,6 +182,16 @@ $Self->True(
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
     'XMLHashGet() (admin)',
+);
+
+@XMLHash = $Self->{XMLObject}->XMLHashGet(
+    Type => 'SomeType',
+    Key => '123',
+    Cache => 0,
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
+    'XMLHashGet() (admin) - without cache',
 );
 
 my $XML = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
