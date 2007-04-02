@@ -2,19 +2,19 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.20 2006-10-16 19:46:38 cs Exp $
+# $Id: UPGRADING,v 1.21 2007-04-02 14:42:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-These instructions are for people upgrading OTRS from "2.0" to "2.1".
+These instructions are for people upgrading OTRS from "2.1" to "2.2".
 
 *) Stop all your services (e. g. rcotrs stop-force)
 
 *) Backup everything (database, Kernel/Config.pm, Kernel/Config/GenericAgent.pm, var/*)
-   (Remember: 80% of all config settings are renamed in OTRS 2.0, so most of the
+   (Remember: 80% of all config settings are renamed in OTRS 2.1, so most of the
    Kernel/Config.pm settings will not be compatible)
 
 *) Make sure that you have backed up everything ,-)
@@ -26,20 +26,14 @@ These instructions are for people upgrading OTRS from "2.0" to "2.1".
 
 *) If you use the tar:
 
-    a) the OTRS themes between 2.0 and 2.1 are _not_ compatible
+    a) the OTRS themes between 2.1 and 2.2 are _not_ compatible
        (don't use the old themes)!
-
-*) Some configuration files from Version 2.0 are not longer needed and
-   may confuse OTRS 2.1, so we have to rename them
-   Please rename the files $OTRS_HOME/Kernel/Config/Files/*.pm to *.pm.backup,
-   except for ZZZAuto.pm.
-   (E.g.: rename TicketPostMaster.pm to TicketPostMaster.pm.backup.)
 
 *) Update the database changes with:
     MySQL:
-      cat $OTRS_HOME/scripts/DBUpdate-to-2.1.mysql.sql | mysql -p -f -u root otrs
+      cat $OTRS_HOME/scripts/DBUpdate-to-2.2.mysql.sql | mysql -p -f -u root otrs
     PostgreSQL:
-      cat $OTRS_HOME/scripts/DBUpdate-to-2.1.postgresql.sql | psql otrs
+      cat $OTRS_HOME/scripts/DBUpdate-to-2.2.postgresql.sql | psql otrs
 
    (Don't worry about the error messages, you can update all previous version
    with this script and in the most cases your database has already the most changes!)
@@ -48,5 +42,5 @@ These instructions are for people upgrading OTRS from "2.0" to "2.1".
 
 *) Restart your services (e. g. rcotrs restart-force or each service manually)
 
-*) Log in as 'root@localhost' and select Admin -> Sysconfig to make sure that
+*) Log in as 'root@localhost' and select Admin -> SysConfig to make sure that
    OTRS updates the configuration files.
