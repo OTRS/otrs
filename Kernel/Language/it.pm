@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.42 2007-04-02 15:24:57 martin Exp $
+# $Id: it.pm,v 1.43 2007-04-02 15:34:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1483,6 +1483,7 @@ sub Data {
         'Verion' => 'Versione',
         'Modified' => 'Modificato',
         'Ticket selected for bulk action!' => 'Richiesta selezionata per azione di massa!',
+        'Company' => '',
     };
     # $$STOP$$
 }

@@ -5,7 +5,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.68 2007-04-02 15:24:57 martin Exp $
+# $Id: fr.pm,v 1.69 2007-04-02 15:34:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.68 $';
+$VERSION = '$Revision: 1.69 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1502,6 +1502,7 @@ sub Data {
         'FAQ History' => 'Historique de la FAQ',
         'Modified' => 'Modifié',
         'Ticket selected for bulk action!' => 'Ticket sélectionné pour une action groupé!',
+        'Company' => '',
     };
     # $$STOP$$
 }

@@ -6,7 +6,7 @@
 #              Vadim Buzek
 #              Petr Ocasek
 # --
-# $Id: cz.pm,v 1.39 2007-04-02 15:24:57 martin Exp $
+# $Id: cz.pm,v 1.40 2007-04-02 15:34:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1487,6 +1487,7 @@ sub Data {
         'Verion' => '',
         'Modified' => 'Zmìnìno',
         'Ticket selected for bulk action!' => '',
+        'Company' => '',
     };
     # $$STOP$$
 }

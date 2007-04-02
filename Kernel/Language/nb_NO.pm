@@ -4,7 +4,7 @@
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 #               2006 Knut Haugen <knuthaug@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.35 2007-04-02 15:24:57 martin Exp $
+# $Id: nb_NO.pm,v 1.36 2007-04-02 15:34:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.35 $;
+$VERSION = q$Revision: 1.36 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1481,6 +1481,7 @@ sub Data {
         'Verion' => 'Versjon',
         'Modified' => 'Endret',
         'Ticket selected for bulk action!' => 'Sak valgt for masseredigering',
+        'Company' => '',
     };
     # $$STOP$$
 }

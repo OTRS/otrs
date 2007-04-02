@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.48 2007-04-02 15:24:57 martin Exp $
+# $Id: pt_BR.pm,v 1.49 2007-04-02 15:34:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1471,6 +1471,7 @@ sub Data {
         'Verion' => 'Versão',
         'Modified' => 'Modificado',
         'Ticket selected for bulk action!' => 'Chamado selecionado para execução de ação!',
+        'Company' => '',
     };
     # $$STOP$$
 }

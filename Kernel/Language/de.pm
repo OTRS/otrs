@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.129 2007-04-02 15:16:00 martin Exp $
+# $Id: de.pm,v 1.130 2007-04-02 15:34:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.129 $';
+$VERSION = '$Revision: 1.130 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1505,6 +1505,7 @@ sub Data {
         'Add new SLA failed! See System Log for details.' => 'Hinzufügen des neuen SLA fehlgeschlagen! Im System Log finden Sie weitere Informationen.',
         'Modified' => 'Verändert',
         'Ticket selected for bulk action!' => 'Ticket für Bulk-Aktion Ausgewählt',
+        'Company' => 'Firma',
     };
     # $$STOP$$
 }
