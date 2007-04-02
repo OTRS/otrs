@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.t,v 1.11 2007-04-02 07:38:23 martin Exp $
+# $Id: XML.t,v 1.12 2007-04-02 14:36:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -218,9 +218,28 @@ $Self->True(
     'XMLHashList() ([0] == 123)',
 );
 
+@Keys = $Self->{XMLObject}->XMLHashList(
+    Type => 'SomeType',
+);
+foreach my $Key (@Keys) {
+    my $XMLHashMove = $Self->{XMLObject}->XMLHashMove(
+        OldType => 'SomeType',
+        OldKey => $Key,
+        NewType => 'SomeTypeNew',
+        NewKey => $Key,
+    );
+    $Self->True(
+        $XMLHashMove,
+        "XMLHashMove() (Key=$Key)",
+    );
+}
+
+@Keys = $Self->{XMLObject}->XMLHashList(
+    Type => 'SomeTypeNew',
+);
 foreach my $Key (@Keys) {
     my $XMLHashDelete = $Self->{XMLObject}->XMLHashDelete(
-        Type => 'SomeType',
+        Type => 'SomeTypeNew',
         Key => $Key,
     );
     $Self->True(
@@ -253,8 +272,24 @@ $Self->True(
     Type => 'SomeType',
 );
 foreach my $Key (@Keys) {
+    my $XMLHashMove = $Self->{XMLObject}->XMLHashMove(
+        OldType => 'SomeType',
+        OldKey => $Key,
+        NewType => 'SomeTypeNew',
+        NewKey => $Key . 'New',
+    );
+    $Self->True(
+        $XMLHashMove,
+        "XMLHashMove() 2 (Key=$Key)",
+    );
+}
+
+@Keys = $Self->{XMLObject}->XMLHashList(
+    Type => 'SomeTypeNew',
+);
+foreach my $Key (@Keys) {
     my $XMLHashDelete = $Self->{XMLObject}->XMLHashDelete(
-        Type => 'SomeType',
+        Type => 'SomeTypeNew',
         Key => $Key,
     );
     $Self->True(
