@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.21 2007-04-02 14:42:02 martin Exp $
+# $Id: UPGRADING,v 1.22 2007-04-02 14:47:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ These instructions are for people upgrading OTRS from "2.1" to "2.2".
    (Don't worry about the error messages, you can update all previous version
    with this script and in the most cases your database has already the most changes!)
 
-*) Execute $OTRS_HOME/bin/SetPermissions.sh !
+*) If _no_ RPM is used, execute $OTRS_HOME/bin/SetPermissions.sh!
 
 *) Restart your services (e. g. rcotrs restart-force or each service manually)
 
