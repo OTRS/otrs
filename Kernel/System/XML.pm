@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.49 2007-04-02 07:38:59 martin Exp $
+# $Id: XML.pm,v 1.50 2007-04-02 13:31:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -303,7 +303,7 @@ sub XMLHashGet {
     # read cache file
     my $FileCache = quotemeta("$Param{Type}-$Param{Key}");
     $FileCache = $Self->{CacheDirectory}."xml-storage-$FileCache.cache";
-    if (-e $FileCache && !$Param{Cache}) {
+    if (-e $FileCache && $Param{Cache}) {
         if (open (IN, "< $FileCache")) {
             my $XMLHashRef;
             my $Content = '';
@@ -347,6 +347,19 @@ sub XMLHashGet {
     }
     if ($Content && !eval $Content) {
         print STDERR "ERROR: xml.pm $@\n";
+    }
+    # write cache file
+    if (!-e $FileCache && $Param{Cache}) {
+        my $Dump = Data::Dumper::Dumper(\@XMLHash);
+        $Dump =~ s/\$VAR1/\$XMLHashRef/;
+        if (open (OUT, "> $FileCache")) {
+            binmode(OUT);
+            print OUT $Dump."\n1;";
+            close (OUT);
+        }
+        else {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write cache file $FileCache: $!");
+        }
     }
     return @XMLHash;
 }
@@ -1200,6 +1213,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2007-04-02 07:38:59 $
+$Revision: 1.50 $ $Date: 2007-04-02 13:31:33 $
 
 =cut
