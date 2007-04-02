@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2007-04-02 15:40:55
+--  driver: postgresql, generated: 2007-04-02 16:52:38
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -762,6 +762,26 @@ CREATE TABLE customer_preferences (
     preferences_value VARCHAR (250)
 );
 CREATE INDEX index_customer_preferences_user_id ON customer_preferences (user_id);
+-- ----------------------------------------------------------
+--  create table customer_company
+-- ----------------------------------------------------------
+CREATE TABLE customer_company (
+    customer_id VARCHAR (100) NOT NULL,
+    name VARCHAR (100) NOT NULL,
+    street VARCHAR (200),
+    zip VARCHAR (200),
+    city VARCHAR (200),
+    country VARCHAR (200),
+    url VARCHAR (200),
+    comments VARCHAR (250),
+    valid_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    UNIQUE (customer_id),
+    UNIQUE (name)
+);
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
 -- ----------------------------------------------------------

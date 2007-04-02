@@ -2,12 +2,33 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.oracle.sql,v 1.7 2007-04-02 14:11:10 mh Exp $
+-- $Id: DBUpdate-to-2.2.oracle.sql,v 1.8 2007-04-02 14:53:39 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.oracle.sql | sqlplus "user/password"
 --
 -- --
+
+--
+-- customer_company
+--
+CREATE TABLE customer_company (
+    customer_id VARCHAR2 (100) NOT NULL,
+    name VARCHAR2 (100) NOT NULL,
+    street VARCHAR2 (200),
+    zip VARCHAR2 (200),
+    city VARCHAR2 (200),
+    country VARCHAR2 (200),
+    url VARCHAR2 (200),
+    comments VARCHAR2 (250),
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER NOT NULL,
+    CONSTRAINT customer_company_U_1 UNIQUE (customer_id),
+    CONSTRAINT customer_company_U_2 UNIQUE (name)
+);
 
 --
 -- ticket

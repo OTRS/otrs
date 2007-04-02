@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2007-04-02 15:39:21
+#  driver: mysql, generated: 2007-04-02 16:52:37
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -761,6 +761,26 @@ CREATE TABLE customer_preferences (
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (250),
     INDEX index_customer_preferences_user_id (user_id)
+);
+# ----------------------------------------------------------
+#  create table customer_company
+# ----------------------------------------------------------
+CREATE TABLE customer_company (
+    customer_id VARCHAR (100) NOT NULL,
+    name VARCHAR (100) NOT NULL,
+    street VARCHAR (200),
+    zip VARCHAR (200),
+    city VARCHAR (200),
+    country VARCHAR (200),
+    url VARCHAR (200),
+    comments VARCHAR (250),
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    UNIQUE (customer_id),
+    UNIQUE (name)
 );
 # ----------------------------------------------------------
 #  create table ticket_loop_protection

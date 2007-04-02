@@ -2,12 +2,33 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.postgresql.sql,v 1.8 2007-04-02 14:11:10 mh Exp $
+-- $Id: DBUpdate-to-2.2.postgresql.sql,v 1.9 2007-04-02 14:53:39 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.postgresql.sql | psql otrs
 --
 -- --
+
+--
+-- customer_company
+--
+CREATE TABLE customer_company (
+    customer_id VARCHAR (100) NOT NULL,
+    name VARCHAR (100) NOT NULL,
+    street VARCHAR (200),
+    zip VARCHAR (200),
+    city VARCHAR (200),
+    country VARCHAR (200),
+    url VARCHAR (200),
+    comments VARCHAR (250),
+    valid_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    UNIQUE (customer_id),
+    UNIQUE (name)
+);
 
 --
 -- ticket

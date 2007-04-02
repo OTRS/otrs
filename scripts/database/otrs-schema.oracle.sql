@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2007-04-02 15:40:47
+--  driver: oracle, generated: 2007-04-02 16:52:37
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -899,14 +899,14 @@ CREATE TABLE standard_response_attachment (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach78_PK PRIMARY KEY (id);
-DROP SEQUENCE standard_response_attach78_seq;
-CREATE SEQUENCE standard_response_attach78_seq;
-CREATE OR REPLACE TRIGGER standard_response_attach78_s_t
+ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach42_PK PRIMARY KEY (id);
+DROP SEQUENCE standard_response_attach42_seq;
+CREATE SEQUENCE standard_response_attach42_seq;
+CREATE OR REPLACE TRIGGER standard_response_attach42_s_t
 before insert on standard_response_attachment
 for each row
 begin
-    select standard_response_attach78_seq.nextval
+    select standard_response_attach42_seq.nextval
     into :new.id
     from dual;
 end;
@@ -1023,7 +1023,7 @@ begin
 end;
 /
 --;
-CREATE INDEX index_time_accounting_ticket33 ON time_accounting (ticket_id);
+CREATE INDEX index_time_accounting_ticket66 ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
 --  create table ticket_watcher
 -- ----------------------------------------------------------
@@ -1158,7 +1158,27 @@ CREATE TABLE customer_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_customer_preferences_u23 ON customer_preferences (user_id);
+CREATE INDEX index_customer_preferences_u10 ON customer_preferences (user_id);
+-- ----------------------------------------------------------
+--  create table customer_company
+-- ----------------------------------------------------------
+CREATE TABLE customer_company (
+    customer_id VARCHAR2 (100) NOT NULL,
+    name VARCHAR2 (100) NOT NULL,
+    street VARCHAR2 (200),
+    zip VARCHAR2 (200),
+    city VARCHAR2 (200),
+    country VARCHAR2 (200),
+    url VARCHAR2 (200),
+    comments VARCHAR2 (250),
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER NOT NULL,
+    CONSTRAINT customer_company_U_1 UNIQUE (customer_id),
+    CONSTRAINT customer_company_U_2 UNIQUE (name)
+);
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
 -- ----------------------------------------------------------
@@ -1166,8 +1186,8 @@ CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR2 (250) NOT NULL,
     sent_date VARCHAR2 (150) NOT NULL
 );
-CREATE INDEX index_ticket_loop_protection11 ON ticket_loop_protection (sent_to);
-CREATE INDEX index_ticket_loop_protection32 ON ticket_loop_protection (sent_date);
+CREATE INDEX index_ticket_loop_protection27 ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loop_protection23 ON ticket_loop_protection (sent_date);
 -- ----------------------------------------------------------
 --  create table pop3_account
 -- ----------------------------------------------------------

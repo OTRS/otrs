@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.63 2007-04-02 13:41:36 mh Exp $
+    $Id: otrs-schema.xml,v 1.64 2007-04-02 14:53:39 martin Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.63  2007/04/02 13:41:36  mh
+    Improved indexes of xml_storage table
+
     Revision 1.62  2007/03/16 10:02:13  martin
     Moved to new escalataion params like first_response_time, update_time and solution time.
 
@@ -1417,6 +1420,29 @@
     <Index Name="index_customer_preferences_user_id">
         <IndexColumn Name="user_id"/>
     </Index>
+</Table>
+
+<!-- customer company -->
+<Table Name="customer_company">
+    <Column Name="customer_id" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="street" Required="false" Size="200" Type="VARCHAR"/>
+    <Column Name="zip" Required="false" Size="200" Type="VARCHAR"/>
+    <Column Name="city" Required="false" Size="200" Type="VARCHAR"/>
+    <Column Name="country" Required="false" Size="200" Type="VARCHAR"/>
+    <Column Name="url" Required="false" Size="200" Type="VARCHAR"/>
+    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique>
+        <UniqueColumn Name="name"/>
+    </Unique>
+    <Unique>
+        <UniqueColumn Name="customer_id"/>
+    </Unique>
 </Table>
 
 <!-- ticket_loop_protection -->
