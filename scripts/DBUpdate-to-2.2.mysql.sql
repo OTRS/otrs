@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.mysql.sql,v 1.7 2007-03-16 10:02:13 martin Exp $
+-- $Id: DBUpdate-to-2.2.mysql.sql,v 1.8 2007-04-02 13:50:15 mh Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.mysql.sql | mysql -f -u root otrs
@@ -113,3 +113,12 @@ CREATE TABLE sla (
 ALTER TABLE sla ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE sla ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
 ALTER TABLE sla ADD FOREIGN KEY (service_id) REFERENCES `service(id)`;
+
+--
+-- xml_storage
+--
+
+ALTER TABLE xml_storage DROP INDEX `xml_type`;
+ALTER TABLE xml_storage DROP INDEX `xml_key`;
+ALTER TABLE xml_storage ADD INDEX (`xml_type`, `xml_key`);
+
