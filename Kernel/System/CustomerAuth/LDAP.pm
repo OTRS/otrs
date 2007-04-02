@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.20 2007-01-21 01:26:09 mh Exp $
+# $Id: LDAP.pm,v 1.21 2007-04-02 10:11:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -236,7 +236,7 @@ sub Auth {
         # failed login note
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "CustomerUser: $Param{User} authentification failed: '".$Result->error."' (REMOTE_ADDR: $RemoteAddr).",
+            Message => "CustomerUser: $Param{User} ($UserDN) authentification failed: '".$Result->error."' (REMOTE_ADDR: $RemoteAddr).",
         );
         # take down session
         $LDAP->unbind;
@@ -246,7 +246,7 @@ sub Auth {
         # login note
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "CustomerUser: $Param{User} authentification ok (REMOTE_ADDR: $RemoteAddr).",
+            Message => "CustomerUser: $Param{User} ($UserDN) authentification ok (REMOTE_ADDR: $RemoteAddr).",
         );
         # take down session
         $LDAP->unbind;
