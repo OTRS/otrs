@@ -4,7 +4,7 @@
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 #               2006 Knut Haugen <knuthaug@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.34 2007-02-12 16:59:40 tr Exp $
+# $Id: nb_NO.pm,v 1.35 2007-04-02 15:24:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.34 $;
+$VERSION = q$Revision: 1.35 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -24,7 +24,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Thu Oct  5 06:04:40 2006
+    # Last translation file sync: Mon Apr  2 17:25:38 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -130,6 +130,7 @@ sub Data {
         'agent' => '',
         'system' => 'System',
         'Customer Info' => 'Kunde-info',
+        'Customer Company' => '',
         'go!' => 'Start!',
         'go' => 'Start',
         'All' => 'Alle',
@@ -195,13 +196,14 @@ sub Data {
         'Word' => 'Ord',
         'Ignore' => 'Ignorér',
         'replace with' => 'erstatt med',
-        'Welcome to OTRS' => 'Velkommen til OTRS',
         'There is no account with that login name.' => 'Finner ingen konto med det navnet.',
         'Login failed! Your username or password was entered incorrectly.' => 'Innlogging feilet! Oppgitt brukernavn og/eller passord er ikke korrekt.',
         'Please contact your admin' => 'Vennligst ta kontakt med administrator',
         'Logout successful. Thank you for using OTRS!' => 'Utlogging utført.  Takk for at du brukte OTRS!',
         'Invalid SessionID!' => 'Ugyldig SessionID!',
         'Feature not active!' => 'Funksjon ikke aktivert!',
+        'Login is needed!' => '',
+        'Password is needed!' => 'Passord er påkrevd!',
         'License' => 'Lisens',
         'Take this Customer' => 'Velg denne kunden',
         'Take this User' => 'Velg denne brukeren',
@@ -246,6 +248,10 @@ sub Data {
         'Country' => '',
         'installed' => 'installert',
         'uninstalled' => 'avinstallert',
+        'Security Note: You should activate %s because application is already running!' => '',
+        'Unable to parse Online Repository index document!' => '',
+        'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => '',
+        'No Packages or no new Packages in selected Online Repository!' => '',
         'printed at' => '',
 
         # Template: AAAMonth
@@ -283,17 +289,7 @@ sub Data {
         'Agent Mailbox' => 'Agent-innboks',
         'Stats' => 'Statistikk',
         'Stats-Area' => 'Statistikk-område',
-        'New Article' => 'Ny artikkel',
         'Admin' => 'Administrator',
-        'A web calendar' => 'EN web-kalender',
-        'WebMail' => 'Webmail',
-        'A web mail client' => 'En webmail-klient',
-        'FileManager' => 'Filhåndterer',
-        'A web file manager' => 'En webbasert filhåndterer',
-        'Artefact' => 'Artefakt',
-        'Incident' => 'Hendelse',
-        'Advisory' => 'Råd',
-        'WebWatcher' => 'Webovervåker',
         'Customer Users' => 'Kunder',
         'Customer Users <-> Groups' => 'Kunder <-> Grupper',
         'Users <-> Groups' => 'Saksbehandlere <-> Grupper',
@@ -329,7 +325,6 @@ sub Data {
         'Can\'t update password, need 2 lower and 2 upper characters!' => 'Kan ikke oppdatere passord: trenger minst 2 små og 2 store bokstaver!',
         'Can\'t update password, need min. 1 digit!' => 'Kan ikke oppdatere passord: trenger minst ett tall!',
         'Can\'t update password, need min. 2 characters!' => 'Kan ikke oppdatere passord: trenger minst 2 bokstaver',
-        'Password is needed!' => 'Passord er påkrevd!',
 
         # Template: AAAStats
         'Stat' => '',
@@ -413,6 +408,7 @@ sub Data {
         'This is a HTML email. Click here to show it.' => 'Dette er en HTML e-post. Klikk her for å vise den.',
         'Free Fields' => 'Stikkord',
         'Merge' => 'Flett',
+        'merged' => '',
         'closed successful' => 'løst og avsluttet',
         'closed unsuccessful' => 'uløst, men avsluttet',
         'new' => 'ny',
@@ -420,6 +416,7 @@ sub Data {
         'closed' => 'avsluttet',
         'removed' => 'fjernet',
         'pending reminder' => 'venter på påminnelse',
+        'pending auto' => '',
         'pending auto close+' => 'venter på avslutting (løst)',
         'pending auto close-' => 'venter på avslutting (uløst)',
         'email-external' => 'e-post eksternt',
@@ -448,17 +445,23 @@ sub Data {
         'No such Ticket Number "%s"! Can\'t link it!' => 'Finner ikke saksnummer "%s"! Kan ikke linke til det!',
         'Don\'t show closed Tickets' => 'Ikke vis avsluttede saker',
         'Show closed Tickets' => 'Vis avsluttede saker',
+        'New Article' => 'Ny artikkel',
         'Email-Ticket' => 'Send e-post',
         'Create new Email Ticket' => 'Opprett ny sak ved å sende e-post',
         'Phone-Ticket' => 'Henvendelser',
-        'Create new Phone Ticket' => 'Opprett ny henvendelse',
         'Search Tickets' => 'Søk i saker',
         'Edit Customer Users' => 'Redigér kundebrukere',
         'Bulk-Action' => 'Masseredigering',
         'Bulk Actions on Tickets' => 'Masseredigering på saker',
         'Send Email and create a new Ticket' => 'Send e-post og opprett en ny sak',
+        'Create new Email Ticket and send this out (Outbound)' => '',
+        'Create new Phone Ticket (Inbound)' => '',
         'Overview of all open Tickets' => 'Oversikt over alle tilgjengelige saker',
         'Locked Tickets' => 'Mine private saker',
+        'Watched Tickets' => '',
+        'Watched' => '',
+        'Subscribe' => '',
+        'Unsubscribe' => '',
         'Lock it to work on it!' => 'Sett sak som privat eller tilgjengelig!',
         'Unlock to give it back to the queue!' => 'Gjør saken tilgjengelig i mappen!',
         'Shows the ticket history!' => 'Se på historikken til saken!',
@@ -506,6 +509,9 @@ sub Data {
         'Auto Responses <-> Queue' => 'Autosvar <-> Mapper',
         'Attachments <-> Responses' => 'Vedlegg <-> Ferdigsvar',
         'History::Move' => 'Sak flyttet inn i mappe "%s" (%s) fra mappe "%s" (%s).',
+        'History::TypeUpdate' => '',
+        'History::ServiceUpdate' => '',
+        'History::SLAUpdate' => '',
         'History::NewTicket' => 'Ny sak [%s] opprettet (Q=%s;P=%s;S=%s).',
         'History::FollowUp' => 'Oppfølging til sak [%s]. %s',
         'History::SendAutoReject' => 'AutoReject sent to "%s".',
@@ -555,23 +561,31 @@ sub Data {
         'Auto Response From' => 'Autosvar-avsender',
         'Note' => 'Notis',
         'Useable options' => 'Gyldige valg',
-        'to get the first 20 character of the subject' => 'gir de første 20 bokstavene av emnebeskrivelsen',
-        'to get the first 5 lines of the email' => 'gir de første 5 linjene av e-posten',
-        'to get the from line of the email' => 'gir avsenderlinjen i e-posten',
-        'to get the realname of the sender (if given)' => 'gir avsenders fulle navn (hvis mulig)',
-        'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Valg for ticket-data (f.eks. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
-        'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Konfigurasjonsvalg (f.eks. <OTRS_CONFIG_HttpType>)',
+        'To get the first 20 character of the subject.' => '',
+        'To get the first 5 lines of the email.' => '',
+        'To get the realname of the sender (if given).' => '',
+        'To get the article attribut (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
+        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => '',
+        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => '',
+        'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => '',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => '',
+        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => '',
+        'Config options (e. g. <OTRS_CONFIG_HttpType>).' => '',
+
+        # Template: AdminCustomerCompanyForm
+        'Customer Company Management' => '',
+        'Add Customer Company' => '',
+        'Add a new Customer Company.' => '',
+        'List' => 'Liste',
+        'This values are required.' => 'Disse verdiene må fylles ut.',
+        'This values are read only.' => 'Disse verdiene kan ikke endres.',
 
         # Template: AdminCustomerUserForm
-        'The message being composed has been closed.  Exiting.' => 'Det tilhørende redigeringsvinduet har blitt lukket.  Avslutter.',
-        'This window must be called from compose window' => 'Denne funksjonen må kalles fra redigeringsvinduet',
         'Customer User Management' => 'Administrasjon av kunde-brukere',
         'Search for' => 'Søk etter',
-        'Result' => 'Resultat',
-        'Select Source (for add)' => 'Velg kilde (for å legge til)',
+        'Add User' => '',
         'Source' => 'Kilde',
-        'This values are read only.' => 'Disse verdiene kan ikke endres.',
-        'This values are required.' => 'Disse verdiene må fylles ut.',
+        'Create' => 'Opprett',
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'Kundebruker vil trenge å ha en kundehistorikk og logge inn via kundesidene',
 
         # Template: AdminCustomerUserGroupChangeForm
@@ -591,7 +605,7 @@ sub Data {
         'Message sent to' => 'Melding sendt til',
         'Recipents' => 'Mottager(e)',
         'Body' => 'Meldingstekst',
-        'send' => 'Send',
+        'Send' => '',
 
         # Template: AdminGenericAgent
         'GenericAgent' => 'Administrasjon: GenericAgent',
@@ -611,10 +625,14 @@ sub Data {
         'Agent' => '',
         'Ticket Lock' => 'Saks-lås',
         'TicketFreeFields' => '',
-        'Times' => 'Tider',
-        'No time settings.' => 'Ingen tidsinnstillinger.',
+        'Create Times' => '',
+        'No create time settings.' => '',
         'Ticket created' => 'Sak opprettet',
         'Ticket created between' => 'Sak opprettet mellom',
+        'Pending Times' => '',
+        'No pending time settings.' => '',
+        'Ticket pending time reached' => '',
+        'Ticket pending time reached between' => '',
         'New Priority' => 'Ny prioritet',
         'New Queue' => 'Ny mappe',
         'New State' => 'Ny status',
@@ -641,9 +659,12 @@ sub Data {
         'No means, send agent and customer notifications on changes.' => '',
         'Save' => 'Lagre',
         '%s Tickets affected! Do you really want to use this job?' => '',
+        '"}' => '',
 
         # Template: AdminGroupForm
         'Group Management' => 'Administrasjon: Grupper',
+        'Add Group' => '',
+        'Add a new Group.' => '',
         'The admin group is to get in the admin area and the stats group to get stats area.' => '\'admin\'-gruppen gir tilgang til Admin-området, \'stats\'-gruppen til Statistikk-området.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Opprett nye grupper for å kunne håndtere forskjellige rettigheter for forskjellige grupper agenter (f.eks. innkjøpsavdeling, supportavdeling, salgsavdeling, ...).',
         'It\'s useful for ASP solutions.' => 'Nyttig for ASP-løsninger.',
@@ -651,6 +672,21 @@ sub Data {
         # Template: AdminLog
         'System Log' => 'Systemlogg',
         'Time' => 'Tid',
+
+        # Template: AdminMailAccount
+        'Mail Account Management' => '',
+        'Host' => 'Maskin',
+        'Account Type' => '',
+        'POP3' => '',
+        'POP3S' => '',
+        'IMAP' => '',
+        'IMAPS' => '',
+        'Mailbox' => 'Mine private saker',
+        'Port' => '',
+        'Trusted' => 'Betrodd',
+        'Dispatching' => 'Fordeling',
+        'All incoming emails with one account will be dispatched in the selected queue!' => 'Innkommende e-poster fra POP3-kontoer blir sortert til valgt mappe!',
+        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Dersom kontoen er betrodd vil de eksisterende X-OTRS headere ved ankomst (for proritet...) bli brukt. PostMaster filtre vil bli brukt uansett.',
 
         # Template: AdminNavigationBar
         'Users' => 'Saksbehandlere',
@@ -661,10 +697,6 @@ sub Data {
         'Notification Management' => 'Administrasjon: Meldinger i e-poster',
         'Notification' => 'Melding',
         'Notifications are sent to an agent or a customer.' => 'Meldinger som sendes til agenter eller kunder.',
-        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'gir tilgang til data for agenten som står som eier av saken (f.eks. <OTRS_OWNER_UserFirstname>)',
-        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'gir tilgang til data for agenten som utfører handlingen (f.eks. <OTRS_CURRENT_UserFirstname>)',
-        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'gir tilgang til data for gjeldende kunde (f.eks. <OTRS_CUSTOMER_DATA_UserFirstname>)',
-        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Pakkehåndterer',
@@ -673,6 +705,8 @@ sub Data {
         'Do you really want to uninstall this package?' => 'Vil du virkelig avinstallere denne pakken?',
         'Reinstall' => 'Re-installér',
         'Do you really want to reinstall this package (all manual changes get lost)?' => '',
+        'Cancle' => '',
+        'Continue' => '',
         'Install' => 'Installer',
         'Package' => 'Pakke',
         'Online Repository' => 'Online pakkelager',
@@ -683,6 +717,9 @@ sub Data {
         'Overview' => 'Oversikt',
         'Download' => 'Last ned',
         'Rebuild' => 'Bygg på ny',
+        'ChangeLog' => '',
+        'Date' => '',
+        'Filelist' => '',
         'Download file from package!' => '',
         'Required' => 'Påkrevd',
         'PrimaryKey' => 'Primærnøkkel',
@@ -692,6 +729,12 @@ sub Data {
 
         # Template: AdminPerformanceLog
         'Performance Log' => '',
+        'This feature is enabled!' => '',
+        'Just use this feature if you want to log each request.' => '',
+        'Of couse this feature will take some system performance it self!' => '',
+        'Disable it here!' => '',
+        'This feature is disabled!' => '',
+        'Enable it here!' => '',
         'Logfile too large!' => '',
         'Logfile too large, you need to reset it!' => '',
         'Range' => '',
@@ -703,6 +746,7 @@ sub Data {
 
         # Template: AdminPGPForm
         'PGP Management' => 'PGP-innstillinger',
+        'Result' => 'Resultat',
         'Identifier' => 'Nøkkel',
         'Bit' => '',
         'Key' => 'Nøkkel',
@@ -712,12 +756,6 @@ sub Data {
 
         # Template: AdminPOP3
         'POP3 Account Management' => 'Administrasjon: POP3-Konto',
-        'Host' => 'Maskin',
-        'List' => 'Liste',
-        'Trusted' => 'Betrodd',
-        'Dispatching' => 'Fordeling',
-        'All incoming emails with one account will be dispatched in the selected queue!' => 'Innkommende e-poster fra POP3-kontoer blir sortert til valgt mappe!',
-        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Dersom kontoen er betrodd vil de eksisterende X-OTRS headere ved ankomst (for proritet...) bli brukt. PostMaster filtre vil bli brukt uansett.',
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'Administrasjon: E-postfilter',
@@ -727,6 +765,7 @@ sub Data {
         'Value' => 'Innhold',
         'Set' => 'Sett',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Gjør sortering eller filtrering av inkommende epost basert på X-headere. Regulæruttrykk er også mulig. ',
+        'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => '',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Dersom du bruker regulæruttrykk kan du også bruke den matchede verdien i () som [***] i \'Sett\')',
 
         # Template: AdminQueueAutoResponseForm
@@ -737,8 +776,10 @@ sub Data {
         'Sub-Queue of' => 'Undermappe av',
         'Unlock timeout' => 'Tidsintervall for å sette sak tilgjengelig for andre',
         '0 = no unlock' => '0 = ikke gjør saker tilgjengelig',
-        'Escalation time' => 'Eskalasjonstid',
+        'Escalation - First Response Time' => '',
         '0 = no escalation' => '0 = ingen eskalering',
+        'Escalation - Update Time' => '',
+        'Escalation - Solution Time' => '',
         'Follow up Option' => 'Korrespondanse på avsluttet sak',
         'Ticket lock after a follow up' => 'Saken settes som privat etter oppfølgnings e-post',
         'Systemaddress' => 'Systemadresse',
@@ -746,6 +787,7 @@ sub Data {
         'Customer State Notify' => 'Kundenotifikasjon ved statusendring',
         'Customer Owner Notify' => 'Kundenotifikasjon ved skifte av saksbehandler',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Hvis en sak er satt som privat, men likevel ikke blir besvart innen denne tiden, vil saken bli gjort tilgjengelig for andre.',
+        'Escalation time' => 'Eskalasjonstid',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Hvis en sak ikke blir besvart innen denne tiden, blir kun denne saken vist.',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Hvis en kunde sender oppfølgings e-post på en avsluttet sak, blir saken låst til forrige saksbehandler.',
         'Will be the sender address of this queue for email answers.' => 'Avsenderadresse for e-post i denne mappen.',
@@ -770,13 +812,13 @@ sub Data {
         'Response Management' => 'Administrasjon: Ferdigsvar',
         'A response is default text to write faster answer (with default text) to customers.' => 'Et ferdigsvar er en forhåndsdefinert tekst for å lette skriving av svar på vanlige henvendelser.',
         'Don\'t forget to add a new response a queue!' => 'Husk å tilordne nye ferdigsvar til en mappe!',
-        'Next state' => 'Neste status',
-        'All Customer variables like defined in config option CustomerUser.' => 'Alle "kunde-variabler" som er definert i konfigurasjonen CustomerUser',
         'The current ticket state is' => 'Nåværende status på sak',
         'Your email address is new' => 'Din e-postadresse er ny',
 
         # Template: AdminRoleForm
         'Role Management' => 'Administrasjon: Roller',
+        'Add Role' => '',
+        'Add a new Role.' => '',
         'Create a role and put groups in it. Then add the role to the users.' => 'Opprett en rolle og legg grupper til rollen. Legg deretter til saksbehandlere til rollen.',
         'It\'s useful for a lot of users and groups.' => 'Dette er nyttig når du administrerer mange brukere og grupper.',
 
@@ -803,29 +845,40 @@ sub Data {
 
         # Template: AdminSalutationForm
         'Salutation Management' => 'Administrasjon: Hilsninger',
-        'customer realname' => 'Fullt kundenavn',
-        'All Agent variables.' => '',
-        'for agent firstname' => 'gir agents fornavn',
-        'for agent lastname' => 'gir agents etternavn',
-        'for agent user id' => 'gir agents bruker-id',
-        'for agent login' => 'gir agents login',
+        'Add Salutation' => '',
+        'Add a new Salutation.' => '',
 
         # Template: AdminSelectBoxForm
         'Select Box' => 'SQL-tilgang',
         'Limit' => '',
+        'Go' => '',
         'Select Box Result' => 'Select Box-resultat',
+
+        # Template: AdminService
+        'Service Management' => '',
+        'Service' => '',
+        'Sub-Service of' => '',
 
         # Template: AdminSession
         'Session Management' => 'Sesjonshåndtering',
         'Sessions' => 'Sesjoner',
         'Uniq' => 'Unik',
-        'kill all sessions' => 'Terminér alle sesjoner',
+        'Kill all sessions' => '',
         'Session' => 'Sesjon',
         'Content' => 'Innhold',
         'kill session' => 'Terminér sesjon',
 
         # Template: AdminSignatureForm
         'Signature Management' => 'Administrasjon: Signaturer',
+        'Add Signature' => '',
+        'Add a new Signature.' => '',
+
+        # Template: AdminSLA
+        'SLA Management' => '',
+        'SLA' => '',
+        'First Response Time' => '',
+        'Update Time' => '',
+        'Solution Time' => '',
 
         # Template: AdminSMIMEForm
         'S/MIME Management' => 'Administrasjon: S/MIME',
@@ -836,7 +889,9 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' => 'På denne måten kan du direkte redigere sertifikatet og private nøkler i filsystemet. ',
 
         # Template: AdminStateForm
-        'System State Management' => 'Administrasjon: Status',
+        'State Management' => '',
+        'Add State' => '',
+        'Add a new State.' => '',
         'State Type' => 'Status-type',
         'Take care that you also updated the default states in you Kernel/Config.pm!' => 'Forsikre deg om at du også har oppdatert standard tilstander i Kernel/Config.pm!',
         'See also' => 'Se også',
@@ -867,11 +922,31 @@ sub Data {
 
         # Template: AdminSystemAddressForm
         'System Email Addresses Management' => 'Administrer: Systemets e-postadresser',
+        'Add System Address' => '',
+        'Add a new System Address.' => '',
         'Realname' => 'Fullt navn',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle innkommende e-poster til denne addressen (To:) vil bli fordelt til valgt mappe.',
 
+        # Template: AdminSystemStatus
+        'System Status' => '',
+
+        # Template: AdminTicketCustomerNotification
+        'Notification (Customer)' => '',
+        'Event' => '',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
+        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+
+        # Template: AdminTypeForm
+        'Type Management' => '',
+        'Add Type' => '',
+        'Add a new Type.' => '',
+
         # Template: AdminUserForm
         'User Management' => 'Administrasjon: Saksbehandlere',
+        'Add a new Agent.' => '',
         'Login as' => 'Logg in som',
         'Firstname' => 'Fornavn',
         'Lastname' => 'Etternavn',
@@ -909,8 +984,6 @@ sub Data {
         'Lookup' => 'Oppslag',
 
         # Template: AgentNavigationBar
-        'Ticket selected for bulk action!' => 'Sak valgt for masseredigering',
-        'You need min. one selected Ticket!' => 'Du må minimum velge èn sak!',
 
         # Template: AgentPreferencesForm
 
@@ -921,6 +994,7 @@ sub Data {
         'Apply these changes' => 'Iverksett endringer',
 
         # Template: AgentStatsDelete
+        'Stat#' => '',
         'Do you really want to delete this Object?' => 'Vil du virkelig slette dette objektet?',
 
         # Template: AgentStatsEditRestrictions
@@ -997,43 +1071,46 @@ sub Data {
         'Exchange Axis' => '',
         'Configurable params of static stat' => '',
         'No element selected.' => '',
-        'maximal period form' => '',
+        'maximal period from' => '',
         'to' => '',
         'Start' => '',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
 
+        # Template: AgentTicketArticleUpdate
+        'A message should have a subject!' => 'En melding må ha en emnebeskrivelse!',
+        'A message should have a body!' => 'En melding må inneholde en meldingstekst!',
+        'You need to account time!' => 'Du har ikke ført tidsregnskap!',
+        'Edit Article' => '',
+
         # Template: AgentTicketBounce
-        'A message should have a To: recipient!' => 'En melding må ha en mottager i Til:-feltet!',
-        'You need a email address (e. g. customer@example.com) in To:!' => 'I Til-feltet må det oppgis en gyldig email-adresse (f.eks. kunde@eksempeldomene.no)!',
         'Bounce ticket' => 'Oversend sak',
+        'Ticket locked!' => 'Ticket låst',
+        'Ticket unlock!' => 'Ticket frigi',
         'Bounce to' => 'Oversend til',
         'Next ticket state' => 'Neste status på sak',
         'Inform sender' => 'Informer avsender',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'E-posten med saksnummer "<OTRS_TICKET>" er oversendt "<OTRS_BOUNCE_TO>". Vennligst ta kontakt på denne adressen for videre henvendelser.',
         'Send mail!' => 'Send e-posten!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'En melding må ha en emnebeskrivelse!',
         'Ticket Bulk Action' => 'Masseredigering av saker',
         'Spell Check' => 'Stavekontroll',
         'Note type' => 'Notistype',
         'Unlock Tickets' => 'Frigi saker',
 
         # Template: AgentTicketClose
-        'A message should have a body!' => 'En melding må inneholde en meldingstekst!',
-        'You need to account time!' => 'Du har ikke ført tidsregnskap!',
         'Close ticket' => 'Avslutt sak',
-        'Ticket locked!' => 'Ticket låst',
-        'Ticket unlock!' => 'Ticket frigi',
         'Previous Owner' => 'Forrige saksbehandler',
         'Inform Agent' => 'Informér agent',
         'Optional' => 'Valgfri',
         'Inform involved Agents' => 'Informér involverte agenter',
         'Attach' => 'Legg ved',
+        'Next state' => 'Neste status',
         'Pending date' => 'Sett på vent til',
         'Time units' => 'Tidsenheter',
+        ' (work units)' => ' (arbeidsenheter)',
 
         # Template: AgentTicketCompose
-        'A message must be spell checked!' => 'Stavekontroll må utføres på alle meldinger!',
         'Compose answer for ticket' => 'Forfatt svar til sak',
         'Pending Date' => 'Utsatt til',
         'for pending* states' => 'for vente-tilstander',
@@ -1055,7 +1132,6 @@ sub Data {
         'new ticket' => 'Ny sak',
         'Refresh' => '',
         'Clear To' => 'Visk ut "Til"',
-        'All Agents' => 'Alle agenter',
 
         # Template: AgentTicketForward
         'Article type' => 'Artikkeltype',
@@ -1069,14 +1145,10 @@ sub Data {
         # Template: AgentTicketLocked
 
         # Template: AgentTicketMailbox
-        'Mailbox' => 'Mine private saker',
         'Tickets' => 'Saker',
         'of' => 'av',
         'Filter' => '',
-        'All messages' => 'Alle meldinger',
         'New messages' => 'Ny melding',
-        'Pending messages' => 'Ventende meldinger',
-        'Reminder messages' => 'Påminnelses-meldinger',
         'Reminder' => 'Påminnelse',
         'Sort by' => 'Sorter etter',
         'Order' => 'Sortering',
@@ -1084,7 +1156,6 @@ sub Data {
         'down' => 'synkende',
 
         # Template: AgentTicketMerge
-        'You need to use a ticket number!' => 'Du må bruke et saksnummer',
         'Ticket Merge' => 'Flett saker',
         'Merge to' => 'Flett med',
 
@@ -1103,7 +1174,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Phone call' => 'Telefonanrop',
         'Clear From' => 'Blank ut "Fra":',
-        'Create' => 'Opprett',
 
         # Template: AgentTicketPhoneOutbound
 
@@ -1132,6 +1202,8 @@ sub Data {
         'Ticket escalation!' => 'Sak-eskalering!',
 
         # Template: AgentTicketQueueTicketView
+        'First Response' => '',
+        'Service Time' => '',
         'Your own Ticket' => 'Din egen sak',
         'Compose Follow up' => 'Skriv oppfølgingssvar',
         'Compose Answer' => 'Skriv svar',
@@ -1160,24 +1232,17 @@ sub Data {
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketSearchResultShort
-        'sort upward' => 'Sorter stigende',
         'U' => 'O',
-        'sort downward' => 'Sorter synkende',
         'D' => 'N',
 
         # Template: AgentTicketStatusView
         'Ticket Status View' => 'Sakstatus-visning',
         'Open Tickets' => 'Åpne saker',
+        'Locked' => 'Tilgjenglighet',
 
         # Template: AgentTicketZoom
-        'Locked' => 'Tilgjenglighet',
-        'Split' => 'Splitt',
 
         # Template: AgentWindowTab
-
-        # Template: AgentWindowTabStart
-
-        # Template: AgentWindowTabStop
 
         # Template: Copyright
 
@@ -1191,6 +1256,8 @@ sub Data {
 
         # Template: CustomerError
         'Traceback' => '',
+
+        # Template: CustomerFAQ
 
         # Template: CustomerFooter
         'Powered by' => 'Drevet av',
@@ -1216,7 +1283,11 @@ sub Data {
 
         # Template: CustomerTicketMessage
 
+        # Template: CustomerTicketPrint
+
         # Template: CustomerTicketSearch
+        'Times' => 'Tider',
+        'No time settings.' => 'Ingen tidsinnstillinger.',
 
         # Template: CustomerTicketSearchResultCSV
 
@@ -1237,14 +1308,13 @@ sub Data {
         # Template: FooterSmall
 
         # Template: Header
-        'Home' => 'Hjem',
 
         # Template: HeaderSmall
 
         # Template: Installer
         'Web-Installer' => 'Web-installasjon',
-        'accept license' => 'aksepter lisens',
-        'don\'t accept license' => 'ikke aksepter lisens',
+        'Accept license' => '',
+        'Don\'t accept license' => '',
         'Admin-User' => 'Admin-bruker',
         'Admin-Password' => 'Administrator-passord',
         'your MySQL DB should have a root password! Default is empty!' => 'Din MySQL-database bør ha et root-passord satt!  Default er intet passord!',
@@ -1296,6 +1366,11 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'skrevet av',
 
+        # Template: PublicFAQ
+
+        # Template: PublicView
+        'Management Summary' => '',
+
         # Template: Redirect
 
         # Template: Test
@@ -1305,62 +1380,107 @@ sub Data {
         # Template: Warning
         # Misc
         'Create Database' => 'Opprett database',
-        ' (work units)' => ' (arbeidsenheter)',
         'DB Host' => 'Databasemaskin',
         'Ticket Number Generator' => 'Saksnummer-generator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Sakskjennetegn, f.eks. \'Ticket#\', \'Call#\' eller \'MyTicket#\')',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'På denne måten kan du direkte redigere nøkkelringen som er konfigurert i Kernel/Config.pm',
+        'Create new Phone Ticket' => 'Opprett ny henvendelse',
         'Symptom' => 'Symptom',
+        'A message should have a To: recipient!' => 'En melding må ha en mottager i Til:-feltet!',
         'Site' => 'side',
         'Customer history search (e. g. "ID342425").' => 'Søk etter kunde for historikk (f.eks. "ID342425").',
         'Close!' => 'Lukk!',
-        'Don\'t forget to add a new user to groups!' => 'Ikke glem å gi nye brukere en gruppe!',
-        'CreateTicket' => 'Opprettet sak',
+        'for agent firstname' => 'gir agents fornavn',
+        'The message being composed has been closed.  Exiting.' => 'Det tilhørende redigeringsvinduet har blitt lukket.  Avslutter.',
+        'A web calendar' => 'EN web-kalender',
+        'to get the realname of the sender (if given)' => 'gir avsenders fulle navn (hvis mulig)',
         'OTRS DB Name' => 'OTRS DB navn',
-        'System Settings' => 'Systeminnstillinger',
-        'Finished' => 'Ferdig',
+        'Select Source (for add)' => 'Velg kilde (for å legge til)',
         'Queue ID' => 'Mappe-ID',
-        'A article should have a title!' => 'En artikkel bør ha en tittel',
+        'Home' => 'Hjem',
+        'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Konfigurasjonsvalg (f.eks. <OTRS_CONFIG_HttpType>)',
         'System History' => 'Historikk',
+        'customer realname' => 'Fullt kundenavn',
+        'Pending messages' => 'Ventende meldinger',
         'Modules' => 'Moduler',
+        'for agent login' => 'gir agents login',
         'Keyword' => 'Nøkkelord',
         'Close type' => 'Lukketilstand',
         'DB Admin User' => 'DB administratorbruker',
-        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Valg for saksdata (f.eks. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
+        'for agent user id' => 'gir agents bruker-id',
+        'sort upward' => 'Sorter stigende',
         'Change user <-> group settings' => 'Endre bruker <-> gruppe-instillinger',
-        'Name is required!' => 'Navn er påkrevd',
         'Problem' => 'Problem',
-        'DB Type' => 'DB type',
-        'Termin1' => 'Termin1',
         'next step' => 'neste steg',
         'Customer history search' => 'Historikk for kunde',
-        'Solution' => 'Løsning',
         'Admin-Email' => 'Admin e-post',
-        'QueueView' => 'Mapper',
         'Create new database' => 'Opprett ny database',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'E-posten med saksnummer "<OTRS_TICKET>" er oversendt "<OTRS_BOUNCE_TO>". Vennligst ta kontakt på denne adressen for videre henvendelser.',
-        'modified' => 'endret',
-        'Delete old database' => 'Slett gammel database',
+        'A message must be spell checked!' => 'Stavekontroll må utføres på alle meldinger!',
+        'All Agents' => 'Alle agenter',
         'Keywords' => 'Nøkkelord',
-        'Note Text' => 'Notistekst',
         'No * possible!' => 'Jokertegn ikke tillatt!',
-        'OTRS DB User' => 'OTRS DB bruker',
-        'PhoneView' => 'Henvendelser',
-        'Verion' => 'Versjon',
         'Message for new Owner' => 'Melding for ny saksbehandler',
+        'to get the first 5 lines of the email' => 'gir de første 5 linjene av e-posten',
         'OTRS DB Password' => 'OTRS DB passord',
         'Last update' => 'Sist endret',
+        'to get the first 20 character of the subject' => 'gir de første 20 bokstavene av emnebeskrivelsen',
         'DB Admin Password' => 'DB administratorpassord',
         'Drop Database' => 'Slett database',
+        'Advisory' => 'Råd',
+        'FileManager' => 'Filhåndterer',
+        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'gir tilgang til data for gjeldende kunde (f.eks. <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'Venter på',
         'Comment (internal)' => 'Kommentar (intern)',
+        'This window must be called from compose window' => 'Denne funksjonen må kalles fra redigeringsvinduet',
+        'You need min. one selected Ticket!' => 'Du må minimum velge èn sak!',
+        'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Valg for ticket-data (f.eks. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(Valgt format for saksnummer)',
         'Fulltext' => 'Fritekst',
+        'Incident' => 'Hendelse',
+        'All Agent variables.' => '',
+        'All Customer variables like defined in config option CustomerUser.' => 'Alle "kunde-variabler" som er definert i konfigurasjonen CustomerUser',
+        'accept license' => 'aksepter lisens',
+        'for agent lastname' => 'gir agents etternavn',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'gir tilgang til data for agenten som utfører handlingen (f.eks. <OTRS_CURRENT_UserFirstname>)',
+        'Reminder messages' => 'Påminnelses-meldinger',
+        'Don\'t forget to add a new user to groups!' => 'Ikke glem å gi nye brukere en gruppe!',
+        'You need a email address (e. g. customer@example.com) in To:!' => 'I Til-feltet må det oppgis en gyldig email-adresse (f.eks. kunde@eksempeldomene.no)!',
+        'CreateTicket' => 'Opprettet sak',
+        'System Settings' => 'Systeminnstillinger',
+        'WebWatcher' => 'Webovervåker',
+        'Finished' => 'Ferdig',
+        'Split' => 'Splitt',
+        'All messages' => 'Alle meldinger',
+        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
+        'Artefact' => 'Artefakt',
+        'A article should have a title!' => 'En artikkel bør ha en tittel',
+        'don\'t accept license' => 'ikke aksepter lisens',
+        'A web mail client' => 'En webmail-klient',
+        'WebMail' => 'Webmail',
+        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Valg for saksdata (f.eks. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
+        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'gir tilgang til data for agenten som står som eier av saken (f.eks. <OTRS_OWNER_UserFirstname>)',
+        'Name is required!' => 'Navn er påkrevd',
+        'DB Type' => 'DB type',
+        'Termin1' => 'Termin1',
+        'kill all sessions' => 'Terminér alle sesjoner',
+        'to get the from line of the email' => 'gir avsenderlinjen i e-posten',
+        'Solution' => 'Løsning',
+        'QueueView' => 'Mapper',
+        'Welcome to OTRS' => 'Velkommen til OTRS',
+        'modified' => 'endret',
+        'Delete old database' => 'Slett gammel database',
+        'sort downward' => 'Sorter synkende',
+        'You need to use a ticket number!' => 'Du må bruke et saksnummer',
+        'A web file manager' => 'En webbasert filhåndterer',
+        'send' => 'Send',
+        'Note Text' => 'Notistekst',
+        'System State Management' => 'Administrasjon: Status',
+        'OTRS DB User' => 'OTRS DB bruker',
+        'PhoneView' => 'Henvendelser',
+        'maximal period form' => '',
+        'Verion' => 'Versjon',
         'Modified' => 'Endret',
-        'Watched Tickets' => '',
-        'Watched' => '',
-        'Subscribe' => '',
-        'Unsubscribe' => '',
+        'Ticket selected for bulk action!' => 'Sak valgt for masseredigering',
     };
     # $$STOP$$
 }

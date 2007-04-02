@@ -2,7 +2,7 @@
 # Kernel/Language/zh_CN.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.21 2007-02-12 16:59:41 tr Exp $
+# $Id: zh_CN.pm,v 1.22 2007-04-02 15:24:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Thu Oct  5 06:05:29 2006
+    # Last translation file sync: Mon Apr  2 17:25:54 2007
 
     # possible charsets
     $Self->{Charset} = ['GBK', 'GB2312', ];
@@ -128,6 +128,7 @@ sub Data {
         'agent' => '技术支持人员',
         'system' => '系统',
         'Customer Info' => '客户信息',
+        'Customer Company' => '',
         'go!' => '开始!',
         'go' => '开始',
         'All' => '全部',
@@ -193,13 +194,14 @@ sub Data {
         'Word' => '字',
         'Ignore' => '忽略',
         'replace with' => '替换',
-        'Welcome to OTRS' => '',
         'There is no account with that login name.' => '该用户名没有帐户信息.',
         'Login failed! Your username or password was entered incorrectly.' => '登录失败，您的用户名或密码不正确.',
         'Please contact your admin' => '请联系系统管理员',
         'Logout successful. Thank you for using OTRS!' => '成功注销，谢谢使用!',
         'Invalid SessionID!' => '无效的会话标识符!',
         'Feature not active!' => '该特性尚未激活!',
+        'Login is needed!' => '',
+        'Password is needed!' => '需要密码!',
         'License' => '',
         'Take this Customer' => '',
         'Take this User' => '',
@@ -244,6 +246,10 @@ sub Data {
         'Country' => '',
         'installed' => '',
         'uninstalled' => '',
+        'Security Note: You should activate %s because application is already running!' => '',
+        'Unable to parse Online Repository index document!' => '',
+        'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => '',
+        'No Packages or no new Packages in selected Online Repository!' => '',
         'printed at' => '',
 
         # Template: AAAMonth
@@ -281,17 +287,7 @@ sub Data {
         'Agent Mailbox' => '技术支持人员邮箱',
         'Stats' => '统计',
         'Stats-Area' => '统计区',
-        'New Article' => '新文章',
         'Admin' => '管理',
-        'A web calendar' => 'Web 日历',
-        'WebMail' => '',
-        'A web mail client' => 'WebMail 客户端',
-        'FileManager' => '文件管理器',
-        'A web file manager' => 'Web 文件管理器',
-        'Artefact' => '',
-        'Incident' => '',
-        'Advisory' => '',
-        'WebWatcher' => '',
         'Customer Users' => '客户用户',
         'Customer Users <-> Groups' => '客户用户 <-> 组',
         'Users <-> Groups' => '用户 <-> 组',
@@ -327,7 +323,6 @@ sub Data {
         'Can\'t update password, need 2 lower and 2 upper characters!' => '无法更新密码，至少包含2个大写字符和2个小写字符.',
         'Can\'t update password, need min. 1 digit!' => '无法更新密码，至少包含1位数字',
         'Can\'t update password, need min. 2 characters!' => '无法更新密码，至少包含2个字母!',
-        'Password is needed!' => '需要密码!',
 
         # Template: AAAStats
         'Stat' => '',
@@ -411,6 +406,7 @@ sub Data {
         'This is a HTML email. Click here to show it.' => '这是一封HTML格式邮件，点击这里显示.',
         'Free Fields' => '额外信息',
         'Merge' => '合并',
+        'merged' => '',
         'closed successful' => '成功关闭',
         'closed unsuccessful' => '关闭失败',
         'new' => '新建',
@@ -418,6 +414,7 @@ sub Data {
         'closed' => '关闭',
         'removed' => '删除',
         'pending reminder' => '等待提醒',
+        'pending auto' => '',
         'pending auto close+' => '等待自动关闭+',
         'pending auto close-' => '等待自动关闭-',
         'email-external' => '外部 E-Mail ',
@@ -446,17 +443,23 @@ sub Data {
         'No such Ticket Number "%s"! Can\'t link it!' => 'Ticket "%s" 不存在，不能创建到其的链接!',
         'Don\'t show closed Tickets' => '不显示已关闭的 Tickets',
         'Show closed Tickets' => '显示已关闭的 Tickets',
+        'New Article' => '新文章',
         'Email-Ticket' => '邮件 Ticket',
         'Create new Email Ticket' => '创建新的邮件 Ticket',
         'Phone-Ticket' => '电话 Ticket',
-        'Create new Phone Ticket' => '创建新的电话 Ticket',
         'Search Tickets' => '搜索 Tickets',
         'Edit Customer Users' => '编辑客户用户',
         'Bulk-Action' => '批量处理',
         'Bulk Actions on Tickets' => '批量处理 Tickets',
         'Send Email and create a new Ticket' => '发送 Email 并创建一个新的 Ticket',
+        'Create new Email Ticket and send this out (Outbound)' => '',
+        'Create new Phone Ticket (Inbound)' => '',
         'Overview of all open Tickets' => '所有开放 Tickets 概况',
         'Locked Tickets' => '已锁定Ticket',
+        'Watched Tickets' => '',
+        'Watched' => '',
+        'Subscribe' => '',
+        'Unsubscribe' => '',
         'Lock it to work on it!' => '锁定并开始工作 !',
         'Unlock to give it back to the queue!' => '解锁并送回队列!',
         'Shows the ticket history!' => '显示 Ticket 历史状况!',
@@ -504,6 +507,9 @@ sub Data {
         'Auto Responses <-> Queue' => '自动回复 <-> 队列',
         'Attachments <-> Responses' => '附件 <-> 回复',
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
+        'History::TypeUpdate' => '',
+        'History::ServiceUpdate' => '',
+        'History::SLAUpdate' => '',
         'History::NewTicket' => 'New ticket [%s] created (Q=%s;P=%s;S=%s).',
         'History::FollowUp' => 'FollowUp for [%s]. %s',
         'History::SendAutoReject' => 'Sent AutoReject to "%s".',
@@ -553,23 +559,31 @@ sub Data {
         'Auto Response From' => '自动回复来自',
         'Note' => '注解',
         'Useable options' => '可用宏变量',
-        'to get the first 20 character of the subject' => '邮件标题前20个字符',
-        'to get the first 5 lines of the email' => '邮件正文前5行',
-        'to get the from line of the email' => '邮件来自',
-        'to get the realname of the sender (if given)' => '邮件发送人的真实姓名 (如果存在)',
-        'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '可用的有关 Ticket 信息 (例如: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
-        'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '配置选项 (例如:<OTRS_CONFIG_HttpType>)',
+        'To get the first 20 character of the subject.' => '',
+        'To get the first 5 lines of the email.' => '',
+        'To get the realname of the sender (if given).' => '',
+        'To get the article attribut (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
+        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => '',
+        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => '',
+        'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => '',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => '',
+        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => '',
+        'Config options (e. g. <OTRS_CONFIG_HttpType>).' => '',
+
+        # Template: AdminCustomerCompanyForm
+        'Customer Company Management' => '',
+        'Add Customer Company' => '',
+        'Add a new Customer Company.' => '',
+        'List' => '',
+        'This values are required.' => '该条目必须填写.',
+        'This values are read only.' => '该数据只读.',
 
         # Template: AdminCustomerUserForm
-        'The message being composed has been closed.  Exiting.' => '进行消息撰写的窗口已经被关闭,退出.',
-        'This window must be called from compose window' => '该窗口必须由撰写窗口调用',
         'Customer User Management' => '客户用户管理',
         'Search for' => '搜索',
-        'Result' => '结果',
-        'Select Source (for add)' => '选择数据源(增加功能使用)',
+        'Add User' => '',
         'Source' => '数据源',
-        'This values are read only.' => '该数据只读.',
-        'This values are required.' => '该条目必须填写.',
+        'Create' => '创建',
         'Customer user will be needed to have a customer history and to login via customer panel.' => '客户用户必须有一个账号从客户登录页面登录系统.',
 
         # Template: AdminCustomerUserGroupChangeForm
@@ -589,7 +603,7 @@ sub Data {
         'Message sent to' => '消息发送给',
         'Recipents' => '收件人',
         'Body' => '内容',
-        'send' => '发送',
+        'Send' => '',
 
         # Template: AdminGenericAgent
         'GenericAgent' => '通用技术支持人员',
@@ -609,10 +623,14 @@ sub Data {
         'Agent' => '技术支持人员',
         'Ticket Lock' => 'Ticket 锁状态',
         'TicketFreeFields' => '',
-        'Times' => '时间',
-        'No time settings.' => '无时间约束.',
+        'Create Times' => '',
+        'No create time settings.' => '',
         'Ticket created' => '创建时间',
         'Ticket created between' => ' 创建时间在',
+        'Pending Times' => '',
+        'No pending time settings.' => '',
+        'Ticket pending time reached' => '',
+        'Ticket pending time reached between' => '',
         'New Priority' => '新优先级',
         'New Queue' => '新队列',
         'New State' => '新状态',
@@ -639,9 +657,12 @@ sub Data {
         'No means, send agent and customer notifications on changes.' => '',
         'Save' => '保存',
         '%s Tickets affected! Do you really want to use this job?' => '',
+        '"}' => '',
 
         # Template: AdminGroupForm
         'Group Management' => '组管理',
+        'Add Group' => '',
+        'Add a new Group.' => '',
         'The admin group is to get in the admin area and the stats group to get stats area.' => 'Admin 组可以进入系统管理区域, Stats 组可以进入统计管理区',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => '创建新的组来控制不同的存取权限',
         'It\'s useful for ASP solutions.' => '',
@@ -649,6 +670,21 @@ sub Data {
         # Template: AdminLog
         'System Log' => '系统日志',
         'Time' => '时间',
+
+        # Template: AdminMailAccount
+        'Mail Account Management' => '',
+        'Host' => '主机',
+        'Account Type' => '',
+        'POP3' => '',
+        'POP3S' => '',
+        'IMAP' => '',
+        'IMAPS' => '',
+        'Mailbox' => '邮箱',
+        'Port' => '',
+        'Trusted' => '是否信任',
+        'Dispatching' => '分派',
+        'All incoming emails with one account will be dispatched in the selected queue!' => '所有来自一个邮件账号的邮件将会被分发到所选队列!',
+        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
         # Template: AdminNavigationBar
         'Users' => '用户',
@@ -659,10 +695,6 @@ sub Data {
         'Notification Management' => '通知管理',
         'Notification' => '通知',
         'Notifications are sent to an agent or a customer.' => '通知被发送到技术支持人员或者客户.',
-        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Ticket 所有者选项 (例如: <OTRS_OWNER_UserFirstname>)',
-        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => '动作请求者信息 (e. g. <OTRS_CURRENT_UserFirstname>)',
-        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '当前客户用户信息 (例如: <OTRS_CUSTOMER_DATA_UserFirstname>)',
-        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
 
         # Template: AdminPackageManager
         'Package Manager' => '软件包管理',
@@ -671,6 +703,8 @@ sub Data {
         'Do you really want to uninstall this package?' => '是否确认卸载该软件包?',
         'Reinstall' => '重新安装',
         'Do you really want to reinstall this package (all manual changes get lost)?' => '',
+        'Cancle' => '',
+        'Continue' => '',
         'Install' => '安装',
         'Package' => '软件包',
         'Online Repository' => '在线知识库',
@@ -681,6 +715,9 @@ sub Data {
         'Overview' => '概况',
         'Download' => '下载',
         'Rebuild' => '重新构建',
+        'ChangeLog' => '',
+        'Date' => '',
+        'Filelist' => '',
         'Download file from package!' => '',
         'Required' => '',
         'PrimaryKey' => '',
@@ -690,6 +727,12 @@ sub Data {
 
         # Template: AdminPerformanceLog
         'Performance Log' => '',
+        'This feature is enabled!' => '',
+        'Just use this feature if you want to log each request.' => '',
+        'Of couse this feature will take some system performance it self!' => '',
+        'Disable it here!' => '',
+        'This feature is disabled!' => '',
+        'Enable it here!' => '',
         'Logfile too large!' => '',
         'Logfile too large, you need to reset it!' => '',
         'Range' => '',
@@ -701,6 +744,7 @@ sub Data {
 
         # Template: AdminPGPForm
         'PGP Management' => 'PGP 管理',
+        'Result' => '结果',
         'Identifier' => '标识符',
         'Bit' => '位',
         'Key' => '密匙',
@@ -710,12 +754,6 @@ sub Data {
 
         # Template: AdminPOP3
         'POP3 Account Management' => 'POP3 帐户管理',
-        'Host' => '主机',
-        'List' => '',
-        'Trusted' => '是否信任',
-        'Dispatching' => '分派',
-        'All incoming emails with one account will be dispatched in the selected queue!' => '所有来自一个邮件账号的邮件将会被分发到所选队列!',
-        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'PostMaster 过滤器管理',
@@ -725,6 +763,7 @@ sub Data {
         'Value' => '值',
         'Set' => '设置',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => '如果您想根据 X-Headers 内容来过滤，可以使用正规则表达式.',
+        'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => '',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '',
 
         # Template: AdminQueueAutoResponseForm
@@ -735,8 +774,10 @@ sub Data {
         'Sub-Queue of' => '子队列',
         'Unlock timeout' => '自动解锁超时期限',
         '0 = no unlock' => '0 = 不自动解锁  ',
-        'Escalation time' => '限时答复时间',
+        'Escalation - First Response Time' => '',
         '0 = no escalation' => '0 = 无限时  ',
+        'Escalation - Update Time' => '',
+        'Escalation - Solution Time' => '',
         'Follow up Option' => '跟进选项',
         'Ticket lock after a follow up' => '跟进确认以后，Ticket 将被自动上锁',
         'Systemaddress' => '系统邮件地址',
@@ -744,6 +785,7 @@ sub Data {
         'Customer State Notify' => 'Ticket 状态客户通知',
         'Customer Owner Notify' => '客户所有者通告',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => '如果技术支持人员锁定了 Ticket,但是在一定的时间内没有回复，该 Ticket 将会被自动解锁，而对所有的技术支持人员可视.',
+        'Escalation time' => '限时答复时间',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => '该队列只显示规定时间内没有被处理的 Ticket',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => '如果 Ticket 已经处于关闭状态，而客户就发送了一个跟进 Ticket，那么这个 Ticket 将会被直接加锁，而所有者被定义为原来所有者',
         'Will be the sender address of this queue for email answers.' => '回复邮件所用的发送者地址',
@@ -768,13 +810,13 @@ sub Data {
         'Response Management' => '回复内容管理',
         'A response is default text to write faster answer (with default text) to customers.' => '为了快速回复，回复内容定义了每个回复中重复的内容.',
         'Don\'t forget to add a new response a queue!' => '不要忘记增加一个新的回复内容到队列!',
-        'Next state' => 'Ticket 状态',
-        'All Customer variables like defined in config option CustomerUser.' => '',
         'The current ticket state is' => '当前 Ticket 状态是',
         'Your email address is new' => '您的邮件地址是',
 
         # Template: AdminRoleForm
         'Role Management' => '角色管理',
+        'Add Role' => '',
+        'Add a new Role.' => '',
         'Create a role and put groups in it. Then add the role to the users.' => '创建一个角色并将组加入角色,然后将角色赋给用户.',
         'It\'s useful for a lot of users and groups.' => '当有大量的用户和组的时候，角色非常适合.',
 
@@ -801,29 +843,40 @@ sub Data {
 
         # Template: AdminSalutationForm
         'Salutation Management' => '称谓管理',
-        'customer realname' => '客户真实姓名',
-        'All Agent variables.' => '',
-        'for agent firstname' => '技术支持人员 姓',
-        'for agent lastname' => '技术支持人员 名',
-        'for agent user id' => '技术支持人员 用户名',
-        'for agent login' => '技术支持人员 登录名',
+        'Add Salutation' => '',
+        'Add a new Salutation.' => '',
 
         # Template: AdminSelectBoxForm
         'Select Box' => '',
         'Limit' => '',
+        'Go' => '',
         'Select Box Result' => '',
+
+        # Template: AdminService
+        'Service Management' => '',
+        'Service' => '',
+        'Sub-Service of' => '',
 
         # Template: AdminSession
         'Session Management' => '会话管理',
         'Sessions' => '会话',
         'Uniq' => '',
-        'kill all sessions' => '中止所有会话',
+        'Kill all sessions' => '',
         'Session' => '会话',
         'Content' => '内容',
         'kill session' => '中止会话',
 
         # Template: AdminSignatureForm
         'Signature Management' => '签名管理',
+        'Add Signature' => '',
+        'Add a new Signature.' => '',
+
+        # Template: AdminSLA
+        'SLA Management' => '',
+        'SLA' => '',
+        'First Response Time' => '',
+        'Update Time' => '',
+        'Solution Time' => '',
 
         # Template: AdminSMIMEForm
         'S/MIME Management' => 'S/MIME 管理',
@@ -834,7 +887,9 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' => '您可以直接编辑证书和私匙',
 
         # Template: AdminStateForm
-        'System State Management' => '系统状态管理',
+        'State Management' => '',
+        'Add State' => '',
+        'Add a new State.' => '',
         'State Type' => '状态内容',
         'Take care that you also updated the default states in you Kernel/Config.pm!' => '您同时更新了 Kernel/Config.pm 中的缺省状态!',
         'See also' => '参见',
@@ -865,11 +920,31 @@ sub Data {
 
         # Template: AdminSystemAddressForm
         'System Email Addresses Management' => '系统邮件地址管理',
+        'Add System Address' => '',
+        'Add a new System Address.' => '',
         'Realname' => '真实姓名',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => '所有发送到该收件人的消息将被转到所选择的队列',
 
+        # Template: AdminSystemStatus
+        'System Status' => '',
+
+        # Template: AdminTicketCustomerNotification
+        'Notification (Customer)' => '',
+        'Event' => '',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
+        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+
+        # Template: AdminTypeForm
+        'Type Management' => '',
+        'Add Type' => '',
+        'Add a new Type.' => '',
+
         # Template: AdminUserForm
         'User Management' => '用户管理',
+        'Add a new Agent.' => '',
         'Login as' => '',
         'Firstname' => '姓',
         'Lastname' => '名',
@@ -907,8 +982,6 @@ sub Data {
         'Lookup' => '',
 
         # Template: AgentNavigationBar
-        'Ticket selected for bulk action!' => '被选中进行批量操作的 Tickets',
-        'You need min. one selected Ticket!' => '您至少需要选择一个 Ticket!',
 
         # Template: AgentPreferencesForm
 
@@ -919,6 +992,7 @@ sub Data {
         'Apply these changes' => '应用',
 
         # Template: AgentStatsDelete
+        'Stat#' => '',
         'Do you really want to delete this Object?' => '您是否确认删除该对象?',
 
         # Template: AgentStatsEditRestrictions
@@ -995,43 +1069,46 @@ sub Data {
         'Exchange Axis' => '',
         'Configurable params of static stat' => '',
         'No element selected.' => '',
-        'maximal period form' => '',
+        'maximal period from' => '',
         'to' => '',
         'Start' => '',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
 
+        # Template: AgentTicketArticleUpdate
+        'A message should have a subject!' => '邮件必须有标题!',
+        'A message should have a body!' => '邮件必须包含内容!',
+        'You need to account time!' => '',
+        'Edit Article' => '',
+
         # Template: AgentTicketBounce
-        'A message should have a To: recipient!' => '邮件必须有收件人!',
-        'You need a email address (e. g. customer@example.com) in To:!' => '收件人信息必须是邮件地址(例如：customer@example.com)',
         'Bounce ticket' => '回退 Ticket ',
+        'Ticket locked!' => 'Ticket 被锁定!',
+        'Ticket unlock!' => 'Ticket 被解锁!',
         'Bounce to' => '回退到 ',
         'Next ticket state' => 'Tickets 状态',
         'Inform sender' => '通知发送者',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '您的邮件 编号: "<OTRS_TICKET>" 回退到 "<OTRS_BOUNCE_TO>" . 请联系以下地址获取详细信息.',
         'Send mail!' => '发送!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => '邮件必须有标题!',
         'Ticket Bulk Action' => 'Ticket 批量处理',
         'Spell Check' => '拼写检查',
         'Note type' => '注释类型',
         'Unlock Tickets' => '解锁 Tickets',
 
         # Template: AgentTicketClose
-        'A message should have a body!' => '邮件必须包含内容!',
-        'You need to account time!' => '',
         'Close ticket' => '关闭 Ticket',
-        'Ticket locked!' => 'Ticket 被锁定!',
-        'Ticket unlock!' => 'Ticket 被解锁!',
         'Previous Owner' => '前一个所有者',
         'Inform Agent' => '通知技术支持人员',
         'Optional' => '选项',
         'Inform involved Agents' => '通知相关技术支持人员',
         'Attach' => '附件',
+        'Next state' => 'Ticket 状态',
         'Pending date' => '待处理日期',
         'Time units' => '',
+        ' (work units)' => '',
 
         # Template: AgentTicketCompose
-        'A message must be spell checked!' => '消息必须经过拼写检查!',
         'Compose answer for ticket' => '撰写答复,Ticket 编号',
         'Pending Date' => '进入等待状态日期',
         'for pending* states' => '针对等待状态',
@@ -1053,7 +1130,6 @@ sub Data {
         'new ticket' => '新建 Ticket',
         'Refresh' => '',
         'Clear To' => '清空',
-        'All Agents' => '所有技术支持人员',
 
         # Template: AgentTicketForward
         'Article type' => '文章类型',
@@ -1067,14 +1143,10 @@ sub Data {
         # Template: AgentTicketLocked
 
         # Template: AgentTicketMailbox
-        'Mailbox' => '邮箱',
         'Tickets' => '',
         'of' => '',
         'Filter' => '',
-        'All messages' => '所有消息',
         'New messages' => '新消息',
-        'Pending messages' => '消息转入等待状态',
-        'Reminder messages' => '消息提醒',
         'Reminder' => '提醒',
         'Sort by' => '排序',
         'Order' => '次序',
@@ -1082,7 +1154,6 @@ sub Data {
         'down' => '下',
 
         # Template: AgentTicketMerge
-        'You need to use a ticket number!' => '您需要使用一个 Ticket 编号!',
         'Ticket Merge' => 'Ticket 合并',
         'Merge to' => '合并到',
 
@@ -1101,7 +1172,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Phone call' => '电话',
         'Clear From' => '重置',
-        'Create' => '创建',
 
         # Template: AgentTicketPhoneOutbound
 
@@ -1130,6 +1200,8 @@ sub Data {
         'Ticket escalation!' => 'Ticket 限时处理!',
 
         # Template: AgentTicketQueueTicketView
+        'First Response' => '',
+        'Service Time' => '',
         'Your own Ticket' => '你自己的 Ticket',
         'Compose Follow up' => '撰写跟踪答复',
         'Compose Answer' => '撰写答复',
@@ -1158,24 +1230,17 @@ sub Data {
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketSearchResultShort
-        'sort upward' => '正序排序',
         'U' => '升序',
-        'sort downward' => '逆序排序',
         'D' => '降序',
 
         # Template: AgentTicketStatusView
         'Ticket Status View' => 'Ticket 状态视图',
         'Open Tickets' => '开放 Tickets',
+        'Locked' => '锁定状态',
 
         # Template: AgentTicketZoom
-        'Locked' => '锁定状态',
-        'Split' => '分解',
 
         # Template: AgentWindowTab
-
-        # Template: AgentWindowTabStart
-
-        # Template: AgentWindowTabStop
 
         # Template: Copyright
 
@@ -1189,6 +1254,8 @@ sub Data {
 
         # Template: CustomerError
         'Traceback' => '',
+
+        # Template: CustomerFAQ
 
         # Template: CustomerFooter
         'Powered by' => '',
@@ -1214,7 +1281,11 @@ sub Data {
 
         # Template: CustomerTicketMessage
 
+        # Template: CustomerTicketPrint
+
         # Template: CustomerTicketSearch
+        'Times' => '时间',
+        'No time settings.' => '无时间约束.',
 
         # Template: CustomerTicketSearchResultCSV
 
@@ -1235,14 +1306,13 @@ sub Data {
         # Template: FooterSmall
 
         # Template: Header
-        'Home' => '',
 
         # Template: HeaderSmall
 
         # Template: Installer
         'Web-Installer' => '',
-        'accept license' => '接受',
-        'don\'t accept license' => '拒绝',
+        'Accept license' => '',
+        'Don\'t accept license' => '',
         'Admin-User' => '管理员',
         'Admin-Password' => '管理员密码',
         'your MySQL DB should have a root password! Default is empty!' => '您的 MySQL 数据库需要有一个超级用户密码，缺省为空!',
@@ -1294,6 +1364,11 @@ sub Data {
         # Template: PrintHeader
         'printed by' => '打印由',
 
+        # Template: PublicFAQ
+
+        # Template: PublicView
+        'Management Summary' => '',
+
         # Template: Redirect
 
         # Template: Test
@@ -1302,70 +1377,115 @@ sub Data {
 
         # Template: Warning
         # Misc
-        'OTRS DB connect host' => 'OTRS 数据库主机',
         'Create Database' => '创建数据库',
-        ' (work units)' => '',
         'DB Host' => '数据库主机',
         'Ticket Number Generator' => 'Ticket 编号生成器',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Ticket 标识符. 例如: \'Ticket#\', \'Call#\' 或 \'MyTicket#\')',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+        'Create new Phone Ticket' => '创建新的电话 Ticket',
         'Symptom' => '症状',
+        'A message should have a To: recipient!' => '邮件必须有收件人!',
         'Site' => '站点',
         'Customer history search (e. g. "ID342425").' => '搜索客户历史 (例如： "ID342425").',
-        'Ticket Hook' => '',
         'Close!' => '关闭!',
-        'TicketZoom' => 'Ticket 展开',
-        'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
-        'CreateTicket' => '创建 Ticket',
+        'for agent firstname' => '技术支持人员 姓',
+        'The message being composed has been closed.  Exiting.' => '进行消息撰写的窗口已经被关闭,退出.',
+        'A web calendar' => 'Web 日历',
+        'to get the realname of the sender (if given)' => '邮件发送人的真实姓名 (如果存在)',
         'OTRS DB Name' => '数据库名称',
-        'System Settings' => '数据库设置 ',
-        'Finished' => '结束',
+        'Select Source (for add)' => '选择数据源(增加功能使用)',
         'Days' => '天',
         'Queue ID' => '队列编号',
-        'A article should have a title!' => '文章必须有标题!',
+        'Home' => '',
+        'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '配置选项 (例如:<OTRS_CONFIG_HttpType>)',
         'System History' => '系统历史',
+        'customer realname' => '客户真实姓名',
+        'Pending messages' => '消息转入等待状态',
         'Modules' => '',
+        'for agent login' => '技术支持人员 登录名',
         'Keyword' => '关键字',
         'with' => '和',
         'Close type' => '关闭类型',
         'DB Admin User' => '数据库管理员用户名',
+        'for agent user id' => '技术支持人员 用户名',
+        'sort upward' => '正序排序',
         'Change user <-> group settings' => '修改 用户 <-> 组 设置',
-        'Name is required!' => '需要名称!',
         'Problem' => '问题',
-        'DB Type' => '数据库类型',
-        'Termin1' => '',
         'next step' => '下一步',
         'Customer history search' => '客户历史搜索',
-        'Solution' => '解决方案',
-        'QueueView' => '队列视图',
-        'My Queue' => '我的队列',
         'Create new database' => '创建新的数据库',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '您的邮件 编号: "<OTRS_TICKET>" 回退到 "<OTRS_BOUNCE_TO>" . 请联系以下地址获取详细信息.',
+        'A message must be spell checked!' => '消息必须经过拼写检查!',
         'Stunden' => '',
-        'modified' => '修改于',
-        'Delete old database' => '删除旧数据库',
+        'All Agents' => '所有技术支持人员',
         'Keywords' => '关键字',
-        'Note Text' => '注解',
         'No * possible!' => '不可使用通配符 "*" !',
         'Load' => '加载',
-        'OTRS DB User' => 'OTRS 数据库用户名',
-        'PhoneView' => '电话视图',
-        'Verion' => '版本',
         'Message for new Owner' => '给所有者的消息',
+        'to get the first 5 lines of the email' => '邮件正文前5行',
         'OTRS DB Password' => 'OTRS 用户密码',
         'Last update' => '最后更新于',
         '链接地址' => '',
+        'to get the first 20 character of the subject' => '邮件标题前20个字符',
         'DB Admin Password' => '数据系统管理员密码',
         'Drop Database' => '删除数据库',
+        'Advisory' => '',
+        'FileManager' => '文件管理器',
+        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '当前客户用户信息 (例如: <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => '待处理类型',
         'Comment (internal)' => '注释 (内部)',
+        'This window must be called from compose window' => '该窗口必须由撰写窗口调用',
+        'You need min. one selected Ticket!' => '您至少需要选择一个 Ticket!',
+        'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '可用的有关 Ticket 信息 (例如: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(使用 Ticket 编号格式)',
         'Fulltext' => '全文',
+        'Incident' => '',
+        'OTRS DB connect host' => 'OTRS 数据库主机',
+        'All Agent variables.' => '',
+        'All Customer variables like defined in config option CustomerUser.' => '',
+        'accept license' => '接受',
+        'for agent lastname' => '技术支持人员 名',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => '动作请求者信息 (e. g. <OTRS_CURRENT_UserFirstname>)',
+        'Reminder messages' => '消息提醒',
+        'Ticket Hook' => '',
+        'TicketZoom' => 'Ticket 展开',
+        'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
+        'You need a email address (e. g. customer@example.com) in To:!' => '收件人信息必须是邮件地址(例如：customer@example.com)',
+        'CreateTicket' => '创建 Ticket',
+        'System Settings' => '数据库设置 ',
+        'WebWatcher' => '',
+        'Finished' => '结束',
+        'Split' => '分解',
+        'All messages' => '所有消息',
+        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
+        'Artefact' => '',
+        'A article should have a title!' => '文章必须有标题!',
+        'don\'t accept license' => '拒绝',
+        'A web mail client' => 'WebMail 客户端',
+        'WebMail' => '',
+        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Ticket 所有者选项 (例如: <OTRS_OWNER_UserFirstname>)',
+        'Name is required!' => '需要名称!',
+        'DB Type' => '数据库类型',
+        'Termin1' => '',
+        'kill all sessions' => '中止所有会话',
+        'to get the from line of the email' => '邮件来自',
+        'Solution' => '解决方案',
+        'QueueView' => '队列视图',
+        'My Queue' => '我的队列',
+        'Welcome to OTRS' => '',
+        'modified' => '修改于',
+        'Delete old database' => '删除旧数据库',
+        'sort downward' => '逆序排序',
+        'You need to use a ticket number!' => '您需要使用一个 Ticket 编号!',
+        'A web file manager' => 'Web 文件管理器',
+        'send' => '发送',
+        'Note Text' => '注解',
+        'System State Management' => '系统状态管理',
+        'OTRS DB User' => 'OTRS 数据库用户名',
+        'PhoneView' => '电话视图',
+        'maximal period form' => '',
+        'Verion' => '版本',
         'Modified' => '修改于',
-        'Watched Tickets' => '',
-        'Watched' => '',
-        'Subscribe' => '',
-        'Unsubscribe' => '',
+        'Ticket selected for bulk action!' => '被选中进行批量操作的 Tickets',
     };
     # $$STOP$$
 }

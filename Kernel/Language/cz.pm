@@ -6,7 +6,7 @@
 #              Vadim Buzek
 #              Petr Ocasek
 # --
-# $Id: cz.pm,v 1.38 2007-02-12 16:59:40 tr Exp $
+# $Id: cz.pm,v 1.39 2007-04-02 15:24:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -26,7 +26,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Thu Oct  5 06:03:47 2006
+    # Last translation file sync: Mon Apr  2 17:26:34 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -132,6 +132,7 @@ sub Data {
         'agent' => '',
         'system' => 'systém',
         'Customer Info' => 'Informace o klientovi',
+        'Customer Company' => '',
         'go!' => 'jdi!',
         'go' => 'jdi',
         'All' => 'V¹e',
@@ -197,13 +198,14 @@ sub Data {
         'Word' => 'Slovo',
         'Ignore' => 'Ignorovat',
         'replace with' => 'nahradit',
-        'Welcome to OTRS' => '',
         'There is no account with that login name.' => '®ádný úèet s tímto pøihla¹ovacím jménem neexistuje.',
         'Login failed! Your username or password was entered incorrectly.' => 'Pøihlá¹ení neúspì¹né! Va¹e u¾ivatelské jméno èi heslo bylo zadáno nesprávnì.',
         'Please contact your admin' => 'Kontaktujte, prosím, Va¹eho administrátora',
         'Logout successful. Thank you for using OTRS!' => 'Odhlá¹ení bylo úspìsné. Dìkujeme Vám za pou¾ívání OTRS!',
         'Invalid SessionID!' => 'Neplatné ID relace!',
         'Feature not active!' => 'Funkce je neaktivní!',
+        'Login is needed!' => '',
+        'Password is needed!' => '',
         'License' => 'Licence',
         'Take this Customer' => '',
         'Take this User' => 'Pou¾íj tohoto u¾ivatele',
@@ -248,6 +250,10 @@ sub Data {
         'Country' => '',
         'installed' => '',
         'uninstalled' => '',
+        'Security Note: You should activate %s because application is already running!' => '',
+        'Unable to parse Online Repository index document!' => '',
+        'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => '',
+        'No Packages or no new Packages in selected Online Repository!' => '',
         'printed at' => '',
 
         # Template: AAAMonth
@@ -285,17 +291,7 @@ sub Data {
         'Agent Mailbox' => '',
         'Stats' => 'Statistiky',
         'Stats-Area' => '',
-        'New Article' => 'Nová polo¾ka',
         'Admin' => '',
-        'A web calendar' => '',
-        'WebMail' => '',
-        'A web mail client' => '',
-        'FileManager' => '',
-        'A web file manager' => '',
-        'Artefact' => '',
-        'Incident' => '',
-        'Advisory' => '',
-        'WebWatcher' => '',
         'Customer Users' => '',
         'Customer Users <-> Groups' => '',
         'Users <-> Groups' => '',
@@ -331,7 +327,6 @@ sub Data {
         'Can\'t update password, need 2 lower and 2 upper characters!' => '',
         'Can\'t update password, need min. 1 digit!' => '',
         'Can\'t update password, need min. 2 characters!' => '',
-        'Password is needed!' => '',
 
         # Template: AAAStats
         'Stat' => '',
@@ -415,6 +410,7 @@ sub Data {
         'This is a HTML email. Click here to show it.' => 'Toto je HTML email. Pro zobrazení kliknìte zde.',
         'Free Fields' => '',
         'Merge' => '',
+        'merged' => '',
         'closed successful' => 'uzavøeno - vyøe¹eno',
         'closed unsuccessful' => 'uzavøeno - nevyøe¹eno',
         'new' => 'nová',
@@ -422,6 +418,7 @@ sub Data {
         'closed' => 'uzavøeno',
         'removed' => 'odstranìn',
         'pending reminder' => 'upomínka pøi èekání na vyøízení',
+        'pending auto' => '',
         'pending auto close+' => 'èeká na vyøízení - automaticky zavøít+',
         'pending auto close-' => 'èeká na vyøízení - automaticky zavøít-',
         'email-external' => 'externí email',
@@ -450,17 +447,23 @@ sub Data {
         'No such Ticket Number "%s"! Can\'t link it!' => '',
         'Don\'t show closed Tickets' => 'Nezobrazovat uzavøené tikety',
         'Show closed Tickets' => 'Zobrazit zavøené tikety',
+        'New Article' => 'Nová polo¾ka',
         'Email-Ticket' => '',
         'Create new Email Ticket' => '',
         'Phone-Ticket' => '',
-        'Create new Phone Ticket' => '',
         'Search Tickets' => '',
         'Edit Customer Users' => '',
         'Bulk-Action' => '',
         'Bulk Actions on Tickets' => '',
         'Send Email and create a new Ticket' => '',
+        'Create new Email Ticket and send this out (Outbound)' => '',
+        'Create new Phone Ticket (Inbound)' => '',
         'Overview of all open Tickets' => '',
         'Locked Tickets' => '',
+        'Watched Tickets' => '',
+        'Watched' => '',
+        'Subscribe' => '',
+        'Unsubscribe' => '',
         'Lock it to work on it!' => '',
         'Unlock to give it back to the queue!' => '',
         'Shows the ticket history!' => '',
@@ -508,6 +511,9 @@ sub Data {
         'Auto Responses <-> Queue' => '',
         'Attachments <-> Responses' => '',
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
+        'History::TypeUpdate' => '',
+        'History::ServiceUpdate' => '',
+        'History::SLAUpdate' => '',
         'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
         'History::FollowUp' => 'FollowUp for [%s]. %s',
         'History::SendAutoReject' => 'AutoReject sent to "%s".',
@@ -557,23 +563,31 @@ sub Data {
         'Auto Response From' => 'Automatická odpovìï Od',
         'Note' => 'Poznámka',
         'Useable options' => 'Dostupné mo¾nosti',
-        'to get the first 20 character of the subject' => 'pro získáni prvních 20 znakù z pøedmìtu',
-        'to get the first 5 lines of the email' => 'pro získání prvních 5 øádkù z emailu',
-        'to get the from line of the email' => 'pro získaní øádku Od z emailu',
-        'to get the realname of the sender (if given)' => 'pro získaní skuteèného jména odesílatele (pokud je zadáno)',
-        'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
-        'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '',
+        'To get the first 20 character of the subject.' => '',
+        'To get the first 5 lines of the email.' => '',
+        'To get the realname of the sender (if given).' => '',
+        'To get the article attribut (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
+        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => '',
+        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => '',
+        'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => '',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => '',
+        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => '',
+        'Config options (e. g. <OTRS_CONFIG_HttpType>).' => '',
+
+        # Template: AdminCustomerCompanyForm
+        'Customer Company Management' => '',
+        'Add Customer Company' => '',
+        'Add a new Customer Company.' => '',
+        'List' => '',
+        'This values are required.' => '',
+        'This values are read only.' => '',
 
         # Template: AdminCustomerUserForm
-        'The message being composed has been closed.  Exiting.' => 'Vytváøená zpráva byla uzavøena. Opou¹tím.',
-        'This window must be called from compose window' => 'Toto okno musí být vyvoláno z okna vytváøení',
         'Customer User Management' => 'Správa Klientù',
         'Search for' => '',
-        'Result' => '',
-        'Select Source (for add)' => '',
+        'Add User' => '',
         'Source' => '',
-        'This values are read only.' => '',
-        'This values are required.' => '',
+        'Create' => '',
         'Customer user will be needed to have a customer history and to login via customer panel.' => '',
 
         # Template: AdminCustomerUserGroupChangeForm
@@ -593,7 +607,7 @@ sub Data {
         'Message sent to' => 'Zpráva odeslána',
         'Recipents' => 'Adresáti',
         'Body' => 'Tìlo',
-        'send' => 'poslat',
+        'Send' => '',
 
         # Template: AdminGenericAgent
         'GenericAgent' => '',
@@ -613,10 +627,14 @@ sub Data {
         'Agent' => '',
         'Ticket Lock' => '',
         'TicketFreeFields' => '',
-        'Times' => 'Doba',
-        'No time settings.' => '®ádná nastavení doby',
+        'Create Times' => '',
+        'No create time settings.' => '',
         'Ticket created' => 'Tiket vytvoøen',
         'Ticket created between' => 'Tiket vytvoøen mezi',
+        'Pending Times' => '',
+        'No pending time settings.' => '',
+        'Ticket pending time reached' => '',
+        'Ticket pending time reached between' => '',
         'New Priority' => '',
         'New Queue' => 'Nová fronta',
         'New State' => '',
@@ -643,9 +661,12 @@ sub Data {
         'No means, send agent and customer notifications on changes.' => '',
         'Save' => '',
         '%s Tickets affected! Do you really want to use this job?' => '',
+        '"}' => '',
 
         # Template: AdminGroupForm
         'Group Management' => 'Správa skupiny',
+        'Add Group' => '',
+        'Add a new Group.' => '',
         'The admin group is to get in the admin area and the stats group to get stats area.' => 'Skupina administrátora má pøístup do administraèní a statistické zóny.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Vytvoøit nové skupiny pro pøiøazení práv pøístupù ruzným skupinám agentù (napø. oddìlení nákupu, oddìlení podpory, oddìlení prodeje...).',
         'It\'s useful for ASP solutions.' => 'To je vhodné pro øe¹ení ASP',
@@ -653,6 +674,21 @@ sub Data {
         # Template: AdminLog
         'System Log' => 'Log systému',
         'Time' => '',
+
+        # Template: AdminMailAccount
+        'Mail Account Management' => '',
+        'Host' => 'Hostitel',
+        'Account Type' => '',
+        'POP3' => '',
+        'POP3S' => '',
+        'IMAP' => '',
+        'IMAPS' => '',
+        'Mailbox' => 'Po¹tovní schránka',
+        'Port' => '',
+        'Trusted' => 'Ovìøeno',
+        'Dispatching' => 'Zaøazení',
+        'All incoming emails with one account will be dispatched in the selected queue!' => 'V¹echny pøíchozí emaily z daného úètu budou zaøazeny do vybrané fronty!',
+        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
         # Template: AdminNavigationBar
         'Users' => '',
@@ -663,10 +699,6 @@ sub Data {
         'Notification Management' => 'Správa oznámení',
         'Notification' => '',
         'Notifications are sent to an agent or a customer.' => 'Oznámení jsou odeslána agentovi èi klientovi',
-        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => '',
-        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => '',
-        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '',
-        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
 
         # Template: AdminPackageManager
         'Package Manager' => '',
@@ -675,6 +707,8 @@ sub Data {
         'Do you really want to uninstall this package?' => '',
         'Reinstall' => '',
         'Do you really want to reinstall this package (all manual changes get lost)?' => '',
+        'Cancle' => '',
+        'Continue' => '',
         'Install' => '',
         'Package' => '',
         'Online Repository' => '',
@@ -685,6 +719,9 @@ sub Data {
         'Overview' => 'Pøehled',
         'Download' => '',
         'Rebuild' => '',
+        'ChangeLog' => '',
+        'Date' => '',
+        'Filelist' => '',
         'Download file from package!' => '',
         'Required' => '',
         'PrimaryKey' => '',
@@ -694,6 +731,12 @@ sub Data {
 
         # Template: AdminPerformanceLog
         'Performance Log' => '',
+        'This feature is enabled!' => '',
+        'Just use this feature if you want to log each request.' => '',
+        'Of couse this feature will take some system performance it self!' => '',
+        'Disable it here!' => '',
+        'This feature is disabled!' => '',
+        'Enable it here!' => '',
         'Logfile too large!' => '',
         'Logfile too large, you need to reset it!' => '',
         'Range' => '',
@@ -705,6 +748,7 @@ sub Data {
 
         # Template: AdminPGPForm
         'PGP Management' => '',
+        'Result' => '',
         'Identifier' => '',
         'Bit' => '',
         'Key' => 'Klíè',
@@ -714,12 +758,6 @@ sub Data {
 
         # Template: AdminPOP3
         'POP3 Account Management' => 'Správa POP3 úètù',
-        'Host' => 'Hostitel',
-        'List' => '',
-        'Trusted' => 'Ovìøeno',
-        'Dispatching' => 'Zaøazení',
-        'All incoming emails with one account will be dispatched in the selected queue!' => 'V¹echny pøíchozí emaily z daného úètu budou zaøazeny do vybrané fronty!',
-        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => '',
@@ -729,6 +767,7 @@ sub Data {
         'Value' => 'Hodnota',
         'Set' => 'Nastavit',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => '',
+        'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => '',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '',
 
         # Template: AdminQueueAutoResponseForm
@@ -739,8 +778,10 @@ sub Data {
         'Sub-Queue of' => 'Podfronta ',
         'Unlock timeout' => 'Èas do odemknutí',
         '0 = no unlock' => '0 = ¾ádné odemknutí',
-        'Escalation time' => 'Doba stupòování',
+        'Escalation - First Response Time' => '',
         '0 = no escalation' => '0 = ¾ádné stupòování',
+        'Escalation - Update Time' => '',
+        'Escalation - Solution Time' => '',
         'Follow up Option' => 'Následující volba',
         'Ticket lock after a follow up' => 'Zamknout tiket po následujícím',
         'Systemaddress' => 'Systémová adresa',
@@ -748,6 +789,7 @@ sub Data {
         'Customer State Notify' => 'Oznámení Klientovi o zmìnì stavu',
         'Customer Owner Notify' => 'Oznámení Klientovi o zmìnì vlastníka',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Pokud agent uzamkne tiket a neode¹le v této dobì odpovìï, tiket bude automaticky odemknut. Tak se stane tiket viditelný pro v¹echny ostatní agenty.',
+        'Escalation time' => 'Doba stupòování',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => '',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Pokud je tiket uzavøen a klient ode¹le následující, tiket bude pro starého vlastníka uzamknut.',
         'Will be the sender address of this queue for email answers.' => 'Bude adresou odesílatele z této fronty pro emailové odpovìdi.',
@@ -772,13 +814,13 @@ sub Data {
         'Response Management' => 'Správa odpovìdí',
         'A response is default text to write faster answer (with default text) to customers.' => 'Odpovìï je obsahuje výchozí text slou¾ící k rychlej¹í reakci (spolu s výchozím textem) klientùm.',
         'Don\'t forget to add a new response a queue!' => 'Nezapomeòte pøidat novou reakci odpoveï do fronty!',
-        'Next state' => 'Nasledující stav',
-        'All Customer variables like defined in config option CustomerUser.' => '',
         'The current ticket state is' => 'Aktuální stav tiketu je',
         'Your email address is new' => '',
 
         # Template: AdminRoleForm
         'Role Management' => '',
+        'Add Role' => '',
+        'Add a new Role.' => '',
         'Create a role and put groups in it. Then add the role to the users.' => '',
         'It\'s useful for a lot of users and groups.' => '',
 
@@ -805,29 +847,40 @@ sub Data {
 
         # Template: AdminSalutationForm
         'Salutation Management' => 'Správa oslovení',
-        'customer realname' => 'skuteèné jméno klienta',
-        'All Agent variables.' => '',
-        'for agent firstname' => 'pro køestní jméno agenta',
-        'for agent lastname' => 'pro pøíjmení agenta',
-        'for agent user id' => 'pro u¾ivatelské ID agenta',
-        'for agent login' => 'pro pøihlá¹ení agenta',
+        'Add Salutation' => '',
+        'Add a new Salutation.' => '',
 
         # Template: AdminSelectBoxForm
         'Select Box' => 'Po¾adavek na SQL databázi',
         'Limit' => '',
+        'Go' => '',
         'Select Box Result' => 'Výsledek SQL dotazu',
+
+        # Template: AdminService
+        'Service Management' => '',
+        'Service' => '',
+        'Sub-Service of' => '',
 
         # Template: AdminSession
         'Session Management' => 'Správa relace',
         'Sessions' => 'Relace',
         'Uniq' => 'Poèet',
-        'kill all sessions' => 'Zru¹it v¹echny relace',
+        'Kill all sessions' => '',
         'Session' => '',
         'Content' => '',
         'kill session' => 'zru¹it relaci',
 
         # Template: AdminSignatureForm
         'Signature Management' => 'Správa podpisù',
+        'Add Signature' => '',
+        'Add a new Signature.' => '',
+
+        # Template: AdminSLA
+        'SLA Management' => '',
+        'SLA' => '',
+        'First Response Time' => '',
+        'Update Time' => '',
+        'Solution Time' => '',
 
         # Template: AdminSMIMEForm
         'S/MIME Management' => '',
@@ -838,7 +891,9 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' => '',
 
         # Template: AdminStateForm
-        'System State Management' => 'Správa stavu systému',
+        'State Management' => '',
+        'Add State' => '',
+        'Add a new State.' => '',
         'State Type' => 'Typ stavu',
         'Take care that you also updated the default states in you Kernel/Config.pm!' => 'Ujistìte se, ¾e jste aktualizovali také výchozí hodnoty ve Va¹em Kernel/Config.pm!',
         'See also' => 'Viz. také',
@@ -869,11 +924,31 @@ sub Data {
 
         # Template: AdminSystemAddressForm
         'System Email Addresses Management' => 'Správa emailových adres systému',
+        'Add System Address' => '',
+        'Add a new System Address.' => '',
         'Realname' => 'Skuteèné jméno',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'V¹echny pøíchozí emaily obsahující tohoto adresáta (v poli KOMU) budou zaøazeny to vybrané fronty!',
 
+        # Template: AdminSystemStatus
+        'System Status' => '',
+
+        # Template: AdminTicketCustomerNotification
+        'Notification (Customer)' => '',
+        'Event' => '',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
+        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+
+        # Template: AdminTypeForm
+        'Type Management' => '',
+        'Add Type' => '',
+        'Add a new Type.' => '',
+
         # Template: AdminUserForm
         'User Management' => 'Správa u¾ivatelù',
+        'Add a new Agent.' => '',
         'Login as' => '',
         'Firstname' => 'Køestní jméno',
         'Lastname' => 'Pøíjmení',
@@ -911,8 +986,6 @@ sub Data {
         'Lookup' => '',
 
         # Template: AgentNavigationBar
-        'Ticket selected for bulk action!' => '',
-        'You need min. one selected Ticket!' => '',
 
         # Template: AgentPreferencesForm
 
@@ -923,6 +996,7 @@ sub Data {
         'Apply these changes' => 'Aplikovat tyto zmìny',
 
         # Template: AgentStatsDelete
+        'Stat#' => '',
         'Do you really want to delete this Object?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -999,43 +1073,46 @@ sub Data {
         'Exchange Axis' => '',
         'Configurable params of static stat' => '',
         'No element selected.' => '',
-        'maximal period form' => '',
+        'maximal period from' => '',
         'to' => '',
         'Start' => '',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
 
+        # Template: AgentTicketArticleUpdate
+        'A message should have a subject!' => 'Zpráva by mìla mít pøedmìt!',
+        'A message should have a body!' => 'Zpráva by mìla mít tìlo!',
+        'You need to account time!' => 'Potøebujete úètovat dobu!',
+        'Edit Article' => '',
+
         # Template: AgentTicketBounce
-        'A message should have a To: recipient!' => 'Zpráva by mìla obsahovat Komu: pøíjemce!',
-        'You need a email address (e. g. customer@example.com) in To:!' => 'Musíte mít  uvedenu emailovou adresu (napø. klient@priklad.cz) v poli Komu:!',
         'Bounce ticket' => 'Odeslat tiket zpìt',
+        'Ticket locked!' => 'Tiket zamknut!',
+        'Ticket unlock!' => 'Tiket odemknut!',
         'Bounce to' => 'Odeslat zpìt',
         'Next ticket state' => 'Následující stav tiketu',
         'Inform sender' => 'Informovat odesílatele',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Vá¹ email s èíslem ticketu "<OTRS_TICKET>" je odeslán zpìt na "<OTRS_BOUNCE_TO>". Kontaktujte tuto adresu pro dal¹í infromace.',
         'Send mail!' => 'Poslat mail!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'Zpráva by mìla mít pøedmìt!',
         'Ticket Bulk Action' => '',
         'Spell Check' => 'Kontrola pravopisu',
         'Note type' => 'Typ poznámky',
         'Unlock Tickets' => '',
 
         # Template: AgentTicketClose
-        'A message should have a body!' => 'Zpráva by mìla mít tìlo!',
-        'You need to account time!' => 'Potøebujete úètovat dobu!',
         'Close ticket' => 'Zavøít tiket',
-        'Ticket locked!' => 'Tiket zamknut!',
-        'Ticket unlock!' => 'Tiket odemknut!',
         'Previous Owner' => 'Pøedchozí vlastník',
         'Inform Agent' => '',
         'Optional' => '',
         'Inform involved Agents' => '',
         'Attach' => 'Pøipojit',
+        'Next state' => 'Nasledující stav',
         'Pending date' => 'Datum èekání na vyøízení',
         'Time units' => 'Jednotky èasu',
+        ' (work units)' => '(jednotky práce)',
 
         # Template: AgentTicketCompose
-        'A message must be spell checked!' => 'Zpráva musí být pravopisnì zkontrolovaná!',
         'Compose answer for ticket' => 'Sestavit odpovìï pro tiket',
         'Pending Date' => 'Doba èekání na vyøízení',
         'for pending* states' => 'pro stavy èekání na vyøízení*',
@@ -1057,7 +1134,6 @@ sub Data {
         'new ticket' => 'nový tiket',
         'Refresh' => '',
         'Clear To' => '',
-        'All Agents' => 'V¹ichni agenti',
 
         # Template: AgentTicketForward
         'Article type' => 'Typ polo¾ky',
@@ -1071,14 +1147,10 @@ sub Data {
         # Template: AgentTicketLocked
 
         # Template: AgentTicketMailbox
-        'Mailbox' => 'Po¹tovní schránka',
         'Tickets' => 'Tikety',
         'of' => 'z',
         'Filter' => '',
-        'All messages' => 'V¹echny zprávy',
         'New messages' => 'Nové zprávy',
-        'Pending messages' => 'Zprávy èekající na vyøízení',
-        'Reminder messages' => 'Upomínkové zprávy',
         'Reminder' => 'Upomínka',
         'Sort by' => 'Setøídit dle',
         'Order' => 'Seøadit',
@@ -1086,7 +1158,6 @@ sub Data {
         'down' => 'dolù',
 
         # Template: AgentTicketMerge
-        'You need to use a ticket number!' => '',
         'Ticket Merge' => '',
         'Merge to' => '',
 
@@ -1105,7 +1176,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Phone call' => 'Telefoní hovor',
         'Clear From' => 'Vymazat pole Od',
-        'Create' => '',
 
         # Template: AgentTicketPhoneOutbound
 
@@ -1134,6 +1204,8 @@ sub Data {
         'Ticket escalation!' => 'Eskalace tiketù',
 
         # Template: AgentTicketQueueTicketView
+        'First Response' => '',
+        'Service Time' => '',
         'Your own Ticket' => 'Vá¹ vlastní tiket',
         'Compose Follow up' => 'Sestavit následující',
         'Compose Answer' => 'Odpovìdìt',
@@ -1162,24 +1234,17 @@ sub Data {
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketSearchResultShort
-        'sort upward' => 'setøídit nahoru',
         'U' => 'Z-A',
-        'sort downward' => 'setøídit dolù',
         'D' => 'A-Z',
 
         # Template: AgentTicketStatusView
         'Ticket Status View' => '',
         'Open Tickets' => '',
+        'Locked' => '',
 
         # Template: AgentTicketZoom
-        'Locked' => '',
-        'Split' => 'Rozdìlit',
 
         # Template: AgentWindowTab
-
-        # Template: AgentWindowTabStart
-
-        # Template: AgentWindowTabStop
 
         # Template: Copyright
 
@@ -1193,6 +1258,8 @@ sub Data {
 
         # Template: CustomerError
         'Traceback' => 'Jít zpìt',
+
+        # Template: CustomerFAQ
 
         # Template: CustomerFooter
         'Powered by' => 'Vytvoøeno',
@@ -1218,7 +1285,11 @@ sub Data {
 
         # Template: CustomerTicketMessage
 
+        # Template: CustomerTicketPrint
+
         # Template: CustomerTicketSearch
+        'Times' => 'Doba',
+        'No time settings.' => '®ádná nastavení doby',
 
         # Template: CustomerTicketSearchResultCSV
 
@@ -1239,14 +1310,13 @@ sub Data {
         # Template: FooterSmall
 
         # Template: Header
-        'Home' => 'Domù',
 
         # Template: HeaderSmall
 
         # Template: Installer
         'Web-Installer' => 'Web-instalátor',
-        'accept license' => 'souhlasím s licencí',
-        'don\'t accept license' => 'nesouhlasím s licencí',
+        'Accept license' => '',
+        'Don\'t accept license' => '',
         'Admin-User' => 'Administrátor',
         'Admin-Password' => '',
         'your MySQL DB should have a root password! Default is empty!' => 'Va¹e MySQL databáze by mìla mít root heslo! Výchozí je prázdné!',
@@ -1298,6 +1368,11 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'tisknuto',
 
+        # Template: PublicFAQ
+
+        # Template: PublicView
+        'Management Summary' => '',
+
         # Template: Redirect
 
         # Template: Test
@@ -1306,67 +1381,112 @@ sub Data {
 
         # Template: Warning
         # Misc
-        'OTRS DB connect host' => 'Hostitel OTRS databáze (server)',
-        'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Nebude-li tiket odpovìzen v daném èase, bude zobrazen pouze tento Tiket.',
         'Create Database' => 'Vytvoøit Databazi',
-        ' (work units)' => '(jednotky práce)',
         'DB Host' => 'Hostitel (server) databáze',
         'Change roles <-> groups settings' => '',
         'Ticket Number Generator' => 'Generátor èísel tiketù',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identifikátor tiketù. Nekteøí lidé chtìjí nastavit napø. \'Tiket#\',  \'Hovor#\' nebo \'MujTiket#\')',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+        'Create new Phone Ticket' => '',
         'Symptom' => 'Pøíznak',
+        'A message should have a To: recipient!' => 'Zpráva by mìla obsahovat Komu: pøíjemce!',
         'Site' => 'Umístìní',
         'Customer history search (e. g. "ID342425").' => 'Vyhledávání historie klienta (napø. "ID342425")',
-        'Ticket Hook' => 'Oznaèení tiketu',
         'Close!' => 'Zavøít!',
-        'TicketZoom' => 'Zobrazení tiketu',
-        'Don\'t forget to add a new user to groups!' => 'Nezapomeòte pøidat nového u¾ivatele do skupin!',
-        'CreateTicket' => 'Vytvoøeno Tiketu',
+        'for agent firstname' => 'pro køestní jméno agenta',
+        'The message being composed has been closed.  Exiting.' => 'Vytváøená zpráva byla uzavøena. Opou¹tím.',
+        'A web calendar' => '',
+        'to get the realname of the sender (if given)' => 'pro získaní skuteèného jména odesílatele (pokud je zadáno)',
         'OTRS DB Name' => 'Název OTRS databáze',
-        'System Settings' => 'Nastavení systému',
-        'Finished' => 'Dokonèeno',
+        'Select Source (for add)' => '',
         'Queue ID' => 'ID fronty',
-        'A article should have a title!' => '',
+        'Home' => 'Domù',
+        'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '',
         'System History' => '',
+        'customer realname' => 'skuteèné jméno klienta',
+        'Pending messages' => 'Zprávy èekající na vyøízení',
         'Modules' => '',
+        'for agent login' => 'pro pøihlá¹ení agenta',
         'Keyword' => 'Klíèové slovo',
         'Close type' => 'Zavøít typ',
         'DB Admin User' => 'Administrátor databáze',
+        'for agent user id' => 'pro u¾ivatelské ID agenta',
+        'sort upward' => 'setøídit nahoru',
         'Change user <-> group settings' => 'Zmìnit u¾ivatele <-> nastavení skupiny',
-        'Name is required!' => '',
         'Problem' => 'Problém',
-        'DB Type' => 'Typ databáze',
         'next step' => 'dal¹í krok',
-        'Termin1' => '',
         'Customer history search' => 'Vyhledávání historie klienta',
-        'Solution' => 'Øe¹ení',
         'Admin-Email' => 'Email administrátora',
-        'QueueView' => 'Náhled fronty',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Vá¹ email s èíslem ticketu "<OTRS_TICKET>" je odeslán zpìt na "<OTRS_BOUNCE_TO>". Kontaktujte tuto adresu pro dal¹í infromace.',
-        'modified' => '',
-        'Delete old database' => 'Smazat starou databázi',
+        'A message must be spell checked!' => 'Zpráva musí být pravopisnì zkontrolovaná!',
+        'All Agents' => 'V¹ichni agenti',
         'Keywords' => 'Klíèová slova',
-        'Note Text' => 'Text poznámky',
         'No * possible!' => '®ádná * mo¾ná!',
-        'OTRS DB User' => 'U¾ivatel OTRS databáze',
         'Options ' => '',
-        'PhoneView' => 'Nový tiket / hovor',
-        'Verion' => '',
         'Message for new Owner' => 'Zpráva pro nového vlastníka',
+        'to get the first 5 lines of the email' => 'pro získání prvních 5 øádkù z emailu',
         'OTRS DB Password' => 'Heslo OTRS databáze',
         'Last update' => 'Poslední aktualizace',
+        'to get the first 20 character of the subject' => 'pro získáni prvních 20 znakù z pøedmìtu',
         'DB Admin Password' => 'Heslo administrátora databáze',
         'Drop Database' => 'Odstranit databazi',
+        'Advisory' => '',
+        'FileManager' => '',
+        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '',
         'Pending type' => 'Typ èekání na vyøízení',
         'Comment (internal)' => 'Komentáø (interní)',
+        'This window must be called from compose window' => 'Toto okno musí být vyvoláno z okna vytváøení',
+        'You need min. one selected Ticket!' => '',
+        'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         '(Used ticket number format)' => '(Pou¾itý formát èísel tiketù)',
         'Fulltext' => '',
+        'Incident' => '',
+        'OTRS DB connect host' => 'Hostitel OTRS databáze (server)',
+        'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Nebude-li tiket odpovìzen v daném èase, bude zobrazen pouze tento Tiket.',
+        'All Agent variables.' => '',
+        'All Customer variables like defined in config option CustomerUser.' => '',
+        'accept license' => 'souhlasím s licencí',
+        'for agent lastname' => 'pro pøíjmení agenta',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => '',
+        'Reminder messages' => 'Upomínkové zprávy',
+        'Ticket Hook' => 'Oznaèení tiketu',
+        'TicketZoom' => 'Zobrazení tiketu',
+        'Don\'t forget to add a new user to groups!' => 'Nezapomeòte pøidat nového u¾ivatele do skupin!',
+        'You need a email address (e. g. customer@example.com) in To:!' => 'Musíte mít  uvedenu emailovou adresu (napø. klient@priklad.cz) v poli Komu:!',
+        'CreateTicket' => 'Vytvoøeno Tiketu',
+        'System Settings' => 'Nastavení systému',
+        'WebWatcher' => '',
+        'Finished' => 'Dokonèeno',
+        'Split' => 'Rozdìlit',
+        'All messages' => 'V¹echny zprávy',
+        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
+        'Artefact' => '',
+        'A article should have a title!' => '',
+        'don\'t accept license' => 'nesouhlasím s licencí',
+        'A web mail client' => '',
+        'WebMail' => '',
+        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => '',
+        'Name is required!' => '',
+        'DB Type' => 'Typ databáze',
+        'Termin1' => '',
+        'kill all sessions' => 'Zru¹it v¹echny relace',
+        'to get the from line of the email' => 'pro získaní øádku Od z emailu',
+        'Solution' => 'Øe¹ení',
+        'QueueView' => 'Náhled fronty',
+        'Welcome to OTRS' => '',
+        'modified' => '',
+        'Delete old database' => 'Smazat starou databázi',
+        'sort downward' => 'setøídit dolù',
+        'You need to use a ticket number!' => '',
+        'A web file manager' => '',
+        'send' => 'poslat',
+        'Note Text' => 'Text poznámky',
+        'System State Management' => 'Správa stavu systému',
+        'OTRS DB User' => 'U¾ivatel OTRS databáze',
+        'PhoneView' => 'Nový tiket / hovor',
+        'maximal period form' => '',
+        'Verion' => '',
         'Modified' => 'Zmìnìno',
-        'Watched Tickets' => '',
-        'Watched' => '',
-        'Subscribe' => '',
-        'Unsubscribe' => '',
+        'Ticket selected for bulk action!' => '',
     };
     # $$STOP$$
 }
