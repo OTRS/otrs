@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.5 2007-01-30 19:57:20 mh Exp $
+# $Id: CustomerTicketPrint.pm,v 1.6 2007-04-03 18:43:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -683,6 +683,13 @@ sub _PDFOutputCustomerInfos {
     my %TableParam;
     my $Row = 0;
     my $Map = $CustomerData{Config}{Map};
+    # check if customer company support is enabled
+    if ($CustomerData{Config}->{CustomerCompanySupport}) {
+        my $Map2 = $CustomerData{CompanyConfig}->{Map};
+        if ($Map2) {
+            push (@{$Map}, @{$Map2});
+        }
+    }
     foreach my $Field (@{$Map}) {
         if (${$Field}[3] && $CustomerData{${$Field}[0]}) {
             $TableParam{CellData}[$Row][0]{Content} =
@@ -935,7 +942,7 @@ sub _HTMLMask {
         else {
             # html quoting
             $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
-                NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
+                NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
                 Text => $Article{Body},
                 VMax => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
             );

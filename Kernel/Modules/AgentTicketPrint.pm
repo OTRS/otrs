@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.37 2007-02-26 11:14:20 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.38 2007-04-03 18:41:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -669,7 +669,14 @@ sub _PDFOutputCustomerInfos {
     my %Page = %{$Param{PageData}};
     my %TableParam;
     my $Row = 0;
-    my $Map = $CustomerData{Config}{Map};
+    my $Map = $CustomerData{Config}->{Map};
+    # check if customer company support is enabled
+    if ($CustomerData{Config}->{CustomerCompanySupport}) {
+        my $Map2 = $CustomerData{CompanyConfig}->{Map};
+        if ($Map2) {
+            push (@{$Map}, @{$Map2});
+        }
+    }
     foreach my $Field (@{$Map}) {
         if (${$Field}[3] && $CustomerData{${$Field}[0]}) {
             $TableParam{CellData}[$Row][0]{Content} =
