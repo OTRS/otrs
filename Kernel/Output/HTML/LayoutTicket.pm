@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.14 2007-04-02 13:13:15 martin Exp $
+# $Id: LayoutTicket.pm,v 1.15 2007-04-03 18:36:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::LayoutTicket;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketStdResponseString {
@@ -66,6 +66,7 @@ sub AgentCustomerViewTable {
     my $Self = shift;
     my %Param = @_;
     my $ShownType = 1;
+    my @MapNew = ();
     if (ref($Param{Data}) ne 'HASH') {
         $Self->FatalError(Message => 'Need Hash ref in Data param');
     }
@@ -73,17 +74,22 @@ sub AgentCustomerViewTable {
         return '$Text{"none"}';
     }
     my $Map = $Param{Data}->{Config}->{Map};
+    if ($Map) {
+        @MapNew = (@{$Map});
+    }
     # check if customer company support is enabled
     if ($Param{Data}->{Config}->{CustomerCompanySupport}) {
         my $Map2 = $Param{Data}->{CompanyConfig}->{Map};
-        push (@{$Map}, @{$Map2});
+        if ($Map2) {
+            push (@MapNew, @{$Map2});
+        }
     }
     if ($Param{Type} && $Param{Type} eq 'Lite') {
         $ShownType = 2;
         # check if min one lite view item is configured, if not, use
         # the normal view also
         my $Used = 0;
-        foreach my $Field (@{$Map}) {
+        foreach my $Field (@MapNew) {
             if ($Field->[3] == 2) {
                 $Used = 1;
             }
@@ -93,7 +99,7 @@ sub AgentCustomerViewTable {
         }
     }
     # build html table
-    foreach my $Field (@{$Map}) {
+    foreach my $Field (@MapNew) {
         if ($Field->[3] && $Field->[3] >= $ShownType && $Param{Data}->{$Field->[0]}) {
             my %Record = ();
             if ($Field->[6]) {
