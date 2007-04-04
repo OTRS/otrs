@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.6 2007-04-03 18:43:02 martin Exp $
+# $Id: CustomerTicketPrint.pm,v 1.7 2007-04-04 07:30:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -678,6 +678,7 @@ sub _PDFOutputCustomerInfos {
             return;
         }
     }
+    my $Output = 0;
     my %CustomerData = %{$Param{CustomerData}};
     my %Page = %{$Param{PageData}};
     my %TableParam;
@@ -696,56 +697,60 @@ sub _PDFOutputCustomerInfos {
                 $Self->{LayoutObject}->{LanguageObject}->Get(${$Field}[1]) . ':';
             $TableParam{CellData}[$Row][0]{Font} = 'HelveticaBold';
             $TableParam{CellData}[$Row][1]{Content} = $CustomerData{${$Field}[0]};
+
             $Row++;
+            $Output = 1;
         }
     }
     $TableParam{ColumnData}[0]{Width} = 80;
     $TableParam{ColumnData}[1]{Width} = 431;
 
-    # set new position
-    $Self->{PDFObject}->PositionSet(
-        Move => 'relativ',
-        Y => -15,
-    );
-    # output headline
-    $Self->{PDFObject}->Text(
-        Text => $Self->{LayoutObject}->{LanguageObject}->Get('Customer Infos'),
-        Height => 7,
-        Type => 'Cut',
-        Font => 'HelveticaBoldItalic',
-        FontSize => 7,
-        Color => '#666666',
-    );
-    # set new position
-    $Self->{PDFObject}->PositionSet(
-        Move => 'relativ',
-        Y => -4,
-    );
-    # table params
-    $TableParam{Type} = 'Cut';
-    $TableParam{Border} = 0;
-    $TableParam{FontSize} = 6;
-    $TableParam{BackgroundColor} = '#DDDDDD';
-    $TableParam{Padding} = 1;
-    $TableParam{PaddingTop} = 3;
-    $TableParam{PaddingBottom} = 3;
-
-    # output table
-    for ($Page{PageCount}..$Page{MaxPages}) {
-        # output table (or a fragment of it)
-        %TableParam = $Self->{PDFObject}->Table(
-            %TableParam,
+    if ($Output) {
+        # set new position
+        $Self->{PDFObject}->PositionSet(
+            Move => 'relativ',
+            Y => -15,
         );
-        # stop output or output next page
-        if ($TableParam{State}) {
-            last;
-        }
-        else {
-            $Self->{PDFObject}->PageNew(
-                %Page,
-                FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+        # output headline
+        $Self->{PDFObject}->Text(
+            Text => $Self->{LayoutObject}->{LanguageObject}->Get('Customer Infos'),
+            Height => 7,
+            Type => 'Cut',
+            Font => 'HelveticaBoldItalic',
+            FontSize => 7,
+            Color => '#666666',
+        );
+        # set new position
+        $Self->{PDFObject}->PositionSet(
+            Move => 'relativ',
+            Y => -4,
+        );
+        # table params
+        $TableParam{Type} = 'Cut';
+        $TableParam{Border} = 0;
+        $TableParam{FontSize} = 6;
+        $TableParam{BackgroundColor} = '#DDDDDD';
+        $TableParam{Padding} = 1;
+        $TableParam{PaddingTop} = 3;
+        $TableParam{PaddingBottom} = 3;
+
+        # output table
+        for ($Page{PageCount}..$Page{MaxPages}) {
+            # output table (or a fragment of it)
+            %TableParam = $Self->{PDFObject}->Table(
+                %TableParam,
             );
-            $Page{PageCount}++;
+            # stop output or output next page
+            if ($TableParam{State}) {
+                last;
+            }
+            else {
+                $Self->{PDFObject}->PageNew(
+                    %Page,
+                    FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                );
+                $Page{PageCount}++;
+            }
         }
     }
     return 1;
