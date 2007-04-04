@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.7 2007-04-04 07:30:11 mh Exp $
+# $Id: CustomerTicketPrint.pm,v 1.8 2007-04-04 07:36:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -683,7 +683,7 @@ sub _PDFOutputCustomerInfos {
     my %Page = %{$Param{PageData}};
     my %TableParam;
     my $Row = 0;
-    my $Map = $CustomerData{Config}{Map};
+    my $Map = $CustomerData{Config}->{Map};
     # check if customer company support is enabled
     if ($CustomerData{Config}->{CustomerCompanySupport}) {
         my $Map2 = $CustomerData{CompanyConfig}->{Map};
