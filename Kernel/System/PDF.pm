@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PDF.pm - PDF lib
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.21 2006-11-13 18:15:55 mh Exp $
+# $Id: PDF.pm,v 1.21.2.1 2007-04-04 07:47:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.21.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -693,15 +693,18 @@ sub Table {
     foreach (qw(CellData)) {
         if (!defined ($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            $Param{State} = 1;
             return;
         }
     }
     if (!$Self->{PDF}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need a PDF Document!");
+        $Param{State} = 1;
         return;
     }
     if (!$Self->{Page}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need a Page!");
+        $Param{State} = 1;
         return;
     }
 
@@ -3356,6 +3359,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2006-11-13 18:15:55 $
+$Revision: 1.21.2.1 $ $Date: 2007-04-04 07:47:13 $
 
 =cut
