@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.34 2006-12-11 06:47:22 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.34.2.1 2007-04-05 14:31:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.34.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub ArticleStorageInit {
@@ -257,8 +257,6 @@ sub ArticleWriteAttachment {
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
     # define path
     $Param{Path} = $Self->{ArticleDataDir}.'/'.$ContentPath.'/'.$Param{ArticleID};
-    # check used name (we want just uniq names)
-    $Param{Filename} = decode_mimewords($Param{Filename});
     # strip spaces from filenames
     $Param{Filename} =~ s/ /_/g;
     # strip dots from filenames
@@ -490,6 +488,9 @@ sub ArticleAttachment {
                             $Counter++;
                         }
                         close (DATA);
+                        if ($Data{ContentType} =~ /(utf\-8|utf8)/i) {
+                            $Self->{EncodeObject}->Encode(\$Data{Content});
+                        }
                         chomp ($Data{ContentType});
                         return %Data;
                     }

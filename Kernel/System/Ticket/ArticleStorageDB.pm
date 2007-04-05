@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.37.2.1 2007-03-06 11:17:30 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.37.2.2 2007-04-05 14:31:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37.2.1 $';
+$VERSION = '$Revision: 1.37.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub ArticleStorageInit {
@@ -222,8 +222,6 @@ sub ArticleWriteAttachment {
         return;
       }
     }
-    # check used name (we want just uniq names)
-    $Param{Filename} = decode_mimewords($Param{Filename});
     my $NewFileName = $Param{Filename};
     my %UsedFile = ();
     my %Index = $Self->ArticleAttachmentIndex(ArticleID => $Param{ArticleID});
@@ -452,9 +450,9 @@ sub ArticleAttachment {
     # get content path
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
     my %Data = %{$Index{$Param{FileID}}};
-    my $Counter = 0;
 
     if (open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}")) {
+        my $Counter = 0;
         binmode(DATA);
         while (<DATA>) {
             $Data{ContentType} = $_ if ($Counter == 0);
@@ -462,6 +460,10 @@ sub ArticleAttachment {
             $Counter++;
         }
         close (DATA);
+        if ($Data{ContentType} =~ /(utf\-8|utf8)/i) {
+            $Self->{EncodeObject}->Encode(\$Data{Content});
+        }
+        chomp ($Data{ContentType});
         return %Data;
     }
     else {
