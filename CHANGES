@@ -2,14 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.44 2007-03-28 15:57:00 martin Exp $
+# $Id: CHANGES,v 1.323.2.45 2007-04-05 14:31:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-2.1.7 (2007/??/??)
+2.1.7 (2007/04/05)
+ - (2007/04/05) fixed bug# 1551 - decode_mimewords() in ArticleWriteAttachment()
+    dies due to utf-8
  - (2007/03/27) updated Kernel/Language/pt_BR.pm translation file - Thanks
     to Fabricio Luiz Machado!
  - (2007/03/14) fixed bug# 1650 - crypt/sign bug in AgentTicketCompose screen
