@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.22.2.2 2007-02-22 09:02:49 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.22.2.3 2007-04-05 08:02:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22.2.2 $';
+$VERSION = '$Revision: 1.22.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -796,6 +796,11 @@ sub _Mask {
                     Debug => $Self->{Debug},
                 );
                 # get params
+                foreach (sort keys %{$Param{GetParam}}) {
+                    if (!$Param{GetParam}->{$_} && $Param{$_}) {
+                        $Param{GetParam}->{$_} = $Param{$_};
+                    }
+                }
                 foreach ($Object->Option(%Param, %{$Param{GetParam}}, Config => $Jobs{$Job})) {
                     $Param{GetParam}->{$_} = $Self->{ParamObject}->GetParam(Param => $_);
                 }
