@@ -3,7 +3,7 @@
 # syncuser_csv2otrs.pl - sync csv user list or otrs
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: syncuser_csv2otrs.pl,v 1.4 2007-02-06 19:27:01 martin Exp $
+# $Id: syncuser_csv2otrs.pl,v 1.5 2007-04-05 14:36:47 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,12 +27,12 @@
 
 # config options / csv file - column 0-...
 my %Fields = ();
-$Fields{Login} = 0;
-$Fields{Email} = 1;
-$Fields{Salutation} = 5;
-$Fields{Firstname} = 2;
-$Fields{Lastname} = 3;
-$Fields{Pw} = 4;
+$Fields{UserLogin} = 0;
+$Fields{UserEmail} = 1;
+$Fields{UserSalutation} = 5;
+$Fields{UserFirstname} = 2;
+$Fields{UserLastname} = 3;
+$Fields{UserPw} = 4;
 
 # use ../ as lib location
 use File::Basename;
@@ -82,31 +82,31 @@ while (<IN>) {
     if (%UserData) {
         print "Update user '$Line[$Fields{Login}]'\n";
         $CommonObject{UserObject}->UserUpdate(
-            ID => $UserData{UserID},
-            Salutation => $Line[$Fields{Salutation}],
-            Firstname => $Line[$Fields{Firstname}],
-            Lastname => $Line[$Fields{Lastname}],
-            Login => $Line[$Fields{Login}],
-            Pw => $Line[$Fields{Pw}],
-            Email => $Line[$Fields{Email}],
+            UserID => $UserData{UserID},
+            UserSalutation => $Line[$Fields{Salutation}],
+            UserFirstname => $Line[$Fields{Firstname}],
+            UserLastname => $Line[$Fields{Lastname}],
+            UserLogin => $Line[$Fields{Login}],
+            UserPw => $Line[$Fields{Pw}],
+            UserEmail => $Line[$Fields{Email}],
             UserType => 'User',
             ValidID => 1,
-            UserID => 1,
+            ChangeUserID => 1,
         );
     }
     # add user
     else {
         print "Add user '$Line[$Fields{Login}]'\n";
         $CommonObject{UserObject}->UserAdd(
-            Salutation => $Line[$Fields{Salutation}],
-            Firstname => $Line[$Fields{Firstname}],
-            Lastname => $Line[$Fields{Lastname}],
-            Login => $Line[$Fields{Login}],
-            Pw => $Line[$Fields{Pw}],
-            Email => $Line[$Fields{Email}],
+            UserSalutation => $Line[$Fields{Salutation}],
+            UserFirstname => $Line[$Fields{Firstname}],
+            UserLastname => $Line[$Fields{Lastname}],
+            UserLogin => $Line[$Fields{Login}],
+            UserPw => $Line[$Fields{Pw}],
+            UserEmail => $Line[$Fields{Email}],
             UserType => 'User',
             ValidID => 1,
-            UserID => 1,
+            ChangeUserID => 1,
         );
     }
 }
