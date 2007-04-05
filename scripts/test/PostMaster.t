@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.1 2007-03-19 22:27:19 martin Exp $
+# $Id: PostMaster.t,v 1.2 2007-04-05 14:36:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -57,7 +57,7 @@ foreach my $Module (qw(DB FS)) {
 
 # get rand sender address
 my $UserRand1 = 'example-user'.int(rand(1000000)).'@example.com';
-foreach my $File (1..2) {
+foreach my $File (1..3) {
     # new ticket check
     my @Content = ();
     open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/PostMaster-Test$File.box") || die $!;

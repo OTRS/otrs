@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.18 2007-03-05 15:14:24 martin Exp $
+# $Id: Ticket.t,v 1.19 2007-04-05 14:36:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -2850,9 +2850,10 @@ $Self->True(
 );
 
 # article attachment checks
-foreach my $File (qw(xls txt doc png pdf)) {
+foreach my $File (qw(Ticket-Article-Test1.xls Ticket-Article-Test1.txt Ticket-Article-Test1.doc
+    Ticket-Article-Test1.png Ticket-Article-Test1.pdf Ticket-Article-Test-utf8-1.txt Ticket-Article-Test-utf8-1.bin)) {
     my $Content = '';
-    open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/Ticket-Article-Test1.$File") || die $!;
+    open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/$File") || die $!;
     binmode(IN);
     while (<IN>) {
         $Content .= $_;
@@ -2860,14 +2861,14 @@ foreach my $File (qw(xls txt doc png pdf)) {
     close(IN);
     my $ArticleWriteAttachment = $Self->{TicketObject}->ArticleWriteAttachment(
         Content => $Content,
-        Filename => 'Ticket-Article-Test1.'.$File,
+        Filename => $File,
         ContentType => 'image/png',
         ArticleID => $ArticleID,
         UserID => 1,
     );
     $Self->True(
         $ArticleWriteAttachment,
-        'ArticleWriteAttachment() - .'.$File,
+        'ArticleWriteAttachment() - '.$File,
     );
     my %Data = $Self->{TicketObject}->ArticleAttachment(
         ArticleID => $ArticleID,
@@ -2875,11 +2876,11 @@ foreach my $File (qw(xls txt doc png pdf)) {
     );
     $Self->True(
         $Data{Content},
-        'ArticleAttachment() - .'.$File,
+        'ArticleAttachment() - '.$File,
     );
     $Self->True(
         $Data{Content} eq $Content,
-        "ArticleWriteAttachment() / ArticleAttachment() - .".$File,
+        "ArticleWriteAttachment() / ArticleAttachment() - ".$File,
     );
     my $Delete = $Self->{TicketObject}->ArticleDeleteAttachment(
         ArticleID => $ArticleID,
@@ -2887,7 +2888,7 @@ foreach my $File (qw(xls txt doc png pdf)) {
     );
     $Self->True(
         $Delete,
-        "ArticleDeleteAttachment() - .".$File,
+        "ArticleDeleteAttachment() - ".$File,
     );
 }
 

@@ -1,0 +1,53 @@
+Return-Path: <skywalker@otrs.org>
+Received: from localhost (localhost [127.0.0.1])
+	by osser.otrs.com (Postfix) with ESMTP id 788A45BB35
+	for <skywalker@otrs.org>; Thu,  5 Apr 2007 10:46:18 +0200 (CEST)
+Received: from osser.otrs.com ([127.0.0.1])
+ by localhost (osser.otrs.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 23059-03 for <skywalker@otrs.org>;
+ Thu,  5 Apr 2007 10:46:13 +0200 (CEST)
+Received: from [10.161.134.230] (gprs-pool-1-027.eplus-online.de [212.23.126.27])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client did not present a certificate)
+	by osser.otrs.com (Postfix) with ESMTP id 380185BB20
+	for <darthvader@otrs.org>; Thu,  5 Apr 2007 10:46:12 +0200 (CEST)
+Message-ID: <4614B72A.9020509@otrs.org>
+X-CVS: $Id: PostMaster-Test3.box,v 1.1 2007-04-05 14:36:16 martin Exp $
+Date: Thu, 05 Apr 2007 10:45:30 +0200
+From: Skywalker <skywalker@otrs.org>
+User-Agent: Thunderbird 1.5.0.10 (X11/20070221)
+MIME-Version: 1.0
+To:  darthvader@otrs.org
+X-Enigmail-Version: 0.93.1.0
+Content-Type: multipart/mixed;
+ boundary="------------080804020005020704090006"
+Subject: UTF-8 Test =?UTF-8?B?w6TDtsO8IOmhp+WuouOCs+ODs+OCv+OCr+ODiOeuoeeQhg==?=
+
+This is a multi-part message in MIME format.
+--------------080804020005020704090006
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+UTF-8 Test äöü 顧客コンタクト管理
+
+  Darthvader
+
+--
+System Tester II - <darthvader@otrs.org>
+--
+"The number of Unix installations has grown to 10, with more expected."
+                    The Unix Programmer's Manual, 2nd Edition, June 1972
+
+
+--------------080804020005020704090006
+Content-Type: text/plain;
+ name*0*=UTF-8''%75%74%66%2D%38%2D%66%69%6C%65%2D%C3%A4%C3%B6%C3%BC%C3%9F;
+ name*1*=%2D%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%2E%74%78%74
+Content-Transfer-Encoding: base64
+Content-Disposition: inline;
+ filename*0*=UTF-8''%75%74%66%2D%38%2D%66%69%6C%65%2D%C3%A4%C3%B6%C3%BC%C3;
+ filename*1*=%9F%2D%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%2E%74%78%74
+
+fi91dGYtOC1maWxlLcOkw7bDvMOfLeOCq+OCueOCv+ODni50eHQKCkdyZWV0aW5ncywKCiAg
+RGFydGh2YWRlcgo=
+--------------080804020005020704090006--
