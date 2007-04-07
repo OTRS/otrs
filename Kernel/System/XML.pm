@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.50 2007-04-02 13:31:33 mh Exp $
+# $Id: XML.pm,v 1.51 2007-04-07 09:24:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -349,7 +349,7 @@ sub XMLHashGet {
         print STDERR "ERROR: xml.pm $@\n";
     }
     # write cache file
-    if (!-e $FileCache && $Param{Cache}) {
+    if (!-e $FileCache && $Param{Cache} && $Content) {
         my $Dump = Data::Dumper::Dumper(\@XMLHash);
         $Dump =~ s/\$VAR1/\$XMLHashRef/;
         if (open (OUT, "> $FileCache")) {
@@ -1213,6 +1213,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2007-04-02 13:31:33 $
+$Revision: 1.51 $ $Date: 2007-04-07 09:24:58 $
 
 =cut
