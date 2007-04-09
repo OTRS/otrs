@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.8 2007-03-12 23:18:06 martin Exp $
+# $Id: UnitTest.pm,v 1.9 2007-04-09 22:22:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::UnitTest;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -102,6 +102,8 @@ sub new {
 \n";
     }
 
+    $Self->{XML} = undef;
+
     return $Self;
 }
 
@@ -153,17 +155,88 @@ sub Run {
     $ResultSummary{Time} = $Self->{TimeObject}->SystemTime2TimeStamp(
         SystemTime => $Self->{TimeObject}->SystemTime(),
     );
+    $ResultSummary{Product} = $Self->{ConfigObject}->Get('Product')." ".$Self->{ConfigObject}->Get('Version');
     $ResultSummary{Host} = $Self->{ConfigObject}->Get('FQDN');
     $ResultSummary{Perl} = sprintf "%vd", $^V;
     $ResultSummary{OS} = $^O;
+    if (-e '/etc/SuSE-release') {
+        if (open(IN, "< /etc/SuSE-release")) {
+            while (<IN>) {
+                $ResultSummary{Vendor} = $_;
+                chomp ($ResultSummary{Vendor});
+                last;
+            }
+            close (IN);
+        }
+        else {
+            $ResultSummary{Vendor} = 'SUSE unknown';
+        }
+    }
+    elsif (-e '/etc/fedora-release') {
+        if (open(IN, "< /etc/fedora-release")) {
+            while (<IN>) {
+                $ResultSummary{Vendor} = $_;
+                chomp ($ResultSummary{Vendor});
+                last;
+            }
+            close (IN);
+        }
+        else {
+            $ResultSummary{Vendor} = 'fedora unknown';
+        }
+    }
+    elsif (-e '/etc/redhat-release') {
+        if (open(IN, "< /etc/redhat-release")) {
+            while (<IN>) {
+                $ResultSummary{Vendor} = $_;
+                chomp ($ResultSummary{Vendor});
+                last;
+            }
+            close (IN);
+        }
+        else {
+            $ResultSummary{Vendor} = 'RedHat unknown';
+        }
+    }
+    else {
+        $ResultSummary{Vendor} = 'unknown';
+    }
+    $ResultSummary{Database} = $Self->{DBObject}->{'DB::Type'};
     $ResultSummary{TestOk} = $Self->{TestCountOk};
     $ResultSummary{TestNotOk} = $Self->{TestCountNotOk};
 
     $Self->_PrintSummary(%ResultSummary);
+    my $XML = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
+    $XML .= "<otrs_test>\n";
+    $XML .= "<Summary>\n";
+    foreach my $Key (sort keys %ResultSummary) {
+        $ResultSummary{$Key} =~ s/&/&amp;/g;
+        $ResultSummary{$Key} =~ s/</&lt;/g;
+        $ResultSummary{$Key} =~ s/>/&gt;/g;
+        $ResultSummary{$Key} =~ s/"/&quot;/g;
+        $XML .= "  <Item Name=\"$Key\">$ResultSummary{$Key}</Item>\n";
+    }
+    $XML .= "</Summary>\n";
+    foreach my $Key (sort keys %{$Self->{XML}->{Test}}) {
+        $XML .= "<Unit Name=\"$Key\">\n";
+        foreach my $TestCount (sort {$a <=> $b} keys %{$Self->{XML}->{Test}->{$Key}}) {
+            my $Content = $Self->{XML}->{Test}->{$Key}->{$TestCount}->{Name};
+            $Content =~ s/&/&amp;/g;
+            $Content =~ s/</&lt;/g;
+            $Content =~ s/>/&gt;/g;
+            $Content =~ s/"/&quot;/g;
+            $Content =~ s/'/&quot;/g;
+            $XML .= "  <Test Result=\"$Self->{XML}->{Test}->{$Key}->{$TestCount}->{Result}\" Count=\"$TestCount\">$Content</Test>\n";
+        }
+        $XML .= "</Unit>\n";
+    }
+    $XML .= "</otrs_test>\n";
     if ($Self->{Content}) {
         print $Self->{Content};
     }
-
+    if ($Self->{Output} eq 'XML' && $XML) {
+        print $XML;
+    }
     return 1;
 }
 
@@ -273,24 +346,28 @@ sub _PrintSummary {
         else {
             print "<tr><td bgcolor='green' colspan='2'>Summary</td></tr>\n";
         }
-        print "<tr><td>Product: </td><td>".$Self->{ConfigObject}->Get('Product')." ".$Self->{ConfigObject}->Get('Version')."</td></tr>\n";
+        print "<tr><td>Product: </td><td>$ResultSummary{Product}</td></tr>\n";
         print "<tr><td>Test Time:</td><td>$ResultSummary{TimeTaken} s</td></tr>\n";
         print "<tr><td>Time:     </td><td> $ResultSummary{Time}</td></tr>\n";
         print "<tr><td>Host:     </td><td>$ResultSummary{Host}</td></tr>\n";
         print "<tr><td>Perl:     </td><td>$ResultSummary{Perl}</td></tr>\n";
         print "<tr><td>OS:       </td><td>$ResultSummary{OS}</td></tr>\n";
+        print "<tr><td>Vendor:   </td><td>$ResultSummary{Vendor}</td></tr>\n";
+        print "<tr><td>Database: </td><td>$ResultSummary{Database}</td></tr>\n";
         print "<tr><td>TestOk:   </td><td>$ResultSummary{TestOk}</td></tr>\n";
         print "<tr><td>TestNotOk:</td><td>$ResultSummary{TestNotOk}</td></tr>\n";
         print "</table><br>\n";
     }
-    else {
+    elsif ($Self->{Output} eq 'ASCII') {
         print "=====================================================================\n";
-        print " Product:   ".$Self->{ConfigObject}->Get('Product')." ".$Self->{ConfigObject}->Get('Version')."\n";
+        print " Product:   $ResultSummary{Product}\n";
         print " Test Time: $ResultSummary{TimeTaken} s\n";
         print " Time:      $ResultSummary{Time}\n";
         print " Host:      $ResultSummary{Host}\n";
         print " Perl:      $ResultSummary{Perl}\n";
         print " OS:        $ResultSummary{OS}\n";
+        print " Vendor:    $ResultSummary{Vendor}\n";
+        print " Database:  $ResultSummary{Database}\n";
         print " TestOk:    $ResultSummary{TestOk}\n";
         print " TestNotOk: $ResultSummary{TestNotOk}\n";
         print "=====================================================================\n";
@@ -305,11 +382,12 @@ sub _PrintHeadlineStart {
         $Self->{Content} .= "<table width='600' border='1'>\n";
         $Self->{Content} .= "<tr><td colspan='2'>$Name</td></tr>\n";
     }
-    else {
+    elsif ($Self->{Output} eq 'ASCII') {
         print "+-------------------------------------------------------------------+\n";
         print "$Name:\n";
         print "+-------------------------------------------------------------------+\n";
     }
+    $Self->{XMLUnit} = $Name;
     return 1;
 }
 
@@ -319,7 +397,7 @@ sub _PrintHeadlineEnd {
     if ($Self->{Output} eq 'HTML') {
         $Self->{Content} .= "</table><br>\n";
     }
-    else {
+    elsif ($Self->{Output} eq 'ASCII') {
     }
     return 1;
 }
@@ -334,12 +412,14 @@ sub _Print {
         if ($Self->{Output} eq 'HTML') {
             $Self->{Content} .= "<tr><td width='70' bgcolor='green'>ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
         }
-        else {
+        elsif ($Self->{Output} eq 'ASCII') {
             print " ok $Self->{TestCount} - $Name\n";
         }
+        $Self->{XML}->{Test}->{$Self->{XMLUnit}}->{$Self->{TestCount}}->{Result} = 'ok';
+        $Self->{XML}->{Test}->{$Self->{XMLUnit}}->{$Self->{TestCount}}->{Name} = $Name;
         return 1;
     }
-    else {
+    elsif ($Self->{Output} eq 'ASCII') {
         $Self->{TestCountNotOk}++;
         if ($Self->{Output} eq 'HTML') {
             $Self->{Content} .= "<tr><td width='70' bgcolor='red'>not ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
@@ -347,6 +427,8 @@ sub _Print {
         else {
             print " not ok $Self->{TestCount} - $Name\n";
         }
+        $Self->{XML}->{Test}->{$Self->{XMLUnit}}->{$Self->{TestCount}}->{Result} = 'not ok';
+        $Self->{XML}->{Test}->{$Self->{XMLUnit}}->{$Self->{TestCount}}->{Name} = $Name;
         return;
     }
 }
@@ -376,6 +458,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2007-03-12 23:18:06 $
+$Revision: 1.9 $ $Date: 2007-04-09 22:22:21 $
 
 =cut
