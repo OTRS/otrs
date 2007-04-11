@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.t,v 1.12 2007-04-02 14:36:16 mh Exp $
+# $Id: XML.t,v 1.13 2007-04-11 08:23:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -248,25 +248,18 @@ foreach my $Key (@Keys) {
     );
 }
 
-$XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
-    Type => 'SomeType',
-    KeyAutoIncrement => 1,
-    XMLHash => \@XMLHash,
-);
-$Self->True(
-    $XMLHashAdd eq 1,
-    'XMLHashAdd() (1 KeyAutoIncrement)',
-);
-
-$XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
-    Type => 'SomeType',
-    KeyAutoIncrement => 1,
-    XMLHash => \@XMLHash,
-);
-$Self->True(
-    $XMLHashAdd eq 2,
-    'XMLHashAdd() (2 KeyAutoIncrement)',
-);
+foreach my $KeyShould (1..12) {
+    $XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
+        Type => 'SomeType',
+        KeyAutoIncrement => 1,
+        XMLHash => \@XMLHash,
+    );
+    $Self->Is(
+        $XMLHashAdd || '',
+        $KeyShould,
+        "XMLHashAdd() ($KeyShould KeyAutoIncrement)",
+    );
+}
 
 @Keys = $Self->{XMLObject}->XMLHashList(
     Type => 'SomeType',
