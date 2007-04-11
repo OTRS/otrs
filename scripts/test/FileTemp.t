@@ -1,8 +1,8 @@
 # --
 # FileTemp.t - FileTemp tests
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FileTemp.t,v 1.2 2006-08-26 17:36:26 martin Exp $
+# $Id: FileTemp.t,v 1.2.2.1 2007-04-11 10:05:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,9 +27,12 @@ $Self->True(
 
 $Self->{FileTempObject} = undef;
 
-$Self->True(
-    (! -e $Filename),
-    'TempFile() -e after destroy',
-);
+# don't use this check on win (because it just gets removed after ending the process)
+if ($^O !~ /win/) {
+    $Self->True(
+        (! -e $Filename),
+        'TempFile() -e after destroy',
+    );
+}
 
 1;
