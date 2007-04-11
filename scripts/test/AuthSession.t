@@ -2,7 +2,7 @@
 # AuthSession.t - auth session tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AuthSession.t,v 1.3 2007-04-11 10:35:49 martin Exp $
+# $Id: AuthSession.t,v 1.4 2007-04-11 10:40:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use Kernel::System::AuthSession;
 foreach my $Module (qw(DB FS IPC)) {
 
     # don't use IPC on win
-    if ($^O =~ /win/i) {
+    if ($Module eq 'IPC' && $^O =~ /win/i) {
         next;
     }
 
