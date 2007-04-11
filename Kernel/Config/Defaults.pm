@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.266 2007-04-03 18:44:58 martin Exp $
+# $Id: Defaults.pm,v 1.267 2007-04-11 21:49:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.266 $';
+$VERSION = '$Revision: 1.267 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -107,6 +107,7 @@ sub LoadDefaults {
 #    $ENV{ORACLE_HOME} = '/opt/ora9/product/9.2';
 #    $ENV{ORACLE_HOME} = '/oracle/Ora92';
 #    $ENV{NLS_DATE_FORMAT} = 'YYYY-MM-DD HH24:MI:SS';
+#    $ENV{NLS_LANG} = "german_germany.utf8";
 #    $ENV{NLS_LANG} = "german_germany.we8iso8859p15";
 #    $ENV{NLS_LANG} = "american_america.we8iso8859p1";
 
@@ -129,33 +130,35 @@ sub LoadDefaults {
     # (short name = long name and file)
     $Self->{DefaultUsedLanguages} = {
 #            bb => 'Bavarian',
-            en => 'English',
+            ar_SA => 'Arabic (Saudi Arabia)',
+            bg => 'Bulgarian (&amp;#x0411;&amp;#x044a;&amp;#x043b;&amp;#x0433;&amp;#x0430;&amp;#x0440;&amp;#x0441;&amp;#x043a;&amp;#x0438;)',
+            cz => 'Czech (&amp;#x010c;esky)',
+            da => 'Dansk',
             de => 'Deutsch',
-            nl => 'Nederlands',
-            fa => 'Persian',
-            fr => 'Fran&ccedil;ais',
-            bg => 'Bulgarian',
-            fi => 'Suomi',
-            el => 'Greek',
+            en => 'English',
+            el => 'Greek (&amp;#x0395;&amp;#x03bb;&amp;#x03bb;&amp;#x03b7;&amp;#x03bd;&amp;#x03b9;&amp;#x03ba;&amp;#x03ac;)',
             es => 'Espa&ntilde;ol',
+            fa => 'Persian (&amp;#x0641;&amp;#x0627;&amp;#x0631;&amp;#x0633;&amp;#x0649;)',
+            fr => 'Fran&ccedil;ais',
+            fi => 'Suomi',
+            hu => 'Magyar',
+            it => 'Italiano',
+            nl => 'Nederlands',
+            nb_NO => 'Norsk bokm&aring;l',
             pt_BR => 'Portugu&ecirc;s Brasileiro',
             pt => 'Portugu&ecirc;s',
-            it => 'Italiano',
-            sk_SK => 'Slovak',
-            ru => 'Russian',
-            cz => 'Czech',
             pl => 'Polski',
-            nb_NO => 'Norsk bokm&aring;l',
+            ru => 'Russian (&amp;#x0420;&amp;#x0443;&amp;#x0441;&amp;#x0441;&amp;#x043a;&amp;#x0438;&amp;#x0439;)',
+            sk_SK => 'Slovak (Sloven&amp;#x010d;ina)',
             sv => 'Svenska',
-            hu => 'Hungarian',
-            zh_CN => 'Simplified Chinese',
-#            th => 'Thai',
-            da => 'Dansk',
-#            ro => 'Romanian',
+            zh_CN => 'Chinese (Sim.) (&amp;#x7b80;&amp;#x4f53;&amp;#x4e2d;&amp;#x6587;)',
+#            th => 'Thai (&#x0e44;&#x0e17;&#x0e22;)',
+#            ro => 'Rom&acirc;n&auml;',
 #            hr => 'Croatian',
-#            sl => 'Slovenian',
-#            tr => 'tr',
-#            jp => 'jp',
+#            sl => 'Slovenian (Sloven&#x0161;&#x010d;ina)',
+#            tr => 'T&uuml;rk&ccedil;e',
+#            uk => 'Ukrainian (&#x0423;&#x043a;&#x0440;&#x0430;&#x0457;&#x043d;&#x0441;&#x044c;&#x043a;&#x0430;)',
+#            jp => 'Japanese (&#x65e5;&#x672c;&#x8a9e;)',
     };
     # default theme
     # (the default html theme) [default: Standard]
@@ -2152,6 +2155,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.266 $ $Date: 2007-04-03 18:44:58 $
+$Revision: 1.267 $ $Date: 2007-04-11 21:49:43 $
 
 =cut

@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.139 2007-04-02 13:13:14 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.140 2007-04-11 21:49:44 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -221,27 +221,28 @@ TimeWorkingHours
         <SubGroup>Core</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="en">English</Item>
+                <Item Key="ar_SA">Arabic (Saudi Arabia)</Item>
+                <Item Key="bg">Bulgarian (&amp;#x0411;&amp;#x044a;&amp;#x043b;&amp;#x0433;&amp;#x0430;&amp;#x0440;&amp;#x0441;&amp;#x043a;&amp;#x0438;)</Item>
+                <Item Key="cz">Czech (&amp;#x010c;esky)</Item>
                 <Item Key="da">Dansk</Item>
                 <Item Key="de">Deutsch</Item>
-                <Item Key="nl">Nederlands</Item>
-                <Item Key="fa">Persian</Item>
-                <Item Key="fr">Fran&amp;ccedil;ais</Item>
-                <Item Key="bg">Bulgarian</Item>
-                <Item Key="fi">Suomi</Item>
-                <Item Key="el">Greek</Item>
+                <Item Key="en">English</Item>
                 <Item Key="es">Espa&amp;ntilde;ol</Item>
+                <Item Key="el">Greek (&amp;#x0395;&amp;#x03bb;&amp;#x03bb;&amp;#x03b7;&amp;#x03bd;&amp;#x03b9;&amp;#x03ba;&amp;#x03ac;)</Item>
+                <Item Key="fa">Persian (&amp;#x0641;&amp;#x0627;&amp;#x0631;&amp;#x0633;&amp;#x0649;)</Item>
+                <Item Key="fr">Fran&amp;ccedil;ais</Item>
+                <Item Key="fi">Suomi</Item>
+                <Item Key="hu">Magyar</Item>
+                <Item Key="it">Italiano</Item>
+                <Item Key="nl">Nederlands</Item>
+                <Item Key="nb_NO">Norsk bokm&amp;aring;l</Item>
                 <Item Key="pt_BR">Portugu&amp;ecirc;s Brasileiro</Item>
                 <Item Key="pt">Portugu&amp;ecirc;s</Item>
-                <Item Key="it">Italiano</Item>
-                <Item Key="sk_SK">Slovak</Item>
-                <Item Key="ru">Russian</Item>
-                <Item Key="cz">Czech</Item>
                 <Item Key="pl">Polski</Item>
-                <Item Key="nb_NO">Norsk bokm&amp;aring;l</Item>
+                <Item Key="ru">Russian (&amp;#x0420;&amp;#x0443;&amp;#x0441;&amp;#x0441;&amp;#x043a;&amp;#x0438;&amp;#x0439;)</Item>
+                <Item Key="sk_SK">Slovak (Sloven&amp;#x010d;ina)</Item>
                 <Item Key="sv">Svenska</Item>
-                <Item Key="hu">Hungarian</Item>
-                <Item Key="zh_CN">Simplified Chinese</Item>
+                <Item Key="zh_CN">Chinese (Sim.) (&amp;#x7b80;&amp;#x4f53;&amp;#x4e2d;&amp;#x6587;)</Item>
             </Hash>
         </Setting>
     </ConfigItem>
