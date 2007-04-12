@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.49 2007-01-20 23:11:34 mh Exp $
+# $Id: EmailParser.pm,v 1.50 2007-04-12 23:58:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -541,11 +541,23 @@ sub PartsAttachments {
         }
         else {
             $PartData{Filename} = decode_mimewords($Part->head()->recommended_filename());
+            $PartData{ContentDisposition} = $Part->head()->get('Content-Disposition');
+            if ($PartData{ContentDisposition}) {
+               my %Data = $Self->GetContentTypeParams(ContentType => $PartData{ContentDisposition});
+               if ($Data{Charset}) {
+                   $PartData{Charset} = $Data{Charset};
+               }
+            }
+            else {
+                $PartData{Charset} = '';
+            }
             # convert the file name in utf-8 if utf-8 is used
-            $PartData{Filename} = $Self->{EncodeObject}->Decode(
-                Text => $PartData{Filename},
-                From => 'utf-8',
-            );
+            if ($PartData{Charset}) {
+                $PartData{Filename} = $Self->{EncodeObject}->Decode(
+                    Text => $PartData{Filename},
+                    From => $PartData{Charset},
+                );
+            }
         }
         # debug
         if ($Self->{Debug} > 0) {
@@ -610,6 +622,17 @@ sub GetContentTypeParams {
         $Param{Charset} =~ s/.+?charset=("|'|)(\w+)/$2/gi;
         $Param{Charset} =~ s/"|'//g ;
         $Param{Charset} =~ s/(.+?);.*/$1/g;
+    }
+    if (!$Param{Charset}) {
+        if ($Param{ContentType} =~ /\?((iso-\d{3,4}-\d{1,2})|(utf-8|utf8))\?/i) {
+            $Param{Charset} = $1;
+        }
+        elsif ($Param{ContentType} =~ /name\*0\*=(utf-8|utf8)/i) {
+            $Param{Charset} = $1;
+        }
+        elsif ($Param{ContentType} =~ /filename\*=((iso-\d{3,4}-\d{1,2})|(utf-8|utf8))''/i) {
+            $Param{Charset} = $1;
+        }
     }
     if ($Param{ContentType} =~ /^(\w+\/\w+)/i) {
         $Param{MimeType} = $1;
@@ -706,6 +729,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.50 $ $Date: 2007-04-12 23:58:08 $
 
 =cut
