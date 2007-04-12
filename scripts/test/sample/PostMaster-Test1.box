@@ -4,7 +4,7 @@ Received: (from skywalker@localhost)
 	by avro.de (8.11.3/8.11.3/SuSE Linux 8.11.1-0.5) id f3MMSE303694
 	for martin@localhost; Fri, 21 Dec 2001 23:59:24 +0200
 Date: Fri, 21 Dec 2001 23:59:24 +0200
-From: System Tester I <me@otrs.org>
+From: Skywalker Attachment <skywalker@otrs.org>
 To: darthvader@otrs.org
 Subject: test 1
 Message-ID: <20011221002814.A3599@avro>
@@ -13,7 +13,7 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 X-Operating-System: Linux 2.4.10-4GB i686
 X-Uptime: 12:23am  up  5:19,  6 users,  load average: 0.11, 0.13, 0.18
-X-CVS: $Id: PostMaster-Test1.box,v 1.1 2007-03-19 22:27:19 martin Exp $
+X-CVS: $Id: PostMaster-Test1.box,v 1.2 2007-04-12 23:55:55 martin Exp $
 Content-Length: 139
 Lines: 11
 
