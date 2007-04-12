@@ -2,12 +2,18 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.377 2007-04-02 15:25:53 martin Exp $
+# $Id: CHANGES,v 1.378 2007-04-12 08:28:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+2.2.0 beta2 (2007/04/??)
+ - (2007/04/12) Fixed bug# 1739 - Unable to insert new SLA via admin-web after
+    upgrade to 2.2.0 beta1.
+ - (2007/04/11) Added new Arabic (Saudi Arabia) translation, thanks to
+    Mohammad Saleh!
+
 2.2.0 beta1 (2007/04/02)
  - (2007/04/02) Added customer company feature (split of contact and company
     infos). Need to be activated in CustomerUser config (see
@@ -144,7 +150,9 @@
  - (2006/12/13) Moved config option PostMasterPOP3MaxEmailSize default 6 MB
     to 12 MB.
 
-2.1.7 (2007/04/03)
+2.1.7 (2007/04/05)
+ - (2007/04/05) fixed bug# 1551 - decode_mimewords() in ArticleWriteAttachment()
+    dies due to utf-8
  - (2007/03/27) updated Kernel/Language/pt_BR.pm translation file - Thanks
     to Fabricio Luiz Machado!
  - (2007/03/14) fixed bug# 1650 - crypt/sign bug in AgentTicketCompose screen

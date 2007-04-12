@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.oracle.sql,v 1.8 2007-04-02 14:53:39 martin Exp $
+-- $Id: DBUpdate-to-2.2.oracle.sql,v 1.9 2007-04-12 08:28:31 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.oracle.sql | sqlplus "user/password"
@@ -137,15 +137,16 @@ CREATE TABLE sla (
     service_id NUMBER NOT NULL,
     name VARCHAR2 (200) NOT NULL,
     calendar_name VARCHAR2 (100),
-    response_time NUMBER NOT NULL,
-    max_time_to_repair NUMBER NOT NULL,
-    min_time_between_incidents NUMBER NOT NULL,
+    first_response_time NUMBER NOT NULL,
+    update_time NUMBER NOT NULL,
+    solution_time NUMBER NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     comments VARCHAR2 (200) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER NOT NULL,
     change_time DATE NOT NULL,
-    change_by NUMBER NOT NULL
+    change_by NUMBER NOT NULL,
+    CONSTRAINT sla_U_1 UNIQUE (name)
 );
 ALTER TABLE sla ADD CONSTRAINT sla_PK PRIMARY KEY (id);
 DROP SEQUENCE sla_seq;
