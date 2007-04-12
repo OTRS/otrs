@@ -2,13 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.379 2007-04-12 09:29:30 mh Exp $
+# $Id: CHANGES,v 1.380 2007-04-12 16:41:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.2.0 beta2 (2007/04/??)
+ - (2007/04/12) Updated bulgarian translation, thanks to Alex Kantchev!
+ - (2007/04/12) Fixed bug# 1748 - Session not allowed to be larger than 358400
+    Bytes using IPC. Change max session size from 350k to 2 MB.
  - (2007/04/12) Fixed bug# 1744 - Unable to create xml_storage table in utf8
     charset on mysql database.
  - (2007/04/12) Fixed bug# 1739 - Unable to insert new SLA via admin-web after
