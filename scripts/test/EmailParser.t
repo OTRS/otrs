@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.4 2007-04-12 16:34:37 martin Exp $
+# $Id: EmailParser.t,v 1.5 2007-04-12 23:55:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -104,6 +104,12 @@ $Self->Is(
     "#3 GetCharset()",
 );
 @Attachments = $Self->{EmailParserObject}->GetAttachments();
+my $MD5 = md5_hex($Attachments[1]->{Content}) || '';
+$Self->Is(
+    $MD5,
+    '4e78ae6bffb120669f50bca56965f552',
+    "#3 md5 check",
+);
 if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i) {
     $Self->Is(
         $Attachments[1]->{Filename},
@@ -165,7 +171,7 @@ $Self->Is(
     "#5 GetCharset()",
 );
 @Attachments = $Self->{EmailParserObject}->GetAttachments();
-my $MD5 = md5_hex($Attachments[1]->{Content}) || '';
+$MD5 = md5_hex($Attachments[1]->{Content}) || '';
 $Self->Is(
     $MD5,
     '0596f2939525c6bd50fc2b649e40fbb6',
