@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.139 2007-03-27 14:08:10 martin Exp $
+# $Id: Article.pm,v 1.140 2007-04-12 21:33:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.139 $';
+$VERSION = '$Revision: 1.140 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1171,7 +1171,7 @@ sub ArticleGet {
     # sql query
     my @Content = ();
     my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, ".
-        " sa.a_reply_to, sa. a_message_id, sa.a_body, ".
+        " sa.a_reply_to, sa.a_message_id, sa.a_body, ".
         " st.create_time_unix, st.ticket_state_id, st.queue_id, sa.create_time, ".
         " sa.a_content_type, sa.create_by, st.tn, article_sender_type_id, st.customer_id, ".
         " st.until_time, st.ticket_priority_id, st.customer_user_id, st.user_id, ".
@@ -1321,7 +1321,7 @@ sub ArticleGet {
         foreach (qw(From To Cc Subject)) {
             $Data{$_} =~ s/\n|\r//g if ($Data{$_});
         }
-        push (@Content, {%Data, %Ticket});
+        push (@Content, {%Ticket, %Data});
     }
     # get type
     $Ticket{Type} = $Self->{TypeObject}->TypeLookup(TypeID => $Ticket{TypeID} || 1);
