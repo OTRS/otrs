@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.36 2007-04-05 14:30:20 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.37 2007-04-12 23:52:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub ArticleStorageInit {
@@ -190,12 +190,11 @@ sub ArticleDeleteAttachment {
     if (-e $Path) {
         my @List = glob($Path."/*");
         foreach my $File (@List) {
-            $File =~ s!^.*/!!;
-            if ($File !~ /^plain.txt$/) {
-                if (!unlink "$Path/$File") {
+            if ($File !~ /(\/|\\)plain.txt$/) {
+                if (!unlink "$File") {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
-                        Message => "Can't remove: $Path/$File: $!!",
+                        Message => "Can't remove: $File: $!!",
                     );
                 }
             }

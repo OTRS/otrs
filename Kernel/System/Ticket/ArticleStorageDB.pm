@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.41 2007-04-05 14:30:20 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.42 2007-04-12 23:52:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub ArticleStorageInit {
@@ -165,12 +165,11 @@ sub ArticleDeleteAttachment {
     if (-e $Path) {
         my @List = glob($Path);
         foreach my $File (@List) {
-            $File =~ s!^.*/!!;
-            if ($File !~ /^plain.txt$/) {
-                if (!unlink "$Path/$File") {
+            if ($File !~ /(\/|\\)plain.txt$/) {
+                if (!unlink $File) {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
-                        Message => "Can't remove: $Path/$File: $!!",
+                        Message => "Can't remove: $File: $!!",
                     );
                 }
             }
@@ -247,8 +246,8 @@ sub ArticleWriteAttachment {
         no bytes;
     }
     # encode attachemnt if it's a postgresql backend!!!
-    $Self->{EncodeObject}->EncodeOutput(\$Param{Content});
     if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
+        $Self->{EncodeObject}->EncodeOutput(\$Param{Content});
         $Param{Content} = encode_base64($Param{Content});
     }
     # db quote (just not Content, use db Bind values)
