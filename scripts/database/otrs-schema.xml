@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.64 2007-04-02 14:53:39 martin Exp $
+    $Id: otrs-schema.xml,v 1.65 2007-04-12 09:24:36 mh Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.64  2007/04/02 14:53:39  martin
+    Added customer_company.
+
     Revision 1.63  2007/04/02 13:41:36  mh
     Improved indexes of xml_storage table
 
@@ -1302,8 +1305,8 @@
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Index Name="ticket_id">
-        <IndexColumn Name="ticket_id"></IndexColumn>
+    <Index Name="ticket_watcher_ticket_id">
+        <IndexColumn Name="ticket_id"/>
     </Index>
 </Table>
 
@@ -1546,12 +1549,12 @@
     <Column Name="xml_key" Required="true" Size="250" Type="VARCHAR"/>
     <Column Name="xml_content_key" Required="true" Size="250" Type="VARCHAR"/>
     <Column Name="xml_content_value" Required="false" Type="LONGBLOB"/>
-    <Index Name="xml_type_key">
-        <IndexColumn Name="xml_type"/>
-        <IndexColumn Name="xml_key"/>
+    <Index Name="xml_storage_key_type">
+        <IndexColumn Name="xml_key" Size="10"/>
+        <IndexColumn Name="xml_type" Size="10"/>
     </Index>
-    <Index Name="xml_content_key">
-        <IndexColumn Name="xml_content_key"/>
+    <Index Name="xml_storage_xml_content_key">
+        <IndexColumn Name="xml_content_key" Size="100"/>
     </Index>
 </Table>
 

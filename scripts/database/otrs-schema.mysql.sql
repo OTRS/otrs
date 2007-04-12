@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2007-04-02 16:52:37
+#  driver: mysql, generated: 2007-04-12 11:18:39
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -673,7 +673,7 @@ CREATE TABLE ticket_watcher (
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
-    INDEX ticket_id (ticket_id)
+    INDEX ticket_watcher_ticket_id (ticket_id)
 );
 CREATE TABLE service (
     id INTEGER NOT NULL AUTO_INCREMENT,
@@ -880,8 +880,8 @@ CREATE TABLE xml_storage (
     xml_key VARCHAR (250) NOT NULL,
     xml_content_key VARCHAR (250) NOT NULL,
     xml_content_value LONGBLOB,
-    INDEX xml_content_key (xml_content_key),
-    INDEX xml_type_key (xml_type, xml_key)
+    INDEX xml_storage_xml_content_key (xml_content_key(100)),
+    INDEX xml_storage_key_type (xml_key(10), xml_type(10))
 );
 # ----------------------------------------------------------
 #  create table package_repository

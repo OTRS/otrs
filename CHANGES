@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.378 2007-04-12 08:28:31 martin Exp $
+# $Id: CHANGES,v 1.379 2007-04-12 09:29:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.2.0 beta2 (2007/04/??)
+ - (2007/04/12) Fixed bug# 1744 - Unable to create xml_storage table in utf8
+    charset on mysql database.
  - (2007/04/12) Fixed bug# 1739 - Unable to insert new SLA via admin-web after
     upgrade to 2.2.0 beta1.
  - (2007/04/11) Added new Arabic (Saudi Arabia) translation, thanks to

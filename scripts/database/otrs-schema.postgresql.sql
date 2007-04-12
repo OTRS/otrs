@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2007-04-02 16:52:38
+--  driver: postgresql, generated: 2007-04-12 11:19:29
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -674,7 +674,7 @@ CREATE TABLE ticket_watcher (
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL
 );
-CREATE INDEX ticket_id ON ticket_watcher (ticket_id);
+CREATE INDEX ticket_watcher_ticket_id ON ticket_watcher (ticket_id);
 CREATE TABLE service (
     id serial,
     name VARCHAR (200) NOT NULL,
@@ -881,8 +881,8 @@ CREATE TABLE xml_storage (
     xml_content_key VARCHAR (250) NOT NULL,
     xml_content_value TEXT
 );
-CREATE INDEX xml_content_key ON xml_storage (xml_content_key);
-CREATE INDEX xml_type_key ON xml_storage (xml_type, xml_key);
+CREATE INDEX xml_storage_xml_content_key ON xml_storage (xml_content_key);
+CREATE INDEX xml_storage_key_type ON xml_storage (xml_key, xml_type);
 -- ----------------------------------------------------------
 --  create table package_repository
 -- ----------------------------------------------------------

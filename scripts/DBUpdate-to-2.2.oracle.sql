@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.oracle.sql,v 1.9 2007-04-12 08:28:31 martin Exp $
+-- $Id: DBUpdate-to-2.2.oracle.sql,v 1.10 2007-04-12 09:23:47 mh Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.oracle.sql | sqlplus "user/password"
@@ -100,6 +100,12 @@ INSERT INTO ticket_history_type
     ('SLAUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 
 --
+-- ticket_watcher
+--
+DROP INDEX ticket_id;
+CREATE INDEX ticket_watcher_ticket_id ON ticket_watcher (ticket_id);
+
+--
 -- service
 --
 CREATE TABLE service (
@@ -168,8 +174,10 @@ ALTER TABLE sla ADD CONSTRAINT fk_sla_service_id_id FOREIGN KEY (service_id) REF
 --
 -- xml_storage
 --
-
+DROP INDEX xml_content_key;
 DROP INDEX xml_type;
 DROP INDEX xml_key;
-CREATE INDEX xml_type_key ON xml_storage (xml_type, xml_key);
+DROP INDEX xml_type_key;
+CREATE INDEX xml_storage_xml_content_key ON xml_storage (xml_content_key);
+CREATE INDEX xml_storage_key_type ON xml_storage (xml_key, xml_type);
 

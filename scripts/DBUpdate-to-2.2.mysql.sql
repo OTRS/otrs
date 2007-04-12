@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.mysql.sql,v 1.11 2007-04-12 08:28:31 martin Exp $
+-- $Id: DBUpdate-to-2.2.mysql.sql,v 1.12 2007-04-12 09:23:47 mh Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.mysql.sql | mysql -f -u root otrs
@@ -95,6 +95,12 @@ INSERT INTO ticket_history_type
     ('SLAUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 
 --
+-- ticket_watcher
+--
+ALTER TABLE ticket_watcher DROP INDEX ticket_id;
+ALTER TABLE ticket_watcher ADD INDEX ticket_watcher_ticket_id (ticket_id);
+
+--
 -- service
 --
 CREATE TABLE service (
@@ -139,8 +145,10 @@ ALTER TABLE sla ADD FOREIGN KEY (service_id) REFERENCES `service(id)`;
 --
 -- xml_storage
 --
-
-ALTER TABLE xml_storage DROP INDEX `xml_type`;
-ALTER TABLE xml_storage DROP INDEX `xml_key`;
-ALTER TABLE xml_storage ADD INDEX `xml_type_key` (`xml_type`, `xml_key`);
+ALTER TABLE xml_storage DROP INDEX xml_content_key;
+ALTER TABLE xml_storage DROP INDEX xml_type;
+ALTER TABLE xml_storage DROP INDEX xml_key;
+ALTER TABLE xml_storage DROP INDEX xml_type_key;
+ALTER TABLE xml_storage ADD INDEX xml_storage_xml_content_key (xml_content_key(100));
+ALTER TABLE xml_storage ADD INDEX xml_storage_key_type (xml_key(10), xml_type(10));
 
