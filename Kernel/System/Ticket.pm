@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.254 2007-03-28 21:21:56 martin Exp $
+# $Id: Ticket.pm,v 1.255 2007-04-12 23:57:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,10 +36,8 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.254 $';
+$VERSION = '$Revision: 1.255 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
-
-@ISA = ('Kernel::System::Ticket::Article');
 
 =head1 NAME
 
@@ -99,9 +97,11 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless ($Self, $Type);
-
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
+
+    # set @ISA
+    @ISA = ('Kernel::System::Ticket::Article');
 
     # get needed objects
     foreach (qw(ConfigObject LogObject TimeObject DBObject MainObject)) {
@@ -2718,7 +2718,7 @@ To find tickets in your system.
 
         # OrderBy and SortBy (optional)
         OrderBy => 'Down',      # Down|Up
-        SortBy => 'Age',        # Owner|CustomerID|State|Ticket|Queue|Priority|Age|Type|Service|SLA
+        SortBy => 'Age',        # Owner|CustomerID|State|Ticket|Queue|Priority|Age|Type|Lock|Service|SLA
                                 # TicketFreeTime1-2|TicketFreeKey1-16|TicketFreeText1-16
 
         # user search (UserID or CustomerUserID is required)
@@ -5810,6 +5810,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.254 $ $Date: 2007-03-28 21:21:56 $
+$Revision: 1.255 $ $Date: 2007-04-12 23:57:16 $
 
 =cut
