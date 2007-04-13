@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.20 2007-02-13 15:01:33 tr Exp $
+# $Id: Stats.pm,v 1.21 2007-04-13 07:03:09 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -146,8 +146,10 @@ sub StatsGet {
     # get hash from storage
     if (@XMLHash = $Self->{XMLObject}->XMLHashGet(
         Type => 'Stats',
+        #Cache => 0,
         Key => $Param{StatID}))
     {
+
         my %Stat = ();
         my $StatXML = $XMLHash[0]{otrs_stats}[1];
         # string
@@ -175,6 +177,7 @@ sub StatsGet {
         my %Allowed = ();
         my %TimeAllowed = ();
         my $TimeElement = $Self->{ConfigObject}->Get("Stats::TimeElement") || 'Time';
+
         if ($Stat{Object} && !$Param{NoObjectAttributes}) {
             foreach my $Key (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
                 # @StatAttributesSimplified give you Arrays without undef Arrayelements
@@ -249,6 +252,7 @@ sub StatsGet {
                 }
             }
         }
+
         return \%Stat;
     }
     $Self->{LogObject}->Log(Priority => 'error', Message => "StatsGet: Can\'t get Stat!");
@@ -276,6 +280,7 @@ sub StatsUpdate {
     }
 
     my $StatOld = $Self->StatsGet(StatID => $Param{StatID});
+
     if (!$StatOld) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -337,6 +342,10 @@ sub StatsUpdate {
     );
     $StatXML{Changed}  [1]{Content} = $TimeStamp;
     $StatXML{ChangedBy}[1]{Content} = $Self->{UserID};
+    # please don't change the functionality of XMLHashDelete and XMLHashAdd
+    # into the new function XMLHashUpdate, there is an incompatiblty.
+    # Perhaps these are intricacies because of the 'Array[0] = undef' definition
+
     # delete
     if (!$Self->{XMLObject}->XMLHashDelete(
         Type => 'Stats',
@@ -1895,6 +1904,7 @@ sub Export {
 
     my @XMLHash = $Self->{XMLObject}->XMLHashGet(
         Type => 'Stats',
+        #Cache => 0,
         Key => $Param{StatID}
     );
 
@@ -1954,12 +1964,12 @@ sub Export {
         my $ObjectModule = $XMLHash[0]->{otrs_stats}[1]{ObjectModule}[1]{Content};
         $Self->{MainObject}->Require($ObjectModule);
         my $StatObject = $ObjectModule->new(%{$Self});
-
         # load attributes
         $XMLHash[0]->{otrs_stats}[1] = $StatObject->ExportWrapper(%{$XMLHash[0]->{otrs_stats}[1]});
     }
 
     # convert hash to string
+
     $File{Content} = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
     return \%File;
 }
@@ -2427,6 +2437,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2007-02-13 15:01:33 $
+$Revision: 1.21 $ $Date: 2007-04-13 07:03:09 $
 
 =cut
