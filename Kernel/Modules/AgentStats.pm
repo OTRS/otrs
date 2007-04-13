@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.22.2.2 2007-02-13 09:55:20 tr Exp $
+# $Id: AgentStats.pm,v 1.22.2.3 2007-04-13 04:29:13 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22.2.2 $';
+$VERSION = '$Revision: 1.22.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -380,7 +380,6 @@ sub Run {
                                 $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
                                     Data                => \%ValueHash,
                                     Name                => $Use . $ObjectAttribute->{Element},
-                                    #Name                => $Use . '->' .$ObjectAttribute->{Element},
                                     Multiple            => 1,
                                     Size                => 5,
                                     SelectedIDRefArray  => $ObjectAttribute->{SelectedValues},
@@ -394,7 +393,7 @@ sub Run {
                             elsif ($ObjectAttribute->{Block} eq 'SelectField') {
                                 $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
                                     Data               => \%ValueHash,
-                                    Name                => $ObjectAttribute->{Element},
+                                    Name                => $Use . $ObjectAttribute->{Element},
                                     LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
                                 );
                                 $Self->{LayoutObject}->Block(
@@ -1890,7 +1889,6 @@ sub Run {
             StatID   => $Param{StatID},
             GetParam => \%GetParam,
         )};
-
         # exchange axis if selected
         if ($Param{ExchangeAxis}) {
             my @NewStatArray = ();
