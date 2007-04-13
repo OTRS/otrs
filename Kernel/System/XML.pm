@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.53 2007-04-13 10:27:43 mh Exp $
+# $Id: XML.pm,v 1.54 2007-04-13 13:08:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -83,6 +83,7 @@ sub new {
     # cache directory
     $Self->{CacheDirectory} = $Self->{ConfigObject}->Get('Home')."/var/tmp/";
 
+    # to access object over non object oriented xml::parser and xml::parser::lite
     $S = $Self;
 
     return $Self;
@@ -1230,6 +1231,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2007-04-13 10:27:43 $
+$Revision: 1.54 $ $Date: 2007-04-13 13:08:15 $
 
 =cut
