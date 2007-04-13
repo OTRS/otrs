@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.267 2007-04-11 21:49:43 martin Exp $
+# $Id: Defaults.pm,v 1.268 2007-04-13 13:19:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.267 $';
+$VERSION = '$Revision: 1.268 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -131,14 +131,14 @@ sub LoadDefaults {
     $Self->{DefaultUsedLanguages} = {
 #            bb => 'Bavarian',
             ar_SA => 'Arabic (Saudi Arabia)',
-            bg => 'Bulgarian (&amp;#x0411;&amp;#x044a;&amp;#x043b;&amp;#x0433;&amp;#x0430;&amp;#x0440;&amp;#x0441;&amp;#x043a;&amp;#x0438;)',
-            cz => 'Czech (&amp;#x010c;esky)',
+            bg => 'Bulgarian (&#x0411;&#x044a;&#x043b;&#x0433;&#x0430;&#x0440;&#x0441;&#x043a;&#x0438;)',
+            cz => 'Czech (&#x010c;esky)',
             da => 'Dansk',
             de => 'Deutsch',
             en => 'English',
-            el => 'Greek (&amp;#x0395;&amp;#x03bb;&amp;#x03bb;&amp;#x03b7;&amp;#x03bd;&amp;#x03b9;&amp;#x03ba;&amp;#x03ac;)',
+            el => 'Greek (&#x0395;&#x03bb;&#x03bb;&#x03b7;&#x03bd;&#x03b9;&#x03ba;&#x03ac;)',
             es => 'Espa&ntilde;ol',
-            fa => 'Persian (&amp;#x0641;&amp;#x0627;&amp;#x0631;&amp;#x0633;&amp;#x0649;)',
+            fa => 'Persian (&#x0641;&#x0627;&#x0631;&#x0633;&#x0649;)',
             fr => 'Fran&ccedil;ais',
             fi => 'Suomi',
             hu => 'Magyar',
@@ -148,10 +148,10 @@ sub LoadDefaults {
             pt_BR => 'Portugu&ecirc;s Brasileiro',
             pt => 'Portugu&ecirc;s',
             pl => 'Polski',
-            ru => 'Russian (&amp;#x0420;&amp;#x0443;&amp;#x0441;&amp;#x0441;&amp;#x043a;&amp;#x0438;&amp;#x0439;)',
-            sk_SK => 'Slovak (Sloven&amp;#x010d;ina)',
+            ru => 'Russian (&#x0420;&#x0443;&#x0441;&#x0441;&#x043a;&#x0438;&#x0439;)',
+            sk_SK => 'Slovak (Sloven&#x010d;ina)',
             sv => 'Svenska',
-            zh_CN => 'Chinese (Sim.) (&amp;#x7b80;&amp;#x4f53;&amp;#x4e2d;&amp;#x6587;)',
+            zh_CN => 'Chinese (Sim.) (&#x7b80;&#x4f53;&#x4e2d;&#x6587;)',
 #            th => 'Thai (&#x0e44;&#x0e17;&#x0e22;)',
 #            ro => 'Rom&acirc;n&auml;',
 #            hr => 'Croatian',
@@ -2155,6 +2155,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.267 $ $Date: 2007-04-11 21:49:43 $
+$Revision: 1.268 $ $Date: 2007-04-13 13:19:04 $
 
 =cut
