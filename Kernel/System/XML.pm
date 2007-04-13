@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.52 2007-04-13 07:05:34 tr Exp $
+# $Id: XML.pm,v 1.53 2007-04-13 10:27:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -131,13 +131,12 @@ sub XMLHashAdd {
                 return;
             }
         }
-
         # delete cache file
         my $FileCache = $Self->_CacheFileLocation("$Param{Type}-$Param{Key}");
         $Self->_CacheFileDelete($FileCache);
 
         # db quote
-        my $Key = $Param{Key};
+        my $XMLHashKey = $Param{Key};
         foreach (keys %Param) {
             $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
         }
@@ -148,7 +147,7 @@ sub XMLHashAdd {
                 SQL => "INSERT INTO xml_storage (xml_type, xml_key, xml_content_key, xml_content_value) VALUES ('$Param{Type}', '$Param{Key}', '$Key', '$Value')",
             );
         }
-        return $Key;
+        return $XMLHashKey;
     }
     else {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Got no \%ValueHASH from XMLHash2D()");
@@ -225,6 +224,7 @@ sub XMLHashUpdate {
     }
     my %ValueHASH = $Self->XMLHash2D(XMLHash => $Param{XMLHash});
     if (%ValueHASH) {
+        # delete existing cache file
         my $FileCache = $Self->_CacheFileLocation("$Param{Type}-$Param{Key}");
         $Self->_CacheFileDelete($FileCache);
         # db quote
@@ -289,6 +289,8 @@ sub XMLHashGet {
             return @XMLHash;
         }
     }
+    # delete existing cache file
+    $Self->_CacheFileDelete($FileCache);
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -316,7 +318,7 @@ sub XMLHashGet {
         print STDERR "ERROR: xml.pm $@\n";
     }
     # write cache file
-    if (!-e $FileCache && $Param{Cache} && $Content) {
+    if ($Param{Cache} && $Content) {
         $Self->_CacheFileAdd($FileCache, \@XMLHash);
     }
     return @XMLHash;
@@ -379,17 +381,13 @@ sub XMLHashMove {
             return;
         }
     }
-    # rename cache file
+    # remove cache file
     my $FileCacheOld = $Self->_CacheFileLocation("$Param{OldType}-$Param{OldKey}");
     my $FileCacheNew = $Self->_CacheFileLocation("$Param{NewType}-$Param{NewKey}");
 
     if (-e $FileCacheOld) {
-        if (!rename($FileCacheOld, $FileCacheNew)) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "Can't rename $FileCacheOld to $FileCacheNew: $!",
-            );
-        }
+        $Self->_CacheFileDelete($FileCacheOld);
+        $Self->_CacheFileDelete($FileCacheNew);
     }
     # db quote
     foreach (qw(OldType OldKey NewType NewKey)) {
@@ -1167,6 +1165,10 @@ sub _CacheFileAdd {
     my $FileCache = shift;
     my $XMLHash = shift;
 
+    # dont write cache file, if XMLHash is emty
+    if (!@{$XMLHash}) {
+        return;
+    }
     # write cache file
     my $Dump = Data::Dumper::Dumper($XMLHash);
     $Dump =~ s/\$VAR1/\$XMLHashRef/;
@@ -1174,9 +1176,11 @@ sub _CacheFileAdd {
         binmode(OUT);
         print OUT $Dump."\n1;";
         close (OUT);
+        return 1;
     }
     else {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write cache file $FileCache: $!");
+        return;
     }
 }
 
@@ -1226,6 +1230,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2007-04-13 07:05:34 $
+$Revision: 1.53 $ $Date: 2007-04-13 10:27:43 $
 
 =cut
