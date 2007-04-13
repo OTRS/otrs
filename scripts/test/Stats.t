@@ -1,8 +1,8 @@
 # --
 # scripts/test/Stats.t - stats module testscript
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.4 2006-10-31 14:50:48 tr Exp $
+# $Id: Stats.t,v 1.5 2007-04-13 06:11:50 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,32 +13,38 @@ use Kernel::System::Stats;
 use Kernel::System::Group;
 use Kernel::System::User;
 use Kernel::System::Main;
+use Kernel::System::CSV;
+
 $Self->{UserID} = 1;
-$Self->{GroupObject}    = Kernel::System::Group    ->new(%{$Self});
-$Self->{UserObject}     = Kernel::System::User     ->new(%{$Self});
-$Self->{MainObject}     = Kernel::System::Main     ->new(%{$Self});
-$Self->{StatsObject}    = Kernel::System::Stats    ->new(%{$Self});
+$Self->{GroupObject} = Kernel::System::Group->new(%{$Self});
+$Self->{UserObject} = Kernel::System::User->new(%{$Self});
+$Self->{MainObject} = Kernel::System::Main->new(%{$Self});
+$Self->{CSVObject} = Kernel::System::CSV->new(%{$Self});
+$Self->{StatsObject} = Kernel::System::Stats->new(%{$Self});
 
 # check the StatsAddfunction
 my $StatID1 = $Self->{StatsObject}->StatsAdd();
 my $StatID2 = $Self->{StatsObject}->StatsAdd();
 
+# test 1
 $Self->True(
     $StatID1 > 0,
     'StatsAdd() first StatID > 0',
 );
 
+# test 2
 $Self->True(
     $StatID2 > 0,
     'StatsAdd() second StatID > 0',
 );
 
+# test 3
 $Self->True(
     $StatID2 > $StatID1,
     'StatsAdd() first StatID < second StatID',
 );
 
-# check the stats update function
+# test 4 - check the stats update function
 $Self->True(
     $Self->{StatsObject}->StatsUpdate(
         StatID => $StatID1,
@@ -49,6 +55,7 @@ $Self->True(
     ),
     "StatsUpdate() Update StatID1",
 );
+
 $Self->False(
     $Self->{StatsObject}->StatsUpdate(
         StatID => ($StatID2+1),
@@ -135,7 +142,6 @@ $Self->True(
     $ExportFile->{Content},
     'Export() check if Exportfile has a content',
 );
-
 # import the exportet stat
 my $StatID3 = $Self->{StatsObject}->Import(
     Content  => $ExportFile->{Content},
@@ -149,7 +155,6 @@ $Self->True(
 my $Stat3 = $Self->{StatsObject}->StatsGet(
     StatID => $StatID3,
 );
-
 $Self->Is(
     $Stat3->{Title},
     'TestTitle from UnitTest.pl',
@@ -196,11 +201,17 @@ else {
     $StatID = $Self->{StatsObject}->Import(
         Content  => $ImportContent,
     );
+
     $ExportContent =  $Self->{StatsObject}->Export(StatID => $StatID);
+
+    # the following line are because of different spelling 'ISO-8859' or 'iso-8859'
+    # but this is no solution for the problem if one string is iso and the other utf!
+    $ImportContent =~ s/^<\?xml.*?>.*?<otrs_stats/<otrs_stats/ms;
+    $ExportContent->{Content} =~ s/^<\?xml.*?>.*?<otrs_stats/<otrs_stats/ms;
     $Self->Is(
         $ImportContent,
         $ExportContent->{Content},
-        'Export-Importcheck - check if import file content equal export file content'
+        "Export-Importcheck - check if import file content equal export file content.\n Be careful, if it gives errors if you run OTRS with default charset uft-8,\n because the examplefile is iso-8859-1, but at my test there a no problems to compare a utf-8 string with an iso string?!\n"
     );
 }
 $Self->True(
