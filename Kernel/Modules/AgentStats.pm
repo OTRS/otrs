@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.26 2007-02-13 09:54:41 tr Exp $
+# $Id: AgentStats.pm,v 1.27 2007-04-13 06:31:03 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -403,7 +403,7 @@ sub Run {
                             elsif ($ObjectAttribute->{Block} eq 'SelectField') {
                                 $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
                                     Data => \%ValueHash,
-                                    Name => $ObjectAttribute->{Element},
+                                    Name => $Use . $ObjectAttribute->{Element},
                                     LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
                                 );
                                 $Self->{LayoutObject}->Block(
