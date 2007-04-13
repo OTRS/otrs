@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FollowUp.pm,v 1.53 2007-03-20 15:18:40 martin Exp $
+# $Id: FollowUp.pm,v 1.54 2007-04-13 00:18:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -98,7 +98,7 @@ sub Run {
     }
     # set state
     my $State = $Self->{ConfigObject}->Get('PostmasterFollowUpState') || 'open';
-    if ($Ticket{StateType} !~ /^close/ && $Self->{ConfigObject}->Get('PostmasterFollowUpStateClosed')) {
+    if ($Ticket{StateType} =~ /^close/ && $Self->{ConfigObject}->Get('PostmasterFollowUpStateClosed')) {
         $State = $Self->{ConfigObject}->Get('PostmasterFollowUpStateClosed');
     }
     if ($GetParam{'X-OTRS-FollowUp-State'}) {
