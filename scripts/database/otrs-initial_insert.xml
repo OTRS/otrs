@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-initial_insert.xml,v 1.4 2007-03-22 09:11:19 martin Exp $
+    $Id: otrs-initial_insert.xml,v 1.5 2007-04-16 10:40:55 martin Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.4  2007/03/22 09:11:19  martin
+    Added comment for default groups.
+
     Revision 1.3  2007/03/16 10:29:04  martin
     Removed not needed queue.escalation_time for default queues.
 
@@ -1151,6 +1154,7 @@ Your OTRS Team
         <Data Key="ticket_priority_id">3</Data>
         <Data Key="ticket_state_id">1</Data>
         <Data Key="create_time_unix">1173345999</Data>
+        <Data Key="escalation_start_time">1173345999</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
