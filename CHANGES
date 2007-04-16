@@ -2,13 +2,20 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.380 2007-04-12 16:41:40 martin Exp $
+# $Id: CHANGES,v 1.381 2007-04-16 11:33:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-2.2.0 beta2 (2007/04/??)
+2.2.0 beta2 (2007/04/16)
+ - (2007/04/16) Fixed bug# 1755 - Wrong permissions for some files.
+ - (2007/04/16) Fixed bug# 1757 - Cannot install postgres db - null value in
+    column "escalation_start_time" violates not-null constraint.
+ - (2007/04/16) Fixed bug# 1745 - Invalid SQL-statements in AgentTicketQueue
+    view.
+ - (2007/04/13) Fixed bug# 1741 - "PostmasterFollowUpStateClosed" buggy on
+    follow up actions.
  - (2007/04/12) Updated bulgarian translation, thanks to Alex Kantchev!
  - (2007/04/12) Fixed bug# 1748 - Session not allowed to be larger than 358400
     Bytes using IPC. Change max session size from 350k to 2 MB.
