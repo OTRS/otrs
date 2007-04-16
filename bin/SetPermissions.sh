@@ -3,7 +3,7 @@
 # SetPermissions.sh - to set the otrs permissions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SetPermissions.sh,v 1.30 2007-03-02 10:18:24 martin Exp $
+# $Id: SetPermissions.sh,v 1.31 2007-04-16 11:01:01 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "SetPermissions.sh <\$Revision: 1.30 $> - set OTRS file permissions"
+echo "SetPermissions.sh <\$Revision: 1.31 $> - set OTRS file permissions"
 echo "Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/"
 
 if ! test $1 || ! test $2 || ! test $3; then
@@ -60,8 +60,8 @@ chown $OTRSUSER:$OTRSGROUP $OTRSDEST
 if test -e $OTRSDEST/.fetchmailrc; then
     echo "chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.fetchmailrc"
     chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.fetchmailrc
-    echo "chmod 0710 $OTRSDEST/.fetchmailrc"
-    chmod 0710 $OTRSDEST/.fetchmailrc
+    echo "chmod 0600 $OTRSDEST/.fetchmailrc"
+    chmod 0600 $OTRSDEST/.fetchmailrc
 fi
 
 # set procmailrc
