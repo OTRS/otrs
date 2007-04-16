@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2007-04-12 11:18:39
+#  driver: mysql, generated: 2007-04-16 12:45:39
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -675,6 +675,9 @@ CREATE TABLE ticket_watcher (
     change_by INTEGER NOT NULL,
     INDEX ticket_watcher_ticket_id (ticket_id)
 );
+# ----------------------------------------------------------
+#  create table service
+# ----------------------------------------------------------
 CREATE TABLE service (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
@@ -687,6 +690,9 @@ CREATE TABLE service (
     PRIMARY KEY(id),
     UNIQUE (name)
 );
+# ----------------------------------------------------------
+#  create table sla
+# ----------------------------------------------------------
 CREATE TABLE sla (
     id INTEGER NOT NULL AUTO_INCREMENT,
     service_id INTEGER NOT NULL,
@@ -779,8 +785,8 @@ CREATE TABLE customer_company (
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
-    UNIQUE (customer_id),
-    UNIQUE (name)
+    UNIQUE (name),
+    UNIQUE (customer_id)
 );
 # ----------------------------------------------------------
 #  create table ticket_loop_protection
@@ -824,7 +830,7 @@ CREATE TABLE postmaster_filter (
 CREATE TABLE generic_agent_jobs (
     job_name VARCHAR (200) NOT NULL,
     job_key VARCHAR (200) NOT NULL,
-    job_value VARCHAR (200) NOT NULL
+    job_value VARCHAR (200)
 );
 # ----------------------------------------------------------
 #  create table search_profile

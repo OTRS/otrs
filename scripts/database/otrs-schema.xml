@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.65 2007-04-12 09:24:36 mh Exp $
+    $Id: otrs-schema.xml,v 1.66 2007-04-16 11:06:10 martin Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.65  2007/04/12 09:24:36  mh
+    Fixed bug# 1744 - Unable to create xml_storage table in utf8 charset on mysql database.
+
     Revision 1.64  2007/04/02 14:53:39  martin
     Added customer_company.
 
@@ -1311,7 +1314,7 @@
 </Table>
 
 <!-- service - service -->
-<TableCreate Name="service">
+<Table Name="service">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
@@ -1327,10 +1330,10 @@
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
-</TableCreate>
+</Table>
 
 <!-- service - sla -->
-<TableCreate Name="sla">
+<Table Name="sla">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="service_id" Required="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
@@ -1354,7 +1357,7 @@
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
-</TableCreate>
+</Table>
 
 <!-- sessions -->
 <Table Name="sessions">
@@ -1495,7 +1498,7 @@
 <Table Name="generic_agent_jobs">
     <Column Name="job_name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="job_key" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="job_value" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="job_value" Required="false" Size="200" Type="VARCHAR"/>
 </Table>
 
 <!-- search_profile -->

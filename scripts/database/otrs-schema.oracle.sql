@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2007-04-12 11:19:18
+--  driver: oracle, generated: 2007-04-16 12:45:40
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -899,14 +899,14 @@ CREATE TABLE standard_response_attachment (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach45_PK PRIMARY KEY (id);
-DROP SEQUENCE standard_response_attach45_seq;
-CREATE SEQUENCE standard_response_attach45_seq;
-CREATE OR REPLACE TRIGGER standard_response_attach45_s_t
+ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach44_PK PRIMARY KEY (id);
+DROP SEQUENCE standard_response_attach44_seq;
+CREATE SEQUENCE standard_response_attach44_seq;
+CREATE OR REPLACE TRIGGER standard_response_attach44_s_t
 before insert on standard_response_attachment
 for each row
 begin
-    select standard_response_attach45_seq.nextval
+    select standard_response_attach44_seq.nextval
     into :new.id
     from dual;
 end;
@@ -1023,7 +1023,7 @@ begin
 end;
 /
 --;
-CREATE INDEX index_time_accounting_ticket51 ON time_accounting (ticket_id);
+CREATE INDEX index_time_accounting_ticket24 ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
 --  create table ticket_watcher
 -- ----------------------------------------------------------
@@ -1036,6 +1036,9 @@ CREATE TABLE ticket_watcher (
     change_by NUMBER NOT NULL
 );
 CREATE INDEX ticket_watcher_ticket_id ON ticket_watcher (ticket_id);
+-- ----------------------------------------------------------
+--  create table service
+-- ----------------------------------------------------------
 CREATE TABLE service (
     id NUMBER NOT NULL,
     name VARCHAR2 (200) NOT NULL,
@@ -1060,6 +1063,9 @@ begin
 end;
 /
 --;
+-- ----------------------------------------------------------
+--  create table sla
+-- ----------------------------------------------------------
 CREATE TABLE sla (
     id NUMBER NOT NULL,
     service_id NUMBER NOT NULL,
@@ -1158,7 +1164,7 @@ CREATE TABLE customer_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_customer_preferences_u61 ON customer_preferences (user_id);
+CREATE INDEX index_customer_preferences_u21 ON customer_preferences (user_id);
 -- ----------------------------------------------------------
 --  create table customer_company
 -- ----------------------------------------------------------
@@ -1186,8 +1192,8 @@ CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR2 (250) NOT NULL,
     sent_date VARCHAR2 (150) NOT NULL
 );
-CREATE INDEX index_ticket_loop_protection55 ON ticket_loop_protection (sent_to);
-CREATE INDEX index_ticket_loop_protection92 ON ticket_loop_protection (sent_date);
+CREATE INDEX index_ticket_loop_protection94 ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loop_protection83 ON ticket_loop_protection (sent_date);
 -- ----------------------------------------------------------
 --  create table pop3_account
 -- ----------------------------------------------------------
@@ -1233,7 +1239,7 @@ CREATE TABLE postmaster_filter (
 CREATE TABLE generic_agent_jobs (
     job_name VARCHAR2 (200) NOT NULL,
     job_key VARCHAR2 (200) NOT NULL,
-    job_value VARCHAR2 (200) NOT NULL
+    job_value VARCHAR2 (200)
 );
 -- ----------------------------------------------------------
 --  create table search_profile

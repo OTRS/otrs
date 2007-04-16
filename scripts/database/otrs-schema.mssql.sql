@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2007-04-12 11:19:09
+--  driver: mssql, generated: 2007-04-16 12:45:39
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -675,6 +675,9 @@ CREATE TABLE ticket_watcher (
     change_by INTEGER NOT NULL
 );
 CREATE INDEX ticket_watcher_ticket_id ON ticket_watcher (ticket_id);
+-- ----------------------------------------------------------
+--  create table service
+-- ----------------------------------------------------------
 CREATE TABLE service (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     name VARCHAR (200) NOT NULL,
@@ -687,6 +690,9 @@ CREATE TABLE service (
     PRIMARY KEY(id),
     UNIQUE (name)
 );
+-- ----------------------------------------------------------
+--  create table sla
+-- ----------------------------------------------------------
 CREATE TABLE sla (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     service_id INTEGER NOT NULL,
@@ -824,7 +830,7 @@ CREATE TABLE postmaster_filter (
 CREATE TABLE generic_agent_jobs (
     job_name VARCHAR (200) NOT NULL,
     job_key VARCHAR (200) NOT NULL,
-    job_value VARCHAR (200) NOT NULL
+    job_value VARCHAR (200)
 );
 -- ----------------------------------------------------------
 --  create table search_profile
