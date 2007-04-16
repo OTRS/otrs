@@ -2,13 +2,17 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.381 2007-04-16 11:33:38 martin Exp $
+# $Id: CHANGES,v 1.382 2007-04-16 12:56:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.2.0 beta2 (2007/04/16)
+ - (2007/04/16) Fixed bug# 1448 - Apache::Registry in README.webserver wrong,
+     mod_perl2 is missing.
+ - (2007/04/16) Fixed bug# 1286 - apache configuration should use
+    <IfModule mod_perl.c>.
  - (2007/04/16) Fixed bug# 1755 - Wrong permissions for some files.
  - (2007/04/16) Fixed bug# 1757 - Cannot install postgres db - null value in
     column "escalation_start_time" violates not-null constraint.
