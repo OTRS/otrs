@@ -2,7 +2,7 @@
 # Kernel/Language/en.pm - provides en languag translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: en.pm,v 1.17 2007-02-12 16:59:40 tr Exp $
+# $Id: en.pm,v 1.18 2007-04-16 11:30:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::en;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
 
     # maybe nothing ... or help texts
-    %Hash = (
+    $Self->{Translation} = {
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
         'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
         'History::FollowUp' => 'FollowUp for [%s]. %s',
@@ -68,10 +68,8 @@ sub Data {
         'History::TicketLinkAdd' => 'Added link to ticket "%s".',
         'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
         'History::SystemRequest' => 'System Request (%s).',
-    );
+    };
     # $$STOP$$
-
-    $Self->{Translation} = \%Hash;
 }
 
 1;
