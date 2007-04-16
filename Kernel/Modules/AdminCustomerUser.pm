@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.47 2007-04-02 13:13:15 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.48 2007-04-16 11:28:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $ ';
+$VERSION = '$Revision: 1.48 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -85,46 +85,16 @@ sub Run {
             $Nav = 'Admin';
         }
     }
-    # build source string
-    $Param{'SourceOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => {$Self->{CustomerUserObject}->CustomerSourceList()},
-        Name => 'Source',
-        SelectedID => $Source,
-    );
     if ($Nav eq 'Admin') {
         $NavBar = $Self->{LayoutObject}->Header();
         $NavBar .= $Self->{LayoutObject}->NavigationBar();
-        $Self->{LayoutObject}->Block(
-            Name => 'Overview',
-            Data => {
-                %Param,
-                Search => $Search,
-                Nav => $Nav,
-            },
-        );
     }
     elsif ($Nav eq 'None') {
         $NavBar = $Self->{LayoutObject}->Header(Type => 'Small');
-        $Self->{LayoutObject}->Block(
-            Name => 'Overview',
-            Data => {
-                %Param,
-                Search => $Search,
-                Nav => $Nav,
-            },
-        );
     }
     else {
         $NavBar = $Self->{LayoutObject}->Header();
         $NavBar .= $Self->{LayoutObject}->NavigationBar(Type => $Self->{LastNavBarName});
-        $Self->{LayoutObject}->Block(
-            Name => 'Overview',
-            Data => {
-                %Param,
-                Search => $Search,
-                Nav => $Nav,
-            },
-        );
     }
     # search user list
     if ($Self->{Subaction} eq 'Search') {
@@ -258,9 +228,9 @@ sub Run {
             Source => $Source,
             Search => $Search,
             %GetParam,
-         );
-         $Output .= $Self->{LayoutObject}->Footer();
-         return $Output;
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     # ------------------------------------------------------------ #
     # add
@@ -376,19 +346,17 @@ sub Run {
             Source => $Source,
             Search => $Search,
             %GetParam,
-         );
-         $Output .= $Self->{LayoutObject}->Footer();
-         return $Output;
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     # ------------------------------------------------------------ #
     # overview
     # ------------------------------------------------------------ #
     else {
-        $Self->{LayoutObject}->Block(
-            Name => 'OverviewResult',
-            Data => {
-                %Param,
-            },
+        $Self->_Overview(
+            Nav => $Nav,
+            Search => $Search,
         );
         my $Output = $NavBar;
         $Output .= $Self->{LayoutObject}->Output(
@@ -405,6 +373,16 @@ sub _Overview {
     my %Param = @_;
     my $Output = '';
 
+    # build source string
+    $Param{'SourceOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {$Self->{CustomerUserObject}->CustomerSourceList()},
+        Name => 'Source',
+        SelectedID => $Param{Source} || '',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+        Data => \%Param,
+    );
     $Self->{LayoutObject}->Block(
         Name => 'OverviewResult',
         Data => \%Param,
@@ -466,12 +444,6 @@ sub _Edit {
     my %Param = @_;
     my $Output = '';
 
-    $Self->{LayoutObject}->Block(
-        Name => 'OverviewUpdate',
-        Data => {
-            %Param,
-        },
-    );
     # build source string
     $Param{'CompanyOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {$Self->{CustomerCompanyObject}->CustomerCompanyList()},
@@ -483,6 +455,14 @@ sub _Edit {
         Data => {$Self->{CustomerUserObject}->CustomerSourceList()},
         Name => 'Source',
         SelectedID => $Param{Source},
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+        Data => \%Param,
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewUpdate',
+        Data => \%Param,
     );
     foreach my $Entry (@{$Self->{ConfigObject}->Get($Param{Source})->{Map}}) {
         if ($Entry->[0]) {
