@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.36 2007-01-21 01:26:10 mh Exp $
+# $Id: StaticDB.pm,v 1.37 2007-04-16 10:32:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -540,43 +540,33 @@ sub GetOverTimeTickets {
     # get data (viewable tickets...)
     my @TicketIDsOverTime = ();
     my %TicketIDs = ();
-    my $SQL = "SELECT st.id, st.escalation_start_time, q.escalation_time, st.ticket_priority_id, q.name, q.calendar_name ".
-        " FROM ".
-        " queue q, ticket st ".
-        " WHERE ".
-        " q.escalation_time != 0 ".
-        " AND " .
-        " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
-        " AND " .
-        " q.id = st.queue_id ".
-        " AND ";
-
-    if ($Param{UserID}) {
-        my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
-            UserID => $Param{UserID},
-            Type => 'rw',
-            Result => 'ID',
-            Cached => 1,
-        );
-        $SQL .= " q.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND ";
-        # check if user is in min. one group! if not, return here
-        if (!@GroupIDs) {
-            return;
+    # get all open rw ticket
+    my @TicketIDs = $Self->TicketSearch(
+        Result => 'ARRAY',
+        StateType => 'Open',
+        UserID => $Param{UserID} || 1,
+    );
+    foreach my $TicketID (@TicketIDs) {
+        my %Ticket = $Self->TicketGet(TicketID => $TicketID);
+        # check response time
+        if (defined($Ticket{'FirstResponseTime'})) {
+            if (0 > $Ticket{'FirstResponseTimeWorkingTime'}) {
+                push (@TicketIDsOverTime, $TicketID);
+                next;
+            }
         }
-    }
-    $SQL .= " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ";
-    $SQL .= " ORDER BY st.ticket_priority_id DESC, st.escalation_start_time ASC";
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 40);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        if ($Row[2] && $Row[1]) {
-            my $CountedTime = $Self->{TimeObject}->WorkingTime(
-                StartTime => $Row[1],
-                StopTime => $Self->{TimeObject}->SystemTime(),
-                Calendar => $Row[5],
-            );
-            my $DiffTime = ($Row[2]*60) - $CountedTime;
-            if ($DiffTime < 0) {
-                push (@TicketIDsOverTime, $Row[0]);
+        # check update time
+        if (defined($Ticket{'UpdateTime'})) {
+            if (0 >= $Ticket{'UpdateTimeWorkingTime'}) {
+                push (@TicketIDsOverTime, $TicketID);
+                next;
+            }
+        }
+        # check solution
+        if (defined($Ticket{'SolutionTime'})) {
+            if (0 >= $Ticket{'SolutionTimeWorkingTime'}) {
+                push (@TicketIDsOverTime, $TicketID);
+                next;
             }
         }
     }
