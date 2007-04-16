@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.oracle.sql,v 1.10 2007-04-12 09:23:47 mh Exp $
+-- $Id: DBUpdate-to-2.2.oracle.sql,v 1.11 2007-04-16 11:24:14 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.oracle.sql | sqlplus "user/password"
@@ -29,17 +29,6 @@ CREATE TABLE customer_company (
     CONSTRAINT customer_company_U_1 UNIQUE (customer_id),
     CONSTRAINT customer_company_U_2 UNIQUE (name)
 );
-
---
--- ticket
---
-ALTER TABLE ticket ADD freetime3 DATE;
-ALTER TABLE ticket ADD freetime4 DATE;
-ALTER TABLE ticket ADD freetime5 DATE;
-ALTER TABLE ticket ADD freetime6 DATE;
-ALTER TABLE ticket ADD type_id INTEGER;
-ALTER TABLE ticket ADD service_id INTEGER;
-ALTER TABLE ticket ADD sla_id INTEGER;
 
 --
 -- ticket_priority
@@ -77,6 +66,18 @@ INSERT INTO ticket_type
     (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('default', 1, 1, current_timestamp, 1, current_timestamp);
+
+--
+-- ticket
+--
+ALTER TABLE ticket ADD freetime3 DATE;
+ALTER TABLE ticket ADD freetime4 DATE;
+ALTER TABLE ticket ADD freetime5 DATE;
+ALTER TABLE ticket ADD freetime6 DATE;
+ALTER TABLE ticket ADD type_id INTEGER;
+ALTER TABLE ticket ADD service_id INTEGER;
+ALTER TABLE ticket ADD sla_id INTEGER;
+UPDATE ticket SET type_id = 1 WHERE type_id = NULL;
 
 --
 -- ticket_history

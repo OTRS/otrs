@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.mysql.sql,v 1.12 2007-04-12 09:23:47 mh Exp $
+-- $Id: DBUpdate-to-2.2.mysql.sql,v 1.13 2007-04-16 11:24:14 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.mysql.sql | mysql -f -u root otrs
@@ -38,17 +38,6 @@ ALTER TABLE queue ADD first_response_time INTEGER;
 ALTER TABLE queue ADD solution_time INTEGER;
 
 --
--- ticket
---
-ALTER TABLE ticket ADD freetime3 DATETIME;
-ALTER TABLE ticket ADD freetime4 DATETIME;
-ALTER TABLE ticket ADD freetime5 DATETIME;
-ALTER TABLE ticket ADD freetime6 DATETIME;
-ALTER TABLE ticket ADD type_id INTEGER;
-ALTER TABLE ticket ADD service_id INTEGER;
-ALTER TABLE ticket ADD sla_id INTEGER;
-
---
 -- ticket_priority
 --
 ALTER TABLE ticket_priority ADD valid_id SMALLINT NOT NULL;
@@ -72,6 +61,18 @@ INSERT INTO ticket_type
     (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('default', 1, 1, current_timestamp, 1, current_timestamp);
+
+--
+-- ticket
+--
+ALTER TABLE ticket ADD freetime3 DATETIME;
+ALTER TABLE ticket ADD freetime4 DATETIME;
+ALTER TABLE ticket ADD freetime5 DATETIME;
+ALTER TABLE ticket ADD freetime6 DATETIME;
+ALTER TABLE ticket ADD type_id INTEGER;
+ALTER TABLE ticket ADD service_id INTEGER;
+ALTER TABLE ticket ADD sla_id INTEGER;
+UPDATE ticket SET type_id = 1 WHERE type_id = NULL;
 
 --
 -- ticket_history
