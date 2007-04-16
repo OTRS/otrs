@@ -1,8 +1,8 @@
 # --
 # README.webserver - webserver description of OTRS
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: README.webserver,v 1.14 2006-08-29 17:55:46 martin Exp $
+# $Id: README.webserver,v 1.15 2007-04-16 12:25:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -65,33 +65,63 @@ b)
   [...]
 
  *)
-  With mod_perl (speed!):
+  With mod_perl 1 (speed!):
   =======================
   Add this to the mod_perl stuff section in httpd.conf
   [...]
-  Alias /otrs-web/ "/opt/otrs/var/httpd/htdocs/"
-  Alias /otrs/ "/opt/otrs/bin/cgi-bin/"
+    # agent, admin and customer frontend (mod_alias required!)
+    ScriptAlias /otrs/ "/opt/otrs/bin/cgi-bin/"
+    Alias /otrs-web/ "/opt/otrs/var/httpd/htdocs/"
 
-  <Location /otrs>
-    SetHandler  perl-script
-    PerlHandler Apache::Registry
-    Options ExecCGI
-    PerlSendHeader On
-    PerlSetupEnv On
-  </Location>
+    # load all otrs modules (speed improvement!)
+#   Perlrequire /opt/otrs/scripts/apache-perl-startup.pl
 
-  You may want to use a mod_perl startup script. Compiled modules on startup
-  (speed!)! Use the mod_perl startup script which comes with otrs
-  (scripts/apache-perl-startup.pl).
+    # Apache::StatINC - Reload %INC files when updated on disk
+    # (just use it for testing, setup, ... not for high productiv systems)
+#   PerlInitHandler Apache::StatINC
 
-  - Change the default startup script location of your httpd to
-    $OTRS_HOME/scripts/apache-perl-startup.pl in httpd.conf
-    [...]
+    <Location /otrs>
+        ErrorDocument 403 /otrs/index.pl
+        SetHandler  perl-script
+        PerlHandler Apache::Registry
+        Options ExecCGI
+        PerlSendHeader On
+        PerlSetupEnv On
+    </Location>
+  [...]
+
+ *)
+  With mod_perl 2 (speed!):
+  =======================
+  Add this to the mod_perl stuff section in httpd.conf
+  [...]
+    # agent, admin and customer frontend
+    ScriptAlias /otrs/ "/opt/otrs/bin/cgi-bin/"
+    Alias /otrs-web/ "/opt/otrs/var/httpd/htdocs/"
+
     # load all otrs modules
-    Perlrequire /opt/otrs/scripts/apache-perl-startup.pl
-    [...]
+    Perlrequire /opt/otrs/scripts/apache2-perl-startup.pl
 
-  Edit the scripts/apache-perl-startup.pl script:
+    # Apache::Reload - Reload Perl Modules when Changed on Disk
+    PerlModule Apache2::Reload
+    PerlInitHandler Apache2::Reload
+    PerlModule Apache2::RequestRec
+
+    # set mod_perl2 options
+    <Location /otrs>
+#        ErrorDocument 403 /otrs/customer.pl
+        ErrorDocument 403 /otrs/index.pl
+        SetHandler  perl-script
+        PerlResponseHandler ModPerl::Registry
+        Options +ExecCGI
+        PerlOptions +ParseHeaders
+        PerlOptions +SetupEnv
+        Order allow,deny
+        Allow from all
+    </Location>
+  [...]
+
+  Edit the scripts/apache-perl-startup.pl / scripts/apache2-perl-startup.pl script:
 
    - Establish datababase connections on process startup (httpd).
 
@@ -113,8 +143,6 @@ b)
      [...]
 
   Nice! You will love mod_perl! ,-)
-
-  PS: If you use mod_perl2 use the scripts/apache2-* scripts!
 
 c)
   Restart the webserver
