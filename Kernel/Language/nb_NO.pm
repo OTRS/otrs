@@ -4,7 +4,7 @@
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 #               2006 Knut Haugen <knuthaug@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.36 2007-04-02 15:34:19 martin Exp $
+# $Id: nb_NO.pm,v 1.37 2007-04-24 09:45:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.36 $;
+$VERSION = q$Revision: 1.37 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -509,9 +509,9 @@ sub Data {
         'Auto Responses <-> Queue' => 'Autosvar <-> Mapper',
         'Attachments <-> Responses' => 'Vedlegg <-> Ferdigsvar',
         'History::Move' => 'Sak flyttet inn i mappe "%s" (%s) fra mappe "%s" (%s).',
-        'History::TypeUpdate' => '',
-        'History::ServiceUpdate' => '',
-        'History::SLAUpdate' => '',
+        'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
+        'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
+        'History::SLAUpdate' => 'Updated SLA to %s (ID=%s).',
         'History::NewTicket' => 'Ny sak [%s] opprettet (Q=%s;P=%s;S=%s).',
         'History::FollowUp' => 'Oppfølging til sak [%s]. %s',
         'History::SendAutoReject' => 'AutoReject sent to "%s".',

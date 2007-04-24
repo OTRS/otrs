@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.131 2007-04-16 12:42:23 martin Exp $
+# $Id: de.pm,v 1.132 2007-04-24 09:45:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.131 $';
+$VERSION = '$Revision: 1.132 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -506,9 +506,9 @@ sub Data {
         'Auto Responses <-> Queue' => 'Auto Antworten <-> Queues',
         'Attachments <-> Responses' => 'Anlagen <-> Antworten',
         'History::Move' => 'Ticket verschoben in Queue "%s" (%s) von Queue "%s" (%s).',
-        'History::TypeUpdate' => '',
-        'History::ServiceUpdate' => '',
-        'History::SLAUpdate' => '',
+        'History::TypeUpdate' => 'Type aktualisiert "%s" (ID=%s).',
+        'History::ServiceUpdate' => 'Service aktualisiert "%s" (ID=%s).',
+        'History::SLAUpdate' => 'SLA aktualisiert "%s" (ID=%s).',
         'History::NewTicket' => 'Neues Ticket [%s] erstellt (Q=%s;P=%s;S=%s).',
         'History::FollowUp' => 'FollowUp für [%s]. %s',
         'History::SendAutoReject' => 'AutoReject an "%s" versandt.',
@@ -759,10 +759,10 @@ sub Data {
         'Sub-Queue of' => 'Unterqueue von',
         'Unlock timeout' => 'Freigabe-Zeitintervall',
         '0 = no unlock' => '0 = keine Freigabe',
-        'Escalation - First Response Time' => '',
+        'Escalation - First Response Time' => 'Eskalation - Reaktions-Zeit',
         '0 = no escalation' => '0 = keine Eskalation',
-        'Escalation - Update Time' => '',
-        'Escalation - Solution Time' => '',
+        'Escalation - Update Time' => 'Eskalation - Aktualisierungs-Zeit',
+        'Escalation - Solution Time' => 'Eskalation - Lösungs-Zeit',
         'Follow up Option' => 'Nachfrage Option',
         'Ticket lock after a follow up' => 'Ticket sperren nach einem Follow-Up',
         'Systemaddress' => 'Systemadresse',
@@ -859,9 +859,9 @@ sub Data {
         # Template: AdminSLA
         'SLA Management' => 'SLA Management',
         'SLA' => 'SLA',
-        'First Response Time' => '',
-        'Update Time' => '',
-        'Solution Time' => '',
+        'First Response Time' => 'Reaktions-Zeit',
+        'Update Time' => 'Aktualisierungs-Zeit',
+        'Solution Time' => 'Lösungs-Zeit',
 
         # Template: AdminSMIMEForm
         'S/MIME Management' => 'S/MIME Verwaltung',
@@ -1187,7 +1187,7 @@ sub Data {
         'Ticket escalation!' => 'Ticket-Eskalation!',
 
         # Template: AgentTicketQueueTicketView
-        'First Response' => 'Erste Antwort',
+        'First Response' => 'Reaktions-Zeit',
         'Service Time' => 'Service Zeit',
         'Your own Ticket' => 'Ihr eigenes Ticket',
         'Compose Follow up' => 'Ergänzung schreiben',
@@ -1477,6 +1477,12 @@ sub Data {
         'Modified' => 'Verändert',
         'Ticket selected for bulk action!' => 'Ticket für Bulk-Aktion Ausgewählt',
         'Company' => 'Firma',
+        'Ticket %s: first response time is over (%s)!' => 'Ticket %s: Reaktions-Zeit ist abgelaufen (%s)!',
+        'Ticket %s: first response time will be over in %s!' => 'Ticket %s: Reaktions-Zeit wird ablaufen in %s!',
+        'Ticket %s: update time is over (%s)!' => 'Ticket %s: Aktualisierungs-Zeit ist abgelaufen (%s)!',
+        'Ticket %s: update time will be over in %s!' => 'Ticket %s: Aktualisierungs-Zeit wird ablaufen in %s!',
+        'Ticket %s: solution time is over (%s)!' => 'Ticket %s: Lösungs-Zeit ist abgelaufen (%s)!',
+        'Ticket %s: solution time will be over in %s!' => 'Ticket %s: Lösungs-Zeit wird ablaufen in %s!',
     };
     # $$STOP$$
 }

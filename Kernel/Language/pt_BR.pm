@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.49 2007-04-02 15:34:19 martin Exp $
+# $Id: pt_BR.pm,v 1.50 2007-04-24 09:45:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -509,9 +509,9 @@ sub Data {
         'Auto Responses <-> Queue' => 'Auto respostas <-> Fila',
         'Attachments <-> Responses' => 'Anexos <-> respostas',
         'History::Move' => 'Chamado foi movido para a Fila "%s" (%s) vinda da Fila "%s" (%s).',
-        'History::TypeUpdate' => '',
-        'History::ServiceUpdate' => '',
-        'History::SLAUpdate' => '',
+        'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
+        'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
+        'History::SLAUpdate' => 'Updated SLA to %s (ID=%s).',
         'History::NewTicket' => 'Novo Chamado  [%s] foi criado (Q=%s;P=%s;S=%s).',
         'History::FollowUp' => 'FollowUp for [%s]. %s',
         'History::SendAutoReject' => 'Rejeição automática enviada para "%s".',

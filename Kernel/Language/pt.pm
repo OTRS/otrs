@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004 CAT <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.41 2007-04-02 15:34:19 martin Exp $
+# $Id: pt.pm,v 1.42 2007-04-24 09:45:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pt;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -507,9 +507,9 @@ sub Data {
         'Auto Responses <-> Queue' => 'Respostas Automáticas <-> Filas',
         'Attachments <-> Responses' => 'Anexos <-> Respostas',
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
-        'History::TypeUpdate' => '',
-        'History::ServiceUpdate' => '',
-        'History::SLAUpdate' => '',
+        'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
+        'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
+        'History::SLAUpdate' => 'Updated SLA to %s (ID=%s).',
         'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
         'History::FollowUp' => 'FollowUp for [%s]. %s',
         'History::SendAutoReject' => 'AutoReject sent to "%s".',

@@ -5,7 +5,7 @@
 # Original created by Thorsten Rossner
 # Maintained by Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.18 2007-04-02 15:34:19 martin Exp $
+# $Id: da.pm,v 1.19 2007-04-24 09:45:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -509,9 +509,9 @@ sub Data {
         'Auto Responses <-> Queue' => 'Autosvar <-> Kø',
         'Attachments <-> Responses' => 'Vedhæftede filer <-> Responssvar',
         'History::Move' => 'Historik::Flytning',
-        'History::TypeUpdate' => '',
-        'History::ServiceUpdate' => '',
-        'History::SLAUpdate' => '',
+        'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
+        'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
+        'History::SLAUpdate' => 'Updated SLA to %s (ID=%s).',
         'History::NewTicket' => 'Historik::NySag',
         'History::FollowUp' => 'Historik::Opfølgning',
         'History::SendAutoReject' => 'Historik::SendAutoAfslag',

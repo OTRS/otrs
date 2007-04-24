@@ -2,7 +2,7 @@
 # Kernel/Language/fa.pm - provides fa language translation
 # Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
 # --
-# $Id: fa.pm,v 1.20 2007-04-02 15:34:19 martin Exp $
+# $Id: fa.pm,v 1.21 2007-04-24 09:45:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fa;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -510,9 +510,9 @@ sub Data {
         'Auto Responses <-> Queue' => 'پاسخ خودکار <-> لیست تیکت',
         'Attachments <-> Responses' => 'پاسخ خودکار <-> پاسخ',
         'History::Move' => 'سابقه::انتقال',
-        'History::TypeUpdate' => '',
-        'History::ServiceUpdate' => '',
-        'History::SLAUpdate' => '',
+        'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
+        'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
+        'History::SLAUpdate' => 'Updated SLA to %s (ID=%s).',
         'History::NewTicket' => 'تیکت جدید::سابقه',
         'History::FollowUp' => 'سابقه::پیگیری',
         'History::SendAutoReject' => 'سابقه::ارسال رد کردن خودکار ',

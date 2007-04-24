@@ -2,7 +2,7 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.41 2007-04-02 15:34:19 martin Exp $
+# $Id: ru.pm,v 1.42 2007-04-24 09:45:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -507,9 +507,9 @@ sub Data {
         'Auto Responses <-> Queue' => 'Автоответы очередей',
         'Attachments <-> Responses' => '',
         'History::Move' => 'Заявка перемещена в очередь "%s" (%s) из очереди "%s" (%s).',
-        'History::TypeUpdate' => '',
-        'History::ServiceUpdate' => '',
-        'History::SLAUpdate' => '',
+        'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
+        'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
+        'History::SLAUpdate' => 'Updated SLA to %s (ID=%s).',
         'History::NewTicket' => 'Создание заявки [%s] (Q=%s;P=%s;S=%s).',
         'History::FollowUp' => 'Ответ на [%s]. %s',
         'History::SendAutoReject' => 'AutoReject sent to "%s".',

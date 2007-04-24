@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 #                    George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.16 2007-04-02 15:34:19 martin Exp $
+# $Id: el.pm,v 1.17 2007-04-24 09:45:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::el;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -513,40 +513,44 @@ sub Data {
         'Auto Responses' => 'Αυτόματες Απαντήσεις',
         'Auto Responses <-> Queue' => 'Αυτόματες Απαντήσεις <-> Ουρές',
         'Attachments <-> Responses' => 'Συνημμένα <-> Απαντήσεις',
-        'History::Move' => 'Ticket verschoben in Queue "%s" (%s) von Queue "%s" (%s).',
-        'History::TypeUpdate' => '',
-        'History::ServiceUpdate' => '',
-        'History::SLAUpdate' => '',
-        'History::NewTicket' => 'Neues Ticket [%s] erstellt (Q=%s;P=%s;S=%s).',
-        'History::FollowUp' => 'FollowUp fόr [%s]. %s',
-        'History::SendAutoReject' => 'AutoReject an "%s" versandt.',
-        'History::SendAutoReply' => 'AutoReply an "%s" versandt.',
-        'History::SendAutoFollowUp' => 'AutoFollowUp an "%s" versandt.',
-        'History::Forward' => 'Weitergeleited an "%s".',
-        'History::Bounce' => 'Bounced an "%s".',
-        'History::SendAnswer' => 'Email versandt an "%s".',
-        'History::SendAgentNotification' => '"%s"-Benachrichtigung versand an "%s".',
-        'History::SendCustomerNotification' => 'Benachrichtigung versandt an "%s".',
-        'History::EmailAgent' => 'Email an Kunden versandt.',
-        'History::EmailCustomer' => 'Αποστολή Email στον πελάτη. %s',
-        'History::PhoneCallAgent' => 'Kunden angerufen.',
-        'History::PhoneCallCustomer' => 'Kunde hat angerufen.',
-        'History::AddNote' => 'Notiz hinzugefόgt (%s)',
-        'History::Lock' => 'Κλείδωμα Δελτίου',
-        'History::Unlock' => 'Ticketsperre aufgehoben.',
-        'History::TimeAccounting' => '%s Zeiteinheit(en) gezδhlt. Nun insgesamt %s Zeiteinheit(en).',
+        'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
+        'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
+        'History::FollowUp' => 'FollowUp for [%s]. %s',
+        'History::SendAutoReject' => 'AutoReject sent to "%s".',
+        'History::SendAutoReply' => 'AutoReply sent to "%s".',
+        'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
+        'History::Forward' => 'Forwarded to "%s".',
+        'History::Bounce' => 'Bounced to "%s".',
+        'History::SendAnswer' => 'Email sent to "%s".',
+        'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
+        'History::SendCustomerNotification' => 'Notification sent to "%s".',
+        'History::EmailAgent' => 'Email sent to customer.',
+        'History::EmailCustomer' => 'Added email. %s',
+        'History::PhoneCallAgent' => 'Agent called customer.',
+        'History::PhoneCallCustomer' => 'Customer called us.',
+        'History::AddNote' => 'Added note (%s)',
+        'History::Lock' => 'Locked ticket.',
+        'History::Unlock' => 'Unlocked ticket.',
+        'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
         'History::Remove' => '%s',
-        'History::CustomerUpdate' => 'Aktualisiert: %s',
-        'History::PriorityUpdate' => 'Prioritδt aktuallisiert von "%s" (%s) nach "%s" (%s).',
-        'History::OwnerUpdate' => 'Neuer Besitzer ist "%s" (ID=%s).',
-        'History::LoopProtection' => 'Loop-Protection! Keine Auto-Antwort versandt an "%s".',
+        'History::CustomerUpdate' => 'Updated: %s',
+        'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
+        'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
+        'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
         'History::Misc' => '%s',
-        'History::SetPendingTime' => 'Aktualisiert: %s',
-        'History::StateUpdate' => 'Alt: "%s" Neu: "%s"',
-        'History::TicketFreeTextUpdate' => 'Aktualisiert: %s=%s;%s=%s;',
-        'History::WebRequestCustomer' => 'Kunde stellte Anfrage όber Web.',
-        'History::TicketLinkAdd' => 'Verknόpfung zu "%s" hergestellt.',
-        'History::TicketLinkDelete' => 'Verknόpfung zu "%s" gelφscht.',
+        'History::SetPendingTime' => 'Updated: %s',
+        'History::StateUpdate' => 'Old: "%s" New: "%s"',
+        'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
+        'History::WebRequestCustomer' => 'Customer request via web.',
+        'History::TicketLinkAdd' => 'Added link to ticket "%s".',
+        'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
+        'History::SystemRequest' => 'System Request (%s).',
+        'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
+        'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
+        'History::SLAUpdate' => 'Updated SLA to %s (ID=%s).',
+        'History::EmailCustomer' => 'Αποστολή Email στον πελάτη. %s',
+        'History::Lock' => 'Κλείδωμα Δελτίου',
+        'History::Remove' => '%s',
 
         # Template: AAAWeekDay
         'Sun' => 'Κυρ',

@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.55 2007-04-12 16:41:29 martin Exp $
+# $Id: bg.pm,v 1.56 2007-04-24 09:45:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -509,9 +509,9 @@ sub Data {
         'Auto Responses <-> Queue' => 'Авто отговори <-> Опашки',
         'Attachments <-> Responses' => 'Прикачени файлове <-> Опашки',
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
-        'History::TypeUpdate' => 'Промяна на типа',
-        'History::ServiceUpdate' => 'Промяна на service',
-        'History::SLAUpdate' => 'Промяна на SLA',
+        'History::TypeUpdate' => 'Промяна на типа "%s".',
+        'History::ServiceUpdate' => 'Промяна на service "%s".',
+        'History::SLAUpdate' => 'Промяна на SLA "%s".',
         'History::NewTicket' => 'Създаден нов билет [%s] (О=%s;П=%s;С=%s).',
         'History::FollowUp' => 'Събщтение към [%s]. %s',
         'History::SendAutoReject' => 'Авто отказ изпратен на "%s".',
