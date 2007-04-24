@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.24 2007-03-22 09:05:12 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.25 2007-04-24 09:54:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -205,7 +205,7 @@ $Data{"Body"}
 <!-- dtl:block:SLA -->
 <!-- dtl:block:FirstResponseTime -->
         <tr valign="top">
-          <td><b>$Text{"First Response"}:</b></td>
+          <td><b>$Text{"First Response Time"}:</b></td>
           <td>
 <!-- dtl:block:FirstResponseTimeFontStart -->
             <font color="red">
