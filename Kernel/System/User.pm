@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.63 2007-03-21 15:09:22 martin Exp $
+# $Id: User.pm,v 1.64 2007-04-24 11:05:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -376,18 +376,18 @@ to search users
 
     my %List = $UserObject->UserSearch(
         Search => '*some*', # also 'hans+huber' possible
-        ValidID => 1, # not required
+        Valid => 1, # not required
     );
 
     my %List = $UserObject->UserSearch(
         UserLogin => '*some*',
         Limit => 50,
-        ValidID => 1, # not required
+        Valid => 1, # not required
     );
 
     my %List = $UserObject->UserSearch(
         PostMasterSearch => 'email@example.com',
-        ValidID => 1, # not required
+        Valid => 1, # not required
     );
 
 =cut
@@ -816,6 +816,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2007-03-21 15:09:22 $
+$Revision: 1.64 $ $Date: 2007-04-24 11:05:19 $
 
 =cut
