@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.21 2007-04-02 10:11:44 martin Exp $
+# $Id: LDAP.pm,v 1.22 2007-04-26 21:33:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -40,12 +40,36 @@ sub new {
 
     # get ldap preferences
     $Self->{Die} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Die'.$Param{Count});
-    $Self->{Host} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Host'.$Param{Count})
-        || die "Need Customer::AuthModule::LDAPHost in Kernel/Config.pm";
-    $Self->{BaseDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::BaseDN'.$Param{Count})
-        || die "Need Customer::AuthModule::LDAPBaseDN in Kernel/Config.pm";
-    $Self->{UID} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UID'.$Param{Count})
-        || die "Need Customer::AuthModule::LDAPBaseDN in Kernel/Config.pm";
+    if ($Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Host'.$Param{Count})) {
+        $Self->{Host} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Host'.$Param{Count});
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need Customer::AuthModule::LDAPHost$Param{Count} in Kernel/Config.pm",
+        );
+        return;
+    }
+    if (defined($Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::BaseDN'.$Param{Count}))) {
+        $Self->{BaseDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::BaseDN'.$Param{Count});
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need Customer::AuthModule::LDAPBaseDN$Param{Count} in Kernel/Config.pm",
+        );
+        return;
+    }
+    if ($Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UID'.$Param{Count})) {
+        $Self->{UID} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UID'.$Param{Count});
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need 'Customer::AuthModule::LDAP::UID$Param{Count} in Kernel/Config.pm",
+        );
+        return;
+    }
     $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::SearchUserDN'.$Param{Count}) || '';
     $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::SearchUserPw'.$Param{Count}) || '';
     $Self->{GroupDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::GroupDN'.$Param{Count}) || '';
