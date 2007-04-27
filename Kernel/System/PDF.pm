@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.21.2.1 2007-04-04 07:47:13 mh Exp $
+# $Id: PDF.pm,v 1.21.2.2 2007-04-27 12:44:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21.2.1 $';
+$VERSION = '$Revision: 1.21.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -106,7 +106,7 @@ sub DocumentNew {
         # set document title
         $Self->{Document}->{Title} = $Param{Title} || $ProjectVersion;
         # set document encode
-        if (!defined($Param{Encode}) || ($Param{Encode} ne 'latin1' && $Param{Encode} ne 'utf8')) {
+        if (!$Param{Encode}) {
             $Param{Encode} = 'latin1';
         }
         $Self->{Document}->{Encode} = $Param{Encode};
@@ -3359,6 +3359,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21.2.1 $ $Date: 2007-04-04 07:47:13 $
+$Revision: 1.21.2.2 $ $Date: 2007-04-27 12:44:44 $
 
 =cut
