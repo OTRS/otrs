@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.382 2007-04-16 12:56:36 martin Exp $
+# $Id: CHANGES,v 1.383 2007-04-27 09:35:55 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+ - (2007/04/27) Fixed bug# 1670 - If no result the generation of pie graph throws error.
+
 2.2.0 beta2 (2007/04/16)
  - (2007/04/16) Fixed bug# 1448 - Apache::Registry in README.webserver wrong,
      mod_perl2 is missing.

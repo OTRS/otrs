@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.27 2007-04-13 06:31:03 tr Exp $
+# $Id: AgentStats.pm,v 1.28 2007-04-27 09:35:55 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -2077,9 +2077,16 @@ sub Run {
                 GraphSize => $Param{GraphSize},
             );
             if (!$Graph) {
-                return $Self->{LayoutObject}->ErrorScreen(
-                    Message => "To much data, can't use it with graph!",
-                );
+                if ($Param{Format} =~ /^GD::Graph::pie/) {
+                    return $Self->{LayoutObject}->ErrorScreen(
+                        Message => "You use invalid data! Perhaps there are no results.",
+                    );
+                }
+                else {
+                    return $Self->{LayoutObject}->ErrorScreen(
+                        Message => "To much data, can't use it with graph!",
+                    );
+                }
             }
 
             # return image to bowser
