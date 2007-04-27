@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.39 2007-04-03 23:15:00 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.40 2007-04-27 12:38:17 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -164,6 +164,7 @@ sub Run {
         # create new pdf document
         $Self->{PDFObject}->DocumentNew(
             Title => $Self->{ConfigObject}->Get('Product') . ': ' . $Title,
+            Encode => $Self->{LayoutObject}->{UserCharset},
         );
         # create first pdf page
         $Self->{PDFObject}->PageNew(
