@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.132 2007-04-24 09:45:47 martin Exp $
+# $Id: de.pm,v 1.133 2007-04-27 12:34:46 bb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.132 $';
+$VERSION = '$Revision: 1.133 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -506,7 +506,7 @@ sub Data {
         'Auto Responses <-> Queue' => 'Auto Antworten <-> Queues',
         'Attachments <-> Responses' => 'Anlagen <-> Antworten',
         'History::Move' => 'Ticket verschoben in Queue "%s" (%s) von Queue "%s" (%s).',
-        'History::TypeUpdate' => 'Type aktualisiert "%s" (ID=%s).',
+        'History::TypeUpdate' => 'Typ aktualisiert "%s" (ID=%s).',
         'History::ServiceUpdate' => 'Service aktualisiert "%s" (ID=%s).',
         'History::SLAUpdate' => 'SLA aktualisiert "%s" (ID=%s).',
         'History::NewTicket' => 'Neues Ticket [%s] erstellt (Q=%s;P=%s;S=%s).',
@@ -558,16 +558,16 @@ sub Data {
         'Auto Response From' => 'Auto-Antwort-Absender',
         'Note' => 'Notiz',
         'Useable options' => 'Verfügbare Optionen',
-        'To get the first 20 character of the subject.' => '',
-        'To get the first 5 lines of the email.' => '',
-        'To get the realname of the sender (if given).' => '',
-        'To get the article attribut (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
-        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => '',
-        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => '',
-        'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => '',
-        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => '',
-        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => '',
-        'Config options (e. g. <OTRS_CONFIG_HttpType>).' => '',
+        'To get the first 20 character of the subject.' => 'Die ersten 20 Zeichen des Betreffs',
+        'To get the first 5 lines of the email.' => 'Die ersten fünf Zeilen der Nachricht',
+        'To get the realname of the sender (if given).' => 'Der Name des Benutzers (soweit bekannt)',
+        'To get the article attribut (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Die Artikel Attribute (z. B. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
+        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => 'Details zum aktuellen Kunden (z. B. <OTRS_CUSTOMER_DATA_UserFirstname>)',
+        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => 'Details zum Ticket-Besizter (z. B. <OTRS_OWNER_UserFirstname>).',
+        'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => 'Details zum Ticket-Verantwortlichen (z. B.<OTRS_RESPONSIBLE_UserFirstname>).',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => 'Details zum aktuellen Benutzer, der diese Aktion veranlasst hat (z. B. <OTRS_CURRENT_UserFirstname).',
+        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => 'Detailinformation zum Ticket (z. B. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).',
+        'Config options (e. g. <OTRS_CONFIG_HttpType>).' => 'Konfigurations Optionen (z. B. <OTRS_CONFIG_HttpType).',
 
         # Template: AdminCustomerCompanyForm
         'Customer Company Management' => 'Kunden-Firma Management',
@@ -761,8 +761,8 @@ sub Data {
         '0 = no unlock' => '0 = keine Freigabe',
         'Escalation - First Response Time' => 'Eskalation - Reaktions-Zeit',
         '0 = no escalation' => '0 = keine Eskalation',
-        'Escalation - Update Time' => 'Eskalation - Aktualisierungs-Zeit',
-        'Escalation - Solution Time' => 'Eskalation - Lösungs-Zeit',
+        'Escalation - Update Time' => 'Eskalation - Bearbeitungszeit',
+        'Escalation - Solution Time' => 'Eskalation - Lösungszeit',
         'Follow up Option' => 'Nachfrage Option',
         'Ticket lock after a follow up' => 'Ticket sperren nach einem Follow-Up',
         'Systemaddress' => 'Systemadresse',
@@ -859,9 +859,9 @@ sub Data {
         # Template: AdminSLA
         'SLA Management' => 'SLA Management',
         'SLA' => 'SLA',
+        'Update Time' => 'Bearbeitungszeit',
+        'Solution Time' => 'Lösungszeit',
         'First Response Time' => 'Reaktions-Zeit',
-        'Update Time' => 'Aktualisierungs-Zeit',
-        'Solution Time' => 'Lösungs-Zeit',
 
         # Template: AdminSMIMEForm
         'S/MIME Management' => 'S/MIME Verwaltung',
@@ -905,31 +905,31 @@ sub Data {
 
         # Template: AdminSystemAddressForm
         'System Email Addresses Management' => 'E-Mail-Adressen Verwaltung',
-        'Add System Address' => '',
-        'Add a new System Address.' => '',
-        'Realname' => '',
+        'Add System Address' => 'System Adresse hinzufügen',
+        'Add a new System Address.' => 'Eine neue Systemadresse anlegen',
+        'Realname' => 'Tatsächlicher Name',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden E-Mails mit diesem Empfänger (To:) werden in die ausgewählte Queue einsortiert.',
 
         # Template: AdminSystemStatus
-        'System Status' => '',
+        'System Status' => 'System Status',
 
         # Template: AdminTicketCustomerNotification
-        'Notification (Customer)' => '',
-        'Event' => '',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
-        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
-        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+        'Notification (Customer)' => 'Benachrichtigung (Kunde)',
+        'Event' => 'Ereignis',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Einstellungen (z. B.&lt;OTRS_CONFIG_HttpType&gt;)',
+        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Ticket Besitzer Einstellungen (z. B. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Einstellungen für den Benutzer, der diese Aktion ausgelöst hat (z. B. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Einstellungen der Benutzerdaten des aktuellen Benutzers ((z. B. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;).',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'EInstellungen der Ticketdaten (z. B. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
 
         # Template: AdminTypeForm
-        'Type Management' => '',
-        'Add Type' => '',
-        'Add a new Type.' => '',
+        'Type Management' => 'Typenverwaltung',
+        'Add Type' => 'Typ hinzufügen',
+        'Add a new Type.' => 'Einen neuen Typ erstellen',
 
         # Template: AdminUserForm
         'User Management' => 'Benutzer Verwaltung',
-        'Add a new Agent.' => '',
+        'Add a new Agent.' => 'Neuen Agenten hinzufügen',
         'Login as' => 'Anmelden als',
         'Firstname' => 'Vorname',
         'Lastname' => 'Nachname',
@@ -984,7 +984,7 @@ sub Data {
         'Apply these changes' => 'Änderungen übernehmen',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
+        'Stat#' => 'Statistik Nr.',
 
         # Template: AgentStatsEditRestrictions
         'Select the restrictions to characterise the stat' => 'Auswahl der Einschränkungen zur Charaktarisierung der Statistik',
@@ -1371,7 +1371,7 @@ sub Data {
         'File-Name' => 'Datei-Dateiname',
         'Ticket Number Generator' => 'Ticketnummer Generator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Ticket Kennzeichnen. Z.B. \'Ticket#\', \'Call#\' oder \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Auf diesem Wege können Sie den Keyring in Kernel/Config.pm direkt verändern',
         'Create new Phone Ticket' => 'Neues Telefon-Ticket erstellen',
         'A message should have a To: recipient!' => 'Eine Nachricht sollte einen Empfänger im Feld An: haben!',
         'Site' => 'Seite',
