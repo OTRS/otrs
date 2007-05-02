@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.38 2007-02-12 11:43:00 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.39 2007-05-02 14:03:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -492,7 +492,7 @@ sub Run {
             SelectedID => $Param{NewQueueID},
             OnChangeSubmit => 0,
         );
-        $Param{'PriotitiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{'PrioritiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 $Self->{PriorityObject}->PriorityList(
                     UserID => 1,
@@ -504,7 +504,7 @@ sub Run {
             Size => 5,
             SelectedIDRefArray => $Param{PriorityIDs},
         );
-        $Param{'NewPriotitiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{'NewPrioritiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 $Self->{PriorityObject}->PriorityList(
                     UserID => 1,

@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.18 2007-02-12 11:55:43 martin Exp $
+# $Id: AgentTicketSearch.dtl,v 1.19 2007-05-02 14:03:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -160,7 +160,7 @@
             <td width="50%" class="contenthead">$Text{"State"}</td>
           </tr>
           <tr>
-            <td class="contentbody">$Data{"PriotitiesStrg"}</td>
+            <td class="contentbody">$Data{"PrioritiesStrg"}</td>
             <td class="contentbody">$Data{"StatesStrg"}</td>
           </tr>
           <tr>

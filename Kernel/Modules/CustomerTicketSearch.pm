@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.26 2007-02-06 19:40:19 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.27 2007-05-02 14:03:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -526,7 +526,7 @@ sub MaskForm {
         Size => 5,
         SelectedID => $Param{StateType},
     );
-    $Param{'PriotitiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'PrioritiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             $Self->{PriorityObject}->PriorityList(
                 UserID => $Self->{UserID},

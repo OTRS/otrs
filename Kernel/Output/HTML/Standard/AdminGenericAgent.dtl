@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.29 2007-02-12 11:43:00 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.30 2007-05-02 14:03:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -202,7 +202,7 @@
             <td class="contenthead" width="50%">$Text{"Queue"}</td>
           </tr>
           <tr>
-            <td class="contentbody">$Data{"PriotitiesStrg"}</td>
+            <td class="contentbody">$Data{"PrioritiesStrg"}</td>
             <td class="contentbody">$Data{"QueuesStrg"}</td>
           </tr>
           <tr>
@@ -278,7 +278,7 @@
             <td class="mainhead" width="50%">$Text{"New Queue"}</td>
           </tr>
           <tr>
-            <td class="contentbody">$Data{"NewPriotitiesStrg"}</td>
+            <td class="contentbody">$Data{"NewPrioritiesStrg"}</td>
             <td class="contentbody">$Data{"NewQueuesStrg"}</td>
           </tr>
           <tr>
