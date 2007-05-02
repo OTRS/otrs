@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.9 2007-01-30 16:28:24 tr Exp $
+# $Id: Ticket.pm,v 1.10 2007-05-02 14:31:08 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Queue;
 use Kernel::System::Ticket;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -36,13 +36,13 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject UserObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
-# Warum komme ich bei State und Priority ohne Use aus ?
-    $Self->{QueueObject} = Kernel::System::Queue        ->new(%Param);
-    $Self->{TicketObject} = Kernel::System::Ticket       ->new(%Param);
-    $Self->{StateObject} = Kernel::System::State        ->new(%Param);
-    $Self->{PriorityObject} = Kernel::System::Priority     ->new(%Param);
-    $Self->{LockObject} = Kernel::System::Lock         ->new(%{$Self});
-    $Self->{CustomerUser} = Kernel::System::CustomerUser ->new(%{$Self});
+
+    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
+    $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
+    $Self->{LockObject} = Kernel::System::Lock->new(%{$Self});
+    $Self->{CustomerUser} = Kernel::System::CustomerUser->new(%{$Self});
 
     return $Self;
 }
