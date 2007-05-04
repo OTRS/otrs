@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.25 2007-03-12 11:30:46 martin Exp $
+# $Id: AgentTicketEmail.dtl,v 1.26 2007-05-04 11:47:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -190,13 +190,19 @@ function clear_field() {
 <!-- dtl:block:TicketService -->
             <tr>
               <td class="contentkey">$Text{"Service"}:</td>
-              <td class="contentvalue"> $Data{"ServiceStrg"}</td>
+              <td class="contentvalue">
+                $Data{"ServiceStrg"}
+                <font color="red" size="-2">$Text{"$Data{"Service invalid"}"}</font>
+              </td>
             </tr>
 <!-- dtl:block:TicketService -->
 <!-- dtl:block:TicketSLA -->
             <tr>
               <td class="contentkey">$Text{"SLA"}:</td>
-              <td class="contentvalue"> $Data{"SLAStrg"}</td>
+              <td class="contentvalue">
+                $Data{"SLAStrg"}
+                <font color="red" size="-2">$Text{"$Data{"SLA invalid"}"}</font>
+              </td>
             </tr>
 <!-- dtl:block:TicketSLA -->
 <!-- dtl:block:OwnerSelection -->

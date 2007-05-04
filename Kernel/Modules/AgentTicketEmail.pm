@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.37 2007-03-23 14:04:26 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.38 2007-05-04 11:47:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -508,6 +508,9 @@ sub Run {
             if ($Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0) < $Self->{TimeObject}->SystemTime()) {
                 $Error{"Date invalid"} = 'invalid';
             }
+        }
+        if ($Self->{ConfigObject}->Get('Ticket::Service') && $GetParam{SLAID} && !$GetParam{ServiceID}) {
+            $Error{"Service invalid"} = 'invalid';
         }
         # run compose modules
         my %ArticleParam = ();
@@ -1089,6 +1092,12 @@ sub _MaskEmailNew {
             Data => \%Param,
         );
     }
+    # prepare errors!
+    if ($Param{Errors}) {
+        foreach (keys %{$Param{Errors}}) {
+            $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
+        }
+    }
     # build type string
     if ($Self->{ConfigObject}->Get('Ticket::Type')) {
         $Param{Types}->{''} = '-';
@@ -1144,12 +1153,6 @@ sub _MaskEmailNew {
         Format => 'DateInputFormatLong',
         DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
     );
-    # prepare errors!
-    if ($Param{Errors}) {
-        foreach (keys %{$Param{Errors}}) {
-            $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
-        }
-    }
     # from update
     if (!$Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
         $Self->{LayoutObject}->Block(

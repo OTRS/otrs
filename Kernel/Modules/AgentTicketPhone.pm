@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.40 2007-03-23 13:25:44 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.41 2007-05-04 11:47:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -478,6 +478,9 @@ sub Run {
         }
         if (!$NewQueueID && $ExpandCustomerName == 0) {
             $Error{"Destination invalid"} = 'invalid';
+        }
+        if ($Self->{ConfigObject}->Get('Ticket::Service') && $GetParam{SLAID} && !$GetParam{ServiceID}) {
+            $Error{"Service invalid"} = 'invalid';
         }
         if (%Error) {
 
@@ -1026,6 +1029,12 @@ sub _MaskPhoneNew {
             Data => \%Param,
         );
     }
+    # prepare errors!
+    if ($Param{Errors}) {
+        foreach (keys %{$Param{Errors}}) {
+            $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
+        }
+    }
     # build type string
     if ($Self->{ConfigObject}->Get('Ticket::Type')) {
         $Param{Types}->{''} = '-';
@@ -1081,12 +1090,6 @@ sub _MaskPhoneNew {
         Format => 'DateInputFormatLong',
         DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
     );
-    # prepare errors!
-    if ($Param{Errors}) {
-        foreach (keys %{$Param{Errors}}) {
-            $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
-        }
-    }
     # to update
     if (!$Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
         $Self->{LayoutObject}->Block(
