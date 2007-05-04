@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.384 2007-05-02 14:05:46 mh Exp $
+# $Id: CHANGES,v 1.385 2007-05-04 08:11:19 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.2.0 beta3 (2007/??/??)
+ - (2007/05/04) Fixed bug# 1611 - Now the Statsmodule use the mirror db if configured.
  - (2007/05/02) Fixed bug# 1809 - Fixed typo in variable name (PrioritiesStrg -> PriotitiesStrg).
  - (2007/04/27) Fixed bug# 1670 - If no result the generation of pie graph throws error.
 
