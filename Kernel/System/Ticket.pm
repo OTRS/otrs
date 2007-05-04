@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.256 2007-05-04 14:59:51 mh Exp $
+# $Id: Ticket.pm,v 1.257 2007-05-04 15:19:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.256 $';
+$VERSION = '$Revision: 1.257 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -4643,12 +4643,11 @@ sub HistoryTicketGet {
         $Param{$_} = sprintf("%02d", $Param{$_});
     }
     # check cache
-    my $Path = $Self->{ConfigObject}->Get('Home')."/var/tmp/";
+    my $Path = $Self->{ConfigObject}->Get('Home')."/var/tmp/TicketHistoryCache/$Param{StopYear}/$Param{StopMonth}/";
     my $File = $Self->{MainObject}->FilenameCleanUp(
-        Filename => $Param{TicketID}-$Param{StopYear}-$Param{StopMonth}-$Param{StopDay},
-        Type => 'md5',
+        Filename => "TicketHistoryCache-$Param{TicketID}-$Param{StopYear}-$Param{StopMonth}-$Param{StopDay}.cache",
+        Type => 'local',
     );
-    $File = "TicketHistoryCache-$File.cache";
     # write cache
     if (!$Param{Force} && -f "$Path/$File") {
         if (open (DATA, "< $Path/$File")) {
@@ -5812,6 +5811,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.256 $ $Date: 2007-05-04 14:59:51 $
+$Revision: 1.257 $ $Date: 2007-05-04 15:19:23 $
 
 =cut
