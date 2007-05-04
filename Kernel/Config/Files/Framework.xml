@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.140 2007-04-11 21:49:44 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.141 2007-05-04 08:08:50 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -4824,5 +4824,32 @@ Your OTRS Notification Master
         <Setting>
             <String Regex="^[0-9]{1,5}$">100</String>
         </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Core::MirrorDB::DSN" Required="0" Valid="0">
+      <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.</Description>
+      <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche oder für die Statistikerstellung genutzt werden soll, kann hier die DSN für diese Datenbank angegeben werden.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::MirrorDB</SubGroup>
+      <Setting>
+        <String Regex="">DBI:mysql:database=mirrordb;host=mirrordbhost</String>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Core::MirrorDB::User" Required="0" Valid="0">
+      <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search or to generate stats, you can specify the user to authenticate to this database.</Description>
+      <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche oder für die Statistikerstellung genutzt werden soll, kann hier der Benutzer angegeben werden, der für die Anmeldung an dieser Datenbank benötigt wird.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::MirrorDB</SubGroup>
+      <Setting>
+        <String Regex="">some_user</String>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Core::MirrorDB::Password" Required="0" Valid="0">
+      <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search or to generate stats, you can specify the password to authenticate to this database.</Description>
+      <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche oder für die Statistikerstellung genutzt werden soll, kann hier das Kennwort angegeben werden, das für die Anmeldung an dieser Datenbank benötigt wird.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::MirrorDB</SubGroup>
+      <Setting>
+        <String Regex="">some_password</String>
+      </Setting>
     </ConfigItem>
 </otrs_config>

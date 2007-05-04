@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.21 2007-04-13 07:03:09 tr Exp $
+# $Id: Stats.pm,v 1.22 2007-05-04 08:08:49 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -2188,6 +2188,22 @@ sub StatsRun {
         }
     }
 
+    # use the mirror db if configured
+    if ($Self->{ConfigObject}->Get('Core::MirrorDB::DSN')) {
+        my $ExtraDatabaseObject = Kernel::System::DB->new(
+            LogObject => $Self->{LogObject},
+            ConfigObject => $Self->{ConfigObject},
+            MainObject => $Self->{MainObject},
+            DatabaseDSN => $Self->{ConfigObject}->Get('Core::MirrorDB::DSN'),
+            DatabaseUser => $Self->{ConfigObject}->Get('Core::MirrorDB::User'),
+            DatabasePw => $Self->{ConfigObject}->Get('Core::MirrorDB::Password'),
+        );
+        if (!$ExtraDatabaseObject) {
+            $Self->{LayoutObject}->FatalError();
+        }
+        $Self->{DBObject} = $ExtraDatabaseObject;
+    }
+
     my $Stat = $Self->StatsGet(StatID => $Param{StatID});
     my %GetParam = %{$Param{GetParam}};
 
@@ -2437,6 +2453,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2007-04-13 07:03:09 $
+$Revision: 1.22 $ $Date: 2007-05-04 08:08:49 $
 
 =cut

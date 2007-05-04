@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.37 2007-05-02 14:03:34 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.38 2007-05-04 08:08:49 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -47,13 +47,14 @@ sub new {
     $Self->{PDFObject} = Kernel::System::PDF->new(%Param);
 
     # if we need to do a fulltext search on an external mirror database
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::Search::DB::DSN')) {
+    if ($Self->{ConfigObject}->Get('Core::MirrorDB::DSN')) {
         my $ExtraDatabaseObject = Kernel::System::DB->new(
             LogObject => $Param{LogObject},
             ConfigObject => $Param{ConfigObject},
-            DatabaseDSN => $Self->{ConfigObject}->Get('Ticket::Frontend::Search::DB::DSN'),
-            DatabaseUser => $Self->{ConfigObject}->Get('Ticket::Frontend::Search::DB::User'),
-            DatabasePw => $Self->{ConfigObject}->Get('Ticket::Frontend::Search::DB::Password'),
+            MainObject => $Param{MainObject},
+            DatabaseDSN => $Self->{ConfigObject}->Get('Core::MirrorDB::DSN'),
+            DatabaseUser => $Self->{ConfigObject}->Get('Core::MirrorDB::User'),
+            DatabasePw => $Self->{ConfigObject}->Get('Core::MirrorDB::Password'),
         );
         if (!$ExtraDatabaseObject) {
             $Self->{LayoutObject}->FatalError();
