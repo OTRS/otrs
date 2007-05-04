@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.5 2007-01-20 23:11:34 mh Exp $
+# $Id: Main.pm,v 1.6 2007-05-04 14:26:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::Main;
 
 use strict;
+use Digest::MD5 qw(md5_hex);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -131,6 +132,63 @@ sub Require {
     }
 }
 
+=item FilenameCleanUp()
+
+to clean up filenames which can be used in any case (also quoting is done)
+
+    my $Filename = $MainObject->FilenameCleanUp(
+        Filename => 'c:\some\location\me_to/alal.xml',
+        Type => 'Local', # Local|Attachment|MD5
+    );
+
+    my $Filename = $MainObject->FilenameCleanUp(
+        Filename => 'some:file.xml',
+        Type => 'MD5', # Local|Attachment|MD5
+    );
+
+=cut
+
+sub FilenameCleanUp {
+    my $Self = shift;
+    my %Param = @_;
+
+    if (!$Param{Filename}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need Filename!"
+        );
+        return;
+    }
+
+    if ($Param{Type} && $Param{Type} =~ /md5/i) {
+        $Param{Filename} = md5_hex($Param{Filename});
+    }
+    # replace invalid token for attachment file names
+    elsif ($Param{Type} && $Param{Type} =~ /attachment/i) {
+        # replace invalid token like < > ? " : ; | \ / or *
+        $Param{Filename} =~ s/[ <>\?":\\\*\|\/;]/-/g;
+        $Param{Filename} =~ s/ä/ae/g;
+        $Param{Filename} =~ s/ö/oe/g;
+        $Param{Filename} =~ s/ü/ue/g;
+        $Param{Filename} =~ s/Ä/Ae/g;
+        $Param{Filename} =~ s/Ö/Oe/g;
+        $Param{Filename} =~ s/Ü/Ue/g;
+        $Param{Filename} =~ s/ß/ss/g;
+        $Param{Filename} =~ s/-+/-/g;
+        # Cut the String if to long
+        if (length($Param{Filename}) > 100) {
+            $Param{Filename} = substr($Param{Filename},0,100);
+        }
+
+    }
+    else {
+        # replace invalid token like < > ; | \ /
+        $Param{Filename} =~ s/[ <>\?":\\\*\|\/;]/-/g;
+    }
+
+    return $Param{Filename};
+}
+
 =item Die()
 
 to die
@@ -175,6 +233,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.6 $ $Date: 2007-05-04 14:26:24 $
 
 =cut
