@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.268 2007-04-13 13:19:04 mh Exp $
+# $Id: Defaults.pm,v 1.269 2007-05-04 11:19:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.268 $';
+$VERSION = '$Revision: 1.269 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -99,6 +99,10 @@ sub LoadDefaults {
     # If you use ODBC, no database auto detection is possible,
     # so set the database type here. Possible: mysq,postgresql,sapdb
 #    $Self->{'Database::Type'} = 'sapdb';
+
+    # If you want to use an init sql after connect, use this hier.
+    # (e. g. can be used for mysql encoding between client and server)
+#    $Self->{'Database::Connect'} = 'SET NAMES utf8';
 
     # (The database DSN for Oracle ==> more: "man DBD::oracle")
 #    $Self->{DatabaseDSN} = "DBI:Oracle:sid=$Self->{Database};host=$Self->{DatabaseHost};port=1521;";
@@ -2155,6 +2159,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.268 $ $Date: 2007-04-13 13:19:04 $
+$Revision: 1.269 $ $Date: 2007-05-04 11:19:56 $
 
 =cut

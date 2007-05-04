@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.66 2007-03-28 12:16:11 martin Exp $
+# $Id: DB.pm,v 1.67 2007-05-04 11:19:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.66 $';
+$VERSION = '$Revision: 1.67 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -162,7 +162,7 @@ sub new {
     }
     # check/get extra database config options
     # (overwrite with params)
-    foreach (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack)) {
+    foreach (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect)) {
         if (defined($Param{$_})) {
             $Self->{Backend}->{"DB::$_"} = $Param{$_};
         }
@@ -774,6 +774,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2007-03-28 12:16:11 $
+$Revision: 1.67 $ $Date: 2007-05-04 11:19:44 $
 
 =cut
