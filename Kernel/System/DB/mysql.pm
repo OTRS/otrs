@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.17 2007-03-14 15:48:33 martin Exp $
+# $Id: mysql.pm,v 1.18 2007-05-04 11:32:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::mysql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -52,7 +52,7 @@ sub LoadPreferences {
 
     # init setting
     if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /(utf(\-8|8))/i) {
-#        $Self->{'DB::Connect'} = 'SET NAMES utf8';
+        $Self->{'DB::Connect'} = 'SET NAMES utf8';
     }
 
     return 1;
@@ -166,6 +166,15 @@ sub TableCreate {
         $SQL .= "    $Tag->{Name} $Tag->{Type}";
         if ($Tag->{Required} =~ /^true$/i) {
             $SQL .= " NOT NULL";
+        }
+        # add default
+        if ($Tag->{Default}) {
+            if ($Tag->{Type} =~ /int/i) {
+                $SQL .= " SET DEFAULT ".$Tag->{Default}."";
+            }
+            else {
+                $SQL.= " SET DEFAULT '".$Tag->{Default}."'";
+            }
         }
         # auto increment
         if ($Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i) {
@@ -284,6 +293,14 @@ sub TableAlter {
             if ($Tag->{Required} && $Tag->{Required} =~ /^true$/i) {
                 $SQLEnd .= " NOT NULL";
             }
+            if ($Tag->{Default}) {
+                if ($Tag->{Type} =~ /int/i) {
+                    $SQLEnd .= " SET DEFAULT ".$Tag->{Default}."";
+                }
+                else {
+                    $SQLEnd .= " SET DEFAULT '".$Tag->{Default}."'";
+                }
+            }
             push (@SQL, $SQLEnd);
         }
         elsif ($Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start') {
@@ -293,6 +310,14 @@ sub TableAlter {
             my $SQLEnd = $SQLStart." CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type}";
             if ($Tag->{Required} && $Tag->{Required} =~ /^true$/i) {
                 $SQLEnd .= " NOT NULL";
+            }
+            if ($Tag->{Default}) {
+                if ($Tag->{Type} =~ /int/i) {
+                    $SQLEnd .= " SET DEFAULT ".$Tag->{Default}."";
+                }
+                else {
+                    $SQLEnd .= " SET DEFAULT '".$Tag->{Default}."'";
+                }
             }
             push (@SQL, $SQLEnd);
         }
