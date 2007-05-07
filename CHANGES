@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.387 2007-05-07 09:13:04 martin Exp $
+# $Id: CHANGES,v 1.388 2007-05-07 11:47:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+ - (2007/05/07) Fixed bug# 1787 - Problem with cachefilenames of the stats module in win32.
+
 2.2.0 beta3 (2007/05/07)
  - (2007/05/04) Fixed bug# 1788 - Problem with cachefile in win32.
  - (2007/05/04) Fixed bug# 1773 - DB-error in phone ticket if sla but no
