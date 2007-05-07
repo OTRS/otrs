@@ -2,7 +2,7 @@
 # Kernel/System/DB/maxdb.pm - maxdb database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: maxdb.pm,v 1.16 2007-03-14 15:48:33 martin Exp $
+# $Id: maxdb.pm,v 1.17 2007-05-07 08:30:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::maxdb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -41,7 +41,7 @@ sub LoadPreferences {
     $Self->{'DB::DirectBlob'} = 0;
     $Self->{'DB::QuoteSingle'} = '\'';
     $Self->{'DB::QuoteBack'} = 0;
-    $Self->{'DB::QuoteSemicolon'} = '\'';
+    $Self->{'DB::QuoteSemicolon'} = '\\';
     $Self->{'DB::Attribute'} = {
         LongTruncOk => 1,
         LongReadLen => 100*1024,
@@ -122,7 +122,7 @@ sub TableCreate {
             }
         }
         if (($Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate') && $Tag->{TagType} eq 'Start') {
-            $SQLStart .= "CREATE TABLE $Tag->{Name} (\n";
+            $SQLStart .= "CREATE TABLE $Tag->{Name}\n(\n";
             $TableName = $Tag->{Name};
         }
         if (($Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate') && $Tag->{TagType} eq 'End') {
@@ -494,6 +494,9 @@ sub _TypeTranslation {
         $Tag->{Type} = 'timestamp';
     }
     # performance option
+    elsif ($Tag->{Type} =~ /^bigint$/i) {
+        $Tag->{Type} = 'INTEGER';
+    }
     elsif ($Tag->{Type} =~ /^longblob$/i) {
         $Tag->{Type} = 'LONG';
     }
