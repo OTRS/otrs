@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.4 2007-02-27 19:55:58 mh Exp $
+# $Id: Service.pm,v 1.5 2007-05-07 17:23:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Service;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -296,15 +296,23 @@ sub ServiceAdd {
                 "('$Param{FullName}', $Param{ValidID}, '$Param{Comment}', ".
                 "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})",
         );
-        $Return = 1;
+        my $ID = '';
+        $Self->{DBObject}->Prepare(
+            SQL => "SELECT id FROM service WHERE name = '$Param{FullName}'",
+            Limit => 1,
+        );
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $ID = $Row[0];
+        }
+        return $ID;
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message => "Can't add service! Service with same name and parent already exists."
         );
+        return;
     }
-    return $Return;
 }
 
 =item ServiceUpdate()
@@ -436,6 +444,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2007-02-27 19:55:58 $
+$Revision: 1.5 $ $Date: 2007-05-07 17:23:24 $
 
 =cut
