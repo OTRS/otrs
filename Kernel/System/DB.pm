@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.68 2007-05-07 08:28:06 martin Exp $
+# $Id: DB.pm,v 1.69 2007-05-07 17:14:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.68 $';
+$VERSION = '$Revision: 1.69 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -162,7 +162,7 @@ sub new {
     }
     # check/get extra database config options
     # (overwrite with params)
-    foreach (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect)) {
+    foreach (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode)) {
         if (defined($Param{$_})) {
             $Self->{Backend}->{"DB::$_"} = $Param{$_};
         }
@@ -526,8 +526,10 @@ sub FetchrowArray {
     # e. g. set utf-8 flag
     my $Count = 0;
     foreach (@Row) {
-        if (!defined($Self->{Encode}) || ($Self->{Encode} && $Self->{Encode}->[$Count])) {
-            $Self->{EncodeObject}->Encode(\$_);
+        if ($Self->{Backend}->{"DB::Encode"}) {
+            if (!defined($Self->{Encode}) || ($Self->{Encode} && $Self->{Encode}->[$Count])) {
+                $Self->{EncodeObject}->Encode(\$_);
+            }
         }
         $Count++;
     }
@@ -792,6 +794,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.68 $ $Date: 2007-05-07 08:28:06 $
+$Revision: 1.69 $ $Date: 2007-05-07 17:14:43 $
 
 =cut

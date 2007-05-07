@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.25 2007-03-14 15:48:33 martin Exp $
+# $Id: oracle.pm,v 1.26 2007-05-07 17:14:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -46,7 +46,10 @@ sub LoadPreferences {
         LongTruncOk => 1,
         LongReadLen => 4*1024*1024,
     };
-#    $Self->{'DB::CurrentTimestamp'} = '';
+    # set current time stamp if different to "current_timestamp"
+    $Self->{'DB::CurrentTimestamp'} = '';
+    # set encoding of selected data to utf8
+    $Self->{'DB::Encode'} = 0;
 
     # shell setting
     $Self->{'DB::Comment'} = '-- ';

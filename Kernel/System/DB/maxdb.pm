@@ -2,7 +2,7 @@
 # Kernel/System/DB/maxdb.pm - maxdb database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: maxdb.pm,v 1.17 2007-05-07 08:30:51 martin Exp $
+# $Id: maxdb.pm,v 1.18 2007-05-07 17:14:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::maxdb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -46,7 +46,10 @@ sub LoadPreferences {
         LongTruncOk => 1,
         LongReadLen => 100*1024,
     };
+    # set current time stamp if different to "current_timestamp"
     $Self->{'DB::CurrentTimestamp'} = 'timestamp';
+    # set encoding of selected data to utf8
+    $Self->{'DB::Encode'} = 1;
 
     # shell setting
     $Self->{'DB::Comment'} = '// ';

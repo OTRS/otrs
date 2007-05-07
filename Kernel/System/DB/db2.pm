@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.18 2007-03-14 15:48:33 martin Exp $
+# $Id: db2.pm,v 1.19 2007-05-07 17:14:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::DB::db2;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -47,7 +47,10 @@ sub LoadPreferences {
         LongTruncOk => 1,
         LongReadLen => 100*1024,
     };
-#    $Self->{'DB::CurrentTimestamp'} = '';
+    # set current time stamp if different to "current_timestamp"
+    $Self->{'DB::CurrentTimestamp'} = '';
+    # set encoding of selected data to utf8
+    $Self->{'DB::Encode'} = 1;
 
     # shell setting
     $Self->{'DB::Comment'} = '-- ';
