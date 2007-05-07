@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.67 2007-05-04 11:19:44 martin Exp $
+# $Id: DB.pm,v 1.68 2007-05-07 08:28:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.67 $';
+$VERSION = '$Revision: 1.68 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -410,6 +410,14 @@ or in case you want just to get row 10 till 30
         Limit => 20,
     );
 
+in case you wan't not utf-8 encoding for some column use this to do
+not encode content column
+
+    $DBObject->Prepare(
+        SQL => "SELECT id, name, content FROM table",
+        Encode => [1,1,0],
+    );
+
 =cut
 
 sub Prepare {
@@ -422,6 +430,12 @@ sub Prepare {
     if (!$Param{SQL}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need SQL!");
         return;
+    }
+    if (defined($Param{Encode})) {
+        $Self->{Encode} = $Param{Encode};
+    }
+    else {
+        $Self->{Encode} = undef;
     }
     $Self->{Limit} = 0;
     $Self->{LimitStart} = 0;
@@ -510,8 +524,12 @@ sub FetchrowArray {
     # return
     my @Row = $Self->{Curser}->fetchrow_array();
     # e. g. set utf-8 flag
+    my $Count = 0;
     foreach (@Row) {
-        $Self->{EncodeObject}->Encode(\$_);
+        if (!defined($Self->{Encode}) || ($Self->{Encode} && $Self->{Encode}->[$Count])) {
+            $Self->{EncodeObject}->Encode(\$_);
+        }
+        $Count++;
     }
     return @Row;
 }
@@ -774,6 +792,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2007-05-04 11:19:44 $
+$Revision: 1.68 $ $Date: 2007-05-07 08:28:06 $
 
 =cut

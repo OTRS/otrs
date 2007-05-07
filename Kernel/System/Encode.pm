@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Encode.pm - character encodings
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.14 2006-12-14 12:07:58 martin Exp $
+# $Id: Encode.pm,v 1.15 2007-05-07 08:23:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -197,7 +197,7 @@ sub Convert {
         else {
             # set utf-8 flag
             if ($Param{To} =~ /^utf(8|-8)$/i) {
-                Encode::encode_utf8($Param{Text});
+#                Encode::encode_utf8($Param{Text});
                 Encode::_utf8_on($Param{Text});
             }
             if ($Self->{Debug}) {
@@ -249,21 +249,21 @@ sub Encode {
         $Self->EncodeFrontendUsed() &&
         $Self->EncodeFrontendUsed() =~ /utf(-8|8)/i) {
         if (defined ($What) && ref($What) eq 'ARRAY') {
-            foreach (@{$What}) {
+            foreach my $I (@{$What}) {
                 if (defined($_)) {
-                    Encode::encode_utf8($_);
-                    Encode::_utf8_on($_);
+                    $I = Encode::decode_utf8($I);
+                    Encode::_utf8_on($I);
                 }
             }
         }
         elsif (defined ($What) && ref($What) eq 'SCALAR') {
             if (defined(${$What})) {
-                Encode::encode_utf8(${$What});
+                    ${$What} = Encode::decode_utf8(${$What});
                 Encode::_utf8_on(${$What});
             }
         }
         elsif (defined($What)) {
-            Encode::encode_utf8($What);
+                    $What = Encode::decode_utf8($What);
             Encode::_utf8_on($What);
         }
     }
@@ -322,7 +322,9 @@ sub EncodeOutput {
     if ($Self->{CharsetEncodeSupported} &&
         $Self->EncodeFrontendUsed() &&
         $Self->EncodeFrontendUsed() =~ /utf(-8|8)/i) {
-        ${$What} = Encode::encode_utf8(${$What});
+        if (Encode::is_utf8(${$What})) {
+            ${$What} = Encode::encode_utf8(${$What});
+        }
     }
 }
 
@@ -342,6 +344,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2006-12-14 12:07:58 $
+$Revision: 1.15 $ $Date: 2007-05-07 08:23:42 $
 
 =cut

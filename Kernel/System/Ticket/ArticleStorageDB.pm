@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.42 2007-04-12 23:52:13 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.43 2007-05-07 08:29:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub ArticleStorageInit {
@@ -404,16 +404,34 @@ sub ArticleAttachmentIndex {
             }
             # read content type
             my $ContentType = '';
-            if (open(IN, "< $Filename")) {
-                while (<IN>) {
-                    if ($ContentType) {
-                        last;
+            if (-e "$Filename.content_type") {
+                if (open(DATA, "$Filename.content_type")) {
+                    while (<DATA>) {
+                        $ContentType .= $_;
                     }
-                    else {
-                        $ContentType = $_;
-                    }
+                    close(DATA);
                 }
-                close(IN);
+                else {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "$!: $Filename.content_type!",
+                    );
+                    return;
+                }
+            }
+            # read content type (old style)
+            else {
+                if (open(IN, "< $Filename")) {
+                    while (<IN>) {
+                        if ($ContentType) {
+                            last;
+                        }
+                        else {
+                            $ContentType = $_;
+                        }
+                    }
+                    close(IN);
+                }
             }
             # strip filename
             $Filename =~ s!^.*/!!;
@@ -449,21 +467,76 @@ sub ArticleAttachment {
     # get content path
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
     my %Data = %{$Index{$Param{FileID}}};
+print "DB\n";
 
-    if (open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}")) {
-        my $Counter = 0;
-        binmode(DATA);
-        while (<DATA>) {
-            $Data{ContentType} = $_ if ($Counter == 0);
-            $Data{Content} .= $_ if ($Counter > 0);
-            $Counter++;
+    my $Counter = 0;
+    my @List = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");
+    if (@List) {
+        foreach my $Filename (@List) {
+            if ($Filename !~ /\/plain.txt$/ && $Filename !~ /\.content_type$/) {
+                # add the info the the hash
+                $Counter++;
+                if ($Counter == $Param{FileID}) {
+                    # convert the file name in utf-8 if utf-8 is used
+                    $Filename = $Self->{EncodeObject}->Decode(
+                        Text => $Filename,
+                        From => 'utf-8',
+                    );
+                    if (-e "$Filename.content_type") {
+                        if (open(DATA, "$Filename.content_type")) {
+                            while (<DATA>) {
+                                $Data{ContentType} .= $_."2";
+                            }
+                            close(DATA);
+                            if (open(DATA, $Filename)) {
+                                my $Counter = 0;
+                                binmode(DATA);
+                                while (<DATA>) {
+                                    $Data{Content} .= $_;
+                                }
+                                close(DATA);
+                            }
+                            else {
+                                $Self->{LogObject}->Log(
+                                    Priority => 'error',
+                                    Message => "$!: $Filename!",
+                                );
+                                return;
+
+                            }
+                        }
+                        else {
+                            $Self->{LogObject}->Log(
+                                Priority => 'error',
+                                Message => "$!: $Filename.content_type!",
+                            );
+                            return;
+                        }
+                    }
+                    else {
+                        if (open(DATA, $Filename)) {
+                            my $Counter = 0;
+                            binmode(DATA);
+                            while (<DATA>) {
+                                if (!$Data{ContentType} && $Counter == 0) {
+                                    $Data{ContentType} = $_;
+                                }
+                                else {
+                                    $Data{Content} .= $_;
+                                }
+                                $Counter++;
+                            }
+                            close(DATA);
+                        }
+                    }
+                    if ($Data{ContentType} =~ /plain\/text/i && $Data{ContentType} =~ /(utf\-8|utf8)/i) {
+                        $Self->{EncodeObject}->Encode(\$Data{Content});
+                    }
+                    chomp ($Data{ContentType});
+                    return %Data;
+                }
+            }
         }
-        close (DATA);
-        if ($Data{ContentType} =~ /(utf\-8|utf8)/i) {
-            $Self->{EncodeObject}->Encode(\$Data{Content});
-        }
-        chomp ($Data{ContentType});
-        return %Data;
     }
     else {
         # try database
@@ -473,13 +546,12 @@ sub ArticleAttachment {
         my $SQL = "SELECT content_type, content FROM article_attachment ".
             " WHERE ".
             " article_id = $Param{ArticleID} ORDER BY id";
-        $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Param{FileID});
+        $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Param{FileID}, Encode => [1,0]);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Data{ContentType} = $Row[0];
             # decode attachemnt if it's e. g. a postgresql backend!!!
             if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
                 $Data{Content} = decode_base64($Row[1]);
-                $Self->{EncodeObject}->Encode(\$Data{Content});
             }
             else {
                 $Data{Content} = $Row[1];

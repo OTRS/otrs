@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.37 2007-04-12 23:52:13 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.38 2007-05-07 08:29:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub ArticleStorageInit {
@@ -286,10 +286,22 @@ sub ArticleWriteAttachment {
             return;
         }
     }
-    # write attachment to fs
+    # write attachment content type to fs
+    if (open (DATA, "> $Param{Path}/$Param{Filename}.content_type")) {
+        binmode(DATA);
+        print DATA $Param{ContentType};
+        close (DATA);
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't write: $Param{Path}/$Param{Filename}: $!",
+        );
+        return;
+    }
+    # write attachment content to fs
     if (open (DATA, "> $Param{Path}/$Param{Filename}")) {
         binmode(DATA);
-        print DATA "$Param{ContentType}\n";
         print DATA $Param{Content};
         close (DATA);
         return 1;
@@ -378,45 +390,64 @@ sub ArticleAttachmentIndex {
             Text => $Filename,
             From => 'utf-8',
         );
-        # human readable file size
-        if ($FileSize) {
-            # remove meta data in files
-            $FileSize = $FileSize - 30 if ($FileSize > 30);
-            if ($FileSize > (1024*1024)) {
-                $FileSize = sprintf "%.1f MBytes", ($FileSize/(1024*1024));
-            }
-            elsif ($FileSize > 1024) {
-                $FileSize = sprintf "%.1f KBytes", (($FileSize/1024));
-            }
-            else {
-                $FileSize = $FileSize.' Bytes';
-            }
-        }
-        # read content type
-        my $ContentType = '';
-        if (open(IN, "< $Filename")) {
-            while (<IN>) {
-                if ($ContentType) {
-                    last;
+        if ($Filename !~ /\/plain.txt$/ && $Filename !~ /\.content_type$/) {
+            # human readable file size
+            if ($FileSize) {
+                # remove meta data in files
+                $FileSize = $FileSize - 30 if ($FileSize > 30);
+                if ($FileSize > (1024*1024)) {
+                    $FileSize = sprintf "%.1f MBytes", ($FileSize/(1024*1024));
+                }
+                elsif ($FileSize > 1024) {
+                    $FileSize = sprintf "%.1f KBytes", (($FileSize/1024));
                 }
                 else {
-                    $ContentType = $_;
+                    $FileSize = $FileSize.' Bytes';
                 }
             }
-            close(IN);
+            # read content type
+            my $ContentType = '';
+            if (-e "$Filename.content_type") {
+                if (open(DATA, "$Filename.content_type")) {
+                    while (<DATA>) {
+                        $ContentType .= $_;
+                    }
+                    close(DATA);
+                }
+                else {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "$!: $Filename.content_type!",
+                    );
+                    return;
+                }
+            }
+            # read content type (old style)
+            else {
+                if (open(IN, "< $Filename")) {
+                    while (<IN>) {
+                        if ($ContentType) {
+                            last;
+                        }
+                        else {
+                            $ContentType = $_;
+                        }
+                    }
+                    close(IN);
+                }
+            }
+            # strip filename
+            $Filename =~ s!^.*/!!;
+            if ($Filename ne 'plain.txt') {
+                # add the info the the hash
+                $Counter++;
+                $Index{$Counter} = {
+                    Filename => $Filename,
+                    Filesize => $FileSize,
+                    ContentType => $ContentType,
+                };
+            }
         }
-        # strip filename
-        $Filename =~ s!^.*/!!;
-        if ($Filename ne 'plain.txt') {
-            # add the info the the hash
-            $Counter++;
-            $Index{$Counter} = {
-                Filename => $Filename,
-                Filesize => $FileSize,
-                ContentType => $ContentType,
-            };
-        }
-
     }
     # try database (if there is no index in fs)
     if (!%Index) {
@@ -474,37 +505,72 @@ sub ArticleAttachment {
     my @List = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");
     if (@List) {
         foreach my $Filename (@List) {
-            if ($Filename !~ /\/plain.txt/) {
+            if ($Filename !~ /\/plain.txt$/ && $Filename !~ /\.content_type$/) {
                 # add the info the the hash
                 $Counter++;
                 if ($Counter == $Param{FileID}) {
-                    if (open (DATA, $Filename)) {
-                        my $Counter = 0;
-                        binmode(DATA);
-                        while (<DATA>) {
-                            $Data{ContentType} = $_ if ($Counter == 0);
-                            $Data{Content} .= $_ if ($Counter > 0);
-                            $Counter++;
+                    # convert the file name in utf-8 if utf-8 is used
+                    $Filename = $Self->{EncodeObject}->Decode(
+                        Text => $Filename,
+                        From => 'utf-8',
+                    );
+                    if (-e "$Filename.content_type") {
+                        if (open(DATA, "$Filename.content_type")) {
+                            while (<DATA>) {
+                                $Data{ContentType} .= $_;
+                            }
+                            close(DATA);
+                            if (open(DATA, $Filename)) {
+                                my $Counter = 0;
+                                binmode(DATA);
+                                while (<DATA>) {
+                                    $Data{Content} .= $_;
+                                }
+                                close(DATA);
+                            }
+                            else {
+                                $Self->{LogObject}->Log(
+                                    Priority => 'error',
+                                    Message => "$!: $Filename!",
+                                );
+                                return;
+
+                            }
                         }
-                        close (DATA);
-                        if ($Data{ContentType} =~ /(utf\-8|utf8)/i) {
-                            $Self->{EncodeObject}->Encode(\$Data{Content});
+                        else {
+                            $Self->{LogObject}->Log(
+                                Priority => 'error',
+                                Message => "$!: $Filename.content_type!",
+                            );
+                            return;
                         }
-                        chomp ($Data{ContentType});
-                        return %Data;
                     }
                     else {
-                        $Self->{LogObject}->Log(
-                            Priority => 'error',
-                            Message => "$!: $Filename!",
-                        );
-                        return;
+                        if (open(DATA, $Filename)) {
+                            my $Counter = 0;
+                            binmode(DATA);
+                            while (<DATA>) {
+                                if (!$Data{ContentType} && $Counter == 0) {
+                                    $Data{ContentType} = $_;
+                                }
+                                else {
+                                    $Data{Content} .= $_;
+                                }
+                                $Counter++;
+                            }
+                            close(DATA);
+                        }
                     }
+                    if ($Data{ContentType} =~ /plain\/text/i && $Data{ContentType} =~ /(utf\-8|utf8)/i) {
+                        $Self->{EncodeObject}->Encode(\$Data{Content});
+                    }
+                    chomp ($Data{ContentType});
+                    return %Data;
                 }
             }
         }
     }
-    else {
+    if (!%Data) {
         # try database
         foreach (qw(ArticleID)) {
             $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
@@ -512,7 +578,7 @@ sub ArticleAttachment {
         my $SQL = "SELECT content_type, content FROM article_attachment ".
             " WHERE ".
             " article_id = $Param{ArticleID}";
-        $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Param{FileID});
+        $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Param{FileID}, Encode => [1,0]);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Data{ContentType} = $Row[0];
             # decode attachemnt if it's e. g. a postgresql backend!!!

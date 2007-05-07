@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.26 2007-03-12 09:24:14 martin Exp $
+# $Id: DB.pm,v 1.27 2007-05-07 08:23:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -149,7 +149,6 @@ sub GetSessionIDData {
         my @PaarData = split(/:/, $_);
         if ($PaarData[1]) {
             $Data{$PaarData[0]} = decode_base64($PaarData[1]);
-            $Self->{EncodeObject}->Encode(\$Data{$PaarData[0]});
         }
         else {
             $Data{$PaarData[0]} = '';

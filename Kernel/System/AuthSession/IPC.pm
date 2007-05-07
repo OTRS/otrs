@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: IPC.pm,v 1.23 2007-04-12 09:17:46 martin Exp $
+# $Id: IPC.pm,v 1.24 2007-05-07 08:23:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -227,7 +227,6 @@ sub GetSessionIDData {
                 foreach (@PaarData) {
                     my ($Key, $Value) = split(/:/, $_);
                     $Data{$Key} = decode_base64($Value);
-                    $Self->{EncodeObject}->Encode(\$Data{$Key});
                 }
                 # Debug
                 if ($Self->{Debug}) {

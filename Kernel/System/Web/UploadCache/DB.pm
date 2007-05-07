@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.8 2007-03-12 22:52:31 martin Exp $
+# $Id: DB.pm,v 1.9 2007-05-07 08:29:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.8 $ ';
+$VERSION = '$Revision: 1.9 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -73,8 +73,8 @@ sub FormIDAddFile {
         no bytes;
     }
     # encode attachemnt if it's a postgresql backend!!!
-    $Self->{EncodeObject}->EncodeOutput(\$Param{Content});
     if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
+        $Self->{EncodeObject}->EncodeOutput(\$Param{Content});
         $Param{Content} = encode_base64($Param{Content});
     }
     # db quote (just not Content, use db Bind values)
@@ -127,7 +127,7 @@ sub FormIDGetAllFilesData {
         " WHERE ".
         " form_id = '".$Self->{DBObject}->Quote($Param{FormID})."'".
         " ORDER BY create_time_unix";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
+    $Self->{DBObject}->Prepare(SQL => $SQL, Encode => [1,1,1,0]);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Counter++;
         # human readable file size
@@ -145,7 +145,6 @@ sub FormIDGetAllFilesData {
         # encode attachemnt if it's a postgresql backend!!!
         if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
             $Row[3] = decode_base64($Row[3]);
-            $Self->{EncodeObject}->Encode(\$Row[3]);
         }
         # add the info
         push (@Data, {
