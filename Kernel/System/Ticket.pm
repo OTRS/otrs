@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.257 2007-05-04 15:19:23 mh Exp $
+# $Id: Ticket.pm,v 1.258 2007-05-07 08:58:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.257 $';
+$VERSION = '$Revision: 1.258 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1593,17 +1593,41 @@ sub TicketEscalationState {
     }
     # check response time
     if ($Escalation{FirstResponseTime}) {
-# check if first response is already done
+        # check if first response is already done
+        my $FirstResponse = 0;
+        my $SQL = "SELECT a.create_time,a.id FROM ".
+            " article a, article_sender_type ast, article_type at ".
+            " WHERE ".
+            " a.article_sender_type_id = ast.id ".
+            " AND ".
+            " a.article_type_id = at.id ".
+            " AND ".
+            " a.ticket_id = $Ticket{TicketID} ".
+            " AND ".
+            " ast.name = 'agent' AND (at.name LIKE 'email-ext%' OR at.name = 'phone' OR at.name = 'fax') ".
+            " ORDER BY a.create_time";
+        $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $FirstResponse = $Row[0];
+        }
+
         my $DestinationTime = $Self->{TimeObject}->DestinationTime(
             StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(String => $Ticket{Created}),
             Time => $Escalation{FirstResponseTime}*60,
             Calendar => $Escalation{Calendar},
         );
-        my $Time = $DestinationTime-$Self->{TimeObject}->SystemTime();
+
+        my $Time = 0;
+        if ($FirstResponse) {
+            $Time = $DestinationTime-$Self->{TimeObject}->TimeStamp2SystemTime(String => $FirstResponse);
+        }
+        else {
+            $Time = $DestinationTime-$Self->{TimeObject}->SystemTime();
+        }
         my $WorkingTime = 0;
         if ($Time > 0) {
             $WorkingTime = $Self->{TimeObject}->WorkingTime(
-                StartTime => $Self->{TimeObject}->SystemTime(),
+                StartTime => $Time,
                 StopTime => $DestinationTime,
                 Calendar => $Escalation{Calendar},
             );
@@ -1611,7 +1635,7 @@ sub TicketEscalationState {
         else {
             $WorkingTime = $Self->{TimeObject}->WorkingTime(
                 StartTime => $DestinationTime,
-                StopTime => $Self->{TimeObject}->SystemTime(),
+                StopTime => $Time,
                 Calendar => $Escalation{Calendar},
             );
             $WorkingTime = "-$WorkingTime";
@@ -5811,6 +5835,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.257 $ $Date: 2007-05-04 15:19:23 $
+$Revision: 1.258 $ $Date: 2007-05-07 08:58:32 $
 
 =cut
