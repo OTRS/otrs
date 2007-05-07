@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.13 2007-03-28 12:16:11 martin Exp $
+# $Id: DB.t,v 1.14 2007-05-07 08:24:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -132,6 +132,19 @@ elsif ($Self->{DBObject}->{'DB::Type'} =~ /mssql/i) {
     $Self->Is(
         $Self->{DBObject}->Quote("Test'l;"),
         'Test\'\'l\\;',
+        'Quote() String - Test\'l;',
+    );
+}
+elsif ($Self->{DBObject}->{'DB::Type'} =~ /maxdb/i) {
+    $Self->Is(
+        $Self->{DBObject}->Quote("Test'l"),
+        'Test\'\'l',
+        'Quote() String - Test\'l',
+    );
+
+    $Self->Is(
+        $Self->{DBObject}->Quote("Test'l;"),
+        'Test\'\'l\\\;',
         'Quote() String - Test\'l;',
     );
 }

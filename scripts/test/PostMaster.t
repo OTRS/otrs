@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.3 2007-04-12 23:54:01 martin Exp $
+# $Id: PostMaster.t,v 1.4 2007-05-07 08:24:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -54,7 +54,8 @@ foreach my $Module (qw(DB FS)) {
     );
 }
 
-foreach my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
+#foreach my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
+foreach my $NumberModule (qw(Random)) {
     $Self->{ConfigObject}->Set(
         Key => 'Ticket::NumberGenerator',
         Value => "Kernel::System::Ticket::Number::$NumberModule",
@@ -66,7 +67,7 @@ foreach my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
         );
         # get rand sender address
         my $UserRand1 = 'example-user'.int(rand(1000000)).'@example.com';
-        foreach my $File (1..3) {
+        foreach my $File (qw(1 2 3 6)) {
             # new ticket check
             my @Content = ();
             open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/PostMaster-Test$File.box") || die $!;
@@ -134,6 +135,41 @@ foreach my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
                 $Self->Is(
                     $MD5,
                     '4e78ae6bffb120669f50bca56965f552',
+                    "#$NumberModule $StorageModule $File md5 attachment check",
+                );
+
+            }
+            if ($File == 6) {
+                # check body
+                my %Article = $Self->{TicketObject}->ArticleGet(
+                    ArticleID => $ArticleIDs[0],
+                );
+                $Self->{EncodeObject}->EncodeOutput(\$Article{Body});
+                my $MD5 = md5_hex($Article{Body}) || '';
+                $Self->Is(
+                    $MD5,
+                    '2ac290235a8cad953a1837c77701c5dc',
+                    "#$NumberModule $StorageModule $File md5 body check",
+                );
+                # check attachments
+                my %Index = $Self->{TicketObject}->ArticleAttachmentIndex(
+                    ArticleID => $ArticleIDs[0],
+                    UserID => 1,
+                );
+                my $FileID = 4;
+                if ($StorageModule eq 'ArticleStorageDB') {
+                    $FileID = 2;
+                }
+                my %Attachment = $Self->{TicketObject}->ArticleAttachment(
+                    ArticleID => $ArticleIDs[0],
+                    FileID => $FileID,
+                    UserID => 1,
+                );
+                $Self->{EncodeObject}->EncodeOutput(\$Attachment{Content});
+                $MD5 = md5_hex($Attachment{Content}) || '';
+                $Self->Is(
+                    $MD5,
+                    '5ee767f3b68f24a9213e0bef82dc53e5',
                     "#$NumberModule $StorageModule $File md5 attachment check",
                 );
 

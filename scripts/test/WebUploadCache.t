@@ -2,7 +2,7 @@
 # AuthSession.t - auth session tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: WebUploadCache.t,v 1.4 2007-03-19 22:28:16 martin Exp $
+# $Id: WebUploadCache.t,v 1.5 2007-05-07 08:24:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 use Kernel::System::Web::UploadCache;
+use Digest::MD5 qw(md5_hex);
+
 use utf8;
 
 foreach my $Module (qw(DB FS)) {
@@ -37,6 +39,8 @@ foreach my $Module (qw(DB FS)) {
             $Content .= $_;
         }
         close(IN);
+        $Self->{EncodeObject}->EncodeOutput(\$Content);
+        my $MD5 = md5_hex($Content);
         my $Add = $Self->{UploadCacheObject}->FormIDAddFile(
             FormID => $FormID,
             Filename => 'UploadCache Test1äöüß.'.$File,
@@ -62,6 +66,13 @@ foreach my $Module (qw(DB FS)) {
             $Self->True(
                 $File{Content} eq $Content,
                 "#$Module - FormIDGetAllFilesData() - Content .".$File,
+            );
+            $Self->{EncodeObject}->EncodeOutput(\$File{Content});
+            my $MD5New = md5_hex($File{Content});
+            $Self->Is(
+                $MD5New || '',
+                $MD5 || '',
+                "#$Module - md5 check",
             );
         }
         my $Delete = $Self->{UploadCacheObject}->FormIDRemoveFile(

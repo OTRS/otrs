@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.t,v 1.13 2007-04-11 08:23:18 martin Exp $
+# $Id: XML.t,v 1.14 2007-05-07 08:24:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -150,7 +150,16 @@ $XMLHashUpdateTrue = $Self->{XMLObject}->XMLHashUpdate(
 );
 $Self->True(
     $XMLHashUpdateTrue,
-    'XMLHashUpdate() (admin1)',
+    'XMLHashUpdate() (admin1) # 1',
+);
+
+@XMLHash = $Self->{XMLObject}->XMLHashGet(
+    Type => 'SomeType',
+    Key => '123',
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin1',
+    'XMLHashGet() (admin1) # 2',
 );
 
 @XMLHash = $Self->{XMLObject}->XMLHashGet(
