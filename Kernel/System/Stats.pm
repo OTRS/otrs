@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.22 2007-05-04 08:08:49 tr Exp $
+# $Id: Stats.pm,v 1.23 2007-05-07 11:44:44 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -1057,8 +1057,11 @@ sub GenerateDynamicStats {
     if ($Param{Cache}) {
         my $Path = $Self->{ConfigObject}->Get('TempDir');
         my $CSVString = '';
-        my $File = 'Stats' . $Param{StatID} . "-" . $TitleTimeStart . "-" . $TitleTimeStop .  ".cache";
-        $File =~ s/ /-/g;
+        my $MD5Key = $Self->{MainObject}->FilenameCleanUp(
+            Filename => $TitleTimeStart . "-" . $TitleTimeStop,
+            Type => 'md5',
+        );
+        my $File = 'Stats' . $Param{StatID} . "-" . $MD5Key .  ".cache";
 
         if (open (DATA, "< $Path/$File")) {
             while (<DATA>) {
@@ -1132,8 +1135,11 @@ sub GenerateDynamicStats {
         if ($TitleTimeStart && $TitleTimeStop) {
             if ($Self->{TimeObject}->TimeStamp2SystemTime(String => $TitleTimeStop) < $Self->{TimeObject}->SystemTime()) {
                 my $Path = $Self->{ConfigObject}->Get('TempDir');
-                my $File = 'Stats' . $Param{StatID} . "-" . $TitleTimeStart . "-" . $TitleTimeStop .  ".cache";
-                $File =~ s/ /-/g;
+                my $MD5Key = $Self->{MainObject}->FilenameCleanUp(
+                    Filename => $TitleTimeStart . "-" . $TitleTimeStop,
+                    Type => 'md5',
+                );
+                my $File = 'Stats' . $Param{StatID} . "-" . $MD5Key .  ".cache";
 
                 my $CSVString = $Self->{CSVObject}->Array2CSV(
                     Data => \@StatArray,
@@ -1785,18 +1791,24 @@ sub _WriteResultCache {
     # write cache file
     if ($Cache) {
         my $Path = $Self->{ConfigObject}->Get('TempDir');
-        my $File = 'Stats'.$Param{StatID};
+        my $Key = '';
         if ($GetParam{Year}) {
-            $File .= "-$GetParam{Year}";
+            $Key .= "$GetParam{Year}";
         }
         if ($GetParam{Month}) {
-            $File .= "-$GetParam{Month}";
+            $Key .= "-$GetParam{Month}";
         }
         if ($GetParam{Day}) {
-            $File .= "-$GetParam{Day}";
+            $Key .= "-$GetParam{Day}";
         }
 
-        $File .= ".cache";
+        my $MD5Key = $Self->{MainObject}->FilenameCleanUp(
+            Filename => $Key,
+            Type => 'md5',
+        );
+
+        my $File = "Stats" . $Param{StatID} . "-" . $MD5Key. ".cache";
+
         # write cache file
         my $CSVString = $Self->{CSVObject}->Array2CSV(
             Data => \@Data,
@@ -1828,17 +1840,24 @@ sub _ReadResultCache {
     }
     # read cache file
     my $Path = $Self->{ConfigObject}->Get('TempDir');
-    my $File = 'Stats' . $Param{StatID};
+    my $Key = '';
     if ($GetParam{Year}) {
-        $File .= "-$GetParam{Year}";
+        $Key = "$GetParam{Year}";
     }
     if ($GetParam{Month}) {
-        $File .= "-$GetParam{Month}";
+        $Key .= "-$GetParam{Month}";
     }
     if ($GetParam{Day}) {
-        $File .= "-$GetParam{Day}";
+        $Key .= "-$GetParam{Day}";
     }
-    $File .= ".cache";
+
+    my $MD5Key = $Self->{MainObject}->FilenameCleanUp(
+        Filename => $Key,
+        Type => 'md5',
+    );
+
+    my $File = "Stats" . $Param{StatID} . "-" . $MD5Key. ".cache";
+
     my $CSVString = '';
     if (open (DATA, "< $Path/$File")) {
         while (<DATA>) {
@@ -2453,6 +2472,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2007-05-04 08:08:49 $
+$Revision: 1.23 $ $Date: 2007-05-07 11:44:44 $
 
 =cut
