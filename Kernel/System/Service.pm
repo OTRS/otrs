@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.5 2007-05-07 17:23:24 martin Exp $
+# $Id: Service.pm,v 1.6 2007-05-07 17:35:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Service;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -231,7 +231,7 @@ sub ServiceLookup {
 
 add a service
 
-    my $True = $ServiceObject->ServiceAdd(
+    my $ServiceID = $ServiceObject->ServiceAdd(
         Name => 'Service Name',
         ParentID => 1,           # (optional)
         ValidID => 1,
@@ -444,6 +444,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2007-05-07 17:23:24 $
+$Revision: 1.6 $ $Date: 2007-05-07 17:35:56 $
 
 =cut
