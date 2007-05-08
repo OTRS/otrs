@@ -2,7 +2,7 @@
 # AgentStatsView.dtl - provides HTML form for view IDMEF
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.8 2007-01-02 05:56:33 tr Exp $
+# $Id: AgentStatsView.dtl,v 1.9 2007-05-08 11:36:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td colspan="2" class="mainhead">
-      $Env{"Box0"}$Text{"View"}: $Text{"$Config{"Stats::StatsHook"}"}: $QData{"StatNumber"}$Env{"Box1"}
+      $Env{"Box0"}$Text{"View"}: $Text{"$Config{"Stats::StatsHook"}"} $QData{"StatNumber"}$Env{"Box1"}
     </td>
   </tr>
   <tr>
