@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.141 2007-05-04 08:08:50 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.142 2007-05-08 16:03:33 bb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -3060,7 +3060,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###Theme" Required="0" Valid="1">
         <Description Lang="en">Parameters for the Time object in the preference view.</Description>
-        <Description Lang="de">Parameter des Time-Objekts in der Ansicht für die Einstellungen.</Description>
+        <Description Lang="de">Parameter des Theme-Objekts in der Ansicht für die Einstellungen.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
