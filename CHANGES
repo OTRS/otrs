@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.388 2007-05-07 11:47:04 tr Exp $
+# $Id: CHANGES,v 1.389 2007-05-08 17:51:56 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -709,7 +709,7 @@
  - (2005/10/23) fixed small bug for WorkingTime calculation
  - (2005/10/22) fixed bug #971 - Invalid agents get LockTimeOut notification
  - (2005/10/21) fixed bug #948 - Invalid agents should not longer get follow-ups
- - (2005/10/21) fixed bug #957 - Got "no ArticleID" error when viewing queues (p1 of 5)
+ - (2005/10/21) fixed bug #957 - Got "no ArticleID" error when viewing queues
  - (2005/10/20) improved html of admin auto responses <-> queue relation
  - (2005/10/20) fixed unlock of closed bulk-action tickets
  - (2005/10/20) fixed calendar lookup in admin generic agent time
