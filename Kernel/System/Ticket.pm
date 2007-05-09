@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.258 2007-05-07 08:58:32 martin Exp $
+# $Id: Ticket.pm,v 1.259 2007-05-09 12:56:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.258 $';
+$VERSION = '$Revision: 1.259 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -773,7 +773,7 @@ sub TicketGet {
         $Ticket{OwnerID} = $Row[13];
         $Ticket{ResponsibleID} = $Row[14];
         $Ticket{RealTillTimeNotUsed} = $Row[15];
-        $Ticket{TypeID} = $Row[58];
+        $Ticket{TypeID} = $Row[58] || 1;
         $Ticket{ServiceID} = $Row[59] || '';
         $Ticket{SLAID} = $Row[60] || '';
         $Ticket{TicketFreeKey1} = defined($Row[16]) ? $Row[16] : '';
@@ -830,7 +830,7 @@ sub TicketGet {
     # get lock
     $Ticket{Lock} = $Self->{LockObject}->LockLookup(LockID => $Ticket{LockID});
     # get service
-    $Ticket{Type} = $Self->{TypeObject}->TypeLookup(TypeID => $Ticket{TypeID} || 1);
+    $Ticket{Type} = $Self->{TypeObject}->TypeLookup(TypeID => $Ticket{TypeID});
     # get service
     if ($Ticket{ServiceID}) {
         $Ticket{Service} = $Self->{ServiceObject}->ServiceLookup(ServiceID => $Ticket{ServiceID});
@@ -5835,6 +5835,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.258 $ $Date: 2007-05-07 08:58:32 $
+$Revision: 1.259 $ $Date: 2007-05-09 12:56:33 $
 
 =cut
