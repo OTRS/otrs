@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.29 2007-04-27 12:38:17 mh Exp $
+# $Id: AgentStats.pm,v 1.30 2007-05-10 14:18:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -163,6 +163,10 @@ sub Run {
             Type => $Stat->{StatType},
             Name => $Stat->{ObjectName},
         );
+
+        if (!$ObjectFileCheck) {
+            return $Self->{LayoutObject}->ErrorScreen(Message => "View: Can't find the file $Stat->{ObjectName}!");
+        }
 
         $Stat->{Description} = $Self->{LayoutObject}->Ascii2Html(
             Text => $Stat->{Description},
