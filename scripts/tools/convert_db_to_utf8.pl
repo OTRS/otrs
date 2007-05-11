@@ -3,7 +3,7 @@
 # scripts/tools/convert_db_to_utf8.pl - convert a database into utf-8 strings
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: convert_db_to_utf8.pl,v 1.1 2007-05-11 10:31:08 martin Exp $
+# $Id: convert_db_to_utf8.pl,v 1.2 2007-05-11 11:51:12 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Encode;
@@ -49,7 +49,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 # set select handle to non utf-8 connect
-$CommonObject{DBObject1} = Kernel::System::DB->new(%CommonObject, 'DB::Connect' => '');
+$CommonObject{DBObject1} = Kernel::System::DB->new(%CommonObject, 'Connect' => '', Encode => 0);
 # set select handle to utf-8 connect
 $CommonObject{DBObject2} = Kernel::System::DB->new(%CommonObject);
 
@@ -63,6 +63,7 @@ while (my @Row = $CommonObject{DBObject1}->FetchrowArray()) {
         $Charset =~ s/"|'//g;
         $Charset =~ s/(.+?);.*/$1/g;
         $Charset =~ s/(.+?);/$1/g;
+        my $Convert = 1;
         print "NOTICE: article_id $Row[0] (Charset: $Charset)\n";
         if ($Charset !~ /(utf-8|utf8|us-ascii)/i) {
             foreach (2..6) {
@@ -70,6 +71,18 @@ while (my @Row = $CommonObject{DBObject1}->FetchrowArray()) {
                 Encode::from_to($Row[$_], $Charset, 'utf-8');
             }
             $Row[1] =~ s/\Q$Charset\E/utf-8/gi;
+            $Convert = 1;
+        }
+        else {
+            foreach (2..6) {
+                # convert
+                Encode::_utf8_on($Row[$_]);
+            }
+            # use this if you worked with OTRS 2.1 or lower
+            $Convert = 1;
+#            $Convert = 0;
+        }
+        if ($Convert) {
             print STDERR "NOTICE: convert article_id $Row[0] ($Charset -> utf-8) ...";
             my $SQL = "UPDATE article SET ".
                 " a_content_type = ?, a_from = ?, a_to = ?, a_cc = ?, a_subject = ?, a_body = ? ".
