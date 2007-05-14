@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.postgresql.sql,v 1.13 2007-04-24 09:48:11 martin Exp $
+-- $Id: DBUpdate-to-2.2.postgresql.sql,v 1.14 2007-05-14 17:43:54 mh Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.postgresql.sql | psql otrs
@@ -142,7 +142,6 @@ ALTER TABLE sla ADD FOREIGN KEY (service_id) REFERENCES service(id);
 DROP INDEX xml_content_key;
 DROP INDEX xml_type;
 DROP INDEX xml_key;
-DROP INDEX xml_type_key;
 CREATE INDEX xml_storage_xml_content_key ON xml_storage (xml_content_key);
 CREATE INDEX xml_storage_key_type ON xml_storage (xml_key, xml_type);
 
