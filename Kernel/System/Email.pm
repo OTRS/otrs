@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.25 2007-03-27 14:35:25 martin Exp $
+# $Id: Email.pm,v 1.26 2007-05-16 10:48:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -160,15 +160,12 @@ To send an email without already created header:
 sub Send {
     my $Self = shift;
     my %Param = @_;
-
     # check needed stuff
-    if (!$Param{Body}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Body!");
-        return;
-    }
-    if (!$Param{To} && !$Param{Cc} && !$Param{Bcc}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need To, Cc or Bcc!");
-        return;
+    foreach (qw(Body To Cc Bcc Charset)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # check from
     if (!$Param{From}) {
@@ -588,6 +585,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2007-03-27 14:35:25 $
+$Revision: 1.26 $ $Date: 2007-05-16 10:48:33 $
 
 =cut

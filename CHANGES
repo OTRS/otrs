@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.391 2007-05-14 17:49:54 mh Exp $
+# $Id: CHANGES,v 1.392 2007-05-16 10:49:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.0 beta4 (2007/??/??)
+ - (2007/05/16) Improved check of needed stuff in Send() function to prevent
+    bugs like bug# 1887.
  - (2007/05/14) Fixed bug# 1866 - Error while DB upgrade from 2.1.5 to 2.2-beta3.
  - (2007/05/09) Fixed bug# 1825 - SQL ticket_history INSERT syntax error in
     HistoryAdd().
