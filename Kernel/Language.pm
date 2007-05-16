@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.44 2007-02-13 09:38:35 tr Exp $
+# $Id: Language.pm,v 1.45 2007-05-16 13:07:37 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -162,7 +162,7 @@ sub new {
 
 =item Get()
 
-Translate a words.
+Translate a string.
 
     my $Text = $LanguageObject->Get('Hello');
 
@@ -227,6 +227,11 @@ sub Get {
                 Message => "->Get('$What') Is not translated!!!",
             );
         }
+
+        if ($Self->{ConfigObject}->Get('LanguageDebug')) {
+            print STDERR "No translation available for '$What'\n";
+        }
+
         foreach (0..3) {
             if (defined $Dyn[$_]) {
                 if ($Dyn[$_] =~ /Time\((.*)\)/) {
@@ -470,6 +475,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2007-02-13 09:38:35 $
+$Revision: 1.45 $ $Date: 2007-05-16 13:07:37 $
 
 =cut

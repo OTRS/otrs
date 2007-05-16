@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.142 2007-05-08 16:03:33 bb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.143 2007-05-16 13:07:37 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -4851,5 +4851,17 @@ Your OTRS Notification Master
       <Setting>
         <String Regex="">some_password</String>
       </Setting>
+    </ConfigItem>
+    <ConfigItem Name="LanguageDebug" Required="0" Valid="0">
+        <Description Lang="en">Write all strings which have no translation in STDERR.</Description>
+        <Description Lang="de">Schreibt alle Strings die nicht übersetzt werden können in STDERR.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
     </ConfigItem>
 </otrs_config>
