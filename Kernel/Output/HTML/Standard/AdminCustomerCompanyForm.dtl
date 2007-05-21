@@ -2,12 +2,13 @@
 # AdminCustomerCompanyForm.dtl - provides HTML form for AdminCustomerCompany
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerCompanyForm.dtl,v 1.2 2007-04-16 11:26:33 martin Exp $
+# $Id: AdminCustomerCompanyForm.dtl,v 1.3 2007-05-21 18:25:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
@@ -17,7 +18,7 @@
   </tr>
   <tr>
     <td width="30%" class="mainbody">
-
+      <br>
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Add">
@@ -37,9 +38,10 @@
           </tr>
         </table>
       </form>
-
+      <br>
     </td>
-    <td width="60%" class="mainbody">
+    <td width="70%" class="mainbody">
+      <br>
 <!-- dtl:block:OverviewResult -->
       <table width="100%" cellspacing="0" cellpadding="4">
         <tr>
@@ -73,78 +75,77 @@
           <td class="contentfooter">
             &nbsp;
           </td>
-        </table>
+        </tr>
+      </table>
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
-
-        <form action="$Env{"CGIHandle"}" method="post">
-          <input type="hidden" name="Action" value="$Env{"Action"}">
-          <input type="hidden" name="Subaction" value="$LQData{"Action"}Action">
-          <input type="hidden" name="CustomerCompanyID" value="$Data{"CustomerCompanyID"}">
-          <table width="100%" cellspacing="0" cellpadding="4">
-            <tr>
-              <td class="contenthead">
-                $Text{"Edit"} ($Text{"$QData{"Action"}"}):
-              </td>
-            </tr>
-            <tr>
-              <td class="contentbody">
-                <table border="0" cellspacing="0" cellpadding="3">
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="$LQData{"Action"}Action">
+        <input type="hidden" name="CustomerCompanyID" value="$Data{"CustomerCompanyID"}">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">
+              $Text{"Edit"} ($Text{"$QData{"Action"}"}):
+            </td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table border="0" cellspacing="0" cellpadding="3">
 <!-- dtl:block:PreferencesGeneric -->
-                  <dtl if ($Data{"ReadOnly"} ne "") { $Data{"TableFontStart"} = "<font color="#aaaaaa">"; }>
-                  <dtl if ($Data{"ReadOnly"} ne "") { $Data{"TableFontStop"} = "</font>"; }>
+                <dtl if ($Data{"ReadOnly"} ne "") { $Data{"TableFontStart"} = "<font color="#aaaaaa">"; }>
+                <dtl if ($Data{"ReadOnly"} ne "") { $Data{"TableFontStop"} = "</font>"; }>
 <!-- dtl:block:PreferencesGenericInputHidden -->
-                  <input type="hidden" name="$QData{"Name"}" value="$QData{"Value"}">
+                <input type="hidden" name="$QData{"Name"}" value="$QData{"Value"}">
 <!-- dtl:block:PreferencesGenericInputHidden -->
 <!-- dtl:block:PreferencesGenericInput -->
-                  <tr>
-                    <td width="40%" class="contentkey">
-                      $Data{"TableFontStart"}$Text{"$Data{"Item"}"}:$Data{"TableFontStart"}
-                      <font color="red" title="$Text{"This values are required."}">$Data{"Required"}</font>
-                      <font color="blue" title="$Text{"This values are read only."}">$Data{"ReadOnly"}</font>
-                    </td>
-                    <td class="contentvalue">
-                      <input type="text" name="$QData{"Name"}" value="$QData{"Value"}" size="35" maxlength="150" $QData{"ReadOnlyType"}>
-                    </td>
-                  </tr>
+                <tr>
+                  <td width="40%" class="contentkey">
+                    $Data{"TableFontStart"}$Text{"$Data{"Item"}"}:$Data{"TableFontStart"}
+                    <font color="red" title="$Text{"This values are required."}">$Data{"Required"}</font>
+                    <font color="blue" title="$Text{"This values are read only."}">$Data{"ReadOnly"}</font>
+                  </td>
+                  <td class="contentvalue">
+                    <input type="text" name="$QData{"Name"}" value="$QData{"Value"}" size="35" maxlength="150" $QData{"ReadOnlyType"}>
+                  </td>
+                </tr>
 <!-- dtl:block:PreferencesGenericInput -->
 <!-- dtl:block:PreferencesGenericPassword -->
-                  <tr>
-                    <td width="40%" class="contentkey">
-                      $Data{"TableFontStart"}$Text{"$Data{"Item"}"}:$Data{"TableFontStart"}
-                      <font color="red" title="$Text{"This values are required."}">$Data{"Required"}</font>
-                      <font color="blue" title="$Text{"This values are read only."}">$Data{"ReadOnly"}</font>
-                    </td>
-                    <td class="contentvalue">
-                      <input type="password" name="$QData{"Name"}" value="" size="35" maxlength="60" $QData{"ReadOnlyType"}>
-                    </td>
-                  </tr>
+                <tr>
+                  <td width="40%" class="contentkey">
+                    $Data{"TableFontStart"}$Text{"$Data{"Item"}"}:$Data{"TableFontStart"}
+                    <font color="red" title="$Text{"This values are required."}">$Data{"Required"}</font>
+                    <font color="blue" title="$Text{"This values are read only."}">$Data{"ReadOnly"}</font>
+                  </td>
+                  <td class="contentvalue">
+                    <input type="password" name="$QData{"Name"}" value="" size="35" maxlength="60" $QData{"ReadOnlyType"}>
+                  </td>
+                </tr>
 <!-- dtl:block:PreferencesGenericPassword -->
 <!-- dtl:block:PreferencesGenericOption -->
-                  <tr>
-                    <td width="40%" class="contentkey">
-                      $Data{"TableFontStart"}$Text{"$Data{"Item"}"}:$Data{"TableFontStop"}
-                      <font color="red" title="$Text{"This values are required."}">$Data{"Required"}</font>
-                      <font color="blue" title="$Text{"This values are read only."}">$Data{"ReadOnly"}</font>
-                    </td>
-                    <td class="contentvalue">$Data{"Option"}</td>
-                  </tr>
+                <tr>
+                  <td width="40%" class="contentkey">
+                    $Data{"TableFontStart"}$Text{"$Data{"Item"}"}:$Data{"TableFontStop"}
+                    <font color="red" title="$Text{"This values are required."}">$Data{"Required"}</font>
+                    <font color="blue" title="$Text{"This values are read only."}">$Data{"ReadOnly"}</font>
+                  </td>
+                  <td class="contentvalue">$Data{"Option"}</td>
+                </tr>
 <!-- dtl:block:PreferencesGenericOption -->
 <!-- dtl:block:PreferencesGeneric -->
-                </table>
-              </td>
-            </tr>
-            <tr>
-              <td class="contentfooter">
-                <input class="button" type="submit" value="$Text{"Submit"}">
-              </td>
-            </tr>
-          </table>
-        </form>
-
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Submit"}">
+            </td>
+          </tr>
+        </table>
+      </form>
 <!-- dtl:block:OverviewUpdate -->
-
-      </td>
-    </tr>
-  </table>
+      <br>
+    </td>
+  </tr>
+</table>
 <!-- dtl:block:Overview -->

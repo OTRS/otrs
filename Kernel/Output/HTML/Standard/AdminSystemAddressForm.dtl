@@ -2,12 +2,13 @@
 # AdminSystemAddressForm.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSystemAddressForm.dtl,v 1.22 2007-03-21 11:12:05 martin Exp $
+# $Id: AdminSystemAddressForm.dtl,v 1.23 2007-05-21 18:25:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
@@ -17,7 +18,7 @@
   </tr>
   <tr>
     <td width="30%" class="mainbody">
-
+      <br>
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Add">
@@ -37,9 +38,10 @@
           </tr>
         </table>
       </form>
-
+      <br>
     </td>
-    <td width="60%" class="mainbody">
+    <td width="70%" class="mainbody">
+      <br>
 <!-- dtl:block:OverviewResult -->
       <table width="100%" cellspacing="0" cellpadding="4">
         <tr>
@@ -71,109 +73,106 @@
           <td class="contentfooter">
             &nbsp;
           </td>
-        </table>
+        </tr>
+      </table>
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
-
-        <form action="$Env{"CGIHandle"}" method="post">
-          <input type="hidden" name="Action" value="$Env{"Action"}">
-          <input type="hidden" name="Subaction" value="$LQData{"Action"}Action">
-          <input type="hidden" name="ID" value="$Data{"ID"}">
-          <table width="100%" cellspacing="0" cellpadding="4">
-            <tr>
-              <td class="contenthead">
-                $Text{"Edit"} ($Text{"$QData{"Action"}"}):
-              </td>
-            </tr>
-            <tr>
-              <td class="contentbody">
-                <table border="0" cellspacing="0" cellpadding="3">
-                  <tr>
-                    <td class="contentkey">$Text{"Name"}: </td>
-                    <td class="contentvalue">
-                      <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="contentkey">$Text{"Realname"}: </td>
-                    <td class="contentvalue">
-                      <input type="text" name="Realname" value="$QData{"Realname"}" size="50" maxlength="50">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="contentkey">$Text{"Queue"}: </td>
-                    <td class="contentvalue">$Data{"QueueOption"}</td>
-                  </tr>
-                  <tr>
-                    <td class="contentkey">$Text{"Valid"}: </td>
-                    <td class="contentvalue">$Data{"ValidOption"}</td>
-                  </tr>
-                  <tr>
-                    <td class="contentkey">$Text{"Comment"}: </td>
-                    <td class="contentvalue">
-                      <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150">
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-            <tr>
-              <td class="contentfooter">
-                <input class="button" type="submit" value="$Text{"Submit"}">
-              </td>
-            </tr>
-          </table>
-        </form>
-
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="$LQData{"Action"}Action">
+        <input type="hidden" name="ID" value="$Data{"ID"}">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">
+              $Text{"Edit"} ($Text{"$QData{"Action"}"}):
+            </td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table border="0" cellspacing="0" cellpadding="3">
+                <tr>
+                  <td class="contentkey">$Text{"Name"}: </td>
+                  <td class="contentvalue">
+                    <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Realname"}: </td>
+                  <td class="contentvalue">
+                    <input type="text" name="Realname" value="$QData{"Realname"}" size="50" maxlength="50">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Queue"}: </td>
+                  <td class="contentvalue">$Data{"QueueOption"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Valid"}: </td>
+                  <td class="contentvalue">$Data{"ValidOption"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Comment"}: </td>
+                  <td class="contentvalue">
+                    <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150">
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Submit"}">
+            </td>
+          </tr>
+        </table>
+      </form>
 <!-- dtl:block:OverviewUpdate -->
-
-      </td>
-    </tr>
-  </table>
-  <table border="0" width="100%" cellspacing="0" cellpadding="3">
-    <tr>
-      <td class="mainhead">
-        $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
-      </td>
-    </tr>
-    <tr>
-      <td class="mainbody">
-
-        <p>
-          $Text{"All incoming emails with this "Email" (To:) will be dispatched in the selected queue!"}
-        </p>
-        <p>
-          $Text{"Example"}:
-          <hr>
-          <form action="/">
-            <table>
-              <tr>
-                <td class="contentkey">$Text{"Email"}:</td>
-                <td class="contentvalue">
-                  <input type="text" name="Email" value="support@company.com" size="50" maxlength="50">
-                </td>
-              </tr>
-              <tr>
-                <td class="contentkey">$Text{"Realname"}:</td>
-                <td class="contentvalue">
-                  <input type="text" name="Realname" value="Support Team" size="50" maxlength="50">
-                </td>
-              </tr>
-              <tr>
-                <td class="contentkey">$Text{"Queue"}:</td>
-                <td class="contentvalue"><select name="QueueID">
-                  <option VALUE="3">Tech (1)</option>
-                  <option VALUE="4">Misc (2)</option>
-                  <option VALUE="2">Raw (3)</option>
-                </select>
-              </td>
-            </tr>
-          </table>
-        </form>
-        <hr>
-      </p>
-
+      <br>
     </td>
   </tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
+      <p>
+        $Text{"All incoming emails with this "Email" (To:) will be dispatched in the selected queue!"}
+      </p>
+      <p>
+        $Text{"Example"}:
+        <hr>
+        <form action="/">
+          <table>
+            <tr>
+              <td class="contentkey">$Text{"Email"}:</td>
+              <td class="contentvalue">
+                <input type="text" name="Email" value="support@company.com" size="50" maxlength="50">
+              </td>
+            </tr>
+            <tr>
+              <td class="contentkey">$Text{"Realname"}:</td>
+              <td class="contentvalue">
+                <input type="text" name="Realname" value="Support Team" size="50" maxlength="50">
+              </td>
+            </tr>
+            <tr>
+              <td class="contentkey">$Text{"Queue"}:</td>
+              <td class="contentvalue"><select name="QueueID">
+                <option VALUE="3">Tech (1)</option>
+                <option VALUE="4">Misc (2)</option>
+                <option VALUE="2">Raw (3)</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+      </form>
+      <hr>
+    </p>
+  </td>
+</tr>
 </table>
 <!-- dtl:block:Overview -->

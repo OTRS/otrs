@@ -2,7 +2,7 @@
 # AdminPerformanceLog.dtl - provides HTML form for AdminPerformanceLog
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.dtl,v 1.6 2007-03-21 14:36:27 martin Exp $
+# $Id: AdminPerformanceLog.dtl,v 1.7 2007-05-21 18:25:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,6 +18,7 @@
   </tr>
   <tr>
     <td width="30%" class="mainbody">
+      <br>
 <!-- dtl:block:Enabled -->
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="Action" value="AdminSysConfig">
@@ -70,8 +71,10 @@
         </table>
       </form>
 <!-- dtl:block:Disabled -->
+      <br>
     </td>
     <td width="70%" class="mainbody">
+      <br>
 <!-- dtl:block:Reset -->
       <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
         <tr>
@@ -153,6 +156,7 @@
       </table>
       <br>
 <!-- dtl:block:Table -->
+      <br>
     </td>
   </tr>
 </table>

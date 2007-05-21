@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueueForm.dtl,v 1.34 2007-03-16 10:08:48 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.35 2007-05-21 18:25:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,8 @@
     </td>
   </tr>
   <tr>
-    <td width="40%" class="mainbody">
+    <td width="30%" class="mainbody">
+      <br>
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Change">
@@ -37,17 +38,16 @@
           </tr>
         </table>
       </form>
+      <br>
     </td>
-    <td width="60%" class="mainbody">
-# --
+    <td width="70%" class="mainbody">
+      <br>
 # check subaction
-# --
       <dtl set $Data{"Headline"} = "Add">
       <dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
       <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
 # check add link
       <dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
-# --
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
@@ -181,6 +181,7 @@
           </tr>
         </table>
       </form>
+      <br>
     </td>
   </tr>
 </table>

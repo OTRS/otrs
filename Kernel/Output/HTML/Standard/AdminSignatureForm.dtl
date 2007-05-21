@@ -2,12 +2,13 @@
 # AdminSignatureForm.dtl - provides HTML form for AdminSignature
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSignatureForm.dtl,v 1.26 2007-03-21 11:12:05 martin Exp $
+# $Id: AdminSignatureForm.dtl,v 1.27 2007-05-21 18:25:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
@@ -17,7 +18,7 @@
   </tr>
   <tr>
     <td width="30%" class="mainbody">
-
+      <br>
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Add">
@@ -37,9 +38,10 @@
           </tr>
         </table>
       </form>
-
+      <br>
     </td>
-    <td width="60%" class="mainbody">
+    <td width="70%" class="mainbody">
+      <br>
 <!-- dtl:block:OverviewResult -->
       <table width="100%" cellspacing="0" cellpadding="4">
         <tr>
@@ -71,32 +73,32 @@
           <td class="contentfooter">
             &nbsp;
           </td>
-        </table>
+        </tr>
+      </table>
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
-
-        <form action="$Env{"CGIHandle"}" method="post">
-          <input type="hidden" name="Action" value="$Env{"Action"}">
-          <input type="hidden" name="Subaction" value="$LQData{"Action"}Action">
-          <input type="hidden" name="ID" value="$Data{"ID"}">
-          <table width="100%" cellspacing="0" cellpadding="4">
-            <tr>
-              <td class="contenthead">
-                $Text{"Edit"} ($Text{"$QData{"Action"}"}):
-              </td>
-            </tr>
-            <tr>
-              <td class="contentbody">
-                <table border="0" cellspacing="0" cellpadding="3">
-                  <tr>
-                    <td class="contentkey">$Text{"Name"}: </td>
-                    <td class="contentvalue">
-                      <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="contentkey">$Text{"Signature"}: </td>
-                    <td class="contentvalue">
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="$LQData{"Action"}Action">
+        <input type="hidden" name="ID" value="$Data{"ID"}">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">
+              $Text{"Edit"} ($Text{"$QData{"Action"}"}):
+            </td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table border="0" cellspacing="0" cellpadding="3">
+                <tr>
+                  <td class="contentkey">$Text{"Name"}: </td>
+                  <td class="contentvalue">
+                    <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Signature"}: </td>
+                  <td class="contentvalue">
                     <textarea rows="10" cols="74" name="Text">$QData{"Text"}</textarea>
                   </td>
                 </tr>
@@ -120,9 +122,8 @@
           </tr>
         </table>
       </form>
-
 <!-- dtl:block:OverviewUpdate -->
-
+      <br>
     </td>
   </tr>
 </table>
@@ -134,7 +135,6 @@
   </tr>
   <tr>
     <td class="mainbody">
-
       <p>
         $Text{"Useable options"}:
         <table>
@@ -164,7 +164,6 @@
           </tr>
         </table>
       </p>
-
       <p>
         $Text{"Example"}:
         <hr>
@@ -185,14 +184,13 @@ Email: hot@florida.com - Web: http://hot.florida.com/
 --
 PS: Your email address in our database is "&lt;OTRS_CUSTOMER_DATA_UserEmail&gt;".
                 </textarea>
-                    </td>
-                  </tr>
-                </table>
-              </form>
-              <hr>
-            </p>
-
-          </td>
-        </tr>
-      </table>
+                  </td>
+                </tr>
+              </table>
+            </form>
+            <hr>
+          </p>
+        </td>
+      </tr>
+    </table>
 <!-- dtl:block:Overview -->

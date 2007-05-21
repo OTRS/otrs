@@ -2,7 +2,7 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminNotificationForm.dtl,v 1.19 2007-01-11 23:22:27 martin Exp $
+# $Id: AdminNotificationForm.dtl,v 1.20 2007-05-21 18:25:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,6 +18,7 @@
   </tr>
   <tr>
     <td width="30%" class="mainbody">
+      <br>
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Change">
@@ -37,13 +38,12 @@
           </tr>
         </table>
       </form>
+      <br>
     </td>
     <td width="70%" class="mainbody">
-# --
+      <br>
 # check subaction
-# --
       <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Botton"} = "<input class="button" type="submit" value="$Text{"Update"}">"; }>
-# --
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
@@ -84,6 +84,7 @@
           </tr>
         </table>
       </form>
+      <br>
     </td>
   </tr>
 </table>

@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.4 2007-04-02 14:05:40 martin Exp $
+# $Id: AdminSLA.dtl,v 1.5 2007-05-21 18:25:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,26 +18,16 @@
   </tr>
   <tr>
     <td width="30%" class="mainbody">
+      <br>
       <form action="$Env{"CGIHandle"}" method="get">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="SLAEdit">
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
-            <td class="contenthead">$Text{"Add"}:</td>
+            <td class="contenthead">$Text{"Add SLA"}:</td>
           </tr>
           <tr>
-            <td class="contentbody">
-              <table>
-                <tr>
-                  <td class="contentkey">$Text{"SLA"}:</td>
-                  <td class="contentvalue"><input type="text" name="Name" size="25" maxlength="200"></td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Service"}: </td>
-                  <td class="contentvalue">$Data{"ServiceOptionStrg"}</td>
-                </tr>
-              </table>
-            </td>
+            <td class="contentbody">$Text{"Add a new SLA."}</td>
           </tr>
           <tr>
             <td class="contentfooter">
@@ -46,8 +36,10 @@
           </tr>
         </table>
       </form>
+      <br>
     </td>
     <td width="70%" class="mainbody">
+      <br>
 <!-- dtl:block:OverviewList -->
       <table width="100%" cellspacing="0" cellpadding="4">
         <tr>
@@ -59,7 +51,7 @@
               <tr>
                 <td class="contentkey" width="40%">$Text{"SLA"}</td>
                 <td class="contentkey">$Text{"Service"}</td>
-                <td align="center" class="contentkey">$Text{"Valid"}</td>
+                <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
                 <td class="contentkey">$Text{"Changed"}</td>
                 <td class="contentkey">$Text{"Created"}</td>
               </tr>
@@ -150,6 +142,7 @@
         </table>
       </form>
 <!-- dtl:block:SLAEdit -->
+      <br>
     </td>
   </tr>
 </table>

@@ -2,12 +2,13 @@
 # AdminTypeForm.dtl - provides HTML form for AdminType
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminTypeForm.dtl,v 1.1 2007-03-22 08:58:39 martin Exp $
+# $Id: AdminTypeForm.dtl,v 1.2 2007-05-21 18:25:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
@@ -17,7 +18,7 @@
   </tr>
   <tr>
     <td width="30%" class="mainbody">
-
+      <br>
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Add">
@@ -37,9 +38,10 @@
           </tr>
         </table>
       </form>
-
+      <br>
     </td>
-    <td width="60%" class="mainbody">
+    <td width="70%" class="mainbody">
+      <br>
 <!-- dtl:block:OverviewResult -->
       <table width="100%" cellspacing="0" cellpadding="4">
         <tr>
@@ -69,48 +71,47 @@
           <td class="contentfooter">
             &nbsp;
           </td>
-        </table>
+        </tr>
+      </table>
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
-
-        <form action="$Env{"CGIHandle"}" method="post">
-          <input type="hidden" name="Action" value="$Env{"Action"}">
-          <input type="hidden" name="Subaction" value="$LQData{"Action"}Action">
-          <input type="hidden" name="ID" value="$Data{"ID"}">
-          <table width="100%" cellspacing="0" cellpadding="4">
-            <tr>
-              <td class="contenthead">
-                $Text{"Edit"} ($Text{"$QData{"Action"}"}):
-              </td>
-            </tr>
-            <tr>
-              <td class="contentbody">
-                <table border="0" cellspacing="0" cellpadding="3">
-                  <tr>
-                    <td class="contentkey">$Text{"Name"}: </td>
-                    <td class="contentvalue">
-                      <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50">
-                    </td>
-                  </tr>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Valid"}: </td>
-                  <td class="contentvalue">$Data{"ValidOption"}</td>
-                </tr>
-              </table>
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="$LQData{"Action"}Action">
+        <input type="hidden" name="ID" value="$Data{"ID"}">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">
+              $Text{"Edit"} ($Text{"$QData{"Action"}"}):
             </td>
           </tr>
           <tr>
-            <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Submit"}">
-            </td>
-          </tr>
-        </table>
-      </form>
-
+            <td class="contentbody">
+              <table border="0" cellspacing="0" cellpadding="3">
+                <tr>
+                  <td class="contentkey">$Text{"Name"}: </td>
+                  <td class="contentvalue">
+                    <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50">
+                  </td>
+                </tr>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Valid"}: </td>
+                <td class="contentvalue">$Data{"ValidOption"}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="contentfooter">
+            <input class="button" type="submit" value="$Text{"Submit"}">
+          </td>
+        </tr>
+      </table>
+    </form>
 <!-- dtl:block:OverviewUpdate -->
-
-    </td>
-  </tr>
+    <br>
+  </td>
+</tr>
 </table>
 <!-- dtl:block:Overview -->

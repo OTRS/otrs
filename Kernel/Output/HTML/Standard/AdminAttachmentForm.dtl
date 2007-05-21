@@ -2,7 +2,7 @@
 # AdminAttachmentForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminAttachmentForm.dtl,v 1.14 2007-03-15 08:17:15 martin Exp $
+# $Id: AdminAttachmentForm.dtl,v 1.15 2007-05-21 18:25:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,8 @@
     </td>
   </tr>
   <tr>
-    <td width="40%" class="mainbody">
+    <td width="30%" class="mainbody">
+      <br>
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Change">
@@ -37,18 +38,17 @@
           </tr>
         </table>
       </form>
+      <br>
     </td>
-    <td width="60%" class="mainbody">
-# --
+    <td width="70%" class="mainbody">
+      <br>
 # check subaction
-# --
       <dtl set $Data{"Headline"} = "Add">
       <dtl if ($Data{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
 # check add link
       <dtl if ($Data{"Subaction"} eq "Change") { $Data{"AddLink"} = "add a attachment"; }>
 # delete link
       <dtl if ($Data{"Subaction"} eq "Change") { $Data{"DeleteLink"} = "$Text{"delete this attachment"}"; }>
-# --
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="$QData{"Subaction"}Action">
@@ -98,6 +98,7 @@
           </tr>
         </table>
       </form>
+      <br>
     </td>
   </tr>
 </table>
