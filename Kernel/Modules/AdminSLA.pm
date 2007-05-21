@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.4 2007-05-21 09:48:19 mh Exp $
+# $Id: AdminSLA.pm,v 1.5 2007-05-21 18:48:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -64,7 +64,6 @@ sub Run {
             );
         }
         else {
-            $SLAData{Name} = $Self->{ParamObject}->GetParam(Param => "Name");
             $SLAData{ServiceID} = $Self->{ParamObject}->GetParam(Param => "ServiceID");
         }
         # get service list
@@ -143,7 +142,6 @@ sub Run {
     # sla save
     # ------------------------------------------------------------ #
     elsif ($Self->{Subaction} eq 'SLASave') {
-        my $ErrorNotify = '';
         my %SLAData;
         # get params
         foreach (qw(SLAID ServiceID Name Calendar FirstResponseTime SolutionTime UpdateTime ValidID Comment)) {
@@ -179,20 +177,6 @@ sub Run {
         # output header
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-
-        # output error notify
-        if ($Self->{ParamObject}->GetParam(Param => "ErrorAdd")) {
-            $Output .= $Self->{LayoutObject}->Notify(
-                Priority => 'Error',
-                Data => '$Text{"Add new SLA failed! See System Log for details."}',
-            );
-        }
-        elsif ($Self->{ParamObject}->GetParam(Param => "ErrorUpdate")) {
-            $Output .= $Self->{LayoutObject}->Notify(
-                Priority => 'Error',
-#                Data => '$Text{"Update SLA faild! See System Log for details."}',
-            );
-        }
         # get service list
         my %ServiceList = $Self->{ServiceObject}->ServiceList(
             Valid => 0,

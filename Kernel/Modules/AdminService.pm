@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminService.pm,v 1.4 2007-05-21 09:48:19 mh Exp $
+# $Id: AdminService.pm,v 1.5 2007-05-21 18:48:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -55,10 +55,7 @@ sub Run {
         my %ServiceData;
         # get params
         $ServiceData{ServiceID} = $Self->{ParamObject}->GetParam(Param => "ServiceID");
-        if ($ServiceData{ServiceID} eq 'NEW') {
-            $ServiceData{NameShort} = $Self->{ParamObject}->GetParam(Param => "Name");
-        }
-        else {
+        if ($ServiceData{ServiceID} ne 'NEW') {
             %ServiceData = $Self->{ServiceObject}->ServiceGet(
                 ServiceID => $ServiceData{ServiceID},
                 UserID => $Self->{UserID},
@@ -122,7 +119,6 @@ sub Run {
     # service save
     # ------------------------------------------------------------ #
     elsif ($Self->{Subaction} eq 'ServiceSave') {
-        my $ErrorNotify = '';
         my %ServiceData;
         # get params
         foreach (qw(ServiceID ParentID Name ValidID Comment)) {
@@ -135,7 +131,7 @@ sub Run {
                 UserID => $Self->{UserID},
             );
             if (!$Success) {
-                $ErrorNotify .= "&ErrorAdd=1";
+                return $Self->{LayoutObject}->ErrorScreen();
             }
         }
         else {
@@ -144,11 +140,11 @@ sub Run {
                 UserID => $Self->{UserID},
             );
             if (!$Success) {
-                $ErrorNotify .= "&ErrorUpdate=1";
+                return $Self->{LayoutObject}->ErrorScreen();
             }
         }
         # redirect to overview
-        return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}$ErrorNotify");
+        return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
     }
     # ------------------------------------------------------------ #
     # service overview
@@ -157,20 +153,6 @@ sub Run {
         # output header
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-
-        # output error notify
-        if ($Self->{ParamObject}->GetParam(Param => "ErrorAdd")) {
-            $Output .= $Self->{LayoutObject}->Notify(
-                Priority => 'Error',
-                Data => '$Text{"Add new service failed! See System Log for details."}',
-            );
-        }
-        elsif ($Self->{ParamObject}->GetParam(Param => "ErrorUpdate")) {
-            $Output .= $Self->{LayoutObject}->Notify(
-                Priority => 'Error',
-                Data => '$Text{"Update service faild! See System Log for details."}',
-            );
-        }
         # output overview
         $Self->{LayoutObject}->Block(
             Name => 'Overview',
