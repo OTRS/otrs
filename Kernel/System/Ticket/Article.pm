@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.140 2007-04-12 21:33:57 martin Exp $
+# $Id: Article.pm,v 1.141 2007-05-21 14:09:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.140 $';
+$VERSION = '$Revision: 1.141 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -129,12 +129,14 @@ sub ArticleCreate {
         " valid_id, incoming_time,  create_time, create_by, change_time, change_by) " .
         " VALUES ".
         " ($DBParam{TicketID}, $DBParam{ArticleTypeID}, $DBParam{SenderTypeID}, ".
-        " '$DBParam{From}', '$DBParam{ReplyTo}', '$DBParam{To}', '$DBParam{Cc}', ".
-        " '$DBParam{Subject}', ".
+        " '$DBParam{From}', '$DBParam{ReplyTo}', ?, ?, ?, ".
         " '$DBParam{MessageID}', ?, '$DBParam{ContentType}', ?, ".
         " $ValidID,  $IncomingTime, " .
         " current_timestamp, $DBParam{UserID}, current_timestamp, $DBParam{UserID})";
-    if (!$Self->{DBObject}->Do(SQL => $SQL, Bind => [\$Param{Body}, \$Self->{ArticleContentPath}])) {
+    if (!$Self->{DBObject}->Do(
+        SQL => $SQL,
+        Bind => [\$Param{To}, \$Param{Cc}, \$Param{Subject}, \$Param{Body}, \$Self->{ArticleContentPath}])
+    ) {
         return;
     }
     # get article id
