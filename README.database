@@ -2,7 +2,7 @@
 # README.database - database description of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: README.database,v 1.16 2007-03-09 13:06:35 martin Exp $
+# $Id: README.database,v 1.17 2007-05-21 14:19:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,7 +11,6 @@
 
 Where can I find the database description files?
 ================================================
-
 
 XML:
 ====
@@ -51,14 +50,14 @@ Then you will find
 o /tmp/otrs_own-schema.postgresql.sql (create tables, uniques and indexes)
 o /tmp/otrs_own-schema-post.postgresql.sql (create foreign keys to other tables)
 
-
-a) initial inserts
------------------
+b) initial inserts
+------------------
 shell> cat scripts/database/otrs-initial_insert.xml | bin/xml2sql.pl -n otrs_own -o /tmp/ -t postgresql
 
 Then you will find
 
 o /tmp/otrs_own-initial_insert.postgresql.sql (initial inserts)
+
 
 Initial insert file:
 ====================
@@ -71,6 +70,8 @@ DB - Setup Example (MySQL):
 Create OTRS database:
 ---------------------
 shell> mysql -u root -p -e 'create database otrs'
+(if you want to use utf8, use this one)
+shell> mysql -u root -p -e 'create database otrs charset utf8'
 
 Create the OTRS tables:
 -----------------------
