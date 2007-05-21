@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.3 2007-03-16 10:02:51 martin Exp $
+# $Id: AdminSLA.pm,v 1.4 2007-05-21 09:48:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -69,6 +69,7 @@ sub Run {
         }
         # get service list
         my %ServiceList = $Self->{ServiceObject}->ServiceList(
+            Valid => 0,
             UserID => $Self->{UserID},
         );
         # generate ServiceOptionStrg
@@ -194,6 +195,7 @@ sub Run {
         }
         # get service list
         my %ServiceList = $Self->{ServiceObject}->ServiceList(
+            Valid => 0,
             UserID => $Self->{UserID},
         );
         # generate ServiceOptionStrg
@@ -238,6 +240,7 @@ sub Run {
             # get sla list
             my %SLAList = $Self->{SLAObject}->SLAList(
                 ServiceID => $ServiceID,
+                Valid => 0,
                 UserID => $Self->{UserID},
             );
             foreach my $SLAID (sort {$SLAList{$a} cmp $SLAList{$b}} keys %SLAList) {

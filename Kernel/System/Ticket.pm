@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.259 2007-05-09 12:56:33 mh Exp $
+# $Id: Ticket.pm,v 1.260 2007-05-21 09:48:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.259 $';
+$VERSION = '$Revision: 1.260 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1462,11 +1462,9 @@ sub TicketServiceList {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID or TicketID!");
         return;
     }
-    my %Services = ();
-    $Self->{DBObject}->Prepare(SQL => "SELECT id, name FROM service");
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $Services{$Row[0]} = $Row[1];
-    }
+    my %Services = $Self->{ServiceObject}->ServiceList(
+        UserID => 1,
+    );
     # workflow
     if ($Self->TicketAcl(
         %Param,
@@ -1756,11 +1754,11 @@ sub TicketSLAList {
     foreach (qw(ServiceID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
-    my %SLAs = ();
-    $Self->{DBObject}->Prepare(SQL => "SELECT id, name FROM sla WHERE service_id = $Param{ServiceID}");
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $SLAs{$Row[0]} = $Row[1];
-    }
+    # get sla list
+    my %SLAs = $Self->{SLAObject}->SLAList(
+        ServiceID => $Param{ServiceID},
+        UserID => 1,
+    );
     # workflow
     if ($Self->TicketAcl(
         %Param,
@@ -5835,6 +5833,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.259 $ $Date: 2007-05-09 12:56:33 $
+$Revision: 1.260 $ $Date: 2007-05-21 09:48:20 $
 
 =cut

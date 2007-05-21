@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.6 2007-05-07 17:35:56 martin Exp $
+# $Id: Service.pm,v 1.7 2007-05-21 09:48:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,8 +13,10 @@ package Kernel::System::Service;
 
 use strict;
 
+use Kernel::System::Valid;
+
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -66,6 +68,7 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
 }
@@ -75,6 +78,7 @@ sub new {
 return a hash list of services
 
     my %ServiceList = $ServiceObject->ServiceList(
+        Valid => 0,   # (optional) default 1 (0|1)
         UserID => 1,
     );
 
@@ -84,6 +88,7 @@ sub ServiceList {
     my $Self = shift;
     my %Param = @_;
     my %ServiceList;
+    my %ServiceValidList;
     # check needed stuff
     foreach (qw(UserID)) {
         if (!$Param{$_}) {
@@ -91,18 +96,55 @@ sub ServiceList {
             return;
         }
     }
+    # check valid param
+    if (!defined($Param{Valid})) {
+        $Param{Valid} = 1;
+    }
     # quote
     foreach (qw(UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
-
+    # ask database
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT id, name FROM service",
+        SQL => "SELECT id, name, valid_id FROM service",
     );
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $ServiceList{$Row[0]} = $Row[1];
+        $ServiceValidList{$Row[0]} = $Row[2];
     }
-
+    if ($Param{Valid}) {
+        # get valid ids
+        my @ValidIDs = $Self->{ValidObject}->ValidIDsGet();
+        # duplicate service list
+        my %ServiceListTmp = %ServiceList;
+        # add suffix for correct sorting
+        foreach my $ServiceID (keys %ServiceListTmp) {
+            $ServiceListTmp{$ServiceID} .= '::';
+        }
+        my %ServiceInvalidList;
+        foreach my $ServiceID (sort {$ServiceListTmp{$a} cmp $ServiceListTmp{$b}} keys %ServiceListTmp) {
+            my $Invalid = 1;
+            foreach my $ValidID (@ValidIDs) {
+                if ($ServiceValidList{$ServiceID} eq $ValidID) {
+                    $Invalid = 0;
+                    last;
+                }
+            }
+            if ($Invalid) {
+                $ServiceInvalidList{$ServiceList{$ServiceID}} = 1;
+                delete($ServiceList{$ServiceID});
+            }
+        }
+        # delete invalid services an childs
+        foreach my $ServiceID (keys %ServiceList) {
+            foreach my $InvalidName (keys %ServiceInvalidList) {
+                if ($ServiceList{$ServiceID} =~ /^($InvalidName)::/) {
+                    delete($ServiceList{$ServiceID});
+                    last;
+                }
+            }
+        }
+    }
     return %ServiceList;
 }
 
@@ -444,6 +486,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2007-05-07 17:35:56 $
+$Revision: 1.7 $ $Date: 2007-05-21 09:48:20 $
 
 =cut

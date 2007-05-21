@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.4 2007-03-16 10:13:33 martin Exp $
+# $Id: SLA.pm,v 1.5 2007-05-21 09:48:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,8 +13,10 @@ package Kernel::System::SLA;
 
 use strict;
 
+use Kernel::System::Valid;
+
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -66,6 +68,7 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
 }
@@ -76,6 +79,7 @@ return a hash list of slas
 
     my %SLAList = $SLAObject->SLAList(
         ServiceID => 1,  # (optional)
+        Valid => 0,      # (optional) default 1 (0|1)
         UserID => 1,
     );
 
@@ -92,6 +96,10 @@ sub SLAList {
             return;
         }
     }
+    # check valid param
+    if (!defined($Param{Valid})) {
+        $Param{Valid} = 1;
+    }
     # quote
     foreach (qw(UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
@@ -100,7 +108,17 @@ sub SLAList {
     my $Where = '';
     if ($Param{ServiceID}) {
         $Param{ServiceID} = $Self->{DBObject}->Quote($Param{ServiceID}, 'Integer');
-        $Where = "WHERE service_id = $Param{ServiceID}";
+        $Where .= "WHERE service_id = $Param{ServiceID} ";
+    }
+    # add valid part
+    if ($Param{Valid}) {
+        if ($Where) {
+            $Where .= "AND ";
+        }
+        else {
+            $Where .= "WHERE ";
+        }
+        $Where .= "valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     }
     # ask database
     $Self->{DBObject}->Prepare(
@@ -368,6 +386,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2007-03-16 10:13:33 $
+$Revision: 1.5 $ $Date: 2007-05-21 09:48:20 $
 
 =cut
