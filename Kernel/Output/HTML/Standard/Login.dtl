@@ -1,8 +1,8 @@
 # --
 # Login.dtl - provides HTML login screen
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.29 2006-12-21 16:44:37 mh Exp $
+# $Id: Login.dtl,v 1.30 2007-05-21 14:17:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -57,7 +57,7 @@ function submit_form() {
     <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
     <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
     <input type="hidden" name="TimeOffset" value="">
-    <table border="0" cellspacing="0" cellpadding="3" width="270">
+    <table border="0" cellspacing="0" cellpadding="3" width="280">
       <tr>
         <td align="center" class="singleboxhead">$Text{"Welcome to %s", "$Config{"ProductName"}"}</td>
       </tr>
@@ -86,7 +86,7 @@ function submit_form() {
   <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="Action" value="">
     <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
-    <table border="0" cellspacing="0" cellpadding="3" width="270">
+    <table border="0" cellspacing="0" cellpadding="3" width="280">
       <tr>
         <td align="center" class="singleboxhead">$Text{"Language"}</td>
       </tr>
@@ -107,7 +107,7 @@ function submit_form() {
 <!-- dtl:block:LostPassword -->
 <p>
   <center>
-  <table border="0" cellspacing="0" cellpadding="3" width="270">
+  <table border="0" cellspacing="0" cellpadding="3" width="280">
     <tr>
       <td align="center" class="singleboxhead">$Text{"Lost your password?"}</td>
     </tr>
