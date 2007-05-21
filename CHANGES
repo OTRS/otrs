@@ -2,15 +2,12 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.395 2007-05-21 14:20:42 martin Exp $
+# $Id: CHANGES,v 1.396 2007-05-21 14:24:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-Major changes
- o Preferences as own menu point
-
 2.2.0 beta4 (2007/??/??)
  - (2007/05/21) Changes max shown escalated tickets in queue view to 30
     (to improved spped of escalation view in queue view).
