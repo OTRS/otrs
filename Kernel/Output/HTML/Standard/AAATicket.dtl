@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.28 2007-04-24 11:04:54 martin Exp $
+# $Id: AAATicket.dtl,v 1.29 2007-05-21 14:16:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -142,6 +142,7 @@ $Text{"Ticket %s: update time is over (%s)!"}
 $Text{"Ticket %s: update time will be over in %s!"}
 $Text{"Ticket %s: solution time is over (%s)!"}
 $Text{"Ticket %s: solution time will be over in %s!"}
+$Text{"There are more escalated tickets!"}
 
 # preferences
 $Text{"New ticket notification"}
