@@ -2,24 +2,42 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.394 2007-05-21 13:44:45 mh Exp $
+# $Id: CHANGES,v 1.395 2007-05-21 14:20:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+Major changes
+ o Preferences as own menu point
 
 2.2.0 beta4 (2007/??/??)
+ - (2007/05/21) Changes max shown escalated tickets in queue view to 30
+    (to improved spped of escalation view in queue view).
+ - (2007/05/21) Fixed double ContentType in ArticleAttachment() of attachment
+    backends (Kernel/System/Ticket/ArticleStorage(DB|FS).pm).
  - (2007/05/21) Sync of all configurable frontend modules.
  - (2007/05/21) Fixed bug# 1898 - Invalid services and slas was shown in agent
     masks.
- - (2007/05/16) Improved check of needed stuff in Send() function to prevent
-    bugs like bug# 1887.
- - (2007/05/14) Fixed bug# 1866 - Error while DB upgrade from 2.1.5 to 2.2-beta3.
+ - (2007/05/16) Improved check of needed Charset param in Send() function to
+    prevent problems like in bug# 1887.
+ - (2007/05/14) Fixed bug# 1866 - Error while DB upgrade from 2.1.5 to 2.2.0
+    beta3.
+ - (2007/05/12) Ingresed width of html login tables from 270 to 280 because
+    of new language selection.
+ - (2007/05/11) Added script to convert a non utf-8 database to an utf-8
+    database.
  - (2007/05/09) Fixed bug# 1825 - SQL ticket_history INSERT syntax error in
     HistoryAdd().
- - (2007/05/07) Fixed bug# 1787 - Problem with cachefilenames of the stats module
-    in win32.
+ - (2007/05/08) Fixed bug# 1840 - Repeat escalation message when queue, SLA
+    Solution time is shown.
+ - (2007/05/07) Added DB::Encode database driver config (Kernel/System/DB/*.pm)
+    to set encoding of selected data to utf8 if needed.
+ - (2007/05/07) Added cmd bin/otrs.RebuildConfig.pl to rebuild/build default
+    Kernel/Config/Files/ZZZAAuto.pm based on Kernel/Config/Files/*.xml config
+    files.
+ - (2007/05/07) Fixed bug# 1787 - Problem with cachefilenames of the stats
+    module in win32.
 
 2.2.0 beta3 (2007/05/07)
  - (2007/05/04) Fixed bug# 1788 - Problem with cachefile in win32.
