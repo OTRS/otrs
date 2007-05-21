@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.1 2007-04-11 21:49:43 martin Exp $
+# $Id: ar_SA.pm,v 1.2 2007-05-21 18:55:52 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::ar_SA;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -806,12 +806,8 @@ sub Data {
 
         # Template: AdminService
         'Sub-Service of' => '',
-        'Add new service failed! See System Log for details.' => '',
-        'Update service faild! See System Log for details.' => '',
 
         # Template: AdminSLA
-        'Add new SLA failed! See System Log for details.' => '',
-        'Update SLA faild! See System Log for details.' => '',
 
         # Template: AdminSession
         'Session Management' => '',

@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.133 2007-04-27 12:34:46 bb Exp $
+# $Id: de.pm,v 1.134 2007-05-21 18:55:52 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.133 $';
+$VERSION = '$Revision: 1.134 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -570,9 +570,9 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>).' => 'Konfigurations Optionen (z. B. <OTRS_CONFIG_HttpType).',
 
         # Template: AdminCustomerCompanyForm
-        'Customer Company Management' => 'Kunden-Firma Management',
-        'Add Customer Company' => 'Hinzufügen einer Kunden-Firma',
-        'Add a new Customer Company.' => 'Hinzufügen einer neuen Kunden-Firma',
+        'Customer Company Management' => 'Kunden-Firma Verwaltung',
+        'Add Customer Company' => 'Kunden-Firma hinzufügen',
+        'Add a new Customer Company.' => 'Eine neue Kunden-Firma hinzufügen.',
         'List' => 'Liste',
         'This values are required.' => 'Diese Inhalte werden benötigt.',
         'This values are read only.' => 'Diese Inhalte sind schreibgeschützt.',
@@ -580,7 +580,7 @@ sub Data {
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'Kunden-Benutzer Verwaltung',
         'Search for' => 'Suche nach',
-        'Add User' => 'Benutzer hinzufügen',
+        'Add Customer User' => 'Kunden-Benutzer hinzufügen',
         'Source' => 'Quelle',
         'Create' => 'Erstellen',
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'Kunden-Benutzer werden für Kunden-Historien und für die Benutzung von Kunden-Weboberfläche benötigt.',
@@ -660,7 +660,7 @@ sub Data {
         # Template: AdminGroupForm
         'Group Management' => 'Gruppen Verwaltung',
         'Add Group' => 'Gruppe hinzufügen',
-        'Add a new Group.' => 'Neue Gruppe hinzufügen',
+        'Add a new Group.' => 'Eine neue Gruppe hinzufügen.',
         'The admin group is to get in the admin area and the stats group to get stats area.' => 'Die \'admin\'-Gruppe wird für den Admin-Bereich benötigt, die \'stats\'-Gruppe für den Statistik-Bereich.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Erstellen Sie neue Gruppen, um die Zugriffe für verschiedene Agenten-Gruppen zu definieren (z. B. Einkaufs-Abteilung, Support-Abteilung, Verkaufs-Abteilung,...).',
         'It\'s useful for ASP solutions.' => 'Nützlich für ASP-Lösungen.',
@@ -752,7 +752,7 @@ sub Data {
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Ist RegExp benutzt, können Sie auch den Inhalt von () als [***] in \'Setzen\' benutzen.',
 
         # Template: AdminQueueAutoResponseForm
-        'Queue <-> Auto Responses Management' => 'Queue <-> Auto Antworten Management',
+        'Queue <-> Auto Responses Management' => 'Queue <-> Auto Antworten Verwaltung',
 
         # Template: AdminQueueForm
         'Queue Management' => 'Queue Verwaltung',
@@ -801,7 +801,7 @@ sub Data {
         # Template: AdminRoleForm
         'Role Management' => 'Rollen Verwaltung',
         'Add Role' => 'Rolle hinzufügen',
-        'Add a new Role.' => 'Neue Rolle hinzufügen.',
+        'Add a new Role.' => 'Eine neue Rolle hinzufügen.',
         'Create a role and put groups in it. Then add the role to the users.' => 'Erstelle eine Rolle und weise Gruppen hinzu. Danach füge Benutzer zu den Rollen hinzu.',
         'It\'s useful for a lot of users and groups.' => 'Es ist sehr nützlich wenn man viele Gruppen und Benutzer hat.',
 
@@ -829,7 +829,7 @@ sub Data {
         # Template: AdminSalutationForm
         'Salutation Management' => 'Anreden Verwaltung',
         'Add Salutation' => 'Anrede hinzufügen',
-        'Add a new Salutation.' => 'Neue Anrede hinzufügen.',
+        'Add a new Salutation.' => 'Eine neue Anrede hinzufügen.',
 
         # Template: AdminSelectBoxForm
         'Select Box' => 'Select Box',
@@ -838,9 +838,11 @@ sub Data {
         'Select Box Result' => 'Select Box Ergebnis',
 
         # Template: AdminService
-        'Service Management' => 'Service Management',
+        'Service Management' => 'Service Verwaltung',
         'Service' => 'Service',
         'Sub-Service of' => 'Unterservice von',
+        'Add Service' => 'Service hinzufügen',
+        'Add a new Service.' => 'Einen neuen Service hinzufügen.',
 
         # Template: AdminSession
         'Session Management' => 'Sitzungsverwaltung',
@@ -853,15 +855,17 @@ sub Data {
 
         # Template: AdminSignatureForm
         'Signature Management' => 'Signatur Verwaltung',
-        'Add Signature' => 'Signatur hunzufügen',
-        'Add a new Signature.' => 'Neue Signatur hunzufügen.',
+        'Add Signature' => 'Signatur hinzufügen',
+        'Add a new Signature.' => 'Eine neue Signatur hinzufügen.',
 
         # Template: AdminSLA
-        'SLA Management' => 'SLA Management',
+        'SLA Management' => 'SLA Verwaltung',
         'SLA' => 'SLA',
         'Update Time' => 'Bearbeitungszeit',
         'Solution Time' => 'Lösungszeit',
         'First Response Time' => 'Reaktions-Zeit',
+        'Add SLA' => 'SLA hinzufügen',
+        'Add a new SLA.' => 'Einen neuen SLA hinzufügen.',
 
         # Template: AdminSMIMEForm
         'S/MIME Management' => 'S/MIME Verwaltung',
@@ -872,9 +876,9 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' => 'Über diesen Weg können die Zertifikate und privaten Schlüssel im Dateisystem bearbeitet werden.',
 
         # Template: AdminStateForm
-        'State Management' => 'Status Management',
+        'State Management' => 'Status Verwaltung',
         'Add State' => 'Status hinzufügen',
-        'Add a new State.' => 'Neuen Status hinzufügen',
+        'Add a new State.' => 'Einen neuen Status hinzufügen.',
         'State Type' => 'Status-Typ',
         'Take care that you also updated the default states in you Kernel/Config.pm!' => 'Beachte, dass auch der default-Status in Kernel/Config.pm geändert werden muss!',
         'See also' => 'Siehe auch',
@@ -906,7 +910,7 @@ sub Data {
         # Template: AdminSystemAddressForm
         'System Email Addresses Management' => 'E-Mail-Adressen Verwaltung',
         'Add System Address' => 'System Adresse hinzufügen',
-        'Add a new System Address.' => 'Eine neue Systemadresse anlegen',
+        'Add a new System Address.' => 'Eine neue Systemadresse hinzufügen.',
         'Realname' => 'Tatsächlicher Name',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden E-Mails mit diesem Empfänger (To:) werden in die ausgewählte Queue einsortiert.',
 
@@ -923,13 +927,13 @@ sub Data {
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'EInstellungen der Ticketdaten (z. B. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
 
         # Template: AdminTypeForm
-        'Type Management' => 'Typenverwaltung',
+        'Type Management' => 'Typ Verwaltung',
         'Add Type' => 'Typ hinzufügen',
-        'Add a new Type.' => 'Einen neuen Typ erstellen',
+        'Add a new Type.' => 'Einen neuen Typ hinzufügen.',
 
         # Template: AdminUserForm
         'User Management' => 'Benutzer Verwaltung',
-        'Add a new Agent.' => 'Neuen Agenten hinzufügen',
+        'Add a new Agent.' => 'Einen neuen Agenten hinzufügen.',
         'Login as' => 'Anmelden als',
         'Firstname' => 'Vorname',
         'Lastname' => 'Nachname',
@@ -1384,7 +1388,6 @@ sub Data {
         'FAQ Search Result' => 'FAQ Suchergebnis',
         'Select Source (for add)' => 'Quelle auswählen (zum Hinzufügen)',
         'Node-Name' => 'Node-Name',
-        'Update SLA faild! See System Log for details.' => 'Updaten des SLA fehlgeschlagen! Im System Log finden Sie weitere Informationen.',
         'Home' => 'Home',
         'Workflow Groups' => 'Workflow Gruppen',
         'Current Impact Rating' => 'aktuelles Schadenspotential',
@@ -1413,7 +1416,6 @@ sub Data {
         'No * possible!' => 'Kein "*" möglich!',
         'Load' => 'Laden',
         'Change Time' => 'Geändert',
-        'Update service faild! See System Log for details.' => 'Updaten des Service fehlgeschlagen! Im System Log finden Sie weitere Informationen.',
         'Message for new Owner' => 'Nachricht an neuen Besitzer',
         'to get the first 5 lines of the email' => 'Um die ersten 5 Zeilen der E-Mail zu erhalten',
         'OTRS DB Password' => 'OTRS DB Passwort',
@@ -1431,7 +1433,6 @@ sub Data {
         'Month' => 'Monat',
         'Node-Address' => 'Node-Adresse',
         'All Agent variables.' => 'Alle Agentenvariabln',
-        'Add new service failed! See System Log for details.' => 'Hinzufügen des neuen Service fehlgeschlagen! Im System Log finden Sie weitere Informationen.',
         'You use the DELETE option! Take care, all deleted Tickets are lost!!!' => 'Sie benutzen die LÖSCHEN Option! Bitte bedenken Sie, dass dann diese Tickets verloren sind!',
         'All Customer variables like defined in config option CustomerUser.' => 'Alle Kundenvariablen wie definiert im den Konfigoptionen CustomerUser.',
         'for agent lastname' => 'für Nachname des Agents',
