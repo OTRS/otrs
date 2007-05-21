@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.38 2007-05-07 08:29:53 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.39 2007-05-21 14:09:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub ArticleStorageInit {
@@ -517,7 +517,7 @@ sub ArticleAttachment {
                     if (-e "$Filename.content_type") {
                         if (open(DATA, "$Filename.content_type")) {
                             while (<DATA>) {
-                                $Data{ContentType} .= $_;
+                                $Data{ContentType} = $_;
                             }
                             close(DATA);
                             if (open(DATA, $Filename)) {

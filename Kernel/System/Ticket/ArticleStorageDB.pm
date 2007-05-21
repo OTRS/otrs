@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.43 2007-05-07 08:29:53 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.44 2007-05-21 14:09:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub ArticleStorageInit {
@@ -74,7 +74,7 @@ sub ArticleDelete {
     }
     # delete articles
     if ($Self->{DBObject}->Do(SQL => "DELETE FROM article WHERE ticket_id = $Param{TicketID}")) {
-        # delete history´
+        # delete history
         if ($Self->HistoryDelete(TicketID => $Param{TicketID}, UserID => $Param{UserID})) {
             return 1;
         }
@@ -467,7 +467,6 @@ sub ArticleAttachment {
     # get content path
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
     my %Data = %{$Index{$Param{FileID}}};
-print "DB\n";
 
     my $Counter = 0;
     my @List = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");
@@ -485,7 +484,7 @@ print "DB\n";
                     if (-e "$Filename.content_type") {
                         if (open(DATA, "$Filename.content_type")) {
                             while (<DATA>) {
-                                $Data{ContentType} .= $_."2";
+                                $Data{ContentType} = $_;
                             }
                             close(DATA);
                             if (open(DATA, $Filename)) {
