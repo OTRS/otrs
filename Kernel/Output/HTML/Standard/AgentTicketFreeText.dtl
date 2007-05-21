@@ -2,7 +2,7 @@
 # AgentTicketFreeText.dtl - provides HTML form for free text mask
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketFreeText.dtl,v 1.17 2007-03-28 15:16:03 martin Exp $
+# $Id: AgentTicketFreeText.dtl,v 1.18 2007-05-21 13:44:05 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -66,13 +66,13 @@ function SpellCheckSubmit() {
 <script language="JavaScript" type="text/javascript">
 <!--
 function change_selected(sel) {
-   start_elements = (sel + 4);
-   if (document.compose.elements[0].name == "$Config{"SessionName"}") {
-       start_elements = start_elements + 1;
-   }
-   if (!document.compose.elements[start_elements].checked) {
+    start_elements = (sel + 4);
+    if (document.compose.elements[0].name == "$Config{"SessionName"}") {
+        start_elements = start_elements + 1;
+    }
+    if (!document.compose.elements[start_elements].checked) {
         document.compose.elements[start_elements].checked = true;
-   }
+    }
 }
 //-->
 </script>
@@ -118,6 +118,7 @@ function change_selected(sel) {
                     <font color="red" size="-2">$Text{"$Data{"Title invalid"}"}</font>
                   </td>
                 </tr>
+<!-- dtl:block:Title -->
 <!-- dtl:block:Type -->
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"Type"}:</td>
@@ -136,13 +137,6 @@ function change_selected(sel) {
                   <td class="contentvalue">$Data{"SLAStrg"}</td>
                 </tr>
 <!-- dtl:block:SLA -->
-<!-- dtl:block:Title -->
-<!-- dtl:block:TicketType -->
-                <tr>
-                  <td colspan="2" class="contentkey">$Text{"Type"}:</td>
-                  <td class="contentvalue">$Data{"TypeStrg"}</td>
-                </tr>
-<!-- dtl:block:TicketType -->
 <!-- dtl:block:Owner -->
                 <tr>
                   <td width="18%" class="contentkey">$Text{"New Owner"}:</td>

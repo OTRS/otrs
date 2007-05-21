@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.21 2007-03-23 14:49:55 mh Exp $
+# $Id: CustomerTicketMessage.pm,v 1.22 2007-05-21 13:42:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -384,6 +384,11 @@ sub _MaskNew {
     my $Self = shift;
     my %Param = @_;
     $Param{FormID} = $Self->{FormID};
+    # get list type
+    my $TreeView = 0;
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree') {
+        $TreeView = 1;
+    }
     # check own selection
     my %NewTos = ();
     my $Module = $Self->{ConfigObject}->Get('CustomerPanel::NewTicketQueueSelectionModule') || 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric';
@@ -447,15 +452,17 @@ sub _MaskNew {
     }
     # types
     if ($Self->{ConfigObject}->Get('Ticket::Type')) {
-        my %Type = ($Self->{TicketObject}->TicketTypeList(
+        my %Type = $Self->{TicketObject}->TicketTypeList(
             %Param,
             Action => $Self->{Action},
             CustomerUserID => $Self->{UserID},
-        ), '' => '-');
-        $Param{'TypeStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        );
+        $Param{'TypeStrg'} = $Self->{LayoutObject}->BuildSelection(
             Data => \%Type,
             Name => 'TypeID',
             SelectedID => $Param{TypeID},
+            PossibleNone => 1,
+            Sort => 'AlphanumericValue',
             OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
@@ -465,36 +472,41 @@ sub _MaskNew {
     }
     # services
     if ($Self->{ConfigObject}->Get('Ticket::Service')) {
-        my %Service = ('' => '-');
+        my %Service = ();
         if ($Param{QueueID} || $Param{TicketID}) {
-            %Service = ($Self->{TicketObject}->TicketServiceList(
+            %Service = $Self->{TicketObject}->TicketServiceList(
                 %Param,
                 Action => $Self->{Action},
                 CustomerUserID => $Self->{UserID},
-            ), '' => '-');
+            );
         }
-        $Param{'ServiceStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{'ServiceStrg'} = $Self->{LayoutObject}->BuildSelection(
             Data => \%Service,
             Name => 'ServiceID',
             SelectedID => $Param{ServiceID},
+            PossibleNone => 1,
+            TreeView => $TreeView,
+            Sort => 'TreeView',
             OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketService',
             Data => {%Param},
         );
-        my %SLA = ('' => '-');
+        my %SLA = ();
         if ($Param{ServiceID}) {
-            %SLA = ($Self->{TicketObject}->TicketSLAList(
+            %SLA = $Self->{TicketObject}->TicketSLAList(
                 %Param,
                 Action => $Self->{Action},
                 CustomerUserID => $Self->{UserID},
-            ), '' => '-');
+            );
         }
-        $Param{'SLAStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{'SLAStrg'} = $Self->{LayoutObject}->BuildSelection(
             Data => \%SLA,
             Name => 'SLAID',
             SelectedID => $Param{SLAID},
+            PossibleNone => 1,
+            Sort => 'AlphanumericValue',
             OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(

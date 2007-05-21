@@ -1,8 +1,8 @@
 # --
-# AgentTicketPriority.dtl - set ticket priority
+# AgentTicketPriority.dtl - provides HTML form for priority mask
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPriority.dtl,v 1.14 2007-03-29 13:08:35 mh Exp $
+# $Id: AgentTicketPriority.dtl,v 1.15 2007-05-21 13:44:05 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -67,11 +67,9 @@ function SpellCheckSubmit() {
 <!--
 function change_selected(sel) {
     start_elements = (sel + 4);
-
     if (document.compose.elements[0].name == "$Config{"SessionName"}") {
         start_elements = start_elements + 1;
     }
-
     if (!document.compose.elements[start_elements].checked) {
         document.compose.elements[start_elements].checked = true;
     }
@@ -101,9 +99,9 @@ function change_selected(sel) {
       <br>
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
         <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Expand" value="">
         <input type="hidden" name="Subaction" value="Store">
         <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
+        <input type="hidden" name="Expand" value="">
         <input type="hidden" name="FormID" value="$QData{"FormID"}">
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
@@ -211,9 +209,7 @@ function change_selected(sel) {
                       </tr>
 <!-- dtl:block:Attachment -->
                       <tr>
-                        <td colspan="2">
-                          <input name="file_upload" type="file" size="40" class="fixed">
-                        </td>
+                        <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td>
                         <td align="right">
                           <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">
                           <a name="attachment"></a>

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.393 2007-05-21 09:49:24 mh Exp $
+# $Id: CHANGES,v 1.394 2007-05-21 13:44:45 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.2.0 beta4 (2007/??/??)
+ - (2007/05/21) Sync of all configurable frontend modules.
  - (2007/05/21) Fixed bug# 1898 - Invalid services and slas was shown in agent
     masks.
  - (2007/05/16) Improved check of needed stuff in Send() function to prevent

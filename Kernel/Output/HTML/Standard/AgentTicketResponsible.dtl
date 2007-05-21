@@ -1,8 +1,8 @@
 # --
-# AgentTicketResponsible.dtl - set ticket responsible
+# AgentTicketResponsible.dtl - provides HTML form for responsible mask
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketResponsible.dtl,v 1.9 2007-03-29 13:08:35 mh Exp $
+# $Id: AgentTicketResponsible.dtl,v 1.10 2007-05-21 13:44:05 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -77,6 +77,7 @@ function change_selected(sel) {
 //-->
 </script>
 <!-- dtl:block:OwnerJs -->
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
@@ -100,8 +101,8 @@ function change_selected(sel) {
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="Store">
         <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
-        <input type="hidden" name="FormID" value="$QData{"FormID"}">
         <input type="hidden" name="Expand" value="">
+        <input type="hidden" name="FormID" value="$QData{"FormID"}">
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -113,7 +114,8 @@ function change_selected(sel) {
                 <tr>
                   <td colspan="2" width="20%" class="contentkey">$Text{"Title"}:</td>
                   <td width="80%" class="contentvalue">
-                    <input type="text" name="Title" value="$QData{"Title"}" size="70"><font color="red" size="-2">$Text{"$Data{"Title invalid"}"}</font>
+                    <input type="text" name="Title" value="$QData{"Title"}" size="70">
+                    <font color="red" size="-2">$Text{"$Data{"Title invalid"}"}</font>
                   </td>
                 </tr>
 <!-- dtl:block:Title -->
@@ -173,7 +175,8 @@ function change_selected(sel) {
                 <tr>
                   <td colspan="2" width="20%" class="contentkey">$Text{"Subject"}:</td>
                   <td width="80%" class="contentvalue">
-                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70"><font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
+                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70">
+                    <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
                   </td>
                 </tr>
                 <tr>
@@ -206,9 +209,7 @@ function change_selected(sel) {
                       </tr>
 <!-- dtl:block:Attachment -->
                       <tr>
-                        <td colspan="2">
-                          <input name="file_upload" type="file" size="40" class="fixed">
-                        </td>
+                        <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td>
                         <td align="right">
                           <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">
                           <a name="attachment"></a>

@@ -2,7 +2,7 @@
 # AgentTicketNote.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketNote.dtl,v 1.20 2007-03-28 15:16:03 martin Exp $
+# $Id: AgentTicketNote.dtl,v 1.21 2007-05-21 13:44:05 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -66,13 +66,13 @@ function SpellCheckSubmit() {
 <script language="JavaScript" type="text/javascript">
 <!--
 function change_selected(sel) {
-   start_elements = (sel + 4);
-   if (document.compose.elements[0].name == "$Config{"SessionName"}") {
-       start_elements = start_elements + 1;
-   }
-   if (!document.compose.elements[start_elements].checked) {
+    start_elements = (sel + 4);
+    if (document.compose.elements[0].name == "$Config{"SessionName"}") {
+        start_elements = start_elements + 1;
+    }
+    if (!document.compose.elements[start_elements].checked) {
         document.compose.elements[start_elements].checked = true;
-   }
+    }
 }
 //-->
 </script>
@@ -176,7 +176,7 @@ function change_selected(sel) {
                   <td colspan="2" width="20%" class="contentkey">$Text{"Subject"}:</td>
                   <td width="80%" class="contentvalue">
                     <input type="text" name="Subject" value="$QData{"Subject"}" size="70">
-                    &nbsp;<font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
+                    <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
                   </td>
                 </tr>
                 <tr>
@@ -233,9 +233,7 @@ function change_selected(sel) {
 <!-- dtl:block:StatePending -->
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"Pending date"}:</td>
-                  <td class="contentvalue">
-                    $Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font>
-                  </td>
+                  <td class="contentvalue">$Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
                 </tr>
 <!-- dtl:block:StatePending -->
 <!-- dtl:block:State -->
@@ -301,12 +299,8 @@ function change_selected(sel) {
 #<!-- dtl:block:ArticleFreeText2 -->
 <!-- dtl:block:TimeUnits -->
                 <tr>
-                  <td colspan="2" class="contentkey">
-                    $Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:
-                  </td>
-                  <td class="contentvalue">
-                    <input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3">
-                  </td>
+                  <td colspan="2" class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
+                  <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
                 </tr>
 <!-- dtl:block:TimeUnits -->
               </table>

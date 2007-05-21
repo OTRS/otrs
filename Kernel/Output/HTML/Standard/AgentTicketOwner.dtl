@@ -1,8 +1,8 @@
 # --
-# AgentTicketOwner.dtl - set ticket owner
+# AgentTicketOwner.dtl - provides HTML form for owner mask
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.dtl,v 1.15 2007-03-29 13:08:35 mh Exp $
+# $Id: AgentTicketOwner.dtl,v 1.16 2007-05-21 13:44:05 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -66,13 +66,13 @@ function SpellCheckSubmit() {
 <script language="JavaScript" type="text/javascript">
 <!--
 function change_selected(sel) {
-   start_elements = (sel + 4);
-   if (document.compose.elements[0].name == "$Config{"SessionName"}") {
-       start_elements = start_elements + 1;
-   }
-   if (!document.compose.elements[start_elements].checked) {
+    start_elements = (sel + 4);
+    if (document.compose.elements[0].name == "$Config{"SessionName"}") {
+        start_elements = start_elements + 1;
+    }
+    if (!document.compose.elements[start_elements].checked) {
         document.compose.elements[start_elements].checked = true;
-   }
+    }
 }
 //-->
 </script>
@@ -114,7 +114,8 @@ function change_selected(sel) {
                 <tr>
                   <td colspan="2" width="20%" class="contentkey">$Text{"Title"}:</td>
                   <td width="80%" class="contentvalue">
-                    <input type="text" name="Title" value="$QData{"Title"}" size="70"><font color="red" size="-2">$Text{"$Data{"Title invalid"}"}</font>
+                    <input type="text" name="Title" value="$QData{"Title"}" size="70">
+                    <font color="red" size="-2">$Text{"$Data{"Title invalid"}"}</font>
                   </td>
                 </tr>
 <!-- dtl:block:Title -->
@@ -174,7 +175,8 @@ function change_selected(sel) {
                 <tr>
                   <td colspan="2" width="20%" class="contentkey">$Text{"Subject"}:</td>
                   <td width="80%" class="contentvalue">
-                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70"><font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
+                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70">
+                    <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
                   </td>
                 </tr>
                 <tr>
@@ -207,9 +209,7 @@ function change_selected(sel) {
                       </tr>
 <!-- dtl:block:Attachment -->
                       <tr>
-                        <td colspan="2">
-                          <input name="file_upload" type="file" size="40" class="fixed">
-                        </td>
+                        <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td>
                         <td align="right">
                           <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">
                           <a name="attachment"></a>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketFreeText.pm - free text for ticket
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketFreeText.pm,v 1.19 2007-03-29 13:51:18 martin Exp $
+# $Id: AgentTicketFreeText.pm,v 1.20 2007-05-21 13:42:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -636,6 +636,11 @@ sub Run {
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
+    # get list type
+    my $TreeView = 0;
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree') {
+        $TreeView = 1;
+    }
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
 
     if ($Self->{Config}->{Title}) {
@@ -646,15 +651,17 @@ sub _Mask {
     }
     # types
     if ($Self->{ConfigObject}->Get('Ticket::Type') && $Self->{Config}->{TicketType}) {
-        my %Type = ($Self->{TicketObject}->TicketTypeList(
+        my %Type = $Self->{TicketObject}->TicketTypeList(
             %Param,
             Action => $Self->{Action},
             UserID => $Self->{UserID},
-        ), '' => '-');
-        $Param{'TypeStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        );
+        $Param{'TypeStrg'} = $Self->{LayoutObject}->BuildSelection(
             Data => \%Type,
             Name => 'TypeID',
             SelectedID => $Param{TypeID},
+            PossibleNone => 1,
+            Sort => 'AlphanumericValue',
             OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
@@ -664,33 +671,38 @@ sub _Mask {
     }
     # services
     if ($Self->{ConfigObject}->Get('Ticket::Service') && $Self->{Config}->{Service}) {
-        my %Service = ($Self->{TicketObject}->TicketServiceList(
+        my %Service = $Self->{TicketObject}->TicketServiceList(
             %Param,
             Action => $Self->{Action},
             UserID => $Self->{UserID},
-        ), '' => '-');
-        $Param{'ServiceStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        );
+        $Param{'ServiceStrg'} = $Self->{LayoutObject}->BuildSelection(
             Data => \%Service,
             Name => 'ServiceID',
             SelectedID => $Param{ServiceID},
+            PossibleNone => 1,
+            TreeView => $TreeView,
+            Sort => 'TreeView',
             OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
             Name => 'Service',
             Data => {%Param},
         );
-        my %SLA = ('' => '-');
+        my %SLA = ();
         if ($Param{ServiceID}) {
-            %SLA = ($Self->{TicketObject}->TicketSLAList(
+            %SLA = $Self->{TicketObject}->TicketSLAList(
                 %Param,
                 Action => $Self->{Action},
                 UserID => $Self->{UserID},
-            ), '' => '-');
+            );
         }
-        $Param{'SLAStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{'SLAStrg'} = $Self->{LayoutObject}->BuildSelection(
             Data => \%SLA,
             Name => 'SLAID',
             SelectedID => $Param{SLAID},
+            PossibleNone => 1,
+            Sort => 'AlphanumericValue',
             OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
@@ -745,10 +757,17 @@ sub _Mask {
         if (!%UserHash) {
             $UserHash{''} = '-';
         }
+        my $OldOwnerSelectedID = '';
+        if ($Param{OldOwnerID}) {
+            $OldOwnerSelectedID = $Param{OldOwnerID};
+        }
+        elsif ($OldUserInfo[0]->{UserID}) {
+            $OldOwnerSelectedID = $OldUserInfo[0]->{UserID} . '1';
+        }
         # build string
         $Param{'OldOwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => \%UserHash,
-            SelectedID => $Param{OldOwnerID} || $OldUserInfo[0]->{UserID}.'1',
+            SelectedID => $OldOwnerSelectedID,
             Name => 'OldOwnerID',
             OnClick => "change_selected(2)",
         );

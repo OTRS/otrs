@@ -1,8 +1,8 @@
 # --
-# AgentTicketClose.dtl - close mask
+# AgentTicketClose.dtl - provides HTML form for close mask
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketClose.dtl,v 1.16 2007-03-28 15:16:03 martin Exp $
+# $Id: AgentTicketClose.dtl,v 1.17 2007-05-21 13:44:05 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -233,9 +233,7 @@ function change_selected(sel) {
 <!-- dtl:block:StatePending -->
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"Pending date"}:</td>
-                  <td class="contentvalue">$Data{"DateString"}
-                    <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font>
-                  </td>
+                  <td class="contentvalue">$Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
                 </tr>
 <!-- dtl:block:StatePending -->
 <!-- dtl:block:State -->
