@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.39 2007-05-07 08:31:40 martin Exp $
+# $Id: RuntimeDB.pm,v 1.40 2007-05-21 14:14:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -266,6 +266,10 @@ sub GetOverTimeTickets {
         UserID => $Param{UserID} || 1,
     );
     foreach my $TicketID (@TicketIDs) {
+        # just use the oldest 30 ticktes
+        if ($#TicketIDsOverTime > 30) {
+            last;
+        }
         my %Ticket = $Self->TicketGet(TicketID => $TicketID);
         # check response time
         if (defined($Ticket{'FirstResponseTime'})) {
