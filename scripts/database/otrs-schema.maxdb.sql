@@ -1,10 +1,11 @@
 // ----------------------------------------------------------
-//  database: maxdb, generated: Sun Jul  3 21:51:07 2005
+//  driver: maxdb, generated: 2007-05-02 15:51:43
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  create table valid
 // ----------------------------------------------------------
-CREATE TABLE valid (
+CREATE TABLE valid
+(
     id serial,
     name VARCHAR (50) NOT NULL,
     create_time timestamp NOT NULL,
@@ -18,7 +19,8 @@ CREATE TABLE valid (
 // ----------------------------------------------------------
 //  create table ticket_priority
 // ----------------------------------------------------------
-CREATE TABLE ticket_priority (
+CREATE TABLE ticket_priority
+(
     id serial,
     name VARCHAR (50) NOT NULL,
     create_time timestamp NOT NULL,
@@ -32,7 +34,8 @@ CREATE TABLE ticket_priority (
 // ----------------------------------------------------------
 //  create table ticket_lock_type
 // ----------------------------------------------------------
-CREATE TABLE ticket_lock_type (
+CREATE TABLE ticket_lock_type
+(
     id serial,
     name VARCHAR (50) NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -47,7 +50,8 @@ CREATE TABLE ticket_lock_type (
 // ----------------------------------------------------------
 //  create table system_user
 // ----------------------------------------------------------
-CREATE TABLE system_user (
+CREATE TABLE system_user
+(
     id serial,
     login VARCHAR (100) NOT NULL,
     pw VARCHAR (50) NOT NULL,
@@ -66,18 +70,20 @@ CREATE TABLE system_user (
 // ----------------------------------------------------------
 //  create table user_preferences
 // ----------------------------------------------------------
-CREATE TABLE user_preferences (
+CREATE TABLE user_preferences
+(
     user_id INTEGER NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX index_user_preferenc35 ON user_preferences (user_id)
+CREATE INDEX index_user_preferenc64 ON user_preferences (user_id)
 //
 // ----------------------------------------------------------
 //  create table groups
 // ----------------------------------------------------------
-CREATE TABLE groups (
+CREATE TABLE groups
+(
     id serial,
     name VARCHAR (100) NOT NULL,
     comments VARCHAR (250),
@@ -93,7 +99,8 @@ CREATE TABLE groups (
 // ----------------------------------------------------------
 //  create table group_user
 // ----------------------------------------------------------
-CREATE TABLE group_user (
+CREATE TABLE group_user
+(
     user_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
     permission_key VARCHAR (20) NOT NULL,
@@ -107,7 +114,8 @@ CREATE TABLE group_user (
 // ----------------------------------------------------------
 //  create table group_role
 // ----------------------------------------------------------
-CREATE TABLE group_role (
+CREATE TABLE group_role
+(
     role_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
     permission_key VARCHAR (20) NOT NULL,
@@ -121,7 +129,8 @@ CREATE TABLE group_role (
 // ----------------------------------------------------------
 //  create table group_customer_user
 // ----------------------------------------------------------
-CREATE TABLE group_customer_user (
+CREATE TABLE group_customer_user
+(
     user_id VARCHAR (100) NOT NULL,
     group_id INTEGER NOT NULL,
     permission_key VARCHAR (20) NOT NULL,
@@ -135,7 +144,8 @@ CREATE TABLE group_customer_user (
 // ----------------------------------------------------------
 //  create table roles
 // ----------------------------------------------------------
-CREATE TABLE roles (
+CREATE TABLE roles
+(
     id serial,
     name VARCHAR (100) NOT NULL,
     comments VARCHAR (250),
@@ -151,7 +161,8 @@ CREATE TABLE roles (
 // ----------------------------------------------------------
 //  create table role_user
 // ----------------------------------------------------------
-CREATE TABLE role_user (
+CREATE TABLE role_user
+(
     user_id INTEGER NOT NULL,
     role_id INTEGER NOT NULL,
     create_time timestamp NOT NULL,
@@ -163,7 +174,8 @@ CREATE TABLE role_user (
 // ----------------------------------------------------------
 //  create table personal_queues
 // ----------------------------------------------------------
-CREATE TABLE personal_queues (
+CREATE TABLE personal_queues
+(
     user_id INTEGER NOT NULL,
     queue_id INTEGER NOT NULL
 )
@@ -171,7 +183,8 @@ CREATE TABLE personal_queues (
 // ----------------------------------------------------------
 //  create table theme
 // ----------------------------------------------------------
-CREATE TABLE theme (
+CREATE TABLE theme
+(
     id serial,
     theme VARCHAR (100) NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -186,7 +199,8 @@ CREATE TABLE theme (
 // ----------------------------------------------------------
 //  create table ticket_state
 // ----------------------------------------------------------
-CREATE TABLE ticket_state (
+CREATE TABLE ticket_state
+(
     id serial,
     name VARCHAR (100) NOT NULL,
     comments VARCHAR (250),
@@ -203,7 +217,8 @@ CREATE TABLE ticket_state (
 // ----------------------------------------------------------
 //  create table ticket_state_type
 // ----------------------------------------------------------
-CREATE TABLE ticket_state_type (
+CREATE TABLE ticket_state_type
+(
     id serial,
     name VARCHAR (120) NOT NULL,
     comments VARCHAR (250),
@@ -218,7 +233,8 @@ CREATE TABLE ticket_state_type (
 // ----------------------------------------------------------
 //  create table salutation
 // ----------------------------------------------------------
-CREATE TABLE salutation (
+CREATE TABLE salutation
+(
     id serial,
     name VARCHAR (100) NOT NULL,
     text VARCHAR (3000) NOT NULL,
@@ -235,7 +251,8 @@ CREATE TABLE salutation (
 // ----------------------------------------------------------
 //  create table signature
 // ----------------------------------------------------------
-CREATE TABLE signature (
+CREATE TABLE signature
+(
     id serial,
     name VARCHAR (100) NOT NULL,
     text VARCHAR (3000) NOT NULL,
@@ -252,7 +269,8 @@ CREATE TABLE signature (
 // ----------------------------------------------------------
 //  create table system_address
 // ----------------------------------------------------------
-CREATE TABLE system_address (
+CREATE TABLE system_address
+(
     id serial,
     value0 VARCHAR (200) NOT NULL,
     value1 VARCHAR (200) NOT NULL,
@@ -271,7 +289,8 @@ CREATE TABLE system_address (
 // ----------------------------------------------------------
 //  create table follow_up_possible
 // ----------------------------------------------------------
-CREATE TABLE follow_up_possible (
+CREATE TABLE follow_up_possible
+(
     id serial,
     name VARCHAR (100) NOT NULL,
     comments VARCHAR (250),
@@ -287,7 +306,8 @@ CREATE TABLE follow_up_possible (
 // ----------------------------------------------------------
 //  create table queue
 // ----------------------------------------------------------
-CREATE TABLE queue (
+CREATE TABLE queue
+(
     id serial,
     name VARCHAR (200) NOT NULL,
     group_id INTEGER NOT NULL,
@@ -316,7 +336,8 @@ CREATE TABLE queue (
 // ----------------------------------------------------------
 //  create table ticket
 // ----------------------------------------------------------
-CREATE TABLE ticket (
+CREATE TABLE ticket
+(
     id serial,
     tn VARCHAR (50) NOT NULL,
     title VARCHAR (255),
@@ -355,7 +376,7 @@ CREATE TABLE ticket (
     freetime1 timestamp,
     freetime2 timestamp,
     valid_id SMALLINT NOT NULL,
-    create_time_unix BIGINT NOT NULL,
+    create_time_unix INTEGER NOT NULL,
     create_time timestamp NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp NOT NULL,
@@ -366,16 +387,17 @@ CREATE TABLE ticket (
 //
 CREATE INDEX index_ticket_user ON ticket (user_id)
 //
-CREATE INDEX index_ticket_queue_v97 ON ticket (ticket_state_id, ticket_lock_id, group_id)
+CREATE INDEX index_ticket_queue_v40 ON ticket (ticket_state_id, ticket_lock_id, group_id)
 //
-CREATE INDEX index_ticket_answere19 ON ticket (ticket_answered)
+CREATE INDEX index_ticket_answere21 ON ticket (ticket_answered)
 //
 // ----------------------------------------------------------
 //  create table object_link
 // ----------------------------------------------------------
-CREATE TABLE object_link (
-    object_link_a_id BIGINT NOT NULL,
-    object_link_b_id BIGINT NOT NULL,
+CREATE TABLE object_link
+(
+    object_link_a_id INTEGER NOT NULL,
+    object_link_b_id INTEGER NOT NULL,
     object_link_a_object VARCHAR (200) NOT NULL,
     object_link_b_object VARCHAR (200) NOT NULL,
     object_link_type VARCHAR (200) NOT NULL
@@ -384,12 +406,13 @@ CREATE TABLE object_link (
 // ----------------------------------------------------------
 //  create table ticket_history
 // ----------------------------------------------------------
-CREATE TABLE ticket_history (
+CREATE TABLE ticket_history
+(
     id serial,
     name VARCHAR (200) NOT NULL,
     history_type_id SMALLINT NOT NULL,
-    ticket_id BIGINT NOT NULL,
-    article_id BIGINT,
+    ticket_id INTEGER NOT NULL,
+    article_id INTEGER,
     queue_id INTEGER NOT NULL,
     owner_id INTEGER NOT NULL,
     priority_id SMALLINT NOT NULL,
@@ -402,14 +425,15 @@ CREATE TABLE ticket_history (
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX ticket_history_ticke27 ON ticket_history (ticket_id)
+CREATE INDEX ticket_history_ticke9 ON ticket_history (ticket_id)
 //
-CREATE INDEX ticket_history_creat49 ON ticket_history (create_time)
+CREATE INDEX ticket_history_creat35 ON ticket_history (create_time)
 //
 // ----------------------------------------------------------
 //  create table ticket_history_type
 // ----------------------------------------------------------
-CREATE TABLE ticket_history_type (
+CREATE TABLE ticket_history_type
+(
     id serial,
     name VARCHAR (100) NOT NULL,
     comments VARCHAR (250),
@@ -425,7 +449,8 @@ CREATE TABLE ticket_history_type (
 // ----------------------------------------------------------
 //  create table article_type
 // ----------------------------------------------------------
-CREATE TABLE article_type (
+CREATE TABLE article_type
+(
     id serial,
     name VARCHAR (100) NOT NULL,
     comments VARCHAR (250),
@@ -441,7 +466,8 @@ CREATE TABLE article_type (
 // ----------------------------------------------------------
 //  create table article_sender_type
 // ----------------------------------------------------------
-CREATE TABLE article_sender_type (
+CREATE TABLE article_sender_type
+(
     id serial,
     name VARCHAR (100) NOT NULL,
     comments VARCHAR (250),
@@ -457,23 +483,25 @@ CREATE TABLE article_sender_type (
 // ----------------------------------------------------------
 //  create table article_flag
 // ----------------------------------------------------------
-CREATE TABLE article_flag (
-    article_id BIGINT NOT NULL,
+CREATE TABLE article_flag
+(
+    article_id INTEGER NOT NULL,
     article_flag VARCHAR (50) NOT NULL,
     create_time timestamp NOT NULL,
     create_by INTEGER NOT NULL
 )
 //
-CREATE INDEX article_flag_create_94 ON article_flag (create_by)
+CREATE INDEX article_flag_create_49 ON article_flag (create_by)
 //
-CREATE INDEX article_flag_article51 ON article_flag (article_id)
+CREATE INDEX article_flag_article48 ON article_flag (article_id)
 //
 // ----------------------------------------------------------
 //  create table article
 // ----------------------------------------------------------
-CREATE TABLE article (
+CREATE TABLE article
+(
     id serial,
-    ticket_id BIGINT NOT NULL,
+    ticket_id INTEGER NOT NULL,
     article_type_id SMALLINT NOT NULL,
     article_sender_type_id SMALLINT NOT NULL,
     a_from VARCHAR (3800),
@@ -507,9 +535,10 @@ CREATE INDEX article_message_id ON article (a_message_id)
 // ----------------------------------------------------------
 //  create table article_plain
 // ----------------------------------------------------------
-CREATE TABLE article_plain (
+CREATE TABLE article_plain
+(
     id serial,
-    article_id BIGINT NOT NULL,
+    article_id INTEGER NOT NULL,
     body LONG NOT NULL,
     create_time timestamp NOT NULL,
     create_by INTEGER NOT NULL,
@@ -518,14 +547,15 @@ CREATE TABLE article_plain (
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX article_plain_articl52 ON article_plain (article_id)
+CREATE INDEX article_plain_articl96 ON article_plain (article_id)
 //
 // ----------------------------------------------------------
 //  create table article_attachment
 // ----------------------------------------------------------
-CREATE TABLE article_attachment (
+CREATE TABLE article_attachment
+(
     id serial,
-    article_id BIGINT NOT NULL,
+    article_id INTEGER NOT NULL,
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
@@ -537,15 +567,16 @@ CREATE TABLE article_attachment (
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX article_attachment_a31 ON article_attachment (article_id)
+CREATE INDEX article_attachment_a12 ON article_attachment (article_id)
 //
 // ----------------------------------------------------------
 //  create table standard_response
 // ----------------------------------------------------------
-CREATE TABLE standard_response (
+CREATE TABLE standard_response
+(
     id serial,
     name VARCHAR (80) NOT NULL,
-    text LONG NOT NULL,
+    text LONG,
     comments VARCHAR (100),
     valid_id SMALLINT NOT NULL,
     create_time timestamp NOT NULL,
@@ -559,7 +590,8 @@ CREATE TABLE standard_response (
 // ----------------------------------------------------------
 //  create table queue_standard_response
 // ----------------------------------------------------------
-CREATE TABLE queue_standard_response (
+CREATE TABLE queue_standard_response
+(
     queue_id INTEGER NOT NULL,
     standard_response_id INTEGER NOT NULL,
     create_time timestamp NOT NULL,
@@ -571,7 +603,8 @@ CREATE TABLE queue_standard_response (
 // ----------------------------------------------------------
 //  create table standard_attachment
 // ----------------------------------------------------------
-CREATE TABLE standard_attachment (
+CREATE TABLE standard_attachment
+(
     id serial,
     name VARCHAR (150) NOT NULL,
     content_type VARCHAR (150) NOT NULL,
@@ -590,7 +623,8 @@ CREATE TABLE standard_attachment (
 // ----------------------------------------------------------
 //  create table standard_response_attachment
 // ----------------------------------------------------------
-CREATE TABLE standard_response_attachment (
+CREATE TABLE standard_response_attachment
+(
     id serial,
     standard_attachment_id INTEGER NOT NULL,
     standard_response_id INTEGER NOT NULL,
@@ -604,7 +638,8 @@ CREATE TABLE standard_response_attachment (
 // ----------------------------------------------------------
 //  create table auto_response_type
 // ----------------------------------------------------------
-CREATE TABLE auto_response_type (
+CREATE TABLE auto_response_type
+(
     id serial,
     name VARCHAR (50) NOT NULL,
     comments VARCHAR (80),
@@ -620,7 +655,8 @@ CREATE TABLE auto_response_type (
 // ----------------------------------------------------------
 //  create table auto_response
 // ----------------------------------------------------------
-CREATE TABLE auto_response (
+CREATE TABLE auto_response
+(
     id serial,
     name VARCHAR (100) NOT NULL,
     text0 LONG,
@@ -642,7 +678,8 @@ CREATE TABLE auto_response (
 // ----------------------------------------------------------
 //  create table queue_auto_response
 // ----------------------------------------------------------
-CREATE TABLE queue_auto_response (
+CREATE TABLE queue_auto_response
+(
     id serial,
     queue_id INTEGER NOT NULL,
     auto_response_id INTEGER NOT NULL,
@@ -656,10 +693,11 @@ CREATE TABLE queue_auto_response (
 // ----------------------------------------------------------
 //  create table time_accounting
 // ----------------------------------------------------------
-CREATE TABLE time_accounting (
+CREATE TABLE time_accounting
+(
     id serial,
-    ticket_id BIGINT NOT NULL,
-    article_id BIGINT,
+    ticket_id INTEGER NOT NULL,
+    article_id INTEGER,
     time_unit DECIMAL (10,2) NOT NULL,
     create_time timestamp NOT NULL,
     create_by INTEGER NOT NULL,
@@ -668,15 +706,15 @@ CREATE TABLE time_accounting (
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX index_time_accountin42 ON time_accounting (ticket_id)
+CREATE INDEX index_time_accountin5 ON time_accounting (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table sessions
 // ----------------------------------------------------------
-CREATE TABLE sessions (
+CREATE TABLE sessions
+(
     session_id VARCHAR (150) NOT NULL,
-    session_value LONG NOT NULL,
-    UNIQUE (session_id)
+    session_value LONG NOT NULL
 )
 //
 CREATE INDEX index_session_id ON sessions (session_id)
@@ -684,40 +722,43 @@ CREATE INDEX index_session_id ON sessions (session_id)
 // ----------------------------------------------------------
 //  create table ticket_index
 // ----------------------------------------------------------
-CREATE TABLE ticket_index (
-    ticket_id BIGINT NOT NULL,
+CREATE TABLE ticket_index
+(
+    ticket_id INTEGER NOT NULL,
     queue_id INTEGER NOT NULL,
     queue VARCHAR (70) NOT NULL,
     group_id INTEGER NOT NULL,
     s_lock VARCHAR (70) NOT NULL,
     s_state VARCHAR (70) NOT NULL,
-    create_time_unix BIGINT NOT NULL
+    create_time_unix INTEGER NOT NULL
 )
 //
-CREATE INDEX index_ticket_index_t90 ON ticket_index (ticket_id)
+CREATE INDEX index_ticket_index_t13 ON ticket_index (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table ticket_lock_index
 // ----------------------------------------------------------
-CREATE TABLE ticket_lock_index (
-    ticket_id BIGINT NOT NULL
+CREATE TABLE ticket_lock_index
+(
+    ticket_id INTEGER NOT NULL
 )
 //
-CREATE INDEX index_ticket_lock_ti42 ON ticket_lock_index (ticket_id)
+CREATE INDEX index_ticket_lock_ti60 ON ticket_lock_index (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table customer_user
 // ----------------------------------------------------------
-CREATE TABLE customer_user (
+CREATE TABLE customer_user
+(
     id serial,
     login VARCHAR (100) NOT NULL,
     email VARCHAR (150) NOT NULL,
     customer_id VARCHAR (200) NOT NULL,
-    pw VARCHAR (50) NOT NULL,
+    pw VARCHAR (50),
     salutation VARCHAR (50),
     first_name VARCHAR (100) NOT NULL,
     last_name VARCHAR (100) NOT NULL,
-    comments VARCHAR (250) NOT NULL,
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time timestamp NOT NULL,
     create_by INTEGER NOT NULL,
@@ -730,30 +771,33 @@ CREATE TABLE customer_user (
 // ----------------------------------------------------------
 //  create table customer_preferences
 // ----------------------------------------------------------
-CREATE TABLE customer_preferences (
+CREATE TABLE customer_preferences
+(
     user_id VARCHAR (250) NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX index_customer_prefe9 ON customer_preferences (user_id)
+CREATE INDEX index_customer_prefe74 ON customer_preferences (user_id)
 //
 // ----------------------------------------------------------
 //  create table ticket_loop_protection
 // ----------------------------------------------------------
-CREATE TABLE ticket_loop_protection (
+CREATE TABLE ticket_loop_protection
+(
     sent_to VARCHAR (250) NOT NULL,
     sent_date VARCHAR (150) NOT NULL
 )
 //
-CREATE INDEX index_ticket_loop_pr98 ON ticket_loop_protection (sent_to)
+CREATE INDEX index_ticket_loop_pr52 ON ticket_loop_protection (sent_to)
 //
-CREATE INDEX index_ticket_loop_pr71 ON ticket_loop_protection (sent_date)
+CREATE INDEX index_ticket_loop_pr57 ON ticket_loop_protection (sent_date)
 //
 // ----------------------------------------------------------
 //  create table pop3_account
 // ----------------------------------------------------------
-CREATE TABLE pop3_account (
+CREATE TABLE pop3_account
+(
     id serial,
     login VARCHAR (200) NOT NULL,
     pw VARCHAR (200) NOT NULL,
@@ -772,7 +816,8 @@ CREATE TABLE pop3_account (
 // ----------------------------------------------------------
 //  create table postmaster_filter
 // ----------------------------------------------------------
-CREATE TABLE postmaster_filter (
+CREATE TABLE postmaster_filter
+(
     f_name VARCHAR (200) NOT NULL,
     f_type VARCHAR (20) NOT NULL,
     f_key VARCHAR (200) NOT NULL,
@@ -782,7 +827,8 @@ CREATE TABLE postmaster_filter (
 // ----------------------------------------------------------
 //  create table generic_agent_jobs
 // ----------------------------------------------------------
-CREATE TABLE generic_agent_jobs (
+CREATE TABLE generic_agent_jobs
+(
     job_name VARCHAR (200) NOT NULL,
     job_key VARCHAR (200) NOT NULL,
     job_value VARCHAR (200) NOT NULL
@@ -791,18 +837,20 @@ CREATE TABLE generic_agent_jobs (
 // ----------------------------------------------------------
 //  create table search_profile
 // ----------------------------------------------------------
-CREATE TABLE search_profile (
+CREATE TABLE search_profile
+(
     login VARCHAR (200) NOT NULL,
     profile_name VARCHAR (200) NOT NULL,
     profile_type VARCHAR (30) NOT NULL,
     profile_key VARCHAR (200) NOT NULL,
-    profile_value VARCHAR (200) NOT NULL
+    profile_value VARCHAR (200)
 )
 //
 // ----------------------------------------------------------
 //  create table process_id
 // ----------------------------------------------------------
-CREATE TABLE process_id (
+CREATE TABLE process_id
+(
     process_name VARCHAR (200) NOT NULL,
     process_id VARCHAR (200) NOT NULL,
     process_host VARCHAR (200) NOT NULL,
@@ -812,19 +860,21 @@ CREATE TABLE process_id (
 // ----------------------------------------------------------
 //  create table web_upload_cache
 // ----------------------------------------------------------
-CREATE TABLE web_upload_cache (
+CREATE TABLE web_upload_cache
+(
     form_id VARCHAR (250),
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
     content LONG NOT NULL,
-    create_time_unix BIGINT NOT NULL
+    create_time_unix INTEGER NOT NULL
 )
 //
 // ----------------------------------------------------------
 //  create table notifications
 // ----------------------------------------------------------
-CREATE TABLE notifications (
+CREATE TABLE notifications
+(
     id serial,
     notification_type VARCHAR (200) NOT NULL,
     notification_charset VARCHAR (60) NOT NULL,
@@ -841,7 +891,8 @@ CREATE TABLE notifications (
 // ----------------------------------------------------------
 //  create table faq_item
 // ----------------------------------------------------------
-CREATE TABLE faq_item (
+CREATE TABLE faq_item
+(
     id serial,
     f_number VARCHAR (200) NOT NULL,
     f_subject VARCHAR (200),
@@ -875,7 +926,8 @@ CREATE TABLE faq_item (
 // ----------------------------------------------------------
 //  create table faq_language
 // ----------------------------------------------------------
-CREATE TABLE faq_language (
+CREATE TABLE faq_language
+(
     id serial,
     name VARCHAR (200) NOT NULL,
     PRIMARY KEY(id),
@@ -885,7 +937,8 @@ CREATE TABLE faq_language (
 // ----------------------------------------------------------
 //  create table faq_history
 // ----------------------------------------------------------
-CREATE TABLE faq_history (
+CREATE TABLE faq_history
+(
     id serial,
     name VARCHAR (200) NOT NULL,
     item_id INTEGER NOT NULL,
@@ -899,10 +952,11 @@ CREATE TABLE faq_history (
 // ----------------------------------------------------------
 //  create table faq_category
 // ----------------------------------------------------------
-CREATE TABLE faq_category (
+CREATE TABLE faq_category
+(
     id serial,
     name VARCHAR (200) NOT NULL,
-    comments VARCHAR (200) NOT NULL,
+    comments VARCHAR (200),
     create_time timestamp NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp NOT NULL,
@@ -914,7 +968,8 @@ CREATE TABLE faq_category (
 // ----------------------------------------------------------
 //  create table faq_state
 // ----------------------------------------------------------
-CREATE TABLE faq_state (
+CREATE TABLE faq_state
+(
     id serial,
     name VARCHAR (200) NOT NULL,
     type_id INTEGER NOT NULL,
@@ -925,7 +980,8 @@ CREATE TABLE faq_state (
 // ----------------------------------------------------------
 //  create table faq_state_type
 // ----------------------------------------------------------
-CREATE TABLE faq_state_type (
+CREATE TABLE faq_state_type
+(
     id serial,
     name VARCHAR (200) NOT NULL,
     PRIMARY KEY(id),
@@ -935,9 +991,10 @@ CREATE TABLE faq_state_type (
 // ----------------------------------------------------------
 //  create table faq_attachment
 // ----------------------------------------------------------
-CREATE TABLE faq_attachment (
+CREATE TABLE faq_attachment
+(
     id serial,
-    faq_id BIGINT NOT NULL,
+    faq_id INTEGER NOT NULL,
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
@@ -954,7 +1011,8 @@ CREATE INDEX faq_id ON faq_attachment (faq_id)
 // ----------------------------------------------------------
 //  create table xml_storage
 // ----------------------------------------------------------
-CREATE TABLE xml_storage (
+CREATE TABLE xml_storage
+(
     xml_type VARCHAR (200) NOT NULL,
     xml_key VARCHAR (250) NOT NULL,
     xml_content_key VARCHAR (250) NOT NULL,
@@ -970,7 +1028,8 @@ CREATE INDEX xml_key ON xml_storage (xml_key)
 // ----------------------------------------------------------
 //  create table package_repository
 // ----------------------------------------------------------
-CREATE TABLE package_repository (
+CREATE TABLE package_repository
+(
     id serial,
     name VARCHAR (250) NOT NULL,
     version VARCHAR (250) NOT NULL,
