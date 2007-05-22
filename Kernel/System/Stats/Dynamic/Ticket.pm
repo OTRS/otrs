@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.10 2007-05-02 14:31:08 tr Exp $
+# $Id: Ticket.pm,v 1.11 2007-05-22 13:40:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,11 +12,15 @@
 package Kernel::System::Stats::Dynamic::Ticket;
 
 use strict;
+
 use Kernel::System::Queue;
+use Kernel::System::Service;
+use Kernel::System::SLA;
 use Kernel::System::Ticket;
+use Kernel::System::Type;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -43,6 +47,9 @@ sub new {
     $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
     $Self->{LockObject} = Kernel::System::Lock->new(%{$Self});
     $Self->{CustomerUser} = Kernel::System::CustomerUser->new(%{$Self});
+    $Self->{ServiceObject} = Kernel::System::Service->new(%Param);
+    $Self->{SLAObject} = Kernel::System::SLA->new(%Param);
+    $Self->{TypeObject} = Kernel::System::Type->new(%Param);
 
     return $Self;
 }
@@ -222,6 +229,55 @@ sub GetObjectAttributes {
             },
         },
     );
+
+    if ($Self->{ConfigObject}->Get('Ticket::Service')) {
+        my %SLA = $Self->{SLAObject}->SLAList(
+            UserID => $Self->{UserID},
+        );
+        my %Service = $Self->{ServiceObject}->ServiceList(
+            UserID => $Self->{UserID},
+        );
+        my %ObjectAttribute2 = (
+            Name => 'SLA',
+            UseAsXvalue => 1,
+            UseAsValueSeries => 1,
+            UseAsRestriction => 1,
+            Element => 'SLAIDs',
+            Block => 'MultiSelectField',
+            LanguageTranslation => 0,
+            Values => \%SLA,
+        );
+        unshift(@ObjectAttributes, \%ObjectAttribute2);
+
+        my %ObjectAttribute1 = (
+            Name => 'Service',
+            UseAsXvalue => 1,
+            UseAsValueSeries => 1,
+            UseAsRestriction => 1,
+            Element => 'ServiceIDs',
+            Block => 'MultiSelectField',
+            LanguageTranslation => 0,
+            Values => \%Service,
+        );
+        unshift(@ObjectAttributes, \%ObjectAttribute1);
+    }
+
+    if ($Self->{ConfigObject}->Get('Ticket::Type')) {
+        my %Type = $Self->{TypeObject}->TypeList(
+            UserID => $Self->{UserID},
+        );
+        my %ObjectAttribute1 = (
+            Name => 'Type',
+            UseAsXvalue => 1,
+            UseAsValueSeries => 1,
+            UseAsRestriction => 1,
+            Element => 'TypeIDs',
+            Block => 'MultiSelectField',
+            LanguageTranslation => 0,
+            Values => \%Type,
+        );
+        unshift(@ObjectAttributes, \%ObjectAttribute1);
+    }
 
     if ($Self->{ConfigObject}->Get('Stats::UseAgentElementInStats')) {
         my %ObjectAttribute1 = (
