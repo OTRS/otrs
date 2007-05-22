@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.4.2.2 2006-06-16 23:43:44 cs Exp $
+# $Id: AgentTicketMailbox.pm,v 1.4.2.3 2007-05-22 15:27:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4.2.2 $';
+$VERSION = '$Revision: 1.4.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,7 +44,6 @@ sub new {
 
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
     $Self->{PageShown} = $Self->{UserShowTickets} || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected} || 10;
-
 
     return $Self;
 }
@@ -179,11 +178,15 @@ sub Run {
             else {
                 my @Index = $Self->{TicketObject}->ArticleIndex(TicketID => $TicketID);
                 if (@Index) {
-                    my %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $Index[$#Index]);
-                    if ($Article{SenderType} eq 'customer' ||
-                        $Article{SenderType} eq 'system' ||
-                        $Article{CreatedBy} ne $Self->{UserID}) {
-                        $Message = 'New message!';
+                    foreach my $ArticleID (reverse @Index) {
+                        my %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $ArticleID);
+                        if ($Article{SenderType} eq 'system') {
+                            next;
+                            if ($Article{SenderType} eq 'customer' || $Article{CreatedBy} ne $Self->{UserID}) {
+                                $Message = 'New message!';
+                                last;
+                            }
+                        }
                     }
                 }
             }
@@ -248,11 +251,14 @@ sub Run {
                  }
             }
             else {
-                my %Article = %{$ArticleBody[$#ArticleBody]};
-                if ($Article{SenderType} eq 'customer' ||
-                    $Article{SenderType} eq 'system' ||
-                    $Article{CreatedBy} ne $Self->{UserID}) {
-                    $Message = 'New message!';
+                foreach my $Article (reverse @ArticleBody) {
+                    if ($Article->{SenderType} eq 'system') {
+                        next;
+                        if ($Article->{SenderType} eq 'customer' || $Article->{CreatedBy} ne $Self->{UserID}) {
+                            $Message = 'New message!';
+                            last;
+                        }
+                    }
                 }
             }
             $CounterShown++;
@@ -279,7 +285,7 @@ sub Run {
             %LockedData,
             SortBy => $SortBy,
             OrderBy => $OrderBy,
-            ViewType => $Self->{Subaction},
+            ViewType => $Self->{LayoutObject}->Ascii2Html(Text => $Self->{Subaction}),
             %PageNav,
         }
     );
