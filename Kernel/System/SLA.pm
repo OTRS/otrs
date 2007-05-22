@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.6 2007-05-21 18:44:28 mh Exp $
+# $Id: SLA.pm,v 1.7 2007-05-22 10:26:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -90,7 +90,7 @@ sub SLAList {
     my %Param = @_;
     my %SLAList;
     # check needed stuff
-    foreach (qw(ServiceID UserID)) {
+    foreach (qw(UserID)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -386,6 +386,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2007-05-21 18:44:28 $
+$Revision: 1.7 $ $Date: 2007-05-22 10:26:22 $
 
 =cut
