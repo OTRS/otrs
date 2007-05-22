@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - the global ticket handle
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.194 2005-11-08 06:57:08 martin Exp $
+# $Id: Ticket.pm,v 1.194.2.1 2007-05-22 15:18:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.194 $';
+$VERSION = '$Revision: 1.194.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -632,7 +632,6 @@ sub TicketSubjectClean {
     $Subject =~ s/^(.{$TicketSubjectSize}).*$/$1 [...]/;
     return $Subject;
 }
-
 
 =item TicketGet()
 
@@ -1262,7 +1261,6 @@ Note: the current value is accessible over TicketGet()
      FillUp => 1,
      UserID => 123, # or CustomerUserID
   );
-
 
 =cut
 
@@ -2662,7 +2660,7 @@ sub LockSet {
 
 to set a ticket state
 
-  $TicketObject->SateSet(
+  $TicketObject->StateSet(
       State => 'open',
       TicketID => 123,
       UserID => 123,
@@ -4218,6 +4216,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.194 $ $Date: 2005-11-08 06:57:08 $
+$Revision: 1.194.2.1 $ $Date: 2007-05-22 15:18:22 $
 
 =cut
