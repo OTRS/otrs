@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.35 2007-05-21 18:25:23 mh Exp $
+# $Id: AdminPackageManager.dtl,v 1.36 2007-05-22 15:04:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -460,7 +460,7 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
                       </td>
 <!-- dtl:block:PackageItemFilelistFileNote -->
                       <td class="contentvalue">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&Name=$QData{"Name"}&Version=$QData{"Version"}&File=$QData{"File"}&Location=$LQData{"Location"}" title="$Text{"Download file from package!"}"><img alt="$Text{"Download file from package!"}" border="0" src="$Env{"Images"}disk-s.png"></a> $QData{"Size"}
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name=$QData{"Name"}&Version=$QData{"Version"}&File=$QData{"File"}&Location=$LQData{"Location"}" title="$Text{"Download file from package!"}"><img alt="$Text{"Download file from package!"}" border="0" src="$Env{"Images"}disk-s.png"></a> $QData{"Size"}
                       </td>
                     </tr>
 <!-- dtl:block:PackageItemFilelistFile -->
