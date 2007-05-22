@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.134 2007-05-21 18:55:52 mh Exp $
+# $Id: de.pm,v 1.135 2007-05-22 12:13:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.134 $';
+$VERSION = '$Revision: 1.135 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -457,6 +457,7 @@ sub Data {
         'Locked Tickets' => 'Gesperrte Tickets',
         'Watched Tickets' => 'Beobachtete Tickets',
         'Watched' => 'Beobachtet',
+        'Watcher' => 'Beobachter',
         'Subscribe' => 'Abonnieren',
         'Unsubscribe' => 'Ababonnieren',
         'Lock it to work on it!' => 'Sperren um es zu bearbeiten!',
