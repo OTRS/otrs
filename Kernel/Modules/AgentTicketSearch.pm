@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.38 2007-05-04 08:08:49 tr Exp $
+# $Id: AgentTicketSearch.pm,v 1.39 2007-05-22 12:12:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,12 +14,15 @@ package Kernel::Modules::AgentTicketSearch;
 use strict;
 use Kernel::System::CustomerUser;
 use Kernel::System::Priority;
-use Kernel::System::State;
 use Kernel::System::SearchProfile;
+use Kernel::System::Service;
+use Kernel::System::SLA;
+use Kernel::System::State;
+use Kernel::System::Type;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -45,6 +48,9 @@ sub new {
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{SearchProfileObject} = Kernel::System::SearchProfile->new(%Param);
     $Self->{PDFObject} = Kernel::System::PDF->new(%Param);
+    $Self->{ServiceObject} = Kernel::System::Service->new(%Param);
+    $Self->{SLAObject} = Kernel::System::SLA->new(%Param);
+    $Self->{TypeObject} = Kernel::System::Type->new(%Param);
 
     # if we need to do a fulltext search on an external mirror database
     if ($Self->{ConfigObject}->Get('Core::MirrorDB::DSN')) {
@@ -166,7 +172,8 @@ sub Run {
         }
         # get array params
         foreach (qw(StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
-            CreatedQueueIDs CreatedUserIDs
+            CreatedQueueIDs CreatedUserIDs WatchUserIDs ResponsibleIDs
+            TypeIDs ServiceIDs SLAIDs
             TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
             TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
             TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
@@ -1001,6 +1008,126 @@ sub MaskForm {
             %Param,
         },
     );
+    # build type string
+    if ($Self->{ConfigObject}->Get('Ticket::Type')) {
+        my %Type = $Self->{TypeObject}->TypeList(
+            UserID => $Self->{UserID},
+        );
+        $Param{'TypesStrg'} = $Self->{LayoutObject}->BuildSelection(
+            Data => \%Type,
+            Name => 'TypeIDs',
+            SelectedID => $Param{TypeIDs},
+            Sort => 'AlphanumericValue',
+            Size => 3,
+            Multiple => 1,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketType',
+            Data => {%Param},
+        );
+    }
+    # build service string
+    if ($Self->{ConfigObject}->Get('Ticket::Service')) {
+        # get list type
+        my $TreeView = 0;
+        if ($Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree') {
+            $TreeView = 1;
+        }
+        my %Service = $Self->{ServiceObject}->ServiceList(
+            UserID => $Self->{UserID},
+        );
+        $Param{'ServicesStrg'} = $Self->{LayoutObject}->BuildSelection(
+            Data => \%Service,
+            Name => 'ServiceIDs',
+            SelectedID => $Param{ServiceIDs},
+            TreeView => $TreeView,
+            Sort => 'TreeView',
+            Size => 5,
+            Multiple => 1,
+        );
+        my %SLA = $Self->{SLAObject}->SLAList(
+            UserID => $Self->{UserID},
+        );
+        $Param{'SLAsStrg'} = $Self->{LayoutObject}->BuildSelection(
+            Data => \%SLA,
+            Name => 'SLAIDs',
+            SelectedID => $Param{SLAIDs},
+            Sort => 'AlphanumericValue',
+            Size => 5,
+            Multiple => 1,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketService',
+            Data => {%Param},
+        );
+    }
+    if ($Self->{ConfigObject}->Get('Ticket::Watcher') || $Self->{ConfigObject}->Get('Ticket::Responsible')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketResponsibleWatcher',
+        );
+        if ($Self->{ConfigObject}->Get('Ticket::Watcher')) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketResponsibleWatcherHeaderOn',
+                Data => {
+                    Headline => 'Watcher',
+                },
+            );
+            my $SelectStrg = $Self->{LayoutObject}->BuildSelection(
+                Data => \%ShownUsers,
+                Name => 'WatchUserIDs',
+                SelectedID => $Param{WatchUserIDs},
+                Sort => 'AlphanumericValue',
+                Size => 5,
+                Multiple => 1,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketResponsibleWatcherBodyOn',
+                Data => {
+                    %Param,
+                    SelectStrg => $SelectStrg,
+                },
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketResponsibleWatcherHeaderOff',
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketResponsibleWatcherBodyOff',
+            );
+        }
+        if ($Self->{ConfigObject}->Get('Ticket::Responsible')) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketResponsibleWatcherHeaderOn',
+                Data => {
+                    Headline => 'Responsible',
+                },
+            );
+            my $SelectStrg = $Self->{LayoutObject}->BuildSelection(
+                Data => \%ShownUsers,
+                Name => 'ResponsibleIDs',
+                SelectedID => $Param{ResponsibleIDs},
+                Sort => 'AlphanumericValue',
+                Size => 5,
+                Multiple => 1,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketResponsibleWatcherBodyOn',
+                Data => {
+                    %Param,
+                    SelectStrg => $SelectStrg,
+                },
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketResponsibleWatcherHeaderOff',
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketResponsibleWatcherBodyOff',
+            );
+        }
+    }
     my $Count = 0;
     foreach (1..16) {
         $Count++;

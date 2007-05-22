@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.19 2007-05-02 14:03:34 mh Exp $
+# $Id: AgentTicketSearch.dtl,v 1.20 2007-05-22 12:12:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -72,6 +72,12 @@
                   <td class="contentkey">$Text{"Customer User Login"} $Text{"(e. g. U5150)"}</td>
                   <td class="contentvalue"><input type="text" name="CustomerUserLogin" size="30" value="$QData{"CustomerUserLogin"}"></td>
                 </tr>
+<!-- dtl:block:TicketType -->
+                <tr>
+                  <td width="50%" class="contentkey">$Text{"Type"}</td>
+                  <td width="50%" class="contentvalue">$Data{"TypesStrg"}</td>
+                </tr>
+<!-- dtl:block:TicketType -->
               </table>
             </td>
           </tr>
@@ -155,6 +161,16 @@
 #            </td>
 #          </tr>
 #<!-- dtl:block:TicketFreeTime2 -->
+<!-- dtl:block:TicketService -->
+          <tr>
+            <td width="50%" class="contenthead">$Text{"Service"}</td>
+            <td width="50%" class="contenthead">$Text{"SLA"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">$Data{"ServicesStrg"}</td>
+            <td class="contentbody">$Data{"SLAsStrg"}</td>
+          </tr>
+<!-- dtl:block:TicketService -->
           <tr>
             <td width="50%" class="contenthead">$Text{"Priority"}</td>
             <td width="50%" class="contenthead">$Text{"State"}</td>
@@ -179,6 +195,24 @@
             <td class="contentbody">$Data{"CreatedQueuesStrg"}</td>
             <td class="contentbody">$Data{"CreatedUserStrg"}</td>
           </tr>
+<!-- dtl:block:TicketResponsibleWatcher -->
+          <tr>
+<!-- dtl:block:TicketResponsibleWatcherHeaderOn -->
+            <td width="50%" class="contenthead">$Text{"$QData{"Headline"}"}</td>
+<!-- dtl:block:TicketResponsibleWatcherHeaderOn -->
+<!-- dtl:block:TicketResponsibleWatcherHeaderOff -->
+            <td width="50%" class="contenthead">&nbsp;</td>
+<!-- dtl:block:TicketResponsibleWatcherHeaderOff -->
+          </tr>
+          <tr>
+<!-- dtl:block:TicketResponsibleWatcherBodyOn -->
+            <td class="contentbody">$Data{"SelectStrg"}</td>
+<!-- dtl:block:TicketResponsibleWatcherBodyOn -->
+<!-- dtl:block:TicketResponsibleWatcherBodyOff -->
+            <td class="contentbody">&nbsp;</td>
+<!-- dtl:block:TicketResponsibleWatcherBodyOff -->
+          </tr>
+<!-- dtl:block:TicketResponsibleWatcher -->
           <tr>
             <td colspan="2" class="contenthead">$Text{"Create Times"}</td>
           </tr>
