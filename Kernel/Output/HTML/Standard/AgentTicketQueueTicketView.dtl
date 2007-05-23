@@ -2,7 +2,7 @@
 # AgentTicketQueueTicketView.dtl - provides HTML TicketView for AgentTicketQueueView
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueueTicketView.dtl,v 1.16 2007-04-24 09:54:54 martin Exp $
+# $Id: AgentTicketQueueTicketView.dtl,v 1.17 2007-05-23 17:54:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -102,7 +102,7 @@ $Data{"Body"}
 <!-- dtl:block:Type -->
           <tr valign="top">
             <td><b>$Text{"Type"}:</b></td>
-            <td><div title="$Text{"$Data{"Type"}"}">$Quote{"$Text{"$Data{"Type"}"}","18"}</div></font></td>
+            <td><div title="$QData{"Type"}">$QData{"Type","18"}</div></font></td>
           </tr>
 <!-- dtl:block:Type -->
           <tr valign="top">
@@ -120,13 +120,13 @@ $Data{"Body"}
 <!-- dtl:block:Service -->
           <tr valign="top">
             <td><b>$Text{"Service"}:</b></td>
-            <td><div title="$Text{"$Data{"Service"}"}">$Quote{"$Text{"$Data{"Service"}"}","18"}</div></font></td>
+            <td><div title="$QData{"Service"}">$QData{"Service","18"}</div></font></td>
           </tr>
 <!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
           <tr valign="top">
             <td><b>$Text{"SLA"}:</b></td>
-            <td><div title="$Text{"$Data{"SLA"}"}">$Quote{"$Text{"$Data{"SLA"}"}","18"}</div></font></td>
+            <td><div title="$QData{"SLA"}">$QData{"SLA","18"}</div></font></td>
           </tr>
 <!-- dtl:block:SLA -->
 <!-- dtl:block:FirstResponseTime -->
