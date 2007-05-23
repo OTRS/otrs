@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketClose.pm,v 1.27 2007-05-21 13:42:31 mh Exp $
+# $Id: AgentTicketClose.pm,v 1.28 2007-05-23 17:43:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -662,6 +662,7 @@ sub _Mask {
             SelectedID => $Param{TypeID},
             PossibleNone => 1,
             Sort => 'AlphanumericValue',
+            Translation => 0,
             OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
@@ -683,6 +684,7 @@ sub _Mask {
             PossibleNone => 1,
             TreeView => $TreeView,
             Sort => 'TreeView',
+            Translation => 0,
             OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
@@ -703,6 +705,7 @@ sub _Mask {
             SelectedID => $Param{SLAID},
             PossibleNone => 1,
             Sort => 'AlphanumericValue',
+            Translation => 0,
             OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(

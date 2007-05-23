@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.39 2007-05-21 13:42:31 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.40 2007-05-23 17:43:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1111,6 +1111,7 @@ sub _MaskEmailNew {
             SelectedID => $Param{TypeID},
             PossibleNone => 1,
             Sort => 'AlphanumericValue',
+            Translation => 0,
             OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
@@ -1127,6 +1128,7 @@ sub _MaskEmailNew {
             PossibleNone => 1,
             TreeView => $TreeView,
             Sort => 'TreeView',
+            Translation => 0,
             OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
@@ -1139,6 +1141,7 @@ sub _MaskEmailNew {
             SelectedID => $Param{SLAID},
             PossibleNone => 1,
             Sort => 'AlphanumericValue',
+            Translation => 0,
             OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(

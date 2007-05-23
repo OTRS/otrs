@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.39 2007-05-22 12:12:28 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.40 2007-05-23 17:43:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Type;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1020,6 +1020,7 @@ sub MaskForm {
             Sort => 'AlphanumericValue',
             Size => 3,
             Multiple => 1,
+            Translation => 0,
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketType',
@@ -1044,6 +1045,7 @@ sub MaskForm {
             Sort => 'TreeView',
             Size => 5,
             Multiple => 1,
+            Translation => 0,
         );
         my %SLA = $Self->{SLAObject}->SLAList(
             UserID => $Self->{UserID},
@@ -1055,6 +1057,7 @@ sub MaskForm {
             Sort => 'AlphanumericValue',
             Size => 5,
             Multiple => 1,
+            Translation => 0,
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketService',
@@ -1079,6 +1082,7 @@ sub MaskForm {
                 Sort => 'AlphanumericValue',
                 Size => 5,
                 Multiple => 1,
+                Translation => 0,
             );
             $Self->{LayoutObject}->Block(
                 Name => 'TicketResponsibleWatcherBodyOn',
@@ -1110,6 +1114,7 @@ sub MaskForm {
                 Sort => 'AlphanumericValue',
                 Size => 5,
                 Multiple => 1,
+                Translation => 0,
             );
             $Self->{LayoutObject}->Block(
                 Name => 'TicketResponsibleWatcherBodyOn',

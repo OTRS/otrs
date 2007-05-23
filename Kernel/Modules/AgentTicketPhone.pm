@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.42 2007-05-21 13:42:31 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.43 2007-05-23 17:43:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -483,7 +483,6 @@ sub Run {
             $Error{"Service invalid"} = 'invalid';
         }
         if (%Error) {
-
             # header
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -1048,6 +1047,7 @@ sub _MaskPhoneNew {
             SelectedID => $Param{TypeID},
             PossibleNone => 1,
             Sort => 'AlphanumericValue',
+            Translation => 0,
             OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
@@ -1064,6 +1064,7 @@ sub _MaskPhoneNew {
             PossibleNone => 1,
             TreeView => $TreeView,
             Sort => 'TreeView',
+            Translation => 0,
             OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
@@ -1076,6 +1077,7 @@ sub _MaskPhoneNew {
             SelectedID => $Param{SLAID},
             PossibleNone => 1,
             Sort => 'AlphanumericValue',
+            Translation => 0,
             OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
