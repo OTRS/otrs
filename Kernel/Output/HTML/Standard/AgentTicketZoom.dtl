@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.25 2007-04-24 09:54:54 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.26 2007-05-23 17:26:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -56,7 +56,9 @@
 <!-- dtl:block:TreeItem -->
         <tr class="$QData{"SenderType"}-$QData{"ArticleType"}">
           <td class="small">
-            <div title="$QData{"From","50"}: $QData{"Subject","200"} - $TimeLong{"$QData{"Created"}"}">$Data{"Space"}$Data{"Start"} $QData{"Count"}. <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})</a>
+            <div title="$QData{"From","50"}: $QData{"Subject","200"} - $TimeLong{"$QData{"Created"}"}">
+            $Data{"Space"}$Data{"Start"} $QData{"Count"}.
+            <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})</a>
 <!-- dtl:block:TreeItemEmail -->
             (<a href="$Env{"Baselink"}Action=AgentTicketPlain&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}" onmouseover="window.status='$JSText{"plain"}'; return true;" onmouseout="window.status='';">$Text{"plain"}</a>)
 <!-- dtl:block:TreeItemEmail -->
@@ -151,7 +153,7 @@ $Data{"Body"}
         <tr valign="top">
           <td><b>$Text{"Type"}:</b></td>
           <td>
-            <div title="$Text{"$Data{"Type"}"}">$Quote{"$Text{"$Data{"Type"}"}","18"}</div></font>
+            <div title="$QData{"Type"}">$QData{"Type","18"}</div>
           </td>
         </tr>
 <!-- dtl:block:Type -->
@@ -191,7 +193,7 @@ $Data{"Body"}
         <tr valign="top">
           <td><b>$Text{"Service"}:</b></td>
           <td>
-            <div title="$Text{"$Data{"Service"}"}">$Quote{"$Text{"$Data{"Service"}"}","18"}</div></font>
+            <div title="$QData{"Service"}">$QData{"Service","18"}</div>
           </td>
         </tr>
 <!-- dtl:block:Service -->
@@ -199,7 +201,7 @@ $Data{"Body"}
         <tr valign="top">
           <td><b>$Text{"SLA"}:</b></td>
           <td>
-            <div title="$Text{"$Data{"SLA"}"}">$Quote{"$Text{"$Data{"SLA"}"}","18"}</div></font>
+            <div title="$QData{"SLA"}">$QData{"SLA","18"}</div>
           </td>
         </tr>
 <!-- dtl:block:SLA -->
@@ -210,9 +212,11 @@ $Data{"Body"}
 <!-- dtl:block:FirstResponseTimeFontStart -->
             <font color="red">
 <!-- dtl:block:FirstResponseTimeFontStart -->
-            <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">$QData{"FirstResponseTimeHuman"}
+            <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">
+            $QData{"FirstResponseTimeHuman"}
             <br>
-            $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</div>
+            $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}
+            </div>
 <!-- dtl:block:FirstResponseTimeFontStop -->
             </font>
 <!-- dtl:block:FirstResponseTimeFontStop -->
@@ -226,9 +230,11 @@ $Data{"Body"}
 <!-- dtl:block:UpdateTimeFontStart -->
             <font color="red">
 <!-- dtl:block:UpdateTimeFontStart -->
-            <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">$QData{"UpdateTimeHuman"}
+            <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">
+            $QData{"UpdateTimeHuman"}
             <br>
-            $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
+            $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}
+            </div>
 <!-- dtl:block:UpdateTimeFontStop -->
             </font>
 <!-- dtl:block:UpdateTimeFontStop -->
@@ -242,9 +248,11 @@ $Data{"Body"}
 <!-- dtl:block:SolutionTimeFontStart -->
             <font color="red">
 <!-- dtl:block:SolutionTimeFontStart -->
-            <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">$QData{"SolutionTimeHuman"}
+            <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">
+            $QData{"SolutionTimeHuman"}
             <br>
-            $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}</div>
+            $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}
+            </div>
 <!-- dtl:block:SolutionTimeFontStop -->
             </font>
 <!-- dtl:block:SolutionTimeFontStop -->
@@ -272,7 +280,9 @@ $Data{"Body"}
         <tr  valign="top">
           <td><b>$Text{"Owner"}:</b></td>
           <td>
-            <div title="$QData{"UserLogin"} ($QData{"UserFirstname"}$QData{"UserLastname"})">$QData{"UserLogin","18"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"})</div>
+            <div title="$QData{"UserLogin"} ($QData{"UserFirstname"}$QData{"UserLastname"})">
+            $QData{"UserLogin","18"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"})
+            </div>
           </td>
         </tr>
 <!-- dtl:block:Owner -->
@@ -280,7 +290,9 @@ $Data{"Body"}
         <tr  valign="top">
           <td><b>$Text{"Responsible"}:</b></td>
           <td>
-            <div title="$QData{"UserLogin"} ($QData{"UserFirstname"}$QData{"UserLastname"})">$QData{"UserLogin","18"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"})</div>
+            <div title="$QData{"UserLogin"} ($QData{"UserFirstname"}$QData{"UserLastname"})">
+            $QData{"UserLogin","18"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"})
+            </div>
           </td>
         </tr>
 <!-- dtl:block:Responsible -->
@@ -376,7 +388,9 @@ $Data{"Body"}
               <table border="0">
                 <tr>
                   <td>
-                    <li><a href="$Env{"Baselink"}Action=AgentTicketCustomerFollowUp&TicketID=$Data{"TicketID"}" onmouseover="window.status='$JSText{"Compose Follow up"}'; return true;" onmouseout="window.status='';">$Text{"Compose Follow up"}</a></li>
+                    <li>
+                    <a href="$Env{"Baselink"}Action=AgentTicketCustomerFollowUp&TicketID=$Data{"TicketID"}" onmouseover="window.status='$JSText{"Compose Follow up"}'; return true;" onmouseout="window.status='';">$Text{"Compose Follow up"}</a>
+                    </li>
                   </td>
                 </tr>
               </table>
