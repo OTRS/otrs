@@ -2,7 +2,7 @@
 # AgentTicketPrint.dtl - provides HTML print view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.dtl,v 1.18 2007-01-30 19:58:24 mh Exp $
+# $Id: AgentTicketPrint.dtl,v 1.19 2007-05-23 13:35:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -55,6 +55,28 @@
           <td class="contentkey"> </td>
           <td class="contentvalue"> </td>
         </tr>
+<!-- dtl:block:TicketType -->
+        <tr>
+          <td class="contentkey">$Text{"Type"}:</td>
+          <td class="contentvalue">$QData{"Type"}</td>
+          <td class="contentkey"> </td>
+          <td class="contentvalue"> </td>
+        </tr>
+<!-- dtl:block:TicketType -->
+<!-- dtl:block:TicketService -->
+        <tr>
+          <td class="contentkey">$Text{"Service"}:</td>
+          <td class="contentvalue">$QData{"Service"}</td>
+          <td class="contentkey"> </td>
+          <td class="contentvalue"> </td>
+        </tr>
+        <tr>
+          <td class="contentkey">$Text{"SLA"}:</td>
+          <td class="contentvalue">$QData{"SLA"}</td>
+          <td class="contentkey"> </td>
+          <td class="contentvalue"> </td>
+        </tr>
+<!-- dtl:block:TicketService -->
 # --
 # use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2
 # --

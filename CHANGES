@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.400 2007-05-22 13:42:32 mh Exp $
+# $Id: CHANGES,v 1.401 2007-05-23 13:39:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.2.0 beta4 (2007/??/??)
+ - (2007/05/23) Add the ticket options Type, Service and SLA to the ticket
+    print.
  - (2007/05/22) Add TicketType, Service and SLA option to stats module
     to improve flexibility of dynamic stats.
  - (2007/05/22) Remove wrong item in check needed stuff section of SLAList()

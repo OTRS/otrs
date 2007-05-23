@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.40 2007-04-27 12:38:17 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.41 2007-05-23 13:35:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -277,63 +277,98 @@ sub _PDFOutputTicketInfos {
     my %Ticket = %{$Param{TicketData}};
     my %UserInfo = %{$Param{UserData}};
     my %Page = %{$Param{PageData}};
+    # create left table
+    my $TableLeft = [
+        {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('State') . ':',
+            Value => $Self->{LayoutObject}->{LanguageObject}->Get($Ticket{State}),
+        },
+        {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Priority') . ':',
+            Value => $Self->{LayoutObject}->{LanguageObject}->Get($Ticket{Priority}),
+        },
+        {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Queue') . ':',
+            Value => $Ticket{Queue},
+        },
+        {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Lock') . ':',
+            Value => $Self->{LayoutObject}->{LanguageObject}->Get($Ticket{Lock}),
+        },
+        {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID') . ':',
+            Value => $Ticket{CustomerID},
+        },
+        {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Owner') . ':',
+            Value => $Ticket{Owner} . ' (' . $UserInfo{UserFirstname} . ' ' . $UserInfo{UserLastname} . ')',
+        },
+    ];
+    # add type row, if feature is enabled
+    if ($Self->{ConfigObject}->Get('Ticket::Type')) {
+        my $RowType = {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Type') . ':',
+            Value => $Ticket{Type},
+        };
+        push(@{$TableLeft}, $RowType);
+    }
+    # add service and sla row, if feature is enabled
+    if ($Self->{ConfigObject}->Get('Ticket::Service')) {
+        my $RowService = {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Service') . ':',
+            Value => $Ticket{Service},
+        };
+        push(@{$TableLeft}, $RowService);
+        my $RowSLA = {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('SLA') . ':',
+            Value => $Ticket{SLA},
+        };
+        push(@{$TableLeft}, $RowSLA);
+    }
+    # create right table
+    my $TableRight = [
+        {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Age') . ':',
+            Value => $Self->{LayoutObject}->{LanguageObject}->Get($Ticket{Age}),
+        },
+        {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Created') . ':',
+            Value => $Self->{LayoutObject}->Output(
+                Template => '$TimeLong{"$Data{"Created"}"}',
+                Data => \%Ticket,
+            ),
+        },
+        {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Accounted time') . ':',
+            Value => $Ticket{TicketTimeUnits},
+        },
+        {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Escalation in') . ':',
+            Value => $Ticket{TicketOverTime},
+        },
+        {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Pending till') . ':',
+            Value => $Ticket{PendingUntil},
+        },
+    ];
+
+    my $Rows = @{$TableLeft};
+    if (@{$TableRight} > $Rows) {
+        $Rows = @{$TableRight};
+    }
+
     my %TableParam;
-    $TableParam{CellData}[0][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('State') . ':';
-    $TableParam{CellData}[0][0]{Font} = 'HelveticaBold';
-    $TableParam{CellData}[0][1]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get($Ticket{State});
-    $TableParam{CellData}[0][2]{Content} = ' ';
-    $TableParam{CellData}[0][2]{BackgroundColor} = '#FFFFFF';
-    $TableParam{CellData}[0][3]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Age') . ':';
-    $TableParam{CellData}[0][3]{Font} = 'HelveticaBold';
-    $TableParam{CellData}[0][4]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get($Ticket{Age});
-
-    $TableParam{CellData}[1][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Priority') . ':';
-    $TableParam{CellData}[1][0]{Font} = 'HelveticaBold';
-    $TableParam{CellData}[1][1]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get($Ticket{Priority});
-    $TableParam{CellData}[1][2]{Content} = ' ';
-    $TableParam{CellData}[1][2]{BackgroundColor} = '#FFFFFF';
-    $TableParam{CellData}[1][3]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Created') . ':';
-    $TableParam{CellData}[1][3]{Font} = 'HelveticaBold';
-    $TableParam{CellData}[1][4]{Content} =
-        $Self->{LayoutObject}->Output(
-            Template => '$TimeLong{"$Data{"Created"}"}',
-            Data => \%Ticket,
-        );
-    $TableParam{CellData}[2][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Queue') . ':';
-    $TableParam{CellData}[2][0]{Font} = 'HelveticaBold';
-    $TableParam{CellData}[2][1]{Content} = $Ticket{Queue};
-    $TableParam{CellData}[2][2]{Content} = ' ';
-    $TableParam{CellData}[2][2]{BackgroundColor} = '#FFFFFF';
-    $TableParam{CellData}[2][3]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Accounted time') . ':';
-    $TableParam{CellData}[2][3]{Font} = 'HelveticaBold';
-    $TableParam{CellData}[2][4]{Content} = $Ticket{TicketTimeUnits};
-
-    $TableParam{CellData}[3][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Lock') . ':';
-    $TableParam{CellData}[3][0]{Font} = 'HelveticaBold';
-    $TableParam{CellData}[3][1]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get($Ticket{Lock});
-    $TableParam{CellData}[3][2]{Content} = ' ';
-    $TableParam{CellData}[3][2]{BackgroundColor} = '#FFFFFF';
-    $TableParam{CellData}[3][3]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Escalation in') . ':';
-    $TableParam{CellData}[3][3]{Font} = 'HelveticaBold';
-    $TableParam{CellData}[3][4]{Content} = $Ticket{TicketOverTime};
-
-    $TableParam{CellData}[4][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID') . ':';
-    $TableParam{CellData}[4][0]{Font} = 'HelveticaBold';
-    $TableParam{CellData}[4][1]{Content} = $Ticket{CustomerID};
-    $TableParam{CellData}[4][2]{Content} = ' ';
-    $TableParam{CellData}[4][2]{BackgroundColor} = '#FFFFFF';
-    $TableParam{CellData}[4][3]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Pending till') . ':';
-    $TableParam{CellData}[4][3]{Font} = 'HelveticaBold';
-    $TableParam{CellData}[4][4]{Content} = $Ticket{PendingUntil};
-
-    $TableParam{CellData}[5][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Owner') . ':';
-    $TableParam{CellData}[5][0]{Font} = 'HelveticaBold';
-    $TableParam{CellData}[5][1]{Content} = $Ticket{Owner} . ' (' . $UserInfo{UserFirstname} . ' ' . $UserInfo{UserLastname} . ')';
-    $TableParam{CellData}[5][2]{Content} = ' ';
-    $TableParam{CellData}[5][2]{BackgroundColor} = '#FFFFFF';
-    $TableParam{CellData}[5][3]{Content} = ' ';
-    $TableParam{CellData}[5][3]{Font} = 'HelveticaBold';
-    $TableParam{CellData}[5][4]{Content} = ' ';
+    foreach my $Row (1..$Rows) {
+        $Row--;
+        $TableParam{CellData}[$Row][0]{Content} = $TableLeft->[$Row]->{Key};
+        $TableParam{CellData}[$Row][0]{Font} = 'HelveticaBold';
+        $TableParam{CellData}[$Row][1]{Content} = $TableLeft->[$Row]->{Value};
+        $TableParam{CellData}[$Row][2]{Content} = ' ';
+        $TableParam{CellData}[$Row][2]{BackgroundColor} = '#FFFFFF';
+        $TableParam{CellData}[$Row][3]{Content} = $TableRight->[$Row]->{Key};
+        $TableParam{CellData}[$Row][3]{Font} = 'HelveticaBold';
+        $TableParam{CellData}[$Row][4]{Content} = $TableRight->[$Row]->{Value};
+    }
 
     $TableParam{ColumnData}[0]{Width} = 80;
     $TableParam{ColumnData}[1]{Width} = 170.5;
@@ -905,11 +940,29 @@ sub _PDFOutputArticles {
 sub _HTMLMask {
     my $Self = shift;
     my %Param = @_;
+
+    # output type, if feature is enabled
+    if ($Self->{ConfigObject}->Get('Ticket::Type')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketType',
+            Data => {
+                %Param,
+            },
+        );
+    }
+    # output service and sla, if feature is enabled
+    if ($Self->{ConfigObject}->Get('Ticket::Service')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketService',
+            Data => {
+                %Param,
+            },
+        );
+    }
     # build article stuff
     my $SelectedArticleID = $Param{ArticleID} || '';
     my @ArticleBox = @{$Param{ArticleBox}};
     # get last customer article
-    my $Output = '';
     foreach my $ArticleTmp (@ArticleBox) {
         my %Article = %{$ArticleTmp};
         # get attacment string
