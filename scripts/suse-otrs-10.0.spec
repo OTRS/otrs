@@ -1,8 +1,8 @@
 # --
-# RPM spec file for SUSE Linux 9.1 of the OTRS package
+# RPM spec file for SUSE Linux 10.0 of the OTRS package
 # Copyright (C) 2001-2004 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-10.0.spec,v 1.1.2.3 2007-05-23 18:04:36 martin Exp $
+# $Id: suse-otrs-10.0.spec,v 1.1.2.4 2007-05-23 18:08:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 SuSE series: ap
 
 %prep
-%setup
+%setup -n otrs
 
 %build
 # copy config file
