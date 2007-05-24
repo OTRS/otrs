@@ -2,13 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.401 2007-05-23 13:39:13 mh Exp $
+# $Id: CHANGES,v 1.402 2007-05-24 10:02:10 sr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.2.0 beta4 (2007/??/??)
+ - (2007/05/24) Fixed bug# 1913 - Added missing columns first_response_time,
+    solution_time and rename column escalation_time to update_time for table
+    queue in DBUpdate-to-2.2.oracle.sql.
  - (2007/05/23) Add the ticket options Type, Service and SLA to the ticket
     print.
  - (2007/05/22) Add TicketType, Service and SLA option to stats module
