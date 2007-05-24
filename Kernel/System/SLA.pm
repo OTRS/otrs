@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.7 2007-05-22 10:26:22 mh Exp $
+# $Id: SLA.pm,v 1.8 2007-05-24 07:38:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -65,7 +65,7 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject)) {
+    foreach (qw(DBObject ConfigObject LogObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
@@ -258,12 +258,12 @@ add a sla
     my $SLAID = $SLAObject->SLAAdd(
         ServiceID => 1,
         Name => 'Service Name',
-        Calendar => 'Calendar1',
+        Calendar => 'Calendar1',   # (optional)
         FirstResponseTime => 120,
         UpdateTime => 180,
         SolutionTime => 580,
         ValidID => 1,
-        Comment => 'Comment', # (optional)
+        Comment => 'Comment',      # (optional)
         UserID => 1,
     );
 
@@ -273,7 +273,7 @@ sub SLAAdd {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(ServiceID Name Calendar ValidID UserID)) {
+    foreach (qw(ServiceID Name ValidID UserID)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -292,24 +292,28 @@ sub SLAAdd {
     foreach (qw(ServiceID FirstResponseTime UpdateTime SolutionTime ValidID UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
-    # find exists sla
+    # add sla to database
+    my $CurrentTime = $Self->{TimeObject}->CurrentTimestamp();
     if ($Self->{DBObject}->Do(
         SQL =>"INSERT INTO sla ".
             "(service_id, name, calendar_name, first_response_time, update_time, solution_time, ".
             "valid_id, comments, create_time, create_by, change_time, change_by) VALUES ".
             "($Param{ServiceID}, '$Param{Name}', '$Param{Calendar}', $Param{FirstResponseTime}, ".
             "$Param{UpdateTime}, $Param{SolutionTime}, $Param{ValidID}, '$Param{Comment}', ".
-            "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})",
+            "'$CurrentTime', $Param{UserID}, '$CurrentTime', $Param{UserID})",
     )) {
-        my $ID = '';
+        # get sla id
         $Self->{DBObject}->Prepare(
-            SQL => "SELECT id FROM sla WHERE name = '$Param{Name}'",
+            SQL => "SELECT id FROM sla WHERE name = '$Param{Name}' AND ".
+                "create_time = '$CurrentTime' AND create_by = $Param{UserID} AND ".
+                "change_time = '$CurrentTime' AND change_by = $Param{UserID}",
             Limit => 1,
         );
+        my $SLAID;
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-            $ID = $Row[0];
+            $SLAID = $Row[0];
         }
-        return $ID;
+        return $SLAID;
     }
     else {
         return;
@@ -340,8 +344,8 @@ sub SLAUpdate {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(SLAID ServiceID Name Calendar ValidID UserID)) {
-        if (!defined($Param{$_})) {
+    foreach (qw(SLAID ServiceID Name ValidID UserID)) {
+        if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
@@ -386,6 +390,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2007-05-22 10:26:22 $
+$Revision: 1.8 $ $Date: 2007-05-24 07:38:11 $
 
 =cut
