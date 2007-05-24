@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.12 2007-02-12 15:52:53 tr Exp $
+# $Id: Request.pm,v 1.13 2007-05-24 20:25:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.12 $ ';
+$VERSION = '$Revision: 1.13 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -98,7 +98,9 @@ sub Error {
 
 to get params
 
-    my $Param = $ParamObject->GetParam(Param => 'ID');
+    my $Param = $ParamObject->GetParam(
+        Param => 'ID',
+    );
 
 =cut
 
@@ -179,8 +181,10 @@ sub GetUploadAll {
     my $Upload = $Self->GetUpload(Filename => $Param{Param});
     if ($Upload) {
         $Param{UploadFilenameOrig} = $Self->GetParam(Param => $Param{Param}) || 'unkown';
+        my $Filename = $Param{UploadFilenameOrig}.'';
+        $Self->{EncodeObject}->Encode(\$Filename);
         # replace all devices like c: or d: and dirs for IE!
-        my $NewFileName = $Param{UploadFilenameOrig};
+        my $NewFileName = $Filename;
         $NewFileName =~ s/.:\\(.*)/$1/g;
         $NewFileName =~ s/.*\\(.+?)/$1/g;
         # return a string
@@ -188,9 +192,6 @@ sub GetUploadAll {
             $Param{UploadFilename} = '';
             while (<$Upload>) {
                 $Param{UploadFilename} .= $_;
-            }
-            if (!$Param{Encoding}) {
-                $Self->{EncodeObject}->Encode(\$Param{UploadFilename});
             }
         }
         # return file location in FS
@@ -285,6 +286,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2007-02-12 15:52:53 $
+$Revision: 1.13 $ $Date: 2007-05-24 20:25:37 $
 
 =cut
