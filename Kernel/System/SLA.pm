@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.8 2007-05-24 07:38:11 mh Exp $
+# $Id: SLA.pm,v 1.9 2007-05-24 08:51:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -65,7 +65,7 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject TimeObject)) {
+    foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
@@ -293,20 +293,17 @@ sub SLAAdd {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # add sla to database
-    my $CurrentTime = $Self->{TimeObject}->CurrentTimestamp();
     if ($Self->{DBObject}->Do(
         SQL =>"INSERT INTO sla ".
             "(service_id, name, calendar_name, first_response_time, update_time, solution_time, ".
             "valid_id, comments, create_time, create_by, change_time, change_by) VALUES ".
             "($Param{ServiceID}, '$Param{Name}', '$Param{Calendar}', $Param{FirstResponseTime}, ".
             "$Param{UpdateTime}, $Param{SolutionTime}, $Param{ValidID}, '$Param{Comment}', ".
-            "'$CurrentTime', $Param{UserID}, '$CurrentTime', $Param{UserID})",
+            "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})",
     )) {
         # get sla id
         $Self->{DBObject}->Prepare(
-            SQL => "SELECT id FROM sla WHERE name = '$Param{Name}' AND ".
-                "create_time = '$CurrentTime' AND create_by = $Param{UserID} AND ".
-                "change_time = '$CurrentTime' AND change_by = $Param{UserID}",
+            SQL => "SELECT id FROM sla WHERE name = '$Param{Name}'",
             Limit => 1,
         );
         my $SLAID;
@@ -390,6 +387,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2007-05-24 07:38:11 $
+$Revision: 1.9 $ $Date: 2007-05-24 08:51:04 $
 
 =cut
