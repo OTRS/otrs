@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.oracle.sql,v 1.13 2007-05-14 17:43:54 mh Exp $
+-- $Id: DBUpdate-to-2.2.oracle.sql,v 1.14 2007-05-24 09:43:41 sr Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.oracle.sql | sqlplus "user/password"
@@ -29,6 +29,12 @@ CREATE TABLE customer_company (
     CONSTRAINT customer_company_U_1 UNIQUE (customer_id),
     CONSTRAINT customer_company_U_2 UNIQUE (name)
 );
+--
+-- queue
+--
+ALTER TABLE queue RENAME COLUMN escalation_time TO update_time;
+ALTER TABLE queue ADD first_response_time number;
+ALTER TABLE queue ADD solution_time number;
 
 --
 -- ticket_priority
