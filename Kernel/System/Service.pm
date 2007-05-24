@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.7 2007-05-21 09:48:20 mh Exp $
+# $Id: Service.pm,v 1.8 2007-05-24 08:48:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -319,8 +319,10 @@ sub ServiceAdd {
         if ($ParentName) {
             $Param{FullName} = $ParentName . '::' . $Param{Name};
         }
+        # quote
+        $Param{ParentID} = $Self->{DBObject}->Quote($Param{ParentID}, 'Integer');
     }
-    # find exists service
+    # find existing service
     my $Exists;
     $Self->{DBObject}->Prepare(
         SQL => "SELECT id FROM service WHERE name = '$Param{FullName}'",
@@ -329,24 +331,29 @@ sub ServiceAdd {
     while ($Self->{DBObject}->FetchrowArray()) {
         $Exists = 1;
     }
-    # insert service
+    # add service to database
     my $Return;
     if (!$Exists) {
-        $Self->{DBObject}->Do(
+        if ($Self->{DBObject}->Do(
             SQL =>"INSERT INTO service ".
                 "(name, valid_id, comments, create_time, create_by, change_time, change_by) VALUES ".
                 "('$Param{FullName}', $Param{ValidID}, '$Param{Comment}', ".
                 "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})",
-        );
-        my $ID = '';
-        $Self->{DBObject}->Prepare(
-            SQL => "SELECT id FROM service WHERE name = '$Param{FullName}'",
-            Limit => 1,
-        );
-        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-            $ID = $Row[0];
+        )) {
+            # get service id
+            $Self->{DBObject}->Prepare(
+                SQL => "SELECT id FROM service WHERE name = '$Param{FullName}'",
+                Limit => 1,
+            );
+            my $ServiceID;
+            while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+                $ServiceID = $Row[0];
+            }
+            return $ServiceID;
         }
-        return $ID;
+        else {
+            return;
+        }
     }
     else {
         $Self->{LogObject}->Log(
@@ -420,6 +427,8 @@ sub ServiceUpdate {
             );
             return;
         }
+        # quote
+        $Param{ParentID} = $Self->{DBObject}->Quote($Param{ParentID}, 'Integer');
     }
     # find exists service
     my $Exists;
@@ -486,6 +495,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2007-05-21 09:48:20 $
+$Revision: 1.8 $ $Date: 2007-05-24 08:48:51 $
 
 =cut
