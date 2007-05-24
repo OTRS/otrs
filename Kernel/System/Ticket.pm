@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.260 2007-05-21 09:48:20 mh Exp $
+# $Id: Ticket.pm,v 1.261 2007-05-24 11:59:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.260 $';
+$VERSION = '$Revision: 1.261 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -839,9 +839,6 @@ sub TicketGet {
     if ($Ticket{SLAID}) {
         $Ticket{SLA} = $Self->{SLAObject}->SLALookup(SLAID => $Ticket{SLAID});
     }
-    # get escalation attributes
-    my %Escalation = $Self->TicketEscalationState(Ticket => \%Ticket, UserID => $Param{UserID} || 1);
-    %Ticket = (%Escalation, %Ticket);
     # get state info
     my %StateData = $Self->{StateObject}->StateGet(ID => $Ticket{StateID}, Cache => 1);
     $Ticket{StateType} = $StateData{TypeName};
@@ -852,6 +849,9 @@ sub TicketGet {
     else {
         $Ticket{UntilTime} = $Ticket{RealTillTimeNotUsed} - $Self->{TimeObject}->SystemTime();
     }
+    # get escalation attributes
+    my %Escalation = $Self->TicketEscalationState(Ticket => \%Ticket, UserID => $Param{UserID} || 1);
+    %Ticket = (%Escalation, %Ticket);
     # cache user result
     $Self->{'Cache::GetTicket'.$Param{TicketID}} = \%Ticket;
     # return ticket data
@@ -1629,6 +1629,10 @@ sub TicketEscalationState {
                 StopTime => $DestinationTime,
                 Calendar => $Escalation{Calendar},
             );
+            # set notification
+            if (!$FirstResponse && 60*60*2.2 > $WorkingTime) {
+                $Data{"FirstResponseTimeNotification"} = 1;
+            }
         }
         else {
             $WorkingTime = $Self->{TimeObject}->WorkingTime(
@@ -1637,6 +1641,10 @@ sub TicketEscalationState {
                 Calendar => $Escalation{Calendar},
             );
             $WorkingTime = "-$WorkingTime";
+            # set escalation
+            if (!$FirstResponse) {
+                $Data{"FirstResponseTimeEscalation"} = 1;
+            }
         }
         my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $DestinationTime);
         $Data{"FirstResponseTimeDestinationTime"} = $DestinationTime;
@@ -1659,6 +1667,10 @@ sub TicketEscalationState {
                 StopTime => $DestinationTime,
                 Calendar => $Escalation{Calendar},
             );
+            # set notification
+            if ($Ticket{StateType} =~ /^(new|open)$/i && 60*60*2.2 > $WorkingTime) {
+                $Data{"UpdateTimeNotification"} = 1;
+            }
         }
         else {
             $WorkingTime = $Self->{TimeObject}->WorkingTime(
@@ -1667,6 +1679,10 @@ sub TicketEscalationState {
                 Calendar => $Escalation{Calendar},
             );
             $WorkingTime = "-$WorkingTime";
+            # set escalation
+            if ($Ticket{StateType} =~ /^(new|open)$/i) {
+                $Data{"UpdateTimeEscalation"} = 1;
+            }
         }
         my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $DestinationTime);
         $Data{"UpdateTimeDestinationTime"} = $DestinationTime;
@@ -1676,6 +1692,7 @@ sub TicketEscalationState {
     }
     # check solution time
     if ($Escalation{SolutionTime}) {
+# get first close date
         my $DestinationTime = $Self->{TimeObject}->DestinationTime(
             StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(String => $Ticket{Created}),
             Time => $Escalation{SolutionTime}*60,
@@ -1689,6 +1706,10 @@ sub TicketEscalationState {
                 StopTime => $DestinationTime,
                 Calendar => $Escalation{Calendar},
             );
+            # set notification
+            if ($Ticket{StateType} !~ /^close/i && 60*60*2.2 > $WorkingTime) {
+                $Data{"SolutionTimeNotification"} = 1;
+            }
         }
         else {
             $WorkingTime = $Self->{TimeObject}->WorkingTime(
@@ -1697,6 +1718,10 @@ sub TicketEscalationState {
                 Calendar => $Escalation{Calendar},
             );
             $WorkingTime = "-$WorkingTime";
+            # set escalation
+            if ($Ticket{StateType} !~ /^close/i) {
+                $Data{"SolutionTimeEscalation"} = 1;
+            }
         }
         my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $DestinationTime);
         $Data{"SolutionTimeDestinationTime"} = $DestinationTime;
@@ -5833,6 +5858,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.260 $ $Date: 2007-05-21 09:48:20 $
+$Revision: 1.261 $ $Date: 2007-05-24 11:59:56 $
 
 =cut

@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.40 2007-05-21 14:14:24 martin Exp $
+# $Id: RuntimeDB.pm,v 1.41 2007-05-24 11:59:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -272,25 +272,19 @@ sub GetOverTimeTickets {
         }
         my %Ticket = $Self->TicketGet(TicketID => $TicketID);
         # check response time
-        if (defined($Ticket{'FirstResponseTime'})) {
-            if (0 > $Ticket{'FirstResponseTimeWorkingTime'}) {
-                push (@TicketIDsOverTime, $TicketID);
-                next;
-            }
+        if (defined($Ticket{'FirstResponseTimeEscalation'})) {
+            push (@TicketIDsOverTime, $TicketID);
+            next;
         }
         # check update time
-        if (defined($Ticket{'UpdateTime'})) {
-            if (0 >= $Ticket{'UpdateTimeWorkingTime'}) {
-                push (@TicketIDsOverTime, $TicketID);
-                next;
-            }
+        if (defined($Ticket{'UpdateTimeEscalation'})) {
+            push (@TicketIDsOverTime, $TicketID);
+            next;
         }
         # check solution
-        if (defined($Ticket{'SolutionTime'})) {
-            if (0 >= $Ticket{'SolutionTimeWorkingTime'}) {
-                push (@TicketIDsOverTime, $TicketID);
-                next;
-            }
+        if (defined($Ticket{'SolutionTimeEscalation'})) {
+            push (@TicketIDsOverTime, $TicketID);
+            next;
         }
     }
     # return overtime tickets
