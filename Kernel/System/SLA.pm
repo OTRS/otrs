@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.9 2007-05-24 08:51:04 mh Exp $
+# $Id: SLA.pm,v 1.10 2007-05-24 11:44:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -279,6 +279,9 @@ sub SLAAdd {
             return;
         }
     }
+    foreach (qw(Calendar Comment)) {
+        $Param{$_} = $Param{$_} || '';
+    }
     # check escalation times
     foreach (qw(FirstResponseTime UpdateTime SolutionTime)) {
         if (!$Param{$_}) {
@@ -347,6 +350,9 @@ sub SLAUpdate {
             return;
         }
     }
+    foreach (qw(Calendar Comment)) {
+        $Param{$_} = $Param{$_} || '';
+    }
     # check escalation times
     foreach (qw(FirstResponseTime UpdateTime SolutionTime)) {
         if (!$Param{$_}) {
@@ -387,6 +393,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2007-05-24 08:51:04 $
+$Revision: 1.10 $ $Date: 2007-05-24 11:44:37 $
 
 =cut
