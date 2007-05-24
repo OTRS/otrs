@@ -2,7 +2,7 @@
 # SLA.t - SLA tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SLA.t,v 1.2 2007-03-16 10:10:53 martin Exp $
+# $Id: SLA.t,v 1.3 2007-05-24 11:42:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -150,6 +150,91 @@ $Self->Is(
     $SLAID || '',
     $SLAIDLookup,
     'SLALookup() by Name',
+);
+
+my $SLARand2 = 'SomeSLA'.int(rand(1000000));
+my $SLAID2 = $Self->{SLAObject}->SLAAdd(
+    Name => $SLARand2,
+    ValidID => 1,
+    UserID => 1,
+);
+
+$Self->False(
+    $SLAID2,
+    'SLAAdd2()',
+);
+
+my $SLAID3 = $Self->{SLAObject}->SLAAdd(
+    ServiceID => 1,
+    ValidID => 1,
+    UserID => 1,
+);
+
+$Self->False(
+    $SLAID3,
+    'SLAAdd3()',
+);
+
+my $SLARand4 = 'SomeSLA'.int(rand(1000000));
+my $SLAID4 = $Self->{SLAObject}->SLAAdd(
+    Name => $SLARand4,
+    ServiceID => 1,
+    ValidID => 1,
+    UserID => 1,
+);
+
+$Self->True(
+    $SLAID4,
+    'SLAAdd4()',
+);
+
+my $SLAUpdate2 = $Self->{SLAObject}->SLAUpdate(
+    ServiceID => 1,
+    Name => $SLARand4."1",
+    ValidID => 2,
+    UserID => 1,
+);
+
+$Self->False(
+    $SLAUpdate2,
+    'SLAUpdate2()',
+);
+
+my $SLAUpdate3 = $Self->{SLAObject}->SLAUpdate(
+    SLAID => $SLAID4,
+    Name => $SLARand4."1",
+    ValidID => 2,
+    UserID => 1,
+);
+
+$Self->False(
+    $SLAUpdate3,
+    'SLAUpdate3()',
+);
+
+my $SLAUpdate4 = $Self->{SLAObject}->SLAUpdate(
+    SLAID => $SLAID4,
+    ServiceID => 1,
+    ValidID => 2,
+    UserID => 1,
+);
+
+$Self->False(
+    $SLAUpdate4,
+    'SLAUpdate4()',
+);
+
+my $SLAUpdate5 = $Self->{SLAObject}->SLAUpdate(
+    SLAID => $SLAID4,
+    ServiceID => 1,
+    Name => $SLARand4."1",
+    ValidID => 2,
+    UserID => 1,
+);
+
+$Self->True(
+    $SLAUpdate5,
+    'SLAUpdate5()',
 );
 
 1;

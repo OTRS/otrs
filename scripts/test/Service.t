@@ -2,7 +2,7 @@
 # Service.t - Service tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.t,v 1.1 2007-05-07 17:22:58 martin Exp $
+# $Id: Service.t,v 1.2 2007-05-24 11:42:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -95,6 +95,51 @@ $Self->Is(
     $ServiceID || '',
     $ServiceIDLookup,
     'ServiceLookup() by Name',
+);
+
+my $ServiceID2 = $Self->{ServiceObject}->ServiceAdd(
+    ValidID => 1,
+    UserID => 1,
+);
+
+$Self->False(
+    $ServiceID2,
+    'ServiceAdd2()',
+);
+
+my $ServiceRand3 = 'SomeService'.int(rand(1000000));
+my $ServiceID3 = $Self->{ServiceObject}->ServiceAdd(
+    Name => $ServiceRand3,
+    ValidID => 1,
+    UserID => 1,
+);
+
+$Self->True(
+    $ServiceID3,
+    'ServiceAdd3()',
+);
+
+my $ServiceUpdate2 = $Self->{ServiceObject}->ServiceUpdate(
+    ServiceID => $ServiceID3,
+    ValidID => 2,
+    UserID => 1,
+);
+
+$Self->False(
+    $ServiceUpdate2,
+    'ServiceUpdate2()',
+);
+
+my $ServiceUpdate3 = $Self->{ServiceObject}->ServiceUpdate(
+    ServiceID => $ServiceID3,
+    Name => $ServiceRand3."1",
+    ValidID => 2,
+    UserID => 1,
+);
+
+$Self->True(
+    $ServiceUpdate3,
+    'ServiceUpdate3()',
 );
 
 1;
