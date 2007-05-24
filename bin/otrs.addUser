@@ -3,7 +3,7 @@
 # otrs.addUser - Add User from CLI
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: otrs.addUser,v 1.9 2006-11-02 12:20:59 tr Exp $
+# $Id: otrs.addUser,v 1.10 2007-05-24 10:25:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,15 +28,19 @@ unless ($ARGV[0]){
 use strict;
 use Kernel::Config;
 use Kernel::System::Log;
+use Kernel::System::Time;
+use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::User;
 
 # create common objects
 my %CommonObject = ();
-$CommonObject{ConfigObject}  = Kernel::Config->new(%CommonObject);
-$CommonObject{LogObject}     = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.addUser');
-$CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UserObject}    = Kernel::System::User->new(%CommonObject);
+$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
+$CommonObject{LogObject} = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.addUser');
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 
 my %Param;
 undef %Param;
@@ -47,13 +51,13 @@ $Param{UserID}='1';
 #Validrecord
 $Param{ValidID}='1';
 
-$Param{Firstname}=$opts{'f'};
-$Param{Lastname}=$opts{'l'};
-$Param{Pw}=$opts{'p'};
-$Param{Login}=$ARGV[0];
-$Param{Email}=$opts{'e'};
+$Param{UserFirstname}=$opts{'f'};
+$Param{UserLastname}=$opts{'l'};
+$Param{UserPw}=$opts{'p'};
+$Param{UserLogin}=$ARGV[0];
+$Param{UserEmail}=$opts{'e'};
 
-if ( $Param{UID}=$CommonObject{UserObject}->UserAdd(%Param) ){
+if ($Param{UID} = $CommonObject{UserObject}->UserAdd(%Param, ChangeUserID => 1)){
    print "User added. user  id is $Param{UID}\n";
 }
 
@@ -72,7 +76,7 @@ if ($opts{'g'}) {
    else {
         print "Failed to get Group ID. Perhaps non-existent group..\n";
    }
-   if ($CommonObject{GroupObject}->GroupMemberAdd(%Param)) {
+   if ($CommonObject{GroupObject}->GroupMemberAdd(%Param, Permission => {'rw' => 1})) {
         print "User added to group\n";
    }
    else {
