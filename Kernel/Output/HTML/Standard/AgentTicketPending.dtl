@@ -2,7 +2,7 @@
 # AgentTicketPending.dtl - provides HTML form for pending mask
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPending.dtl,v 1.22 2007-05-21 13:44:05 mh Exp $
+# $Id: AgentTicketPending.dtl,v 1.23 2007-05-24 10:10:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -128,13 +128,13 @@ function change_selected(sel) {
 <!-- dtl:block:Service -->
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"Service"}:</td>
-                  <td class="contentvalue">$Data{"ServiceStrg"}</td>
+                  <td class="contentvalue">$Data{"ServiceStrg"} <font color="red" size="-2">$Text{"$Data{"Service invalid"}"}</font></td>
                 </tr>
 <!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"SLA"}:</td>
-                  <td class="contentvalue">$Data{"SLAStrg"}</td>
+                  <td class="contentvalue">$Data{"SLAStrg"} <font color="red" size="-2">$Text{"$Data{"SLA invalid"}"}</font></td>
                 </tr>
 <!-- dtl:block:SLA -->
 <!-- dtl:block:Owner -->

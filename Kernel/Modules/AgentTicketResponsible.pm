@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketResponsible.pm - set ticket responsible
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketResponsible.pm,v 1.19 2007-05-23 17:43:00 mh Exp $
+# $Id: AgentTicketResponsible.pm,v 1.20 2007-05-24 10:10:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -226,6 +226,10 @@ sub Run {
             if ($Self->{Config}->{'TicketFreeText'}->{$_} == 2 && $GetParam{"TicketFreeText$_"} eq '') {
                 $Error{"TicketFreeTextField$_ invalid"} = '* invalid';
             }
+        }
+        # check if service is selected
+        if ($Self->{ConfigObject}->Get('Ticket::Service') && $GetParam{SLAID} && !$GetParam{ServiceID}) {
+            $Error{"Service invalid"} = '* invalid';
         }
         # attachment delete
         foreach (1..16) {
