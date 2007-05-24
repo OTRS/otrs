@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.136 2007-05-24 11:46:59 mh Exp $
+# $Id: de.pm,v 1.137 2007-05-24 11:55:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.136 $';
+$VERSION = '$Revision: 1.137 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -763,7 +763,7 @@ sub Data {
         '0 = no unlock' => '0 = keine Freigabe',
         'Escalation - First Response Time' => 'Eskalation - Reaktions-Zeit',
         '0 = no escalation' => '0 = keine Eskalation',
-        'Escalation - Update Time' => 'Eskalation - Bearbeitungszeit',
+        'Escalation - Update Time' => 'Eskalation - Aktuallisierungszeit',
         'Escalation - Solution Time' => 'Eskalation - Lösungszeit',
         'Follow up Option' => 'Nachfrage Option',
         'Ticket lock after a follow up' => 'Ticket sperren nach einem Follow-Up',
@@ -863,7 +863,7 @@ sub Data {
         # Template: AdminSLA
         'SLA Management' => 'SLA Verwaltung',
         'SLA' => 'SLA',
-        'Update Time' => 'Bearbeitungszeit',
+        'Update Time' => 'Aktuallisierungszeit',
         'Solution Time' => 'Lösungszeit',
         'First Response Time' => 'Reaktions-Zeit',
         'Add SLA' => 'SLA hinzufügen',
