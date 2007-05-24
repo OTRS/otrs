@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.141 2007-05-21 14:09:48 martin Exp $
+# $Id: Article.pm,v 1.142 2007-05-24 11:57:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.141 $';
+$VERSION = '$Revision: 1.142 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1343,13 +1343,15 @@ sub ArticleGet {
     if ($Ticket{SLAID}) {
         $Ticket{SLA} = $Self->{SLAObject}->SLALookup(SLAID => $Ticket{SLAID});
     }
-    # get esclation attributes
-    my %Escalation = $Self->TicketEscalationState(Ticket => \%Ticket, UserID => $Param{UserID} || 1);
-    %Ticket = (%Escalation, %Ticket);
     # get queue name and other stuff
     my %Queue = $Self->{QueueObject}->QueueGet(ID => $Ticket{QueueID}, Cache => 1);
     # get state info
     my %StateData = $Self->{StateObject}->StateGet(ID => $Ticket{StateID}, Cache => 1);
+    $Ticket{StateType} = $StateData{TypeName};
+    $Ticket{State} = $StateData{Name};
+    # get esclation attributes
+    my %Escalation = $Self->TicketEscalationState(Ticket => \%Ticket, UserID => $Param{UserID} || 1);
+    %Ticket = (%Escalation, %Ticket);
 
     # article stuff
     foreach my $Part (@Content) {
