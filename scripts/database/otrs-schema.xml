@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.66 2007-04-16 11:06:10 martin Exp $
+    $Id: otrs-schema.xml,v 1.67 2007-05-26 17:53:32 mh Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.66  2007/04/16 11:06:10  martin
+    Removed NOT NULL for gerneric_agent.job_value (to be comapt. with all databases).
+
     Revision 1.65  2007/04/12 09:24:36  mh
     Fixed bug# 1744 - Unable to create xml_storage table in utf8 charset on mysql database.
 
@@ -1318,7 +1321,7 @@
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
-    <Column Name="comments" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="comments" Required="false" Size="200" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
@@ -1342,7 +1345,7 @@
     <Column Name="update_time" Required="true" Type="INTEGER"/>
     <Column Name="solution_time" Required="true" Type="INTEGER"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
-    <Column Name="comments" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="comments" Required="false" Size="200" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>

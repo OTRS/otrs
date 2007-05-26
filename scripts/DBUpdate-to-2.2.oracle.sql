@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.oracle.sql,v 1.14 2007-05-24 09:43:41 sr Exp $
+-- $Id: DBUpdate-to-2.2.oracle.sql,v 1.15 2007-05-26 17:53:32 mh Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.oracle.sql | sqlplus "user/password"
@@ -119,7 +119,7 @@ CREATE TABLE service (
     id NUMBER NOT NULL,
     name VARCHAR2 (200) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
-    comments VARCHAR2 (200) NOT NULL,
+    comments VARCHAR2 (200),
     create_time DATE NOT NULL,
     create_by NUMBER NOT NULL,
     change_time DATE NOT NULL,
@@ -154,7 +154,7 @@ CREATE TABLE sla (
     update_time NUMBER NOT NULL,
     solution_time NUMBER NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
-    comments VARCHAR2 (200) NOT NULL,
+    comments VARCHAR2 (200),
     create_time DATE NOT NULL,
     create_by NUMBER NOT NULL,
     change_time DATE NOT NULL,

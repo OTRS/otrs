@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2007-04-16 12:45:39
+#  driver: mysql, generated: 2007-05-26 19:32:42
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -682,7 +682,7 @@ CREATE TABLE service (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     valid_id SMALLINT NOT NULL,
-    comments VARCHAR (200) NOT NULL,
+    comments VARCHAR (200),
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -702,7 +702,7 @@ CREATE TABLE sla (
     update_time INTEGER NOT NULL,
     solution_time INTEGER NOT NULL,
     valid_id SMALLINT NOT NULL,
-    comments VARCHAR (200) NOT NULL,
+    comments VARCHAR (200),
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,

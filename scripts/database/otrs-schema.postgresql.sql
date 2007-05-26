@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2007-04-16 12:45:40
+--  driver: postgresql, generated: 2007-05-26 19:32:59
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -682,7 +682,7 @@ CREATE TABLE service (
     id serial,
     name VARCHAR (200) NOT NULL,
     valid_id INTEGER NOT NULL,
-    comments VARCHAR (200) NOT NULL,
+    comments VARCHAR (200),
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,
@@ -702,7 +702,7 @@ CREATE TABLE sla (
     update_time INTEGER NOT NULL,
     solution_time INTEGER NOT NULL,
     valid_id INTEGER NOT NULL,
-    comments VARCHAR (200) NOT NULL,
+    comments VARCHAR (200),
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,

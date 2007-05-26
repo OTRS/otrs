@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2007-04-12 11:18:39
+#  driver: mysql, generated: 2007-05-26 19:32:42
 # ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;

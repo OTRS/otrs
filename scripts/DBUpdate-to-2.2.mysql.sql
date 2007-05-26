@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.mysql.sql,v 1.15 2007-05-14 17:43:54 mh Exp $
+-- $Id: DBUpdate-to-2.2.mysql.sql,v 1.16 2007-05-26 17:53:32 mh Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.mysql.sql | mysql -f -u root otrs
@@ -108,7 +108,7 @@ CREATE TABLE service (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     valid_id SMALLINT NOT NULL,
-    comments VARCHAR (200) NOT NULL,
+    comments VARCHAR (200),
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -131,7 +131,7 @@ CREATE TABLE sla (
     update_time INTEGER NOT NULL,
     solution_time INTEGER NOT NULL,
     valid_id SMALLINT NOT NULL,
-    comments VARCHAR (200) NOT NULL,
+    comments VARCHAR (200),
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
