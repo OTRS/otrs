@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.10 2007-05-24 11:44:37 mh Exp $
+# $Id: SLA.pm,v 1.11 2007-05-26 18:10:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -188,7 +188,7 @@ sub SLAGet {
         $SLAData{UpdateTime} = $Row[5];
         $SLAData{SolutionTime} = $Row[6];
         $SLAData{ValidID} = $Row[7];
-        $SLAData{Comment} = $Row[8];
+        $SLAData{Comment} = $Row[8] || '';
         $SLAData{CreateTime} = $Row[9];
         $SLAData{CreateBy} = $Row[10];
         $SLAData{ChangeTime} = $Row[11];
@@ -328,13 +328,12 @@ update a existing sla
         SLAID => 2,
         ServiceID => 1,
         Name => 'Service Name',
-        Calendar => 'Calendar1',
-        FirstResponseTime => 120,
-        UpdateTime => 120,
-        SolutionTime => 180,
-        ResponseTime => 560,
+        Calendar => 'Calendar1',   # (optional)
+        FirstResponseTime => 120,  # (optional)
+        UpdateTime => 120,         # (optional)
+        SolutionTime => 180,       # (optional)
         ValidID => 1,
-        Comment => 'Comment', # (optional)
+        Comment => 'Comment',      # (optional)
         UserID => 1,
     );
 
@@ -393,6 +392,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2007-05-24 11:44:37 $
+$Revision: 1.11 $ $Date: 2007-05-26 18:10:16 $
 
 =cut
