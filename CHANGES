@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.402 2007-05-24 10:02:10 sr Exp $
+# $Id: CHANGES,v 1.403 2007-05-26 18:12:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.2.0 beta4 (2007/??/??)
+ - (2007/05/26) Fixed bug in service and sla tables. Column comment was wrongly
+    defined as required field.
  - (2007/05/24) Fixed bug# 1913 - Added missing columns first_response_time,
     solution_time and rename column escalation_time to update_time for table
     queue in DBUpdate-to-2.2.oracle.sql.
