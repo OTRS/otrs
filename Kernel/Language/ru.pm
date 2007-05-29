@@ -2,7 +2,7 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.42 2007-04-24 09:45:47 martin Exp $
+# $Id: ru.pm,v 1.43 2007-05-29 12:52:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Apr  2 17:25:48 2007
+    # Last translation file sync: Tue May 29 14:49:19 2007
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -84,6 +84,7 @@ sub Data {
         'Examples' => 'Примеры',
         'valid' => 'действительный',
         'invalid' => 'недействительный',
+        '* invalid' => '',
         'invalid-temporarily' => '',
         ' 2 minutes' => ' 2 Минуты',
         ' 5 minutes' => ' 5 Минут',
@@ -129,6 +130,7 @@ sub Data {
         'system' => 'система',
         'Customer Info' => 'Информация о клиенте',
         'Customer Company' => '',
+        'Company' => '',
         'go!' => 'ОК!',
         'go' => 'ОК',
         'All' => 'Все',
@@ -479,6 +481,13 @@ sub Data {
         'My Queues' => '',
         'Shown Tickets' => '',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => '',
+        'Ticket %s: first response time is over (%s)!' => '',
+        'Ticket %s: first response time will be over in %s!' => '',
+        'Ticket %s: update time is over (%s)!' => '',
+        'Ticket %s: update time will be over in %s!' => '',
+        'Ticket %s: solution time is over (%s)!' => '',
+        'Ticket %s: solution time will be over in %s!' => '',
+        'There are more escalated tickets!' => '',
         'New ticket notification' => 'Уведомление о новоей заявке',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Уведомление о новых заявках',
         'Follow up notification' => 'Уведомление об обновлениях',
@@ -581,7 +590,7 @@ sub Data {
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'Управление пользователями (для клиентов)',
         'Search for' => 'Искать',
-        'Add User' => '',
+        'Add Customer User' => '',
         'Source' => 'Источник',
         'Create' => '',
         'Customer user will be needed to have a customer history and to login via customer panel.' => '',
@@ -854,6 +863,8 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => '',
+        'Add Service' => '',
+        'Add a new Service.' => '',
         'Service' => '',
         'Sub-Service of' => '',
 
@@ -873,6 +884,8 @@ sub Data {
 
         # Template: AdminSLA
         'SLA Management' => '',
+        'Add SLA' => '',
+        'Add a new SLA.' => '',
         'SLA' => '',
         'First Response Time' => '',
         'Update Time' => '',
@@ -944,6 +957,7 @@ sub Data {
 
         # Template: AdminUserForm
         'User Management' => 'Управление пользователями',
+        'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => '',
         'Firstname' => 'Имя',
@@ -1177,8 +1191,6 @@ sub Data {
 
         # Template: AgentTicketPlain
         'Plain' => 'Обыкновенный',
-        'TicketID' => 'ID заявки',
-        'ArticleID' => 'ID заметки',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => '',
@@ -1200,7 +1212,6 @@ sub Data {
         'Ticket escalation!' => 'Истекло время до эскалации заявки !',
 
         # Template: AgentTicketQueueTicketView
-        'First Response' => '',
         'Service Time' => '',
         'Your own Ticket' => '',
         'Compose Follow up' => '',
@@ -1241,6 +1252,10 @@ sub Data {
         # Template: AgentTicketZoom
 
         # Template: AgentWindowTab
+
+        # Template: Calculator
+        'Calculator' => '',
+        'Operation' => '',
 
         # Template: Copyright
 
@@ -1292,8 +1307,6 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-
-        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1384,28 +1397,29 @@ sub Data {
         'Change roles <-> groups settings' => '',
         'Ticket Number Generator' => 'Генератор номера Заявки',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => 'Создать телефонную заявку',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => 'Признак',
         'A message should have a To: recipient!' => 'Сообщение должно иметь поле ДЛЯ: адресата!',
         'Site' => 'Место',
         'Customer history search (e. g. "ID342425").' => 'Поиск истории клиента (напр. "ID342425").',
-        'Close!' => 'Закрыть!',
         'for agent firstname' => 'для агента - имя',
+        'Close!' => 'Закрыть!',
         'Subgroup \'' => 'подгруппа',
         'The message being composed has been closed.  Exiting.' => 'создаваемое сообщение было закрыто. выход.',
         'A web calendar' => 'Календарь',
         'to get the realname of the sender (if given)' => 'получить (если есть) имя отправителя',
         'OTRS DB Name' => '',
-        'Involved' => 'Совместно с',
         'Select Source (for add)' => 'Выбрать источник',
+        'Involved' => 'Совместно с',
         'Days' => 'Дни',
-        'Queue ID' => 'ID очереди',
         'Locked tickets' => 'Заблокированные заявки',
+        'Queue ID' => 'ID очереди',
         'Home' => 'Начало',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '',
         'System History' => 'История',
         'customer realname' => 'имя клиента',
+        'First Response' => '',
         'Pending messages' => 'Сообщения в ожидании',
         'Modules' => 'Модули',
         'for agent login' => '',
@@ -1424,6 +1438,7 @@ sub Data {
         'Create new database' => '',
         'A message must be spell checked!' => '',
         '\' ' => '',
+        'ArticleID' => 'ID заметки',
         'All Agents' => '',
         'Keywords' => '',
         'Typ' => '',
@@ -1437,8 +1452,8 @@ sub Data {
         'Last update' => 'Последнее изменение',
         'to get the first 20 character of the subject' => 'получить первые 20 символов поля "тема"',
         'DB Admin Password' => '',
-        'Drop Database' => 'Удалить базу',
         'Advisory' => '',
+        'Drop Database' => 'Удалить базу',
         'FileManager' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '',
         'Pending type' => 'Тип ожидания',
@@ -1502,11 +1517,11 @@ sub Data {
         'PhoneView' => 'Заявка по телефону',
         'maximal period form' => '',
         'Verion' => '',
+        'TicketID' => 'ID заявки',
         'Mart' => 'Марта',
         'Change setting' => 'Изменить настройки',
         'Modified' => 'Изменено',
         'Ticket selected for bulk action!' => '',
-        'Company' => '',
     };
     # $$STOP$$
 }

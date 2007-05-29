@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.43 2007-04-24 09:45:47 martin Exp $
+# $Id: pl.pm,v 1.44 2007-05-29 12:52:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -23,7 +23,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Apr  2 17:25:43 2007
+    # Last translation file sync: Tue May 29 14:49:08 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -85,6 +85,7 @@ sub Data {
         'Examples' => 'Przyk³ady',
         'valid' => 'poprawne',
         'invalid' => 'Niepoprawne',
+        '* invalid' => '',
         'invalid-temporarily' => '',
         ' 2 minutes' => ' 2 Minuty',
         ' 5 minutes' => ' 5 Minut',
@@ -130,6 +131,7 @@ sub Data {
         'system' => 'System',
         'Customer Info' => 'Informacja o kliencie',
         'Customer Company' => '',
+        'Company' => '',
         'go!' => 'Start!',
         'go' => 'Start',
         'All' => 'Wszystkie',
@@ -480,6 +482,13 @@ sub Data {
         'My Queues' => '',
         'Shown Tickets' => '',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => '',
+        'Ticket %s: first response time is over (%s)!' => '',
+        'Ticket %s: first response time will be over in %s!' => '',
+        'Ticket %s: update time is over (%s)!' => '',
+        'Ticket %s: update time will be over in %s!' => '',
+        'Ticket %s: solution time is over (%s)!' => '',
+        'Ticket %s: solution time will be over in %s!' => '',
+        'There are more escalated tickets!' => '',
         'New ticket notification' => 'Powiadomienie o nowym zg³oszeniu',
         'Send me a notification if there is a new ticket in "My Queues".' => '',
         'Follow up notification' => 'Powiadomienie o odpowiedzi',
@@ -582,7 +591,7 @@ sub Data {
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'Konfiguracja u¿ytkowników',
         'Search for' => '',
-        'Add User' => '',
+        'Add Customer User' => '',
         'Source' => '¬ród³o',
         'Create' => '',
         'Customer user will be needed to have a customer history and to login via customer panel.' => '',
@@ -855,6 +864,8 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => '',
+        'Add Service' => '',
+        'Add a new Service.' => '',
         'Service' => '',
         'Sub-Service of' => '',
 
@@ -874,6 +885,8 @@ sub Data {
 
         # Template: AdminSLA
         'SLA Management' => '',
+        'Add SLA' => '',
+        'Add a new SLA.' => '',
         'SLA' => '',
         'First Response Time' => '',
         'Update Time' => '',
@@ -945,6 +958,7 @@ sub Data {
 
         # Template: AdminUserForm
         'User Management' => 'Zarz±dzanie U¿ytkownikami',
+        'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => '',
         'Firstname' => 'Imiê',
@@ -1178,8 +1192,6 @@ sub Data {
 
         # Template: AgentTicketPlain
         'Plain' => 'Puste',
-        'TicketID' => 'ID Zg³oszenia',
-        'ArticleID' => 'ID Artyku³u',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => '',
@@ -1201,7 +1213,6 @@ sub Data {
         'Ticket escalation!' => 'Eskalacja zg³oszenia!',
 
         # Template: AgentTicketQueueTicketView
-        'First Response' => '',
         'Service Time' => '',
         'Your own Ticket' => 'Twoje w³asne zg³oszenie',
         'Compose Follow up' => 'Napisz Odpowied¼ (Follow Up)',
@@ -1242,6 +1253,10 @@ sub Data {
         # Template: AgentTicketZoom
 
         # Template: AgentWindowTab
+
+        # Template: Calculator
+        'Calculator' => '',
+        'Operation' => '',
 
         # Template: Copyright
 
@@ -1293,8 +1308,6 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-
-        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1382,14 +1395,14 @@ sub Data {
         'DB Host' => 'Host bazy danych',
         'Ticket Number Generator' => 'Generator numerów zg³oszeñ',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identyfikator zg³oszenia. np. \'Ticket#\', \'Call#\' lub \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => '',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => 'Objawy',
         'A message should have a To: recipient!' => 'Wiadomo¶æ musi zawieraæ wype³nione adresem polu Do: (odbiorca)!',
         'Site' => 'Witryna',
         'Customer history search (e. g. "ID342425").' => 'Przeszukiwanie historii klienta (np. "ID342425").',
-        'Close!' => 'Zamknij!',
         'for agent firstname' => 'dla imienia agenta',
+        'Close!' => 'Zamknij!',
         'The message being composed has been closed.  Exiting.' => 'Wiadomo¶æ edytowana zosta³a zamkniêta.  Wychodzê.',
         'A web calendar' => '',
         'to get the realname of the sender (if given)' => 'by wstawiæ prawdziwe imiê i nazwisko klienta (je¶li podano)',
@@ -1400,6 +1413,7 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Opcje konfiguracyjne (np. <OTRS_CONFIG_HttpType>)',
         'System History' => '',
         'customer realname' => 'Prawdziwe dane klienta',
+        'First Response' => '',
         'Pending messages' => 'Oczekuj±ce wiadomo¶ci',
         'Modules' => '',
         'for agent login' => 'dla loginu agenta',
@@ -1415,6 +1429,7 @@ sub Data {
         'Admin-Email' => 'Wiadomo¶æ od Administratora',
         'Create new database' => 'Stwórz now± bazê danych',
         'A message must be spell checked!' => 'Wiadomo¶æ musi zostaæ sprawdzona s³ownikiem!',
+        'ArticleID' => 'ID Artyku³u',
         'All Agents' => 'Wszyscy agenci',
         'Keywords' => 'S³owa kluczowe',
         'No * possible!' => 'Nie u¿ywaj znaku "*"!',
@@ -1424,8 +1439,8 @@ sub Data {
         'Last update' => 'Ostatnia aktualizacja',
         'to get the first 20 character of the subject' => 'by wstawiæ pierwsze 20 znaków tematu',
         'DB Admin Password' => 'Has³o Administratora bazy danych',
-        'Drop Database' => 'Usuñ bazê danych',
         'Advisory' => '',
+        'Drop Database' => 'Usuñ bazê danych',
         'FileManager' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Opcje aktualnego klienta (np. <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'Typ oczekiwania',
@@ -1479,9 +1494,9 @@ sub Data {
         'PhoneView' => 'Nowy telefon',
         'maximal period form' => '',
         'Verion' => '',
+        'TicketID' => 'ID Zg³oszenia',
         'Modified' => 'Zmodyfikowany',
         'Ticket selected for bulk action!' => '',
-        'Company' => '',
     };
     # $$STOP$$
 }

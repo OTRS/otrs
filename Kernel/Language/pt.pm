@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004 CAT <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.42 2007-04-24 09:45:47 martin Exp $
+# $Id: pt.pm,v 1.43 2007-05-29 12:52:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pt;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Apr  2 17:25:46 2007
+    # Last translation file sync: Tue May 29 14:49:11 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -84,6 +84,7 @@ sub Data {
         'Examples' => 'Exemplos',
         'valid' => 'válido',
         'invalid' => 'inválido',
+        '* invalid' => '',
         'invalid-temporarily' => 'inválido-temporariamente',
         ' 2 minutes' => ' 2 minutos',
         ' 5 minutes' => ' 5 minutos',
@@ -129,6 +130,7 @@ sub Data {
         'system' => 'sistema',
         'Customer Info' => 'Informação de Cliente',
         'Customer Company' => '',
+        'Company' => '',
         'go!' => 'ir!',
         'go' => 'ir',
         'All' => 'Todos',
@@ -479,6 +481,13 @@ sub Data {
         'My Queues' => 'As Minhas Filas',
         'Shown Tickets' => 'Mostrar Bilhetes',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'A sua mensagem com o número de bilhete "<OTRS_TICKET>" foi junta a "<OTRS_MERGE_TO_TICKET>".',
+        'Ticket %s: first response time is over (%s)!' => '',
+        'Ticket %s: first response time will be over in %s!' => '',
+        'Ticket %s: update time is over (%s)!' => '',
+        'Ticket %s: update time will be over in %s!' => '',
+        'Ticket %s: solution time is over (%s)!' => '',
+        'Ticket %s: solution time will be over in %s!' => '',
+        'There are more escalated tickets!' => '',
         'New ticket notification' => 'Notificação de novo bilhete',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Envie-me uma notificação se houver um novo bilhete nas "Minhas Filas".',
         'Follow up notification' => 'Notificação de seguimento',
@@ -581,7 +590,7 @@ sub Data {
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'Gestão de Utilizadores Clientes',
         'Search for' => 'Procurar por',
-        'Add User' => '',
+        'Add Customer User' => '',
         'Source' => 'Fonte',
         'Create' => 'Criar',
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'Utilizador cliente terá de ter um historial como cliente e de se autenticar via os paineis de cliente.',
@@ -854,6 +863,8 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => '',
+        'Add Service' => '',
+        'Add a new Service.' => '',
         'Service' => '',
         'Sub-Service of' => '',
 
@@ -873,6 +884,8 @@ sub Data {
 
         # Template: AdminSLA
         'SLA Management' => '',
+        'Add SLA' => '',
+        'Add a new SLA.' => '',
         'SLA' => '',
         'First Response Time' => '',
         'Update Time' => '',
@@ -944,6 +957,7 @@ sub Data {
 
         # Template: AdminUserForm
         'User Management' => 'Gestão de Utilizadores',
+        'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => 'Entrar como',
         'Firstname' => 'Nome',
@@ -1177,8 +1191,6 @@ sub Data {
 
         # Template: AgentTicketPlain
         'Plain' => 'Verbatim',
-        'TicketID' => 'ID de Bilhete',
-        'ArticleID' => 'ID de Artigo',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Informação de Bilhete',
@@ -1200,7 +1212,6 @@ sub Data {
         'Ticket escalation!' => 'Escalamento de bilhetes!',
 
         # Template: AgentTicketQueueTicketView
-        'First Response' => '',
         'Service Time' => '',
         'Your own Ticket' => 'O seu Bilhete',
         'Compose Follow up' => 'Compor Seguimento',
@@ -1241,6 +1252,10 @@ sub Data {
         # Template: AgentTicketZoom
 
         # Template: AgentWindowTab
+
+        # Template: Calculator
+        'Calculator' => '',
+        'Operation' => '',
 
         # Template: Copyright
 
@@ -1292,8 +1307,6 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-
-        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1383,14 +1396,14 @@ sub Data {
         'Multiplier:' => 'Multiplicador:',
         'Ticket Number Generator' => 'Gerador de Números de Bilhetes',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificação do bilhete. Algumas pessoas usam \'Bilhete#\', \'Chamada#\' or \'MeuBilhete#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => 'Criar novo Bilhete via Telefone',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => 'Sintoma',
         'A message should have a To: recipient!' => 'Uma mensagem deve possuir um Para: destinatário!',
         'Site' => 'Página',
         'Customer history search (e. g. "ID342425").' => 'Procura no histórico do cliente (e.g., "ID342425")',
-        'Close!' => 'Fechar!',
         'for agent firstname' => 'para o nome próprio do agente',
+        'Close!' => 'Fechar!',
         'The message being composed has been closed.  Exiting.' => 'A mensagem sendo composta foi fechada. Saindo.',
         'A web calendar' => 'Um calendário na Web',
         'to get the realname of the sender (if given)' => 'para obter o nome do remetente (se indicado na mensagem)',
@@ -1402,6 +1415,7 @@ sub Data {
         'Home' => 'Início',
         'System History' => 'Histórico do Sistema',
         'customer realname' => 'nome do cliente',
+        'First Response' => '',
         'Pending messages' => 'Mensagens pendentes',
         'Modules' => 'Módulos',
         'for agent login' => 'para o nome de utilizador do agente',
@@ -1423,6 +1437,7 @@ sub Data {
         'SMIME Certificate Upload' => 'Carregamento de Certificado SMIME',
         'Create new database' => 'Criar nova base de dados',
         'A message must be spell checked!' => 'Tem de verificar a ortografia da mensagem!',
+        'ArticleID' => 'ID de Artigo',
         'All Agents' => 'Todos os Agentes',
         'Keywords' => 'Palavras-chave',
         'Select:' => 'Seleccionar:',
@@ -1436,8 +1451,8 @@ sub Data {
         'Sorry, feature not active!' => 'Lamentamos, característica não activa!',
         'to get the first 20 character of the subject' => 'para obter os 20 primeiros caracteres do assunto',
         'DB Admin Password' => 'Palavra-passe de Administrador da Base de Dados',
-        'Drop Database' => 'Apagar Base de Dados',
         'Advisory' => 'Recomendação',
+        'Drop Database' => 'Apagar Base de Dados',
         'FileManager' => 'Gestor de Ficheiros',
         'Pending type' => 'Tipo de pendência',
         'Comment (internal)' => 'Comentário (interno)',
@@ -1496,11 +1511,11 @@ sub Data {
         'PhoneView' => 'Visualização de Chamada',
         'maximal period form' => '',
         'Verion' => 'Versão',
+        'TicketID' => 'ID de Bilhete',
         'SMIME Management' => 'Gestão de SMIME',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_UserFirstname&gt;)' => 'Opções do utilizador que requereu a acção (Ex. &lt;OTRS_CURRENT_UserFirstname&gt;)',
         'Modified' => 'Modificado',
         'Ticket selected for bulk action!' => 'Bilhete seleccionado para acção em lote!',
-        'Company' => '',
     };
     # $$STOP$$
 }

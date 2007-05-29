@@ -5,7 +5,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.70 2007-04-24 09:45:47 martin Exp $
+# $Id: fr.pm,v 1.71 2007-05-29 12:52:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.70 $';
+$VERSION = '$Revision: 1.71 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -25,7 +25,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Apr  2 17:25:32 2007
+    # Last translation file sync: Tue May 29 14:48:49 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -87,6 +87,7 @@ sub Data {
         'Examples' => 'Exemples',
         'valid' => 'valide',
         'invalid' => 'invalide',
+        '* invalid' => '',
         'invalid-temporarily' => 'temporairement invalide',
         ' 2 minutes' => '',
         ' 5 minutes' => '',
@@ -132,6 +133,7 @@ sub Data {
         'system' => 'système',
         'Customer Info' => 'Information client',
         'Customer Company' => '',
+        'Company' => '',
         'go!' => 'c\'est parti !',
         'go' => 'aller',
         'All' => 'Tout',
@@ -482,6 +484,13 @@ sub Data {
         'My Queues' => 'Mes files',
         'Shown Tickets' => 'Tickets affichés',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Votre ticket numéro "<OTRS_TICKET>" a été fusionné avec le ticket numéro "<OTRS_MERGE_TO_TICKET>".',
+        'Ticket %s: first response time is over (%s)!' => '',
+        'Ticket %s: first response time will be over in %s!' => '',
+        'Ticket %s: update time is over (%s)!' => '',
+        'Ticket %s: update time will be over in %s!' => '',
+        'Ticket %s: solution time is over (%s)!' => '',
+        'Ticket %s: solution time will be over in %s!' => '',
+        'There are more escalated tickets!' => '',
         'New ticket notification' => 'Notification de nouveau ticket',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Me prévenir si il y a un nouveau ticket dans une de "Mes files".',
         'Follow up notification' => 'Notification de suivi',
@@ -584,7 +593,7 @@ sub Data {
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'Gestion des clients utilisateurs',
         'Search for' => 'Chercher à',
-        'Add User' => '',
+        'Add Customer User' => '',
         'Source' => '',
         'Create' => 'Création',
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'Les clients utilisateurs seront invités à se connecter par la page client.',
@@ -857,6 +866,8 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => '',
+        'Add Service' => '',
+        'Add a new Service.' => '',
         'Service' => '',
         'Sub-Service of' => '',
 
@@ -876,6 +887,8 @@ sub Data {
 
         # Template: AdminSLA
         'SLA Management' => '',
+        'Add SLA' => '',
+        'Add a new SLA.' => '',
         'SLA' => '',
         'First Response Time' => '',
         'Update Time' => '',
@@ -947,6 +960,7 @@ sub Data {
 
         # Template: AdminUserForm
         'User Management' => 'Administration des utilisateurs',
+        'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => '',
         'Firstname' => 'Prénom',
@@ -1180,8 +1194,6 @@ sub Data {
 
         # Template: AgentTicketPlain
         'Plain' => 'Tel quel',
-        'TicketID' => 'Identifiant du Ticket',
-        'ArticleID' => 'Identifiant de l\'Article',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Information du Ticket',
@@ -1203,7 +1215,6 @@ sub Data {
         'Ticket escalation!' => 'Remontée du ticket !',
 
         # Template: AgentTicketQueueTicketView
-        'First Response' => '',
         'Service Time' => '',
         'Your own Ticket' => 'Votre propre ticket',
         'Compose Follow up' => 'Fermer le suivi',
@@ -1244,6 +1255,10 @@ sub Data {
         # Template: AgentTicketZoom
 
         # Template: AgentWindowTab
+
+        # Template: Calculator
+        'Calculator' => '',
+        'Operation' => '',
 
         # Template: Copyright
 
@@ -1295,8 +1310,6 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-
-        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1385,14 +1398,14 @@ sub Data {
         'Change roles <-> groups settings' => 'Changer les rôles <-> paramèttres des groupes',
         'Ticket Number Generator' => 'Générateur de numéro pour les tickets',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identifiiant des tickets. Certaines personnes veulent le configurer avec par ex: \'Ticket#\', \'Appel#\' ou \'MonTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Dans ce cas vous pouvez directement éditer le trousseau de clé dans Kernel/Config.pm',
         'Create new Phone Ticket' => 'Saisie d\'une demande téléphonique',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Dans ce cas vous pouvez directement éditer le trousseau de clé dans Kernel/Config.pm',
         'Symptom' => 'Symptôme',
         'A message should have a To: recipient!' => 'Un message doit avoir un destinataire (À:)!',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Recherche dans l\'historique client (ex: "ID342425")',
-        'Close!' => 'Clôture!',
         'for agent firstname' => 'pour le prénom du technicien',
+        'Close!' => 'Clôture!',
         'The message being composed has been closed.  Exiting.' => 'Le message en cours de rédaction a été clôturé. Sortie.',
         'A web calendar' => 'Un calendrier Web',
         'to get the realname of the sender (if given)' => 'pour avoir le nom réel de l\'utilisateur (s\il est donné)',
@@ -1408,6 +1421,7 @@ sub Data {
         'System History' => 'Historique du système',
         'FAQ System History' => 'Historique système de la FAQ',
         'customer realname' => 'nom réel du client',
+        'First Response' => '',
         'Pending messages' => 'Message en attente',
         'Modules' => 'Modules',
         'for agent login' => 'pour le nom de connexion (login) du technicien',
@@ -1427,6 +1441,7 @@ sub Data {
         'Create new database' => 'Créer une nouvelle base de données',
         'A message must be spell checked!' => 'Lorthographe dun message doit être vérifié!',
         'FAQ Language' => 'Langue dans la FAQ',
+        'ArticleID' => 'Identifiant de l\'Article',
         'All Agents' => 'Tous les techniciens',
         'Keywords' => 'Mots clés',
         'No * possible!' => 'Pas de * possible !',
@@ -1437,8 +1452,8 @@ sub Data {
         'Last update' => 'Dernière mise à jour',
         'to get the first 20 character of the subject' => 'pour avoir les 20 premiers caractères du sujet ',
         'DB Admin Password' => 'Mot de passe administrateur base de données',
-        'Drop Database' => 'Effacer la base de données',
         'Advisory' => 'Avertissement',
+        'Drop Database' => 'Effacer la base de données',
         'FileManager' => 'Gestionnaire de fichiers',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Options concernant les données du client actuel (ex: <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'Type d\'attente',
@@ -1499,10 +1514,10 @@ sub Data {
         'PhoneView' => 'Vue téléphone',
         'maximal period form' => '',
         'Verion' => 'Version',
+        'TicketID' => 'Identifiant du Ticket',
         'FAQ History' => 'Historique de la FAQ',
         'Modified' => 'Modifié',
         'Ticket selected for bulk action!' => 'Ticket sélectionné pour une action groupé!',
-        'Company' => '',
     };
     # $$STOP$$
 }

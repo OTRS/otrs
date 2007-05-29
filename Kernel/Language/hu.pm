@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.34 2007-04-24 09:45:47 martin Exp $
+# $Id: hu.pm,v 1.35 2007-05-29 12:52:58 martin Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -18,7 +18,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -26,7 +26,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Apr  2 17:25:34 2007
+    # Last translation file sync: Tue May 29 14:48:53 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', 'iso-8859-15', ];
@@ -88,6 +88,7 @@ sub Data {
         'Examples' => 'Példa',
         'valid' => 'érvényes',
         'invalid' => 'érvénytelen',
+        '* invalid' => '',
         'invalid-temporarily' => '',
         ' 2 minutes' => ' 2 Perc',
         ' 5 minutes' => ' 5 Perc',
@@ -133,6 +134,7 @@ sub Data {
         'system' => 'rendszer',
         'Customer Info' => 'Ügyfél Info',
         'Customer Company' => '',
+        'Company' => '',
         'go!' => 'Indítsd!',
         'go' => 'indítsd',
         'All' => 'Összes',
@@ -483,6 +485,13 @@ sub Data {
         'My Queues' => '',
         'Shown Tickets' => '',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => '',
+        'Ticket %s: first response time is over (%s)!' => '',
+        'Ticket %s: first response time will be over in %s!' => '',
+        'Ticket %s: update time is over (%s)!' => '',
+        'Ticket %s: update time will be over in %s!' => '',
+        'Ticket %s: solution time is over (%s)!' => '',
+        'Ticket %s: solution time will be over in %s!' => '',
+        'There are more escalated tickets!' => '',
         'New ticket notification' => 'Új jegy értesítés',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Küldjön nekem értesítést, ha új jegy van a "Saját Ügyeim"-ben.',
         'Follow up notification' => 'Válaszlevél értesítés',
@@ -585,7 +594,7 @@ sub Data {
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'Ügyfél felhasználók kezelése',
         'Search for' => 'Keresd a',
-        'Add User' => '',
+        'Add Customer User' => '',
         'Source' => 'Forrás',
         'Create' => '',
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'Ügyfél felhasználóra lesz szükség, hogy legyen ügyfél történet és be lehessen lépni az ügyfél panelen.',
@@ -858,6 +867,8 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => '',
+        'Add Service' => '',
+        'Add a new Service.' => '',
         'Service' => '',
         'Sub-Service of' => '',
 
@@ -877,6 +888,8 @@ sub Data {
 
         # Template: AdminSLA
         'SLA Management' => '',
+        'Add SLA' => '',
+        'Add a new SLA.' => '',
         'SLA' => '',
         'First Response Time' => '',
         'Update Time' => '',
@@ -948,6 +961,7 @@ sub Data {
 
         # Template: AdminUserForm
         'User Management' => 'Felhasználó kezelés',
+        'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => '',
         'Firstname' => 'Keresztnév',
@@ -1181,8 +1195,6 @@ sub Data {
 
         # Template: AgentTicketPlain
         'Plain' => 'Egyszerû',
-        'TicketID' => 'Jegyazonosító',
-        'ArticleID' => 'Cikkazonosító',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => '',
@@ -1204,7 +1216,6 @@ sub Data {
         'Ticket escalation!' => 'Jegy eszkaláció!',
 
         # Template: AgentTicketQueueTicketView
-        'First Response' => '',
         'Service Time' => '',
         'Your own Ticket' => 'Az ön saját jegye',
         'Compose Follow up' => 'Válasz írása',
@@ -1245,6 +1256,10 @@ sub Data {
         # Template: AgentTicketZoom
 
         # Template: AgentWindowTab
+
+        # Template: Calculator
+        'Calculator' => '',
+        'Operation' => '',
 
         # Template: Copyright
 
@@ -1296,8 +1311,6 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-
-        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1385,14 +1398,14 @@ sub Data {
         'DB Host' => 'DB Gazda',
         'Ticket Number Generator' => 'Jegy sorszám generátor',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Jegy azonosítûs. pl. \'Jegy#\', \'Hívó#\' vagy \'Jegyem#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Íly módon közvetlenül szerkesztheti a Kernel/Config.pm-ben beállított kulcskarikát.',
         'Create new Phone Ticket' => 'Új telefon jegy létrehozása',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Íly módon közvetlenül szerkesztheti a Kernel/Config.pm-ben beállított kulcskarikát.',
         'Symptom' => 'Jelenség',
         'A message should have a To: recipient!' => 'Egy üzenethez kellene legyen címzett!',
         'Site' => 'Gép',
         'Customer history search (e. g. "ID342425").' => 'Keresés az ügyfél történetében (pl. "ID342425").',
-        'Close!' => 'Lezár!',
         'for agent firstname' => 'ügynök keresztnévhez',
+        'Close!' => 'Lezár!',
         'The message being composed has been closed.  Exiting.' => 'Az éppen elkészült levél lezárásra került. Kilépés.',
         'A web calendar' => '',
         'to get the realname of the sender (if given)' => 'hogy megkapja a feladó valódi nevét (ha lehetséges)',
@@ -1404,6 +1417,7 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Beállítás opciók (pl. <OTRS_CONFIG_HttpType>)',
         'System History' => '',
         'customer realname' => 'ügyfél valódi név',
+        'First Response' => '',
         'Pending messages' => 'Várakozó üzenetek',
         'Modules' => 'Modul',
         'for agent login' => 'ügynök belépéséhez',
@@ -1419,6 +1433,7 @@ sub Data {
         'Admin-Email' => 'Kezelõ-Email',
         'Create new database' => 'Új adatbázis létrehozása',
         'A message must be spell checked!' => 'Az üzenetnek helyesírásellenõrzésen kell átmennie!',
+        'ArticleID' => 'Cikkazonosító',
         'All Agents' => 'Minden ügynök',
         'Keywords' => 'Kulcsszó',
         'No * possible!' => 'A "*" nem lehetséges!',
@@ -1429,8 +1444,8 @@ sub Data {
         'Last update' => 'Utolsó frissítés',
         'to get the first 20 character of the subject' => 'hogy megkapja az elsõ 20 karaktert a tárgyból',
         'DB Admin Password' => 'DB Admin jelszó',
-        'Drop Database' => 'Adatbázis törlése',
         'Advisory' => '',
+        'Drop Database' => 'Adatbázis törlése',
         'FileManager' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Opciók az aktuális ügyfél felhasználói adatokhoz (pl. <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'Várakozás típusa',
@@ -1487,9 +1502,9 @@ sub Data {
         'PhoneView' => 'TelefonNézet',
         'maximal period form' => '',
         'Verion' => '',
+        'TicketID' => 'Jegyazonosító',
         'Modified' => 'Módosítva',
         'Ticket selected for bulk action!' => 'Jegy kiválasztva csoportos mûvelethez!',
-        'Company' => '',
     };
     # $$STOP$$
 }

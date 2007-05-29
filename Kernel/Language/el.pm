@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 #                    George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.17 2007-04-24 09:45:47 martin Exp $
+# $Id: el.pm,v 1.18 2007-05-29 12:52:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::el;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -23,7 +23,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Apr  2 17:25:23 2007
+    # Last translation file sync: Tue May 29 14:48:39 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-7', ];
@@ -85,6 +85,7 @@ sub Data {
         'Examples' => 'Παραδείγματα',
         'valid' => '',
         'invalid' => '',
+        '* invalid' => '',
         'invalid-temporarily' => '',
         ' 2 minutes' => ' 2 λεπτά',
         ' 5 minutes' => ' 5 λεπτά',
@@ -130,6 +131,7 @@ sub Data {
         'system' => 'σύστημα',
         'Customer Info' => 'προφίλ πελάτη',
         'Customer Company' => '',
+        'Company' => '',
         'go!' => 'Εκτέλεση!',
         'go' => 'Εκτέλεση',
         'All' => 'Όλα',
@@ -483,6 +485,13 @@ sub Data {
         'My Queues' => 'Οι Ουρές μου',
         'Shown Tickets' => 'Δελτια που παρουσιάζονται',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Το μηνυμα σας με αριθμο δελτίου "<OTRS_TICKET>" ενώθηκε με το δελτίο <OTRS_MERGE_TO_TICKET>" !',
+        'Ticket %s: first response time is over (%s)!' => '',
+        'Ticket %s: first response time will be over in %s!' => '',
+        'Ticket %s: update time is over (%s)!' => '',
+        'Ticket %s: update time will be over in %s!' => '',
+        'Ticket %s: solution time is over (%s)!' => '',
+        'Ticket %s: solution time will be over in %s!' => '',
+        'There are more escalated tickets!' => '',
         'New ticket notification' => 'Νέα ειδοποίηση δελτίου',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Αποστολή ειδοποίησης αν υπάρχει ενα νέο δελτίο στις "Ουρές μου".',
         'Follow up notification' => 'Παρακολούθηση ειδοποίησης',
@@ -514,6 +523,9 @@ sub Data {
         'Auto Responses <-> Queue' => 'Αυτόματες Απαντήσεις <-> Ουρές',
         'Attachments <-> Responses' => 'Συνημμένα <-> Απαντήσεις',
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
+        'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
+        'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
+        'History::SLAUpdate' => 'Updated SLA to %s (ID=%s).',
         'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
         'History::FollowUp' => 'FollowUp for [%s]. %s',
         'History::SendAutoReject' => 'AutoReject sent to "%s".',
@@ -525,11 +537,11 @@ sub Data {
         'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
         'History::SendCustomerNotification' => 'Notification sent to "%s".',
         'History::EmailAgent' => 'Email sent to customer.',
-        'History::EmailCustomer' => 'Added email. %s',
+        'History::EmailCustomer' => 'Αποστολή Email στον πελάτη. %s',
         'History::PhoneCallAgent' => 'Agent called customer.',
         'History::PhoneCallCustomer' => 'Customer called us.',
         'History::AddNote' => 'Added note (%s)',
-        'History::Lock' => 'Locked ticket.',
+        'History::Lock' => 'Κλείδωμα Δελτίου',
         'History::Unlock' => 'Unlocked ticket.',
         'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
         'History::Remove' => '%s',
@@ -544,13 +556,6 @@ sub Data {
         'History::WebRequestCustomer' => 'Customer request via web.',
         'History::TicketLinkAdd' => 'Added link to ticket "%s".',
         'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
-        'History::SystemRequest' => 'System Request (%s).',
-        'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
-        'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
-        'History::SLAUpdate' => 'Updated SLA to %s (ID=%s).',
-        'History::EmailCustomer' => 'Αποστολή Email στον πελάτη. %s',
-        'History::Lock' => 'Κλείδωμα Δελτίου',
-        'History::Remove' => '%s',
 
         # Template: AAAWeekDay
         'Sun' => 'Κυρ',
@@ -592,7 +597,7 @@ sub Data {
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'Διαχείριση χρήστη πελάτη',
         'Search for' => 'Αναζήτηση για',
-        'Add User' => '',
+        'Add Customer User' => '',
         'Source' => 'Πηγή',
         'Create' => 'Δημιουργία',
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'Ο χρήστης πελάτης θα πρέπει να έχει ενα
@@ -873,6 +878,8 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => '',
+        'Add Service' => '',
+        'Add a new Service.' => '',
         'Service' => '',
         'Sub-Service of' => '',
 
@@ -892,6 +899,8 @@ sub Data {
 
         # Template: AdminSLA
         'SLA Management' => '',
+        'Add SLA' => '',
+        'Add a new SLA.' => '',
         'SLA' => '',
         'First Response Time' => '',
         'Update Time' => '',
@@ -964,6 +973,7 @@ sub Data {
 
         # Template: AdminUserForm
         'User Management' => 'Διαχείριση Χρηστών',
+        'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => '',
         'Firstname' => 'Ονομα',
@@ -1198,8 +1208,6 @@ email σας με αριθμο δελτιου "<OTRS_TICKET>" αναπηδησε στο "<OTRS_BOUNCE_TO>".Επι
 
         # Template: AgentTicketPlain
         'Plain' => 'Απλό',
-        'TicketID' => '',
-        'ArticleID' => '',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => '',
@@ -1221,7 +1229,6 @@ email σας με αριθμο δελτιου "<OTRS_TICKET>" αναπηδησε στο "<OTRS_BOUNCE_TO>".Επι
         'Ticket escalation!' => 'Αναβάθμιση Δελτίου!',
 
         # Template: AgentTicketQueueTicketView
-        'First Response' => '',
         'Service Time' => '',
         'Your own Ticket' => 'Το Δελτίο Σου',
         'Compose Follow up' => 'Δημιουργία Follow up',
@@ -1262,6 +1269,10 @@ email σας με αριθμο δελτιου "<OTRS_TICKET>" αναπηδησε στο "<OTRS_BOUNCE_TO>".Επι
         # Template: AgentTicketZoom
 
         # Template: AgentWindowTab
+
+        # Template: Calculator
+        'Calculator' => '',
+        'Operation' => '',
 
         # Template: Copyright
 
@@ -1313,8 +1324,6 @@ email σας με αριθμο δελτιου "<OTRS_TICKET>" αναπηδησε στο "<OTRS_BOUNCE_TO>".Επι
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-
-        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1402,14 +1411,14 @@ email σας με αριθμο δελτιου "<OTRS_TICKET>" αναπηδησε στο "<OTRS_BOUNCE_TO>".Επι
         'DB Host' => 'DB Διακομιστής',
         'Ticket Number Generator' => 'Γεννήτρια Αριθμού Δελτίου',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Αναγνώριση Δελτίου \'Νο. Δελτίου\', \'Νο. Κλήσης\' η  \'Κλήση#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => 'Δημιουργία νέου Δελτίου τηλεφώνου',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => '',
         'A message should have a To: recipient!' => 'Το μηνυμα πρεπει να έχει αποδέκτη !',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Αναζήτηση σε ιστορικό πελάτη (π.χ. "ID342425").',
-        'Close!' => 'Κλείσιμο! ',
         'for agent firstname' => 'Για όνομα συνεργάτη',
+        'Close!' => 'Κλείσιμο! ',
         'The message being composed has been closed.  Exiting.' => 'Η δυνατότητα επεξεργασίας του μηνύματος έχει κλείσει.Έξοδος...',
         'A web calendar' => 'Ημερολόγιο',
         'to get the realname of the sender (if given)' => 'Επιλογή του πραγματικού ονόματος του αποστολέα(αν αυτό δίνεται)',
@@ -1422,6 +1431,7 @@ email σας με αριθμο δελτιου "<OTRS_TICKET>" αναπηδησε στο "<OTRS_BOUNCE_TO>".Επι
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'επεξεργασία επιλογών (π.χ. <OTRS_CONFIG_HttpType>)',
         'System History' => '',
         'customer realname' => 'Πραγματικό όνομα πελάτη',
+        'First Response' => '',
         'Pending messages' => 'Εκρεμμή Μηνύματα',
         'Modules' => 'Κομμάτι',
         'for agent login' => 'Για Login συνεργάτη',
@@ -1438,6 +1448,7 @@ email σας με αριθμο δελτιου "<OTRS_TICKET>" αναπηδησε στο "<OTRS_BOUNCE_TO>".Επι
         'Create new database' => 'Δημιουργία νέας βάσης',
         'A message must be spell checked!' => 'Το μήνυμα πρέπει να έχει ελεγχθεί για την ορθογραφία του!',
         'No entry Found!' => 'Δεν βρέθηκε εγγραφή!',
+        'ArticleID' => '',
         'All Agents' => 'Ολοι οι Συνεργάτες',
         'Keywords' => 'Λέξεις Κλειδιά',
         'No * possible!' => 'Δεν είναι δυνατο να κάνετε χρήση του "*" !',
@@ -1448,8 +1459,8 @@ email σας με αριθμο δελτιου "<OTRS_TICKET>" αναπηδησε στο "<OTRS_BOUNCE_TO>".Επι
         'Last update' => 'Τελευταία Ενημέρωση',
         'to get the first 20 character of the subject' => 'Επιλογή 20 πρώτων χαρακτήρων του θέματος',
         'DB Admin Password' => 'DB Admin Κωδικός',
-        'Drop Database' => 'Διαγραφή Βάσης',
         'Advisory' => 'Οδηγία',
+        'Drop Database' => 'Διαγραφή Βάσης',
         'FileManager' => 'Διαχειριστής Aρχείων',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Επιλογές για τα δεδομένα του συγκεκριμένου
 χρήστη-πελάτη (π.χ. <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1512,9 +1523,10 @@ department, ...).' => 'Δημιουργία νέων ομάδων για να διαχειρίζονται τα δικαιώματ
         'PhoneView' => 'Ουρές Τηλεφώνου',
         'maximal period form' => '',
         'Verion' => 'Έκδοση',
+        'TicketID' => '',
         'Modified' => 'Ενημερώθηκε',
         'Ticket selected for bulk action!' => 'Δελτίο Επιλεχθηκε για Μαζική Εργασία',
-        'Company' => '',
+        'History::SystemRequest' => 'System Request (%s).',
     };
     # $$STOP$$
 }

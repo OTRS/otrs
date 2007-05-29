@@ -5,7 +5,7 @@
 # Original created by Thorsten Rossner
 # Maintained by Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.19 2007-04-24 09:45:47 martin Exp $
+# $Id: da.pm,v 1.20 2007-05-29 12:52:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -24,7 +24,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Apr  2 17:25:20 2007
+    # Last translation file sync: Tue May 29 14:48:32 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -86,6 +86,7 @@ sub Data {
         'Examples' => 'Eksempler',
         'valid' => 'gyldig',
         'invalid' => 'ugyldig',
+        '* invalid' => '',
         'invalid-temporarily' => 'ugyldig-midlertidigt',
         ' 2 minutes' => '2 minutter',
         ' 5 minutes' => '5 minutter',
@@ -131,6 +132,7 @@ sub Data {
         'system' => '',
         'Customer Info' => 'Kundeinfo',
         'Customer Company' => '',
+        'Company' => '',
         'go!' => 'gå!',
         'go' => 'gå',
         'All' => 'Alle',
@@ -481,6 +483,13 @@ sub Data {
         'My Queues' => 'Mine køer',
         'Shown Tickets' => 'Vis sager',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Din e-mail med sagnummer "<OTRS_TICKET>" er samlet til "<OTRS_MERGE_TO_TICKET>".',
+        'Ticket %s: first response time is over (%s)!' => '',
+        'Ticket %s: first response time will be over in %s!' => '',
+        'Ticket %s: update time is over (%s)!' => '',
+        'Ticket %s: update time will be over in %s!' => '',
+        'Ticket %s: solution time is over (%s)!' => '',
+        'Ticket %s: solution time will be over in %s!' => '',
+        'There are more escalated tickets!' => '',
         'New ticket notification' => 'Besked om ny sag',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Send mig en besked, hvis der er en ny sag i "Mine køer".',
         'Follow up notification' => 'Besked om opfølgning',
@@ -583,7 +592,7 @@ sub Data {
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'Styring af kundebruger',
         'Search for' => 'Søg efter',
-        'Add User' => '',
+        'Add Customer User' => '',
         'Source' => 'Kilde',
         'Create' => 'Opret',
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'Kundebrugeren er nødvendig for at have en kundehistorik og for at logge ind via kundepanelerne.',
@@ -856,6 +865,8 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => '',
+        'Add Service' => '',
+        'Add a new Service.' => '',
         'Service' => '',
         'Sub-Service of' => '',
 
@@ -875,6 +886,8 @@ sub Data {
 
         # Template: AdminSLA
         'SLA Management' => '',
+        'Add SLA' => '',
+        'Add a new SLA.' => '',
         'SLA' => '',
         'First Response Time' => '',
         'Update Time' => '',
@@ -946,6 +959,7 @@ sub Data {
 
         # Template: AdminUserForm
         'User Management' => 'Brugerstyring',
+        'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => 'Login som',
         'Firstname' => 'Fornavn',
@@ -1179,8 +1193,6 @@ sub Data {
 
         # Template: AgentTicketPlain
         'Plain' => 'Almindelig',
-        'TicketID' => 'Sag-ID',
-        'ArticleID' => 'Artikel-ID',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Sag-Info',
@@ -1202,7 +1214,6 @@ sub Data {
         'Ticket escalation!' => 'Sagskalering!',
 
         # Template: AgentTicketQueueTicketView
-        'First Response' => '',
         'Service Time' => '',
         'Your own Ticket' => 'Din egen sag',
         'Compose Follow up' => 'Formuler opfølgning',
@@ -1243,6 +1254,10 @@ sub Data {
         # Template: AgentTicketZoom
 
         # Template: AgentWindowTab
+
+        # Template: Calculator
+        'Calculator' => '',
+        'Operation' => '',
 
         # Template: Copyright
 
@@ -1294,8 +1309,6 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-
-        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1383,14 +1396,14 @@ sub Data {
         'DB Host' => 'DB værtscomputer',
         'Ticket Number Generator' => 'Sagsnummergenerator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Sagidentifikator. Nogle personer ønsker at indstille dette til f.eks. \Ticket#\, \Call#\ eller \MyTicket#\)',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Du kan på denne måde direkte redigere den nøglering, der er konfigureret i Kernel/Config.pm.',
         'Create new Phone Ticket' => 'Opret ny telefonsag',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Du kan på denne måde direkte redigere den nøglering, der er konfigureret i Kernel/Config.pm.',
         'Symptom' => 'Symptom',
         'A message should have a To: recipient!' => 'En meddelelse skal have en Til: modtager!',
         'Site' => 'Websted',
         'Customer history search (e. g. "ID342425").' => 'Kundehistoriksøgning (f.eks. "ID342425").',
-        'Close!' => 'Luk!',
         'for agent firstname' => 'til repræsentantens fornavn',
+        'Close!' => 'Luk!',
         'The message being composed has been closed.  Exiting.' => 'Den meddelelse, der er ved at blive formuleret, er blevet lukket.  Afslutter.',
         'A web calendar' => 'En webkalender',
         'to get the realname of the sender (if given)' => 'for at få afsenderens virkelige navn (hvis det er oplyst)',
@@ -1401,6 +1414,7 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Konfigurationsmuligheder (f.eks. <OTRS_CONFIG_HttpType>)',
         'System History' => 'Systemhistorik',
         'customer realname' => 'kundens virkelige navn',
+        'First Response' => '',
         'Pending messages' => 'Afventer meddelelser',
         'Modules' => 'Moduler',
         'for agent login' => 'til repræsentantens login',
@@ -1416,6 +1430,7 @@ sub Data {
         'Admin-Email' => 'Admin-E-mail',
         'Create new database' => 'Opret ny database',
         'A message must be spell checked!' => 'En meddelelse skal stavekontrolleres!',
+        'ArticleID' => 'Artikel-ID',
         'All Agents' => 'Alle Repræsentanter',
         'Keywords' => 'Søgeord',
         'No * possible!' => 'Ingen * er mulig!',
@@ -1426,8 +1441,8 @@ sub Data {
         'Last update' => 'Sidste opdatering',
         'to get the first 20 character of the subject' => 'for at få emnets første 20 tegn',
         'DB Admin Password' => 'DB-admins adgangskode',
-        'Advisory' => 'Bekendtgørelse',
         'Drop Database' => 'Udelad database',
+        'Advisory' => 'Bekendtgørelse',
         'FileManager' => 'FilManager',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Valgmuligheder for de aktuelle kundebrugerdata (f.eks. <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'Afventer type',
@@ -1482,10 +1497,10 @@ sub Data {
         'PhoneView' => 'TelefonVisning',
         'maximal period form' => 'maksimal periode form',
         'Verion' => 'Version',
+        'TicketID' => 'Sag-ID',
         'SMIME Management' => 'SMIME-styring',
         'Modified' => 'Modificeret',
         'Ticket selected for bulk action!' => 'Sag valgt til massehandling!',
-        'Company' => '',
     };
     # $$STOP$$
 }

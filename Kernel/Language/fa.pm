@@ -2,7 +2,7 @@
 # Kernel/Language/fa.pm - provides fa language translation
 # Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
 # --
-# $Id: fa.pm,v 1.21 2007-04-24 09:45:47 martin Exp $
+# $Id: fa.pm,v 1.22 2007-05-29 12:52:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fa;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Apr  2 17:25:27 2007
+    # Last translation file sync: Tue May 29 14:48:44 2007
 
     # possible charsets
     $Self->{Charset} = ['utf-8', 'utf-8', ];
@@ -87,6 +87,7 @@ sub Data {
         'Examples' => 'مثال',
         'valid' => 'معتبر',
         'invalid' => 'غیر معتبر',
+        '* invalid' => '',
         'invalid-temporarily' => 'موقتا غیر معتبر',
         ' 2 minutes' => '2 دقیقه',
         ' 5 minutes' => '5 دقیقه',
@@ -132,6 +133,7 @@ sub Data {
         'system' => 'سیستم',
         'Customer Info' => 'اطلاعات مشترک',
         'Customer Company' => '',
+        'Company' => '',
         'go!' => 'تائید!',
         'go' => 'تائید',
         'All' => 'همه',
@@ -482,6 +484,13 @@ sub Data {
         'My Queues' => 'لیست تیکت های من',
         'Shown Tickets' => 'تیکت های نمایش داده شده',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'پیام شما با شماره تیکت  "<OTRS_TICKET>" با  "<OTRS_MERGE_TO_TICKET>" ادغام گردید.',
+        'Ticket %s: first response time is over (%s)!' => '',
+        'Ticket %s: first response time will be over in %s!' => '',
+        'Ticket %s: update time is over (%s)!' => '',
+        'Ticket %s: update time will be over in %s!' => '',
+        'Ticket %s: solution time is over (%s)!' => '',
+        'Ticket %s: solution time will be over in %s!' => '',
+        'There are more escalated tickets!' => '',
         'New ticket notification' => 'اعلان تیکت جدید',
         'Send me a notification if there is a new ticket in "My Queues".' => 'دریافت تیکت جدید را به من اطلاع بده.',
         'Follow up notification' => 'پیگیری تیکت را به من اطلاع بده',
@@ -584,7 +593,7 @@ sub Data {
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'مدیریت مشترکین',
         'Search for' => 'جستجو برای',
-        'Add User' => '',
+        'Add Customer User' => '',
         'Source' => 'منبع',
         'Create' => '',
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'نام کاربری مشترکین برای ورود به سیستم مورد استفاده قرار خوهد گرفت',
@@ -857,6 +866,8 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => '',
+        'Add Service' => '',
+        'Add a new Service.' => '',
         'Service' => '',
         'Sub-Service of' => '',
 
@@ -876,6 +887,8 @@ sub Data {
 
         # Template: AdminSLA
         'SLA Management' => '',
+        'Add SLA' => '',
+        'Add a new SLA.' => '',
         'SLA' => '',
         'First Response Time' => '',
         'Update Time' => '',
@@ -947,6 +960,7 @@ sub Data {
 
         # Template: AdminUserForm
         'User Management' => 'مدیریت کاربران',
+        'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => '',
         'Firstname' => 'نام',
@@ -1180,8 +1194,6 @@ sub Data {
 
         # Template: AgentTicketPlain
         'Plain' => 'ساده',
-        'TicketID' => 'شماره تیکت',
-        'ArticleID' => 'شماره مورد',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => 'اطلاعات تیکت',
@@ -1203,7 +1215,6 @@ sub Data {
         'Ticket escalation!' => 'جابجایی تیکت !',
 
         # Template: AgentTicketQueueTicketView
-        'First Response' => '',
         'Service Time' => '',
         'Your own Ticket' => 'تیکت شما',
         'Compose Follow up' => 'ارسال پیگیری',
@@ -1244,6 +1255,10 @@ sub Data {
         # Template: AgentTicketZoom
 
         # Template: AgentWindowTab
+
+        # Template: Calculator
+        'Calculator' => '',
+        'Operation' => '',
 
         # Template: Copyright
 
@@ -1295,8 +1310,6 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-
-        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1385,14 +1398,14 @@ sub Data {
         'Change roles <-> groups settings' => 'ÃÂªÃÂºÃÂÃÂ± ÃÂªÃÂÃÂ¸ÃÂÃÂÃÂ§ÃÂª ÃÂÃÂ¸ÃÂÃÂÃÂ <-> ÃÂ¯ÃÂ±ÃÂÃÂ',
         'Ticket Number Generator' => 'ÃÂªÃÂÃÂÃÂÃÂ¯ ÃÂ©ÃÂÃÂÃÂ¯ÃÂ ÃÂ´ÃÂÃÂ§ÃÂ±ÃÂ ÃÂªÃÂÃÂ©ÃÂª ÃÂÃÂ§',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(ÃÂÃÂ´ÃÂ®ÃÂµÃÂ ÃÂªÃÂÃÂ©ÃÂª ÃÂÃÂ§. ÃÂ§ÃÂ©ÃÂ«ÃÂ± ÃÂ©ÃÂ§ÃÂ±ÃÂ¨ÃÂ±ÃÂ§ÃÂ ÃÂÃÂ§ÃÂÃÂÃÂÃÂ¯ÃÂ§ÃÂ² ÃÂ§ÃÂÃÂ ÃÂªÃÂ±ÃÂ©ÃÂÃÂ¨ ÃÂ§ÃÂ³ÃÂªÃÂÃÂ§ÃÂ¯ÃÂ ÃÂ©ÃÂÃÂÃÂ¯ ÃÂÃÂ«ÃÂ§ÃÂ: \'ÃÂ´ÃÂÃÂ§ÃÂ±ÃÂ ÃÂªÃÂÃÂ©ÃÂª\', \'ÃÂÃÂ§ÃÂ ÃÂ´ÃÂ±ÃÂ©ÃÂª#\' ÃÂÃÂ§ \'ÃÂÃÂ§ÃÂ ÃÂ¯ÃÂÃÂ®ÃÂÃÂ§ÃÂ #\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'ÃÂªÃÂÃÂ¸ÃÂÃÂ ÃÂÃÂ³ÃÂªÃÂÃÂÃÂ ÃÂ©ÃÂÃÂÃÂ¯ ÃÂÃÂ§ Kernel/Config.pm',
         'Create new Phone Ticket' => 'Ø§ÛØ¬Ø§Ø¯ ØªÛÚ©Øª ØªÙÙÙÛ',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'ÃÂªÃÂÃÂ¸ÃÂÃÂ ÃÂÃÂ³ÃÂªÃÂÃÂÃÂ ÃÂ©ÃÂÃÂÃÂ¯ ÃÂÃÂ§ Kernel/Config.pm',
         'Symptom' => 'ÃÂÃÂ´ÃÂ§ÃÂÃÂ',
         'A message should have a To: recipient!' => 'Ø¢Ø¯Ø±Ø³ Ø¯Ø±ÛØ§ÙØª Ú©ÙÙØ¯Ù Ù¾ÛØ§Ù ÙØ´Ø®Øµ ÙØ´Ø¯Ù Ø§Ø³Øª!',
         'Site' => 'ÃÂ³ÃÂ§ÃÂÃÂª',
         'Customer history search (e. g. "ID342425").' => 'ÃÂ¬ÃÂ³ÃÂªÃÂ¬ÃÂ ÃÂ¯ÃÂ± ÃÂ³ÃÂÃÂ§ÃÂ¨ÃÂ ÃÂÃÂ´ÃÂªÃÂ±ÃÂ© (ÃÂÃÂ«ÃÂ§ÃÂ: "ID342425")',
-        'Close!' => 'ÃÂ¨ÃÂ³ÃÂªÃÂ!',
         'for agent firstname' => 'Ø¨Ø±Ø§Û ÙØ§Ù Ú©Ø§Ø±Ø´ÙØ§Ø³',
+        'Close!' => 'ÃÂ¨ÃÂ³ÃÂªÃÂ!',
         'The message being composed has been closed.  Exiting.' => 'Ù¾ÛØ§ÙÛ Ú©Ù Ø§Ø±Ø³Ø§Ù Ø´Ø¯ Ø¨Ø³ØªÙ Ø´Ø¯.',
         'A web calendar' => 'ÛÚ© ØªÙÙÛÙ',
         'to get the realname of the sender (if given)' => 'Ø¨Ø±Ø§Û Ú¯Ø±ÙØªÙ ÙØ§Ù ÙØ±Ø³ØªÙØ¯Ù',
@@ -1404,6 +1417,7 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Ú¯Ø²ÛÙÙ ÙØ§Û ØªÙØ¸ÛÙØ§Øª ',
         'System History' => 'ÃÂ³ÃÂÃÂ§ÃÂ¨ÃÂ ÃÂ³ÃÂÃÂ³ÃÂªÃÂ',
         'customer realname' => 'ÙØ§Ù Ù ÙØ§Ù Ø®Ø§ÙÙØ§Ø¯Ú¯Û ÙØ´ØªØ±Ú©',
+        'First Response' => '',
         'Pending messages' => 'Ù¾ÛØ§ÙÙØ§Û Ø¯Ø± ØªØ¹ÙÛÙ',
         'Modules' => 'ÃÂÃÂ§ÃÂÃÂÃÂ ÃÂÃÂ§',
         'for agent login' => 'Ø¨Ø±Ø§Û ÙØ±ÙØ¯ Ú©Ø§Ø±Ø´ÙØ§Ø³ Ø¨Ù Ø³ÛØ³ØªÙ',
@@ -1420,6 +1434,7 @@ sub Data {
         'Create new database' => 'ÃÂ§ÃÂÃÂ¬ÃÂ§ÃÂ¯ ÃÂ¨ÃÂ§ÃÂÃÂ© ÃÂ¬ÃÂ¯ÃÂÃÂ¯',
         'A message must be spell checked!' => 'Ù¾ÛØ§Ù Ø¨Ø§ÛØ¯ ØºÙØ· ÛØ§Ø¨Û Ø´Ø¯Ù Ø¨Ø§Ø´Ø¯!',
         'Ticket#' => 'ÃÂ´ÃÂÃÂ§ÃÂ±ÃÂ ÃÂªÃÂÃÂ©ÃÂª',
+        'ArticleID' => 'شماره مورد',
         'All Agents' => 'ÙÙÙ Ú©Ø§Ø±Ø´ÙØ§Ø³Ø§Ù',
         'Keywords' => 'ÃÂ©ÃÂÃÂÃÂ§ÃÂª ÃÂ©ÃÂÃÂÃÂ¯ÃÂ',
         'No * possible!' => 'ÃÂÃÂÃÂ * ÃÂÃÂÃÂ©ÃÂ ÃÂÃÂÃÂ³ÃÂª !',
@@ -1430,8 +1445,8 @@ sub Data {
         'Last update' => 'ÃÂ¢ÃÂ®ÃÂ±ÃÂÃÂ ÃÂ¨ÃÂ±ÃÂÃÂ²ÃÂ±ÃÂ³ÃÂ§ÃÂÃÂ',
         'to get the first 20 character of the subject' => 'Ø¨Ø±Ø§Û Ú¯Ø±ÙØªÙ 20 Ú©Ø§Ø±Ø§Ú©ØªØ± Ø§ÙÙ ÙÙØ¶ÙØ¹',
         'DB Admin Password' => 'ÃÂ±ÃÂÃÂ² ÃÂ¹ÃÂ¨ÃÂÃÂ± ÃÂÃÂ¯ÃÂÃÂ± ÃÂ³ÃÂÃÂ³ÃÂªÃÂ',
-        'Drop Database' => 'ÃÂ­ÃÂ°ÃÂ ÃÂ©ÃÂ§ÃÂÃÂ ÃÂ¨ÃÂ§ÃÂÃÂ© ÃÂ§ÃÂ·ÃÂÃÂ§ÃÂ¹ÃÂ§ÃÂªÃÂ',
         'Advisory' => 'ÙØ´ÙØ±ØªÛ',
+        'Drop Database' => 'ÃÂ­ÃÂ°ÃÂ ÃÂ©ÃÂ§ÃÂÃÂ ÃÂ¨ÃÂ§ÃÂÃÂ© ÃÂ§ÃÂ·ÃÂÃÂ§ÃÂ¹ÃÂ§ÃÂªÃÂ',
         'FileManager' => 'ÙÛØ±ÛØª ÙØ§ÛÙ',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Ú¯Ø²ÛÙÙ ÙØ§Û ÙØ´ØªØ±Ú© ÙØ¹ÙÛ',
         'Pending type' => 'ÃÂÃÂÃÂ¹ ÃÂªÃÂ¹ÃÂÃÂÃÂ',
@@ -1488,9 +1503,9 @@ sub Data {
         'PhoneView' => 'ÃÂÃÂÃÂ§ÃÂÃÂ´ ÃÂªÃÂÃÂÃÂ',
         'maximal period form' => '',
         'Verion' => 'ÃÂÃÂÃÂ±ÃÂ§ÃÂÃÂ´',
+        'TicketID' => 'شماره تیکت',
         'Modified' => 'ÃÂªÃÂºÃÂÃÂÃÂ± ÃÂÃÂ§ÃÂÃÂªÃÂ',
         'Ticket selected for bulk action!' => 'ØªÛÚ©Øª Ø¬ÙØª Ø¹ÙÙÛØ§Øª Ú©ÙÛ Ø§ÙØªØ®Ø§Ø¨ Ú¯Ø±Ø¯ÛØ¯!',
-        'Company' => '',
     };
     # $$STOP$$
 }

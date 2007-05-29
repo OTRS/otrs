@@ -6,7 +6,7 @@
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # Copyright (C) 2005 Jurgen Rutgers (jurgen 'at' besite.nl)
 # --
-# $Id: nl.pm,v 1.57 2007-04-24 09:45:47 martin Exp $
+# $Id: nl.pm,v 1.58 2007-05-29 12:52:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -54,7 +54,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -62,7 +62,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Apr  2 17:25:40 2007
+    # Last translation file sync: Tue May 29 14:49:06 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -124,6 +124,7 @@ sub Data {
         'Examples' => 'Voorbeelden',
         'valid' => 'geldig',
         'invalid' => 'ongeldig',
+        '* invalid' => '',
         'invalid-temporarily' => 'tijdelijk ongeldig',
         ' 2 minutes' => ' 2 minuten',
         ' 5 minutes' => ' 5 minuten',
@@ -169,6 +170,7 @@ sub Data {
         'system' => 'systeem',
         'Customer Info' => 'Klant informatie',
         'Customer Company' => '',
+        'Company' => '',
         'go!' => 'start!',
         'go' => 'start',
         'All' => 'Alle',
@@ -519,6 +521,13 @@ sub Data {
         'My Queues' => 'Mijn wachtrijen',
         'Shown Tickets' => 'Laat Tickets zien',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Uw e-mail met Ticket nummer "<OTRS_TICKET>" is samengevoegd met "<OTRS_MERGE_TO_TICKET>".',
+        'Ticket %s: first response time is over (%s)!' => '',
+        'Ticket %s: first response time will be over in %s!' => '',
+        'Ticket %s: update time is over (%s)!' => '',
+        'Ticket %s: update time will be over in %s!' => '',
+        'Ticket %s: solution time is over (%s)!' => '',
+        'Ticket %s: solution time will be over in %s!' => '',
+        'There are more escalated tickets!' => '',
         'New ticket notification' => 'Melding bij een nieuw Ticket',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Stuur mij een melding als er een nieuw Ticket in Mijn wachtrijen komt.',
         'Follow up notification' => 'Melding bij vervolgvragen.',
@@ -621,7 +630,7 @@ sub Data {
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'Gebruikersbeheer klanten',
         'Search for' => 'Zoek naar',
-        'Add User' => '',
+        'Add Customer User' => '',
         'Source' => 'Bron',
         'Create' => '',
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'Klanten moeten een klanthistorie hebben voordat zij kunnen inloggen via de klantschermen.',
@@ -894,6 +903,8 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => '',
+        'Add Service' => '',
+        'Add a new Service.' => '',
         'Service' => '',
         'Sub-Service of' => '',
 
@@ -913,6 +924,8 @@ sub Data {
 
         # Template: AdminSLA
         'SLA Management' => '',
+        'Add SLA' => '',
+        'Add a new SLA.' => '',
         'SLA' => '',
         'First Response Time' => '',
         'Update Time' => '',
@@ -984,6 +997,7 @@ sub Data {
 
         # Template: AdminUserForm
         'User Management' => 'Gebruikersbeheer',
+        'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => '',
         'Firstname' => 'Voornaam',
@@ -1217,8 +1231,6 @@ sub Data {
 
         # Template: AgentTicketPlain
         'Plain' => 'Zonder opmaak',
-        'TicketID' => 'Ticket ID',
-        'ArticleID' => 'Artikel ID',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Ticket informatie',
@@ -1240,7 +1252,6 @@ sub Data {
         'Ticket escalation!' => 'Ticket escalatie!',
 
         # Template: AgentTicketQueueTicketView
-        'First Response' => '',
         'Service Time' => '',
         'Your own Ticket' => 'Je eigen Ticket',
         'Compose Follow up' => 'Follow up aanmaken',
@@ -1281,6 +1292,10 @@ sub Data {
         # Template: AgentTicketZoom
 
         # Template: AgentWindowTab
+
+        # Template: Calculator
+        'Calculator' => '',
+        'Operation' => '',
 
         # Template: Copyright
 
@@ -1332,8 +1347,6 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-
-        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1421,14 +1434,14 @@ sub Data {
         'DB Host' => '',
         'Ticket Number Generator' => '',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => 'Maak nieuw Telefoon Ticket aan',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => 'Symptoom',
         'A message should have a To: recipient!' => 'Een bericht moet een ontvanger (aan:) hebben!',
         'Site' => '',
         'Customer history search (e. g. "ID342425").' => 'Klantgeschiedenis zoeken (bijv. "ID342425").',
-        'Close!' => 'Sluit!',
         'for agent firstname' => 'voornaam van agent',
+        'Close!' => 'Sluit!',
         'The message being composed has been closed.  Exiting.' => 'Het bericht dat werd aangemaakt is gesloten.',
         'A web calendar' => 'Kalender',
         'to get the realname of the sender (if given)' => 'voor de echte naam van de afzender (indien beschikbaar)',
@@ -1440,6 +1453,7 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Configuratie opties (b.v. <OTRS_CONFIG_HttpType>)',
         'System History' => 'Systeem geschiedenis',
         'customer realname' => 'naam van de klant',
+        'First Response' => '',
         'Pending messages' => 'Wachtende berichten',
         'Modules' => 'Modulen',
         'for agent login' => 'de login van de agent',
@@ -1457,6 +1471,7 @@ sub Data {
         'Create new database' => '',
         'A message must be spell checked!' => 'Van een bericht moet de spelling gecontroleerd worden',
         'Stunden' => '',
+        'ArticleID' => 'Artikel ID',
         'All Agents' => 'Alle agenten',
         'Keywords' => '',
         'No * possible!' => 'Geen * mogelijk!',
@@ -1467,8 +1482,8 @@ sub Data {
         'Last update' => 'Laatste wijziging',
         'to get the first 20 character of the subject' => 'voor de eerste 20 tekens van het onderwerp',
         'DB Admin Password' => '',
-        'Drop Database' => '',
         'Advisory' => '',
+        'Drop Database' => '',
         'FileManager' => 'Bestandsbeheer',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Opties van de huidige gebruikersdata van de klant (b.v. <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'In de wacht: type',
@@ -1526,9 +1541,9 @@ sub Data {
         'PhoneView' => 'Telefoonscherm',
         'maximal period form' => '',
         'Verion' => '',
+        'TicketID' => 'Ticket ID',
         'Modified' => 'Gewijzigd',
         'Ticket selected for bulk action!' => 'Ticket geselecteerd voor bulk aktie!',
-        'Company' => '',
     };
     # $$STOP$$
 }

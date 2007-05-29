@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.55 2007-04-24 09:45:47 martin Exp $
+# $Id: fi.pm,v 1.56 2007-05-29 12:52:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Apr  2 17:25:30 2007
+    # Last translation file sync: Tue May 29 14:48:46 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -84,6 +84,7 @@ sub Data {
         'Examples' => 'Esimerkit',
         'valid' => '',
         'invalid' => 'Virheellinen',
+        '* invalid' => '',
         'invalid-temporarily' => '',
         ' 2 minutes' => ' 2 Minuuttia',
         ' 5 minutes' => ' 5 Minuuttia',
@@ -129,6 +130,7 @@ sub Data {
         'system' => '',
         'Customer Info' => 'Tietoa asiakkaasta',
         'Customer Company' => '',
+        'Company' => '',
         'go!' => 'mene!',
         'go' => 'mene',
         'All' => 'Kaikki',
@@ -479,6 +481,13 @@ sub Data {
         'My Queues' => '',
         'Shown Tickets' => '',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => '',
+        'Ticket %s: first response time is over (%s)!' => '',
+        'Ticket %s: first response time will be over in %s!' => '',
+        'Ticket %s: update time is over (%s)!' => '',
+        'Ticket %s: update time will be over in %s!' => '',
+        'Ticket %s: solution time is over (%s)!' => '',
+        'Ticket %s: solution time will be over in %s!' => '',
+        'There are more escalated tickets!' => '',
         'New ticket notification' => 'Ilmoitus uusista viesteistä',
         'Send me a notification if there is a new ticket in "My Queues".' => '',
         'Follow up notification' => 'Ilmoitus jatkokysymyksistä',
@@ -581,7 +590,7 @@ sub Data {
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'Asiakas-käyttäjien hallinta',
         'Search for' => '',
-        'Add User' => '',
+        'Add Customer User' => '',
         'Source' => '',
         'Create' => '',
         'Customer user will be needed to have a customer history and to login via customer panel.' => '',
@@ -854,6 +863,8 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => '',
+        'Add Service' => '',
+        'Add a new Service.' => '',
         'Service' => '',
         'Sub-Service of' => '',
 
@@ -873,6 +884,8 @@ sub Data {
 
         # Template: AdminSLA
         'SLA Management' => '',
+        'Add SLA' => '',
+        'Add a new SLA.' => '',
         'SLA' => '',
         'First Response Time' => '',
         'Update Time' => '',
@@ -944,6 +957,7 @@ sub Data {
 
         # Template: AdminUserForm
         'User Management' => 'Käyttäjähallinta',
+        'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => '',
         'Firstname' => 'Etunimi',
@@ -1177,8 +1191,6 @@ sub Data {
 
         # Template: AgentTicketPlain
         'Plain' => 'Pelkkä teksti',
-        'TicketID' => 'TikettiID',
-        'ArticleID' => '',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => '',
@@ -1200,7 +1212,6 @@ sub Data {
         'Ticket escalation!' => 'Tiketin maksimi hyväksyttävä käsittelyaika!',
 
         # Template: AgentTicketQueueTicketView
-        'First Response' => '',
         'Service Time' => '',
         'Your own Ticket' => '',
         'Compose Follow up' => '',
@@ -1241,6 +1252,10 @@ sub Data {
         # Template: AgentTicketZoom
 
         # Template: AgentWindowTab
+
+        # Template: Calculator
+        'Calculator' => '',
+        'Operation' => '',
 
         # Template: Copyright
 
@@ -1292,8 +1307,6 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-
-        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1380,14 +1393,14 @@ sub Data {
         'Create Database' => 'Luo tietokanta',
         'Ticket Number Generator' => 'Tikettinumeroiden generoija',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => '',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => '',
         'A message should have a To: recipient!' => 'Viestissä pitää olla vastaanottaja!',
         'Site' => 'Palvelin',
         'Customer history search (e. g. "ID342425").' => 'Asiakashistoriahaku (Esim. "ID342425").',
-        'Close!' => 'Sulje!',
         'for agent firstname' => 'käsittelijän etunimi',
+        'Close!' => 'Sulje!',
         'The message being composed has been closed.  Exiting.' => '',
         'A web calendar' => '',
         'to get the realname of the sender (if given)' => 'nähdäksesi käyttäjän nimen',
@@ -1397,6 +1410,7 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '',
         'System History' => '',
         'customer realname' => 'käyttäjän oikea nimi',
+        'First Response' => '',
         'Pending messages' => 'Odottavat viestit',
         'Modules' => '',
         'for agent login' => '',
@@ -1410,6 +1424,7 @@ sub Data {
         'Customer history search' => 'Asiakashistoriahaku',
         'Admin-Email' => 'Ylläpidon sähköposti',
         'A message must be spell checked!' => 'Viesti täytyy oikolukea!',
+        'ArticleID' => '',
         'All Agents' => '',
         'Keywords' => '',
         'No * possible!' => 'Jokerimerkki (*) ei käytössä !',
@@ -1418,8 +1433,8 @@ sub Data {
         'to get the first 5 lines of the email' => 'nähdäksesi 5 ensimmäistä riviä sähköpostista',
         'Last update' => '',
         'to get the first 20 character of the subject' => 'nähdäksesi ensimmäiset 20 kirjainta otsikosta',
-        'Drop Database' => 'Poista tietokanta',
         'Advisory' => '',
+        'Drop Database' => 'Poista tietokanta',
         'FileManager' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '',
         'Pending type' => '',
@@ -1467,9 +1482,9 @@ sub Data {
         'PhoneView' => 'Puhelu / Uusi tiketti',
         'maximal period form' => '',
         'Verion' => '',
+        'TicketID' => 'TikettiID',
         'Modified' => '',
         'Ticket selected for bulk action!' => '',
-        'Company' => '',
     };
     # $$STOP$$
 }

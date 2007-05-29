@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.56 2007-04-24 09:45:46 martin Exp $
+# $Id: bg.pm,v 1.57 2007-05-29 12:52:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -23,7 +23,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Apr  2 17:25:57 2007
+    # Last translation file sync: Tue May 29 14:48:04 2007
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -85,6 +85,7 @@ sub Data {
         'Examples' => 'Примери',
         'valid' => 'валиден',
         'invalid' => 'невалиден',
+        '* invalid' => '',
         'invalid-temporarily' => 'временно невалиден',
         ' 2 minutes' => ' 2 Минути',
         ' 5 minutes' => ' 5 Минути',
@@ -130,6 +131,7 @@ sub Data {
         'system' => 'система',
         'Customer Info' => 'Потребителски данни',
         'Customer Company' => 'Компания',
+        'Company' => 'Компания',
         'go!' => 'ОК!',
         'go' => 'ОК',
         'All' => 'Всички',
@@ -270,7 +272,6 @@ sub Data {
         'February' => 'Февруари',
         'March' => 'Март',
         'April' => 'Април',
-        'May'   => 'Май',
         'June' => 'Юни',
         'July' => 'Юли',
         'August' => 'Август',
@@ -481,6 +482,13 @@ sub Data {
         'My Queues' => 'Собствени опашки',
         'Shown Tickets' => 'Показани билети',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Вашето писмо с номер на билета "<OTRS_TICKET>" е изравнено с "<OTRS_MERGE_TO_TICKET>".',
+        'Ticket %s: first response time is over (%s)!' => '',
+        'Ticket %s: first response time will be over in %s!' => '',
+        'Ticket %s: update time is over (%s)!' => '',
+        'Ticket %s: update time will be over in %s!' => '',
+        'Ticket %s: solution time is over (%s)!' => '',
+        'Ticket %s: solution time will be over in %s!' => '',
+        'There are more escalated tickets!' => '',
         'New ticket notification' => 'Напомняне за нов билет',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Изпратете уведомление ако има нов билет в "Собствени опашки".',
         'Follow up notification' => 'Известие за наличност на следене на отговорът',
@@ -583,7 +591,7 @@ sub Data {
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'Управление на клиент-потребители',
         'Search for' => 'Търсене',
-        'Add User' => 'Добавяне',
+        'Add Customer User' => '',
         'Source' => 'Източник',
         'Create' => 'Създаване',
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'Клиент-потребителя ще трябва да има история и ще може да влиза през клиентския потребителски интерфейс.',
@@ -856,6 +864,8 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => 'Управление на service',
+        'Add Service' => '',
+        'Add a new Service.' => '',
         'Service' => 'Service',
         'Sub-Service of' => 'Sub-Service на',
 
@@ -875,6 +885,8 @@ sub Data {
 
         # Template: AdminSLA
         'SLA Management' => 'Управление на SLA',
+        'Add SLA' => '',
+        'Add a new SLA.' => '',
         'SLA' => 'SLA',
         'First Response Time' => 'Време на първи отговор',
         'Update Time' => 'Време на ъпдейт на статуса',
@@ -946,6 +958,7 @@ sub Data {
 
         # Template: AdminUserForm
         'User Management' => 'Управление на потребители',
+        'Add User' => 'Добавяне',
         'Add a new Agent.' => 'Управление на нов агент',
         'Login as' => 'Логин като',
         'Firstname' => 'Име',
@@ -1179,8 +1192,6 @@ sub Data {
 
         # Template: AgentTicketPlain
         'Plain' => 'Обикновен',
-        'TicketID' => 'Идентификатор на билет',
-        'ArticleID' => 'Идентификатор на клауза',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Информация за билета',
@@ -1202,7 +1213,6 @@ sub Data {
         'Ticket escalation!' => 'Ескалация (увеличаване на приоритета) на билета!',
 
         # Template: AgentTicketQueueTicketView
-        'First Response' => 'Време за първи отговор',
         'Service Time' => 'Service Time',
         'Your own Ticket' => 'Вашият собствен билет',
         'Compose Follow up' => 'Създаване проследяване на билетът',
@@ -1243,6 +1253,10 @@ sub Data {
         # Template: AgentTicketZoom
 
         # Template: AgentWindowTab
+
+        # Template: Calculator
+        'Calculator' => '',
+        'Operation' => '',
 
         # Template: Copyright
 
@@ -1294,8 +1308,6 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-
-        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1383,14 +1395,14 @@ sub Data {
         'DB Host' => 'Хост на базата данни',
         'Ticket Number Generator' => 'Генератор на номера на билети',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Идентификатор на билета. Примерно: \'Ticket#\', \'Call#\' or \'MyTicket#\')',
-        'Create new Phone Ticket' => 'Създаване на нов билет на базата на телефонно обаждане',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'По този начин може да редактирате keyring-а конфигуриран в Kernel/Config.pm.',
+        'Create new Phone Ticket' => 'Създаване на нов билет на базата на телефонно обаждане',
         'Symptom' => 'Симптом',
         'A message should have a To: recipient!' => 'Съобщението трябва да има ДО: т.е. адресант!',
         'Site' => 'Място',
         'Customer history search (e. g. "ID342425").' => 'Търсене в хрониката на клиента (примерно "ID342425").',
-        'for agent firstname' => 'за агент име',
         'Close!' => 'Затворете!',
+        'for agent firstname' => 'за агент име',
         'The message being composed has been closed.  Exiting.' => 'Съобщението, което създавахте е затворено. Изход.',
         'A web calendar' => 'Календар',
         'to get the realname of the sender (if given)' => 'за да получите истинското име на изпращача (ако е попълнено)',
@@ -1401,6 +1413,7 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Конфигурационни параметри (Пример: <OTRS_CONFIG_HttpType>)',
         'System History' => 'Системна хроника',
         'customer realname' => 'име на потребителя',
+        'First Response' => 'Време за първи отговор',
         'Pending messages' => 'Съобщения в очакване',
         'Modules' => 'Модули',
         'for agent login' => 'за агент логически вход',
@@ -1416,6 +1429,7 @@ sub Data {
         'Admin-Email' => 'еМейл от Admin',
         'Create new database' => 'Създаване на нова база данни',
         'A message must be spell checked!' => 'Съобщението трябва да бъде проверено за грешки!',
+        'ArticleID' => 'Идентификатор на клауза',
         'All Agents' => 'Всички агенти',
         'Keywords' => 'Ключови думи',
         'No * possible!' => 'Не е възможно използване на символ *!',
@@ -1426,8 +1440,8 @@ sub Data {
         'Last update' => 'Последно обновление',
         'to get the first 20 character of the subject' => 'за да получите първите 20 символа от поле "относно"',
         'DB Admin Password' => 'Парола на администратора на базата',
-        'Advisory' => 'Консултация',
         'Drop Database' => 'Нулиране базата данни',
+        'Advisory' => 'Консултация',
         'FileManager' => 'Файлов менажер',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Свойства на текущия клиент-потребител (Пример: <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'В очакване - тип',
@@ -1468,6 +1482,7 @@ sub Data {
         'Solution' => 'Решение',
         'QueueView' => 'Преглед на опашката',
         'Welcome to OTRS' => 'Добре дошли в OTRS',
+        'tmp_lock' => 'временно заключване',
         'modified' => 'редактиран',
         'Delete old database' => 'Изтриване на стара база данни',
         'sort downward' => 'низходящо сортиране',
@@ -1480,10 +1495,9 @@ sub Data {
         'PhoneView' => 'Преглед на телефоните',
         'maximal period form' => 'форма за максимален интервал',
         'Verion' => 'Версия',
+        'TicketID' => 'Идентификатор на билет',
         'Modified' => 'Редактиран',
         'Ticket selected for bulk action!' => 'Билета е маркиран за събирателно действие',
-        'Company' => 'Компания',
-        'tmp_lock' => 'временно заключване',
     };
     # $$STOP$$
 }

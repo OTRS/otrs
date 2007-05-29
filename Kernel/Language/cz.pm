@@ -6,7 +6,7 @@
 #              Vadim Buzek
 #              Petr Ocasek
 # --
-# $Id: cz.pm,v 1.41 2007-04-24 09:45:47 martin Exp $
+# $Id: cz.pm,v 1.42 2007-05-29 12:52:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -26,7 +26,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Apr  2 17:26:34 2007
+    # Last translation file sync: Tue May 29 14:48:13 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -88,6 +88,7 @@ sub Data {
         'Examples' => 'Pøíklady',
         'valid' => 'platný',
         'invalid' => 'neplatný',
+        '* invalid' => '',
         'invalid-temporarily' => '',
         ' 2 minutes' => ' 2 minuty',
         ' 5 minutes' => ' 5 minut',
@@ -133,6 +134,7 @@ sub Data {
         'system' => 'systém',
         'Customer Info' => 'Informace o klientovi',
         'Customer Company' => '',
+        'Company' => '',
         'go!' => 'jdi!',
         'go' => 'jdi',
         'All' => 'V¹e',
@@ -483,6 +485,13 @@ sub Data {
         'My Queues' => '',
         'Shown Tickets' => '',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => '',
+        'Ticket %s: first response time is over (%s)!' => '',
+        'Ticket %s: first response time will be over in %s!' => '',
+        'Ticket %s: update time is over (%s)!' => '',
+        'Ticket %s: update time will be over in %s!' => '',
+        'Ticket %s: solution time is over (%s)!' => '',
+        'Ticket %s: solution time will be over in %s!' => '',
+        'There are more escalated tickets!' => '',
         'New ticket notification' => 'Nové oznámení tiketu',
         'Send me a notification if there is a new ticket in "My Queues".' => '',
         'Follow up notification' => 'Následující oznámení',
@@ -585,7 +594,7 @@ sub Data {
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'Správa Klientù',
         'Search for' => '',
-        'Add User' => '',
+        'Add Customer User' => '',
         'Source' => '',
         'Create' => '',
         'Customer user will be needed to have a customer history and to login via customer panel.' => '',
@@ -858,6 +867,8 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => '',
+        'Add Service' => '',
+        'Add a new Service.' => '',
         'Service' => '',
         'Sub-Service of' => '',
 
@@ -877,6 +888,8 @@ sub Data {
 
         # Template: AdminSLA
         'SLA Management' => '',
+        'Add SLA' => '',
+        'Add a new SLA.' => '',
         'SLA' => '',
         'First Response Time' => '',
         'Update Time' => '',
@@ -948,6 +961,7 @@ sub Data {
 
         # Template: AdminUserForm
         'User Management' => 'Správa u¾ivatelù',
+        'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => '',
         'Firstname' => 'Køestní jméno',
@@ -1181,8 +1195,6 @@ sub Data {
 
         # Template: AgentTicketPlain
         'Plain' => 'Jednoduché',
-        'TicketID' => 'ID tiketu',
-        'ArticleID' => 'ID polo¾ky',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => '',
@@ -1204,7 +1216,6 @@ sub Data {
         'Ticket escalation!' => 'Eskalace tiketù',
 
         # Template: AgentTicketQueueTicketView
-        'First Response' => '',
         'Service Time' => '',
         'Your own Ticket' => 'Vá¹ vlastní tiket',
         'Compose Follow up' => 'Sestavit následující',
@@ -1245,6 +1256,10 @@ sub Data {
         # Template: AgentTicketZoom
 
         # Template: AgentWindowTab
+
+        # Template: Calculator
+        'Calculator' => '',
+        'Operation' => '',
 
         # Template: Copyright
 
@@ -1296,8 +1311,6 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-
-        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1386,14 +1399,14 @@ sub Data {
         'Change roles <-> groups settings' => '',
         'Ticket Number Generator' => 'Generátor èísel tiketù',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identifikátor tiketù. Nekteøí lidé chtìjí nastavit napø. \'Tiket#\',  \'Hovor#\' nebo \'MujTiket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => '',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => 'Pøíznak',
         'A message should have a To: recipient!' => 'Zpráva by mìla obsahovat Komu: pøíjemce!',
         'Site' => 'Umístìní',
         'Customer history search (e. g. "ID342425").' => 'Vyhledávání historie klienta (napø. "ID342425")',
-        'Close!' => 'Zavøít!',
         'for agent firstname' => 'pro køestní jméno agenta',
+        'Close!' => 'Zavøít!',
         'The message being composed has been closed.  Exiting.' => 'Vytváøená zpráva byla uzavøena. Opou¹tím.',
         'A web calendar' => '',
         'to get the realname of the sender (if given)' => 'pro získaní skuteèného jména odesílatele (pokud je zadáno)',
@@ -1404,6 +1417,7 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '',
         'System History' => '',
         'customer realname' => 'skuteèné jméno klienta',
+        'First Response' => '',
         'Pending messages' => 'Zprávy èekající na vyøízení',
         'Modules' => '',
         'for agent login' => 'pro pøihlá¹ení agenta',
@@ -1418,6 +1432,7 @@ sub Data {
         'Customer history search' => 'Vyhledávání historie klienta',
         'Admin-Email' => 'Email administrátora',
         'A message must be spell checked!' => 'Zpráva musí být pravopisnì zkontrolovaná!',
+        'ArticleID' => 'ID polo¾ky',
         'All Agents' => 'V¹ichni agenti',
         'Keywords' => 'Klíèová slova',
         'No * possible!' => '®ádná * mo¾ná!',
@@ -1428,8 +1443,8 @@ sub Data {
         'Last update' => 'Poslední aktualizace',
         'to get the first 20 character of the subject' => 'pro získáni prvních 20 znakù z pøedmìtu',
         'DB Admin Password' => 'Heslo administrátora databáze',
-        'Drop Database' => 'Odstranit databazi',
         'Advisory' => '',
+        'Drop Database' => 'Odstranit databazi',
         'FileManager' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '',
         'Pending type' => 'Typ èekání na vyøízení',
@@ -1485,9 +1500,9 @@ sub Data {
         'PhoneView' => 'Nový tiket / hovor',
         'maximal period form' => '',
         'Verion' => '',
+        'TicketID' => 'ID tiketu',
         'Modified' => 'Zmìnìno',
         'Ticket selected for bulk action!' => '',
-        'Company' => '',
     };
     # $$STOP$$
 }

@@ -2,7 +2,7 @@
 # Kernel/Language/zh_CN.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.24 2007-04-24 09:45:47 martin Exp $
+# $Id: zh_CN.pm,v 1.25 2007-05-29 12:52:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Apr  2 17:25:54 2007
+    # Last translation file sync: Tue May 29 14:49:34 2007
 
     # possible charsets
     $Self->{Charset} = ['GBK', 'GB2312', ];
@@ -84,6 +84,7 @@ sub Data {
         'Examples' => '示例',
         'valid' => '有效',
         'invalid' => '无效',
+        '* invalid' => '',
         'invalid-temporarily' => '暂时无效',
         ' 2 minutes' => ' 2 分钟',
         ' 5 minutes' => ' 5 分钟',
@@ -129,6 +130,7 @@ sub Data {
         'system' => '系统',
         'Customer Info' => '客户信息',
         'Customer Company' => '',
+        'Company' => '',
         'go!' => '开始!',
         'go' => '开始',
         'All' => '全部',
@@ -479,6 +481,13 @@ sub Data {
         'My Queues' => '我的队列',
         'Shown Tickets' => '显示 Tickets',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => '您的邮件 "<OTRS_TICKET>" 被合并到 "<OTRS_MERGE_TO_TICKET>" !',
+        'Ticket %s: first response time is over (%s)!' => '',
+        'Ticket %s: first response time will be over in %s!' => '',
+        'Ticket %s: update time is over (%s)!' => '',
+        'Ticket %s: update time will be over in %s!' => '',
+        'Ticket %s: solution time is over (%s)!' => '',
+        'Ticket %s: solution time will be over in %s!' => '',
+        'There are more escalated tickets!' => '',
         'New ticket notification' => '新 Ticket 通知',
         'Send me a notification if there is a new ticket in "My Queues".' => '如果我的队列中有新的 Ticket，请通知我.',
         'Follow up notification' => '跟踪通知',
@@ -581,7 +590,7 @@ sub Data {
         # Template: AdminCustomerUserForm
         'Customer User Management' => '客户用户管理',
         'Search for' => '搜索',
-        'Add User' => '',
+        'Add Customer User' => '',
         'Source' => '数据源',
         'Create' => '创建',
         'Customer user will be needed to have a customer history and to login via customer panel.' => '客户用户必须有一个账号从客户登录页面登录系统.',
@@ -854,6 +863,8 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => '',
+        'Add Service' => '',
+        'Add a new Service.' => '',
         'Service' => '',
         'Sub-Service of' => '',
 
@@ -873,6 +884,8 @@ sub Data {
 
         # Template: AdminSLA
         'SLA Management' => '',
+        'Add SLA' => '',
+        'Add a new SLA.' => '',
         'SLA' => '',
         'First Response Time' => '',
         'Update Time' => '',
@@ -944,6 +957,7 @@ sub Data {
 
         # Template: AdminUserForm
         'User Management' => '用户管理',
+        'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => '',
         'Firstname' => '姓',
@@ -1177,8 +1191,6 @@ sub Data {
 
         # Template: AgentTicketPlain
         'Plain' => '纯文本',
-        'TicketID' => '',
-        'ArticleID' => '',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Ticket信息',
@@ -1200,7 +1212,6 @@ sub Data {
         'Ticket escalation!' => 'Ticket 限时处理!',
 
         # Template: AgentTicketQueueTicketView
-        'First Response' => '',
         'Service Time' => '',
         'Your own Ticket' => '你自己的 Ticket',
         'Compose Follow up' => '撰写跟踪答复',
@@ -1241,6 +1252,10 @@ sub Data {
         # Template: AgentTicketZoom
 
         # Template: AgentWindowTab
+
+        # Template: Calculator
+        'Calculator' => '',
+        'Operation' => '',
 
         # Template: Copyright
 
@@ -1292,8 +1307,6 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-
-        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1381,14 +1394,14 @@ sub Data {
         'DB Host' => '数据库主机',
         'Ticket Number Generator' => 'Ticket 编号生成器',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Ticket 标识符. 例如: \'Ticket#\', \'Call#\' 或 \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => '创建新的电话 Ticket',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => '症状',
         'A message should have a To: recipient!' => '邮件必须有收件人!',
         'Site' => '站点',
         'Customer history search (e. g. "ID342425").' => '搜索客户历史 (例如： "ID342425").',
-        'Close!' => '关闭!',
         'for agent firstname' => '技术支持人员 姓',
+        'Close!' => '关闭!',
         'The message being composed has been closed.  Exiting.' => '进行消息撰写的窗口已经被关闭,退出.',
         'A web calendar' => 'Web 日历',
         'to get the realname of the sender (if given)' => '邮件发送人的真实姓名 (如果存在)',
@@ -1400,6 +1413,7 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '配置选项 (例如:<OTRS_CONFIG_HttpType>)',
         'System History' => '系统历史',
         'customer realname' => '客户真实姓名',
+        'First Response' => '',
         'Pending messages' => '消息转入等待状态',
         'Modules' => '',
         'for agent login' => '技术支持人员 登录名',
@@ -1416,6 +1430,7 @@ sub Data {
         'Create new database' => '创建新的数据库',
         'A message must be spell checked!' => '消息必须经过拼写检查!',
         'Stunden' => '',
+        'ArticleID' => '',
         'All Agents' => '所有技术支持人员',
         'Keywords' => '关键字',
         'No * possible!' => '不可使用通配符 "*" !',
@@ -1427,8 +1442,8 @@ sub Data {
         '链接地址' => '',
         'to get the first 20 character of the subject' => '邮件标题前20个字符',
         'DB Admin Password' => '数据系统管理员密码',
-        'Drop Database' => '删除数据库',
         'Advisory' => '',
+        'Drop Database' => '删除数据库',
         'FileManager' => '文件管理器',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '当前客户用户信息 (例如: <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => '待处理类型',
@@ -1484,9 +1499,9 @@ sub Data {
         'PhoneView' => '电话视图',
         'maximal period form' => '',
         'Verion' => '版本',
+        'TicketID' => '',
         'Modified' => '修改于',
         'Ticket selected for bulk action!' => '被选中进行批量操作的 Tickets',
-        'Company' => '',
     };
     # $$STOP$$
 }

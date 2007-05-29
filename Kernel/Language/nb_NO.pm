@@ -4,7 +4,7 @@
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 #               2006 Knut Haugen <knuthaug@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.37 2007-04-24 09:45:47 martin Exp $
+# $Id: nb_NO.pm,v 1.38 2007-05-29 12:52:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.37 $;
+$VERSION = q$Revision: 1.38 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -24,7 +24,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Apr  2 17:25:38 2007
+    # Last translation file sync: Tue May 29 14:49:02 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -86,6 +86,7 @@ sub Data {
         'Examples' => 'Eksempler',
         'valid' => 'gyldig',
         'invalid' => 'ugyldig',
+        '* invalid' => '',
         'invalid-temporarily' => 'midlertidig ugyldig',
         ' 2 minutes' => ' 2 minutter',
         ' 5 minutes' => ' 5 minutter',
@@ -131,6 +132,7 @@ sub Data {
         'system' => 'System',
         'Customer Info' => 'Kunde-info',
         'Customer Company' => '',
+        'Company' => '',
         'go!' => 'Start!',
         'go' => 'Start',
         'All' => 'Alle',
@@ -481,6 +483,13 @@ sub Data {
         'My Queues' => 'Mine mapper',
         'Shown Tickets' => 'Viste saker',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Din epost-sak med numemr "<OTRS_TICKET>" er flettet med ">OTRS_MERGE_TO_TICKET>". ',
+        'Ticket %s: first response time is over (%s)!' => '',
+        'Ticket %s: first response time will be over in %s!' => '',
+        'Ticket %s: update time is over (%s)!' => '',
+        'Ticket %s: update time will be over in %s!' => '',
+        'Ticket %s: solution time is over (%s)!' => '',
+        'Ticket %s: solution time will be over in %s!' => '',
+        'There are more escalated tickets!' => '',
         'New ticket notification' => 'Merknad ved nyopprettet sak',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Send meg en melding dersom det kommer en ny sak i mine utvalgte mapper.',
         'Follow up notification' => 'Oppfølgingsmerknad',
@@ -583,7 +592,7 @@ sub Data {
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'Administrasjon av kunde-brukere',
         'Search for' => 'Søk etter',
-        'Add User' => '',
+        'Add Customer User' => '',
         'Source' => 'Kilde',
         'Create' => 'Opprett',
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'Kundebruker vil trenge å ha en kundehistorikk og logge inn via kundesidene',
@@ -856,6 +865,8 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => '',
+        'Add Service' => '',
+        'Add a new Service.' => '',
         'Service' => '',
         'Sub-Service of' => '',
 
@@ -875,6 +886,8 @@ sub Data {
 
         # Template: AdminSLA
         'SLA Management' => '',
+        'Add SLA' => '',
+        'Add a new SLA.' => '',
         'SLA' => '',
         'First Response Time' => '',
         'Update Time' => '',
@@ -946,6 +959,7 @@ sub Data {
 
         # Template: AdminUserForm
         'User Management' => 'Administrasjon: Saksbehandlere',
+        'Add User' => '',
         'Add a new Agent.' => '',
         'Login as' => 'Logg in som',
         'Firstname' => 'Fornavn',
@@ -1179,8 +1193,6 @@ sub Data {
 
         # Template: AgentTicketPlain
         'Plain' => 'Enkel',
-        'TicketID' => 'Sak-ID',
-        'ArticleID' => 'Artikkel-ID',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Saksinfo',
@@ -1202,7 +1214,6 @@ sub Data {
         'Ticket escalation!' => 'Sak-eskalering!',
 
         # Template: AgentTicketQueueTicketView
-        'First Response' => '',
         'Service Time' => '',
         'Your own Ticket' => 'Din egen sak',
         'Compose Follow up' => 'Skriv oppfølgingssvar',
@@ -1243,6 +1254,10 @@ sub Data {
         # Template: AgentTicketZoom
 
         # Template: AgentWindowTab
+
+        # Template: Calculator
+        'Calculator' => '',
+        'Operation' => '',
 
         # Template: Copyright
 
@@ -1294,8 +1309,6 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-
-        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1383,14 +1396,14 @@ sub Data {
         'DB Host' => 'Databasemaskin',
         'Ticket Number Generator' => 'Saksnummer-generator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Sakskjennetegn, f.eks. \'Ticket#\', \'Call#\' eller \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'På denne måten kan du direkte redigere nøkkelringen som er konfigurert i Kernel/Config.pm',
         'Create new Phone Ticket' => 'Opprett ny henvendelse',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'På denne måten kan du direkte redigere nøkkelringen som er konfigurert i Kernel/Config.pm',
         'Symptom' => 'Symptom',
         'A message should have a To: recipient!' => 'En melding må ha en mottager i Til:-feltet!',
         'Site' => 'side',
         'Customer history search (e. g. "ID342425").' => 'Søk etter kunde for historikk (f.eks. "ID342425").',
-        'Close!' => 'Lukk!',
         'for agent firstname' => 'gir agents fornavn',
+        'Close!' => 'Lukk!',
         'The message being composed has been closed.  Exiting.' => 'Det tilhørende redigeringsvinduet har blitt lukket.  Avslutter.',
         'A web calendar' => 'EN web-kalender',
         'to get the realname of the sender (if given)' => 'gir avsenders fulle navn (hvis mulig)',
@@ -1401,6 +1414,7 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Konfigurasjonsvalg (f.eks. <OTRS_CONFIG_HttpType>)',
         'System History' => 'Historikk',
         'customer realname' => 'Fullt kundenavn',
+        'First Response' => '',
         'Pending messages' => 'Ventende meldinger',
         'Modules' => 'Moduler',
         'for agent login' => 'gir agents login',
@@ -1416,6 +1430,7 @@ sub Data {
         'Admin-Email' => 'Admin e-post',
         'Create new database' => 'Opprett ny database',
         'A message must be spell checked!' => 'Stavekontroll må utføres på alle meldinger!',
+        'ArticleID' => 'Artikkel-ID',
         'All Agents' => 'Alle agenter',
         'Keywords' => 'Nøkkelord',
         'No * possible!' => 'Jokertegn ikke tillatt!',
@@ -1425,8 +1440,8 @@ sub Data {
         'Last update' => 'Sist endret',
         'to get the first 20 character of the subject' => 'gir de første 20 bokstavene av emnebeskrivelsen',
         'DB Admin Password' => 'DB administratorpassord',
-        'Drop Database' => 'Slett database',
         'Advisory' => 'Råd',
+        'Drop Database' => 'Slett database',
         'FileManager' => 'Filhåndterer',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'gir tilgang til data for gjeldende kunde (f.eks. <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'Venter på',
@@ -1479,9 +1494,9 @@ sub Data {
         'PhoneView' => 'Henvendelser',
         'maximal period form' => '',
         'Verion' => 'Versjon',
+        'TicketID' => 'Sak-ID',
         'Modified' => 'Endret',
         'Ticket selected for bulk action!' => 'Sak valgt for masseredigering',
-        'Company' => '',
     };
     # $$STOP$$
 }
