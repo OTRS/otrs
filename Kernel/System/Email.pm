@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.27 2007-05-16 11:02:27 mh Exp $
+# $Id: Email.pm,v 1.28 2007-05-29 12:15:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -249,6 +249,10 @@ sub Send {
     if ($Self->{ConfigObject}->Get('SendmailEncodingForce')) {
          $Header{'Encoding'} = $Self->{ConfigObject}->Get('SendmailEncodingForce');
     }
+    # body encode if utf8 and base64 is used
+    if ($Header{'Encoding'} =~ /utf(8|-8)/i && $Header{'Encoding'} =~ /base64/i) {
+        $Self->{EncodeObject}->EncodeOutput(\$Param{Body});
+    }
     # check and create message id
     if ($Param{'Message-ID'}) {
         $Header{'Message-ID'} = $Param{'Message-ID'};
@@ -266,11 +270,8 @@ sub Send {
     if ($Self->{Organization}) {
         $Header{'Organization'} = encode_mimewords(Encode::encode($Param{Charset}, $Self->{Organization}), Charset => $Param{Charset}) || '';;
     }
-    # body encode
-    $Self->{EncodeObject}->EncodeOutput(\$Param{Body});
     # build MIME::Entity
     my $Entity = MIME::Entity->build(%Header, Data => $Param{Body});
-
     # add attachments to email
     if ($Param{Attachment}) {
         foreach my $Tmp (@{$Param{Attachment}}) {
@@ -589,6 +590,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2007-05-16 11:02:27 $
+$Revision: 1.28 $ $Date: 2007-05-29 12:15:15 $
 
 =cut
