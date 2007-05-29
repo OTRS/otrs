@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.4 2007-05-08 08:55:33 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.5 2007-05-29 12:30:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::NotificationAgentTicketEscalation;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -51,7 +51,14 @@ sub Run {
     my $ResponseTime = '';
     my $UpdateTime = '';
     my $SolutionTime = '';
+    my $Comment = '';
+    my $Count = 0;
     foreach my $TicketID (@TicketIDs) {
+        # just use the oldest 30 ticktes
+        if ($Count > 30) {
+            $Count = 100;
+            last;
+        }
         my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
         foreach (qw(FirstResponseTimeDestinationDate UpdateTimeDestinationDate SolutionTimeDestinationDate)) {
             if ($Ticket{$_}) {
@@ -64,20 +71,21 @@ sub Run {
                 Age => $Ticket{'FirstResponseTime'},
                 Space => ' ',
             );
-
-            if (0 > $Ticket{'FirstResponseTimeWorkingTime'}) {
+            if ($Ticket{'FirstResponseTimeEscalation'}) {
                 $ResponseTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Error',
                     Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='. $TicketID,
                     Data => '$Text{"Ticket %s: first response time is over (%s)!", "'.$Ticket{TicketNumber}."\", \"$TimeHuman / $Ticket{'FirstResponseTimeDestinationDate'}\"}",
                 );
+                $Count++;
             }
-            elsif (60*60*2 > $Ticket{'FirstResponseTimeWorkingTime'}) {
+            elsif ($Ticket{'FirstResponseTimeNotification'}) {
                 $ResponseTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Notice',
                     Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='. $TicketID,
                     Data => '$Text{"Ticket %s: first response time will be over in %s!", "'.$Ticket{TicketNumber}."\", \"$TimeHuman / $Ticket{'FirstResponseTimeDestinationDate'}\"}",
                 );
+                $Count++;
             }
         }
         # check update time
@@ -86,19 +94,21 @@ sub Run {
                 Age => $Ticket{'UpdateTime'},
                 Space => ' ',
             );
-            if (0 >= $Ticket{'UpdateTimeWorkingTime'}) {
+            if ($Ticket{'UpdateTimeEscalation'}) {
                 $UpdateTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Error',
                     Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='. $TicketID,
                     Data => '$Text{"Ticket %s: update time is over (%s)!", "'.$Ticket{TicketNumber}."\", \"$TimeHuman / $Ticket{'UpdateTimeDestinationDate'}\"}",
                 );
+                $Count++;
             }
-            elsif (60*60*2.2 > $Ticket{'UpdateTimeWorkingTime'}) {
+            elsif ($Ticket{'UpdateTimeNotification'}) {
                 $UpdateTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Notice',
                     Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='. $TicketID,
                     Data => '$Text{"Ticket %s: update time will be over in %s!", "'.$Ticket{TicketNumber}."\", \"$TimeHuman / $Ticket{'UpdateTimeDestinationDate'}\"}",
                 );
+                $Count++;
             }
         }
         # check solution
@@ -107,23 +117,31 @@ sub Run {
                 Age => $Ticket{'SolutionTime'},
                 Space => ' ',
             );
-            if (0 >= $Ticket{'SolutionTimeWorkingTime'}) {
+            if ($Ticket{'SolutionTimeEscalation'}) {
                 $SolutionTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Error',
                     Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='. $TicketID,
                     Data => '$Text{"Ticket %s: solution time is over (%s)!", "'.$Ticket{TicketNumber}."\", \"$TimeHuman / $Ticket{'SolutionTimeDestinationDate'}\"}",
                 );
+                $Count++;
             }
-            elsif (60*60*2.2 > $Ticket{'SolutionTimeWorkingTime'}) {
+            elsif ($Ticket{'SolutionTimeNotification'}) {
                 $SolutionTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Notice',
                     Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='. $TicketID,
                     Data => '$Text{"Ticket %s: solution time will be over in %s!", "'.$Ticket{TicketNumber}."\", \"$TimeHuman / $Ticket{'SolutionTimeDestinationDate'}\"}",
                 );
+                $Count++;
             }
         }
     }
-    return $ResponseTime.$UpdateTime.$SolutionTime;
+    if ($Count == 100) {
+        $Comment .= $Self->{LayoutObject}->Notify(
+            Priority => 'Error',
+            Info => "There are more escalated tickets!",
+        );
+    }
+    return $ResponseTime.$UpdateTime.$SolutionTime.$Comment;
 }
 
 1;
