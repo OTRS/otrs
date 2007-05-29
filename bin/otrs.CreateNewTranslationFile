@@ -3,7 +3,7 @@
 # otrs.CreateNewTranslationFile - create new translation file
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.17 2007-05-29 13:00:54 martin Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.18 2007-05-29 13:32:39 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -97,6 +97,7 @@ $CommonObject{LanguageObject} = Kernel::Language->new(
 # open .dtl files and write new translation file
 my $Data = '';
 my %UsedWords = ();
+my %UsedWordsMisc = ();
 my @List = glob("$Opts{t}");
 foreach my $File (@List) {
     if (open (IN, "< $File")) {
@@ -150,6 +151,7 @@ foreach my $File (@List) {
             }
             if ($Word && !defined($UsedWords{$Word})) {
 #                $UsedWords{$Word} = $CommonObject{LanguageObject}->Get($Word);
+                $UsedWordsMisc{$Word} = 1;
                 $UsedWords{$Word} = $CommonObject{LanguageObject}->{Translation}->{$Word};
                 my $Translation = $UsedWords{$Word} || '';
 #                if ($Translation eq $Word) {
@@ -157,6 +159,9 @@ foreach my $File (@List) {
 #                }
                 if (!$UsedWords{$Word}) {
                     $Translation = '';
+                }
+                if (!defined($UsedWords{$Word})) {
+                    $CommonObject{LanguageObject}->{Translation}->{$Word} = '';
                 }
                 $Translation =~ s/'/\\'/g;
                 my $Key = $Word;
@@ -176,7 +181,7 @@ foreach my $File (@List) {
 print "# Misc\n";
 $Data .= "        # Misc\n";
 foreach my $Key (keys %{$CommonObject{LanguageObject}->{Translation}}) {
-    if (!defined($UsedWords{$Key})) {
+    if (!$UsedWordsMisc{$Key}) {
         my $Translation = $CommonObject{LanguageObject}->{Translation}->{$Key};
         $Translation =~ s/'/\\'/g;
         $Key =~ s/'/\\'/g;
