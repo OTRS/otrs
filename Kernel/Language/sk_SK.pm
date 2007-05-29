@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.17 2007-05-29 12:52:58 martin Exp $
+# $Id: sk_SK.pm,v 1.18 2007-05-29 13:31:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::sk_SK;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Tue May 29 14:49:24 2007
+    # Last translation file sync: Tue May 29 15:24:37 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -680,21 +680,6 @@ sub Data {
         'System Log' => '',
         'Time' => '',
 
-        # Template: AdminMailAccount
-        'Mail Account Management' => '',
-        'Host' => 'Trusted',
-        'Account Type' => '',
-        'POP3' => '',
-        'POP3S' => '',
-        'IMAP' => '',
-        'IMAPS' => '',
-        'Mailbox' => 'Tickets',
-        'Port' => '',
-        'Trusted' => '',
-        'Dispatching' => '',
-        'All incoming emails with one account will be dispatched in the selected queue!' => '',
-        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
-
         # Template: AdminNavigationBar
         'Users' => '',
         'Groups' => '',
@@ -763,6 +748,11 @@ sub Data {
 
         # Template: AdminPOP3
         'POP3 Account Management' => 'Host',
+        'Host' => 'Trusted',
+        'Trusted' => '',
+        'Dispatching' => '',
+        'All incoming emails with one account will be dispatched in the selected queue!' => '',
+        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'Filtername',
@@ -938,18 +928,6 @@ sub Data {
         'Realname' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => '',
 
-        # Template: AdminSystemStatus
-        'System Status' => '',
-
-        # Template: AdminTicketCustomerNotification
-        'Notification (Customer)' => '',
-        'Event' => '',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
-        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
-        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
-
         # Template: AdminTypeForm
         'Type Management' => '',
         'Add Type' => '',
@@ -1006,7 +984,6 @@ sub Data {
         'Apply these changes' => '',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -1088,12 +1065,6 @@ sub Data {
         'Start' => '',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
 
-        # Template: AgentTicketArticleUpdate
-        'A message should have a subject!' => '',
-        'A message should have a body!' => '',
-        'You need to account time!' => '',
-        'Edit Article' => '',
-
         # Template: AgentTicketBounce
         'Bounce ticket' => '',
         'Ticket locked!' => 'zamknutá po¾iadavka',
@@ -1101,7 +1072,6 @@ sub Data {
         'Bounce to' => '',
         'Next ticket state' => '',
         'Inform sender' => '',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '',
         'Send mail!' => '',
 
         # Template: AgentTicketBulk
@@ -1120,7 +1090,6 @@ sub Data {
         'Next state' => '',
         'Pending date' => 'termín vybavenia',
         'Time units' => '',
-        ' (work units)' => '',
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => '',
@@ -1157,6 +1126,7 @@ sub Data {
         # Template: AgentTicketLocked
 
         # Template: AgentTicketMailbox
+        'Mailbox' => 'Tickets',
         'Tickets' => '',
         'of' => '',
         'Filter' => '',
@@ -1253,10 +1223,6 @@ sub Data {
 
         # Template: AgentWindowTab
 
-        # Template: Calculator
-        'Calculator' => '',
-        'Operation' => '',
-
         # Template: Copyright
 
         # Template: css
@@ -1269,8 +1235,6 @@ sub Data {
 
         # Template: CustomerError
         'Traceback' => 'Print',
-
-        # Template: CustomerFAQ
 
         # Template: CustomerFooter
         'Powered by' => 'Login',
@@ -1307,6 +1271,8 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
+
+        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1377,11 +1343,6 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'vytlaèený',
 
-        # Template: PublicFAQ
-
-        # Template: PublicView
-        'Management Summary' => '',
-
         # Template: Redirect
 
         # Template: Test
@@ -1390,29 +1351,29 @@ sub Data {
 
         # Template: Warning
         # Misc
-        '' => 'sort upward',
+        'Edit Article' => '',
         'Ïal¹í ' => 'All Customer variables like defined in config option CustomerUser.',
         'Hlásenia sú poslané zástupcovi alebo zákazníkovi.' => 'Config options (e. g. <OTRS_CONFIG_HttpType>)',
         'Náhµad' => 'Download',
         'Po¹li mail!' => 'A message should have a subject!',
-        'Create Database' => 'Vytvor databázu',
         'Moduly' => 'Param 1',
+        'Create Database' => 'Vytvor databázu',
         'vsetky zakaznikove premenne ako tie definovane v konfiguracnej moznosti (volbe) CustomerUser' => 'The current ticket state is',
         'parameter 1' => 'Param 2',
-        'DB Host' => 'DB ',
         'Skupiny' => 'Misc',
+        'DB Host' => 'DB ',
         'Vá¹ e-mail s èíslom po¾iadavky <OTRS_PO®IADAVKA> je pripojený k <OTRS_PRIPOJI«_K_PO®IADAVKE>' => 'Queue ID',
         'mo¾nosti konfigurácie (napr. <OTRS_CONFIG_HttpType>)' => 'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)',
         'Meno' => 'Lastname',
         'Stiahnu»' => 'Rebuild',
         'bit' => 'Key',
         'Reakcie <-> Rady mana¾mentu' => 'Answer',
-        'Ticket Number Generator' => 'Generovaè èísel po¾iadaviek',
         'dolu' => 'You need to use a ticket number!',
+        'Ticket Number Generator' => 'Generovaè èísel po¾iadaviek',
         'výsledok hµadania ' => 'Change search options',
         'predchádzajúci' => 'Block',
-        'Create new Phone Ticket' => 'Vytvor novú telefonickú po¾iadavku',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Týmto spôsobom mô¾ete priamo upravova» kµúèové nastavenie v Kenel/Config.',
+        'Create new Phone Ticket' => 'Vytvor novú telefonickú po¾iadavku',
         'Admin-heslo' => 'your MySQL DB should have a root password! Default is empty!',
         'riadenie relácie' => 'Sessions',
         'A message should have a To: recipient!' => '',
@@ -1428,7 +1389,6 @@ sub Data {
         'Can\'t update password =>  passwords doesn\'t match! Please try it again!' => 'Nemo¾no aktualizova» heslo =>  heslá nezhodujú.',
         'Zástupca' => 'TicketFreeText',
         'èas vybavenia' => 'for pending* states',
-        'for agent firstname' => '',
         'Close!' => 'Zatvori»!',
         'Vyhµadávacia ¹ablóna' => 'Created in Queue',
         'Pre hlásenie chyby =>  kliknite tu!' => 'Comment (internal)',
@@ -1440,20 +1400,22 @@ sub Data {
         'Added User %s""' => 'Pridaný pou¾ívateµ %',
         'The message being composed has been closed.  Exiting.' => 'Vytvorená správa bola zatvorená. ',
         'Prestava»' => 'Reinstall',
-        'predvolený (?)' => 'DB connect host',
         'Rady <-> Riadenie automatických odpovedí' => 'Queue Management',
+        'predvolený (?)' => 'DB connect host',
         'A web calendar' => 'webový kalendár',
         'Týmto spôsobom mo¾ene priamo meni» osvedèenie a osobný kµúè v systéme súborov.' => 'System State Management',
         'to get the realname of the sender (if given)' => 'zobrazi» skutoèné meno odosielateµa (ak je dané)',
         'podskupina' => 'Elements',
         'OTRS DB Name' => 'OTRS DB meno',
         'pre agentovo pou¾ívateµské id' => 'for agent login',
+        'Notification (Customer)' => '',
         'História systému' => 'Name is required!',
         'Reakcia je prednastavený text pre rýchlej¹ie písanie odpovedí klientom.' => 'Don\'t forget to add a new response a queue!',
         'neformálny zástupca' => 'Optional',
         'Select Source (for add)' => 'vyber zdroj (pre pridanie)',
         'PGP mana¾ment' => 'Identifier',
         'Can\'t update password =>  need min. 2 characters!' => 'Nemo¾no aktualizova» heslo =>  potrebujete minimálne 2 písmená!',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
         'Èasová jednotka' => ' (work units)',
         'Days' => 'Dni',
         'vyhµadávanie po¾iadavky' => 'Profile',
@@ -1467,25 +1429,22 @@ sub Data {
         'Zaèiatok strany' => 'Home',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '',
         'systémový záznam' => 'Time',
-        'customer realname' => '',
-        'ID radu' => 'Move Ticket',
         'pre priezvisko agenta' => 'for agent user id',
+        'ID radu' => 'Move Ticket',
         'First Response' => '',
-        'Pending messages' => '',
         'OTRS posiela klientom oznámenie e-mailom =>  ak bola po¾iadavka premiestnená.' => 'OTRS sends an notification email to the customer if the ticket state has changed.',
         'èas' => 'Users',
         'pre meno agenta' => 'for agent lastname',
-        'for agent login' => '',
         'Adresáti' => 'Body',
         'SMIME riadenie' => 'Add Certificate',
         'with' => 's',
         'Tlaèi»' => 'Keywords',
         'Správa poslaná' => 'Recipents',
-        'prida» poznámku k po¾iadavke' => 'Inform Agent',
         'riadenie balíka' => 'Uninstall',
+        'prida» poznámku k po¾iadavke' => 'Inform Agent',
         'vyber prieèinok' => 'SQL',
-        'pripomienková správa' => 'Reminder',
         'Ticket %s" created!"' => 'po¾iadavka % vytvorená',
+        'pripomienková správa' => 'Reminder',
         'DB Admin User' => 'DB admin pou¾ívateµ',
         'detail' => 'Lookup',
         'for agent user id' => '',
@@ -1495,12 +1454,12 @@ sub Data {
         'Change user <-> group settings' => 'Zmeò pou¾ívateµa <-> nastavenie skupiny',
         'No such Ticket Number %s"! Can\'t link it!"' => '®iadna po¾iadavka èíslo %. ',
         'Can\'t update password =>  need 2 lower and 2 upper characters!' => 'Nemo¾no aktualizova» heslo =>  potrebujete 2 malé a 2 veµké písmená',
-        'Je to pou¾iteµné pre mno¾stvo u¾ívateµov a skupín.' => 'Roles <-> Groups Management',
         'klientský u¾ívateµ' => 'Add Note',
+        'Je to pou¾iteµné pre mno¾stvo u¾ívateµov a skupín.' => 'Roles <-> Groups Management',
         'výber skupiny' => 'Show',
         'Problem' => 'Solution',
-        'výsledky' => 'Total hits',
         'Zmazané po¾iadavky' => 'Warning! This tickets will be removed from the database! This tickets are lost!',
+        'výsledky' => 'Total hits',
         'Podrad (èoho)' => 'Unlock timeout',
         'po¾iadavky' => 'All messages',
         'next step' => 'daµ¹í krok',
@@ -1511,14 +1470,15 @@ sub Data {
         'hlásenie majiteµa klienta' => 'If an agent locks a ticket and he/she will not send an answer within this time =>  the ticket will be unlock automatically. So the ticket is viewable for all other agents.',
         'OTRS posiela klientom oznámenie e-mailom =>  ak sa zmenil stav po¾iadavky.' => 'OTRS sends an notification email to the customer if the ticket owner has changed.',
         'Spusti!' => 'x',
-        'Create new database' => 'Vytvor novú databázu',
         'Ine' => 'Notification Management',
+        'Create new database' => 'Vytvor novú databázu',
         'nová skupina RO' => 'New Group Ro',
         'Kontrola pravopisu' => 'spelling error(s)',
         'A message must be spell checked!' => '',
         'Riadenie radov' => 'Sub-Queue of',
         'Potrebujete èasové konto!' => 'Close ticket',
         'Send me a notification if a ticket is moved into one of My Queues"."' => 'Po¹li mi oznámenie =>  ak je po¾iadavka premiestnená do jedného z mojich radov.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '',
         'prilo¾i»' => 'Pending Date',
         'zobrazené po¾iadavky' => 'Page',
         'Rein¹talova»' => 'PGP Management',
@@ -1534,16 +1494,18 @@ sub Data {
         'triedi» hore' => 'U',
         'hromadná akcia po¾iadaviek' => 'Spell Check',
         'nevybavené správy' => 'Reminder messages',
+        'A message should have a body!' => '',
         'Kµúèové slová' => 'Symptom',
         'èas eskalácie' => '0 = no escalation',
-        '(Ticket identifier. Some people want to set this to e. g. \'Ticket#\',\'Call#\' or \'MyTicket#\')' => '(Identifikátor po¾iadavky. Niektorí µudia to chcú nastavi» napríklad: \'Ticket#\', \'Call#\' alebo \'MyTicket#\')',
         'pridaj osobný kµúè' => 'Secret',
+        '(Ticket identifier. Some people want to set this to e. g. \'Ticket#\',\'Call#\' or \'MyTicket#\')' => '(Identifikátor po¾iadavky. Niektorí µudia to chcú nastavi» napríklad: \'Ticket#\', \'Call#\' alebo \'MyTicket#\')',
         'All Agents' => 'v¹etci agenti',
         'mo¾nosti' => 'Inform involved Agents',
         'Balík' => 'Online Repository',
         'mo¾nosti configurácie' => 'Default',
         'parameter 6' => 'Save',
         'Load' => 'Naèíta»',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
         'Message for new Owner' => 'správa od nového majiteµa.',
         'to get the first 5 lines of the email' => 'zobrazi» prvých 5 riadkov emailu',
         'Package not correctly deployed =>  you need to deploy it again!' => 'Balík nie je správne rozmiestnený =>  musíte ho rozmiestni» e¹te raz.',
@@ -1555,16 +1517,15 @@ sub Data {
         'OTRS DB Password' => 'OTRS DB heslo',
         'Hlavièka' => 'Value',
         'materský objekt' => 'Child-Object',
-        'to get the first 20 character of the subject' => 'zobrazi» prvých 20 vlastností subjektu',
-        'Options of the ticket data (e. g. <OTRS_TICKET_Number> =>  <OTRS_TICKET_ID> =>  <OTRS_TICKET_Queue> =>  <OTRS_TICKET_State>)' => 'Mo¾nosti údajov po¾iadavky (napr. <OTRS_TICKET_Number> =>  <OTRS_TICKET_ID> =>  <OTRS_TICKET_Queue> =>  <OTRS_TICKET_State>)',
         'Zatvori» po¾iadavku' => 'Note Text',
+        'Options of the ticket data (e. g. <OTRS_TICKET_Number> =>  <OTRS_TICKET_ID> =>  <OTRS_TICKET_Queue> =>  <OTRS_TICKET_State>)' => 'Mo¾nosti údajov po¾iadavky (napr. <OTRS_TICKET_Number> =>  <OTRS_TICKET_ID> =>  <OTRS_TICKET_Queue> =>  <OTRS_TICKET_State>)',
+        'to get the first 20 character of the subject' => 'zobrazi» prvých 20 vlastností subjektu',
         'DB Admin Password' => 'DB heslo administrátora',
-        'zru¹i» relácie' => 'Signature Management',
         'miestna schránka' => 'Status',
+        'zru¹i» relácie' => 'Signature Management',
         'história klientského hµadania' => 'Customer history search (e. g. ID342425")."',
         'Povolenie zmeni» majiteµa po¾iadavky v tejto skupine/rade.' => 'priority',
         'preskoèi» po¾iadavku' => 'Bounce to',
-        'Advisory' => '',
         'Drop Database' => 'vymaza» databázu',
         'vytvori» odpoveï' => 'Contact customer',
         'DB pripojenie host' => 'Database',
@@ -1575,6 +1536,7 @@ sub Data {
         'Rozdeli»' => 'Locked',
         'Povolenie presunú» po¾iadavky do tejto skupiny/radu.' => 'create',
         'Po¾adova» nové heslo' => 'Create Account',
+        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
         'odin¹talova»' => 'Verion',
         'This window must be called from compose window' => 'Toto okno musí by» vyvolané z okna na vytváranie.',
         'Zamknú»' => 'Traceback',
@@ -1595,6 +1557,7 @@ sub Data {
         'OTRS DB connect host' => 'OTRS DB pripojenie',
         'Správa hlásení' => 'Notification',
         'All Agent variables.' => '',
+        ' (work units)' => '',
         'hore' => 'down',
         'All Customer variables like defined in config option CustomerUser.' => '',
         'pozri aj' => 'SysConfig',
@@ -1612,6 +1575,7 @@ sub Data {
         'Reminder messages' => '',
         'nasledujúce mo¾nosti' => 'Ticket lock after a follow up',
         'Verzia' => 'Vendor',
+        'A message should have a subject!' => '',
         'Vitajte v %' => 'of',
         'Nastavi»' => 'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.',
         'z' => 'Click here to report a bug!',
@@ -1629,38 +1593,40 @@ sub Data {
         'presuò po¾iadavku' => 'Previous Owner',
         'You need a email address (e. g. customer@example.com) in To:!' => '',
         'triedi» dolu' => 'D',
-        'CreateTicket' => 'Vytvor po¾iadavku',
         'U¾ívatelia' => 'Groups',
+        'CreateTicket' => 'Vytvor po¾iadavku',
         'If nothing is selected =>  then there are no permissions in this group (tickets will not be available for the user).' => 'Ak nie je niè vybrané =>  nie je dovolené pracova» v tejto skupine (po¾iadavky nie sú dostupné pre u¾ívateµa)',
         'vytvori» nasledujúcu' => 'Compose Answer',
         'parameter 2' => 'Param 3',
         'Va¹e MySQL DB' => 'Database-User',
+        'You need to account time!' => '',
         'obraz' => 'Image',
         'System Settings' => 'Systémové nastavenia',
         'WebWatcher' => '',
         'stav' => 'Overview',
-        'Finished' => 'Ukonèený',
         'Povolenie zmeni» prioritu po¾iadavky v tejto skupine/rade.' => 'Role',
+        'Finished' => 'Ukonèený',
         'vyhµada»' => 'Ticket selected for bulk action!',
         'nové správy' => 'Pending messages',
-        'Split' => '',
         'typ poznámky' => 'Unlock Tickets',
+        'Split' => '',
         'nová skupina' => 'Group Ro',
         'All messages' => '',
+        'System Status' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'úlohy  <-> riadenie skupín' => 'move_into',
         'odpoveï riadenia' => 'A response is default text to write faster answer (with default text) to customers.',
         'Artefact' => 'Artefakt',
         'zru¹ v¹etky relácie' => 'Session',
         '0 = ¾iadne zvy¹ovanie' => 'Follow up Option',
-        'pripojená po¾iadavka' => 'Merge to',
         'relácie' => 'Uniq',
+        'pripojená po¾iadavka' => 'Merge to',
         'uzamknú» po¾iadavku po nasledovnom' => 'Systemaddress',
         'Pozor! Táto po¾iadavka bude vymazaná z databázy. Tieto po¾iadavky sú stratené!' => 'Modules',
         'profil' => 'Search-Template',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'Posla»' => 'GenericAgent',
         'Mo¾nosti údajov aktuálnohe klientského u¾ívateµa (napr. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Package Manager',
-        'don\'t accept license' => '',
         'akceptova» licenciu' => 'don\'t accept license',
         'obsah' => 'New',
         'A web mail client' => 'Web mail client',
@@ -1672,13 +1638,13 @@ sub Data {
         'Ak je vá¹ úèet ' => 'PostMaster Filter Management',
         'poradie' => 'up',
         'dcérsky objekt' => 'by',
-        'identifikátor' => 'Bit',
         '(napr. U5150)' => 'Agent',
+        'identifikátor' => 'Bit',
         'parameter 3' => 'Param 4',
         'pripoji» k' => 'Your email with ticket number <OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>"."',
         'zmeni» rady' => 'Ticket Search',
-        'WebMail' => '',
         'Databáza' => 'Create',
+        'WebMail' => '',
         'generovaný zástupca' => 'Job-List',
         'Potrebujete minimálne 1 vybranú po¾iadavku!' => 'Spell Checker',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => '',
@@ -1711,16 +1677,15 @@ sub Data {
         'Can\'t update password =>  invalid characters!' => 'Nemo¾no aktualizova» heslo =>  neplatné znaky.',
         '(pracovná jednotka)' => 'A message must be spell checked!',
         'stupòovanie po¾iadaviek' => 'Your own Ticket',
-        'výber' => 'Results',
         'Sajné' => 'Hash',
+        'výber' => 'Results',
         'Adresa odosielateµa tohto radu pre e-mailovú odpoveï.' => 'The salutation for email answers.',
         'majiteµ' => 'Permissions to change the ticket owner in this group/queue.',
         'Povolenie vytvori» po¾iadavku v tejto skupine/rade.' => 'owner',
         'Ak nebude na po¾iadavku odpovedané do urèitého èasu =>  bude táto po¾iadavka zobrazená!' => 'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.',
-        'hlásenie stavu klienta' => 'Customer Owner Notify',
         '(napr. 234321)' => 'Customer User Login',
+        'hlásenie stavu klienta' => 'Customer Owner Notify',
         'typ postavenia' => 'Take care that you also updated the default states in you Kernel/Config.pm!',
-        'Welcome to OTRS' => '',
         'Stiahnu» nastavenia.' => 'Download all system config changes.',
         'Zmeò prioritu po¾iadavky.' => 'Tickets shown',
         'Pozdrav pre e-mailovú odpoveï.' => 'The signature for email answers.',
@@ -1731,8 +1696,8 @@ sub Data {
         'èasti' => 'Config Options',
         'Správa musí ma» príjemcu!' => 'You need a email address (e. g. customer@example.com) in To:!',
         'Delete old database' => 'Vyma¾ starú databázu',
-        'alebo' => 'Apply these changes',
         'Skutoèné meno' => 'All incoming emails with this Email" (To:) will be dispatched in the selected queue!"',
+        'alebo' => 'Apply these changes',
         'Výsledok z' => 'Save Search-Profile as Template?',
         'sort downward' => '',
         'V¹etky prichádzajúce e-maily s príjemcom =>  budú vybavené v radoch.' => 'User Management',
@@ -1742,13 +1707,13 @@ sub Data {
         'riadenie funkcií' => 'Create a role and put groups in it. Then add the role to the users.',
         'Musíte napísa» emailovú adresu (napr. klient@príklad.com) do Príjemca:!' => 'Bounce ticket',
         'Týmto spôsobom mô¾ete priamo upravova» konfigurácie' => 'POP3 Account Management',
-        'A web file manager' => 'Správca weborých súborov',
         'Musíte pou¾íva» èíslo po¾iadavky!' => 'Ticket Merge',
-        'send' => '',
+        'A web file manager' => 'Správca weborých súborov',
         'Symptóm' => 'Problem',
-        'Áno =>  ulo¾ s menom.' => 'Customer history search',
         'Ulo¾i» prácu ako?' => 'Is Job Valid?',
+        'Áno =>  ulo¾ s menom.' => 'Customer history search',
         'Platnos»' => 'In this way you can directly edit the keyring configured in SysConfig.',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
         'správa systémovej e-mailovej adresy' => 'Email',
         'Skutoène chcete odin¹talova» tento balík?' => 'Install',
         'System State Management' => '',

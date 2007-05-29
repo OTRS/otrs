@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.57 2007-05-29 12:52:58 martin Exp $
+# $Id: bg.pm,v 1.58 2007-05-29 13:31:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -23,7 +23,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Tue May 29 14:48:04 2007
+    # Last translation file sync: Tue May 29 15:07:15 2007
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -681,21 +681,6 @@ sub Data {
         'System Log' => 'Системен журнал',
         'Time' => 'Време',
 
-        # Template: AdminMailAccount
-        'Mail Account Management' => 'Управление на e-mail акаунти',
-        'Host' => 'Хост',
-        'Account Type' => 'Тип на акаунта',
-        'POP3' => 'POP3',
-        'POP3S' => 'POP3S',
-        'IMAP' => 'IMAP',
-        'IMAPS' => 'IMAPS',
-        'Mailbox' => 'Пощенска кутия',
-        'Port' => 'Порт',
-        'Trusted' => 'Доверен',
-        'Dispatching' => 'Разпределение',
-        'All incoming emails with one account will be dispatched in the selected queue!' => 'Всички входящи писма с един акаунт ще се разпределят в избраната опашка!',
-        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Ако Вашия акаунт е доверен съществуващите X-OTRS хедъри на e-mail-а ще бъдат използвани (Пример: X-OTRS-Priority - за приоритет). Филтъра на PostMaster обаче същто ще се приложи на тези съобщения.',
-
         # Template: AdminNavigationBar
         'Users' => 'Потребители',
         'Groups' => 'Групи',
@@ -764,6 +749,11 @@ sub Data {
 
         # Template: AdminPOP3
         'POP3 Account Management' => 'Управление на POP3 акаунта',
+        'Host' => 'Хост',
+        'Trusted' => 'Доверен',
+        'Dispatching' => 'Разпределение',
+        'All incoming emails with one account will be dispatched in the selected queue!' => 'Всички входящи писма с един акаунт ще се разпределят в избраната опашка!',
+        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Ако Вашия акаунт е доверен съществуващите X-OTRS хедъри на e-mail-а ще бъдат използвани (Пример: X-OTRS-Priority - за приоритет). Филтъра на PostMaster обаче същто ще се приложи на тези съобщения.',
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'Управление филтъра за е-поща',
@@ -939,18 +929,6 @@ sub Data {
         'Realname' => 'Истинско име',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Всички входящи адреси от този еМейл (До:) ще се разпределят в избраната опашка.',
 
-        # Template: AdminSystemStatus
-        'System Status' => 'Системен статус',
-
-        # Template: AdminTicketCustomerNotification
-        'Notification (Customer)' => 'Уведомления (клиент/клиент-потребител)',
-        'Event' => 'Събитие',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Конфигурационни параметри (Пример: <OTRS_CONFIG_HttpType>).',
-        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Свойства на собственика на билета (Пример: <OTRS_OWNER_USERFIRSTNAME>).',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Свойства на текущия потребител който е изискал това действие (Пример: <OTRS_CURRENT_USERFIRSTNAME>).',
-        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Свойства на текущия клиент-потребител (Пример: <OTRS_CUSTOMER_DATA_USERFIRSTNAME>).',
-        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Свойства на билета (Пример: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>;, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).',
-
         # Template: AdminTypeForm
         'Type Management' => 'Управление на тип',
         'Add Type' => 'Добавяне на тип',
@@ -1007,7 +985,6 @@ sub Data {
         'Apply these changes' => 'Прилага се към тези промени',
 
         # Template: AgentStatsDelete
-        'Stat#' => 'Статистика#',
         'Do you really want to delete this Object?' => 'Сигурни ли сте че искате да изтриете този обект?',
 
         # Template: AgentStatsEditRestrictions
@@ -1089,12 +1066,6 @@ sub Data {
         'Start' => 'Старт',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Със полета за въвеждане или избор може да конфигурирате статистиката според Вашите нужди. Броя на елементите подлежащи на редакция зависи от администратора който е конфигурирал тази статистика.',
 
-        # Template: AgentTicketArticleUpdate
-        'A message should have a subject!' => 'Съобщението трябва да има текст в поле "относно"!',
-        'A message should have a body!' => 'Съобщението трябва да има текст',
-        'You need to account time!' => 'Вие се нуждаете от отчет за времето',
-        'Edit Article' => 'Редакция на текст',
-
         # Template: AgentTicketBounce
         'Bounce ticket' => 'Отказан билет',
         'Ticket locked!' => 'Билетът е заключен!',
@@ -1102,7 +1073,6 @@ sub Data {
         'Bounce to' => 'Отказ на',
         'Next ticket state' => 'Следващо състояние за билетът',
         'Inform sender' => 'Да се информира изпращачът',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Писмото Ви с номер "<OTRS_TICKET>" е отхвърлен към "<OTRS_BOUNCE_TO>". Свържете се с този адрес за повече информация',
         'Send mail!' => 'Изпратете еМейл!',
 
         # Template: AgentTicketBulk
@@ -1121,7 +1091,6 @@ sub Data {
         'Next state' => 'Следващо състояние',
         'Pending date' => 'В очакване - дата',
         'Time units' => 'Мерни единици за времето',
-        ' (work units)' => ' (работни единици)',
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Създаване на отговор за този билет',
@@ -1158,6 +1127,7 @@ sub Data {
         # Template: AgentTicketLocked
 
         # Template: AgentTicketMailbox
+        'Mailbox' => 'Пощенска кутия',
         'Tickets' => 'Билети',
         'of' => 'на',
         'Filter' => 'Филтър',
@@ -1254,10 +1224,6 @@ sub Data {
 
         # Template: AgentWindowTab
 
-        # Template: Calculator
-        'Calculator' => '',
-        'Operation' => '',
-
         # Template: Copyright
 
         # Template: css
@@ -1270,8 +1236,6 @@ sub Data {
 
         # Template: CustomerError
         'Traceback' => 'Проследяване',
-
-        # Template: CustomerFAQ
 
         # Template: CustomerFooter
         'Powered by' => 'С помощта на',
@@ -1308,6 +1272,8 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
+
+        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1378,11 +1344,6 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'отпечатано от',
 
-        # Template: PublicFAQ
-
-        # Template: PublicView
-        'Management Summary' => 'Обзор за мениджмънта',
-
         # Template: Redirect
 
         # Template: Test
@@ -1391,23 +1352,26 @@ sub Data {
 
         # Template: Warning
         # Misc
+        'Edit Article' => 'Редакция на текст',
         'Create Database' => 'Създаване на база данни',
         'DB Host' => 'Хост на базата данни',
         'Ticket Number Generator' => 'Генератор на номера на билети',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Идентификатор на билета. Примерно: \'Ticket#\', \'Call#\' or \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'По този начин може да редактирате keyring-а конфигуриран в Kernel/Config.pm.',
         'Create new Phone Ticket' => 'Създаване на нов билет на базата на телефонно обаждане',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'По този начин може да редактирате keyring-а конфигуриран в Kernel/Config.pm.',
         'Symptom' => 'Симптом',
         'A message should have a To: recipient!' => 'Съобщението трябва да има ДО: т.е. адресант!',
         'Site' => 'Място',
         'Customer history search (e. g. "ID342425").' => 'Търсене в хрониката на клиента (примерно "ID342425").',
-        'Close!' => 'Затворете!',
         'for agent firstname' => 'за агент име',
+        'Close!' => 'Затворете!',
         'The message being composed has been closed.  Exiting.' => 'Съобщението, което създавахте е затворено. Изход.',
         'A web calendar' => 'Календар',
         'to get the realname of the sender (if given)' => 'за да получите истинското име на изпращача (ако е попълнено)',
         'OTRS DB Name' => 'Име свързано към OTRS база данни',
+        'Notification (Customer)' => 'Уведомления (клиент/клиент-потребител)',
         'Select Source (for add)' => 'Изберете източник (за добавяне)',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Свойства на билета (Пример: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>;, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).',
         'Queue ID' => 'ID на опашка',
         'Home' => 'Начало',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Конфигурационни параметри (Пример: <OTRS_CONFIG_HttpType>)',
@@ -1415,6 +1379,7 @@ sub Data {
         'customer realname' => 'име на потребителя',
         'First Response' => 'Време за първи отговор',
         'Pending messages' => 'Съобщения в очакване',
+        'Port' => 'Порт',
         'Modules' => 'Модули',
         'for agent login' => 'за агент логически вход',
         'Keyword' => 'Ключова дума',
@@ -1427,25 +1392,31 @@ sub Data {
         'next step' => 'следваща стъпка',
         'Customer history search' => 'Търсене в хрониката на клиента',
         'Admin-Email' => 'еМейл от Admin',
+        'Stat#' => 'Статистика#',
         'Create new database' => 'Създаване на нова база данни',
         'A message must be spell checked!' => 'Съобщението трябва да бъде проверено за грешки!',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Писмото Ви с номер "<OTRS_TICKET>" е отхвърлен към "<OTRS_BOUNCE_TO>". Свържете се с този адрес за повече информация',
+        'Mail Account Management' => 'Управление на e-mail акаунти',
         'ArticleID' => 'Идентификатор на клауза',
+        'A message should have a body!' => 'Съобщението трябва да има текст',
         'All Agents' => 'Всички агенти',
         'Keywords' => 'Ключови думи',
         'No * possible!' => 'Не е възможно използване на символ *!',
         'Options ' => 'Опции',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Свойства на текущия потребител който е изискал това действие (Пример: <OTRS_CURRENT_USERFIRSTNAME>).',
         'Message for new Owner' => 'Съобщение за нов собственик',
         'to get the first 5 lines of the email' => 'за да получите първите 5 реда от писмото',
         'OTRS DB Password' => 'Парола на OTRS база данни',
         'Last update' => 'Последно обновление',
         'to get the first 20 character of the subject' => 'за да получите първите 20 символа от поле "относно"',
         'DB Admin Password' => 'Парола на администратора на базата',
-        'Drop Database' => 'Нулиране базата данни',
         'Advisory' => 'Консултация',
+        'Drop Database' => 'Нулиране базата данни',
         'FileManager' => 'Файлов менажер',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Свойства на текущия клиент-потребител (Пример: <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'В очакване - тип',
         'Comment (internal)' => 'Коментар (вътрешен)',
+        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Свойства на собственика на билета (Пример: <OTRS_OWNER_USERFIRSTNAME>).',
         'This window must be called from compose window' => 'Този прозорец трябва да бъде извикан от прозореца за създаване',
         'You need min. one selected Ticket!' => 'Трябва да изберете най-малко един билет!',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Свойства на билета (Пример: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
@@ -1454,24 +1425,33 @@ sub Data {
         'Incident' => 'Инцидент',
         'OTRS DB connect host' => 'Хост свързан към OTRS база данни',
         'All Agent variables.' => 'Всички променливи свързани с агента',
+        ' (work units)' => ' (работни единици)',
         'All Customer variables like defined in config option CustomerUser.' => 'Всички променливи подобни на тези в конфигурационния параметър CustomerUser',
         'accept license' => 'Приемате лиценза',
         'for agent lastname' => 'за агент фамилия',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Свойства на потребителя който е изискал това действие (Пример: <OTRS_CURRENT_UserFirstname>)',
         'Reminder messages' => 'Напомнящи съобщения',
+        'A message should have a subject!' => 'Съобщението трябва да има текст в поле "относно"!',
         'Ticket Hook' => 'Прикачване на билетът',
+        'IMAPS' => 'IMAPS',
         'Don\'t forget to add a new user to groups!' => 'Не забравяйте да добавите новият потребител в някаква група!',
         'You need a email address (e. g. customer@example.com) in To:!' => 'Трябва да има валиден адрес в полето ДО: (примерно support@hebros.bg)!',
+        'You need to account time!' => 'Вие се нуждаете от отчет за времето',
         'System Settings' => 'Системни настройки',
         'WebWatcher' => 'WebWatcher',
         'Finished' => 'Приключено',
+        'Account Type' => 'Тип на акаунта',
         'Split' => 'Разцепване',
         'All messages' => 'Всички съобщения',
+        'System Status' => 'Системен статус',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Свойства на билета (Пример: <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Артефакт',
         'A article should have a title!' => 'Съобщението трябва да има заглавие',
+        'Event' => 'Събитие',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Конфигурационни параметри (Пример: <OTRS_CONFIG_HttpType>).',
         'don\'t accept license' => 'Не приемате лиценза',
         'A web mail client' => 'Web-базиран e-mail клиент',
+        'IMAP' => 'IMAP',
         'WebMail' => 'WebMail',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Свойства на собственика на билета (Пример: <OTRS_OWNER_UserFirstname>)',
         'Name is required!' => 'Името е задължително',
@@ -1490,12 +1470,16 @@ sub Data {
         'A web file manager' => 'Web-базиран файлов менаджер',
         'send' => 'изпрати',
         'Note Text' => 'Текст на билежката',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Свойства на текущия клиент-потребител (Пример: <OTRS_CUSTOMER_DATA_USERFIRSTNAME>).',
         'System State Management' => 'Управление на системно състояние',
         'OTRS DB User' => 'Потребител на OTRS база данни',
         'PhoneView' => 'Преглед на телефоните',
         'maximal period form' => 'форма за максимален интервал',
         'Verion' => 'Версия',
         'TicketID' => 'Идентификатор на билет',
+        'Management Summary' => 'Обзор за мениджмънта',
+        'POP3' => 'POP3',
+        'POP3S' => 'POP3S',
         'Modified' => 'Редактиран',
         'Ticket selected for bulk action!' => 'Билета е маркиран за събирателно действие',
     };

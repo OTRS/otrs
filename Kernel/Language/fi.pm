@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.56 2007-05-29 12:52:58 martin Exp $
+# $Id: fi.pm,v 1.57 2007-05-29 13:31:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Tue May 29 14:48:46 2007
+    # Last translation file sync: Tue May 29 15:14:00 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -680,21 +680,6 @@ sub Data {
         'System Log' => 'Järjestelmälogi',
         'Time' => '',
 
-        # Template: AdminMailAccount
-        'Mail Account Management' => '',
-        'Host' => 'Palvelin',
-        'Account Type' => '',
-        'POP3' => '',
-        'POP3S' => '',
-        'IMAP' => '',
-        'IMAPS' => '',
-        'Mailbox' => 'Saapuneet',
-        'Port' => '',
-        'Trusted' => 'Hyväksytty',
-        'Dispatching' => 'Lähetä',
-        'All incoming emails with one account will be dispatched in the selected queue!' => 'Kaikki saapuvat sähköpostit lähetetään valitulle jonotuslistalle',
-        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
-
         # Template: AdminNavigationBar
         'Users' => '',
         'Groups' => 'Ryhmät',
@@ -763,6 +748,11 @@ sub Data {
 
         # Template: AdminPOP3
         'POP3 Account Management' => 'POP3 -tunnusten hallinta',
+        'Host' => 'Palvelin',
+        'Trusted' => 'Hyväksytty',
+        'Dispatching' => 'Lähetä',
+        'All incoming emails with one account will be dispatched in the selected queue!' => 'Kaikki saapuvat sähköpostit lähetetään valitulle jonotuslistalle',
+        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => '',
@@ -938,18 +928,6 @@ sub Data {
         'Realname' => 'Nimi',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden Emails mit dem "To:" werden in die ausgewählte Queue einsortiert.',
 
-        # Template: AdminSystemStatus
-        'System Status' => '',
-
-        # Template: AdminTicketCustomerNotification
-        'Notification (Customer)' => '',
-        'Event' => '',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
-        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
-        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
-
         # Template: AdminTypeForm
         'Type Management' => '',
         'Add Type' => '',
@@ -1006,7 +984,6 @@ sub Data {
         'Apply these changes' => 'Hyväksy muutokset',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -1088,12 +1065,6 @@ sub Data {
         'Start' => '',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
 
-        # Template: AgentTicketArticleUpdate
-        'A message should have a subject!' => 'Viestissä pitää olla otsikko!',
-        'A message should have a body!' => '',
-        'You need to account time!' => 'Käsittelyaika',
-        'Edit Article' => '',
-
         # Template: AgentTicketBounce
         'Bounce ticket' => 'Delekoi tiketti',
         'Ticket locked!' => 'Tiketti lukittu!',
@@ -1101,7 +1072,6 @@ sub Data {
         'Bounce to' => 'Delekoi',
         'Next ticket state' => 'Uusi tiketin status',
         'Inform sender' => 'Informoi lähettäjää',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Sähköposti, tikettinumero "<OTRS_TICKET>" on välitetty osoitteeseen: "<OTRS_BOUNCE_TO>" . Ota yhteyttä kyseiseen osoitteeseen saadaksesi lisätietoja',
         'Send mail!' => 'Lähetä sähköposti!',
 
         # Template: AgentTicketBulk
@@ -1120,7 +1090,6 @@ sub Data {
         'Next state' => '',
         'Pending date' => '',
         'Time units' => 'Työaika',
-        ' (work units)' => ' (esim. minuutteina)',
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Lähetä vastaus tikettiin',
@@ -1157,6 +1126,7 @@ sub Data {
         # Template: AgentTicketLocked
 
         # Template: AgentTicketMailbox
+        'Mailbox' => 'Saapuneet',
         'Tickets' => 'Tiketit',
         'of' => '',
         'Filter' => '',
@@ -1253,10 +1223,6 @@ sub Data {
 
         # Template: AgentWindowTab
 
-        # Template: Calculator
-        'Calculator' => '',
-        'Operation' => '',
-
         # Template: Copyright
 
         # Template: css
@@ -1269,8 +1235,6 @@ sub Data {
 
         # Template: CustomerError
         'Traceback' => '',
-
-        # Template: CustomerFAQ
 
         # Template: CustomerFooter
         'Powered by' => '',
@@ -1307,6 +1271,8 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
+
+        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1377,11 +1343,6 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'tulostanut: ',
 
-        # Template: PublicFAQ
-
-        # Template: PublicView
-        'Management Summary' => '',
-
         # Template: Redirect
 
         # Template: Test
@@ -1390,29 +1351,30 @@ sub Data {
 
         # Template: Warning
         # Misc
+        'Edit Article' => '',
         'Create Database' => 'Luo tietokanta',
         'Ticket Number Generator' => 'Tikettinumeroiden generoija',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-        'Create new Phone Ticket' => '',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+        'Create new Phone Ticket' => '',
         'Symptom' => '',
         'A message should have a To: recipient!' => 'Viestissä pitää olla vastaanottaja!',
         'Site' => 'Palvelin',
         'Customer history search (e. g. "ID342425").' => 'Asiakashistoriahaku (Esim. "ID342425").',
-        'for agent firstname' => 'käsittelijän etunimi',
         'Close!' => 'Sulje!',
+        'for agent firstname' => 'käsittelijän etunimi',
         'The message being composed has been closed.  Exiting.' => '',
         'A web calendar' => '',
         'to get the realname of the sender (if given)' => 'nähdäksesi käyttäjän nimen',
+        'Notification (Customer)' => '',
         'Select Source (for add)' => '',
-        'Queue ID' => '',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
         'Home' => 'Etusivu',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '',
         'System History' => '',
         'customer realname' => 'käyttäjän oikea nimi',
         'First Response' => '',
         'Pending messages' => 'Odottavat viestit',
-        'Modules' => '',
         'for agent login' => '',
         'Keyword' => '',
         'Close type' => 'Sulkemisen syy',
@@ -1424,43 +1386,50 @@ sub Data {
         'Customer history search' => 'Asiakashistoriahaku',
         'Admin-Email' => 'Ylläpidon sähköposti',
         'A message must be spell checked!' => 'Viesti täytyy oikolukea!',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Sähköposti, tikettinumero "<OTRS_TICKET>" on välitetty osoitteeseen: "<OTRS_BOUNCE_TO>" . Ota yhteyttä kyseiseen osoitteeseen saadaksesi lisätietoja',
+        'Mail Account Management' => '',
         'ArticleID' => '',
+        'A message should have a body!' => '',
         'All Agents' => '',
         'Keywords' => '',
         'No * possible!' => 'Jokerimerkki (*) ei käytössä !',
         'Options ' => '',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
         'Message for new Owner' => '',
         'to get the first 5 lines of the email' => 'nähdäksesi 5 ensimmäistä riviä sähköpostista',
         'Last update' => '',
         'to get the first 20 character of the subject' => 'nähdäksesi ensimmäiset 20 kirjainta otsikosta',
-        'Advisory' => '',
         'Drop Database' => 'Poista tietokanta',
         'FileManager' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '',
         'Pending type' => '',
         'Comment (internal)' => '',
+        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
         'This window must be called from compose window' => '',
         'You need min. one selected Ticket!' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         '(Used ticket number format)' => 'Tikettinumeroiden oletusformaatti',
         'Fulltext' => '',
-        'Incident' => '',
-        'All Agent variables.' => '',
+        ' (work units)' => ' (esim. minuutteina)',
         'All Customer variables like defined in config option CustomerUser.' => '',
         'accept license' => 'Hyväksy lisenssi',
         'for agent lastname' => 'käsittelijän sukunimi',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => '',
         'Reminder messages' => 'Muistutettavat viestit',
+        'A message should have a subject!' => 'Viestissä pitää olla otsikko!',
+        'IMAPS' => '',
         'Don\'t forget to add a new user to groups!' => 'Älä unohda lisätä käyttäjää ryhmiin!',
         'You need a email address (e. g. customer@example.com) in To:!' => 'Laita vastaanottajakenttään sähköpostiosoite!',
+        'You need to account time!' => 'Käsittelyaika',
         'System Settings' => '',
         'WebWatcher' => '',
         'Finished' => 'Valmis',
         'Split' => '',
         'All messages' => 'Kaikki viestit',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
-        'Artefact' => '',
         'A article should have a title!' => '',
+        'Event' => '',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'don\'t accept license' => 'En hyväksy lisenssiä',
         'A web mail client' => '',
         'WebMail' => '',
@@ -1478,11 +1447,13 @@ sub Data {
         'A web file manager' => '',
         'send' => 'lähetä',
         'Note Text' => 'Huomautusteksti',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
         'System State Management' => 'Tilamahdollisuuksien määrittäminen',
         'PhoneView' => 'Puhelu / Uusi tiketti',
         'maximal period form' => '',
         'Verion' => '',
         'TicketID' => 'TikettiID',
+        'Management Summary' => '',
         'Modified' => '',
         'Ticket selected for bulk action!' => '',
     };

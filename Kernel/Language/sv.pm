@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.34 2007-05-29 12:52:58 martin Exp $
+# $Id: sv.pm,v 1.35 2007-05-29 13:31:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::sv;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.34 $;
+$VERSION = q$Revision: 1.35 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1392,11 +1392,7 @@ sub Data {
         # Misc
         'Create Database' => 'Skapa databas',
         'DB Host' => 'DB host',
-        'Change roles <-> groups settings' => '',
         'Ticket Number Generator' => 'Ärende-nummergenerator',
-        '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-        'Create new Phone Ticket' => '',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => '',
         'A message should have a To: recipient!' => 'Ett meddelande måste ha en mottagare i Till:-fältet!',
         'Site' => 'plats',
@@ -1417,7 +1413,6 @@ sub Data {
         'customer realname' => 'Fullt kundnamn',
         'First Response' => '',
         'Pending messages' => 'Väntande meddelanden',
-        'Modules' => '',
         'for agent login' => 'för agents login',
         'Keyword' => 'Nyckelord',
         'Close type' => 'Stängningstillstånd',
@@ -1432,11 +1427,8 @@ sub Data {
         'Admin-Email' => 'Admin-email',
         'Create new database' => 'Skapa ny databas',
         'A message must be spell checked!' => 'Stavningskontroll måste utföras på alla meddelanden!',
-        '\' ' => '',
-        'ArticleID' => '',
         'All Agents' => 'Alla agenter',
         'Keywords' => 'Nyckelord',
-        'Typ' => '',
         'No * possible!' => 'Wildcards * inte tillåtna!',
         'Options ' => '',
         'Message for new Owner' => 'Meddelande till ny ägare',
@@ -1445,7 +1437,6 @@ sub Data {
         'Last update' => 'Senast ändrat',
         'to get the first 20 character of the subject' => 'för att få fram de förste 20 tecknen i ämnesbeskrivningen',
         'DB Admin Password' => 'DB Adminlösenord',
-        'Advisory' => '',
         'Drop Database' => 'Radera databas',
         'FileManager' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'ger tillgång till data för gällande kund (t.ex. <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1457,16 +1448,10 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         '(Used ticket number format)' => '(Valt format för ärendenummer)',
         'Fulltext' => 'Fritext',
-        'Incident' => '',
-        'OTRS DB connect host' => '',
-        'All Agent variables.' => '',
-        'All Customer variables like defined in config option CustomerUser.' => '',
         'accept license' => 'godkänn licens',
         'for agent lastname' => 'för agents efternamn',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'ger tillgång till data för agenten som utför handlingen (t.ex. <OTRS_CURRENT_UserFirstname>)',
         'Reminder messages' => 'Påminnelsemeddelanden',
-        'Change users <-> roles settings' => '',
-        'Ticket Hook' => '',
         'TicketZoom' => 'Ärende Zoom',
         'Don\'t forget to add a new user to groups!' => 'Glöm inte att lägga in en ny användare i en grupp!',
         'You need a email address (e. g. customer@example.com) in To:!' => 'I Till-fältet måste anges en giltig emailadress (t.ex. kund@exempeldomain.se)!',
@@ -1478,22 +1463,18 @@ sub Data {
         'Split' => 'Dela',
         'All messages' => 'Alla meddelanden',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
-        'Artefact' => '',
         'A article should have a title!' => '',
         'don\'t accept license' => 'godkänn inte licens',
         'A web mail client' => '',
-        'WebMail' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Article time' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'ger tillgang till data för agenten som står som ägare till ärendet (t.ex. <OTRS_OWNER_UserFirstname>)',
         'Name is required!' => '',
         'DB Type' => 'DB typ',
-        'Termin1' => '',
         'kill all sessions' => 'Terminera alla sessioner',
         'to get the from line of the email' => 'för att få fram avsändarraden i emailen',
         'Solution' => 'Lösning',
         'QueueView' => 'Köer',
-        'Welcome to OTRS' => '',
         'modified' => '',
         'Delete old database' => 'Radera gammal databas',
         'sort downward' => 'Sortera sjunkande',
@@ -1506,7 +1487,6 @@ sub Data {
         'PhoneView' => 'Tel.samtal',
         'maximal period form' => '',
         'Verion' => '',
-        'TicketID' => '',
         'Modified' => 'Ändrat',
         'Ticket selected for bulk action!' => '',
     };

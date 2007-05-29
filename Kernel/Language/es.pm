@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2006 Jorge Becerra <jorge at hab.desoft.cu>
 # --
-# $Id: es.pm,v 1.55 2007-05-29 12:52:58 martin Exp $
+# $Id: es.pm,v 1.56 2007-05-29 13:31:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Tue May 29 14:48:41 2007
+    # Last translation file sync: Tue May 29 15:12:29 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -680,21 +680,6 @@ sub Data {
         'System Log' => 'Trazas del Sistema',
         'Time' => 'Tiempo',
 
-        # Template: AdminMailAccount
-        'Mail Account Management' => '',
-        'Host' => '',
-        'Account Type' => '',
-        'POP3' => '',
-        'POP3S' => '',
-        'IMAP' => '',
-        'IMAPS' => '',
-        'Mailbox' => 'Buzón',
-        'Port' => '',
-        'Trusted' => 'Confiable',
-        'Dispatching' => 'Remitiendo',
-        'All incoming emails with one account will be dispatched in the selected queue!' => 'Todos los correos de entrada serán enviados a la cola seleccionada',
-        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Si su cuenta es confiable, los headers ya existentes X-OTRS en la llegada se utilizarán para la prioridad! El filtro Postmaster se usa de todas formas.',
-
         # Template: AdminNavigationBar
         'Users' => 'Usuarios',
         'Groups' => 'Grupos',
@@ -763,6 +748,11 @@ sub Data {
 
         # Template: AdminPOP3
         'POP3 Account Management' => 'Gestión de cuenta POP3',
+        'Host' => '',
+        'Trusted' => 'Confiable',
+        'Dispatching' => 'Remitiendo',
+        'All incoming emails with one account will be dispatched in the selected queue!' => 'Todos los correos de entrada serán enviados a la cola seleccionada',
+        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Si su cuenta es confiable, los headers ya existentes X-OTRS en la llegada se utilizarán para la prioridad! El filtro Postmaster se usa de todas formas.',
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'Gestión del filtro maestro',
@@ -938,18 +928,6 @@ sub Data {
         'Realname' => 'Nombre',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Todos los mensajes entrantes con este correo(To:) serán enviados a la cola seleccionada!',
 
-        # Template: AdminSystemStatus
-        'System Status' => '',
-
-        # Template: AdminTicketCustomerNotification
-        'Notification (Customer)' => '',
-        'Event' => '',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
-        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
-        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
-
         # Template: AdminTypeForm
         'Type Management' => '',
         'Add Type' => '',
@@ -1006,7 +984,6 @@ sub Data {
         'Apply these changes' => 'Aplicar los cambios',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => 'Seguro que desea eliminar este objeto?',
 
         # Template: AgentStatsEditRestrictions
@@ -1088,12 +1065,6 @@ sub Data {
         'Start' => 'Iniciar',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Con la entrada y campos seleciconados puede configurar las estadisticas a sus necesidades. Que elementos de estadisticas puede editar depende del como haya sido configurado por el administrador',
 
-        # Template: AgentTicketArticleUpdate
-        'A message should have a subject!' => 'Los mensajes deben tener asunto!',
-        'A message should have a body!' => 'Los mensajes deben tener contenido',
-        'You need to account time!' => 'Necesita contabilizar el tiempo!',
-        'Edit Article' => '',
-
         # Template: AgentTicketBounce
         'Bounce ticket' => 'Ticket rebotado',
         'Ticket locked!' => 'Ticket bloqueado!',
@@ -1101,7 +1072,6 @@ sub Data {
         'Bounce to' => 'Rebotar a',
         'Next ticket state' => 'Nuevo estado del ticket',
         'Inform sender' => 'Informar al emisor',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Su correo con el ticket número "<OTRS_TICKET>"  fue rebotado a "<OTRS_BOUNCE_TO>". Contacte dicha dirección para mas información',
         'Send mail!' => 'Enviar correo!',
 
         # Template: AgentTicketBulk
@@ -1120,7 +1090,6 @@ sub Data {
         'Next state' => 'Siguiente estado',
         'Pending date' => 'Fecha pendiente',
         'Time units' => 'Unidades de tiempo',
-        ' (work units)' => ' (unidades de trabajo)',
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Redacte una respuesta al ticket',
@@ -1157,6 +1126,7 @@ sub Data {
         # Template: AgentTicketLocked
 
         # Template: AgentTicketMailbox
+        'Mailbox' => 'Buzón',
         'Tickets' => '',
         'of' => 'de',
         'Filter' => '',
@@ -1253,10 +1223,6 @@ sub Data {
 
         # Template: AgentWindowTab
 
-        # Template: Calculator
-        'Calculator' => '',
-        'Operation' => '',
-
         # Template: Copyright
 
         # Template: css
@@ -1269,8 +1235,6 @@ sub Data {
 
         # Template: CustomerError
         'Traceback' => '',
-
-        # Template: CustomerFAQ
 
         # Template: CustomerFooter
         'Powered by' => '',
@@ -1307,6 +1271,8 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
+
+        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1377,11 +1343,6 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'impreso por',
 
-        # Template: PublicFAQ
-
-        # Template: PublicView
-        'Management Summary' => '',
-
         # Template: Redirect
 
         # Template: Test
@@ -1390,22 +1351,25 @@ sub Data {
 
         # Template: Warning
         # Misc
+        'Edit Article' => '',
         'Create Database' => 'Crear Base de Datos',
         'Ticket Number Generator' => 'Generador de números de Tickets',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificador de Ticker. Algunas personas gustan de usar por ejemplo \'Ticket#\', \'Call#\' or \'MyTicket#\')',
-        'Create new Phone Ticket' => 'Crear un nuevo Ticket Telefónico',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'De esta forma Ud puede editar directamente las llaves configuradas en Kernel/Config.pm.',
+        'Create new Phone Ticket' => 'Crear un nuevo Ticket Telefónico',
         'Symptom' => 'Sintoma',
         'A message should have a To: recipient!' => 'El mensaje debe tenes el destinatario To: !',
         'Site' => 'Sitio',
         'Customer history search (e. g. "ID342425").' => 'Historia de búsquedas del cliente (ejemplo: "ID342425"',
-        'for agent firstname' => 'nombre del agente',
         'Close!' => 'Cerrar!',
+        'for agent firstname' => 'nombre del agente',
         'The message being composed has been closed.  Exiting.' => 'El mensaje que se estaba redactando ha sido cerrado. Saliendo.!',
         'A web calendar' => 'Calendario Web',
         'to get the realname of the sender (if given)' => 'para obtener el nombre del emisor (si lo proporcionó)',
         'OTRS DB Name' => 'Nombre de la BD OTRS',
+        'Notification (Customer)' => '',
         'Select Source (for add)' => 'Seleccionar Fuente (para adicionar)',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
         'Days' => 'Dias',
         'Queue ID' => 'Id de la Cola',
         'Home' => 'Inicio',
@@ -1427,23 +1391,27 @@ sub Data {
         'Admin-Email' => 'Correo Administrativo',
         'Create new database' => 'Crear nueva base de datos',
         'A message must be spell checked!' => 'El mensaje debe ser chequeado ortograficamente!',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Su correo con el ticket número "<OTRS_TICKET>"  fue rebotado a "<OTRS_BOUNCE_TO>". Contacte dicha dirección para mas información',
         'ArticleID' => 'Identificador de articulo',
+        'A message should have a body!' => 'Los mensajes deben tener contenido',
         'All Agents' => 'Todos los Agentes',
         'Keywords' => 'palabras clave',
         'No * possible!' => 'No * posible!',
         'Options ' => 'Opciones',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
         'Message for new Owner' => 'Mensaje para el nuevo propietario',
         'to get the first 5 lines of the email' => 'para obtener las primeras 5 líneas del correo',
         'OTRS DB Password' => 'Contraseña para BD del usuario OTRS',
         'Last update' => 'Ultima Actualización',
         'to get the first 20 character of the subject' => 'para obtener los primeros 20 caracteres del asunto ',
         'DB Admin Password' => 'Contraseña del Admin de la BD',
-        'Advisory' => 'Advertencia',
         'Drop Database' => 'Eliminar Base de Datos',
+        'Advisory' => 'Advertencia',
         'FileManager' => 'Administrador de Archivos',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Opciones del usuario activo',
         'Pending type' => 'Tipo pendiente',
         'Comment (internal)' => 'Comentario (interno)',
+        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
         'This window must be called from compose window' => 'Esta ventana debe ser llamada desde la ventana de redacción',
         'Minutes' => 'Minutos',
         'You need min. one selected Ticket!' => 'Necesita al menos seleccionar un Ticket!',
@@ -1452,32 +1420,38 @@ sub Data {
         'Fulltext' => 'Texto Completo',
         'Incident' => 'Incidente',
         'All Agent variables.' => 'Todas las variables de Agente',
+        ' (work units)' => ' (unidades de trabajo)',
         'All Customer variables like defined in config option CustomerUser.' => 'Todas las variables de cliente como aparecen declaradas en la opcion de configuracion del cliente',
         'accept license' => 'aceptar licencia',
         'for agent lastname' => 'apellido del agente',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Opciones del usuario activo que solicita esta acción (ej. <OTRS_CURRENT_UserFirstname>)',
         'Reminder messages' => 'Mensajes recordatorios',
         'Change users <-> roles settings' => 'Cambiar Usuarios <-> Configuración de Roles',
+        'A message should have a subject!' => 'Los mensajes deben tener asunto!',
         'TicketZoom' => 'Detalle de Ticket',
         'Don\'t forget to add a new user to groups!' => 'No olvide incluir el usuario en grupos!',
         'You need a email address (e. g. customer@example.com) in To:!' => 'Necesita una dirección de correo (ejemplo: cliente@ejemplo.com) en To:!',
         'CreateTicket' => 'CrearTicket',
+        'You need to account time!' => 'Necesita contabilizar el tiempo!',
         'System Settings' => 'Configuración del sistema',
         'WebWatcher' => '',
         'Hours' => 'Horas',
         'Finished' => 'Finalizado',
+        'Account Type' => '',
         'Split' => 'Dividir',
         'All messages' => 'Todos los mensajes',
+        'System Status' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Opciones para la información el ticket ',
         'Artefact' => 'Artefacto',
         'A article should have a title!' => 'Los articulos deben tener título',
+        'Event' => '',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'don\'t accept license' => 'no acepto la licencia',
         'A web mail client' => 'Un cliente de correo Web',
         'WebMail' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Opciones de propietario del ticket (ej. <OTRS_OWNER_UserFirstname>)',
         'Name is required!' => 'Debe especificar nombre!',
         'DB Type' => 'Tipo de BD',
-        'Termin1' => '',
         'kill all sessions' => 'Finalizar todas las sesiones',
         'to get the from line of the email' => 'para obtener la linea from del correo',
         'Solution' => 'Solución',
@@ -1491,6 +1465,7 @@ sub Data {
         'A web file manager' => 'Administrador web de archivos',
         'send' => 'enviar',
         'Note Text' => 'Nota!',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
         'System State Management' => 'Gestión de estados del Sistema',
         'OTRS DB User' => 'Usuario de BD OTRS',
         'PhoneView' => 'Vista telefónica',

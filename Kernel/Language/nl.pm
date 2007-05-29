@@ -6,7 +6,7 @@
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # Copyright (C) 2005 Jurgen Rutgers (jurgen 'at' besite.nl)
 # --
-# $Id: nl.pm,v 1.58 2007-05-29 12:52:58 martin Exp $
+# $Id: nl.pm,v 1.59 2007-05-29 13:31:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -54,7 +54,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -62,7 +62,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Tue May 29 14:49:06 2007
+    # Last translation file sync: Tue May 29 15:18:09 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -720,21 +720,6 @@ sub Data {
         'System Log' => 'Systeem logboek',
         'Time' => 'Tijd',
 
-        # Template: AdminMailAccount
-        'Mail Account Management' => '',
-        'Host' => 'Server',
-        'Account Type' => '',
-        'POP3' => '',
-        'POP3S' => '',
-        'IMAP' => '',
-        'IMAPS' => '',
-        'Mailbox' => 'Postbus',
-        'Port' => '',
-        'Trusted' => 'Vertrouwd',
-        'Dispatching' => 'Sortering',
-        'All incoming emails with one account will be dispatched in the selected queue!' => 'Alle binnenkomende e-mail\'s in een account zullen worden geplaatst in de geselecteerde wachtrij',
-        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
-
         # Template: AdminNavigationBar
         'Users' => 'Gebruikers',
         'Groups' => 'Groepen',
@@ -803,6 +788,11 @@ sub Data {
 
         # Template: AdminPOP3
         'POP3 Account Management' => 'POP3 Account beheer',
+        'Host' => 'Server',
+        'Trusted' => 'Vertrouwd',
+        'Dispatching' => 'Sortering',
+        'All incoming emails with one account will be dispatched in the selected queue!' => 'Alle binnenkomende e-mail\'s in een account zullen worden geplaatst in de geselecteerde wachtrij',
+        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'Postmaster filter beheer',
@@ -978,18 +968,6 @@ sub Data {
         'Realname' => 'Echte naam',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle binnenkomende emails met deze "To:" worden in de gekozen wachtrij geplaatst.',
 
-        # Template: AdminSystemStatus
-        'System Status' => '',
-
-        # Template: AdminTicketCustomerNotification
-        'Notification (Customer)' => '',
-        'Event' => '',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
-        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
-        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
-
         # Template: AdminTypeForm
         'Type Management' => '',
         'Add Type' => '',
@@ -1046,7 +1024,6 @@ sub Data {
         'Apply these changes' => 'Pas deze wijzigingen toe',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => 'Weet u zeker dat u dit item wilt verwijderen?',
 
         # Template: AgentStatsEditRestrictions
@@ -1128,12 +1105,6 @@ sub Data {
         'Start' => '',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
 
-        # Template: AgentTicketArticleUpdate
-        'A message should have a subject!' => 'Een bericht moet een onderwerp hebben!',
-        'A message should have a body!' => 'Een bericht moet een berichttekst hebben!',
-        'You need to account time!' => 'Het is verplicht tijd te verantwoorden!',
-        'Edit Article' => '',
-
         # Template: AgentTicketBounce
         'Bounce ticket' => 'Bounce Ticket',
         'Ticket locked!' => '',
@@ -1141,7 +1112,6 @@ sub Data {
         'Bounce to' => 'Bounce naar',
         'Next ticket state' => 'Volgende status van het ticket',
         'Inform sender' => 'Informeer afzender',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Uw e-mail met Ticket nummer "<OTRS_TICKET>" is gebounced naar "<OTRS_BOUNCE_TO>". Neem contact op met dit adres voor meer informatie.',
         'Send mail!' => 'Bericht versturen!',
 
         # Template: AgentTicketBulk
@@ -1160,7 +1130,6 @@ sub Data {
         'Next state' => 'Volgende status',
         'Pending date' => 'In de wacht: datum',
         'Time units' => 'Gewerkte tijd',
-        ' (work units)' => '(in minuten)',
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Bericht opstellen voor',
@@ -1197,6 +1166,7 @@ sub Data {
         # Template: AgentTicketLocked
 
         # Template: AgentTicketMailbox
+        'Mailbox' => 'Postbus',
         'Tickets' => '',
         'of' => 'van',
         'Filter' => '',
@@ -1293,10 +1263,6 @@ sub Data {
 
         # Template: AgentWindowTab
 
-        # Template: Calculator
-        'Calculator' => '',
-        'Operation' => '',
-
         # Template: Copyright
 
         # Template: css
@@ -1309,8 +1275,6 @@ sub Data {
 
         # Template: CustomerError
         'Traceback' => 'Terug traceren',
-
-        # Template: CustomerFAQ
 
         # Template: CustomerFooter
         'Powered by' => '',
@@ -1347,6 +1311,8 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
+
+        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1417,11 +1383,6 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'afgedrukt door',
 
-        # Template: PublicFAQ
-
-        # Template: PublicView
-        'Management Summary' => '',
-
         # Template: Redirect
 
         # Template: Test
@@ -1430,26 +1391,21 @@ sub Data {
 
         # Template: Warning
         # Misc
-        'Create Database' => '',
-        'DB Host' => '',
-        'Ticket Number Generator' => '',
-        '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
+        'Edit Article' => '',
         'Create new Phone Ticket' => 'Maak nieuw Telefoon Ticket aan',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => 'Symptoom',
         'A message should have a To: recipient!' => 'Een bericht moet een ontvanger (aan:) hebben!',
-        'Site' => '',
         'Customer history search (e. g. "ID342425").' => 'Klantgeschiedenis zoeken (bijv. "ID342425").',
-        'for agent firstname' => 'voornaam van agent',
         'Close!' => 'Sluit!',
+        'for agent firstname' => 'voornaam van agent',
         'The message being composed has been closed.  Exiting.' => 'Het bericht dat werd aangemaakt is gesloten.',
         'A web calendar' => 'Kalender',
         'to get the realname of the sender (if given)' => 'voor de echte naam van de afzender (indien beschikbaar)',
-        'OTRS DB Name' => '',
+        'Notification (Customer)' => '',
         'Select Source (for add)' => 'Selecteer bron (voor toevoegen)',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
         'Days' => '',
         'Queue ID' => 'Wachtrij ID',
-        'Home' => '',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Configuratie opties (b.v. <OTRS_CONFIG_HttpType>)',
         'System History' => 'Systeem geschiedenis',
         'customer realname' => 'naam van de klant',
@@ -1460,7 +1416,6 @@ sub Data {
         'Keyword' => '',
         'with' => '',
         'Close type' => 'Sluit-type',
-        'DB Admin User' => '',
         'for agent user id' => 'de loginnaam van de agent ',
         'sort upward' => 'sorteer oplopend',
         'Change user <-> group settings' => 'Wijzigen van gebruiker <-> groep toekenning',
@@ -1468,61 +1423,52 @@ sub Data {
         'next step' => 'volgende stap',
         'Customer history search' => 'Zoeken in klantgeschiednis',
         'Admin-Email' => 'Admin e-mail adres',
-        'Create new database' => '',
         'A message must be spell checked!' => 'Van een bericht moet de spelling gecontroleerd worden',
-        'Stunden' => '',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Uw e-mail met Ticket nummer "<OTRS_TICKET>" is gebounced naar "<OTRS_BOUNCE_TO>". Neem contact op met dit adres voor meer informatie.',
         'ArticleID' => 'Artikel ID',
+        'A message should have a body!' => 'Een bericht moet een berichttekst hebben!',
         'All Agents' => 'Alle agenten',
         'Keywords' => '',
         'No * possible!' => 'Geen * mogelijk!',
-        'Load' => '',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
         'Message for new Owner' => 'Bericht voor nieuwe eigenaar',
         'to get the first 5 lines of the email' => 'voor de eerste vijf regels van het e-mail bericht',
-        'OTRS DB Password' => '',
         'Last update' => 'Laatste wijziging',
         'to get the first 20 character of the subject' => 'voor de eerste 20 tekens van het onderwerp',
-        'DB Admin Password' => '',
-        'Advisory' => '',
-        'Drop Database' => '',
         'FileManager' => 'Bestandsbeheer',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Opties van de huidige gebruikersdata van de klant (b.v. <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'In de wacht: type',
         'Comment (internal)' => 'Interne opmerking',
+        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
         'This window must be called from compose window' => 'Dit scherm moet van het scherm <opstellen bericht> worden aangeroepen',
         'You need min. one selected Ticket!' => 'U heeft tenminste 1 geselecteerd Ticket nodig.',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Mogelijkheden van Ticket gegevens (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
-        '(Used ticket number format)' => '',
         'Fulltext' => 'Volledig',
-        'Incident' => '',
-        'OTRS DB connect host' => '',
-        'All Agent variables.' => '',
+        ' (work units)' => '(in minuten)',
         'All Customer variables like defined in config option CustomerUser.' => 'Alle klantvariabelen zoals vastgelegd in de configuratieoptie Klantgebruiker.',
-        'accept license' => '',
         'for agent lastname' => 'achternaam van agent',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Opties van de gebruiker die deze actie heeft aangevraagd (b.v. <OTRS_CURRENT_UserFirstname>)',
         'Reminder messages' => 'Herinneringsberichten',
         'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
-        'Ticket Hook' => '',
+        'A message should have a subject!' => 'Een bericht moet een onderwerp hebben!',
         'TicketZoom' => 'Inhoud ticket',
         'Don\'t forget to add a new user to groups!' => 'Vergeet niet om groepen aan deze gebruiker toe te kennen!',
         'You need a email address (e. g. customer@example.com) in To:!' => 'In het Aan-veld is een e-mail adres nodig!',
         'CreateTicket' => 'Ticket aanmaken',
-        'System Settings' => '',
+        'You need to account time!' => 'Het is verplicht tijd te verantwoorden!',
         'WebWatcher' => '',
         'Finished' => '',
         'Split' => 'Splitsing',
         'All messages' => 'Alle berichten',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
-        'Artefact' => '',
         'A article should have a title!' => 'Een artikel moet een titel hebben!',
-        'don\'t accept license' => '',
+        'Event' => '',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'A web mail client' => 'Webmail gebruiker',
         'WebMail' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Opties voor de Ticket eigenaar (b.v. <OTRS_OWNER_UserFirstname>)',
         'Name is required!' => 'Naam is verplicht!',
-        'DB Type' => '',
-        'Termin1' => '',
         'kill all sessions' => 'alle sessies afsluiten',
         'to get the from line of the email' => 'voor het e-mailadres waar vandaan de e-mail komt',
         'Solution' => 'Oplossing',
@@ -1530,14 +1476,13 @@ sub Data {
         'My Queue' => 'Mijn wachtrij',
         'Welcome to OTRS' => 'Welkom bij OTRS',
         'modified' => 'aangepast',
-        'Delete old database' => '',
         'sort downward' => 'sorteer aflopend',
         'You need to use a ticket number!' => 'U dient een Ticket nummer te gebruiken.',
         'A web file manager' => 'Een online bestandsbeheer',
         'send' => 'verstuur',
         'Note Text' => 'Notitietekst',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
         'System State Management' => 'Status beheer',
-        'OTRS DB User' => '',
         'PhoneView' => 'Telefoonscherm',
         'maximal period form' => '',
         'Verion' => '',

@@ -5,7 +5,7 @@
 # Original created by Thorsten Rossner
 # Maintained by Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.20 2007-05-29 12:52:58 martin Exp $
+# $Id: da.pm,v 1.21 2007-05-29 13:31:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -24,7 +24,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Tue May 29 14:48:32 2007
+    # Last translation file sync: Tue May 29 15:10:03 2007
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -682,21 +682,6 @@ sub Data {
         'System Log' => 'Systemlog',
         'Time' => 'Tid',
 
-        # Template: AdminMailAccount
-        'Mail Account Management' => '',
-        'Host' => 'Vært',
-        'Account Type' => '',
-        'POP3' => '',
-        'POP3S' => '',
-        'IMAP' => '',
-        'IMAPS' => '',
-        'Mailbox' => 'Mailboks',
-        'Port' => '',
-        'Trusted' => 'Pålidelig',
-        'Dispatching' => 'Sender',
-        'All incoming emails with one account will be dispatched in the selected queue!' => 'Alle indkommende e-mails med 1 konto sendes til den valgte kø!',
-        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Er der tillid til din konto, bliver den allerede eksisterende X-OTRS-header ved ankomsttidspunktet (for prioritering, ...) anvendt! Der anvendes PostMaster-filter under alle omstændigheder.',
-
         # Template: AdminNavigationBar
         'Users' => 'Brugere',
         'Groups' => 'Grupper',
@@ -765,6 +750,11 @@ sub Data {
 
         # Template: AdminPOP3
         'POP3 Account Management' => 'POP3 kontostyring',
+        'Host' => 'Vært',
+        'Trusted' => 'Pålidelig',
+        'Dispatching' => 'Sender',
+        'All incoming emails with one account will be dispatched in the selected queue!' => 'Alle indkommende e-mails med 1 konto sendes til den valgte kø!',
+        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Er der tillid til din konto, bliver den allerede eksisterende X-OTRS-header ved ankomsttidspunktet (for prioritering, ...) anvendt! Der anvendes PostMaster-filter under alle omstændigheder.',
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'PostMasters filterstyring',
@@ -940,18 +930,6 @@ sub Data {
         'Realname' => 'RigtigtNavn',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle indkommende e-mail med denne "E-mail" (Til:) sendes til den valgte kø!',
 
-        # Template: AdminSystemStatus
-        'System Status' => '',
-
-        # Template: AdminTicketCustomerNotification
-        'Notification (Customer)' => '',
-        'Event' => '',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
-        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
-        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
-
         # Template: AdminTypeForm
         'Type Management' => '',
         'Add Type' => '',
@@ -1008,7 +986,6 @@ sub Data {
         'Apply these changes' => 'Anvend disse ændringer',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => 'Er du sikker på, du ønsker at slette dette objekt?',
 
         # Template: AgentStatsEditRestrictions
@@ -1090,12 +1067,6 @@ sub Data {
         'Start' => '',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Med input og select felterne kan du konfigurere en stat til dine behov. Hvilket element af en stat du kan rette afhænger af administratoren der har konfigureret denne stat.',
 
-        # Template: AgentTicketArticleUpdate
-        'A message should have a subject!' => 'En meddelelse skal have et emne!',
-        'A message should have a body!' => 'En meddelelse skal have en tekst!',
-        'You need to account time!' => 'Du skal beregne tiden!',
-        'Edit Article' => '',
-
         # Template: AgentTicketBounce
         'Bounce ticket' => 'Sag retur til afsender',
         'Ticket locked!' => 'Sag låst!',
@@ -1103,7 +1074,6 @@ sub Data {
         'Bounce to' => 'Retur til',
         'Next ticket state' => 'Næste sags status',
         'Inform sender' => 'Informer afsender',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Din e-mail med sagnummer "<OTRS_TICKET>" er sendt retur til afsender til "<OTRS_BOUNCE_TO>". Kontakt denne adresse for at få flere oplysninger.',
         'Send mail!' => '',
 
         # Template: AgentTicketBulk
@@ -1122,7 +1092,6 @@ sub Data {
         'Next state' => 'Næste status',
         'Pending date' => 'Afventer dato',
         'Time units' => 'Tidsenheder',
-        ' (work units)' => '(arbejdsenheder)',
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Formuler svar til sag',
@@ -1159,6 +1128,7 @@ sub Data {
         # Template: AgentTicketLocked
 
         # Template: AgentTicketMailbox
+        'Mailbox' => 'Mailboks',
         'Tickets' => 'Sager',
         'of' => 'af',
         'Filter' => '',
@@ -1255,10 +1225,6 @@ sub Data {
 
         # Template: AgentWindowTab
 
-        # Template: Calculator
-        'Calculator' => '',
-        'Operation' => '',
-
         # Template: Copyright
 
         # Template: css
@@ -1271,8 +1237,6 @@ sub Data {
 
         # Template: CustomerError
         'Traceback' => 'Tilbagesporing',
-
-        # Template: CustomerFAQ
 
         # Template: CustomerFooter
         'Powered by' => 'Drevet af',
@@ -1309,6 +1273,8 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
+
+        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1379,11 +1345,6 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'udskrevet af',
 
-        # Template: PublicFAQ
-
-        # Template: PublicView
-        'Management Summary' => '',
-
         # Template: Redirect
 
         # Template: Test
@@ -1392,23 +1353,26 @@ sub Data {
 
         # Template: Warning
         # Misc
+        'Edit Article' => '',
         'Create Database' => 'Opret database',
         'DB Host' => 'DB værtscomputer',
         'Ticket Number Generator' => 'Sagsnummergenerator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Sagidentifikator. Nogle personer ønsker at indstille dette til f.eks. \Ticket#\, \Call#\ eller \MyTicket#\)',
-        'Create new Phone Ticket' => 'Opret ny telefonsag',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Du kan på denne måde direkte redigere den nøglering, der er konfigureret i Kernel/Config.pm.',
+        'Create new Phone Ticket' => 'Opret ny telefonsag',
         'Symptom' => 'Symptom',
         'A message should have a To: recipient!' => 'En meddelelse skal have en Til: modtager!',
         'Site' => 'Websted',
         'Customer history search (e. g. "ID342425").' => 'Kundehistoriksøgning (f.eks. "ID342425").',
-        'for agent firstname' => 'til repræsentantens fornavn',
         'Close!' => 'Luk!',
+        'for agent firstname' => 'til repræsentantens fornavn',
         'The message being composed has been closed.  Exiting.' => 'Den meddelelse, der er ved at blive formuleret, er blevet lukket.  Afslutter.',
         'A web calendar' => 'En webkalender',
         'to get the realname of the sender (if given)' => 'for at få afsenderens virkelige navn (hvis det er oplyst)',
         'OTRS DB Name' => 'OTRS DB-navn',
+        'Notification (Customer)' => '',
         'Select Source (for add)' => 'Vælg kilde (til tilføjelse)',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
         'Queue ID' => 'Kø-ID',
         'Home' => 'Hjem',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Konfigurationsmuligheder (f.eks. <OTRS_CONFIG_HttpType>)',
@@ -1416,6 +1380,7 @@ sub Data {
         'customer realname' => 'kundens virkelige navn',
         'First Response' => '',
         'Pending messages' => 'Afventer meddelelser',
+        'Port' => '',
         'Modules' => 'Moduler',
         'for agent login' => 'til repræsentantens login',
         'Keyword' => 'Søgeord',
@@ -1428,12 +1393,17 @@ sub Data {
         'next step' => 'næste trin',
         'Customer history search' => 'Kunde historik søgning',
         'Admin-Email' => 'Admin-E-mail',
+        'Stat#' => '',
         'Create new database' => 'Opret ny database',
         'A message must be spell checked!' => 'En meddelelse skal stavekontrolleres!',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Din e-mail med sagnummer "<OTRS_TICKET>" er sendt retur til afsender til "<OTRS_BOUNCE_TO>". Kontakt denne adresse for at få flere oplysninger.',
+        'Mail Account Management' => '',
         'ArticleID' => 'Artikel-ID',
+        'A message should have a body!' => 'En meddelelse skal have en tekst!',
         'All Agents' => 'Alle Repræsentanter',
         'Keywords' => 'Søgeord',
         'No * possible!' => 'Ingen * er mulig!',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
         'Message for new Owner' => 'Meddelelse til ny ejer',
         'to get the first 5 lines of the email' => 'for at få e-mailens første 5 linjer',
         '}' => '}',
@@ -1441,12 +1411,13 @@ sub Data {
         'Last update' => 'Sidste opdatering',
         'to get the first 20 character of the subject' => 'for at få emnets første 20 tegn',
         'DB Admin Password' => 'DB-admins adgangskode',
-        'Drop Database' => 'Udelad database',
         'Advisory' => 'Bekendtgørelse',
+        'Drop Database' => 'Udelad database',
         'FileManager' => 'FilManager',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Valgmuligheder for de aktuelle kundebrugerdata (f.eks. <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'Afventer type',
         'Comment (internal)' => 'Kommentar (intern)',
+        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
         'This window must be called from compose window' => 'Dette vindue skal åbnes via Skriv-vinduet.',
         'You need min. one selected Ticket!' => 'Du skal vælge mindst 1 dag!',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Valgmuligheder for sagens data (f.eks. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
@@ -1454,23 +1425,30 @@ sub Data {
         'Fulltext' => 'Fritekst',
         'Incident' => 'Hændelse',
         'All Agent variables.' => 'Alle repræsentant variabler',
+        ' (work units)' => '(arbejdsenheder)',
         'All Customer variables like defined in config option CustomerUser.' => 'Alle kundevariabler som definerede i konfigurationsmuligheden KundeBruger.',
         'accept license' => 'accepter licens',
         '0' => '0',
         'for agent lastname' => 'til agents efternavn',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Valgmuligheder for den aktuelle bruger, som anmodede om denne handling (f.eks. <OTRS_CURRENT_UserFirstname>)',
         'Reminder messages' => 'Påmindelsesmeddelelser',
+        'A message should have a subject!' => 'En meddelelse skal have et emne!',
         'Don\'t forget to add a new user to groups!' => 'Glem ikke at tilføje en ny bruger til grupper!',
         'You need a email address (e. g. customer@example.com) in To:!' => 'Der skal være en e-mailadresse (f.eks. customer@eksempel.com) i feltet Til:!',
         'CreateTicket' => 'Opret sag',
+        'You need to account time!' => 'Du skal beregne tiden!',
         'System Settings' => 'Systemindstillinger',
         'WebWatcher' => '',
         'Finished' => 'Færdig',
+        'Account Type' => '',
         'Split' => 'Del',
         'All messages' => 'Alle meddelelser',
+        'System Status' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Valgmuligheder for de aktuelle sagsdata (f.eks. lt;OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Artefakt',
         'A article should have a title!' => 'En artikel skal have en titel!',
+        'Event' => '',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'don\'t accept license' => 'accepter ikke licens',
         'A web mail client' => 'En webmailklient',
         'WebMail' => '',
@@ -1492,6 +1470,7 @@ sub Data {
         'A web file manager' => 'En webfilmanager',
         'send' => '',
         'Note Text' => 'Bemærkningstekst',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
         'System State Management' => 'Systemtilstandsstyring',
         'OTRS DB User' => 'OTRS DB-bruger',
         'PhoneView' => 'TelefonVisning',

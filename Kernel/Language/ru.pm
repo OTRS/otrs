@@ -2,7 +2,7 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.43 2007-05-29 12:52:58 martin Exp $
+# $Id: ru.pm,v 1.44 2007-05-29 13:31:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Tue May 29 14:49:19 2007
+    # Last translation file sync: Tue May 29 15:22:57 2007
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -680,21 +680,6 @@ sub Data {
         'System Log' => 'Системный журнал',
         'Time' => 'Время',
 
-        # Template: AdminMailAccount
-        'Mail Account Management' => '',
-        'Host' => 'Сервер',
-        'Account Type' => '',
-        'POP3' => '',
-        'POP3S' => '',
-        'IMAP' => '',
-        'IMAPS' => '',
-        'Mailbox' => 'Почтовый ящик',
-        'Port' => '',
-        'Trusted' => 'Безопасный',
-        'Dispatching' => 'Перенаправление',
-        'All incoming emails with one account will be dispatched in the selected queue!' => 'Все входящие письма с едной учетной записи будут перенесены в избранную очередь!',
-        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
-
         # Template: AdminNavigationBar
         'Users' => 'Пользователи',
         'Groups' => 'Группы',
@@ -763,6 +748,11 @@ sub Data {
 
         # Template: AdminPOP3
         'POP3 Account Management' => 'Управление учетной записью POP3',
+        'Host' => 'Сервер',
+        'Trusted' => 'Безопасный',
+        'Dispatching' => 'Перенаправление',
+        'All incoming emails with one account will be dispatched in the selected queue!' => 'Все входящие письма с едной учетной записи будут перенесены в избранную очередь!',
+        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => '',
@@ -938,18 +928,6 @@ sub Data {
         'Realname' => 'Реальное Имя',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Все входящие сообщения с этим полем (Для:) будут направлены в выбранную очередь',
 
-        # Template: AdminSystemStatus
-        'System Status' => '',
-
-        # Template: AdminTicketCustomerNotification
-        'Notification (Customer)' => '',
-        'Event' => '',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
-        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
-        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
-
         # Template: AdminTypeForm
         'Type Management' => '',
         'Add Type' => '',
@@ -1006,7 +984,6 @@ sub Data {
         'Apply these changes' => 'Применить эти изменения',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -1088,12 +1065,6 @@ sub Data {
         'Start' => 'Начало',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
 
-        # Template: AgentTicketArticleUpdate
-        'A message should have a subject!' => 'Сообщение должно иметь поле "тема"!',
-        'A message should have a body!' => '',
-        'You need to account time!' => '',
-        'Edit Article' => '',
-
         # Template: AgentTicketBounce
         'Bounce ticket' => 'Пересылка заявки',
         'Ticket locked!' => 'Заявка заблокирована!',
@@ -1101,7 +1072,6 @@ sub Data {
         'Bounce to' => 'Переслать для',
         'Next ticket state' => 'Следующее состояние заявки',
         'Inform sender' => 'Информировать отправителя',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '',
         'Send mail!' => 'Послать e-mail!',
 
         # Template: AgentTicketBulk
@@ -1120,7 +1090,6 @@ sub Data {
         'Next state' => 'Следующее состояние',
         'Pending date' => 'Дата ожидания',
         'Time units' => 'Единицы времени',
-        ' (work units)' => ' (рабочие единицы)',
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Создание ответ на заявку',
@@ -1157,6 +1126,7 @@ sub Data {
         # Template: AgentTicketLocked
 
         # Template: AgentTicketMailbox
+        'Mailbox' => 'Почтовый ящик',
         'Tickets' => 'Заявки',
         'of' => 'на',
         'Filter' => '',
@@ -1253,10 +1223,6 @@ sub Data {
 
         # Template: AgentWindowTab
 
-        # Template: Calculator
-        'Calculator' => '',
-        'Operation' => '',
-
         # Template: Copyright
 
         # Template: css
@@ -1269,8 +1235,6 @@ sub Data {
 
         # Template: CustomerError
         'Traceback' => '',
-
-        # Template: CustomerFAQ
 
         # Template: CustomerFooter
         'Powered by' => '',
@@ -1307,6 +1271,8 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
+
+        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1377,11 +1343,6 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'напечатано ',
 
-        # Template: PublicFAQ
-
-        # Template: PublicView
-        'Management Summary' => '',
-
         # Template: Redirect
 
         # Template: Test
@@ -1390,43 +1351,37 @@ sub Data {
 
         # Template: Warning
         # Misc
+        'Edit Article' => '',
         'auto responses set!' => 'установленных автоответов',
         'Create Database' => 'Создать базу',
         'End' => 'Окончание',
-        'DB Host' => '',
-        'Change roles <-> groups settings' => '',
         'Ticket Number Generator' => 'Генератор номера Заявки',
-        '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
         'Create new Phone Ticket' => 'Создать телефонную заявку',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => 'Признак',
         'A message should have a To: recipient!' => 'Сообщение должно иметь поле ДЛЯ: адресата!',
         'Site' => 'Место',
         'Customer history search (e. g. "ID342425").' => 'Поиск истории клиента (напр. "ID342425").',
-        'for agent firstname' => 'для агента - имя',
         'Close!' => 'Закрыть!',
+        'for agent firstname' => 'для агента - имя',
         'Subgroup \'' => 'подгруппа',
         'The message being composed has been closed.  Exiting.' => 'создаваемое сообщение было закрыто. выход.',
         'A web calendar' => 'Календарь',
         'to get the realname of the sender (if given)' => 'получить (если есть) имя отправителя',
-        'OTRS DB Name' => '',
-        'Select Source (for add)' => 'Выбрать источник',
+        'Notification (Customer)' => '',
         'Involved' => 'Совместно с',
+        'Select Source (for add)' => 'Выбрать источник',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
         'Days' => 'Дни',
-        'Locked tickets' => 'Заблокированные заявки',
         'Queue ID' => 'ID очереди',
+        'Locked tickets' => 'Заблокированные заявки',
         'Home' => 'Начало',
-        'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '',
         'System History' => 'История',
         'customer realname' => 'имя клиента',
         'First Response' => '',
         'Pending messages' => 'Сообщения в ожидании',
         'Modules' => 'Модули',
-        'for agent login' => '',
         'Keyword' => '',
         'Close type' => 'Тип закрытия',
-        'DB Admin User' => '',
-        'for agent user id' => '',
         'sort upward' => 'сортировка по возрастанию',
         'Change user <-> group settings' => 'Изменить настройки групп пользователей',
         'Problem' => 'Проблема',
@@ -1437,48 +1392,45 @@ sub Data {
         'Admin-Email' => 'e-mail администратора',
         'Create new database' => '',
         'A message must be spell checked!' => '',
-        '\' ' => '',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '',
         'ArticleID' => 'ID заметки',
-        'All Agents' => '',
+        'A message should have a body!' => '',
         'Keywords' => '',
-        'Typ' => '',
         'Today' => 'Сегодня',
         'Tommorow' => 'Завтра',
         'No * possible!' => 'Нельзя использовать символ * !',
         'Options ' => 'Опции',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
         'Message for new Owner' => 'сообщение для нового владельца',
         'to get the first 5 lines of the email' => 'получить первые 5 строк письма',
-        'OTRS DB Password' => '',
         'Last update' => 'Последнее изменение',
         'to get the first 20 character of the subject' => 'получить первые 20 символов поля "тема"',
-        'DB Admin Password' => '',
-        'Advisory' => '',
         'Drop Database' => 'Удалить базу',
         'FileManager' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '',
         'Pending type' => 'Тип ожидания',
         'Comment (internal)' => '',
+        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
         'This window must be called from compose window' => 'Это окно должно вызываться из окна ввода',
         'Minutes' => 'Минуты',
         'You need min. one selected Ticket!' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         '(Used ticket number format)' => '(Используемый формат номеров Заявок)',
         'Fulltext' => '',
-        'Incident' => '',
-        'OTRS DB connect host' => '',
-        'All Agent variables.' => '',
+        ' (work units)' => ' (рабочие единицы)',
         'All Customer variables like defined in config option CustomerUser.' => '',
-        'accept license' => '',
         'for agent lastname' => 'для агента - фамилия',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => '',
         'Reminder messages' => 'Напоминающие сообщения',
         'Change users <-> roles settings' => '',
+        'A message should have a subject!' => 'Сообщение должно иметь поле "тема"!',
         'Ticket Hook' => 'Зацепить Заявку',
         'Events' => 'События',
         'TicketZoom' => 'Просмотр заявки',
         'Don\'t forget to add a new user to groups!' => 'Не забудьте добавить новоего пользователя в группы!',
         'You need a email address (e. g. customer@example.com) in To:!' => 'Нужен правильный адрес в поле ДЛЯ: (support@rgs.ru)!',
         'CreateTicket' => 'Создание заявки',
+        'You need to account time!' => '',
         'System Settings' => 'Системные установки',
         'WebWatcher' => '',
         'Hours' => 'Часы',
@@ -1486,17 +1438,14 @@ sub Data {
         'Split' => '',
         'All messages' => 'Все сообщения',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
-        'Artefact' => '',
-        'A article should have a title!' => '',
         '7 Day' => '7 Дней',
         'Ticket Overview' => 'Обзор заявок',
-        'don\'t accept license' => '',
+        'Event' => '',
         'A web mail client' => '',
         'WebMail' => 'Почта',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => '',
         'Name is required!' => 'Заголовок обязателен!',
-        'DB Type' => '',
         'kill all sessions' => 'Закрыть все текущие сессии',
         'to get the from line of the email' => 'получить поле "от" письма',
         'Solution' => 'Решение',
@@ -1504,16 +1453,14 @@ sub Data {
         'Welcome to OTRS' => 'Добро пожаловать в OTRS',
         'modified' => '',
         'Running' => 'Выполняется',
-        'Delete old database' => '',
         'sort downward' => 'сортировка по убыванию',
         'You need to use a ticket number!' => '',
-        'A web file manager' => '',
         'send' => 'Отправить',
         'Note Text' => 'Текст заметки',
         '3 Month' => '3 Месяца',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
         'Jule' => 'Июля',
         'System State Management' => 'Управление системными состояниями',
-        'OTRS DB User' => '',
         'PhoneView' => 'Заявка по телефону',
         'maximal period form' => '',
         'Verion' => '',

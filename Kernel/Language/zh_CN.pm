@@ -2,7 +2,7 @@
 # Kernel/Language/zh_CN.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.25 2007-05-29 12:52:58 martin Exp $
+# $Id: zh_CN.pm,v 1.26 2007-05-29 13:31:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Tue May 29 14:49:34 2007
+    # Last translation file sync: Tue May 29 15:27:37 2007
 
     # possible charsets
     $Self->{Charset} = ['GBK', 'GB2312', ];
@@ -680,21 +680,6 @@ sub Data {
         'System Log' => '系统日志',
         'Time' => '时间',
 
-        # Template: AdminMailAccount
-        'Mail Account Management' => '',
-        'Host' => '主机',
-        'Account Type' => '',
-        'POP3' => '',
-        'POP3S' => '',
-        'IMAP' => '',
-        'IMAPS' => '',
-        'Mailbox' => '邮箱',
-        'Port' => '',
-        'Trusted' => '是否信任',
-        'Dispatching' => '分派',
-        'All incoming emails with one account will be dispatched in the selected queue!' => '所有来自一个邮件账号的邮件将会被分发到所选队列!',
-        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
-
         # Template: AdminNavigationBar
         'Users' => '用户',
         'Groups' => '组',
@@ -763,6 +748,11 @@ sub Data {
 
         # Template: AdminPOP3
         'POP3 Account Management' => 'POP3 帐户管理',
+        'Host' => '主机',
+        'Trusted' => '是否信任',
+        'Dispatching' => '分派',
+        'All incoming emails with one account will be dispatched in the selected queue!' => '所有来自一个邮件账号的邮件将会被分发到所选队列!',
+        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'PostMaster 过滤器管理',
@@ -938,18 +928,6 @@ sub Data {
         'Realname' => '真实姓名',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => '所有发送到该收件人的消息将被转到所选择的队列',
 
-        # Template: AdminSystemStatus
-        'System Status' => '',
-
-        # Template: AdminTicketCustomerNotification
-        'Notification (Customer)' => '',
-        'Event' => '',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
-        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
-        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
-
         # Template: AdminTypeForm
         'Type Management' => '',
         'Add Type' => '',
@@ -1006,7 +984,6 @@ sub Data {
         'Apply these changes' => '应用',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => '您是否确认删除该对象?',
 
         # Template: AgentStatsEditRestrictions
@@ -1088,12 +1065,6 @@ sub Data {
         'Start' => '',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
 
-        # Template: AgentTicketArticleUpdate
-        'A message should have a subject!' => '邮件必须有标题!',
-        'A message should have a body!' => '邮件必须包含内容!',
-        'You need to account time!' => '',
-        'Edit Article' => '',
-
         # Template: AgentTicketBounce
         'Bounce ticket' => '回退 Ticket ',
         'Ticket locked!' => 'Ticket 被锁定!',
@@ -1101,7 +1072,6 @@ sub Data {
         'Bounce to' => '回退到 ',
         'Next ticket state' => 'Tickets 状态',
         'Inform sender' => '通知发送者',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '您的邮件 编号: "<OTRS_TICKET>" 回退到 "<OTRS_BOUNCE_TO>" . 请联系以下地址获取详细信息.',
         'Send mail!' => '发送!',
 
         # Template: AgentTicketBulk
@@ -1120,7 +1090,6 @@ sub Data {
         'Next state' => 'Ticket 状态',
         'Pending date' => '待处理日期',
         'Time units' => '',
-        ' (work units)' => '',
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => '撰写答复,Ticket 编号',
@@ -1157,6 +1126,7 @@ sub Data {
         # Template: AgentTicketLocked
 
         # Template: AgentTicketMailbox
+        'Mailbox' => '邮箱',
         'Tickets' => '',
         'of' => '',
         'Filter' => '',
@@ -1253,10 +1223,6 @@ sub Data {
 
         # Template: AgentWindowTab
 
-        # Template: Calculator
-        'Calculator' => '',
-        'Operation' => '',
-
         # Template: Copyright
 
         # Template: css
@@ -1269,8 +1235,6 @@ sub Data {
 
         # Template: CustomerError
         'Traceback' => '',
-
-        # Template: CustomerFAQ
 
         # Template: CustomerFooter
         'Powered by' => '',
@@ -1307,6 +1271,8 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
+
+        # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
 
@@ -1377,11 +1343,6 @@ sub Data {
         # Template: PrintHeader
         'printed by' => '打印由',
 
-        # Template: PublicFAQ
-
-        # Template: PublicView
-        'Management Summary' => '',
-
         # Template: Redirect
 
         # Template: Test
@@ -1390,32 +1351,31 @@ sub Data {
 
         # Template: Warning
         # Misc
+        'Edit Article' => '',
         'Create Database' => '创建数据库',
         'DB Host' => '数据库主机',
         'Ticket Number Generator' => 'Ticket 编号生成器',
-        '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Ticket 标识符. 例如: \'Ticket#\', \'Call#\' 或 \'MyTicket#\')',
         'Create new Phone Ticket' => '创建新的电话 Ticket',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => '症状',
         'A message should have a To: recipient!' => '邮件必须有收件人!',
         'Site' => '站点',
         'Customer history search (e. g. "ID342425").' => '搜索客户历史 (例如： "ID342425").',
-        'for agent firstname' => '技术支持人员 姓',
         'Close!' => '关闭!',
+        'for agent firstname' => '技术支持人员 姓',
         'The message being composed has been closed.  Exiting.' => '进行消息撰写的窗口已经被关闭,退出.',
         'A web calendar' => 'Web 日历',
         'to get the realname of the sender (if given)' => '邮件发送人的真实姓名 (如果存在)',
         'OTRS DB Name' => '数据库名称',
+        'Notification (Customer)' => '',
         'Select Source (for add)' => '选择数据源(增加功能使用)',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
         'Days' => '天',
         'Queue ID' => '队列编号',
-        'Home' => '',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '配置选项 (例如:<OTRS_CONFIG_HttpType>)',
         'System History' => '系统历史',
         'customer realname' => '客户真实姓名',
         'First Response' => '',
         'Pending messages' => '消息转入等待状态',
-        'Modules' => '',
         'for agent login' => '技术支持人员 登录名',
         'Keyword' => '关键字',
         'with' => '和',
@@ -1429,12 +1389,13 @@ sub Data {
         'Customer history search' => '客户历史搜索',
         'Create new database' => '创建新的数据库',
         'A message must be spell checked!' => '消息必须经过拼写检查!',
-        'Stunden' => '',
-        'ArticleID' => '',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '您的邮件 编号: "<OTRS_TICKET>" 回退到 "<OTRS_BOUNCE_TO>" . 请联系以下地址获取详细信息.',
+        'A message should have a body!' => '邮件必须包含内容!',
         'All Agents' => '所有技术支持人员',
         'Keywords' => '关键字',
         'No * possible!' => '不可使用通配符 "*" !',
         'Load' => '加载',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
         'Message for new Owner' => '给所有者的消息',
         'to get the first 5 lines of the email' => '邮件正文前5行',
         'OTRS DB Password' => 'OTRS 用户密码',
@@ -1442,51 +1403,48 @@ sub Data {
         '链接地址' => '',
         'to get the first 20 character of the subject' => '邮件标题前20个字符',
         'DB Admin Password' => '数据系统管理员密码',
-        'Advisory' => '',
         'Drop Database' => '删除数据库',
         'FileManager' => '文件管理器',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '当前客户用户信息 (例如: <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => '待处理类型',
         'Comment (internal)' => '注释 (内部)',
+        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
         'This window must be called from compose window' => '该窗口必须由撰写窗口调用',
         'You need min. one selected Ticket!' => '您至少需要选择一个 Ticket!',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '可用的有关 Ticket 信息 (例如: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(使用 Ticket 编号格式)',
         'Fulltext' => '全文',
-        'Incident' => '',
         'OTRS DB connect host' => 'OTRS 数据库主机',
         'All Agent variables.' => '',
+        ' (work units)' => '',
         'All Customer variables like defined in config option CustomerUser.' => '',
-        'accept license' => '接受',
         'for agent lastname' => '技术支持人员 名',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => '动作请求者信息 (e. g. <OTRS_CURRENT_UserFirstname>)',
         'Reminder messages' => '消息提醒',
-        'Ticket Hook' => '',
+        'A message should have a subject!' => '邮件必须有标题!',
         'TicketZoom' => 'Ticket 展开',
         'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
         'You need a email address (e. g. customer@example.com) in To:!' => '收件人信息必须是邮件地址(例如：customer@example.com)',
         'CreateTicket' => '创建 Ticket',
+        'You need to account time!' => '',
         'System Settings' => '数据库设置 ',
-        'WebWatcher' => '',
         'Finished' => '结束',
         'Split' => '分解',
         'All messages' => '所有消息',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
-        'Artefact' => '',
         'A article should have a title!' => '文章必须有标题!',
-        'don\'t accept license' => '拒绝',
+        'Event' => '',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'A web mail client' => 'WebMail 客户端',
         'WebMail' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Ticket 所有者选项 (例如: <OTRS_OWNER_UserFirstname>)',
         'Name is required!' => '需要名称!',
         'DB Type' => '数据库类型',
-        'Termin1' => '',
         'kill all sessions' => '中止所有会话',
         'to get the from line of the email' => '邮件来自',
         'Solution' => '解决方案',
         'QueueView' => '队列视图',
         'My Queue' => '我的队列',
-        'Welcome to OTRS' => '',
         'modified' => '修改于',
         'Delete old database' => '删除旧数据库',
         'sort downward' => '逆序排序',
@@ -1494,12 +1452,12 @@ sub Data {
         'A web file manager' => 'Web 文件管理器',
         'send' => '发送',
         'Note Text' => '注解',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
         'System State Management' => '系统状态管理',
         'OTRS DB User' => 'OTRS 数据库用户名',
         'PhoneView' => '电话视图',
         'maximal period form' => '',
         'Verion' => '版本',
-        'TicketID' => '',
         'Modified' => '修改于',
         'Ticket selected for bulk action!' => '被选中进行批量操作的 Tickets',
     };
