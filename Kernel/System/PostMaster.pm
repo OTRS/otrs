@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.60 2006-11-02 12:20:53 tr Exp $
+# $Id: PostMaster.pm,v 1.60.2.1 2007-05-30 08:55:28 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.60.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -40,7 +40,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
     # check needed objects
-    foreach (qw(DBObject LogObject ConfigObject TimeObject Email)) {
+    foreach (qw(DBObject LogObject ConfigObject TimeObject Email MainObject)) {
         die "Got no $_" if (!$Param{$_});
     }
     # check needed config objects
@@ -114,6 +114,7 @@ sub Run {
                     ParseObject => $Self->{ParseObject},
                     TicketObject => $Self->{TicketObject},
                     TimeObject => $Self->{TimeObject},
+                    MainObject => $Self->{MainObject},
                     Debug => $Self->{Debug},
                 );
                 # modify params
@@ -267,6 +268,7 @@ sub Run {
                     TicketObject => $Self->{TicketObject},
                     TimeObject => $Self->{TimeObject},
                     Debug => $Self->{Debug},
+                    MainObject => $Self->{MainObject},
                 );
                 # modify params
                 if (!$FilterObject->Run(
