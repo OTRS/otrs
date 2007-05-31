@@ -2,12 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.405 2007-05-31 09:29:03 mh Exp $
+# $Id: CHANGES,v 1.406 2007-05-31 10:26:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+2.2.0 rc1 (2007/??/??)
+ - (2007/05/31) Fixed bug# 1927 - It is possible to uninstall a required
+    package.
 
 2.2.0 beta4 (2007/05/29)
  - (2007/05/26) Fixed bug in service and sla tables. Column comment was wrongly
