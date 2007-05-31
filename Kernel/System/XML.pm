@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.57 2007-05-04 14:26:32 martin Exp $
+# $Id: XML.pm,v 1.58 2007-05-31 13:15:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -123,31 +123,35 @@ sub XMLHashAdd {
     }
     my %ValueHASH = $Self->XMLHash2D(XMLHash => $Param{XMLHash});
     if (%ValueHASH) {
-        if ($Param{Key}) {
-            $Self->XMLHashDelete(%Param);
-        }
-        else {
+        if (!$Param{Key}) {
             $Param{Key} = $Self->_XMLHashAddAutoIncrement(%Param);
-            if (!$Param{Key}) {
-                return;
-            }
         }
-        # delete cache file
-        my $FileCache = $Self->_CacheFileLocation("$Param{Type}-$Param{Key}");
-        $Self->_CacheFileDelete($FileCache);
-
+        if (!$Param{Key}) {
+            return;
+        }
+        $Self->XMLHashDelete(%Param);
         # db quote
         my $XMLHashKey = $Param{Key};
+        my $XMLHashType = $Param{Type};
         foreach (keys %Param) {
             $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
         }
+        # create rand number
+        my $Rand = int(rand(1000000));
         foreach my $Key (sort keys %ValueHASH) {
             my $Value = $Self->{DBObject}->Quote($ValueHASH{$Key});
             $Key = $Self->{DBObject}->Quote($Key);
             $Self->{DBObject}->Do(
-                SQL => "INSERT INTO xml_storage (xml_type, xml_key, xml_content_key, xml_content_value) VALUES ('$Param{Type}', '$Param{Key}', '$Key', '$Value')",
+                SQL => "INSERT INTO xml_storage (xml_type, xml_key, xml_content_key, xml_content_value) VALUES ('TMP-$Rand-$Param{Type}', '$Param{Key}', '$Key', '$Value')",
             );
         }
+        # move new hash if insert is complete
+        $Self->XMLHashMove(
+            OldType => "TMP-$Rand-$XMLHashType",
+            OldKey => $XMLHashKey,
+            NewType => $XMLHashType,
+            NewKey => $XMLHashKey,
+        );
         return $XMLHashKey;
     }
     else {
@@ -223,31 +227,7 @@ sub XMLHashUpdate {
             return;
         }
     }
-    my %ValueHASH = $Self->XMLHash2D(XMLHash => $Param{XMLHash});
-    if (%ValueHASH) {
-        # delete existing cache file
-        my $FileCache = $Self->_CacheFileLocation("$Param{Type}-$Param{Key}");
-        $Self->_CacheFileDelete($FileCache);
-        # db quote
-        foreach (keys %Param) {
-            $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-        }
-        foreach my $Key (sort keys %ValueHASH) {
-            my $Value = $Self->{DBObject}->Quote($ValueHASH{$Key});
-            $Key = $Self->{DBObject}->Quote($Key);
-            $Self->{DBObject}->Do(
-                SQL => "DELETE FROM xml_storage WHERE xml_type = '$Param{Type}' AND xml_key = '$Param{Key}' AND xml_content_key = '$Key'",
-            );
-            $Self->{DBObject}->Do(
-                SQL => "INSERT INTO xml_storage (xml_type, xml_key, xml_content_key, xml_content_value) VALUES ('$Param{Type}', '$Param{Key}', '$Key', '$Value')",
-            );
-        }
-        return 1;
-    }
-    else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Got no \%ValueHASH from XMLHash2D()");
-        return;
-    }
+    return $Self->XMLHashAdd(%Param);
 }
 
 =item XMLHashGet()
@@ -394,6 +374,10 @@ sub XMLHashMove {
     foreach (qw(OldType OldKey NewType NewKey)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
+    # delete existing xml hash
+    $Self->{DBObject}->Do(
+        SQL => "DELETE FROM xml_storage WHERE xml_type = '$Param{NewType}' AND xml_key = '$Param{NewKey}'",
+    );
     # update xml hash
     return $Self->{DBObject}->Do(
         SQL => "UPDATE xml_storage SET xml_type = '$Param{NewType}', xml_key = '$Param{NewKey}' ".
@@ -1234,6 +1218,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2007-05-04 14:26:32 $
+$Revision: 1.58 $ $Date: 2007-05-31 13:15:47 $
 
 =cut
