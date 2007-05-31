@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.53.2.1 2007-03-02 02:17:18 martin Exp $
+# $Id: Package.pm,v 1.53.2.2 2007-05-31 09:21:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.53.2.1 $';
+$VERSION = '$Revision: 1.53.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -373,13 +373,14 @@ sub _CheckRequired {
     }
     # check required packages
     if ($Param{PackageRequired} && ref($Param{PackageRequired}) eq 'ARRAY') {
-        my $Installed = 0;
-        my $InstalledVersion = 0;
         foreach my $Module (@{$Param{PackageRequired}}) {
+            my $Installed = 0;
+            my $InstalledVersion = 0;
             foreach my $Local ($Self->RepositoryList()) {
                 if ($Local->{Name}->{Content} eq $Module->{Content} && $Local->{Status} eq 'installed') {
                     $Installed = 1;
                     $InstalledVersion = $Local->{Version}->{Content};
+                    last;
                 }
             }
             if (!$Installed && !$Param{Force}) {
@@ -1685,6 +1686,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.53.2.1 $ $Date: 2007-03-02 02:17:18 $
+$Revision: 1.53.2.2 $ $Date: 2007-05-31 09:21:41 $
 
 =cut
