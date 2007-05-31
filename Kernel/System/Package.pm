@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.64 2007-05-31 09:20:20 mh Exp $
+# $Id: Package.pm,v 1.65 2007-05-31 10:20:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -403,6 +403,36 @@ sub _CheckRequired {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
                         Message => "Sorry, can't install package, because package $Module->{Content} v$Module->{Version} is required!",
+                    );
+                    return;
+                }
+            }
+        }
+    }
+    return 1;
+}
+
+sub _CheckDepends {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Name)) {
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
+    }
+    foreach my $Local ($Self->RepositoryList()) {
+        if ($Local->{PackageRequired} &&
+            ref($Local->{PackageRequired}) eq 'ARRAY' &&
+            $Local->{Name}->{Content} ne $Param{Name} &&
+            $Local->{Status} eq 'installed'
+        ) {
+            foreach my $Module (@{$Local->{PackageRequired}}) {
+                if ($Param{Name} eq $Module->{Content} && !$Param{Force}) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Sorry, can't uninstall package, because package $Param{Name} is depends on package $Local->{Name}->{Content}!",
                     );
                     return;
                 }
@@ -835,6 +865,10 @@ sub PackageUninstall {
     }
     # parse source file
     my %Structure = $Self->PackageParse(%Param);
+    # check depends
+    if (!$Self->_CheckDepends(Name => $Structure{Name}->{Content}) && !$Param{Force}) {
+        return;
+    }
     # files
     my $FileCheckOk = 1;
     if ($Structure{Filelist} && ref($Structure{Filelist}) eq 'ARRAY') {
@@ -1784,6 +1818,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2007-05-31 09:20:20 $
+$Revision: 1.65 $ $Date: 2007-05-31 10:20:58 $
 
 =cut
