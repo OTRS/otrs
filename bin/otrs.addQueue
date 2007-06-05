@@ -4,7 +4,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.addQueue,v 1.10 2006-11-02 12:20:59 tr Exp $
+# $Id: otrs.addQueue,v 1.11 2007-06-05 07:52:57 rk Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -40,6 +40,7 @@ use Kernel::System::DB;
 use Kernel::System::Log;
 use Kernel::System::Queue;
 use Kernel::System::Group;
+use Kernel::System::Main;
 
 # get options
 my %Opts = ();
@@ -68,6 +69,7 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     %CommonObject,
     LogPrefix => 'otrs.addQueue',
 );
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{QueueObject}  = Kernel::System::Queue->new(%CommonObject);
 $CommonObject{GroupObject}  = Kernel::System::Group->new(%CommonObject);
