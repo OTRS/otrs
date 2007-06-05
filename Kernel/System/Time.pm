@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.28 2007-06-05 06:23:15 tr Exp $
+# $Id: Time.pm,v 1.29 2007-06-05 07:58:01 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -102,7 +102,7 @@ returns a time stamp in "yyyy-mm-dd 23:59:59" format.
         SystemTime => $SystemTime,
     );
 
-if you need th short format "23:59:59" if the date is today (if needed).
+If you need the short format "23:59:59" if the date is today (if needed).
 
     my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
         SystemTime => $SystemTime,
@@ -713,6 +713,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2007-06-05 06:23:15 $
+$Revision: 1.29 $ $Date: 2007-06-05 07:58:01 $
 
 =cut
