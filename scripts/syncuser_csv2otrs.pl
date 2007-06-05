@@ -3,7 +3,7 @@
 # syncuser_csv2otrs.pl - sync csv user list or otrs
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: syncuser_csv2otrs.pl,v 1.5 2007-04-05 14:36:47 martin Exp $
+# $Id: syncuser_csv2otrs.pl,v 1.6 2007-06-05 14:20:34 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -73,22 +73,22 @@ open (IN, "< $Opts{'s'}") || die "Can't read $Opts{'s'}: $!";
 while (<IN>) {
     my @Line = split(/;/, $_);
     # check if user extsis
-    my %UserData = $CommonObject{UserObject}->GetUserData(User => $Line[$Fields{Login}]);
+    my %UserData = $CommonObject{UserObject}->GetUserData(User => $Line[$Fields{UserLogin}]);
     # if there is no pw in the csv list, gererate one
-    if (!$Line[$Fields{Pw}]) {
-        $Line[$Fields{Pw}] = $CommonObject{UserObject}->GenerateRandomPassword();
+    if (!$Line[$Fields{UserPw}]) {
+        $Line[$Fields{UserPw}] = $CommonObject{UserObject}->GenerateRandomPassword();
     }
     # update user
     if (%UserData) {
-        print "Update user '$Line[$Fields{Login}]'\n";
+        print "Update user '$Line[$Fields{UserLogin}]'\n";
         $CommonObject{UserObject}->UserUpdate(
             UserID => $UserData{UserID},
-            UserSalutation => $Line[$Fields{Salutation}],
-            UserFirstname => $Line[$Fields{Firstname}],
-            UserLastname => $Line[$Fields{Lastname}],
-            UserLogin => $Line[$Fields{Login}],
-            UserPw => $Line[$Fields{Pw}],
-            UserEmail => $Line[$Fields{Email}],
+            UserSalutation => $Line[$Fields{UserSalutation}],
+            UserFirstname => $Line[$Fields{UserFirstname}],
+            UserLastname => $Line[$Fields{UserLastname}],
+            UserLogin => $Line[$Fields{UserLogin}],
+            UserPw => $Line[$Fields{UserPw}],
+            UserEmail => $Line[$Fields{UserEmail}],
             UserType => 'User',
             ValidID => 1,
             ChangeUserID => 1,
@@ -96,14 +96,14 @@ while (<IN>) {
     }
     # add user
     else {
-        print "Add user '$Line[$Fields{Login}]'\n";
+        print "Add user '$Line[$Fields{UserLogin}]'\n";
         $CommonObject{UserObject}->UserAdd(
-            UserSalutation => $Line[$Fields{Salutation}],
-            UserFirstname => $Line[$Fields{Firstname}],
-            UserLastname => $Line[$Fields{Lastname}],
-            UserLogin => $Line[$Fields{Login}],
-            UserPw => $Line[$Fields{Pw}],
-            UserEmail => $Line[$Fields{Email}],
+            UserSalutation => $Line[$Fields{UserSalutation}],
+            UserFirstname => $Line[$Fields{UserFirstname}],
+            UserLastname => $Line[$Fields{UserLastname}],
+            UserLogin => $Line[$Fields{UserLogin}],
+            UserPw => $Line[$Fields{UserPw}],
+            UserEmail => $Line[$Fields{UserEmail}],
             UserType => 'User',
             ValidID => 1,
             ChangeUserID => 1,
