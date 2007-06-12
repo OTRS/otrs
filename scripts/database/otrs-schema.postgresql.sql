@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2007-05-26 19:32:59
+--  driver: postgresql, generated: 2007-06-12 16:52:41
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -690,6 +690,17 @@ CREATE TABLE service (
     PRIMARY KEY(id),
     UNIQUE (name)
 );
+-- ----------------------------------------------------------
+--  create table service_customer_user
+-- ----------------------------------------------------------
+CREATE TABLE service_customer_user (
+    customer_user_login VARCHAR (100) NOT NULL,
+    service_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL
+);
+CREATE INDEX service_customer_user_customer_user_login ON service_customer_user (customer_user_login);
+CREATE INDEX service_customer_user_service_id ON service_customer_user (service_id);
 -- ----------------------------------------------------------
 --  create table sla
 -- ----------------------------------------------------------

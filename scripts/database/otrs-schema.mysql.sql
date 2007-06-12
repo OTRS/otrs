@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2007-05-26 19:32:42
+#  driver: mysql, generated: 2007-06-12 16:52:19
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -691,6 +691,17 @@ CREATE TABLE service (
     UNIQUE (name)
 );
 # ----------------------------------------------------------
+#  create table service_customer_user
+# ----------------------------------------------------------
+CREATE TABLE service_customer_user (
+    customer_user_login VARCHAR (100) NOT NULL,
+    service_id INTEGER NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    INDEX service_customer_user_customer_user_login (customer_user_login(10)),
+    INDEX service_customer_user_service_id (service_id)
+);
+# ----------------------------------------------------------
 #  create table sla
 # ----------------------------------------------------------
 CREATE TABLE sla (
@@ -785,8 +796,8 @@ CREATE TABLE customer_company (
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
-    UNIQUE (name),
-    UNIQUE (customer_id)
+    UNIQUE (customer_id),
+    UNIQUE (name)
 );
 # ----------------------------------------------------------
 #  create table ticket_loop_protection

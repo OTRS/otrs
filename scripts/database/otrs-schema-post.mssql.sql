@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2007-05-26 19:32:36
+--  driver: mssql, generated: 2007-06-12 16:52:09
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
@@ -143,6 +143,7 @@ ALTER TABLE time_accounting ADD FOREIGN KEY (article_id) REFERENCES `article(id)
 ALTER TABLE time_accounting ADD FOREIGN KEY (ticket_id) REFERENCES `ticket(id)`;
 ALTER TABLE service ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE service ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
+ALTER TABLE service_customer_user ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE sla ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE sla ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
 ALTER TABLE sla ADD FOREIGN KEY (service_id) REFERENCES `service(id)`;

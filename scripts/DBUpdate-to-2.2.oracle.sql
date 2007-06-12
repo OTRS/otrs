@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.oracle.sql,v 1.15 2007-05-26 17:53:32 mh Exp $
+-- $Id: DBUpdate-to-2.2.oracle.sql,v 1.16 2007-06-12 15:02:18 mh Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.oracle.sql | sqlplus "user/password"
@@ -141,6 +141,19 @@ end;
 --;
 ALTER TABLE service ADD CONSTRAINT fk_service_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE service ADD CONSTRAINT fk_service_change_by_id FOREIGN KEY (change_by) REFERENCES system_user(id);
+
+--
+-- service_customer_user
+--
+CREATE TABLE service_customer_user (
+    customer_user_login VARCHAR2 (100) NOT NULL,
+    service_id NUMBER NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER NOT NULL
+);
+CREATE INDEX service_customer_user_custom18 ON service_customer_user (customer_user_login);
+CREATE INDEX service_customer_user_servic62 ON service_customer_user (service_id);
+ALTER TABLE service_customer_user ADD CONSTRAINT fk_service_customer_user_cre54 FOREIGN KEY (create_by) REFERENCES system_user(id);
 
 --
 -- sla

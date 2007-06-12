@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2007-05-26 19:32:27
+//  driver: maxdb, generated: 2007-06-12 16:52:00
 // ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 //
@@ -284,6 +284,8 @@ ALTER TABLE time_accounting ADD FOREIGN KEY (ticket_id) REFERENCES ticket(id)
 ALTER TABLE service ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 //
 ALTER TABLE service ADD FOREIGN KEY (change_by) REFERENCES system_user(id)
+//
+ALTER TABLE service_customer_user ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 //
 ALTER TABLE sla ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 //

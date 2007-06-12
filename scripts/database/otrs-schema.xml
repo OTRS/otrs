@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.67 2007-05-26 17:53:32 mh Exp $
+    $Id: otrs-schema.xml,v 1.68 2007-06-12 15:02:18 mh Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.67  2007/05/26 17:53:32  mh
+    Fixed bug in service and sla tables. Column "comment" was wrongly defined as required field.
+
     Revision 1.66  2007/04/16 11:06:10  martin
     Removed NOT NULL for gerneric_agent.job_value (to be comapt. with all databases).
 
@@ -1332,6 +1335,23 @@
     <ForeignKey ForeignTable="system_user">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- ervice_customer_user- relation customeruser<->service -->
+<Table Name="service_customer_user">
+    <Column Name="customer_user_login" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="service_id" Required="true" Type="INTEGER"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Index Name="service_customer_user_customer_user_login">
+        <IndexColumn Name="customer_user_login" Size="10"/>
+    </Index>
+    <Index Name="service_customer_user_service_id">
+        <IndexColumn Name="service_id"/>
+    </Index>
+    <ForeignKey ForeignTable="system_user">
+        <Reference Local="create_by" Foreign="id"/>
     </ForeignKey>
 </Table>
 
