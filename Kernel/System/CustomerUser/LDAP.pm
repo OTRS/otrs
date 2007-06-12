@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.31 2007-02-06 16:03:11 tr Exp $
+# $Id: LDAP.pm,v 1.32 2007-06-12 09:23:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -34,19 +34,70 @@ sub new {
     # max shown user a search list
     $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{'CustomerUserSearchListLimit'} || 200;
     # get ldap preferences
-    $Self->{Host} = $Self->{CustomerUserMap}->{'Params'}->{'Host'}
-        || die "Need CustomerUser->Params->Host in Kernel/Config.pm";
-    $Self->{BaseDN} = $Self->{CustomerUserMap}->{'Params'}->{'BaseDN'}
-        || die "Need CustomerUser->Params->BaseDN in Kernel/Config.pm";
-    $Self->{SScope} = $Self->{CustomerUserMap}->{'Params'}->{'SSCOPE'}
-        || die "Need CustomerUser->Params->SSCOPE in Kernel/Config.pm";
+    if (defined($Self->{CustomerUserMap}->{'Params'}->{'Die'})) {
+        $Self->{Die} = $Self->{CustomerUserMap}->{'Params'}->{'Die'};
+    }
+    else {
+        $Self->{Die} = 1;
+    }
+    # host
+    if ($Self->{CustomerUserMap}->{'Params'}->{'Host'}) {
+        $Self->{Host} = $Self->{CustomerUserMap}->{'Params'}->{'Host'};
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need CustomerUser->Params->Host in Kernel/Config.pm",
+        );
+        return;
+    }
+    # base dn
+    if (defined($Self->{CustomerUserMap}->{'Params'}->{'BaseDN'})) {
+        $Self->{BaseDN} = $Self->{CustomerUserMap}->{'Params'}->{'BaseDN'};
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need CustomerUser->Params->BaseDN in Kernel/Config.pm",
+        );
+        return;
+    }
+    # scope
+    if ($Self->{CustomerUserMap}->{'Params'}->{'SSCOPE'}) {
+        $Self->{SScope} = $Self->{CustomerUserMap}->{'Params'}->{'SSCOPE'};
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need CustomerUser->Params->SSCOPE in Kernel/Config.pm",
+        );
+        return;
+    }
+    # search user
     $Self->{SearchUserDN} = $Self->{CustomerUserMap}->{'Params'}->{'UserDN'} || '';
     $Self->{SearchUserPw} = $Self->{CustomerUserMap}->{'Params'}->{'UserPw'} || '';
-
-    $Self->{CustomerKey} = $Self->{CustomerUserMap}->{'CustomerKey'}
-        || die "Need CustomerUser->CustomerKey in Kernel/Config.pm";
-    $Self->{CustomerID} = $Self->{CustomerUserMap}->{'CustomerID'}
-        || die "Need CustomerUser->CustomerID in Kernel/Config.pm";
+    # customer key
+    if ($Self->{CustomerUserMap}->{'CustomerKey'}) {
+        $Self->{CustomerKey} = $Self->{CustomerUserMap}->{'CustomerKey'};
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need CustomerUser->CustomerKey in Kernel/Config.pm",
+        );
+        return;
+    }
+    # customer id
+    if ($Self->{CustomerUserMap}->{'CustomerID'}) {
+        $Self->{CustomerID} = $Self->{CustomerUserMap}->{'CustomerID'}
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need CustomerUser->CustomerID in Kernel/Config.pm",
+        );
+        return;
+    }
 
     # ldap filter always used
     $Self->{AlwaysFilter} = $Self->{CustomerUserMap}->{'Params'}->{'AlwaysFilter'} || '';
@@ -59,7 +110,19 @@ sub new {
     }
 
     # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
-    $Self->{LDAP} = Net::LDAP->new($Self->{Host}, %{$Self->{Params}}) or die "$@";
+    $Self->{LDAP} = Net::LDAP->new($Self->{Host}, %{$Self->{Params}});
+    if (!$Self->{LDAP}) {
+        if ($Self->{Die}) {
+            die "Can't connect to $Self->{Host}: $@";
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't connect to $Self->{Host}: $@",
+            );
+            return;
+        }
+    }
     my $Result = '';
     if ($Self->{SearchUserDN} && $Self->{SearchUserPw}) {
         $Result = $Self->{LDAP}->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
