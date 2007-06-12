@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.10 2007-05-26 18:10:03 mh Exp $
+# $Id: Service.pm,v 1.11 2007-06-12 15:06:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -481,6 +481,258 @@ sub ServiceUpdate {
     return $Return;
 }
 
+=item ServiceSearch()
+
+return service ids as an array
+
+    my @ServiceList = $ServiceObject->ServiceSearch(
+        Name => 'Service Name',  # (optional)
+        Limit => 122,            # (optional) default 1000
+        UserID => 1,
+    );
+
+=cut
+
+sub ServiceSearch {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(UserID)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    $Param{Limit} = $Param{Limit} || 1000;
+    # quote
+    foreach (qw(UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    my $SQL = "SELECT id FROM service WHERE valid_id = 1 ";
+    if ($Param{Name}) {
+        $SQL .= "AND name LIKE '$Param{Name}' ";
+    }
+    # search service in db
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    my @ServiceList;
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        push (@ServiceList, $Row[0]);
+    }
+    return @ServiceList;
+}
+
+=item CustomerUserServiceMemberList()
+
+returns a list of customeruser/service members
+
+    ServiceID: service id
+    CustomerUserLogin: customer user login
+    ServiceIDs: service ids (array ref)
+    CustomerUserLogins: customer user logins (array ref)
+
+    Result: HASH -> returns a hash of key => service id, value => service name
+            Name -> returns an array of user names
+            ID   -> returns an array of user ids
+
+    Example (get services of customer user):
+
+    $ServiceObject->CustomerUserServiceMemberList(
+        CustomerUserLogin => 'Test',
+        Result => 'HASH',
+    );
+
+    Example (get customer user of service):
+
+    $ServiceObject->CustomerUserServiceMemberList(
+        ServiceID => $ID,
+        Result => 'HASH',
+    );
+
+=cut
+
+sub CustomerUserServiceMemberList {
+    my $Self = shift;
+    my %Param = @_;
+    my @ServiceIDs;
+    my @CustomerUserLogins;
+    # check needed stuff
+    foreach (qw(Result)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    if (!$Param{ServiceID} && !$Param{CustomerUserLogin} && !$Param{ServiceIDs} && !$Param{CustomerUserLogins}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need ServiceID or CustomerUserLogin or ServiceIDs or CustomerUserLogins!"
+        );
+        return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(ServiceID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    # create cache key
+    my $CacheKey = 'CustomerUserServiceMemberList::'.$Param{Result}.'::';
+    if ($Param{ServiceID}) {
+        $CacheKey .= 'ServiceID::'.$Param{ServiceID};
+    }
+    elsif ($Param{CustomerUserLogin}) {
+        $CacheKey .= 'CustomerUserLogin::'.$Param{CustomerUserLogin};
+    }
+    elsif ($Param{ServiceIDs}) {
+        @ServiceIDs = sort(@{$Param{ServiceIDs}});
+    }
+    elsif ($Param{CustomerUserLogins}) {
+        @CustomerUserLogins = sort(@{$Param{CustomerUserLogins}});
+    }
+    # check cache
+    if ($Param{ServiceID} || $Param{CustomerUserLogin}) {
+        if ($Self->{ForceCache}) {
+            $Param{Cached} = $Self->{ForceCache};
+        }
+        if ($Param{Cached} && $Self->{$CacheKey}) {
+            if (ref($Self->{$CacheKey}) eq 'ARRAY') {
+                return @{$Self->{$CacheKey}};
+            }
+            elsif (ref($Self->{$CacheKey}) eq 'HASH') {
+                return %{$Self->{$CacheKey}};
+            }
+        }
+    }
+    # sql
+    my %Data = ();
+    my @Name = ();
+    my @ID = ();
+    my $SQL = "SELECT scu.service_id, scu.customer_user_login, s.name ".
+        " FROM ".
+        " service_customer_user scu, service s".
+        " WHERE " .
+        " s.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) ".
+        " AND ".
+        " s.id = scu.service_id ".
+        " AND ";
+    if ($Param{ServiceID}) {
+        $SQL .= " scu.service_id = $Param{ServiceID}";
+    }
+    elsif ($Param{CustomerUserLogin}) {
+        $SQL .= " scu.customer_user_login = '$Param{CustomerUserLogin}'";
+    }
+    elsif ($Param{ServiceIDs}) {
+        my @ServiceIDsQuote;
+        foreach (@ServiceIDs) {
+            push (@ServiceIDsQuote, $Self->{DBObject}->Quote($_, 'Integer'));
+        }
+        my $ServiceString = join(',', @ServiceIDsQuote);
+        $SQL .= " scu.service_id IN ($ServiceString)";
+    }
+    elsif ($Param{CustomerUserLogins}) {
+        my @CustomerUserLoginsQuote;
+        foreach (@CustomerUserLogins) {
+            push (@CustomerUserLoginsQuote, $Self->{DBObject}->Quote($_));
+        }
+        my $CustomerUserString = join(',', @CustomerUserLoginsQuote);
+        $SQL .= " scu.customer_user_login IN ($CustomerUserString)";
+    }
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        my $Key = '';
+        my $Value = '';
+        if ($Param{ServiceID} || $Param{ServiceIDs}) {
+            $Key = $Row[1];
+            $Value = $Row[0];
+        }
+        else {
+            $Key = $Row[0];
+            $Value = $Row[1];
+        }
+        # remember permissions
+        if (!defined($Data{$Key})) {
+            $Data{$Key} = $Value;
+            push (@Name, $Value);
+            push (@ID, $Key);
+        }
+    }
+    # return result
+    if ($Param{Result} && $Param{Result} eq 'ID') {
+        if ($Param{ServiceID} || $Param{CustomerUserLogin}) {
+            # cache result
+            $Self->{$CacheKey} = \@ID;
+        }
+        return @ID;
+    }
+    if ($Param{Result} && $Param{Result} eq 'Name') {
+        if ($Param{ServiceID} || $Param{CustomerUserLogin}) {
+            # cache result
+            $Self->{$CacheKey} = \@Name;
+        }
+        return @Name;
+    }
+    else {
+        if ($Param{ServiceID} || $Param{CustomerUserLogin}) {
+            # cache result
+            $Self->{$CacheKey} = \%Data;
+        }
+        return %Data;
+    }
+}
+
+=item CustomerUserServiceMemberAdd()
+
+to add a member to a service
+
+    $ServiceObject->CustomerUserServiceMemberAdd(
+        CustomerUserLogin => 'Test1',
+        ServiceID => 6,
+        Active => 1,
+        UserID => 123,
+    );
+
+=cut
+
+sub CustomerUserServiceMemberAdd {
+    my $Self = shift;
+    my %Param = @_;
+    my $count;
+    # check needed stuff
+    foreach (qw(CustomerUserLogin ServiceID UserID)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # db quote
+    foreach (qw(CustomerUserLogin)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(ServiceID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    # delete existing relation
+    my $SQL = "DELETE FROM service_customer_user ".
+        " WHERE ".
+        " customer_user_login = '$Param{CustomerUserLogin}' ".
+        " AND ".
+        " service_id = $Param{ServiceID}";
+    $Self->{DBObject}->Do(SQL => $SQL);
+    if ($Param{Active}) {
+        # insert new permission
+        $SQL = "INSERT INTO service_customer_user ".
+            " (customer_user_login, service_id, create_time, create_by) ".
+            " VALUES ".
+            " ('$Param{CustomerUserLogin}', $Param{ServiceID}, ".
+            " current_timestamp, $Param{UserID})";
+        return $Self->{DBObject}->Do(SQL => $SQL);
+    }
+    else {
+        return;
+    }
+}
+
 1;
 
 =back
@@ -497,6 +749,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2007-05-26 18:10:03 $
+$Revision: 1.11 $ $Date: 2007-06-12 15:06:31 $
 
 =cut

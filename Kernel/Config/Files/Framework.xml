@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.143 2007-05-16 13:07:37 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.144 2007-06-12 15:03:30 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -3963,6 +3963,26 @@ Your OTRS Notification Master
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminCustomerUserService" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AdminCustomerUserService object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminCustomerUserService-Objekts im Admin-Bereich.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>Customer Users &lt;-&gt; Services</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Customer Users &lt;-&gt; Services</Name>
+                    <Block>Block1</Block>
+                    <Prio>500</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRole" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminRole object in the admin area.</Description>
         <Description Lang="de">Frontendmodul-Registration des AdminRole-Objekts im Admin-Bereich.</Description>
@@ -3978,7 +3998,7 @@ Your OTRS Notification Master
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Roles</Name>
                     <Block>Block1</Block>
-                    <Prio>500</Prio>
+                    <Prio>600</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
@@ -3998,7 +4018,7 @@ Your OTRS Notification Master
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Roles &lt;-&gt; Users</Name>
                     <Block>Block1</Block>
-                    <Prio>600</Prio>
+                    <Prio>700</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
@@ -4018,7 +4038,7 @@ Your OTRS Notification Master
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Roles &lt;-&gt; Groups</Name>
                     <Block>Block1</Block>
-                    <Prio>700</Prio>
+                    <Prio>800</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>

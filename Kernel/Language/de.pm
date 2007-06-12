@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.138 2007-05-29 13:31:52 martin Exp $
+# $Id: de.pm,v 1.139 2007-06-12 15:03:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.138 $';
+$VERSION = '$Revision: 1.139 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -291,6 +291,7 @@ sub Data {
         'Admin' => 'Admin',
         'Customer Users' => 'Kunden Benutzer',
         'Customer Users <-> Groups' => 'Kunden Benutzer <-> Gruppen',
+        'Customer Users <-> Services' => 'Kunden Benutzer <-> Services',
         'Users <-> Groups' => 'Benutzer <-> Gruppen',
         'Roles' => 'Rollen',
         'Roles <-> Users' => 'Rollen <-> Benutzer',
@@ -606,6 +607,12 @@ sub Data {
         'Full read and write access to the tickets in this group/queue.' => 'Voller Schreib- und Lesezugriff auf Tickets in der Queue/Gruppe.',
 
         # Template: AdminCustomerUserGroupForm
+
+        # Template: AdminCustomerUserServiceChangeForm
+        'Customer Users <-> Services Management' => 'Kundenbenutzer <-> Services Verwaltung',
+        'Select the customeruser:service relations.' => 'Auswahl der Kundenbenutzer:Service Beziehungen.',
+
+        # Template: AdminCustomerUserServiceForm
 
         # Template: AdminEmail
         'Message sent to' => 'Nachricht gesendet an',
