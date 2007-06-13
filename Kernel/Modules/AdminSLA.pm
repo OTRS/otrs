@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.5 2007-05-21 18:48:00 mh Exp $
+# $Id: AdminSLA.pm,v 1.6 2007-06-13 10:36:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -112,7 +112,7 @@ sub Run {
         $SLAData{ValidOptionStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => \%ValidList,
             Name => 'ValidID',
-            SelectedID => $SLAData{ValidID},
+            SelectedID => $SLAData{ValidID} || 1,
         );
         # output sla edit
         $Self->{LayoutObject}->Block(
