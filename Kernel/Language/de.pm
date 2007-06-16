@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.139 2007-06-12 15:03:30 mh Exp $
+# $Id: de.pm,v 1.140 2007-06-16 12:52:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.139 $';
+$VERSION = '$Revision: 1.140 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -481,12 +481,12 @@ sub Data {
         'My Queues' => 'Meine Queues',
         'Shown Tickets' => 'Gezeigte Tickets',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Ihre E-Mail mit Ticket-Nummer "<OTRS_TICKET>" wurde zu Ticket-Nummer "<OTRS_MERGE_TO_TICKET>" gemerged!',
-        'Ticket %s: first response time is over (%s)!' => 'Ticket %s: Reaktions-Zeit ist abgelaufen (%s)!',
-        'Ticket %s: first response time will be over in %s!' => 'Ticket %s: Reaktions-Zeit wird ablaufen in %s!',
-        'Ticket %s: update time is over (%s)!' => 'Ticket %s: Aktualisierungs-Zeit ist abgelaufen (%s)!',
-        'Ticket %s: update time will be over in %s!' => 'Ticket %s: Aktualisierungs-Zeit wird ablaufen in %s!',
-        'Ticket %s: solution time is over (%s)!' => 'Ticket %s: Lösungs-Zeit ist abgelaufen (%s)!',
-        'Ticket %s: solution time will be over in %s!' => 'Ticket %s: Lösungs-Zeit wird ablaufen in %s!',
+        'Ticket %s: first response time is over (%s)!' => 'Ticket %s: Reaktionszeit ist abgelaufen (%s)!',
+        'Ticket %s: first response time will be over in %s!' => 'Ticket %s: Reaktionszeit wird ablaufen in %s!',
+        'Ticket %s: update time is over (%s)!' => 'Ticket %s: Aktualisierungszeit ist abgelaufen (%s)!',
+        'Ticket %s: update time will be over in %s!' => 'Ticket %s: Aktualisierungszeit wird ablaufen in %s!',
+        'Ticket %s: solution time is over (%s)!' => 'Ticket %s: Lösungszeit ist abgelaufen (%s)!',
+        'Ticket %s: solution time will be over in %s!' => 'Ticket %s: Lösungszeit wird ablaufen in %s!',
         'There are more escalated tickets!' => 'Mehr eskalierte Tickets!',
         'New ticket notification' => 'Mitteilung bei neuem Ticket',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Zusenden einer Mitteilung bei neuem Ticket in "Meine Queues".',
@@ -778,7 +778,7 @@ sub Data {
         'Sub-Queue of' => 'Unterqueue von',
         'Unlock timeout' => 'Freigabe-Zeitintervall',
         '0 = no unlock' => '0 = keine Freigabe',
-        'Escalation - First Response Time' => 'Eskalation - Reaktions-Zeit',
+        'Escalation - First Response Time' => 'Eskalation - Reaktionszeit',
         '0 = no escalation' => '0 = keine Eskalation',
         'Escalation - Update Time' => 'Eskalation - Aktuallisierungszeit',
         'Escalation - Solution Time' => 'Eskalation - Lösungszeit',
@@ -882,7 +882,7 @@ sub Data {
         'Add SLA' => 'SLA hinzufügen',
         'Add a new SLA.' => 'Einen neuen SLA hinzufügen.',
         'SLA' => 'SLA',
-        'First Response Time' => 'Reaktions-Zeit',
+        'First Response Time' => 'Reaktionszeit',
         'Update Time' => 'Aktuallisierungszeit',
         'Solution Time' => 'Lösungszeit',
 
@@ -1381,7 +1381,6 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Konfig Optionen (z. B. <OTRS_CONFIG_HttpType>)',
         'FAQ System History' => 'FAQ System Historie',
         'customer realname' => 'Wirklicher Kundenname',
-        'First Response' => 'Reaktions-Zeit',
         'Pending messages' => 'Wartende Nachrichten',
         'Modules' => 'Module',
         'for agent login' => 'für Agent Login',
