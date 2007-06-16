@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.58 2007-05-29 13:31:52 martin Exp $
+# $Id: bg.pm,v 1.59 2007-06-16 13:01:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1377,7 +1377,6 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Конфигурационни параметри (Пример: <OTRS_CONFIG_HttpType>)',
         'System History' => 'Системна хроника',
         'customer realname' => 'име на потребителя',
-        'First Response' => 'Време за първи отговор',
         'Pending messages' => 'Съобщения в очакване',
         'Port' => 'Порт',
         'Modules' => 'Модули',

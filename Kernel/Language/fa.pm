@@ -2,7 +2,7 @@
 # Kernel/Language/fa.pm - provides fa language translation
 # Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
 # --
-# $Id: fa.pm,v 1.23 2007-05-29 13:31:52 martin Exp $
+# $Id: fa.pm,v 1.24 2007-06-16 13:01:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fa;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1381,7 +1381,6 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Ú¯Ø²ÛÙÙ ÙØ§Û ØªÙØ¸ÛÙØ§Øª ',
         'System History' => 'ÃÂ³ÃÂÃÂ§ÃÂ¨ÃÂ ÃÂ³ÃÂÃÂ³ÃÂªÃÂ',
         'customer realname' => 'ÙØ§Ù Ù ÙØ§Ù Ø®Ø§ÙÙØ§Ø¯Ú¯Û ÙØ´ØªØ±Ú©',
-        'First Response' => '',
         'Pending messages' => 'Ù¾ÛØ§ÙÙØ§Û Ø¯Ø± ØªØ¹ÙÛÙ',
         'Modules' => 'ÃÂÃÂ§ÃÂÃÂÃÂ ÃÂÃÂ§',
         'for agent login' => 'Ø¨Ø±Ø§Û ÙØ±ÙØ¯ Ú©Ø§Ø±Ø´ÙØ§Ø³ Ø¨Ù Ø³ÛØ³ØªÙ',

@@ -6,7 +6,7 @@
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # Copyright (C) 2005 Jurgen Rutgers (jurgen 'at' besite.nl)
 # --
-# $Id: nl.pm,v 1.59 2007-05-29 13:31:52 martin Exp $
+# $Id: nl.pm,v 1.60 2007-06-16 13:01:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -54,7 +54,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -1409,7 +1409,6 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Configuratie opties (b.v. <OTRS_CONFIG_HttpType>)',
         'System History' => 'Systeem geschiedenis',
         'customer realname' => 'naam van de klant',
-        'First Response' => '',
         'Pending messages' => 'Wachtende berichten',
         'Modules' => 'Modulen',
         'for agent login' => 'de login van de agent',

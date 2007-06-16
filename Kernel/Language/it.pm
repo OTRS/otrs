@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.46 2007-05-29 13:31:52 martin Exp $
+# $Id: it.pm,v 1.47 2007-06-16 13:01:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1377,7 +1377,6 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Opzioni di configurazione (per es. <OTRS_CONFIG_HttpType>)',
         'System History' => 'Storico del sistema',
         'customer realname' => 'nome del cliente',
-        'First Response' => '',
         'Pending messages' => 'Messaggi in attesa',
         'Modules' => 'Moduli',
         'for agent login' => 'per il nome utente dell\'operatore',

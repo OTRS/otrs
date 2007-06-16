@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.45 2007-05-29 13:31:52 martin Exp $
+# $Id: pl.pm,v 1.46 2007-06-16 13:01:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1375,7 +1375,6 @@ sub Data {
         'Queue ID' => 'ID Kolejki',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Opcje konfiguracyjne (np. <OTRS_CONFIG_HttpType>)',
         'customer realname' => 'Prawdziwe dane klienta',
-        'First Response' => '',
         'Pending messages' => 'Oczekuj±ce wiadomo¶ci',
         'for agent login' => 'dla loginu agenta',
         'Keyword' => 'S³owo kluczowe',

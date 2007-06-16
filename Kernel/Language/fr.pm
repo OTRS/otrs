@@ -5,7 +5,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.72 2007-05-29 13:31:52 martin Exp $
+# $Id: fr.pm,v 1.73 2007-06-16 13:01:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.72 $';
+$VERSION = '$Revision: 1.73 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1385,7 +1385,6 @@ sub Data {
         'System History' => 'Historique du système',
         'FAQ System History' => 'Historique système de la FAQ',
         'customer realname' => 'nom réel du client',
-        'First Response' => '',
         'Pending messages' => 'Message en attente',
         'Modules' => 'Modules',
         'for agent login' => 'pour le nom de connexion (login) du technicien',

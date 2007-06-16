@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.36 2007-05-29 13:31:52 martin Exp $
+# $Id: hu.pm,v 1.37 2007-06-16 13:01:21 mh Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -18,7 +18,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1380,7 +1380,6 @@ sub Data {
         'Home' => 'Otthon',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Beállítás opciók (pl. <OTRS_CONFIG_HttpType>)',
         'customer realname' => 'ügyfél valódi név',
-        'First Response' => '',
         'Pending messages' => 'Várakozó üzenetek',
         'Modules' => 'Modul',
         'for agent login' => 'ügynök belépéséhez',

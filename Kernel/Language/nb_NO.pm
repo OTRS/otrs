@@ -4,7 +4,7 @@
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 #               2006 Knut Haugen <knuthaug@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.39 2007-05-29 13:31:52 martin Exp $
+# $Id: nb_NO.pm,v 1.40 2007-06-16 13:01:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.39 $;
+$VERSION = q$Revision: 1.40 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1378,7 +1378,6 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Konfigurasjonsvalg (f.eks. <OTRS_CONFIG_HttpType>)',
         'System History' => 'Historikk',
         'customer realname' => 'Fullt kundenavn',
-        'First Response' => '',
         'Pending messages' => 'Ventende meldinger',
         'Port' => '',
         'Modules' => 'Moduler',

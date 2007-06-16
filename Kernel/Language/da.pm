@@ -5,7 +5,7 @@
 # Original created by Thorsten Rossner
 # Maintained by Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.21 2007-05-29 13:31:52 martin Exp $
+# $Id: da.pm,v 1.22 2007-06-16 13:01:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1378,7 +1378,6 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Konfigurationsmuligheder (f.eks. <OTRS_CONFIG_HttpType>)',
         'System History' => 'Systemhistorik',
         'customer realname' => 'kundens virkelige navn',
-        'First Response' => '',
         'Pending messages' => 'Afventer meddelelser',
         'Port' => '',
         'Modules' => 'Moduler',

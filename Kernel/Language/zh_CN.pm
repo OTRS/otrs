@@ -2,7 +2,7 @@
 # Kernel/Language/zh_CN.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.26 2007-05-29 13:31:52 martin Exp $
+# $Id: zh_CN.pm,v 1.27 2007-06-16 13:01:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1374,7 +1374,6 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '配置选项 (例如:<OTRS_CONFIG_HttpType>)',
         'System History' => '系统历史',
         'customer realname' => '客户真实姓名',
-        'First Response' => '',
         'Pending messages' => '消息转入等待状态',
         'for agent login' => '技术支持人员 登录名',
         'Keyword' => '关键字',

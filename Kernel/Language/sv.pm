@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.35 2007-05-29 13:31:52 martin Exp $
+# $Id: sv.pm,v 1.36 2007-06-16 13:01:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::sv;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.35 $;
+$VERSION = q$Revision: 1.36 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1411,7 +1411,6 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Konfigurationsval (t.ex. <OTRS_CONFIG_HttpType>)',
         'System History' => '',
         'customer realname' => 'Fullt kundnamn',
-        'First Response' => '',
         'Pending messages' => 'Väntande meddelanden',
         'for agent login' => 'för agents login',
         'Keyword' => 'Nyckelord',

@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.57 2007-05-29 13:31:52 martin Exp $
+# $Id: fi.pm,v 1.58 2007-06-16 13:01:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1373,7 +1373,6 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '',
         'System History' => '',
         'customer realname' => 'käyttäjän oikea nimi',
-        'First Response' => '',
         'Pending messages' => 'Odottavat viestit',
         'for agent login' => '',
         'Keyword' => '',

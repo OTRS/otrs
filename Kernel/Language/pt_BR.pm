@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.52 2007-05-29 13:31:52 martin Exp $
+# $Id: pt_BR.pm,v 1.53 2007-06-16 13:01:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1377,7 +1377,6 @@ sub Data {
         'Home' => 'Início',
         'System History' => 'Histórico do Sistema',
         'customer realname' => 'Nome do cliente',
-        'First Response' => '',
         'Pending messages' => 'Mensagens pendentes',
         'Modules' => 'Modulos',
         'for agent login' => 'Login do Atendente',

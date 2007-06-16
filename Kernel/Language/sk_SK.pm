@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.18 2007-05-29 13:31:52 martin Exp $
+# $Id: sk_SK.pm,v 1.19 2007-06-16 13:01:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::sk_SK;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1431,7 +1431,6 @@ sub Data {
         'systémový záznam' => 'Time',
         'pre priezvisko agenta' => 'for agent user id',
         'ID radu' => 'Move Ticket',
-        'First Response' => '',
         'OTRS posiela klientom oznámenie e-mailom =>  ak bola po¾iadavka premiestnená.' => 'OTRS sends an notification email to the customer if the ticket state has changed.',
         'èas' => 'Users',
         'pre meno agenta' => 'for agent lastname',
