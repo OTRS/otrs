@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.262 2007-06-18 09:33:57 martin Exp $
+# $Id: Ticket.pm,v 1.263 2007-06-18 10:28:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.262 $';
+$VERSION = '$Revision: 1.263 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -677,6 +677,7 @@ sub TicketSubjectClean {
     my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
     my $TicketSubjectSize = $Self->{ConfigObject}->Get('Ticket::SubjectSize') || 120;
+    my $TicketSubjectRe = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
     $Subject =~ s/\[$TicketHook: $Param{TicketNumber}\] //g;
     $Subject =~ s/\[$TicketHook:$Param{TicketNumber}\] //g;
     $Subject =~ s/\[$TicketHook$TicketHookDivider$Param{TicketNumber}\] //g;
@@ -690,8 +691,7 @@ sub TicketSubjectClean {
         $Subject =~ s/$TicketHook$TicketHookDivider\d+? //g;
     }
     $Subject =~ s/^(..(\[\d+\])?: )+//;
-# NEW
-    $Subject =~ s/^($TicketHook(\[\d+\])?: )+//;
+    $Subject =~ s/^($TicketSubjectRe(\[\d+\])?: )+//;
     $Subject =~ s/^(.{$TicketSubjectSize}).*$/$1 [...]/;
     return $Subject;
 }
@@ -5873,6 +5873,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.262 $ $Date: 2007-06-18 09:33:57 $
+$Revision: 1.263 $ $Date: 2007-06-18 10:28:13 $
 
 =cut

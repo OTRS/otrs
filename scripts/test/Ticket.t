@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.19 2007-04-05 14:36:16 martin Exp $
+# $Id: Ticket.t,v 1.20 2007-06-18 10:28:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,6 +37,68 @@ $Self->IsNot(
 $Self->False(
     $Self->{TicketObject}->GetTNByString("Ticket#: 1234567") || 0,
     "GetTNByString() (DateChecksum: false)",
+);
+
+my $OldTicketSubjectRe = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
+$Self->{ConfigObject}->Set(
+    Key => 'Ticket::SubjectRe',
+    Value => 'RE',
+);
+my $NewSubject = $Self->{TicketObject}->TicketSubjectClean(
+    TicketNumber => '2004040510440485',
+    Subject => 'Re: [Ticket#: 2004040510440485] Re: RE: Some Subject',
+);
+if ($NewSubject !~ /^Re:/) {
+    $Self->True(
+        1,
+        "TicketSubjectClean() (Re: $NewSubject)",
+    );
+}
+else {
+    $Self->True(
+        0,
+        "TicketSubjectClean() (Re: $NewSubject)",
+    );
+}
+$NewSubject = $Self->{TicketObject}->TicketSubjectClean(
+    TicketNumber => '2004040510440485',
+    Subject => 'Re[5]: [Ticket#: 2004040510440485] Re: RE: WG: Some Subject',
+);
+if ($NewSubject !~ /^Re:/) {
+    $Self->True(
+        1,
+        "TicketSubjectClean() (Re[5]: $NewSubject)",
+    );
+}
+else {
+    $Self->True(
+        0,
+        "TicketSubjectClean() (Re[5]: $NewSubject)",
+    );
+}
+$Self->{ConfigObject}->Set(
+    Key => 'Ticket::SubjectRe',
+    Value => 'Antwort',
+);
+$NewSubject = $Self->{TicketObject}->TicketSubjectClean(
+    TicketNumber => '2004040510440485',
+    Subject => 'Antwort: [Ticket#: 2004040510440485] Antwort: Antwort: Some Subject2',
+);
+if ($NewSubject !~ /^Antwort:/) {
+    $Self->True(
+        1,
+        "TicketSubjectClean() (Antwort: $NewSubject)",
+    );
+}
+else {
+    $Self->True(
+        0,
+        "TicketSubjectClean() (Antwort: $NewSubject)",
+    );
+}
+$Self->{ConfigObject}->Set(
+    Key => 'Ticket::SubjectRe',
+    Value => $OldTicketSubjectRe,
 );
 
 my $TicketID = $Self->{TicketObject}->TicketCreate(
