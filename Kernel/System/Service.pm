@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.11 2007-06-12 15:06:31 mh Exp $
+# $Id: Service.pm,v 1.12 2007-06-18 09:33:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -631,12 +631,18 @@ sub CustomerUserServiceMemberList {
         $SQL .= " scu.service_id IN ($ServiceString)";
     }
     elsif ($Param{CustomerUserLogins}) {
-        my @CustomerUserLoginsQuote;
+        $SQL .= " LOWER(scu.customer_user_login) IN (";
+        my $Exists = 0;
         foreach (@CustomerUserLogins) {
-            push (@CustomerUserLoginsQuote, $Self->{DBObject}->Quote($_));
+            if ($Exists) {
+                $SQL .= ", ";
+            }
+            else {
+                $Exists = 1;
+            }
+            $SQL .= "LOWER('".$Self->{DBObject}->Quote($_)."')";
         }
-        my $CustomerUserString = join(',', @CustomerUserLoginsQuote);
-        $SQL .= " scu.customer_user_login IN ($CustomerUserString)";
+        $SQL .= ") ";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -648,7 +654,7 @@ sub CustomerUserServiceMemberList {
         }
         else {
             $Key = $Row[0];
-            $Value = $Row[1];
+            $Value = $Row[2];
         }
         # remember permissions
         if (!defined($Data{$Key})) {
@@ -749,6 +755,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2007-06-12 15:06:31 $
+$Revision: 1.12 $ $Date: 2007-06-18 09:33:57 $
 
 =cut

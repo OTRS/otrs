@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.40 2007-05-23 17:43:00 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.41 2007-06-18 09:33:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -218,7 +218,9 @@ sub Run {
                 NextStates => $Self->_GetNextStates(QueueID => 1),
                 Priorities => $Self->_GetPriorities(QueueID => 1),
                 Types => $Self->_GetTypes(QueueID => 1),
-                Services => $Self->_GetServices(QueueID => 1),
+                Services => $Self->_GetServices(
+                    QueueID => 1,
+                ),
                 SLAs => $Self->_GetSLAs(QueueID => 1, %GetParam),
                 Users => $Self->_GetUsers(),
                 FromList => $Self->_GetTos(),
@@ -555,7 +557,10 @@ sub Run {
                 NextState => $NextState,
                 Priorities => $Self->_GetPriorities(QueueID => $NewQueueID || 1),
                 Types => $Self->_GetTypes(QueueID => $NewQueueID || 1),
-                Services => $Self->_GetServices(QueueID => $NewQueueID || 1),
+                Services => $Self->_GetServices(
+                    CustomerUserID => $CustomerUser || '',
+                    QueueID => $NewQueueID || 1,
+                ),
                 SLAs => $Self->_GetSLAs(QueueID => $NewQueueID || 1, %GetParam),
                 CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
                 CustomerUser => $CustomerUser,
@@ -948,7 +953,7 @@ sub _GetServices {
     my %Param = @_;
     my %Service = ();
     # get priority
-    if ($Param{QueueID} || $Param{TicketID}) {
+    if (($Param{QueueID} || $Param{TicketID}) && $Param{CustomerUserID}) {
         %Service = $Self->{TicketObject}->TicketServiceList(
             %Param,
             Action => $Self->{Action},

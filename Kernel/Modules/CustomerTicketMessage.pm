@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.23 2007-05-23 17:43:00 mh Exp $
+# $Id: CustomerTicketMessage.pm,v 1.24 2007-06-18 09:33:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -217,6 +217,10 @@ sub Run {
         my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
         );
+        # check queue
+        if (!$NewQueueID) {
+            $Error{"Queue invalid"} = '* invalid';
+        }
         # check subject
         if (!$GetParam{Subject}) {
             $Error{"Subject invalid"} = '* invalid';
@@ -390,7 +394,7 @@ sub _MaskNew {
         $TreeView = 1;
     }
     # check own selection
-    my %NewTos = ();
+    my %NewTos = ('', '-');
     my $Module = $Self->{ConfigObject}->Get('CustomerPanel::NewTicketQueueSelectionModule') || 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric';
     if ($Self->{MainObject}->Require($Module)) {
         my $Object = $Module->new(
@@ -404,7 +408,7 @@ sub _MaskNew {
                 Message => "Module: $Module loaded!",
             );
         }
-        %NewTos = $Object->Run(Env => $Self);
+        %NewTos = ($Object->Run(Env => $Self), ('', => '-'));
     }
     else {
         return $Self->{LayoutObject}->FatalError();
@@ -422,7 +426,7 @@ sub _MaskNew {
         Size => 0,
         Name => 'Dest',
         SelectedID => $Param{ToSelected},
-        OnChangeSubmit => 0,
+        OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
     );
     # get priority
     if ($Self->{Config}->{Priority}) {
@@ -479,6 +483,7 @@ sub _MaskNew {
                 %Param,
                 Action => $Self->{Action},
                 CustomerUserID => $Self->{UserID},
+                UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             );
         }
         $Param{'ServiceStrg'} = $Self->{LayoutObject}->BuildSelection(

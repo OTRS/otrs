@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.9 2007-03-15 08:24:11 martin Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.10 2007-06-18 09:33:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -64,6 +64,20 @@ function submit_compose() {
                   <td class="contentvalue"> $Data{"TypeStrg"}</td>
                 </tr>
 <!-- dtl:block:TicketType -->
+                <tr>
+                  <td width="15%" class="contentkey">$Text{"To"}:</td>
+                  <td width="85%" class="contentvalue">
+                    $Data{"ToStrg"}
+                    <font color="red" size="-2">$Text{"$Data{"Queue invalid"}"}</font>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Subject"}:</td>
+                  <td class="contentvalue">
+                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70">
+                    <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
+                  </td>
+                </tr>
 <!-- dtl:block:TicketService -->
                 <tr>
                   <td class="contentkey">$Text{"Service"}:</td>
@@ -76,17 +90,6 @@ function submit_compose() {
                   <td class="contentvalue"> $Data{"SLAStrg"}</td>
                 </tr>
 <!-- dtl:block:TicketSLA -->
-                <tr>
-                  <td width="15%" class="contentkey">$Text{"To"}:</td>
-                  <td width="85%" class="contentvalue">$Data{"ToStrg"}</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Subject"}:</td>
-                  <td class="contentvalue">
-                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70">
-                    <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
-                  </td>
-                </tr>
                 <tr>
                   <td class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue">

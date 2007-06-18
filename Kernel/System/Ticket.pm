@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.261 2007-05-24 11:59:56 martin Exp $
+# $Id: Ticket.pm,v 1.262 2007-06-18 09:33:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.261 $';
+$VERSION = '$Revision: 1.262 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -690,6 +690,8 @@ sub TicketSubjectClean {
         $Subject =~ s/$TicketHook$TicketHookDivider\d+? //g;
     }
     $Subject =~ s/^(..(\[\d+\])?: )+//;
+# NEW
+    $Subject =~ s/^($TicketHook(\[\d+\])?: )+//;
     $Subject =~ s/^(.{$TicketSubjectSize}).*$/$1 [...]/;
     return $Subject;
 }
@@ -1434,15 +1436,18 @@ sub TicketTypeSet {
 to get all possible services for a ticket (depends on workflow, if configured)
 
     my %Services = $TicketObject->TicketServiceList(
+        CustomerUserID => 123,
         UserID => 123,
     );
 
     my %Services = $TicketObject->TicketServiceList(
+        CustomerUserID => 123,
         QueueID => 123,
         UserID => 123,
     );
 
     my %Services = $TicketObject->TicketServiceList(
+        CustomerUserID => 123,
         TicketID => 123,
         UserID => 123,
     );
@@ -1453,8 +1458,8 @@ sub TicketServiceList {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    if (!$Param{UserID} && !$Param{CustomerUserID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or CustomerUserID!");
+    if (!$Param{UserID} || !$Param{CustomerUserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID and CustomerUserID!");
         return;
     }
     # check needed stuff
@@ -1462,9 +1467,19 @@ sub TicketServiceList {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID or TicketID!");
         return;
     }
-    my %Services = $Self->{ServiceObject}->ServiceList(
-        UserID => 1,
-    );
+    my %Services = ();
+    if (0) {
+        %Services = $Self->{ServiceObject}->ServiceList(
+            UserID => 1,
+        );
+    }
+    else {
+        %Services = $Self->{ServiceObject}->CustomerUserServiceMemberList(
+            Result => 'HASH',
+            CustomerUserLogin => $Param{CustomerUserID},
+            UserID => 1,
+        );
+    }
     # workflow
     if ($Self->TicketAcl(
         %Param,
@@ -5858,6 +5873,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.261 $ $Date: 2007-05-24 11:59:56 $
+$Revision: 1.262 $ $Date: 2007-06-18 09:33:57 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPriority.pm - set ticket priority
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPriority.pm,v 1.23 2007-05-24 10:10:19 martin Exp $
+# $Id: AgentTicketPriority.pm,v 1.24 2007-06-18 09:33:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -676,11 +676,15 @@ sub _Mask {
     }
     # services
     if ($Self->{ConfigObject}->Get('Ticket::Service') && $Self->{Config}->{Service}) {
-        my %Service = $Self->{TicketObject}->TicketServiceList(
-            %Param,
-            Action => $Self->{Action},
-            UserID => $Self->{UserID},
-        );
+        my %Service = ('', '-');
+        if ($Ticket{CustomerUserID}) {
+            %Service = $Self->{TicketObject}->TicketServiceList(
+                %Param,
+                Action => $Self->{Action},
+                CustomerUserID => $Ticket{CustomerUserID},
+                UserID => $Self->{UserID},
+            );
+        }
         $Param{'ServiceStrg'} = $Self->{LayoutObject}->BuildSelection(
             Data => \%Service,
             Name => 'ServiceID',

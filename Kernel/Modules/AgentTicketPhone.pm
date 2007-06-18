@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.43 2007-05-23 17:43:00 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.44 2007-06-18 09:33:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -231,7 +231,10 @@ sub Run {
             NextStates => $Self->_GetNextStates(QueueID => $Self->{QueueID} || 1),
             Priorities => $Self->_GetPriorities(QueueID => $Self->{QueueID} || 1),
             Types => $Self->_GetTypes(QueueID => $Self->{QueueID} || 1),
-            Services => $Self->_GetServices(QueueID => $Self->{QueueID} || 1),
+            Services => $Self->_GetServices(
+                CustomerUserID => $CustomerData{CustomerUserLogin} || '',
+                QueueID => $Self->{QueueID} || 1,
+            ),
             SLAs => $Self->_GetSLAs(QueueID => $Self->{QueueID} || 1, %GetParam),
             Users => $Self->_GetUsers(QueueID => $Self->{QueueID}),
             To => $Self->_GetTos(QueueID => $Self->{QueueID}),
@@ -498,7 +501,10 @@ sub Run {
                 NextState => $NextState,
                 Priorities => $Self->_GetPriorities(QueueID => $NewQueueID || 1),
                 Types => $Self->_GetTypes(QueueID => $NewQueueID || 1),
-                Services => $Self->_GetServices(QueueID => $NewQueueID || 1),
+                Services => $Self->_GetServices(
+                    CustomerUserID => $CustomerUser || '',
+                    QueueID => $NewQueueID || 1,
+                ),
                 SLAs => $Self->_GetSLAs(QueueID => $NewQueueID || 1, %GetParam),
                 CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
                 CustomerUser => $CustomerUser,
@@ -883,7 +889,7 @@ sub _GetServices {
     my %Param = @_;
     my %Service = ();
     # get priority
-    if ($Param{QueueID} || $Param{TicketID}) {
+    if (($Param{QueueID} || $Param{TicketID}) && $Param{CustomerUserID}) {
         %Service = $Self->{TicketObject}->TicketServiceList(
             %Param,
             Action => $Self->{Action},
