@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.40 2007-05-24 11:59:56 martin Exp $
+# $Id: StaticDB.pm,v 1.41 2007-06-19 11:53:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -546,6 +546,7 @@ sub GetOverTimeTickets {
         StateType => 'Open',
         SortBy => 'Age',
         OrderBy => 'Up',
+        Permission => 'rw',
         UserID => $Param{UserID} || 1,
     );
     foreach my $TicketID (@TicketIDs) {
