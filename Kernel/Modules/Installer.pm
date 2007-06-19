@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.45 2007-03-09 13:15:12 martin Exp $
+# $Id: Installer.pm,v 1.46 2007-06-19 12:26:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -123,8 +123,22 @@ sub Run {
         }
     }
 
-    # print form
+    # print intro form
     if (!$Self->{Subaction}) {
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Intro');
+        $Self->{LayoutObject}->Block(
+            Name => 'Intro',
+            Data => { }
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'Installer',
+            Data => { },
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+    # print license from
+    elsif ($Self->{Subaction} eq 'License') {
         $Output .= $Self->{LayoutObject}->Header(Title => 'License');
         $Self->{LayoutObject}->Block(
             Name => 'License',
@@ -140,7 +154,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-
     # do database settings
     elsif ($Self->{Subaction} eq 'Start') {
         if ($Self->ReConfigure()) {
@@ -183,6 +196,7 @@ sub Run {
         $DB{Type} = $Self->{ParamObject}->GetParam(Param => 'DBType') || '';
         $DB{Database} = $Self->{ParamObject}->GetParam(Param => 'DBName') || '';
         $DB{DBAction} = $Self->{ParamObject}->GetParam(Param => 'DBAction') || '';
+        $DB{DBDefaultCharset} = $Self->{ParamObject}->GetParam(Param => 'DBDefaultCharset') || '';
         $DB{DatabaseUser} = $Self->{ParamObject}->GetParam(Param => 'OTRSDBUser') || '';
         $DB{DatabasePw} = $Self->{ParamObject}->GetParam(Param => 'OTRSDBPassword') || '';
         $DB{NewHost} = $Self->{ParamObject}->GetParam(Param => 'OTRSDBConnectHost') || '';
@@ -219,13 +233,20 @@ sub Run {
             );
 
             # create db
+            my $DBCreate = '';
+            if ($DB{DBDefaultCharset} eq 'utf8') {
+                $DBCreate =" CREATE DATABASE $DB{Database} charset utf8";
+            }
+            else {
+                $DBCreate =" CREATE DATABASE $DB{Database}";
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
                 Data => {
-                    Item => "Creating database '$DB{Database}'",
+                    Item => "Creating database '$DB{Database}' $DB{DBDefaultCharset}",
                 },
             );
-            if (!$DBH->do("CREATE DATABASE $DB{Database}")) {
+            if (!$DBH->do($DBCreate)) {
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemFalse',
                     Data => { },
@@ -461,6 +482,12 @@ sub Run {
                 return $Output;
             }
             else {
+                # set default charset to utf8 it configured
+                if ($DB{DBDefaultCharset} eq 'utf8') {
+                    $Self->ReConfigure(
+                        DefaultCharset => 'utf-8',
+                    );
+                }
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
                     Data => {
@@ -575,13 +602,6 @@ sub Run {
             HTMLQuote => 0,
             SelectedID => $Self->{ConfigObject}->Get('LogModule'),
         );
-# it mysql 4.1 is stable, we use this:
-#        if ($Self->{LayoutObject}->{LanguageObject}->GetRecommendedCharset() eq 'utf-8') {
-#            $Param{DefaultCharset} = 'utf-8';
-#        }
-#        else {
-#            $Param{DefaultCharset} = 'iso-8859-1';
-#        }
         $Param{DefaultCharset} = $Self->{ConfigObject}->Get('DefaultCharset') || 'iso-8859-1';
         $Output .= $Self->{LayoutObject}->Header(Title => 'System Settings');
         $Self->{LayoutObject}->Block(

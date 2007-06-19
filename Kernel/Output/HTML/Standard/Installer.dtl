@@ -1,8 +1,8 @@
 # --
 # Installer.dtl - provides HTML form for Installer
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.12 2006-12-21 16:12:27 mh Exp $
+# $Id: Installer.dtl,v 1.13 2007-06-19 12:26:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,6 +23,57 @@
 <!-- dtl:block:Message -->
       $Data{"Body"}
 <!-- dtl:block:Message -->
+<!-- dtl:block:Intro -->
+      <img border="0" src="$Env{"Images"}installer-start.png" alt="">
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="Installer">
+        <input type="hidden" name="Subaction" value="License">
+        <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
+          <tr>
+            <td colspan="3" class="contenthead">$Text{"Welcome to %s", "$Config{"ProductName"}"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <center>
+              <p>
+                <table width="70%">
+                  <tr>
+                    <td>
+                      OTRS GmbH<br>
+                      Norsk-Data-Str. 1<br>
+                      61352 Bad Homburg<br>
+
+                      Germany<br>
+                      Phone: +49 (0) 9421 56818 0<br>
+                      Fax: +49 (0) 9421 56818 18<br>
+                      Web: <a href="http://otrs.com/">http://otrs.com/</a><br>
+                      Info: <a href="mailto:info@otrs.com">info@otrs.com</a><br>
+                    </td>
+                    <td>
+                      OTRS Inc.<br>
+                      19925 Stevens Creek Blvd.<br>
+
+                      Cupertino, CA 95014-2358 <br>
+                      USA<br>
+                      Phone: +1 (408) 725 7501<br>
+                      Fax:  +1 (408) 725 8885<br>
+                      Web: <a href="http://otrs.com/">http://otrs.com/</a><br>
+                      Info: <a href="mailto:info@otrs.com">info@otrs.com</a><br>
+                    </td>
+                  </tr>
+                </table>
+              </p>
+              </center>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Next..."}">
+            </td>
+          </tr>
+        </table>
+      </form>
+<!-- dtl:block:Intro -->
 <!-- dtl:block:License -->
       <img border="0" src="$Env{"Images"}installer.png" alt="">
       <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
@@ -456,6 +507,12 @@ Public License instead of this License.
                 <tr>
                   <td class="contentkey">$Text{"Name"}:</td>
                   <td><input type="text" name="DBName" value="$Config{"Database"}" size="25"></td>
+                  <td class="contentvalue"></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Default Charset"}:</td>
+                  <td class="contentvalue">$Text{"utf8"}: $Text{"Yes"} <input type="radio" name="DBDefaultCharset" checked value="utf8"> - $Text{"No"} <input type="radio" name="DBDefaultCharset" value="">
+                  </td>
                   <td class="contentvalue"></td>
                 </tr>
                 <tr>
