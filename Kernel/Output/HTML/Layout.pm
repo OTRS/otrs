@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.47 2007-06-20 11:08:59 tr Exp $
+# $Id: Layout.pm,v 1.48 2007-06-20 13:45:51 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2879,6 +2879,7 @@ sub BuildDateSelection {
             Name => $Prefix.'Year',
             Data => \%Year,
             SelectedID => int($Param{$Prefix.'Year'} || $Y),
+            LanguageTranslation => 0,
         );
     }
     else {
@@ -2896,6 +2897,7 @@ sub BuildDateSelection {
             Name => $Prefix.'Month',
             Data => \%Month,
             SelectedID => int($Param{$Prefix.'Month'} || $M),
+            LanguageTranslation => 0,
         );
     }
     else {
@@ -2913,6 +2915,7 @@ sub BuildDateSelection {
             Name => $Prefix.'Day',
             Data => \%Day,
             SelectedID => int($Param{$Prefix.'Day'} || $D),
+            LanguageTranslation => 0,
         );
     }
     else {
@@ -2931,6 +2934,7 @@ sub BuildDateSelection {
                 Name => $Prefix.'Hour',
                 Data => \%Hour,
                 SelectedID => defined($Param{$Prefix.'Hour'}) ? int($Param{$Prefix.'Hour'}) : int($h),
+                LanguageTranslation => 0,
             );
         }
         else {
@@ -2948,6 +2952,7 @@ sub BuildDateSelection {
                 Name => $Prefix.'Minute',
                 Data => \%Minute,
                 SelectedID => defined($Param{$Prefix.'Minute'}) ? int($Param{$Prefix.'Minute'}) : int($m),
+                LanguageTranslation => 0,
             );
         }
         else {
@@ -3379,6 +3384,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2007-06-20 11:08:59 $
+$Revision: 1.48 $ $Date: 2007-06-20 13:45:51 $
 
 =cut
