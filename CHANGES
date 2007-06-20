@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.410 2007-06-19 11:55:45 martin Exp $
+# $Id: CHANGES,v 1.411 2007-06-20 07:20:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+2.2.0 rc2 (2007/07/??)
+ - (2007/06/20) Updated greek translation, thanks to Stelios Maistros!
 
 2.2.0 rc1 (2007/07/19)
  - (2007/06/19) Fixed bug# 1941 - Ticket Escalation blocks QueueView even if
@@ -19,7 +22,7 @@
     AdminService and AdminSLA mask.
  - (2007/06/12) Added feature (bug# 1949 an 1950) for customer ldap backend
     for soft or hard die.
- - (2007/06/12) Add customeruser to service relation feature.
+ - (2007/06/12) Added customeruser to service relation feature.
  - (2007/05/31) Improved XMLHashAdd() and XMLHashUpdate() in
     Kernel/System/XML.pm to prevent caching errors.
  - (2007/05/31) Fixed bug# 1927 - It is possible to uninstall a required
