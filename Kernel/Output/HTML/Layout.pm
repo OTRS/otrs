@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.20.2.4 2007-03-27 10:29:25 mh Exp $
+# $Id: Layout.pm,v 1.20.2.5 2007-06-20 11:08:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20.2.4 $';
+$VERSION = '$Revision: 1.20.2.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1323,7 +1323,7 @@ sub Ascii2Html {
     if ($Param{LinkFeature}) {
         my $Counter = 0;
         $Text =~ s{
-            (>|<|&gt;|&lt;|)(https|http|\sftp|\swww)((:\/\/|\.).*?)(\.\s|\s|\)|\"|&quot;|&nbsp;|]|'|>|<|&gt;|&lt;)
+            (>|<|&gt;|&lt;|)(https|http|\sftp|\swww)((:\/\/|\.).*?)([\?,;!\.]\s|[\?,;!\.]$|\s|\)|\"|&quot;|&nbsp;|]|'|>|<|&gt;|&lt;)
         }
         {
             my $Start = $1;
@@ -2674,6 +2674,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20.2.4 $ $Date: 2007-03-27 10:29:25 $
+$Revision: 1.20.2.5 $ $Date: 2007-06-20 11:08:20 $
 
 =cut
