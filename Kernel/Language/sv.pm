@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.37 2007-06-26 16:30:14 martin Exp $
+# $Id: sv.pm,v 1.38 2007-06-26 18:34:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::sv;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.37 $;
+$VERSION = q$Revision: 1.38 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -712,7 +712,6 @@ sub Data {
         'Do you really want to uninstall this package?' => '',
         'Reinstall' => '',
         'Do you really want to reinstall this package (all manual changes get lost)?' => '',
-        'Cancle' => '',
         'Continue' => '',
         'Install' => '',
         'Package' => '',

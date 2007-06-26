@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: bb.pm,v 1.22 2007-06-26 16:40:15 martin Exp $
+# $Id: bb.pm,v 1.23 2007-06-26 18:34:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -702,7 +702,6 @@ sub Data {
         'Do you really want to uninstall this package?' => 'Soll das Paket wirklich deinstalliert werden?',
         'Reinstall' => 'Erneut installieren',
         'Do you really want to reinstall this package (all manual changes get lost)?' => 'Soll das Paket wirklich erneut installiert werden (manuelle Änderungen gehen verloren)?',
-        'Cancle' => 'Mog nimma',
         'Continue' => 'Weida',
         'Install' => 'Installieren',
         'Package' => 'Paket',

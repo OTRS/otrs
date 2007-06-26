@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.60 2007-06-26 16:30:14 martin Exp $
+# $Id: bg.pm,v 1.61 2007-06-26 18:34:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -698,7 +698,6 @@ sub Data {
         'Do you really want to uninstall this package?' => 'Сигурни ли сте че искате да деинсталирате този софтуерен пакет?',
         'Reinstall' => 'Реинсталиране',
         'Do you really want to reinstall this package (all manual changes get lost)?' => 'Сигурни ли сте че искате да реинсталирате този софтуерен пакет (всички допълнителни промени се губят)?',
-        'Cancle' => 'Отказ',
         'Continue' => 'Продължаване',
         'Install' => 'Инсталиране',
         'Package' => 'Софтуерен пакет',

@@ -4,7 +4,7 @@
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 #               2006 Knut Haugen <knuthaug@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.41 2007-06-26 16:30:14 martin Exp $
+# $Id: nb_NO.pm,v 1.42 2007-06-26 18:34:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.41 $;
+$VERSION = q$Revision: 1.42 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -699,7 +699,6 @@ sub Data {
         'Do you really want to uninstall this package?' => 'Vil du virkelig avinstallere denne pakken?',
         'Reinstall' => 'Re-installér',
         'Do you really want to reinstall this package (all manual changes get lost)?' => '',
-        'Cancle' => '',
         'Continue' => '',
         'Install' => 'Installer',
         'Package' => 'Pakke',

@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers (jurgen 'at' besite.nl)
 #                         Richard Hinkamp (richard 'at' besite.nl)
 # --
-# $Id: nl.pm,v 1.61 2007-06-26 15:58:16 martin Exp $
+# $Id: nl.pm,v 1.62 2007-06-26 18:34:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -52,7 +52,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -735,7 +735,6 @@ sub Data {
         'Do you really want to uninstall this package?' => '',
         'Reinstall' => '',
         'Do you really want to reinstall this package (all manual changes get lost)?' => '',
-        'Cancle' => '',
         'Continue' => '',
         'Install' => '',
         'Package' => '',

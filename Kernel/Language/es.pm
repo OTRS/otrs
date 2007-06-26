@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2006 Jorge Becerra <jorge at hab.desoft.cu>
 # --
-# $Id: es.pm,v 1.58 2007-06-26 16:30:14 martin Exp $
+# $Id: es.pm,v 1.59 2007-06-26 18:34:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -697,7 +697,6 @@ sub Data {
         'Do you really want to uninstall this package?' => 'Seguro que desea desinstalar este paquete?',
         'Reinstall' => 'Reinstalar',
         'Do you really want to reinstall this package (all manual changes get lost)?' => 'Realmente desea reinstalar este paquete (todos los cambios manuales se perderán)?',
-        'Cancle' => '',
         'Continue' => '',
         'Install' => 'Instalar',
         'Package' => 'Paquete',

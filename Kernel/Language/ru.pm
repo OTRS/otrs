@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # --
-# $Id: ru.pm,v 1.47 2007-06-26 16:30:14 martin Exp $
+# $Id: ru.pm,v 1.48 2007-06-26 18:34:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -698,7 +698,6 @@ sub Data {
         'Do you really want to uninstall this package?' => 'Вы действительно хотите удалить этот пакет?',
         'Reinstall' => 'Переустановить',
         'Do you really want to reinstall this package (all manual changes get lost)?' => 'Вы действительно хотите переустановить этот пакет (все ручные изменения будут утеряны)?',
-        'Cancle' => 'Отменить',
         'Continue' => 'Продолжить',
         'Install' => 'Установить',
         'Package' => 'Пакет',

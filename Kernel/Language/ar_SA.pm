@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.4 2007-06-26 16:30:14 martin Exp $
+# $Id: ar_SA.pm,v 1.5 2007-06-26 18:34:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::ar_SA;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -732,7 +732,6 @@ sub Data {
         'Do you really want to uninstall this package?' => '',
         'Reinstall' => 'ÅÚÇÏÉ ÇáÊÎÒíä',
         'Do you really want to reinstall this package (all manual changes get lost)?' => '',
-        'Cancle' => '',
         'Continue' => '',
         'Install' => 'ÊÎÒíä',
         'Package' => '',

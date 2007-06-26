@@ -2,7 +2,7 @@
 # Kernel/Language/zh_CN.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.28 2007-06-26 16:30:14 martin Exp $
+# $Id: zh_CN.pm,v 1.29 2007-06-26 18:34:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -697,7 +697,6 @@ sub Data {
         'Do you really want to uninstall this package?' => '是否确认卸载该软件包?',
         'Reinstall' => '重新安装',
         'Do you really want to reinstall this package (all manual changes get lost)?' => '',
-        'Cancle' => '',
         'Continue' => '',
         'Install' => '安装',
         'Package' => '软件包',

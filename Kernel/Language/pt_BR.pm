@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.54 2007-06-26 16:30:14 martin Exp $
+# $Id: pt_BR.pm,v 1.55 2007-06-26 18:34:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -699,7 +699,6 @@ sub Data {
         'Do you really want to uninstall this package?' => 'Você quer realmente desinstalar este pacote?',
         'Reinstall' => 'Reinstalar',
         'Do you really want to reinstall this package (all manual changes get lost)?' => 'Você quer realmente reinstalar este pacote?',
-        'Cancle' => '',
         'Continue' => '',
         'Install' => 'Instalar',
         'Package' => 'Pacotes',

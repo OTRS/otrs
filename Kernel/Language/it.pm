@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.48 2007-06-26 16:30:14 martin Exp $
+# $Id: it.pm,v 1.49 2007-06-26 18:34:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -699,7 +699,6 @@ sub Data {
         'Do you really want to uninstall this package?' => 'Vuoi davvero disinstallare questo pacchetto?',
         'Reinstall' => 'Re-installa',
         'Do you really want to reinstall this package (all manual changes get lost)?' => '',
-        'Cancle' => '',
         'Continue' => '',
         'Install' => 'Installa',
         'Package' => 'Pacchetto',

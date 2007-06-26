@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.37 2007-05-22 15:10:21 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.38 2007-06-26 18:34:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -171,13 +171,13 @@
             <table width="100%" border="0" cellspacing="0" cellpadding="1">
               <tr>
                 <td class="contentfooter">
-<!-- dtl:block:IntroCancle -->
+<!-- dtl:block:IntroCancel -->
                   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="Action" value="$Env{"Action"}">
                     <input type="hidden" name="Subaction" value="">
-                    <input class="button" type="submit" value="$Text{"Cancle"}">
+                    <input class="button" type="submit" value="$Text{"Cancel"}">
                   </form>
-<!-- dtl:block:IntroCancle -->
+<!-- dtl:block:IntroCancel -->
                 </td>
                 <td width="10" class="contentfooter">
                   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">

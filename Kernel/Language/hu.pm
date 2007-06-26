@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.38 2007-06-26 15:58:35 martin Exp $
+# $Id: hu.pm,v 1.39 2007-06-26 18:34:43 martin Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -20,7 +20,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -342,7 +342,7 @@ sub Data {
         'Please select a graph size!' => 'Kérem válasszon egy grafikon méretet!',
         'Please select one element for the X-axis!' => 'Kérem válasszon egy tulajdonságot az X tengelynek',
         'You have to select two or more attributes from the select field!' => 'Legalább két értéket válasszon ki a mezõben!',
-        'Please select only one element or turn off the button \'Fixed\' where the select field is marked!.' => 'Kérem válasszon egy értéket vagy kapcsolja ki a \'Rögzített\' kapcsolót a megjelölt mezõnél.',
+        'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Kérem válasszon egy értéket vagy kapcsolja ki a \'Rögzített\' kapcsolót a megjelölt mezõnél.',
         'If you use a checkbox you have to select some attributes of the select field!' => 'Ha egy jelölõnégyzetet használ, akkor néhány értéket is ki kell választania a tulajdonsághoz!',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Adjon meg egy értéket a bemeneti mezõben vagy kapcsolja ki a \'Rögzített\' kapcsolót!',
         'The selected end time is before the start time!' => 'A befejezési idõnek a kezdeti idõ után kell lennie!',
@@ -717,7 +717,6 @@ sub Data {
         'Do you really want to uninstall this package?' => 'Valóban el akarja távolítani ezt a csomagot?',
         'Reinstall' => 'Újratelepítés',
         'Do you really want to reinstall this package (all manual changes get lost)?' => 'Valóban újra kívánja telepíteni ezt a csomagot (minden megváltoztatott beállítás elvész)?',
-        'Cancle' => 'Mégsem',
         'Cancel' => 'Mégsem',
         'Continue' => 'Folytatás',
         'Install' => 'Telepítés',

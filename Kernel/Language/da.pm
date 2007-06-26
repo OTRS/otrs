@@ -5,7 +5,7 @@
 # Original created by Thorsten Rossner
 # Maintained by Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.23 2007-06-26 16:30:14 martin Exp $
+# $Id: da.pm,v 1.24 2007-06-26 18:34:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -699,7 +699,6 @@ sub Data {
         'Do you really want to uninstall this package?' => 'Er du sikker på, du ønsker at afinstallere denne pakke?',
         'Reinstall' => 'Geninstaller',
         'Do you really want to reinstall this package (all manual changes get lost)?' => 'Ønsker du virkeleg at geninstallere denne pakke (Alle manuelle ændringer vil blive slettet)?',
-        'Cancle' => '',
         'Continue' => '',
         'Install' => 'Installation',
         'Package' => 'Pakke',
