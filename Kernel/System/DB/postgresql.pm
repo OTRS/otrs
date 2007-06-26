@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.18 2007-05-07 17:14:43 martin Exp $
+# $Id: postgresql.pm,v 1.19 2007-06-26 20:16:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::postgresql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -273,10 +273,15 @@ sub TableAlter {
                 push (@SQL, $SQLEnd);
             }
             my $SQLEnd = $SQLStart." ALTER $Tag->{NameNew} TYPE $Tag->{Type}";
-            if ($Tag->{Required} && $Tag->{Required} =~ /^true$/i) {
-                $SQLEnd .= " NOT NULL";
-            }
             push (@SQL, $SQLEnd);
+            if ($Tag->{Required} && $Tag->{Required} =~ /^true$/i) {
+                my $SQLEnd = $SQLStart." ALTER $Tag->{NameNew} SET NOT NULL";
+                push (@SQL, $SQLEnd);
+            }
+            elsif (!$Tag->{Required} || $Tag->{Required} =~ /^false$/i) {
+                my $SQLEnd = $SQLStart." ALTER $Tag->{NameNew} DROP NOT NULL";
+                push (@SQL, $SQLEnd);
+            }
         }
         elsif ($Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start') {
             my $SQLEnd = $SQLStart." DROP $Tag->{Name}";
