@@ -2,7 +2,7 @@
 # AAAStats.dtl - $Text variable file
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AAAStats.dtl,v 1.5 2007-06-26 16:08:13 martin Exp $
+# $Id: AAAStats.dtl,v 1.6 2007-06-26 18:49:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,7 +29,7 @@ $Text{"The selected Date isn't valid!"}
 $Text{"Please select only one or two elements via the checkbox!"}
 $Text{"If you use a time scale element you can only select one element!"}
 $Text{"You have an error in your time selection!"}
-$Text{"Your reporting time interval is to small, please use a larger time scale!"}
+$Text{"Your reporting time interval is too small, please use a larger time scale!"}
 $Text{"The selected start time is before the allowed start time!"}
 $Text{"The selected end time is after the allowed end time!"}
 $Text{"The selected time period is larger than the allowed time period!"}
