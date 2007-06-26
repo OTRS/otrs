@@ -2,7 +2,7 @@
 # AgentStatsEditRestrictions.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStatsEditRestrictions.dtl,v 1.6 2007-05-08 11:36:46 tr Exp $
+# $Id: AgentStatsEditRestrictions.dtl,v 1.7 2007-06-26 16:08:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -72,7 +72,7 @@
                   </td>
                   <td class="contentkey">
                     $Text{"$QData{"Name"}"}:<br>
-                    <span class="readonly">$Text{"Please select only one Element or turn of the button 'Fixed'."}</span>
+                    <span class="readonly">$Text{"Please select only one element or turn off the button 'Fixed'."}</span>
                   </td>
                   <td class="contentvalue">$Data{"SelectField"}</td>
                 </tr>
@@ -192,7 +192,7 @@
         <tr>
           <td class="mainvalue">
             $Text{"Here you can make restrictions to your stat."}
-            $Text{"If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element."}
+            $Text{"If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element."}
           </td>
         </tr>
       </table>

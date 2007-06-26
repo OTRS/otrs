@@ -2,7 +2,7 @@
 # AgentStatsEditValueSeries.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStatsEditValueSeries.dtl,v 1.5 2007-05-08 11:36:46 tr Exp $
+# $Id: AgentStatsEditValueSeries.dtl,v 1.6 2007-06-26 16:08:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -97,7 +97,7 @@
                     $Text{"$Data{"Name"}"}
                     $Text{"Scale"}:<br>
                     <span class="readonly">
-                    $Text{"Please select only one Element or turn of the button 'Fixed'."}<br>
+                    $Text{"Please select only one element or turn off the button 'Fixed'."}<br>
                     $Text{"Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."}
                     </span>
                   </td>
@@ -141,7 +141,7 @@
         <tr>
           <td class="mainvalue">
             $Text{"Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don't select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration."}
-            $Text{"If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element."}
+            $Text{"If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element."}
           </td>
         </tr>
       </table>

@@ -2,7 +2,7 @@
 # AdminAutoResponseForm.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminAutoResponseForm.dtl,v 1.27 2007-05-21 18:25:23 mh Exp $
+# $Id: AdminAutoResponseForm.dtl,v 1.28 2007-06-26 16:08:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -132,7 +132,7 @@ $Data{"Note"}
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_CUSTOMER_*&gt;</td>
-            <td class="contentvalue">$Text{"To get the article attribut (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>)."}</td>
+            <td class="contentvalue">$Text{"To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>)."}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
