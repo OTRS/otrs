@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.24 2007-04-27 12:38:17 mh Exp $
+# $Id: PDF.pm,v 1.25 2007-06-26 18:36:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -905,7 +905,7 @@ sub Table {
                                         # if Height was given
                                         if ($Param{RowData}->[$Row]->{Height} > 0) {
                                             $Param{RowData}->[$Row]->{Height} -= $NewTextHeight;
-                                            # if rest to small, deactivate all cells of this row
+                                            # if rest too small, deactivate all cells of this row
                                             if ($Param{RowData}->[$Row]->{Height} < $Param{RowData}->[$Row]->{MinFontSize}) {
                                                 foreach my $CellOff (@{$Param{CellData}->[$Row]}) {
                                                     $CellOff->{Content} = ' ';
@@ -1857,7 +1857,7 @@ sub _TableCalculate {
                 $Column->{Width} = $MaxWidth;
             }
         }
-        # set width to 1, if width is to small
+        # set width to 1, if width is too small
         if ($Column->{EstimateWidth} < 1) {
             $Column->{EstimateWidth} = 1;
         }
@@ -3359,6 +3359,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2007-04-27 12:38:17 $
+$Revision: 1.25 $ $Date: 2007-06-26 18:36:32 $
 
 =cut
