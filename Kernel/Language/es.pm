@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2006 Jorge Becerra <jorge at hab.desoft.cu>
 # --
-# $Id: es.pm,v 1.57 2007-06-16 13:01:21 mh Exp $
+# $Id: es.pm,v 1.58 2007-06-26 16:30:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -334,7 +334,7 @@ sub Data {
         'Please select a graph size!' => 'Por favor , seleccione un tamaño gráfico',
         'Please select one element for the X-axis!' => 'Por favor , selecicones un elemento para el eje X',
         'You have to select two or more attributes from the select field!' => 'Debe seleccionar dos o mas atributos del campo seleccionado',
-        'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => 'Por favor, selecciones un solo elemento o desactive el botón \'Fijo\' donde el campo seleccionado está marcado!',
+        'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Por favor, selecciones un solo elemento o desactive el botón \'Fijo\' donde el campo seleccionado está marcado!',
         'If you use a checkbox you have to select some attributes of the select field!' => 'Si usa una casilla de seleccion , debe seleccionar algunos atributos del campo seleccionado',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Por favor inserte un valor en el campo de entrada o o descative la seleccion \'Fija\'',
         'The selected end time is before the start time!' => 'La fecha de finalizar es previa a la de iniciar!',
@@ -571,7 +571,7 @@ sub Data {
         'To get the first 20 character of the subject.' => '',
         'To get the first 5 lines of the email.' => '',
         'To get the realname of the sender (if given).' => '',
-        'To get the article attribut (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
+        'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => '',
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => '',
@@ -989,14 +989,14 @@ sub Data {
         # Template: AgentStatsEditRestrictions
         'Select the restrictions to characterise the stat' => 'Seleccione las restricciones para caracterizar la estadistica',
         'Fixed' => '',
-        'Please select only one Element or turn of the button \'Fixed\'.' => 'Por favor seleccione un elemento de desactive el botón \'Fijo\.',
+        'Please select only one element or turn off the button \'Fixed\'.' => 'Por favor seleccione un elemento de desactive el botón \'Fijo\.',
         'Absolut Period' => 'Periodo Absoluto',
         'Between' => 'Entre',
         'Relative Period' => 'Periodo Relativo',
         'The last' => 'El último',
         'Finish' => 'Finalizar',
         'Here you can make restrictions to your stat.' => 'Aqui puede declarar restricciones a sus estadisticas.',
-        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element.' => 'Si elimina el gancho en la casilla "Fija", el agente generando la estadistica puede cambiar los atributos del elemento correspondiente',
+        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Si elimina el gancho en la casilla "Fija", el agente generando la estadistica puede cambiar los atributos del elemento correspondiente',
 
         # Template: AgentStatsEditSpecification
         'Insert of the common specifications' => 'Inserte las especificaciones comunes',
@@ -1040,7 +1040,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => 'Seleccione el elemento, que será utilizado en el eje-X',
         'maximal period' => 'periodo máximo',
         'minimal scale' => 'escala mínima',
-        'Here you can define the x-axis. You can select one element via the radio button. Than you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Aqui puede definir el eje-x, Puede seleccionar un elemento usando la casilla de selecciona. Luego debe seleccionar dos o mas atributos del elementos. Si Ud no selecciona ninguno, todos los atributos del elemento se ustilizarán para generar una estadistica. Tambien como un nuevo atributo es añadido desde la ultima configuración',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Aqui puede definir el eje-x, Puede seleccionar un elemento usando la casilla de selecciona. Luego debe seleccionar dos o mas atributos del elementos. Si Ud no selecciona ninguno, todos los atributos del elemento se ustilizarán para generar una estadistica. Tambien como un nuevo atributo es añadido desde la ultima configuración',
 
         # Template: AgentStatsImport
         'Import' => 'Importar',
@@ -1475,6 +1475,7 @@ sub Data {
         'Ticket selected for bulk action!' => 'Ticket seleccionado para acción múltiple!',
     };
     # $$STOP$$
+    return;
 }
 
 1;

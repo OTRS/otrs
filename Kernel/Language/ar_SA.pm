@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.3 2007-05-29 12:52:58 martin Exp $
+# $Id: ar_SA.pm,v 1.4 2007-06-26 16:30:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::ar_SA;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -336,7 +336,7 @@ sub Data {
         'Please select a graph size!' => '—Ã«¡« √Œ — ÕÃ„ «·’Ê—…',
         'Please select one element for the X-axis!' => '—Ã«¡« ﬁ„ » ÕœÌœ ⁄‰’— Ê«Õœ ·„ÕÊ— «·”Ì‰« !',
         'You have to select two or more attributes from the select field!' => 'ÌÃ» ⁄·Ìﬂ  ÕœÌœ ⁄‰’—Ì‰ √Ê √ﬂÀ— „‰ «·ﬁ«∆„… «·„Õœœ…!',
-        'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => '',
+        'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => '',
         'If you use a checkbox you have to select some attributes of the select field!' => '',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => '',
         'The selected end time is before the start time!' => 'Êﬁ  «·‰Â«Ì… «·„Õœœ ﬁ»· Êﬁ  «·»œ«Ì… «·„Õœœ!!',
@@ -573,7 +573,7 @@ sub Data {
         'To get the first 20 character of the subject.' => '',
         'To get the first 5 lines of the email.' => '',
         'To get the realname of the sender (if given).' => '',
-        'To get the article attribut (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
+        'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => '',
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => '',
@@ -717,7 +717,7 @@ sub Data {
         'To get the first 20 character of the subject.' => '',
         'To get the first 5 lines of the email.' => '',
         'To get the realname of the sender (if given).' => '',
-        'To get the article attribut (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
+        'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => '',
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => '',
@@ -1057,14 +1057,14 @@ sub Data {
         'Stat#' => '',
         'Select the restrictions to characterise the stat' => '',
         'Fixed' => '',
-        'Please select only one Element or turn of the button \'Fixed\'.' => '',
+        'Please select only one element or turn off the button \'Fixed\'.' => '',
         'Absolut Period' => '',
         'Between' => '»Ì‰',
         'Relative Period' => '',
         'The last' => '',
         'Finish' => '',
         'Here you can make restrictions to your stat.' => '',
-        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element.' => '',
+        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => '',
 
         # Template: AgentStatsEditSpecification
         'Stat#' => '',
@@ -1111,7 +1111,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => '',
         'maximal period' => '√ÿÊ· „œ…',
         'minimal scale' => '',
-        'Here you can define the x-axis. You can select one element via the radio button. Than you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
 
         # Template: AgentStatsImport
         'Import' => '«” Ì—«œ',
@@ -1628,6 +1628,7 @@ sub Data {
         'Ticket selected for bulk action!' => ' „  ÕœÌœ «·»ÿ«ﬁ… ·· ‰›Ì– «·Ã„«⁄Ì',
     };
     # $$STOP$$
+    return;
 }
 
 1;

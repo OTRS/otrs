@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.59 2007-06-16 13:01:21 mh Exp $
+# $Id: bg.pm,v 1.60 2007-06-26 16:30:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -335,7 +335,7 @@ sub Data {
         'Please select a graph size!' => 'Моля изберете размер на графиката!',
         'Please select one element for the X-axis!' => 'Моля изберете един елемент за оста Х',
         'You have to select two or more attributes from the select field!' => 'Трябва да изберете два или повече атрибути от полето!',
-        'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => 'Моля изберете само един елемент или включете \'Fixed\', където полето е маркирано!',
+        'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Моля изберете само един елемент или включете \'Fixed\', където полето е маркирано!',
         'If you use a checkbox you have to select some attributes of the select field!' => 'Ако използвате отметка, трябва да изберете атрибути от полето!',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Моля въведете стойност във избраното поле или изключете отметката \'Fixed\'!',
         'The selected end time is before the start time!' => 'Избрания краен момент от време е преди началния момент!',
@@ -572,7 +572,7 @@ sub Data {
         'To get the first 20 character of the subject.' => 'За да се вземат първите 20 символа от "Относно" полето',
         'To get the first 5 lines of the email.' => 'За да се вземат първите 5 реда от съобщението.',
         'To get the realname of the sender (if given).' => 'Да се вземе истинското име на изпращача (ако има)',
-        'To get the article attribut (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Да се вземат атрибути на билета/съобщението (Пример: (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
+        'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Да се вземат атрибути на билета/съобщението (Пример: (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => 'Свойства на текущия клиент-потребител (Пример: <OTRS_CUSTOMER_DATA_UserFirstname>).',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => 'Свойства на собственика на билета (Пример: <OTRS_OWNER_UserFirstname>).',
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => 'Свойства на отговорника за билета (Пример: <OTRS_RESPONSIBLE_UserFirstname>).',
@@ -990,14 +990,14 @@ sub Data {
         # Template: AgentStatsEditRestrictions
         'Select the restrictions to characterise the stat' => 'Изберете ограничения които да характеризирад статистиката',
         'Fixed' => 'Fixed',
-        'Please select only one Element or turn of the button \'Fixed\'.' => 'Моля изберете само един елемент или изключете опцията \'Fixed\'.',
+        'Please select only one element or turn of the button \'Fixed\'.' => 'Моля изберете само един елемент или изключете опцията \'Fixed\'.',
         'Absolut Period' => 'Абсолютен интервал',
         'Between' => 'Между',
         'Relative Period' => 'Относителен интервал',
         'The last' => 'Последните',
         'Finish' => 'Край',
         'Here you can make restrictions to your stat.' => 'Тук може да добавите ограничения на Вашата статистика.',
-        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element.' => 'Ако махнете опцията \'Fixed\' агент потребителя който генерира статистиката ще може да променя съответния елемент.',
+        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Ако махнете опцията \'Fixed\' агент потребителя който генерира статистиката ще може да променя съответния елемент.',
 
         # Template: AgentStatsEditSpecification
         'Insert of the common specifications' => 'Въвеждане на общи спецификации',
@@ -1041,7 +1041,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => 'Изберете елемент който ще се използва за стойности на оста Х',
         'maximal period' => 'максимален период',
         'minimal scale' => 'минимален мащаб',
-        'Here you can define the x-axis. You can select one element via the radio button. Than you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Тук може да дефинирате оста Х, може да изберете един елемент (посредством радио бутон). Тук може да изберете един или два елемента. След това може да изберете атрибути на елементите. Всеки атрибут ще бъде показан като група от единични стойности. Ако не изберете атрибут, всички атрибути на елемента ще бъдат показане по време на генерирането на статистиката, както и всеки нов атрибут добавен при конфигурация на статистиката.',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Тук може да дефинирате оста Х, може да изберете един елемент (посредством радио бутон). Тук може да изберете един или два елемента. След това може да изберете атрибути на елементите. Всеки атрибут ще бъде показан като група от единични стойности. Ако не изберете атрибут, всички атрибути на елемента ще бъдат показане по време на генерирането на статистиката, както и всеки нов атрибут добавен при конфигурация на статистиката.',
 
         # Template: AgentStatsImport
         'Import' => 'Импортиране',
@@ -1483,6 +1483,7 @@ sub Data {
         'Ticket selected for bulk action!' => 'Билета е маркиран за събирателно действие',
     };
     # $$STOP$$
+    return;
 }
 
 1;

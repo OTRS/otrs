@@ -2,7 +2,7 @@
 # Kernel/Language/en.pm - provides en languag translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: en.pm,v 1.19 2007-04-24 09:45:47 martin Exp $
+# $Id: en.pm,v 1.20 2007-06-26 16:30:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::en;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -29,7 +29,7 @@ sub Data {
 
     $Self->{DateFormat} = '%M/%D/%Y %T';
     $Self->{DateFormatShort} = '%M/%D/%Y';
-    $Self->{DateFormatLong} = '%A %B %D %T %Y';
+    $Self->{DateFormatLong} = '%T - %M/%D/%Y';
     $Self->{DateFormatShort} = '%M/%D/%Y';
     $Self->{DateInputFormat} = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
@@ -73,6 +73,7 @@ sub Data {
         'History::SLAUpdate' => 'Updated SLA to %s (ID=%s).',
     };
     # $$STOP$$
+    return;
 }
 
 1;

@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # --
-# $Id: ru.pm,v 1.46 2007-06-20 16:18:11 martin Exp $
+# $Id: ru.pm,v 1.47 2007-06-26 16:30:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -335,7 +335,7 @@ sub Data {
         'Please select a graph size!' => 'Пожалуйста, выбирите размер графика!',
         'Please select one element for the X-axis!' => 'Пожалуйста, выбирите один элемент для оси X',
         'You have to select two or more attributes from the select field!' => 'Вам необходимо выбрать два или более пунктов из выбранного поля!',
-        'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => 'Пожалуйста, выбирите только один элемент или снимите флаг \'Fixed\' у выбранного поля!',
+        'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Пожалуйста, выбирите только один элемент или снимите флаг \'Fixed\' у выбранного поля!',
         'If you use a checkbox you have to select some attributes of the select field!' => 'Если вы используете чекбокс, вы должны выбрать несколько пунктов из выбранного поля!',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Пожалуйста, вставьте значение в выбранное поле или снимите флаг \'Fixed\'!',
         'The selected end time is before the start time!' => 'Выбранное время окончания до времени начала!',
@@ -572,7 +572,7 @@ sub Data {
         'To get the first 20 character of the subject.' => 'Чтобы видеть первые 20 символов темы',
         'To get the first 5 lines of the email.' => 'Чтобы видеть первые 5 строк email',
         'To get the realname of the sender (if given).' => 'Чтобы видеть реальное имя отправителя(если указано)',
-        'To get the article attribut (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Чтобы видеть опции заявки (например (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> и <OTRS_CUSTOMER_Body>).' ,
+        'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Чтобы видеть опции заявки (например (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> и <OTRS_CUSTOMER_Body>).' ,
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => 'Опции текущих данных клиента (например <OTRS_CUSTOMER_DATA_UserFirstname>).',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => 'Опции владельца заявки (например <OTRS_OWNER_UserFirstname>).' ,
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => 'Опции ответственного за заявку (например <OTRS_RESPONSIBLE_UserFirstname>).' ,
@@ -990,14 +990,14 @@ sub Data {
         # Template: AgentStatsEditRestrictions
         'Select the restrictions to characterise the stat' => 'Выбирете ограничения для определения статистики',
         'Fixed' => 'Фиксировано',
-        'Please select only one Element or turn of the button \'Fixed\'.' => 'Пожалуйста, выбирете только один Элемент или уберите флажок \'Fixed\'.',
+        'Please select only one element or turn off the button \'Fixed\'.' => 'Пожалуйста, выбирете только один Элемент или уберите флажок \'Fixed\'.',
         'Absolut Period' => 'Полный период',
         'Between' => 'Между',
         'Relative Period' => 'Относительный период',
         'The last' => 'Последний',
         'Finish' => 'Закончить',
         'Here you can make restrictions to your stat.' => 'Здесь вы можете внести ограничения в вашу статистику',
-        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element.' => 'Если вы уберете галочку из чекбокса "Fixed", пользователь, который будет создавать отчеты сможет менять настройки соответствующего элемента',
+        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Если вы уберете галочку из чекбокса "Fixed", пользователь, который будет создавать отчеты сможет менять настройки соответствующего элемента',
 
         # Template: AgentStatsEditSpecification
         'Insert of the common specifications' => 'Вставьте дополнительные требования',
@@ -1041,7 +1041,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => '',
         'maximal period' => '',
         'minimal scale' => '',
-        'Here you can define the x-axis. You can select one element via the radio button. Than you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Здесь вы можете определить ось X. Вы можете выбрать один элемент. Затем необходимо выбрать два или более аттрибутов элемента. Если вы совсем не выбирете аттрибутов элемента - все аттрибуты будут использованы для генерации отчета, а также вновь добавленные аттрибуты.',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Здесь вы можете определить ось X. Вы можете выбрать один элемент. Затем необходимо выбрать два или более аттрибутов элемента. Если вы совсем не выбирете аттрибутов элемента - все аттрибуты будут использованы для генерации отчета, а также вновь добавленные аттрибуты.',
 
         # Template: AgentStatsImport
         'Import' => 'Импорт',
@@ -1471,6 +1471,7 @@ sub Data {
         'Ticket selected for bulk action!' => 'Заявка выбрана для массового действия!',
     };
     # $$STOP$$
+    return;
 }
 
 1;

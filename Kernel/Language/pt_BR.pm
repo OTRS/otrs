@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.53 2007-06-16 13:01:21 mh Exp $
+# $Id: pt_BR.pm,v 1.54 2007-06-26 16:30:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -336,7 +336,7 @@ sub Data {
         'Please select a graph size!' => 'Por favor, selecione o tamanho do gráfico!',
         'Please select one element for the X-axis!' => 'Por favor, selecione um elemento do eixo X!',
         'You have to select two or more attributes from the select field!' => 'Você deve selecionar dois ou mais atributos no campo \'selecionar\'!',
-        'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => 'Por favor, selecione somente um elemento ou desmarque o botão \'Fixo\' onde o campo selecionado está marcado!',
+        'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Por favor, selecione somente um elemento ou desmarque o botão \'Fixo\' onde o campo selecionado está marcado!',
         'If you use a checkbox you have to select some attributes of the select field!' => 'Se você utiliza um checkbox, deves selecionar alguns atributos no campo \'selecionar\'!',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Por favor, insira um valor no campo selecionado ou desmarque a checkbox \'Fixo\'!',
         'The selected end time is before the start time!' => 'A data final é anterior à data inicial!',
@@ -573,7 +573,7 @@ sub Data {
         'To get the first 20 character of the subject.' => '',
         'To get the first 5 lines of the email.' => '',
         'To get the realname of the sender (if given).' => '',
-        'To get the article attribut (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
+        'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => '',
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => '',
@@ -991,14 +991,14 @@ sub Data {
         # Template: AgentStatsEditRestrictions
         'Select the restrictions to characterise the stat' => 'Selecione as restrições para caracterizar o status',
         'Fixed' => 'Fixado',
-        'Please select only one Element or turn of the button \'Fixed\'.' => 'Por favor, selecione apenas um elemento ou desmarque o botão \'Fixado\'.',
+        'Please select only one element or turn off the button \'Fixed\'.' => 'Por favor, selecione apenas um elemento ou desmarque o botão \'Fixado\'.',
         'Absolut Period' => 'Período Absoluto',
         'Between' => 'Entre',
         'Relative Period' => 'Período Relativo',
         'The last' => 'O último',
         'Finish' => 'Finalizar',
         'Here you can make restrictions to your stat.' => 'Aqui você pode criar as restrições do seu status',
-        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element.' => 'Se você remover a seleção da caixa \'Fixado\', o atendente que gerar o status pode alterar os atributos do elemento correspondente.',
+        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Se você remover a seleção da caixa \'Fixado\', o atendente que gerar o status pode alterar os atributos do elemento correspondente.',
 
         # Template: AgentStatsEditSpecification
         'Insert of the common specifications' => 'Inserção das especificações comuns',
@@ -1042,7 +1042,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => 'Selecione o elemento que será usado no eixo X',
         'maximal period' => 'período máximo',
         'minimal scale' => 'período mínimo',
-        'Here you can define the x-axis. You can select one element via the radio button. Than you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Aqui você pode definir o eixo X. Você pode selecionar um elemento através do \'radio button\'. Então você deve selecionar dois ou mais atributos do elemento. Se não efetuou nenhum seleção, todos os atributos do elemento serão utilizados se você gerar uma estatística. Assim como um novo atributo é adicionado desde a última configuração. ',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Aqui você pode definir o eixo X. Você pode selecionar um elemento através do \'radio button\'. Então você deve selecionar dois ou mais atributos do elemento. Se não efetuou nenhum seleção, todos os atributos do elemento serão utilizados se você gerar uma estatística. Assim como um novo atributo é adicionado desde a última configuração. ',
 
         # Template: AgentStatsImport
         'Import' => 'Importar',
@@ -1459,6 +1459,7 @@ sub Data {
         'Ticket selected for bulk action!' => 'Chamado selecionado para execução de ação!',
     };
     # $$STOP$$
+    return;
 }
 
 1;

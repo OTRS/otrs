@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 #                    George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.21 2007-06-20 07:20:05 martin Exp $
+# $Id: el.pm,v 1.22 2007-06-26 16:30:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::el;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -336,7 +336,7 @@ sub Data {
         'Please select a graph size!' => 'Παρακαλώ επίλεξτε μέγεθος γραφικού',
         'Please select one element for the X-axis!' => 'Παρακαλώ επιλέξτε ενα στοιχείο του Αξονα X',
         'You have to select two or more attributes from the select field!' => 'Πρέπει να επιλέξετε δύο η περισσότερες ιδιότητες απο το επιλεγμένο πεδίο',
-        'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => 'Παρακαλώ επιλέξτε μονο ενα στοιχείο η ενεργοποιηστε το κουμπί \'Fixed\' του επιλεγμένου πεδίου !',
+        'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Παρακαλώ επιλέξτε μονο ενα στοιχείο η ενεργοποιηστε το κουμπί \'Fixed\' του επιλεγμένου πεδίου !',
         'If you use a checkbox you have to select some attributes of the select field!' => 'Εφόσον χρησιμοποιήσετε κουτί επιλογής πρεπει να επιλέξετε και ιδιότητες του επιλεγμένου πεδίου',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Παρακαλώ εισάγετε τιμή στο επιλεγμένο πεδίο η απενεργοποιήστε το \'Fixed\' κουτί !',
         'The selected end time is before the start time!' => 'Το επιλεγμένο τέλος χρόνου ειναι πριν την τιμή αρχής χρόνου !',
@@ -576,7 +576,7 @@ sub Data {
         'To get the first 20 character of the subject.' => '',
         'To get the first 5 lines of the email.' => '',
         'To get the realname of the sender (if given).' => '',
-        'To get the article attribut (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
+        'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => '',
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => '',
@@ -1002,14 +1002,14 @@ sub Data {
         # Template: AgentStatsEditRestrictions
         'Select the restrictions to characterise the stat' => '',
         'Fixed' => 'Διορθώθηκε',
-        'Please select only one Element or turn of the button \'Fixed\'.' => '',
+        'Please select only one element or turn off the button \'Fixed\'.' => '',
         'Absolut Period' => '',
         'Between' => 'Μεταξύ',
         'Relative Period' => '',
         'The last' => '',
         'Finish' => '',
         'Here you can make restrictions to your stat.' => '',
-        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element.' => '',
+        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => '',
 
         # Template: AgentStatsEditSpecification
         'Insert of the common specifications' => '',
@@ -1053,7 +1053,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => '',
         'maximal period' => '',
         'minimal scale' => '',
-        'Here you can define the x-axis. You can select one element via the radio button. Than you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
 
         # Template: AgentStatsImport
         'Import' => 'Εισαγωγή',
@@ -1499,6 +1499,7 @@ department, ...).' => 'Δημιουργία νέων ομάδων για να διαχειρίζονται τα δικαιώματ
         'History::SystemRequest' => 'System Request (%s).',
     };
     # $$STOP$$
+    return;
 }
 
 1;

@@ -5,7 +5,7 @@
 # Original created by Thorsten Rossner
 # Maintained by Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.22 2007-06-16 13:01:21 mh Exp $
+# $Id: da.pm,v 1.23 2007-06-26 16:30:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -336,7 +336,7 @@ sub Data {
         'Please select a graph size!' => 'Vælg venligst graf størrelse',
         'Please select one element for the X-axis!' => 'Vælg venligst et element til X-aksen',
         'You have to select two or more attributes from the select field!' => 'Du skal vælge to eller flere attributter fra feltet!',
-        'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => 'Vælg venligst kun et element, eller vend knappen \'Fixed\' hvor feltet er markeret',
+        'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Vælg venligst kun et element, eller vend knappen \'Fixed\' hvor feltet er markeret',
         'If you use a checkbox you have to select some attributes of the select field!' => 'For at bruge en checkbox, skal du vælge nogle attributter fra feltet',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Indtast venligst en værdi, i det valghte input felt, eller fra vælg \'Fixed\' checkboxen.',
         'The selected end time is before the start time!' => 'Den valgte sluttid, er før starttiden.',
@@ -573,7 +573,7 @@ sub Data {
         'To get the first 20 character of the subject.' => '',
         'To get the first 5 lines of the email.' => '',
         'To get the realname of the sender (if given).' => '',
-        'To get the article attribut (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
+        'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => '',
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => '',
@@ -991,14 +991,14 @@ sub Data {
         # Template: AgentStatsEditRestrictions
         'Select the restrictions to characterise the stat' => 'Vælg begrænsningerne til at karakterisere stat',
         'Fixed' => 'Fast',
-        'Please select only one Element or turn of the button \'Fixed\'.' => 'Vælg venligst kun et Element, eller fravælg knappen \'Fast\'',
+        'Please select only one element or turn off the button \'Fixed\'.' => 'Vælg venligst kun et Element, eller fravælg knappen \'Fast\'',
         'Absolut Period' => 'Absolut periode',
         'Between' => 'Mellem',
         'Relative Period' => 'Relativ periode',
         'The last' => 'Den sidste',
         'Finish' => 'Færdig',
         'Here you can make restrictions to your stat.' => 'Her kan du begrænse din stat',
-        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element.' => 'Vis du fjerner markeringen i boksen "Fast", kan agenten ændrer attributterne ved det valgte element.',
+        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Vis du fjerner markeringen i boksen "Fast", kan agenten ændrer attributterne ved det valgte element.',
 
         # Template: AgentStatsEditSpecification
         'Insert of the common specifications' => 'Indsæt fælles specifikationer',
@@ -1020,7 +1020,7 @@ sub Data {
         '(Note: It depends on your installation how many dynamic objects you can use)' => '(Bemlrk: Det afhænger af din installation hvor mange dynamiske objekter du kan bruge)',
         'Static-File' => 'Statisk-Fil',
         'For very complex stats it is possible to include a hardcoded file.' => 'For meget komplekse statistiker er det muligt at inkludere en hardcoded fil.',
-        'If a new hardcoded file is available this attribute will be shown and you can select one.' => 'Hvis en hardcoded fil er tilgængelig, vil denne attribut være vist, og du kan vælge den.',
+        'If a new hardcoded file is available this attribute will be shown and you can select one.' => 'Hvis en hardcoded fil er tilgængelig, vil denne attribute være vist, og du kan vælge den.',
         'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => 'Rettigheds indstillinger, Du kan vælge en eller flere grupper, for at gøre den konfigurerede stat synlig for forskellige agenter.',
         'Multiple selection of the output format.' => 'Flere valg af output format',
         'If you use a graph as output format you have to select at least one graph size.' => 'iHvis du bruger en graf som output format skal du vælge mindst en graf størrelse',
@@ -1042,7 +1042,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => 'Vælg det element der skal bruges ved X-aksen',
         'maximal period' => 'maksimal periode',
         'minimal scale' => 'minimal skala',
-        'Here you can define the x-axis. You can select one element via the radio button. Than you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Her kan du definere X-aksen. Du kan vælge et element med radio button. Derefter skal du vælge et eller flere attributter til elementet. Hvis du ikke vælger nogle attributter, vil alle attributter blive brugt, ligesom et nyt attribut vil blive gemt, siden sidste konfiguration.',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Her kan du definere X-aksen. Du kan vælge et element med radio button. Derefter skal du vælge et eller flere attributter til elementet. Hvis du ikke vælger nogle attributter, vil alle attributter blive brugt, ligesom et nyt attribut vil blive gemt, siden sidste konfiguration.',
 
         # Template: AgentStatsImport
         'Import' => 'Importer',
@@ -1481,5 +1481,6 @@ sub Data {
         'Ticket selected for bulk action!' => 'Sag valgt til massehandling!',
     };
     # $$STOP$$
+    return;
 }
 1;
