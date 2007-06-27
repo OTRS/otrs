@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.69 2007-05-07 17:14:43 martin Exp $
+# $Id: DB.pm,v 1.70 2007-06-27 06:49:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.69 $';
+$VERSION = '$Revision: 1.70 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -92,6 +92,7 @@ sub new {
     $Self->{DSN} = $Param{DatabaseDSN} || $Self->{ConfigObject}->Get('DatabaseDSN');
     $Self->{USER} = $Param{DatabaseUser} || $Self->{ConfigObject}->Get('DatabaseUser');
     $Self->{PW} = $Param{DatabasePw} || $Self->{ConfigObject}->Get('DatabasePw');
+    $Self->{SlowLog} = $Param{'Database::SlowLog'} || $Self->{ConfigObject}->Get('Database::SlowLog');
     # decrypt pw (if needed)
     if ($Self->{PW} =~ /^\{(.*)\}$/) {
         my $Length = length($1)*4;
@@ -465,6 +466,11 @@ sub Prepare {
             Message => "DB.pm->Prepare ($Self->{PrepareCounter}/".time().") SQL: '$SQL'",
         );
     }
+    # slow log feature
+    my $LogTime;
+    if ($Self->{SlowLog}) {
+        $LogTime = time();
+    }
     # do
     if (!($Self->{Curser} = $Self->{dbh}->prepare($SQL))) {
         $Self->{LogObject}->Log(
@@ -481,6 +487,17 @@ sub Prepare {
             Message => "$DBI::errstr, SQL: '$SQL'",
         );
         return;
+    }
+    # slow log feature
+    if ($Self->{SlowLog}) {
+        my $LogTimeTaken = time() - $LogTime;
+        if ($LogTimeTaken > 0) {
+            $Self->{LogObject}->Log(
+                Caller => 1,
+                Priority => 'error',
+                Message => "Slow ($LogTimeTaken s) SQL: '$SQL'",
+            );
+        }
     }
     return 1;
 }
@@ -794,6 +811,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.69 $ $Date: 2007-05-07 17:14:43 $
+$Revision: 1.70 $ $Date: 2007-06-27 06:49:43 $
 
 =cut

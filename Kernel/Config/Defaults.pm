@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.270 2007-06-12 09:23:29 martin Exp $
+# $Id: Defaults.pm,v 1.271 2007-06-27 06:49:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.270 $';
+$VERSION = '$Revision: 1.271 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -100,10 +100,6 @@ sub LoadDefaults {
     # so set the database type here. Possible: mysq,postgresql,sapdb
 #    $Self->{'Database::Type'} = 'sapdb';
 
-    # If you want to use an init sql after connect, use this hier.
-    # (e. g. can be used for mysql encoding between client and server)
-#    $Self->{'Database::Connect'} = 'SET NAMES utf8';
-
     # (The database DSN for Oracle ==> more: "man DBD::oracle")
 #    $Self->{DatabaseDSN} = "DBI:Oracle:sid=$Self->{Database};host=$Self->{DatabaseHost};port=1521;";
 #    $Self->{DatabaseDSN} = "DBI:Oracle:sid=vingador;host=vingador;port=1521;";
@@ -114,6 +110,14 @@ sub LoadDefaults {
 #    $ENV{NLS_LANG} = "german_germany.utf8";
 #    $ENV{NLS_LANG} = "german_germany.we8iso8859p15";
 #    $ENV{NLS_LANG} = "american_america.we8iso8859p1";
+
+    # If you want to use an init sql after connect, use this hier.
+    # (e. g. can be used for mysql encoding between client and server)
+#    $Self->{'Database::Connect'} = 'SET NAMES utf8';
+
+    # If you want to use the sql slow log feature, enable this here.
+    # (To log every sql query which takes longer the 8 sec.)
+#    $Self->{'Database::SlowLog'} = 0;
 
     # --------------------------------------------------- #
     # default values                                      #
@@ -2164,6 +2168,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.270 $ $Date: 2007-06-12 09:23:29 $
+$Revision: 1.271 $ $Date: 2007-06-27 06:49:43 $
 
 =cut
