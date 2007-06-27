@@ -2,13 +2,14 @@
 # AuthSession.t - auth session tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AuthSession.t,v 1.4 2007-04-11 10:40:11 martin Exp $
+# $Id: AuthSession.t,v 1.5 2007-06-27 12:09:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
+use utf8;
 use Kernel::System::AuthSession;
 
 foreach my $Module (qw(DB FS IPC)) {
@@ -43,6 +44,7 @@ foreach my $Module (qw(DB FS IPC)) {
             UserLogin => 'root',
             UserEmail => 'root@example.com',
             'LongStringNew'.$Count => $LongString,
+            UserTest => 'SomeÄÖÜß.',
         );
 
         # tests
@@ -95,6 +97,11 @@ foreach my $Module (qw(DB FS IPC)) {
         %Data = $Self->{SessionObject}->GetSessionIDData(SessionID => $SessionID);
 
         $Self->True(
+            $Data{"UserTest"} eq 'SomeÄÖÜß.',
+            "#$Module - GetSessionIDData() - utf8",
+        );
+
+        $Self->True(
             $Data{"LongString".$Count} eq $LongString,
             "#$Module - GetSessionIDData() - Long ($Size)",
         );
@@ -109,6 +116,26 @@ foreach my $Module (qw(DB FS IPC)) {
             "Some string with dyn. content: $Count",
             "#$Module - GetSessionIDData() - Long dyn.",
         );
+
+        $Update = $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $SessionID,
+            Key => 'UserTest',
+            Value => 'カスタ äüöß.',
+        );
+
+        $Self->True(
+            $Update,
+            "#$Module - UpdateSessionID() - utf8",
+        );
+
+        %Data = $Self->{SessionObject}->GetSessionIDData(SessionID => $SessionID);
+
+        $Self->Is(
+            $Data{"UserTest"} || '',
+            'カスタ äüöß.',
+            "#$Module - GetSessionIDData() - utf8",
+        );
+
         my $Remove = $Self->{SessionObject}->RemoveSessionID(SessionID => $SessionID);
 
         $Self->True(

@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.22 2007-05-07 08:23:41 martin Exp $
+# $Id: FS.pm,v 1.23 2007-06-27 12:09:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,12 +12,13 @@
 package Kernel::System::AuthSession::FS;
 
 use strict;
+use warnings;
 use Digest::MD5;
 use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -135,6 +136,7 @@ sub GetSessionIDData {
         my @PaarData = split(/:/, $_);
         if (defined($PaarData[1])) {
             $Data{$PaarData[0]} = decode_base64($PaarData[1]);
+            $Self->{EncodeObject}->Encode(\$Data{$PaarData[0]});
         }
         else {
             $Data{$PaarData[0]} = '';
