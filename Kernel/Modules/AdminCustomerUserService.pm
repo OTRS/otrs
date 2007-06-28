@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.1 2007-06-12 15:06:31 mh Exp $
+# $Id: AdminCustomerUserService.pm,v 1.2 2007-06-28 07:27:05 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,11 +12,13 @@
 package Kernel::Modules::AdminCustomerUserService;
 
 use strict;
+
 use Kernel::System::CustomerUser;
 use Kernel::System::Service;
+use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -27,7 +29,7 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
 
-    # allocate new hash for objects
+    # get common opjects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
@@ -38,9 +40,9 @@ sub new {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
     }
-    # needed objects
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{ServiceObject} = Kernel::System::Service->new(%Param);
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
 }
@@ -48,209 +50,439 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output = '';
-    my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
+    # set search limit
+    my $SearchLimit = 200;
 
-    # user <-> service 1:n
-    if ($Self->{Subaction} eq 'CustomerUser') {
-        $Output .= $Self->{LayoutObject}->Header();
+    # ------------------------------------------------------------ #
+    # allocate customer user
+    # ------------------------------------------------------------ #
+    if ($Self->{Subaction} eq 'AllocateCustomerUser') {
+        # get params
+        $Param{CustomerUserLogin} = $Self->{ParamObject}->GetParam(Param => "CustomerUserLogin");
+        $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam(Param => "CustomerUserSearch") || '*';
+        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam(Param => "ServiceSearch") || '*';
+        # output header
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        # get user data
-        my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $ID);
-        # get service data
-        my %ServiceData = $Self->{ServiceObject}->ServiceList(
-            Valid => 1,
-            UserID => $Self->{UserID},
+        # output search block
+        $Self->{LayoutObject}->Block(
+            Name => 'Search',
+            Data => {
+                %Param,
+                CustomerUserSearch => $Param{CustomerUserSearch},
+                ServiceSearch => $Param{ServiceSearch},
+            },
         );
         # get service member
-        my %Member = $Self->{ServiceObject}->CustomerUserServiceMemberList(
-            CustomerUserLogin => $ID,
+        my %ServiceMemberList = $Self->{ServiceObject}->CustomerUserServiceMemberList(
+            CustomerUserLogin => $Param{CustomerUserLogin},
             Result => 'HASH',
         );
-        $Output .= $Self->MaskAdminUserServiceChangeForm(
-            Selected => \%Member,
-            Data => \%ServiceData,
-            ID => $UserData{UserID},
-            Name => $UserData{UserLogin},
-            Type => 'CustomerUser',
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-    }
-    # user <-> service n:1
-    elsif ($Self->{Subaction} eq 'Service') {
-        $Output .= $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        # get user data
-        my %UserData = $Self->{CustomerUserObject}->CustomerUserList(Valid => 1);
-        foreach (keys %UserData) {
-            # get user data
-            my %User = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $_, Cached => 1);
-            if ($User{UserFirstname} && $User{UserLastname}) {
-                $UserData{$_} .= " ($User{UserFirstname} $User{UserLastname})";
-            }
-        }
-        # get service data
-        my %ServiceData = $Self->{ServiceObject}->ServiceGet(
-            ServiceID => $ID,
+        # search services
+        my @ServiceList = $Self->{ServiceObject}->ServiceSearch(
+            Name => $Param{ServiceSearch},
+            Limit => $SearchLimit + 1,
             UserID => $Self->{UserID},
         );
-        # get service member
-        my %Member = $Self->{ServiceObject}->CustomerUserServiceMemberList(
-            ServiceID => $ID,
-            Result => 'HASH',
-        );
-        $Output .= $Self->MaskAdminUserServiceChangeForm(
-            Selected => \%Member,
-            Data => \%UserData,
-            ID => $ServiceData{ServiceID},
-            Name => $ServiceData{Name},
-            Type => 'Service',
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-    }
-    # add user to services
-    elsif ($Self->{Subaction} eq 'ChangeCustomerUser') {
-        # get new service member
-        my @IDs = $Self->{ParamObject}->GetArray(Param => 'Service');
-        # get service data
-        my %ServiceData = $Self->{ServiceObject}->ServiceList(
-            Valid => 1,
-            UserID => $Self->{UserID},
-        );
-        foreach my $ServiceID (keys %ServiceData) {
-            my $Active = 0;
-            foreach (@IDs) {
-                if ($_ eq $ServiceID) {
-                    $Active = 1;
-                }
-            }
-            $Self->{ServiceObject}->CustomerUserServiceMemberAdd(
-                CustomerUserLogin => $ID,
-                ServiceID => $ServiceID,
-                Active => $Active,
-                UserID => $Self->{UserID},
-            );
+        # set max count
+        my $MaxCount = @ServiceList;
+        if ($MaxCount > $SearchLimit) {
+            $MaxCount = $SearchLimit;
         }
-        return $Self->{LayoutObject}->Redirect(OP => "Action=AdminCustomerUserService&Subaction=CustomerUser&ID=$ID");
-    }
-    # services to users
-    elsif ($Self->{Subaction} eq 'ChangeService') {
-        # get new service member
-        my @IDs = $Self->{ParamObject}->GetArray(Param => 'CustomerUser');
-        # get user list
-        my %UserData = $Self->{CustomerUserObject}->CustomerUserList(Valid => 1);
-        foreach my $CoustomerUserLogin (keys %UserData) {
-            my $Active = 0;
-            foreach (@IDs) {
-                if ($_ eq $CoustomerUserLogin) {
-                    $Active = 1;
-                }
-            }
-            $Self->{ServiceObject}->CustomerUserServiceMemberAdd(
-                CustomerUserLogin => $CoustomerUserLogin,
-                ServiceID => $ID,
-                Active => $Active,
-                UserID => $Self->{UserID},
-            );
-        }
-        return $Self->{LayoutObject}->Redirect(OP => "Action=AdminCustomerUserService&Subaction=Service&ID=$ID");
-    }
-    # else ! print form
-    else {
-        $Output .= $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        # get user data
-        my %UserData = $Self->{CustomerUserObject}->CustomerUserList(Valid => 1);
-        foreach (keys %UserData) {
-            # get user data
-            my %User = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $_, Cached => 1);
-            if ($User{UserFirstname} && $User{UserLastname}) {
-                $UserData{$_} .= " ($User{UserFirstname} $User{UserLastname})";
-            }
-        }
-        # get service data
-        my %ServiceData = $Self->{ServiceObject}->ServiceList(
-            Valid => 1,
-            UserID => $Self->{UserID},
+        # output allocate block
+        $Self->{LayoutObject}->Block(
+            Name => 'AllocateCustomerUser',
+            Data => {
+                CustomerUser => $Param{CustomerUserLogin},
+                ServiceCount => @ServiceList || 0,
+                %Param,
+            },
         );
-        $Output .= $Self->MaskAdminUserServiceForm(
-            ServiceData => \%ServiceData,
-            UserData => \%UserData,
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-    }
-    return $Output;
-}
-
-sub MaskAdminUserServiceChangeForm {
-    my $Self = shift;
-    my %Param = @_;
-    my %Data = %{$Param{Data}};
-    my $Type = $Param{Type} || 'CustomerUser';
-    my $NeType = 'Service';
-    $NeType = 'CustomerUser' if ($Type eq 'Service');
-
-    foreach (sort {uc($Data{$a}) cmp uc($Data{$b})} keys %Data) {
-        # input box
-        my $Selected = '';
-        if ($Param{Selected}->{$_}) {
-            $Selected = ' checked';
-        }
-        my $Input = '<input type="checkbox" name="'.$NeType.'" value="'.$_."\"$Selected>";
-        if ($Type eq 'Service') {
+        # output count block
+        if (!@ServiceList) {
             $Self->{LayoutObject}->Block(
-                Name => 'CustomerUserRow',
+                Name => 'AllocateCustomerUserServiceCountLimit',
                 Data => {
-                    Name => $Param{Data}->{$_},
-                    InputBox => $Input,
-                    Type => $Type,
-                    NeType => $NeType,
-                    ID => $_,
+                    ServiceCount => 0,
+                },
+            );
+        }
+        elsif (@ServiceList > $SearchLimit) {
+            $Self->{LayoutObject}->Block(
+                Name => 'AllocateCustomerUserServiceCountLimit',
+                Data => {
+                    ServiceCount => ">" . $SearchLimit,
                 },
             );
         }
         else {
             $Self->{LayoutObject}->Block(
-                Name => 'ServiceRow',
+                Name => 'AllocateCustomerUserServiceCount',
                 Data => {
-                    Name => $Param{Data}->{$_},
-                    InputBox => $Input,
-                    Type => $Type,
-                    NeType => $NeType,
-                    ID => $_,
+                    ServiceCount => scalar @ServiceList,
                 },
             );
         }
-    }
-    return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminCustomerUserServiceChangeForm',
-        Data => {
-            %Param,
-            NeType => $NeType,
-        },
-    );
-}
+        my $CssClass;
+        # output rows
+        foreach my $Counter (1..$MaxCount) {
+            # set output class
+            if ($CssClass && $CssClass eq 'searchactive') {
+                $CssClass = 'searchpassive';
+            }
+            else {
+                $CssClass = 'searchactive';
+            }
+            # get service
+            my %Service = $Self->{ServiceObject}->ServiceGet(
+                ServiceID => $ServiceList[$Counter - 1],
+                UserID => $Self->{UserID},
+            );
+            # set checked
+            my $Checked = '';
+            if ($ServiceMemberList{$Service{ServiceID}}) {
+                $Checked = 'checked';
+            }
+            # output row block
+            $Self->{LayoutObject}->Block(
+                Name => 'AllocateCustomerUserRow',
+                Data => {
+                    Service => $Service{Name},
+                    ServiceID => $Service{ServiceID},
+                    Checked => $Checked,
+                    CssClass => $CssClass,
+                },
+            );
+        }
+        # generate output
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminCustomerUserService',
+            Data => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
 
-sub MaskAdminUserServiceForm {
-    my $Self = shift;
-    my %Param = @_;
-    my $UserData = $Param{UserData};
-    my %UserDataTmp = %{$UserData};
-    my $ServiceData = $Param{ServiceData};
-    my %ServiceDataTmp = %{$ServiceData};
-    my $BaseLink = $Self->{LayoutObject}->{Baselink} . "Action=AdminCustomerUserService&";
+        return $Output;
+    }
+    # ------------------------------------------------------------ #
+    # allocate service
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'AllocateService') {
+        # get params
+        $Param{ServiceID} = $Self->{ParamObject}->GetParam(Param => "ServiceID");
+        $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam(Param => "CustomerUserSearch") || '*';
+        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam(Param => "ServiceSearch") || '*';
+        # output header
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        # output search block
+        $Self->{LayoutObject}->Block(
+            Name => 'Search',
+            Data => {
+                %Param,
+                CustomerUserSearch => $Param{CustomerUserSearch},
+                ServiceSearch => $Param{ServiceSearch},
+            },
+        );
+        # get service
+        my %Service = $Self->{ServiceObject}->ServiceGet(
+            ServiceID => $Param{ServiceID},
+            UserID => $Self->{UserID},
+        );
+        # get customer user member
+        my %CustomerUserMemberList = $Self->{ServiceObject}->CustomerUserServiceMemberList(
+            ServiceID => $Param{ServiceID},
+            Result => 'HASH',
+        );
+        # search customer user
+        my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+            Search => $Param{CustomerUserSearch},
+        );
+        my @CustomerUserKeyList = sort {$CustomerUserList{$a} cmp $CustomerUserList{$b}} keys %CustomerUserList;
+        # set max count
+        my $MaxCount = @CustomerUserKeyList;
+        if ($MaxCount > $SearchLimit) {
+            $MaxCount = $SearchLimit;
+        }
+        # output allocate block
+        $Self->{LayoutObject}->Block(
+            Name => 'AllocateService',
+            Data => {
+                Service => $Service{Name},
+                CustomerUserCount => @CustomerUserKeyList || 0,
+                %Param,
+            },
+        );
+        # output count block
+        if (!@CustomerUserKeyList) {
+            $Self->{LayoutObject}->Block(
+                Name => 'AllocateServiceCustomerUserCountLimit',
+                Data => {
+                    CustomerUserCount => 0,
+                },
+            );
+        }
+        elsif (@CustomerUserKeyList > $SearchLimit) {
+            $Self->{LayoutObject}->Block(
+                Name => 'AllocateServiceCustomerUserCountLimit',
+                Data => {
+                    CustomerUserCount => ">" . $SearchLimit,
+                },
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'AllocateServiceCustomerUserCount',
+                Data => {
+                    CustomerUserCount => scalar @CustomerUserKeyList,
+                },
+            );
+        }
+        my $CssClass;
+        # output rows
+        foreach my $Counter (1..$MaxCount) {
+            # set output class
+            if ($CssClass && $CssClass eq 'searchactive') {
+                $CssClass = 'searchpassive';
+            }
+            else {
+                $CssClass = 'searchactive';
+            }
+            # set checked
+            my $Checked = '';
+            if ($CustomerUserMemberList{$CustomerUserKeyList[$Counter - 1]}) {
+                $Checked = 'checked';
+            }
+            # output row block
+            $Self->{LayoutObject}->Block(
+                Name => 'AllocateServiceRow',
+                Data => {
+                    CustomerUserLogin => $CustomerUserKeyList[$Counter - 1],
+                    CustomerUser => $CustomerUserList{$CustomerUserKeyList[$Counter - 1]},
+                    Checked => $Checked,
+                    CssClass => $CssClass,
+                },
+            );
+        }
+        # generate output
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminCustomerUserService',
+            Data => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
 
-    foreach (sort {uc($UserDataTmp{$a}) cmp uc($UserDataTmp{$b})} keys %UserDataTmp) {
-        $Param{UserStrg} .= "<a href=\"$BaseLink"."Subaction=CustomerUser&ID=$_\">$UserDataTmp{$_}</a><br>";
+        return $Output;
     }
-    foreach (sort {uc($ServiceDataTmp{$a}) cmp uc($ServiceDataTmp{$b})} keys %ServiceDataTmp) {
-        $Param{ServiceStrg} .= "<a href=\"$BaseLink"."Subaction=Service&ID=$_\">$ServiceDataTmp{$_}</a><br>";
+    # ------------------------------------------------------------ #
+    # allocate customer user save
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'AllocateCustomerUserSave') {
+        # get params
+        $Param{CustomerUserLogin} = $Self->{ParamObject}->GetParam(Param => "CustomerUserLogin");
+        $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam(Param => "CustomerUserSearch") || '*';
+        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam(Param => "ServiceSearch") || '*';
+        my @ServiceIDsSelected = $Self->{ParamObject}->GetArray(Param => "ServiceIDsSelected");
+        my @ServiceIDsAll = $Self->{ParamObject}->GetArray(Param => "ServiceIDsAll");
+
+        # create hash with selected ids
+        my %ServiceIDSelected;
+        foreach my $ServiceID (@ServiceIDsSelected) {
+            $ServiceIDSelected{$ServiceID} = 1;
+        }
+        # check all used service ids
+        foreach my $ServiceID (@ServiceIDsAll) {
+            my $Active = 0;
+            if ($ServiceIDSelected{$ServiceID}) {
+                $Active = 1;
+            }
+            # set customer user service member
+            $Self->{ServiceObject}->CustomerUserServiceMemberAdd(
+                CustomerUserLogin => $Param{CustomerUserLogin},
+                ServiceID => $ServiceID,
+                Active => $Active,
+                UserID => $Self->{UserID},
+            );
+        }
+        # redirect to overview
+        return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&CustomerUserSearch=$Param{CustomerUserSearch}&ServiceSearch=$Param{ServiceSearch}");
     }
-    # return output
-    return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminCustomerUserServiceForm',
-        Data => \%Param,
-    );
+    # ------------------------------------------------------------ #
+    # allocate service save
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'AllocateServiceSave') {
+        # get params
+        $Param{ServiceID} = $Self->{ParamObject}->GetParam(Param => "ServiceID");
+        $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam(Param => "CustomerUserSearch") || '*';
+        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam(Param => "ServiceSearch") || '*';
+        my @CustomerUserLoginsSelected = $Self->{ParamObject}->GetArray(Param => "CustomerUserLoginsSelected");
+        my @CustomerUserLoginsAll = $Self->{ParamObject}->GetArray(Param => "CustomerUserLoginsAll");
+
+        # create hash with selected customer users
+        my %CustomerUserLoginsSelected;
+        foreach my $CustomerUserLogin (@CustomerUserLoginsSelected) {
+            $CustomerUserLoginsSelected{$CustomerUserLogin} = 1;
+        }
+        # check all used customer users
+        foreach my $CustomerUserLogin (@CustomerUserLoginsAll) {
+            my $Active = 0;
+            if ($CustomerUserLoginsSelected{$CustomerUserLogin}) {
+                $Active = 1;
+            }
+            # set customer user service member
+            $Self->{ServiceObject}->CustomerUserServiceMemberAdd(
+                CustomerUserLogin => $CustomerUserLogin,
+                ServiceID => $Param{ServiceID},
+                Active => $Active,
+                UserID => $Self->{UserID},
+            );
+        }
+        # redirect to overview
+        return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&CustomerUserSearch=$Param{CustomerUserSearch}&ServiceSearch=$Param{ServiceSearch}");
+    }
+    # ------------------------------------------------------------ #
+    # overview
+    # ------------------------------------------------------------ #
+    else {
+        # get params
+        $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam(Param => "CustomerUserSearch") || '*';
+        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam(Param => "ServiceSearch") || '*';
+        # output header
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        # output search block
+        $Self->{LayoutObject}->Block(
+            Name => 'Search',
+            Data => {
+                %Param,
+                CustomerUserSearch => $Param{CustomerUserSearch},
+                ServiceSearch => $Param{ServiceSearch},
+            },
+        );
+        # search customer user
+        my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+            Search => $Param{CustomerUserSearch},
+        );
+        my @CustomerUserKeyList = sort {$CustomerUserList{$a} cmp $CustomerUserList{$b}} keys %CustomerUserList;
+        # search services
+        my @ServiceList = $Self->{ServiceObject}->ServiceSearch(
+            Name => $Param{ServiceSearch},
+            Limit => $SearchLimit + 1,
+            UserID => $Self->{UserID},
+        );
+        # count results
+        my $CustomerUserCount = @CustomerUserKeyList;
+        my $ServiceCount = @ServiceList;
+        # set max count
+        my $MaxCount = $CustomerUserCount;
+        if ($ServiceCount > $MaxCount) {
+            $MaxCount = $ServiceCount;
+        }
+        if ($MaxCount > $SearchLimit) {
+            $MaxCount = $SearchLimit;
+        }
+        # output result block
+        $Self->{LayoutObject}->Block(
+            Name => 'Result',
+            Data => {
+                %Param,
+                CustomerUserCount => $CustomerUserCount,
+                ServiceCount => $ServiceCount,
+            },
+        );
+        # output customer user count block
+        if (!@CustomerUserKeyList) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ResultCustomerUserCountLimit',
+                Data => {
+                    CustomerUserCount => 0,
+                },
+            );
+        }
+        elsif (@CustomerUserKeyList > $SearchLimit) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ResultCustomerUserCountLimit',
+                Data => {
+                    CustomerUserCount => ">" . $SearchLimit,
+                },
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'ResultCustomerUserCount',
+                Data => {
+                    CustomerUserCount => scalar @CustomerUserKeyList,
+                },
+            );
+        }
+        # output service count block
+        if (!@ServiceList) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ResultServiceCountLimit',
+                Data => {
+                    ServiceCount => 0,
+                },
+            );
+        }
+        elsif (@ServiceList > $SearchLimit) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ResultServiceCountLimit',
+                Data => {
+                    ServiceCount => ">" . $SearchLimit,
+                },
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'ResultServiceCount',
+                Data => {
+                    ServiceCount => scalar @ServiceList,
+                },
+            );
+        }
+        my $CssClass;
+        # output rows
+        foreach my $Counter (1..$MaxCount) {
+            # set output class
+            if ($CssClass && $CssClass eq 'searchactive') {
+                $CssClass = 'searchpassive';
+            }
+            else {
+                $CssClass = 'searchactive';
+            }
+            my %RowParam;
+            # set customer user row params
+            if (defined($CustomerUserKeyList[$Counter - 1])) {
+                $RowParam{CustomerUserLogin} = $CustomerUserKeyList[$Counter - 1];
+                $RowParam{CustomerUser} = $CustomerUserList{$CustomerUserKeyList[$Counter - 1]};
+                $RowParam{CustomerUserCssClass} = $CssClass;
+            }
+            # set service row params
+            if ($ServiceList[$Counter - 1]) {
+                my %Service = $Self->{ServiceObject}->ServiceGet(
+                    ServiceID => $ServiceList[$Counter - 1],
+                    UserID => $Self->{UserID},
+                );
+                $RowParam{ServiceID} = $Service{ServiceID};
+                $RowParam{Service} = $Service{Name};
+                $RowParam{ServiceCssClass} = $CssClass;
+            }
+            # output row block
+            $Self->{LayoutObject}->Block(
+                Name => 'ResultRow',
+                Data => {
+                    %Param,
+                    %RowParam,
+                },
+            );
+        }
+        # generate output
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminCustomerUserService',
+            Data => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+
+        return $Output;
+    }
 }
 
 1;
