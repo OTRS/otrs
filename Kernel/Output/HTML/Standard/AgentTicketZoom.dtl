@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.26 2007-05-23 17:26:08 mh Exp $
+# $Id: AgentTicketZoom.dtl,v 1.27 2007-06-28 23:21:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -268,10 +268,6 @@ $Data{"Body"}
         <tr valign="top">
           <td><b>$Text{"Accounted time"}:</b></td>
           <td>$Data{"TicketTimeUnits"}</td>
-        </tr>
-        <tr valign="top">
-          <td><b>$Text{"Escalation in"}:</b></td>
-          <td>$Data{"TicketOverTime"}</td>
         </tr>
 # use ticket is pending
         <dtl if ($Data{"PendingUntil"} ne "") { $Data{"PendingUntilString"} = "<tr valign="top"><td><b>$Text{"Pending till"}:</b></td><td>$Data{"PendingUntil"}</td></tr>"; }>
