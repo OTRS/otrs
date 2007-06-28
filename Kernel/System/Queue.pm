@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.69 2007-03-16 09:59:24 martin Exp $
+# $Id: Queue.pm,v 1.70 2007-06-28 20:54:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,13 +12,14 @@
 package Kernel::System::Queue;
 
 use strict;
+use warnings;
 use Kernel::System::StdResponse;
 use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.69 $';
+$VERSION = '$Revision: 1.70 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -322,8 +323,7 @@ sub GetStdResponses {
     }
     # check if this result is present
     if ($Self->{"StdResponses::$Param{QueueID}"}) {
-        %StdResponses = %{$Self->{"StdResponses::$Param{QueueID}"}};
-        return %StdResponses;
+        return %{$Self->{"StdResponses::$Param{QueueID}"}};
     }
     # get std. responses
     my $SQL = "SELECT sr.id, sr.name ".
@@ -366,6 +366,9 @@ sub GetAllQueues {
     # fetch all queues
     my %MoveQueues;
     if ($Param{UserID}) {
+        if ($Self->{"QG::GetAllQueues::UserID::$Param{UserID}"}) {
+            return %{$Self->{"QG::GetAllQueues::UserID::$Param{UserID}"}};
+        }
         my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
             UserID => $Param{UserID},
             Type => $Type,
@@ -385,6 +388,9 @@ sub GetAllQueues {
         }
     }
     elsif ($Param{CustomerUserID}) {
+        if ($Self->{"QG::GetAllQueues::CustomerUserID::$Param{CustomerUserID}"}) {
+            return %{$Self->{"QG::GetAllQueues::CustomerUserID::$Param{CustomerUserID}"}};
+        }
         my @GroupIDs = $Self->{CustomerGroupObject}->GroupMemberList(
             UserID => $Param{CustomerUserID},
             Type => $Type,
@@ -404,14 +410,28 @@ sub GetAllQueues {
         }
     }
     else {
+        if ($Self->{"QG::GetAllQueues"}) {
+            return %{$Self->{"QG::GetAllQueues"}};
+        }
         $Self->{DBObject}->Prepare(
             SQL => "SELECT id, name FROM queue WHERE valid_id IN ".
                 "( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
-            );
+        );
     }
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $MoveQueues{$Row[0]} = $Row[1];
     }
+
+    if ($Param{UserID}) {
+        $Self->{"QG::GetAllQueues::UserID::$Param{UserID}"} = \%MoveQueues;
+    }
+    elsif ($Param{CustomerUserID}) {
+        $Self->{"QG::GetAllQueues::CustomerUserID::$Param{UserID}"} = \%MoveQueues;
+    }
+    else {
+        $Self->{"QG::GetAllQueues"} = \%MoveQueues;
+    }
+
     return %MoveQueues;
 }
 
@@ -586,6 +606,9 @@ sub GetQueueGroupID {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
         return;
     }
+    if ($Self->{"QG::GetQueueGroupID::$Param{QueueID}"}) {
+        return $Self->{"QG::GetQueueGroupID::$Param{QueueID}"};
+    }
     # db quote
     foreach (qw(QueueID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
@@ -601,6 +624,7 @@ sub GetQueueGroupID {
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $GID = $Row[0];
     }
+    $Self->{"QG::GetQueueGroupID::$Param{QueueID}"} = $GID;
     return $GID;
 }
 
@@ -1036,6 +1060,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.69 $ $Date: 2007-03-16 09:59:24 $
+$Revision: 1.70 $ $Date: 2007-06-28 20:54:57 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Valid.pm - all valid functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Valid.pm,v 1.1 2007-01-30 14:05:24 mh Exp $
+# $Id: Valid.pm,v 1.2 2007-06-28 20:52:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Valid;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -38,7 +38,7 @@ create a object
     use Kernel::Config;
     use Kernel::System::Log;
     use Kernel::System::DB;
-    use Kernel::System::Priority;
+    use Kernel::System::Valid;
 
     my $ConfigObject = Kernel::Config->new();
     my $LogObject = Kernel::System::Log->new(
@@ -81,16 +81,22 @@ return a valid list as hash
 sub ValidList {
     my $Self = shift;
     my %Param = @_;
+    my %Data = ();
+
+    # check cache
+    if ($Self->{'Cache::ValidList'}) {
+        return %{$Self->{'Cache::ValidList'}};
+    }
 
     # sql
-    my %Data = ();
-    my $SQL = 'SELECT id, name FROM valid';
-
-    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
+    if ($Self->{DBObject}->Prepare(SQL => 'SELECT id, name FROM valid')) {
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Data{$Row[0]} = $Row[1];
         }
     }
+
+    # cache
+    $Self->{'Cache::ValidList'} = \%Data;
 
     return %Data;
 }
@@ -108,10 +114,20 @@ sub ValidIDsGet {
     my %Param = @_;
     my @ValidIDs;
 
-    $Self->{DBObject}->Prepare(SQL => "SELECT id FROM valid WHERE name = 'valid'");
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        push(@ValidIDs, $Row[0]);
+    # check cache
+    if ($Self->{'Cache::ValidIDsGet'}) {
+        return @{$Self->{'Cache::ValidIDsGet'}};
     }
+
+    # sql
+    if ($Self->{DBObject}->Prepare(SQL => "SELECT id FROM valid WHERE name = 'valid'")) {
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            push(@ValidIDs, $Row[0]);
+        }
+    }
+
+    # cache
+    $Self->{'Cache::ValidIDsGet'} = \@ValidIDs;
 
     return @ValidIDs;
 }
@@ -132,6 +148,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2007-01-30 14:05:24 $
+$Revision: 1.2 $ $Date: 2007-06-28 20:52:34 $
 
 =cut
