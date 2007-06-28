@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.415 2007-06-28 15:27:47 mh Exp $
+# $Id: CHANGES,v 1.416 2007-06-28 23:50:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,11 @@
 # --
 
 2.2.0 rc2 (2007/07/??)
+ - (2007/06/29) Fixed bug# 1998 - Error with the web installer if no utf8
+    database is selected.
+ - (2007/06/28) Disabled only show escalated tickets in queue view because
+    of already show escalation notifications.
+ - (2007/06/28) Updated portuguese translation, thanks Filipe Henriques!
  - (2007/06/28) Fixed bug# 2000 - Typo in database update script
     DBUpdate-to-2.1.mysql.sql.
  - (2007/06/28) Reworked AdminCustomerUserService mask.
@@ -19,7 +24,7 @@
     info see Kernel/Config/Defaults.pm.
  - (2007/06/26) Fixed not working alter table to SET or DROP NULL and NOT
     NULL via xml interface (Kernel/System/DB/postgresql.pm).
- - (2007/06/26) Updated french translation, thanks to Yann Richard!
+ - (2007/06/26) Updated french translation, thanks to Yann Richard and Remi Seguy!
  - (2007/06/26) Updated netherlands translation, thanks to Richard Hinkamp!
  - (2007/06/26) Updated hungarian translation, thanks to Aron Ujvari!
  - (2007/06/20) Updated russian translation, thanks to Andrey Feldman!
