@@ -6,7 +6,7 @@
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # Copyright (C) 2007 Remi Seguy <remi.seguy at laposte.net>
 # --
-# $Id: fr.pm,v 1.76 2007-06-27 15:19:23 martin Exp $
+# $Id: fr.pm,v 1.77 2007-06-28 23:42:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.76 $';
+$VERSION = '$Revision: 1.77 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -60,9 +60,9 @@ sub Data {
         'hour' => 'heure',
         'hours' => 'heures',
         'hour(s)' => 'heure(s)',
-        'minute' => '',
-        'minutes' => '',
-        'minute(s)' => '',
+        'minute' => 'minute',
+        'minutes' => 'minutes',
+        'minute(s)' => 'minute(s)',
         'month' => 'mois',
         'months' => 'mois',
         'month(s)' => 'mois',
@@ -227,7 +227,7 @@ sub Data {
         'Cc: (%s) added database email!' => 'Cc: (%s) a été ajouté à la base de donnée d\'e-mail',
         '(Click here to add)' => '(Cliquez içi pour ajouter)',
         'Preview' => 'Aperçu',
-        'Package not correctly deployed! You should reinstall the Package again!' => '',
+        'Package not correctly deployed! You should reinstall the Package again!' => 'Le paquet n\'a pas été correctement déployé ! Vous devez le réinstaller à nouveau !',
         'Added User "%s"' => 'Ajout de l\'utilisateur "%s"',
         'Contract' => 'Contrat',
         'Online Customer: %s' => 'Clients en ligne: %s',
@@ -254,8 +254,8 @@ sub Data {
         'uninstalled' => 'désinstallé',
         'Security Note: You should activate %s because application is already running!' => 'Note de Sécurité: Vous devriez activer %s parce que l\'application est déjà lancée !',
         'Unable to parse Online Repository index document!' => 'Impossible d\'analyser l\'index du dépôt en ligne',
-        'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => 'Aucun paquetage pour le ',
-        'No Packages or no new Packages in selected Online Repository!' => '',
+        'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => 'Aucun paquet pour le Framework sélectionné dans ce dépot en ligne, mais des paquets pour d\'autres Frameworks !',
+        'No Packages or no new Packages in selected Online Repository!' => 'Pas de paquets ou de nouveau paquets dans le dépot en ligne sélectionné !',
         'printed at' => 'imprimé à',
 
         # Template: AAAMonth
@@ -345,7 +345,7 @@ sub Data {
         'You have to select one or more attributes from the select field!' => 'Vous devez sélectionner un ou plusieurs attributs du champ sélectionné',
         'The selected Date isn\'t valid!' => 'La date sélectionnée n\'est pas valide !',
         'Please select only one or two elements via the checkbox!' => 'Sélectionnez uniquement un ou deux éléments via les cases à cocher!',
-        'If you use a time scale element you can only select one element!' => '',
+        'If you use a time scale element you can only select one element!' => 'Si vous employez un élément d\'échelle de temps vous pouvez seulement choisir un élément',
         'You have an error in your time selection!' => 'Vous avez une erreur dans le choix de la date',
         'Your reporting time interval is too small, please use a larger time scale!' => 'La période choisie pour le rapport est trop courte, veuillez indiquer une plage plus grande',
         'The selected start time is before the allowed start time!' => 'La date de début choisie est antérieure à la date de début autorisée',
@@ -619,7 +619,7 @@ sub Data {
         'Send' => 'Envoyer',
 
         # Template: AdminGenericAgent
-        'GenericAgent' => '',
+        'GenericAgent' => 'Automate générique',
         'Job-List' => 'Liste de tâches',
         'Last run' => 'Dernier lancement',
         'Run Now!' => 'Lancer maintenant!',
@@ -658,14 +658,14 @@ sub Data {
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Cette commande sera exécuté. ARG[0] sera le numéro du ticket et ARG[1] son identifiant.',
         'Delete tickets' => 'Effacer les tickets',
         'Warning! This tickets will be removed from the database! This tickets are lost!' => 'Attention, ces tickets seront éffacés de la base de donnée ! Ils seront définitivement perdus !',
-        'Send Notification' => '',
+        'Send Notification' => 'Envoyer une notification',
         'Param 1' => 'Paramètre 1',
         'Param 2' => 'Paramètre 2',
         'Param 3' => 'Paramètre 3',
         'Param 4' => 'Paramètre 4',
         'Param 5' => 'Paramètre 5',
         'Param 6' => 'Paramètre 6',
-        'Send no notifications' => '',
+        'Send no notifications' => 'Ne pas envoyer de notifications',
         'Yes means, send no agent and customer notifications on changes.' => 'OUi signifie : ne rien envoyer sur changement au technicien et au client.',
         'No means, send agent and customer notifications on changes.' => 'Non signifie : Envoyer un mail au technicien et au client sur changement.',
         'Save' => 'Sauver',
@@ -733,7 +733,7 @@ sub Data {
         'Logfile too large!' => 'Fichier de log trop grand !',
         'Logfile too large, you need to reset it!' => 'Fichier de log trop grand, une remise à zéro est nécessaire !',
         'Range' => 'Plage',
-        'Interface' => '',
+        'Interface' => 'Interface',
         'Requests' => 'Requêtes',
         'Min Response' => 'Temps de réponse minimum',
         'Max Response' => 'Temps de réponse maximun',
@@ -776,7 +776,7 @@ sub Data {
         'Sub-Queue of' => 'Sous-file',
         'Unlock timeout' => 'Délai du déverrouillage',
         '0 = no unlock' => '0 = pas de verrouillage',
-        'Escalation - First Response Time' => '',
+        'Escalation - First Response Time' => 'Rémontée du ticket - Premier temps de réponse',
         '0 = no escalation' => '0 = pas de remontée du ticket',
         'Escalation - Update Time' => 'Escalade - échéance pour le suivi',
         'Escalation - Solution Time' => 'Escalade - échéance pour la solution',
@@ -1006,8 +1006,8 @@ sub Data {
         'Permissions' => 'Permissions',
         'Format' => 'Format',
         'Graphsize' => 'Taille du graphique',
-        'Sum rows' => '',
-        'Sum columns' => '',
+        'Sum rows' => 'Ligne de somme',
+        'Sum columns' => 'Colonnes de somme',
         'Cache' => 'Cache',
         'Required Field' => 'Champ requis',
         'Selection needed' => 'Sélection requise',
@@ -1029,7 +1029,7 @@ sub Data {
         'If you need the sum of every column select yes.' => 'Si vous avez besoin de la somme pour chaque colonne, choisissez Oui',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' => 'La plus grande part des stats peuvent être mise en cache. Cela accèlere leur présentation',
         '(Note: Useful for big databases and low performance server)' => 'Note: utile pour les bases de données volumineuses et les serveurs peu performants',
-        'With an invalid stat it isn\'t feasible to generate a stat.' => '',
+        'With an invalid stat it isn\'t feasible to generate a stat.' => 'Il est impossible de produire des statistiques avec des données invalides.',
         'This is useful if you want that no one can get the result of the stat or the stat isn\'t ready configurated.' => 'Ceci est utilie si vous voulez que personne n\'obtienne les statistiques ou si elles ne sont pas encore configurées',
 
         # Template: AgentStatsEditValueSeries
@@ -1376,7 +1376,7 @@ sub Data {
         'Notification (Customer)' => 'Notification (Client)',
         'FAQ Category' => 'Catégorie dans la FAQ',
         'Select Source (for add)' => 'Sélectionnez une source (pour ajout)',
-        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Options des données du ticket (ex: &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
         'New FAQ Article' => '(FAQ) Nouvel article',
         'Days' => 'Jours',
         'Queue ID' => 'Identifiant de la File',
@@ -1410,7 +1410,7 @@ sub Data {
         'Keywords' => 'Mots clés',
         'No * possible!' => 'Pas de * possible !',
         'Options ' => 'Options',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Options ',
         'Message for new Owner' => 'Message pour le nouveau propriétaire',
         'to get the first 5 lines of the email' => 'pour avoir les 5 premières ligne du mail',
         'OTRS DB Password' => 'Mot de passe de la base OTRS',
@@ -1423,11 +1423,11 @@ sub Data {
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Options concernant les données du client actuel (ex: <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'Type d\'attente',
         'Comment (internal)' => 'Commentaire interne',
-        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
+        'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Options du propriétaire du ticket (ex: &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
         'This window must be called from compose window' => 'Cette fenêtre doit être appelée de la fenêtre depuis la fenêtre de rédaction',
         'FAQ-Search' => '(FAQ) Rechercher',
         'You need min. one selected Ticket!' => 'Vous devez nommer au moins un Ticket!',
-        'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
+        'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Options des données du ticket (ex: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(Format numérique utilisé pour les tickets)',
         'Fulltext' => 'Texte Complet',
         'OTRS DB connect host' => 'Hôte de la base OTRS',
@@ -1452,16 +1452,16 @@ sub Data {
         'Split' => 'Scinder',
         'All messages' => 'Tous les messages',
         'System Status' => 'État du système',
-        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
+        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Options des données du ticket (ex: <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'A article should have a title!' => 'Un article doit avoir un titre',
         'FAQ Overview' => 'Vue d\'ensemble de la FAQ',
         'Event' => 'Évènement',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Options de configuration (ex: &lt;OTRS_CONFIG_HttpType&gt;)',
         'don\'t accept license' => 'Ne pas accepter la licence',
         'A web mail client' => 'Un logiciel de messagerie via le web',
         'FAQ-State' => '(FAQ) État',
         'WebMail' => 'Webmail',
-        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
+        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Options des données du ticket (ex:  <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Options du propriétaire d\'un ticket (ex: <OTRS_OWNER_UserFirstname>)',
         'FAQ Search' => 'Chercher dans la FAQ',
         'Name is required!' => 'Un nom est requis!',
@@ -1479,7 +1479,7 @@ sub Data {
         'A web file manager' => 'Un gestionnaire de fichier via le web',
         'send' => 'envoyer',
         'Note Text' => 'Note',
-        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Options des données du client actuel du ticket (ex:  &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
         'System State Management' => 'Gestion des états du système',
         'OTRS DB User' => 'Utilisateur de la base OTRS',
         'PhoneView' => 'Vue téléphone',
