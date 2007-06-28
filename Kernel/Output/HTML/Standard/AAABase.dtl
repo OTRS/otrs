@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.56 2007-05-24 11:48:12 mh Exp $
+# $Id: AAABase.dtl,v 1.57 2007-06-28 23:56:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -84,6 +84,7 @@ $Text{"none - answered"}
 $Text{"please do not edit!"}
 $Text{"AddLink"}
 $Text{"Link"}
+$Text{"Unlink"}
 $Text{"Linked"}
 $Text{"Link (Normal)"}
 $Text{"Link (Parent)"}
@@ -239,6 +240,7 @@ $Text{"Fax"}
 $Text{"Mobile"}
 $Text{"Zip"}
 $Text{"City"}
+$Text{"Street"}
 $Text{"Country"}
 
 $Text{"installed"}

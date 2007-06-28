@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.29 2007-05-21 14:16:38 martin Exp $
+# $Id: AAATicket.dtl,v 1.30 2007-06-28 23:56:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,6 +24,7 @@ $Text{"Subject"}
 $Text{"Move"}
 $Text{"Queue"}
 $Text{"Priority"}
+$Text{"Priority Update"}
 $Text{"State"}
 $Text{"Compose"}
 $Text{"Pending"}
@@ -105,6 +106,7 @@ $Text{"Phone-Ticket"}
 $Text{"Search Tickets"}
 $Text{"Customer"}
 $Text{"Edit Customer Users"}
+$Text{"Edit Customer Company"}
 $Text{"Bulk-Action"}
 $Text{"Bulk Actions on Tickets"}
 $Text{"Send Email and create a new Ticket"}
