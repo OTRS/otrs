@@ -1,8 +1,8 @@
 # --
 # customer-css.dtl - customer css
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: customer-css.dtl,v 1.11 2006-10-16 19:52:29 mh Exp $
+# $Id: customer-css.dtl,v 1.12 2007-06-28 23:57:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -61,5 +61,10 @@ input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
 .singleboxbody { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .singleboxkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top; }
 .singleboxvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+# article type color
+.agent-email-external { background-color:#ccffcc; }
+.agent-note-internal { background-color:#ffcccc; }
+.agent-note-external { background-color:#eeeeee; }
+.system-email-external { background-color:#fffbbb; }
 -->
 </style>
