@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # --
-# $Id: ru.pm,v 1.48 2007-06-26 18:34:43 martin Exp $
+# $Id: ru.pm,v 1.49 2007-06-28 23:58:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -344,7 +344,7 @@ sub Data {
         'Please select only one or two elements via the checkbox!' => 'Пожалуйста, выбирите только одини или два пункта используя чекбоксы',
         'If you use a time scale element you can only select one element!' => 'Если вы используете элемент временного интервала , вы можете выбрать только один элемент!',
         'You have an error in your time selection!' => 'Ошибка выбора времени',
-        'Your reporting time interval is to small, please use a larger time scale!' => 'Временной интервал отчетности слишком мал, пожалуйста, выбирете больший интервал',
+        'Your reporting time interval is too small, please use a larger time scale!' => 'Временной интервал отчетности слишком мал, пожалуйста, выбирете больший интервал',
         'The selected start time is before the allowed start time!' => 'Выбранное время начала отчета выходит за пределы разрешенного!',
         'The selected end time is after the allowed end time!' => 'Выбранное время конца отчета выходит за пределы разрешенного!',
         'The selected time period is larger than the allowed time period!' => 'Выбранный период времени больше, чем разрешенный период!',

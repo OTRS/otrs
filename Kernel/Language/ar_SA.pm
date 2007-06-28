@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.5 2007-06-26 18:34:42 martin Exp $
+# $Id: ar_SA.pm,v 1.6 2007-06-28 23:58:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::ar_SA;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -345,7 +345,7 @@ sub Data {
         'Please select only one or two elements via the checkbox!' => '',
         'If you use a time scale element you can only select one element!' => '',
         'You have an error in your time selection!' => '·œÌﬂ Œÿ√ ›Ì «Œ Ì«—ﬂ ··Êﬁ !',
-        'Your reporting time interval is to small, please use a larger time scale!' => '',
+        'Your reporting time interval is too small, please use a larger time scale!' => '',
         'The selected start time is before the allowed start time!' => '',
         'The selected end time is after the allowed end time!' => 'Êﬁ  «·‰Â«Ì… «·„Õœœ »⁄œ Êﬁ  «·‰Â«Ì… «·„”„ÊÕ »Â!',
         'The selected time period is larger than the allowed time period!' => '„œ… «·Êﬁ  «·„Õœœ… √ﬂ»— „‰ «·„œ… «·„”„ÊÕ »Â«!',

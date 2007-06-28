@@ -2,7 +2,7 @@
 # Kernel/Language/zh_CN.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.29 2007-06-26 18:34:43 martin Exp $
+# $Id: zh_CN.pm,v 1.30 2007-06-28 23:58:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -343,7 +343,7 @@ sub Data {
         'Please select only one or two elements via the checkbox!' => '',
         'If you use a time scale element you can only select one element!' => '',
         'You have an error in your time selection!' => '',
-        'Your reporting time interval is to small, please use a larger time scale!' => '',
+        'Your reporting time interval is too small, please use a larger time scale!' => '',
         'The selected start time is before the allowed start time!' => '',
         'The selected end time is after the allowed end time!' => '',
         'The selected time period is larger than the allowed time period!' => '',

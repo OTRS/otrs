@@ -1,41 +1,17 @@
 # --
 # Kernel/Language/nl.pm - provides nl language translation
 # Copyright (C) 2002-2003 Fred van Dijk <fvandijk at marklin.nl>
-# Maintenance responsibility taken over by Hans Bakker (h.bakker@a-net.nl)
-# Copyright (C) 2003 A-NeT Internet Services bv
-# Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
-# Copyright (C) 2005-2007 Jurgen Rutgers (jurgen 'at' besite.nl)
-#                         Richard Hinkamp (richard 'at' besite.nl)
+# Copyright (C) 2003 A-NeT Internet Services bv Hans Bakker <h.bakker at a-net.nl>
+# Copyright (C) 2004 Martijn Lohmeijer <martijn.lohmeijer 'at' sogeti.nl>
+# Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
+#                         Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.62 2007-06-26 18:34:43 martin Exp $
+# $Id: nl.pm,v 1.63 2007-06-28 23:58:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-
-# -------------------------------------------------------------------------
-# 14-05-2004
-#
-# This update is by: Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
-# Based on the CVS de.pm and nl.pm from 14-05-2004
-#
-# Below you will find a list of specifically not translated words.
-# Reason for not translating them is the frequent use of these terms in
-# either a. our daily practice at the department 'Interne Automatisering'
-# of Sogeti Nederland B.V. or b. common Dutch speak in which a lot of
-# modern English terms are not translated.
-#
-# 11-11-2005
-#
-# This update is by: Jurgen Rutgers (jurgen 'at' besite.nl)
-# Based on the CVS de.pm and nl.pm from OTRS 2.0.3
-#
-# 15-03-2006
-#
-# This update is by: Jurgen Rutgers (jurgen 'at' besite.nl)
-# Based on the CVS de.pm and nl.pm
-# -------------------------------------------------------------------------
 
 # Not translated terms / words:
 
@@ -52,7 +28,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -381,7 +357,7 @@ sub Data {
         'Please select only one or two elements via the checkbox!' => '',
         'If you use a time scale element you can only select one element!' => '',
         'You have an error in your time selection!' => '',
-        'Your reporting time interval is to small, please use a larger time scale!' => '',
+        'Your reporting time interval is too small, please use a larger time scale!' => '',
         'The selected start time is before the allowed start time!' => '',
         'The selected end time is after the allowed end time!' => '',
         'The selected time period is larger than the allowed time period!' => '',

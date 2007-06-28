@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2006 Jorge Becerra <jorge at hab.desoft.cu>
 # --
-# $Id: es.pm,v 1.59 2007-06-26 18:34:43 martin Exp $
+# $Id: es.pm,v 1.60 2007-06-28 23:58:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -343,7 +343,7 @@ sub Data {
         'Please select only one or two elements via the checkbox!' => 'Por favor selecciona solo uno o dos elementos usando la casilla de selección!',
         'If you use a time scale element you can only select one element!' => 'Si utiliza la escala de tiempo solo puede seleccionar un elemento!',
         'You have an error in your time selection!' => 'Tiene un error rn la seleccion de tiempo!',
-        'Your reporting time interval is to small, please use a larger time scale!' => 'El intervalo de reporte de tiempo es pequeño, por favor use uno mayor!',
+        'Your reporting time interval is too small, please use a larger time scale!' => 'El intervalo de reporte de tiempo es pequeño, por favor use uno mayor!',
         'The selected start time is before the allowed start time!' => 'El periodo de inicio es anterior al permitido!',
         'The selected end time is after the allowed end time!' => 'El periodo de tiempo final es posterior al permitido!',
         'The selected time period is larger than the allowed time period!' => 'El periodo de tiempo es mayor que el permitido!',

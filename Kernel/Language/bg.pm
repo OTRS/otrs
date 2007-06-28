@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.61 2007-06-26 18:34:42 martin Exp $
+# $Id: bg.pm,v 1.62 2007-06-28 23:58:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -344,7 +344,7 @@ sub Data {
         'Please select only one or two elements via the checkbox!' => 'Моля изберете един или два елемента посредством отметката!',
         'If you use a time scale element you can only select one element!' => 'Ако използвате времева скала може да изберете само един елемент!',
         'You have an error in your time selection!' => 'Имате грешка при избиране на времевия период!',
-        'Your reporting time interval is to small, please use a larger time scale!' => 'Времевия интервал за справката е прекалено малък, моля използвайте по-голям интервал!',
+        'Your reporting time interval is too small, please use a larger time scale!' => 'Времевия интервал за справката е прекалено малък, моля използвайте по-голям интервал!',
         'The selected start time is before the allowed start time!' => 'Възможния начален момент от време е преди възможния краен момент от време!',
         'The selected end time is after the allowed end time!' => 'Възможния начален момент от време е след възможния краен момент от време!',
         'The selected time period is larger than the allowed time period!' => 'Избрания времеви интервал е по-голям от максимално възможния!',

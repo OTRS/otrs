@@ -5,7 +5,7 @@
 # Original created by Thorsten Rossner
 # Maintained by Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.24 2007-06-26 18:34:43 martin Exp $
+# $Id: da.pm,v 1.25 2007-06-28 23:58:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -345,7 +345,7 @@ sub Data {
         'Please select only one or two elements via the checkbox!' => 'Vælg kun ene eller 2 elemeter fra checkboksene.',
         'If you use a time scale element you can only select one element!' => 'Hvis du bruger en tidsskale, kan du kun vælge et element!',
         'You have an error in your time selection!' => 'iDer er fejl i den valgte tid!',
-        'Your reporting time interval is to small, please use a larger time scale!' => 'Rapport tids-intervallet er for kort, vælg en større tids horisont!',
+        'Your reporting time interval is too small, please use a larger time scale!' => 'Rapport tids-intervallet er for kort, vælg en større tids horisont!',
         'The selected start time is before the allowed start time!' => 'Den valgte start tid, er før den tilladte starttid!',
         'The selected end time is after the allowed end time!' => 'Den valgte slut tid, el senere end den tilladte sluttid!',
         'The selected time period is larger than the allowed time period!' => 'Den valgte tidsperiode, er længere end den tilladte tidsperiode!',

@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: bb.pm,v 1.23 2007-06-26 18:34:42 martin Exp $
+# $Id: bb.pm,v 1.24 2007-06-28 23:58:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -343,7 +343,7 @@ sub Data {
         'Please select only one or two elements via the checkbox!' => 'Bitte wählen Sie nur ein oder zwei Elemente aus!',
         'If you use a time scale element you can only select one element!' => 'Wenn Sie ein Zeit-Element ausgewählt haben, können Sie nur kein weiteres Element mehr auswählen!',
         'You have an error in your time selection!' => 'Sie haben einen Fehler in Ihrer Zeitauswahl!',
-        'Your reporting time interval is to small, please use a larger time scale!' => 'Die Zeitskalierung ist zum klein gewählt, bitte wählen Sie eine größere Zeitskalierung!',
+        'Your reporting time interval is too small, please use a larger time scale!' => 'Die Zeitskalierung ist zum klein gewählt, bitte wählen Sie eine größere Zeitskalierung!',
         'The selected start time is before the allowed start time!' => 'Die gewählte Startzeit ist außerhalb des erlaubten Bereichs!',
         'The selected end time is after the allowed end time!' => 'Die gewählte Endzeit ist außerhalb des erlaubten Bereichs!',
         'The selected time period is larger than the allowed time period!' => 'Der gewählt Zeitraum ist größer als der erlaubte Zeitraum!',

@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.49 2007-06-26 18:34:43 martin Exp $
+# $Id: it.pm,v 1.50 2007-06-28 23:58:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -345,7 +345,7 @@ sub Data {
         'Please select only one or two elements via the checkbox!' => '',
         'If you use a time scale element you can only select one element!' => '',
         'You have an error in your time selection!' => '',
-        'Your reporting time interval is to small, please use a larger time scale!' => '',
+        'Your reporting time interval is too small, please use a larger time scale!' => '',
         'The selected start time is before the allowed start time!' => '',
         'The selected end time is after the allowed end time!' => '',
         'The selected time period is larger than the allowed time period!' => '',

@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.39 2007-06-26 18:34:43 martin Exp $
+# $Id: hu.pm,v 1.40 2007-06-28 23:58:33 martin Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -20,7 +20,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -351,7 +351,6 @@ sub Data {
         'Please select only one or two elements via the checkbox!' => 'Kérem válasszon egy vagy két elemet a jelölõnégyetekbõl!',
         'If you use a time scale element you can only select one element!' => 'Amennyiben egy idõskála elemet is választott, akkro csak egy elemet választhat közölük!',
         'You have an error in your time selection!' => 'Hibás a kiválasztott idõ!',
-        'Your reporting time interval is to small, please use a larger time scale!' => 'A kiválasztott idõ intervallum túl kicsi, kérem válasszon nagyobb skálát.',
         'Your reporting time interval is too small, please use a larger time scale!' => 'A kiválasztott idõ intervallum túl kicsi, kérem válasszon nagyobb skálát.',
         'The selected start time is before the allowed start time!' => 'A kiválasztott kezdési idõ a megengedett kezdési idõ elõtt van!',
         'The selected end time is after the allowed end time!' => 'A kiválasztott befejezési idõ a megengedett befejezési idõ után van!',

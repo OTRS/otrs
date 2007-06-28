@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 #                    George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.22 2007-06-26 16:30:14 martin Exp $
+# $Id: el.pm,v 1.23 2007-06-28 23:58:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::el;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -345,7 +345,7 @@ sub Data {
         'Please select only one or two elements via the checkbox!' => 'Παρακαλώ διαλέξτε μονο ενα η δύο στοιχεία μέσω του κουτιού επιλογής',
         'If you use a time scale element you can only select one element!' => 'Χρησιμοποιείτε μονο ενα στοιχείου κλίμακας χρόνου !',
         'You have an error in your time selection!' => 'Υπάρχει σφάλμα στην επιλογή χρόνου !',
-        'Your reporting time interval is to small, please use a larger time scale!' => 'Η περίοδος χρόνου είναι πολύ μικρή, επιλέξτε μεγαλύτερη κλίμακα !',
+        'Your reporting time interval is too small, please use a larger time scale!' => 'Η περίοδος χρόνου είναι πολύ μικρή, επιλέξτε μεγαλύτερη κλίμακα !',
         'The selected start time is before the allowed start time!' => 'Η επιλεγμένη αρχή χρόνου ειναι πριν την επιτρεπόμενη τιμή αρχής χρόνου',
         'The selected end time is after the allowed end time!' => 'Το επιλεγμένο τέλος χρόνου είναι μετά το επιτρεπόμενο τέλος χρόνου',
         'The selected time period is larger than the allowed time period!' => 'Η επιλεγμένη χρονική περίοδος είναι μεγαλύτερη απο την επιτρεπόμενη χρονική περίοδο',
