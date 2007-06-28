@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.5 2007-05-29 12:30:04 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.6 2007-06-28 23:57:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::NotificationAgentTicketEscalation;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -45,6 +45,7 @@ sub Run {
         StateType => 'Open',
         SortBy => 'Age',
         OrderBy => 'Up',
+        Permission => 'rw',
         UserID => $Self->{UserID},
     );
     # check sla preferences
