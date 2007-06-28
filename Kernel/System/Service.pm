@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.12 2007-06-18 09:33:57 martin Exp $
+# $Id: Service.pm,v 1.13 2007-06-28 07:15:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -504,14 +504,19 @@ sub ServiceSearch {
         }
     }
     $Param{Limit} = $Param{Limit} || 1000;
+    $Param{Name} =~ s/^\s+//;
+    $Param{Name} =~ s/\s+$//;
     # quote
     foreach (qw(UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "SELECT id FROM service WHERE valid_id = 1 ";
     if ($Param{Name}) {
+        $Param{Name} =~ s/\*/%/g;
+        $Param{Name} =~ s/%%/%/g;
         $SQL .= "AND name LIKE '$Param{Name}' ";
     }
+    $SQL .= "ORDER BY name";
     # search service in db
     $Self->{DBObject}->Prepare(SQL => $SQL);
     my @ServiceList;
@@ -755,6 +760,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2007-06-18 09:33:57 $
+$Revision: 1.13 $ $Date: 2007-06-28 07:15:55 $
 
 =cut
