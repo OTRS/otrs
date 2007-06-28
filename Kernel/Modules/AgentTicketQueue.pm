@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.35 2007-06-18 12:13:46 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.36 2007-06-28 22:13:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -113,35 +113,35 @@ sub Run {
         # do not show escalated tickets
     }
     else {
-        if (my @ViewableTickets = $Self->{TicketObject}->GetOverTimeTickets(UserID=> $Self->{UserID})) {
-            # show over time ticket's
-            $Self->{LayoutObject}->Block(
-                Name => 'EscalationNav',
-                Data => {
-                    Message => 'Please answer this ticket(s) to get back to the normal queue view!',
-                },
-            );
-            $Self->{LayoutObject}->Print(
-                Output => \$Self->{LayoutObject}->Output(
-                    TemplateFile => 'AgentTicketQueue',
-                    Data => {
-                        %Param,
-                    },
-                ),
-            );
-            my $Counter = 0;
-            foreach (@ViewableTickets) {
-                $Counter++;
-                $Self->{LayoutObject}->Print(
-                    Output => \$Self->ShowTicket(
-                        TicketID => $_,
-                        Counter => $Counter,
-                    ),
-                );
-            }
-            # get page footer
-            return $Self->{LayoutObject}->Footer();
-        }
+#        if (my @ViewableTickets = $Self->{TicketObject}->GetOverTimeTickets(UserID=> $Self->{UserID})) {
+#            # show over time ticket's
+#            $Self->{LayoutObject}->Block(
+#                Name => 'EscalationNav',
+#                Data => {
+#                    Message => 'Please answer this ticket(s) to get back to the normal queue view!',
+#                },
+#            );
+#            $Self->{LayoutObject}->Print(
+#                Output => \$Self->{LayoutObject}->Output(
+#                    TemplateFile => 'AgentTicketQueue',
+#                    Data => {
+#                        %Param,
+#                    },
+#                ),
+#            );
+#            my $Counter = 0;
+#            foreach (@ViewableTickets) {
+#                $Counter++;
+#                $Self->{LayoutObject}->Print(
+#                    Output => \$Self->ShowTicket(
+#                        TicketID => $_,
+#                        Counter => $Counter,
+#                    ),
+#                );
+#            }
+#            # get page footer
+#            return $Self->{LayoutObject}->Footer();
+#        }
     }
 
     # build queue view ...
