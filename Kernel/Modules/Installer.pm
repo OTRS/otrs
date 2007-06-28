@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.46 2007-06-19 12:26:03 martin Exp $
+# $Id: Installer.pm,v 1.47 2007-06-28 22:25:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -202,7 +202,7 @@ sub Run {
         $DB{NewHost} = $Self->{ParamObject}->GetParam(Param => 'OTRSDBConnectHost') || '';
         # check params
         foreach (keys %DB) {
-            if (!$DB{$_} && $_ ne 'Password') {
+            if (!$DB{$_} && $_ !~ /^(Password|DBDefaultCharset)$/) {
                 return $Self->{LayoutObject}->ErrorScreen(
                     Message => "You need '$_'!!",
                     Comment => 'Please go back',
