@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.13 2007-06-28 07:15:55 mh Exp $
+# $Id: Service.pm,v 1.14 2007-06-28 22:10:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,11 +12,12 @@
 package Kernel::System::Service;
 
 use strict;
+use warnings;
 
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -240,6 +241,10 @@ sub ServiceLookup {
         return;
     }
     if ($Param{ServiceID}) {
+        # check cache
+        if ($Self->{"Cache::ServiceLookup::ID::$Param{ServiceID}"}) {
+            return $Self->{"Cache::ServiceLookup::ID::$Param{ServiceID}"};
+        }
         my $ServiceName;
         # quote
         $Param{ServiceID} = $Self->{DBObject}->Quote($Param{ServiceID}, 'Integer');
@@ -251,9 +256,15 @@ sub ServiceLookup {
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $ServiceName = $Row[0];
         }
+        # cache
+        $Self->{"Cache::ServiceLookup::ID::$Param{ServiceID}"} = $ServiceName;
         return $ServiceName;
     }
     else {
+        # check cache
+        if ($Self->{"Cache::ServiceLookup::Name::$Param{Name}"}) {
+            return $Self->{"Cache::ServiceLookup::Name::$Param{Name}"};
+        }
         my $ServiceID;
         # quote
         $Param{Name} = $Self->{DBObject}->Quote($Param{Name});
@@ -265,6 +276,8 @@ sub ServiceLookup {
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $ServiceID = $Row[0];
         }
+        # cache
+        $Self->{"Cache::ServiceLookup::Name::$Param{Name}"} = $ServiceID;
         return $ServiceID;
     }
 }
@@ -760,6 +773,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2007-06-28 07:15:55 $
+$Revision: 1.14 $ $Date: 2007-06-28 22:10:05 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.12 2007-06-28 21:47:59 martin Exp $
+# $Id: SLA.pm,v 1.13 2007-06-28 22:10:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -227,6 +227,10 @@ sub SLALookup {
         return;
     }
     if ($Param{SLAID}) {
+        # check cache
+        if ($Self->{"Cache::SLALookup::ID::$Param{SLAID}"}) {
+            return $Self->{"Cache::SLALookup::ID::$Param{SLAID}"};
+        }
         my $Name;
         # quote
         $Param{SLAID} = $Self->{DBObject}->Quote($Param{SLAID}, 'Integer');
@@ -238,9 +242,15 @@ sub SLALookup {
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Name = $Row[0];
         }
+        # cache
+        $Self->{"Cache::SLALookup::ID::$Param{SLAID}"} = $Name;
         return $Name;
     }
     else {
+        # check cache
+        if ($Self->{"Cache::SLALookup::Name::$Param{Name}"}) {
+            return $Self->{"Cache::SLALookup::Name::$Param{Name}"};
+        }
         my $ID;
         # quote
         $Param{Name} = $Self->{DBObject}->Quote($Param{Name});
@@ -252,6 +262,8 @@ sub SLALookup {
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $ID = $Row[0];
         }
+        # cache
+        $Self->{"Cache::SLALookup::Name::$Param{Name}"} = $ID;
         return $ID;
     }
 }
@@ -397,6 +409,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2007-06-28 21:47:59 $
+$Revision: 1.13 $ $Date: 2007-06-28 22:10:05 $
 
 =cut
