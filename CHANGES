@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.414 2007-06-28 07:30:34 mh Exp $
+# $Id: CHANGES,v 1.415 2007-06-28 15:27:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.0 rc2 (2007/07/??)
+ - (2007/06/28) Fixed bug# 2000 - Typo in database update script
+    DBUpdate-to-2.1.mysql.sql.
  - (2007/06/28) Reworked AdminCustomerUserService mask.
  - (2007/06/28) Fixed wildcard handling in ServiceSerarch().
  - (2007/06/27) Added option to log sql queries which take longer the 4 sek.
