@@ -2,14 +2,18 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.416 2007-06-28 23:50:11 martin Exp $
+# $Id: CHANGES,v 1.417 2007-06-29 23:55:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-2.2.0 rc2 (2007/07/??)
+2.2.1 (2007/07/01)
+ - (2007/06/29) Updated finnish translation, thanks to Mikko Hynninen!
+ - (2007/06/29) Added some build in caches to Service, SQL, Queue and Valid
+    core modules to reduce the amount of sql queries (saves ~ 10% of queries
+    in the queue view).
  - (2007/06/29) Fixed bug# 1998 - Error with the web installer if no utf8
     database is selected.
  - (2007/06/28) Disabled only show escalated tickets in queue view because
