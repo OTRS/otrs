@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.13 2007-06-28 22:10:05 martin Exp $
+# $Id: SLA.pm,v 1.14 2007-06-29 01:00:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -366,6 +366,10 @@ sub SLAUpdate {
             return;
         }
     }
+    # reset cache
+    $Self->{"Cache::SLALookup::Name::$Param{Name}"} = 0;
+    $Self->{"Cache::SLALookup::ID::$Param{SLAID}"} = 0;
+    # set default values
     foreach (qw(Calendar Comment)) {
         $Param{$_} = $Param{$_} || '';
     }
@@ -409,6 +413,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2007-06-28 22:10:05 $
+$Revision: 1.14 $ $Date: 2007-06-29 01:00:39 $
 
 =cut

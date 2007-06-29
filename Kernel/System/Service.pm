@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.14 2007-06-28 22:10:05 martin Exp $
+# $Id: Service.pm,v 1.15 2007-06-29 01:00:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -403,6 +403,7 @@ sub ServiceUpdate {
             return;
         }
     }
+    # set comment
     $Param{Comment} = $Param{Comment} || '';
     # quote
     foreach (qw(Name Comment)) {
@@ -424,6 +425,9 @@ sub ServiceUpdate {
     my $OldServiceName = $Self->ServiceLookup(
         ServiceID => $Param{ServiceID},
     );
+    # reset cache
+    $Self->{"Cache::ServiceLookup::ID::$Param{ServiceID}"} = 0;
+    $Self->{"Cache::ServiceLookup::Name::$OldServiceName"} = 0;
     # create full name
     $Param{FullName} = $Param{Name};
     # get parent name
@@ -773,6 +777,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2007-06-28 22:10:05 $
+$Revision: 1.15 $ $Date: 2007-06-29 01:00:39 $
 
 =cut
