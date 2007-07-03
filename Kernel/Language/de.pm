@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.143 2007-06-28 23:58:32 martin Exp $
+# $Id: de.pm,v 1.144 2007-07-03 08:42:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.143 $';
+$VERSION = '$Revision: 1.144 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -349,23 +349,24 @@ sub Data {
         'The selected time period is larger than the allowed time period!' => 'Der gewählt Zeitraum ist größer als der erlaubte Zeitraum!',
         'Common Specification' => 'Allgemeine Angaben',
         'Xaxis' => 'X-Achse',
-        'Value Series' => 'Wertereihen',
-        'Restrictions' => 'Einschränkungen',
-        'graph-lines' => 'Liniendiagramm',
-        'graph-bars' => 'Balkendiagramm',
-        'graph-hbars' => 'Balkendiagramm (horizontal)',
-        'graph-points' => 'Punktdiagramm',
-        'graph-lines-points' => 'Linienpunktdiagramm',
-        'graph-area' => 'Flächendiagramm',
-        'graph-pie' => 'Tortendiagramm',
-        'extended' => 'erweitert',
-        'Agent/Owner' => 'Agent/Besitzer',
+        'Value Series'           => 'Wertereihen',
+        'Restrictions'           => 'Einschränkungen',
+        'graph-lines'            => 'Liniendiagramm',
+        'graph-bars'             => 'Balkendiagramm',
+        'graph-hbars'            => 'Balkendiagramm (horizontal)',
+        'graph-points'           => 'Punktdiagramm',
+        'graph-lines-points'     => 'Linienpunktdiagramm',
+        'graph-area'             => 'Flächendiagramm',
+        'graph-pie'              => 'Tortendiagramm',
+        'extended'               => 'erweitert',
+        'Agent/Owner'            => 'Agent/Besitzer',
         'Created by Agent/Owner' => 'Erstellt von Agent/Besitzer',
-        'Created Priority' => 'Erstellt mit der Priorität',
-        'Created State' => 'Erstellt mit dem Status',
-        'Create Time' => 'Erstellt',
-        'CustomerUserLogin' => 'Kundenlogin',
-        'Close Time' => 'Ticket geschlossen',
+        'Created Priority'       => 'Erstellt mit der Priorität',
+        'Created State'          => 'Erstellt mit dem Status',
+        'Create Time'            => 'Erstellt',
+        'CustomerUserLogin'      => 'Kundenlogin',
+        'Close Time'             => 'Ticket geschlossen',
+        'CSV'                    => 'CSV',
 
         # Template: AAATicket
         'Lock' => 'Sperren',

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.30 2007-05-10 14:18:25 tr Exp $
+# $Id: AgentStats.pm,v 1.31 2007-07-03 08:42:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -226,8 +226,9 @@ sub Run {
             }
             if ($#{$Stat->{GraphSize}} > 0) {
                 $Frontend{SelectGraphSize} = $Self->{LayoutObject}->OptionStrgHashRef(
-                    Data => \%GraphSize,
-                    Name => 'GraphSize',
+                    Data                => \%GraphSize,
+                    Name                => 'GraphSize',
+                    LanguageTranslation => 0,
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'Graphsize',
@@ -1282,15 +1283,23 @@ sub Run {
             );
         }
 
-        foreach my $Key (qw(Format GraphSize)) {
-            $Stat->{'Select' . $Key} = $Self->{LayoutObject}->OptionStrgHashRef(
-                Data => $Values{$Key},
-                Name => $Key,
-                Multiple => 1,
-                Size => 5,
-                SelectedIDRefArray => $Stat->{$Key},
-            );
-        }
+        $Stat->{SelectFormat} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data               => $Values{Format},
+            Name               => 'Format',
+            Multiple           => 1,
+            Size               => 5,
+            SelectedIDRefArray => $Stat->{Format},
+        );
+
+        $Stat->{SelectGraphSize} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data                => $Values{GraphSize},
+            Name                => 'GraphSize',
+            Multiple            => 1,
+            Size                => 5,
+            SelectedIDRefArray  => $Stat->{GraphSize},
+            LanguageTranslation => 0,
+        );
+
         # presentation
         $Output = $Self->{LayoutObject}->Header(
             Area => 'Stats',
