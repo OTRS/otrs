@@ -2,14 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.418 2007-07-03 09:37:09 tr Exp $
+# $Id: CHANGES,v 1.419 2007-07-10 14:42:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-2.2.2 (2007/xx/xx)
+2.2.2 (2007/??/??)
+ - (2007/07/10) Fixed bug# 2045 - Notifications on reopen are not sent to
+    owner/responsible.
  - (2007/07/03) Fixed bux# 2011 - Translation problems in stats module.
 
 2.2.1 (2007/07/01)
