@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.419 2007-07-10 14:42:04 mh Exp $
+# $Id: CHANGES,v 1.420 2007-07-11 05:24:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.2.2 (2007/??/??)
+ - (2007/07/11) Fixed bug# 2047 - Add MainObject to the needed object check.
  - (2007/07/10) Fixed bug# 2045 - Notifications on reopen are not sent to
     owner/responsible.
  - (2007/07/03) Fixed bux# 2011 - Translation problems in stats module.
