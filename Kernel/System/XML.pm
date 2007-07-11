@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.58 2007-05-31 13:15:47 mh Exp $
+# $Id: XML.pm,v 1.59 2007-07-11 05:16:05 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -50,6 +50,10 @@ create a object
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
     );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
     my $XMLObject = Kernel::System::XML->new(
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
@@ -72,7 +76,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(ConfigObject LogObject DBObject)) {
+    foreach (qw(ConfigObject LogObject DBObject MainObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -1218,6 +1222,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2007-05-31 13:15:47 $
+$Revision: 1.59 $ $Date: 2007-07-11 05:16:05 $
 
 =cut
