@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.49 2007-07-12 11:47:18 tr Exp $
+# $Id: DB.pm,v 1.50 2007-07-12 14:32:45 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -366,7 +366,7 @@ sub CustomerUserAdd {
                 $Value{ $Entry->[0] } = 0;
             }
         }
-        elsif ($Entry->[0] !~ /^UserPassword$/i) {
+        else {
             if ($Param{ $Entry->[0] }) {
                 $Value{ $Entry->[0] } = "'" . $Self->{DBObject}->Quote($Param{$Entry->[0]}) . "'";
             }
@@ -379,12 +379,16 @@ sub CustomerUserAdd {
     # build insert
     my $SQL = "INSERT INTO $Self->{CustomerTable} (";
     foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
-        $SQL .= " $Entry->[2], ";
+        if ($Entry->[0] !~ /^UserPassword$/i) {
+            $SQL .= " $Entry->[2], ";
+        }
     }
     $SQL .= "create_time, create_by, change_time, change_by)";
     $SQL .= " VALUES (";
     foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
-        $SQL .= " $Value{ $Entry->[0] }, ";
+        if ($Entry->[0] !~ /^UserPassword$/i) {
+            $SQL .= " $Value{ $Entry->[0] }, ";
+        }
     }
     $SQL .= "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
@@ -445,7 +449,7 @@ sub CustomerUserUpdate {
                 $Value{ $Entry->[0] } = 0;
             }
         }
-        elsif ($Entry->[0] !~ /^UserPassword$/i) {
+        else {
             if ($Param{ $Entry->[0] }) {
                 $Value{ $Entry->[0] } = "'" . $Self->{DBObject}->Quote($Param{$Entry->[0]}) . "'";
             }
@@ -458,7 +462,9 @@ sub CustomerUserUpdate {
     # update db
     my $SQL = "UPDATE $Self->{CustomerTable} SET ";
     foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
-        $SQL .= " $Entry->[2] = $Value{ $Entry->[0] }, ";
+        if ($Entry->[0] !~ /^UserPassword$/i) {
+            $SQL .= " $Entry->[2] = $Value{ $Entry->[0] }, ";
+        }
     }
     $SQL .= " change_time = current_timestamp, ";
     $SQL .= " change_by = $Param{UserID} ";
