@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.48 2007-03-09 13:00:05 martin Exp $
+# $Id: DB.pm,v 1.49 2007-07-12 11:47:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,12 +12,13 @@
 package Kernel::System::CustomerUser::DB;
 
 use strict;
+use warnings;
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -353,6 +354,28 @@ sub CustomerUserAdd {
         );
         return;
     }
+
+    # quote values
+    my %Value;
+    for my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
+        if ($Entry->[5] =~ /^int$/i) {
+            if ($Param{ $Entry->[0] }) {
+                $Value{ $Entry->[0] } = $Self->{DBObject}->Quote($Param{ $Entry->[0] }, 'Integer');
+            }
+            else {
+                $Value{ $Entry->[0] } = 0;
+            }
+        }
+        elsif ($Entry->[0] !~ /^UserPassword$/i) {
+            if ($Param{ $Entry->[0] }) {
+                $Value{ $Entry->[0] } = "'" . $Self->{DBObject}->Quote($Param{$Entry->[0]}) . "'";
+            }
+            else {
+                $Value{ $Entry->[0] }= "''";
+            }
+        }
+    }
+
     # build insert
     my $SQL = "INSERT INTO $Self->{CustomerTable} (";
     foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
@@ -361,12 +384,7 @@ sub CustomerUserAdd {
     $SQL .= "create_time, create_by, change_time, change_by)";
     $SQL .= " VALUES (";
     foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
-        if ($Entry->[5] =~ /^int$/i) {
-            $SQL .= " ".$Self->{DBObject}->Quote($Param{$Entry->[0]}).", ";
-        }
-        else {
-            $SQL .= " '".$Self->{DBObject}->Quote($Param{$Entry->[0]})."', ";
-        }
+        $SQL .= " $Value{ $Entry->[0] }, ";
     }
     $SQL .= "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
@@ -387,13 +405,15 @@ sub CustomerUserAdd {
 }
 
 sub CustomerUserUpdate {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check ro/rw
     if ($Self->{ReadOnly}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Customer backend is ro!");
         return;
     }
+
     # check needed stuff
     foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
         if (!$Param{$Entry->[0]} && $Entry->[4] && $Entry->[0] ne 'UserPassword') {
@@ -401,6 +421,7 @@ sub CustomerUserUpdate {
             return;
         }
     }
+
     # check email address
     if ($Param{UserEmail} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{UserEmail})) {
         $Self->{LogObject}->Log(
@@ -412,15 +433,32 @@ sub CustomerUserUpdate {
     }
     # get old user data (pw)
     my %UserData = $Self->CustomerUserDataGet(User => $Param{ID});
+
+    # quote values
+    my %Value;
+    for my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
+        if ($Entry->[5] =~ /^int$/i) {
+            if ($Param{ $Entry->[0] }) {
+                $Value{ $Entry->[0] } = $Self->{DBObject}->Quote($Param{ $Entry->[0] }, 'Integer');
+            }
+            else {
+                $Value{ $Entry->[0] } = 0;
+            }
+        }
+        elsif ($Entry->[0] !~ /^UserPassword$/i) {
+            if ($Param{ $Entry->[0] }) {
+                $Value{ $Entry->[0] } = "'" . $Self->{DBObject}->Quote($Param{$Entry->[0]}) . "'";
+            }
+            else {
+                $Value{ $Entry->[0] }= "''";
+            }
+        }
+    }
+
     # update db
     my $SQL = "UPDATE $Self->{CustomerTable} SET ";
     foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
-        if ($Entry->[5] =~ /^int$/i) {
-            $SQL .= " $Entry->[2] = ".$Self->{DBObject}->Quote($Param{$Entry->[0]}).", ";
-        }
-        elsif ($Entry->[0] !~ /^UserPassword$/i) {
-            $SQL .= " $Entry->[2] = '".$Self->{DBObject}->Quote($Param{$Entry->[0]})."', ";
-        }
+        $SQL .= " $Entry->[2] = $Value{ $Entry->[0] }, ";
     }
     $SQL .= " change_time = current_timestamp, ";
     $SQL .= " change_by = $Param{UserID} ";
