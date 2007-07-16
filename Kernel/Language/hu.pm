@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.40 2007-06-28 23:58:33 martin Exp $
+# $Id: hu.pm,v 1.41 2007-07-16 09:30:10 martin Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -20,7 +20,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -225,7 +225,7 @@ sub Data {
         'Session has timed out. Please log in again.' => 'Az folyamat idõtúllépés miatt befejezõdött. Kérjük lépjen be újra.',
         'No Permission!' => 'Nincs jogosultság!',
         'To: (%s) replaced with database email!' => 'Címzett: (%s) felülírva az adatbázis címmel!',
-        'Cc: (%s) added database email!' => '',
+        'Cc: (%s) added database email!' => 'Másolat: (%s) e-mail címe hozzáadva az adatbázishoz!',
         '(Click here to add)' => '(Kattinston ide a hozzáadáshoz)',
         'Preview' => 'Elõnézet',
         'Package not correctly deployed! You should reinstall the Package again!' => 'A csomag nincsen megfelelõen telepítve! Telepítse újra a csomagot!',
@@ -351,6 +351,7 @@ sub Data {
         'Please select only one or two elements via the checkbox!' => 'Kérem válasszon egy vagy két elemet a jelölõnégyetekbõl!',
         'If you use a time scale element you can only select one element!' => 'Amennyiben egy idõskála elemet is választott, akkro csak egy elemet választhat közölük!',
         'You have an error in your time selection!' => 'Hibás a kiválasztott idõ!',
+        'Your reporting time interval is too small, please use a larger time scale!' => 'A kiválasztott idõ intervallum túl kicsi, kérem válasszon nagyobb skálát.',
         'Your reporting time interval is too small, please use a larger time scale!' => 'A kiválasztott idõ intervallum túl kicsi, kérem válasszon nagyobb skálát.',
         'The selected start time is before the allowed start time!' => 'A kiválasztott kezdési idõ a megengedett kezdési idõ elõtt van!',
         'The selected end time is after the allowed end time!' => 'A kiválasztott befejezési idõ a megengedett befejezési idõ után van!',
@@ -484,7 +485,7 @@ sub Data {
         'Merge this ticket!' => 'Egyesíti a jegyet egy másikkal!',
         'Set this ticket to pending!' => 'Jegy várakozó állapotba helyezése!',
         'Close this ticket!' => 'Jegy lezárása!',
-        'Look into a ticket!' => 'Jegy résztesebb megtekintése!',
+        'Look into a ticket!' => 'Jegy részletesebb megtekintése!',
         'Delete this ticket!' => 'Jegy törlése!',
         'Mark as Spam!' => 'Jegy spamnek jelölése!',
         'My Queues' => 'Saját várólistáim',
@@ -496,7 +497,7 @@ sub Data {
         'Ticket %s: update time will be over in %s!' => 'Jegy %s: frissítés ideje le fog telni %s idõn belül!',
         'Ticket %s: solution time is over (%s)!' => 'Jegy %s: megoldás ideje letelt (%s)!',
         'Ticket %s: solution time will be over in %s!' => 'Jegy %s: megoldás ideje le fog telni %s idõn belül!',
-        'There are more escalated tickets!' => 'Több eszkalált jegy van!',
+        'There are more escalated tickets!' => 'Több kiemelt jegy van!',
         'New ticket notification' => 'Új jegy értesítés',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Küldjön nekem értesítést, ha új jegy van a "Saját várólistáim"-ban.',
         'Follow up notification' => 'Válaszlevél értesítés',
@@ -782,7 +783,7 @@ sub Data {
         'Header' => 'Fejléc',
         'Value' => 'Érték',
         'Set' => 'Beállítás',
-        'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'A beérkezõ e-mailek az X-Fejlécek alapján legyen hozzárendelve! Szabályos kifelyezések alkalmazhatók.',
+        'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'A beérkezõ e-mailek az X-Fejlécek alapján legyen hozzárendelve! Szabályos kifejezések alkalmazhatók.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => 'Amennyiben Ön csak az e-mail cím egyezését kívánja vizsgálni, akkor használja a EMAILADDRESS:info@example.com formulát a Feladó (From), Címzett (To) vagy Másolat (Cc) mezõkben.',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Ha szabályos kifejzéseket használ, használhatja a ()-ben levõ egyezõ értéket mint [***] a \'Beállítás\'-nál.',
 
@@ -794,10 +795,10 @@ sub Data {
         'Sub-Queue of' => 'Várólista alá tartozik',
         'Unlock timeout' => 'Feloldási idõtúllépés',
         '0 = no unlock' => '0 = nincs feloldás',
-        'Escalation - First Response Time' => 'Eszkaláció - Elsõ válasz ideje',
-        '0 = no escalation' => '0 = nincs eszkaláció',
-        'Escalation - Update Time' => 'Eszkaláció - Frissítés ideje',
-        'Escalation - Solution Time' => 'Eszkaláció - Megoldás ideje',
+        'Escalation - First Response Time' => 'Kiemelés - Elsõ válasz ideje',
+        '0 = no escalation' => '0 = nincs kiemelés',
+        'Escalation - Update Time' => 'Kiemelés - Frissítés ideje',
+        'Escalation - Solution Time' => 'Kiemelés - Megoldás ideje',
         'Follow up Option' => 'Válasz kezelése',
         'Ticket lock after a follow up' => 'Jegy zárolása válasz érkezése után.',
         'Systemaddress' => 'Rendszercím',
@@ -805,7 +806,7 @@ sub Data {
         'Customer State Notify' => 'Ügyfél értesítése állapotváltozáskor',
         'Customer Owner Notify' => 'Ügyfél értesítése tulajdonosváltáskor',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Ha az ügyintézõ zárolja a jegyet és nem küld választ ezen idõn belül, a jegy zárolása megszûnik. Így a jegy látható lesz minden ügyintézõnek.',
-        'Escalation time' => 'Eszkalációs idõ',
+        'Escalation time' => 'Kiemelési idõ',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Ha a jegy nem kerül megválaszolásra a megadott idõn belül, csak ez a jegy lesz megjelenítve.',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Ha a jegy le van zárva és az ügyfél válaszol a jegyre, akkor az zárolásra kerül a régi tulajdonos részére.',
         'Will be the sender address of this queue for email answers.' => 'Ennél a várólistánál ez lesz a feladó e-mail válaszokhoz.',
@@ -983,7 +984,7 @@ sub Data {
         # Template: AgentCustomerTableView
 
         # Template: AgentInfo
-        'Info' => '',
+        'Info' => 'Info',
 
         # Template: AgentLinkObject
         'Link Object' => 'Objektumok összekapcsolása',
@@ -1013,9 +1014,9 @@ sub Data {
         'Select the restrictions to characterise the stat' => 'Válassza ki a megkötéseket a statsztika testre szabásához',
         'Fixed' => 'Rögzített',
         'Please select only one element or turn off the button \'Fixed\'.' => 'Kérem válasszon egy értéket vagy kapcsolja ki a \'Rögzített\' kapcsolót.',
-        'Absolut Period' => '',
+        'Absolut Period' => 'Abszolút idõszak',
         'Between' => 'Idõszak:',
-        'Relative Period' => '',
+        'Relative Period' => 'Relatív idõszak',
         'The last' => 'A legutóbbi',
         'Finish' => 'Befejezés',
         'Here you can make restrictions to your stat.' => 'Itt megkötéseket adhat a statsztikához.',
@@ -1080,7 +1081,7 @@ sub Data {
         # Template: AgentStatsView
         'Export Config' => 'Beállítások exportálása',
         'Informations about the Stat' => 'Információ a statisztikáról',
-        'Exchange Axis' => '',
+        'Exchange Axis' => 'Tengelyek fölcserélése',
         'Configurable params of static stat' => '',
         'No element selected.' => 'Nincsenek ertékek kiválasztva.',
         'maximal period from' => '',
@@ -1107,7 +1108,7 @@ sub Data {
         'Close ticket' => 'Jegy lezárása',
         'Previous Owner' => 'Korábbi tulajdonos',
         'Inform Agent' => 'Ügyintézõ értsítése',
-        'Optional' => '',
+        'Optional' => 'Nem kötelezõ',
         'Inform involved Agents' => 'Érintett ügyintézõk értesítése',
         'Attach' => 'Csatolás',
         'Next state' => 'Következõ állapot',
@@ -1188,7 +1189,7 @@ sub Data {
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Jegy információ',
         'Accounted time' => 'Elszámolt idõ',
-        'Escalation in' => 'Eszkaláció ebben',
+        'Escalation in' => 'Kiemelés ebben',
         'Linked-Object' => 'Kapcsolódó objektum',
         'Parent-Object' => 'Szülõ objektum',
         'Child-Object' => 'Gyerek objektum',
@@ -1202,7 +1203,7 @@ sub Data {
         'Tickets available' => 'Elérhetõ jegyek',
         'All tickets' => 'Összes jegy',
         'Queues' => 'Várólisták',
-        'Ticket escalation!' => 'Jegy eszkaláció!',
+        'Ticket escalation!' => 'Jegy kiemelése!',
 
         # Template: AgentTicketQueueTicketView
         'Service Time' => 'Szolgáltatás ideje',
@@ -1376,7 +1377,7 @@ sub Data {
         'verified' => 'ellenõrzött',
         'File-Name' => '',
         'Ticket Number Generator' => 'Jegy sorszám generátor',
-        '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Jegy azonosítûs. pl. \'Jegy#\', \'Hívó#\' vagy \'Jegyem#\')',
+        '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Jegy azonosítás. pl. \'Jegy#\', \'Hívó#\' vagy \'Jegyem#\')',
         'Create new Phone Ticket' => 'Új telefon jegy létrehozása',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Íly módon közvetlenül szerkesztheti a Kernel/Config.pm-ben beállított kulcskarikát.',
         'A message should have a To: recipient!' => 'Egy üzenethez kellene legyen címzett!',
@@ -1504,6 +1505,11 @@ sub Data {
 
          # Extra
          'Priority Update' => 'Prioritás módosítása',
+	 'Agent updated!' => 'Ügyintézõ módosítva!',
+	 'System Address updated!' => 'Rendszer cím módosítva!',
+	 'Reset of escalation time.' => 'Kiemelési idõ nullázása.',
+	 'Reset of unlock time.' => 'Feloldási idõ nullázása.',
+	 'Default Sign Key' => 'Alapértelmezett aláíró kulcs'
     };
 
     # $$STOP$$
