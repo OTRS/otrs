@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.144 2007-06-12 15:03:30 mh Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.145 2007-07-17 14:35:11 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -4343,7 +4343,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::CommonParam###Action" Required="0" Valid="1">
         <Description Lang="en">Default value for the Action parameter. The Frontend-Module which is used as default if no Action parameter given.</Description>
-        <Description Lang="de">Standardwert des Action-Parameters. Diese Frontend-Modul wird benutzt wenn kein Action-Parameter vorhanden ist.</Description>
+        <Description Lang="de">Standardwert des Action-Parameters. Dieses Frontend-Modul wird benutzt wenn kein Action-Parameter vorhanden ist.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>

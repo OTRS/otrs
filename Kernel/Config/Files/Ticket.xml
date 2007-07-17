@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.144 2007-05-04 08:08:49 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.145 2007-07-17 14:35:11 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -6635,7 +6635,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::CommonParam###Action" Required="1" Valid="1">
         <Description Lang="en">Default value for the Action parameter. The Frontend-Module which is used as default if no Action parameter given.</Description>
-        <Description Lang="de">Standardwert des Action-Parameters. Diese Frontend-Modul wird benutzt wenn kein Action-Parameter vorhanden ist.</Description>
+        <Description Lang="de">Standardwert des Action-Parameters. Dieses Frontend-Modul wird benutzt wenn kein Action-Parameter vorhanden ist.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
