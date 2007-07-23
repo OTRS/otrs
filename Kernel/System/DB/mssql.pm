@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.15 2007-07-23 08:57:50 martin Exp $
+# $Id: mssql.pm,v 1.16 2007-07-23 09:05:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -293,7 +293,7 @@ sub TableAlter {
             $Tag = $Self->_TypeTranslation($Tag);
             # normal data type
             my $SQLEnd = $SQLStart." ADD $Tag->{Name} $Tag->{Type}";
-            if ($Tag->{Required} && $Tag->{Required} =~ /^true$/i) {
+            if (!$Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i) {
                 $SQLEnd .= " NOT NULL";
             }
             push (@SQL, $SQLEnd);
@@ -304,6 +304,9 @@ sub TableAlter {
                 }
                 else {
                     push (@SQL, "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE '$Tag->{Name}' IS NULL");
+                }
+                if ($Tag->{Required} && $Tag->{Required} =~ /^true$/i) {
+                    push (@SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} $Tag->{Type} NOT NULL");
                 }
             }
         }
