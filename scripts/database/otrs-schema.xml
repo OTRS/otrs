@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.68 2007-06-12 15:02:18 mh Exp $
+    $Id: otrs-schema.xml,v 1.69 2007-07-23 10:53:30 mh Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.68  2007/06/12 15:02:18  mh
+    Add service_customer_user table.
+
     Revision 1.67  2007/05/26 17:53:32  mh
     Fixed bug in service and sla tables. Column "comment" was wrongly defined as required field.
 
@@ -763,7 +766,7 @@
     <Column Name="queue_id" Required="true" Type="INTEGER"/>
     <Column Name="ticket_lock_id" Required="true" Type="SMALLINT"/>
     <Column Name="ticket_answered" Required="true" Type="SMALLINT"/>
-    <Column Name="type_id" Required="false" Type="INTEGER"/>
+    <Column Name="type_id" Required="false" Type="SMALLINT"/>
     <Column Name="service_id" Required="false" Type="INTEGER"/>
     <Column Name="sla_id" Required="false" Type="INTEGER"/>
     <Column Name="user_id" Required="true" Type="INTEGER"/>
@@ -889,7 +892,7 @@
     <Column Name="history_type_id" Required="true" Type="SMALLINT"/>
     <Column Name="ticket_id" Required="true" Type="BIGINT"/>
     <Column Name="article_id" Required="false" Type="BIGINT"/>
-    <Column Name="type_id" Required="true" Type="INTEGER"/>
+    <Column Name="type_id" Required="true" Type="SMALLINT"/>
     <Column Name="queue_id" Required="true" Type="INTEGER"/>
     <Column Name="owner_id" Required="true" Type="INTEGER"/>
     <Column Name="priority_id" Required="true" Type="SMALLINT"/>
@@ -1160,7 +1163,7 @@
 
 <!-- standard_attachment -->
 <Table Name="standard_attachment">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Size="150" Type="VARCHAR"/>
     <Column Name="content_type" Required="true" Size="150" Type="VARCHAR"/>
     <Column Name="content" Required="true" Type="LONGBLOB"/>
@@ -1228,7 +1231,7 @@
 
 <!-- auto_response - -->
 <Table Name="auto_response">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="text0" Required="false" Size="6000" Type="VARCHAR"/>
     <Column Name="text1" Required="false" Size="6000" Type="VARCHAR"/>
