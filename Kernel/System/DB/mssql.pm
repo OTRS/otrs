@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.14 2007-05-07 17:14:43 martin Exp $
+# $Id: mssql.pm,v 1.15 2007-07-23 08:57:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::DB::mssql;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -279,6 +280,11 @@ sub TableAlter {
     my $Table = '';
     foreach my $Tag (@Param) {
         if ($Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start') {
+            if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
+                $SQLStart .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
+                $SQLStart .= $Self->{'DB::Comment'}." alter table $Tag->{Name}\n";
+                $SQLStart .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
+            }
             $SQLStart .= "ALTER TABLE $Tag->{Name}";
             $Table = $Tag->{Name};
         }
@@ -291,6 +297,15 @@ sub TableAlter {
                 $SQLEnd .= " NOT NULL";
             }
             push (@SQL, $SQLEnd);
+            # default values
+            if ($Tag->{Default}) {
+                if ($Tag->{Type} =~ /int/i) {
+                    push (@SQL, "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL");
+                }
+                else {
+                    push (@SQL, "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE '$Tag->{Name}' IS NULL");
+                }
+            }
         }
         elsif ($Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start') {
             # Type translation

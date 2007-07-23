@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.19 2007-05-07 17:14:43 martin Exp $
+# $Id: mysql.pm,v 1.20 2007-07-23 08:57:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::DB::mysql;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -284,27 +285,37 @@ sub TableAlter {
     my @Param = @_;
     my $SQLStart = '';
     my @SQL = ();
+    my $Table = '';
     foreach my $Tag (@Param) {
         if ($Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start') {
+            if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
+                $SQLStart .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
+                $SQLStart .= $Self->{'DB::Comment'}." alter table $Tag->{Name}\n";
+                $SQLStart .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
+            }
             $SQLStart .= "ALTER TABLE $Tag->{Name}";
+            $Table = $Tag->{Name};
         }
         elsif ($Tag->{Tag} eq 'ColumnAdd' && $Tag->{TagType} eq 'Start') {
             # Type translation
             $Tag = $Self->_TypeTranslation($Tag);
             # normal data type
             my $SQLEnd = $SQLStart." ADD $Tag->{Name} $Tag->{Type}";
-            if ($Tag->{Required} && $Tag->{Required} =~ /^true$/i) {
+            if (!$Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i) {
                 $SQLEnd .= " NOT NULL";
             }
+            push (@SQL, $SQLEnd);
             if ($Tag->{Default}) {
                 if ($Tag->{Type} =~ /int/i) {
-                    $SQLEnd .= " SET DEFAULT ".$Tag->{Default}."";
+                    push (@SQL, "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL");
                 }
                 else {
-                    $SQLEnd .= " SET DEFAULT '".$Tag->{Default}."'";
+                    push (@SQL, "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE '$Tag->{Name}' IS NULL");
+                }
+                if ($Tag->{Required} && $Tag->{Required} =~ /^true$/i) {
+                    push (@SQL, "ALTER TABLE $Table CHANGE $Tag->{Name} $Tag->{Name} $Tag->{Type} NOT NULL");
                 }
             }
-            push (@SQL, $SQLEnd);
         }
         elsif ($Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start') {
             # Type translation
