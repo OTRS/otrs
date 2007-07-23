@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2007-06-12 16:52:19
+#  driver: mysql, generated: 2007-07-23 13:06:35
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -320,7 +320,7 @@ CREATE TABLE ticket (
     queue_id INTEGER NOT NULL,
     ticket_lock_id SMALLINT NOT NULL,
     ticket_answered SMALLINT NOT NULL,
-    type_id INTEGER,
+    type_id SMALLINT,
     service_id INTEGER,
     sla_id INTEGER,
     user_id INTEGER NOT NULL,
@@ -407,7 +407,7 @@ CREATE TABLE ticket_history (
     history_type_id SMALLINT NOT NULL,
     ticket_id BIGINT NOT NULL,
     article_id BIGINT,
-    type_id INTEGER NOT NULL,
+    type_id SMALLINT NOT NULL,
     queue_id INTEGER NOT NULL,
     owner_id INTEGER NOT NULL,
     priority_id SMALLINT NOT NULL,
@@ -572,7 +572,7 @@ CREATE TABLE queue_standard_response (
 #  create table standard_attachment
 # ----------------------------------------------------------
 CREATE TABLE standard_attachment (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (150) NOT NULL,
     content_type VARCHAR (150) NOT NULL,
     content LONGBLOB NOT NULL,
@@ -618,7 +618,7 @@ CREATE TABLE auto_response_type (
 #  create table auto_response
 # ----------------------------------------------------------
 CREATE TABLE auto_response (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
     text0 TEXT,
     text1 TEXT,

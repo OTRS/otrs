@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2007-06-12 16:52:30
+--  driver: oracle, generated: 2007-07-23 13:06:42
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -501,7 +501,7 @@ CREATE TABLE ticket (
     queue_id NUMBER NOT NULL,
     ticket_lock_id NUMBER (5, 0) NOT NULL,
     ticket_answered NUMBER (5, 0) NOT NULL,
-    type_id NUMBER,
+    type_id NUMBER (5, 0),
     service_id NUMBER,
     sla_id NUMBER,
     user_id NUMBER NOT NULL,
@@ -600,7 +600,7 @@ CREATE TABLE ticket_history (
     history_type_id NUMBER (5, 0) NOT NULL,
     ticket_id NUMBER (20, 0) NOT NULL,
     article_id NUMBER (20, 0),
-    type_id NUMBER NOT NULL,
+    type_id NUMBER (5, 0) NOT NULL,
     queue_id NUMBER NOT NULL,
     owner_id NUMBER NOT NULL,
     priority_id NUMBER (5, 0) NOT NULL,
@@ -861,7 +861,7 @@ CREATE TABLE queue_standard_response (
 --  create table standard_attachment
 -- ----------------------------------------------------------
 CREATE TABLE standard_attachment (
-    id NUMBER (5, 0) NOT NULL,
+    id NUMBER NOT NULL,
     name VARCHAR2 (150) NOT NULL,
     content_type VARCHAR2 (150) NOT NULL,
     content CLOB NOT NULL,
@@ -899,14 +899,14 @@ CREATE TABLE standard_response_attachment (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach41_PK PRIMARY KEY (id);
-DROP SEQUENCE standard_response_attach41_seq;
-CREATE SEQUENCE standard_response_attach41_seq;
-CREATE OR REPLACE TRIGGER standard_response_attach41_s_t
+ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach78_PK PRIMARY KEY (id);
+DROP SEQUENCE standard_response_attach78_seq;
+CREATE SEQUENCE standard_response_attach78_seq;
+CREATE OR REPLACE TRIGGER standard_response_attach78_s_t
 before insert on standard_response_attachment
 for each row
 begin
-    select standard_response_attach41_seq.nextval
+    select standard_response_attach78_seq.nextval
     into :new.id
     from dual;
 end;
@@ -943,7 +943,7 @@ end;
 --  create table auto_response
 -- ----------------------------------------------------------
 CREATE TABLE auto_response (
-    id NUMBER (5, 0) NOT NULL,
+    id NUMBER NOT NULL,
     name VARCHAR2 (100) NOT NULL,
     text0 CLOB,
     text1 CLOB,
@@ -1023,7 +1023,7 @@ begin
 end;
 /
 --;
-CREATE INDEX index_time_accounting_ticket48 ON time_accounting (ticket_id);
+CREATE INDEX index_time_accounting_ticket17 ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
 --  create table ticket_watcher
 -- ----------------------------------------------------------
@@ -1072,8 +1072,8 @@ CREATE TABLE service_customer_user (
     create_time DATE NOT NULL,
     create_by NUMBER NOT NULL
 );
-CREATE INDEX service_customer_user_custom6 ON service_customer_user (customer_user_login);
-CREATE INDEX service_customer_user_servic88 ON service_customer_user (service_id);
+CREATE INDEX service_customer_user_custom90 ON service_customer_user (customer_user_login);
+CREATE INDEX service_customer_user_servic42 ON service_customer_user (service_id);
 -- ----------------------------------------------------------
 --  create table sla
 -- ----------------------------------------------------------
@@ -1175,7 +1175,7 @@ CREATE TABLE customer_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_customer_preferences_u83 ON customer_preferences (user_id);
+CREATE INDEX index_customer_preferences_u5 ON customer_preferences (user_id);
 -- ----------------------------------------------------------
 --  create table customer_company
 -- ----------------------------------------------------------
@@ -1193,8 +1193,8 @@ CREATE TABLE customer_company (
     create_by NUMBER NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL,
-    CONSTRAINT customer_company_U_1 UNIQUE (name),
-    CONSTRAINT customer_company_U_2 UNIQUE (customer_id)
+    CONSTRAINT customer_company_U_1 UNIQUE (customer_id),
+    CONSTRAINT customer_company_U_2 UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
@@ -1203,8 +1203,8 @@ CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR2 (250) NOT NULL,
     sent_date VARCHAR2 (150) NOT NULL
 );
-CREATE INDEX index_ticket_loop_protection20 ON ticket_loop_protection (sent_to);
-CREATE INDEX index_ticket_loop_protection48 ON ticket_loop_protection (sent_date);
+CREATE INDEX index_ticket_loop_protection24 ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loop_protection63 ON ticket_loop_protection (sent_date);
 -- ----------------------------------------------------------
 --  create table pop3_account
 -- ----------------------------------------------------------
