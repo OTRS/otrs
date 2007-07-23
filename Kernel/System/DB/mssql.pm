@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.16 2007-07-23 09:05:43 martin Exp $
+# $Id: mssql.pm,v 1.17 2007-07-23 10:51:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -391,7 +391,7 @@ sub ForeignKeyCreate {
     }
     my $SQL = "ALTER TABLE $Param{LocalTableName} ADD FOREIGN KEY (";
     $SQL .= "$Param{Local}) REFERENCES ";
-    $SQL .= "`$Param{ForeignTableName}($Param{Foreign})`";
+    $SQL .= "$Param{ForeignTableName}($Param{Foreign})";
     # return SQL
     return ($SQL);
 }
