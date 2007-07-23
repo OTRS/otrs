@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.28 2007-02-12 11:43:00 martin Exp $
+# $Id: GenericAgent.pm,v 1.29 2007-07-23 14:00:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::GenericAgent;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $ ';
+$VERSION = '$Revision: 1.29 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -329,6 +330,22 @@ sub JobRun {
     # get regular tickets
     else {
         if (!$Job{Queue}) {
+            # check min. one search arg
+            my $Count = 0;
+            foreach (keys %Job) {
+                if ($_ !~ /^(New|Name|Valid|ScheduleLast)/ && $Job{$_}) {
+                    $Count++;
+                }
+            }
+            # log no search attribut
+            if (!$Count) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Attanchen: Can't run GenericAgent Job '$Param{Job}' because no search attributes are used!.",
+                );
+                return;
+            }
+            # search tickets
             if ($Self->{NoticeSTDOUT}) {
                 print " For all Queues: \n";
             }
@@ -975,6 +992,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2007-02-12 11:43:00 $
+$Revision: 1.29 $ $Date: 2007-07-23 14:00:09 $
 
 =cut

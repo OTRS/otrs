@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.39 2007-05-02 14:03:34 mh Exp $
+# $Id: AdminGenericAgent.pm,v 1.40 2007-07-23 14:00:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -61,14 +61,19 @@ sub Run {
     # run a generic agent job -> "run now"
     # ---------------------------------------------------------- #
     if ($Self->{Subaction} eq 'RunNow') {
-        $Self->{GenericAgentObject}->JobRun(
+        if ($Self->{GenericAgentObject}->JobRun(
             Job => $Self->{Profile},
             UserID => 1,
-        );
-        # redirect
-        return $Self->{LayoutObject}->Redirect(
-            OP => "Action=$Self->{Action}",
-        );
+        )) {
+            # redirect
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=$Self->{Action}",
+            );
+        }
+        else {
+            # redirect
+            return $Self->{LayoutObject}->ErrorScreen();
+        }
     }
     # ---------------------------------------------------------- #
     # add a new generic agent job
