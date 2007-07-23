@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.1 to 2.2
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.postgresql.sql,v 1.16 2007-06-12 15:02:18 mh Exp $
+-- $Id: DBUpdate-to-2.2.postgresql.sql,v 1.17 2007-07-23 11:33:24 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.postgresql.sql | psql otrs
@@ -29,6 +29,13 @@ CREATE TABLE customer_company (
     UNIQUE (customer_id),
     UNIQUE (name)
 );
+
+--
+-- queue
+--
+ALTER TABLE queue ADD first_response_time INTEGER;
+ALTER TABLE queue ADD solution_time INTEGER;
+ALTER TABLE queue RENAME COLUMN escalation_time TO update_time;
 
 --
 -- ticket_priority
