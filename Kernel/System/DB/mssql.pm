@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.17 2007-07-23 10:51:25 mh Exp $
+# $Id: mssql.pm,v 1.18 2007-07-23 15:09:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -56,6 +56,9 @@ sub LoadPreferences {
     $Self->{'DB::Comment'} = '-- ';
     $Self->{'DB::ShellCommit'} = ';';
 #    $Self->{'DB::ShellConnect'} = '';
+
+    # init setting
+    $Self->{'DB::Connect'} = 'SET DATEFORMAT ymd';
 
     return 1;
 }
