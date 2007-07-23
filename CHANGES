@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.422 2007-07-23 10:56:44 mh Exp $
+# $Id: CHANGES,v 1.423 2007-07-23 11:39:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,17 @@
 # --
 
 2.2.2 (2007/??/??)
+ - (2007/07/23) Fixed bug# 2025 - Missing lines from DBUpdate-to-2.2.postgresql.sql
+    to be able to upgrade PostgrSQL databases.
  - (2007/07/23) Fixed bug# 2021 - Errors in MSSQL schema files.
+ - (2007/07/22) Fixed Ticket#2007072342000148 - Old OTRS (< OTRS 2.2) attachments
+    are corrupt after upgrade if file backend is used.
+ - (2007/07/16) Updated portuguese translation, thanks Filipe Henriques and Rui Pires!
+ - (2007/07/16) Updated portuguese translation, thanks Filipe Henriques and Rui Pires!
+ - (2007/07/16) Updated norwegian translation, thanks to Fredrik Andersen!
+ - (2007/07/16) Updated hungarian translation, thanks to Aron Ujvari!
+ - (2007/07/16) Updated spanish translation, thanks to Carlos Oyarzabal!
+ - (2007/07/12) Fixed bug# 2016 - CustomerUserUpdate: Add a function to handle empty values.
  - (2007/07/12) Fixed bug# 2016 - CustomerUserUpdate: Add a function to handle
     empty values.
  - (2007/07/11) Fixed bug# 2047 - Add MainObject to the needed object check.
