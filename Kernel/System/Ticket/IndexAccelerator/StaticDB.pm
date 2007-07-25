@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.41 2007-06-19 11:53:57 martin Exp $
+# $Id: StaticDB.pm,v 1.42 2007-07-25 16:04:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -277,13 +277,13 @@ sub TicketAcceleratorIndex {
     }
     # CustomQueue add on
     my $SQL = "SELECT count(*) FROM ".
-    " ticket_index as ti, personal_queues as suq ".
-    " WHERE ".
-    " suq.queue_id = ti.queue_id ".
-    " AND ".
-    " ti.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
-    " AND ".
-    " suq.user_id = $Param{UserID}";
+        " ticket_index ti, personal_queues suq ".
+        " WHERE ".
+        " suq.queue_id = ti.queue_id ".
+        " AND ".
+        " ti.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
+        " AND ".
+        " suq.user_id = $Param{UserID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         my %Hashes;
@@ -300,12 +300,12 @@ sub TicketAcceleratorIndex {
     }
     # prepar the tickets in Queue bar (all data only with my/your Permission)
     $SQL = "SELECT queue_id, queue, min(create_time_unix), count(*) as count ".
-    " FROM " .
-    " ticket_index ".
-    " WHERE " .
-    " group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
-    " GROUP BY queue_id, queue " .
-    " ORDER BY queue";
+        " FROM " .
+        " ticket_index ".
+        " WHERE " .
+        " group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
+        " GROUP BY queue_id, queue " .
+        " ORDER BY queue";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         # store the data into a array
@@ -337,7 +337,7 @@ sub TicketAcceleratorRebuild {
     my $SQL = "SELECT st.id, st.queue_id, sq.name, sq.group_id, slt.name, ".
         " tsd.name, st.create_time_unix ".
         " FROM " .
-        " ticket as st, queue as sq, ticket_state tsd, " .
+        " ticket st, queue sq, ticket_state tsd, " .
         " ticket_lock_type slt " .
         " WHERE " .
         " st.ticket_state_id = tsd.id " .
