@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.424 2007-07-23 15:13:16 mh Exp $
+# $Id: CHANGES,v 1.425 2007-07-25 17:21:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,15 +10,22 @@
 # --
 
 2.2.2 (2007/??/??)
- - (2007/07/23) Fixed bugs like 2068 - Default format of date string blocks
-    insert of date values.
- - (2007/07/23) Fixed bug# 2025 - Missing lines from
-    DBUpdate-to-2.2.postgresql.sql to be able to upgrade PostgrSQL databases.
- - (2007/07/23) Fixed bug# 2021 - Errors in MSSQL schema files.
+ - (2007/07/24) Added missing OTRS 2.2 sql update scripts for mssql and maxdb
+    (scripts/DBUpdate-to-2.2.maxdb.sql and scripts/DBUpdate-to-2.2.mssql.sql).
+ - (2007/07/23) Fixed bug# 2068 - Date problem with non en installations of
+    MSSQL server. Some date inserts or package installations failed. Added
+    database init connect option to mssql driver ("SET DATEFORMAT ymd" /
+    Kernel/System/DB/mssql.pm).
+ - (2007/07/23) Because of safety reason, generic agent jobs will not longer run
+    without min. one search attribute (admin interface and cmd). So if you want to
+    match all ticket, you need to add an * in the ticket number.
+ - (2007/07/23) Fixed bug# 2021 - Errors in MSSQL post schema files.
+ - (2007/07/23) Fixed bug# 2025 - No upgrade PostgreSQL possible, added missing
+    lines in DBUpdate-to-2.2.postgresql.sql.
  - (2007/07/22) Fixed Ticket#2007072342000148 - Old OTRS (< OTRS 2.2)
     attachments are corrupt after upgrade if file backend is used.
- - (2007/07/16) Updated portuguese translation, thanks Filipe Henriques and Rui
-    Pires!
+ - (2007/07/16) Updated portuguese translation, thanks Filipe Henriques and
+    Rui Pires!
  - (2007/07/16) Updated norwegian translation, thanks to Fredrik Andersen!
  - (2007/07/16) Updated hungarian translation, thanks to Aron Ujvari!
  - (2007/07/16) Updated spanish translation, thanks to Carlos Oyarzabal!
@@ -29,7 +36,7 @@
  - (2007/07/11) Fixed bug# 2047 - Add MainObject to the needed object check.
  - (2007/07/10) Fixed bug# 2045 - Notifications on reopen are not sent to
     owner/responsible.
- - (2007/07/03) Fixed bux# 2011 - Translation problems in stats module.
+ - (2007/07/03) Fixed bug# 2011 - Translation problems in stats module.
 
 2.2.1 (2007/07/01)
  - (2007/06/29) Updated finnish translation, thanks to Mikko Hynninen!
