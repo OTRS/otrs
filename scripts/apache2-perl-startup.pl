@@ -17,7 +17,6 @@ use lib "/opt/otrs/Kernel/cpan-lib";
 use CGI (); CGI->compile(':cgi');
 use CGI::Carp ();
 
-#use Apache ();
 #use Apache::DBI ();
 #Apache::DBI->connect_on_init('DBI:mysql:otrs', 'otrs', 'some-pass');
 use DBI ();
