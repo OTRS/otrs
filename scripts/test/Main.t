@@ -1,0 +1,195 @@
+# --
+# Main.t - Main tests
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# --
+# $Id: Main.t,v 1.1 2007-07-26 13:54:53 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+use utf8;
+
+# FilenameCleanUp
+my $Filename1 = $Self->{MainObject}->FilenameCleanUp(
+    Filename => 'me_t o/alal.xml',
+    Type => 'Local', # Local|Attachment|MD5
+);
+$Self->Is(
+    $Filename1 || '',
+    'me_t o_alal.xml',
+    '#1 FilenameCleanUp() - Local',
+);
+
+my $Filename2 = $Self->{MainObject}->FilenameCleanUp(
+    Filename => 'me_to/al?al"l.xml',
+    Type => 'Local', # Local|Attachment|MD5
+);
+$Self->Is(
+    $Filename2 || '',
+    'me_to_al_al_l.xml',
+    '#2 FilenameCleanUp() - Local',
+);
+
+my $Filename3 = $Self->{MainObject}->FilenameCleanUp(
+    Filename => 'me_to/a\/\\lal.xml',
+    Type => 'Local', # Local|Attachment|MD5
+);
+$Self->Is(
+    $Filename3 || '',
+    'me_to_a___lal.xml',
+    '#3 FilenameCleanUp() - Local',
+);
+
+my $Filename4 = $Self->{MainObject}->FilenameCleanUp(
+    Filename => 'me_to/al[al].xml',
+    Type => 'Local', # Local|Attachment|MD5
+);
+$Self->Is(
+    $Filename4 || '',
+    'me_to_al_al_.xml',
+    '#4 FilenameCleanUp() - Local',
+);
+
+my $Filename5 = $Self->{MainObject}->FilenameCleanUp(
+    Filename => 'me_to/alal.xml',
+    Type => 'Local', # Local|Attachment|MD5
+);
+$Self->Is(
+    $Filename5 || '',
+    'me_to_alal.xml',
+    '#5 FilenameCleanUp() - Local',
+);
+
+my $Filename6 = $Self->{MainObject}->FilenameCleanUp(
+    Filename => 'me_to/a+la l.xml',
+    Type => 'Attachment', # Local|Attachment|MD5
+);
+$Self->Is(
+    $Filename6 || '',
+    'me_to_a+la_l.xml',
+    '#6 FilenameCleanUp() - Attachment',
+);
+
+my $Filename7 = $Self->{MainObject}->FilenameCleanUp(
+    Filename => 'me_to/a+lal Grüße 0.xml',
+    Type => 'Local', # Local|Attachment|MD5
+);
+$Self->Is(
+    $Filename7 || '',
+    'me_to_a+lal Grüße 0.xml',
+    '#7 FilenameCleanUp() - Local',
+);
+
+my $Filename8 = $Self->{MainObject}->FilenameCleanUp(
+    Filename => 'me_to/a+lal123456789012345678901234567890Liebe Grüße aus Straubing123456789012345678901234567890123456789012345678901234567890.xml',
+    Type => 'Attachment', # Local|Attachment|MD5
+);
+$Self->Is(
+    $Filename8 || '',
+    'me_to_a+lal123456789012345678901234567890Liebe_Gruesse_aus_Straubing123456789012345678901234567.xml',
+    '#8 FilenameCleanUp() - Attachment',
+);
+
+# md5sum tests
+my $String = 'abc1234567890';
+my $MD5Sum = $Self->{MainObject}->MD5sum(
+   String => \$String,
+);
+$Self->Is(
+    $MD5Sum || '',
+    '57041f8f7dff9b67e3f97d7facbaf8d3',
+    "#9 MD5sum() - String - abc1234567890",
+);
+$String = 'abc1234567890äöüß-カスタマ';
+$MD5Sum = $Self->{MainObject}->MD5sum(
+   String => \$String,
+);
+$Self->Is(
+    $MD5Sum || '',
+    '56a681e0c46b1f156020182cdf62e825',
+    "#9 MD5sum() - String - abc1234567890äöüß-カスタマ",
+);
+foreach my $Extention (qw(doc pdf png txt xls)) {
+    my $MD5Sum = $Self->{MainObject}->MD5sum(
+        Filename => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/Main-Test1.$Extention",
+    );
+    if ($Extention eq 'doc') {
+        $Self->Is(
+            $MD5Sum || '',
+            '2e520036a0cda6a806a8838b1000d9d7',
+            "#10 MD5sum() - Filename - Main-Test1.$Extention",
+        );
+    }
+    elsif ($Extention eq 'pdf') {
+        $Self->Is(
+            $MD5Sum || '',
+            '5ee767f3b68f24a9213e0bef82dc53e5',
+            "#10 MD5sum() - Filename - Main-Test1.$Extention",
+        );
+    }
+    elsif ($Extention eq 'png') {
+        $Self->Is(
+            $MD5Sum || '',
+            'e908214e672ed20c9c3f417b82e4e637',
+            "#10 MD5sum() - Filename - Main-Test1.$Extention",
+        );
+    }
+    elsif ($Extention eq 'txt') {
+        $Self->Is(
+            $MD5Sum || '',
+            '0596f2939525c6bd50fc2b649e40fbb6',
+            "#10 MD5sum() - Filename - Main-Test1.$Extention",
+        );
+    }
+    elsif ($Extention eq 'xls') {
+        $Self->Is(
+            $MD5Sum || '',
+            '39fae660239f62bb0e4a29fe14ff5663',
+            "#10 MD5sum() - Filename - Main-Test1.$Extention",
+        );
+    }
+}
+
+# write & read some files
+foreach my $Extention (qw(doc pdf png txt xls)) {
+    my $MD5Sum = $Self->{MainObject}->MD5sum(
+        Filename => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/Main-Test1.$Extention",
+    );
+    my $Content = $Self->{MainObject}->FileRead(
+        Directory => $Self->{ConfigObject}->Get('Home').'/scripts/test/sample/',
+        Filename => "Main-Test1.$Extention",
+    );
+    $Self->True(
+        ${$Content} || '',
+        "#11 FileRead() - Main-Test1.$Extention",
+    );
+    my $FileLocation = $Self->{MainObject}->FileWrite(
+        Directory => $Self->{ConfigObject}->Get('Home').'/tmp/',
+        Filename => "me_öüto/al<>?Main-Test1.$Extention",
+        Content => $Content,
+    );
+    $Self->True(
+        $FileLocation || '',
+        "#11 FileWrite() - $FileLocation",
+    );
+    my $MD5Sum2 = $Self->{MainObject}->MD5sum(
+        Filename => $Self->{ConfigObject}->Get('Home').'/tmp/'.$FileLocation,
+    );
+    $Self->Is(
+        $MD5Sum2 || '',
+        $MD5Sum || '',
+        "#11 MD5sum()>FileWrite()>MD5sum() - $FileLocation",
+    );
+    my $Success = $Self->{MainObject}->FileDelete(
+        Directory => $Self->{ConfigObject}->Get('Home').'/tmp/',
+        Filename => $FileLocation,
+    );
+    $Self->True(
+        $Success || '',
+        "#11 FileDelete() - $FileLocation",
+    );
+}
+
+1;
