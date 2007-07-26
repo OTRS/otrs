@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<database Name="otrs">
+
+    <TableCreate Name="customer_company">
+        <Column Name="customer_id" Required="true" Size="100" Type="VARCHAR"/>
+        <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
+        <Column Name="street" Required="false" Size="200" Type="VARCHAR"/>
+        <Column Name="zip" Required="false" Size="200" Type="VARCHAR"/>
+        <Column Name="city" Required="false" Size="200" Type="VARCHAR"/>
+        <Column Name="country" Required="false" Size="200" Type="VARCHAR"/>
+        <Column Name="url" Required="false" Size="200" Type="VARCHAR"/>
+        <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
+        <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Column Name="create_by" Required="true" Type="INTEGER"/>
+        <Column Name="change_time" Required="true" Type="DATE"/>
+        <Column Name="change_by" Required="true" Type="INTEGER"/>
+        <Unique>
+            <UniqueColumn Name="name"/>
+        </Unique>
+        <Unique>
+            <UniqueColumn Name="customer_id"/>
+        </Unique>
+    </TableCreate>
+
+    <TableAlter Name="queue">
+        <ColumnAdd Name="first_response_time" Type="INTEGER" Required="false"/>
+        <ColumnAdd Name="solution_time" Type="INTEGER" Required="false"/>
+        <ColumnChange NameOld="escalation_time" NameNew="update_time" Type="INTEGER" Required="false"/>
+    </TableAlter>
+
+    <TableAlter Name="ticket_priority">
+        <ColumnAdd Name="valid_id" Type="SMALLINT" Default="1" Required="true"/>
+    </TableAlter>
+
+    <Table Name="ticket_type">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+        <Column Name="name" Required="true" Size="50" Type="VARCHAR"/>
+        <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Column Name="create_by" Required="true" Type="INTEGER"/>
+        <Column Name="change_time" Required="true" Type="DATE"/>
+        <Column Name="change_by" Required="true" Type="INTEGER"/>
+        <Unique>
+            <UniqueColumn Name="name"/>
+        </Unique>
+        <ForeignKey ForeignTable="valid">
+            <Reference Local="valid_id" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="system_user">
+            <Reference Local="create_by" Foreign="id"/>
+            <Reference Local="change_by" Foreign="id"/>
+        </ForeignKey>
+    </Table>
+
+    <Insert Table="ticket_type">
+        <Data Key="name" Type="Quote">default</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+
+    <TableAlter Name="ticket">
+        <ColumnAdd Name="freetime3" Type="DATE" Required="false"/>
+        <ColumnAdd Name="freetime4" Type="DATE" Required="false"/>
+        <ColumnAdd Name="freetime5" Type="DATE" Required="false"/>
+        <ColumnAdd Name="freetime6" Type="DATE" Required="false"/>
+        <ColumnAdd Name="type_id" Type="INTEGER" Default="1"/>
+        <ColumnAdd Name="service_id" Type="INTEGER"/>
+        <ColumnAdd Name="sla_id" Type="INTEGER"/>
+        <ColumnAdd Name="escalation_response_time" Type="INTEGER"/>
+        <ColumnAdd Name="escalation_solution_time" Type="INTEGER"/>
+    </TableAlter>
+
+    <TableAlter Name="ticket_history">
+        <ColumnAdd Name="type_id" Type="INTEGER" Required="false"/>
+    </TableAlter>
+
+    <Insert Table="ticket_history_type">
+        <Data Key="name" Type="Quote">TypeUpdate</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="ticket_history_type">
+        <Data Key="name" Type="Quote">ServiceUpdate</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="ticket_history_type">
+        <Data Key="name" Type="Quote">SLAUpdate</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+
+    <Table Name="service">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+        <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+        <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+        <Column Name="comments" Required="false" Size="200" Type="VARCHAR"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Column Name="create_by" Required="true" Type="INTEGER"/>
+        <Column Name="change_time" Required="true" Type="DATE"/>
+        <Column Name="change_by" Required="true" Type="INTEGER"/>
+        <Unique>
+            <UniqueColumn Name="name"/>
+        </Unique>
+        <ForeignKey ForeignTable="system_user">
+            <Reference Local="create_by" Foreign="id"/>
+            <Reference Local="change_by" Foreign="id"/>
+        </ForeignKey>
+    </Table>
+
+    <Table Name="service_customer_user">
+        <Column Name="customer_user_login" Required="true" Size="100" Type="VARCHAR"/>
+        <Column Name="service_id" Required="true" Type="INTEGER"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Column Name="create_by" Required="true" Type="INTEGER"/>
+        <Index Name="service_customer_user_customer_user_login">
+            <IndexColumn Name="customer_user_login" Size="10"/>
+        </Index>
+        <Index Name="service_customer_user_service_id">
+            <IndexColumn Name="service_id"/>
+        </Index>
+        <ForeignKey ForeignTable="system_user">
+            <Reference Local="create_by" Foreign="id"/>
+        </ForeignKey>
+    </Table>
+
+    <Table Name="sla">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+        <Column Name="service_id" Required="true" Type="INTEGER"/>
+        <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+        <Column Name="calendar_name" Required="false" Size="100" Type="VARCHAR"/>
+        <Column Name="first_response_time" Required="true" Type="INTEGER"/>
+        <Column Name="update_time" Required="true" Type="INTEGER"/>
+        <Column Name="solution_time" Required="true" Type="INTEGER"/>
+        <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+        <Column Name="comments" Required="false" Size="200" Type="VARCHAR"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Column Name="create_by" Required="true" Type="INTEGER"/>
+        <Column Name="change_time" Required="true" Type="DATE"/>
+        <Column Name="change_by" Required="true" Type="INTEGER"/>
+        <Unique>
+            <UniqueColumn Name="name"/>
+        </Unique>
+        <ForeignKey ForeignTable="service">
+            <Reference Local="service_id" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="system_user">
+            <Reference Local="create_by" Foreign="id"/>
+            <Reference Local="change_by" Foreign="id"/>
+        </ForeignKey>
+    </Table>
+
+</database>
