@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.t,v 1.1 2007-07-26 13:54:53 martin Exp $
+# $Id: Main.t,v 1.2 2007-07-26 14:38:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -166,7 +166,7 @@ foreach my $Extention (qw(doc pdf png txt xls)) {
         "#11 FileRead() - Main-Test1.$Extention",
     );
     my $FileLocation = $Self->{MainObject}->FileWrite(
-        Directory => $Self->{ConfigObject}->Get('Home').'/tmp/',
+        Directory => $Self->{ConfigObject}->Get('TempDir'),
         Filename => "me_öüto/al<>?Main-Test1.$Extention",
         Content => $Content,
     );
@@ -175,7 +175,7 @@ foreach my $Extention (qw(doc pdf png txt xls)) {
         "#11 FileWrite() - $FileLocation",
     );
     my $MD5Sum2 = $Self->{MainObject}->MD5sum(
-        Filename => $Self->{ConfigObject}->Get('Home').'/tmp/'.$FileLocation,
+        Filename => $Self->{ConfigObject}->Get('TempDir').'/'.$FileLocation,
     );
     $Self->Is(
         $MD5Sum2 || '',
@@ -183,7 +183,7 @@ foreach my $Extention (qw(doc pdf png txt xls)) {
         "#11 MD5sum()>FileWrite()>MD5sum() - $FileLocation",
     );
     my $Success = $Self->{MainObject}->FileDelete(
-        Directory => $Self->{ConfigObject}->Get('Home').'/tmp/',
+        Directory => $Self->{ConfigObject}->Get('TempDir'),
         Filename => $FileLocation,
     );
     $Self->True(
