@@ -2,15 +2,48 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.426 2007-07-26 16:04:33 mh Exp $
+# $Id: CHANGES,v 1.427 2007-07-26 16:06:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-2.2.2 (2007/??/??)
- - (2007/07/24) Added missing OTRS 2.2 sql update scripts for mssql and maxdb
+2.2.2 (2007/07/??)
+ - (2007/07/26) Fixed bug# 2097 - Sometimes problems with SMTP module and utf8
+    to send emails.
+ - (2007/07/26) Improved system performance of escalation (bug# 2020 Performance
+    problem after updating to 2.2.0).
+    -->Because of this fact you need to add to new column to the ticket table.<--
+
+    ALTER TABLE ticket ADD escalation_response_time INTEGER;
+    ALTER TABLE ticket ADD escalation_solution_time INTEGER;
+
+ - (2007/07/26) Fixed bug# 2061 - UserSyncLDAPMap does not work properly after
+    upgrade to 2.2. The reason is, that we cleaned up this config option and
+    the new one from Kernel/Config/Defaults.pm need to be used. We also added
+    an check which log that an old config setting is used (also an compat.
+    feature to still use the old option has been added).
+
+    If you use UserSyncLDAPMap you need to reconfigure it!
+
+    Old style (till 2.1):
+    $Self->{UserSyncLDAPMap} = {
+        # DB -> LDAP
+        Firstname => 'givenName',
+        Lastname => 'sn',
+        Email => 'mail',
+    };
+
+    New style (beginning with 2.2):
+    $Self->{UserSyncLDAPMap} = {
+        # DB -> LDAP
+        UserFirstname => 'givenName',
+        UserLastname => 'sn',
+        UserEmail => 'mail',
+    };
+
+ - (2007/07/25) Added missing OTRS 2.2 sql update scripts for mssql and maxdb
     (scripts/DBUpdate-to-2.2.maxdb.sql and scripts/DBUpdate-to-2.2.mssql.sql).
  - (2007/07/23) Fixed bug# 2068 - Date problem with non en installations of
     MSSQL server. Some date inserts or package installations failed. Added
