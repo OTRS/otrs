@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.264 2007-06-28 21:47:59 martin Exp $
+# $Id: Ticket.pm,v 1.265 2007-07-26 13:00:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.264 $';
+$VERSION = '$Revision: 1.265 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -156,6 +156,9 @@ sub new {
     $Self->{LockObject} = Kernel::System::Lock->new(%Param);
     $Self->{NotificationObject} = Kernel::System::Notification->new(%Param);
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+
+use Kernel::System::Cache;
+        $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
 
     # get config static var
     my @ViewableStates = $Self->{StateObject}->StateGetStatesByType(
@@ -433,12 +436,12 @@ sub TicketCreate {
     # create db record
     my $SQL = "INSERT INTO ticket (tn, title, create_time_unix, type_id, queue_id, ticket_lock_id, ".
         " user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id, ticket_answered, ".
-        " escalation_start_time, timeout, service_id, sla_id, ".
+        " escalation_start_time, escalation_response_time, escalation_solution_time, timeout, service_id, sla_id, ".
         " valid_id, create_time, create_by, change_time, change_by) " .
         " VALUES ('$Param{TN}', '$Param{Title}', $Age, $Param{TypeID}, $Param{QueueID}, $Param{LockID}, ".
         " $Param{OwnerID}, $Param{ResponsibleID}, ".
         " $GroupID, $Param{PriorityID}, $Param{StateID}, ".
-        " 0, $EscalationStartTime, 0, $Param{ServiceID}, $Param{SLAID}, $ValidID, " .
+        " 0, $EscalationStartTime, 0, 0, 0, $Param{ServiceID}, $Param{SLAID}, $ValidID, " .
         " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
@@ -743,7 +746,7 @@ sub TicketGet {
         " st.freetime1, st.freetime2, st.freetime3, st.freetime4, ".
         " st.freetime5, st.freetime6, ".
         " st.change_time, st.title, st.escalation_start_time, st.timeout, ".
-        " st.type_id, st.service_id, st.sla_id ".
+        " st.type_id, st.service_id, st.sla_id, st.escalation_response_time, st.escalation_solution_time ".
         " FROM ".
         " ticket st, ticket_priority sp, queue sq ".
         " WHERE ".
@@ -767,6 +770,8 @@ sub TicketGet {
         $Ticket{CreateTimeUnix} = $Row[7];
         $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $Row[7]);
         $Ticket{EscalationStartTime} = $Row[56];
+        $Ticket{EscalationResponseTime} = $Row[61];
+        $Ticket{EscalationSolutionTime} = $Row[62];
         $Ticket{UnlockTimeout} = $Row[57];
         $Ticket{GroupID} = $Row[9];
         $Ticket{TicketNumber} = $Row[10];
@@ -978,6 +983,7 @@ update ticket escalation start time to now
     $TicketObject->TicketEscalationStartUpdate(
         EscalationStartTime => $TimeObject->SystemTime(),
         TicketID => 123,
+        UserID => 1,
     );
 
 =cut
@@ -1004,11 +1010,137 @@ sub TicketEscalationStartUpdate {
             TicketID => $Param{TicketID},
             CreateUserID => $Param{UserID},
             HistoryType => 'Misc',
-            Name => "Reset of escalation time.",
+            Name => "Reset of escalation update time.",
         );
         # ticket event
         $Self->TicketEventHandlerPost(
             Event => 'TicketEscalationStartUpdate',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+
+=item TicketEscalationResponseTimeUpdate()
+
+update ticket response time
+
+    $TicketObject->TicketEscalationResponseTimeUpdate(
+        EscalationRseponseTime => $TimeObject->SystemTime(),
+        TicketID => 123,
+        UserID => 1,
+    );
+
+=cut
+
+sub TicketEscalationResponseTimeUpdate {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(EscalationResponseTime TicketID UserID)) {
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # check if we have to to something
+    my $EscalationResponseTime = 0;
+    my $SQL = "SELECT escalation_response_time ".
+        " FROM ".
+        " ticket ".
+        " WHERE ".
+        " id = $Param{TicketID} ";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $EscalationResponseTime = $Row[0];
+    }
+    if ($EscalationResponseTime) {
+        return;
+    }
+    # db quote
+    foreach (qw(TicketID EscalationResponseTime)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    $SQL = "UPDATE ticket SET escalation_response_time = $Param{EscalationResponseTime} ".
+        " WHERE ".
+        " id = $Param{TicketID}";
+    if ($Self->{DBObject}->Do(SQL => $SQL) ) {
+        $Self->HistoryAdd(
+            TicketID => $Param{TicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType => 'Misc',
+            Name => "Reset of escalation response time.",
+        );
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'TicketEscalationResponseTimeUpdate',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+
+=item TicketEscalationSolutionTimeUpdate()
+
+update ticket solution time
+
+    $TicketObject->TicketEscalationSolutionTimeUpdate(
+        EscalationSolutionTime => $TimeObject->SystemTime(),
+        TicketID => 123,
+        UserID => 1,
+    );
+
+=cut
+
+sub TicketEscalationSolutionTimeUpdate {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(EscalationSolutionTime TicketID UserID)) {
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # check if we have to to something
+    my $EscalationSolutionTime = 0;
+    my $SQL = "SELECT escalation_solution_time ".
+        " FROM ".
+        " ticket ".
+        " WHERE ".
+        " id = $Param{TicketID} ";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $EscalationSolutionTime = $Row[0];
+    }
+    if ($EscalationSolutionTime) {
+        return;
+    }
+    # db quote
+    foreach (qw(TicketID EscalationSolutionTime)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    $SQL = "UPDATE ticket SET escalation_solution_time = $Param{EscalationSolutionTime} ".
+        " WHERE ".
+        " id = $Param{TicketID}";
+    if ($Self->{DBObject}->Do(SQL => $SQL) ) {
+        $Self->HistoryAdd(
+            TicketID => $Param{TicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType => 'Misc',
+            Name => "Reset of escalation solution time.",
+        );
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'TicketEscalationSolutionTimeUpdate',
             UserID => $Param{UserID},
             TicketID => $Param{TicketID},
         );
@@ -1591,6 +1723,17 @@ sub TicketEscalationState {
     }
     # get ticket
     my %Ticket = %{$Param{Ticket}};
+    # check requred ticket params
+    foreach (qw(TicketID StateType QueueID Created)) {
+        if (!$Ticket{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # do no escalations it a ticket is closed
+    if ($Ticket{StateType} =~ /^close/i) {
+        return ();
+    }
     my %Escalation = ();
     if ($Self->{ConfigObject}->Get('Ticket::Service') && $Ticket{SLAID}) {
         %Escalation = $Self->{SLAObject}->SLAGet(
@@ -1609,65 +1752,77 @@ sub TicketEscalationState {
     # check response time
     if ($Escalation{FirstResponseTime}) {
         # check if first response is already done
-        my $FirstResponse = 0;
-        my $SQL = "SELECT a.create_time,a.id FROM ".
-            " article a, article_sender_type ast, article_type at ".
-            " WHERE ".
-            " a.article_sender_type_id = ast.id ".
-            " AND ".
-            " a.article_type_id = at.id ".
-            " AND ".
-            " a.ticket_id = $Ticket{TicketID} ".
-            " AND ".
-            " ast.name = 'agent' AND (at.name LIKE 'email-ext%' OR at.name = 'phone' OR at.name = 'fax') ".
-            " ORDER BY a.create_time";
-        $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
-        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-            $FirstResponse = $Row[0];
+        if (!defined($Ticket{EscalationResponseTime})) {
+            $Ticket{EscalationResponseTime} = 0;
+            # find first response time
+            my $SQL = "SELECT a.create_time,a.id FROM ".
+                " article a, article_sender_type ast, article_type at ".
+                " WHERE ".
+                " a.article_sender_type_id = ast.id ".
+                " AND ".
+                " a.article_type_id = at.id ".
+                " AND ".
+                " a.ticket_id = $Ticket{TicketID} ".
+                " AND ".
+                " ast.name = 'agent' AND (at.name LIKE 'email-ext%' OR at.name = 'phone' OR at.name = 'fax') ".
+                " ORDER BY a.create_time";
+            $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
+            while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+                $Ticket{EscalationResponseTime} = $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $Row[0],
+                );
+            }
+            $Self->TicketEscalationResponseTimeUpdate(
+                EscalationResponseTime => $Ticket{EscalationResponseTime},
+                TicketID => $Ticket{TicketID},
+                UserID => 1,
+            );
         }
-
-        my $DestinationTime = $Self->{TimeObject}->DestinationTime(
-            StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(String => $Ticket{Created}),
-            Time => $Escalation{FirstResponseTime}*60,
-            Calendar => $Escalation{Calendar},
-        );
-
-        my $Time = 0;
-        if ($FirstResponse) {
-            $Time = $DestinationTime-$Self->{TimeObject}->TimeStamp2SystemTime(String => $FirstResponse);
-        }
-        else {
-            $Time = $DestinationTime-$Self->{TimeObject}->SystemTime();
-        }
-        my $WorkingTime = 0;
-        if ($Time > 0) {
-            $WorkingTime = $Self->{TimeObject}->WorkingTime(
-                StartTime => $Time,
-                StopTime => $DestinationTime,
+        # do escalation stuff
+        if (!$Ticket{EscalationResponseTime}) {
+            my $DestinationTime = $Self->{TimeObject}->DestinationTime(
+                StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(String => $Ticket{Created}),
+                Time => $Escalation{FirstResponseTime}*60,
                 Calendar => $Escalation{Calendar},
             );
-            # set notification
-            if (!$FirstResponse && 60*60*2.2 > $WorkingTime) {
-                $Data{"FirstResponseTimeNotification"} = 1;
+
+            my $Time = 0;
+#            if ($FirstResponse) {
+#                $Time = $DestinationTime-$Self->{TimeObject}->TimeStamp2SystemTime(String => $FirstResponse);
+#            }
+#            else {
+                $Time = $DestinationTime-$Self->{TimeObject}->SystemTime();
+#            }
+            my $WorkingTime = 0;
+            if ($Time > 0) {
+                $WorkingTime = $Self->{TimeObject}->WorkingTime(
+                    StartTime => $Time,
+                    StopTime => $DestinationTime,
+                    Calendar => $Escalation{Calendar},
+                );
+                # set notification
+                if (60*60*2.2 > $WorkingTime) {
+                    $Data{"FirstResponseTimeNotification"} = 1;
+                }
             }
-        }
-        else {
-            $WorkingTime = $Self->{TimeObject}->WorkingTime(
-                StartTime => $DestinationTime,
-                StopTime => $Time,
-                Calendar => $Escalation{Calendar},
-            );
-            $WorkingTime = "-$WorkingTime";
-            # set escalation
-            if (!$FirstResponse) {
-                $Data{"FirstResponseTimeEscalation"} = 1;
+            else {
+                $WorkingTime = $Self->{TimeObject}->WorkingTime(
+                    StartTime => $DestinationTime,
+                    StopTime => $Time,
+                    Calendar => $Escalation{Calendar},
+                );
+                $WorkingTime = "-$WorkingTime";
+                # set escalation
+#                if (!$FirstResponse) {
+                    $Data{"FirstResponseTimeEscalation"} = 1;
+#                }
             }
+            my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $DestinationTime);
+            $Data{"FirstResponseTimeDestinationTime"} = $DestinationTime;
+            $Data{"FirstResponseTimeDestinationDate"} = $DestinationDate;
+            $Data{"FirstResponseTimeWorkingTime"} = $WorkingTime;
+            $Data{"FirstResponseTime"} = $Time;
         }
-        my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $DestinationTime);
-        $Data{"FirstResponseTimeDestinationTime"} = $DestinationTime;
-        $Data{"FirstResponseTimeDestinationDate"} = $DestinationDate;
-        $Data{"FirstResponseTimeWorkingTime"} = $WorkingTime;
-        $Data{"FirstResponseTime"} = $Time;
     }
     # check update time
     if ($Escalation{UpdateTime}) {
@@ -1709,42 +1864,71 @@ sub TicketEscalationState {
     }
     # check solution time
     if ($Escalation{SolutionTime}) {
-# get first close date
-        my $DestinationTime = $Self->{TimeObject}->DestinationTime(
-            StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(String => $Ticket{Created}),
-            Time => $Escalation{SolutionTime}*60,
-            Calendar => $Escalation{Calendar},
-        );
-        my $Time = $DestinationTime-$Self->{TimeObject}->SystemTime();
-        my $WorkingTime = 0;
-        if ($Time > 0) {
-            $WorkingTime = $Self->{TimeObject}->WorkingTime(
-                StartTime => $Self->{TimeObject}->SystemTime(),
-                StopTime => $DestinationTime,
+        # get first close date, if not already set
+        if (!defined($Ticket{EscalationSolutionTime})) {
+            $Ticket{EscalationSolutionTime} = 0;
+            # find first close time
+            my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
+                StateType => ['closed'],
+                Result => 'ID',
+            );
+            my $SQL = "SELECT create_time FROM ".
+                " ticket_history ".
+                " WHERE ".
+                " ticket_id = $Ticket{TicketID} ".
+                " AND ".
+                " state_id IN (${\(join ', ', @StateIDs)}) ".
+                " ORDER BY create_time";
+            $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
+            while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+                $Ticket{EscalationSolutionTime} = $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $Row[0],
+                );
+            }
+            $Self->TicketEscalationSolutionTimeUpdate(
+                EscalationSolutionTime => $Ticket{EscalationSolutionTime},
+                TicketID => $Ticket{TicketID},
+                UserID => 1,
+            );
+        }
+        # do escalation stuff
+        if (!$Ticket{EscalationSolutionTime}) {
+            my $DestinationTime = $Self->{TimeObject}->DestinationTime(
+                StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(String => $Ticket{Created}),
+                Time => $Escalation{SolutionTime}*60,
                 Calendar => $Escalation{Calendar},
             );
-            # set notification
-            if ($Ticket{StateType} !~ /^close/i && 60*60*2.2 > $WorkingTime) {
-                $Data{"SolutionTimeNotification"} = 1;
+            my $Time = $DestinationTime-$Self->{TimeObject}->SystemTime();
+            my $WorkingTime = 0;
+            if ($Time > 0) {
+                $WorkingTime = $Self->{TimeObject}->WorkingTime(
+                    StartTime => $Self->{TimeObject}->SystemTime(),
+                    StopTime => $DestinationTime,
+                    Calendar => $Escalation{Calendar},
+                );
+                # set notification
+                if ($Ticket{StateType} !~ /^close/i && 60*60*2.2 > $WorkingTime) {
+                    $Data{"SolutionTimeNotification"} = 1;
+                }
             }
-        }
-        else {
-            $WorkingTime = $Self->{TimeObject}->WorkingTime(
-                StartTime => $DestinationTime,
-                StopTime => $Self->{TimeObject}->SystemTime(),
-                Calendar => $Escalation{Calendar},
-            );
-            $WorkingTime = "-$WorkingTime";
-            # set escalation
-            if ($Ticket{StateType} !~ /^close/i) {
-                $Data{"SolutionTimeEscalation"} = 1;
+            else {
+                $WorkingTime = $Self->{TimeObject}->WorkingTime(
+                    StartTime => $DestinationTime,
+                    StopTime => $Self->{TimeObject}->SystemTime(),
+                    Calendar => $Escalation{Calendar},
+                );
+                $WorkingTime = "-$WorkingTime";
+                # set escalation
+                if ($Ticket{StateType} !~ /^close/i) {
+                    $Data{"SolutionTimeEscalation"} = 1;
+                }
             }
+            my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $DestinationTime);
+            $Data{"SolutionTimeDestinationTime"} = $DestinationTime;
+            $Data{"SolutionTimeDestinationDate"} = $DestinationDate;
+            $Data{"SolutionTimeWorkingTime"} = $WorkingTime;
+            $Data{"SolutionTime"} = $Time;
         }
-        my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $DestinationTime);
-        $Data{"SolutionTimeDestinationTime"} = $DestinationTime;
-        $Data{"SolutionTimeDestinationDate"} = $DestinationDate;
-        $Data{"SolutionTimeWorkingTime"} = $WorkingTime;
-        $Data{"SolutionTime"} = $Time;
     }
     return %Data;
 }
@@ -3850,8 +4034,8 @@ sub StateSet {
     }
     # db update
     my $SQL = "UPDATE ticket SET ticket_state_id = $State{ID}, " .
-    " change_time = current_timestamp, change_by = $Param{UserID} " .
-    " WHERE id = $Param{TicketID} ";
+        " change_time = current_timestamp, change_by = $Param{UserID} " .
+        " WHERE id = $Param{TicketID} ";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # clear ticket cache
@@ -3874,6 +4058,25 @@ sub StateSet {
                 TicketID => $Param{TicketID},
                 UserID => $Param{UserID},
             );
+        }
+        # set close time it ticket gets closed the first time
+        if ($State{TypeName} eq 'closed') {
+            # check if it's already set
+            my $SolutionTime = 0;
+            my $SQL = "SELECT escalation_solution_time FROM ticket " .
+                " WHERE id = $Param{TicketID}";
+            $Self->{DBObject}->Prepare(SQL => $SQL);
+            while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+                $SolutionTime = $Row[0];
+            }
+            # set it
+            if (!$SolutionTime) {
+                $Self->TicketEscalationSolutionTimeUpdate(
+                    EscalationSolutionTime => $Self->{TimeObject}->SystemTime(),
+                    TicketID => $Param{TicketID},
+                    UserID => $Param{UserID},
+                );
+            }
         }
         # send customer notification email
         if (!$Param{SendNoNotification}) {
@@ -5875,6 +6078,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.264 $ $Date: 2007-06-28 21:47:59 $
+$Revision: 1.265 $ $Date: 2007-07-26 13:00:46 $
 
 =cut

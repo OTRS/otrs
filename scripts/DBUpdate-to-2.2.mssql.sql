@@ -89,6 +89,14 @@ ALTER TABLE ticket ADD service_id INTEGER;
 -- ----------------------------------------------------------
 ALTER TABLE ticket ADD sla_id INTEGER;
 -- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket ADD escalation_response_time INTEGER;
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket ADD escalation_solution_time INTEGER;
+-- ----------------------------------------------------------
 --  alter table ticket_history
 -- ----------------------------------------------------------
 ALTER TABLE ticket_history ADD type_id INTEGER;
