@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # mkStats.pl - send stats output via email
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.43 2006-11-10 14:26:35 tr Exp $
+# $Id: mkStats.pl,v 1.43.2.1 2007-07-26 15:36:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.43.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -46,32 +46,28 @@ use Kernel::System::Group;
 use Kernel::System::User;
 use Kernel::System::CSV;
 use Kernel::System::PDF;
-use Kernel::Output::HTML::Layout;
+use Kernel::Language;
 
-# --
 # create common objects
-# --
 my %CommonObject = ();
 $CommonObject{UserID} = 1;
-$CommonObject{ConfigObject}    = Kernel::Config->new();
-$CommonObject{LogObject}       = Kernel::System::Log->new(
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-SendStats',
     %CommonObject,
 );
-$CommonObject{CSVObject}       = Kernel::System::CSV->new(%CommonObject);
-$CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
-$CommonObject{GroupObject}     = Kernel::System::Group->new(%CommonObject);
-$CommonObject{UserObject}      = Kernel::System::User->new(%CommonObject);
-$CommonObject{StatsObject}     = Kernel::System::Stats->new(%CommonObject);
+$CommonObject{CSVObject} = Kernel::System::CSV->new(%CommonObject);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
+$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
+$CommonObject{StatsObject} = Kernel::System::Stats->new(%CommonObject);
 $CommonObject{CheckItemObject} = Kernel::System::CheckItem->new(%CommonObject);
-$CommonObject{EmailObject}     = Kernel::System::Email->new(%CommonObject);
-$CommonObject{PDFObject}       = Kernel::System::PDF->new(%CommonObject);
+$CommonObject{EmailObject} = Kernel::System::Email->new(%CommonObject);
+$CommonObject{PDFObject} = Kernel::System::PDF->new(%CommonObject);
 
-# --
 # get options
-# --
 my %Opts = ();
 getopt('nrsmhoplf', \%Opts);
 if ($Opts{'h'}) {
@@ -96,7 +92,7 @@ if (!$Opts{'n'}) {
 if (!$Opts{'m'} && $Opts{'p'}) {
     $Opts{'m'} .= "Stats with following options:\n\n";
     $Opts{'m'} .= "StatNumber: $Opts{'n'}\n";
-    my @P = split(/&/, $Opts{'p'}||'');
+    my @P = split(/&/, $Opts{'p'});
     foreach (@P) {
         my ($Key, $Value) = split(/=/, $_, 2);
         $Opts{'m'} .= "$Key: $Value\n";
@@ -112,9 +108,14 @@ my $Lang = $CommonObject{ConfigObject}->Get('DefaultLanguage') || 'en';
 if ($Opts{'l'}) {
     $Lang = $Opts{'l'};
 }
-$CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new(
-    %CommonObject,
-    Lang => $Lang,
+
+$CommonObject{LanguageObject} = Kernel::Language->new(
+    UserTimeZone => $CommonObject{UserTimeZone},
+    UserLanguage => $Lang,
+    LogObject => $CommonObject{LogObject},
+    ConfigObject => $CommonObject{ConfigObject},
+    MainObject => $CommonObject{MainObject},
+    Action => $CommonObject{Action},
 );
 
 # format
@@ -141,12 +142,9 @@ if ($Opts{'o'} && !-e $Opts{'o'}) {
     exit 1;
 }
 
-# --
 # process the informations
-# --
-
 my $StatNumber = $Opts{'n'};
-my $StatID     = $CommonObject{StatsObject}->StatNumber2StatID(StatNumber => $StatNumber);
+my $StatID = $CommonObject{StatsObject}->StatNumber2StatID(StatNumber => $StatNumber);
 if (!$StatID) {
     print STDERR "ERROR: No StatNumber: $Opts{'n'}\n";
     exit 1;
@@ -156,13 +154,13 @@ my ($s,$m,$h, $D,$M,$Y) = $CommonObject{TimeObject}->SystemTime2Date(
     SystemTime => $CommonObject{TimeObject}->SystemTime(),
 );
 
-my %GetParam   = ();
+my %GetParam = ();
 my $Stat = $CommonObject{StatsObject}->StatsGet(StatID => $StatID);
 
 if ($Stat->{StatType} eq 'static') {
-    $GetParam{Year}  = $Y;
+    $GetParam{Year} = $Y;
     $GetParam{Month} = $M;
-    $GetParam{Day}   = $D;
+    $GetParam{Day} = $D;
 
     # get params from -p
     # only for static files
@@ -200,7 +198,7 @@ elsif ($Stat->{StatType} eq 'dynamic') {
 
 # run stat...
 my @StatArray = @{$CommonObject{StatsObject}->StatsRun(
-    StatID       => $StatID,
+    StatID => $StatID,
     GetParam => \%GetParam,
 )};
 
@@ -217,10 +215,15 @@ my %Attachment;
 
 if ($Format eq 'Print' && $CommonObject{PDFObject}) {
     # Create the PDF
-    my $PrintedBy = $CommonObject{LayoutObject}->{LanguageObject}->Get('printed by');
-    my $Page = $CommonObject{LayoutObject}->{LanguageObject}->Get('Page');
-    my $Time = $CommonObject{LayoutObject}->Output(Template => '$Env{"Time"}');
     my %User = $CommonObject{UserObject}->GetUserData(UserID => $CommonObject{UserID});
+
+    my $PrintedBy = $CommonObject{LanguageObject}->Get('printed by');
+    my $Page = $CommonObject{LanguageObject}->Get('Page');
+    my $SystemTime = $CommonObject{TimeObject}->SystemTime();
+    my $TimeStamp = $CommonObject{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $SystemTime,
+    );
+    my $Time = $CommonObject{LanguageObject}->FormatTimeString($TimeStamp, 'DateFormat');
 
     # create the content array
     my $CellData;
@@ -228,7 +231,7 @@ if ($Format eq 'Print' && $CommonObject{PDFObject}) {
     my $CounterHead = 0;
     foreach my $Content (@{$HeadArrayRef}) {
         $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
-        $CellData->[$CounterRow]->[$CounterHead]->{Font} = 'HelveticaBold';
+        $CellData->[$CounterRow]->[$CounterHead]->{Font} = 'ProportionalBold';
         $CounterHead++;
     }
     if ($CounterHead > 0) {
@@ -243,7 +246,7 @@ if ($Format eq 'Print' && $CommonObject{PDFObject}) {
         $CounterRow++;
     }
     if (!$CellData->[0]->[0]) {
-        $CellData->[0]->[0]->{Content} = $CommonObject{LayoutObject}->{LanguageObject}->Get('No Result!');
+        $CellData->[0]->[0]->{Content} = $CommonObject{LanguageObject}->Get('No Result!');
     }
     # page params
     my %PageParam;
@@ -279,6 +282,7 @@ if ($Format eq 'Print' && $CommonObject{PDFObject}) {
     # create new pdf document
     $CommonObject{PDFObject}->DocumentNew(
         Title => $CommonObject{ConfigObject}->Get('Product') . ': ' . $Title,
+        Encode => $CommonObject{LanguageObject}->GetRecommendedCharset(),
     );
     # start table output
     my $Loop = 1;
@@ -318,10 +322,10 @@ if ($Format eq 'Print' && $CommonObject{PDFObject}) {
         String => $Stat->{Title} . " Created",
     );
     %Attachment = (
-        Filename    => $Filename . ".pdf",
+        Filename => $Filename . ".pdf",
         ContentType => "application/pdf",
-        Content     => $PDFString,
-        Encoding    => "base64",
+        Content => $PDFString,
+        Encoding => "base64",
         Disposition => "attachment",
     );
 }
@@ -339,10 +343,10 @@ else {
     );
 
     %Attachment = (
-        Filename    => $Filename . ".csv",
+        Filename => $Filename . ".csv",
         ContentType => "text/csv",
-        Content     => $Output,
-        Encoding    => "base64",
+        Content => $Output,
+        Encoding => "base64",
         Disposition => "attachment",
     );
 }
@@ -362,10 +366,10 @@ if ($Opts{'o'}) {
 }
 # send email
 elsif ($CommonObject{EmailObject}->Send(
-    From       => $Opts{'s'},
-    To         => $Opts{'r'},
-    Subject    => "[Stats - $CountStatArray Records] $Title; Created: $Time",
-    Body       => $Opts{'m'},
+    From => $Opts{'s'},
+    To => $Opts{'r'},
+    Subject => "[Stats - $CountStatArray Records] $Title; Created: $Time",
+    Body => $Opts{'m'},
     Attachment => [
         {
             %Attachment,
