@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.265 2007-07-26 13:00:46 martin Exp $
+# $Id: Ticket.pm,v 1.266 2007-07-26 13:44:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.265 $';
+$VERSION = '$Revision: 1.266 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1724,7 +1724,7 @@ sub TicketEscalationState {
     # get ticket
     my %Ticket = %{$Param{Ticket}};
     # check requred ticket params
-    foreach (qw(TicketID StateType QueueID Created)) {
+    foreach (qw(TicketID StateType QueueID Created Lock)) {
         if (!$Ticket{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -1840,7 +1840,7 @@ sub TicketEscalationState {
                 Calendar => $Escalation{Calendar},
             );
             # set notification
-            if ($Ticket{StateType} =~ /^(new|open)$/i && 60*60*2.2 > $WorkingTime) {
+            if ($Ticket{StateType} =~ /^(new|open)$/i && $Ticket{Lock} ne 'lock' && 60*60*2.2 > $WorkingTime) {
                 $Data{"UpdateTimeNotification"} = 1;
             }
         }
@@ -1852,7 +1852,7 @@ sub TicketEscalationState {
             );
             $WorkingTime = "-$WorkingTime";
             # set escalation
-            if ($Ticket{StateType} =~ /^(new|open)$/i) {
+            if ($Ticket{StateType} =~ /^(new|open)$/i && $Ticket{Lock} ne 'lock') {
                 $Data{"UpdateTimeEscalation"} = 1;
             }
         }
@@ -6078,6 +6078,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.265 $ $Date: 2007-07-26 13:00:46 $
+$Revision: 1.266 $ $Date: 2007-07-26 13:44:51 $
 
 =cut
