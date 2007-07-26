@@ -5,7 +5,7 @@
 #               2006 Knut Haugen <knuthaug at linpro.no>
 #               2007 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.45 2007-07-16 11:44:37 martin Exp $
+# $Id: nb_NO.pm,v 1.46 2007-07-26 17:08:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.45 $;
+$VERSION = q$Revision: 1.46 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -487,7 +487,7 @@ sub Data {
         'Mark as Spam!' => 'Markér som spam',
         'My Queues' => 'Mine mapper',
         'Shown Tickets' => 'Viste saker',
-        'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Din epost-sak med numemr "<OTRS_TICKET>" er flettet med ">OTRS_MERGE_TO_TICKET>". ',
+        'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Din epost-sak med numemr "<OTRS_TICKET>" er flettet med "<OTRS_MERGE_TO_TICKET>". ',
         'Ticket %s: first response time is over (%s)!' => 'Sak %s: første responstid tidsfristen er overskredet (%s)!',
         'Ticket %s: first response time will be over in %s!' => 'Sak %s: første responstid tidsfristen er over om %s!',
         'Ticket %s: update time is over (%s)!' => 'Sak %s: oppdateringstidsfristen er overskredet (%s)!',
