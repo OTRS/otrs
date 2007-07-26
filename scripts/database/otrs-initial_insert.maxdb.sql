@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2007-07-26 16:38:46
+//  driver: maxdb, generated: 2007-07-26 19:05:38
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  insert into table valid
@@ -874,7 +874,7 @@ INSERT INTO notifications (notification_type, notification_charset, notification
 // ----------------------------------------------------------
 INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, create_by, create_time, change_by, change_time)
     VALUES
-    ('Agent::Move', 'iso-8859-1', 'en', 'Moved ticket in ">OTRS_CUSTOMER_QUEUE<" queue! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi,<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname>" moved a ticket [<OTRS_TICKET_TicketNumber>] into "<OTRS_CUSTOMER_QUEUE>".<snip><OTRS_CUSTOMER_EMAIL[16]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Your OTRS Notification Master', 1, timestamp, 1, timestamp)
+    ('Agent::Move', 'iso-8859-1', 'en', 'Moved ticket in "<OTRS_CUSTOMER_QUEUE>" queue! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi,<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname>" moved a ticket [<OTRS_TICKET_TicketNumber>] into "<OTRS_CUSTOMER_QUEUE>".<snip><OTRS_CUSTOMER_EMAIL[16]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Your OTRS Notification Master', 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
 //  insert into table notifications
@@ -937,7 +937,7 @@ INSERT INTO notifications (notification_type, notification_charset, notification
 // ----------------------------------------------------------
 INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, create_by, create_time, change_by, change_time)
     VALUES
-    ('Agent::Move', 'iso-8859-1', 'de', 'Ticket verschoben in ">OTRS_CUSTOMER_QUEUE<" Queue! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi,<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname>" verschob Ticket [<OTRS_TICKET_TicketNumber>] nach "<OTRS_CUSTOMER_QUEUE>".<snip><OTRS_CUSTOMER_EMAIL[16]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master', 1, timestamp, 1, timestamp)
+    ('Agent::Move', 'iso-8859-1', 'de', 'Ticket verschoben in "<OTRS_CUSTOMER_QUEUE>" Queue! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi,<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname>" verschob Ticket [<OTRS_TICKET_TicketNumber>] nach "<OTRS_CUSTOMER_QUEUE>".<snip><OTRS_CUSTOMER_EMAIL[16]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master', 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
 //  insert into table notifications
