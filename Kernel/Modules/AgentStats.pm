@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.22.2.5 2007-04-27 12:44:44 mh Exp $
+# $Id: AgentStats.pm,v 1.22.2.6 2007-07-26 15:37:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22.2.5 $';
+$VERSION = '$Revision: 1.22.2.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1960,7 +1960,7 @@ sub Run {
                 my $CounterHead = 0;
                 foreach my $Content (@{$HeadArrayRef}) {
                     $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
-                    $CellData->[$CounterRow]->[$CounterHead]->{Font} = 'HelveticaBold';
+                    $CellData->[$CounterRow]->[$CounterHead]->{Font} = 'ProportionalBold';
                     $CounterHead++;
                 }
                 if ($CounterHead > 0) {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.33.2.1 2007-04-27 12:44:44 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.33.2.2 2007-07-26 15:37:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33.2.1 $';
+$VERSION = '$Revision: 1.33.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -545,21 +545,21 @@ sub Run {
                 # create the header
                 my $CellData;
                 $CellData->[0]->[0]->{Content} = $Self->{ConfigObject}->Get('Ticket::Hook');
-                $CellData->[0]->[0]->{Font} = 'HelveticaBold';
+                $CellData->[0]->[0]->{Font} = 'ProportionalBold';
                 $CellData->[0]->[1]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
-                $CellData->[0]->[1]->{Font} = 'HelveticaBold';
+                $CellData->[0]->[1]->{Font} = 'ProportionalBold';
                 $CellData->[0]->[2]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('From');
-                $CellData->[0]->[2]->{Font} = 'HelveticaBold';
+                $CellData->[0]->[2]->{Font} = 'ProportionalBold';
                 $CellData->[0]->[3]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
-                $CellData->[0]->[3]->{Font} = 'HelveticaBold';
+                $CellData->[0]->[3]->{Font} = 'ProportionalBold';
                 $CellData->[0]->[4]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('State');
-                $CellData->[0]->[4]->{Font} = 'HelveticaBold';
+                $CellData->[0]->[4]->{Font} = 'ProportionalBold';
                 $CellData->[0]->[5]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Queue');
-                $CellData->[0]->[5]->{Font} = 'HelveticaBold';
+                $CellData->[0]->[5]->{Font} = 'ProportionalBold';
                 $CellData->[0]->[6]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Owner');
-                $CellData->[0]->[6]->{Font} = 'HelveticaBold';
+                $CellData->[0]->[6]->{Font} = 'ProportionalBold';
                 $CellData->[0]->[7]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
-                $CellData->[0]->[7]->{Font} = 'HelveticaBold';
+                $CellData->[0]->[7]->{Font} = 'ProportionalBold';
                 # create the content array
                 my $CounterRow = 1;
                 foreach my $Row (@PDFData) {
