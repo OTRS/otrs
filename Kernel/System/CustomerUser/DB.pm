@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.50 2007-07-12 14:32:45 tr Exp $
+# $Id: DB.pm,v 1.51 2007-07-26 14:13:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,12 @@ use strict;
 use warnings;
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
+use Kernel::System::Cache;
+
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -32,7 +34,14 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject PreferencesObject CustomerUserMap)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    # create valid object
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    # create check item object
+    $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
+    # create cache object
+    if ($Self->{CustomerUserMap}->{'CacheTTL'}) {
+        $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
+    }
 
     # max shown user a search list
     $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{'CustomerUserSearchListLimit'} || 250;
@@ -68,8 +77,7 @@ sub new {
         # remember that we have the DBObject not from parent call
         $Self->{NotParentDBObject} = 1;
     }
-    # create check item object
-    $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
+
     return $Self;
 }
 
@@ -94,6 +102,15 @@ sub CustomerName {
     }
     $SQL .= " FROM $Self->{CustomerTable} WHERE ".
         " LOWER($Self->{CustomerKey}) = LOWER('".$Self->{DBObject}->Quote($Param{UserLogin})."')";
+    # check cache
+    if ($Self->{CacheObject}) {
+        my $Name = $Self->{CacheObject}->Get(
+            Key => "CustomerUser::CustomerName::$SQL",
+        );
+        if (defined($Name)) {
+            return $Name;
+        }
+    }
     # get data
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -107,6 +124,14 @@ sub CustomerName {
                 }
             }
         }
+    }
+    # cache request
+    if ($Self->{CacheObject}) {
+        $Self->{CacheObject}->Set(
+            Key => "CustomerUser::CustomerName::$SQL",
+            Value => $Name,
+            TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
+        );
     }
     return $Name;
 }
@@ -184,6 +209,15 @@ sub CustomerSearch {
         $SQL .= "AND ".$Self->{CustomerUserMap}->{CustomerValid}.
         " IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) ";
     }
+    # check cache
+    if ($Self->{CacheObject}) {
+        my $Users = $Self->{CacheObject}->Get(
+            Key => "CustomerUser::CustomerSearch::$SQL",
+        );
+        if ($Users) {
+            return %{$Users};
+        }
+    }
     # get data
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{UserSearchListLimit});
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -196,6 +230,14 @@ sub CustomerSearch {
             $Users{$Row[0]} =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
         }
     }
+    # cache request
+    if ($Self->{CacheObject}) {
+        $Self->{CacheObject}->Set(
+            Key => "CustomerUser::CustomerSearch::$SQL",
+            Value => \%Users,
+            TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
+        );
+    }
     return %Users;
 }
 
@@ -203,6 +245,15 @@ sub CustomerUserList {
     my $Self = shift;
     my %Param = @_;
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+    # check cache
+    if ($Self->{CacheObject}) {
+        my $Users = $Self->{CacheObject}->Get(
+            Key => "CustomerUser::CustomerUserList::$Valid",
+        );
+        if ($Users) {
+            return %{$Users};
+        }
+    }
     # get data
     my %Users = $Self->{DBObject}->GetTableData(
         What => "$Self->{CustomerKey}, $Self->{CustomerKey}, $Self->{CustomerID}",
@@ -210,6 +261,14 @@ sub CustomerUserList {
         Clamp => 1,
         Valid => $Valid,
     );
+    # cache request
+    if ($Self->{CacheObject}) {
+        $Self->{CacheObject}->Set(
+            Key => "CustomerUser::CustomerUserList::$Valid",
+            Value => \%Users,
+            TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
+        );
+    }
     return %Users;
 }
 
@@ -221,6 +280,15 @@ sub CustomerIDs {
     if (!$Param{User}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need User!");
         return;
+    }
+    # check cache
+    if ($Self->{CacheObject}) {
+        my $CustomerIDs = $Self->{CacheObject}->Get(
+            Key => "CustomerUser::CustomerIDs::$Param{User}",
+        );
+        if ($CustomerIDs) {
+            return @{$CustomerIDs};
+        }
     }
     # get customer data
     my %Data = $Self->CustomerUserDataGet(
@@ -248,6 +316,14 @@ sub CustomerIDs {
     if ($Data{UserCustomerID} && !$Self->{ExcludePrimaryCustomerID}) {
         push (@CustomerIDs, $Data{UserCustomerID});
     }
+    # cache request
+    if ($Self->{CacheObject}) {
+        $Self->{CacheObject}->Set(
+            Key => "CustomerUser::CustomerIDs::$Param{User}",
+            Value => \@CustomerIDs,
+            TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
+        );
+    }
     return @CustomerIDs;
 }
 
@@ -267,9 +343,27 @@ sub CustomerUserDataGet {
     }
     $SQL .= $Self->{CustomerKey}." FROM $Self->{CustomerTable} WHERE ";
     if ($Param{User}) {
+        # check cache
+        if ($Self->{CacheObject}) {
+            my $Data = $Self->{CacheObject}->Get(
+                Key => "CustomerUser::CustomerUserDataGet::User::$Param{User}",
+            );
+            if ($Data) {
+                return %{$Data};
+            }
+        }
         $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('".$Self->{DBObject}->Quote($Param{User})."')";
     }
     elsif ($Param{CustomerID}) {
+        # check cache
+        if ($Self->{CacheObject}) {
+            my $Data = $Self->{CacheObject}->Get(
+                Key => "CustomerUser::CustomerUserDataGet::CustomerID::$Param{CustomerID}",
+            );
+            if ($Data) {
+                return %{$Data};
+            }
+        }
         $SQL .= "LOWER($Self->{CustomerID}) = LOWER('".$Self->{DBObject}->Quote($Param{CustomerID})."')";
     }
     # get initial data
@@ -283,16 +377,48 @@ sub CustomerUserDataGet {
     }
     # check data
     if (! exists $Data{UserLogin} && $Param{User}) {
+        # cache request
+        if ($Self->{CacheObject}) {
+            $Self->{CacheObject}->Set(
+                Key => "CustomerUser::CustomerUserDataGet::User::$Param{User}",
+                Value => { },
+                TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
+            );
+        }
         return;
     }
     if (! exists $Data{UserLogin} && $Param{CustomerID}) {
+        # cache request
+        if ($Self->{CacheObject}) {
+            $Self->{CacheObject}->Set(
+                Key => "CustomerUser::CustomerUserDataGet::CustomerID::$Param{CustomerID}",
+                Value => { },
+                TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
+            );
+        }
         return;
     }
     # compat!
     $Data{UserID} = $Data{UserLogin};
     # get preferences
     my %Preferences = $Self->{PreferencesObject}->GetPreferences(UserID => $Data{UserID});
-
+    # cache request
+    if ($Self->{CacheObject}) {
+        if ($Param{User}) {
+            $Self->{CacheObject}->Set(
+                Key => "CustomerUser::CustomerUserDataGet::User::$Param{User}",
+                Value => { %Data, %Preferences },
+                TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
+            );
+        }
+        elsif ($Param{CustomerID}) {
+            $Self->{CacheObject}->Set(
+                Key => "CustomerUser::CustomerUserDataGet::CustomerID::$Param{CustomerID}",
+                Value => { %Data, %Preferences },
+                TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
+            );
+        }
+    }
     # return data
     return (%Data, %Preferences);
 }
@@ -401,6 +527,12 @@ sub CustomerUserAdd {
         if ($Param{UserPassword}) {
             $Self->SetPassword(UserLogin => $Param{UserLogin}, PW => $Param{UserPassword});
         }
+        # cache resete
+        if ($Self->{CacheObject}) {
+            $Self->{CacheObject}->Delete(
+                Key => "CustomerUser::CustomerUserDataGet::User::$Param{UserLogin}",
+            );
+        }
         return $Param{UserLogin};
     }
     else {
@@ -480,6 +612,12 @@ sub CustomerUserUpdate {
         if ($Param{UserPassword}) {
             $Self->SetPassword(UserLogin => $Param{UserLogin}, PW => $Param{UserPassword});
         }
+        # cache resete
+        if ($Self->{CacheObject}) {
+            $Self->{CacheObject}->Delete(
+                Key => "CustomerUser::CustomerUserDataGet::User::$Param{UserLogin}",
+            );
+        }
         return 1;
     }
     else {
@@ -557,6 +695,12 @@ sub SetPassword {
                 Priority => 'notice',
                 Message => "CustomerUser: '$Param{UserLogin}' changed password successfully!",
             );
+            # cache resete
+            if ($Self->{CacheObject}) {
+                $Self->{CacheObject}->Delete(
+                    Key => "CustomerUser::CustomerUserDataGet::User::$Param{UserLogin}",
+                );
+            }
             return 1;
         }
         else {

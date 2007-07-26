@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.32 2007-06-12 09:23:29 martin Exp $
+# $Id: LDAP.pm,v 1.33 2007-07-26 14:13:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,11 +13,13 @@
 package Kernel::System::CustomerUser::LDAP;
 
 use strict;
+use warnings;
 use Net::LDAP;
 use Kernel::System::Encode;
+use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -139,6 +141,10 @@ sub new {
     }
     # encode object
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+    # cache object
+    if ($Self->{CustomerUserMap}->{'CacheTTL'}) {
+        $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
+    }
     $Self->{SourceCharset} = $Self->{CustomerUserMap}->{'Params'}->{'SourceCharset'} || '';
     $Self->{DestCharset} = $Self->{CustomerUserMap}->{'Params'}->{'DestCharset'} || '';
     $Self->{ExcludePrimaryCustomerID} = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
@@ -171,6 +177,15 @@ sub CustomerName {
     if ($Self->{AlwaysFilter}) {
         $Filter = "(&$Filter$Self->{AlwaysFilter})";
     }
+    # check cache
+    if ($Self->{CacheObject}) {
+        my $Name = $Self->{CacheObject}->Get(
+            Key => "CustomerUser::CustomerName::$Filter",
+        );
+        if (defined($Name)) {
+            return $Name;
+        }
+    }
     # perform user search
     my $Result = $Self->{LDAP}->search(
         base => $Self->{BaseDN},
@@ -196,6 +211,14 @@ sub CustomerName {
                 }
             }
         }
+    }
+    # cache request
+    if ($Self->{CacheObject}) {
+        $Self->{CacheObject}->Set(
+            Key => "CustomerUser::CustomerName::$Filter",
+            Value => $Name,
+            TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
+        );
     }
     return $Name;
 }
@@ -254,6 +277,15 @@ sub CustomerSearch {
     if ($Self->{ValidFilter}) {
         $Filter = "(&$Filter$Self->{ValidFilter})";
     }
+    # check cache
+    if ($Self->{CacheObject}) {
+        my $Users = $Self->{CacheObject}->Get(
+            Key => "CustomerUser::CustomerSearch::$Filter",
+        );
+        if ($Users) {
+            return %{$Users};
+        }
+    }
     # perform user search
     my $Result = $Self->{LDAP}->search(
         base => $Self->{BaseDN},
@@ -285,6 +317,14 @@ sub CustomerSearch {
             $Users{$Self->_Convert($entry->get_value($Self->{CustomerKey}))} = $CustomerString;
         }
     }
+    # cache request
+    if ($Self->{CacheObject}) {
+        $Self->{CacheObject}->Set(
+            Key => "CustomerUser::CustomerSearch::$Filter",
+            Value => \%Users,
+            TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
+        );
+    }
     return %Users;
 }
 
@@ -300,6 +340,15 @@ sub CustomerUserList {
     # add valid filter
     if ($Self->{ValidFilter} && $Valid) {
         $Filter = "(&$Filter$Self->{ValidFilter})";
+    }
+    # check cache
+    if ($Self->{CacheObject}) {
+        my $Users = $Self->{CacheObject}->Get(
+            Key => "CustomerUser::CustomerUserList::$Filter",
+        );
+        if ($Users) {
+            return %{$Users};
+        }
     }
     # perform user search
     my $Result = $Self->{LDAP}->search (
@@ -323,6 +372,14 @@ sub CustomerUserList {
         }
         $Users{$Self->_Convert($entry->get_value($Self->{CustomerKey}))} = $CustomerString;
     }
+    # cache request
+    if ($Self->{CacheObject}) {
+        $Self->{CacheObject}->Set(
+            Key => "CustomerUser::CustomerUserList::$Filter",
+            Value => \%Users,
+            TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
+        );
+    }
     return %Users;
 }
 
@@ -334,6 +391,15 @@ sub CustomerIDs {
     if (!$Param{User}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need User!");
         return;
+    }
+    # check cache
+    if ($Self->{CacheObject}) {
+        my $CustomerIDs = $Self->{CacheObject}->Get(
+            Key => "CustomerUser::CustomerIDs::$Param{User}",
+        );
+        if ($CustomerIDs) {
+            return @{$CustomerIDs};
+        }
     }
     # get customer data
     my %Data = $Self->CustomerUserDataGet(
@@ -360,6 +426,14 @@ sub CustomerIDs {
     # use also the primary customer id
     if ($Data{UserCustomerID} && !$Self->{ExcludePrimaryCustomerID}) {
         push (@CustomerIDs, $Data{UserCustomerID});
+    }
+    # cache request
+    if ($Self->{CacheObject}) {
+        $Self->{CacheObject}->Set(
+            Key => "CustomerUser::CustomerIDs::$Param{User}",
+            Value => \@CustomerIDs,
+            TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
+        );
     }
     return @CustomerIDs;
 }
@@ -389,6 +463,15 @@ sub CustomerUserDataGet {
     # prepare filter
     if ($Self->{AlwaysFilter}) {
         $Filter = "(&$Filter$Self->{AlwaysFilter})";
+    }
+    # check cache
+    if ($Self->{CacheObject}) {
+        my $Data = $Self->{CacheObject}->Get(
+            Key => "CustomerUser::CustomerUserDataGet::$Filter",
+        );
+        if ($Data) {
+            return %{$Data};
+        }
     }
     # perform search
     my $Result = $Self->{LDAP}->search (
@@ -429,7 +512,14 @@ sub CustomerUserDataGet {
     $Data{UserID} = $Data{UserLogin};
     # get preferences
     my %Preferences = $Self->{PreferencesObject}->GetPreferences(UserID => $Data{UserID});
-
+    # cache request
+    if ($Self->{CacheObject}) {
+        $Self->{CacheObject}->Set(
+            Key => "CustomerUser::CustomerUserDataGet::$Filter",
+            Value => { %Data, %Preferences },
+            TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
+        );
+    }
     # return data
     return (%Data, %Preferences);
 }
