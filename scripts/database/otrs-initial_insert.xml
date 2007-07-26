@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-initial_insert.xml,v 1.5 2007-04-16 10:40:55 martin Exp $
+    $Id: otrs-initial_insert.xml,v 1.6 2007-07-26 14:49:17 martin Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.5  2007/04/16 10:40:55  martin
+    Fixed bug# 1757 - cannot install postgres db - null value in column "escalation_start_time" violates not-null constraint.
+
     Revision 1.4  2007/03/22 09:11:19  martin
     Added comment for default groups.
 
@@ -1154,7 +1157,9 @@ Your OTRS Team
         <Data Key="ticket_priority_id">3</Data>
         <Data Key="ticket_state_id">1</Data>
         <Data Key="create_time_unix">1173345999</Data>
+        <Data Key="escalation_response_time">0</Data>
         <Data Key="escalation_start_time">1173345999</Data>
+        <Data Key="escalation_solution_time">0</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>

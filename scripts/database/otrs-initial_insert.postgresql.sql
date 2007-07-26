@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2007-04-16 12:42:41
+--  driver: postgresql, generated: 2007-07-26 16:38:49
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -694,9 +694,9 @@ INSERT INTO article_sender_type (name, valid_id, create_by, create_time, change_
 -- ----------------------------------------------------------
 --  insert into table ticket
 -- ----------------------------------------------------------
-INSERT INTO ticket (tn, queue_id, ticket_lock_id, ticket_answered, user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id, create_time_unix, escalation_start_time, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket (tn, queue_id, ticket_lock_id, ticket_answered, user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id, create_time_unix, escalation_response_time, escalation_start_time, escalation_solution_time, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('1010001', 2, 1, 0, 1, 1, 1, 3, 1, 1173345999, 1173345999, 1, 1, current_timestamp, 1, current_timestamp);
+    ('1010001', 2, 1, 0, 1, 1, 1, 3, 1, 1173345999, 0, 1173345999, 0, 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table article
 -- ----------------------------------------------------------
