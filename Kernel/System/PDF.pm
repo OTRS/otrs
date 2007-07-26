@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.25 2007-06-26 18:36:32 martin Exp $
+# $Id: PDF.pm,v 1.26 2007-07-26 14:24:52 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -56,33 +56,19 @@ sub new {
 
 Create a new PDF Document
 
-    This fonts are available in all methods:
-        Courier
-        CourierBold
-        CourierBoldItalic
-        CourierItalic
-        Georgia
-        GeorgiaBold
-        GeorgiaBoldItalic
-        GeorgiaItalic
-        Helvetica
-        HelveticaBold
-        HelveticaBoldItalic
-        HelveticaItalic
-        Times
-        TimesBold
-        TimesBoldItalic
-        TimesItalic
-        Verdana
-        VerdanaBold
-        VerdanaBoldItalic
-        VerdanaItalic
-        Webdings
-        ZapfDingbats
+    This fonts aliases are available in all methods:
+        Proportional
+        ProportionalBold
+        ProportionalItalic
+        ProportionalBoldItalic
+        Monospaced
+        MonospacedBold
+        MonospacedItalic
+        MonospacedBoldItalic
 
     $True = $PDFObject->DocumentNew(
         Title => 'The Document Title',  # Title of PDF Document
-        Encode => 'latin1',             # Charset of Document
+        Encode => 'utf-8',              # Charset of Document
     );
 
 =cut
@@ -130,101 +116,24 @@ sub DocumentNew {
                 'Title' => $Self->{Document}->{Title},
                 'Subject' => $Self->{Document}->{Title},
             );
-
-            # set fonts
-            $Self->{Font}->{Courier} = $Self->{PDF}->corefont(
-                'Courier',
-                -encode => $Self->{Document}->{Encode},
-            );
-            $Self->{Font}->{CourierBold} = $Self->{PDF}->corefont(
-                'Courier-Bold',
-                -encode => $Self->{Document}->{Encode},
-            );
-            $Self->{Font}->{CourierBoldItalic} = $Self->{PDF}->corefont(
-                'Courier-BoldOblique',
-                -encode => $Self->{Document}->{Encode},
-            );
-            $Self->{Font}->{CourierItalic} = $Self->{PDF}->corefont(
-                'Courier-Oblique',
-                -encode => $Self->{Document}->{Encode},
-            );
-
-            $Self->{Font}->{Georgia} = $Self->{PDF}->corefont(
-                'Georgia',
-                -encode => $Self->{Document}->{Encode},
-            );
-            $Self->{Font}->{GeorgiaBold} = $Self->{PDF}->corefont(
-                'Georgia,Bold',
-                -encode => $Self->{Document}->{Encode},
-            );
-            $Self->{Font}->{GeorgiaBoldItalic} = $Self->{PDF}->corefont(
-                'Georgia,BoldItalic',
-                -encode => $Self->{Document}->{Encode},
-            );
-            $Self->{Font}->{GeorgiaItalic} = $Self->{PDF}->corefont(
-                'Georgia,Italic',
-                -encode => $Self->{Document}->{Encode},
-            );
-
-            $Self->{Font}->{Helvetica} = $Self->{PDF}->corefont(
+            # set testfont (only used in unitests)
+            $Self->{Font}->{Testfont1} = $Self->{PDF}->corefont(
                 'Helvetica',
                 -encode => $Self->{Document}->{Encode},
             );
-            $Self->{Font}->{HelveticaBold} = $Self->{PDF}->corefont(
-                'Helvetica-Bold',
+            $Self->{Font}->{Testfont2} = $Self->{PDF}->ttfont(
+                'DejaVuSans.ttf',
                 -encode => $Self->{Document}->{Encode},
             );
-            $Self->{Font}->{HelveticaBoldItalic} = $Self->{PDF}->corefont(
-                'Helvetica-BoldOblique',
-                -encode => $Self->{Document}->{Encode},
-            );
-            $Self->{Font}->{HelveticaItalic} = $Self->{PDF}->corefont(
-                'Helvetica-Oblique',
-                -encode => $Self->{Document}->{Encode},
-            );
-
-            $Self->{Font}->{Times} = $Self->{PDF}->corefont(
-                'Times-Roman',
-                -encode => $Self->{Document}->{Encode},
-            );
-            $Self->{Font}->{TimesBold} = $Self->{PDF}->corefont(
-                'Times-Bold',
-                -encode => $Self->{Document}->{Encode},
-            );
-            $Self->{Font}->{TimesBoldItalic} = $Self->{PDF}->corefont(
-                'Times-BoldItalic',
-                -encode => $Self->{Document}->{Encode},
-            );
-            $Self->{Font}->{TimesItalic} = $Self->{PDF}->corefont(
-                'Times-Italic',
-                -encode => $Self->{Document}->{Encode},
-            );
-
-            $Self->{Font}->{Verdana} = $Self->{PDF}->corefont(
-                'Verdana',
-                -encode => $Self->{Document}->{Encode},
-            );
-            $Self->{Font}->{VerdanaBold} = $Self->{PDF}->corefont(
-                'Verdana,Bold',
-                -encode => $Self->{Document}->{Encode},
-            );
-            $Self->{Font}->{VerdanaBoldItalic} = $Self->{PDF}->corefont(
-                'Verdana,BoldItalic',
-                -encode => $Self->{Document}->{Encode},
-            );
-            $Self->{Font}->{VerdanaItalic} = $Self->{PDF}->corefont(
-                'Verdana,Italic',
-                -encode => $Self->{Document}->{Encode},
-            );
-
-            $Self->{Font}->{Webdings} = $Self->{PDF}->corefont(
-                'Webdings',
-                -encode => $Self->{Document}->{Encode},
-            );
-            $Self->{Font}->{ZapfDingbats} = $Self->{PDF}->corefont(
-                'ZapfDingbats',
-                -encode => $Self->{Document}->{Encode},
-            );
+            # get font config
+            my %FontFiles = %{$Self->{ConfigObject}->Get('PDF::TTFontFile')};
+            # set fonts
+            foreach my $FontType (keys %FontFiles) {
+                $Self->{Font}->{$FontType} = $Self->{PDF}->ttfont(
+                    $FontFiles{$FontType},
+                    -encode => $Self->{Document}->{Encode},
+                );
+            }
             return 1;
         }
     }
@@ -524,7 +433,7 @@ sub PageNew {
             Width => ($Printable{Width} / 2),
             Height => 12,
             Type => 'Cut',
-            Font => 'HelveticaBold',
+            Font => 'ProportionalBold',
             FontSize => 12,
         );
         $Self->PositionSet(
@@ -540,7 +449,7 @@ sub PageNew {
             Text => $Param{HeadlineRight},
             Height => 8,
             Type => 'Cut',
-            Font => 'Helvetica',
+            Font => 'Proportional',
             FontSize => 8,
             Color => '#404040',
             Align => 'right',
@@ -622,7 +531,7 @@ Add a table
         Type => 'Cut',                    # (optional) default ReturnLeftOver (ReturnLeftOver|ReturnLeftOverHard|Cut)
         Width => 300,                     # (optional) default maximal width
         Height => 400,                    # (optional) default minimal height
-        Font => 'Times',                  # (optional) default Helvetica (see DocumentNew())
+        Font => 'Monospaced',             # (optional) default Proportional (see DocumentNew())
         FontSize => 9,                    # (optional) default 11
         FontColor => 'red',               # (optional) default black
         FontColorEven => 'blue',          # (optional) cell font color for even rows
@@ -645,7 +554,7 @@ Add a table
         [
             {
                 Content => "Cell 1 (Row 1, Column 1)",  # (optional)
-                Font => 'Times',                        # (optional) (see DocumentNew())
+                Font => 'Monospaced',                   # (optional) (see DocumentNew())
                 FontSize => 13,                         # (optional)
                 FontColor => '#00FF00',                 # (optional)
                 Align => 'center',                      # (optional)
@@ -727,7 +636,7 @@ sub Table {
         if (!defined($Param{OutputCount})) {
             # set default values
             $Param{Type} = $Param{Type} || 'ReturnLeftOver';
-            $Param{Font} = $Param{Font} || 'Helvetica';
+            $Param{Font} = $Param{Font} || 'Proportional';
             if (!defined($Param{FontSize}) || $Param{FontSize} <= 0) {
                 $Param{FontSize} = 10;
             }
@@ -984,15 +893,15 @@ Output a textline
         $Return{LeftOver}
 
     %Return = $PDFObject->Text(
-        Text => 'Text',      # Text
-        Width => 300,        # (optional) available width of textblock
-        Height => 200,       # (optional) available height of textblock
-        Type => 'Cut',       # (optional) default ReturnLeftOver (ReturnLeftOver|ReturnLeftOverHard|Cut)
-        Font => 'Courier',   # (optional) default Helvetica  (see DocumentNew())
-        FontSize => 15,      # (optional) default 10
-        Color => '#FF0000',  # (optional) default #000000
-        Align => 'center',   # (optional) default left (left|center|right)
-        Lead => 20,          # (optional) default 1 distance between lines
+        Text => 'Text',              # Text
+        Width => 300,                # (optional) available width of textblock
+        Height => 200,               # (optional) available height of textblock
+        Type => 'Cut',               # (optional) default ReturnLeftOver (ReturnLeftOver|ReturnLeftOverHard|Cut)
+        Font => 'ProportionalBold',  # (optional) default Proportional  (see DocumentNew())
+        FontSize => 15,              # (optional) default 10
+        Color => '#FF0000',          # (optional) default #000000
+        Align => 'center',           # (optional) default left (left|center|right)
+        Lead => 20,                  # (optional) default 1 distance between lines
     );
 
 =cut
@@ -1029,7 +938,7 @@ sub Text {
 
     $Param{Type} = $Param{Type} || 'ReturnLeftOver';
     $Param{Color} = $Param{Color} || 'black';
-    $Param{Font} = $Param{Font} || 'Helvetica';
+    $Param{Font} = $Param{Font} || 'Proportional';
     $Param{Align} = $Param{Align} || 'left';
 
     if (!defined($Param{FontSize}) || $Param{FontSize} <= 0) {
@@ -1606,7 +1515,7 @@ sub DimGet {
 #        RowData => $RowData,              # arrayref (see example)
 #        Width => 300,                     # (optional) default default maximal width
 #        Height => 400,                    # (optional) default minimal height
-#        Font => 'Times',                  # (optional) default Helvetica (see DocumentNew())
+#        Font => 'Monospaced',             # (optional) default Proportional (see DocumentNew())
 #        FontSize => 9,                    # (optional) default 11
 #        FontColor => 'red',               # (optional) default black
 #        FontColorEven => 'blue',          # (optional) cell font color for even rows
@@ -1628,7 +1537,7 @@ sub DimGet {
 #        [
 #            {
 #                Content => "Cell 1 (Row 1, Column 1)",  # (optional)
-#                Font => 'Times',                        # (optional)
+#                Font => 'Monospaced',                   # (optional)
 #                FontSize => 13,                         # (optional)
 #                FontColor => '#00FF00',                 # (optional)
 #                Align => 'center',                      # (optional)
@@ -2146,7 +2055,7 @@ sub _TableRowCalculate {
 #        Height => 40,
 #        Text => 'Text',
 #        Type => 'Cut',
-#        Font => 'Courier',
+#        Font => 'ProportionalBold',
 #        FontSize => 15,
 #        FontColor => '#FF0000',
 #        Align => 'center',
@@ -2324,13 +2233,13 @@ sub _TableCellOnCount {
 #        $Return{PossibleRows}  # (Array Ref)
 #
 #    %Return = $PDFObject->_TextCalculate(
-#        Text => $Text,      # text
-#        Type => 'Cut',      # (ReturnLeftOver|ReturnLeftOverHard|Cut)
-#        Width => 300,       # available width
-#        Height => 200,      # available height
-#        Font => 'Courier',  # font of text
-#        FontSize => 6,      # fontsize of text
-#        Lead => 20,         # lead
+#        Text => $Text,               # text
+#        Type => 'Cut',               # (ReturnLeftOver|ReturnLeftOverHard|Cut)
+#        Width => 300,                # available width
+#        Height => 200,               # available height
+#        Font => 'ProportionalBold',  # font of text
+#        FontSize => 6,               # fontsize of text
+#        Lead => 20,                  # lead
 #    );
 #
 
@@ -2552,9 +2461,9 @@ sub _TextCalculate {
 # calculate width of given text
 #
 #    $Width = $PDFObject->_StringWidth(
-#        Text => 'Text',     # text
-#        Font => 'Courier',  # font of text
-#        FontSize => 6,      # fontsize of text
+#        Text => 'Text',              # text
+#        Font => 'ProportionalBold',  # font of text
+#        FontSize => 6,               # fontsize of text
 #    );
 #
 
@@ -3359,6 +3268,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2007-06-26 18:36:32 $
+$Revision: 1.26 $ $Date: 2007-07-26 14:24:52 $
 
 =cut

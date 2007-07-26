@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.46 2007-02-19 10:51:07 mh Exp $
+# $Id: mkStats.pl,v 1.47 2007-07-26 14:25:26 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -111,7 +111,7 @@ if ($Opts{'l'}) {
 
 $CommonObject{LanguageObject} = Kernel::Language->new(
     UserTimeZone => $CommonObject{UserTimeZone},
-    UserLanguage => $CommonObject{UserLanguage},
+    UserLanguage => $Lang,
     LogObject => $CommonObject{LogObject},
     ConfigObject => $CommonObject{ConfigObject},
     MainObject => $CommonObject{MainObject},
@@ -231,7 +231,7 @@ if ($Format eq 'Print' && $CommonObject{PDFObject}) {
     my $CounterHead = 0;
     foreach my $Content (@{$HeadArrayRef}) {
         $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
-        $CellData->[$CounterRow]->[$CounterHead]->{Font} = 'HelveticaBold';
+        $CellData->[$CounterRow]->[$CounterHead]->{Font} = 'ProportionalBold';
         $CounterHead++;
     }
     if ($CounterHead > 0) {
@@ -282,6 +282,7 @@ if ($Format eq 'Print' && $CommonObject{PDFObject}) {
     # create new pdf document
     $CommonObject{PDFObject}->DocumentNew(
         Title => $CommonObject{ConfigObject}->Get('Product') . ': ' . $Title,
+        Encode => $CommonObject{LanguageObject}->GetRecommendedCharset(),
     );
     # start table output
     my $Loop = 1;

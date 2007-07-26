@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.41 2007-05-23 13:35:44 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.42 2007-07-26 14:22:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -361,12 +361,12 @@ sub _PDFOutputTicketInfos {
     foreach my $Row (1..$Rows) {
         $Row--;
         $TableParam{CellData}[$Row][0]{Content} = $TableLeft->[$Row]->{Key};
-        $TableParam{CellData}[$Row][0]{Font} = 'HelveticaBold';
+        $TableParam{CellData}[$Row][0]{Font} = 'ProportionalBold';
         $TableParam{CellData}[$Row][1]{Content} = $TableLeft->[$Row]->{Value};
         $TableParam{CellData}[$Row][2]{Content} = ' ';
         $TableParam{CellData}[$Row][2]{BackgroundColor} = '#FFFFFF';
         $TableParam{CellData}[$Row][3]{Content} = $TableRight->[$Row]->{Key};
-        $TableParam{CellData}[$Row][3]{Font} = 'HelveticaBold';
+        $TableParam{CellData}[$Row][3]{Font} = 'ProportionalBold';
         $TableParam{CellData}[$Row][4]{Content} = $TableRight->[$Row]->{Value};
     }
 
@@ -446,21 +446,21 @@ sub _PDFOutputLinkedObjects {
         if ($LONormal) {
             $TableParam{CellData}[$Row][0]{Content} =
                 $Self->{LayoutObject}->{LanguageObject}->Get('Normal') . ':';
-            $TableParam{CellData}[$Row][0]{Font} = 'HelveticaBold';
+            $TableParam{CellData}[$Row][0]{Font} = 'ProportionalBold';
             $TableParam{CellData}[$Row][1]{Content} = $LONormal;
             $Row++;
         }
         if ($LOParent) {
             $TableParam{CellData}[$Row][0]{Content} =
                 $Self->{LayoutObject}->{LanguageObject}->Get('Parent') . ':';
-            $TableParam{CellData}[$Row][0]{Font} = 'HelveticaBold';
+            $TableParam{CellData}[$Row][0]{Font} = 'ProportionalBold';
             $TableParam{CellData}[$Row][1]{Content} = $LOParent;
             $Row++;
         }
         if ($LOChild) {
             $TableParam{CellData}[$Row][0]{Content} =
                 $Self->{LayoutObject}->{LanguageObject}->Get('Child') . ':';
-            $TableParam{CellData}[$Row][0]{Font} = 'HelveticaBold';
+            $TableParam{CellData}[$Row][0]{Font} = 'ProportionalBold';
             $TableParam{CellData}[$Row][1]{Content} = $LOChild;
             $Row++;
         }
@@ -477,7 +477,7 @@ sub _PDFOutputLinkedObjects {
             Text => $Self->{LayoutObject}->{LanguageObject}->Get('Linked Objects'),
             Height => 7,
             Type => 'Cut',
-            Font => 'HelveticaBoldItalic',
+            Font => 'ProportionalBoldItalic',
             FontSize => 7,
             Color => '#666666',
         );
@@ -537,7 +537,7 @@ sub _PDFOutputTicketFreeText {
     foreach (1..16) {
         if ($Ticket{"TicketFreeText$_"} ne "") {
             $TableParam{CellData}[$Row][0]{Content} = $Ticket{"TicketFreeKey$_"} . ':';
-            $TableParam{CellData}[$Row][0]{Font} = 'HelveticaBold';
+            $TableParam{CellData}[$Row][0]{Font} = 'ProportionalBold';
             $TableParam{CellData}[$Row][1]{Content} = $Ticket{"TicketFreeText$_"};
 
             $Row++;
@@ -559,7 +559,7 @@ sub _PDFOutputTicketFreeText {
             Text => $Self->{LayoutObject}->{LanguageObject}->Get('TicketFreeText'),
             Height => 7,
             Type => 'Cut',
-            Font => 'HelveticaBoldItalic',
+            Font => 'ProportionalBoldItalic',
             FontSize => 7,
             Color => '#666666',
         );
@@ -623,7 +623,7 @@ sub _PDFOutputTicketFreeTime {
             my $TicketFreeTime = $Ticket{"TicketFreeTime$_"};
 
             $TableParam{CellData}[$Row][0]{Content} = $TicketFreeTimeKey . ':';
-            $TableParam{CellData}[$Row][0]{Font} = 'HelveticaBold';
+            $TableParam{CellData}[$Row][0]{Font} = 'ProportionalBold';
             $TableParam{CellData}[$Row][1]{Content} = $Self->{LayoutObject}->Output(
                 Template => '$TimeLong{"$Data{"TicketFreeTime"}"}',
                 Data => {
@@ -650,7 +650,7 @@ sub _PDFOutputTicketFreeTime {
             Text => $Self->{LayoutObject}->{LanguageObject}->Get('TicketFreeTime'),
             Height => 7,
             Type => 'Cut',
-            Font => 'HelveticaBoldItalic',
+            Font => 'ProportionalBoldItalic',
             FontSize => 7,
             Color => '#666666',
         );
@@ -718,7 +718,7 @@ sub _PDFOutputCustomerInfos {
         if (${$Field}[3] && $CustomerData{${$Field}[0]}) {
             $TableParam{CellData}[$Row][0]{Content} =
                 $Self->{LayoutObject}->{LanguageObject}->Get(${$Field}[1]) . ':';
-            $TableParam{CellData}[$Row][0]{Font} = 'HelveticaBold';
+            $TableParam{CellData}[$Row][0]{Font} = 'ProportionalBold';
             $TableParam{CellData}[$Row][1]{Content} = $CustomerData{${$Field}[0]};
 
             $Row++;
@@ -739,7 +739,7 @@ sub _PDFOutputCustomerInfos {
             Text => $Self->{LayoutObject}->{LanguageObject}->Get('Customer Infos'),
             Height => 7,
             Type => 'Cut',
-            Font => 'HelveticaBoldItalic',
+            Font => 'ProportionalBoldItalic',
             FontSize => 7,
             Color => '#666666',
         );
@@ -803,7 +803,7 @@ sub _PDFOutputArticles {
                 Text => $Self->{LayoutObject}->{LanguageObject}->Get('Articles'),
                 Height => 7,
                 Type => 'Cut',
-                Font => 'HelveticaBoldItalic',
+                Font => 'ProportionalBoldItalic',
                 FontSize => 7,
                 Color => '#666666',
             );
@@ -831,13 +831,13 @@ sub _PDFOutputArticles {
         foreach (qw(From To Cc Subject)) {
             if ($Article{$_}) {
                 $TableParam1{CellData}[$Row][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get($_) . ':';
-                $TableParam1{CellData}[$Row][0]{Font} = 'HelveticaBold';
+                $TableParam1{CellData}[$Row][0]{Font} = 'ProportionalBold';
                 $TableParam1{CellData}[$Row][1]{Content} = $Article{$_};
                 $Row++;
             }
         }
         $TableParam1{CellData}[$Row][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Created') . ':';
-        $TableParam1{CellData}[$Row][0]{Font} = 'HelveticaBold';
+        $TableParam1{CellData}[$Row][0]{Font} = 'ProportionalBold';
         $TableParam1{CellData}[$Row][1]{Content} =
             $Self->{LayoutObject}->Output(
                 Template => '$TimeLong{"$Data{"Created"}"}',
@@ -850,20 +850,20 @@ sub _PDFOutputArticles {
         foreach (1..3) {
             if ($Article{"ArticleFreeText$_"}) {
                 $TableParam1{CellData}[$Row][0]{Content} = $Article{"ArticleFreeKey$_"} . ':';
-                $TableParam1{CellData}[$Row][0]{Font} = 'HelveticaBold';
+                $TableParam1{CellData}[$Row][0]{Font} = 'ProportionalBold';
                 $TableParam1{CellData}[$Row][1]{Content} = $Article{"ArticleFreeText$_"};
                 $Row++;
             }
         }
 
         $TableParam1{CellData}[$Row][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Type') . ':';
-        $TableParam1{CellData}[$Row][0]{Font} = 'HelveticaBold';
+        $TableParam1{CellData}[$Row][0]{Font} = 'ProportionalBold';
         $TableParam1{CellData}[$Row][1]{Content} = $Article{ArticleType};
         $Row++;
 
         if ($Attachments) {
             $TableParam1{CellData}[$Row][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Attachment') . ':';
-            $TableParam1{CellData}[$Row][0]{Font} = 'HelveticaBold';
+            $TableParam1{CellData}[$Row][0]{Font} = 'ProportionalBold';
             chomp($Attachments);
             $TableParam1{CellData}[$Row][1]{Content} = $Attachments;
         }
@@ -908,7 +908,7 @@ sub _PDFOutputArticles {
         $TableParam2{CellData}[0][0]{Content} = $Article{Body} || ' ';
         $TableParam2{Type} = 'Cut';
         $TableParam2{Border} = 0;
-        $TableParam2{Font} = 'Courier';
+        $TableParam2{Font} = 'Monospaced';
         $TableParam2{FontSize} = 7;
         $TableParam2{BackgroundColor} = '#DDDDDD';
         $TableParam2{Padding} = 4;

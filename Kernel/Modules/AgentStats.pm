@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.31 2007-07-03 08:42:31 tr Exp $
+# $Id: AgentStats.pm,v 1.32 2007-07-26 14:22:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1979,7 +1979,7 @@ sub Run {
                 my $CounterHead = 0;
                 foreach my $Content (@{$HeadArrayRef}) {
                     $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
-                    $CellData->[$CounterRow]->[$CounterHead]->{Font} = 'HelveticaBold';
+                    $CellData->[$CounterRow]->[$CounterHead]->{Font} = 'ProportionalBold';
                     $CounterHead++;
                 }
                 if ($CounterHead > 0) {
@@ -2028,7 +2028,7 @@ sub Run {
                 # create new pdf document
                 $Self->{PDFObject}->DocumentNew(
                     Title => $Self->{ConfigObject}->Get('Product') . ': ' . $Title,
-                    Encode => $Self->{LayoutObject}->{Charset},
+                    Encode => $Self->{LayoutObject}->{UserCharset},
                 );
                 # start table output
                 $Self->{PDFObject}->PageNew(

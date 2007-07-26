@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.145 2007-07-17 14:35:11 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.146 2007-07-26 14:21:20 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -2707,6 +2707,78 @@ TimeWorkingHours
                 <Item Key="950">950</Item>
                 <Item Key="1000">1000</Item>
             </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PDF::TTFontFile###Proportional" Required="1" Valid="1">
+        <Description Lang="en">Path and TTF-File to handle proportional font in PDF documents.</Description>
+        <Description Lang="de">Pfad und TTF-Schriftdatei um proportianale Schrift in PDF Dokumente zu verarbeiten.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PDF</SubGroup>
+        <Setting>
+            <String Regex="">DejaVuSans.ttf</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PDF::TTFontFile###ProportionalBold" Required="1" Valid="1">
+        <Description Lang="en">Path and TTF-File to handle bold proportional font in PDF documents.</Description>
+        <Description Lang="de">Pfad und TTF-Schriftdatei um fette, proportianale Schrift in PDF Dokumente zu verarbeiten.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PDF</SubGroup>
+        <Setting>
+            <String Regex="">DejaVuSans-Bold.ttf</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PDF::TTFontFile###ProportionalItalic" Required="1" Valid="1">
+        <Description Lang="en">Path and TTF-File to handle italic proportional font in PDF documents.</Description>
+        <Description Lang="de">Pfad und TTF-Schriftdatei um kursive, proportianale Schrift in PDF Dokumente zu verarbeiten.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PDF</SubGroup>
+        <Setting>
+            <String Regex="">DejaVuSans-Oblique.ttf</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PDF::TTFontFile###ProportionalBoldItalic" Required="1" Valid="1">
+        <Description Lang="en">Path and TTF-File to handle bold italic proportional font in PDF documents.</Description>
+        <Description Lang="de">Pfad und TTF-Schriftdatei um fette, kursive, proportianale Schrift in PDF Dokumente zu verarbeiten.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PDF</SubGroup>
+        <Setting>
+            <String Regex="">DejaVuSans-BoldOblique.ttf</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PDF::TTFontFile###Monospaced" Required="1" Valid="1">
+        <Description Lang="en">Path and TTF-File to handle monospaced font in PDF documents.</Description>
+        <Description Lang="de">Pfad und TTF-Schriftdatei um monospaced Schrift in PDF Dokumente zu verarbeiten.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PDF</SubGroup>
+        <Setting>
+            <String Regex="">DejaVuSansMono.ttf</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PDF::TTFontFile###MonospacedBold" Required="1" Valid="1">
+        <Description Lang="en">Path and TTF-File to handle bold monospaced font in PDF documents.</Description>
+        <Description Lang="de">Pfad und TTF-Schriftdatei um fette, monospaced Schrift in PDF Dokumente zu verarbeiten.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PDF</SubGroup>
+        <Setting>
+            <String Regex="">DejaVuSansMono-Bold.ttf</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PDF::TTFontFile###MonospacedItalic" Required="1" Valid="1">
+        <Description Lang="en">Path and TTF-File to handle italic monospaced font in PDF documents.</Description>
+        <Description Lang="de">Pfad und TTF-Schriftdatei um kursive, monospaced Schrift in PDF Dokumente zu verarbeiten.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PDF</SubGroup>
+        <Setting>
+            <String Regex="">DejaVuSansMono-Oblique.ttf</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PDF::TTFontFile###MonospacedBoldItalic" Required="1" Valid="1">
+        <Description Lang="en">Path and TTF-File to handle bold italic monospaced font in PDF documents.</Description>
+        <Description Lang="de">Pfad und TTF-Schriftdatei um fette, kursive, monospaced Schrift in PDF Dokumente zu verarbeiten.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PDF</SubGroup>
+        <Setting>
+            <String Regex="">DejaVuSansMono-BoldOblique.ttf</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PGP" Required="1" Valid="1">
