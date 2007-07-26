@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2007-07-20 11:56:48
+--  driver: mssql, generated: 2007-07-26 15:10:15
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -337,6 +337,8 @@ CREATE TABLE ticket (
     timeout INTEGER,
     until_time INTEGER,
     escalation_start_time INTEGER NOT NULL,
+    escalation_response_time INTEGER NOT NULL,
+    escalation_solution_time INTEGER NOT NULL,
     freekey1 VARCHAR (80),
     freetext1 VARCHAR (150),
     freekey2 VARCHAR (80),
@@ -796,8 +798,8 @@ CREATE TABLE customer_company (
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
-    UNIQUE (customer_id),
-    UNIQUE (name)
+    UNIQUE (name),
+    UNIQUE (customer_id)
 );
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection

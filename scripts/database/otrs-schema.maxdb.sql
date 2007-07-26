@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2007-07-23 13:06:28
+//  driver: maxdb, generated: 2007-07-26 15:10:15
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  create table valid
@@ -94,7 +94,7 @@ CREATE TABLE user_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX index_user_preferenc23 ON user_preferences (user_id)
+CREATE INDEX index_user_preferenc47 ON user_preferences (user_id)
 //
 // ----------------------------------------------------------
 //  create table groups
@@ -381,6 +381,8 @@ CREATE TABLE ticket
     timeout INTEGER,
     until_time INTEGER,
     escalation_start_time INTEGER NOT NULL,
+    escalation_response_time INTEGER NOT NULL,
+    escalation_solution_time INTEGER NOT NULL,
     freekey1 VARCHAR (80),
     freetext1 VARCHAR (150),
     freekey2 VARCHAR (80),
@@ -433,9 +435,9 @@ CREATE INDEX index_ticket_user ON ticket (user_id)
 //
 CREATE INDEX index_ticket_type ON ticket (type_id)
 //
-CREATE INDEX index_ticket_queue_v76 ON ticket (ticket_state_id, ticket_lock_id, group_id)
+CREATE INDEX index_ticket_queue_v80 ON ticket (ticket_state_id, ticket_lock_id, group_id)
 //
-CREATE INDEX index_ticket_answere14 ON ticket (ticket_answered)
+CREATE INDEX index_ticket_answere82 ON ticket (ticket_answered)
 //
 // ----------------------------------------------------------
 //  create table object_link
@@ -472,9 +474,9 @@ CREATE TABLE ticket_history
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX ticket_history_ticke55 ON ticket_history (ticket_id)
+CREATE INDEX ticket_history_ticke37 ON ticket_history (ticket_id)
 //
-CREATE INDEX ticket_history_creat87 ON ticket_history (create_time)
+CREATE INDEX ticket_history_creat40 ON ticket_history (create_time)
 //
 // ----------------------------------------------------------
 //  create table ticket_history_type
@@ -538,9 +540,9 @@ CREATE TABLE article_flag
     create_by INTEGER NOT NULL
 )
 //
-CREATE INDEX article_flag_create_82 ON article_flag (create_by)
+CREATE INDEX article_flag_create_48 ON article_flag (create_by)
 //
-CREATE INDEX article_flag_article36 ON article_flag (article_id)
+CREATE INDEX article_flag_article18 ON article_flag (article_id)
 //
 // ----------------------------------------------------------
 //  create table article
@@ -594,7 +596,7 @@ CREATE TABLE article_plain
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX article_plain_articl91 ON article_plain (article_id)
+CREATE INDEX article_plain_articl82 ON article_plain (article_id)
 //
 // ----------------------------------------------------------
 //  create table article_attachment
@@ -614,7 +616,7 @@ CREATE TABLE article_attachment
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX article_attachment_a58 ON article_attachment (article_id)
+CREATE INDEX article_attachment_a22 ON article_attachment (article_id)
 //
 // ----------------------------------------------------------
 //  create table standard_response
@@ -753,7 +755,7 @@ CREATE TABLE time_accounting
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX index_time_accountin69 ON time_accounting (ticket_id)
+CREATE INDEX index_time_accountin50 ON time_accounting (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table ticket_watcher
@@ -768,7 +770,7 @@ CREATE TABLE ticket_watcher
     change_by INTEGER NOT NULL
 )
 //
-CREATE INDEX ticket_watcher_ticke22 ON ticket_watcher (ticket_id)
+CREATE INDEX ticket_watcher_ticke63 ON ticket_watcher (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table service
@@ -798,9 +800,9 @@ CREATE TABLE service_customer_user
     create_by INTEGER NOT NULL
 )
 //
-CREATE INDEX service_customer_use63 ON service_customer_user (customer_user_login)
+CREATE INDEX service_customer_use43 ON service_customer_user (customer_user_login)
 //
-CREATE INDEX service_customer_use25 ON service_customer_user (service_id)
+CREATE INDEX service_customer_use9 ON service_customer_user (service_id)
 //
 // ----------------------------------------------------------
 //  create table sla
@@ -849,7 +851,7 @@ CREATE TABLE ticket_index
     create_time_unix INTEGER NOT NULL
 )
 //
-CREATE INDEX index_ticket_index_t60 ON ticket_index (ticket_id)
+CREATE INDEX index_ticket_index_t85 ON ticket_index (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table ticket_lock_index
@@ -859,7 +861,7 @@ CREATE TABLE ticket_lock_index
     ticket_id INTEGER NOT NULL
 )
 //
-CREATE INDEX index_ticket_lock_ti16 ON ticket_lock_index (ticket_id)
+CREATE INDEX index_ticket_lock_ti91 ON ticket_lock_index (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table customer_user
@@ -894,7 +896,7 @@ CREATE TABLE customer_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX index_customer_prefe80 ON customer_preferences (user_id)
+CREATE INDEX index_customer_prefe81 ON customer_preferences (user_id)
 //
 // ----------------------------------------------------------
 //  create table customer_company
@@ -927,9 +929,9 @@ CREATE TABLE ticket_loop_protection
     sent_date VARCHAR (150) NOT NULL
 )
 //
-CREATE INDEX index_ticket_loop_pr2 ON ticket_loop_protection (sent_to)
+CREATE INDEX index_ticket_loop_pr75 ON ticket_loop_protection (sent_to)
 //
-CREATE INDEX index_ticket_loop_pr33 ON ticket_loop_protection (sent_date)
+CREATE INDEX index_ticket_loop_pr18 ON ticket_loop_protection (sent_date)
 //
 // ----------------------------------------------------------
 //  create table pop3_account
@@ -1037,9 +1039,9 @@ CREATE TABLE xml_storage
     xml_content_value LONG
 )
 //
-CREATE INDEX xml_storage_xml_cont17 ON xml_storage (xml_content_key)
+CREATE INDEX xml_storage_xml_cont43 ON xml_storage (xml_content_key)
 //
-CREATE INDEX xml_storage_key_type65 ON xml_storage (xml_key, xml_type)
+CREATE INDEX xml_storage_key_type37 ON xml_storage (xml_key, xml_type)
 //
 // ----------------------------------------------------------
 //  create table package_repository
