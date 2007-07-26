@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.6 2007-05-04 14:26:24 martin Exp $
+# $Id: Main.pm,v 1.7 2007-07-26 13:52:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,12 @@
 package Kernel::System::Main;
 
 use strict;
+use warnings;
 use Digest::MD5 qw(md5_hex);
+use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -69,6 +71,10 @@ sub new {
     foreach (qw(ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
+
+    # encode object
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+
     return $Self;
 }
 
@@ -137,7 +143,7 @@ sub Require {
 to clean up filenames which can be used in any case (also quoting is done)
 
     my $Filename = $MainObject->FilenameCleanUp(
-        Filename => 'c:\some\location\me_to/alal.xml',
+        Filename => 'me_to/alal.xml',
         Type => 'Local', # Local|Attachment|MD5
     );
 
@@ -160,30 +166,34 @@ sub FilenameCleanUp {
         return;
     }
 
-    if ($Param{Type} && $Param{Type} =~ /md5/i) {
+    if ($Param{Type} && $Param{Type} =~ /^md5/i) {
         $Param{Filename} = md5_hex($Param{Filename});
     }
     # replace invalid token for attachment file names
-    elsif ($Param{Type} && $Param{Type} =~ /attachment/i) {
+    elsif ($Param{Type} && $Param{Type} =~ /^attachment/i) {
         # replace invalid token like < > ? " : ; | \ / or *
-        $Param{Filename} =~ s/[ <>\?":\\\*\|\/;]/-/g;
-        $Param{Filename} =~ s/ä/ae/g;
-        $Param{Filename} =~ s/ö/oe/g;
-        $Param{Filename} =~ s/ü/ue/g;
-        $Param{Filename} =~ s/Ä/Ae/g;
-        $Param{Filename} =~ s/Ö/Oe/g;
-        $Param{Filename} =~ s/Ü/Ue/g;
-        $Param{Filename} =~ s/ß/ss/g;
+        $Param{Filename} =~ s/[ <>\?":\\\*\|\/;\[\]]/_/g;
+        # replace utf8 and iso
+        $Param{Filename} =~ s/(\x{00C3}\x{00A4}|\x{00A4})/ae/g;
+        $Param{Filename} =~ s/(\x{00C3}\x{00B6}|\x{00B6})/oe/g;
+        $Param{Filename} =~ s/(\x{00C3}\x{00BC}|\x{00FC})/ue/g;
+        $Param{Filename} =~ s/(\x{00C3}\x{009F}|\x{00C4})/Ae/g;
+        $Param{Filename} =~ s/(\x{00C3}\x{0096}|\x{0096})/Oe/g;
+        $Param{Filename} =~ s/(\x{00C3}\x{009C}|\x{009C})/Ue/g;
+        $Param{Filename} =~ s/(\x{00C3}\x{009F}|\x{00DF})/ss/g;
         $Param{Filename} =~ s/-+/-/g;
-        # Cut the String if to long
+        # cut the string if too long
         if (length($Param{Filename}) > 100) {
-            $Param{Filename} = substr($Param{Filename},0,100);
+            my $Ext = '';
+            if ($Param{Filename} =~ /^.*(\.(...|....))$/) {
+                $Ext = $1;
+            }
+            $Param{Filename} = substr($Param{Filename},0,95).$Ext;
         }
-
     }
     else {
-        # replace invalid token like < > ; | \ /
-        $Param{Filename} =~ s/[ <>\?":\\\*\|\/;]/-/g;
+        # replace invalid token like [ ] * : ? " < > ; | \ /
+        $Param{Filename} =~ s/[<>\?":\\\*\|\/;\[\]]/_/g;
     }
 
     return $Param{Filename};
@@ -217,6 +227,245 @@ sub Die {
     exit;
 }
 
+=item FileRead()
+
+to read files from file system
+
+    my $ContentSCALARRef = $MainObject->FileRead(
+        Directory => 'c:\some\location\',
+        Filename => 'me_to/alal.xml',
+    );
+
+    my $ContentSCALARRef = $MainObject->FileRead(
+        Directory => 'c:\some\location\',
+        Filename => 'me_to/alal.xml',
+        Mode => 'binmode', # optional - binmode|utf8
+        Type => 'Local', # optional - Local|Attachment|MD5
+        DisableWarnings => 1, # optional
+    );
+
+=cut
+
+sub FileRead {
+    my $Self = shift;
+    my %Param = @_;
+    foreach (qw(Filename)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # filename clean up
+    $Param{Filename} = $Self->FilenameCleanUp(
+        Filename => $Param{Filename},
+        Type => $Param{Type} || 'Local', # Local|Attachment|MD5
+    );
+    my $FileLocation = "$Param{Directory}/$Param{Filename}";
+    # check if file exists
+    if (!-e $FileLocation) {
+        if (!$Param{DisableWarnings}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "File '$FileLocation' doesn't exists!"
+            );
+        }
+        return;
+    }
+    # open file
+    my $Mode = '<';
+    if ($Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i) {
+        $Mode = '<:utf8';
+    }
+    if (open (IN, $Mode, $FileLocation)) {
+        # read whole file
+        my $Data;
+        if ($Param{Mode} && $Param{Mode} =~ /^binmode/i) {
+            binmode(IN);
+        }
+        while (my $Line = <IN>) {
+            $Data .= $Line;
+        }
+        close (IN);
+        return \$Data;
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't open '$FileLocation': $!",
+        );
+        return;
+    }
+}
+
+=item FileWrite()
+
+to write files to file system
+
+    my $FileLocation = $MainObject->FileWrite(
+        Directory => 'c:\some\location\',
+        Filename => 'me_to/alal.xml',
+        Content => \$Content,
+    );
+
+    my $FileLocation = $MainObject->FileWrite(
+        Directory => 'c:\some\location\',
+        Filename => 'me_to/alal.xml',
+        Content => \$Content,
+        Mode => 'binmode', # binmode|utf8
+        Type => 'Local', # optional - Local|Attachment|MD5
+    );
+
+=cut
+
+sub FileWrite {
+    my $Self = shift;
+    my %Param = @_;
+    foreach (qw(Directory Filename)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # filename clean up
+    $Param{Filename} = $Self->FilenameCleanUp(
+        Filename => $Param{Filename},
+        Type => $Param{Type} || 'Local', # Local|Attachment|MD5
+    );
+    my $FileLocation = "$Param{Directory}/$Param{Filename}";
+    # open file
+    my $Mode = '>';
+    if ($Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i) {
+        $Mode = '>:utf8';
+    }
+    if (!open (OUT, $Mode, $FileLocation)) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't write '$FileLocation': $!",
+        );
+        return;
+    }
+    else {
+        # read whole file
+        if (!$Param{Mode} || $Param{Mode} =~ /^binmode/i) {
+            binmode(OUT);
+        }
+        print OUT ${$Param{Content}};
+        close (OUT);
+        return $Param{Filename};
+    }
+}
+
+=item FileDelete ()
+
+to delete a file from file system
+
+    my $Success = $MainObject->FileDelete(
+        Directory => 'c:\some\location\',
+        Filename => 'me_to/alal.xml',
+        DisableWarnings => 1, # optional
+    );
+
+=cut
+
+sub FileDelete {
+    my $Self = shift;
+    my %Param = @_;
+    foreach (qw(Directory Filename)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # filename clean up
+    $Param{Filename} = $Self->FilenameCleanUp(
+        Filename => $Param{Filename},
+        Type => $Param{Type} || 'Local', # Local|Attachment|MD5
+    );
+    my $FileLocation = "$Param{Directory}/$Param{Filename}";
+    # check if file exists
+    if (! -e $FileLocation) {
+        if (!$Param{DisableWarnings}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "File '$FileLocation' dosn't exists!"
+            );
+        }
+        return;
+    }
+    # delete file
+    if (!unlink($FileLocation)) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't delete '$FileLocation': $!",
+        );
+        return;
+    }
+    else {
+        return 1;
+    }
+}
+
+=item MD5sum()
+
+get a md5 sum of a file or an string
+
+    my $MD5Sum = $MainObject->MD5sum(
+        Filename => '/path/to/me_to_alal.xml',
+    );
+
+    my $MD5Sum = $MainObject->MD5sum(
+        String => \$SomeString,
+    );
+
+=cut
+
+sub MD5sum {
+    my $Self = shift;
+    my %Param = @_;
+    if (!$Param{Filename} && !$Param{String}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Filename or String!");
+        return;
+    }
+    # check if file exists
+    if ($Param{Filename} && !-e $Param{Filename}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "File '$Param{Filename}' doesn't exists!"
+        );
+        return;
+    }
+    # md5sum file
+    if ($Param{Filename}) {
+        if (open(FILE, '<', $Param{Filename})) {
+            binmode(FILE);
+            my $MD5sum = Digest::MD5->new()->addfile(*FILE)->hexdigest();
+            close(FILE);
+            return $MD5sum;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't write '$Param{Filename}': $!",
+            );
+            return;
+        }
+    }
+    # md5sum string
+    if ($Param{String}) {
+        if (ref($Param{String}) ne 'SCALAR') {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Need a SCALAR reference like 'String => \$Content' in String param.",
+            );
+            return;
+        }
+        else {
+            $Self->{EncodeObject}->EncodeOutput($Param{String});
+            return md5_hex(${$Param{String}});
+        }
+    }
+}
+
 1;
 
 =back
@@ -233,6 +482,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2007-05-04 14:26:24 $
+$Revision: 1.7 $ $Date: 2007-07-26 13:52:08 $
 
 =cut
