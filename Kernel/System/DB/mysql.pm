@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.20 2007-07-23 08:57:50 martin Exp $
+# $Id: mysql.pm,v 1.21 2007-07-26 13:14:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -55,7 +55,8 @@ sub LoadPreferences {
 #    $Self->{'DB::ShellConnect'} = '';
 
     # init setting
-    if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /(utf(\-8|8))/i) {
+    if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /(utf(\-8|8))/i &&
+        !$Self->{ConfigObject}->Get('Database::ShellOutput')) {
         $Self->{'DB::Connect'} = 'SET NAMES utf8';
     }
 
