@@ -1,8 +1,8 @@
 # --
 # PDF.t - PDF tests
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.t,v 1.8 2006-10-01 13:16:00 mh Exp $
+# $Id: PDF.t,v 1.9 2007-07-26 14:27:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,6 +19,7 @@ if (!$Self->{PDFObject}) {
 # create a pdf document
 my $DocumentNew1 = $Self->{PDFObject}->DocumentNew(
     Title => 'The Title',
+    Encode => 'latin1',
 );
 
 $Self->True(
@@ -71,7 +72,7 @@ while (chop($StringWidthText)) {
     my $TestOk = 0;
     my $Width = $Self->{PDFObject}->_StringWidth(
         Text => $StringWidthText,
-        Font => 'Helvetica',
+        Font => 'Testfont1',
         FontSize => 10,
     );
 
@@ -289,7 +290,7 @@ foreach (sort keys %TextCalculateData) {
     if (!defined($TextCalculateData{$Test}{Height})) {
         $TextCalculateData{$Test}{Height} = 100;
     }
-    $TextCalculateData{$Test}{Font} = $TextCalculateData{$Test}{Font} || 'Helvetica';
+    $TextCalculateData{$Test}{Font} = $TextCalculateData{$Test}{Font} || 'Testfont1';
     $TextCalculateData{$Test}{FontSize} = $TextCalculateData{$Test}{FontSize} || 10;
     $TextCalculateData{$Test}{Lead} = $TextCalculateData{$Test}{Lead} || 0;
     $TextCalculateData{$Test}{Type} = $TextCalculateData{$Test}{Type} || 'ReturnLeftOver';
@@ -453,7 +454,7 @@ foreach (sort keys %TextData) {
     my $Test = $_;
     my $TestOk = 0;
 
-    $TextData{$Test}{Font} = $TextData{$Test}{Font} || 'Helvetica';
+    $TextData{$Test}{Font} = $TextData{$Test}{Font} || 'Testfont1';
     $TextData{$Test}{FontSize} = $TextData{$Test}{FontSize} || 10;
     $TextData{$Test}{Type} = $TextData{$Test}{Type} || 'ReturnLeftOver';
     $TextData{$Test}{Lead} = $TextData{$Test}{Lead} || 0;
@@ -623,7 +624,7 @@ foreach (sort keys %TextData2) {
     $TextData2{$Test}{Position1Y} = $TextData2{$Test}{Position1Y} || 'middle';
     $TextData2{$Test}{Position2X} = $TextData2{$Test}{Position2X} || 0;
     $TextData2{$Test}{Position2Y} = $TextData2{$Test}{Position2Y} || 0;
-    $TextData2{$Test}{Font} = $TextData2{$Test}{Font} || 'Helvetica';
+    $TextData2{$Test}{Font} = $TextData2{$Test}{Font} || 'Testfont1';
     $TextData2{$Test}{FontSize} = $TextData2{$Test}{FontSize} || 10;
     $TextData2{$Test}{Type} = $TextData2{$Test}{Type} || 'ReturnLeftOver';
     $TextData2{$Test}{Lead} = $TextData2{$Test}{Lead} || 0;
@@ -701,7 +702,7 @@ $TableCalculate{0}{CellData}[1][1]{Align} = 'center';
 
 $TableCalculate{0}{ReturnCellData}[0][0]{Content} = 'Cell 1-1';
 $TableCalculate{0}{ReturnCellData}[0][0]{Type} = 'Cut';
-$TableCalculate{0}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{0}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{0}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{0}{ReturnCellData}[0][0]{FontColor} = '#101010';
 $TableCalculate{0}{ReturnCellData}[0][0]{Align} = 'left';
@@ -709,7 +710,7 @@ $TableCalculate{0}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{0}{ReturnCellData}[0][0]{BackgroundColor} = 'red';
 $TableCalculate{0}{ReturnCellData}[0][1]{Content} = 'Cell 1-2';
 $TableCalculate{0}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOverHard';
-$TableCalculate{0}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{0}{ReturnCellData}[0][1]{Font} = 'Testfont1';
 $TableCalculate{0}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{0}{ReturnCellData}[0][1]{FontColor} = '#101010';
 $TableCalculate{0}{ReturnCellData}[0][1]{Align} = 'left';
@@ -717,7 +718,7 @@ $TableCalculate{0}{ReturnCellData}[0][1]{Lead} = 3;
 $TableCalculate{0}{ReturnCellData}[0][1]{BackgroundColor} = 'blue';
 $TableCalculate{0}{ReturnCellData}[1][0]{Content} = 'Cell 2-1 (Row 2)';
 $TableCalculate{0}{ReturnCellData}[1][0]{Type} = 'Cut';
-$TableCalculate{0}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{0}{ReturnCellData}[1][0]{Font} = 'Testfont1';
 $TableCalculate{0}{ReturnCellData}[1][0]{FontSize} = 10;
 $TableCalculate{0}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{0}{ReturnCellData}[1][0]{Align} = 'left';
@@ -725,7 +726,7 @@ $TableCalculate{0}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{0}{ReturnCellData}[1][0]{BackgroundColor} = 'red';
 $TableCalculate{0}{ReturnCellData}[1][1]{Content} = ' ';
 $TableCalculate{0}{ReturnCellData}[1][1]{Type} = 'Cut';
-$TableCalculate{0}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{0}{ReturnCellData}[1][1]{Font} = 'Testfont1';
 $TableCalculate{0}{ReturnCellData}[1][1]{FontSize} = 10;
 $TableCalculate{0}{ReturnCellData}[1][1]{FontColor} = 'black';
 $TableCalculate{0}{ReturnCellData}[1][1]{Align} = 'center';
@@ -757,7 +758,7 @@ $TableCalculate{1}{CellData}[1][1]{Content} = "\r\r\nWelcome to OTRS!\n\nthank y
 
 $TableCalculate{1}{ReturnCellData}[0][0]{Content} = "Welcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!";
 $TableCalculate{1}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{1}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{1}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{1}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{1}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{1}{ReturnCellData}[0][0]{Align} = 'left';
@@ -765,7 +766,7 @@ $TableCalculate{1}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{1}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{1}{ReturnCellData}[0][1]{Content} = "\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n  Manage your communication!\n";
 $TableCalculate{1}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{1}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{1}{ReturnCellData}[0][1]{Font} = 'Testfont1';
 $TableCalculate{1}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{1}{ReturnCellData}[0][1]{FontColor} = 'black';
 $TableCalculate{1}{ReturnCellData}[0][1]{Align} = 'left';
@@ -773,7 +774,7 @@ $TableCalculate{1}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{1}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{1}{ReturnCellData}[1][0]{Content} = "  Welcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!\n  ";
 $TableCalculate{1}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{1}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{1}{ReturnCellData}[1][0]{Font} = 'Testfont1';
 $TableCalculate{1}{ReturnCellData}[1][0]{FontSize} = 10;
 $TableCalculate{1}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{1}{ReturnCellData}[1][0]{Align} = 'left';
@@ -781,7 +782,7 @@ $TableCalculate{1}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{1}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
 $TableCalculate{1}{ReturnCellData}[1][1]{Content} = "\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\nYour OTRS Team\n\n    Manage your communication!\n";
 $TableCalculate{1}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{1}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{1}{ReturnCellData}[1][1]{Font} = 'Testfont1';
 $TableCalculate{1}{ReturnCellData}[1][1]{FontSize} = 10;
 $TableCalculate{1}{ReturnCellData}[1][1]{FontColor} = 'black';
 $TableCalculate{1}{ReturnCellData}[1][1]{Align} = 'left';
@@ -813,7 +814,7 @@ $TableCalculate{2}{CellData}[1][1]{Content} = "\t\n\r\f\r\r\n";
 
 $TableCalculate{2}{ReturnCellData}[0][0]{Content} = "\n";
 $TableCalculate{2}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{2}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{2}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{2}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{2}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{2}{ReturnCellData}[0][0]{Align} = 'left';
@@ -821,7 +822,7 @@ $TableCalculate{2}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{2}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{2}{ReturnCellData}[0][1]{Content} = "   ";
 $TableCalculate{2}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{2}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{2}{ReturnCellData}[0][1]{Font} = 'Testfont1';
 $TableCalculate{2}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{2}{ReturnCellData}[0][1]{FontColor} = 'black';
 $TableCalculate{2}{ReturnCellData}[0][1]{Align} = 'left';
@@ -829,7 +830,7 @@ $TableCalculate{2}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{2}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{2}{ReturnCellData}[1][0]{Content} = "  \n\n";
 $TableCalculate{2}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{2}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{2}{ReturnCellData}[1][0]{Font} = 'Testfont1';
 $TableCalculate{2}{ReturnCellData}[1][0]{FontSize} = 10;
 $TableCalculate{2}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{2}{ReturnCellData}[1][0]{Align} = 'left';
@@ -837,7 +838,7 @@ $TableCalculate{2}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{2}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
 $TableCalculate{2}{ReturnCellData}[1][1]{Content} = "  \n\n\n\n";
 $TableCalculate{2}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{2}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{2}{ReturnCellData}[1][1]{Font} = 'Testfont1';
 $TableCalculate{2}{ReturnCellData}[1][1]{FontSize} = 10;
 $TableCalculate{2}{ReturnCellData}[1][1]{FontColor} = 'black';
 $TableCalculate{2}{ReturnCellData}[1][1]{Align} = 'left';
@@ -869,7 +870,7 @@ $TableCalculate{3}{CellData}[1][1]{Content} = "ISS";
 
 $TableCalculate{3}{ReturnCellData}[0][0]{Content} = "ISS";
 $TableCalculate{3}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{3}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{3}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{3}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{3}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{3}{ReturnCellData}[0][0]{Align} = 'left';
@@ -877,7 +878,7 @@ $TableCalculate{3}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{3}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{3}{ReturnCellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{3}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{3}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{3}{ReturnCellData}[0][1]{Font} = 'Testfont1';
 $TableCalculate{3}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{3}{ReturnCellData}[0][1]{FontColor} = 'black';
 $TableCalculate{3}{ReturnCellData}[0][1]{Align} = 'left';
@@ -885,7 +886,7 @@ $TableCalculate{3}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{3}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{3}{ReturnCellData}[1][0]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{3}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{3}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{3}{ReturnCellData}[1][0]{Font} = 'Testfont1';
 $TableCalculate{3}{ReturnCellData}[1][0]{FontSize} = 10;
 $TableCalculate{3}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{3}{ReturnCellData}[1][0]{Align} = 'left';
@@ -893,7 +894,7 @@ $TableCalculate{3}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{3}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
 $TableCalculate{3}{ReturnCellData}[1][1]{Content} = "ISS";
 $TableCalculate{3}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{3}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{3}{ReturnCellData}[1][1]{Font} = 'Testfont1';
 $TableCalculate{3}{ReturnCellData}[1][1]{FontSize} = 10;
 $TableCalculate{3}{ReturnCellData}[1][1]{FontColor} = 'black';
 $TableCalculate{3}{ReturnCellData}[1][1]{Align} = 'left';
@@ -924,7 +925,7 @@ $TableCalculate{4}{CellData}[0][0]{Content} = "ISS - International Space Station
 
 $TableCalculate{4}{ReturnCellData}[0][0]{Content} = "ISS - International Space Station";
 $TableCalculate{4}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{4}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{4}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{4}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{4}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{4}{ReturnCellData}[0][0]{Align} = 'left';
@@ -952,7 +953,7 @@ $TableCalculate{5}{ColumnData}[1]{Width} = 103;
 
 $TableCalculate{5}{ReturnCellData}[0][0]{Content} = "ISS";
 $TableCalculate{5}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{5}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{5}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{5}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{5}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{5}{ReturnCellData}[0][0]{Align} = 'left';
@@ -960,7 +961,7 @@ $TableCalculate{5}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{5}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{5}{ReturnCellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{5}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{5}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{5}{ReturnCellData}[0][1]{Font} = 'Testfont1';
 $TableCalculate{5}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{5}{ReturnCellData}[0][1]{FontColor} = 'black';
 $TableCalculate{5}{ReturnCellData}[0][1]{Align} = 'left';
@@ -968,7 +969,7 @@ $TableCalculate{5}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{5}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{5}{ReturnCellData}[1][0]{Content} = "ISS";
 $TableCalculate{5}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{5}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{5}{ReturnCellData}[1][0]{Font} = 'Testfont1';
 $TableCalculate{5}{ReturnCellData}[1][0]{FontSize} = 10;
 $TableCalculate{5}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{5}{ReturnCellData}[1][0]{Align} = 'left';
@@ -976,7 +977,7 @@ $TableCalculate{5}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{5}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
 $TableCalculate{5}{ReturnCellData}[1][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{5}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{5}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{5}{ReturnCellData}[1][1]{Font} = 'Testfont1';
 $TableCalculate{5}{ReturnCellData}[1][1]{FontSize} = 10;
 $TableCalculate{5}{ReturnCellData}[1][1]{FontColor} = 'black';
 $TableCalculate{5}{ReturnCellData}[1][1]{Align} = 'left';
@@ -1005,7 +1006,7 @@ $TableCalculate{6}{CellData}[0][0]{Content} = "ISS";
 
 $TableCalculate{6}{ReturnCellData}[0][0]{Content} = "ISS";
 $TableCalculate{6}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{6}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{6}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{6}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{6}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{6}{ReturnCellData}[0][0]{Align} = 'left';
@@ -1033,7 +1034,7 @@ $TableCalculate{7}{ColumnData}[1]{Width} = 100;
 
 $TableCalculate{7}{ReturnCellData}[0][0]{Content} = "ISS";
 $TableCalculate{7}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{7}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{7}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{7}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{7}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{7}{ReturnCellData}[0][0]{Align} = 'left';
@@ -1041,7 +1042,7 @@ $TableCalculate{7}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{7}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{7}{ReturnCellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{7}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{7}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{7}{ReturnCellData}[0][1]{Font} = 'Testfont1';
 $TableCalculate{7}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{7}{ReturnCellData}[0][1]{FontColor} = 'black';
 $TableCalculate{7}{ReturnCellData}[0][1]{Align} = 'left';
@@ -1049,7 +1050,7 @@ $TableCalculate{7}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{7}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{7}{ReturnCellData}[1][0]{Content} = "ISS";
 $TableCalculate{7}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{7}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{7}{ReturnCellData}[1][0]{Font} = 'Testfont1';
 $TableCalculate{7}{ReturnCellData}[1][0]{FontSize} = 10;
 $TableCalculate{7}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{7}{ReturnCellData}[1][0]{Align} = 'left';
@@ -1057,7 +1058,7 @@ $TableCalculate{7}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{7}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
 $TableCalculate{7}{ReturnCellData}[1][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{7}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{7}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{7}{ReturnCellData}[1][1]{Font} = 'Testfont1';
 $TableCalculate{7}{ReturnCellData}[1][1]{FontSize} = 10;
 $TableCalculate{7}{ReturnCellData}[1][1]{FontColor} = 'black';
 $TableCalculate{7}{ReturnCellData}[1][1]{Align} = 'left';
@@ -1092,7 +1093,7 @@ $TableCalculate{8}{ColumnData}[1]{Width} = 130;
 
 $TableCalculate{8}{ReturnCellData}[0][0]{Content} = "ISS";
 $TableCalculate{8}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{8}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{8}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{8}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{8}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{8}{ReturnCellData}[0][0]{Align} = 'left';
@@ -1100,7 +1101,7 @@ $TableCalculate{8}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{8}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{8}{ReturnCellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{8}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{8}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{8}{ReturnCellData}[0][1]{Font} = 'Testfont1';
 $TableCalculate{8}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{8}{ReturnCellData}[0][1]{FontColor} = 'black';
 $TableCalculate{8}{ReturnCellData}[0][1]{Align} = 'left';
@@ -1108,7 +1109,7 @@ $TableCalculate{8}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{8}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{8}{ReturnCellData}[1][0]{Content} = "ISS";
 $TableCalculate{8}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{8}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{8}{ReturnCellData}[1][0]{Font} = 'Testfont1';
 $TableCalculate{8}{ReturnCellData}[1][0]{FontSize} = 10;
 $TableCalculate{8}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{8}{ReturnCellData}[1][0]{Align} = 'left';
@@ -1116,7 +1117,7 @@ $TableCalculate{8}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{8}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
 $TableCalculate{8}{ReturnCellData}[1][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{8}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{8}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{8}{ReturnCellData}[1][1]{Font} = 'Testfont1';
 $TableCalculate{8}{ReturnCellData}[1][1]{FontSize} = 10;
 $TableCalculate{8}{ReturnCellData}[1][1]{FontColor} = 'black';
 $TableCalculate{8}{ReturnCellData}[1][1]{Align} = 'left';
@@ -1151,7 +1152,7 @@ $TableCalculate{9}{ColumnData}[1]{Width} = 105;
 
 $TableCalculate{9}{ReturnCellData}[0][0]{Content} = "ISS";
 $TableCalculate{9}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{9}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{9}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{9}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{9}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{9}{ReturnCellData}[0][0]{Align} = 'left';
@@ -1159,7 +1160,7 @@ $TableCalculate{9}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{9}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{9}{ReturnCellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{9}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{9}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{9}{ReturnCellData}[0][1]{Font} = 'Testfont1';
 $TableCalculate{9}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{9}{ReturnCellData}[0][1]{FontColor} = 'black';
 $TableCalculate{9}{ReturnCellData}[0][1]{Align} = 'left';
@@ -1167,7 +1168,7 @@ $TableCalculate{9}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{9}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{9}{ReturnCellData}[1][0]{Content} = "ISS";
 $TableCalculate{9}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{9}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{9}{ReturnCellData}[1][0]{Font} = 'Testfont1';
 $TableCalculate{9}{ReturnCellData}[1][0]{FontSize} = 10;
 $TableCalculate{9}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{9}{ReturnCellData}[1][0]{Align} = 'left';
@@ -1175,7 +1176,7 @@ $TableCalculate{9}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{9}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
 $TableCalculate{9}{ReturnCellData}[1][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{9}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{9}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{9}{ReturnCellData}[1][1]{Font} = 'Testfont1';
 $TableCalculate{9}{ReturnCellData}[1][1]{FontSize} = 10;
 $TableCalculate{9}{ReturnCellData}[1][1]{FontColor} = 'black';
 $TableCalculate{9}{ReturnCellData}[1][1]{Align} = 'left';
@@ -1208,7 +1209,7 @@ $TableCalculate{10}{CellData}[0][4]{Content} = "Endeavour";
 
 $TableCalculate{10}{ReturnCellData}[0][0]{Content} = "Columbia";
 $TableCalculate{10}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{10}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{10}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{10}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{10}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{10}{ReturnCellData}[0][0]{Align} = 'left';
@@ -1216,7 +1217,7 @@ $TableCalculate{10}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{10}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{10}{ReturnCellData}[0][1]{Content} = "Challenger";
 $TableCalculate{10}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{10}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{10}{ReturnCellData}[0][1]{Font} = 'Testfont1';
 $TableCalculate{10}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{10}{ReturnCellData}[0][1]{FontColor} = 'black';
 $TableCalculate{10}{ReturnCellData}[0][1]{Align} = 'left';
@@ -1224,7 +1225,7 @@ $TableCalculate{10}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{10}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{10}{ReturnCellData}[0][2]{Content} = "Discovery";
 $TableCalculate{10}{ReturnCellData}[0][2]{Type} = 'ReturnLeftOver';
-$TableCalculate{10}{ReturnCellData}[0][2]{Font} = 'Helvetica';
+$TableCalculate{10}{ReturnCellData}[0][2]{Font} = 'Testfont1';
 $TableCalculate{10}{ReturnCellData}[0][2]{FontSize} = 10;
 $TableCalculate{10}{ReturnCellData}[0][2]{FontColor} = 'black';
 $TableCalculate{10}{ReturnCellData}[0][2]{Align} = 'left';
@@ -1232,7 +1233,7 @@ $TableCalculate{10}{ReturnCellData}[0][2]{Lead} = 0;
 $TableCalculate{10}{ReturnCellData}[0][2]{BackgroundColor} = 'NULL';
 $TableCalculate{10}{ReturnCellData}[0][3]{Content} = "Atlantis";
 $TableCalculate{10}{ReturnCellData}[0][3]{Type} = 'ReturnLeftOver';
-$TableCalculate{10}{ReturnCellData}[0][3]{Font} = 'Helvetica';
+$TableCalculate{10}{ReturnCellData}[0][3]{Font} = 'Testfont1';
 $TableCalculate{10}{ReturnCellData}[0][3]{FontSize} = 10;
 $TableCalculate{10}{ReturnCellData}[0][3]{FontColor} = 'black';
 $TableCalculate{10}{ReturnCellData}[0][3]{Align} = 'left';
@@ -1240,7 +1241,7 @@ $TableCalculate{10}{ReturnCellData}[0][3]{Lead} = 0;
 $TableCalculate{10}{ReturnCellData}[0][3]{BackgroundColor} = 'NULL';
 $TableCalculate{10}{ReturnCellData}[0][4]{Content} = "Endeavour";
 $TableCalculate{10}{ReturnCellData}[0][4]{Type} = 'ReturnLeftOver';
-$TableCalculate{10}{ReturnCellData}[0][4]{Font} = 'Helvetica';
+$TableCalculate{10}{ReturnCellData}[0][4]{Font} = 'Testfont1';
 $TableCalculate{10}{ReturnCellData}[0][4]{FontSize} = 10;
 $TableCalculate{10}{ReturnCellData}[0][4]{FontColor} = 'black';
 $TableCalculate{10}{ReturnCellData}[0][4]{Align} = 'left';
@@ -1286,7 +1287,7 @@ $TableCalculate{11}{CellData}[0][1]{Content} = "Destiny";
 
 $TableCalculate{11}{ReturnCellData}[0][0]{Content} = "Columbus";
 $TableCalculate{11}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{11}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{11}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{11}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{11}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{11}{ReturnCellData}[0][0]{Align} = 'left';
@@ -1294,7 +1295,7 @@ $TableCalculate{11}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{11}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{11}{ReturnCellData}[0][1]{Content} = "Destiny";
 $TableCalculate{11}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{11}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{11}{ReturnCellData}[0][1]{Font} = 'Testfont1';
 $TableCalculate{11}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{11}{ReturnCellData}[0][1]{FontColor} = 'black';
 $TableCalculate{11}{ReturnCellData}[0][1]{Align} = 'left';
@@ -1326,7 +1327,7 @@ $TableCalculate{12}{CellData}[1][1]{FontSize} = 12;
 
 $TableCalculate{12}{ReturnCellData}[0][0]{Content} = "ISS";
 $TableCalculate{12}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{12}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{12}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{12}{ReturnCellData}[0][0]{FontSize} = 4;
 $TableCalculate{12}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{12}{ReturnCellData}[0][0]{Align} = 'left';
@@ -1334,7 +1335,7 @@ $TableCalculate{12}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{12}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{12}{ReturnCellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{12}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{12}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{12}{ReturnCellData}[0][1]{Font} = 'Testfont1';
 $TableCalculate{12}{ReturnCellData}[0][1]{FontSize} = 9;
 $TableCalculate{12}{ReturnCellData}[0][1]{FontColor} = 'black';
 $TableCalculate{12}{ReturnCellData}[0][1]{Align} = 'left';
@@ -1342,7 +1343,7 @@ $TableCalculate{12}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{12}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{12}{ReturnCellData}[1][0]{Content} = "ISS";
 $TableCalculate{12}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{12}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{12}{ReturnCellData}[1][0]{Font} = 'Testfont1';
 $TableCalculate{12}{ReturnCellData}[1][0]{FontSize} = 18;
 $TableCalculate{12}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{12}{ReturnCellData}[1][0]{Align} = 'left';
@@ -1350,7 +1351,7 @@ $TableCalculate{12}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{12}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
 $TableCalculate{12}{ReturnCellData}[1][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{12}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{12}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{12}{ReturnCellData}[1][1]{Font} = 'Testfont1';
 $TableCalculate{12}{ReturnCellData}[1][1]{FontSize} = 12;
 $TableCalculate{12}{ReturnCellData}[1][1]{FontColor} = 'black';
 $TableCalculate{12}{ReturnCellData}[1][1]{Align} = 'left';
@@ -1383,7 +1384,7 @@ $TableCalculate{13}{CellData}[0][4]{Content} = "Endeavour";
 
 $TableCalculate{13}{ReturnCellData}[0][0]{Content} = "Columbia";
 $TableCalculate{13}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{13}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{13}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{13}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{13}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{13}{ReturnCellData}[0][0]{Align} = 'left';
@@ -1391,7 +1392,7 @@ $TableCalculate{13}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{13}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{13}{ReturnCellData}[0][1]{Content} = "Challenger";
 $TableCalculate{13}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{13}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{13}{ReturnCellData}[0][1]{Font} = 'Testfont1';
 $TableCalculate{13}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{13}{ReturnCellData}[0][1]{FontColor} = 'black';
 $TableCalculate{13}{ReturnCellData}[0][1]{Align} = 'left';
@@ -1399,7 +1400,7 @@ $TableCalculate{13}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{13}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{13}{ReturnCellData}[0][2]{Content} = "Discovery";
 $TableCalculate{13}{ReturnCellData}[0][2]{Type} = 'ReturnLeftOver';
-$TableCalculate{13}{ReturnCellData}[0][2]{Font} = 'Helvetica';
+$TableCalculate{13}{ReturnCellData}[0][2]{Font} = 'Testfont1';
 $TableCalculate{13}{ReturnCellData}[0][2]{FontSize} = 10;
 $TableCalculate{13}{ReturnCellData}[0][2]{FontColor} = 'black';
 $TableCalculate{13}{ReturnCellData}[0][2]{Align} = 'left';
@@ -1407,7 +1408,7 @@ $TableCalculate{13}{ReturnCellData}[0][2]{Lead} = 0;
 $TableCalculate{13}{ReturnCellData}[0][2]{BackgroundColor} = 'NULL';
 $TableCalculate{13}{ReturnCellData}[0][3]{Content} = "Atlantis";
 $TableCalculate{13}{ReturnCellData}[0][3]{Type} = 'ReturnLeftOver';
-$TableCalculate{13}{ReturnCellData}[0][3]{Font} = 'Helvetica';
+$TableCalculate{13}{ReturnCellData}[0][3]{Font} = 'Testfont1';
 $TableCalculate{13}{ReturnCellData}[0][3]{FontSize} = 10;
 $TableCalculate{13}{ReturnCellData}[0][3]{FontColor} = 'black';
 $TableCalculate{13}{ReturnCellData}[0][3]{Align} = 'left';
@@ -1415,7 +1416,7 @@ $TableCalculate{13}{ReturnCellData}[0][3]{Lead} = 0;
 $TableCalculate{13}{ReturnCellData}[0][3]{BackgroundColor} = 'NULL';
 $TableCalculate{13}{ReturnCellData}[0][4]{Content} = "Endeavour";
 $TableCalculate{13}{ReturnCellData}[0][4]{Type} = 'ReturnLeftOver';
-$TableCalculate{13}{ReturnCellData}[0][4]{Font} = 'Helvetica';
+$TableCalculate{13}{ReturnCellData}[0][4]{Font} = 'Testfont1';
 $TableCalculate{13}{ReturnCellData}[0][4]{FontSize} = 10;
 $TableCalculate{13}{ReturnCellData}[0][4]{FontColor} = 'black';
 $TableCalculate{13}{ReturnCellData}[0][4]{Align} = 'left';
@@ -1458,7 +1459,7 @@ $TableCalculate{14}{CellData}[0][0]{Content} = "ISS";
 
 $TableCalculate{14}{ReturnCellData}[0][0]{Content} = "ISS";
 $TableCalculate{14}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{14}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{14}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{14}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{14}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{14}{ReturnCellData}[0][0]{Align} = 'left';
@@ -1478,7 +1479,7 @@ $TableCalculate{15}{CellData} = [];
 
 $TableCalculate{15}{ReturnCellData}[0][0]{Content} = " ";
 $TableCalculate{15}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{15}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{15}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{15}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{15}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{15}{ReturnCellData}[0][0]{Align} = 'left';
@@ -1500,7 +1501,7 @@ $TableCalculate{16}{CellData}[1][1]{Content} = "ISS";
 
 $TableCalculate{16}{ReturnCellData}[0][0]{Content} = "ISS";
 $TableCalculate{16}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{16}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{16}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{16}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{16}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{16}{ReturnCellData}[0][0]{Align} = 'left';
@@ -1508,7 +1509,7 @@ $TableCalculate{16}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{16}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{16}{ReturnCellData}[0][1]{Content} = " ";
 $TableCalculate{16}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{16}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{16}{ReturnCellData}[0][1]{Font} = 'Testfont1';
 $TableCalculate{16}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{16}{ReturnCellData}[0][1]{FontColor} = 'black';
 $TableCalculate{16}{ReturnCellData}[0][1]{Align} = 'left';
@@ -1516,7 +1517,7 @@ $TableCalculate{16}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{16}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{16}{ReturnCellData}[1][0]{Content} = "ISS";
 $TableCalculate{16}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{16}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{16}{ReturnCellData}[1][0]{Font} = 'Testfont1';
 $TableCalculate{16}{ReturnCellData}[1][0]{FontSize} = 10;
 $TableCalculate{16}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{16}{ReturnCellData}[1][0]{Align} = 'left';
@@ -1524,7 +1525,7 @@ $TableCalculate{16}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{16}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
 $TableCalculate{16}{ReturnCellData}[1][1]{Content} = "ISS";
 $TableCalculate{16}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{16}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{16}{ReturnCellData}[1][1]{Font} = 'Testfont1';
 $TableCalculate{16}{ReturnCellData}[1][1]{FontSize} = 10;
 $TableCalculate{16}{ReturnCellData}[1][1]{FontColor} = 'black';
 $TableCalculate{16}{ReturnCellData}[1][1]{Align} = 'left';
@@ -1552,7 +1553,7 @@ $TableCalculate{17}{CellData}[1][0]{Content} = "ISS";
 
 $TableCalculate{17}{ReturnCellData}[0][0]{Content} = "ISS";
 $TableCalculate{17}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{17}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{17}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{17}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{17}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{17}{ReturnCellData}[0][0]{Align} = 'left';
@@ -1560,7 +1561,7 @@ $TableCalculate{17}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{17}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{17}{ReturnCellData}[0][1]{Content} = "ISS";
 $TableCalculate{17}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{17}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{17}{ReturnCellData}[0][1]{Font} = 'Testfont1';
 $TableCalculate{17}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{17}{ReturnCellData}[0][1]{FontColor} = 'black';
 $TableCalculate{17}{ReturnCellData}[0][1]{Align} = 'left';
@@ -1568,7 +1569,7 @@ $TableCalculate{17}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{17}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{17}{ReturnCellData}[1][0]{Content} = "ISS";
 $TableCalculate{17}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{17}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{17}{ReturnCellData}[1][0]{Font} = 'Testfont1';
 $TableCalculate{17}{ReturnCellData}[1][0]{FontSize} = 10;
 $TableCalculate{17}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{17}{ReturnCellData}[1][0]{Align} = 'left';
@@ -1576,7 +1577,7 @@ $TableCalculate{17}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{17}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
 $TableCalculate{17}{ReturnCellData}[1][1]{Content} = " ";
 $TableCalculate{17}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
-$TableCalculate{17}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{17}{ReturnCellData}[1][1]{Font} = 'Testfont1';
 $TableCalculate{17}{ReturnCellData}[1][1]{FontSize} = 10;
 $TableCalculate{17}{ReturnCellData}[1][1]{FontColor} = 'black';
 $TableCalculate{17}{ReturnCellData}[1][1]{Align} = 'left';
@@ -1605,7 +1606,7 @@ $TableCalculate{18}{ColumnData}[1]{Width} = 100;
 
 $TableCalculate{18}{ReturnCellData}[0][0]{Content} = "ISS";
 $TableCalculate{18}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
-$TableCalculate{18}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{18}{ReturnCellData}[0][0]{Font} = 'Testfont1';
 $TableCalculate{18}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{18}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{18}{ReturnCellData}[0][0]{Align} = 'left';
@@ -1632,7 +1633,7 @@ foreach (sort keys %TableCalculate) {
     $TableCalculateParams{Type} = $TableCalculate{$Test}{Type} || 'ReturnLeftOver';
     $TableCalculateParams{Width} = $TableCalculate{$Test}{Width} || 500;
     $TableCalculateParams{Height} = $TableCalculate{$Test}{Height} || 500;
-    $TableCalculateParams{Font} = $TableCalculate{$Test}{Font} || 'Helvetica';
+    $TableCalculateParams{Font} = $TableCalculate{$Test}{Font} || 'Testfont1';
     $TableCalculateParams{FontSize} = $TableCalculate{$Test}{FontSize} || 10;
     $TableCalculateParams{FontColor} = $TableCalculate{$Test}{FontColor} || 'black';
     $TableCalculateParams{Align} = $TableCalculate{$Test}{Align} || 'left';
@@ -2278,11 +2279,11 @@ my %TableRowCalculate;
 $TableRowCalculate{0}{Border} = 1;
 
 $TableRowCalculate{0}{CellData}[0][0]{Content} = 'Cell 1-1';
-$TableRowCalculate{0}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{0}{CellData}[0][0]{Font} = 'Testfont1';
 $TableRowCalculate{0}{CellData}[0][0]{FontSize} = 14;
 $TableRowCalculate{0}{CellData}[0][0]{Lead} = 0;
 $TableRowCalculate{0}{CellData}[0][1]{Content} = 'Cell 1-2';
-$TableRowCalculate{0}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{0}{CellData}[0][1]{Font} = 'Testfont1';
 $TableRowCalculate{0}{CellData}[0][1]{FontSize} = 10;
 $TableRowCalculate{0}{CellData}[0][1]{Lead} = 2;
 
@@ -2299,11 +2300,11 @@ $TableRowCalculate{1}{PaddingTop} = 2;
 $TableRowCalculate{1}{PaddingBottom} = 3;
 
 $TableRowCalculate{1}{CellData}[0][0]{Content} = 'Cell 1-1';
-$TableRowCalculate{1}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{1}{CellData}[0][0]{Font} = 'Testfont1';
 $TableRowCalculate{1}{CellData}[0][0]{FontSize} = 10;
 $TableRowCalculate{1}{CellData}[0][0]{Lead} = 0;
 $TableRowCalculate{1}{CellData}[0][1]{Content} = 'Cell 1-2';
-$TableRowCalculate{1}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{1}{CellData}[0][1]{Font} = 'Testfont1';
 $TableRowCalculate{1}{CellData}[0][1]{FontSize} = 14;
 $TableRowCalculate{1}{CellData}[0][1]{Lead} = 5;
 
@@ -2318,11 +2319,11 @@ $TableRowCalculate{1}{ReturnRowData}[0]{OutputHeight} = 19;
 $TableRowCalculate{2}{Border} = 0;
 
 $TableRowCalculate{2}{CellData}[0][0]{Content} = '';
-$TableRowCalculate{2}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{2}{CellData}[0][0]{Font} = 'Testfont1';
 $TableRowCalculate{2}{CellData}[0][0]{FontSize} = 10;
 $TableRowCalculate{2}{CellData}[0][0]{Lead} = 0;
 $TableRowCalculate{2}{CellData}[0][1]{Content} = '';
-$TableRowCalculate{2}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{2}{CellData}[0][1]{Font} = 'Testfont1';
 $TableRowCalculate{2}{CellData}[0][1]{FontSize} = 11;
 $TableRowCalculate{2}{CellData}[0][1]{Lead} = 5;
 
@@ -2337,11 +2338,11 @@ $TableRowCalculate{2}{ReturnRowData}[0]{OutputHeight} = 11;
 $TableRowCalculate{3}{Border} = 2;
 
 $TableRowCalculate{3}{CellData}[0][0]{Content} = 'Cell 1-1';
-$TableRowCalculate{3}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{3}{CellData}[0][0]{Font} = 'Testfont1';
 $TableRowCalculate{3}{CellData}[0][0]{FontSize} = 10;
 $TableRowCalculate{3}{CellData}[0][0]{Lead} = 0;
 $TableRowCalculate{3}{CellData}[0][1]{Content} = 'Cell 1-2';
-$TableRowCalculate{3}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{3}{CellData}[0][1]{Font} = 'Testfont1';
 $TableRowCalculate{3}{CellData}[0][1]{FontSize} = 11;
 $TableRowCalculate{3}{CellData}[0][1]{Lead} = 5;
 
@@ -2358,11 +2359,11 @@ $TableRowCalculate{3}{ReturnRowData}[0]{OutputHeight} = 103;
 $TableRowCalculate{4}{Border} = 2;
 
 $TableRowCalculate{4}{CellData}[0][0]{Content} = 'Cell 1-1';
-$TableRowCalculate{4}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{4}{CellData}[0][0]{Font} = 'Testfont1';
 $TableRowCalculate{4}{CellData}[0][0]{FontSize} = 10;
 $TableRowCalculate{4}{CellData}[0][0]{Lead} = 0;
 $TableRowCalculate{4}{CellData}[0][1]{Content} = 'Cell 1-2';
-$TableRowCalculate{4}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{4}{CellData}[0][1]{Font} = 'Testfont1';
 $TableRowCalculate{4}{CellData}[0][1]{FontSize} = 11;
 $TableRowCalculate{4}{CellData}[0][1]{Lead} = 5;
 
@@ -2379,11 +2380,11 @@ $TableRowCalculate{4}{ReturnRowData}[0]{OutputHeight} = 15;
 $TableRowCalculate{5}{Border} = 2;
 
 $TableRowCalculate{5}{CellData}[0][0]{Content} = 'Cell 1-1';
-$TableRowCalculate{5}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{5}{CellData}[0][0]{Font} = 'Testfont1';
 $TableRowCalculate{5}{CellData}[0][0]{FontSize} = 10;
 $TableRowCalculate{5}{CellData}[0][0]{Lead} = 0;
 $TableRowCalculate{5}{CellData}[0][1]{Content} = 'Cell 1-2';
-$TableRowCalculate{5}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{5}{CellData}[0][1]{Font} = 'Testfont1';
 $TableRowCalculate{5}{CellData}[0][1]{FontSize} = 11;
 $TableRowCalculate{5}{CellData}[0][1]{Lead} = 5;
 
@@ -2400,11 +2401,11 @@ $TableRowCalculate{5}{ReturnRowData}[0]{OutputHeight} = 5;
 $TableRowCalculate{6}{Border} = 2;
 
 $TableRowCalculate{6}{CellData}[0][0]{Content} = 'Cell 1-1';
-$TableRowCalculate{6}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{6}{CellData}[0][0]{Font} = 'Testfont1';
 $TableRowCalculate{6}{CellData}[0][0]{FontSize} = 10;
 $TableRowCalculate{6}{CellData}[0][0]{Lead} = 0;
 $TableRowCalculate{6}{CellData}[0][1]{Content} = 'Cell 1-2';
-$TableRowCalculate{6}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{6}{CellData}[0][1]{Font} = 'Testfont1';
 $TableRowCalculate{6}{CellData}[0][1]{FontSize} = 11;
 $TableRowCalculate{6}{CellData}[0][1]{Lead} = 5;
 
@@ -2419,11 +2420,11 @@ $TableRowCalculate{6}{ReturnRowData}[0]{OutputHeight} = 15;
 $TableRowCalculate{7}{Border} = 2;
 
 $TableRowCalculate{7}{CellData}[0][0]{Content} = 'ISS';
-$TableRowCalculate{7}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{7}{CellData}[0][0]{Font} = 'Testfont1';
 $TableRowCalculate{7}{CellData}[0][0]{FontSize} = 10;
 $TableRowCalculate{7}{CellData}[0][0]{Lead} = 0;
 $TableRowCalculate{7}{CellData}[0][1]{Content} = 'Expedition 14 takes over ISS command - The astronauts on board the International Space Station will hold a short ceremony later this evening to mark the change of command from the Expedition 13 to the Expedition 14 crew.';
-$TableRowCalculate{7}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{7}{CellData}[0][1]{Font} = 'Testfont1';
 $TableRowCalculate{7}{CellData}[0][1]{FontSize} = 11;
 $TableRowCalculate{7}{CellData}[0][1]{Lead} = 5;
 
@@ -2541,5 +2542,251 @@ foreach (sort keys %TableCellOnCount) {
         "_TableCellOnCount$Test()",
     );
 }
+
+# Charset font test 1 (iso-8859-1)
+$Self->{PDFObject2} = Kernel::System::PDF->new(%{$Self});
+if (!$Self->{PDFObject2}) {
+    return;
+}
+
+# create a pdf document
+my $DocumentNew2 = $Self->{PDFObject2}->DocumentNew(
+    Title => 'The Title',
+    Encode => 'latin1',
+);
+
+$Self->True(
+    $DocumentNew2,
+    "DocumentNew2()",
+);
+
+# create a blank page
+my $PageBlankNew2 = $Self->{PDFObject2}->PageBlankNew(
+    Width => 842,
+    Height => 595,
+    MarginTop => 50,
+    MarginRight => 50,
+    MarginBottom => 50,
+    MarginLeft => 50,
+);
+
+$Self->True(
+    $PageBlankNew2,
+    "PageBlankNew2()",
+);
+
+my %CharsetTestData1;
+open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/PDF-test1-iso-8859-1.txt") || die $!;
+while (<IN>) {
+    $CharsetTestData1{Text} .= $_;
+}
+close(IN);
+
+$CharsetTestData1{Type} = 'ReturnLeftOver';
+$CharsetTestData1{Font} = 'Testfont2';
+$CharsetTestData1{FontSize} = 10;
+$CharsetTestData1{Lead} = 0;
+$CharsetTestData1{Width} = 1000;
+$CharsetTestData1{Height} = $CharsetTestData1{FontSize};
+$CharsetTestData1{State} = 1;
+$CharsetTestData1{RequiredWidth} = 46.87;
+$CharsetTestData1{RequiredHeight} = 10;
+$CharsetTestData1{LeftOver} = '';
+
+my %ReturnCharsetTestData1 = $Self->{PDFObject2}->Text(
+    Text => $CharsetTestData1{Text},
+    Width => $CharsetTestData1{Width},
+    Height => $CharsetTestData1{Height},
+    Font => $CharsetTestData1{Font},
+    FontSize  => $CharsetTestData1{FontSize},
+    Type => $CharsetTestData1{Type},
+    Lead => $CharsetTestData1{Lead},
+);
+
+my $CharsetTest1Ok = 0;
+if ($ReturnCharsetTestData1{State} eq $CharsetTestData1{State} &&
+    $ReturnCharsetTestData1{RequiredWidth} eq $CharsetTestData1{RequiredWidth} &&
+    $ReturnCharsetTestData1{RequiredHeight} eq $CharsetTestData1{RequiredHeight} &&
+    $ReturnCharsetTestData1{LeftOver} eq $CharsetTestData1{LeftOver}
+) {
+    $CharsetTest1Ok = 1;
+}
+else {
+    print "\n";
+    print "ERROR CharsetTest1 State -->$ReturnCharsetTestData1{State}\n";
+    print "ERROR CharsetTest1 RequiredWidth -->$ReturnCharsetTestData1{RequiredWidth}\n";
+    print "ERROR CharsetTest1 RequiredHeight -->$ReturnCharsetTestData1{RequiredHeight}\n";
+    print "ERROR CharsetTest1 LeftOver -->$ReturnCharsetTestData1{LeftOver}<--\n";
+    print "\n";
+}
+
+$Self->True(
+    $CharsetTest1Ok,
+    "CharsetTest1()",
+);
+
+# Charset font test 2 (utf-8)
+$Self->{PDFObject3} = Kernel::System::PDF->new(%{$Self});
+if (!$Self->{PDFObject3}) {
+    return;
+}
+
+# create a pdf document
+my $DocumentNew3 = $Self->{PDFObject3}->DocumentNew(
+    Title => 'The Title',
+    Encode => 'utf-8',
+);
+
+$Self->True(
+    $DocumentNew3,
+    "DocumentNew3()",
+);
+
+# create a blank page
+my $PageBlankNew3 = $Self->{PDFObject3}->PageBlankNew(
+    Width => 842,
+    Height => 595,
+    MarginTop => 50,
+    MarginRight => 50,
+    MarginBottom => 50,
+    MarginLeft => 50,
+);
+
+$Self->True(
+    $PageBlankNew3,
+    "PageBlankNew3()",
+);
+
+my %CharsetTestData2;
+open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/PDF-test1-utf-8.txt") || die $!;
+while (<IN>) {
+    $CharsetTestData2{Text} .= $_;
+}
+close(IN);
+
+$CharsetTestData2{Type} = 'ReturnLeftOver';
+$CharsetTestData2{Font} = 'Testfont2';
+$CharsetTestData2{FontSize} = 10;
+$CharsetTestData2{Lead} = 0;
+$CharsetTestData2{Width} = 1000;
+$CharsetTestData2{Height} = $CharsetTestData2{FontSize};
+$CharsetTestData2{State} = 1;
+$CharsetTestData2{RequiredWidth} = 46.87;
+$CharsetTestData2{RequiredHeight} = 10;
+$CharsetTestData2{LeftOver} = '';
+
+my %ReturnCharsetTestData2 = $Self->{PDFObject3}->Text(
+    Text => $CharsetTestData2{Text},
+    Width => $CharsetTestData2{Width},
+    Height => $CharsetTestData2{Height},
+    Font => $CharsetTestData2{Font},
+    FontSize  => $CharsetTestData2{FontSize},
+    Type => $CharsetTestData2{Type},
+    Lead => $CharsetTestData2{Lead},
+);
+
+my $CharsetTest2Ok = 0;
+if ($ReturnCharsetTestData2{State} eq $CharsetTestData2{State} &&
+    $ReturnCharsetTestData2{RequiredWidth} eq $CharsetTestData2{RequiredWidth} &&
+    $ReturnCharsetTestData2{RequiredHeight} eq $CharsetTestData2{RequiredHeight} &&
+    $ReturnCharsetTestData2{LeftOver} eq $CharsetTestData2{LeftOver}
+) {
+    $CharsetTest2Ok = 1;
+}
+else {
+    print "\n";
+    print "ERROR CharsetTest2 State -->$ReturnCharsetTestData2{State}\n";
+    print "ERROR CharsetTest2 RequiredWidth -->$ReturnCharsetTestData2{RequiredWidth}\n";
+    print "ERROR CharsetTest2 RequiredHeight -->$ReturnCharsetTestData2{RequiredHeight}\n";
+    print "ERROR CharsetTest2 LeftOver -->$ReturnCharsetTestData2{LeftOver}<--\n";
+    print "\n";
+}
+
+$Self->True(
+    $CharsetTest2Ok,
+    "CharsetTest2()",
+);
+
+# Charset font test 3 (utf-8)
+$Self->{PDFObject4} = Kernel::System::PDF->new(%{$Self});
+if (!$Self->{PDFObject4}) {
+    return;
+}
+
+# create a pdf document
+my $DocumentNew4 = $Self->{PDFObject4}->DocumentNew(
+    Title => 'The Title',
+    Encode => 'utf-8',
+);
+
+$Self->True(
+    $DocumentNew4,
+    "DocumentNew4()",
+);
+
+# create a blank page
+my $PageBlankNew4 = $Self->{PDFObject4}->PageBlankNew(
+    Width => 842,
+    Height => 595,
+    MarginTop => 50,
+    MarginRight => 50,
+    MarginBottom => 50,
+    MarginLeft => 50,
+);
+
+$Self->True(
+    $PageBlankNew4,
+    "PageBlankNew4()",
+);
+
+my %CharsetTestData3;
+open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/PDF-test2-utf-8.txt") || die $!;
+while (<IN>) {
+    $CharsetTestData3{Text} .= $_;
+}
+close(IN);
+
+$CharsetTestData3{Type} = 'ReturnLeftOver';
+$CharsetTestData3{Font} = 'Testfont1';
+$CharsetTestData3{FontSize} = 10;
+$CharsetTestData3{Lead} = 0;
+$CharsetTestData3{Width} = 1000;
+$CharsetTestData3{Height} = $CharsetTestData3{FontSize};
+$CharsetTestData3{State} = 1;
+$CharsetTestData3{RequiredWidth} = 88.96;
+$CharsetTestData3{RequiredHeight} = 10;
+$CharsetTestData3{LeftOver} = '';
+
+my %ReturnCharsetTestData3 = $Self->{PDFObject4}->Text(
+    Text => $CharsetTestData3{Text},
+    Width => $CharsetTestData3{Width},
+    Height => $CharsetTestData3{Height},
+    Font => $CharsetTestData3{Font},
+    FontSize  => $CharsetTestData3{FontSize},
+    Type => $CharsetTestData3{Type},
+    Lead => $CharsetTestData3{Lead},
+);
+
+my $CharsetTest3Ok = 0;
+if ($ReturnCharsetTestData3{State} eq $CharsetTestData3{State} &&
+    $ReturnCharsetTestData3{RequiredWidth} eq $CharsetTestData3{RequiredWidth} &&
+    $ReturnCharsetTestData3{RequiredHeight} eq $CharsetTestData3{RequiredHeight} &&
+    $ReturnCharsetTestData3{LeftOver} eq $CharsetTestData3{LeftOver}
+) {
+    $CharsetTest3Ok = 1;
+}
+else {
+    print "\n";
+    print "ERROR CharsetTest3 State -->$ReturnCharsetTestData3{State}\n";
+    print "ERROR CharsetTest3 RequiredWidth -->$ReturnCharsetTestData3{RequiredWidth}\n";
+    print "ERROR CharsetTest3 RequiredHeight -->$ReturnCharsetTestData3{RequiredHeight}\n";
+    print "ERROR CharsetTest3 LeftOver -->$ReturnCharsetTestData3{LeftOver}<--\n";
+    print "\n";
+}
+
+$Self->True(
+    $CharsetTest3Ok,
+    "CharsetTest3()",
+);
 
 1;
