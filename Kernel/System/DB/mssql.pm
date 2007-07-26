@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.18 2007-07-23 15:09:55 mh Exp $
+# $Id: mssql.pm,v 1.19 2007-07-26 13:22:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -58,7 +58,9 @@ sub LoadPreferences {
 #    $Self->{'DB::ShellConnect'} = '';
 
     # init setting
-    $Self->{'DB::Connect'} = 'SET DATEFORMAT ymd';
+    if (!$Self->{ConfigObject}->Get('Database::ShellOutput')) {
+        $Self->{'DB::Connect'} = 'SET DATEFORMAT ymd';
+    }
 
     return 1;
 }
@@ -302,11 +304,15 @@ sub TableAlter {
             push (@SQL, $SQLEnd);
             # default values
             if ($Tag->{Default}) {
+                my $Start = '';
+                if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
+                    $Start = "GO\n";
+                }
                 if ($Tag->{Type} =~ /int/i) {
-                    push (@SQL, "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL");
+                    push (@SQL, $Start."UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL");
                 }
                 else {
-                    push (@SQL, "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE '$Tag->{Name}' IS NULL");
+                    push (@SQL, $Start."UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE '$Tag->{Name}' IS NULL");
                 }
                 if ($Tag->{Required} && $Tag->{Required} =~ /^true$/i) {
                     push (@SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} $Tag->{Type} NOT NULL");
