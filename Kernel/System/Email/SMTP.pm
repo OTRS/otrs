@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Email/SMTP.pm - the global email send module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SMTP.pm,v 1.12 2006-12-14 12:13:55 martin Exp $
+# $Id: SMTP.pm,v 1.13 2007-07-26 12:56:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,11 @@
 package Kernel::System::Email::SMTP;
 
 use strict;
+use warnings;
 use Net::SMTP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -29,7 +30,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
     # check all needed objects
-    foreach (qw(ConfigObject LogObject)) {
+    foreach (qw(ConfigObject LogObject EncodeObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
     # debug
@@ -101,6 +102,11 @@ sub Send {
                 return;
             }
         }
+        # encode utf8 header strings (of course, there should only be 7 bit in there!)
+        $Self->{EncodeObject}->EncodeOutput($Param{Header});
+        # encode utf8 body strings
+        $Self->{EncodeObject}->EncodeOutput($Param{Body});
+        # send data
         $Self->{SMTPObject}->data();
         $Self->{SMTPObject}->datasend(${$Param{Header}});
         $Self->{SMTPObject}->datasend("\n");

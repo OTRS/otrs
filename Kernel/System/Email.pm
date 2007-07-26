@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.28 2007-05-29 12:15:15 martin Exp $
+# $Id: Email.pm,v 1.29 2007-07-26 12:56:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,6 +12,7 @@
 package Kernel::System::Email;
 
 use strict;
+use warnings;
 use MIME::Words qw(:all);
 use MIME::Entity;
 use Mail::Address;
@@ -19,7 +20,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -89,6 +90,9 @@ sub new {
     foreach (qw(ConfigObject LogObject DBObject TimeObject MainObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
+    # create encode object
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+
     # load generator backend module
     my $GenericModule = $Self->{ConfigObject}->Get('SendmailModule')
         || 'Kernel::System::Email::Sendmail';
@@ -96,10 +100,10 @@ sub new {
         return;
     }
     # create backend object
-    $Self->{Backend} = $GenericModule->new(%Param);
-
-    # create encode object
-    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+    $Self->{Backend} = $GenericModule->new(
+        %Param,
+        EncodeObject => $Self->{EncodeObject},
+    );
 
     $Self->{FQDN} = $Self->{ConfigObject}->Get('FQDN');
     $Self->{Organization} = $Self->{ConfigObject}->Get('Organization');
@@ -590,6 +594,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2007-05-29 12:15:15 $
+$Revision: 1.29 $ $Date: 2007-07-26 12:56:54 $
 
 =cut
