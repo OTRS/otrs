@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.47 2007-07-26 16:00:46 mh Exp $
+# $Id: CHANGES,v 1.323.2.48 2007-07-26 16:14:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,14 +35,14 @@
         ALTER TABLE sessions ALTER COLUMN session_value TEXT;
         ALTER TABLE xml_storage ALTER COLUMN xml_content_value TEXT;
         ALTER TABLE package_repository ALTER COLUMN content TEXT NOT NULL;
- - (2007/03/12) fixed upload cache problem in win32 with .pdf files
+ - (2007/03/12) fixed upload cache problem in win32 .pdf files
  - (2007/03/12) fixed bug# 1228 - Apostrophe not valid in email address.
  - (2007/03/12) fixed bug# 1442 and 1559 - ArticleFreeKey and ArticleFreeText
     default selection does not work.
  - (2007/03/12) fixed ticket# 2007031242000149 - session backend fails to insert
     sessions bigger the 4k on oracle database backend
  - (2007/03/11) fixed bug# 1671 - restore.pl fails with "Got no LogObject"
- - (2007/03/11) fixed bug# 1115 - HTML error in NewTicket Customer's interface
+ - (2007/03/11) fixed bug# 1115 - HTML error in NewTicket Customer's interface.
  - (2007/03/08) fixed bug# 1658 - Subqueues of Queues with brackets are not
     shown in the QueueView
  - (2007/03/08) added rpm packages for Fedora Core 4, 5 and 6 to auto build
@@ -95,7 +95,7 @@
  - (2007/01/26) fixed ArticleFreeText output in CustomerTicketZoom mask
  - (2007/01/26) fixed bug in agent- and customer-ticket print feature
 
-2.1.5 (2007/01/25)
+2.1.5 (2006/01/25)
  - (2007/01/25) fixed ignored ticket responible in phone ticket
  - (2007/01/18) fixed DestinationTime() if calendar feature is used
  - (2007/01/17) fixed not working freetime fields
@@ -107,7 +107,7 @@
     oracle or postgresql is used
  - (2007/01/08) fixed quoting in user selection if + is used in UserLogin in
     Kernel/Output/HTML/Standard/AdminCustomerUserForm.dtl
- - (2006/12/17) fixed bug #1532 - utf8 charsetproblems in stats
+ - (2006/12/17) fixed bug #1532 - utf-8 charsetproblems in stats
  - (2006/12/15) fixed bug #1446 - No "(Ticket unlock!)" link in
     AgentTicketCompose
  - (2006/12/14) fixed customer ldap auth if system is iso-8859 and ldap server
@@ -340,7 +340,7 @@
  - (2006/03/11) fixed some spelling mistakes for the English original in
     language templates and language files
  - (2006/03/10) added admin init (Kernel/Modules/AdminInit.pm) to init
-    config files .xml->.pm after a new setup (after inital root login)
+    config files .xml->.pm after a new setup (after initial root login)
  - (2006/03/04) splited Kernel::Modules::AgentTicketPhone into
     two modules Kernel::Modules::AgentTicketPhone and
     Kernel::Modules::AgentTicketPhoneOutbound (phone calls for existing
@@ -536,7 +536,7 @@
  - (2005/10/23) fixed small bug for WorkingTime calculation
  - (2005/10/22) fixed bug #971 - Invalid agents get LockTimeOut notification
  - (2005/10/21) fixed bug #948 - Invalid agents should not longer get follow-ups
- - (2005/10/21) fixed bug #957 - Got "no ArticleID" error when viewing queues (p1 of 5)
+ - (2005/10/21) fixed bug #957 - Got "no ArticleID" error when viewing queues
  - (2005/10/20) improved html of admin auto responses <-> queue relation
  - (2005/10/20) fixed unlock of closed bulk-action tickets
  - (2005/10/20) fixed calendar lookup in admin generic agent time
@@ -578,8 +578,8 @@
  - (2005/09/28) fixed not deleting var/tmp/XXXXXX.tmp files
  - (2005/09/26) fixed not working cache in Kernel::System::User->UserGetData()
  - (2005/09/24) fixed small oracle database driver bugs
- - (2005/09/24) added inital user groups add (UserSyncLDAPGroups) after
-    inital login
+ - (2005/09/24) added initial user groups add (UserSyncLDAPGroups) after
+    initial login
  - (2005/09/19) moved ldap user sync after login from Kernel/System/User.pm
     to Kernel/System/Auth/LDAP.pm (already an existing ldap module)
  - (2005/09/19) fixed ticket search create day and month selection
@@ -1004,7 +1004,7 @@
  - (2004/09/09) added role/profile feature
  - (2004/09/09) added ticket title support
 
-1.3.3 (2005-10-20)
+1.3.3 (2005/10/20)
  - (2005/10/20) moved to default download type as attachment (not inline)
     for a better security default setting
  - (2005/10/17) added security bugfix for missing SQL quote
@@ -1030,7 +1030,7 @@
  - (2004/10/18) fixed bug 551 - FAQ on Email new only takes over the
     subject and not the text
 
-1.3.2 (2004-10-15)
+1.3.2 (2004/10/15)
  - (2004/10/14) fixed bug 570 - Stat generation script fails under postgres
  - (2004/10/14) fixed bug 573 - Clicked link to check ticket status and here's
     what I got
@@ -1055,7 +1055,7 @@
  - (2004/09/23) fixed ticket zoom in customer panel if no customer article
    exists
 
-1.3.1 (2004-09-20)
+1.3.1 (2004/09/20)
  - (2004/09/16) fixed bug 513 - distinct customers must have distinct email
  - (2004/09/16) fixed bug 519 - PostMaster.pl bounces mail if database
     is down
@@ -1065,7 +1065,7 @@
  - (2004/09/08) updated spanish translation - Thanks to Jorge Becerra!
  - (2004/09/08) fixed bug 500 - js error
 
-1.3.0 beta4 (2004-09-08)
+1.3.0 beta4 (2004/09/08)
  - (2004/09/08) fixed bug 514 - Use of uninitialized value in addition (+) at
     bin/DeleteSessionIDs.pl line 93.
  - (2004/09/08) fixed bug 517 - fixed bug 517 - DBUpdate-to-1.3 scripts
@@ -1083,15 +1083,14 @@
  - (2004/08/28) fixed call customer via phone (set state was ignored)
  - (2004/08/26) fixed multi customer id support and added docu
 
-1.3.0 beta3 (2004-08-25)
+1.3.0 beta3 (2004/08/25)
  - (2004/08/25) fixed german translation (replaced wrong words)
  - (2004/08/24) fixed time schedule for generic agent
 
-1.3.0 beta2 (2004-08-24)
+1.3.0 beta2 (2004/08/24)
  - (2004/08/24) fixed ticket_history table update script
 
-1.3.0 beta1 (2004-08-18)
-
+1.3.0 beta1 (2004/08/18)
  - (2004/08/11) added feature to send fulltext reqests to a
     mirror database
     [Kernel/Config.pm]
@@ -1208,8 +1207,7 @@
     Charset options (see online documentation)
  - (2004/02/23) updated to CGI 3.04
 
-1.2.4 (2004-07-07)
-
+1.2.4 (2004/07/07)
  - (2004/06/29) fixed bug [456] not existing queue_auto_response
     references in scripts/database/initial_insert.sql
  - (2004/06/11) added Hungarian translation. Thanks to Gáncs Gábor!
@@ -1220,8 +1218,7 @@
  - (2004/04/06) added missing priority options in SearchTicket()
     of Kernel::System::Ticket.
 
-1.2.3 (2004-04-02)
-
+1.2.3 (2004/04/02)
  - (2004/03/29) fixed some html quote bugs
  - (2004/03/28) fixed bug 365 - null attachment kills pop import script
  - (2005/03/25) updated pl language translation, Thanks to Tomasz Melissa!
@@ -1233,8 +1230,7 @@
  - (2004/02/27) fixed missing "internal (agent)" agent search faq
  - (2004/02/27) fixed possible owner selection in AgentPhone/AgentEmaill
 
-1.2.2 (2004-02-23)
-
+1.2.2 (2004/02/23)
  - (2004/02/17) changed screen after moved ticket (like OTRS 1.1)
  - (2004/02/17) added null option to search options
     http://bugs.otrs.org/show_bug.cgi?id=321
@@ -1243,8 +1239,7 @@
  - (2004/02/17) fixed bug 317 - Return Path set to invalid email
     http://bugs.otrs.org/show_bug.cgi?id=317
 
-1.2.1 (2004-02-14)
-
+1.2.1 (2004/02/14)
  - (2004/02/14) fixed escalation bug 290 -
     http://bugs.otrs.org/show_bug.cgi?id=290
  - (2004/02/14) updated spanish translation. Thanks to Jorge Becerra!
@@ -1259,8 +1254,7 @@
  - (2004/02/10) fixed missing translation in agent and customer
     preferences option selections.
 
-1.2.0 beta3 (2004-02-09)
-
+1.2.0 beta3 (2004/02/09)
  - (2004/02/09) fixed bug 249 Editing system email addresses with
     quotations in name field - http://bugs.otrs.org/show_bug.cgi?id=249
  - (2004/02/09) added contact customer (create ticket) feature
@@ -1272,8 +1266,7 @@
  - (2004/02/03) fixed typo in template (wrong $Data{} for Field6)
     Kernel/Output/HTML/Standard/FAQArticleForm.dtl
 
-1.2.0 beta2 (2004-02-02)
-
+1.2.0 beta2 (2004/02/02)
  - (2004/02/02) replaced column "comment" to "comments" of each table to
     be oracle compat.
  - (2004/02/02) added ticket link feature
@@ -1307,7 +1300,7 @@
     (problem was, that if a queue name dosn't exist, then the
     GenericAgent gets tickets from all queues!).
 
-1.2.0 beta1 (2004-01-22)
+1.2.0 beta1 (2004/01/22)
  - (2004/01/22) internationalization of agent notification messages
     configurable over admin interface (attention, agent notificatins
     are not be longer stored as article, now just a history entry will
@@ -1492,7 +1485,7 @@
     [...]
  - (2003/05/13) removed UNIQUE (not needed!) in pop3_account table
 
-1.1.? (2003-??-??)
+1.1.4 (2003/??/??)
  - (2003/10/27) fixed (removed) not needed database connects in
     PostMaster(POP3).pl stuff (now just 1 database connect, not 3
     connects)! Thanks to Jens Wilke!
@@ -1504,7 +1497,7 @@
  - (2003/08/22) fixed customer user lookup for PostMaster*.pl based on
     senders email address (set customer id and customer user)
 
-1.1.3 (2003-07-12)
+1.1.3 (2003/07/12)
  - (2003/07/12) fixed bug 182 - Error when modify an queue without a queue-name
  - (2003/07/12) removed "PerlInitHandler Apache::StatINC" (Reload %INC files
     - perl modules) from scripts/apache-httpd.include.conf because of many error
@@ -1525,7 +1518,7 @@
     http://bugs.otrs.org/show_bug.cgi?id=144
  - (2003/06/04) fixed legend colors of stats pics
 
-1.1.2 (2003-05-31)
+1.1.2 (2003/05/31)
  - (2003/06/01) improved Kernel/System/Ticket/Number/*.pm (ticket number
     generator modules) to work with non existing var/log/TicketCounter.log.
      -=> So var/log/TicketCounter.log will be removed from the CVS and
@@ -1564,7 +1557,7 @@
  - (2003/05/01) fixed Kernel/System/AuthSession/*.pm to be able
     to store 0 values
 
-1.1.1 (2003-05-01)
+1.1.1 (2003/05/01)
  - (2003/04/30) removed agent notify about new note because new
     owner got ticket assigned to you notify!
  - (2003/04/29) fixed bug 131 - QueueView shows wrong queue in
@@ -1574,7 +1567,7 @@
  - (2003/04/25) removed shown customer id in 'MyTickets' from
     customer interface - added customer id to user name line
 
-1.1 RC1 (2003-04-24)
+1.1 RC1 (2003/04/24)
  - (2003/04/24) added refresh time to AgentMailbox screen (refresh
     time still exists for QueueView)
  - (2003/04/24) fixed "show closed tickets" in customer interface
@@ -1590,7 +1583,7 @@
  - (2003/04/17) fixed AgentStatusView (1st ticket is actually the 2nd)
  - (2003/04/17) added Firstname/Lastname of agents to ticket history
 
-1.1 RC1 (2003-04-15)
+1.1 RC1 (2003/04/15)
  - (2003/04/15) added Italian translation - Thanks to Remo Catelotti
  - (2003/04/14) improved performance of MIME parser (PostMaster)
  - (2003/04/13) added config option DefaultNoteTypes (used note
@@ -1696,7 +1689,7 @@
  - (2003/02/08) changed database script location from install/database
     to scripts/database
 
-1.0 RC3 (2003-02-03)
+1.0 RC3 (2003/02/03)
  - (2003/02/03) added customer user info on TicketView, TicketZoom and PhoneView
      dtl template (if wanted, uncomment it).
  - (2003/02/03) fixed java script stuff for Spell Check
@@ -1710,7 +1703,7 @@
  - (2003/01/23) added Brazilian Portuguese translation! Thanks to Gilberto
     Cezar de Almeida!
 
-1.0 RC2 (2003-01-19)
+1.0 RC2 (2003/01/19)
  - (2003/01/19) added CustomerUser LDAP backend - Thanks to Wiktor Wodecki!
  - (2003/01/19) fixed CustomerUser backend (config options)
  - (2003/01/18) fixed bug 61 (ArticleStorageInit error ) -
@@ -1825,7 +1818,7 @@
  - (2002/10/31) added email valid check (incl. mx) on CreateAccount (customer
     panel) -=> Config option: $Self->{CheckMXRecord}!
 
-0.5 BETA8 (2002-10-25)
+0.5 BETA8 (2002/10/25)
  - (2002/10/24) improved web installer - added system settings
  - (2002/10/22) added notify mail to agent by ticket move - configurable via preferences
  - (2002/10/22) added Lite QueueView - configurable via preferences
@@ -1889,7 +1882,7 @@
     Thanks to Christoph Kaulich!
  - fixed rpm bug for SuSE Linux 7.3 (Installer) - Thanks to Schirott Frank!
 
-0.5 BETA7 (2002-08-06)
+0.5 BETA7 (2002/08/06)
  - improved screen session management (next screen, last screen) added back
     buttons
  - improved ticket and article lib funktions (Kernel::System::Ticket::* and
@@ -1945,7 +1938,7 @@
  - fixed bug [15] typo in suse-rcotrs (redhat-rcotrs is not affected) -
     http://bugs.otrs.org/show_bug.cgi?id=15
 
-0.5 BETA6 (2002-06-17)
+0.5 BETA6 (2002/06/17)
  - added AgentBounce module
  - moved from Unix::Syslog to Sys::Syslog (Kernel::System::Log) because Sys::Syslog
     comes with Perl (not an additional CPAN module)!
@@ -1975,7 +1968,7 @@
  - fixed HTML table bug in AdminArea::Queue (just with Netscape)
  - fixed SQL table preferences bug (use script/DBUpdate.mysql.sql)
 
-0.5 BETA5 (2002-05-27)
+0.5 BETA5 (2002/05/27)
  - added ticket escalation - if a ticket is to old, only this ticket will be shown
     till somebody is working on it
      * added new row (ticket_answered) to ticket table
@@ -2008,7 +2001,7 @@
      * added stop-force|start-force option to restart httpd and mysqld
  - added help texts to the admin screens
 
-0.5 BETA4 (2002-05-07)
+0.5 BETA4 (2002/05/07)
  - changed login screen and added motd feature (Kernel/Output/HTML/Standard/Motd.dtl
    the motd file)
  - added Kernel::Modules::AdminCharsets.pm
@@ -2027,7 +2020,7 @@
  - added MoveInToAllQueues [1|0] to Config.pm (allow to choose the move queues for
     ticket view and zoom [all|own])
 
-0.5 BETA3 (2002-04-17)
+0.5 BETA3 (2002/04/17)
  - added AgentOwner Module
  - added AgentForward Module
  - added auto session delete funktions if remote ip or session time is invalid.
@@ -2035,11 +2028,11 @@
  - added permission check funktions for AgentZoom, AgentPlain and AgentAttachments
  - added README.application-module
 
-0.5 BETA2 (2002-04-11)
+0.5 BETA2 (2002/04/11)
  - html (*.dtl) beautified
  - added session driver (sql|fs)
 
-0.5 BETA1 (2002-03-11)
+0.5 BETA1 (2002/03/11)
  - first official release
 
 EOF
