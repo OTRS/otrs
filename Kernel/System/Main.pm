@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.7 2007-07-26 13:52:08 martin Exp $
+# $Id: Main.pm,v 1.8 2007-07-26 15:56:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5 qw(md5_hex);
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -279,7 +279,7 @@ sub FileRead {
     if (open (IN, $Mode, $FileLocation)) {
         # read whole file
         my $Data;
-        if ($Param{Mode} && $Param{Mode} =~ /^binmode/i) {
+        if (!$Param{Mode} || $Param{Mode} =~ /^binmode/i) {
             binmode(IN);
         }
         while (my $Line = <IN>) {
@@ -482,6 +482,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2007-07-26 13:52:08 $
+$Revision: 1.8 $ $Date: 2007-07-26 15:56:41 $
 
 =cut
