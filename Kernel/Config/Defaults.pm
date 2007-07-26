@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.271 2007-06-27 06:49:43 martin Exp $
+# $Id: Defaults.pm,v 1.272 2007-07-26 14:15:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.271 $';
+$VERSION = '$Revision: 1.272 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -1143,6 +1143,8 @@ Your OTRS Notification Master
 #        AdminSetPreferences => 1,
 #        # use customer company support (reference to company, See CustomerCompany settings)
 #        CustomerCompanySupport => 1,
+#        # cache time to life in sec. - cache any database queris
+#        CacheTTL => 0,
 #        # just a read only source
 #        ReadOnly => 1,
         Map => [
@@ -1219,6 +1221,8 @@ Your OTRS Notification Master
 #        # CustomerUserValidFilter => '(!(description=gesperrt))',
 #        # admin can't change customer preferences
 #        AdminSetPreferences => 0,
+#        # cache time to life in sec. - cache any ldap queris
+#        CacheTTL => 0,
 #        Map => [
 #            # note: Login, Email and CustomerID needed!
 #            # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
@@ -2168,6 +2172,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.271 $ $Date: 2007-06-27 06:49:43 $
+$Revision: 1.272 $ $Date: 2007-07-26 14:15:30 $
 
 =cut
