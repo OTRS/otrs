@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.425 2007-07-25 17:21:04 martin Exp $
+# $Id: CHANGES,v 1.426 2007-07-26 16:04:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -345,6 +345,10 @@
     to 12 MB.
 
 2.1.8 (????/??/??)
+ - (2007/07/26) fixed bug# 2046 - german Umlauts not printed in PDFs if system
+    runs in utf-8 mode. The PDF::API2 corefonts (which are used as default)
+    doesn't support UTF-8. Changed the used fonts from PDF::API2 corefonts to
+    the DejaVu true type fonts. Add config options to use other true type fonts.
  - (2007/05/31) fixed bug# 1926 - package manager ignore PackageRequired tags
     in OPM files.
 
