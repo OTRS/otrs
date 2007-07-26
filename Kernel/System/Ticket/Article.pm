@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.143 2007-07-10 14:40:59 mh Exp $
+# $Id: Article.pm,v 1.144 2007-07-26 12:56:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.143 $';
+$VERSION = '$Revision: 1.144 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -223,17 +223,22 @@ sub ArticleCreate {
             );
         }
     }
+    # check if latest article is sent to customer
     elsif ($Param{SenderType} eq 'agent' && $Param{ArticleType} =~ /email-ext|phone|fax|sms|note-ext/) {
-        # check if latest article is sent to customer
+        $Self->TicketEscalationResponseTimeUpdate(
+            EscalationResponseTime => $Self->{TimeObject}->SystemTime(),
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
+        );
         $Self->TicketEscalationStartUpdate(
             EscalationStartTime => $Self->{TimeObject}->SystemTime(),
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
         );
         $Self->TicketUnlockTimeoutUpdate(
-             UnlockTimeout => $Self->{TimeObject}->SystemTime(),
-             TicketID => $Param{TicketID},
-             UserID => $Param{UserID},
+            UnlockTimeout => $Self->{TimeObject}->SystemTime(),
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
         );
     }
     # send auto response
@@ -1195,7 +1200,7 @@ sub ArticleGet {
         " st.freekey15, st.freetext15, st.freekey16, st.freetext16, ".
         " st.ticket_lock_id, st.title, st.escalation_start_time, ".
         " st.freetime1 , st.freetime2, st.freetime3, st.freetime4, st.freetime5, st.freetime6, ".
-        " st.type_id, st.service_id, st.sla_id ".
+        " st.type_id, st.service_id, st.sla_id, st.escalation_response_time, st.escalation_solution_time ".
         " FROM ".
         " article sa, ticket st ".
         " WHERE ";
@@ -1224,6 +1229,10 @@ sub ArticleGet {
         $Ticket{Title} = $Data{Title};
         $Data{EscalationStartTime} = $Row[66];
         $Ticket{EscalationStartTime} = $Data{EscalationStartTime};
+        $Data{EscalationResponseTime} = $Row[76];
+        $Ticket{EscalationResponseTime} = $Data{EscalationResponseTime};
+        $Data{EscalationSolutionTime} = $Row[77];
+        $Ticket{EscalationSolutionTime} = $Data{EscalationSolutionTime};
         $Data{From} = $Row[1];
         $Data{To} = $Row[2];
         $Data{Cc} = $Row[3];

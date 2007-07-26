@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.37 2007-04-26 21:33:42 martin Exp $
+# $Id: LDAP.pm,v 1.38 2007-07-26 12:59:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,11 +12,12 @@
 package Kernel::System::Auth::LDAP;
 
 use strict;
+use warnings;
 use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -329,10 +330,18 @@ sub Auth {
             my %SyncUser = ();
             foreach my $Entry ($Result->all_entries) {
                 $UserDN = $Entry->dn();
-                foreach (keys %{$Self->{ConfigObject}->Get('UserSyncLDAPMap'.$Self->{Count})}) {
-                    $SyncUser{$_} = $Entry->get_value($Self->{ConfigObject}->Get('UserSyncLDAPMap'.$Self->{Count})->{$_});
+                foreach my $Key (keys %{$Self->{ConfigObject}->Get('UserSyncLDAPMap'.$Self->{Count})}) {
+                    # detect old config setting
+                    if ($Key =~ /^(Firstname|Lastname|Email)/) {
+                        $Key = "User".$Key;
+                        $Self->{LogObject}->Log(
+                            Priority => 'error',
+                            Message => "Old config setting detected, please use the new one from Kernel/Config/Defaults.pm (User* has been added!).",
+                        );
+                    }
+                    $SyncUser{$Key} = $Entry->get_value($Self->{ConfigObject}->Get('UserSyncLDAPMap'.$Self->{Count})->{$Key});
                     # e. g. set utf-8 flag
-                    $SyncUser{$_} = $Self->_ConvertFrom($SyncUser{$_}, $Self->{ConfigObject}->Get('DefaultCharset'));
+                    $SyncUser{$Key} = $Self->_ConvertFrom($SyncUser{$Key}, $Self->{ConfigObject}->Get('DefaultCharset'));
                 }
                 if ($Entry->get_value('userPassword')) {
                     $SyncUser{Pw} = $Entry->get_value('userPassword');
