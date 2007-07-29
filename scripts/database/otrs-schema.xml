@@ -5,9 +5,17 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.70 2007-07-26 13:26:46 martin Exp $
+    $Id: otrs-schema.xml,v 1.71 2007-07-29 23:43:10 martin Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.70  2007/07/26 13:26:46  martin
+    Improved system performance of escalation (bug# 2020 Performance
+    problem after updating to 2.2.0).
+    Because of this fact you need to add to new column to the ticket table.
+
+        ALTER TABLE ticket ADD escalation_response_time INTEGER;
+        ALTER TABLE ticket ADD escalation_solution_time INTEGER;
+
     Revision 1.69  2007/07/23 10:53:30  mh
     Fixed bug# 2021 - Errors in scripts/database/otrs-schema.xml file.
 
