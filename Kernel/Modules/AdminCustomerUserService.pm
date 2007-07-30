@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.2 2007-06-28 07:27:05 mh Exp $
+# $Id: AdminCustomerUserService.pm,v 1.3 2007-07-30 14:51:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,13 +12,14 @@
 package Kernel::Modules::AdminCustomerUserService;
 
 use strict;
+use warnings;
 
 use Kernel::System::CustomerUser;
 use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -58,7 +59,7 @@ sub Run {
     # ------------------------------------------------------------ #
     if ($Self->{Subaction} eq 'AllocateCustomerUser') {
         # get params
-        $Param{CustomerUserLogin} = $Self->{ParamObject}->GetParam(Param => "CustomerUserLogin");
+        $Param{CustomerUserLogin} = $Self->{ParamObject}->GetParam(Param => "CustomerUserLogin") || '<DEFAULT>';
         $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam(Param => "CustomerUserSearch") || '*';
         $Param{ServiceSearch} = $Self->{ParamObject}->GetParam(Param => "ServiceSearch") || '*';
         # output header
@@ -73,10 +74,15 @@ sub Run {
                 ServiceSearch => $Param{ServiceSearch},
             },
         );
+        # output default block
+        $Self->{LayoutObject}->Block(
+            Name => 'Default',
+        );
         # get service member
         my %ServiceMemberList = $Self->{ServiceObject}->CustomerUserServiceMemberList(
             CustomerUserLogin => $Param{CustomerUserLogin},
             Result => 'HASH',
+            DefaultServices => 0,
         );
         # search services
         my @ServiceList = $Self->{ServiceObject}->ServiceSearch(
@@ -183,6 +189,10 @@ sub Run {
                 ServiceSearch => $Param{ServiceSearch},
             },
         );
+        # output default block
+        $Self->{LayoutObject}->Block(
+            Name => 'Default',
+        );
         # get service
         my %Service = $Self->{ServiceObject}->ServiceGet(
             ServiceID => $Param{ServiceID},
@@ -192,6 +202,7 @@ sub Run {
         my %CustomerUserMemberList = $Self->{ServiceObject}->CustomerUserServiceMemberList(
             ServiceID => $Param{ServiceID},
             Result => 'HASH',
+            DefaultServices => 0,
         );
         # search customer user
         my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
@@ -356,6 +367,10 @@ sub Run {
                 CustomerUserSearch => $Param{CustomerUserSearch},
                 ServiceSearch => $Param{ServiceSearch},
             },
+        );
+        # output default block
+        $Self->{LayoutObject}->Block(
+            Name => 'Default',
         );
         # search customer user
         my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(

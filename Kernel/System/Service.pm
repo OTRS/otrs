@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.15 2007-06-29 01:00:39 martin Exp $
+# $Id: Service.pm,v 1.16 2007-07-30 14:51:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -549,8 +549,7 @@ returns a list of customeruser/service members
 
     ServiceID: service id
     CustomerUserLogin: customer user login
-    ServiceIDs: service ids (array ref)
-    CustomerUserLogins: customer user logins (array ref)
+    DefaultServices: activate or deactivate default services
 
     Result: HASH -> returns a hash of key => service id, value => service name
             Name -> returns an array of user names
@@ -561,6 +560,7 @@ returns a list of customeruser/service members
     $ServiceObject->CustomerUserServiceMemberList(
         CustomerUserLogin => 'Test',
         Result => 'HASH',
+        DefaultServices => 0,
     );
 
     Example (get customer user of service):
@@ -575,8 +575,6 @@ returns a list of customeruser/service members
 sub CustomerUserServiceMemberList {
     my $Self = shift;
     my %Param = @_;
-    my @ServiceIDs;
-    my @CustomerUserLogins;
     # check needed stuff
     foreach (qw(Result)) {
         if (!$Param{$_}) {
@@ -584,12 +582,16 @@ sub CustomerUserServiceMemberList {
             return;
         }
     }
-    if (!$Param{ServiceID} && !$Param{CustomerUserLogin} && !$Param{ServiceIDs} && !$Param{CustomerUserLogins}) {
+    if (!$Param{ServiceID} && !$Param{CustomerUserLogin}) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need ServiceID or CustomerUserLogin or ServiceIDs or CustomerUserLogins!"
+            Message => "Need ServiceID or CustomerUserLogin!"
         );
         return;
+    }
+    # set default
+    if (!defined($Param{DefaultServices})) {
+        $Param{DefaultServices} = 1,
     }
     # db quote
     foreach (keys %Param) {
@@ -605,12 +607,6 @@ sub CustomerUserServiceMemberList {
     }
     elsif ($Param{CustomerUserLogin}) {
         $CacheKey .= 'CustomerUserLogin::'.$Param{CustomerUserLogin};
-    }
-    elsif ($Param{ServiceIDs}) {
-        @ServiceIDs = sort(@{$Param{ServiceIDs}});
-    }
-    elsif ($Param{CustomerUserLogins}) {
-        @CustomerUserLogins = sort(@{$Param{CustomerUserLogins}});
     }
     # check cache
     if ($Param{ServiceID} || $Param{CustomerUserLogin}) {
@@ -644,33 +640,11 @@ sub CustomerUserServiceMemberList {
     elsif ($Param{CustomerUserLogin}) {
         $SQL .= " scu.customer_user_login = '$Param{CustomerUserLogin}'";
     }
-    elsif ($Param{ServiceIDs}) {
-        my @ServiceIDsQuote;
-        foreach (@ServiceIDs) {
-            push (@ServiceIDsQuote, $Self->{DBObject}->Quote($_, 'Integer'));
-        }
-        my $ServiceString = join(',', @ServiceIDsQuote);
-        $SQL .= " scu.service_id IN ($ServiceString)";
-    }
-    elsif ($Param{CustomerUserLogins}) {
-        $SQL .= " LOWER(scu.customer_user_login) IN (";
-        my $Exists = 0;
-        foreach (@CustomerUserLogins) {
-            if ($Exists) {
-                $SQL .= ", ";
-            }
-            else {
-                $Exists = 1;
-            }
-            $SQL .= "LOWER('".$Self->{DBObject}->Quote($_)."')";
-        }
-        $SQL .= ") ";
-    }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         my $Key = '';
         my $Value = '';
-        if ($Param{ServiceID} || $Param{ServiceIDs}) {
+        if ($Param{ServiceID}) {
             $Key = $Row[1];
             $Value = $Row[0];
         }
@@ -682,6 +656,17 @@ sub CustomerUserServiceMemberList {
         if (!defined($Data{$Key})) {
             $Data{$Key} = $Value;
             push (@Name, $Value);
+            push (@ID, $Key);
+        }
+    }
+    if ($Param{CustomerUserLogin} && $Param{DefaultServices} && !keys(%Data)) {
+        %Data = $Self->CustomerUserServiceMemberList(
+            CustomerUserLogin => '<DEFAULT>',
+            Result => 'HASH',
+            DefaultServices => 0,
+        );
+        foreach my $Key (keys %Data) {
+            push (@Name, $Data{$Key});
             push (@ID, $Key);
         }
     }
@@ -777,6 +762,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2007-06-29 01:00:39 $
+$Revision: 1.16 $ $Date: 2007-07-30 14:51:03 $
 
 =cut
