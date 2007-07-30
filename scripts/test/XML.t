@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.t,v 1.14 2007-05-07 08:24:25 martin Exp $
+# $Id: XML.t,v 1.15 2007-07-30 14:00:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,6 +24,7 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
       <Telephone country="germany">+49-999-99999</Telephone>
       <Telephone2></Telephone2>
       <SpecialCharacters>\'</SpecialCharacters>
+      <SpecialCharacters1>\\\'</SpecialCharacters1>
       <GermanText>German Umlaute öäü ÄÜÖ ß</GermanText>
     </Contact>
 ';
@@ -40,6 +41,14 @@ $Self->True(
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{Content} eq '',
     'XMLHashGet() (Telephone2)',
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{SpecialCharacters}->[1]->{Content} eq '\'',
+    'XMLHashGet() (SpecialCharacters)',
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{SpecialCharacters1}->[1]->{Content} eq '\\\'',
+    'XMLHashGet() (SpecialCharacters1)',
 );
 
 my $XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
