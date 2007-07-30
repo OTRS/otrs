@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.428 2007-07-30 14:06:30 martin Exp $
+# $Id: CHANGES,v 1.429 2007-07-30 14:58:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.2 (2007/07/30)
+ - (2007/07/30) Fixed bug# 2015 - Improved handling to allocate customerusers
+    and services. Now it's possible to define default services.
  - (2007/07/27) Fixed bug# 2053 - If core "System::Permission" note is used,
     not effect to the ticket note mask appears.
  - (2007/07/27) Fixed bug# 2059 - config setting $Self->{'Database::Connect'}
