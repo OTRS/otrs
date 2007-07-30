@@ -2,7 +2,7 @@
 # Kernel/System/Cache.pm - all cache functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Cache.pm,v 1.1 2007-07-26 13:56:25 martin Exp $
+# $Id: Cache.pm,v 1.2 2007-07-30 09:55:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -74,7 +74,7 @@ sub new {
     my $CacheModule = $Self->{ConfigObject}->Get('Cache::Module')
         || 'Kernel::System::Cache::File';
     if (!$Self->{MainObject}->Require($CacheModule)) {
-        die "Can't load cache backend backend module $CacheModule! $@";
+        die "Can't load cache backend module $CacheModule! $@";
     }
 
     $Self->{CacheObject} = $CacheModule->new(%Param);
@@ -189,6 +189,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2007-07-26 13:56:25 $
+$Revision: 1.2 $ $Date: 2007-07-30 09:55:17 $
 
 =cut
