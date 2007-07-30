@@ -2,11 +2,12 @@
 # Kernel/Language/fr.pm - provides fr language translation
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
-# Copyright (C) 2004-2007 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
+# Copyright (C) 2004-2007 Yann Richard <ze at nbox.org>
 # Copyright (C) 2007 Remi Seguy <remi.seguy at laposte.net>
+# Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
 # --
-# $Id: fr.pm,v 1.77 2007-06-28 23:42:09 martin Exp $
+# $Id: fr.pm,v 1.78 2007-07-30 15:45:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +19,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.77 $';
+$VERSION = '$Revision: 1.78 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -362,14 +363,14 @@ sub Data {
         'graph-lines-points' => '',
         'graph-area' => '',
         'graph-pie' => '',
-        'extended' => '',
+        'extended' => 'étendu',
         'Agent/Owner' => 'Technicien/Propriétaire',
         'Created by Agent/Owner' => 'Créé par le Technicien/Propriétaire',
         'Created Priority' => '',
         'Created State' => '',
-        'Create Time' => '',
+        'Create Time' => 'Date de création',
         'CustomerUserLogin' => '',
-        'Close Time' => '',
+        'Close Time' => 'Date de fermeture',
 
         # Template: AAATicket
         'Lock' => 'Verrouiller',
@@ -576,7 +577,7 @@ sub Data {
         'To get the first 5 lines of the email.' => 'Pour avoir les 5 premières lignes',
         'To get the realname of the sender (if given).' => 'Pour avoir le nom de l\'expéditeur s\'il est fourni.',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'pour avoir les attributs de l\'article (par ex. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> et <OTRS_CUSTOMER_Body>)',
-        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => 'Propriétés des données personnelle du client',
+        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => 'Propriétés des données personnelles du client',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => 'Propriétés du propriétaire du ticket',
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => 'Propriétés du responsable du ticket',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => 'Propriétés du client qui a demandé cette action',
@@ -666,7 +667,7 @@ sub Data {
         'Param 5' => 'Paramètre 5',
         'Param 6' => 'Paramètre 6',
         'Send no notifications' => 'Ne pas envoyer de notifications',
-        'Yes means, send no agent and customer notifications on changes.' => 'OUi signifie : ne rien envoyer sur changement au technicien et au client.',
+        'Yes means, send no agent and customer notifications on changes.' => 'Oui signifie : ne rien envoyer sur changement au technicien et au client.',
         'No means, send agent and customer notifications on changes.' => 'Non signifie : Envoyer un mail au technicien et au client sur changement.',
         'Save' => 'Sauver',
         '%s Tickets affected! Do you really want to use this job?' => '%s tickets affectés! Voulez vous vraiment utiliser cette commande ?',
@@ -873,7 +874,7 @@ sub Data {
         # Template: AdminSignatureForm
         'Signature Management' => 'Gestion des signatures',
         'Add Signature' => 'Ajouter une signature',
-        'Add a new Signature.' => 'Ajoute une nouvelle signature.',
+        'Add a new Signature.' => 'Ajouter une nouvelle signature.',
 
         # Template: AdminSLA
         'SLA Management' => 'Gestion des Accords sur la qualité de service (Service Level Agreement)',
@@ -1022,7 +1023,7 @@ sub Data {
         'Static-File' => 'Fichier statique',
         'For very complex stats it is possible to include a hardcoded file.' => 'Pour des statistiques très complexes, il est possible d\'inclure un fichier déjà encodé',
         'If a new hardcoded file is available this attribute will be shown and you can select one.' => 'Si un nouveau fichier encodé est disponible, cet attribut sera visible et vous pourrez le sélectionner',
-        'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => 'Permissions. Vous pouvez sélectionner un ou plusieurs groupes pour autoriser la consultation des stats pour différents techniciens.',
+        'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => 'Permissions. Vous pouvez sélectionner un ou plusieurs groupes pour autoriser la consultation des statistiques pour différents techniciens.',
         'Multiple selection of the output format.' => 'Selection multiple du format de sortie',
         'If you use a graph as output format you have to select at least one graph size.' => 'Si vous choisissez Graphe comme format de sortie, vous devez choisir la taille',
         'If you need the sum of every row select yes' => 'Si vous avez besoin de la somme pour chaque ligne, choisissez Oui',
@@ -1250,7 +1251,7 @@ sub Data {
 
         # Template: CustomerLogin
         'Login' => 'S\'authentifier',
-        'Lost your password?' => 'Mot de passe perdu ?',
+        'Lost your password?' => 'Mot de passe oublié ?',
         'Request new password' => 'Demande de nouveau mot de passe',
         'Create Account' => 'Créer un compte',
 
@@ -1280,7 +1281,7 @@ sub Data {
         # Template: CustomerWarning
 
         # Template: Error
-        'Click here to report a bug!' => 'Cliquer ici pour signaler une anomalie !',
+        'Click here to report a bug!' => 'Cliquer ici pour signaler une anomalie!',
 
         # Template: Footer
         'Top of Page' => 'Haut de page',
@@ -1401,18 +1402,18 @@ sub Data {
         'Customer history search' => 'Recherche dans l\'historique client',
         'Admin-Email' => 'Email de l\'administrateur',
         'Create new database' => 'Créer une nouvelle base de données',
-        'A message must be spell checked!' => 'Lorthographe dun message doit être vérifié!',
+        'A message must be spell checked!' => 'L\'orthographe d\'un message doit être vérifiée!',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Votre message concernant le ticket numéro "<OTRS_TICKET> est réémis à "<OTRS_BOUNCE_TO>". Contactez cette adresse pour de plus amples renseignements',
         'FAQ Language' => 'Langue dans la FAQ',
         'ArticleID' => 'Identifiant de l\'Article',
-        'A message should have a body!' => 'Un message doit avoir un corp !',
+        'A message should have a body!' => 'Un message doit avoir un corps !',
         'All Agents' => 'Tous les techniciens',
         'Keywords' => 'Mots clés',
         'No * possible!' => 'Pas de * possible !',
         'Options ' => 'Options',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Options ',
         'Message for new Owner' => 'Message pour le nouveau propriétaire',
-        'to get the first 5 lines of the email' => 'pour avoir les 5 premières ligne du mail',
+        'to get the first 5 lines of the email' => 'pour avoir les 5 premières lignes du mail',
         'OTRS DB Password' => 'Mot de passe de la base OTRS',
         'Last update' => 'Dernière mise à jour',
         'to get the first 20 character of the subject' => 'pour avoir les 20 premiers caractères du sujet ',
@@ -1443,9 +1444,9 @@ sub Data {
         'Don\'t forget to add a new user to groups!' => 'Ne pas oublier d\'ajouter un nouvel utilisateur aux groupes !',
         'You need a email address (e. g. customer@example.com) in To:!' => 'Il faut une adresse courriel (ex&nbsp;: client@exemple.fr)&nbsp;!',
         'CreateTicket' => 'Créer Ticket',
-        'You need to account time!' => 'Vous devez avoir un compte de temps&nbsp;!',
+        'You need to account time!' => 'Vous devez comptabiliser le temps;!',
         'System Settings' => 'Paramètres Système',
-        'WebWatcher' => '',
+        'WebWatcher' => 'WebWatcher',
         'Hours' => 'Heures',
         'Finished' => 'Fini',
         'Account Type' => 'Type de compte',
@@ -1459,7 +1460,7 @@ sub Data {
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Options de configuration (ex: &lt;OTRS_CONFIG_HttpType&gt;)',
         'don\'t accept license' => 'Ne pas accepter la licence',
         'A web mail client' => 'Un logiciel de messagerie via le web',
-        'FAQ-State' => '(FAQ) État',
+        'FAQ-State' => 'État FAQ',
         'WebMail' => 'Webmail',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Options des données du ticket (ex:  <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Options du propriétaire d\'un ticket (ex: <OTRS_OWNER_UserFirstname>)',
@@ -1479,7 +1480,7 @@ sub Data {
         'A web file manager' => 'Un gestionnaire de fichier via le web',
         'send' => 'envoyer',
         'Note Text' => 'Note',
-        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Options des données du client actuel du ticket (ex:  &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Options des données du client actuel (ex:  &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
         'System State Management' => 'Gestion des états du système',
         'OTRS DB User' => 'Utilisateur de la base OTRS',
         'PhoneView' => 'Vue téléphone',
@@ -1488,7 +1489,7 @@ sub Data {
         'TicketID' => 'Identifiant du Ticket',
         'FAQ History' => 'Historique de la FAQ',
         'Modified' => 'Modifié',
-        'Ticket selected for bulk action!' => 'Ticket sélectionné pour une action groupé!',
+        'Ticket selected for bulk action!' => 'Ticket sélectionné pour une action groupée!',
     };
     # $$STOP$$
     return;
