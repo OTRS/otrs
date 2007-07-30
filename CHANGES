@@ -2,14 +2,25 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.427 2007-07-26 16:06:05 martin Exp $
+# $Id: CHANGES,v 1.428 2007-07-30 14:06:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-2.2.2 (2007/07/??)
+2.2.2 (2007/07/30)
+ - (2007/07/27) Fixed bug# 2053 - If core "System::Permission" note is used,
+    not effect to the ticket note mask appears.
+ - (2007/07/27) Fixed bug# 2059 - config setting $Self->{'Database::Connect'}
+    is not overwriting default option used by driver.
+ - (2007/07/26) Fixed bug# 2105 - Notification after moving a ticket to my
+    queues is wrong -> ">OTRS_CUSTOMER_QUEUE<" got not replaced in subject.
+    SQL files scripts/database/otrs-initial_insert.*.sql got fixed.
+ - (2007/07/26) Fixed bug# 2029 - Selected responsible agent was not taken
+    over after creating a phone ticket.
+ - (2007/07/26) Fixed bug# 1946 - Setting of service, sla or type via email
+     X-OTRS-Service, X-OTRS-SLA or X-OTRS-Type header not possible.
  - (2007/07/26) Fixed bug# 2097 - Sometimes problems with SMTP module and utf8
     to send emails.
  - (2007/07/26) Improved system performance of escalation (bug# 2020 Performance
@@ -62,8 +73,6 @@
  - (2007/07/16) Updated norwegian translation, thanks to Fredrik Andersen!
  - (2007/07/16) Updated hungarian translation, thanks to Aron Ujvari!
  - (2007/07/16) Updated spanish translation, thanks to Carlos Oyarzabal!
- - (2007/07/12) Fixed bug# 2016 - CustomerUserUpdate: Add a function to handle
-    empty values.
  - (2007/07/12) Fixed bug# 2016 - CustomerUserUpdate: Add a function to handle
     empty values.
  - (2007/07/11) Fixed bug# 2047 - Add MainObject to the needed object check.
