@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.144 2007-07-03 08:42:31 tr Exp $
+# $Id: de.pm,v 1.145 2007-07-30 18:08:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.144 $';
+$VERSION = '$Revision: 1.145 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -250,7 +250,7 @@ sub Data {
         'Security Note: You should activate %s because application is already running!' => 'Sicherheitshinweis: Sie sollten den %s aktivieren, da die Anwendung bereits in Betrieb ist!',
         'Unable to parse Online Repository index document!' => 'Nicht möglich den Online Repository Index zu verarbeiten!',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => 'Kein Paket für den benötigten Framework vorhanden, aber für andere Frameworks.',
-        'No Packages or no new Packages in selected Online Repository!' => 'Kein Paket oder keine neuen Pakete in ausgewählten Online Repository vorhanden!',
+        'No Packages or no new Packages in selected Online Repository!' => 'Kein Paket oder keine neuen Pakete im ausgewählten Online Repository vorhanden!',
         'printed at' => 'gedruckt am',
 
         # Template: AAAMonth
