@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.42 2007-06-19 11:53:57 martin Exp $
+# $Id: RuntimeDB.pm,v 1.43 2007-07-30 09:52:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -254,37 +254,97 @@ sub GetLockedCount {
 sub GetOverTimeTickets {
     my $Self = shift;
     my %Param = @_;
-    # get data (viewable tickets...)
-    my @TicketIDsOverTime = ();
-    my %TicketIDs = ();
     # get all open rw ticket
-    my @TicketIDs = $Self->TicketSearch(
-        Result => 'ARRAY',
-        StateType => 'Open',
-        SortBy => 'Age',
-        OrderBy => 'Up',
-        Permission => 'rw',
-        UserID => $Param{UserID} || 1,
+    my @TicketIDs = ();
+    my @TicketIDsOverTime = ();
+    my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
+        Type => 'Viewable',
+        Result => 'ID',
     );
-    foreach my $TicketID (@TicketIDs) {
-        # just use the oldest 30 ticktes
-        if ($#TicketIDsOverTime > 30) {
+    my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock(Type => 'ID');
+    my $SQL = "SELECT st.id, st.tn, st.escalation_start_time, st.escalation_response_time, st.escalation_solution_time, ".
+        "st.ticket_state_id, st.service_id, st.sla_id, st.create_time, st.queue_id, st.ticket_lock_id ".
+        " FROM ".
+        " queue q, ticket st ".
+        " WHERE ".
+        " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) " .
+        " AND " .
+        " q.id = st.queue_id ".
+        " AND ";
+    if ($Self->{UserID} && $Self->{UserID} ne 1) {
+        my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
+            UserID => $Self->{UserID},
+            Type => 'rw',
+            Result => 'ID',
+            Cached => 1,
+        );
+        $SQL .= " q.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND ";
+        # check if user is in min. one group! if not, return here
+        if (!@GroupIDs) {
+            return;
+        }
+    }
+    $SQL .= " st.ticket_lock_id IN ( ${\(join ', ', @ViewableLockIDs)} ) ";
+    $SQL .= " ORDER BY st.escalation_start_time ASC";
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 5000);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        my $TicketData = {
+            TicketID => $Row[0],
+            TicketNumber => $Row[1],
+            EscalationStartTime => $Row[2],
+            EscalationResponseTime => $Row[3],
+            EscalationSolutionTime => $Row[4],
+            StateID => $Row[5],
+            ServiceID => $Row[6],
+            SLAID => $Row[7],
+            Created => $Row[8],
+            QueueID => $Row[9],
+            LockID => $Row[10],
+        };
+        push (@TicketIDs, $TicketData);
+    }
+    # get state infos
+    foreach my $TicketData (@TicketIDs) {
+        # get state info
+        my %StateData = $Self->{StateObject}->StateGet(ID => $TicketData->{StateID}, Cache => 1);
+        $TicketData->{StateType} = $StateData{TypeName};
+        $TicketData->{State} = $StateData{Name};
+        $TicketData->{Lock} = $Self->{LockObject}->LockLookup(LockID => $TicketData->{LockID});
+    }
+    # get escalations
+    my $ResponseTime = '';
+    my $UpdateTime = '';
+    my $SolutionTime = '';
+    my $Comment = '';
+    my $Count = 0;
+    foreach my $TicketData (@TicketIDs) {
+        my %Ticket = %{$TicketData};
+        my $TicketID = $Ticket{TicketID};
+        # just use the oldest 500 ticktes
+        if ($Count > 500) {
             last;
         }
-        my %Ticket = $Self->TicketGet(TicketID => $TicketID);
+        %Ticket = (%Ticket, $Self->TicketEscalationState(
+            TicketID => $TicketID,
+            Ticket => $TicketData,
+            UserID => $Self->{UserID} || 1,
+        ));
         # check response time
         if (defined($Ticket{'FirstResponseTimeEscalation'})) {
             push (@TicketIDsOverTime, $TicketID);
+            $Count++;
             next;
         }
         # check update time
         if (defined($Ticket{'UpdateTimeEscalation'})) {
             push (@TicketIDsOverTime, $TicketID);
+            $Count++;
             next;
         }
         # check solution
         if (defined($Ticket{'SolutionTimeEscalation'})) {
             push (@TicketIDsOverTime, $TicketID);
+            $Count++;
             next;
         }
     }
