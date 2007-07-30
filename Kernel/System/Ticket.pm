@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.267 2007-07-26 16:41:47 martin Exp $
+# $Id: Ticket.pm,v 1.268 2007-07-30 09:54:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.267 $';
+$VERSION = '$Revision: 1.268 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1785,18 +1785,11 @@ sub TicketEscalationState {
                 Time => $Escalation{FirstResponseTime}*60,
                 Calendar => $Escalation{Calendar},
             );
-
-            my $Time = 0;
-#            if ($FirstResponse) {
-#                $Time = $DestinationTime-$Self->{TimeObject}->TimeStamp2SystemTime(String => $FirstResponse);
-#            }
-#            else {
-                $Time = $DestinationTime-$Self->{TimeObject}->SystemTime();
-#            }
+            my $Time = $DestinationTime-$Self->{TimeObject}->SystemTime();
             my $WorkingTime = 0;
             if ($Time > 0) {
                 $WorkingTime = $Self->{TimeObject}->WorkingTime(
-                    StartTime => $Time,
+                    StartTime => $Self->{TimeObject}->SystemTime(),
                     StopTime => $DestinationTime,
                     Calendar => $Escalation{Calendar},
                 );
@@ -1813,9 +1806,7 @@ sub TicketEscalationState {
                 );
                 $WorkingTime = "-$WorkingTime";
                 # set escalation
-#                if (!$FirstResponse) {
-                    $Data{"FirstResponseTimeEscalation"} = 1;
-#                }
+                $Data{"FirstResponseTimeEscalation"} = 1;
             }
             my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $DestinationTime);
             $Data{"FirstResponseTimeDestinationTime"} = $DestinationTime;
@@ -6078,6 +6069,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.267 $ $Date: 2007-07-26 16:41:47 $
+$Revision: 1.268 $ $Date: 2007-07-30 09:54:40 $
 
 =cut
