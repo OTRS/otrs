@@ -1,8 +1,8 @@
 # --
-# CustomerTicketPrint.dtl - customer ticket print
+# CustomerTicketPrint.dtl - provides HTML print view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.dtl,v 1.6 2007-01-30 19:58:24 mh Exp $
+# $Id: CustomerTicketPrint.dtl,v 1.7 2007-07-31 17:59:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,77 +11,115 @@
 
 <table border="0" cellspacing="1" cellpadding="0" width="100%">
   <tr>
-    <td class="mainhead">$Config{"Ticket::Hook"}: $QData{"TicketNumber"}</td>
+    <td class="mainhead">$Config{"Ticket::Hook"}: $QData{"TicketNumber"} / $QData{"Title"}</td>
   </tr>
 </table>
 <table border="0" cellspacing="1" cellpadding="10" width="100%">
   <tr>
     <td class="contentkey">
       $Text{"Ticket-Info"}:
+      <table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+          <td width="50%" valign="top">
+            <table border="0" cellspacing="3" cellpadding="0" width="100%">
+              <tr>
+                <td class="contentkey" width="40%">$Text{"State"}:</td>
+                <td class="contentvalue" width="60%">$Text{"$Data{"State"}"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Priority"}:</td>
+                <td class="contentvalue">$Text{"$Data{"Priority"}"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Queue"}:</td>
+                <td class="contentvalue">$QData{"Queue"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Lock"}:</td>
+                <td class="contentvalue">$Text{"$Data{"Lock"}"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"CustomerID"}:</td>
+                <td class="contentvalue">$Data{"CustomerID"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Owner"}:</td>
+                <td class="contentvalue">$QData{"Owner"} ($QData{"UserFirstname"} $QData{"UserLastname"})</td>
+              </tr>
+<!-- dtl:block:Responsible -->
+              <tr>
+                <td class="contentkey">$Text{"Responsible"}:</td>
+                <td class="contentvalue">$QData{"ResponsibleString"}</td>
+              </tr>
+<!-- dtl:block:Responsible -->
+<!-- dtl:block:TicketType -->
+              <tr>
+                <td class="contentkey">$Text{"Type"}:</td>
+                <td class="contentvalue">$QData{"Type"}</td>
+              </tr>
+<!-- dtl:block:TicketType -->
+<!-- dtl:block:TicketService -->
+              <tr>
+                <td class="contentkey">$Text{"Service"}:</td>
+                <td class="contentvalue">$QData{"Service"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"SLA"}:</td>
+                <td class="contentvalue">$QData{"SLA"}</td>
+              </tr>
+<!-- dtl:block:TicketService -->
+            </table>
+          </td>
+          <td width="50%" valign="top">
+            <table border="0" cellspacing="3" cellpadding="0" width="100%">
+              <tr>
+                <td class="contentkey" width="40%">$Text{"Age"}:</td>
+                <td class="contentvalue" width="60%">$QData{"Age"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Created"}:</td>
+                <td class="contentvalue">$TimeLong{"$Data{"Created"}"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Accounted time"}:</td>
+                <td class="contentvalue">$Data{"TicketTimeUnits"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Pending till"}:</td>
+                <td class="contentvalue">$Data{"PendingUntil"}</td>
+              </tr>
+<!-- dtl:block:FirstResponseTime -->
+              <tr>
+                <td class="contentkey">$Text{"First Response Time"}:</td>
+                <td class="contentvalue">$TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</td>
+              </tr>
+<!-- dtl:block:FirstResponseTime -->
+<!-- dtl:block:UpdateTime -->
+              <tr>
+                <td class="contentkey">$Text{"Update Time"}:</td>
+                <td class="contentvalue">$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</td>
+              </tr>
+<!-- dtl:block:UpdateTime -->
+<!-- dtl:block:SolutionTime -->
+              <tr>
+                <td class="contentkey">$Text{"Solution Time"}:</td>
+                <td class="contentvalue">$TimeShort{"$QData{"SolutionTimeDestinationDate"}"}</td>
+              </tr>
+<!-- dtl:block:SolutionTime -->
+            </table>
+          </td>
+        </tr>
+      </table>
       <table border="0" cellspacing="3" cellpadding="0" width="100%">
         <tr>
-          <td class="contentkey" width="20%">$Text{"State"}:</td>
-          <td class="contentvalue" width="30%">$Text{"$Data{"State"}"}</td>
-          <td class="contentkey" width="20%">$Text{"Age"}:</td>
-          <td class="contentvalue" width="30%">$QData{"Age"}</td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Priority"}:</td>
-          <td class="contentvalue">$Text{"$Data{"Priority"}"}</td>
-          <td class="contentkey">$Text{"Created"}:</td>
-          <td class="contentvalue">$TimeLong{"$Data{"Created"}"}</td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Queue"}:</td>
-          <td class="contentvalue">$QData{"Queue"}</td>
-          <td class="contentkey">$Text{"Accounted time"}:</td>
-          <td class="contentvalue">$Data{"TicketTimeUnits"}</td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Lock"}:</td>
-          <td class="contentvalue">$Text{"$Data{"Lock"}"}</td>
-          <td class="contentkey">$Text{"Escalation in"}:</td>
-          <td class="contentvalue">$Data{"TicketOverTime"}</td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"CustomerID"}:</td>
-          <td class="contentvalue">$Data{"CustomerID"}</td>
-          <td class="contentkey">$Text{"Pending till"}:</td>
-          <td class="contentvalue">$Data{"PendingUntil"}</td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Owner"}:</td>
-          <td class="contentvalue">$QData{"Owner"} ($QData{"UserFirstname"} $QData{"UserLastname"})</td>
-          <td class="contentkey"> </td>
-          <td class="contentvalue"> </td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Linked-Object"}:</td>
-          <td colspan="3" class="contentvalue">
-<!-- dtl:block:LinkNormal -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
-<!-- dtl:block:LinkNormal -->
-          </td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Parent-Object"}:</td>
-          <td colspan="3" class="contentvalue">
-<!-- dtl:block:LinkParent -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
-<!-- dtl:block:LinkParent -->
-          </td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Child-Object"}:</td>
-          <td colspan="3" class="contentvalue">
-<!-- dtl:block:LinkChild -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
-<!-- dtl:block:LinkChild -->
-          </td>
+          <td width="20%"></td>
+          <td width="30%"></td>
+          <td width="20%"></td>
+          <td width="30%"></td>
         </tr>
 # --
 # use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2
-# -- networkers-ag cj: added text9-16
+# --
         <dtl if ($Data{"TicketFreeText1"} ne "") { $Data{"TicketFreeString1"} = "<tr><td class="contentkey">$QData{"TicketFreeKey1","50"}:</td><td class="contentvalue">$QData{"TicketFreeText1","250"}</td></tr>"; }>
         <dtl if ($Data{"TicketFreeText2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td class="contentkey">$QData{"TicketFreeKey2","50"}:</td><td class="contentvalue">$QData{"TicketFreeText2","250"}</td></tr>"; }>
         <dtl if ($Data{"TicketFreeText3"} ne "") { $Data{"TicketFreeString3"} = "<tr><td class="contentkey">$QData{"TicketFreeKey3","50"}:</td><td class="contentvalue">$QData{"TicketFreeText3","250"}</td></tr>"; }>
@@ -126,6 +164,34 @@
         $Data{"TicketFreeTimeString4"}
         $Data{"TicketFreeTimeString5"}
         $Data{"TicketFreeTimeString6"}
+        <tr>
+          <td class="contentkey">&nbsp;</td>
+          <td colspan="3" class="contentvalue">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="contentkey">$Text{"Linked-Object"}:</td>
+          <td colspan="3" class="contentvalue">
+<!-- dtl:block:LinkNormal -->
+            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+<!-- dtl:block:LinkNormal -->
+          </td>
+        </tr>
+        <tr>
+          <td class="contentkey">$Text{"Parent-Object"}:</td>
+          <td colspan="3" class="contentvalue">
+<!-- dtl:block:LinkParent -->
+            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+<!-- dtl:block:LinkParent -->
+          </td>
+        </tr>
+        <tr>
+          <td class="contentkey">$Text{"Child-Object"}:</td>
+          <td colspan="3" class="contentvalue">
+<!-- dtl:block:LinkChild -->
+            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+<!-- dtl:block:LinkChild -->
+          </td>
+        </tr>
       </table>
     </td>
   </tr>
@@ -166,16 +232,6 @@
                       <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
                     </tr>
 <!-- dtl:block:ArticleFreeText -->
-# --
-# show the Article::FreeKey1-3 and Article::FreeValue1-3
-# --
-#<dtl if ($Data{"Article::FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td class="contentkey">$QData{"FreeKey1"}:</td><td class="contentvalue"> $QData{"FreeText1"}</td></tr>"; }>
-#<dtl if ($Data{"Article::FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td class="contentkey">$QData{"FreeKey2"}:</td><td class="contentvalue"> $QData{"FreeText2"}</td></tr>"; }>
-#<dtl if ($Data{"Article::FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td class="contentkey">$QData{"FreeKey3"}:</td><td class="contentvalue"> $QData{"FreeText3"}</td></tr>"; }>
-#     $Data{"ArticleFreeString1"}
-#     $Data{"ArticleFreeString2"}
-#     $Data{"ArticleFreeString3"}
-# --
                     <tr>
                       <td class="contentkey">$Text{"Type"}:</td>
                       <td class="contentvalue"> $QData{"ArticleType"}</td>

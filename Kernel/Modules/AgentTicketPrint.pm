@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AgentTicketPrint.pm - to get a closer view
+# Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.42 2007-07-26 14:22:43 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.43 2007-07-31 17:59:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -88,6 +88,14 @@ sub Run {
         User => $Ticket{Owner},
         Cached => 1
     );
+    # responsible info
+    my %ResponsibleInfo;
+    if ($Self->{ConfigObject}->Get('Ticket::Responsible') && $Ticket{Responsible}) {
+        %ResponsibleInfo = $Self->{UserObject}->GetUserData(
+            User => $Ticket{Responsible},
+            Cached => 1
+        );
+    }
     # customer info
     my %CustomerData = ();
     if ($Ticket{CustomerUserID}) {
@@ -177,6 +185,7 @@ sub Run {
             PageData => \%Page,
             TicketData => \%Ticket,
             UserData => \%UserInfo,
+            ResponsibleData => \%ResponsibleInfo,
         );
         # output ticket freetext fields
         $Self->_PDFOutputTicketFreeText(
@@ -252,6 +261,7 @@ sub Run {
             TicketID => $Self->{TicketID},
             QueueID => $QueueID,
             ArticleBox => \@ArticleBox,
+            ResponsibleData => \%ResponsibleInfo,
             %Param,
             %UserInfo,
             %Ticket,
@@ -304,24 +314,36 @@ sub _PDFOutputTicketInfos {
             Value => $Ticket{Owner} . ' (' . $UserInfo{UserFirstname} . ' ' . $UserInfo{UserLastname} . ')',
         },
     ];
+    # add responible row, if feature is enabled
+    if ($Self->{ConfigObject}->Get('Ticket::Responsible')) {
+        my $Responsible = '-';
+        if ($Ticket{Responsible}) {
+            $Responsible = $Ticket{Responsible} . ' (' . $Param{ResponsibleData}->{UserFirstname} . ' ' . $Param{ResponsibleData}->{UserLastname} . ')';
+        }
+        my $Row = {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Responsible') . ':',
+            Value => $Responsible,
+        };
+        push(@{$TableLeft}, $Row);
+    }
     # add type row, if feature is enabled
     if ($Self->{ConfigObject}->Get('Ticket::Type')) {
-        my $RowType = {
+        my $Row = {
             Key => $Self->{LayoutObject}->{LanguageObject}->Get('Type') . ':',
             Value => $Ticket{Type},
         };
-        push(@{$TableLeft}, $RowType);
+        push(@{$TableLeft}, $Row);
     }
     # add service and sla row, if feature is enabled
     if ($Self->{ConfigObject}->Get('Ticket::Service')) {
         my $RowService = {
             Key => $Self->{LayoutObject}->{LanguageObject}->Get('Service') . ':',
-            Value => $Ticket{Service},
+            Value => $Ticket{Service} || '-',
         };
         push(@{$TableLeft}, $RowService);
         my $RowSLA = {
             Key => $Self->{LayoutObject}->{LanguageObject}->Get('SLA') . ':',
-            Value => $Ticket{SLA},
+            Value => $Ticket{SLA} || '-',
         };
         push(@{$TableLeft}, $RowSLA);
     }
@@ -343,14 +365,43 @@ sub _PDFOutputTicketInfos {
             Value => $Ticket{TicketTimeUnits},
         },
         {
-            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Escalation in') . ':',
-            Value => $Ticket{TicketOverTime},
-        },
-        {
             Key => $Self->{LayoutObject}->{LanguageObject}->Get('Pending till') . ':',
             Value => $Ticket{PendingUntil},
         },
     ];
+    # add first response time row
+    if (defined($Ticket{FirstResponseTime})) {
+        my $Row = {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('First Response Time') . ':',
+            Value => $Self->{LayoutObject}->Output(
+                Template => '$TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}',
+                Data => \%Ticket,
+            ),
+        };
+        push(@{$TableRight}, $Row);
+    }
+    # add update time row
+    if (defined($Ticket{UpdateTime})) {
+        my $Row = {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Update Time') . ':',
+            Value => $Self->{LayoutObject}->Output(
+                Template => '$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}',
+                Data => \%Ticket,
+            ),
+        };
+        push(@{$TableRight}, $Row);
+    }
+    # add solution time row
+    if (defined($Ticket{SolutionTime})) {
+        my $Row = {
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Solution Time') . ':',
+            Value => $Self->{LayoutObject}->Output(
+                Template => '$TimeShort{"$QData{"SolutionTimeDestinationDate"}"}',
+                Data => \%Ticket,
+            ),
+        };
+        push(@{$TableRight}, $Row);
+    }
 
     my $Rows = @{$TableLeft};
     if (@{$TableRight} > $Rows) {
@@ -941,6 +992,19 @@ sub _HTMLMask {
     my $Self = shift;
     my %Param = @_;
 
+    # output responible, if feature is enabled
+    if ($Self->{ConfigObject}->Get('Ticket::Responsible')) {
+        my $Responsible = '-';
+        if ($Param{Responsible}) {
+            $Responsible = $Param{Responsible} . ' (' . $Param{ResponsibleData}->{UserFirstname} . ' ' . $Param{ResponsibleData}->{UserLastname} . ')';
+        }
+        $Self->{LayoutObject}->Block(
+            Name => 'Responsible',
+            Data => {
+                ResponsibleString => $Responsible,
+            },
+        );
+    }
     # output type, if feature is enabled
     if ($Self->{ConfigObject}->Get('Ticket::Type')) {
         $Self->{LayoutObject}->Block(
@@ -954,6 +1018,34 @@ sub _HTMLMask {
     if ($Self->{ConfigObject}->Get('Ticket::Service')) {
         $Self->{LayoutObject}->Block(
             Name => 'TicketService',
+            Data => {
+                Service => $Param{Service} || '-',
+                SLA => $Param{SLA} || '-',
+            },
+        );
+    }
+    # output first response time
+    if (defined($Param{FirstResponseTime})) {
+        $Self->{LayoutObject}->Block(
+            Name => 'FirstResponseTime',
+            Data => {
+                %Param,
+            },
+        );
+    }
+    # output update time
+    if (defined($Param{UpdateTime})) {
+        $Self->{LayoutObject}->Block(
+            Name => 'UpdateTime',
+            Data => {
+                %Param,
+            },
+        );
+    }
+    # output solution time
+    if (defined($Param{SolutionTime})) {
+        $Self->{LayoutObject}->Block(
+            Name => 'SolutionTime',
             Data => {
                 %Param,
             },
