@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.71 2007-06-28 21:47:59 martin Exp $
+# $Id: Queue.pm,v 1.72 2007-07-31 14:06:42 bb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,9 +17,10 @@ use Kernel::System::StdResponse;
 use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
+use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.71 $';
+$VERSION = '$Revision: 1.72 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -151,6 +152,7 @@ sub GetSystemAddress {
         $Address{RealName} =~ s/"/\"/g;
         $Address{RealName} = '"'.$Address{RealName}.'"';
     }
+    print STDERR Dumper \%Address;
     return %Address;
 }
 
@@ -426,7 +428,7 @@ sub GetAllQueues {
         $Self->{"QG::GetAllQueues::UserID::$Param{UserID}"} = \%MoveQueues;
     }
     elsif ($Param{CustomerUserID}) {
-        $Self->{"QG::GetAllQueues::CustomerUserID::$Param{UserID}"} = \%MoveQueues;
+        $Self->{"QG::GetAllQueues::CustomerUserID::$Param{CustomerUserID}"} = \%MoveQueues;
     }
     else {
         $Self->{"QG::GetAllQueues"} = \%MoveQueues;
@@ -1062,6 +1064,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.71 $ $Date: 2007-06-28 21:47:59 $
+$Revision: 1.72 $ $Date: 2007-07-31 14:06:42 $
 
 =cut
