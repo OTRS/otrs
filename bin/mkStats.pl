@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.47 2007-07-26 14:25:26 mh Exp $
+# $Id: mkStats.pl,v 1.48 2007-07-31 11:32:39 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,17 +20,18 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
+use strict;
+use warnings;
+
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
-use strict;
-
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -51,21 +52,21 @@ use Kernel::Language;
 # create common objects
 my %CommonObject = ();
 $CommonObject{UserID} = 1;
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{ConfigObject} = Kernel::Config     ->new();
+$CommonObject{LogObject   } = Kernel::System::Log->new(
     LogPrefix => 'OTRS-SendStats',
     %CommonObject,
 );
-$CommonObject{CSVObject} = Kernel::System::CSV->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
-$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
-$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
-$CommonObject{StatsObject} = Kernel::System::Stats->new(%CommonObject);
+$CommonObject{CSVObject      } = Kernel::System::CSV      ->new(%CommonObject);
+$CommonObject{TimeObject     } = Kernel::System::Time     ->new(%CommonObject);
+$CommonObject{MainObject     } = Kernel::System::Main     ->new(%CommonObject);
+$CommonObject{DBObject       } = Kernel::System::DB       ->new(%CommonObject);
+$CommonObject{GroupObject    } = Kernel::System::Group    ->new(%CommonObject);
+$CommonObject{UserObject     } = Kernel::System::User     ->new(%CommonObject);
+$CommonObject{StatsObject    } = Kernel::System::Stats    ->new(%CommonObject);
 $CommonObject{CheckItemObject} = Kernel::System::CheckItem->new(%CommonObject);
-$CommonObject{EmailObject} = Kernel::System::Email->new(%CommonObject);
-$CommonObject{PDFObject} = Kernel::System::PDF->new(%CommonObject);
+$CommonObject{EmailObject    } = Kernel::System::Email    ->new(%CommonObject);
+$CommonObject{PDFObject      } = Kernel::System::PDF      ->new(%CommonObject);
 
 # get options
 my %Opts = ();
@@ -79,74 +80,74 @@ if ($Opts{'h'}) {
     exit 1;
 }
 # required output param check
-if (!$Opts{'o'} && !$Opts{'r'}) {
+if (!$Opts{o} && !$Opts{r}) {
     print STDERR "ERROR: Need -o /tmp/ OR -r email\@example.com [-m 'some message']\n";
     exit 1;
 }
 # stats module check
-if (!$Opts{'n'}) {
+if (!$Opts{n}) {
     print STDERR "ERROR: Need -n StatNumber\n";
     exit 1;
 }
 # fill up body
-if (!$Opts{'m'} && $Opts{'p'}) {
-    $Opts{'m'} .= "Stats with following options:\n\n";
-    $Opts{'m'} .= "StatNumber: $Opts{'n'}\n";
+if (!$Opts{m} && $Opts{p}) {
+    $Opts{m} .= "Stats with following options:\n\n";
+    $Opts{m} .= "StatNumber: $Opts{n}\n";
     my @P = split(/&/, $Opts{'p'});
-    foreach (@P) {
+    for (@P) {
         my ($Key, $Value) = split(/=/, $_, 2);
         $Opts{'m'} .= "$Key: $Value\n";
     }
 }
 # only necessary for emails
-if (!$Opts{'m'} && $Opts{'r'}) {
+if (!$Opts{m} && $Opts{r}) {
     print STDERR "ERROR: Need -m 'some message (necessary for emails)'\n";
     exit 1;
 }
 # language
 my $Lang = $CommonObject{ConfigObject}->Get('DefaultLanguage') || 'en';
-if ($Opts{'l'}) {
-    $Lang = $Opts{'l'};
+if ($Opts{l}) {
+    $Lang = $Opts{l};
 }
-
 $CommonObject{LanguageObject} = Kernel::Language->new(
-    UserTimeZone => $CommonObject{UserTimeZone},
     UserLanguage => $Lang,
-    LogObject => $CommonObject{LogObject},
+    LogObject    => $CommonObject{LogObject},
     ConfigObject => $CommonObject{ConfigObject},
-    MainObject => $CommonObject{MainObject},
-    Action => $CommonObject{Action},
+    MainObject   => $CommonObject{MainObject},
 );
 
 # format
 my $Format = 'CSV';
-if ($Opts{'f'}) {
-    if ($Opts{'f'} eq 'Print') {
+if ($Opts{f}) {
+    if ($Opts{f} eq 'Print') {
         $Format = 'Print';
     }
 }
+
 # recipient check
-if ($Opts{'r'}) {
-    if (!$CommonObject{CheckItemObject}->CheckEmail(Address => $Opts{'r'})) {
+if ($Opts{r}) {
+    if (!$CommonObject{CheckItemObject}->CheckEmail(Address => $Opts{r})) {
         print STDERR "ERROR: " . $CommonObject{CheckItemObject}->CheckError() . "\n";
         exit 1;
     }
 }
+
 # sender, if given
-if (!$Opts{'s'}) {
-    $Opts{'s'} = '';
+if (!$Opts{s}) {
+    $Opts{s} = '';
 }
+
 # directory check
-if ($Opts{'o'} && !-e $Opts{'o'}) {
-    print STDERR "ERROR: No such directory: $Opts{'o'}\n";
+if ($Opts{o} && !-e $Opts{o}) {
+    print STDERR "ERROR: No such directory: $Opts{o}\n";
     exit 1;
 }
 
 # process the informations
-my $StatNumber = $Opts{'n'};
+my $StatNumber = $Opts{n};
 my $StatID = $CommonObject{StatsObject}->StatNumber2StatID(StatNumber => $StatNumber);
 if (!$StatID) {
-    print STDERR "ERROR: No StatNumber: $Opts{'n'}\n";
+    print STDERR "ERROR: No StatNumber: $Opts{n}\n";
     exit 1;
 }
 
@@ -343,36 +344,38 @@ else {
     );
 
     %Attachment = (
-        Filename => $Filename . ".csv",
+        Filename    => $Filename . ".csv",
         ContentType => "text/csv",
-        Content => $Output,
-        Encoding => "base64",
+        Content     => $Output,
+        Encoding    => "base64",
         Disposition => "attachment",
     );
 }
 
 # write output
-if ($Opts{'o'}) {
-    if (open(OUT, "> $Opts{'o'}/$Attachment{Filename}")) {
-        print OUT $Attachment{Content};
-        close (OUT);
-        print "NOTICE: Writing file $Opts{'o'}/$Attachment{Filename}.\n";
+if ($Opts{o}) {
+    if (open my $Filehandle, '>', "$Opts{o}/$Attachment{Filename}") {
+        print $Filehandle $Attachment{Content};
+        close $Filehandle;
+        print "NOTICE: Writing file $Opts{o}/$Attachment{Filename}.\n";
         exit;
     }
     else {
-        print STDERR "ERROR: Can't write $Opts{'o'}/$Attachment{Filename}: $!\n";
+        print STDERR "ERROR: Can't write $Opts{o}/$Attachment{Filename}: $!\n";
         exit 1;
     }
 }
+
 # send email
 elsif ($CommonObject{EmailObject}->Send(
-    From => $Opts{'s'},
-    To => $Opts{'r'},
-    Subject => "[Stats - $CountStatArray Records] $Title; Created: $Time",
-    Body => $Opts{'m'},
+    From       => $Opts{s},
+    To         => $Opts{r},
+    Subject    => "[Stats - $CountStatArray Records] $Title; Created: $Time",
+    Body       => $CommonObject{LanguageObject}->Get($Opts{'m'}),
+    Charset    => $CommonObject{ConfigObject}  ->{DefaultCharset},
     Attachment => [
         {
-            %Attachment,
+            %Attachment
         },
     ],
 )) {
@@ -385,8 +388,8 @@ sub GetParam {
     if (!$Param{Param}) {
         print STDERR "ERROR: Need Param Arg in GetParam()\n";
     }
-    my @P = split(/&/, $Opts{'p'}||'');
-    foreach (@P) {
+    my @P = split(/&/, $Opts{p} || '');
+    for (@P) {
         my ($Key, $Value) = split(/=/, $_, 2);
         if ($Key eq $Param{Param}) {
             return $Value;
@@ -400,9 +403,9 @@ sub GetArray {
     if (!$Param{Param}) {
         print STDERR "ERROR: Need Param Arg in GetArray()\n";
     }
-    my @P = split(/&/, $Opts{'p'}||'');
+    my @P = split(/&/, $Opts{p} || '');
     my @Array;
-    foreach (@P) {
+    for (@P) {
         my ($Key, $Value) = split(/=/, $_, 1);
         if ($Key eq $Param{Param}) {
             push (@Array, $Value);
