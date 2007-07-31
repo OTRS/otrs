@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.432 2007-07-31 18:01:31 mh Exp $
+# $Id: CHANGES,v 1.433 2007-07-31 18:02:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,8 +10,8 @@
 # --
 
 2.2.3 (2007/??/??)
- - (2007/07/31) Fixed bug# 2001 - New escalation times and the responible are
-    not shown in any print views
+ - (2007/07/31) Fixed bug# 2001 - New escalation times and the responsible are
+    not shown in any print views.
 
 2.2.2 (2007/07/31)
  - (2007/07/31) Fixed bug# 2114 - Fixed the problems with the email object.
