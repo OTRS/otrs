@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.429 2007-07-30 14:58:28 mh Exp $
+# $Id: CHANGES,v 1.430 2007-07-31 11:37:33 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+2.2.3 (????/??/??)
+ - (2007/07/31) Fixed bug# 2114 - Fixed the problems with the email object.
 
 2.2.2 (2007/07/30)
  - (2007/07/30) Fixed bug# 2015 - Improved handling to allocate customerusers
