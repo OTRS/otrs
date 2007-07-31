@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.48 2007-07-31 11:32:39 tr Exp $
+# $Id: mkStats.pl,v 1.49 2007-07-31 13:09:19 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -52,21 +52,21 @@ use Kernel::Language;
 # create common objects
 my %CommonObject = ();
 $CommonObject{UserID} = 1;
-$CommonObject{ConfigObject} = Kernel::Config     ->new();
-$CommonObject{LogObject   } = Kernel::System::Log->new(
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-SendStats',
     %CommonObject,
 );
-$CommonObject{CSVObject      } = Kernel::System::CSV      ->new(%CommonObject);
-$CommonObject{TimeObject     } = Kernel::System::Time     ->new(%CommonObject);
-$CommonObject{MainObject     } = Kernel::System::Main     ->new(%CommonObject);
-$CommonObject{DBObject       } = Kernel::System::DB       ->new(%CommonObject);
-$CommonObject{GroupObject    } = Kernel::System::Group    ->new(%CommonObject);
-$CommonObject{UserObject     } = Kernel::System::User     ->new(%CommonObject);
-$CommonObject{StatsObject    } = Kernel::System::Stats    ->new(%CommonObject);
+$CommonObject{CSVObject} = Kernel::System::CSV->new(%CommonObject);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
+$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
+$CommonObject{StatsObject} = Kernel::System::Stats->new(%CommonObject);
 $CommonObject{CheckItemObject} = Kernel::System::CheckItem->new(%CommonObject);
-$CommonObject{EmailObject    } = Kernel::System::Email    ->new(%CommonObject);
-$CommonObject{PDFObject      } = Kernel::System::PDF      ->new(%CommonObject);
+$CommonObject{EmailObject} = Kernel::System::Email->new(%CommonObject);
+$CommonObject{PDFObject} = Kernel::System::PDF->new(%CommonObject);
 
 # get options
 my %Opts = ();
@@ -111,9 +111,9 @@ if ($Opts{l}) {
 }
 $CommonObject{LanguageObject} = Kernel::Language->new(
     UserLanguage => $Lang,
-    LogObject    => $CommonObject{LogObject},
+    LogObject => $CommonObject{LogObject},
     ConfigObject => $CommonObject{ConfigObject},
-    MainObject   => $CommonObject{MainObject},
+    MainObject => $CommonObject{MainObject},
 );
 
 # format
@@ -344,10 +344,10 @@ else {
     );
 
     %Attachment = (
-        Filename    => $Filename . ".csv",
+        Filename => $Filename . ".csv",
         ContentType => "text/csv",
-        Content     => $Output,
-        Encoding    => "base64",
+        Content => $Output,
+        Encoding => "base64",
         Disposition => "attachment",
     );
 }
@@ -368,11 +368,11 @@ if ($Opts{o}) {
 
 # send email
 elsif ($CommonObject{EmailObject}->Send(
-    From       => $Opts{s},
-    To         => $Opts{r},
-    Subject    => "[Stats - $CountStatArray Records] $Title; Created: $Time",
-    Body       => $CommonObject{LanguageObject}->Get($Opts{'m'}),
-    Charset    => $CommonObject{ConfigObject}  ->{DefaultCharset},
+    From => $Opts{s},
+    To => $Opts{r},
+    Subject => "[Stats - $CountStatArray Records] $Title; Created: $Time",
+    Body => $CommonObject{LanguageObject}->Get($Opts{'m'}),
+    Charset => $CommonObject{ConfigObject}  ->{DefaultCharset},
     Attachment => [
         {
             %Attachment
