@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.268 2007-07-30 09:54:40 martin Exp $
+# $Id: Ticket.pm,v 1.269 2007-07-31 11:45:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.268 $';
+$VERSION = '$Revision: 1.269 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2927,8 +2927,13 @@ To find tickets in your system.
         Cc => '%client@example.com%',
         Subject => '%VIRUS 32%',
         Body => '%VIRUS 32%',
+
         # content search (AND or OR) (optional)
         ContentSearch => 'AND',
+
+        # content conditions for From,To,Cc,Subject,Body,TicketNumber,
+        # Title,CustomerID and CustomerUserLogin (all optional)
+        ConditionInline => 1,
 
         # tickets created after 60 minutes (optional)
         TicketCreateTimeOlderMinutes => 60,
@@ -3537,7 +3542,12 @@ sub TicketSearch {
         }
         elsif ($Param{$Key}) {
             $Param{$Key} =~ s/\*/%/gi;
-            $SQLExt .= " AND LOWER($FieldSQLMap{$Key}) LIKE LOWER('".$Self->{DBObject}->Quote($Param{$Key})."')";
+            if ($Param{ConditionInline} && ($Param{$Key} =~ /(&&|\|\|)/ || $Param{$Key} =~ / /) ) {
+                $SQLExt .= " AND ".$Self->_TicketSearchCondition(Key => $FieldSQLMap{$Key}, Value => $Param{$Key});
+            }
+            else {
+                $SQLExt .= " AND LOWER($FieldSQLMap{$Key}) LIKE LOWER('".$Self->{DBObject}->Quote($Param{$Key})."')";
+            }
         }
     }
     # article stuff
@@ -3555,7 +3565,12 @@ sub TicketSearch {
             if ($FullTextSQL) {
                 $FullTextSQL .= " $ContentSearch ";
             }
-            $FullTextSQL .= " LOWER($FieldSQLMapFullText{$Key}) LIKE LOWER('".$Self->{DBObject}->Quote($Param{$Key})."')";
+            if ($Param{ConditionInline} && ($Param{$Key} =~ /(&&|\|\|)/ || $Param{$Key} =~ / /) ) {
+                $FullTextSQL .= $Self->_TicketSearchCondition(Key => $FieldSQLMapFullText{$Key}, Value => $Param{$Key});
+            }
+            else {
+                $FullTextSQL .= " LOWER($FieldSQLMapFullText{$Key}) LIKE LOWER('".$Self->{DBObject}->Quote($Param{$Key})."')";
+            }
         }
     }
     if ($FullTextSQL) {
@@ -3795,6 +3810,98 @@ sub TicketSearch {
     else {
         return @TicketIDs;
     }
+}
+
+sub _TicketSearchCondition {
+    my $Self = shift;
+    my %Param = @_;
+    my $Key = $Param{Key} || return;
+    my $Word = $Param{Value} || return;
+    # clean up
+    $Word =~ s/^\s+//g;
+    $Word =~ s/\s+$//g;
+    $Word =~ s/^(%|\*)(.*)$/$2/gi;
+    $Word =~ s/^(.*)(%|\*)$/$1/gi;
+    if ($Word !~ /^\(/) {
+        $Word = '('.$Word;
+    }
+    if ($Word !~ /\)$/) {
+        $Word = $Word.')';
+    }
+    $Word =~ s/  / /g;
+    $Word =~ s/ /&&/g;
+
+    my @Array = split(//, $Word);
+    my $WordNew = '';
+    my $Open = 0;
+    my $Not = 0;
+    foreach my $Position (0..$#Array) {
+        if (!defined($Array[$Position])) {
+            next;
+        }
+        if ($Not && $Array[$Position] eq '!') {
+            next;
+            $Not = 0;
+        }
+        if ($Array[$Position] eq '(' && $Array[$Position+1] && $Array[$Position+1] ne '(') {
+            $Open = 1;
+            $WordNew .= " (";
+            if ($Array[$Position+1] ne '(') {
+                if ($Array[$Position+1] eq '!') {
+                    $Not = 1;
+                    $WordNew .= " LOWER($Key) NOT LIKE LOWER('%";
+                }
+                else {
+                    $WordNew .= " LOWER($Key) LIKE LOWER('%";
+                }
+            }
+        }
+        elsif ($Array[$Position] eq ')' && $Array[$Position-1] && $Array[$Position-1] ne ')') {
+             $WordNew .= "%')) ";
+        }
+        elsif ($Array[$Position] eq ')' && $Array[$Position+1] && $Array[$Position+1] ne ')') {
+            $WordNew .= ") ";
+        }
+        elsif ($Array[$Position] eq '&' && $Array[$Position+1] && $Array[$Position+1] eq '&') {
+            if ($Array[$Position-1] ne ')') {
+                $WordNew .= "%') ";
+            }
+            $WordNew .= " AND ";
+            if ($Array[$Position+2] ne '(') {
+            if ($Array[$Position+2] eq '!') {
+                $Not = 1;
+                $WordNew .= " LOWER($Key) NOT LIKE LOWER('%";
+            }
+            else {
+                $WordNew .= " LOWER($Key) LIKE LOWER('%";
+            }
+            }
+        }
+        elsif ($Array[$Position] eq '&' && $Array[$Position-1] eq '&') {
+        }
+        elsif ($Array[$Position] eq '|' && $Array[$Position+1] eq '|') {
+            if ($Array[$Position-1] ne ')') {
+                $WordNew .= "%') ";
+            }
+            $WordNew .= " OR ";
+            if ($Array[$Position+2] ne '(') {
+            if ($Array[$Position+2] eq '!') {
+                $Not = 1;
+                $WordNew .= " LOWER($Key) NOT LIKE LOWER('%";
+            }
+            else {
+                $WordNew .= " LOWER($Key) LIKE LOWER('%";
+            }
+            }
+        }
+        elsif ($Array[$Position] eq '|' && $Array[$Position-1] eq '|') {
+        }
+        else {
+            $WordNew .=  $Self->{DBObject}->Quote($Array[$Position]);
+        }
+    }
+
+    return '('.$WordNew.')';
 }
 
 =item LockIsTicketLocked()
@@ -6069,6 +6176,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.268 $ $Date: 2007-07-30 09:54:40 $
+$Revision: 1.269 $ $Date: 2007-07-31 11:45:54 $
 
 =cut

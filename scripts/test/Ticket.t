@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.20 2007-06-18 10:28:13 martin Exp $
+# $Id: Ticket.t,v 1.21 2007-07-31 11:45:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -3152,14 +3152,14 @@ $Self->True(
 );
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
-      # result (required)
-      Result => 'HASH',
-      # result limit
-      Limit => 100,
-      TicketNumber => [$Ticket{TicketNumber}, 'ABC'],
-      StateType => 'Open',
-      UserID => 1,
-      Permission => 'rw',
+    # result (required)
+    Result => 'HASH',
+    # result limit
+    Limit => 100,
+    TicketNumber => [$Ticket{TicketNumber}, 'ABC'],
+    StateType => 'Open',
+    UserID => 1,
+    Permission => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3167,19 +3167,76 @@ $Self->True(
 );
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
-      # result (required)
-      Result => 'HASH',
-      # result limit
-      Limit => 100,
-      TicketNumber => [$Ticket{TicketNumber}, 'ABC'],
-      StateType => 'Closed',
-      UserID => 1,
-      Permission => 'rw',
+    # result (required)
+    Result => 'HASH',
+    # result limit
+    Limit => 100,
+    TicketNumber => [$Ticket{TicketNumber}, 'ABC'],
+    StateType => 'Closed',
+    UserID => 1,
+    Permission => 'rw',
 );
 $Self->False(
     $TicketIDs{$TicketID},
     'TicketSearch() (HASH:TicketNumber,StateType:Closed)',
 );
+
+foreach my $Condition (
+    '(Some&&Agent)',
+    'Some&&Agent',
+    '(Some Agent)',
+    ' (Some Agent)',
+    ' (Some Agent)  ',
+    'Some&&Agent',
+    'Some Agent',
+    ' Some Agent',
+    'Some Agent ',
+    ' Some Agent ',
+    '(!SomeWordShouldNotFound||(Some Agent))',
+    '((Some Agent)||(SomeAgentNotFound||AgentNotFound))',
+    ) {
+    %TicketIDs = $Self->{TicketObject}->TicketSearch(
+        # result (required)
+        Result => 'HASH',
+        # result limit
+        Limit => 1000,
+        From => $Condition,
+        ConditionInline => 1,
+        UserID => 1,
+        Permission => 'rw',
+    );
+    $Self->True(
+        $TicketIDs{$TicketID} || 0,
+        "TicketSearch() (HASH:From,ConditionInline,From='$Condition')",
+    );
+}
+
+foreach my $Condition (
+    '(SomeNotFoundWord&&AgentNotFoundWord)',
+    'SomeNotFoundWord||AgentNotFoundWord',
+    ' SomeNotFoundWord||AgentNotFoundWord',
+    'SomeNotFoundWord&&AgentNotFoundWord',
+    'SomeNotFoundWord&&AgentNotFoundWord  ',
+    '(SomeNotFoundWord AgentNotFoundWord)',
+    'SomeNotFoundWord&&AgentNotFoundWord',
+    '(SomeWordShouldNotFound||(!Some !Agent))',
+    '((SomeNotFound&&Agent)||(SomeAgentNotFound||AgentNotFound))',
+    ) {
+    %TicketIDs = $Self->{TicketObject}->TicketSearch(
+        # result (required)
+        Result => 'HASH',
+        # result limit
+        Limit => 1000,
+        From => $Condition,
+        ConditionInline => 1,
+        UserID => 1,
+        Permission => 'rw',
+    );
+    $Self->True(
+        (!$TicketIDs{$TicketID}) || 0,
+        "TicketSearch() (HASH:From,ConditionInline,From='$Condition')",
+    );
+}
 
 my $TicketPriority = $Self->{TicketObject}->PrioritySet(
     Priority => '2 low',

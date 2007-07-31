@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.41 2007-07-26 14:23:09 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.42 2007-07-31 11:45:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Type;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -358,6 +358,7 @@ sub Run {
             OrderBy => $Self->{Order},
             Limit => $Self->{SearchLimit},
             UserID => $Self->{UserID},
+            ConditionInline => $Self->{ConfigObject}->Get('ExtendedSearchCondition'),
             %GetParam,
         );
 
