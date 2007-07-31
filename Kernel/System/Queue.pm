@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.72 2007-07-31 14:06:42 bb Exp $
+# $Id: Queue.pm,v 1.73 2007-07-31 14:07:59 bb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,10 +17,9 @@ use Kernel::System::StdResponse;
 use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
-use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.72 $';
+$VERSION = '$Revision: 1.73 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -152,7 +151,6 @@ sub GetSystemAddress {
         $Address{RealName} =~ s/"/\"/g;
         $Address{RealName} = '"'.$Address{RealName}.'"';
     }
-    print STDERR Dumper \%Address;
     return %Address;
 }
 
@@ -1064,6 +1062,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.72 $ $Date: 2007-07-31 14:06:42 $
+$Revision: 1.73 $ $Date: 2007-07-31 14:07:59 $
 
 =cut
