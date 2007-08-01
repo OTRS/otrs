@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.t,v 1.17 2007-08-01 01:21:14 martin Exp $
+# $Id: XML.t,v 1.18 2007-08-01 01:45:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -161,7 +161,6 @@ foreach my $Key ('123', 'Some\'Key') {
         $Key,
         "#3 ($Key) XMLHashAdd() (Key=$Key)",
     );
-print STDERR "Get $Key\n";
     @XMLHash = $Self->{XMLObject}->XMLHashGet(
         Type => 'SomeType',
         Key => $Key,
@@ -169,7 +168,7 @@ print STDERR "Get $Key\n";
 
     $Self->True(
         $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
-        "#3 ($Key) XMLHashGet() (admin)",
+        "#3 ($Key) XMLHashGet() (admin) - from db",
     );
     $Self->True(
         $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone}->[1]->{country} eq 'germany',
@@ -182,21 +181,20 @@ print STDERR "Get $Key\n";
     $Self->Is(
         $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
         'German Umlaute öäü ÄÜÖ ß',
-        "#3 ($Key) XMLHashGet() (GermanText) !!!!!!!!",
+        "#3 ($Key) XMLHashGet() (GermanText)",
     );
     $Self->True(
         Encode::is_utf8($XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content}) || '',
         "#3 ($Key) XMLHashGet() (GermanText) - Encode::is_utf8",
     );
-#exit 1;
     @XMLHash = $Self->{XMLObject}->XMLHashGet(
         Type => 'SomeType',
         Key => $Key,
-        Cache => 0,
+        Cache => 1,
     );
     $Self->True(
         $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
-        "#3 ($Key) XMLHashGet() (admin)",
+        "#3 ($Key) XMLHashGet() (admin) - with cache",
     );
     $Self->True(
         $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone}->[1]->{country} eq 'germany',
@@ -227,16 +225,16 @@ print STDERR "Get $Key\n";
     );
     $Self->True(
         $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone}->[1]->{country} eq 'germany',
-        "#3 ($Key) XMLHashGet() (Telephone->country) - without cache",
+        "#3 ($Key) XMLHashGet() (Telephone->country)",
     );
     $Self->True(
         $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{Content} eq '',
-        "#3 ($Key) XMLHashGet() (Telephone2) - without cache",
+        "#3 ($Key) XMLHashGet() (Telephone2)",
     );
     $Self->Is(
         $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
         'German Umlaute öäü ÄÜÖ ß',
-        "#3 ($Key) XMLHashGet() (GermanText) - without cache",
+        "#3 ($Key) XMLHashGet() (GermanText)",
     );
 
     my $XMLHashUpdateTrue = $Self->{XMLObject}->XMLHashUpdate(
@@ -256,24 +254,24 @@ print STDERR "Get $Key\n";
     );
     $Self->True(
         $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
-        "#3 ($Key) XMLHashGet() (admin) - without cache",
+        "#3 ($Key) XMLHashGet() (admin) - from db",
     );
     $Self->True(
         $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone}->[1]->{country} eq 'germany',
-        "#3 ($Key) XMLHashGet() (Telephone->country) - without cache",
+        "#3 ($Key) XMLHashGet() (Telephone->country)",
     );
     $Self->True(
         $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{Content} eq '',
-        "#3 ($Key) XMLHashGet() (Telephone2) - without cache",
+        "#3 ($Key) XMLHashGet() (Telephone2)",
     );
     $Self->Is(
         $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
         'German Umlaute öäü ÄÜÖ ß',
-        "#3 ($Key) XMLHashGet() (GermanText) - without cache",
+        "#3 ($Key) XMLHashGet() (GermanText)",
     );
     $Self->True(
         Encode::is_utf8($XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content}) || '',
-        "#3 ($Key) XMLHashGet() (GermanText) - without cache - Encode::is_utf8",
+        "#3 ($Key) XMLHashGet() (GermanText) - Encode::is_utf8",
     );
 
     my $XMLHashDelete = $Self->{XMLObject}->XMLHashDelete(
@@ -285,8 +283,6 @@ print STDERR "Get $Key\n";
         "#3 ($Key) XMLHashDelete()",
     );
 }
-
-#exit 1;
 
 my @XMLHashAdd = ();
 $XMLHashAdd[1]->{Contact}->[1]->{role} = 'admin1';
