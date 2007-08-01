@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.t,v 1.15 2007-07-30 14:00:53 martin Exp $
+# $Id: XML.t,v 1.16 2007-08-01 00:08:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,88 @@ use Kernel::System::Ticket;
 $Self->{XMLObject} = Kernel::System::XML->new(%{$Self});
 $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
 
-my $String = '<?xml version="1.0" encoding="utf-8" ?>
+my $String = '<?xml version="1.0" encoding="iso-8859-1" ?>
+    <Contact>
+      <Name type="long">'."\x{00FC}".' Some Test</Name>
+    </Contact>
+';
+my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => $String);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact},
+    '#1 XMLParse2XMLHash()',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{type} || '',
+    'long',
+    '#1 XMLParse2XMLHash() (Contact->Name->type)',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} || '',
+    "ü Some Test",
+    '#1 XMLParse2XMLHash() (Contact->Name->Content)',
+);
+$Self->True(
+    Encode::is_utf8($XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content}) || '',
+    '#1 XMLParse2XMLHash() (Contact->Name->type) Encode::is_utf8',
+);
+
+$String = '<?xml version="1.0" encoding="utf-8" ?>
+    <Contact role="admin" type="organization">
+      <GermanText>German Umlaute öäü ÄÜÖ ß</GermanText>
+      <JapanText>Japan カスタ</JapanText>
+      <ChineseText>Chinese 用迎使用</ChineseText>
+      <BulgarianText>Bulgarian Език</BulgarianText>
+    </Contact>
+';
+
+@XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => $String);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact},
+    '#2 XMLParse2XMLHash()',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{role} || '',
+    'admin',
+    '#2 XMLParse2XMLHash() (Contact->role)',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} || '',
+    'German Umlaute öäü ÄÜÖ ß',
+    '#2 XMLParse2XMLHash() (Contact->GermanText)',
+);
+$Self->True(
+    Encode::is_utf8($XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content}) || '',
+    '#2 XMLParse2XMLHash() (Contact->GermanText) Encode::is_utf8',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{JapanText}->[1]->{Content} || '',
+    'Japan カスタ',
+    '#2 XMLParse2XMLHash() (Contact->JapanText)',
+);
+$Self->True(
+    Encode::is_utf8($XMLHash[1]->{Contact}->[1]->{JapanText}->[1]->{Content}) || '',
+    '#2 XMLParse2XMLHash() (Contact->JapanText) Encode::is_utf8',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{ChineseText}->[1]->{Content} || '',
+    'Chinese 用迎使用',
+    '#2 XMLParse2XMLHash() (Contact->ChineseText)',
+);
+$Self->True(
+    Encode::is_utf8($XMLHash[1]->{Contact}->[1]->{ChineseText}->[1]->{Content}) || '',
+    '#2 XMLParse2XMLHash() (Contact->ChineseText) Encode::is_utf8',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{BulgarianText}->[1]->{Content} || '',
+    'Bulgarian Език',
+    '#2 XMLParse2XMLHash() (Contact->BulgarianText)',
+);
+$Self->True(
+    Encode::is_utf8($XMLHash[1]->{Contact}->[1]->{BulgarianText}->[1]->{Content}) || '',
+    '#2 XMLParse2XMLHash() (Contact->BulgarianText) Encode::is_utf8',
+);
+
+$String = '<?xml version="1.0" encoding="utf-8" ?>
     <Contact role="admin" type="organization">
       <Name type="long">Example Inc.</Name>
       <Email type="primary">info@exampe.com<Domain>1234.com</Domain></Email>
@@ -29,26 +110,44 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
     </Contact>
 ';
 
-my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => $String);
+@XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => $String);
 $Self->True(
-    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
-    'XMLParse2XMLHash()',
+    $#XMLHash == 1 && $XMLHash[1]->{Contact},
+    '#3 XMLParse2XMLHash()',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{role} || '',
+    'admin',
+    '#3 XMLParse2XMLHash() (Contact->role)',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{Telephone}->[1]->{country} || '',
+    'germany',
+    '#3 XMLParse2XMLHash() (Contact->Telephone->country)',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{Content},
+    '',
+    '#3 XMLParse2XMLHash() (Contact->Telephone2)',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{SpecialCharacters}->[1]->{Content} || '',
+    '\'',
+    '#3 XMLParse2XMLHash() (Contact->SpecialCharacters)',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{SpecialCharacters1}->[1]->{Content} || '',
+    '\\\'',
+    '#3 XMLParse2XMLHash() (Contact->SpecialCharacters1)',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} || '',
+    'German Umlaute öäü ÄÜÖ ß',
+    '#3 XMLParse2XMLHash() (Contact->GermanText)',
 );
 $Self->True(
-    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone}->[1]->{country} eq 'germany',
-    'XMLHashGet() (Telephone->country)',
-);
-$Self->True(
-    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{Content} eq '',
-    'XMLHashGet() (Telephone2)',
-);
-$Self->True(
-    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{SpecialCharacters}->[1]->{Content} eq '\'',
-    'XMLHashGet() (SpecialCharacters)',
-);
-$Self->True(
-    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{SpecialCharacters1}->[1]->{Content} eq '\\\'',
-    'XMLHashGet() (SpecialCharacters1)',
+    Encode::is_utf8($XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content}) || '',
+    '#3 XMLParse2XMLHash() (Contact->GermanText) Encode::is_utf8',
 );
 
 my $XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
@@ -58,7 +157,7 @@ my $XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
 );
 $Self->True(
     $XMLHashAdd,
-    'XMLHashAdd() (Key=123)',
+    '#3 XMLHashAdd() (Key=123)',
 );
 
 $XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
@@ -68,7 +167,7 @@ $XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
 );
 $Self->True(
     $XMLHashAdd eq "Some'Key",
-    'XMLHashAdd() (Key=Some\'Key)',
+    '#3 XMLHashAdd() (Key=Some\'Key)',
 );
 
 @XMLHash = $Self->{XMLObject}->XMLHashGet(
@@ -77,20 +176,50 @@ $Self->True(
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
-    'XMLHashGet() (admin)',
+    '#3 XMLHashGet() (admin)',
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone}->[1]->{country} eq 'germany',
-    'XMLHashGet() (Telephone->country)',
+    '#3 XMLHashGet() (Telephone->country)',
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{Content} eq '',
-    'XMLHashGet() (Telephone2)',
+    '#3 XMLHashGet() (Telephone2)',
 );
 $Self->Is(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
     'German Umlaute öäü ÄÜÖ ß',
-    'XMLHashGet() (GermanText)',
+    '#3 XMLHashGet() (GermanText)',
+);
+$Self->True(
+    Encode::is_utf8($XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content}) || '',
+    '#3 XMLHashGet() (GermanText) - Encode::is_utf8',
+);
+
+@XMLHash = $Self->{XMLObject}->XMLHashGet(
+    Type => 'SomeType',
+    Key => '123',
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
+    '#3 XMLHashGet() (admin)',
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone}->[1]->{country} eq 'germany',
+    '#3 XMLHashGet() (Telephone->country)',
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{Content} eq '',
+    '#3 XMLHashGet() (Telephone2)',
+);
+$Self->Is(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
+    'German Umlaute öäü ÄÜÖ ß',
+    '#3 XMLHashGet() (GermanText)',
+);
+$Self->True(
+    Encode::is_utf8($XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content}) || '',
+    '#3 XMLHashGet() (GermanText) - Encode::is_utf8',
 );
 
 @XMLHash = $Self->{XMLObject}->XMLHashGet(
@@ -100,22 +229,23 @@ $Self->Is(
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
-    'XMLHashGet() (admin) - without cache',
+    '#3 XMLHashGet() (admin) - without cache',
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone}->[1]->{country} eq 'germany',
-    'XMLHashGet() (Telephone->country) - without cache',
+    '#3 XMLHashGet() (Telephone->country) - without cache',
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{Content} eq '',
-    'XMLHashGet() (Telephone2) - without cache',
+    '#3 XMLHashGet() (Telephone2) - without cache',
 );
 $Self->Is(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
     'German Umlaute öäü ÄÜÖ ß',
-    'XMLHashGet() (GermanText) - without cache',
+    '#3 XMLHashGet() (GermanText) - without cache',
 );
 
+sleep 5;
 my $XMLHashUpdateTrue = $Self->{XMLObject}->XMLHashUpdate(
     Type => 'SomeType',
     Key => '123',
@@ -123,7 +253,7 @@ my $XMLHashUpdateTrue = $Self->{XMLObject}->XMLHashUpdate(
 );
 $Self->True(
     $XMLHashUpdateTrue,
-    'XMLHashUpdate() (admin)',
+    '#3 XMLHashUpdate() (admin)',
 );
 
 @XMLHash = $Self->{XMLObject}->XMLHashGet(
@@ -133,20 +263,24 @@ $Self->True(
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
-    'XMLHashGet() (admin) - without cache',
+    '#3 XMLHashGet() (admin) - without cache',
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone}->[1]->{country} eq 'germany',
-    'XMLHashGet() (Telephone->country) - without cache',
+    '#3 XMLHashGet() (Telephone->country) - without cache',
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{Content} eq '',
-    'XMLHashGet() (Telephone2) - without cache',
+    '#3 XMLHashGet() (Telephone2) - without cache',
 );
 $Self->Is(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
     'German Umlaute öäü ÄÜÖ ß',
-    'XMLHashGet() (GermanText) - without cache',
+    '#3 XMLHashGet() (GermanText) - without cache',
+);
+$Self->True(
+    Encode::is_utf8($XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content}) || '',
+    '#3 XMLHashGet() (GermanText) - without cache - Encode::is_utf8',
 );
 
 my @XMLHashUpdate = ();
@@ -159,7 +293,7 @@ $XMLHashUpdateTrue = $Self->{XMLObject}->XMLHashUpdate(
 );
 $Self->True(
     $XMLHashUpdateTrue,
-    'XMLHashUpdate() (admin1) # 1',
+    '#3 XMLHashUpdate() (admin1) # 1',
 );
 
 @XMLHash = $Self->{XMLObject}->XMLHashGet(
@@ -168,7 +302,7 @@ $Self->True(
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin1',
-    'XMLHashGet() (admin1) # 2',
+    '#3 XMLHashGet() (admin1) # 2',
 );
 
 @XMLHash = $Self->{XMLObject}->XMLHashGet(
@@ -177,7 +311,7 @@ $Self->True(
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin1',
-    'XMLHashGet() (admin1)',
+    '#3 XMLHashGet() (admin1)',
 );
 
 @XMLHashUpdate = ();
@@ -190,7 +324,7 @@ $XMLHashUpdateTrue = $Self->{XMLObject}->XMLHashUpdate(
 );
 $Self->True(
     $XMLHashUpdateTrue,
-    'XMLHashUpdate() (admin)',
+    '#3 XMLHashUpdate() (admin)',
 );
 
 @XMLHash = $Self->{XMLObject}->XMLHashGet(
@@ -199,7 +333,7 @@ $Self->True(
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
-    'XMLHashGet() (admin)',
+    '#3 XMLHashGet() (admin)',
 );
 
 @XMLHash = $Self->{XMLObject}->XMLHashGet(
@@ -209,7 +343,7 @@ $Self->True(
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
-    'XMLHashGet() (admin) - without cache',
+    '#3 XMLHashGet() (admin) - without cache',
 );
 
 my $XML = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
