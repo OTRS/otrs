@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.23 2007-05-07 11:44:44 tr Exp $
+# $Id: Stats.pm,v 1.24 2007-08-02 13:35:56 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -1064,10 +1064,12 @@ sub GenerateDynamicStats {
         my $File = 'Stats' . $Param{StatID} . "-" . $MD5Key .  ".cache";
 
         if (open (DATA, "< $Path/$File")) {
+            binmode DATA;
             while (<DATA>) {
                 $CSVString .= $_;
             }
             close (DATA);
+            $Self->{EncodeObject}->Encode(\$CSVString);
         }
 
         @StatArray = @{$Self->{CSVObject}->CSV2Array(
@@ -1145,7 +1147,10 @@ sub GenerateDynamicStats {
                     Data => \@StatArray,
                 );
 
+                $Self->{EncodeObject}->EncodeOutput(\$CSVString);
+
                 if (open (DATA, "> $Path/$File")) {
+                    binmode DATA;
                     print DATA $CSVString;
                     close (DATA);
                 }
@@ -1813,8 +1818,10 @@ sub _WriteResultCache {
         my $CSVString = $Self->{CSVObject}->Array2CSV(
             Data => \@Data,
         );
+        $Self->{EncodeObject}->EncodeOutput(\$CSVString);
 
         if (open (DATA, "> $Path/$File")) {
+            binmode DATA;
             print DATA $CSVString;
             close (DATA);
         }
@@ -1860,10 +1867,12 @@ sub _ReadResultCache {
 
     my $CSVString = '';
     if (open (DATA, "< $Path/$File")) {
+        binmode DATA;
         while (<DATA>) {
             $CSVString .= $_;
         }
         close (DATA);
+        $Self->{EncodeObject}->Encode(\$CSVString);
     }
 
     @Data = @{$Self->{CSVObject}->CSV2Array(
@@ -1950,7 +1959,7 @@ sub Export {
         else {
             die "Can't open: $File: $!";
         }
-        $Self->{EncodeObject}->EncodeOutput(\$FileContent);
+        $Self->{EncodeObject}->Encode(\$FileContent);
         $XMLHash[0]->{otrs_stats}[1]{File}[1]{File} = $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content};
         $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content} = encode_base64($FileContent, '');
         $XMLHash[0]->{otrs_stats}[1]{File}[1]{Location} = $FileLocation;
@@ -2044,7 +2053,7 @@ sub Import {
     else {
         my @SortKeys = sort {$a <=> $b} @Keys;
         if (@SortKeys) {
-            $StatID = $SortKeys[$#SortKeys] + 1;
+            $StatID = $SortKeys[-1] + 1;
         }
     }
 
@@ -2084,7 +2093,7 @@ sub Import {
             print STDERR "Notice: Install $FileLocation ($XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission})!\n";
             if ($XMLHash[0]->{otrs_stats}[1]{File}[1]{Encode} && $XMLHash[0]->{otrs_stats}[1]{File}[1]{Encode} eq 'Base64') {
                 $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content} = decode_base64($XMLHash[0]->{otrs_stats}[1]{File}[1]{Content});
-                $Self->{EncodeObject}->Encode(\$XMLHash[0]->{otrs_stats}[1]{File}[1]{Content});
+                $Self->{EncodeObject}->EncodeOutput(\$XMLHash[0]->{otrs_stats}[1]{File}[1]{Content});
             }
             # set bin mode
             binmode OUT;
@@ -2443,11 +2452,14 @@ sub _AutomaticSampleImport {
                 closedir(DIRE);
                 return;
             }
+            binmode FH;
             my $Content = '';
             while (<FH>) {
                 $Content .= $_;
             }
             close(FH);
+
+            $Self->{EncodeObject}->Encode(\$Content);
 
             my $StatID = $Self->Import(
                 Content => $Content,
@@ -2472,6 +2484,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2007-05-07 11:44:44 $
+$Revision: 1.24 $ $Date: 2007-08-02 13:35:56 $
 
 =cut
