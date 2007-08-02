@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.60 2007-07-30 14:00:53 martin Exp $
+# $Id: XML.pm,v 1.61 2007-08-02 11:39:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,10 +13,10 @@ package Kernel::System::XML;
 
 use strict;
 use Kernel::System::Encode;
-use Data::Dumper;
+use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -81,11 +81,7 @@ sub new {
     }
 
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
-
-    # mild pretty print
-    $Data::Dumper::Indent = 1;
-    # cache directory
-    $Self->{CacheDirectory} = $Self->{ConfigObject}->Get('Home')."/var/tmp/";
+    $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
 
     # to access object over non object oriented XML::Parser and XML::Parser::Lite
     $S = $Self;
@@ -266,16 +262,15 @@ sub XMLHashGet {
     if (!defined($Param{Cache})) {
         $Param{Cache} = 1;
     }
-    # read cache file
-    my $FileCache = $Self->_CacheFileLocation("$Param{Type}-$Param{Key}");
-    if (-e $FileCache && $Param{Cache}) {
-        @XMLHash = @{$Self->_CacheFileRead($FileCache)};
-        if (@XMLHash) {
-            return @XMLHash;
+    # read cache
+    if ($Param{Cache}) {
+        my $Cache = $Self->{CacheObject}->Get(
+            Key => "$Param{Type}-$Param{Key}",
+        );
+        if ($Cache) {
+            return @{$Cache};
         }
     }
-    # delete existing cache file
-    $Self->_CacheFileDelete($FileCache);
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -305,7 +300,11 @@ sub XMLHashGet {
     }
     # write cache file
     if ($Param{Cache} && $Content) {
-        $Self->_CacheFileAdd($FileCache, \@XMLHash);
+        $Self->{CacheObject}->Set(
+            Key => "$Param{Type}-$Param{Key}",
+            Value => \@XMLHash,
+            TTL => 24*60*60,
+        );
     }
     return @XMLHash;
 }
@@ -331,9 +330,10 @@ sub XMLHashDelete {
             return;
         }
     }
-    # remove cache file
-    my $FileCache = $Self->_CacheFileLocation("$Param{Type}-$Param{Key}");
-    $Self->_CacheFileDelete($FileCache);
+    # remove cache
+    $Self->{CacheObject}->Delete(
+        Key => "$Param{Type}-$Param{Key}",
+    );
 
     # db quote
     foreach (keys %Param) {
@@ -367,14 +367,13 @@ sub XMLHashMove {
             return;
         }
     }
-    # remove cache file
-    my $FileCacheOld = $Self->_CacheFileLocation("$Param{OldType}-$Param{OldKey}");
-    my $FileCacheNew = $Self->_CacheFileLocation("$Param{NewType}-$Param{NewKey}");
-
-    if (-e $FileCacheOld) {
-        $Self->_CacheFileDelete($FileCacheOld);
-        $Self->_CacheFileDelete($FileCacheNew);
-    }
+    # remove cache
+    $Self->{CacheObject}->Delete(
+        Key => "$Param{OldType}-$Param{OldKey}",
+    );
+    $Self->{CacheObject}->Delete(
+        Key => "$Param{NewType}-$Param{NewKey}",
+    );
     # db quote
     foreach (qw(OldType OldKey NewType NewKey)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -1138,75 +1137,6 @@ sub _ES {
     return 1;
 }
 
-sub _CacheFileDelete {
-    my $Self = shift;
-    my $FileCache = shift;
-
-    if (-e $FileCache) {
-        if (!unlink $FileCache) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Can't remove $FileCache: $!");
-        }
-    }
-    return 1;
-}
-
-sub _CacheFileAdd {
-    my $Self = shift;
-    my $FileCache = shift;
-    my $XMLHash = shift;
-
-    # dont write cache file, if XMLHash is emty
-    if (!@{$XMLHash}) {
-        return;
-    }
-    # write cache file
-    my $Dump = Data::Dumper::Dumper($XMLHash);
-    $Dump =~ s/\$VAR1/\$XMLHashRef/;
-    if (open (OUT, "> $FileCache")) {
-        binmode(OUT);
-        print OUT $Dump."\n1;";
-        close (OUT);
-        return 1;
-    }
-    else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write cache file $FileCache: $!");
-        return;
-    }
-}
-
-sub _CacheFileRead {
-    my $Self = shift;
-    my $FileCache = shift;
-    if (open (IN, "< $FileCache")) {
-        my $XMLHashRef;
-        my $Content = '';
-        while (<IN>) {
-            $Content .= $_;
-        }
-        close (IN);
-        if ($Content && !eval $Content) {
-            print STDERR "ERROR: $FileCache: $@\n";
-        }
-
-        return $XMLHashRef;
-    }
-    else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't read cache file $FileCache: $!");
-        return;
-    }
-}
-
-sub _CacheFileLocation {
-    my $Self = shift;
-    my $FileCache = shift;
-    $FileCache = $Self->{MainObject}->FilenameCleanUp(
-        Filename => $FileCache,
-        Type => 'md5',
-    );
-    $FileCache = $Self->{CacheDirectory}."XMLStorage-$FileCache.cache";
-    return $FileCache;
-}
-
 1;
 
 =back
@@ -1223,6 +1153,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.60 $ $Date: 2007-07-30 14:00:53 $
+$Revision: 1.61 $ $Date: 2007-08-02 11:39:59 $
 
 =cut

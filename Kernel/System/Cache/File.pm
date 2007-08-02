@@ -2,7 +2,7 @@
 # Kernel/System/Cache/File.pm - all cache functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: File.pm,v 1.1 2007-07-26 13:56:25 martin Exp $
+# $Id: File.pm,v 1.2 2007-08-02 11:41:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,10 +13,9 @@ package Kernel::System::Cache::File;
 
 use strict;
 use warnings;
-use Data::Dumper;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -31,8 +30,6 @@ sub new {
     }
 
     $Self->{CacheDirectory} = $Self->{ConfigObject}->Get('TempDir');
-    # mild pretty print
-    $Data::Dumper::Indent = 1;
 
     return $Self;
 }
@@ -50,12 +47,12 @@ sub Set {
     my $TTL = $Now + $Param{TTL};
     my $Dump = "\$TTL=$TTL; #$Now:$Param{TTL}\n";
     $Dump .= "#$Param{Key}\n";
-    $Dump .= Data::Dumper::Dumper($Param{Value})."\n1;";
-#print STDERR "DUMP: $Dump\n";
+    $Dump .= $Self->{MainObject}->Dump($Param{Value})."\n1;";
     my $FileLocation = $Self->{MainObject}->FileWrite(
         Directory => $Self->{CacheDirectory},
         Filename => $Param{Key},
         Content => \$Dump,
+        Mode => 'utf8',
         Type => 'MD5',
     );
 
@@ -76,6 +73,7 @@ sub Get {
         Directory => $Self->{CacheDirectory},
         Filename => $Param{Key},
         Type => 'MD5',
+        Mode => 'utf8',
         DisableWarnings => 1,
     );
     # check if cache exists
@@ -84,7 +82,6 @@ sub Get {
     }
     my $TTL;
     my $VAR1;
-#print ${$Content};
     eval ${$Content};
     # check ttl
     my $Now = time();
