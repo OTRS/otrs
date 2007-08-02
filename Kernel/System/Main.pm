@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.8 2007-07-26 15:56:41 martin Exp $
+# $Id: Main.pm,v 1.9 2007-08-02 11:31:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 use Digest::MD5 qw(md5_hex);
 use Kernel::System::Encode;
+use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -466,6 +467,93 @@ sub MD5sum {
     }
 }
 
+=item Dump()
+
+dump variable to an string
+
+    my $Dump = $MainObject->Dump(
+        $SomeVariable,
+    );
+
+    my $Dump = $MainObject->Dump(
+        {
+            Key1 => $SomeVariable,
+        },
+    );
+
+=cut
+
+sub Dump {
+    my $Self = shift;
+    my $Data = shift;
+    my $String;
+    if (!defined($Data)) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need \$String in Dump()!");
+        return;
+    }
+    # load Data::Dumper
+    if (!$Self->Require('Data::Dumper')) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Can not use Dump() without Data::Dumper!");
+        return;
+    }
+    # mild pretty print
+    $Data::Dumper::Indent = 1;
+    # This Dump() is using Data::Dumer with a utf8 workarounds to handle
+    # the bug [rt.cpan.org #28607] Data::Dumper::Dumper is dumping utf8
+    # strings as latin1/8bit instead of utf8. Use Storable module used for
+    # workaround.
+    # -> http://rt.cpan.org/Ticket/Display.html?id=28607
+    if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /utf(8|\-8)/i && $Self->Require('Storable')) {
+        # Clone the data because we need to disable the utf8 flag in all
+        # reference variables and we want not to do this in the orig.
+        # variables because this will still used in the system.
+        my $DataNew = Storable::dclone(\$Data);
+        # Disable utf8 flag.
+        $Self->_Dump($DataNew);
+        # Dump it as binary strings.
+        $String = Data::Dumper::Dumper(${$DataNew});
+        # Enable utf8 flag.
+        Encode::_utf8_on($String);
+    }
+    # fallback if Storable can not be loaded
+    else {
+        $String = Data::Dumper::Dumper($Data);
+    }
+
+    return $String;
+}
+
+sub _Dump {
+    my $Self = shift;
+    my $Data = shift;
+    if (!ref(${$Data})) {
+        Encode::_utf8_off(${$Data});
+    }
+    elsif (ref(${$Data}) eq 'SCALAR') {
+        $Self->_Dump(${$Data});
+    }
+    elsif (ref(${$Data}) eq 'HASH') {
+        foreach my $Key (keys %{${$Data}}) {
+            if (defined(${$Data}->{$Key})) {
+               $Self->_Dump(\${$Data}->{$Key});
+            }
+        }
+    }
+    elsif (ref(${$Data}) eq 'ARRAY') {
+        foreach my $Key (0..$#{${$Data}}) {
+            if (defined(${$Data}->[$Key])) {
+                $Self->_Dump(\${$Data}->[$Key]);
+            }
+        }
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Unknown ref '".ref(${$Data})."'!",
+        );
+    }
+}
+
 1;
 
 =back
@@ -482,6 +570,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2007-07-26 15:56:41 $
+$Revision: 1.9 $ $Date: 2007-08-02 11:31:42 $
 
 =cut
