@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.48 2007-07-26 16:14:08 mh Exp $
+# $Id: CHANGES,v 1.323.2.49 2007-08-03 16:18:52 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.1.8 (????/??/??)
+ - (2007/08/03) Fixed bug# 2134 - PDF print is creating damaged pdf files with
+    PDF::API2 0.56 or smaller.
  - (2007/07/26) fixed bug# 2046 - german Umlauts not printed in PDFs if system
     runs in utf-8 mode. The PDF::API2 corefonts (which are used as default)
     doesn't support UTF-8. Changed the used fonts from PDF::API2 corefonts to
@@ -397,7 +399,8 @@
     define it like:
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
-2.0.5 (2006/??/??)
+2.0.5 (2007/05/22)
+ - (2007/05/22) fixed bug #1842 - Cross-Site Scripting Vulnerability
  - (2007/01/11) fixed bug #1515 - Some GenericAgent names don't work
     (e. g. names with +)
  - (2007/01/11) fixed bug #1496 - GenericAgent: "Ticket created last..."
