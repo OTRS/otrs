@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.433 2007-07-31 18:02:36 mh Exp $
+# $Id: CHANGES,v 1.434 2007-08-03 02:22:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,10 @@
 # --
 
 2.2.3 (2007/??/??)
+ - (2007/08/02) Fixed bug# 940 - After owners unlock ticket and a follow-up
+    arrives the system, all agents which selected the queue of this ticket get
+    and follow up message. In this follow up message the name was always the
+    current owner and not the recipient of the email (which should be).
  - (2007/07/31) Fixed bug# 2001 - New escalation times and the responsible are
     not shown in any print views.
 
@@ -781,7 +785,8 @@
     define it like:
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
-2.0.5 (2006/??/??)
+2.0.5 (2007/05/22)
+ - (2007/05/22) fixed bug #1842 - Cross-Site Scripting Vulnerability
  - (2007/01/11) fixed bug #1515 - Some GenericAgent names don't work
     (e. g. names with +)
  - (2007/01/11) fixed bug #1496 - GenericAgent: "Ticket created last..."
