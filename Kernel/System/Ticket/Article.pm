@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.144 2007-07-26 12:56:12 martin Exp $
+# $Id: Article.pm,v 1.145 2007-08-03 02:18:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.144 $';
+$VERSION = '$Revision: 1.145 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -398,7 +398,8 @@ sub ArticleCreate {
             else {
                 @OwnerIDs = $Self->GetSubscribedUserIDsByQueueID(QueueID => $Ticket{QueueID});
                 foreach (qw(OwnerID ResponsibleID)) {
-                    if ($Ticket{$_}) {
+                    # do not notify the admin
+                    if ($Ticket{$_} && $Ticket{$_} ne 1) {
                         push (@OwnerIDs, $Ticket{$_});
                     }
                 }
