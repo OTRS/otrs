@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.435 2007-08-03 16:03:47 mh Exp $
+# $Id: CHANGES,v 1.436 2007-08-03 16:17:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,8 +10,6 @@
 # --
 
 2.2.3 (2007/??/??)
- - (2007/08/03) Fixed bug# 2134 - PDF print is creating damaged pdf files with
-    PDF::API2 0.56 or smaller.
  - (2007/08/02) Fixed bug# 940 - After owners unlock ticket and a follow-up
     arrives the system, all agents which selected the queue of this ticket get
     and follow up message. In this follow up message the name was always the
@@ -400,6 +398,8 @@
     to 12 MB.
 
 2.1.8 (????/??/??)
+ - (2007/08/03) Fixed bug# 2134 - PDF print is creating damaged pdf files with
+    PDF::API2 0.56 or smaller.
  - (2007/07/26) fixed bug# 2046 - german Umlauts not printed in PDFs if system
     runs in utf-8 mode. The PDF::API2 corefonts (which are used as default)
     doesn't support UTF-8. Changed the used fonts from PDF::API2 corefonts to
