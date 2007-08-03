@@ -5,9 +5,17 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-initial_insert.xml,v 1.6 2007-07-26 14:49:17 martin Exp $
+    $Id: otrs-initial_insert.xml,v 1.7 2007-08-03 02:00:38 martin Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.6  2007/07/26 14:49:17  martin
+    Improved system performance of escalation (bug# 2020 Performance
+    problem after updating to 2.2.0).
+    Because of this fact you need to add to new column to the ticket table.
+
+        ALTER TABLE ticket ADD escalation_response_time INTEGER;
+        ALTER TABLE ticket ADD escalation_solution_time INTEGER;
+
     Revision 1.5  2007/04/16 10:40:55  martin
     Fixed bug# 1757 - cannot install postgres db - null value in column "escalation_start_time" violates not-null constraint.
 
@@ -1244,7 +1252,7 @@ Your OTRS Notification Master</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">You got follow up! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_OWNER_UserFirstname&gt;,
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
 you got a follow up!
 
@@ -1351,7 +1359,7 @@ Your OTRS Notification Master</Data>
         <Data Key="notification_type" Type="Quote">Agent::Move</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Moved ticket in "&gt;OTRS_CUSTOMER_QUEUE&lt;" queue! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
+        <Data Key="subject" Type="Quote">Moved ticket in "&lt;OTRS_CUSTOMER_QUEUE&gt;" queue! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi,
 
 &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" moved a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] into "&lt;OTRS_CUSTOMER_QUEUE&gt;".
@@ -1450,7 +1458,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Nachfrage! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_OWNER_UserFirstname&gt; &lt;OTRS_OWNER_UserLastname&gt;,
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
 Sie haben eine Nachfrage bekommen!
 
@@ -1557,7 +1565,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="notification_type" Type="Quote">Agent::Move</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Ticket verschoben in "&gt;OTRS_CUSTOMER_QUEUE&lt;" Queue! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
+        <Data Key="subject" Type="Quote">Ticket verschoben in "&lt;OTRS_CUSTOMER_QUEUE&gt;" Queue! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi,
 
 &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" verschob Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] nach "&lt;OTRS_CUSTOMER_QUEUE&gt;".
