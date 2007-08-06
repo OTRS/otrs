@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPending.pm - set ticket to pending
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPending.pm,v 1.34 2007-08-06 15:49:28 mh Exp $
+# $Id: AgentTicketPending.pm,v 1.35 2007-08-06 16:27:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -665,6 +665,7 @@ sub _Mask {
             Data => \%Type,
             Name => 'TypeID',
             SelectedID => $Param{TypeID},
+            PossibleNone => 1,
             Sort => 'AlphanumericValue',
             Translation => 0,
             OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
