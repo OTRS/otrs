@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.269 2007-07-31 11:45:54 martin Exp $
+# $Id: Ticket.pm,v 1.270 2007-08-06 14:26:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.269 $';
+$VERSION = '$Revision: 1.270 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1693,7 +1693,7 @@ sub TicketServiceSet {
         # history insert
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
-            HistoryService => 'ServiceUpdate',
+            HistoryType => 'ServiceUpdate',
             Name => "\%\%$TicketNew{Service}\%\%$Param{ServiceID}\%\%$Ticket{Service}\%\%$Ticket{ServiceID}",
             CreateUserID => $Param{UserID},
         );
@@ -2057,7 +2057,7 @@ sub TicketSLASet {
         # history insert
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
-            HistorySLA => 'SLAUpdate',
+            HistoryType => 'SLAUpdate',
             Name => "\%\%$TicketNew{SLA}\%\%$Param{SLAID}\%\%$Ticket{SLA}\%\%$Ticket{SLAID}",
             CreateUserID => $Param{UserID},
         );
@@ -6176,6 +6176,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.269 $ $Date: 2007-07-31 11:45:54 $
+$Revision: 1.270 $ $Date: 2007-08-06 14:26:34 $
 
 =cut
