@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.270 2007-08-06 14:26:34 mh Exp $
+# $Id: Ticket.pm,v 1.271 2007-08-06 15:50:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.270 $';
+$VERSION = '$Revision: 1.271 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1651,7 +1651,7 @@ sub TicketServiceSet {
     }
     # check needed stuff
     foreach (qw(TicketID ServiceID UserID)) {
-        if (!$Param{$_}) {
+        if (!defined($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
@@ -1688,6 +1688,8 @@ sub TicketServiceSet {
         " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
         my %TicketNew = $Self->TicketGet(%Param);
+        $TicketNew{Service} = $TicketNew{Service} || 'NULL';
+        $Ticket{Service} = $Ticket{Service} || 'NULL';
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
         # history insert
@@ -1960,12 +1962,9 @@ sub TicketSLAList {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID or TicketID!");
         return;
     }
-    # check needed stuff
-    foreach (qw(ServiceID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-            return;
-        }
+    # return emty hash, if no service id is given
+    if (!$Param{ServiceID}) {
+        return ();
     }
     # db quote
     foreach (qw(ServiceID)) {
@@ -2052,6 +2051,8 @@ sub TicketSLASet {
         " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
         my %TicketNew = $Self->TicketGet(%Param);
+        $TicketNew{SLA} = $TicketNew{SLA} || 'NULL';
+        $Ticket{SLA} = $Ticket{SLA} || 'NULL';
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
         # history insert
@@ -6176,6 +6177,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.270 $ $Date: 2007-08-06 14:26:34 $
+$Revision: 1.271 $ $Date: 2007-08-06 15:50:19 $
 
 =cut
