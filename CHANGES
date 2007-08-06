@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.437 2007-08-06 08:00:56 martin Exp $
+# $Id: CHANGES,v 1.438 2007-08-06 09:13:18 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,6 +13,8 @@
  - (2007/08/06) Fixed bug# 2135 - scripts/DBUpdate-to-2.2.2.sql contains wrong
     SQL. Not the queue table needs to be changed, the ticket table would be the
     right one.
+ - (2007/08/03) Fixed bug# 2134 - PDF print is creating damaged pdf files with
+    PDF::API2 0.56 or smaller.
  - (2007/08/02) Fixed bug# 940 - After owners unlock ticket and a follow-up
     arrives the system, all agents which selected the queue of this ticket get
     and follow up message. In this follow up message the name was always the
