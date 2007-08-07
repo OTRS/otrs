@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: bb.pm,v 1.24 2007-06-28 23:58:32 martin Exp $
+# $Id: bb.pm,v 1.25 2007-08-07 13:14:05 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -727,7 +727,7 @@ sub Data {
         'Performance Log' => 'Performance Log',
         'This feature is enabled!' => 'Dieses Feature ist aktiv!',
         'Just use this feature if you want to log each request.' => 'Nur aktivieren wenn jede Anfrage protokolliert werden soll.',
-        'Of couse this feature will take some system performance it self!' => 'Wenn dieses Feature akitv ist, wird ist mit Leistungsdefizit zum rechnen.',
+        'Of couse this feature will take some system performance it self!' => 'Wenn dieses Feature aktiv ist, ist mit Leistungsdefizit zum rechnen.',
         'Disable it here!' => 'Hier deaktivieren!',
         'This feature is disabled!' => 'Dieses Feature ist inaktiv!',
         'Enable it here!' => 'Hier aktivieren!',
