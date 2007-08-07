@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.440 2007-08-06 15:53:16 mh Exp $
+# $Id: CHANGES,v 1.441 2007-08-07 12:35:28 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.2.3 (2007/??/??)
+ - (2007/08/07) Fixed bug# 2117 - Fixed small typo in initial insert files.
  - (2007/08/06) Fixed bug# 1999 - Service and SLA can not changed on an
     existing ticket.
  - (2007/08/06) Fixed bug# 2142 - If a service or a sla of a ticket was changed,

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2007-08-03 03:52:25
+--  driver: postgresql, generated: 2007-08-07 14:30:25
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -240,7 +240,7 @@ INSERT INTO standard_response (name, text, valid_id, create_by, create_time, cha
 -- ----------------------------------------------------------
 INSERT INTO standard_response (name, text, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('test answer', 'Some test answer to show who a standard response can be used.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('test answer', 'Some test answer to show how a standard response can be used.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table queue_standard_response
 -- ----------------------------------------------------------
@@ -774,7 +774,7 @@ INSERT INTO notifications (notification_type, notification_charset, notification
 -- ----------------------------------------------------------
 INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, create_by, create_time, change_by, change_time)
     VALUES
-    ('Agent::FollowUp', 'iso-8859-1', 'de', 'Nachfrage! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hallo <OTRS_UserFirstname> <OTRS_OWNER_UserLastname>,Sie haben eine Nachfrage bekommen!<OTRS_CUSTOMER_FROM> schrieb:<snip><OTRS_CUSTOMER_EMAIL[16]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master', 1, current_timestamp, 1, current_timestamp);
+    ('Agent::FollowUp', 'iso-8859-1', 'de', 'Nachfrage! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hallo <OTRS_UserFirstname> <OTRS_UserLastname>,Sie haben eine Nachfrage bekommen!<OTRS_CUSTOMER_FROM> schrieb:<snip><OTRS_CUSTOMER_EMAIL[16]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master', 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table notifications
 -- ----------------------------------------------------------

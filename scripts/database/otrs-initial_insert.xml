@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-initial_insert.xml,v 1.7 2007-08-03 02:00:38 martin Exp $
+    $Id: otrs-initial_insert.xml,v 1.8 2007-08-07 12:35:28 sb Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.7  2007/08/03 02:00:38  martin
+    Fixed bug# 940 - changed the correct tags for agent follow up notifications.
+
     Revision 1.6  2007/07/26 14:49:17  martin
     Improved system performance of escalation (bug# 2020 Performance
     problem after updating to 2.2.0).
@@ -466,7 +469,7 @@ Your Ticket-Team
     </Insert>
     <Insert Table="standard_response">
         <Data Key="name" Type="Quote">test answer</Data>
-        <Data Key="text" Type="Quote">Some test answer to show who a standard response can be used.</Data>
+        <Data Key="text" Type="Quote">Some test answer to show how a standard response can be used.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
