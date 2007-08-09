@@ -2,7 +2,7 @@
 # RPM spec file for RedHat Linux of the OTRS package
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: redhat-otrs-7.3.spec,v 1.13 2007-03-08 22:20:52 martin Exp $
+# $Id: redhat-otrs-7.3.spec,v 1.14 2007-08-09 21:43:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -133,7 +133,7 @@ echo ""
 echo "[OTRS services]"
 echo " Start OTRS 'service otrs start' (service otrs {start|stop|status|restart)."
 echo ""
-echo "Have fun!"
+echo "((enjoy))"
 echo ""
 echo " Your OTRS Team"
 echo ""
