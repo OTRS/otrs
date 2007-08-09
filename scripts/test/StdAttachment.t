@@ -2,7 +2,7 @@
 # StdAttachment.t - StdAttachment tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StdAttachment.t,v 1.1 2007-08-09 23:24:49 martin Exp $
+# $Id: StdAttachment.t,v 1.2 2007-08-09 23:49:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ foreach my $File (qw(xls txt doc png pdf)) {
         ContentType => 'text/xml',
         Filename => 'StdAttachment Test1äöüß.'.$File,
         Comment => 'Some Comment',
-        UserID => 123,
+        UserID => 1,
     );
 
     $Self->True(
