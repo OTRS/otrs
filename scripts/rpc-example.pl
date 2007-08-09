@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# scripts/rpc-examlple.pl - soap example client
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# scripts/rpc-example.pl - soap example client
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: rpc-examlple.pl,v 1.1 2006-08-29 13:42:34 martin Exp $
+# $Id: rpc-example.pl,v 1.1 2007-08-09 04:30:34 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -38,4 +38,3 @@ my %Ticket = $RPC->Dispatch($User, $Pw, 'TicketObject', 'TicketGet', TicketID =>
 print "NOTICE: Ticket Number is: $Ticket{TicketNumber}\n";
 print "NOTICE: Ticket State is:  $Ticket{State}\n";
 print "NOTICE: Ticket Queue is:  $Ticket{Queue}\n";
-
