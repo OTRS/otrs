@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.443 2007-08-09 23:33:46 martin Exp $
+# $Id: CHANGES,v 1.444 2007-08-09 23:41:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.2.3 (2007/??/??)
+ - (2007/08/10) Fixed bug# 2156 - External customer database is not working,
+    it it's configured the following error message appears
+    ("Got no MainObject in Kernel/System/DB.pm line 85").
  - (2007/08/10) Fixed bug# 2155 - Std-Attachments are not usable in agent
     ticket compose screen (no std attachments are shown in compose screen).
  - (2007/08/07) Fixed bug# 2118 - Fixed typo in german translation file (
