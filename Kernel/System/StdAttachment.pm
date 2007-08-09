@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.16 2007-02-06 22:54:05 martin Exp $
+# $Id: StdAttachment.pm,v 1.17 2007-08-09 23:33:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -91,7 +91,7 @@ create a new std. attachment
         ValidID => 1,
         Content => $Content,
         ContentType => 'text/xml',
-        Filename 'SomeFile.xml',
+        Filename => 'SomeFile.xml',
         UserID => 123,
     );
 
@@ -128,15 +128,15 @@ sub StdAttachmentAdd {
         " $Param{ValidID}, '$Param{Comment}', ".
         " current_timestamp, $Param{UserID}, current_timestamp,  $Param{UserID})";
     if ($Self->{DBObject}->Do(SQL => $SQL, Bind => [\$Param{Content}])) {
-        my $Id = 0;
+        my $ID = 0;
         $Self->{DBObject}->Prepare(
             SQL => "SELECT id FROM standard_attachment WHERE ".
                 "name = '$Param{Name}' AND content_type = '$Param{ContentType}'",
         );
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-            $Id = $Row[0];
+            $ID = $Row[0];
         }
-        return $Id;
+        return $ID;
     }
     else {
         return;
@@ -156,6 +156,7 @@ get a std. attachment
 sub StdAttachmentGet {
     my $Self = shift;
     my %Param = @_;
+    my %Data = ();
     # check needed stuff
     if (!$Param{ID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
@@ -171,15 +172,15 @@ sub StdAttachmentGet {
         " standard_attachment ".
         " WHERE ".
         " id = $Param{ID}";
-    if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
+    if (!$Self->{DBObject}->Prepare(SQL => $SQL, Encode => [1,1,0,1,1,1], Limit => 1)) {
         return;
     }
-    if (my @Data = $Self->{DBObject}->FetchrowArray()) {
+    while (my @Data = $Self->{DBObject}->FetchrowArray()) {
         # decode attachemnt if it's a postgresql backend!!!
         if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
             $Data[2] = decode_base64($Data[2]);
         }
-        my %Data = (
+        %Data = (
             ID => $Param{ID},
             Name => $Data[0],
             ContentType => $Data[1],
@@ -188,11 +189,8 @@ sub StdAttachmentGet {
             ValidID => $Data[4],
             Comment => $Data[5],
         );
-        return %Data;
     }
-    else {
-        return;
-    }
+    return %Data;
 }
 
 =item StdAttachmentUpdate()
@@ -205,7 +203,7 @@ update a new std. attachment
         ValidID => 1,
         Content => $Content,
         ContentType => 'text/xml',
-        Filename 'SomeFile.xml',
+        Filename => 'SomeFile.xml',
         UserID => 123,
     );
 
@@ -370,7 +368,12 @@ sub StdAttachmentsByResponseID {
     my %AllStdAttachments = $Self->GetAllStdAttachments(Valid => 1);
     my %Data = ();
     foreach (keys %Relation) {
-        $Data{$_} = $AllStdAttachments{$_};
+        if ($AllStdAttachments{$_}) {
+            $Data{$_} = $AllStdAttachments{$_};
+        }
+        else {
+            delete $Data{$_};
+        }
     }
     return %Data;
 }
@@ -456,6 +459,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2007-02-06 22:54:05 $
+$Revision: 1.17 $ $Date: 2007-08-09 23:33:46 $
 
 =cut
