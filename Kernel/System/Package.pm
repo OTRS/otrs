@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.65 2007-05-31 10:20:58 mh Exp $
+# $Id: Package.pm,v 1.66 2007-08-10 12:27:44 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.65 $';
+$VERSION = '$Revision: 1.66 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1390,7 +1390,7 @@ sub PackageBuild {
                         $XML .= "\n";
                     }
                 }
-                if ($Tag->{Content} && $Tag->{TagLevel} >= 4 && $Tag->{Tag} !~ /(Foreign|Reference|Index)/) {
+                if (defined($Tag->{Content}) && $Tag->{TagLevel} >= 4 && $Tag->{Tag} !~ /(Foreign|Reference|Index)/) {
                     $XML .= $Tag->{Content};
                 }
                 if ($Tag->{TagType} eq 'End') {
@@ -1818,6 +1818,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.65 $ $Date: 2007-05-31 10:20:58 $
+$Revision: 1.66 $ $Date: 2007-08-10 12:27:44 $
 
 =cut

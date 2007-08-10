@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.444 2007-08-09 23:41:30 martin Exp $
+# $Id: CHANGES,v 1.445 2007-08-10 12:30:52 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.3 (2007/??/??)
+ - (2007/08/10) Fixed bug# 2160 - 0 was ignored in database insert by package
+    building.
  - (2007/08/10) Fixed bug# 2156 - External customer database is not working,
     it it's configured the following error message appears
     ("Got no MainObject in Kernel/System/DB.pm line 85").
