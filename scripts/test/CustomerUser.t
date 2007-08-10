@@ -2,7 +2,7 @@
 # CustomerUser.t - CustomerUser tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.1 2007-08-09 21:20:43 martin Exp $
+# $Id: CustomerUser.t,v 1.2 2007-08-10 11:36:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,15 +20,15 @@ $Self->{ConfigObject}->Set(
 );
 my $UserID = '';
 foreach my $Key (1..3) {
-    my $UserRand = 'example-customer-user'.int(rand(1000000));
+    my $UserRand = 'Example-Customer-User'.int(rand(1000000));
     $UserID = $UserRand;
     my $UserID = $Self->{CustomerUserObject}->CustomerUserAdd(
         Source => 'CustomerUser',
         UserFirstname => 'Firstname Test'.$Key,
         UserLastname => 'Lastname Test'.$Key,
-        UserCustomerID => $UserRand. '-customer-id',
+        UserCustomerID => $UserRand. '-Customer-Id',
         UserLogin => $UserRand,
-        UserEmail => $UserRand . '@example.com',
+        UserEmail => $UserRand . '-Email@example.com',
         ValidID => 1,
         UserID => 1,
     );
@@ -59,12 +59,12 @@ foreach my $Key (1..3) {
     );
     $Self->Is(
         $User{UserEmail} || '',
-        $UserRand. '@example.com',
+        $UserRand.'-Email@example.com',
         "CustomerUserGet$Key() - UserEmail",
     );
     $Self->Is(
         $User{UserCustomerID} || '',
-        $UserRand. '-customer-id',
+        $UserRand. '-Customer-Id',
         "CustomerUserGet$Key() - UserCustomerID",
     );
     $Self->Is(
@@ -78,9 +78,9 @@ foreach my $Key (1..3) {
         ID => $UserRand,
         UserFirstname => 'Firstname Test Update'.$Key,
         UserLastname => 'Lastname Test Update'.$Key,
-        UserCustomerID => $UserRand. '-customer-update-id',
+        UserCustomerID => $UserRand. '-Customer-Update-Id',
         UserLogin => $UserRand,
-        UserEmail => $UserRand . '-update@example.com',
+        UserEmail => $UserRand . '-Update@example.com',
         ValidID => 1,
         UserID => 1,
     );
@@ -110,12 +110,12 @@ foreach my $Key (1..3) {
     );
     $Self->Is(
         $User{UserEmail} || '',
-        $UserRand. '-update@example.com',
+        $UserRand. '-Update@example.com',
         "CustomerUserGet$Key() - UserEmail",
     );
     $Self->Is(
         $User{UserCustomerID} || '',
-        $UserRand. '-customer-update-id',
+        $UserRand. '-Customer-Update-Id',
         "CustomerUserGet$Key() - UserCustomerID",
     );
     $Self->Is(
@@ -125,14 +125,47 @@ foreach my $Key (1..3) {
     );
 
 }
+# lc
+my %User = $Self->{CustomerUserObject}->CustomerUserDataGet(
+    User => lc($UserID),
+);
+$Self->True(
+    $User{UserLogin} || '',
+    "CustomerUserGet() - lc()",
+);
+# uc
+%User = $Self->{CustomerUserObject}->CustomerUserDataGet(
+    User => uc($UserID),
+);
+$Self->True(
+    $User{UserLogin} || '',
+    "CustomerUserGet() - uc()",
+);
 
+# search
 my %List = $Self->{CustomerUserObject}->CustomerSearch(
-    PostMasterSearch => $UserID.'-update@example.com',
+    PostMasterSearch => $UserID.'-Update@example.com',
     ValidID => 1, # not required, default 1
 );
 $Self->True(
     $List{$UserID} || '',
     "CustomerSearch() - PostMasterSearch",
+);
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    PostMasterSearch => lc($UserID.'-Update@example.com'),
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    $List{$UserID} || '',
+    "CustomerSearch() - PostMasterSearch lc()",
+);
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    PostMasterSearch => uc($UserID.'-Update@example.com'),
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    $List{$UserID} || '',
+    "CustomerSearch() - PostMasterSearch uc()",
 );
 
 %List = $Self->{CustomerUserObject}->CustomerSearch(
@@ -142,6 +175,22 @@ $Self->True(
 $Self->True(
     $List{$UserID} || '',
     "CustomerSearch() - UserLogin",
+);
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    UserLogin => lc($UserID),
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    $List{$UserID} || '',
+    "CustomerSearch() - UserLogin - lc",
+);
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    UserLogin => uc($UserID),
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    $List{$UserID} || '',
+    "CustomerSearch() - UserLogin - uc",
 );
 
 %List = $Self->{CustomerUserObject}->CustomerSearch(
@@ -178,6 +227,80 @@ $Self->True(
 $Self->True(
     $List{$UserID} || '',
     "CustomerSearch() - Search '*\$User*'",
+);
+
+# lc()
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    Search => lc("$UserID"),
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    $List{$UserID} || '',
+    "CustomerSearch() - Search lc('')",
+);
+
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    Search => lc("$UserID*"),
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    $List{$UserID} || '',
+    "CustomerSearch() - Search lc('\$User*')",
+);
+
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    Search => lc("*$UserID"),
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    $List{$UserID} || '',
+    "CustomerSearch() - Search lc('*\$User')",
+);
+
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    Search => lc("*$UserID*"),
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    $List{$UserID} || '',
+    "CustomerSearch() - Search lc('*\$User*')",
+);
+
+# uc()
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    Search => uc("$UserID"),
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    $List{$UserID} || '',
+    "CustomerSearch() - Search uc('')",
+);
+
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    Search => uc("$UserID*"),
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    $List{$UserID} || '',
+    "CustomerSearch() - Search uc('\$User*')",
+);
+
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    Search => uc("*$UserID"),
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    $List{$UserID} || '',
+    "CustomerSearch() - Search uc('*\$User')",
+);
+
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    Search => uc("*$UserID*"),
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    $List{$UserID} || '',
+    "CustomerSearch() - Search uc('*\$User*')",
 );
 
 1;
