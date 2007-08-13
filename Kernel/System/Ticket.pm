@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.271 2007-08-06 15:50:19 mh Exp $
+# $Id: Ticket.pm,v 1.272 2007-08-13 16:04:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.271 $';
+$VERSION = '$Revision: 1.272 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -156,9 +156,6 @@ sub new {
     $Self->{LockObject} = Kernel::System::Lock->new(%Param);
     $Self->{NotificationObject} = Kernel::System::Notification->new(%Param);
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
-
-use Kernel::System::Cache;
-        $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
 
     # get config static var
     my @ViewableStates = $Self->{StateObject}->StateGetStatesByType(
@@ -6177,6 +6174,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.271 $ $Date: 2007-08-06 15:50:19 $
+$Revision: 1.272 $ $Date: 2007-08-13 16:04:28 $
 
 =cut
