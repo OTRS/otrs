@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.446 2007-08-16 12:41:31 sb Exp $
+# $Id: CHANGES,v 1.447 2007-08-17 08:48:22 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.2.3 (2007/??/??)
+ - /2007/08/17) Fixed bug# 1908 - Removed duplicate history entry for ticket subscribe action.
  - (2007/08/16) Fixed bug# 1492 - Fixed typo in Kernel/Language.pm.
  - (2007/08/10) Fixed bug# 2160 - 0 was ignored in database insert by package
     building.

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketWatcher.pm - a ticketwatcher module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketWatcher.pm,v 1.4 2007-01-20 18:04:49 mh Exp $
+# $Id: AgentTicketWatcher.pm,v 1.5 2007-08-17 08:48:22 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketWatcher;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -77,13 +77,6 @@ sub Run {
                 TicketID => $Self->{TicketID},
                 UserID => $Self->{UserID},
         )) {
-            # add history
-            $Self->{TicketObject}->HistoryAdd(
-                TicketID => $Self->{TicketID},
-                CreateUserID => $Self->{UserID},
-                HistoryType => 'Misc',
-                Name => "Subscribe the ticket to watch it.",
-            );
             # redirect
             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
         }
