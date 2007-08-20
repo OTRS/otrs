@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.43 2007-07-31 17:59:38 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.44 2007-08-20 14:49:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -119,17 +119,6 @@ sub Run {
     else {
         $Ticket{PendingUntil} = '-';
     }
-    # prepare escalation time (if needed)
-    if ($Ticket{TicketOverTime}) {
-        $Ticket{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
-            Age => $Ticket{TicketOverTime},
-            Space => ' ',
-        );
-    }
-    else {
-        $Ticket{TicketOverTime} = '-';
-    }
-
     # generate pdf output
     if ($Self->{PDFObject}) {
         my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');

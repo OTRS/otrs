@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.11 2007-07-31 17:59:38 mh Exp $
+# $Id: CustomerTicketPrint.pm,v 1.12 2007-08-20 14:49:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -129,17 +129,6 @@ sub Run {
     else {
         $Ticket{PendingUntil} = '-';
     }
-    # prepare escalation time (if needed)
-    if ($Ticket{TicketOverTime}) {
-        $Ticket{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
-            Age => $Ticket{TicketOverTime},
-            Space => ' ',
-        );
-    }
-    else {
-        $Ticket{TicketOverTime} = '-';
-    }
-
     # generate pdf output
     if ($Self->{PDFObject}) {
         my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');

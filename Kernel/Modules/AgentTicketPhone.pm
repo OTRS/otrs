@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.45 2007-07-26 17:00:42 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.46 2007-08-20 14:49:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -605,7 +605,6 @@ sub Run {
                         %AclAction,
                         %Article,
                         Age => $Self->{LayoutObject}->CustomerAge(Age => $Article{Age}, Space => ' ') || '',
-                        TicketOverTime => $Self->{LayoutObject}->CustomerAge(Age => $Article{TicketOverTime}, Space => ' ') || '',
                     }
                 );
             }

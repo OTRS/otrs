@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.145 2007-08-03 02:18:48 martin Exp $
+# $Id: Article.pm,v 1.146 2007-08-20 14:49:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.145 $';
+$VERSION = '$Revision: 1.146 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -989,7 +989,7 @@ sub ArticleLastCustomerArticle {
     my @Index = $Self->ArticleIndex(TicketID => $Param{TicketID}, SenderType => 'customer');
     # get article data
     if (@Index) {
-        return $Self->ArticleGet(ArticleID => $Index[$#Index], TicketOverTime => 1);
+        return $Self->ArticleGet(ArticleID => $Index[$#Index]);
     }
     else {
         my @Index = $Self->ArticleIndex(TicketID => $Param{TicketID});
@@ -998,14 +998,13 @@ sub ArticleLastCustomerArticle {
             foreach (reverse @Index) {
                 my %Article = $Self->ArticleGet(
                     ArticleID => $_,
-                    TicketOverTime => 1,
                 );
                 if ($Article{StateType} eq 'merged' || $Article{ArticleType} !~ /int/) {
                     return %Article;
                 }
             }
             # if we got no internal article, return the latest one
-            return $Self->ArticleGet(ArticleID => $Index[$#Index], TicketOverTime => 1);
+            return $Self->ArticleGet(ArticleID => $Index[$#Index]);
         }
         else {
             $Self->{LogObject}->Log(
