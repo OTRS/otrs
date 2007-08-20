@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesSMIME.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesSMIME.pm,v 1.4 2006-08-27 22:23:35 martin Exp $
+# $Id: PreferencesSMIME.pm,v 1.5 2007-08-20 16:09:46 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -32,7 +32,7 @@ sub new {
     }
 
     # get needed objects
-    foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem)) {
+    foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem MainObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -72,6 +72,7 @@ sub Run {
         DBObject => $Self->{DBObject},
         ConfigObject => $Self->{ConfigObject},
         CryptType => 'SMIME',
+        MainObject => $Self->{MainObject},
     );
     if (!$CryptObject) {
         return 1;
@@ -125,6 +126,7 @@ sub Download {
         DBObject => $Self->{DBObject},
         ConfigObject => $Self->{ConfigObject},
         CryptType => 'SMIME',
+        MainObject => $Self->{MainObject},
     );
     if (!$CryptObject) {
         return 1;
