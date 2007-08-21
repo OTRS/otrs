@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.17 2007-08-09 23:33:46 martin Exp $
+# $Id: StdAttachment.pm,v 1.18 2007-08-21 11:10:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -38,8 +38,8 @@ All std. attachment functions.
 create std. attachment object
 
     use Kernel::Config;
-    use Kernel::System::Time;
     use Kernel::System::Log;
+    use Kernel::System::DB;
     use Kernel::System::StdAttachment;
 
     my $ConfigObject = Kernel::Config->new();
@@ -459,6 +459,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2007-08-09 23:33:46 $
+$Revision: 1.18 $ $Date: 2007-08-21 11:10:20 $
 
 =cut
