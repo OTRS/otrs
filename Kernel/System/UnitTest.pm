@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.10 2007-04-11 20:46:55 martin Exp $
+# $Id: UnitTest.pm,v 1.11 2007-08-21 08:47:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::UnitTest;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -198,6 +198,19 @@ sub Run {
         }
         else {
             $ResultSummary{Vendor} = 'RedHat unknown';
+        }
+    }
+    elsif (-e '/etc/debian_version') {
+        if (open(IN, "< /etc/debian_version")) {
+            while (<IN>) {
+                $ResultSummary{Vendor} = 'debian '.$_;
+                chomp ($ResultSummary{Vendor});
+                last;
+            }
+            close (IN);
+        }
+        else {
+            $ResultSummary{Vendor} = 'debian unknown';
         }
     }
     else {
@@ -460,6 +473,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2007-04-11 20:46:55 $
+$Revision: 1.11 $ $Date: 2007-08-21 08:47:39 $
 
 =cut
