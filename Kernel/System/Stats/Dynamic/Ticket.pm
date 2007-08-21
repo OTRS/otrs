@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.11 2007-05-22 13:40:24 mh Exp $
+# $Id: Ticket.pm,v 1.12 2007-08-21 11:28:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -37,7 +37,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(DBObject ConfigObject LogObject UserObject)) {
+    foreach (qw(DBObject ConfigObject LogObject UserObject MainObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 

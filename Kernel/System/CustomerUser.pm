@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.30 2007-04-02 13:13:15 martin Exp $
+# $Id: CustomerUser.pm,v 1.31 2007-08-21 11:28:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -65,7 +65,7 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject)) {
+    foreach (qw(DBObject ConfigObject LogObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     # load generator customer preferences module
@@ -438,6 +438,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2007-04-02 13:13:15 $
+$Revision: 1.31 $ $Date: 2007-08-21 11:28:51 $
 
 =cut

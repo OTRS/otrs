@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/AgentInterface.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentInterface.pm,v 1.7 2007-01-21 01:26:10 mh Exp $
+# $Id: AgentInterface.pm,v 1.8 2007-08-21 11:28:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::User;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # bulk, list
@@ -33,7 +33,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed opbjects
-    foreach (qw(ConfigObject LogObject DBObject ParseObject TicketObject)) {
+    foreach (qw(ConfigObject LogObject DBObject ParseObject TicketObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
