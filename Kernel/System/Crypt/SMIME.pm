@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.10 2006-12-14 12:09:49 martin Exp $
+# $Id: SMIME.pm,v 1.11 2007-08-21 19:55:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::SMIME;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -62,29 +62,62 @@ sub Check {
     my %Param = @_;
 
     if (! -e $Self->{Bin}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No such $Self->{Bin}!",
+        );
         return "No such $Self->{Bin}!";
     }
     elsif (! -x $Self->{Bin}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "$Self->{Bin} not executable!",
+        );
         return "$Self->{Bin} not executable!";
     }
     elsif (! -e $Self->{CertPath}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No such $Self->{CertPath}!",
+        );
         return "No such $Self->{CertPath}!";
     }
     elsif (! -d $Self->{CertPath}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No such $Self->{CertPath} directory!",
+        );
         return "No such $Self->{CertPath} directory!";
     }
     elsif (! -w $Self->{CertPath}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "$Self->{CertPath} not writable!",
+        );
         return "$Self->{CertPath} not writable!";
     }
     elsif (! -e $Self->{PrivatePath}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No such $Self->{PrivatePath}!",
+        );
         return "No such $Self->{PrivatePath}!";
     }
     elsif (! -d $Self->{PrivatePath}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No such $Self->{PrivatePath} directory!",
+        );
         return "No such $Self->{PrivatePath} directory!";
     }
     elsif (! -w $Self->{PrivatePath}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "$Self->{PrivatePath} not writable!",
+        );
         return "$Self->{PrivatePath} not writable!";
     }
+    return;
 }
 
 =item Crypt()
@@ -875,6 +908,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2006-12-14 12:09:49 $
+$Revision: 1.11 $ $Date: 2007-08-21 19:55:45 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPGP.pm,v 1.14 2007-08-20 16:09:46 tr Exp $
+# $Id: AdminPGP.pm,v 1.15 2007-08-21 19:56:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -72,18 +72,12 @@ sub Run {
                 Message => 'Need param Key to delete!',
             );
         }
-        my $Message = '';
+        my $Success = '';
         if ($Type eq 'sec') {
-            $Message = $Self->{CryptObject}->SecretKeyDelete(Key => $Key);
+            $Success = $Self->{CryptObject}->SecretKeyDelete(Key => $Key);
         }
         else {
-            $Message = $Self->{CryptObject}->PublicKeyDelete(Key => $Key);
-        }
-        if (!$Message) {
-            $Message = $Self->{LogObject}->GetLogEntry(
-                Type => 'Error',
-                What => 'Message',
-            );
+            $Success = $Self->{CryptObject}->PublicKeyDelete(Key => $Key);
         }
         my @List = $Self->{CryptObject}->KeySearch(Search => $Param{Search});
         foreach my $Key (@List) {
@@ -98,8 +92,15 @@ sub Run {
         }
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        if (!$Message) {
+        my $Message = '';
+        if ($Success) {
             $Message = "Key $Key deleted!";
+        }
+        else {
+            $Message = $Self->{LogObject}->GetLogEntry(
+                Type => 'Error',
+                What => 'Message',
+            );
         }
         $Output .= $Self->{LayoutObject}->Notify(Info => $Message);
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPGPForm', Data => \%Param);

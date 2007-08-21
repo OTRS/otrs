@@ -2,7 +2,7 @@
 # Kernel/System/Crypt.pm - the main crypt module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Crypt.pm,v 1.8 2007-01-20 23:11:34 mh Exp $
+# $Id: Crypt.pm,v 1.9 2007-08-21 19:55:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::System::Crypt;
 
 use strict;
 use Kernel::System::FileTemp;
+use Kernel::System::Encode;
 
 use vars qw($VERSION @ISA);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -89,16 +90,25 @@ sub new {
 
     # create file template object
     $Self->{FileTempObject} = Kernel::System::FileTemp->new(%Param);
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     # load generator crypt module
     $Self->{GenericModule} = "Kernel::System::Crypt::$Param{CryptType}";
     if (!$Self->{MainObject}->Require($Self->{GenericModule})) {
         return;
     }
+
     # add generator crypt functions
     @ISA = ("$Self->{GenericModule}");
+
     # call init()
     $Self->_Init();
+
+    # check working env
+    if ($Self->Check()) {
+        return;
+    }
+
     return $Self;
 }
 
@@ -118,6 +128,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.9 $ $Date: 2007-08-21 19:55:45 $
 
 =cut

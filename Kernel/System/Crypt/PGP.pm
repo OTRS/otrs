@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.15 2007-02-15 14:13:12 martin Exp $
+# $Id: PGP.pm,v 1.16 2007-08-21 19:55:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::PGP;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -58,11 +58,20 @@ sub Check {
 
     my $GPGBin = $Self->{ConfigObject}->Get('PGP::Bin') || '/usr/bin/gpg';
     if (! -e $GPGBin) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No such $GPGBin!",
+        );
         return "No such $GPGBin!";
     }
     elsif (! -x $GPGBin) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "$GPGBin not executable!",
+        );
         return "$GPGBin not executable!";
     }
+    return;
 }
 
 =item Crypt()
@@ -250,6 +259,7 @@ sub Sign {
     # create tmp files
     my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
     my ($FHSign, $FilenameSign) = $Self->{FileTempObject}->TempFile();
+    $Self->{EncodeObject}->SetIO($FH);
     print $FH $Param{Message};
 
     open (SIGN, "echo ".quotemeta($Pw)." | $Self->{GPGBin} --passphrase-fd 0 --default-key $Param{Key} -o $FilenameSign $AddParams $Filename 2>&1 |");
@@ -265,6 +275,7 @@ sub Sign {
     # get signed content
     my $Signed;
     open (TMP, "< $FilenameSign");
+    $Self->{EncodeObject}->SetIO(\*TMP);
     while (<TMP>) {
         $Signed .= $_;
     }
@@ -305,6 +316,7 @@ sub Verify {
 
     my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
     my ($FHSign, $FilenameSign) = $Self->{FileTempObject}->TempFile();
+    $Self->{EncodeObject}->SetIO($FH);
     print $FH $Param{Message};
     my $File = $Filename;
     if ($Param{Sign}) {
@@ -372,7 +384,7 @@ sub PrivateKeySearch {
     open (SEARCH, "$Self->{GPGBin} --list-secret-keys --with-fingerprint ".quotemeta($Search)." 2>&1 |");
     my %Key = ();
     while (my $Line = <SEARCH>) {
-        if ($Line =~ /^(se.+?)\s(.+?)\/(.+?)\s(.+?)\s(.*)$/) {
+        if ($Line =~ /^(se.+?)\s{1,6}(.+?)\/(.+?)\s(.+?)\s(.*)$/) {
             if (%Key) {
                 push (@Result, {%Key});
                 %Key = ();
@@ -386,10 +398,15 @@ sub PrivateKeySearch {
             $Key{IdentifierMaster} .= $5;
         }
         if ($InKey && $Line =~ /^uid\s+(.*)/) {
-            $Key{Identifier} .= ', '.$1;
+            if ($Key{Identifier}) {
+                $Key{Identifier} .= ', '.$1;
+            }
+            else {
+                $Key{Identifier} = $1;
+            }
         }
         if ($InKey && $Line =~ /^(ssb)\s(.+?)\/(.+?)\s(.+?)\s/) {
-            $Key{Bit} = $2;
+            $Key{Bit} = ''.$2;
             $Key{Key} = $3;
             $Key{Created} = $4;
         }
@@ -428,7 +445,7 @@ sub PublicKeySearch {
     open (SEARCH, "$Self->{GPGBin} --list-public-keys --with-fingerprint ".quotemeta($Search)." 2>&1 |");
     my %Key = ();
     while (my $Line = <SEARCH>) {
-        if ($Line =~ /^(p.+?)\s(.+?)\/(.+?)\s(.+?)\s(.*)$/) {
+        if ($Line =~ /^(p.+?)\s{1,6}(.+?)\/(.+?)\s(.+?)\s(.*)$/) {
             if (%Key) {
                 push (@Result, {%Key});
                 %Key = ();
@@ -438,16 +455,26 @@ sub PublicKeySearch {
             $Key{Bit} .= $2;
             $Key{Key} .= $3;
             $Key{Created} .= $4;
-            $Key{Identifier} .= $5;
-            $Key{IdentifierMaster} .= $5;
+            if ($5 !~ /\[expires:\s.+?\]/) {
+                $Key{Identifier} .= $5;
+                $Key{IdentifierMaster} .= $5;
+            }
         }
         if ($InKey && $Line =~ /^uid\s+(.*)/) {
-            $Key{Identifier} .= ', '.$1;
+            if ($Key{Identifier}) {
+                $Key{Identifier} .= ', '.$1;
+            }
+            else {
+                $Key{Identifier} = $1;
+            }
+        }
+        if ($InKey && $Line =~ /^sub\s+(.+?)\/(.+?)\s.*/) {
+            $Key{KeyPrivate} = $2;
         }
         if ($InKey && $Line =~ /\[expires:\s(.+?)\]/) {
             $Key{Expires} = $1;
         }
-        if ($InKey && $Line =~ /Key fingerprint = (.*)/) {
+        if ($InKey && $Line =~ /Key\sfingerprint\s=\s(.*)/i) {
             $Key{Fingerprint} = $1;
             $Key{FingerprintShort} = $1;
             $Key{FingerprintShort} =~ s/  / /g;
@@ -481,6 +508,15 @@ sub PublicKeyGet {
     }
     close (SEARCH);
 
+    if ($KeyString =~/nothing exported/i) {
+        $KeyString =~ s/\n//g;
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't export key: $KeyString!",
+        );
+        return;
+    }
+
     return $KeyString;
 }
 
@@ -506,6 +542,15 @@ sub SecretKeyGet {
     }
     close (SEARCH);
 
+    if ($KeyString =~/nothing exported/i) {
+        $KeyString =~ s/\n//g;
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't export key: $KeyString!",
+        );
+        return;
+    }
+
     return $KeyString;
 }
 
@@ -525,13 +570,30 @@ sub PublicKeyDelete {
     my $Key = $Param{Key} || '';
     my $KeyString = '';
     my %Result = ();
+    # check needed stuff
+    if (!$Key) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need Key!",
+        );
+        return;
+    }
     open (SEARCH, "$Self->{GPGBin} --delete-key ".quotemeta($Key)." 2>&1 |");
     while (<SEARCH>) {
         $KeyString .= $_;
     }
     close (SEARCH);
 
-    return $KeyString;
+    if ($KeyString) {
+        $KeyString =~ s/\n//g;
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't delete key: $KeyString!",
+        );
+        return;
+    }
+
+    return 1;
 }
 
 =item SecretKeyDelete()
@@ -550,13 +612,47 @@ sub SecretKeyDelete {
     my $Key = $Param{Key} || '';
     my $KeyString = '';
     my %Result = ();
-    open (SEARCH, "$Self->{GPGBin} --delete-secret-key ".quotemeta($Key)." 2>&1 |");
+    # check needed stuff
+    if (!$Key) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need Key!",
+        );
+        return;
+    }
+    my @Keys = $Self->PrivateKeySearch(
+        Search => $Key,
+    );
+    if ($Keys[1]) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't delete key, multible key for $Key!",
+        );
+        return;
+    }
+    if (!$Keys[0]->{FingerprintShort}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't delete key, found no fingerprint for $Key!",
+        );
+        return;
+    }
+    open (SEARCH, "$Self->{GPGBin} --delete-secret-key ".quotemeta($Keys[0]->{FingerprintShort})." 2>&1 |");
     while (<SEARCH>) {
         $KeyString .= $_;
     }
     close (SEARCH);
 
-    return $KeyString;
+    if ($KeyString) {
+        $KeyString =~ s/\n//g;
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't delete key: $KeyString!",
+        );
+        return;
+    }
+
+    return 1;
 }
 
 =item KeyAdd()
@@ -575,6 +671,14 @@ sub KeyAdd {
     my $Key = $Param{Key} || '';
     my $Message = '';
     my %Result = ();
+    # check needed stuff
+    if (!$Key) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need Key!",
+        );
+        return;
+    }
     my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
     print $FH $Key;
     open (OUT, "$Self->{GPGBin} --import $Filename 2>&1 |");
@@ -582,6 +686,14 @@ sub KeyAdd {
         $Message .= $_;
     }
     close (OUT);
+    if ($Message =~/failed/i) {
+        $Message =~ s/\n//g;
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't add key: $Message!",
+        );
+        return;
+    }
     return $Message;
 }
 
@@ -628,6 +740,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2007-02-15 14:13:12 $
+$Revision: 1.16 $ $Date: 2007-08-21 19:55:45 $
 
 =cut
