@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLookup.pm - a generic lookup module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentLookup.pm,v 1.10 2007-02-06 19:43:24 martin Exp $
+# $Id: AgentLookup.pm,v 1.11 2007-08-21 11:11:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentLookup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -83,6 +83,7 @@ sub Run {
         $Self->{DBObject} = Kernel::System::DB->new(
             LogObject => $Self->{LogObject},
             ConfigObject => $Self->{ConfigObject},
+            MainObject => $Self->{MainObject},
             DatabaseDSN => $Self->{Map}->{$Param{Source}}->{Params}->{DSN},
             DatabaseUser => $Self->{Map}->{$Param{Source}}->{Params}->{User},
             DatabasePw => $Self->{Map}->{$Param{Source}}->{Params}->{Password},
