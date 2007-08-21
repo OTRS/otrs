@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.16 2007-07-30 14:51:03 mh Exp $
+# $Id: Service.pm,v 1.17 2007-08-21 10:15:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -202,6 +202,14 @@ sub ServiceGet {
         $ServiceData{CreateBy} = $Row[5];
         $ServiceData{ChangeTime} = $Row[6];
         $ServiceData{ChangeBy} = $Row[7];
+    }
+    # check service
+    if (!$ServiceData{ServiceID}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No such ServiceID ($Param{ServiceID})!",
+        );
+        return;
     }
     # create short name and parentid
     $ServiceData{NameShort} = $ServiceData{Name};
@@ -762,6 +770,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2007-07-30 14:51:03 $
+$Revision: 1.17 $ $Date: 2007-08-21 10:15:13 $
 
 =cut
