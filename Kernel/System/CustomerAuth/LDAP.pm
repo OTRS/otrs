@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.22 2007-04-26 21:33:42 martin Exp $
+# $Id: LDAP.pm,v 1.23 2007-08-21 10:56:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -171,8 +171,11 @@ sub Auth {
         );
         return;
     }
+    # user quote
+    my $UserQuote = $Param{User};
+    $UserQuote =~ s/\\/\\\\/g;
     # build filter
-    my $Filter = "($Self->{UID}=$Param{User})";
+    my $Filter = "($Self->{UID}=$UserQuote)";
     # prepare filter
     if ($Self->{AlwaysFilter}) {
         $Filter = "(&$Filter$Self->{AlwaysFilter})";
@@ -206,6 +209,9 @@ sub Auth {
         $LDAP->unbind;
         return;
     }
+    # DN quote
+    my $UserDNQuote = $UserDN;
+    $UserDNQuote =~ s/\\/\\\\/g;
 
     # check if user need to be in a group!
     if ($Self->{AccessAttr} && $Self->{GroupDN}) {
@@ -219,10 +225,10 @@ sub Auth {
         # search if we're allowed to
         my $Filter2 = '';
         if ($Self->{UserAttr} eq 'DN') {
-            $Filter2 = "($Self->{AccessAttr}=$UserDN)";
+            $Filter2 = "($Self->{AccessAttr}=$UserDNQuote)";
         }
         else {
-            $Filter2 = "($Self->{AccessAttr}=$Param{User})";
+            $Filter2 = "($Self->{AccessAttr}=$UserQuote)";
         }
         my $Result2 = $LDAP->search (
             base => $Self->{GroupDN},
