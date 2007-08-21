@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AuthSession.pm,v 1.28 2007-01-20 23:11:33 mh Exp $
+# $Id: AuthSession.pm,v 1.29 2007-08-21 11:13:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::AuthSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -37,6 +37,7 @@ create a object
 
     use Kernel::Config;
     use Kernel::System::Log;
+    use Kernel::System::DB;
     use Kernel::System::AuthSession;
 
     my $ConfigObject = Kernel::Config->new();
@@ -267,6 +268,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2007-01-20 23:11:33 $
+$Revision: 1.29 $ $Date: 2007-08-21 11:13:01 $
 
 =cut
