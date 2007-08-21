@@ -2,7 +2,7 @@
 # AuthSession.t - auth session tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: WebUploadCache.t,v 1.5 2007-05-07 08:24:25 martin Exp $
+# $Id: WebUploadCache.t,v 1.6 2007-08-21 11:43:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -49,7 +49,7 @@ foreach my $Module (qw(DB FS)) {
         );
 
         $Self->True(
-            $Add,
+            $Add || '',
             "#$Module - FormIDAddFile() - .".$File,
         );
 
@@ -80,7 +80,7 @@ foreach my $Module (qw(DB FS)) {
             FileID => 1,
         );
         $Self->True(
-            $Delete,
+            $Delete || '',
             "#$Module - FormIDRemoveFile() - .".$File,
         );
     }
