@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.449 2007-08-20 16:12:49 tr Exp $
+# $Id: CHANGES,v 1.450 2007-08-21 10:51:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.3 (2007/??/??)
+ - (2007/08/21) Fixed bug# 2024 - Problem with agent authentication via LDAP
+    with ADS-Groups and content of DN like "Some\, Name".
  - (2007/08/20) Fixed bug# 2094 and 2143 - 'Got no MainObject' warning in
     Kernel/System/Crypt.pm
  - (2007/08/20) Fixed bug# 2192 - Useless fragments of old escalation mechanism
@@ -20,7 +22,7 @@
  - (2007/08/10) Fixed bug# 2160 - 0 was ignored in database insert by package
     building.
  - (2007/08/10) Fixed bug# 2156 - External customer database is not working,
-    it it's configured the following error message appears
+    if it's configured the following error message appears
     ("Got no MainObject in Kernel/System/DB.pm line 85").
  - (2007/08/10) Fixed bug# 2155 - Std-Attachments are not usable in agent
     ticket compose screen (no std attachments are shown in compose screen).
