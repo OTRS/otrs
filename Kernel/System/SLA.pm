@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.14 2007-06-29 01:00:39 martin Exp $
+# $Id: SLA.pm,v 1.15 2007-08-21 10:15:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,11 +12,12 @@
 package Kernel::System::SLA;
 
 use strict;
+use warnings;
 
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -197,6 +198,14 @@ sub SLAGet {
         $SLAData{CreateBy} = $Row[10];
         $SLAData{ChangeTime} = $Row[11];
         $SLAData{ChangeBy} = $Row[12];
+    }
+    # check sla
+    if (!$SLAData{SLAID}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No such SLAID ($Param{SLAID})!",
+        );
+        return;
     }
     $Self->{"Cache::SLAGet::$Param{SLAID}"} = \%SLAData;
     return %SLAData;
@@ -413,6 +422,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2007-06-29 01:00:39 $
+$Revision: 1.15 $ $Date: 2007-08-21 10:15:38 $
 
 =cut
