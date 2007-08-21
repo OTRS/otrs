@@ -2,7 +2,7 @@
 # Crypt.t - Crypt tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.1 2007-08-21 19:52:38 martin Exp $
+# $Id: Crypt.t,v 1.2 2007-08-21 20:37:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -49,12 +49,12 @@ my %Check = (
         Type => 'pub',
         Identifier => 'UnitTest2 <unittest2@example.com>',
         Bit => '1024D',
-        Key => 'D2EDE56B',
-        KeyPrivate => '8B3E3FED',
+        Key => 'F0974D10',
+        KeyPrivate => '8593EAE2',
         Created => '2007-08-21',
-        Expires => '2098-12-30',
-        Fingerprint => 'CB3B 976E 0AC4 DD75 E603  8D5D 415C E0FD D2ED E56B',
-        FingerprintShort => 'CB3B976E0AC4DD75E6038D5D415CE0FDD2EDE56B',
+        Expires => '2037-08-13',
+        Fingerprint => '36E9 9F7F AD76 6405 CBE1  BB42 F533 1A46 F097 4D10',
+        FingerprintShort => '36E99F7FAD766405CBE1BB42F5331A46F0974D10',
     },
 );
 
