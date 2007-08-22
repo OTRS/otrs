@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.146 2007-08-20 14:49:10 mh Exp $
+# $Id: Article.pm,v 1.147 2007-08-22 13:13:52 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.146 $';
+$VERSION = '$Revision: 1.147 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1759,7 +1759,7 @@ sub SendAgentNotification {
     # get notify texts
     foreach (qw(Subject Body)) {
         if (!$Notification{$_}) {
-            $Notification{$_} = "No Notifiaction $_ for $Param{Type} found!";
+            $Notification{$_} = "No Notification $_ for $Param{Type} found!";
         }
     }
     # replace config options
@@ -2019,7 +2019,7 @@ sub SendCustomerNotification {
     # get notify texts
     foreach (qw(Subject Body)) {
         if (!$Notification{$_}) {
-            $Notification{$_} = "No CustomerNotifiaction $_ for $Param{Type} found!";
+            $Notification{$_} = "No CustomerNotification $_ for $Param{Type} found!";
         }
     }
 
