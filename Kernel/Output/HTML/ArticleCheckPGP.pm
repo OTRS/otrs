@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckPGP.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleCheckPGP.pm,v 1.12 2007-01-04 12:16:09 martin Exp $
+# $Id: ArticleCheckPGP.pm,v 1.13 2007-08-22 11:00:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -88,7 +88,9 @@ sub Check {
     }
     # check inline pgp signature
     if ($Param{Article}->{Body} =~ /^-----BEGIN PGP SIGNED MESSAGE-----/) {
-        %SignCheck = $Self->{CryptObject}->Verify(Message => $Param{Article}->{Body});
+        %SignCheck = $Self->{CryptObject}->Verify(
+            Message => $Param{Article}->{Body},
+        );
         if (%SignCheck) {
             # remember to result
             $Self->{Result} = \%SignCheck;
@@ -196,15 +198,15 @@ sub Check {
             }
         }
         if ($ContentType && $ContentType =~ /multipart\/signed/i && $ContentType =~ /application\/pgp/i) {
-            my $signed_text    = $Entity->parts(0)->as_string();
-            my $signature_text = $Entity->parts(1)->body_as_string();
+            my $SignedText = $Entity->parts(0)->as_string();
+            my $SignatureText = $Entity->parts(1)->body_as_string();
             # according to RFC3156 all line endings MUST be CR/LF
-            $signed_text =~ s/\x0A/\x0D\x0A/g;
-            $signed_text =~ s/\x0D+/\x0D/g;
+            $SignedText =~ s/\x0A/\x0D\x0A/g;
+            $SignedText =~ s/\x0D+/\x0D/g;
 
             %SignCheck = $Self->{CryptObject}->Verify(
-                Message => $signed_text,
-                Sign => $signature_text,
+                Message => $SignedText,
+                Sign => $SignatureText,
             );
         }
     }
