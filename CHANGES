@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.451 2007-08-22 08:45:22 sb Exp $
+# $Id: CHANGES,v 1.452 2007-08-22 12:09:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,11 @@
 # --
 
 2.2.3 (2007/??/??)
- - (2007/08/22) Fixed typo in Kernel/System/Queue.pm.
+ - (2007/08/22) Fixed bug# 2203 - OTRS will not create/verify correct pgp
+    signs if utf8 is used.
+ - (2007/08/22) Fixed bug# 2202 - Kernel::System::Email::SMTP is sending
+    "localhost.localdomain" in smtp hello, some server rejecting this ("Host
+    not found").
  - (2007/08/21) Fixed bug# 2024 - Problem with agent authentication via LDAP
     with ADS-Groups and content of DN like "Some\, Name".
  - (2007/08/20) Fixed bug# 2094 and 2143 - 'Got no MainObject' warning in
