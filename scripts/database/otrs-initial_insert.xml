@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-initial_insert.xml,v 1.8 2007-08-07 12:35:28 sb Exp $
+    $Id: otrs-initial_insert.xml,v 1.9 2007-08-22 21:34:44 jb Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.8  2007/08/07 12:35:28  sb
+    Fixed bug# 2117 - Fixed small typo in initial insert files.
+
     Revision 1.7  2007/08/03 02:00:38  martin
     Fixed bug# 940 - changed the correct tags for agent follow up notifications.
 
@@ -1278,7 +1281,7 @@ Your OTRS Notification Master</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Lock Timeout! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_OWNER_UserFirstname&gt;,
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
 unlocked (lock timeout) your locked ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
 
@@ -1301,7 +1304,7 @@ Your OTRS Notification Master</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Ticket owner assigned to you! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_OWNER_UserFirstname&gt;,
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
 a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is assigned to you by "(&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;".
 
@@ -1343,7 +1346,7 @@ Your OTRS Notification Master</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">New note! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_OWNER_UserFirstname&gt;,
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
 &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" added a new note to ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
 
@@ -1363,7 +1366,7 @@ Your OTRS Notification Master</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Moved ticket in "&lt;OTRS_CUSTOMER_QUEUE&gt;" queue! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi,
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
 &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" moved a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] into "&lt;OTRS_CUSTOMER_QUEUE&gt;".
 
@@ -1384,7 +1387,7 @@ Your OTRS Notification Master</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Ticket reminder has been reached! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_OWNER_UserFirstname&gt;,
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
 the ticket "&lt;OTRS_TICKET_TicketNumber&gt;" has been reached the reminder time!
 
@@ -1484,7 +1487,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Lock Timeout! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_OWNER_UserFirstname&gt; &lt;OTRS_OWNER_UserLastname&gt;,
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
 Aufhebung der Sperre auf Dein gesperrtes Ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
 
@@ -1507,7 +1510,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Ticket Besitz uebertragen an Sie! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_OWNER_UserFirstname&gt; &lt;OTRS_OWNER_UserLastname&gt;,
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS__UserLastname&gt;,
 
 der Besitz des Tickets [&lt;OTRS_TICKET_TicketNumber&gt;] wurde an Sie von "(&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" uebertragen.
 
@@ -1549,7 +1552,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Neue Notiz! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_OWNER_UserFirstname&gt; &lt;OTRS_OWNER_UserLastname&gt;,
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS__UserLastname&gt;,
 
 &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" fuegte eine Notiz an Ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
 
@@ -1569,7 +1572,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Ticket verschoben in "&lt;OTRS_CUSTOMER_QUEUE&gt;" Queue! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi,
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
 &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" verschob Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] nach "&lt;OTRS_CUSTOMER_QUEUE&gt;".
 
@@ -1590,7 +1593,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Ticket Erinnerung erreicht! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_OWNER_UserFirstname&gt; &lt;OTRS_OWNER_UserLastname&gt;
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
 das Ticket "&lt;OTRS_TICKET_TicketNumber&gt;" hat die Erinnerungszeit erreicht!
 
