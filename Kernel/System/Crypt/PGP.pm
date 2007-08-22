@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.16 2007-08-21 19:55:45 martin Exp $
+# $Id: PGP.pm,v 1.17 2007-08-22 12:02:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::PGP;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -259,7 +259,12 @@ sub Sign {
     # create tmp files
     my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
     my ($FHSign, $FilenameSign) = $Self->{FileTempObject}->TempFile();
-    $Self->{EncodeObject}->SetIO($FH);
+    if ($Param{Charset} && $Param{Charset} =~ /utf(8|\-8)/i) {
+        $Self->{EncodeObject}->SetIO($FH);
+    }
+    else {
+        binmode($FH);
+    }
     print $FH $Param{Message};
 
     open (SIGN, "echo ".quotemeta($Pw)." | $Self->{GPGBin} --passphrase-fd 0 --default-key $Param{Key} -o $FilenameSign $AddParams $Filename 2>&1 |");
@@ -275,7 +280,12 @@ sub Sign {
     # get signed content
     my $Signed;
     open (TMP, "< $FilenameSign");
-    $Self->{EncodeObject}->SetIO(\*TMP);
+    if ($Param{Charset} && $Param{Charset} =~ /utf(8|\-8)/i) {
+        $Self->{EncodeObject}->SetIO(\*TMP);
+    }
+    else {
+        binmode(TMP);
+    }
     while (<TMP>) {
         $Signed .= $_;
     }
@@ -316,10 +326,11 @@ sub Verify {
 
     my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
     my ($FHSign, $FilenameSign) = $Self->{FileTempObject}->TempFile();
-    $Self->{EncodeObject}->SetIO($FH);
+    binmode($FH);
     print $FH $Param{Message};
     my $File = $Filename;
     if ($Param{Sign}) {
+        binmode($FHSign);
         print $FHSign $Param{Sign};
         $File = "$FilenameSign $File";
     }
@@ -740,6 +751,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2007-08-21 19:55:45 $
+$Revision: 1.17 $ $Date: 2007-08-22 12:02:33 $
 
 =cut
