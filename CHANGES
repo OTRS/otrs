@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.450 2007-08-21 10:51:14 martin Exp $
+# $Id: CHANGES,v 1.451 2007-08-22 08:45:22 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.2.3 (2007/??/??)
+ - (2007/08/22) Fixed typo in Kernel/System/Queue.pm.
  - (2007/08/21) Fixed bug# 2024 - Problem with agent authentication via LDAP
     with ADS-Groups and content of DN like "Some\, Name".
  - (2007/08/20) Fixed bug# 2094 and 2143 - 'Got no MainObject' warning in

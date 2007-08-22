@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.73 2007-07-31 14:07:59 bb Exp $
+# $Id: Queue.pm,v 1.74 2007-08-22 08:45:22 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.73 $';
+$VERSION = '$Revision: 1.74 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -439,7 +439,7 @@ sub GetAllQueues {
 
 get all custom queues of one user
 
-    my %Queues = $QueueObject->GetAllCustomQueues(UserID => 123);
+    my @Queues = $QueueObject->GetAllCustomQueues(UserID => 123);
 
 =cut
 
@@ -1062,6 +1062,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.73 $ $Date: 2007-07-31 14:07:59 $
+$Revision: 1.74 $ $Date: 2007-08-22 08:45:22 $
 
 =cut
