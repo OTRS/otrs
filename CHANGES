@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.454 2007-08-22 21:51:50 jb Exp $
+# $Id: CHANGES,v 1.455 2007-08-23 22:44:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,9 +10,11 @@
 # --
 
 2.2.3 (2007/??/??)
+ - (2007/08/24) Fixed bug# 2214 - .opm Package can not handle &lt;, &gt; and
+    &amp; in .sopm files.
  - (2007/08/22) Improved Agent Notifications. Salutation of notfication
-   recipient is now using <OTRS_UserFirstname> and <OTRS_UserLastname> instead
-   of <OTRS_OWNER_UserFirstname> or <OTRS_OWNER_UserLastname>.
+    recipient is now using <OTRS_UserFirstname> and <OTRS_UserLastname> instead
+    of <OTRS_OWNER_UserFirstname> or <OTRS_OWNER_UserLastname>.
  - (2007/08/22) Fixed bug# 2203 - OTRS will not create/verify correct pgp
     signs if utf8 is used.
  - (2007/08/22) Fixed bug# 2202 - Kernel::System::Email::SMTP is sending

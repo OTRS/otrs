@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.t,v 1.5 2007-03-07 18:38:30 martin Exp $
+# $Id: Package.t,v 1.6 2007-08-23 22:44:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,14 +20,38 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Vendor>OTRS GmbH</Vendor>
   <URL>http://otrs.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
-  <ChangeLog>2005-11-10  New package</ChangeLog>
-  <Description Lang="en">A test package.</Description>
-  <Description Lang="de">Ein Test Paket.</Description>
+  <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
+  <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
+  <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
   <Framework>2.2.x</Framework>
   <Framework>2.1.x</Framework>
   <Framework>2.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
+  <CodeInstall>
+   # just a test &lt;some&gt; plus some &amp; text
+  </CodeInstall>
+  <DatabaseInstall>
+    <TableCreate Name="test_package">
+        <Column Name="name_a" Required="true" Type="INTEGER"/>
+        <Column Name="name_b" Required="true" Size="60" Type="VARCHAR"/>
+        <Column Name="name_c" Required="false" Size="60" Type="VARCHAR"/>
+    </TableCreate>
+    <Insert Table="test_package">
+        <Data Key="name_a">1234</Data>
+        <Data Key="name_b" Type="Quote">some text</Data>
+        <Data Key="name_c" Type="Quote">some text &lt;more&gt;
+          text &amp; text
+        </Data>
+    </Insert>
+    <Insert Table="test_package">
+        <Data Key="name_a">0</Data>
+        <Data Key="name_b" Type="Quote">1</Data>
+    </Insert>
+  </DatabaseInstall>
+  <DatabaseUninstall>
+    <TableDrop Name="test_package"/>
+  </DatabaseUninstall>
   <Filelist>
     <File Location="Test" Permission="644" Encode="Base64">aGVsbG8K</File>
   </Filelist>
@@ -110,7 +134,7 @@ my $PackageInstall2 = $Self->{PackageObject}->PackageInstall(
 
 $Self->True(
     $PackageInstall2,
-    'PackageInstall()',
+    'PackageInstall() - 2',
 );
 
 my $DeployCheck2 = $Self->{PackageObject}->DeployCheck(
@@ -120,7 +144,7 @@ my $DeployCheck2 = $Self->{PackageObject}->DeployCheck(
 
 $Self->True(
     $DeployCheck2,
-    'DeployCheck()',
+    'DeployCheck() - 2',
 );
 
 my $PackageUninstall2 = $Self->{PackageObject}->PackageUninstall(
@@ -129,7 +153,7 @@ my $PackageUninstall2 = $Self->{PackageObject}->PackageUninstall(
 
 $Self->True(
     $PackageUninstall2,
-    'PackageUninstall()',
+    'PackageUninstall() - 2',
 );
 
 1;

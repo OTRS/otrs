@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.66 2007-08-10 12:27:44 rk Exp $
+# $Id: Package.pm,v 1.67 2007-08-23 22:44:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.66 $';
+$VERSION = '$Revision: 1.67 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -585,8 +585,11 @@ sub PackageInstall {
         if ($Structure{CodeInstall} && $Structure{CodeInstall}->{Content}) {
             if ($Structure{CodeInstall}->{Content}) {
                 print STDERR "Code: $Structure{CodeInstall}->{Content}\n";
-                if (!eval $Structure{CodeInstall}->{Content}) {
-                    print STDERR "CodeError: $@\n";
+                if (!eval $Structure{CodeInstall}->{Content}."\n1;") {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "CodeInstall: $@",
+                    );
                 }
             }
         }
@@ -645,8 +648,11 @@ sub PackageReinstall {
     if ($Structure{CodeReinstall} && $Structure{CodeReinstall}->{Content}) {
         if ($Structure{CodeReinstall}->{Content}) {
             print STDERR "Code: $Structure{CodeReinstall}->{Content}\n";
-            if (!eval $Structure{CodeReinstall}->{Content}) {
-                print STDERR "CodeError: $@\n";
+            if (!eval $Structure{CodeReinstall}->{Content}."\n1;") {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "CodeReinstall: $@",
+                );
             }
         }
     }
@@ -890,8 +896,11 @@ sub PackageUninstall {
     if ($Structure{CodeUninstall} && $Structure{CodeUninstall}->{Content}) {
         if ($Structure{CodeUninstall}->{Content}) {
             print STDERR "Code: $Structure{CodeUninstall}->{Content}\n";
-            if (!eval $Structure{CodeUninstall}->{Content}) {
-                print STDERR "CodeError: $@\n";
+            if (!eval $Structure{CodeUninstall}->{Content}."\n1;") {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "CodeUninstall: $@",
+                );
             }
         }
     }
@@ -1391,7 +1400,7 @@ sub PackageBuild {
                     }
                 }
                 if (defined($Tag->{Content}) && $Tag->{TagLevel} >= 4 && $Tag->{Tag} !~ /(Foreign|Reference|Index)/) {
-                    $XML .= $Tag->{Content};
+                    $XML .= $Self->_Encode($Tag->{Content});
                 }
                 if ($Tag->{TagType} eq 'End') {
                     $Counter = $Counter - 1;
@@ -1818,6 +1827,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2007-08-10 12:27:44 $
+$Revision: 1.67 $ $Date: 2007-08-23 22:44:28 $
 
 =cut
