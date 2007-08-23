@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.455 2007-08-23 22:44:28 martin Exp $
+# $Id: CHANGES,v 1.456 2007-08-23 23:22:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.3 (2007/??/??)
+ - (2007/08/24) Fixed bug# 2207 - translation failure in customer preferences
+   (QueueView refresh time).
  - (2007/08/24) Fixed bug# 2214 - .opm Package can not handle &lt;, &gt; and
     &amp; in .sopm files.
  - (2007/08/22) Improved Agent Notifications. Salutation of notfication
