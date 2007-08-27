@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.49 2007-08-27 15:26:05 martin Exp $
+# $Id: Layout.pm,v 1.50 2007-08-27 15:35:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -992,8 +992,9 @@ sub Redirect {
         #  o http://bugs.otrs.org/show_bug.cgi?id=2230
         #  o http://support.microsoft.com/default.aspx?scid=kb;en-us;221154
         if ($ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis/i) {
+            my $Host = $ENV{HTTP_HOST} || $Self->{ConfigObject}->Get('FQDN');
             $Param{Redirect} = $Self->{ConfigObject}->Get('HttpType').'://'.
-                $Self->{ConfigObject}->Get('FQDN').'/'.$Param{Redirect};
+                $Host.'/'.$Param{Redirect};
         }
         my $Output = $Cookies.$Self->Output(TemplateFile => 'Redirect', Data => \%Param);
         if (!$Self->{SessionIDCookie}) {
@@ -3392,6 +3393,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2007-08-27 15:26:05 $
+$Revision: 1.50 $ $Date: 2007-08-27 15:35:06 $
 
 =cut
