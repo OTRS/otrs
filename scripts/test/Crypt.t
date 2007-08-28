@@ -2,7 +2,7 @@
 # Crypt.t - Crypt tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.3 2007-08-21 21:03:00 martin Exp $
+# $Id: Crypt.t,v 1.4 2007-08-28 09:24:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -150,7 +150,7 @@ foreach my $Count (1..2) {
     );
     $Self->True(
         $Verify{Successful} || '',
-        "#$Count Verify - inline",
+        "#$Count Verify() - inline",
     );
     # sign detached
     $Sign = $Self->{CryptObject}->Sign(
@@ -169,7 +169,7 @@ foreach my $Count (1..2) {
     );
     $Self->True(
         $Verify{Successful} || '',
-        "#$Count Verify - detached",
+        "#$Count Verify() - detached",
     );
 
     # file checks
@@ -217,7 +217,7 @@ foreach my $Count (1..2) {
         );
         $Self->True(
             $Verify{Successful} || '',
-            "#$Count Verify - inline .$File",
+            "#$Count Verify() - inline .$File",
         );
         # sign detached
         $Sign = $Self->{CryptObject}->Sign(
@@ -236,7 +236,7 @@ foreach my $Count (1..2) {
         );
         $Self->True(
             $Verify{Successful} || '',
-            "#$Count Verify - detached .$File",
+            "#$Count Verify() - detached .$File",
         );
 
     }
