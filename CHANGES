@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.458 2007-08-27 15:27:42 martin Exp $
+# $Id: CHANGES,v 1.459 2007-08-28 21:30:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,13 @@
 # --
 
 2.2.3 (2007/??/??)
+ - (2007/08/28) Fixed Ticket# 2007082842000477 - Problem with differen customer
+    sources and use CacheTTL option (namespace of cache is not uniq).
+ - (2007/08/28) Fixed Ticket# 2007082842000413 - Ticket created over phone
+    ticket with state closed is shown in queue view like "My Queues (1)" but
+    no ticket is shown if I click on "My Queues (1)" (if
+    Kernel::System::Ticket::IndexAccelerator::StaticDB is used as
+    Ticket::IndexModule).
  - (2007/08/27) Fixed bug# 2230 - OTRS on IIS - redirect/loop problem after
     login.
  - (2007/08/27) Fixed bug# 2229 - Return value of "ServiceLookup" is used
