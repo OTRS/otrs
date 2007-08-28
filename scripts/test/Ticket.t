@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.23 2007-08-28 23:15:27 martin Exp $
+# $Id: Ticket.t,v 1.24 2007-08-28 23:32:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -3623,12 +3623,30 @@ foreach my $Module ('RuntimeDB', 'StaticDB') {
     );
     $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
 
+    my @TicketIDs = ();
+    $TicketID = $Self->{TicketObject}->TicketCreate(
+        Title => 'Some Ticket Title - ticket index accelerator tests',
+        Queue => 'Raw',
+        Lock => 'unlock',
+        Priority => '3 normal',
+        State => 'new',
+        CustomerNo => '123465',
+        CustomerUser => 'customer@example.com',
+        OwnerID => 1,
+        UserID => 1,
+    );
+    push (@TicketIDs, $TicketID);
+    $Self->True(
+        $TicketID,
+        "$Module TicketCreate() - unlock - new",
+    );
+
     my %IndexBefore = $Self->{TicketObject}->TicketAcceleratorIndex(
         UserID => 1,
         QueueID => [1,2,3,4,5,$QueueID],
         ShownQueueIDs => [1,2,3,4,5,$QueueID],
     );
-    my @TicketIDs = ();
+    @TicketIDs = ();
     $TicketID = $Self->{TicketObject}->TicketCreate(
         Title => 'Some Ticket Title - ticket index accelerator tests',
         Queue => 'Raw',
