@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.22 2007-08-28 14:31:32 martin Exp $
+# $Id: Ticket.t,v 1.23 2007-08-28 23:15:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 use Kernel::System::Ticket;
+use Kernel::System::Queue;
 
 my $Hook = $Self->{ConfigObject}->Get('Ticket::Hook');
 
@@ -18,6 +19,7 @@ $Self->{ConfigObject}->Set(
     Value => 'Kernel::System::Ticket::Number::DateChecksum',
 );
 $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
+$Self->{QueueObject} = Kernel::System::Queue->new(%{$Self});
 my $Tn = $Self->{TicketObject}->TicketCreateNumber() || 'NONE!!!';
 my $String = "Re: ".$Self->{TicketObject}->TicketSubjectBuild(
     TicketNumber => $Tn,
@@ -3614,6 +3616,7 @@ $Self->True(
 
 # ticket index accelerator tests
 foreach my $Module ('RuntimeDB', 'StaticDB') {
+    my $QueueID = $Self->{QueueObject}->QueueLookup(Queue => 'Raw');
     $Self->{ConfigObject}->Set(
         Key => 'Ticket::IndexModule',
         Value => "Kernel::System::Ticket::IndexAccelerator::$Module",
@@ -3622,8 +3625,8 @@ foreach my $Module ('RuntimeDB', 'StaticDB') {
 
     my %IndexBefore = $Self->{TicketObject}->TicketAcceleratorIndex(
         UserID => 1,
-        QueueID => [1,2,3,4,5],
-        ShownQueueIDs => [1,2,3,4,5],
+        QueueID => [1,2,3,4,5,$QueueID],
+        ShownQueueIDs => [1,2,3,4,5,$QueueID],
     );
     my @TicketIDs = ();
     $TicketID = $Self->{TicketObject}->TicketCreate(
@@ -3693,8 +3696,8 @@ foreach my $Module ('RuntimeDB', 'StaticDB') {
 
     my %IndexNow = $Self->{TicketObject}->TicketAcceleratorIndex(
         UserID => 1,
-        QueueID => [1,2,3,4,5],
-        ShownQueueIDs => [1,2,3,4,5],
+        QueueID => [1,2,3,4,5,$QueueID],
+        ShownQueueIDs => [1,2,3,4,5,$QueueID],
     );
     $Self->Is(
         $IndexBefore{AllTickets} || 0,
@@ -3726,8 +3729,8 @@ foreach my $Module ('RuntimeDB', 'StaticDB') {
     );
     %IndexNow = $Self->{TicketObject}->TicketAcceleratorIndex(
         UserID => 1,
-        QueueID => [1,2,3,4,5],
-        ShownQueueIDs => [1,2,3,4,5],
+        QueueID => [1,2,3,4,5,$QueueID],
+        ShownQueueIDs => [1,2,3,4,5,$QueueID],
     );
     $Self->Is(
         $IndexBefore{AllTickets} || 0,
@@ -3759,8 +3762,8 @@ foreach my $Module ('RuntimeDB', 'StaticDB') {
     );
     %IndexNow = $Self->{TicketObject}->TicketAcceleratorIndex(
         UserID => 1,
-        QueueID => [1,2,3,4,5],
-        ShownQueueIDs => [1,2,3,4,5],
+        QueueID => [1,2,3,4,5,$QueueID],
+        ShownQueueIDs => [1,2,3,4,5,$QueueID],
     );
     $Self->Is(
         $IndexBefore{AllTickets} || 0,
@@ -3792,8 +3795,8 @@ foreach my $Module ('RuntimeDB', 'StaticDB') {
     );
     %IndexNow = $Self->{TicketObject}->TicketAcceleratorIndex(
         UserID => 1,
-        QueueID => [1,2,3,4,5],
-        ShownQueueIDs => [1,2,3,4,5],
+        QueueID => [1,2,3,4,5,$QueueID],
+        ShownQueueIDs => [1,2,3,4,5,$QueueID],
     );
     $Self->Is(
         $IndexBefore{AllTickets} || 0,
@@ -3835,8 +3838,8 @@ foreach my $Module ('RuntimeDB', 'StaticDB') {
     );
     %IndexNow = $Self->{TicketObject}->TicketAcceleratorIndex(
         UserID => 1,
-        QueueID => [1,2,3,4,5],
-        ShownQueueIDs => [1,2,3,4,5],
+        QueueID => [1,2,3,4,5,$QueueID],
+        ShownQueueIDs => [1,2,3,4,5,$QueueID],
     );
     $Self->Is(
         $IndexBefore{AllTickets} || 0,
