@@ -2,7 +2,7 @@
 # Kernel/System/Cache/File.pm - all cache functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: File.pm,v 1.2 2007-08-02 11:41:31 martin Exp $
+# $Id: File.pm,v 1.3 2007-08-28 21:42:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -46,7 +46,10 @@ sub Set {
     my $Now = time();
     my $TTL = $Now + $Param{TTL};
     my $Dump = "\$TTL=$TTL; #$Now:$Param{TTL}\n";
-    $Dump .= "#$Param{Key}\n";
+    # clean up key
+    $Param{KeyNice} = $Param{Key};
+    $Param{KeyNice} =~ s/(\n\r)/_/g;
+    $Dump .= "#$Param{KeyNice}\n";
     $Dump .= $Self->{MainObject}->Dump($Param{Value})."\n1;";
     my $FileLocation = $Self->{MainObject}->FileWrite(
         Directory => $Self->{CacheDirectory},
