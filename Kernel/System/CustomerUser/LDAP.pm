@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.33 2007-07-26 14:13:33 martin Exp $
+# $Id: LDAP.pm,v 1.34 2007-08-28 21:27:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -156,6 +156,15 @@ sub new {
     if (!defined($Self->{SearchSuffix})) {
         $Self->{SearchSuffix} = '*';
     }
+    # cache key prefix
+    if (!defined($Param{Count})) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need Count param, update Kernel/System/CustomerUser.pm to v1.32 or higher!",
+        );
+        $Param{Count} = '';
+    }
+    $Self->{CacheKey} = "CustomerUser".$Param{Count};
     # get valid filter if used
     $Self->{ValidFilter} = $Self->{CustomerUserMap}->{'CustomerUserValidFilter'} || '';
 
@@ -180,7 +189,7 @@ sub CustomerName {
     # check cache
     if ($Self->{CacheObject}) {
         my $Name = $Self->{CacheObject}->Get(
-            Key => "CustomerUser::CustomerName::$Filter",
+            Key => $Self->{CacheKey}."::CustomerName::$Filter",
         );
         if (defined($Name)) {
             return $Name;
@@ -215,7 +224,7 @@ sub CustomerName {
     # cache request
     if ($Self->{CacheObject}) {
         $Self->{CacheObject}->Set(
-            Key => "CustomerUser::CustomerName::$Filter",
+            Key => $Self->{CacheKey}."::CustomerName::$Filter",
             Value => $Name,
             TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
         );
@@ -280,7 +289,7 @@ sub CustomerSearch {
     # check cache
     if ($Self->{CacheObject}) {
         my $Users = $Self->{CacheObject}->Get(
-            Key => "CustomerUser::CustomerSearch::$Filter",
+            Key => $Self->{CacheKey}."::CustomerSearch::$Filter",
         );
         if ($Users) {
             return %{$Users};
@@ -320,7 +329,7 @@ sub CustomerSearch {
     # cache request
     if ($Self->{CacheObject}) {
         $Self->{CacheObject}->Set(
-            Key => "CustomerUser::CustomerSearch::$Filter",
+            Key => $Self->{CacheKey}."::CustomerSearch::$Filter",
             Value => \%Users,
             TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
         );
@@ -344,7 +353,7 @@ sub CustomerUserList {
     # check cache
     if ($Self->{CacheObject}) {
         my $Users = $Self->{CacheObject}->Get(
-            Key => "CustomerUser::CustomerUserList::$Filter",
+            Key => $Self->{CacheKey}."::CustomerUserList::$Filter",
         );
         if ($Users) {
             return %{$Users};
@@ -375,7 +384,7 @@ sub CustomerUserList {
     # cache request
     if ($Self->{CacheObject}) {
         $Self->{CacheObject}->Set(
-            Key => "CustomerUser::CustomerUserList::$Filter",
+            Key => $Self->{CacheKey}."::CustomerUserList::$Filter",
             Value => \%Users,
             TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
         );
@@ -395,7 +404,7 @@ sub CustomerIDs {
     # check cache
     if ($Self->{CacheObject}) {
         my $CustomerIDs = $Self->{CacheObject}->Get(
-            Key => "CustomerUser::CustomerIDs::$Param{User}",
+            Key => $Self->{CacheKey}."::CustomerIDs::$Param{User}",
         );
         if ($CustomerIDs) {
             return @{$CustomerIDs};
@@ -430,7 +439,7 @@ sub CustomerIDs {
     # cache request
     if ($Self->{CacheObject}) {
         $Self->{CacheObject}->Set(
-            Key => "CustomerUser::CustomerIDs::$Param{User}",
+            Key => $Self->{CacheKey}."::CustomerIDs::$Param{User}",
             Value => \@CustomerIDs,
             TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
         );
@@ -467,7 +476,7 @@ sub CustomerUserDataGet {
     # check cache
     if ($Self->{CacheObject}) {
         my $Data = $Self->{CacheObject}->Get(
-            Key => "CustomerUser::CustomerUserDataGet::$Filter",
+            Key => $Self->{CacheKey}."::CustomerUserDataGet::$Filter",
         );
         if ($Data) {
             return %{$Data};
@@ -515,7 +524,7 @@ sub CustomerUserDataGet {
     # cache request
     if ($Self->{CacheObject}) {
         $Self->{CacheObject}->Set(
-            Key => "CustomerUser::CustomerUserDataGet::$Filter",
+            Key => $Self->{CacheKey}."::CustomerUserDataGet::$Filter",
             Value => { %Data, %Preferences },
             TTL => $Self->{CustomerUserMap}->{'CacheTTL'},
         );
