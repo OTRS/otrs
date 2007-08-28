@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.43 2007-07-30 09:52:37 martin Exp $
+# $Id: StaticDB.pm,v 1.44 2007-08-28 14:29:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -129,6 +129,8 @@ sub TicketAcceleratorDelete {
 sub TicketAcceleratorAdd {
     my $Self = shift;
     my %Param = @_;
+    my @ViewableLocks = @{$Self->{ViewableLocks}};
+    my @ViewableStates = @{$Self->{ViewableStates}};
     # check needed stuff
     foreach (qw(TicketID)) {
         if (!$Param{$_}) {
@@ -138,9 +140,22 @@ sub TicketAcceleratorAdd {
     }
     # get ticket data
     my %TicketData = $Self->TicketGet(%Param);
-    # write/append index
-    foreach (keys %TicketData) {
-        $TicketData{$_} = $Self->{DBObject}->Quote($TicketData{$_});
+    # check if this ticket ist still viewable
+    my $ViewableStatsHit = 0;
+    foreach (@ViewableStates) {
+        if ($_ =~ /^$TicketData{State}$/i) {
+            $ViewableStatsHit = 1;
+        }
+    }
+    my $ViewableLocksHit = 0;
+    foreach (@ViewableLocks) {
+        if ($_ =~ /^$TicketData{Lock}$/i) {
+            $ViewableLocksHit = 1;
+        }
+    }
+    # do nothing if stats or lock is not viewable
+    if (!$ViewableStatsHit || !$ViewableLocksHit) {
+        return 1;
     }
     # db quote
     foreach (qw(TicketID QueueID GroupID CreateTimeUnix)) {
@@ -199,10 +214,6 @@ sub TicketLockAcceleratorAdd {
     }
     # get ticket data
     my %TicketData = $Self->TicketGet(%Param);
-    # write/append index
-    foreach (keys %TicketData) {
-        $TicketData{$_} = $Self->{DBObject}->Quote($TicketData{$_});
-    }
     my $SQL = "INSERT INTO ticket_lock_index ".
         " (ticket_id)".
         " VALUES ".
