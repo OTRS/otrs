@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.9 2007-08-02 11:31:42 martin Exp $
+# $Id: Main.pm,v 1.10 2007-08-28 20:17:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -139,6 +139,34 @@ sub Require {
     }
 }
 
+=item Die()
+
+to die
+
+    $MainObject->Die('some message to die');
+
+=cut
+
+sub Die {
+    my $Self = shift;
+    my %Param = @_;
+    if ($Param{Message}) {
+        $Self->{LogObject}->Log(
+            Caller => 1,
+            Priority => 'error',
+            Message => "$Param{Message}",
+        );
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Caller => 1,
+            Priority => 'error',
+            Message => "Died!",
+        );
+    }
+    exit;
+}
+
 =item FilenameCleanUp()
 
 to clean up filenames which can be used in any case (also quoting is done)
@@ -200,48 +228,27 @@ sub FilenameCleanUp {
     return $Param{Filename};
 }
 
-=item Die()
-
-to die
-
-    $MainObject->Die('some message to die');
-
-=cut
-
-sub Die {
-    my $Self = shift;
-    my %Param = @_;
-    if ($Param{Message}) {
-        $Self->{LogObject}->Log(
-            Caller => 1,
-            Priority => 'error',
-            Message => "$Param{Message}",
-        );
-    }
-    else {
-        $Self->{LogObject}->Log(
-            Caller => 1,
-            Priority => 'error',
-            Message => "Died!",
-        );
-    }
-    exit;
-}
-
 =item FileRead()
 
 to read files from file system
 
     my $ContentSCALARRef = $MainObject->FileRead(
-        Directory => 'c:\some\location\',
+        Directory => 'c:\some\location',
         Filename => 'me_to/alal.xml',
     );
 
+    my $ContentARRAYRef = $MainObject->FileRead(
+        Directory => 'c:\some\location',
+        Filename => 'me_to/alal.xml',
+        Result => 'ARRAY', # optional - SCALAR|ARRAY
+    );
+
     my $ContentSCALARRef = $MainObject->FileRead(
-        Directory => 'c:\some\location\',
+        Directory => 'c:\some\location',
         Filename => 'me_to/alal.xml',
         Mode => 'binmode', # optional - binmode|utf8
         Type => 'Local', # optional - Local|Attachment|MD5
+        Result => 'SCALAR', # optional - SCALAR|ARRAY
         DisableWarnings => 1, # optional
     );
 
@@ -250,6 +257,7 @@ to read files from file system
 sub FileRead {
     my $Self = shift;
     my %Param = @_;
+    my $FH;
     foreach (qw(Filename)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
@@ -277,17 +285,29 @@ sub FileRead {
     if ($Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i) {
         $Mode = '<:utf8';
     }
-    if (open (IN, $Mode, $FileLocation)) {
+    if (open ($FH, $Mode, $FileLocation)) {
         # read whole file
-        my $Data;
+        my @Array;
+        my $String;
         if (!$Param{Mode} || $Param{Mode} =~ /^binmode/i) {
-            binmode(IN);
+            binmode($FH);
         }
-        while (my $Line = <IN>) {
-            $Data .= $Line;
+        while (my $Line = <$FH>) {
+            if ($Param{Result} && $Param{Result} eq 'ARRAY') {
+                push (@Array, $Line);
+            }
+            else {
+                $String .= $Line;
+
+            }
         }
-        close (IN);
-        return \$Data;
+        close ($FH);
+        if ($Param{Result} && $Param{Result} eq 'ARRAY') {
+            return \@Array;
+        }
+        else {
+            return \$String;
+        }
     }
     else {
         $Self->{LogObject}->Log(
@@ -300,7 +320,7 @@ sub FileRead {
 
 =item FileWrite()
 
-to write files to file system
+to write data to file system
 
     my $FileLocation = $MainObject->FileWrite(
         Directory => 'c:\some\location\',
@@ -314,6 +334,7 @@ to write files to file system
         Content => \$Content,
         Mode => 'binmode', # binmode|utf8
         Type => 'Local', # optional - Local|Attachment|MD5
+        Permission => '644', # unix file permissions
     );
 
 =cut
@@ -321,6 +342,7 @@ to write files to file system
 sub FileWrite {
     my $Self = shift;
     my %Param = @_;
+    my $FH;
     foreach (qw(Directory Filename)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
@@ -338,7 +360,7 @@ sub FileWrite {
     if ($Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i) {
         $Mode = '>:utf8';
     }
-    if (!open (OUT, $Mode, $FileLocation)) {
+    if (!open ($FH, $Mode, $FileLocation)) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message => "Can't write '$FileLocation': $!",
@@ -348,15 +370,22 @@ sub FileWrite {
     else {
         # read whole file
         if (!$Param{Mode} || $Param{Mode} =~ /^binmode/i) {
-            binmode(OUT);
+            binmode($FH);
         }
-        print OUT ${$Param{Content}};
-        close (OUT);
+        print $FH ${$Param{Content}};
+        close ($FH);
+        # set permission
+        if ($Param{Permission}) {
+            if (length($Param{Permission}) == 3) {
+                $Param{Permission} = "0$Param{Permission}";
+            }
+            chmod(oct($Param{Permission}), $FileLocation);
+        }
         return $Param{Filename};
     }
 }
 
-=item FileDelete ()
+=item FileDelete()
 
 to delete a file from file system
 
@@ -423,6 +452,7 @@ get a md5 sum of a file or an string
 sub MD5sum {
     my $Self = shift;
     my %Param = @_;
+    my $FH;
     if (!$Param{Filename} && !$Param{String}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need Filename or String!");
         return;
@@ -437,10 +467,10 @@ sub MD5sum {
     }
     # md5sum file
     if ($Param{Filename}) {
-        if (open(FILE, '<', $Param{Filename})) {
-            binmode(FILE);
-            my $MD5sum = Digest::MD5->new()->addfile(*FILE)->hexdigest();
-            close(FILE);
+        if (open($FH, '<', $Param{Filename})) {
+            binmode($FH);
+            my $MD5sum = Digest::MD5->new()->addfile($FH)->hexdigest();
+            close($FH);
             return $MD5sum;
         }
         else {
@@ -489,11 +519,6 @@ sub Dump {
     my $String;
     if (!defined($Data)) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need \$String in Dump()!");
-        return;
-    }
-    # load Data::Dumper
-    if (!$Self->Require('Data::Dumper')) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can not use Dump() without Data::Dumper!");
         return;
     }
     # mild pretty print
@@ -552,6 +577,7 @@ sub _Dump {
             Message => "Unknown ref '".ref(${$Data})."'!",
         );
     }
+    return;
 }
 
 1;
@@ -570,6 +596,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2007-08-02 11:31:42 $
+$Revision: 1.10 $ $Date: 2007-08-28 20:17:21 $
 
 =cut
