@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.t,v 1.2 2007-07-26 14:38:08 martin Exp $
+# $Id: Main.t,v 1.3 2007-08-28 20:17:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -191,5 +191,53 @@ foreach my $Extention (qw(doc pdf png txt xls)) {
         "#11 FileDelete() - $FileLocation",
     );
 }
+
+# write / read ARRAYREF test
+my $Content = "some\ntest\nöäüßカスタマ";
+my $FileLocation = $Self->{MainObject}->FileWrite(
+    Directory => $Self->{ConfigObject}->Get('TempDir'),
+    Filename => "some-test.txt",
+    Mode => 'utf8',
+    Content => \$Content,
+);
+$Self->True(
+    $FileLocation || '',
+    "#12 FileWrite() - $FileLocation",
+);
+
+my $ContentARRAYRef = $Self->{MainObject}->FileRead(
+    Directory => $Self->{ConfigObject}->Get('TempDir'),
+    Filename => $FileLocation,
+    Mode => 'utf8',
+    Result => 'ARRAY', # optional - SCALAR|ARRAY
+);
+$Self->True(
+    $ContentARRAYRef || '',
+    "#12 FileRead() - $FileLocation $ContentARRAYRef",
+);
+$Self->Is(
+    $ContentARRAYRef->[0] || '',
+   "some\n",
+    "#12 FileRead() [0] - $FileLocation",
+);
+$Self->Is(
+    $ContentARRAYRef->[1] || '',
+   "test\n",
+    "#12 FileRead() [1] - $FileLocation",
+);
+$Self->Is(
+    $ContentARRAYRef->[2] || '',
+    "öäüßカスタマ",
+    "#12 FileRead() [2] - $FileLocation",
+);
+
+my $Success = $Self->{MainObject}->FileDelete(
+    Directory => $Self->{ConfigObject}->Get('TempDir'),
+    Filename => $FileLocation,
+);
+$Self->True(
+    $Success || '',
+    "#12 FileDelete() - $FileLocation",
+);
 
 1;
