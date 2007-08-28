@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.21 2007-07-31 11:45:54 martin Exp $
+# $Id: Ticket.t,v 1.22 2007-08-28 14:31:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -3611,5 +3611,261 @@ $Self->True(
     ),
     'TicketDelete()',
 );
+
+# ticket index accelerator tests
+foreach my $Module ('RuntimeDB', 'StaticDB') {
+    $Self->{ConfigObject}->Set(
+        Key => 'Ticket::IndexModule',
+        Value => "Kernel::System::Ticket::IndexAccelerator::$Module",
+    );
+    $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
+
+    my %IndexBefore = $Self->{TicketObject}->TicketAcceleratorIndex(
+        UserID => 1,
+        QueueID => [1,2,3,4,5],
+        ShownQueueIDs => [1,2,3,4,5],
+    );
+    my @TicketIDs = ();
+    $TicketID = $Self->{TicketObject}->TicketCreate(
+        Title => 'Some Ticket Title - ticket index accelerator tests',
+        Queue => 'Raw',
+        Lock => 'unlock',
+        Priority => '3 normal',
+        State => 'closed successful',
+        CustomerNo => '123465',
+        CustomerUser => 'customer@example.com',
+        OwnerID => 1,
+        UserID => 1,
+    );
+    push (@TicketIDs, $TicketID);
+    $Self->True(
+        $TicketID,
+        "$Module TicketCreate() - unlock - closed successful",
+    );
+    $TicketID = $Self->{TicketObject}->TicketCreate(
+        Title => 'Some Ticket Title - ticket index accelerator tests',
+        Queue => 'Raw',
+        Lock => 'lock',
+        Priority => '3 normal',
+        State => 'closed successful',
+        CustomerNo => '123465',
+        CustomerUser => 'customer@example.com',
+        OwnerID => 1,
+        UserID => 1,
+    );
+    push (@TicketIDs, $TicketID);
+    $Self->True(
+        $TicketID,
+        "$Module TicketCreate() - lock - closed successful",
+    );
+    $TicketID = $Self->{TicketObject}->TicketCreate(
+        Title => 'Some Ticket Title - ticket index accelerator tests',
+        Queue => 'Raw',
+        Lock => 'lock',
+        Priority => '3 normal',
+        State => 'open',
+        CustomerNo => '123465',
+        CustomerUser => 'customer@example.com',
+        OwnerID => 1,
+        UserID => 1,
+    );
+    push (@TicketIDs, $TicketID);
+    $Self->True(
+        $TicketID,
+        "$Module TicketCreate() - lock - open",
+    );
+    $TicketID = $Self->{TicketObject}->TicketCreate(
+        Title => 'Some Ticket Title - ticket index accelerator tests',
+        Queue => 'Raw',
+        Lock => 'unlock',
+        Priority => '3 normal',
+        State => 'open',
+        CustomerNo => '123465',
+        CustomerUser => 'customer@example.com',
+        OwnerID => 1,
+        UserID => 1,
+    );
+    push (@TicketIDs, $TicketID);
+    $Self->True(
+        $TicketID,
+        "$Module TicketCreate() - unlock - open",
+    );
+
+    my %IndexNow = $Self->{TicketObject}->TicketAcceleratorIndex(
+        UserID => 1,
+        QueueID => [1,2,3,4,5],
+        ShownQueueIDs => [1,2,3,4,5],
+    );
+    $Self->Is(
+        $IndexBefore{AllTickets} || 0,
+        $IndexNow{AllTickets}-2 || '',
+        "$Module TicketAcceleratorIndex() - AllTickets",
+    );
+    foreach my $ItemNow (@{$IndexNow{Queues}}) {
+        if ($ItemNow->{Queue} eq 'Raw') {
+            foreach my $ItemBefore (@{$IndexBefore{Queues}}) {
+                if ($ItemBefore->{Queue} eq 'Raw') {
+                    $Self->Is(
+                        $ItemBefore->{Count} || 0,
+                        $ItemNow->{Count}-1 || '',
+                        "$Module TicketAcceleratorIndex() - Count",
+                    );
+                }
+            }
+        }
+    }
+    my $TicketLock = $Self->{TicketObject}->LockSet(
+        Lock => 'lock',
+        TicketID => $TicketIDs[0],
+        SendNoNotification => 1,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketLock,
+        "$Module LockSet()",
+    );
+    %IndexNow = $Self->{TicketObject}->TicketAcceleratorIndex(
+        UserID => 1,
+        QueueID => [1,2,3,4,5],
+        ShownQueueIDs => [1,2,3,4,5],
+    );
+    $Self->Is(
+        $IndexBefore{AllTickets} || 0,
+        $IndexNow{AllTickets}-2 || '',
+        "$Module TicketAcceleratorIndex() - AllTickets",
+    );
+    foreach my $ItemNow (@{$IndexNow{Queues}}) {
+        if ($ItemNow->{Queue} eq 'Raw') {
+            foreach my $ItemBefore (@{$IndexBefore{Queues}}) {
+                if ($ItemBefore->{Queue} eq 'Raw') {
+                    $Self->Is(
+                        $ItemBefore->{Count} || 0,
+                        $ItemNow->{Count}-1 || '',
+                        "$Module TicketAcceleratorIndex() - Count",
+                    );
+                }
+            }
+        }
+    }
+    $TicketLock = $Self->{TicketObject}->LockSet(
+        Lock => 'lock',
+        TicketID => $TicketIDs[3],
+        SendNoNotification => 1,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketLock,
+        "$Module LockSet()",
+    );
+    %IndexNow = $Self->{TicketObject}->TicketAcceleratorIndex(
+        UserID => 1,
+        QueueID => [1,2,3,4,5],
+        ShownQueueIDs => [1,2,3,4,5],
+    );
+    $Self->Is(
+        $IndexBefore{AllTickets} || 0,
+        $IndexNow{AllTickets}-2 || '',
+        "$Module TicketAcceleratorIndex() - AllTickets",
+    );
+    foreach my $ItemNow (@{$IndexNow{Queues}}) {
+        if ($ItemNow->{Queue} eq 'Raw') {
+            foreach my $ItemBefore (@{$IndexBefore{Queues}}) {
+                if ($ItemBefore->{Queue} eq 'Raw') {
+                    $Self->Is(
+                        $ItemBefore->{Count} || 0,
+                        $ItemNow->{Count} || '',
+                        "$Module TicketAcceleratorIndex() - Count",
+                    );
+                }
+            }
+        }
+    }
+    $TicketLock = $Self->{TicketObject}->LockSet(
+        Lock => 'unlock',
+        TicketID => $TicketIDs[3],
+        SendNoNotification => 1,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketLock,
+        "$Module LockSet()",
+    );
+    %IndexNow = $Self->{TicketObject}->TicketAcceleratorIndex(
+        UserID => 1,
+        QueueID => [1,2,3,4,5],
+        ShownQueueIDs => [1,2,3,4,5],
+    );
+    $Self->Is(
+        $IndexBefore{AllTickets} || 0,
+        $IndexNow{AllTickets}-2 || '',
+        "$Module TicketAcceleratorIndex() - AllTickets",
+    );
+    foreach my $ItemNow (@{$IndexNow{Queues}}) {
+        if ($ItemNow->{Queue} eq 'Raw') {
+            foreach my $ItemBefore (@{$IndexBefore{Queues}}) {
+                if ($ItemBefore->{Queue} eq 'Raw') {
+                    $Self->Is(
+                        $ItemBefore->{Count} || 0,
+                        $ItemNow->{Count}-1 || '',
+                        "$Module TicketAcceleratorIndex() - Count",
+                    );
+                }
+            }
+        }
+    }
+    my $TicketState = $Self->{TicketObject}->StateSet(
+        State => 'open',
+        TicketID => $TicketIDs[0],
+        SendNoNotification => 1,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketState,
+        "$Module StateSet()",
+    );
+    $TicketLock = $Self->{TicketObject}->LockSet(
+        Lock => 'unlock',
+        TicketID => $TicketIDs[0],
+        SendNoNotification => 1,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketLock,
+        "$Module LockSet()",
+    );
+    %IndexNow = $Self->{TicketObject}->TicketAcceleratorIndex(
+        UserID => 1,
+        QueueID => [1,2,3,4,5],
+        ShownQueueIDs => [1,2,3,4,5],
+    );
+    $Self->Is(
+        $IndexBefore{AllTickets} || 0,
+        $IndexNow{AllTickets}-3 || '',
+        "$Module TicketAcceleratorIndex() - AllTickets",
+    );
+    foreach my $ItemNow (@{$IndexNow{Queues}}) {
+        if ($ItemNow->{Queue} eq 'Raw') {
+            foreach my $ItemBefore (@{$IndexBefore{Queues}}) {
+                if ($ItemBefore->{Queue} eq 'Raw') {
+                    $Self->Is(
+                        $ItemBefore->{Count} || 0,
+                        $ItemNow->{Count}-2 || '',
+                        "$Module TicketAcceleratorIndex() - Count",
+                    );
+                }
+            }
+        }
+    }
+
+    foreach my $TicketID (@TicketIDs) {
+        $Self->True(
+            $Self->{TicketObject}->TicketDelete(
+                TicketID => $TicketID,
+                UserID => 1,
+            ),
+            "$Module TicketDelete()",
+        );
+    }
+}
 
 1;
