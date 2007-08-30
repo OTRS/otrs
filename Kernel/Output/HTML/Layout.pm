@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.50 2007-08-27 15:35:06 martin Exp $
+# $Id: Layout.pm,v 1.51 2007-08-30 07:04:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -400,7 +400,6 @@ use a dtl template and get html back
 sub Output {
     my $Self = shift;
     my %Param = @_;
-    my %Data = ();
     # deep recursion protection
     $Self->{OutputCount}++;
     if ($Self->{OutputCount} > 20) {
@@ -419,36 +418,40 @@ sub Output {
             );
             $Self->FatalError();
         }
-        %Data = %{$Param{Data}};
-    }
-    # create %Env for this round!
-    my %Env = ();
-    if (!$Self->{EnvRef}) {
-        # build OTRS env
-        %Env = %ENV;
-        # all $Self->{*}
-        foreach (keys %{$Self}) {
-            $Env{$_} = $Self->{$_} || '';
-        }
     }
     else {
-        # get %Env from $Self->{EnvRef}
-        %Env = %{$Self->{EnvRef}};
+        $Param{Data} = {};
     }
-    # use new env
+
+    # create %Env for this round!
+    my $EnvRef = {};
+    # fill init Env
+    if (!$Self->{EnvRef}) {
+        # build OTRS env
+        %{$EnvRef} = %ENV;
+        # all $Self->{*}
+        foreach (keys %{$Self}) {
+            if (defined($Self->{$_}) && !ref($Self->{$_})) {
+                $EnvRef->{$_} = $Self->{$_};
+            }
+        }
+    }
+    # get %Env from $Self->{EnvRef}
+    else {
+        $EnvRef = $Self->{EnvRef};
+    }
+    # add new env
     if ($Self->{EnvNewRef}) {
         foreach (%{$Self->{EnvNewRef}}) {
-            $Env{$_} = $Self->{EnvNewRef}->{$_};
+            $EnvRef->{$_} = $Self->{EnvNewRef}->{$_};
         }
         undef $Self->{EnvNewRef};
     }
     # create refs
-    my $EnvRef = \%Env;
-    my $DataRef = \%Data;
     my $GlobalRef = {
-        EnvRef => $EnvRef,
-        DataRef => $DataRef,
-        ConfigRef => $Self->{ConfigObject},
+        Env => $EnvRef,
+        Data => $Param{Data},
+        Config => $Self->{ConfigObject},
     };
     # read template from filesystem
     my $TemplateString = '';
@@ -604,7 +607,7 @@ sub Output {
             }
             {
                 my $Data = '';
-                if ($1 eq "set") {
+                if ($1 eq 'set') {
                     $Data = $4;
                 }
                 else {
@@ -615,9 +618,9 @@ sub Output {
                     close (SYSTEM);
                 }
 
-                $GlobalRef->{"$2Ref"}->{$3} = $Data;
+                $GlobalRef->{$2}->{$3} = $Data;
                 # output replace with nothing!
-                "";
+                '';
             }egx;
 
             # do template if dynamic
@@ -636,31 +639,31 @@ sub Output {
                 if ($Type eq 'Text') {
                     my $Tmp = $Self->{LanguageObject}->Get($TypeKey, $Param{TemplateFile}) || '';
                     if (eval '($Tmp '.$Con.' $ConVal)') {
-                        $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
+                        $GlobalRef->{$IsType}->{$IsKey} = $IsValue;
                         # output replace with nothing!
-                        "";
+                        '';
                     }
                 }
                 elsif ($Type eq 'Env' || $Type eq 'Data') {
-                    my $Tmp = $GlobalRef->{$Type.'Ref'}->{$TypeKey};
+                    my $Tmp = $GlobalRef->{$Type}->{$TypeKey};
                     if (!defined($Tmp)) {
                         $Tmp = '';
                     }
                     if (eval '($Tmp '.$Con.' $ConVal)') {
-                        $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
+                        $GlobalRef->{$IsType}->{$IsKey} = $IsValue;
                         # output replace with nothing!
-                        "";
+                        '';
                     }
                     else {
                         # output replace with nothing!
-                        "";
+                        '';
                     }
                 }
                 elsif ($Type eq 'Config') {
                     my $Tmp = $Self->{ConfigObject}->Get($TypeKey);
                     if (defined($Tmp) && eval '($Tmp '.$Con.' $ConVal)') {
-                        $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
-                        "";
+                        $GlobalRef->{$IsType}->{$IsKey} = $IsValue;
+                        '';
                     }
                 }
             }egx;
@@ -671,85 +674,85 @@ sub Output {
                 \$(QData|LQData|Data|Env|QEnv|Config|Include){"(.+?)"}
             }
             {
-                if ($1 eq "Data" || $1 eq "Env") {
-                    if (defined $GlobalRef->{"$1Ref"}->{$2}) {
-                        $GlobalRef->{"$1Ref"}->{$2};
+                if ($1 eq 'Data' || $1 eq 'Env') {
+                    if (defined $GlobalRef->{$1}->{$2}) {
+                        $GlobalRef->{$1}->{$2};
                     }
                     else {
                         # output replace with nothing!
-                        "";
+                        '';
                     }
                 }
-                elsif ($1 eq "QEnv") {
+                elsif ($1 eq 'QEnv') {
                     my $Text = $2;
                     if (!defined($Text) || $Text =~ /^","(.+?)$/) {
-                        "";
+                        '';
                     }
                     elsif ($Text =~ /^(.+?)","(.+?)$/) {
-                        if (defined $GlobalRef->{"EnvRef"}->{$1}) {
-                            $Self->Ascii2Html(Text => $GlobalRef->{"EnvRef"}->{$1}, Max => $2);
+                        if (defined $GlobalRef->{Env}->{$1}) {
+                            $Self->Ascii2Html(Text => $GlobalRef->{Env}->{$1}, Max => $2);
                         }
                         else {
                             # output replace with nothing!
-                            "";
+                            '';
                         }
                     }
                     else {
-                        if (defined $GlobalRef->{"EnvRef"}->{$Text}) {
-                            $Self->Ascii2Html(Text => $GlobalRef->{"EnvRef"}->{$Text});
+                        if (defined $GlobalRef->{Env}->{$Text}) {
+                            $Self->Ascii2Html(Text => $GlobalRef->{Env}->{$Text});
                         }
                         else {
                             # output replace with nothing!
-                            "";
+                            '';
                         }
                     }
                 }
-                elsif ($1 eq "QData") {
+                elsif ($1 eq 'QData') {
                     my $Text = $2;
                     if (!defined($Text) || $Text =~ /^","(.+?)$/) {
-                        "";
+                        '';
                     }
                     elsif ($Text =~ /^(.+?)","(.+?)$/) {
-                        if (defined $GlobalRef->{"DataRef"}->{$1}) {
-                            $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$1}, Max => $2);
+                        if (defined $GlobalRef->{Data}->{$1}) {
+                            $Self->Ascii2Html(Text => $GlobalRef->{Data}->{$1}, Max => $2);
                         }
                         else {
                             # output replace with nothing!
-                            "";
+                            '';
                         }
                     }
                     else {
-                        if (defined $GlobalRef->{"DataRef"}->{$Text}) {
-                            $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$Text});
+                        if (defined $GlobalRef->{Data}->{$Text}) {
+                            $Self->Ascii2Html(Text => $GlobalRef->{Data}->{$Text});
                         }
                         else {
                             # output replace with nothing!
-                            "";
+                            '';
                         }
                     }
                 }
                 # link encode
-                elsif ($1 eq "LQData") {
-                    if (defined $GlobalRef->{"DataRef"}->{$2}) {
-                        $Self->LinkEncode($GlobalRef->{"DataRef"}->{$2});
+                elsif ($1 eq 'LQData') {
+                    if (defined $GlobalRef->{Data}->{$2}) {
+                        $Self->LinkEncode($GlobalRef->{Data}->{$2});
                     }
                     else {
                         # output replace with nothing!
-                        "";
+                        '';
                     }
                 }
                 # replace with
-                elsif ($1 eq "Config") {
+                elsif ($1 eq 'Config') {
                     if (defined $Self->{ConfigObject}->Get($2)) {
                         $Self->{ConfigObject}->Get($2);
                     }
                     else {
                         # output replace with nothing!
-                        "";
+                        '';
                     }
                 }
                 # include dtl files
-                elsif ($1 eq "Include") {
+                elsif ($1 eq 'Include') {
                     $Param{TemplateFile} = $2;
                     $Self->Output(%Param);
                 }
@@ -834,9 +837,8 @@ sub Output {
         }
         {
             my $Text = $2;
-#print STDERR "---- $Text ---\n";
             if (!defined($Text) || $Text =~ /^","(.+?)$/) {
-                "";
+                '';
             }
             elsif ($Text =~ /^(.+?)","(.+?)$/) {
                 $Self->Ascii2Html(Text => $1, Max => $2);
@@ -3393,6 +3395,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2007-08-27 15:35:06 $
+$Revision: 1.51 $ $Date: 2007-08-30 07:04:30 $
 
 =cut
