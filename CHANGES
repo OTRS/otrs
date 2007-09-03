@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.459 2007-08-28 21:30:42 martin Exp $
+# $Id: CHANGES,v 1.460 2007-09-03 22:14:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,11 @@
 # --
 
 2.2.3 (2007/??/??)
- - (2007/08/28) Fixed Ticket# 2007082842000477 - Problem with differen customer
+ - (2007/09/03) Fixed bug# 2245 - Responsible / Owner Field not working for
+    all users in the Email-Ticket form.
+ - (2007/09/03) Improved system speed of escalation calculation if many open
+    ticket (> 2000) are there.
+ - (2007/08/28) Fixed Ticket# 2007082842000477 - Problem with different customer
     sources and use CacheTTL option (namespace of cache is not uniq).
  - (2007/08/28) Fixed Ticket# 2007082842000413 - Ticket created over phone
     ticket with state closed is shown in queue view like "My Queues (1)" but
