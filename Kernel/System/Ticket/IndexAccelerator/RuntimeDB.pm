@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.43 2007-07-30 09:52:37 martin Exp $
+# $Id: RuntimeDB.pm,v 1.44 2007-09-03 20:32:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -261,15 +261,14 @@ sub GetOverTimeTickets {
         Type => 'Viewable',
         Result => 'ID',
     );
-    my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock(Type => 'ID');
     my $SQL = "SELECT st.id, st.tn, st.escalation_start_time, st.escalation_response_time, st.escalation_solution_time, ".
         "st.ticket_state_id, st.service_id, st.sla_id, st.create_time, st.queue_id, st.ticket_lock_id ".
         " FROM ".
-        " queue q, ticket st ".
+        " ticket st, queue q ".
         " WHERE ".
-        " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) " .
+        " st.queue_id = q.id ".
         " AND " .
-        " q.id = st.queue_id ".
+        " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) ".
         " AND ";
     if ($Self->{UserID} && $Self->{UserID} ne 1) {
         my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
@@ -278,13 +277,12 @@ sub GetOverTimeTickets {
             Result => 'ID',
             Cached => 1,
         );
-        $SQL .= " q.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND ";
+        $SQL .= " q.group_id IN ( ${\(join ', ', @GroupIDs)} )";
         # check if user is in min. one group! if not, return here
         if (!@GroupIDs) {
             return;
         }
     }
-    $SQL .= " st.ticket_lock_id IN ( ${\(join ', ', @ViewableLockIDs)} ) ";
     $SQL .= " ORDER BY st.escalation_start_time ASC";
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 5000);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
