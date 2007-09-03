@@ -3,7 +3,7 @@
 # bin/PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.pl,v 1.25 2007-03-19 22:27:19 martin Exp $
+# $Id: PostMaster.pl,v 1.26 2007-09-03 10:24:48 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ use strict;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -51,7 +51,7 @@ getopt('hqtd', \%Opts);
 if ($Opts{'h'}) {
     print "PostMaster.pl <Revision $VERSION> - OTRS cmd postmaster\n";
     print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
-    print "usage: PostMaster.pl -q <QUEUE> -t <TRUSTED> \n";
+    print "usage: PostMaster.pl -q <QUEUE> -t <TRUSTED> (default is trusted, use '-t 0' to disable trusted mode)\n";
     exit 1;
 }
 if (!$Opts{'d'}) {
