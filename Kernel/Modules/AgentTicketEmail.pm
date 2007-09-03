@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.42 2007-08-20 14:49:10 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.43 2007-09-03 22:10:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -78,7 +78,7 @@ sub Run {
     my %GetParam = ();
     foreach (qw(AttachmentUpload
         Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
-        TypeID ServiceID SLAID
+        TypeID ServiceID SLAID AllUsers ResponsibleAll
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
         AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
@@ -256,9 +256,8 @@ sub Run {
         my $NewUserID = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
         my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
         my ($NewQueueID, $From) = split(/\|\|/, $Dest);
-        my $AllUsers = $Self->{ParamObject}->GetParam(Param => 'AllUsers') || '';
         if (!$NewQueueID) {
-            $AllUsers = 1;
+            $GetParam{AllUsers} = 1;
         }
         # get sender queue from
         my %Queue = ();
@@ -301,12 +300,11 @@ sub Run {
         $GetParam{QueueID} = $NewQueueID;
         $GetParam{ExpandCustomerName} = $ExpandCustomerName;
         if ($Self->{ParamObject}->GetParam(Param => 'AllUsersRefresh')) {
-            $AllUsers = 1;
+            $GetParam{AllUsers} = 1;
             $ExpandCustomerName = 3;
         }
-        my $ResponsibleAll = $Self->{ParamObject}->GetParam(Param => 'ResponsibleAllRefresh');
-        if ($ResponsibleAll) {
-            $ResponsibleAll = 1;
+        if ($Self->{ParamObject}->GetParam(Param => 'ResponsibleAllRefresh')) {
+            $GetParam{ResponsibleAll} = 1;
             $ExpandCustomerName = 3;
         }
         if ($Self->{ParamObject}->GetParam(Param => 'ClearTo')) {
@@ -549,9 +547,9 @@ sub Run {
             # html output
             $Output .= $Self->_MaskEmailNew(
                 QueueID => $Self->{QueueID},
-                Users => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $AllUsers),
+                Users => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $GetParam{AllUsers}),
                 UserSelected => $NewUserID,
-                ResponsibleUsers => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $ResponsibleAll),
+                ResponsibleUsers => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $GetParam{ResponsibleAll}),
                 ResponsibleUsersSelected => $NewResponsibleID,
                 NextStates => $Self->_GetNextStates(QueueID => $NewQueueID || 1),
                 NextState => $NextState,
