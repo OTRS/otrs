@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.460 2007-09-03 22:14:17 martin Exp $
+# $Id: CHANGES,v 1.461 2007-09-03 22:34:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.2.3 (2007/??/??)
+ - (2007/09/03) Fixed bug# 2193 - Postmaster module
+    Kernel::System::PostMaster::Filter::NewTicketReject is not working - need
+    Charset!
  - (2007/09/03) Fixed bug# 2245 - Responsible / Owner Field not working for
     all users in the Email-Ticket form.
  - (2007/09/03) Improved system speed of escalation calculation if many open
