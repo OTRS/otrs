@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.272 2007-08-13 16:04:28 martin Exp $
+# $Id: Ticket.pm,v 1.273 2007-09-06 10:23:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.272 $';
+$VERSION = '$Revision: 1.273 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1537,9 +1537,14 @@ sub TicketTypeSet {
     my $SQL = "UPDATE ticket SET type_id = $Param{TypeID} ".
         " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
-        my %TicketNew = $Self->TicketGet(%Param);
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+        # get new ticket data
+        my %TicketNew = $Self->TicketGet(%Param);
+        $TicketNew{Type} = $TicketNew{Type} || 'NULL';
+        $Param{TypeID} = $Param{TypeID} || '';
+        $Ticket{Type} = $Ticket{Type} || 'NULL';
+        $Ticket{TypeID} = $Ticket{TypeID} || '';
         # history insert
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
@@ -1684,11 +1689,14 @@ sub TicketServiceSet {
     my $SQL = "UPDATE ticket SET service_id = $Param{ServiceID} ".
         " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
-        my %TicketNew = $Self->TicketGet(%Param);
-        $TicketNew{Service} = $TicketNew{Service} || 'NULL';
-        $Ticket{Service} = $Ticket{Service} || 'NULL';
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+        # get new ticket data
+        my %TicketNew = $Self->TicketGet(%Param);
+        $TicketNew{Service} = $TicketNew{Service} || 'NULL';
+        $Param{ServiceID} = $Param{ServiceID} || '';
+        $Ticket{Service} = $Ticket{Service} || 'NULL';
+        $Ticket{ServiceID} = $Ticket{ServiceID} || '';
         # history insert
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
@@ -2047,11 +2055,14 @@ sub TicketSLASet {
     my $SQL = "UPDATE ticket SET sla_id = $Param{SLAID} ".
         " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
-        my %TicketNew = $Self->TicketGet(%Param);
-        $TicketNew{SLA} = $TicketNew{SLA} || 'NULL';
-        $Ticket{SLA} = $Ticket{SLA} || 'NULL';
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+        # get new ticket data
+        my %TicketNew = $Self->TicketGet(%Param);
+        $TicketNew{SLA} = $TicketNew{SLA} || 'NULL';
+        $Param{SLAID} = $Param{SLAID} || '';
+        $Ticket{SLA} = $Ticket{SLA} || 'NULL';
+        $Ticket{SLAID} = $Ticket{SLAID} || '';
         # history insert
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
@@ -6174,6 +6185,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.272 $ $Date: 2007-08-13 16:04:28 $
+$Revision: 1.273 $ $Date: 2007-09-06 10:23:30 $
 
 =cut
