@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.462 2007-09-06 10:24:59 mh Exp $
+# $Id: CHANGES,v 1.463 2007-09-06 14:17:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.3 (2007/??/??)
+ - (2007/09/06) Fixed bug# 2261 - False params in call of ServiceLookup() and
+    SLALookup() functions.
  - (2007/09/06) Fixed reopened Bug# 2142 - Ticket history entry was wrong if
     service, sla or ticket type was changed.
  - (2007/09/03) Fixed bug# 2193 - Postmaster module

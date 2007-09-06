@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.273 2007-09-06 10:23:30 mh Exp $
+# $Id: Ticket.pm,v 1.274 2007-09-06 14:17:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.273 $';
+$VERSION = '$Revision: 1.274 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1649,7 +1649,7 @@ sub TicketServiceSet {
     my %Param = @_;
     # queue lookup
     if ($Param{Service} && !$Param{ServiceID}) {
-        $Param{ServiceID} = $Self->{ServiceObject}->ServiceLookup(Service => $Param{Service});
+        $Param{ServiceID} = $Self->{ServiceObject}->ServiceLookup(Name => $Param{Service});
     }
     # check needed stuff
     foreach (qw(TicketID ServiceID UserID)) {
@@ -2015,7 +2015,7 @@ sub TicketSLASet {
     my %Param = @_;
     # queue lookup
     if ($Param{SLA} && !$Param{SLAID}) {
-        $Param{SLAID} = $Self->{SLAObject}->SLALookup(SLA => $Param{SLA});
+        $Param{SLAID} = $Self->{SLAObject}->SLALookup(Name => $Param{SLA});
     }
     # check needed stuff
     foreach (qw(TicketID SLAID UserID)) {
@@ -3466,7 +3466,7 @@ sub TicketSearch {
     # current service lookup
     if ($Param{Services} && ref($Param{Services}) eq 'ARRAY') {
         foreach (@{$Param{Services}}) {
-            my $ID = $Self->{ServiceObject}->ServiceLookup(Service => $_);
+            my $ID = $Self->{ServiceObject}->ServiceLookup(Name => $_);
             if ($ID) {
                 push (@{$Param{ServiceIDs}}, $ID);
             }
@@ -6185,6 +6185,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.273 $ $Date: 2007-09-06 10:23:30 $
+$Revision: 1.274 $ $Date: 2007-09-06 14:17:00 $
 
 =cut
