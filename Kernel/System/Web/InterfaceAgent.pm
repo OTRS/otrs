@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.22 2007-03-05 01:44:21 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.23 2007-09-07 09:12:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed modules
@@ -135,7 +135,7 @@ sub Run {
     }
 
     # create common framework objects 2/3
-        $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
+    $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
         %{$Self},
         Lang => $Param{Lang},
     );
@@ -735,6 +735,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2007-03-05 01:44:21 $
+$Revision: 1.23 $ $Date: 2007-09-07 09:12:46 $
 
 =cut
