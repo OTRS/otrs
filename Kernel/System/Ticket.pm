@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.274 2007-09-06 14:17:00 mh Exp $
+# $Id: Ticket.pm,v 1.275 2007-09-07 11:13:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.274 $';
+$VERSION = '$Revision: 1.275 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2944,19 +2944,19 @@ To find tickets in your system.
         # Title,CustomerID and CustomerUserLogin (all optional)
         ConditionInline => 1,
 
-        # tickets created after 60 minutes (optional)
+        # tickets created after 60 minutes (ticket newer then 60 minutes)  (optional)
         TicketCreateTimeOlderMinutes => 60,
-        # tickets created before 120 minutes (optional)
+        # tickets created before 120 minutes (ticket older 120 minutes) (optional)
         TicketCreateTimeNewerMinutes => 120,
 
-        # tickets with created time after ... (optional)
+        # tickets with created time after ... (ticket newer then this date) (optional)
         TicketCreateTimeNewerDate => '2006-01-09 00:00:01',
-        # tickets with created time before then .... (optional)
+        # tickets with created time before then .... (ticket older this date) (optional)
         TicketCreateTimeOlderDate => '2006-01-19 23:59:59',
 
-        # tickets with closed time after ... (optional)
+        # tickets with closed time after ... (ticket closed newer then this date) (optional)
         TicketCloseTimeNewerDate => '2006-01-09 00:00:01',
-        # tickets with closed time before then .... (optional)
+        # tickets with closed time before then .... (ticket closed older this date) (optional)
         TicketCloseTimeOlderDate => '2006-01-19 23:59:59',
 
         # tickets pending after 60 minutes (optional)
@@ -3077,7 +3077,7 @@ sub TicketSearch {
     }
     # use also history table if required
     foreach (keys %Param) {
-        if ($_ =~ /^(Ticket(Create|Close)|Created)/) {
+        if ($_ =~ /^(Ticket(Close)Time(Newer|Older)(Date|Minutes)|Created.+?)/) {
             $SQL .= ", ticket_history th ";
             $SQLExt .= " AND st.id = th.ticket_id";
             last;
@@ -3712,6 +3712,7 @@ sub TicketSearch {
                 StateType => ['closed'],
                 Result => 'ID',
             );
+#            my $ID = $Self->HistoryTypeLookup(Type => 'NewTicket');
             my $ID = $Self->HistoryTypeLookup(Type => 'StateUpdate');
             if ($ID) {
                 $SQLExt .= " AND th.history_type_id = $ID AND ".
@@ -3735,6 +3736,7 @@ sub TicketSearch {
                 StateType => ['closed'],
                 Result => 'ID',
             );
+#            my $ID = $Self->HistoryTypeLookup(Type => 'NewTicket');
             my $ID = $Self->HistoryTypeLookup(Type => 'StateUpdate');
             if ($ID) {
                 $SQLExt .= " AND th.history_type_id = $ID AND ".
@@ -6185,6 +6187,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.274 $ $Date: 2007-09-06 14:17:00 $
+$Revision: 1.275 $ $Date: 2007-09-07 11:13:02 $
 
 =cut
