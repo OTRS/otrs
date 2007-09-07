@@ -2,7 +2,7 @@
 # Kernel/System/Log/File.pm - file log backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: File.pm,v 1.11 2007-01-21 01:26:10 mh Exp $
+# $Id: File.pm,v 1.12 2007-09-07 09:09:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Log::File;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $ ';
+$VERSION = '$Revision: 1.12 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 umask 002;
@@ -36,6 +36,14 @@ sub new {
         $Y = $Y+1900;
         $M++;
         $Self->{LogFile} .= ".$Y-$M";
+    }
+
+    # Fixed bug# 2265 - For IIS we need to create a own error log file.
+    # Bind stderr to log file, because iis do print stderr to web page.
+    if ($ENV{SERVER_SOFTWARE} && $ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis/i) {
+        if (!open (STDERR, ">> $Self->{LogFile}.error")) {
+            print STDERR "ERROR: Can't write $Self->{LogFile}.error: $!";
+        }
     }
 
     return $Self;
