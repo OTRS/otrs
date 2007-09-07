@@ -2,14 +2,17 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.463 2007-09-06 14:17:44 mh Exp $
+# $Id: CHANGES,v 1.464 2007-09-07 11:17:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-2.2.3 (2007/??/??)
+2.2.3 (2007/09/??)
+ - (2007/09/07) Fixed bug# 2265 - On IIS6, Package Manager is displaying a
+    error after installing a package (header not complete). But package got
+    installed corectly.
  - (2007/09/06) Fixed bug# 2261 - False params in call of ServiceLookup() and
     SLALookup() functions.
  - (2007/09/06) Fixed reopened Bug# 2142 - Ticket history entry was wrong if
