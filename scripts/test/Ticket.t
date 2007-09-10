@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.25 2007-09-07 11:13:02 martin Exp $
+# $Id: Ticket.t,v 1.26 2007-09-10 11:36:48 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -156,6 +156,21 @@ $Self->Is(
     $Ticket{Lock},
     'unlock',
     'TicketGet() (Lock)',
+);
+$Self->Is(
+    $Ticket{ServiceID},
+    '',
+    'TicketGet() (ServiceID)',
+);
+$Self->Is(
+    $Ticket{SLAID},
+    '',
+    'TicketGet() (SLAID)',
+);
+$Self->Is(
+    $Ticket{TypeID},
+    '1',
+    'TicketGet() (TypeID)',
 );
 
 # Check the TicketFreeField functions
