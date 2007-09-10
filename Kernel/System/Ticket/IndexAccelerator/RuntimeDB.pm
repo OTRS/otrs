@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.44 2007-09-03 20:32:43 martin Exp $
+# $Id: RuntimeDB.pm,v 1.45 2007-09-10 09:35:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@
 package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -184,6 +185,10 @@ sub GetLockedCount {
             return;
         }
     }
+    # check cache
+    if ($Self->{'Cache::GetLockCount'.$Param{UserID}}) {
+        return %{$Self->{'Cache::GetLockCount'.$Param{UserID}}};
+    }
     # db quote
     foreach (qw(UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
@@ -248,6 +253,8 @@ sub GetLockedCount {
             }
         }
     }
+    # cache result
+    $Self->{'Cache::GetLockCount'.$Param{UserID}} = \%Data;
     return %Data;
 }
 
@@ -268,8 +275,7 @@ sub GetOverTimeTickets {
         " WHERE ".
         " st.queue_id = q.id ".
         " AND " .
-        " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) ".
-        " AND ";
+        " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) ";
     if ($Self->{UserID} && $Self->{UserID} ne 1) {
         my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
             UserID => $Self->{UserID},
@@ -277,7 +283,7 @@ sub GetOverTimeTickets {
             Result => 'ID',
             Cached => 1,
         );
-        $SQL .= " q.group_id IN ( ${\(join ', ', @GroupIDs)} )";
+        $SQL .= " AND q.group_id IN ( ${\(join ', ', @GroupIDs)} )";
         # check if user is in min. one group! if not, return here
         if (!@GroupIDs) {
             return;
