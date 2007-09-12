@@ -2,7 +2,7 @@
 # Kernel/Config/GenericAgent.pm - config file of generic agent
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm.examples,v 1.18 2007-02-12 13:36:02 martin Exp $
+# $Id: GenericAgent.pm.examples,v 1.19 2007-09-12 23:24:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ require Exporter;
 @ISA = qw(Exporter);
 @EXPORT = qw(%Jobs);
 
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # -----------------------------------------------------------------------
@@ -92,7 +92,10 @@ $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
         Escalation => 1,
         # new ticket properties
         New => {
-            Module => 'Kernel::System::GenericAgent::NotifyAgentGroupOfCustomQueue',
+            # notify all agents who selected the queue in "my queues/custom queues"
+#            Module => 'Kernel::System::GenericAgent::NotifyAgentGroupOfCustomQueue',
+            # notify all agents who can access the ticket with rw permissions
+            Module => 'Kernel::System::GenericAgent::NotifyAgentGroupWithWritePermission',
         },
     },
     # --
