@@ -2,7 +2,7 @@
 # README.webserver - webserver description of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: README.webserver,v 1.15 2007-04-16 12:25:32 martin Exp $
+# $Id: README.webserver,v 1.16 2007-09-12 23:25:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -126,7 +126,6 @@ b)
    - Establish datababase connections on process startup (httpd).
 
      [...]
-     use Apache ();
      use Apache::DBI ();
      Apache::DBI->connect_on_init('DBI:mysql:otrs', 'otrs', 'some-pass');
      # Apache::DBI->connect_on_init($data_source, $username, $auth, \%attr)
