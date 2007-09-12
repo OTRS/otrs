@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.32 2007-07-26 14:22:00 mh Exp $
+# $Id: AgentStats.pm,v 1.33 2007-09-12 23:46:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -572,7 +572,7 @@ sub Run {
                 $Message = 'The selected time period is larger than the allowed time period!';
             }
             elsif ($Message == 4) {
-                $Message = 'Your reporting time interval is to small, please use a larger time scale!';
+                $Message = 'Your reporting time interval is too small, please use a larger time scale!';
             }
             $Output .= $Self->{LayoutObject}->Notify(
                 Info => $Message,
@@ -1868,7 +1868,7 @@ sub Run {
                     $GetParam{$Use} = [];
                 }
             }
-            # check if the timeperiod is to big or the time scale to small
+            # check if the timeperiod is to big or the time scale too small
             if ($GetParam{UseAsXvalue}[0]{Block} eq 'Time' &&
                 (!$GetParam{UseAsValueSeries}[0] || ($GetParam{UseAsValueSeries}[0] && $GetParam{UseAsValueSeries}[0]{Block} ne 'Time'))
             ) {
