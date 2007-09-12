@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Log.pm,v 1.37 2007-03-07 08:27:20 martin Exp $
+# $Id: Log.pm,v 1.38 2007-09-12 14:04:43 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $ ';
+$VERSION = '$Revision: 1.38 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -76,7 +76,7 @@ sub new {
         $Self->{IPCKey} = "444423".$Param{ConfigObject}->Get('SystemID');
         $Self->{IPCSize} = $Param{ConfigObject}->Get('LogSystemCacheSize') || 4*1024;
         # init session data mem (at first a dummy for RH8 workaround)
-        shmget(($Self->{IPCKey}+1), 1, 0777 | 0001000);
+        shmget(0, 1, 0777 | 0001000);
         # init session data mem (the real one)
         $Self->{Key} = shmget($Self->{IPCKey}, $Self->{IPCSize}, 0777 | 0001000) || die $!;
     }
@@ -264,6 +264,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2007-03-07 08:27:20 $
+$Revision: 1.38 $ $Date: 2007-09-12 14:04:43 $
 
 =cut
