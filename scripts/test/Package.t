@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.t,v 1.6 2007-08-23 22:44:28 martin Exp $
+# $Id: Package.t,v 1.7 2007-09-13 15:32:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,6 +23,7 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
   <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
   <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
   <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
+  <Framework>2.3.x</Framework>
   <Framework>2.2.x</Framework>
   <Framework>2.1.x</Framework>
   <Framework>2.0.x</Framework>
