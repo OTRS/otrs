@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465 2007-09-12 14:04:43 sb Exp $
+# $Id: CHANGES,v 1.466 2007-09-13 01:17:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+CVS HEAD (????/??/??)
+ - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.3 (2007/09/??)
  - (2007/09/12) Fixed bug# 1203 - Redhat shm workaround should not relate to

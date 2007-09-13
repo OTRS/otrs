@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPerformanceLog.pm - provides a log view for admins
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.pm,v 1.6 2007-03-21 14:36:27 martin Exp $
+# $Id: AdminPerformanceLog.pm,v 1.7 2007-09-13 01:17:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminPerformanceLog;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -64,12 +64,7 @@ sub Run {
 
     # reset log file
     if ($Self->{Subaction} eq 'Reset') {
-        my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
-        if (!unlink $File) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "Can't unlink $File: $!",
-            );
+        if (!$Self->_DatabaseReset()) {
             $Self->{LayoutObject}->FatalError();
         }
         else {
@@ -79,19 +74,149 @@ sub Run {
             );
         }
     }
+    # show detail view
+    elsif ($Self->{Subaction} eq 'View') {
+        my %Action = ();
+        my $MaxRequest = 0;
+        my $Slot = 60;
+        my $MinuteSlot = $Self->{ParamObject}->GetParam(Param => 'Minute');
+        my $Interface = $Self->{ParamObject}->GetParam(Param => 'Interface');
+        my $Module = $Self->{ParamObject}->GetParam(Param => 'Module');
+        if ($MinuteSlot < 31) {
+            $Slot = 1;
+        }
+        elsif ($MinuteSlot < 61) {
+            $Slot = 2;
+        }
+        elsif ($MinuteSlot < 121) {
+            $Slot = 5;
+        }
+        elsif ($MinuteSlot < 1141) {
+            $Slot = 30;
+        }
+        my $Data = $Self->_DatabaseRead();
+        $Self->{LayoutObject}->Block(
+            Name => 'View',
+            Data => {
+                Age => $Self->{LayoutObject}->CustomerAge(Age => $MinuteSlot*60, Space => ' '),
+                Interface => $Interface || '-',
+                Module => $Module || '-',
+                Period => $Slot,
+            },
+        );
+        my $Minute = 0;
+        my $Count = 1;
+        while ($Count <= $MinuteSlot) {
+            foreach my $Row (reverse @{$Data}) {
+                if ($Row->[0] < (time()-(60*$Minute)) && $Row->[0] > (time()-(60*($Minute+$Slot)))) {
+                    # for each action
+                    if ($Row->[4] =~ /^(.+?|)Action=(.+?)(&.*|)$/) {
+                        if ($Interface) {
+                            if (!$Module && $Row->[1] ne $Interface) {
+                                next;
+                            }
+                            if ($Module && $Module ne $2) {
+                                next;
+                            }
+                        }
+
+                        $Action{$Minute}->{Count}++;
+                        if ($MaxRequest < $Action{$Minute}->{Count}) {
+                            $MaxRequest = $Action{$Minute}->{Count};
+                        }
+                        if ($Action{$Minute}->{Sum}) {
+                            $Action{$Minute}->{Sum} = $Action{$Minute}->{Sum} + $Row->[2];
+                        }
+                        else {
+                            $Action{$Minute}->{Sum} = $Row->[2];
+                        }
+                        if (!defined($Action{$Minute}->{Max})) {
+                            $Action{$Minute}->{Max} = $Row->[2];
+                        }
+                        elsif ($Action{$Minute}->{Max} < $Row->[2]) {
+                            $Action{$Minute}->{Max} = $Row->[2];
+                        }
+                        if (!defined($Action{$Minute}->{Min})) {
+                            $Action{$Minute}->{Min} = $Row->[2];
+                        }
+                        elsif ($Action{$Minute}->{Min} > $Row->[2]) {
+                            $Action{$Minute}->{Min} = $Row->[2];
+                        }
+                    }
+                }
+                elsif ($Row->[0] < (time()-(60*$Minute))) {
+                    last;
+                }
+            }
+            $Minute = $Minute+$Slot;
+            $Count = $Count + $Slot;
+        }
+        $Minute = 0;
+        $Count = 1;
+        my $CssClass = '';
+        while ($Count <= $MinuteSlot) {
+            # set output class
+            if ($CssClass && $CssClass eq 'searchactive') {
+                $CssClass = 'searchpassive';
+            }
+            else {
+                $CssClass = 'searchactive';
+            }
+            if ($Action{$Minute}) {
+                my $Average = $Action{$Minute}->{Sum} / $Action{$Minute}->{Count};
+                $Average =~ s/^(.*\.\d\d).+?$/$1/g;
+                my $I = 100 / $MaxRequest;
+                my $W = $Action{$Minute}->{Count} * $I;
+                $Self->{LayoutObject}->Block(
+                    Name => 'ViewRow',
+                    Data => {
+                        %{$Action{$Minute}},
+                        Average => $Average,
+                        Date => $Self->{TimeObject}->SystemTime2TimeStamp(
+                            SystemTime => $Self->{TimeObject}->SystemTime()-$Minute*60,
+                        ),
+                        Width => $W."%",
+                        CssClass => $CssClass,
+                    },
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ViewRow',
+                    Data => {
+                        Count => 0,
+                        Date => $Self->{TimeObject}->SystemTime2TimeStamp(
+                            SystemTime => $Self->{TimeObject}->SystemTime()-$Minute*60,
+                        ),
+                        Width => '0%',
+                        CssClass => $CssClass,
+                    },
+                );
+            }
+            $Minute = $Minute+$Slot;
+            $Count = $Count + $Slot;
+        }
+        # create & return output
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPerformanceLog',
+            Data => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
     # show overview
     else {
         # get avarage times
-        my @Data = ();
+        my $Data = [];
         if ($Self->{ConfigObject}->Get('PerformanceLog')) {
-            my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
             # check file size
-            my $FileSize = -s $File;
-            if ($FileSize > (1024*1024*$Self->{ConfigObject}->Get('PerformanceLog::FileMax'))) {
+            if ($Self->_DatabaseCheck()) {
                 $Self->{LayoutObject}->Block(
                     Name => 'Reset',
                     Data => {
-                        Size => sprintf "%.1f MBytes", ($FileSize/(1024*1024)),
+                        Size => sprintf "%.1f MBytes", ($Self->_DatabaseCheck()/(1024*1024)),
                     },
                 );
                 my $Output = $Self->{LayoutObject}->Header();
@@ -104,20 +229,7 @@ sub Run {
                 return $Output;
             }
             else {
-                if (open(IN, "< $File")) {
-                    while (<IN>) {
-                        my $Line = $_;
-                        my @Row = split(/::/, $Line);
-                        push (@Data, \@Row);
-                    }
-                    close (IN);
-                }
-                else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message => "Can't open $File: $!",
-                    );
-                }
+                $Data = $Self->_DatabaseRead();
             }
         }
         foreach my $Minute (5, 30, 60, 2*60, 24*60, 2*24*60) {
@@ -126,7 +238,7 @@ sub Run {
             my %Sum = ();
             my %Max = ();
             my %Min = ();
-            foreach my $Row (reverse @Data) {
+            foreach my $Row (reverse @{$Data}) {
                 if ($Row->[0] > time()-(60*$Minute)) {
                     # whole
                     $Count{$Row->[1]}++;
@@ -178,15 +290,15 @@ sub Run {
             }
             if (%Sum) {
                 $Self->{LayoutObject}->Block(
-                    Name => 'Table',
+                    Name => 'Overview',
                     Data => {
                         Age => $Self->{LayoutObject}->CustomerAge(Age => $Minute*60, Space => ' '),
                     },
                 );
             }
-            foreach (qw(Agent Customer Public)) {
+            foreach my $Interface (qw(Agent Customer Public)) {
                 my $CssClass = '';
-                if ($Sum{$_}) {
+                if ($Sum{$Interface}) {
                     # set output class
                     if ($CssClass && $CssClass eq 'searchactive') {
                         $CssClass = 'searchpassive';
@@ -194,22 +306,23 @@ sub Run {
                     else {
                         $CssClass = 'searchactive';
                     }
-                    my $Average = $Sum{$_} / $Count{$_};
+                    my $Average = $Sum{$Interface} / $Count{$Interface};
                     $Average =~ s/^(.*\.\d\d).+?$/$1/g;
                     $Self->{LayoutObject}->Block(
-                        Name => 'Interface',
+                        Name => 'OverviewInterface',
                         Data => {
-                            Interface => $_,
+                            Interface => $Interface,
                             Average => $Average,
-                            Count => $Count{$_} || 0,
-                            Sum => $Sum{$_} || 0,
-                            Max => $Max{$_} || 0,
-                            Min => $Min{$_} || 0,
+                            Count => $Count{$Interface} || 0,
+                            Minute => $Minute,
+                            Sum => $Sum{$Interface} || 0,
+                            Max => $Max{$Interface} || 0,
+                            Min => $Min{$Interface} || 0,
                             CssClass => $CssClass,
                         },
                     );
                     foreach my $Module (sort keys %Action) {
-                        if ($Action{$Module}->{Sum}->{$_}) {
+                        if ($Action{$Module}->{Sum}->{$Interface}) {
                             # set output class
                             if ($CssClass && $CssClass eq 'searchactive') {
                                 $CssClass = 'searchpassive';
@@ -217,17 +330,19 @@ sub Run {
                             else {
                                 $CssClass = 'searchactive';
                             }
-                            my $Average = $Action{$Module}->{Sum}->{$_} / $Action{$Module}->{Count}->{$_};
+                            my $Average = $Action{$Module}->{Sum}->{$Interface} / $Action{$Module}->{Count}->{$Interface};
                             $Average =~ s/^(.*\.\d\d).+?$/$1/g;
                             $Self->{LayoutObject}->Block(
-                                Name => 'Row',
+                                Name => 'OverviewRow',
                                 Data => {
-                                    Interface => $Module,
+                                    Interface => $Interface,
+                                    Module => $Module,
                                     Average => $Average,
-                                    Count => $Action{$Module}->{Count}->{$_} || 0,
-                                    Sum => $Action{$Module}->{Sum}->{$_} || 0,
-                                    Max => $Action{$Module}->{Max}->{$_} || 0,
-                                    Min => $Action{$Module}->{Min}->{$_} || 0,
+                                    Minute => $Minute,
+                                    Count => $Action{$Module}->{Count}->{$Interface} || 0,
+                                    Sum => $Action{$Module}->{Sum}->{$Interface} || 0,
+                                    Max => $Action{$Module}->{Max}->{$Interface} || 0,
+                                    Min => $Action{$Module}->{Min}->{$Interface} || 0,
                                     CssClass => $CssClass,
                                 },
                             );
@@ -246,6 +361,58 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
+}
+
+sub _DatabaseCheck {
+    my $Self = shift;
+    my %Param = @_;
+    my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
+    # check file size
+    my $FileSize = -s $File;
+    if ($FileSize > (1024*1024*$Self->{ConfigObject}->Get('PerformanceLog::FileMax'))) {
+        return $FileSize;
+    }
+    else {
+        return;
+    }
+}
+
+sub _DatabaseReset {
+    my $Self = shift;
+    my %Param = @_;
+    my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
+    if (!unlink $File) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't unlink $File: $!",
+        );
+        return;
+    }
+    else {
+        return 1;
+    }
+}
+
+sub _DatabaseRead {
+    my $Self = shift;
+    my %Param = @_;
+    my @Data = ();
+    my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
+    if (open(IN, "< $File")) {
+        while (<IN>) {
+            my $Line = $_;
+            my @Row = split(/::/, $Line);
+            push (@Data, \@Row);
+        }
+        close (IN);
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't open $File: $!",
+        );
+    }
+    return \@Data;
 }
 
 1;

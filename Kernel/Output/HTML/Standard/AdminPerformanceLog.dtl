@@ -2,7 +2,7 @@
 # AdminPerformanceLog.dtl - provides HTML form for AdminPerformanceLog
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.dtl,v 1.8 2007-06-28 23:55:33 martin Exp $
+# $Id: AdminPerformanceLog.dtl,v 1.9 2007-09-13 01:17:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -76,7 +76,7 @@
       <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
         <tr>
           <td class="contenthead">
-            $Text{"Logfile too large!"} ($QData{"Size"} MB)
+            $Text{"Logfile too large!"} ($QData{"Size"})
           </td>
         </tr>
         <tr>
@@ -102,7 +102,7 @@
       </table>
       <br>
 <!-- dtl:block:Reset -->
-<!-- dtl:block:Table -->
+<!-- dtl:block:Overview -->
       <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
         <tr>
           <td class="contenthead">
@@ -119,29 +119,29 @@
                 <td class="contentkey">$Text{"Max Response"}</td>
                 <td class="contentkey">$Text{"Average Response"}</td>
               </tr>
-<!-- dtl:block:Interface -->
+<!-- dtl:block:OverviewInterface -->
               <tr>
-                <td class="$QData{"CssClass"}">$QData{"Interface"}</td>
-                <td class="$QData{"CssClass"}">$QData{"Sum"}</td>
+                <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Interface=$LQData{"Interface"}&Minute=$LQData{"Minute"}">$QData{"Interface"}</a></td>
+                <td class="$QData{"CssClass"}">$QData{"Count"}</td>
                 <td class="$QData{"CssClass"}">$QData{"Min"}s</td>
                 <td class="$QData{"CssClass"}">$QData{"Max"}s</td>
                 <td class="$QData{"CssClass"}">$QData{"Average"}s</td>
               </tr>
-<!-- dtl:block:Row -->
+<!-- dtl:block:OverviewRow -->
               <tr>
-                <td class="$QData{"CssClass"}"><i> o $QData{"Interface"}</i></td>
-                <td class="$QData{"CssClass"}"><i>$QData{"Sum"}</i></td>
+                <td class="$QData{"CssClass"}"><i> o <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Interface=$LQData{"Interface"}&Module=$LQData{"Module"}&Minute=$LQData{"Minute"}">$QData{"Module"}</a></i></td>
+                <td class="$QData{"CssClass"}"><i>$QData{"Count"}</i></td>
                 <td class="$QData{"CssClass"}"><i>$QData{"Min"}s</i></td>
                 <td class="$QData{"CssClass"}"><i>$QData{"Max"}s</i></td>
                 <td class="$QData{"CssClass"}"><i>$QData{"Average"}s</i></td>
               </tr>
-<!-- dtl:block:Row -->
+<!-- dtl:block:OverviewRow -->
               <tr>
                 <td colspan="5">
                   <hr>
                 </td>
               </tr>
-<!-- dtl:block:Interface -->
+<!-- dtl:block:OverviewInterface -->
             </table>
           </td>
         </tr>
@@ -152,7 +152,64 @@
         </tr>
       </table>
       <br>
-<!-- dtl:block:Table -->
+<!-- dtl:block:Overview -->
+<!-- dtl:block:View -->
+      <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
+        <tr>
+          <td class="contenthead">
+            $Text{"Range"} ($Text{"last"} $QData{"Age"})
+          </td>
+        </tr>
+        <tr>
+          <td class="contentbody">
+            <table border="0" width="70%" cellspacing="0" cellpadding="4">
+              <tr>
+                <td class="contentkey" width="5%">$Text{"Interface"}:</td>
+                <td class="contentvalue">$QData{"Interface"}</td>
+                <td class="contentkey" width="5%">$Text{"Module"}:</td>
+                <td class="contentvalue">$QData{"Module"}</td>
+                <td class="contentkey" width="5%">$Text{"Period"}:</td>
+                <td class="contentvalue">$QData{"Period"} $Text{"minutes"}</td>
+              </tr>
+            </table>
+            <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+              <tr>
+                <td class="contentkey" width="18%">$Text{"Date"}</td>
+                <td class="contentkey" width="5%">$Text{"Requests"}</td>
+                <td class="contentkey" width="5%">$Text{"Min"}</td>
+                <td class="contentkey" width="5%">$Text{"Max"}</td>
+                <td class="contentkey" width="5%">$Text{"Average"}</td>
+                <td class="contentkey"></td>
+              </tr>
+<!-- dtl:block:ViewRow -->
+              <tr>
+                <td class="$QData{"CssClass"}"><i>$TimeShort{"$QData{"Date"}"}</i></td>
+                <td class="$QData{"CssClass"}"><i>$QData{"Count"}</i></td>
+                <td class="$QData{"CssClass"}"><i>$QData{"Min"}s</i></td>
+                <td class="$QData{"CssClass"}"><i>$QData{"Max"}s</i></td>
+                <td class="$QData{"CssClass"}"><i>$QData{"Average"}s</i></td>
+                <td class="$QData{"CssClass"}">
+                  <table width="$QData{"Width"}" bgcolor="blue" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td>
+                        &nbsp;
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+<!-- dtl:block:ViewRow -->
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="contentfooter">
+            &nbsp;
+          </td>
+        </tr>
+      </table>
+      <br>
+<!-- dtl:block:View -->
     </td>
   </tr>
 </table>
