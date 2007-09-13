@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Email/Sendmail.pm - the global email send module
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Sendmail.pm,v 1.18 2006-12-14 12:13:55 martin Exp $
+# $Id: Sendmail.pm,v 1.19 2007-09-13 01:11:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::Email::Sendmail;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -43,6 +44,7 @@ sub Send {
     my $Self = shift;
     my %Param = @_;
     my $ToString = '';
+    my $FH;
     # check needed stuff
     foreach (qw(Header Body ToArray)) {
         if (!$Param{$_}) {
@@ -61,15 +63,15 @@ sub Send {
         $Arg.= ' '.quotemeta($_);
     }
     # send mail
-    if (open( MAIL, "| $Self->{Sendmail} $Arg")) {
+    if (open($FH, "| $Self->{Sendmail} $Arg")) {
         # set handle to binmode if utf-8 is used
         if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
-            binmode MAIL, ":utf8";
+            binmode $FH, ":utf8";
         }
-        print MAIL ${$Param{Header}};
-        print MAIL "\n";
-        print MAIL ${$Param{Body}};
-        close(MAIL);
+        print $FH ${$Param{Header}};
+        print $FH "\n";
+        print $FH ${$Param{Body}};
+        close($FH);
         # debug
         if ($Self->{Debug} > 2) {
             $Self->{LogObject}->Log(
