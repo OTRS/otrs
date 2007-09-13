@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.64 2007-04-24 11:05:19 martin Exp $
+# $Id: User.pm,v 1.65 2007-09-13 01:30:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,13 +12,14 @@
 package Kernel::System::User;
 
 use strict;
+use warnings;
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 use Digest::MD5;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -84,18 +85,21 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject TimeObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
-
     # get user table
     $Self->{UserTable} = $Self->{ConfigObject}->Get('DatabaseUserTable') || 'user';
     $Self->{UserTableUserID} = $Self->{ConfigObject}->Get('DatabaseUserTableUserID') || 'id';
     $Self->{UserTableUserPW} = $Self->{ConfigObject}->Get('DatabaseUserTableUserPW') || 'pw';
     $Self->{UserTableUser} = $Self->{ConfigObject}->Get('DatabaseUserTableUser') || 'login';
-    # load generator customer preferences module
-    my $GeneratorModule = $Self->{ConfigObject}->Get('User::PreferencesModule') || 'Kernel::System::User::Preferences::DB';
-    $Self->{MainObject}->Require($GeneratorModule);
-    $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
+
+    # create needed object
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
+
+    # load generator preferences module
+    my $GeneratorModule = $Self->{ConfigObject}->Get('User::PreferencesModule') || 'Kernel::System::User::Preferences::DB';
+    if ($Self->{MainObject}->Require($GeneratorModule)) {
+        $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
+    }
 
     return $Self;
 }
@@ -193,15 +197,17 @@ sub GetUserData {
     if (!$Preferences{UserEmail}) {
         $Preferences{UserEmail} = $Data{UserLogin};
     }
+    # merge hash
+    %Data = (%Data, %Preferences);
     # cache user result
     if ($Param{User}) {
-        $Self->{'GetUserData::User::'.$Param{User}} = {%Data, %Preferences};
+        $Self->{'GetUserData::User::'.$Param{User}} = \%Data;
     }
     elsif ($Param{UserID}) {
-        $Self->{'GetUserData::UserID::'.$Param{UserID}} = {%Data, %Preferences};
+        $Self->{'GetUserData::UserID::'.$Param{UserID}} = \%Data;
     }
     # return data
-    return (%Data, %Preferences);
+    return %Data;
 }
 
 =item UserAdd()
@@ -816,6 +822,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2007-04-24 11:05:19 $
+$Revision: 1.65 $ $Date: 2007-09-13 01:30:35 $
 
 =cut
