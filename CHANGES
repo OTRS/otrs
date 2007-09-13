@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.468 2007-09-13 14:05:18 mh Exp $
+# $Id: CHANGES,v 1.469 2007-09-13 14:42:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ CVS HEAD (????/??/??)
     HTML to text convertion to email parser.
  - (2007/09/13) Improved report overview of perfornance log.
 
-2.2.3 (2007/09/??)
+2.2.3 (2007/09/13)
  - (2007/09/13) Fixed bug 2285 - Typo in german translation
     "Aktualisierungszeit".
  - (2007/09/12) Fixed bug# 1203 - Redhat shm workaround should not relate to
