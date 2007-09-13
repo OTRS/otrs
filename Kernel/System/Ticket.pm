@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.275 2007-09-07 11:13:02 martin Exp $
+# $Id: Ticket.pm,v 1.276 2007-09-13 16:12:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.275 $';
+$VERSION = '$Revision: 1.276 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -3712,10 +3712,10 @@ sub TicketSearch {
                 StateType => ['closed'],
                 Result => 'ID',
             );
-#            my $ID = $Self->HistoryTypeLookup(Type => 'NewTicket');
-            my $ID = $Self->HistoryTypeLookup(Type => 'StateUpdate');
-            if ($ID) {
-                $SQLExt .= " AND th.history_type_id = $ID AND ".
+            my @StateID = ($Self->HistoryTypeLookup(Type => 'NewTicket'));
+            push (@StateID, $Self->HistoryTypeLookup(Type => 'StateUpdate'));
+            if (@StateID) {
+                $SQLExt .= " AND th.history_type_id IN  (${\(join ', ', @StateID)}) AND ".
                     " th.state_id IN (${\(join ', ', @List)}) AND ".
                     "th.change_time <= '".$Self->{DBObject}->Quote($Param{TicketCloseTimeOlderDate})."'";
             }
@@ -3736,10 +3736,10 @@ sub TicketSearch {
                 StateType => ['closed'],
                 Result => 'ID',
             );
-#            my $ID = $Self->HistoryTypeLookup(Type => 'NewTicket');
-            my $ID = $Self->HistoryTypeLookup(Type => 'StateUpdate');
-            if ($ID) {
-                $SQLExt .= " AND th.history_type_id = $ID AND ".
+            my @StateID = ($Self->HistoryTypeLookup(Type => 'NewTicket'));
+            push (@StateID, $Self->HistoryTypeLookup(Type => 'StateUpdate'));
+            if (@StateID) {
+                $SQLExt .= " AND th.history_type_id IN  (${\(join ', ', @StateID)}) AND ".
                     " th.state_id IN (${\(join ', ', @List)}) AND ".
                     " th.change_time >= '".$Self->{DBObject}->Quote($Param{TicketCloseTimeNewerDate})."'";
             }
@@ -6187,6 +6187,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.275 $ $Date: 2007-09-07 11:13:02 $
+$Revision: 1.276 $ $Date: 2007-09-13 16:12:31 $
 
 =cut
