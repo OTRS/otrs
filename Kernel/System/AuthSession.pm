@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AuthSession.pm,v 1.29 2007-08-21 11:13:01 martin Exp $
+# $Id: AuthSession.pm,v 1.30 2007-09-13 01:14:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::AuthSession;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -67,17 +68,16 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(LogObject ConfigObject TimeObject DBObject)) {
+    foreach (qw(LogObject ConfigObject TimeObject DBObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
     # load generator backend module
     my $GenericModule = $Self->{ConfigObject}->Get('SessionModule')
         || 'Kernel::System::AuthSession::DB';
-    if (!eval "require $GenericModule") {
-        die "Can't load session backend module $GenericModule! $@";
+    if (!$Self->{MainObject}->Require($GenericModule)) {
+        $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
     }
-
     $Self->{Backend} = $GenericModule->new(%Param);
 
     return $Self;
@@ -268,6 +268,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2007-08-21 11:13:01 $
+$Revision: 1.30 $ $Date: 2007-09-13 01:14:28 $
 
 =cut
