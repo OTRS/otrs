@@ -2,7 +2,7 @@
 # Kernel/System/DB/maxdb.pm - maxdb database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: maxdb.pm,v 1.19 2007-07-23 08:57:50 martin Exp $
+# $Id: maxdb.pm,v 1.20 2007-09-13 01:27:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -118,7 +118,7 @@ sub TableCreate {
     my $PrimaryKey = '';
     my @Return = ();
     foreach my $Tag (@Param) {
-        if ($Tag->{Tag} eq 'Table' && $Tag->{TagType} eq 'Start') {
+        if (($Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate') && $Tag->{TagType} eq 'Start') {
             if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
                 $SQLStart .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
                 $SQLStart .= $Self->{'DB::Comment'}." create table $Tag->{Name}\n";
