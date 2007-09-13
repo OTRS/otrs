@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.26 2007-09-10 11:36:48 mh Exp $
+# $Id: Ticket.t,v 1.26.2.1 2007-09-13 16:12:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -3463,7 +3463,7 @@ $Self->False(
     # result limit
     Limit => 100,
     TicketCloseTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => $SystemTime+(60*60),
+        SystemTime => $SystemTime-(60*60),
     ),
     UserID => 1,
     Permission => 'rw',
