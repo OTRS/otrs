@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.26 2007-09-10 11:36:48 mh Exp $
+# $Id: Ticket.t,v 1.27 2007-09-13 15:57:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -3463,14 +3463,14 @@ $Self->False(
     # result limit
     Limit => 100,
     TicketCloseTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => $SystemTime+(60*60),
+        SystemTime => $SystemTime-(60*60),
     ),
     UserID => 1,
     Permission => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
-    '() (HASH:TicketCloseTimeNewerDate => 60)',
+    'TicketSearch() (HASH:TicketCloseTimeNewerDate => 60)',
 );
 
 # Test TicketCloseOlderDate
@@ -3487,7 +3487,7 @@ $Self->True(
 );
 $Self->False(
     $TicketIDs{$TicketID},
-    '() (HASH:TicketCloseTimeOlderDate => 60)',
+    'TicketSearch() (HASH:TicketCloseTimeOlderDate => 60)',
 );
 
 my %Ticket2 = $Self->{TicketObject}->TicketGet(
