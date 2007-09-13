@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.466 2007-09-13 01:17:56 martin Exp $
+# $Id: CHANGES,v 1.467 2007-09-13 01:53:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,9 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2007/09/13) Fixed bug# 1186 - Convertion from HTML to text incomplete
+    if html encoded chars like &Egrave; or &eacute; is used. Added full
+    HTML to text convertion to email parser.
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.3 (2007/09/??)
