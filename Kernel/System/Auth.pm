@@ -2,7 +2,7 @@
 # Kernel/System/Auth.pm - provides the authentification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Auth.pm,v 1.23 2007-01-20 23:11:33 mh Exp $
+# $Id: Auth.pm,v 1.24 2007-09-13 01:01:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::Auth;
 
 use strict;
+use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -65,7 +66,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(LogObject ConfigObject DBObject)) {
+    foreach (qw(LogObject ConfigObject DBObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
@@ -73,8 +74,8 @@ sub new {
     foreach my $Count ('', 1..10) {
         my $GenericModule = $Self->{ConfigObject}->Get("AuthModule$Count");
         if ($GenericModule) {
-            if (!eval "require $GenericModule") {
-                die "Can't load auth backend module $GenericModule! $@";
+            if (!$Self->{MainObject}->Require($GenericModule)) {
+                $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
             }
             $Self->{"Backend$Count"} = $GenericModule->new(%Param, Count => $Count);
         }
@@ -142,6 +143,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2007-01-20 23:11:33 $
+$Revision: 1.24 $ $Date: 2007-09-13 01:01:27 $
 
 =cut
