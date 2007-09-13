@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: bb.pm,v 1.25 2007-08-07 13:14:05 sb Exp $
+# $Id: bb.pm,v 1.25.2.1 2007-09-13 14:01:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.25.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -779,7 +779,7 @@ sub Data {
         '0 = no unlock' => '0 = keine Freigabe',
         'Escalation - First Response Time' => 'Eskalation - Reaktionszeit',
         '0 = no escalation' => '0 = keine Eskalation',
-        'Escalation - Update Time' => 'Eskalation - Aktuallisierungszeit',
+        'Escalation - Update Time' => 'Eskalation - Aktualisierungszeit',
         'Escalation - Solution Time' => 'Eskalation - Lösungszeit',
         'Follow up Option' => 'Nachfrage Option',
         'Ticket lock after a follow up' => 'Ticket sperren nach einem Follow-Up',
@@ -882,7 +882,7 @@ sub Data {
         'Add a new SLA.' => 'Einen neuen SLA dazua doa.',
         'SLA' => 'SLA',
         'First Response Time' => 'Reaktionszeit',
-        'Update Time' => 'Aktuallisierungszeit',
+        'Update Time' => 'Aktualisierungszeit',
         'Solution Time' => 'Lösungszeit',
 
         # Template: AdminSMIMEForm
