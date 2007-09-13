@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.1 2007-09-13 14:03:35 mh Exp $
+# $Id: CHANGES,v 1.465.2.2 2007-09-13 14:42:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-2.2.3 (2007/09/??)
+2.2.3 (2007/09/13)
  - (2007/09/13) Fixed bug 2285 - Typo in german translation
     "Aktualisierungszeit".
  - (2007/09/12) Fixed bug# 1203 - Redhat shm workaround should not relate to
