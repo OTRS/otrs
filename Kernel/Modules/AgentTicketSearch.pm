@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.42 2007-07-31 11:45:54 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.43 2007-09-17 14:44:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,10 +19,9 @@ use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::State;
 use Kernel::System::Type;
-use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -47,7 +46,6 @@ sub new {
     $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{SearchProfileObject} = Kernel::System::SearchProfile->new(%Param);
-    $Self->{PDFObject} = Kernel::System::PDF->new(%Param);
     $Self->{ServiceObject} = Kernel::System::Service->new(%Param);
     $Self->{SLAObject} = Kernel::System::SLA->new(%Param);
     $Self->{TypeObject} = Kernel::System::Type->new(%Param);
@@ -484,6 +482,8 @@ sub Run {
                     }
                 }
                 elsif ($GetParam{ResultForm} eq 'Print') {
+                    use Kernel::System::PDF;
+                    $Self->{PDFObject} = Kernel::System::PDF->new(%{$Self});
                     if ($Self->{PDFObject}) {
                         my %Info = (%Data, %UserInfo),
                         my $Created = $Self->{LayoutObject}->Output(
