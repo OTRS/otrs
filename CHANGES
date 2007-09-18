@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.471 2007-09-18 14:49:13 tr Exp $
+# $Id: CHANGES,v 1.472 2007-09-18 14:57:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,7 +11,7 @@
 
 CVS HEAD (????/??/??)
  - (2007/09/17) include PDF::API2 in AgentStats
-    only if needed. Because of the same reason as in bug# 2291
+    only if needed. Because of the same reason as in bug# 2291.
  - (2007/09/18) make some improvments in file Layout.pm to get a better
     performance if you use the block function
  - (2007/09/17) Fixed bug 2291 - include PDF::API2 in AgentTicketSearch
