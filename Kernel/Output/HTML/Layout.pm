@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.51 2007-08-30 07:04:30 martin Exp $
+# $Id: Layout.pm,v 1.52 2007-09-18 13:21:07 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -362,7 +362,7 @@ sub _BlockTemplatesReplace {
         $BlockLayer{$Block->{Name}} = $Block->{Layer};
     }
     # create block template string
-    if ($Self->{BlockData}) {
+    if ($Self->{BlockData} && %BlockTemplates) {
         my @NotUsedBlockData = ();
         foreach my $Block (@{$Self->{BlockData}}) {
             if ($BlockTemplates{$Block->{Name}}) {
@@ -520,6 +520,7 @@ sub Output {
     my $ID = 0;
     my %LayerHash = ();
     my $OldLayer = 1;
+
     foreach my $Block (@BR) {
         # reset layer counter if we switched on layer lower
         if ($Block->{Layer} > $OldLayer) {
@@ -555,30 +556,31 @@ sub Output {
             "$1:$ID:-$2";
         }segxm;
 
-        # count up place_block counter
+       # count up place_block counter
         $ID =~ s/^(.*:)(\d+)$/$1-/g;
+
+        my $NewID = '';
+        if ($ID =~ /^(.*:)(\d+)$/) {
+            $NewID = $1.($2+1);
+        }
+        elsif ($ID =~ /^(\d+)$/) {
+            $NewID = ($1+1);
+        }
+        elsif ($ID =~ /^(.*:)-$/) {
+            $NewID = $ID;
+        }
+
         $TemplateString =~ s{
-            (<!--\s{0,1}dtl:place_block:$Block->{Name}:)($ID)(\s{0,1}-->)
+            <!--\sdtl:place_block:$Block->{Name}:$ID\s-->
         }
         {
-            my $Start = $1;
-            my $Stop = $3;
-            my $NewID = '';
-            if ($ID =~ /^(.*:)(\d+)$/) {
-                $NewID = $1.($2+1);
-            }
-            elsif ($ID =~ /^(\d+)$/) {
-                $NewID = ($1+1);
-            }
-            elsif ($ID =~ /^(.*:)-$/) {
-                $NewID = $ID;
-            }
-            $Block->{Data}.$Start.$NewID.$Stop;
-        }sexm;
+            $Block->{Data}<!-- dtl:place_block:$Block->{Name}:$NewID -->
+        }sxm;
         $OldLayer = $Block->{Layer};
     }
 
     # remove empty blocks and block preferences
+
     if (!$Param{NoBlockReplace}) {
         undef $Self->{BlockTemplatePreferences};
         $TemplateString =~ s{
@@ -1350,6 +1352,7 @@ sub Print {
                     MainObject => $Self->{MainObject},
                     LogObject => $Self->{LogObject},
                     Debug => $Self->{Debug},
+                    LayoutObject => $Self,
                 );
                 # run module
                 $Object->Run(%{$Filters{$Filter}}, Data => $Param{Output});
@@ -3395,6 +3398,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2007-08-30 07:04:30 $
+$Revision: 1.52 $ $Date: 2007-09-18 13:21:07 $
 
 =cut
