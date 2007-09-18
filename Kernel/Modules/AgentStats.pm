@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.33 2007-09-12 23:46:19 martin Exp $
+# $Id: AgentStats.pm,v 1.33.2.1 2007-09-18 15:09:36 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Modules::AgentStats;
 use strict;
 use Kernel::System::Stats;
 use Kernel::System::CSV;
-use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.33.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -42,7 +41,6 @@ sub new {
     $Self->{CSVObject} = Kernel::System::CSV->new(%Param);
     $Param{CSVObject} = $Self->{CSVObject};
     $Self->{StatsObject} = Kernel::System::Stats->new(%Param);
-    $Self->{PDFObject} = Kernel::System::PDF->new(%Param);
 
     return $Self;
 }
@@ -1683,7 +1681,6 @@ sub Run {
                         if ($GroupID == $UserGroup) {
                             $UserPermission = 1;
                             last MARKE;
-                            last;
                         }
                     }
                 }
@@ -1957,6 +1954,8 @@ sub Run {
         }
         # pdf or html output
         elsif ($Param{Format} eq 'Print') {
+            use Kernel::System::PDF;
+            $Self->{PDFObject} = Kernel::System::PDF->new(%{$Self});
             # PDF Output
             if ($Self->{PDFObject}) {
                 my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
