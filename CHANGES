@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.469 2007-09-13 14:42:46 mh Exp $
+# $Id: CHANGES,v 1.470 2007-09-18 13:25:14 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,10 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2007/09/18) make some improvments in file Layout.pm to get a better
+    performance if you use the block function
+ - (2007/09/17) Fixed bug 2291 - include PDF::API2 in AgentTicketSearch
+    only if needed
  - (2007/09/13) Fixed bug# 1186 - Convertion from HTML to text incomplete
     if html encoded chars like &Egrave; or &eacute; is used. Added full
     HTML to text convertion to email parser.
