@@ -1,12 +1,9 @@
-#!/usr/bin/perl -w -d:DProf
 #!/usr/bin/perl -w
-
-#!/usr/bin/perl -w -d:SmallProf
 # --
 # bin/cgi-bin/index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: index.pl,v 1.82 2007-09-18 14:49:13 tr Exp $
+# $Id: index.pl,v 1.83 2007-09-18 14:51:38 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.82 $';
+$VERSION = '$Revision: 1.83 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # check @INC for mod_perl (add lib path for "require module"!)
