@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPerformanceLog.pm - provides a log view for admins
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.pm,v 1.7 2007-09-13 01:17:56 martin Exp $
+# $Id: AdminPerformanceLog.pm,v 1.8 2007-09-24 06:07:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminPerformanceLog;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -381,11 +381,7 @@ sub _DatabaseReset {
     my $Self = shift;
     my %Param = @_;
     my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
-    if (!unlink $File) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Can't unlink $File: $!",
-        );
+    if (!$Self->{MainObject}->FileDelete(Location => $File)) {
         return;
     }
     else {
@@ -398,19 +394,17 @@ sub _DatabaseRead {
     my %Param = @_;
     my @Data = ();
     my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
-    if (open(IN, "< $File")) {
-        while (<IN>) {
+    my $ArrayRef = $Self->{MainObject}->FileRead(
+        Location => $File,
+        Mode => 'utf8', # optional - binmode|utf8
+        Result => 'ARRAY', # optional - SCALAR|ARRAY
+    );
+    if ($ArrayRef) {
+        foreach (@{$ArrayRef}) {
             my $Line = $_;
             my @Row = split(/::/, $Line);
             push (@Data, \@Row);
         }
-        close (IN);
-    }
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Can't open $File: $!",
-        );
     }
     return \@Data;
 }
