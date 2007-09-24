@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.t,v 1.3 2007-08-28 20:17:20 martin Exp $
+# $Id: Main.t,v 1.4 2007-09-24 04:36:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -152,7 +152,7 @@ foreach my $Extention (qw(doc pdf png txt xls)) {
     }
 }
 
-# write & read some files
+# write & read some files via Directory/Filename
 foreach my $Extention (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
         Filename => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/Main-Test1.$Extention",
@@ -192,6 +192,43 @@ foreach my $Extention (qw(doc pdf png txt xls)) {
     );
 }
 
+# write & read some files via Location
+foreach my $Extention (qw(doc pdf png txt xls)) {
+    my $MD5Sum = $Self->{MainObject}->MD5sum(
+        Filename => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/Main-Test1.$Extention",
+    );
+    my $Content = $Self->{MainObject}->FileRead(
+        Location => $Self->{ConfigObject}->Get('Home').'/scripts/test/sample/'."Main-Test1.$Extention",
+    );
+    $Self->True(
+        ${$Content} || '',
+        "#12 FileRead() - Main-Test1.$Extention",
+    );
+    my $FileLocation = $Self->{MainObject}->FileWrite(
+        Location => $Self->{ConfigObject}->Get('TempDir')."Main-Test1.$Extention",
+        Content => $Content,
+    );
+    $Self->True(
+        $FileLocation || '',
+        "#12 FileWrite() - $FileLocation",
+    );
+    my $MD5Sum2 = $Self->{MainObject}->MD5sum(
+        Filename => $FileLocation,
+    );
+    $Self->Is(
+        $MD5Sum2 || '',
+        $MD5Sum || '',
+        "#12 MD5sum()>FileWrite()>MD5sum() - $FileLocation",
+    );
+    my $Success = $Self->{MainObject}->FileDelete(
+        Location => $FileLocation,
+    );
+    $Self->True(
+        $Success || '',
+        "#12 FileDelete() - $FileLocation",
+    );
+}
+
 # write / read ARRAYREF test
 my $Content = "some\ntest\nöäüßカスタマ";
 my $FileLocation = $Self->{MainObject}->FileWrite(
@@ -202,7 +239,7 @@ my $FileLocation = $Self->{MainObject}->FileWrite(
 );
 $Self->True(
     $FileLocation || '',
-    "#12 FileWrite() - $FileLocation",
+    "#13 FileWrite() - $FileLocation",
 );
 
 my $ContentARRAYRef = $Self->{MainObject}->FileRead(
@@ -213,22 +250,22 @@ my $ContentARRAYRef = $Self->{MainObject}->FileRead(
 );
 $Self->True(
     $ContentARRAYRef || '',
-    "#12 FileRead() - $FileLocation $ContentARRAYRef",
+    "#13 FileRead() - $FileLocation $ContentARRAYRef",
 );
 $Self->Is(
     $ContentARRAYRef->[0] || '',
    "some\n",
-    "#12 FileRead() [0] - $FileLocation",
+    "#13 FileRead() [0] - $FileLocation",
 );
 $Self->Is(
     $ContentARRAYRef->[1] || '',
    "test\n",
-    "#12 FileRead() [1] - $FileLocation",
+    "#13 FileRead() [1] - $FileLocation",
 );
 $Self->Is(
     $ContentARRAYRef->[2] || '',
     "öäüßカスタマ",
-    "#12 FileRead() [2] - $FileLocation",
+    "#13 FileRead() [2] - $FileLocation",
 );
 
 my $Success = $Self->{MainObject}->FileDelete(
@@ -237,7 +274,7 @@ my $Success = $Self->{MainObject}->FileDelete(
 );
 $Self->True(
     $Success || '',
-    "#12 FileDelete() - $FileLocation",
+    "#13 FileDelete() - $FileLocation",
 );
 
 1;

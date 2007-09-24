@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.67 2007-08-23 22:44:28 martin Exp $
+# $Id: Package.pm,v 1.68 2007-09-24 04:36:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,6 +12,7 @@
 package Kernel::System::Package;
 
 use strict;
+use warnings;
 use MIME::Base64;
 use File::Copy;
 use LWP::UserAgent;
@@ -19,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.67 $';
+$VERSION = '$Revision: 1.68 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -81,7 +82,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(DBObject ConfigObject LogObject TimeObject)) {
+    foreach (qw(DBObject ConfigObject LogObject TimeObject MainObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
     $Self->{XMLObject} = Kernel::System::XML->new(%Param);
@@ -1168,16 +1169,16 @@ sub DeployCheck {
                 $Hit = 1;
             }
             elsif (-e $LocalFile) {
-                my $Content = '';
-                if (open(IN, "< $LocalFile")) {
-                    # set bin mode
-                    binmode IN;
-                    while (<IN>) {
-                        $Content .= $_;
-                    }
-                    close (IN);
-                    if ($Content ne $File->{Content}) {
-                        $Self->{LogObject}->Log(Priority => 'error', Message => "$Param{Name}-$Param{Version}: $LocalFile is different!");
+                my $Content = $Self->{MainObject}->FileRead(
+                    Location => $Self->{Home}.'/'.$File->{Location},
+                    Mode => 'binmode',
+                );
+                if ($Content) {
+                    if (${$Content} ne $File->{Content}) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'error',
+                            Message => "$Param{Name}-$Param{Version}: $LocalFile is different!",
+                        );
                         $Hit = 1;
                         $Self->{DeployCheckInfo}->{File}->{$File->{Location}} = 'File is different!';
                     }
@@ -1351,20 +1352,14 @@ sub PackageBuild {
                 }
             }
             $XML .= " Encode=\"Base64\">";
-            my $File = $Home."/$File->{Location}";
-            my $FileContent = '';
-            if (open(IN, "< $File")) {
-                # set bin mode
-                binmode IN;
-                while (<IN>) {
-                    $FileContent .= $_;
-                }
-                close (IN);
+            my $FileContent = $Self->{MainObject}->FileRead(
+                Location => $Home.'/'.$File->{Location},
+                Mode => 'binmode',
+            );
+            if (!$FileContent) {
+                $Self->{MainObject}->Die("Can't open: $File: $!");
             }
-            else {
-                die "Can't open: $File: $!";
-            }
-            $XML .= encode_base64($FileContent, '');
+            $XML .= encode_base64(${$FileContent}, '');
             $XML .= "</File>\n";
         }
         $XML .= "    </Filelist>\n";
@@ -1605,16 +1600,11 @@ sub _FileInstall {
             my $Save = 0;
             if ($Param{Reinstall} && ! -e "$RealFile.save") {
                 # check if it's not the same
-                my $Content = '';
-                if (open(IN, "< $RealFile")) {
-                    # set bin mode
-                    binmode IN;
-                    while (<IN>) {
-                        $Content .= $_;
-                    }
-                    close (IN);
-                }
-                if ($Content ne $Param{Content}) {
+                my $Content = $Self->{MainObject}->FileRead(
+                    Location => $Home.'/'.$Param{Location},
+                    Mode => 'binmode',
+                );
+                if ($Content && ${$Content} ne $Param{Content}) {
                     # check if it's framework file
                     $RealFile =~ s/\/\///g;
                     my %File = $Self->_ReadDistArchive();
@@ -1649,23 +1639,13 @@ sub _FileInstall {
         }
     }
     # write file
-    if (open(OUT, "> $RealFile")) {
+    if ($Self->{MainObject}->FileWrite(
+        Location => $Home.'/'.$Param{Location},
+        Content => \$Param{Content},
+        Mode => 'binmode',
+        Permission => $Param{Permission},
+    )) {
         print STDERR "Notice: Install $Param{Location} ($Param{Permission})!\n";
-        # set bin mode
-        binmode OUT;
-        print OUT $Param{Content};
-        close(OUT);
-        # set permission
-        if (length($Param{Permission}) == 3) {
-            $Param{Permission} = "0$Param{Permission}";
-        }
-        chmod(oct($Param{Permission}), $RealFile);
-    }
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Can't write file: $RealFile: $!",
-        );
     }
     return 1;
 }
@@ -1692,24 +1672,19 @@ sub _FileRemove {
     my $RealFile = "$Home/$Param{Location}";
     # check if file exists
     if (-e $RealFile) {
-        # check if we should backup this file if it is touched/different
+        # check if we should backup this file, if it is touched/different
         if ($Param{Content}) {
-            my $Content = '';
-            if (open(IN, "< $RealFile")) {
-                # set bin mode
-                binmode IN;
-                while (<IN>) {
-                    $Content .= $_;
-                }
-                close (IN);
-            }
-            if ($Param{Content} ne $Content) {
+            my $Content = $Self->{MainObject}->FileRead(
+                Location => $Home.'/'.$Param{Location},
+                Mode => 'binmode',
+            );
+            if ($Content && ${$Content} ne $Param{Content}) {
                 print STDERR "Notice: Backup for changed file: $RealFile.backup\n";
                 copy($RealFile,  "$RealFile.custom_backup");
             }
         }
         # remove old file
-        if (unlink $RealFile) {
+        if ($Self->{MainObject}->FileDelete(Location => $Home.'/'.$Param{Location})) {
             print STDERR "Notice: Removed file: $RealFile\n";
             # restore old file (if exists)
             if (-e "$RealFile.backup") {
@@ -1746,13 +1721,17 @@ sub _ReadDistArchive {
     my %File = ();
     my $Home = $Param{Home} || $Self->{Home};
     if (-e "$Home/ARCHIVE") {
-        if (open(IN, "< $Home/ARCHIVE")) {
-            while (<IN>) {
+        my $Content = $Self->{MainObject}->FileRead(
+            Directory => $Home,
+            Filename => 'ARCHIVE',
+            Result => 'ARRAY',
+        );
+        if ($Content) {
+            foreach (@{$Content}) {
                 my @Row = split(/::/, $_);
                 $Row[1] =~ s/\/\///g;
                 $File{$Row[1]} = $Row[0];
             }
-            close (IN);
         }
         else {
             $Self->{LogObject}->Log(
@@ -1784,17 +1763,17 @@ sub _FileSystemCheck {
         return;
     }
     foreach (qw(/bin/ /Kernel/ /Kernel/System/ /Kernel/Output/ /Kernel/Output/HTML/ /Kernel/Modules/)) {
-        my $File = "$Home/$_/check_permissons.$$";
-        if (open(OUT, "> $File")) {
-            print OUT "test";
-            close (OUT);
-            unlink $File;
+        my $Directory = "$Home/$_";
+        my $Filename = "check_permissons.$$";
+        my $FH;
+        my $Content = 'test';
+        if ($Self->{MainObject}->FileWrite(
+            Location => $Directory.'/'.$Filename,
+            Content => \$Content,
+        )) {
+            $Self->{MainObject}->FileDelete(Location => $Directory.'/'.$Filename);
         }
         else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "Can't write file $File: $!!",
-            );
             return;
         }
     }
@@ -1827,6 +1806,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2007-08-23 22:44:28 $
+$Revision: 1.68 $ $Date: 2007-09-24 04:36:48 $
 
 =cut

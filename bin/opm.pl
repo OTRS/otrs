@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: opm.pl,v 1.16 2007-03-07 18:38:31 martin Exp $
+# $Id: opm.pl,v 1.17 2007-09-24 04:36:48 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,13 +20,14 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
+use strict;
+
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
-use strict;
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Log;
@@ -36,8 +37,8 @@ use Kernel::System::Time;
 use Kernel::System::Package;
 
 # get file version
-use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.16 $';
+use vars qw($VERSION);
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -102,14 +103,16 @@ if ($Opts{'h'}) {
 my $FileString = '';
 if ($Opts{'a'} !~ /^(list|file)/ && $Opts{'p'}) {
     if (-e $Opts{'p'}) {
-        if (open(IN, "< $Opts{'p'}")) {
-            while (<IN>) {
-                $FileString .= $_;
-            }
-            close (IN);
+        my $ContentRef = $CommonObject{MainObject}->FileRead(
+            Location => $Opts{'p'},
+            Mode => 'utf8', # optional - binmode|utf8
+            Result => 'SCALAR', # optional - SCALAR|ARRAY
+        );
+        if ($ContentRef) {
+            $FileString = ${$ContentRef};
         }
         else {
-            die "Can't open: $Opts{'p'}: $!";
+            die "ERROR: Can't open: $Opts{'p'}: $!";
         }
     }
     elsif ($Opts{'p'} =~ /^(online|.*):(.+?)$/) {
@@ -200,12 +203,16 @@ if ($Opts{'a'} eq 'exportfile') {
     my $String = '';
     # read package
     if (-e $Opts{'p'}) {
-        if (open(IN, "< $Opts{'p'}")) {
-            while (<IN>) {
-                $String .= $_;
+        my $ContentRef = $CommonObject{MainObject}->FileRead(
+            Location => $Opts{'p'},
+            Mode => 'utf8', # optional - binmode|utf8
+            Result => 'SCALAR', # optional - SCALAR|ARRAY
+        );
+        if ($ContentRef) {
+            if (${$ContentRef}) {
+                $String = ${$ContentRef};
             }
-            close (IN);
-            if (!$String) {
+            else {
                 print STDERR "ERROR: File $Opts{'p'} is empty!\n";
                 exit 1;
             }
@@ -240,11 +247,17 @@ if ($Opts{'a'} eq 'build') {
         print STDERR "ERROR: $Opts{'o'} doesn't exist!\n";
         exit 1;
     }
-    my $File = "$Opts{'o'}/$Structure{Name}->{Content}-$Structure{Version}->{Content}.opm";
-    if (open (OUT, "> $File")) {
+    my $Filename = $Structure{Name}->{Content}.'-'.$Structure{Version}->{Content}.'.opm';
+    my $Content = $CommonObject{PackageObject}->PackageBuild(%Structure);
+    my $File = $CommonObject{MainObject}->FileWrite(
+        Location => $Opts{'o'}.'/'.$Filename,
+        Content => \$Content,
+        Mode => 'utf8', # binmode|utf8
+        Type => 'Local', # optional - Local|Attachment|MD5
+        Permission => '644', # unix file permissions
+    );
+    if ($File) {
         print "Writing $File\n";
-        print OUT $CommonObject{PackageObject}->PackageBuild(%Structure);
-        close (OUT);
         exit;
     }
     else {
@@ -523,12 +536,16 @@ sub BuildPackageIndex {
             if ($File !~ /Entries|Repository|Root|CVS/ && $File =~ /\.opm$/) {
 #               print "F: $File\n";
                 my $Content = '';
-                open (IN, "< $OrigFile") || die "Can't open $OrigFile: $!";
-                while (<IN>) {
-                    $Content .= $_;
+                my $ContentRef = $CommonObject{MainObject}->FileRead(
+                    Location => $OrigFile,
+                    Mode => 'utf8', # optional - binmode|utf8
+                    Result => 'SCALAR', # optional - SCALAR|ARRAY
+                );
+                if (!$ContentRef) {
+                    print STDERR "ERROR: Can't open $OrigFile: $!\n";
+                    exit 1;
                 }
-                close (IN);
-                my %Structure = $CommonObject{PackageObject}->PackageParse(String => $Content);
+                my %Structure = $CommonObject{PackageObject}->PackageParse(String => ${$ContentRef});
                 my $XML = $CommonObject{PackageObject}->PackageBuild(%Structure, Type => 'Index');
                 print "<Package>\n";
                 print $XML;
@@ -537,6 +554,7 @@ sub BuildPackageIndex {
             }
         }
     }
+    return 1;
 }
 
 sub _MessageGet {
