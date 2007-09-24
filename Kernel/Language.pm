@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.46 2007-08-16 12:41:31 sb Exp $
+# $Id: Language.pm,v 1.47 2007-09-24 15:55:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -95,7 +95,7 @@ sub new {
         );
     }
     # load text catalog ...
-    if (eval "require Kernel::Language::$Self->{UserLanguage}") {
+    if ($Self->{MainObject}->Require("Kernel::Language::$Self->{UserLanguage}")) {
         @ISA = ("Kernel::Language::$Self->{UserLanguage}");
         $Self->Data();
         if ($Self->{Debug} > 0) {
@@ -114,16 +114,18 @@ sub new {
         );
     }
     # load action text catalog ...
+    my $CustomTranslationModule = '';
     if (!$Param{TranslationFile}) {
         my $Home = $Self->{ConfigObject}->Get('Home').'/';
         my @Files = glob($Home."Kernel/Language/$Self->{UserLanguage}_*.pm");
         foreach my $File (@Files) {
-            if ($File =~ /_Custom.pm$/) {
-                next;
-            }
             $File =~ s/^$Home(.*)\.pm$/$1/g;
             $File =~ s/\/\//\//g;
             $File =~ s/\//::/g;
+            if ($File =~ /_Custom$/) {
+                $CustomTranslationModule = $File;
+                next;
+            }
             if ($Self->{MainObject}->Require($File)) {
                 @ISA = ($File);
                 $Self->Data();
@@ -134,17 +136,24 @@ sub new {
                     );
                 }
             }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'Error',
+                    Message => "Sorry, can't load $File! ".
+                        "Check the $File (perl -cw)!",
+                );
+            }
         }
-    }
-    # load custom text catalog ...
-    if (!$Param{TranslationFile} && eval "require Kernel::Language::$Self->{UserLanguage}_Custom") {
-        @ISA = ("Kernel::Language::$Self->{UserLanguage}_Custom");
-        $Self->Data();
-        if ($Self->{Debug} > 0) {
-            $Self->{LogObject}->Log(
-                Priority => 'Debug',
-                Message => "Kernel::Language::$Self->{UserLanguage}_Custom load ... done."
-            );
+        # load custom text catalog ...
+        if ($CustomTranslationModule && $Self->{MainObject}->Require($CustomTranslationModule)) {
+            @ISA = ($CustomTranslationModule);
+            $Self->Data();
+            if ($Self->{Debug} > 0) {
+                $Self->{LogObject}->Log(
+                    Priority => 'Debug',
+                    Message => "Kernel::Language::$Self->{UserLanguage}_Custom load ... done."
+                );
+            }
         }
     }
     # if no return charset is given, use recommended return charset
@@ -475,6 +484,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2007-08-16 12:41:31 $
+$Revision: 1.47 $ $Date: 2007-09-24 15:55:51 $
 
 =cut
