@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.472 2007-09-18 14:57:32 tr Exp $
+# $Id: CHANGES,v 1.473 2007-09-24 04:52:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,19 +10,23 @@
 # --
 
 CVS HEAD (????/??/??)
- - (2007/09/17) include PDF::API2 in AgentStats
-    only if needed. Because of the same reason as in bug# 2291.
- - (2007/09/18) make some improvments in file Layout.pm to get a better
-    performance if you use the block function
- - (2007/09/17) Fixed bug 2291 - include PDF::API2 in AgentTicketSearch
-    only if needed
+ - (2007/09/18) Did some improvments in Kernel/Output/HTML/Layout.pm to
+    get an better performance if the block function is used many times
+    (e. g. > 1000 times, 30% faster).
  - (2007/09/13) Fixed bug# 1186 - Convertion from HTML to text incomplete
     if html encoded chars like &Egrave; or &eacute; is used. Added full
     HTML to text convertion to email parser.
  - (2007/09/13) Improved report overview of perfornance log.
 
+2.2.4 (????/??/??)
+ - (2007/09/24) Fixed bug# 2321 - It's not possible to use ñ or ü in
+    description tag of .sopm file -> leading to perl syntax error!
+ - (2007/09/17) Fixed bug# 2291 - Only include/use PDF::API2 in
+    Kernel/Modules/AgentTicketSearch.pm and Kernel/Modules/AgentStats.pm
+    if needed, to increase performance.
+
 2.2.3 (2007/09/13)
- - (2007/09/13) Fixed bug 2285 - Typo in german translation
+ - (2007/09/13) Fixed bug# 2285 - Typo in german translation
     "Aktualisierungszeit".
  - (2007/09/12) Fixed bug# 1203 - Redhat shm workaround should not relate to
     real shm request.
@@ -31,7 +35,7 @@ CVS HEAD (????/??/??)
     installed corectly.
  - (2007/09/06) Fixed bug# 2261 - False params in call of ServiceLookup() and
     SLALookup() functions.
- - (2007/09/06) Fixed reopened Bug# 2142 - Ticket history entry was wrong if
+ - (2007/09/06) Fixed reopened bug# 2142 - Ticket history entry was wrong if
     service, sla or ticket type was changed.
  - (2007/09/03) Fixed bug# 2193 - Postmaster module
     Kernel::System::PostMaster::Filter::NewTicketReject is not working - need
