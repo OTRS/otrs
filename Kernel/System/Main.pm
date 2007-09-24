@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.10 2007-08-28 20:17:21 martin Exp $
+# $Id: Main.pm,v 1.10.2.1 2007-09-24 04:42:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.10.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -235,17 +235,25 @@ to read files from file system
     my $ContentSCALARRef = $MainObject->FileRead(
         Directory => 'c:\some\location',
         Filename => 'me_to/alal.xml',
+        # or Location
+        Location => 'c:\some\location\me_to\alal.xml'
     );
 
     my $ContentARRAYRef = $MainObject->FileRead(
         Directory => 'c:\some\location',
         Filename => 'me_to/alal.xml',
+        # or Location
+        Location => 'c:\some\location\me_to\alal.xml'
+
         Result => 'ARRAY', # optional - SCALAR|ARRAY
     );
 
     my $ContentSCALARRef = $MainObject->FileRead(
         Directory => 'c:\some\location',
         Filename => 'me_to/alal.xml',
+        # or Location
+        Location => 'c:\some\location\me_to\alal.xml'
+
         Mode => 'binmode', # optional - binmode|utf8
         Type => 'Local', # optional - Local|Attachment|MD5
         Result => 'SCALAR', # optional - SCALAR|ARRAY
@@ -258,24 +266,28 @@ sub FileRead {
     my $Self = shift;
     my %Param = @_;
     my $FH;
-    foreach (qw(Filename)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-            return;
-        }
+    if ($Param{Filename} && $Param{Directory}) {
+        # filename clean up
+        $Param{Filename} = $Self->FilenameCleanUp(
+            Filename => $Param{Filename},
+            Type => $Param{Type} || 'Local', # Local|Attachment|MD5
+        );
+        $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
-    # filename clean up
-    $Param{Filename} = $Self->FilenameCleanUp(
-        Filename => $Param{Filename},
-        Type => $Param{Type} || 'Local', # Local|Attachment|MD5
-    );
-    my $FileLocation = "$Param{Directory}/$Param{Filename}";
+    elsif ($Param{Location}) {
+        # filename clean up
+        $Param{Location} =~ s/\/\//\//g;
+    }
+    else {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Filename and Directory or Location!");
+
+    }
     # check if file exists
-    if (!-e $FileLocation) {
+    if (!-e $Param{Location}) {
         if (!$Param{DisableWarnings}) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "File '$FileLocation' doesn't exists!"
+                Message => "File '$Param{Location}' doesn't exists!"
             );
         }
         return;
@@ -285,7 +297,7 @@ sub FileRead {
     if ($Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i) {
         $Mode = '<:utf8';
     }
-    if (open ($FH, $Mode, $FileLocation)) {
+    if (open ($FH, $Mode, $Param{Location})) {
         # read whole file
         my @Array;
         my $String;
@@ -312,7 +324,7 @@ sub FileRead {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can't open '$FileLocation': $!",
+            Message => "Can't open '$Param{Location}': $!",
         );
         return;
     }
@@ -323,14 +335,20 @@ sub FileRead {
 to write data to file system
 
     my $FileLocation = $MainObject->FileWrite(
-        Directory => 'c:\some\location\',
+        Directory => 'c:\some\location',
         Filename => 'me_to/alal.xml',
+        # or Location
+        Location => 'c:\some\location\me_to\alal.xml'
+
         Content => \$Content,
     );
 
     my $FileLocation = $MainObject->FileWrite(
-        Directory => 'c:\some\location\',
+        Directory => 'c:\some\location',
         Filename => 'me_to/alal.xml',
+        # or Location
+        Location => 'c:\some\location\me_to\alal.xml'
+
         Content => \$Content,
         Mode => 'binmode', # binmode|utf8
         Type => 'Local', # optional - Local|Attachment|MD5
@@ -343,27 +361,31 @@ sub FileWrite {
     my $Self = shift;
     my %Param = @_;
     my $FH;
-    foreach (qw(Directory Filename)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-            return;
-        }
+    if ($Param{Filename} && $Param{Directory}) {
+        # filename clean up
+        $Param{Filename} = $Self->FilenameCleanUp(
+            Filename => $Param{Filename},
+            Type => $Param{Type} || 'Local', # Local|Attachment|MD5
+        );
+        $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
-    # filename clean up
-    $Param{Filename} = $Self->FilenameCleanUp(
-        Filename => $Param{Filename},
-        Type => $Param{Type} || 'Local', # Local|Attachment|MD5
-    );
-    my $FileLocation = "$Param{Directory}/$Param{Filename}";
+    elsif ($Param{Location}) {
+        # filename clean up
+        $Param{Location} =~ s/\/\//\//g;
+    }
+    else {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Filename and Directory or Location!");
+
+    }
     # open file
     my $Mode = '>';
     if ($Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i) {
         $Mode = '>:utf8';
     }
-    if (!open ($FH, $Mode, $FileLocation)) {
+    if (!open ($FH, $Mode, $Param{Location})) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can't write '$FileLocation': $!",
+            Message => "Can't write '$Param{Location}': $!",
         );
         return;
     }
@@ -379,9 +401,14 @@ sub FileWrite {
             if (length($Param{Permission}) == 3) {
                 $Param{Permission} = "0$Param{Permission}";
             }
-            chmod(oct($Param{Permission}), $FileLocation);
+            chmod(oct($Param{Permission}), $Param{Location});
         }
-        return $Param{Filename};
+        if ($Param{Filename}) {
+            return $Param{Filename};
+        }
+        else {
+            return $Param{Location};
+        }
     }
 }
 
@@ -390,8 +417,11 @@ sub FileWrite {
 to delete a file from file system
 
     my $Success = $MainObject->FileDelete(
-        Directory => 'c:\some\location\',
+        Directory => 'c:\some\location',
         Filename => 'me_to/alal.xml',
+        # or Location
+        Location => 'c:\some\location\me_to\alal.xml'
+
         DisableWarnings => 1, # optional
     );
 
@@ -400,33 +430,37 @@ to delete a file from file system
 sub FileDelete {
     my $Self = shift;
     my %Param = @_;
-    foreach (qw(Directory Filename)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-            return;
-        }
+    if ($Param{Filename} && $Param{Directory}) {
+        # filename clean up
+        $Param{Filename} = $Self->FilenameCleanUp(
+            Filename => $Param{Filename},
+            Type => $Param{Type} || 'Local', # Local|Attachment|MD5
+        );
+        $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
-    # filename clean up
-    $Param{Filename} = $Self->FilenameCleanUp(
-        Filename => $Param{Filename},
-        Type => $Param{Type} || 'Local', # Local|Attachment|MD5
-    );
-    my $FileLocation = "$Param{Directory}/$Param{Filename}";
+    elsif ($Param{Location}) {
+        # filename clean up
+        $Param{Location} =~ s/\/\//\//g;
+    }
+    else {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Filename and Directory or Location!");
+
+    }
     # check if file exists
-    if (! -e $FileLocation) {
+    if (! -e $Param{Location}) {
         if (!$Param{DisableWarnings}) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "File '$FileLocation' dosn't exists!"
+                Message => "File '$Param{Location}' dosn't exists!"
             );
         }
         return;
     }
     # delete file
-    if (!unlink($FileLocation)) {
+    if (!unlink($Param{Location})) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can't delete '$FileLocation': $!",
+            Message => "Can't delete '$Param{Location}': $!",
         );
         return;
     }
@@ -596,6 +630,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2007-08-28 20:17:21 $
+$Revision: 1.10.2.1 $ $Date: 2007-09-24 04:42:08 $
 
 =cut

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.4 2007-09-18 15:09:36 tr Exp $
+# $Id: CHANGES,v 1.465.2.5 2007-09-24 04:42:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,12 +10,14 @@
 # --
 
 2.2.4 (????/??/??)
- - (2007/09/17) include PDF::API2 in AgentStats
-    only if needed. Because of the same reason as in bug# 2291.
- - (2007/09/17) Fixed bug 2291 - include PDF::API2 in AgentTicketSearch
-    only if needed.
+ - (2007/09/24) Fixed bug# 2321 - It's not possible to use ñ or ü in
+    description tag of .sopm file -> leading to perl syntax error!
+ - (2007/09/17) Fixed bug# 2291 - Only include/use PDF::API2 in
+    Kernel/Modules/AgentTicketSearch.pm and Kernel/Modules/AgentStats.pm
+    if needed, to increase performance.
+
 2.2.3 (2007/09/13)
- - (2007/09/13) Fixed bug 2285 - Typo in german translation
+ - (2007/09/13) Fixed bug# 2285 - Typo in german translation
     "Aktualisierungszeit".
  - (2007/09/12) Fixed bug# 1203 - Redhat shm workaround should not relate to
     real shm request.
@@ -24,7 +26,7 @@
     installed corectly.
  - (2007/09/06) Fixed bug# 2261 - False params in call of ServiceLookup() and
     SLALookup() functions.
- - (2007/09/06) Fixed reopened Bug# 2142 - Ticket history entry was wrong if
+ - (2007/09/06) Fixed reopened bug# 2142 - Ticket history entry was wrong if
     service, sla or ticket type was changed.
  - (2007/09/03) Fixed bug# 2193 - Postmaster module
     Kernel::System::PostMaster::Filter::NewTicketReject is not working - need
