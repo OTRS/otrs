@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: IPC.pm,v 1.25 2007-06-27 12:09:56 martin Exp $
+# $Id: IPC.pm,v 1.26 2007-09-24 05:16:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -57,9 +57,9 @@ sub new {
 sub _InitSHM {
     my $Self = shift;
     # init meta data mem
-    $Self->{KeyMeta} = shmget($Self->{IPCKeyMeta}, $Self->{IPCSizeMeta}, 0777 | 0001000) || die $!;
+    $Self->{KeyMeta} = shmget($Self->{IPCKeyMeta}, $Self->{IPCSizeMeta}, 777 | 1000) || die $!;
     # init session data mem
-    $Self->{Key} = shmget($Self->{IPCKey}, $Self->_GetSHMDataSize(), 0777 | 0001000) || die $!;
+    $Self->{Key} = shmget($Self->{IPCKey}, $Self->_GetSHMDataSize(), 777 | 1000) || die $!;
     return 1;
 }
 
@@ -80,6 +80,7 @@ sub _WriteSHM {
                     "($Self->{IPCSizeMax} Bytes) of SessionData reached! Drop old sessions!",
             );
         }
+        return;
     }
     else {
         my $NewIPCSize = $DataSize + $Self->{IPCAddBufferSize};
@@ -89,11 +90,12 @@ sub _WriteSHM {
         # delete old shm
         shmctl($Self->{Key}, IPC_RMID, 0) || die "$!";
         # init new mem
-        $Self->{Key} = shmget($Self->{IPCKey}, $NewIPCSize, 0777 | 0001000) || die $!;
+        $Self->{Key} = shmget($Self->{IPCKey}, $NewIPCSize, 777 | 1000) || die $!;
         # write session data to mem
         shmwrite($Self->{Key}, $Param{Data}, 0, $NewIPCSize) || die $!;
         # write new meta data
         $Self->_SetSHMDataSize($NewIPCSize);
+        return 1;
     }
 }
 

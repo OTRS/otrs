@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.23 2007-06-27 12:09:56 martin Exp $
+# $Id: FS.pm,v 1.24 2007-09-24 05:16:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -30,7 +30,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(LogObject ConfigObject DBObject TimeObject)) {
+    foreach (qw(LogObject ConfigObject DBObject TimeObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
     # encode object
@@ -128,9 +128,16 @@ sub GetSessionIDData {
         return;
     }
     # read data
-    open (SESSION, "< $Self->{SessionSpool}/$SessionID")
-            || warn "Can't open $Self->{SessionSpool}/$SessionID: $!\n";
-    while (<SESSION>) {
+    my $ContentRef = $Self->{MainObject}->FileRead(
+        Directory => $Self->{SessionSpool},
+        Filename => $SessionID,
+        Mode => 'utf8', # optional - binmode|utf8
+        Result => 'ARRAY',
+    );
+    if (!$ContentRef) {
+        return;
+    }
+    foreach (@{$ContentRef}) {
         chomp;
         # split data
         my @PaarData = split(/:/, $_);
@@ -149,7 +156,6 @@ sub GetSessionIDData {
             );
         }
     }
-    close (SESSION);
 
     return %Data;
 }
@@ -179,18 +185,12 @@ sub CreateSessionID {
     $DataToStore .= "UserRemoteAddr:". encode_base64($RemoteAddr, '') ."\n";
     $DataToStore .= "UserRemoteUserAgent:". encode_base64($RemoteUserAgent, '') ."\n";
     # store SessionID + data
-    if (open (SESSION, ">> $Self->{SessionSpool}/$SessionID")) {
-        print SESSION "$DataToStore";
-        close (SESSION);
-        return $SessionID;
-    }
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Can't create $Self->{SessionSpool}/$SessionID: $!",
-        );
-        return;
-    }
+    return $Self->{MainObject}->FileWrite(
+        Directory => $Self->{SessionSpool},
+        Filename => $SessionID,
+        Content => \$DataToStore,
+        Mode => 'utf8', # optional - binmode|utf8
+    );
 }
 
 sub RemoveSessionID {
@@ -198,7 +198,10 @@ sub RemoveSessionID {
     my %Param = @_;
     my $SessionID = $Param{SessionID};
     # delete fs file
-    if (unlink("$Self->{SessionSpool}/$SessionID")) {
+    if ($Self->{MainObject}->FileDelete(
+        Directory => $Self->{SessionSpool},
+        Filename => $SessionID,
+    )) {
         # log event
         $Self->{LogObject}->Log(
             Priority => 'notice',
@@ -207,12 +210,7 @@ sub RemoveSessionID {
         return 1;
     }
     else {
-        # log event
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Can't delete file $Self->{SessionSpool}/$SessionID: $!"
-        );
-        return 0;
+        return;
     }
 }
 
@@ -247,18 +245,12 @@ sub UpdateSessionID {
         }
     }
     # update fs file
-    if (open (SESSION, "> $Self->{SessionSpool}/$SessionID")) {
-        print SESSION $NewDataToStore;
-        close (SESSION);
-        return 1;
-    }
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Can't write $Self->{SessionSpool}/$SessionID: $!",
-        );
-        return;
-    }
+    return $Self->{MainObject}->FileWrite(
+        Directory => $Self->{SessionSpool},
+        Filename => $SessionID,
+        Content => \$NewDataToStore,
+        Mode => 'utf8', # optional - binmode|utf8
+    );
 }
 
 sub GetAllSessionIDs {
