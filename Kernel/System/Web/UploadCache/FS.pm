@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.7 2007-03-12 23:58:52 martin Exp $
+# $Id: FS.pm,v 1.8 2007-09-24 05:01:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,11 @@
 package Kernel::System::Web::UploadCache::FS;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.7 $ ';
+$VERSION = '$Revision: 1.8 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -26,7 +27,7 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
     # check needed objects
-    foreach (qw(ConfigObject LogObject EncodeObject)) {
+    foreach (qw(ConfigObject LogObject EncodeObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -60,7 +61,9 @@ sub FormIDRemove {
     my $Counter = 0;
     my @Data = ();
     foreach my $File (@List) {
-        unlink "$File" || die "$!";
+        $Self->{MainObject}->FileDelete(
+            Location => $File,
+        );
     }
     return 1;
 }
@@ -75,14 +78,24 @@ sub FormIDAddFile {
         }
     }
     # files must readable for creater
-    umask(066);
-    open (OUT, "> $Self->{TempDir}/$Param{FormID}.$Param{Filename}") || die "$!";
-    binmode(OUT);
-    print OUT $Param{Content};
-    close (OUT);
-    open (OUT, "> $Self->{TempDir}/$Param{FormID}.$Param{Filename}.ContentType") || die "$!";
-    print OUT $Param{ContentType};
-    close (OUT);
+    if (!$Self->{MainObject}->FileWrite(
+        Directory => $Self->{TempDir},
+        Filename => "$Param{FormID}.$Param{Filename}",
+        Content => \$Param{Content},
+        Mode => 'binmode',
+        Permission => '644',
+    )) {
+        return;
+    }
+    if (!$Self->{MainObject}->FileWrite(
+        Directory => $Self->{TempDir},
+        Filename => "$Param{FormID}.$Param{Filename}.ContentType",
+        Content => \$Param{ContentType},
+        Mode => 'binmode',
+        Permission => '644',
+    )) {
+        return;
+    }
     return 1;
 }
 
@@ -98,8 +111,14 @@ sub FormIDRemoveFile {
     my @Index = @{$Self->FormIDGetAllFilesMeta(%Param)};
     my $ID = $Param{FileID}-1;
     my %File = %{$Index[$ID]};
-    unlink "$Self->{TempDir}/$Param{FormID}.$File{Filename}" || die "$!: /tmp/up/$File{Filename}";
-    unlink "$Self->{TempDir}/$Param{FormID}.$File{Filename}.ContentType" || die "$!: /tmp/up/$File{Filename}.ContentType";
+    $Self->{MainObject}->FileDelete(
+        Directory => $Self->{TempDir},
+        Filename => "$Param{FormID}.$File{Filename}",
+    );
+    $Self->{MainObject}->FileDelete(
+        Directory => $Self->{TempDir},
+        Filename => "$Param{FormID}.$File{Filename}.ContentType",
+    );
     return 1;
 }
 
@@ -138,25 +157,25 @@ sub FormIDGetAllFilesData {
                     $FileSize = $FileSize.' Bytes';
                 }
             }
-            my $Content = '';
-            open (IN, "< $File") || die "$!";
-            binmode(IN);
-            while (<IN>) {
-                $Content .= $_;
+            my $Content = $Self->{MainObject}->FileRead(
+                Location => $File,
+                Mode => 'binmode', # optional - binmode|utf8
+            );
+            if (!$Content) {
+                next;
             }
-            close (IN);
-            my $ContentType = '';
-            open (IN, "< $File.ContentType") || die "$!";
-            binmode(IN);
-            while (<IN>) {
-                $ContentType .= $_;
+            my $ContentType = $Self->{MainObject}->FileRead(
+                Location => "$File.ContentType",
+                Mode => 'binmode', # optional - binmode|utf8
+            );
+            if (!$ContentType) {
+                next;
             }
-            close (IN);
             # strip filename
             $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
             push (@Data, {
-                Content => $Content,
-                ContentType => $ContentType,
+                Content => ${$Content},
+                ContentType => ${$ContentType},
                 Filename => $File,
                 Filesize => $FileSize,
                 FileID => $Counter,
