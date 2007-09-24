@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.t,v 1.7 2007-09-13 15:32:24 martin Exp $
+# $Id: Package.t,v 1.8 2007-09-24 04:35:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -55,6 +55,7 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
   </DatabaseUninstall>
   <Filelist>
     <File Location="Test" Permission="644" Encode="Base64">aGVsbG8K</File>
+    <File Location="var/Test" Permission="644" Encode="Base64">aGVsbG8K</File>
   </Filelist>
 </otrs_package>
 ';
