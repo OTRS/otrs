@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.11 2007-09-24 04:36:48 martin Exp $
+# $Id: Main.pm,v 1.12 2007-09-24 16:30:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -93,10 +93,12 @@ sub Require {
     if (!$Module) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need module!",
+            Message => 'Need module!',
         );
     }
-    if (eval "require $Module") {
+    $Module =~ s/::/\//g;
+    $Module .= '.pm';
+    if (require $Module) {
         # log loaded module
         if ($Self->{Debug} > 1) {
             $Self->{LogObject}->Log(
@@ -108,11 +110,9 @@ sub Require {
     }
     else {
         # check if file name exists
-        my $FileName = $Module.'.pm';
-        $FileName =~ s/::/\//g;
         my $Error = 0;
         foreach my $Prefix (@INC) {
-            my $File = "$Prefix/$FileName";
+            my $File = $Prefix . '/' . $Module;
             if (-f $File) {
                 $Error = $File;
                 last;
@@ -132,7 +132,7 @@ sub Require {
             $Self->{LogObject}->Log(
                 Caller => 1,
                 Priority => 'error',
-                Message => "Module '$Module' not found!",
+                Message => "Module $Module not found!",
             );
         }
         return;
@@ -630,6 +630,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2007-09-24 04:36:48 $
+$Revision: 1.12 $ $Date: 2007-09-24 16:30:01 $
 
 =cut
