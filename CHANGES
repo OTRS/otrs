@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.473 2007-09-24 04:52:19 martin Exp $
+# $Id: CHANGES,v 1.474 2007-09-25 10:04:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2007/09/25) Fixed bug 2312 - Wide character error in Layout.pm if system
+    runs in utf-8 mode.
  - (2007/09/18) Did some improvments in Kernel/Output/HTML/Layout.pm to
     get an better performance if the block function is used many times
     (e. g. > 1000 times, 30% faster).
