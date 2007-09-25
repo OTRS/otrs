@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.52 2007-09-18 13:21:07 tr Exp $
+# $Id: Layout.pm,v 1.53 2007-09-25 09:51:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2502,9 +2502,9 @@ sub Attachment {
     if (!$ENV{REQUEST_METHOD} || $ENV{REQUEST_METHOD} ne 'HEAD') {
         $Output .= $Param{Content};
     }
-    if ($Param{ContentType} && $Param{ContentType} =~ /^text\//i) {
-        $Self->{EncodeObject}->EncodeOutput(\$Output);
-    }
+    # encode output string
+    $Self->{EncodeObject}->EncodeOutput(\$Output);
+
     return $Output;
 }
 
@@ -3398,6 +3398,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2007-09-18 13:21:07 $
+$Revision: 1.53 $ $Date: 2007-09-25 09:51:28 $
 
 =cut
