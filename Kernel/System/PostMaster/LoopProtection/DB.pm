@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/LoopProtection/DB.pm - backend module of LoopProtection
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.7 2007-03-19 22:24:59 martin Exp $
+# $Id: DB.pm,v 1.8 2007-09-25 07:36:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::PostMaster::LoopProtection::DB;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {

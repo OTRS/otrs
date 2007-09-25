@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/LoopProtection/FS.pm - backend module of LoopProtection
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.7 2007-03-19 22:24:59 martin Exp $
+# $Id: FS.pm,v 1.8 2007-09-25 07:36:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::PostMaster::LoopProtection::FS;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -49,9 +50,9 @@ sub SendEmail {
     my $To = $Param{To} || return;
 
     # write log
-    if (open (DATA, ">> $Self->{LoopProtectionLog}")) {
-        print DATA "$To;".localtime().";\n";
-        close (DATA);
+    if (open (my $Out, '>>', $Self->{LoopProtectionLog})) {
+        print $Out "$To;".localtime().";\n";
+        close ($Out);
     }
     else {
         $Self->{LogObject}->Log(
@@ -70,27 +71,27 @@ sub Check {
     my $Count = 0;
 
     # check existing logfile
-    if (!open (DATA, "< $Self->{LoopProtectionLog}")) {
+    if (!open (my $In, '<', $Self->{LoopProtectionLog})) {
         # create new log file
-        if (!open (DATA, "> $Self->{LoopProtectionLog}")) {
+        if (!open (my $Out, '>', $Self->{LoopProtectionLog})) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message => "LoopProtection! Can't write '$Self->{LoopProtectionLog}': $!!",
             );
         }
         else {
-            close (DATA);
+            close ($Out);
         }
     }
     else {
         # open old log file
-        while (<DATA>) {
+        while (<$In>) {
             my @Data = split(/;/, $_);
             if ($Data[0] eq $To) {
                 $Count++;
             }
         }
-        close (DATA);
+        close ($In);
     }
 
     # check possible loop

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.46 2007-06-26 18:34:42 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.47 2007-09-25 07:37:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -31,7 +31,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
     # check needed Opjects
-    foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
+    foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject MainObject)) {
         if (!$Self->{$_}) {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
@@ -51,7 +51,6 @@ sub Run {
     # check mod perl version and Apache::Reload
     # ------------------------------------------------------------ #
     if (exists $ENV{MOD_PERL}) {
-        eval "require mod_perl";
         if (defined $mod_perl::VERSION) {
             if ($mod_perl::VERSION >= 1.99) {
                 # check if Apache::Reload is loaded
@@ -118,16 +117,13 @@ sub Run {
             );
         }
         elsif (-e $LocalFile) {
-            my $Content = '';
-            if (open(IN, "< $LocalFile")) {
-                # set bin mode
-                binmode IN;
-                while (<IN>) {
-                    $Content .= $_;
-                }
-                close (IN);
-                use Text::Diff;
-                my $Diff = diff(\$File, \$Content, { STYLE => 'OldStyle' });
+            my $Content = $Self->{MainObject}->FileRead(
+                Location => $LocalFile,
+                Mode => 'binmode',
+            );
+            if ($Content) {
+                $Self->{MainObject}->Require('Text::Diff');
+                my $Diff = Text::Diff::diff(\$File, $Content, { STYLE => 'OldStyle' });
                 $Self->{LayoutObject}->Block(
                     Name => "FileDiff",
                     Data => {
