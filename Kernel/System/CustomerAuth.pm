@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth.pm - provides the authentification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerAuth.pm,v 1.12 2007-08-21 11:28:51 martin Exp $
+# $Id: CustomerAuth.pm,v 1.13 2007-09-26 08:49:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,11 @@
 package Kernel::System::CustomerAuth;
 
 use strict;
+use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -77,8 +78,8 @@ sub new {
     foreach my $Count ('', 1..10) {
         my $GenericModule = $Self->{ConfigObject}->Get("Customer::AuthModule$Count");
         if ($GenericModule) {
-            if (!eval "require $GenericModule") {
-                die "Can't load auth backend module $GenericModule! $@";
+            if (!$Self->{MainObject}->Require($GenericModule)) {
+                $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
             }
             $Self->{"Backend$Count"} = $GenericModule->new(%Param, Count => $Count);
         }
@@ -164,6 +165,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2007-08-21 11:28:51 $
+$Revision: 1.13 $ $Date: 2007-09-26 08:49:31 $
 
 =cut
