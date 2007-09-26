@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.12 2007-02-06 11:11:09 martin Exp $
+# $Id: InterfacePublic.pm,v 1.13 2007-09-26 08:57:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::Web::InterfacePublic;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed  modules
@@ -221,9 +222,9 @@ sub Run {
                 $QueryString = "Action=".$Param{Action};
             }
             my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
-            if (open(OUT, ">> $File")) {
-                print OUT time()."::Public::".(time()-$Self->{PerformanceLogStart})."::-::$QueryString\n";
-                close (OUT);
+            if (open(my $Out, '>>', $File)) {
+                print $Out time()."::Public::".(time()-$Self->{PerformanceLogStart})."::-::$QueryString\n";
+                close ($Out);
                 $Self->{LogObject}->Log(
                     Priority => 'notice',
                     Message => "Response::Public: ".(time()-$Self->{PerformanceLogStart})."s taken (URL:$QueryString)",
@@ -273,6 +274,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2007-02-06 11:11:09 $
+$Revision: 1.13 $ $Date: 2007-09-26 08:57:58 $
 
 =cut

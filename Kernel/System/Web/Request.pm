@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.13 2007-05-24 20:25:37 martin Exp $
+# $Id: Request.pm,v 1.14 2007-09-26 08:57:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,11 @@
 package Kernel::System::Web::Request;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.13 $ ';
+$VERSION = '$Revision: 1.14 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -202,14 +203,14 @@ sub GetUploadAll {
                 File::Path::rmtree([$Path]);
             }
             # create upload dir
-            File::Path::mkpath([$Path], 0, 0700);
+            File::Path::mkpath([$Path], 0, '0700');
 
             $Param{UploadFilename} = "$Path/$NewFileName";
-            open (OUTFILE,"> $Param{UploadFilename}") || die $!;
+            open (my $Out,"> $Param{UploadFilename}") || die $!;
             while (<$Upload>) {
-                print OUTFILE $_;
+                print $Out $_;
             }
-            close (OUTFILE);
+            close ($Out);
         }
         # check if content is there, IE is always sending file uploades
         # without content
@@ -286,6 +287,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2007-05-24 20:25:37 $
+$Revision: 1.14 $ $Date: 2007-09-26 08:57:58 $
 
 =cut
