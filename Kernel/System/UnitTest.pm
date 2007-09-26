@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.11 2007-08-21 08:47:39 martin Exp $
+# $Id: UnitTest.pm,v 1.12 2007-09-26 09:16:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::UnitTest;
 
 use strict;
+use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -127,20 +128,16 @@ sub Run {
             next;
         }
         $Self->{TestCount} = 0;
-        my $ConfigFile = '';
-        if (open (IN, "< $File")) {
-            while (<IN>) {
-                $ConfigFile .= $_;
-            }
-            close (IN);
-        }
-        else {
+        my $ConfigFile = $Self->{MainObject}->FileRead(
+            Location => $File,
+        );
+        if (!$ConfigFile) {
             $Self->True(0, "ERROR: $!: $File");
             print STDERR "ERROR: $!: $File\n";
         }
-        if ($ConfigFile) {
+        else {
             $Self->_PrintHeadlineStart($File);
-            if (! eval $ConfigFile) {
+            if (! eval ${$ConfigFile}) {
                 $Self->True(0, "ERROR: Syntax error in $File: $@");
                 print STDERR "ERROR: Syntax error in $File: $@\n";
             }
@@ -162,52 +159,48 @@ sub Run {
     $ResultSummary{Perl} = sprintf "%vd", $^V;
     $ResultSummary{OS} = $^O;
     if (-e '/etc/SuSE-release') {
-        if (open(IN, "< /etc/SuSE-release")) {
-            while (<IN>) {
-                $ResultSummary{Vendor} = $_;
-                chomp ($ResultSummary{Vendor});
-                last;
-            }
-            close (IN);
+        my $ConfigFile = $Self->{MainObject}->FileRead(
+            Location => '/etc/SuSE-release',
+            Result => 'ARRAY',
+        );
+        if ($ConfigFile && $ConfigFile->[0]) {
+            $ResultSummary{Vendor} = $ConfigFile->[0];
         }
         else {
             $ResultSummary{Vendor} = 'SUSE unknown';
         }
     }
     elsif (-e '/etc/fedora-release') {
-        if (open(IN, "< /etc/fedora-release")) {
-            while (<IN>) {
-                $ResultSummary{Vendor} = $_;
-                chomp ($ResultSummary{Vendor});
-                last;
-            }
-            close (IN);
+        my $ConfigFile = $Self->{MainObject}->FileRead(
+            Location => '/etc/fedora-release',
+            Result => 'ARRAY',
+        );
+        if ($ConfigFile && $ConfigFile->[0]) {
+            $ResultSummary{Vendor} = $ConfigFile->[0];
         }
         else {
             $ResultSummary{Vendor} = 'fedora unknown';
         }
     }
     elsif (-e '/etc/redhat-release') {
-        if (open(IN, "< /etc/redhat-release")) {
-            while (<IN>) {
-                $ResultSummary{Vendor} = $_;
-                chomp ($ResultSummary{Vendor});
-                last;
-            }
-            close (IN);
+        my $ConfigFile = $Self->{MainObject}->FileRead(
+            Location => '/etc/redhat-release',
+            Result => 'ARRAY',
+        );
+        if ($ConfigFile && $ConfigFile->[0]) {
+            $ResultSummary{Vendor} = $ConfigFile->[0];
         }
         else {
             $ResultSummary{Vendor} = 'RedHat unknown';
         }
     }
     elsif (-e '/etc/debian_version') {
-        if (open(IN, "< /etc/debian_version")) {
-            while (<IN>) {
-                $ResultSummary{Vendor} = 'debian '.$_;
-                chomp ($ResultSummary{Vendor});
-                last;
-            }
-            close (IN);
+        my $ConfigFile = $Self->{MainObject}->FileRead(
+            Location => '/etc/debian_version',
+            Result => 'ARRAY',
+        );
+        if ($ConfigFile && $ConfigFile->[0]) {
+            $ResultSummary{Vendor} = 'debian '.$ConfigFile->[0];
         }
         else {
             $ResultSummary{Vendor} = 'debian unknown';
@@ -216,6 +209,7 @@ sub Run {
     else {
         $ResultSummary{Vendor} = 'unknown';
     }
+    chomp($ResultSummary{Vendor});
     $ResultSummary{Database} = $Self->{DBObject}->{'DB::Type'};
     $ResultSummary{TestOk} = $Self->{TestCountOk};
     $ResultSummary{TestNotOk} = $Self->{TestCountNotOk};
@@ -473,6 +467,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2007-08-21 08:47:39 $
+$Revision: 1.12 $ $Date: 2007-09-26 09:16:29 $
 
 =cut
