@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.12 2007-09-24 16:30:01 mh Exp $
+# $Id: Main.pm,v 1.13 2007-09-26 09:14:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -90,6 +90,7 @@ require/load a module
 sub Require {
     my $Self = shift;
     my $Module = shift;
+    my $Result = 0;
     if (!$Module) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -98,7 +99,43 @@ sub Require {
     }
     $Module =~ s/::/\//g;
     $Module .= '.pm';
-    if (require $Module) {
+    # check if module is already loaded
+    if (exists $INC{$Module}) {
+        # just return if it's already loaded
+        if ($INC{$Module}) {
+            return 1;
+        }
+        # if was not possible to load, log it
+        else {
+            $Self->{LogObject}->Log(
+                Caller => 1,
+                Priority => 'error',
+                Message => "Compilation failed in require!",
+            );
+            return;
+        }
+    }
+    # find full path of module
+    foreach my $Prefix (@INC) {
+        my $File = $Prefix . '/' . $Module;
+        if (-f $File) {
+            $INC{$Module} = $File;
+            $Result = do $File;
+            last;
+        }
+    }
+    # if there was an error
+    if ($@) {
+        $INC{$Module} = undef;
+        $Self->{LogObject}->Log(
+            Caller => 1,
+            Priority => 'error',
+            Message => "$@",
+        );
+        return;
+    }
+    # return true if module is loaded
+    elsif ($Result) {
         # log loaded module
         if ($Self->{Debug} > 1) {
             $Self->{LogObject}->Log(
@@ -108,33 +145,14 @@ sub Require {
         }
         return 1;
     }
+    # if there is no file, show not found error
     else {
-        # check if file name exists
-        my $Error = 0;
-        foreach my $Prefix (@INC) {
-            my $File = $Prefix . '/' . $Module;
-            if (-f $File) {
-                $Error = $File;
-                last;
-            }
-        }
-        # if file name exists, show syntax error
-        if ($Error) {
-            my $R = do $Error;
-            $Self->{LogObject}->Log(
-                Caller => 1,
-                Priority => 'error',
-                Message => "$@",
-            );
-        }
-        # if there is no file, show not found error
-        else {
-            $Self->{LogObject}->Log(
-                Caller => 1,
-                Priority => 'error',
-                Message => "Module $Module not found!",
-            );
-        }
+        delete $INC{$Module};
+        $Self->{LogObject}->Log(
+            Caller => 1,
+            Priority => 'error',
+            Message => "Module $Module not found!",
+        );
         return;
     }
 }
@@ -630,6 +648,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2007-09-24 16:30:01 $
+$Revision: 1.13 $ $Date: 2007-09-26 09:14:33 $
 
 =cut
