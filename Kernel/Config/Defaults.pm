@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.272 2007-07-26 14:15:30 martin Exp $
+# $Id: Defaults.pm,v 1.273 2007-09-26 23:04:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.272 $';
+$VERSION = '$Revision: 1.273 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -116,7 +116,7 @@ sub LoadDefaults {
 #    $Self->{'Database::Connect'} = 'SET NAMES utf8';
 
     # If you want to use the sql slow log feature, enable this here.
-    # (To log every sql query which takes longer the 8 sec.)
+    # (To log every sql query which takes longer the 4 sec.)
 #    $Self->{'Database::SlowLog'} = 0;
 
     # --------------------------------------------------- #
@@ -2093,11 +2093,11 @@ sub new {
                 next;
             }
             my $ConfigFile = '';
-            if (open (IN, "< $File")) {
-                while (<IN>) {
+            if (open (my $In, '<', $File)) {
+                while (<$In>) {
                     $ConfigFile .= $_;
                 }
-                close (IN);
+                close ($In);
             }
             else {
                 print STDERR "ERROR: $!: $File\n";
@@ -2115,8 +2115,8 @@ sub new {
     }
     # load RELEASE file
     if (-e "$Self->{Home}/RELEASE") {
-        if (open (PRODUCT, "< $Self->{Home}/RELEASE")) {
-            while (<PRODUCT>) {
+        if (open (my $Product, '<', "$Self->{Home}/RELEASE")) {
+            while (<$Product>) {
                 # filtering of comment lines
                 if ($_ !~ /^#/) {
                     if ($_ =~ /^PRODUCT\s{0,2}=\s{0,2}(.*)\s{0,2}$/i) {
@@ -2127,6 +2127,7 @@ sub new {
                     }
                 }
             }
+            close ($Product);
         }
         else {
             print STDERR "ERROR: Can't read $Self->{Home}/RELEASE: $! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
@@ -2172,6 +2173,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.272 $ $Date: 2007-07-26 14:15:30 $
+$Revision: 1.273 $ $Date: 2007-09-26 23:04:56 $
 
 =cut
