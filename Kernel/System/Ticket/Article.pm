@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.147 2007-08-22 13:13:52 sb Exp $
+# $Id: Article.pm,v 1.148 2007-09-26 09:03:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.147 $';
+$VERSION = '$Revision: 1.148 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -389,22 +389,24 @@ sub ArticleCreate {
         }
     }
     elsif ($Param{HistoryType} =~ /^FollowUp$/i) {
-        # send agent notification to all agents
+        # send agent notification to one or to all agents
         if ($Ticket{OwnerID} == 1 || $Ticket{Lock} eq 'unlock') {
-            my @OwnerIDs = ();
+            my @NotifyIDs = ();
             if ($Self->{ConfigObject}->Get('PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner')) {
-                @OwnerIDs = ($Ticket{OwnerID});
+                if ($Ticket{OwnerID} ne 1) {
+                    @NotifyIDs = ($Ticket{OwnerID});
+                }
             }
             else {
-                @OwnerIDs = $Self->GetSubscribedUserIDsByQueueID(QueueID => $Ticket{QueueID});
+                @NotifyIDs = $Self->GetSubscribedUserIDsByQueueID(QueueID => $Ticket{QueueID});
                 foreach (qw(OwnerID ResponsibleID)) {
                     # do not notify the admin
                     if ($Ticket{$_} && $Ticket{$_} ne 1) {
-                        push (@OwnerIDs, $Ticket{$_});
+                        push (@NotifyIDs, $Ticket{$_});
                     }
                 }
             }
-            foreach (@OwnerIDs) {
+            foreach (@NotifyIDs) {
                 if (!$AlreadySent{$_}) {
                     $AlreadySent{$_} = 1;
                     my %UserData = $Self->{UserObject}->GetUserData(
@@ -429,11 +431,13 @@ sub ArticleCreate {
         # send owner/responsible notification the agents who locked the ticket
         else {
             foreach (qw(OwnerID ResponsibleID)) {
-                if ($Ticket{$_}) {
+                if ($Ticket{$_} && $Ticket{$_} ne 1) {
                     if (!$AlreadySent{$Ticket{$_}}) {
                         $AlreadySent{$Ticket{$_}} = 1;
-                        my %UserData = $Self->{UserObject}->GetUserData(UserID => $Ticket{$_});
-                        if ($Ticket{$_} ne 1 && $UserData{UserSendFollowUpNotification}) {
+                        my %UserData = $Self->{UserObject}->GetUserData(
+                            UserID => $Ticket{$_},
+                        );
+                        if ($UserData{UserSendFollowUpNotification}) {
                             # send notification
                             $Self->SendAgentNotification(
                                 Type => $Param{HistoryType},
@@ -449,7 +453,7 @@ sub ArticleCreate {
             }
             # send the rest of agents follow ups
             foreach ($Self->GetSubscribedUserIDsByQueueID(QueueID => $Ticket{QueueID})) {
-                if (!$AlreadySent{$_}) {
+                if (!$AlreadySent{$_} && $_ ne 1) {
                     my %UserData = $Self->{UserObject}->GetUserData(
                         UserID => $_,
                         Cached => 1,
