@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.277 2007-09-27 00:09:15 martin Exp $
+# $Id: Ticket.pm,v 1.278 2007-09-27 00:11:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.277 $';
+$VERSION = '$Revision: 1.278 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -5173,7 +5173,7 @@ sub HistoryTicketGet {
         # if the request is for the last month or older, cache it
         if ($Year <= $Param{StopYear} && $Month > $Param{StopMonth}) {
             # create sub directory if needed
-            if (! -e $Path && !File::Path::mkpath([$Path], 0, 0775)) {
+            if (! -e $Path && !File::Path::mkpath([$Path], 0, '0775')) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message => "Can't create directory: $Path: $!",
@@ -6182,6 +6182,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.277 $ $Date: 2007-09-27 00:09:15 $
+$Revision: 1.278 $ $Date: 2007-09-27 00:11:07 $
 
 =cut
