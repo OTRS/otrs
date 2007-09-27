@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.276 2007-09-13 16:12:31 martin Exp $
+# $Id: Ticket.pm,v 1.277 2007-09-27 00:09:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.276 $';
+$VERSION = '$Revision: 1.277 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -5026,20 +5026,18 @@ sub HistoryTicketGet {
     );
     # write cache
     if (!$Param{Force} && -f "$Path/$File") {
-        if (open (DATA, "< $Path/$File")) {
-            while (<DATA>) {
-                if ($_ =~ /^(.+?):(.+?)$/) {
+        my $ContentARRAYRef = $Self->{MainObject}->FileRead(
+            Directory => $Path,
+            Filename => $File,
+            Result => 'ARRAY', # optional - SCALAR|ARRAY
+        );
+        if ($ContentARRAYRef) {
+            foreach my $Line (@{$ContentARRAYRef}) {
+                if ($Line =~ /^(.+?):(.+?)$/) {
                     $Ticket{$1} = $2;
                 }
             }
-            close (DATA);
             return %Ticket;
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "Can't open: $Path/$File: $!",
-            );
         }
     }
     # db quote
@@ -5182,18 +5180,15 @@ sub HistoryTicketGet {
                 );
             }
             # write cache file
-            if (open (DATA, "> $Path/$File")) {
-                foreach (keys %Ticket) {
-                    print DATA "$_:$Ticket{$_}\n";
-                }
-                close (DATA);
+            my $Content = '';
+            foreach my $Key (keys %Ticket) {
+                $Content .= "$Key:$Ticket{$Key}\n";
             }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't write: $Path/$File: $!",
-                );
-            }
+            $Self->{MainObject}->FileWrite(
+                Directory => $Path,
+                Filename => $File,
+                Content => \$Content,
+            );
         }
         return %Ticket;
     }
@@ -6187,6 +6182,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.276 $ $Date: 2007-09-13 16:12:31 $
+$Revision: 1.277 $ $Date: 2007-09-27 00:09:15 $
 
 =cut
