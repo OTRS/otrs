@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.17 2007-05-29 12:09:49 martin Exp $
+# $Id: Encode.pm,v 1.18 2007-09-27 18:47:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,11 @@
 package Kernel::System::Encode;
 
 use strict;
+use warnings;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -78,6 +79,10 @@ sub new {
             print STDERR "Charset encode not supported withyour perl version!\n";
         }
     }
+    # get internal charset
+    if ($Self->{CharsetEncodeSupported} && $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
+        $Self->{UTF8Support} = 1;
+    }
     return $Self;
 }
 
@@ -112,7 +117,7 @@ used.
 
 sub EncodeInternalUsed {
     my $Self = shift;
-    if ($Self->{CharsetEncodeSupported} && $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
+    if ($Self->{UTF8Support}) {
         return 'utf-8';
     }
     else {
@@ -133,7 +138,7 @@ used (then the translation charset (from translation file) will be used).
 
 sub EncodeFrontendUsed {
     my $Self = shift;
-    if ($Self->{CharsetEncodeSupported} && $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
+    if ($Self->{UTF8Support}) {
         return 'utf-8';
     }
     else {
@@ -344,6 +349,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2007-05-29 12:09:49 $
+$Revision: 1.18 $ $Date: 2007-09-27 18:47:33 $
 
 =cut

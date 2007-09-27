@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.47 2007-09-24 15:55:51 martin Exp $
+# $Id: Language.pm,v 1.48 2007-09-27 18:47:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -84,6 +84,10 @@ sub new {
     $Self->{TimeObject} = Kernel::System::Time->new(%Param);
     # 0=off; 1=on; 2=get all not translated words; 3=get all requests
     $Self->{Debug} = 0;
+    # check if LanguageDebug is configured
+    if ($Self->{ConfigObject}->Get('LanguageDebug')) {
+        $Self->{LanguageDebug} = 1;
+    }
     # user language
     $Self->{UserLanguage} = $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
     $Self->{TimeZone} = $Param{UserTimeZone} || $Param{TimeZone} || 0;
@@ -237,7 +241,7 @@ sub Get {
             );
         }
 
-        if ($Self->{ConfigObject}->Get('LanguageDebug')) {
+        if ($Self->{LanguageDebug}) {
             print STDERR "No translation available for '$What'\n";
         }
 
@@ -484,6 +488,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2007-09-24 15:55:51 $
+$Revision: 1.48 $ $Date: 2007-09-27 18:47:33 $
 
 =cut
