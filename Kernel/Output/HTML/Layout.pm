@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.53 2007-09-25 09:51:28 mh Exp $
+# $Id: Layout.pm,v 1.54 2007-09-27 18:53:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2627,8 +2627,9 @@ sub NavigationBar {
     }
     # create menu items
     my %NavBarModule = ();
-    foreach my $Module (sort keys %{$Self->{ConfigObject}->Get('Frontend::Module')}) {
-        my %Hash = %{$Self->{ConfigObject}->Get('Frontend::Module')->{$Module}};
+    my $FrontendModuleConfig = $Self->{ConfigObject}->Get('Frontend::Module');
+    foreach my $Module (sort keys %{$FrontendModuleConfig}) {
+        my %Hash = %{$FrontendModuleConfig->{$Module}};
         if ($Hash{NavBar} && ref($Hash{NavBar}) eq 'ARRAY') {
             my @Items = @{$Hash{NavBar}};
             foreach my $Item (@Items) {
@@ -3398,6 +3399,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2007-09-25 09:51:28 $
+$Revision: 1.54 $ $Date: 2007-09-27 18:53:17 $
 
 =cut
