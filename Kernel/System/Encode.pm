@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.18 2007-09-27 18:47:33 martin Exp $
+# $Id: Encode.pm,v 1.19 2007-09-28 08:40:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -72,7 +72,6 @@ sub new {
     # check if Perl 5.8.0 encode is available
     if (eval "require Encode") {
         $Self->{CharsetEncodeSupported} = 1;
-        $Self->SetIO(\*STDOUT, \*STDERR);
     }
     else {
         if ($Self->{Debug}) {
@@ -80,9 +79,12 @@ sub new {
         }
     }
     # get internal charset
-    if ($Self->{CharsetEncodeSupported} && $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
+    if ($Self->{CharsetEncodeSupported}
+        && $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
         $Self->{UTF8Support} = 1;
     }
+    # encode STDOUT and STDERR
+    $Self->SetIO(\*STDOUT, \*STDERR);
     return $Self;
 }
 
@@ -349,6 +351,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2007-09-27 18:47:33 $
+$Revision: 1.19 $ $Date: 2007-09-28 08:40:04 $
 
 =cut
