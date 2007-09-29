@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.36 2007-06-28 22:13:12 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.37 2007-09-29 10:39:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,63 +12,74 @@
 package Kernel::Modules::AgentTicketQueue;
 
 use strict;
+use warnings;
+
 use Kernel::System::State;
 use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
+
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
+
     # get common opjects
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
+
     # set debug
     $Self->{Debug} = 0;
+
     # check all needed objects
-    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject UserObject)) {
-        if (!$Self->{$_}) {
-            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+    for (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject UserObject)) {
+        if ( !$Self->{$_} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
 
     # some new objects
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-    $Self->{StateObject} = Kernel::System::State->new(%Param);
-    $Self->{LockObject} = Kernel::System::Lock->new(%Param);
+    $Self->{StateObject}        = Kernel::System::State->new(%Param);
+    $Self->{LockObject}         = Kernel::System::Lock->new(%Param);
 
     # get config data
-    $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('Ticket::ViewableSenderTypes') ||
-        $Self->{LayoutObject}->FatalError(Message => 'No Config entry "Ticket::ViewableSenderTypes"!');
+    $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('Ticket::ViewableSenderTypes')
+        || $Self->{LayoutObject}
+        ->FatalError( Message => 'No Config entry "Ticket::ViewableSenderTypes"!' );
     $Self->{CustomQueue} = $Self->{ConfigObject}->Get('Ticket::CustomQueue') || '???';
+
     # default viewable tickets a page
-    $Self->{ViewableTickets} = $Self->{UserQueueViewShowTickets} ||
-        $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected} || 15;
+    $Self->{ViewableTickets} = $Self->{UserQueueViewShowTickets}
+        || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected}
+        || 15;
+
     # get params
-    $Self->{ViewAll} = $Self->{ParamObject}->GetParam(Param => 'ViewAll') || 0;
-    $Self->{Start} = $Self->{ParamObject}->GetParam(Param => 'Start') || 1;
+    $Self->{ViewAll} = $Self->{ParamObject}->GetParam( Param => 'ViewAll' ) || 0;
+    $Self->{Start}   = $Self->{ParamObject}->GetParam( Param => 'Start' )   || 1;
+
     # viewable tickets a page
     $Self->{Limit} = $Self->{ViewableTickets} + $Self->{Start} - 1;
+
     # sure is sure!
     $Self->{MaxLimit} = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueMaxShown') || 1200;
-    if ($Self->{Limit} > $Self->{MaxLimit}) {
+    if ( $Self->{Limit} > $Self->{MaxLimit} ) {
         $Self->{Limit} = $Self->{MaxLimit};
     }
 
     # all static variables
     my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
-        Type => 'Viewable',
+        Type   => 'Viewable',
         Result => 'ID',
     );
     $Self->{ViewableStateIDs} = \@ViewableStateIDs;
-    my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock(Type => 'ID');
+    my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock( Type => 'ID' );
     $Self->{ViewableLockIDs} = \@ViewableLockIDs;
 
     $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
@@ -78,41 +89,49 @@ sub new {
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # store last queue screen
     $Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
-        Key => 'LastScreenOverview',
-        Value => $Self->{RequestedURL},
+        Key       => 'LastScreenOverview',
+        Value     => $Self->{RequestedURL},
     );
+
     # store last screen
     $Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
-        Key => 'LastScreenView',
-        Value => $Self->{RequestedURL},
+        Key       => 'LastScreenView',
+        Value     => $Self->{RequestedURL},
     );
+
     # starting with page ...
     my $Refresh = '';
-    if ($Self->{UserRefreshTime}) {
+    if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
-    my $Output = $Self->{LayoutObject}->Header(
-        Refresh => $Refresh,
-    );
+    my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+
     # build NavigationBar
     $Output .= $Self->{LayoutObject}->NavigationBar();
+
     # to get the output faster!
-    $Self->{LayoutObject}->Print(Output => \$Output); $Output = '';
+    $Self->{LayoutObject}->Print( Output => \$Output );
+    $Output = '';
 
     # check old tickets, show it and return if needed
     my $NoEscalationGroup = $Self->{ConfigObject}->Get('Ticket::Frontend::NoEscalationGroup') || '';
-    if ($Self->{UserID} eq '1' ||
-        ($Self->{"UserIsGroup[$NoEscalationGroup]"} && $Self->{"UserIsGroup[$NoEscalationGroup]"} eq 'Yes')
-    ) {
+    if ($Self->{UserID} eq '1'
+        || (   $Self->{"UserIsGroup[$NoEscalationGroup]"}
+            && $Self->{"UserIsGroup[$NoEscalationGroup]"} eq 'Yes' )
+        )
+    {
+
         # do not show escalated tickets
     }
     else {
+
 #        if (my @ViewableTickets = $Self->{TicketObject}->GetOverTimeTickets(UserID=> $Self->{UserID})) {
 #            # show over time ticket's
 #            $Self->{LayoutObject}->Block(
@@ -130,7 +149,7 @@ sub Run {
 #                ),
 #            );
 #            my $Counter = 0;
-#            foreach (@ViewableTickets) {
+#            for (@ViewableTickets) {
 #                $Counter++;
 #                $Self->{LayoutObject}->Print(
 #                    Output => \$Self->ShowTicket(
@@ -146,91 +165,94 @@ sub Run {
 
     # build queue view ...
     my @ViewableQueueIDs = ();
-    if ($Self->{QueueID} == 0) {
-        @ViewableQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(
-            UserID => $Self->{UserID},
-        );
+    if ( $Self->{QueueID} == 0 ) {
+        @ViewableQueueIDs = $Self->{QueueObject}->GetAllCustomQueues( UserID => $Self->{UserID}, );
     }
     else {
-        @ViewableQueueIDs = ($Self->{QueueID});
+        @ViewableQueueIDs = ( $Self->{QueueID} );
     }
-    $Self->BuildQueueView(QueueIDs => \@ViewableQueueIDs);
+    $Self->BuildQueueView( QueueIDs => \@ViewableQueueIDs );
     $Self->{LayoutObject}->Print(
         Output => \$Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketQueue',
-            Data => {
-                %Param,
-            },
+            Data         => { %Param, },
         ),
     );
+
     # get user groups
     my $Type = 'rw';
-    if ($Self->{ConfigObject}->Get('Ticket::QueueViewAllPossibleTickets')) {
+    if ( $Self->{ConfigObject}->Get('Ticket::QueueViewAllPossibleTickets') ) {
         $Type = 'ro';
     }
     my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
         UserID => $Self->{UserID},
-        Type => $Type,
+        Type   => $Type,
         Result => 'ID',
         Cached => 1,
     );
+
     # get data (viewable tickets...)
     my @ViewableTickets = ();
-    my $SortBy = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSortBy::Default') || 'Age';
+    my $SortBy      = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSortBy::Default') || 'Age';
     my %SortOptions = (
-        Owner => 'st.user_id',
-        CustomerID => 'st.customer_id',
-        State => 'st.ticket_state_id',
-        Ticket => 'st.tn',
-        Title => 'st.title',
-        Queue => 'sq.name',
-        Priority => 'st.ticket_priority_id',
-        Age => 'st.create_time_unix',
-        TicketFreeTime1 => 'st.freetime1',
-        TicketFreeTime2 => 'st.freetime2',
-        TicketFreeKey1 => 'st.freekey1',
-        TicketFreeText1 => 'st.freetext1',
-        TicketFreeKey2 => 'st.freekey2',
-        TicketFreeText2 => 'st.freetext2',
-        TicketFreeKey3 => 'st.freekey3',
-        TicketFreeText3 => 'st.freetext3',
-        TicketFreeKey4 => 'st.freekey4',
-        TicketFreeText4 => 'st.freetext4',
-        TicketFreeKey5 => 'st.freekey5',
-        TicketFreeText5 => 'st.freetext5',
-        TicketFreeKey6 => 'st.freekey6',
-        TicketFreeText6 => 'st.freetext6',
-        TicketFreeKey7 => 'st.freekey7',
-        TicketFreeText7 => 'st.freetext7',
-        TicketFreeKey8 => 'st.freekey8',
-        TicketFreeText8 => 'st.freetext8',
-        TicketFreeKey9 => 'st.freekey9',
-        TicketFreeText9 => 'st.freetext9',
-        TicketFreeKey10 => 'st.freekey10',
+        Owner            => 'st.user_id',
+        CustomerID       => 'st.customer_id',
+        State            => 'st.ticket_state_id',
+        Ticket           => 'st.tn',
+        Title            => 'st.title',
+        Queue            => 'sq.name',
+        Priority         => 'st.ticket_priority_id',
+        Age              => 'st.create_time_unix',
+        TicketFreeTime1  => 'st.freetime1',
+        TicketFreeTime2  => 'st.freetime2',
+        TicketFreeKey1   => 'st.freekey1',
+        TicketFreeText1  => 'st.freetext1',
+        TicketFreeKey2   => 'st.freekey2',
+        TicketFreeText2  => 'st.freetext2',
+        TicketFreeKey3   => 'st.freekey3',
+        TicketFreeText3  => 'st.freetext3',
+        TicketFreeKey4   => 'st.freekey4',
+        TicketFreeText4  => 'st.freetext4',
+        TicketFreeKey5   => 'st.freekey5',
+        TicketFreeText5  => 'st.freetext5',
+        TicketFreeKey6   => 'st.freekey6',
+        TicketFreeText6  => 'st.freetext6',
+        TicketFreeKey7   => 'st.freekey7',
+        TicketFreeText7  => 'st.freetext7',
+        TicketFreeKey8   => 'st.freekey8',
+        TicketFreeText8  => 'st.freetext8',
+        TicketFreeKey9   => 'st.freekey9',
+        TicketFreeText9  => 'st.freetext9',
+        TicketFreeKey10  => 'st.freekey10',
         TicketFreeText10 => 'st.freetext10',
-        TicketFreeKey11 => 'st.freekey11',
+        TicketFreeKey11  => 'st.freekey11',
         TicketFreeText11 => 'st.freetext11',
-        TicketFreeKey12 => 'st.freekey12',
+        TicketFreeKey12  => 'st.freekey12',
         TicketFreeText12 => 'st.freetext12',
-        TicketFreeKey13 => 'st.freekey13',
+        TicketFreeKey13  => 'st.freekey13',
         TicketFreeText13 => 'st.freetext13',
-        TicketFreeKey14 => 'st.freekey14',
+        TicketFreeKey14  => 'st.freekey14',
         TicketFreeText14 => 'st.freetext14',
-        TicketFreeKey15 => 'st.freekey15',
+        TicketFreeKey15  => 'st.freekey15',
         TicketFreeText15 => 'st.freetext15',
-        TicketFreeKey16 => 'st.freekey16',
+        TicketFreeKey16  => 'st.freekey16',
         TicketFreeText16 => 'st.freetext16',
     );
 
     my $Order = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueOrder::Default') || 'Up';
-    if (@ViewableQueueIDs && @GroupIDs) {
+    if ( @ViewableQueueIDs && @GroupIDs ) {
+
         # if we have only one queue, check if there
         # is a setting in Config.pm for sorting
-        if ($#ViewableQueueIDs == 0) {
+        if ( $#ViewableQueueIDs == 0 ) {
             my $QueueID = $ViewableQueueIDs[0];
-            if ($Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort')) {
-                if (defined($Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort')->{$QueueID})) {
-                    if ($Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort')->{$QueueID}) {
+            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort') ) {
+                if (defined(
+                        $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort')->{$QueueID}
+                    )
+                    )
+                {
+                    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort')->{$QueueID} ) {
                         $Order = 'Down';
                     }
                     else {
@@ -240,152 +262,159 @@ sub Run {
             }
         }
 
-        if ($Order eq 'Up') {
+        if ( $Order eq 'Up' ) {
             $Order = 'ASC';
         }
         else {
             $Order = 'DESC';
         }
+
         # build query
-        my $SQL = "SELECT st.id, st.queue_id FROM ".
-            " ticket st, queue sq ".
-            " WHERE ".
-            " sq.id = st.queue_id ".
-            " AND ".
-            " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) ".
-            " AND ";
-        if (!$Self->{ViewAll}) {
-            $SQL .= " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ".
-            " AND ";
+        my $SQL
+            = "SELECT st.id, st.queue_id FROM "
+            . " ticket st, queue sq "
+            . " WHERE "
+            . " sq.id = st.queue_id " . " AND "
+            . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " . " AND ";
+        if ( !$Self->{ViewAll} ) {
+            $SQL .= " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) "
+                . " AND ";
         }
         $SQL .= " st.queue_id IN ( ";
-        foreach (0..$#ViewableQueueIDs) {
-            if ($_ > 0) {
+        for ( 0 .. $#ViewableQueueIDs ) {
+            if ( $_ > 0 ) {
                 $SQL .= ",";
             }
-            $SQL .= $Self->{DBObject}->Quote($ViewableQueueIDs[$_]);
+            $SQL .= $Self->{DBObject}->Quote( $ViewableQueueIDs[$_] );
         }
-        $SQL .= " ) AND ".
-            " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
-            " ORDER BY st.ticket_priority_id DESC, $SortOptions{$SortBy} $Order";
-        $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});
+        $SQL
+            .= " ) AND "
+            . " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) "
+            . " ORDER BY st.ticket_priority_id DESC, $SortOptions{$SortBy} $Order";
+        $Self->{DBObject}->Prepare( SQL => $SQL, Limit => $Self->{Limit} );
         my $Counter = 0;
-        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-            if ($Counter >= ($Self->{Start}-1)) {
-                push (@ViewableTickets, $Row[0]);
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            if ( $Counter >= ( $Self->{Start} - 1 ) ) {
+                push( @ViewableTickets, $Row[0] );
             }
             $Counter++;
         }
     }
+
     # show ticket's
     my $Counter = 0;
-    foreach (@ViewableTickets) {
+    for (@ViewableTickets) {
         $Counter++;
         $Self->{LayoutObject}->Print(
             Output => \$Self->ShowTicket(
                 TicketID => $_,
-                Counter => $Counter,
+                Counter  => $Counter,
             ),
         );
     }
+
     # get page footer
     $Output .= $Self->{LayoutObject}->Footer();
+
     # return page
     return $Output;
 }
 
 sub ShowTicket {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self     = shift;
+    my %Param    = @_;
     my $TicketID = $Param{TicketID} || return;
-    my $Output = '';
+    my $Output   = '';
     $Param{QueueViewQueueID} = $Self->{QueueID};
     my %MoveQueues = $Self->{TicketObject}->MoveList(
         TicketID => $TicketID,
-        UserID => $Self->{UserID},
-        Action => $Self->{Action},
-        Type => 'move_into',
+        UserID   => $Self->{UserID},
+        Action   => $Self->{Action},
+        Type     => 'move_into',
     );
+
     # get last article
-    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
+    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $TicketID );
+
     # run article modules
-    if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticlePreViewModule')) eq 'HASH') {
-        my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticlePreViewModule')};
-        foreach my $Job (sort keys %Jobs) {
+    if ( ref( $Self->{ConfigObject}->Get('Ticket::Frontend::ArticlePreViewModule') ) eq 'HASH' ) {
+        my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticlePreViewModule') };
+        for my $Job ( sort keys %Jobs ) {
+
             # load module
-            if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
+            if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 my $Object = $Jobs{$Job}->{Module}->new(
                     %{$Self},
                     ArticleID => $Article{ArticleID},
-                    UserID => $Self->{UserID},
-                    Debug => $Self->{Debug},
+                    UserID    => $Self->{UserID},
+                    Debug     => $Self->{Debug},
                 );
+
                 # run module
-                my @Data = $Object->Check(Article=> \%Article, %Param, Config => $Jobs{$Job});
-                foreach my $DataRef (@Data) {
+                my @Data = $Object->Check( Article => \%Article, %Param, Config => $Jobs{$Job} );
+                for my $DataRef (@Data) {
                     $Self->{LayoutObject}->Block(
                         Name => 'ArticleOption',
                         Data => $DataRef,
                     );
                 }
+
                 # filter option
-                $Object->Filter(Article=> \%Article, %Param, Config => $Jobs{$Job});
+                $Object->Filter( Article => \%Article, %Param, Config => $Jobs{$Job} );
             }
             else {
                 return $Self->{LayoutObject}->FatalError();
             }
         }
     }
+
     # fetch all std. responses ...
-    my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $Article{QueueID});
+    my %StdResponses = $Self->{QueueObject}->GetStdResponses( QueueID => $Article{QueueID} );
+
     # customer info
     my %CustomerData = ();
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueue')) {
-        if ($Article{CustomerUserID}) {
-            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                User => $Article{CustomerUserID},
-            );
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueue') ) {
+        if ( $Article{CustomerUserID} ) {
+            %CustomerData = $Self->{CustomerUserObject}
+                ->CustomerUserDataGet( User => $Article{CustomerUserID}, );
         }
-        elsif ($Article{CustomerID}) {
-            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                CustomerID => $Article{CustomerID},
-            );
+        elsif ( $Article{CustomerID} ) {
+            %CustomerData = $Self->{CustomerUserObject}
+                ->CustomerUserDataGet( CustomerID => $Article{CustomerID}, );
         }
     }
 
     # build ticket view
-    foreach (qw(From To Cc Subject)) {
-        if ($Article{$_}) {
+    for (qw(From To Cc Subject)) {
+        if ( $Article{$_} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'Row',
                 Data => {
-                    Key => $_,
+                    Key   => $_,
                     Value => $Article{$_},
                 },
             );
         }
     }
-    foreach (1..3) {
-        if ($Article{"ArticleFreeText$_"}) {
+    for ( 1 .. 3 ) {
+        if ( $Article{"ArticleFreeText$_"} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleFreeText',
                 Data => {
-                    Key => $Article{"ArticleFreeKey$_"},
+                    Key   => $Article{"ArticleFreeKey$_"},
                     Value => $Article{"ArticleFreeText$_"},
                 },
             );
         }
     }
+
     # create human age
-    $Article{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Article{Age}, Space => ' ');
+    $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
 
     # customer info string
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueue')) {
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueue') ) {
         $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
-            Data => {
-                %Article,
-                %CustomerData,
-            },
+            Data => { %Article, %CustomerData, },
             Type => 'Lite',
             Max => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueueMaxSize'),
         );
@@ -394,64 +423,74 @@ sub ShowTicket {
             Data => \%Param,
         );
     }
+
     # get StdResponsesStrg
     $Param{StdResponsesStrg} = $Self->{LayoutObject}->TicketStdResponseString(
         StdResponsesRef => \%StdResponses,
-        TicketID => $Article{TicketID},
-        ArticleID => $Article{ArticleID},
+        TicketID        => $Article{TicketID},
+        ArticleID       => $Article{ArticleID},
     );
 
     # check if just a only html email
-    if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(%Article, Action => 'AgentTicketZoom')) {
+    if ( my $MimeTypeText
+        = $Self->{LayoutObject}->CheckMimeType( %Article, Action => 'AgentTicketZoom' ) )
+    {
         $Article{BodyNote} = $MimeTypeText;
-        $Article{Body} = '';
+        $Article{Body}     = '';
     }
     else {
+
         # html quoting
         $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
-            NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
-            Text => $Article{Body},
-            VMax => $Self->{ConfigObject}->Get('DefaultPreViewLines') || 25,
-            LinkFeature => 1,
+            NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
+            Text           => $Article{Body},
+            VMax           => $Self->{ConfigObject}->Get('DefaultPreViewLines') || 25,
+            LinkFeature    => 1,
             HTMLResultMode => 1,
         );
+
         # do charset check
         if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-            Action => 'AgentTicketZoom',
-            ContentCharset => $Article{ContentCharset},
-            TicketID => $Article{TicketID},
-            ArticleID => $Article{ArticleID} )) {
+                Action         => 'AgentTicketZoom',
+                ContentCharset => $Article{ContentCharset},
+                TicketID       => $Article{TicketID},
+                ArticleID      => $Article{ArticleID}
+            )
+            )
+        {
             $Article{BodyNote} = $CharsetText;
         }
     }
+
     # get acl actions
     $Self->{TicketObject}->TicketAcl(
-        Data => '-',
-        Action => $Self->{Action},
-        TicketID => $Article{TicketID},
-        ReturnType => 'Action',
+        Data          => '-',
+        Action        => $Self->{Action},
+        TicketID      => $Article{TicketID},
+        ReturnType    => 'Action',
         ReturnSubType => '-',
-        UserID => $Self->{UserID},
+        UserID        => $Self->{UserID},
     );
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+
     # run ticket pre menu modules
-    if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')) eq 'HASH') {
-        my %Menus = %{$Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')};
+    if ( ref( $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') ) eq 'HASH' ) {
+        my %Menus   = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
         my $Counter = 0;
-        foreach my $Menu (sort keys %Menus) {
+        for my $Menu ( sort keys %Menus ) {
+
             # load module
-            if ($Self->{MainObject}->Require($Menus{$Menu}->{Module})) {
-                my $Object = $Menus{$Menu}->{Module}->new(
-                    %{$Self},
-                    TicketID => $Self->{TicketID},
-                );
+            if ( $Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
+                my $Object
+                    = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Self->{TicketID}, );
+
                 # run module
                 $Counter = $Object->Run(
                     %Param,
-                    Ticket => \%Article,
+                    Ticket  => \%Article,
                     Counter => $Counter,
-                    ACL => \%AclAction,
-                    Config => $Menus{$Menu},
+                    ACL     => \%AclAction,
+                    Config  => $Menus{$Menu},
                 );
             }
             else {
@@ -459,85 +498,97 @@ sub ShowTicket {
             }
         }
     }
+
     # create output
-    if ($Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer') &&
-        $Article{CustomerUserID} &&
-        $Article{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
+    if (   $Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer')
+        && $Article{CustomerUserID}
+        && $Article{CustomerUserID} =~ /^$Self->{UserLogin}$/i )
+    {
         $Self->{LayoutObject}->Block(
             Name => 'AgentIsCustomer',
-            Data => {%Param, %Article, %AclAction},
+            Data => { %Param, %Article, %AclAction },
         );
     }
     else {
         $Self->{LayoutObject}->Block(
             Name => 'AgentAnswer',
-            Data => {%Param, %Article, %AclAction},
+            Data => { %Param, %Article, %AclAction },
         );
-        if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketCompose} &&
-            (!defined($AclAction{AgentTicketCompose}) || $AclAction{AgentTicketCompose})) {
+        if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketCompose}
+            && ( !defined( $AclAction{AgentTicketCompose} ) || $AclAction{AgentTicketCompose} ) )
+        {
             $Self->{LayoutObject}->Block(
                 Name => 'AgentAnswerCompose',
-                Data => {%Param, %Article, %AclAction},
+                Data => { %Param, %Article, %AclAction },
             );
         }
-        if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhoneOutbound} &&
-            (!defined($AclAction{AgentTicketPhoneOutbound}) || $AclAction{AgentTicketPhoneOutbound})) {
+        if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhoneOutbound}
+            && ( !defined( $AclAction{AgentTicketPhoneOutbound} )
+                || $AclAction{AgentTicketPhoneOutbound} )
+            )
+        {
             $Self->{LayoutObject}->Block(
                 Name => 'AgentAnswerPhoneOutbound',
-                Data => {%Param, %Article, %AclAction},
+                Data => { %Param, %Article, %AclAction },
             );
         }
     }
+
     # ticket bulk block
-    if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketBulk} &&
-        ($Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature'))) {
+    if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketBulk}
+        && ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) )
+    {
         $Self->{LayoutObject}->Block(
             Name => "Bulk",
             Data => { %Param, %Article },
         );
     }
+
     # ticket title
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::Title')) {
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::Title') ) {
         $Self->{LayoutObject}->Block(
             Name => 'Title',
             Data => { %Param, %Article },
         );
     }
+
     # ticket type
-    if ($Self->{ConfigObject}->Get('Ticket::Type')) {
+    if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
         $Self->{LayoutObject}->Block(
             Name => 'Type',
             Data => { %Param, %Article },
         );
     }
+
     # ticket service
-    if ($Self->{ConfigObject}->Get('Ticket::Service') && $Article{Service}) {
+    if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Article{Service} ) {
         $Self->{LayoutObject}->Block(
             Name => 'Service',
             Data => { %Param, %Article },
         );
-        if ($Article{SLA}) {
+        if ( $Article{SLA} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'SLA',
                 Data => { %Param, %Article },
             );
         }
     }
+
     # show first response time if needed
-    if (defined($Article{FirstResponseTime})) {
+    if ( defined( $Article{FirstResponseTime} ) ) {
         $Article{FirstResponseTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
-            Age => $Article{'FirstResponseTime'},
+            Age   => $Article{'FirstResponseTime'},
             Space => ' ',
         );
         $Article{FirstResponseTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
-            Age => $Article{'FirstResponseTimeWorkingTime'},
+            Age   => $Article{'FirstResponseTimeWorkingTime'},
             Space => ' ',
         );
         $Self->{LayoutObject}->Block(
             Name => 'FirstResponseTime',
             Data => { %Param, %Article },
         );
-        if (60*60*1 > $Article{FirstResponseTime}) {
+        if ( 60 * 60 * 1 > $Article{FirstResponseTime} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'FirstResponseTimeFontStart',
                 Data => { %Param, %Article },
@@ -548,21 +599,22 @@ sub ShowTicket {
             );
         }
     }
+
     # show update time if needed
-    if (defined($Article{UpdateTime})) {
+    if ( defined( $Article{UpdateTime} ) ) {
         $Article{UpdateTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
-            Age => $Article{'UpdateTime'},
+            Age   => $Article{'UpdateTime'},
             Space => ' ',
         );
         $Article{UpdateTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
-            Age => $Article{'UpdateTimeWorkingTime'},
+            Age   => $Article{'UpdateTimeWorkingTime'},
             Space => ' ',
         );
         $Self->{LayoutObject}->Block(
             Name => 'UpdateTime',
             Data => { %Param, %Article },
         );
-        if (60*60*1 > $Article{UpdateTime}) {
+        if ( 60 * 60 * 1 > $Article{UpdateTime} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'UpdateTimeFontStart',
                 Data => { %Param, %Article },
@@ -573,21 +625,22 @@ sub ShowTicket {
             );
         }
     }
+
     # show solution time if needed
-    if (defined($Article{SolutionTime})) {
+    if ( defined( $Article{SolutionTime} ) ) {
         $Article{SolutionTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
-            Age => $Article{'SolutionTime'},
+            Age   => $Article{'SolutionTime'},
             Space => ' ',
         );
         $Article{SolutionTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
-            Age => $Article{'SolutionTimeWorkingTime'},
+            Age   => $Article{'SolutionTimeWorkingTime'},
             Space => ' ',
         );
         $Self->{LayoutObject}->Block(
             Name => 'SolutionTime',
             Data => { %Param, %Article },
         );
-        if (60*60*1 > $Article{SolutionTime}) {
+        if ( 60 * 60 * 1 > $Article{SolutionTime} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'SolutionTimeFontStart',
                 Data => { %Param, %Article },
@@ -598,187 +651,213 @@ sub ShowTicket {
             );
         }
     }
+
     # get MoveQueuesStrg
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i) {
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
         $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-            Name => 'DestQueueID',
-            Data => \%MoveQueues,
+            Name       => 'DestQueueID',
+            Data       => \%MoveQueues,
             SelectedID => $Article{QueueID},
         );
     }
-    if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketMove} &&
-        (!defined($AclAction{AgentTicketMove}) || $AclAction{AgentTicketMove})) {
+    if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketMove}
+        && ( !defined( $AclAction{AgentTicketMove} ) || $AclAction{AgentTicketMove} ) )
+    {
         $Self->{LayoutObject}->Block(
             Name => 'Move',
-            Data => {%Param, %AclAction},
+            Data => { %Param, %AclAction },
         );
     }
+
     # create & return output
-    my $TicketView = $Self->{UserQueueView} || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueView}->{DataSelected};
-    if ($TicketView ne 'AgentTicketQueueTicketViewLite') {
+    my $TicketView = $Self->{UserQueueView}
+        || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueView}->{DataSelected};
+    if ( $TicketView ne 'AgentTicketQueueTicketViewLite' ) {
         return $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketQueueTicketView',
-            Data => { %Param, %Article, %AclAction},
+            Data         => { %Param, %Article, %AclAction },
         );
     }
     else {
         return $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketQueueTicketViewLite',
-            Data => { %Param, %Article, %AclAction},
+            Data         => { %Param, %Article, %AclAction },
         );
     }
 }
 
 sub BuildQueueView {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my %Data = $Self->{TicketObject}->TicketAcceleratorIndex(
-        UserID => $Self->{UserID},
-        QueueID => $Self->{QueueID},
+    my %Data  = $Self->{TicketObject}->TicketAcceleratorIndex(
+        UserID        => $Self->{UserID},
+        QueueID       => $Self->{QueueID},
         ShownQueueIDs => $Param{QueueIDs},
     );
+
     # check shown tickets
-    if ($Self->{MaxLimit} < $Data{TicketsAvail}) {
+    if ( $Self->{MaxLimit} < $Data{TicketsAvail} ) {
+
         # set max shown
         $Data{TicketsAvail} = $Self->{MaxLimit};
     }
+
     # show available tickets
-    if ($Self->{ViewAll}) {
+    if ( $Self->{ViewAll} ) {
         $Data{TicketsAvailAll} = $Data{AllTickets};
     }
     else {
         $Data{TicketsAvailAll} = $Data{TicketsAvail};
     }
+
     # check start option, if higher then tickets available, set
     # it to the last ticket page (Thanks to Stefan Schmidt!)
-    if ($Self->{Start} > $Data{TicketsAvailAll}) {
+    if ( $Self->{Start} > $Data{TicketsAvailAll} ) {
         my $PageShown = $Self->{ViewableTickets};
-        my $Pages = int(($Data{TicketsAvailAll} / $PageShown) + 0.99999);
-        $Self->{Start} = (($Pages - 1) * $PageShown) + 1;
+        my $Pages = int( ( $Data{TicketsAvailAll} / $PageShown ) + 0.99999 );
+        $Self->{Start} = ( ( $Pages - 1 ) * $PageShown ) + 1;
     }
+
     # build output ...
     my %AllQueues = $Self->{QueueObject}->GetAllQueues();
     $Self->_MaskQueueView(
         %Data,
-        QueueID => $Self->{QueueID},
-        AllQueues => \%AllQueues,
-        Start => $Self->{Start},
+        QueueID         => $Self->{QueueID},
+        AllQueues       => \%AllQueues,
+        Start           => $Self->{Start},
         ViewableTickets => $Self->{ViewableTickets},
     );
 }
 
 sub _MaskQueueView {
-    my $Self = shift;
-    my %Param = @_;
-    my $QueueID = $Param{QueueID} || 0;
-    my @QueuesNew = @{$Param{Queues}};
+    my $Self            = shift;
+    my %Param           = @_;
+    my $QueueID         = $Param{QueueID} || 0;
+    my @QueuesNew       = @{ $Param{Queues} };
     my $QueueIDOfMaxAge = $Param{QueueIDOfMaxAge} || -1;
-    my %AllQueues = %{$Param{AllQueues}};
-    my %Counter = ();
-    my %UsedQueue = ();
-    my @ListedQueues = ();
-    my $Level = 0;
-    $Self->{HighlightAge1} = $Self->{ConfigObject}->Get('HighlightAge1');
-    $Self->{HighlightAge2} = $Self->{ConfigObject}->Get('HighlightAge2');
+    my %AllQueues       = %{ $Param{AllQueues} };
+    my %Counter         = ();
+    my %UsedQueue       = ();
+    my @ListedQueues    = ();
+    my $Level           = 0;
+    $Self->{HighlightAge1}   = $Self->{ConfigObject}->Get('HighlightAge1');
+    $Self->{HighlightAge2}   = $Self->{ConfigObject}->Get('HighlightAge2');
     $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
     $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
     my $CustomQueue = $Self->{ConfigObject}->Get('Ticket::CustomQueue');
     $CustomQueue = $Self->{LayoutObject}->{LanguageObject}->Get($CustomQueue);
 
     $Param{SelectedQueue} = $AllQueues{$QueueID} || $CustomQueue;
-    my @MetaQueue = split(/::/, $Param{SelectedQueue});
-    $Level = $#MetaQueue+2;
+    my @MetaQueue = split( /::/, $Param{SelectedQueue} );
+    $Level = $#MetaQueue + 2;
 
     # prepare shown queues (short names)
     # - get queue total count -
-    foreach my $QueueRef (@QueuesNew) {
-        push (@ListedQueues, $QueueRef);
+    for my $QueueRef (@QueuesNew) {
+        push( @ListedQueues, $QueueRef );
         my %Queue = %$QueueRef;
-        my @Queue = split(/::/, $Queue{Queue});
+        my @Queue = split( /::/, $Queue{Queue} );
 
         # remember counted/used queues
-        $UsedQueue{$Queue{Queue}} = 1;
+        $UsedQueue{ $Queue{Queue} } = 1;
 
         # move to short queue names
         my $QueueName = '';
-        foreach (0..$#Queue) {
-            if (!$QueueName) {
+        for ( 0 .. $#Queue ) {
+            if ( !$QueueName ) {
                 $QueueName .= $Queue[$_];
             }
             else {
-                $QueueName .= '::'.$Queue[$_];
+                $QueueName .= '::' . $Queue[$_];
             }
-            if (!$Counter{$QueueName}) {
+            if ( !$Counter{$QueueName} ) {
                 $Counter{$QueueName} = 0;
             }
-            $Counter{$QueueName} = $Counter{$QueueName}+$Queue{Count};
-            if ($Counter{$QueueName} && !$Queue{$QueueName} && !$UsedQueue{$QueueName}) {
+            $Counter{$QueueName} = $Counter{$QueueName} + $Queue{Count};
+            if ( $Counter{$QueueName} && !$Queue{$QueueName} && !$UsedQueue{$QueueName} ) {
                 my %Hash = ();
                 $Hash{Queue} = $QueueName;
                 $Hash{Count} = $Counter{$QueueName};
-                foreach (keys %AllQueues) {
-                    if ($AllQueues{$_} eq $QueueName) {
+                for ( keys %AllQueues ) {
+                    if ( $AllQueues{$_} eq $QueueName ) {
                         $Hash{QueueID} = $_;
                     }
                 }
                 $Hash{MaxAge} = 0;
-                push (@ListedQueues, \%Hash);
+                push( @ListedQueues, \%Hash );
                 $UsedQueue{$QueueName} = 1;
             }
         }
     }
+
     # build queue string
-    foreach my $QueueRef (@ListedQueues) {
+    for my $QueueRef (@ListedQueues) {
         my $QueueStrg = '';
-        my %Queue = %$QueueRef;
+        my %Queue     = %$QueueRef;
+
         # replace name of CustomQueue
-        if ($Queue{Queue} eq 'CustomQueue') {
-            $Counter{$CustomQueue} = $Counter{$Queue{Queue}};
+        if ( $Queue{Queue} eq 'CustomQueue' ) {
+            $Counter{$CustomQueue} = $Counter{ $Queue{Queue} };
             $Queue{Queue} = $CustomQueue;
         }
-        my @QueueName = split(/::/, $Queue{Queue});
+        my @QueueName = split( /::/, $Queue{Queue} );
         my $ShortQueueName = $QueueName[$#QueueName];
         $Queue{MaxAge} = $Queue{MaxAge} / 60;
-        $Queue{QueueID} = 0 if (!$Queue{QueueID});
+        $Queue{QueueID} = 0 if ( !$Queue{QueueID} );
+
         # should i highlight this queue
-        if ($Param{SelectedQueue} =~ /^\Q$QueueName[0]\E/ && $Level-1 >= $#QueueName) {
-            if ($#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^\Q$MetaQueue[0]\E$/) {
+        if ( $Param{SelectedQueue} =~ /^\Q$QueueName[0]\E/ && $Level - 1 >= $#QueueName ) {
+            if ( $#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^\Q$MetaQueue[0]\E$/ ) {
                 $QueueStrg .= '<b>';
             }
-            if ($#QueueName == 1 && $#MetaQueue >= 1 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]\E$/) {
+            if (   $#QueueName == 1
+                && $#MetaQueue >= 1
+                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]\E$/ )
+            {
                 $QueueStrg .= '<b>';
             }
-            if ($#QueueName == 2 && $#MetaQueue >= 2 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]\E$/) {
+            if (   $#QueueName == 2
+                && $#MetaQueue >= 2
+                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]\E$/ )
+            {
                 $QueueStrg .= '<b>';
             }
-            if ($#QueueName == 3 && $#MetaQueue >= 3 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]\E$/) {
+            if (   $#QueueName == 3
+                && $#MetaQueue >= 3
+                && $Queue{Queue}
+                =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]\E$/ )
+            {
                 $QueueStrg .= '<b>';
             }
         }
 
         # remember to selected queue info
-        if ($QueueID eq $Queue{QueueID}) {
+        if ( $QueueID eq $Queue{QueueID} ) {
             $Param{SelectedQueue} = $Queue{Queue};
-            $Param{AllSubTickets} = $Counter{$Queue{Queue}};
+            $Param{AllSubTickets} = $Counter{ $Queue{Queue} };
 
             # build Page Navigator for AgentTicketQueue
             $Param{PageShown} = $Param{'ViewableTickets'};
-            if ($Param{TicketsAvailAll} == 1 || $Param{TicketsAvailAll} == 0) {
+            if ( $Param{TicketsAvailAll} == 1 || $Param{TicketsAvailAll} == 0 ) {
                 $Param{Result} = $Param{TicketsAvailAll};
             }
-            elsif ($Param{TicketsAvailAll} >= ($Param{Start}+$Param{PageShown})) {
-                $Param{Result} = $Param{Start}."-".($Param{Start}+$Param{PageShown}-1);
+            elsif ( $Param{TicketsAvailAll} >= ( $Param{Start} + $Param{PageShown} ) ) {
+                $Param{Result} = $Param{Start} . "-" . ( $Param{Start} + $Param{PageShown} - 1 );
             }
             else {
                 $Param{Result} = "$Param{Start}-$Param{TicketsAvailAll}";
             }
-            my $Pages = int(($Param{TicketsAvailAll} / $Param{PageShown}) + 0.99999);
-            my $Page = int(($Param{Start} / $Param{PageShown}) + 0.99999);
-            for (my $i = 1; $i <= $Pages; $i++) {
-                $Param{PageNavBar} .= " <a href=\"$Self->{LayoutObject}->{Baselink}Action=\$Env{\"Action\"}".
-                    '&QueueID=$Data{"QueueID"}&ViewAll='.$Self->{ViewAll}.'&Start='. (($i-1)*$Param{PageShown}+1) .= '">';
-                if ($Page == $i) {
-                    $Param{PageNavBar} .= '<b>'.($i).'</b>';
+            my $Pages = int( ( $Param{TicketsAvailAll} / $Param{PageShown} ) + 0.99999 );
+            my $Page  = int( ( $Param{Start} / $Param{PageShown} ) + 0.99999 );
+            for ( my $i = 1; $i <= $Pages; $i++ ) {
+                $Param{PageNavBar}
+                    .= " <a href=\"$Self->{LayoutObject}->{Baselink}Action=\$Env{\"Action\"}"
+                    . '&QueueID=$Data{"QueueID"}&ViewAll='
+                    . $Self->{ViewAll}
+                    . '&Start='
+                    . ( ( $i - 1 ) * $Param{PageShown} + 1 ) .= '">';
+                if ( $Page == $i ) {
+                    $Param{PageNavBar} .= '<b>' . ($i) . '</b>';
                 }
                 else {
                     $Param{PageNavBar} .= ($i);
@@ -786,80 +865,112 @@ sub _MaskQueueView {
                 $Param{PageNavBar} .= '</a> ';
             }
         }
-        $QueueStrg .= "<a href=\"$Self->{LayoutObject}->{Baselink}Action=AgentTicketQueue&QueueID=$Queue{QueueID}\"";
-        $QueueStrg .= ' onmouseover="window.status=\'$Text{"Queue"}: '.$Queue{Queue}.'\'; return true;" onmouseout="window.status=\'\';">';
+        $QueueStrg
+            .= "<a href=\"$Self->{LayoutObject}->{Baselink}Action=AgentTicketQueue&QueueID=$Queue{QueueID}\"";
+        $QueueStrg
+            .= ' onmouseover="window.status=\'$Text{"Queue"}: '
+            . $Queue{Queue}
+            . '\'; return true;" onmouseout="window.status=\'\';">';
+
         # should i highlight this queue
-        if ($Queue{MaxAge} >= $Self->{HighlightAge2}) {
+        if ( $Queue{MaxAge} >= $Self->{HighlightAge2} ) {
             $QueueStrg .= "<font color='$Self->{HighlightColor2}'>";
         }
-        elsif ($Queue{MaxAge} >= $Self->{HighlightAge1}) {
+        elsif ( $Queue{MaxAge} >= $Self->{HighlightAge1} ) {
             $QueueStrg .= "<font color='$Self->{HighlightColor1}'>";
         }
+
         # the oldest queue
-        if ($Queue{QueueID} == $QueueIDOfMaxAge) {
+        if ( $Queue{QueueID} == $QueueIDOfMaxAge ) {
             $QueueStrg .= "<blink>";
         }
+
         # QueueStrg
-        $QueueStrg .= $Self->{LayoutObject}->Ascii2Html(Text => $ShortQueueName)." ($Counter{$Queue{Queue}})";
+        $QueueStrg .= $Self->{LayoutObject}->Ascii2Html( Text => $ShortQueueName )
+            . " ($Counter{$Queue{Queue}})";
+
         # the oldest queue
-        if ($Queue{QueueID} == $QueueIDOfMaxAge) {
+        if ( $Queue{QueueID} == $QueueIDOfMaxAge ) {
             $QueueStrg .= "</blink>";
         }
+
         # should i highlight this queue
-        if ($Queue{MaxAge} >= $Self->{HighlightAge1} || $Queue{MaxAge} >= $Self->{HighlightAge2}) {
+        if ( $Queue{MaxAge} >= $Self->{HighlightAge1} || $Queue{MaxAge} >= $Self->{HighlightAge2} )
+        {
             $QueueStrg .= "</font>";
         }
         $QueueStrg .= "</a>";
+
         # should i highlight this queue
-        if ($Param{SelectedQueue} =~ /^\Q$QueueName[0]\E/ && $Level >= $#QueueName) {
-            if ($#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^\Q$MetaQueue[0]\E$/) {
+        if ( $Param{SelectedQueue} =~ /^\Q$QueueName[0]\E/ && $Level >= $#QueueName ) {
+            if ( $#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^\Q$MetaQueue[0]\E$/ ) {
                 $QueueStrg .= '</b>';
             }
-            if ($#QueueName == 1 && $#MetaQueue >= 1 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]\E$/) {
+            if (   $#QueueName == 1
+                && $#MetaQueue >= 1
+                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]\E$/ )
+            {
                 $QueueStrg .= '</b>';
             }
-            if ($#QueueName == 2 && $#MetaQueue >= 2 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]\E$/) {
+            if (   $#QueueName == 2
+                && $#MetaQueue >= 2
+                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]\E$/ )
+            {
                 $QueueStrg .= '</b>';
             }
-            if ($#QueueName == 3 && $#MetaQueue >= 3 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]\E$/) {
+            if (   $#QueueName == 3
+                && $#MetaQueue >= 3
+                && $Queue{Queue}
+                =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]\E$/ )
+            {
                 $QueueStrg .= '</b>';
             }
         }
 
-        if ($#QueueName == 0) {
-            if ($Param{QueueStrg}) {
-                $QueueStrg = ' - '.$QueueStrg;
+        if ( $#QueueName == 0 ) {
+            if ( $Param{QueueStrg} ) {
+                $QueueStrg = ' - ' . $QueueStrg;
             }
             $Param{QueueStrg} .= $QueueStrg;
         }
-        elsif ($#QueueName == 1 && $Level >= 2 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::\E/) {
-            if ($Param{QueueStrg1}) {
-                $QueueStrg = ' - '.$QueueStrg;
+        elsif ( $#QueueName == 1 && $Level >= 2 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::\E/ ) {
+            if ( $Param{QueueStrg1} ) {
+                $QueueStrg = ' - ' . $QueueStrg;
             }
             $Param{QueueStrg1} .= $QueueStrg;
         }
-        elsif ($#QueueName == 2 && $Level >= 3 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::\E/) {
-            if ($Param{QueueStrg2}) {
-                $QueueStrg = ' - '.$QueueStrg;
+        elsif ($#QueueName == 2
+            && $Level >= 3
+            && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::\E/ )
+        {
+            if ( $Param{QueueStrg2} ) {
+                $QueueStrg = ' - ' . $QueueStrg;
             }
             $Param{QueueStrg2} .= $QueueStrg;
         }
-        elsif ($#QueueName == 3 && $Level >= 4 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::\E/) {
-            if ($Param{QueueStrg3}) {
-                $QueueStrg = ' - '.$QueueStrg;
+        elsif ($#QueueName == 3
+            && $Level >= 4
+            && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::\E/ )
+        {
+            if ( $Param{QueueStrg3} ) {
+                $QueueStrg = ' - ' . $QueueStrg;
             }
             $Param{QueueStrg3} .= $QueueStrg;
         }
-        elsif ($#QueueName == 4 && $Level >= 5 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]::\E/) {
-            if ($Param{QueueStrg4}) {
-                $QueueStrg = ' - '.$QueueStrg;
+        elsif ($#QueueName == 4
+            && $Level >= 5
+            && $Queue{Queue}
+            =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]::\E/ )
+        {
+            if ( $Param{QueueStrg4} ) {
+                $QueueStrg = ' - ' . $QueueStrg;
             }
             $Param{QueueStrg4} .= $QueueStrg;
         }
     }
-    foreach (1..5) {
-        if ($Param{'QueueStrg'.$_}) {
-            $Param{'QueueStrg'} .= '<br>'.$Param{'QueueStrg'.$_};
+    for ( 1 .. 5 ) {
+        if ( $Param{ 'QueueStrg' . $_ } ) {
+            $Param{'QueueStrg'} .= '<br>' . $Param{ 'QueueStrg' . $_ };
         }
     }
     $Self->{LayoutObject}->Block(

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSession.pm - to control all session ids
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSession.pm,v 1.27 2007-02-06 19:25:42 martin Exp $
+# $Id: AdminSession.pm,v 1.28 2007-09-29 10:39:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,27 +12,26 @@
 package Kernel::Modules::AdminSession;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
-
-    foreach (keys %Param) {
+    bless( $Self, $Type );
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject TimeObject)) {
-        if (!$Self->{$_}) {
-            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+    for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject TimeObject)) {
+        if ( !$Self->{$_} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
 
@@ -40,67 +39,72 @@ sub new {
 }
 
 sub Run {
-    my $Self = shift;
-    my %Param = @_;
-    my $WantSessionID = $Self->{ParamObject}->GetParam(Param => 'WantSessionID') || '';
+    my $Self          = shift;
+    my %Param         = @_;
+    my $WantSessionID = $Self->{ParamObject}->GetParam( Param => 'WantSessionID' ) || '';
 
     # ------------------------------------------------------------ #
     # kill session id
     # ------------------------------------------------------------ #
-    if ($Self->{Subaction} eq 'Kill') {
-        $Self->{SessionObject}->RemoveSessionID(SessionID => $WantSessionID);
-        return $Self->{LayoutObject}->Redirect(OP => "Action=AdminSession");
+    if ( $Self->{Subaction} eq 'Kill' ) {
+        $Self->{SessionObject}->RemoveSessionID( SessionID => $WantSessionID );
+        return $Self->{LayoutObject}->Redirect( OP => "Action=AdminSession" );
     }
+
     # ------------------------------------------------------------ #
     # kill all session id
     # ------------------------------------------------------------ #
-    elsif ($Self->{Subaction} eq 'KillAll') {
+    elsif ( $Self->{Subaction} eq 'KillAll' ) {
         my @List = $Self->{SessionObject}->GetAllSessionIDs();
-        foreach my $SessionID (@List) {
+        for my $SessionID (@List) {
+
             # killall sessions but not the own one!
-            if ($WantSessionID ne $SessionID) {
-                $Self->{SessionObject}->RemoveSessionID(SessionID => $SessionID);
+            if ( $WantSessionID ne $SessionID ) {
+                $Self->{SessionObject}->RemoveSessionID( SessionID => $SessionID );
             }
         }
-        return $Self->{LayoutObject}->Redirect(OP => "Action=AdminSession");
+        return $Self->{LayoutObject}->Redirect( OP => "Action=AdminSession" );
     }
+
     # ------------------------------------------------------------ #
     # else, show session list
     # ------------------------------------------------------------ #
     else {
+
         # get all sessions
-        my @List = $Self->{SessionObject}->GetAllSessionIDs();
-        my $Table = '';
-        my $Counter = @List;
+        my @List     = $Self->{SessionObject}->GetAllSessionIDs();
+        my $Table    = '';
+        my $Counter  = @List;
         my %MetaData = ();
-        $MetaData{UserSession} = 0;
-        $MetaData{CustomerSession} = 0;
-        $MetaData{UserSessionUniq} = 0;
+        $MetaData{UserSession}         = 0;
+        $MetaData{CustomerSession}     = 0;
+        $MetaData{UserSessionUniq}     = 0;
         $MetaData{CustomerSessionUniq} = 0;
-        foreach my $SessionID (@List) {
+        for my $SessionID (@List) {
             my $List = '';
-            my %Data = $Self->{SessionObject}->GetSessionIDData(SessionID => $SessionID);
+            my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $SessionID );
             $MetaData{"$Data{UserType}Session"}++;
-            if (!$MetaData{"$Data{UserLogin}"}) {
+            if ( !$MetaData{"$Data{UserLogin}"} ) {
                 $MetaData{"$Data{UserType}SessionUniq"}++;
                 $MetaData{"$Data{UserLogin}"} = 1;
             }
-            foreach (sort keys %Data) {
-                if (($_) && (defined($Data{$_})) && $_ ne 'SessionID') {
-                    if ($_ =~ /^_/) {
+            for ( sort keys %Data ) {
+                if ( ($_) && ( defined( $Data{$_} ) ) && $_ ne 'SessionID' ) {
+                    if ( $_ =~ /^_/ ) {
                         next;
                     }
-                    if ($_ =~ /Password|Pw/) {
+                    if ( $_ =~ /Password|Pw/ ) {
                         $Data{$_} = 'xxxxxxxx';
                     }
                     else {
-                        $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_});
+                        $Data{$_} = $Self->{LayoutObject}->Ascii2Html( Text => $Data{$_} );
                     }
-                    if ($_  eq 'UserSessionStart') {
-                        my $Age = int(($Self->{TimeObject}->SystemTime() - $Data{UserSessionStart}) / 3600);
-                        my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
-                            SystemTime => $Data{UserSessionStart},
-                        );
+                    if ( $_ eq 'UserSessionStart' ) {
+                        my $Age
+                            = int( ( $Self->{TimeObject}->SystemTime() - $Data{UserSessionStart} )
+                            / 3600 );
+                        my $TimeStamp = $Self->{TimeObject}
+                            ->SystemTime2TimeStamp( SystemTime => $Data{UserSessionStart}, );
                         $List .= "" . $_ . "=$TimeStamp / $Age h; ";
                     }
                     else {
@@ -108,22 +112,24 @@ sub Run {
                     }
                 }
             }
+
             # create blocks
             $Self->{LayoutObject}->Block(
                 Name => 'Session',
                 Data => {
                     SessionID => $SessionID,
-                    Output => $List,
+                    Output    => $List,
                     %Data,
                 },
             );
         }
+
         # generate output
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSession',
-            Data => {
+            Data         => {
                 Counter => $Counter,
                 %MetaData
             }

@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.273 2007-09-26 23:04:56 martin Exp $
+# $Id: Defaults.pm,v 1.274 2007-09-29 10:34:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,10 +21,10 @@
 package Kernel::Config::Defaults;
 
 use strict;
+use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.273 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.274 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -61,7 +61,7 @@ sub LoadDefaults {
     # Organization
     # (If this is anything other than '', then the email will have an
     # Organization X-Header)
-#    $Self->{Organization} = 'Example Company';
+    #    $Self->{Organization} = 'Example Company';
     $Self->{Organization} = '';
 
     # ProductName
@@ -89,21 +89,22 @@ sub LoadDefaults {
 
     # DatabaseDSN
     # (The database DSN for MySQL ==> more: "man DBD::mysql")
-    $Self->{DatabaseDSN} = "DBI:mysql:database=<OTRS_CONFIG_Database>;host=<OTRS_CONFIG_DatabaseHost>;";
+    $Self->{DatabaseDSN}
+        = "DBI:mysql:database=<OTRS_CONFIG_Database>;host=<OTRS_CONFIG_DatabaseHost>;";
 
-    # (The database DSN for PostgreSQL ==> more: "man DBD::Pg")
+# (The database DSN for PostgreSQL ==> more: "man DBD::Pg")
 #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=<OTRS_CONFIG_Database>;host=<OTRS_CONFIG_DatabaseHost>;";
 
     # (The database DSN for DBI:ODBC ==> more: "man DBD::ODBC")
-#    $Self->{DatabaseDSN} = "DBI:ODBC:$Self->{Database}";
+    #    $Self->{DatabaseDSN} = "DBI:ODBC:$Self->{Database}";
     # If you use ODBC, no database auto detection is possible,
     # so set the database type here. Possible: mysq,postgresql,sapdb
-#    $Self->{'Database::Type'} = 'sapdb';
+    #    $Self->{'Database::Type'} = 'sapdb';
 
-    # (The database DSN for Oracle ==> more: "man DBD::oracle")
+# (The database DSN for Oracle ==> more: "man DBD::oracle")
 #    $Self->{DatabaseDSN} = "DBI:Oracle:sid=$Self->{Database};host=$Self->{DatabaseHost};port=1521;";
 #    $Self->{DatabaseDSN} = "DBI:Oracle:sid=vingador;host=vingador;port=1521;";
-    # if needed, oracle env settings
+# if needed, oracle env settings
 #    $ENV{ORACLE_HOME} = '/opt/ora9/product/9.2';
 #    $ENV{ORACLE_HOME} = '/oracle/Ora92';
 #    $ENV{NLS_DATE_FORMAT} = 'YYYY-MM-DD HH24:MI:SS';
@@ -113,11 +114,11 @@ sub LoadDefaults {
 
     # If you want to use an init sql after connect, use this hier.
     # (e. g. can be used for mysql encoding between client and server)
-#    $Self->{'Database::Connect'} = 'SET NAMES utf8';
+    #    $Self->{'Database::Connect'} = 'SET NAMES utf8';
 
     # If you want to use the sql slow log feature, enable this here.
     # (To log every sql query which takes longer the 4 sec.)
-#    $Self->{'Database::SlowLog'} = 0;
+    #    $Self->{'Database::SlowLog'} = 0;
 
     # --------------------------------------------------- #
     # default values                                      #
@@ -125,41 +126,47 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # default valid
     $Self->{DefaultValid} = 'valid';
+
     # default charset
     # (default frontend charset - "utf-8" is a multi chatset for all possible
     # charsets - e. g. "iso-8859-1" is also possible for single charset)
     # [default: iso-8859-1]
     $Self->{DefaultCharset} = 'iso-8859-1';
-#    $Self->{DefaultCharset} = 'utf-8';
+
+    #    $Self->{DefaultCharset} = 'utf-8';
     # default language
     # (the default frontend language) [default: en]
     $Self->{DefaultLanguage} = 'en';
+
     # used languages
     # (short name = long name and file)
     $Self->{DefaultUsedLanguages} = {
-#            bb => 'Bavarian',
-            ar_SA => 'Arabic (Saudi Arabia)',
-            bg => 'Bulgarian (&#x0411;&#x044a;&#x043b;&#x0433;&#x0430;&#x0440;&#x0441;&#x043a;&#x0438;)',
-            cz => 'Czech (&#x010c;esky)',
-            da => 'Dansk',
-            de => 'Deutsch',
-            en => 'English',
-            el => 'Greek (&#x0395;&#x03bb;&#x03bb;&#x03b7;&#x03bd;&#x03b9;&#x03ba;&#x03ac;)',
-            es => 'Espa&ntilde;ol',
-            fa => 'Persian (&#x0641;&#x0627;&#x0631;&#x0633;&#x0649;)',
-            fr => 'Fran&ccedil;ais',
-            fi => 'Suomi',
-            hu => 'Magyar',
-            it => 'Italiano',
-            nl => 'Nederlands',
-            nb_NO => 'Norsk bokm&aring;l',
-            pt_BR => 'Portugu&ecirc;s Brasileiro',
-            pt => 'Portugu&ecirc;s',
-            pl => 'Polski',
-            ru => 'Russian (&#x0420;&#x0443;&#x0441;&#x0441;&#x043a;&#x0438;&#x0439;)',
-            sk_SK => 'Slovak (Sloven&#x010d;ina)',
-            sv => 'Svenska',
-            zh_CN => 'Chinese (Sim.) (&#x7b80;&#x4f53;&#x4e2d;&#x6587;)',
+
+        #            bb => 'Bavarian',
+        ar_SA => 'Arabic (Saudi Arabia)',
+        bg =>
+            'Bulgarian (&#x0411;&#x044a;&#x043b;&#x0433;&#x0430;&#x0440;&#x0441;&#x043a;&#x0438;)',
+        cz    => 'Czech (&#x010c;esky)',
+        da    => 'Dansk',
+        de    => 'Deutsch',
+        en    => 'English',
+        el    => 'Greek (&#x0395;&#x03bb;&#x03bb;&#x03b7;&#x03bd;&#x03b9;&#x03ba;&#x03ac;)',
+        es    => 'Espa&ntilde;ol',
+        fa    => 'Persian (&#x0641;&#x0627;&#x0631;&#x0633;&#x0649;)',
+        fr    => 'Fran&ccedil;ais',
+        fi    => 'Suomi',
+        hu    => 'Magyar',
+        it    => 'Italiano',
+        nl    => 'Nederlands',
+        nb_NO => 'Norsk bokm&aring;l',
+        pt_BR => 'Portugu&ecirc;s Brasileiro',
+        pt    => 'Portugu&ecirc;s',
+        pl    => 'Polski',
+        ru    => 'Russian (&#x0420;&#x0443;&#x0441;&#x0441;&#x043a;&#x0438;&#x0439;)',
+        sk_SK => 'Slovak (Sloven&#x010d;ina)',
+        sv    => 'Svenska',
+        zh_CN => 'Chinese (Sim.) (&#x7b80;&#x4f53;&#x4e2d;&#x6587;)',
+
 #            th => 'Thai (&#x0e44;&#x0e17;&#x0e22;)',
 #            ro => 'Rom&acirc;n&auml;',
 #            hr => 'Croatian',
@@ -168,16 +175,17 @@ sub LoadDefaults {
 #            uk => 'Ukrainian (&#x0423;&#x043a;&#x0440;&#x0430;&#x0457;&#x043d;&#x0441;&#x044c;&#x043a;&#x0430;)',
 #            jp => 'Japanese (&#x65e5;&#x672c;&#x8a9e;)',
     };
+
     # default theme
     # (the default html theme) [default: Standard]
     $Self->{DefaultTheme} = 'Standard';
 
     # DefaultTheme::HostBased
     # (set theme based on host name)
-#    $Self->{'DefaultTheme::HostBased'} = {
-#        'host1\.example\.com' => 'SomeTheme1',
-#        'host2\.example\.com' => 'SomeTheme1',
-#    };
+    #    $Self->{'DefaultTheme::HostBased'} = {
+    #        'host1\.example\.com' => 'SomeTheme1',
+    #        'host2\.example\.com' => 'SomeTheme1',
+    #    };
 
     # Frontend::ImagePath
     # (Define URL of images)
@@ -211,7 +219,7 @@ sub LoadDefaults {
     # AttachmentDownloadType
     # (if the tickets attachments will be opened in browser or just to
     # force the download) [attachment|inline]
-#    $Self->{'AttachmentDownloadType'} = 'inline';
+    #    $Self->{'AttachmentDownloadType'} = 'inline';
     $Self->{'AttachmentDownloadType'} = 'attachment';
 
     # --------------------------------------------------- #
@@ -231,49 +239,52 @@ sub LoadDefaults {
 
     # CheckEmailInvalidAddress
     # (regexp of invalid email addresses)
-    $Self->{CheckEmailInvalidAddress} = '@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$';
+    $Self->{CheckEmailInvalidAddress}
+        = '@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$';
 
     # --------------------------------------------------- #
     # LogModule                                           #
     # --------------------------------------------------- #
     # (log backend module)
     $Self->{'LogModule'} = 'Kernel::System::Log::SysLog';
-#    $Self->{'LogModule'} = 'Kernel::System::Log::File';
+
+    #    $Self->{'LogModule'} = 'Kernel::System::Log::File';
 
     # param for LogModule Kernel::System::Log::SysLog
-#    $Self->{'LogModule::SysLog::Facility'} = 'user';
+    #    $Self->{'LogModule::SysLog::Facility'} = 'user';
 
     # param for LogModule Kernel::System::Log::SysLog
     # (if syslog can't work with utf-8, force the log
     # charset with this option, on other chars will be
     # replaces with ?)
     $Self->{'LogModule::SysLog::Charset'} = 'iso-8859-15';
-#    $Self->{'LogModule::SysLog::Charset'} = 'utf-8';
+
+    #    $Self->{'LogModule::SysLog::Charset'} = 'utf-8';
 
     # param for LogModule Kernel::System::Log::File (required!)
     $Self->{'LogModule::LogFile'} = '/tmp/otrs.log';
 
     # param if the date (yyyy-mm) should be added as suffix to
     # logfile [0|1]
-#    $Self->{'LogModule::LogFile::Date'} = 0;
+    #    $Self->{'LogModule::LogFile::Date'} = 0;
 
     # system log cache size for admin system log (default 4k)
     # Note: use bin/CleanUp.pl before you change this
-#    $Self->{'LogSystemCacheSize'} = 4*1024;
+    #    $Self->{'LogSystemCacheSize'} = 4*1024;
 
     # --------------------------------------------------- #
     # SendmailModule
     # --------------------------------------------------- #
     # (Where is sendmail located and some options.
     # See 'man sendmail' for details. Or use the SMTP backend.)
-    $Self->{'SendmailModule'} = 'Kernel::System::Email::Sendmail';
+    $Self->{'SendmailModule'}      = 'Kernel::System::Email::Sendmail';
     $Self->{'SendmailModule::CMD'} = '/usr/sbin/sendmail -i -f ';
 
-#    $Self->{'SendmailModule'} = 'Kernel::System::Email::SMTP';
-#    $Self->{'SendmailModule::Host'} = 'mail.example.com';
-#    $Self->{'SendmailModule::Port'} = '25';
-#    $Self->{'SendmailModule::AuthUser'} = '';
-#    $Self->{'SendmailModule::AuthPassword'} = '';
+    #    $Self->{'SendmailModule'} = 'Kernel::System::Email::SMTP';
+    #    $Self->{'SendmailModule::Host'} = 'mail.example.com';
+    #    $Self->{'SendmailModule::Port'} = '25';
+    #    $Self->{'SendmailModule::AuthUser'} = '';
+    #    $Self->{'SendmailModule::AuthPassword'} = '';
 
     # SendmailBcc
     # (Send all outgoing email via bcc to...
@@ -283,7 +294,7 @@ sub LoadDefaults {
     # SendmailNotificationEnvelopeFrom
     # Set a email address that is used as envelope from header in outgoing
     # notifications
-#    $Self->{'SendmailNotificationEnvelopeFrom'} = '';
+    #    $Self->{'SendmailNotificationEnvelopeFrom'} = '';
 
     # --------------------------------------------------- #
     # authentication settings                             #
@@ -295,183 +306,183 @@ sub LoadDefaults {
     $Self->{'AuthModule'} = 'Kernel::System::Auth::DB';
 
     # password crypt type (crypt|md5|plain)
-#    $Self->{'AuthModule::DB::CryptType'} = 'crypt';
+    #    $Self->{'AuthModule::DB::CryptType'} = 'crypt';
 
     # This is an example configuration for an LDAP auth. backend.
     # (take care that Net::LDAP is installed!)
-#    $Self->{'AuthModule'} = 'Kernel::System::Auth::LDAP';
-#    $Self->{'AuthModule::LDAP::Host'} = 'ldap.example.com';
-#    $Self->{'AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
-#    $Self->{'AuthModule::LDAP::UID'} = 'uid';
+    #    $Self->{'AuthModule'} = 'Kernel::System::Auth::LDAP';
+    #    $Self->{'AuthModule::LDAP::Host'} = 'ldap.example.com';
+    #    $Self->{'AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
+    #    $Self->{'AuthModule::LDAP::UID'} = 'uid';
 
     # Check if the user is allowed to auth in a posixGroup
     # (e. g. user needs to be in a group xyz to use otrs)
-#    $Self->{'AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com';
-#    $Self->{'AuthModule::LDAP::AccessAttr'} = 'memberUid';
+    #    $Self->{'AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com';
+    #    $Self->{'AuthModule::LDAP::AccessAttr'} = 'memberUid';
     # for ldap posixGroups objectclass (just uid)
-#    $Self->{'AuthModule::LDAP::UserAttr'} = 'UID';
+    #    $Self->{'AuthModule::LDAP::UserAttr'} = 'UID';
     # for non ldap posixGroups objectclass (with full user dn)
-#    $Self->{'AuthModule::LDAP::UserAttr'} = 'DN';
+    #    $Self->{'AuthModule::LDAP::UserAttr'} = 'DN';
 
     # The following is valid but would only be necessary if the
     # anonymous user do NOT have permission to read from the LDAP tree
-#    $Self->{'AuthModule::LDAP::SearchUserDN'} = '';
-#    $Self->{'AuthModule::LDAP::SearchUserPw'} = '';
+    #    $Self->{'AuthModule::LDAP::SearchUserDN'} = '';
+    #    $Self->{'AuthModule::LDAP::SearchUserPw'} = '';
 
     # in case you want to add always one filter to each ldap query, use
     # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
-#   $Self->{'AuthModule::LDAP::AlwaysFilter'} = '';
+    #   $Self->{'AuthModule::LDAP::AlwaysFilter'} = '';
 
     # in case you want to add a suffix to each login name, then
     # you can use this option. e. g. user just want to use user but
     # in your ldap directory exists user@domain.
-#    $Self->{'AuthModule::LDAP::UserSuffix'} = '@domain.com';
+    #    $Self->{'AuthModule::LDAP::UserSuffix'} = '@domain.com';
 
     # In case you want to convert all given usernames to lower letters you
     # should activate this option. It might be helpfull if databases are
     # in use that do not distinguish selects for upper and lower case letters
     # (Oracle, postgresql). User might be synched twice, if this option
     # is not in use.
-#    $Self->{'AuthModule::LDAP::UserLowerCase'} = 0;
+    #    $Self->{'AuthModule::LDAP::UserLowerCase'} = 0;
 
     # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
-#    $Self->{'AuthModule::LDAP::Params'} = {
-#        port => 389,
-#        timeout => 120,
-#        async => 0,
-#        version => 3,
-#    };
+    #    $Self->{'AuthModule::LDAP::Params'} = {
+    #        port => 389,
+    #        timeout => 120,
+    #        async => 0,
+    #        version => 3,
+    #    };
 
     # Die if backend can't work, e. g. can't connect to server.
-#    $Self->{'AuthModule::LDAP::Die'} = 1;
+    #    $Self->{'AuthModule::LDAP::Die'} = 1;
 
     # This is an example configuration for an apache ($ENV{REMOTE_USER})
     # auth. backend. Use it if you want to have a singe login through
     # apache http-basic-auth.
-#   $Self->{'AuthModule'} = 'Kernel::System::Auth::HTTPBasicAuth';
+    #   $Self->{'AuthModule'} = 'Kernel::System::Auth::HTTPBasicAuth';
     # In case there is a leading domain in the REMOTE_USER, you can
     # replace it by the next config option.
-#   $Self->{'AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
+    #   $Self->{'AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
     # Note:
     # If you use this module, you should use as fallback the following
     # config settings if user isn't login through apache ($ENV{REMOTE_USER}).
-#   $Self->{LoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
-#   $Self->{LogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
+    #   $Self->{LoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
+    #   $Self->{LogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
 
     # This is example configuration to auth. agents against a radius server.
-#    $Self->{'AuthModule'} = 'Kernel::System::Auth::Radius';
-#    $Self->{'AuthModule::Radius::Host'} = 'radiushost';
-#    $Self->{'AuthModule::Radius::Password'} = 'radiussecret';
+    #    $Self->{'AuthModule'} = 'Kernel::System::Auth::Radius';
+    #    $Self->{'AuthModule::Radius::Host'} = 'radiushost';
+    #    $Self->{'AuthModule::Radius::Password'} = 'radiussecret';
 
     # Die if backend can't work, e. g. can't connect to server.
-#    $Self->{'AuthModule::Radius::Die'} = 1;
+    #    $Self->{'AuthModule::Radius::Die'} = 1;
 
     # UserSyncLDAPMap
     # (map if agent should create/synced from LDAP to DB after login)
-#    $Self->{UserSyncLDAPMap} = {
-#        # DB -> LDAP
-#        UserFirstname => 'givenName',
-#        UserLastname => 'sn',
-#        UserEmail => 'mail',
-#    };
+    #    $Self->{UserSyncLDAPMap} = {
+    #        # DB -> LDAP
+    #        UserFirstname => 'givenName',
+    #        UserLastname => 'sn',
+    #        UserEmail => 'mail',
+    #    };
     # UserSyncLDAPGroups
     # (If "LDAP" was selected for AuthModule, you can specify initial
     # user groups for first login.)
-#    $Self->{UserSyncLDAPGroups} = [
-#        'users',
-#    ];
+    #    $Self->{UserSyncLDAPGroups} = [
+    #        'users',
+    #    ];
     # UserSyncLDAPGroupsDefination
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # groups to otrs groups, define the following.)
-#    $Self->{'UserSyncLDAPGroupsDefination'} = {
-#        # ldap group
-#        'cn=agent,o=otrs' => {
-#            # otrs group
-#            'admin' => {
-#                # permission
-#                rw => 1,
-#                ro => 1,
-#            },
-#            'faq' => {
-#                rw => 0,
-#                ro => 1,
-#            },
-#        },
-#        'cn=agent2,o=otrs' => {
-#            'users' => {
-#                rw => 1,
-#                ro => 1,
-#            },
-#        }
-#    };
+    #    $Self->{'UserSyncLDAPGroupsDefination'} = {
+    #        # ldap group
+    #        'cn=agent,o=otrs' => {
+    #            # otrs group
+    #            'admin' => {
+    #                # permission
+    #                rw => 1,
+    #                ro => 1,
+    #            },
+    #            'faq' => {
+    #                rw => 0,
+    #                ro => 1,
+    #            },
+    #        },
+    #        'cn=agent2,o=otrs' => {
+    #            'users' => {
+    #                rw => 1,
+    #                ro => 1,
+    #            },
+    #        }
+    #    };
     # UserSyncLDAPRolesDefination
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # groups to otrs roles, define the following.)
-#    $Self->{'UserSyncLDAPRolesDefination'} = {
-#        # ldap group
-#        'cn=agent,o=otrs' => {
-#            # otrs role
-#            'role1' => 1,
-#            'role2' => 0,
-#        },
-#        'cn=agent2,o=otrs' => {
-#            'role3' => 1,
-#        }
-#    };
+    #    $Self->{'UserSyncLDAPRolesDefination'} = {
+    #        # ldap group
+    #        'cn=agent,o=otrs' => {
+    #            # otrs role
+    #            'role1' => 1,
+    #            'role2' => 0,
+    #        },
+    #        'cn=agent2,o=otrs' => {
+    #            'role3' => 1,
+    #        }
+    #    };
     # UserSyncLDAPAttibuteGroupsDefination
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # attributes to otrs groups, define the following.)
-#    $Self->{'UserSyncLDAPAttibuteGroupsDefination'} = {
-#        # ldap attribute
-#        'LDAPAttribute' => {
-#            # ldap attribute value
-#            'LDAPAttributeValue1' => {
-#                # otrs group
-#                'admin' => {
-#                    # permission
-#                    rw => 1,
-#                    ro => 1,
-#                },
-#                'faq' => {
-#                    rw => 0,
-#                    ro => 1,
-#                },
-#            },
-#        },
-#        'LDAPAttribute2' => {
-#            'LDAPAttributeValue' => {
-#                'users' => {
-#                    rw => 1,
-#                    ro => 1,
-#                },
-#            },
-#         }
-#    };
+    #    $Self->{'UserSyncLDAPAttibuteGroupsDefination'} = {
+    #        # ldap attribute
+    #        'LDAPAttribute' => {
+    #            # ldap attribute value
+    #            'LDAPAttributeValue1' => {
+    #                # otrs group
+    #                'admin' => {
+    #                    # permission
+    #                    rw => 1,
+    #                    ro => 1,
+    #                },
+    #                'faq' => {
+    #                    rw => 0,
+    #                    ro => 1,
+    #                },
+    #            },
+    #        },
+    #        'LDAPAttribute2' => {
+    #            'LDAPAttributeValue' => {
+    #                'users' => {
+    #                    rw => 1,
+    #                    ro => 1,
+    #                },
+    #            },
+    #         }
+    #    };
     # UserSyncLDAPAttibuteRolesDefination
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # attributes to otrs roles, define the following.)
-#    $Self->{'UserSyncLDAPAttibuteRolesDefination'} = {
-#        # ldap attribute
-#        'LDAPAttribute' => {
-#            # ldap attribute value
-#            'LDAPAttributeValue1' => {
-#                # otrs role
-#                'role1' => 1,
-#                'role2' => 1,
-#            },
-#        },
-#        'LDAPAttribute2' => {
-#            'LDAPAttributeValue1' => {
-#                'role3' => 1,
-#            },
-#        },
-#    };
+    #    $Self->{'UserSyncLDAPAttibuteRolesDefination'} = {
+    #        # ldap attribute
+    #        'LDAPAttribute' => {
+    #            # ldap attribute value
+    #            'LDAPAttributeValue1' => {
+    #                # otrs role
+    #                'role1' => 1,
+    #                'role2' => 1,
+    #            },
+    #        },
+    #        'LDAPAttribute2' => {
+    #            'LDAPAttributeValue1' => {
+    #                'role3' => 1,
+    #            },
+    #        },
+    #    };
 
     # UserTable
-    $Self->{DatabaseUserTable} = 'system_user';
+    $Self->{DatabaseUserTable}       = 'system_user';
     $Self->{DatabaseUserTableUserID} = 'id';
     $Self->{DatabaseUserTableUserPW} = 'pw';
-    $Self->{DatabaseUserTableUser} = 'login';
+    $Self->{DatabaseUserTableUser}   = 'login';
 
     # --------------------------------------------------- #
     # URL login and logout settings                       #
@@ -481,50 +492,50 @@ sub LoadDefaults {
     # (If this is anything other than '', then it is assumed to be the
     # URL of an alternate login screen which will be used in place of
     # the default one.)
-#    $Self->{LoginURL} = '';
-#    $Self->{LoginURL} = 'http://host.example.com/cgi-bin/login.pl';
+    #    $Self->{LoginURL} = '';
+    #    $Self->{LoginURL} = 'http://host.example.com/cgi-bin/login.pl';
 
     # LogoutURL
     # (If this is anything other than '', it is assumed to be the URL
     # of an alternate logout page which users will be sent to when they
     # logout.)
-#    $Self->{LogoutURL} = '';
-#    $Self->{LogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
+    #    $Self->{LogoutURL} = '';
+    #    $Self->{LogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
 
     # PreApplicationModule
     # (Used for every request, if defined, the PreRun() function of
     # this module will be used. This interface use useful to check
     # some user options or to redirect not accept new application
     # news)
-#    $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
+    #    $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
     # Kernel::Modules::AgentInfo check key, if this user preferences key
     # is true, then the message is already accepted
-#    $Self->{InfoKey} = 'wpt22';
+    #    $Self->{InfoKey} = 'wpt22';
     # shown InfoFile located under Kernel/Output/HTML/Standard/AgentInfo.dtl
-#    $Self->{InfoFile} = 'AgentInfo';
+    #    $Self->{InfoFile} = 'AgentInfo';
 
     # --------------------------------------------------- #
     # Notification Settings
     # --------------------------------------------------- #
     # agent interface notification module to check the used charset
-    $Self->{'Frontend::NotifyModule'}->{'1-CharsetCheck'} = {
-        Module => 'Kernel::Output::HTML::NotificationCharsetCheck',
-    };
+    $Self->{'Frontend::NotifyModule'}->{'1-CharsetCheck'}
+        = { Module => 'Kernel::Output::HTML::NotificationCharsetCheck', };
+
     # agent interface notification module to check the admin user id
     # (don't work with user id 1 notification)
-    $Self->{'Frontend::NotifyModule'}->{'2-UID-Check'} = {
-        Module => 'Kernel::Output::HTML::NotificationUIDCheck',
-    };
+    $Self->{'Frontend::NotifyModule'}->{'2-UID-Check'}
+        = { Module => 'Kernel::Output::HTML::NotificationUIDCheck', };
+
     # show online agents
-#    $Self->{'Frontend::NotifyModule'}->{'3-ShowAgentOnline'} = {
-#        Module => 'Kernel::Output::HTML::NotificationAgentOnline',
-#        ShowEmail => 1,
-#    };
+    #    $Self->{'Frontend::NotifyModule'}->{'3-ShowAgentOnline'} = {
+    #        Module => 'Kernel::Output::HTML::NotificationAgentOnline',
+    #        ShowEmail => 1,
+    #    };
     # show online customers
-#    $Self->{'Frontend::NotifyModule'}->{'4-ShowCustomerOnline'} = {
-#        Module => 'Kernel::Output::HTML::NotificationCustomerOnline',
-#        ShowEmail => 1,
-#    };
+    #    $Self->{'Frontend::NotifyModule'}->{'4-ShowCustomerOnline'} = {
+    #        Module => 'Kernel::Output::HTML::NotificationCustomerOnline',
+    #        ShowEmail => 1,
+    #    };
 
     # --------------------------------------------------- #
     # Frontend::Output::FilterElementPost
@@ -532,10 +543,10 @@ sub LoadDefaults {
     # Frontend::Output::FilterElementPost
     # (a output filter for application html output, e. g. to filter
     # java script, java applets, ...)
-#    $Self->{'Frontend::Output::FilterElementPost'}->{'ActiveElementFilter'} = {
-#        Module => 'Kernel::Output::HTML::OutputFilterActiveElement',
-#        Debug => 0,
-#    };
+    #    $Self->{'Frontend::Output::FilterElementPost'}->{'ActiveElementFilter'} = {
+    #        Module => 'Kernel::Output::HTML::OutputFilterActiveElement',
+    #        Debug => 0,
+    #    };
 
     # --------------------------------------------------- #
     #                                                     #
@@ -551,8 +562,9 @@ sub LoadDefaults {
     # Advantage of DB is that you can split the
     # Frontendserver from the db-server. fs or ipc is faster.)
     $Self->{SessionModule} = 'Kernel::System::AuthSession::DB';
-#    $Self->{SessionModule} = 'Kernel::System::AuthSession::FS';
-#    $Self->{SessionModule} = 'Kernel::System::AuthSession::IPC';
+
+    #    $Self->{SessionModule} = 'Kernel::System::AuthSession::FS';
+    #    $Self->{SessionModule} = 'Kernel::System::AuthSession::IPC';
 
     # SessionName
     # (Name of the session key. E. g. Session, SessionID, OTRS)
@@ -571,12 +583,12 @@ sub LoadDefaults {
 
     # SessionMaxTime
     # (Max valid time of one session id in second (8h = 28800).)
-    $Self->{SessionMaxTime} = 14*60*60;
+    $Self->{SessionMaxTime} = 14 * 60 * 60;
 
     # SessionMaxIdleTime
     # (After this time (in seconds) without new http request, then
     # the user get logged off)
-    $Self->{SessionMaxIdleTime} = 5*60*60;
+    $Self->{SessionMaxIdleTime} = 5 * 60 * 60;
 
     # SessionDeleteIfTimeToOld
     # (Delete session's witch are requested and to old?) [0|1]
@@ -603,8 +615,10 @@ sub LoadDefaults {
     # (just needed if $Self->{SessionModule}='Kernel::System::AuthSession::DB)
     # SessionTable
     $Self->{SessionTable} = 'sessions';
+
     # SessionTable id column
     $Self->{SessionTableID} = 'session_id';
+
     # SessionTable value column
     $Self->{SessionTableValue} = 'session_value';
 
@@ -613,7 +627,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # TimeZone
     # (set the system time zone, default is local time)
-#    $Self->{'TimeZone'} = 0;
+    #    $Self->{'TimeZone'} = 0;
 
     # Time*
     # (Used for ticket age, escalation and system unlock calculation)
@@ -621,13 +635,13 @@ sub LoadDefaults {
     # TimeWorkingHours
     # (counted hours for working time used)
     $Self->{'TimeWorkingHours'} = {
-        Mon => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
-        Tue => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
-        Wed => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
-        Thu => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
-        Fri => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
-        Sat => [  ],
-        Sun => [  ],
+        Mon => [ 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+        Tue => [ 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+        Wed => [ 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+        Thu => [ 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+        Fri => [ 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+        Sat => [],
+        Sun => [],
     };
 
     # TimeVacationDays
@@ -635,12 +649,8 @@ sub LoadDefaults {
     # "$Self->{TimeVacationDays}->{10}->{27} = 'Some Info';"
 
     $Self->{'TimeVacationDays'} = {
-        1 => {
-            1 => 'New Year\'s Eve!',
-        },
-        5 => {
-            1 => '1 St. May',
-        },
+        1  => { 1 => 'New Year\'s Eve!', },
+        5  => { 1 => '1 St. May', },
         12 => {
             24 => 'Christmas',
             25 => 'Christmas Day',
@@ -654,20 +664,21 @@ sub LoadDefaults {
     # "$Self->{'TimeVacationDaysOneTime'}->{1977}-{10}->{27} = 'Some Info';"
 
     $Self->{'TimeVacationDaysOneTime'} = {
-#        2004 => {
-#            6 => {
-#                7 => 'Some Day',
-#            },
-#            12 => {
-#                24 => 'Some A Day',
-#                31 => 'Some B Day',
-#            },
-#        },
-#        2005 => {
-#            1 => {
-#                11 => 'Some Day',
-#            },
-#        },
+
+        #        2004 => {
+        #            6 => {
+        #                7 => 'Some Day',
+        #            },
+        #            12 => {
+        #                24 => 'Some A Day',
+        #                31 => 'Some B Day',
+        #            },
+        #        },
+        #        2005 => {
+        #            1 => {
+        #                11 => 'Some Day',
+        #            },
+        #        },
     };
 
     # --------------------------------------------------- #
@@ -680,7 +691,8 @@ sub LoadDefaults {
     # WebUploadCacheModule
     # (select you WebUploadCacheModule module, default DB [DB|FS])
     $Self->{WebUploadCacheModule} = 'Kernel::System::Web::UploadCache::DB';
-#    $Self->{WebUploadCacheModule} = 'Kernel::System::Web::UploadCache::FS';
+
+    #    $Self->{WebUploadCacheModule} = 'Kernel::System::Web::UploadCache::FS';
 
     # CGILogPrefix
     $Self->{CGILogPrefix} = 'OTRS-CGI';
@@ -710,36 +722,38 @@ sub LoadDefaults {
     # MIME-Viewer for online to html converter
     # --------------------------------------------------- #
     # (e. g. xlhtml (xls2html), http://chicago.sourceforge.net/xlhtml/)
-#    $Self->{'MIME-Viewer'}->{'application/excel'} = 'xlhtml';
+    #    $Self->{'MIME-Viewer'}->{'application/excel'} = 'xlhtml';
     # MIME-Viewer for online to html converter
     # (e. g. wv (word2html), http://wvware.sourceforge.net/)
-#    $Self->{'MIME-Viewer'}->{'application/msword'} = 'wvWare';
+    #    $Self->{'MIME-Viewer'}->{'application/msword'} = 'wvWare';
     # (e. g. pdftohtml (pdf2html), http://pdftohtml.sourceforge.net/)
-#    $Self->{'MIME-Viewer'}->{'application/pdf'} = 'pdftohtml -stdout -i';
+    #    $Self->{'MIME-Viewer'}->{'application/pdf'} = 'pdftohtml -stdout -i';
     # (e. g. xml2html (xml2html))
-#    $Self->{'MIME-Viewer'}->{'text/xml'} = $Self->{Home}.'/scripts/tools/xml2html.pl';
+    #    $Self->{'MIME-Viewer'}->{'text/xml'} = $Self->{Home}.'/scripts/tools/xml2html.pl';
 
     # --------------------------------------------------- #
     # SpellChecker
     # --------------------------------------------------- #
     # (If ispell or aspell is available, then we will provide a spelling
     # checker.)
-#    $Self->{SpellChecker} = 0;
-    $Self->{SpellChecker} = 1;
-    $Self->{SpellCheckerBin} = '/usr/bin/ispell';
+    #    $Self->{SpellChecker} = 0;
+    $Self->{SpellChecker}            = 1;
+    $Self->{SpellCheckerBin}         = '/usr/bin/ispell';
     $Self->{SpellCheckerDictDefault} = 'english';
 
     # SpellCheckerIgnore
     # (A list of ignored words.)
-    $Self->{SpellCheckerIgnore} = ['www', 'webmail', 'https', 'http', 'html', 'rfc'];
+    $Self->{SpellCheckerIgnore} = [ 'www', 'webmail', 'https', 'http', 'html', 'rfc' ];
 
     # --------------------------------------------------- #
     # directories                                         #
     # --------------------------------------------------- #
     # root directory
     $Self->{'Home'} = '/opt/otrs';
+
     # tmp dir
     $Self->{'TempDir'} = '<OTRS_CONFIG_Home>/var/tmp';
+
     # html template dir
     $Self->{'TemplateDir'} = '<OTRS_CONFIG_Home>/Kernel/Output';
 
@@ -758,9 +772,9 @@ sub LoadDefaults {
 
     # Package::RepositoryList
     # (repository list)
-#    $Self->{'Package::RepositoryList'} = {
-#        'ftp://ftp.example.com/pub/otrs/misc/packages/' => '[Example] ftp://ftp.example.com/',
-#    };
+    #    $Self->{'Package::RepositoryList'} = {
+    #        'ftp://ftp.example.com/pub/otrs/misc/packages/' => '[Example] ftp://ftp.example.com/',
+    #    };
 
     # Package::Timeout
     # (http/ftp timeout to get packages)
@@ -768,33 +782,36 @@ sub LoadDefaults {
 
     # Package::Proxy
     # (fetch packages via proxy)
-#    $Self->{'Package::Proxy'} = 'http://proxy.sn.no:8001/';
+    #    $Self->{'Package::Proxy'} = 'http://proxy.sn.no:8001/';
 
     # --------------------------------------------------- #
     # PGP settings (supports gpg)                         #
     # --------------------------------------------------- #
-    $Self->{'PGP'} = 0;
-    $Self->{'PGP::Bin'} = '/usr/bin/gpg';
+    $Self->{'PGP'}          = 0;
+    $Self->{'PGP::Bin'}     = '/usr/bin/gpg';
     $Self->{'PGP::Options'} = '--homedir /opt/otrs/.gnupg/ --batch --no-tty --yes';
-#    $Self->{'PGP::Options'} = '--batch --no-tty --yes';
-#    $Self->{'PGP::Key::Password'}->{'D2DF79FA'} = 1234;
-#    $Self->{'PGP::Key::Password'}->{'488A0B8F'} = 1234;
+
+    #    $Self->{'PGP::Options'} = '--batch --no-tty --yes';
+    #    $Self->{'PGP::Key::Password'}->{'D2DF79FA'} = 1234;
+    #    $Self->{'PGP::Key::Password'}->{'488A0B8F'} = 1234;
 
     # --------------------------------------------------- #
     # S/MIME settings (supports smime)                    #
     # --------------------------------------------------- #
     $Self->{'SMIME'} = 0;
+
     # maybe openssl need a HOME env!
     #$ENV{HOME} = '/var/lib/wwwrun';
     $Self->{'SMIME::Bin'} = '/usr/bin/openssl';
-#    $Self->{'SMIME::CertPath'} = '/etc/ssl/certs';
-#    $Self->{'SMIME::PrivatePath'} = '/etc/ssl/private';
+
+    #    $Self->{'SMIME::CertPath'} = '/etc/ssl/certs';
+    #    $Self->{'SMIME::PrivatePath'} = '/etc/ssl/private';
 
     # --------------------------------------------------- #
     # system permissions
     # --------------------------------------------------- #
-    $Self->{'System::Permission'} = ['ro', 'rw'];
-    $Self->{'System::Customer::Permission'} = ['ro', 'rw'];
+    $Self->{'System::Permission'}           = [ 'ro', 'rw' ];
+    $Self->{'System::Customer::Permission'} = [ 'ro', 'rw' ];
 
     # --------------------------------------------------- #
     #                                                     #
@@ -805,89 +822,92 @@ sub LoadDefaults {
 
     # PreferencesTable*
     # (Stored preferences table data.)
-    $Self->{PreferencesTable} = 'user_preferences';
-    $Self->{PreferencesTableKey} = 'preferences_key';
-    $Self->{PreferencesTableValue} = 'preferences_value';
+    $Self->{PreferencesTable}       = 'user_preferences';
+    $Self->{PreferencesTableKey}    = 'preferences_key';
+    $Self->{PreferencesTableValue}  = 'preferences_value';
     $Self->{PreferencesTableUserID} = 'user_id';
 
     # PreferencesView
     # (Order of shown items)
-    $Self->{PreferencesView} = ['Frontend', 'Mail Management', 'Other Options'];
+    $Self->{PreferencesView} = [ 'Frontend', 'Mail Management', 'Other Options' ];
 
     $Self->{PreferencesGroups}->{Password} = {
-        Module => 'Kernel::Output::HTML::PreferencesPassword',
-        Colum => 'Other Options',
-        Label => 'Change Password',
-        Prio => 1000,
-        Area => 'Agent',
+        Module          => 'Kernel::Output::HTML::PreferencesPassword',
+        Colum           => 'Other Options',
+        Label           => 'Change Password',
+        Prio            => 1000,
+        Area            => 'Agent',
         PasswordHistory => 0,
-#        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
-        PasswordRegExp => '',
-        PasswordMinSize => 0,
+
+        #        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
+        PasswordRegExp                    => '',
+        PasswordMinSize                   => 0,
         PasswordMin2Lower2UpperCharacters => 0,
-        PasswordMin2Characters => 0,
-        PasswordNeedDigit => 0,
-        Activ => 1,
+        PasswordMin2Characters            => 0,
+        PasswordNeedDigit                 => 0,
+        Activ                             => 1,
     };
     $Self->{PreferencesGroups}->{SpellDict} = {
         Module => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum => 'Other Options',
-        Label => 'Spelling Dictionary',
-        Desc => 'Select your default spelling dictionary.',
-        Data => {
+        Colum  => 'Other Options',
+        Label  => 'Spelling Dictionary',
+        Desc   => 'Select your default spelling dictionary.',
+        Data   => {
+
             # installed dict catalog (check your insalled catalogues, e. g. deutsch -=> german!)
             # dict => frontend (ispell)
             'english' => 'English',
             'deutsch' => 'Deutsch',
+
             # dict => frontend (aspell)
-#            'english' => 'English',
-#            'german' => 'Deutsch',
+            #            'english' => 'English',
+            #            'german' => 'Deutsch',
         },
         PrefKey => 'UserSpellDict',
-        Prio => 5000,
-        Activ => 1,
+        Prio    => 5000,
+        Activ   => 1,
     };
     $Self->{PreferencesGroups}->{Comment} = {
-        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum => 'Other Options',
-        Label => 'Comment',
-        Desc => 'Comment',
-        Block => 'Input',
-        Data => '$Env{"UserComment"}',
+        Module  => 'Kernel::Output::HTML::PreferencesGeneric',
+        Colum   => 'Other Options',
+        Label   => 'Comment',
+        Desc    => 'Comment',
+        Block   => 'Input',
+        Data    => '$Env{"UserComment"}',
         PrefKey => 'UserComment',
-        Prio => 6000,
-        Activ => 0,
+        Prio    => 6000,
+        Activ   => 0,
     };
 
-#    $Self->{PreferencesGroups}->{FreeText} = {
-#        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-#        Colum => 'Other Options',
-#        Label => 'Free Text',
-#        Desc => 'Example for free text.',
-#        Block => 'Input',
-#        Data => '$Env{"UserFreeText"}',
-#        PrefKey => 'UserFreeText',
-#        Prio => 7000,
-#        Activ => 1,
-#    };
+    #    $Self->{PreferencesGroups}->{FreeText} = {
+    #        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+    #        Colum => 'Other Options',
+    #        Label => 'Free Text',
+    #        Desc => 'Example for free text.',
+    #        Block => 'Input',
+    #        Data => '$Env{"UserFreeText"}',
+    #        PrefKey => 'UserFreeText',
+    #        Prio => 7000,
+    #        Activ => 1,
+    #    };
 
     $Self->{PreferencesGroups}->{Language} = {
-        Module => 'Kernel::Output::HTML::PreferencesLanguage',
-        Colum => 'Frontend',
-        Label => 'Language',
-        Desc => 'Select your frontend language.',
+        Module  => 'Kernel::Output::HTML::PreferencesLanguage',
+        Colum   => 'Frontend',
+        Label   => 'Language',
+        Desc    => 'Select your frontend language.',
         PrefKey => 'UserLanguage',
-        Prio => 1000,
-        Activ => 1,
+        Prio    => 1000,
+        Activ   => 1,
     };
     $Self->{PreferencesGroups}->{Theme} = {
-        Module => 'Kernel::Output::HTML::PreferencesTheme',
-        Colum => 'Frontend',
-        Label => 'Theme',
-        Desc => 'Select your frontend Theme.',
+        Module  => 'Kernel::Output::HTML::PreferencesTheme',
+        Colum   => 'Frontend',
+        Label   => 'Theme',
+        Desc    => 'Select your frontend Theme.',
         PrefKey => 'UserTheme',
-        Prio => 2000,
-        Activ => 1,
+        Prio    => 2000,
+        Activ   => 1,
     };
 
     # --------------------------------------------------- #
@@ -898,12 +918,12 @@ sub LoadDefaults {
     # --------------------------------------------------- #
 
     # notification sender
-    $Self->{NotificationSenderName} = 'OTRS Notification Master';
+    $Self->{NotificationSenderName}  = 'OTRS Notification Master';
     $Self->{NotificationSenderEmail} = 'otrs@<OTRS_CONFIG_FQDN>';
 
     # notification email for new password
     $Self->{NotificationSubjectLostPassword} = 'New OTRS Password!';
-    $Self->{NotificationBodyLostPassword} = "
+    $Self->{NotificationBodyLostPassword}    = "
 Hi <OTRS_USERFIRSTNAME>,
 
 you or someone impersonating you has requested to change your OTRS
@@ -941,13 +961,13 @@ Your OTRS Notification Master
     # (if CustomerGroupSupport is true and you don't want to manage
     # each customer user for this groups, then put the groups
     # for all customer user in there)
-    $Self->{CustomerGroupAlwaysGroups} = ['users', 'info'];
+    $Self->{CustomerGroupAlwaysGroups} = [ 'users', 'info' ];
 
     # show online agents
-#    $Self->{'CustomerFrontend::NotifyModule'}->{'1-ShowAgentOnline'} = {
-#        Module => 'Kernel::Output::HTML::NotificationAgentOnline',
-#        ShowEmail => 1,
-#    };
+    #    $Self->{'CustomerFrontend::NotifyModule'}->{'1-ShowAgentOnline'} = {
+    #        Module => 'Kernel::Output::HTML::NotificationAgentOnline',
+    #        ShowEmail => 1,
+    #    };
 
     # --------------------------------------------------- #
     # login and logout settings                           #
@@ -956,26 +976,26 @@ Your OTRS Notification Master
     # (If this is anything other than '', then it is assumed to be the
     # URL of an alternate login screen which will be used in place of
     # the default one.)
-#    $Self->{CustomerPanelLoginURL} = '';
-#    $Self->{CustomerPanelLoginURL} = 'http://host.example.com/cgi-bin/login.pl';
+    #    $Self->{CustomerPanelLoginURL} = '';
+    #    $Self->{CustomerPanelLoginURL} = 'http://host.example.com/cgi-bin/login.pl';
 
     # CustomerPanelLogoutURL
     # (If this is anything other than '', it is assumed to be the URL
     # of an alternate logout page which users will be sent to when they
     # logout.)
-#    $Self->{CustomerPanelLogoutURL} = '';
-#    $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
+    #    $Self->{CustomerPanelLogoutURL} = '';
+    #    $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
 
-    # CustomerPanelPreApplicationModule
-    # (Used for every request, if defined, the PreRun() function of
-    # this module will be used. This interface use useful to check
-    # some user options or to redirect not accept new application
-    # news)
+# CustomerPanelPreApplicationModule
+# (Used for every request, if defined, the PreRun() function of
+# this module will be used. This interface use useful to check
+# some user options or to redirect not accept new application
+# news)
 #    $Self->{CustomerPanelPreApplicationModule}->{CustomerAccept} = 'Kernel::Modules::CustomerAccept';
-    # Kernel::Modules::CustomerAccept check key, if this user preferences key
-    # is true, then the message is already accepted
+# Kernel::Modules::CustomerAccept check key, if this user preferences key
+# is true, then the message is already accepted
 #    $Self->{'CustomerPanel::InfoKey'} = 'CustomerAccept1';
-    # shown InfoFile located under Kernel/Output/HTML/Standard/CustomerAccept.dtl
+# shown InfoFile located under Kernel/Output/HTML/Standard/CustomerAccept.dtl
 #    $Self->{'CustomerPanel::InfoFile'} = 'CustomerAccept';
 
     # CustomerPanelLostPassword
@@ -990,7 +1010,7 @@ Your OTRS Notification Master
     # notification email about new password               #
     # --------------------------------------------------- #
     $Self->{CustomerPanelSubjectLostPassword} = 'New OTRS Password!';
-    $Self->{CustomerPanelBodyLostPassword} = "
+    $Self->{CustomerPanelBodyLostPassword}    = "
 Hi <OTRS_USERFIRSTNAME>,
 
 you or someone impersonating you has requested to change your OTRS
@@ -1002,11 +1022,12 @@ New Password: <OTRS_NEWPW>
 
 Your OTRS Notification Master
 ";
+
     # --------------------------------------------------- #
     # notification email about new account                #
     # --------------------------------------------------- #
     $Self->{CustomerPanelSubjectNewAccount} = 'New OTRS Account!';
-    $Self->{CustomerPanelBodyNewAccount} = "
+    $Self->{CustomerPanelBodyNewAccount}    = "
 Hi <OTRS_USERFIRSTNAME>,
 
 you or someone impersonating you has created a new OTRS account for
@@ -1027,76 +1048,77 @@ Your OTRS Notification Master
     # authentication and against Radius server)           #
     # --------------------------------------------------- #
     # This is the auth. module againt the otrs db
-    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::DB';
-    $Self->{'Customer::AuthModule::DB::Table'} = 'customer_user';
-    $Self->{'Customer::AuthModule::DB::CustomerKey'} = 'login';
+    $Self->{'Customer::AuthModule'}                       = 'Kernel::System::CustomerAuth::DB';
+    $Self->{'Customer::AuthModule::DB::Table'}            = 'customer_user';
+    $Self->{'Customer::AuthModule::DB::CustomerKey'}      = 'login';
     $Self->{'Customer::AuthModule::DB::CustomerPassword'} = 'pw';
+
 #    $Self->{'Customer::AuthModule::DB::DSN'} = "DBI:mysql:database=customerdb;host=customerdbhost";
 #    $Self->{'Customer::AuthModule::DB::User'} = "some_user";
 #    $Self->{'Customer::AuthModule::DB::Password'} = "some_password";
-    # if you use odbc or you want to define a database type (without autodetection)
+# if you use odbc or you want to define a database type (without autodetection)
 #    $Self->{'Customer::AuthModule::DB::Type'} = 'mysql';
-    # password crypt type (crypt|md5|plain)
+# password crypt type (crypt|md5|plain)
 #    $Self->{'Customer::AuthModule::DB::CryptType'} = 'crypt';
 
     # This is an example configuration for an LDAP auth. backend.
     # (take care that Net::LDAP is installed!)
-#    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::LDAP';
-#    $Self->{'Customer::AuthModule::LDAP::Host'} = 'ldap.example.com';
-#    $Self->{'Customer::AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
-#    $Self->{'Customer::AuthModule::LDAP::UID'} = 'uid';
+    #    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::LDAP';
+    #    $Self->{'Customer::AuthModule::LDAP::Host'} = 'ldap.example.com';
+    #    $Self->{'Customer::AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
+    #    $Self->{'Customer::AuthModule::LDAP::UID'} = 'uid';
 
-    # Check if the user is allowed to auth in a posixGroup
-    # (e. g. user needs to be in a group xyz to use otrs)
+# Check if the user is allowed to auth in a posixGroup
+# (e. g. user needs to be in a group xyz to use otrs)
 #    $Self->{'Customer::AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com';
 #    $Self->{'Customer::AuthModule::LDAP::AccessAttr'} = 'memberUid';
-    # for ldap posixGroups objectclass (just uid)
+# for ldap posixGroups objectclass (just uid)
 #    $Self->{'Customer::AuthModule::LDAP::UserAttr'} = 'UID';
-    # for non ldap posixGroups objectclass (full user dn)
+# for non ldap posixGroups objectclass (full user dn)
 #    $Self->{'Customer::AuthModule::LDAP::UserAttr'} = 'DN';
 
     # The following is valid but would only be necessary if the
     # anonymous user do NOT have permission to read from the LDAP tree
-#    $Self->{'Customer::AuthModule::LDAP::SearchUserDN'} = '';
-#    $Self->{'Customer::AuthModule::LDAP::SearchUserPw'} = '';
+    #    $Self->{'Customer::AuthModule::LDAP::SearchUserDN'} = '';
+    #    $Self->{'Customer::AuthModule::LDAP::SearchUserPw'} = '';
 
     # in case you want to add always one filter to each ldap query, use
     # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
-#   $Self->{'Customer::AuthModule::LDAP::AlwaysFilter'} = '';
+    #   $Self->{'Customer::AuthModule::LDAP::AlwaysFilter'} = '';
 
     # in case you want to add a suffix to each customer login name, then
     # you can use this option. e. g. user just want to use user but
     # in your ldap directory exists user@domain.
-#    $Self->{'Customer::AuthModule::LDAP::UserSuffix'} = '@domain.com';
+    #    $Self->{'Customer::AuthModule::LDAP::UserSuffix'} = '@domain.com';
 
     # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
-#    $Self->{'Customer::AuthModule::LDAP::Params'} = {
-#        port => 389,
-#        timeout => 120,
-#        async => 0,
-#        version => 3,
-#    };
+    #    $Self->{'Customer::AuthModule::LDAP::Params'} = {
+    #        port => 389,
+    #        timeout => 120,
+    #        async => 0,
+    #        version => 3,
+    #    };
 
     # Die if backend can't work, e. g. can't connect to server.
-#    $Self->{'Customer::AuthModule::LDAP::Die'} = 1;
+    #    $Self->{'Customer::AuthModule::LDAP::Die'} = 1;
 
     # This is an example configuration for an apache ($ENV{REMOTE_USER})
     # auth. backend. Use it if you want to have a singe login through
     # apache http-basic-auth
-#   $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::HTTPBasicAuth';
+    #   $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::HTTPBasicAuth';
     # In case there is a leading domain in the REMOTE_USER, you can
     # replace it by the next config option.
-#   $Self->{'Customer::AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
+    #   $Self->{'Customer::AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
     # Note:
     # If you use this module, you should use as fallback the following
     # config settings if user isn't login through apache ($ENV{REMOTE_USER})
-#    $Self->{CustomerPanelLoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
-#    $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
+    #    $Self->{CustomerPanelLoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
+    #    $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
 
     # This is example configuration to auth. agents against a radius server
-#    $Self->{'Customer::AuthModule'} = 'Kernel::System::Auth::Radius';
-#    $Self->{'Customer::AuthModule::Radius::Host'} = 'radiushost';
-#    $Self->{'Customer::AuthModule::Radius::Password'} = 'radiussecret';
+    #    $Self->{'Customer::AuthModule'} = 'Kernel::System::Auth::Radius';
+    #    $Self->{'Customer::AuthModule::Radius::Host'} = 'radiushost';
+    #    $Self->{'Customer::AuthModule::Radius::Password'} = 'radiussecret';
 
     # --------------------------------------------------- #
     #                                                     #
@@ -1108,71 +1130,81 @@ Your OTRS Notification Master
     # CustomerUser
     # (customer user database backend and settings)
     $Self->{CustomerUser} = {
-        Name => 'Database Backend',
+        Name   => 'Database Backend',
         Module => 'Kernel::System::CustomerUser::DB',
         Params => {
+
             # if you want to use an external database, add the
             # required settings
-#            DSN => 'DBI:odbc:yourdsn',
-#            DSN => 'DBI:mysql:database=customerdb;host=customerdbhost',
-#            User => '',
-#            Password => '',
+            #            DSN => 'DBI:odbc:yourdsn',
+            #            DSN => 'DBI:mysql:database=customerdb;host=customerdbhost',
+            #            User => '',
+            #            Password => '',
             Table => 'customer_user',
         },
+
         # customer uniq id
         CustomerKey => 'login',
+
         # customer #
-        CustomerID => 'customer_id',
-        CustomerValid => 'valid_id',
-        CustomerUserListFields => ['first_name', 'last_name', 'email'],
-#        CustomerUserListFields => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
-        CustomerUserSearchFields => ['login', 'first_name', 'last_name', 'customer_id'],
-        CustomerUserSearchPrefix => '',
-        CustomerUserSearchSuffix => '*',
-        CustomerUserSearchListLimit => 250,
+        CustomerID             => 'customer_id',
+        CustomerValid          => 'valid_id',
+        CustomerUserListFields => [ 'first_name', 'last_name', 'email' ],
+
+    #        CustomerUserListFields => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
+        CustomerUserSearchFields           => [ 'login', 'first_name', 'last_name', 'customer_id' ],
+        CustomerUserSearchPrefix           => '',
+        CustomerUserSearchSuffix           => '*',
+        CustomerUserSearchListLimit        => 250,
         CustomerUserPostMasterSearchFields => ['email'],
-        CustomerUserNameFields => ['salutation', 'first_name', 'last_name'],
+        CustomerUserNameFields     => [ 'salutation', 'first_name', 'last_name' ],
         CustomerUserEmailUniqCheck => 1,
-#        # show now own tickets in customer panel, CompanyTickets
-#        CustomerUserExcludePrimaryCustomerID => 0,
-#        # generate auto logins
-#        AutoLoginCreation => 0,
-#        # generate auto login prefix
-#        AutoLoginCreationPrefix => 'auto',
-#        # admin can change customer preferences
-#        AdminSetPreferences => 1,
-#        # use customer company support (reference to company, See CustomerCompany settings)
-#        CustomerCompanySupport => 1,
-#        # cache time to life in sec. - cache any database queris
-#        CacheTTL => 0,
-#        # just a read only source
-#        ReadOnly => 1,
+
+        #        # show now own tickets in customer panel, CompanyTickets
+        #        CustomerUserExcludePrimaryCustomerID => 0,
+        #        # generate auto logins
+        #        AutoLoginCreation => 0,
+        #        # generate auto login prefix
+        #        AutoLoginCreationPrefix => 'auto',
+        #        # admin can change customer preferences
+        #        AdminSetPreferences => 1,
+        #        # use customer company support (reference to company, See CustomerCompany settings)
+        #        CustomerCompanySupport => 1,
+        #        # cache time to life in sec. - cache any database queris
+        #        CacheTTL => 0,
+        #        # just a read only source
+        #        ReadOnly => 1,
         Map => [
-            # note: Login, Email and CustomerID needed!
-            # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
-            [ 'UserSalutation', 'Salutation', 'salutation',  1, 0, 'var', '', 0 ],
-            [ 'UserFirstname',  'Firstname',  'first_name',  1, 1, 'var', '', 0 ],
-            [ 'UserLastname',   'Lastname',   'last_name',   1, 1, 'var', '', 0 ],
-            [ 'UserLogin',      'Username',   'login',       1, 1, 'var', '', 0 ],
-            [ 'UserPassword',   'Password',   'pw',          0, 0, 'var', '', 0 ],
-            [ 'UserEmail',      'Email',      'email',       0, 1, 'var', '', 0 ],
+
+      # note: Login, Email and CustomerID needed!
+      # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
+            [ 'UserSalutation', 'Salutation', 'salutation', 1, 0, 'var', '', 0 ],
+            [ 'UserFirstname',  'Firstname',  'first_name', 1, 1, 'var', '', 0 ],
+            [ 'UserLastname',   'Lastname',   'last_name',  1, 1, 'var', '', 0 ],
+            [ 'UserLogin',      'Username',   'login',      1, 1, 'var', '', 0 ],
+            [ 'UserPassword',   'Password',   'pw',         0, 0, 'var', '', 0 ],
+            [ 'UserEmail',      'Email',      'email',      0, 1, 'var', '', 0 ],
+
 #            [ 'UserEmail',      'Email', 'email',           1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentTicketCompose&ResponseID=1&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}', 0 ],
             [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
-#            [ 'UserCustomerIDs', 'CustomerIDs', 'customer_ids', 1, 0, 'var', '', 0 ],
-            [ 'UserComment',     'Comment',   'comments',    1, 0, 'var', '', 0 ],
-            [ 'ValidID',         'Valid',     'valid_id',    0, 1, 'int', '', 0 ],
+
+            #            [ 'UserCustomerIDs', 'CustomerIDs', 'customer_ids', 1, 0, 'var', '', 0 ],
+            [ 'UserComment', 'Comment', 'comments', 1, 0, 'var', '', 0 ],
+            [ 'ValidID',     'Valid',   'valid_id', 0, 1, 'int', '', 0 ],
         ],
+
         # default selections
         Selections => {
-#            UserSalutation => {
-#                'Mr.' => 'Mr.',
-#                'Mrs.' => 'Mrs.',
-#            },
+
+            #            UserSalutation => {
+            #                'Mr.' => 'Mr.',
+            #                'Mrs.' => 'Mrs.',
+            #            },
         },
     };
 
-    # CustomerUser
-    # (customer user ldap backend and settings)
+# CustomerUser
+# (customer user ldap backend and settings)
 #    $Self->{CustomerUser} = {
 #        Name => 'LDAP Backend',
 #        Module => 'Kernel::System::CustomerUser::LDAP',
@@ -1241,273 +1273,280 @@ Your OTRS Notification Master
 
     $Self->{CustomerCompany} = {
         Params => {
+
             # if you want to use an external database, add the
             # required settings
-#            DSN => 'DBI:odbc:yourdsn',
-#            DSN => 'DBI:mysql:database=customerdb;host=customerdbhost',
-#            User => '',
-#            Password => '',
+            #            DSN => 'DBI:odbc:yourdsn',
+            #            DSN => 'DBI:mysql:database=customerdb;host=customerdbhost',
+            #            User => '',
+            #            Password => '',
             Table => 'customer_company',
         },
+
         # customer uniq id
-        CustomerCompanyKey => 'customer_id',
-        CustomerCompanyValid => 'valid_id',
-        CustomerCompanyListFields => ['customer_id', 'name'],
-        Map => [
-            # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
-            [ 'CustomerID',              'CustomerID',  'customer_id',  0, 1, 'var', '', 0 ],
-            [ 'CustomerCompanyName',     'Name',        'name',         1, 1, 'var', '', 0 ],
-            [ 'CustomerCompanyStreet',   'Street',      'street',       1, 0, 'var', '', 0 ],
-            [ 'CustomerCompanyZIP',      'Zip',         'zip',          1, 0, 'var', '', 0 ],
-            [ 'CustomerCompanyCity',     'City',        'city',     1, 0, 'var', '', 0 ],
-            [ 'CustomerCompanyCountry',  'Country',     'country',      1, 0, 'var', '', 0 ],
-            [ 'CustomerCompanyURL',      'URL',         'url',          1, 0, 'var', '$Data{"CustomerCompanyURL"}', 0 ],
-            [ 'CustomerCompanyComment',  'Comment',     'comments',     1, 0, 'var', '', 0 ],
-            [ 'ValidID',                 'Valid',       'valid_id',     0, 1, 'int', '', 0 ],
+        CustomerCompanyKey        => 'customer_id',
+        CustomerCompanyValid      => 'valid_id',
+        CustomerCompanyListFields => [ 'customer_id', 'name' ],
+        Map                       => [
+
+      # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
+            [ 'CustomerID',             'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
+            [ 'CustomerCompanyName',    'Name',       'name',        1, 1, 'var', '', 0 ],
+            [ 'CustomerCompanyStreet',  'Street',     'street',      1, 0, 'var', '', 0 ],
+            [ 'CustomerCompanyZIP',     'Zip',        'zip',         1, 0, 'var', '', 0 ],
+            [ 'CustomerCompanyCity',    'City',       'city',        1, 0, 'var', '', 0 ],
+            [ 'CustomerCompanyCountry', 'Country',    'country',     1, 0, 'var', '', 0 ],
+            [ 'CustomerCompanyURL', 'URL', 'url', 1, 0, 'var', '$Data{"CustomerCompanyURL"}', 0 ],
+            [ 'CustomerCompanyComment', 'Comment', 'comments', 1, 0, 'var', '', 0 ],
+            [ 'ValidID',                'Valid',   'valid_id', 0, 1, 'int', '', 0 ],
         ],
+
         # default selections
         Selections => {
             CustomerCompanyCountry => {
-                '-' => '-',
-                'Afghanistan'  =>  'Afghanistan',
-                'Albania'  =>  'Albania',
-                'Algeria'  =>  'Algeria',
-                'American Samoa'  =>  'American Samoa',
-                'Andorra'  =>  'Andorra',
-                'Angola'  =>  'Angola',
-                'Anguilla'  =>  'Anguilla',
-                'Antarctica'  =>  'Antarctica',
-                'Antigua and Barbuda'  =>  'Antigua and Barbuda',
-                'Argentina'  =>  'Argentina',
-                'Armenia'  =>  'Armenia',
-                'Aruba'  =>  'Aruba',
-                'Australia'  =>  'Australia',
-                'Austria'  =>  'Austria',
-                'Azerbaijan'  =>  'Azerbaijan',
-                'Bahamas'  =>  'Bahamas',
-                'Bahrain'  =>  'Bahrain',
-                'Bangladesh'  =>  'Bangladesh',
-                'Barbados'  =>  'Barbados',
-                'Belarus'  =>  'Belarus',
-                'Belgium'  =>  'Belgium',
-                'Belize'  =>  'Belize',
-                'Benin'  =>  'Benin',
-                'Bermuda'  =>  'Bermuda',
-                'Bhutan'  =>  'Bhutan',
-                'Bolivia'  =>  'Bolivia',
-                'Bosnia and Herzegowina'  =>  'Bosnia and Herzegowina',
-                'Botswana'  =>  'Botswana',
-                'Bouvet Island'  =>  'Bouvet Island',
-                'Brazil'  =>  'Brazil',
-                'British Indian Ocean Territory'  =>  'British Indian Ocean Territory',
-                'Brunei Darussalam'  =>  'Brunei Darussalam',
-                'Bulgaria'  =>  'Bulgaria',
-                'Burkina Faso'  =>  'Burkina Faso',
-                'Burundi'  =>  'Burundi',
-                'Cambodia'  =>  'Cambodia',
-                'Cameroon'  =>  'Cameroon',
-                'Canada'  =>  'Canada',
-                'Cape Verde'  =>  'Cape Verde',
-                'Cayman Islands'  =>  'Cayman Islands',
-                'Central African Republic'  =>  'Central African Republic',
-                'Chad'  =>  'Chad',
-                'Chile'  =>  'Chile',
-                'China'  =>  'China',
-                'Christmas Island'  =>  'Christmas Island',
-                'Cocos (Keeling) Islands'  =>  'Cocos (Keeling) Islands',
-                'Colombia'  =>  'Colombia',
-                'Comoros'  =>  'Comoros',
-                'Congo, Democratic Republic of'  =>  'Congo, Democratic Republic of',
-                'Congo, Republic of'  =>  'Congo, Republic of',
-                'Cook Islands'  =>  'Cook Islands',
-                'Costa Rica'  =>  'Costa Rica',
-                'Cote d\'Ivoire'  =>  'Cote d\'Ivoire',
-                'Croatia'  =>  'Croatia',
-                'Cuba'  =>  'Cuba',
-                'Cyprus'  =>  'Cyprus',
-                'Czech Republic'  =>  'Czech Republic',
-                'Denmark'  =>  'Denmark',
-                'Djibouti'  =>  'Djibouti',
-                'Dominica'  =>  'Dominica',
-                'Dominican Republic'  =>  'Dominican Republic',
-                'Ecuador'  =>  'Ecuador',
-                'Egypt'  =>  'Egypt',
-                'El Salvador'  =>  'El Salvador',
-                'Equatorial Guinea'  =>  'Equatorial Guinea',
-                'Eritrea'  =>  'Eritrea',
-                'Estonia'  =>  'Estonia',
-                'Ethiopia'  =>  'Ethiopia',
-                'Falkland Islands (Malvinas)'  =>  'Falkland Islands (Malvinas)',
-                'Faroe Islands'  =>  'Faroe Islands',
-                'Fiji'  =>  'Fiji',
-                'Finland'  =>  'Finland',
-                'France'  =>  'France',
-                'French Guiana'  =>  'French Guiana',
-                'French Polynesia'  =>  'French Polynesia',
-                'French Southern Territories'  =>  'French Southern Territories',
-                'Gabon'  =>  'Gabon',
-                'Gambia'  =>  'Gambia',
-                'Georgia'  =>  'Georgia',
-                'Germany'  =>  'Germany',
-                'Ghana'  =>  'Ghana',
-                'Gibraltar'  =>  'Gibraltar',
-                'Greece'  =>  'Greece',
-                'Greenland'  =>  'Greenland',
-                'Grenada'  =>  'Grenada',
-                'Guadeloupe'  =>  'Guadeloupe',
-                'Guam'  =>  'Guam',
-                'Guatemala'  =>  'Guatemala',
-                'Guinea'  =>  'Guinea',
-                'Guinea-bissau'  =>  'Guinea-bissau',
-                'Guyana'  =>  'Guyana',
-                'Haiti'  =>  'Haiti',
-                'Heard and Mc Donald Islands'  =>  'Heard and Mc Donald Islands',
-                'Honduras'  =>  'Honduras',
-                'Hong Kong'  =>  'Hong Kong',
-                'Hungary'  =>  'Hungary',
-                'Iceland'  =>  'Iceland',
-                'India'  =>  'India',
-                'Indonesia'  =>  'Indonesia',
-                'Iran (Islamic Republic of)'  =>  'Iran (Islamic Republic of)',
-                'Iraq'  =>  'Iraq',
-                'Ireland'  =>  'Ireland',
-                'Israel'  =>  'Israel',
-                'Italy'  =>  'Italy',
-                'Jamaica'  =>  'Jamaica',
-                'Japan'  =>  'Japan',
-                'Jordan'  =>  'Jordan',
-                'Kazakhstan'  =>  'Kazakhstan',
-                'Kenya'  =>  'Kenya',
-                'Kiribati'  =>  'Kiribati',
-                'Korea, Democratic People\'s Republic of'  =>  'Korea, Democratic People\'s Republic of',
-                'Korea, Republic of'  =>  'Korea, Republic of',
-                'Kuwait'  =>  'Kuwait',
-                'Kyrgyzstan'  =>  'Kyrgyzstan',
-                'Lao People\'s Democratic Republic'  =>  'Lao People\'s Democratic Republic',
-                'Latvia'  =>  'Latvia',
-                'Lebanon'  =>  'Lebanon',
-                'Lesotho'  =>  'Lesotho',
-                'Liberia'  =>  'Liberia',
-                'Libyan Arab Jamahiriya'  =>  'Libyan Arab Jamahiriya',
-                'Liechtenstein'  =>  'Liechtenstein',
-                'Lithuania'  =>  'Lithuania',
-                'Luxembourg'  =>  'Luxembourg',
-                'Macau'  =>  'Macau',
-                'Macedonia, the Former Yugoslav Republic of'  =>  'Macedonia, the Former Yugoslav Republic of',
-                'Madagascar'  =>  'Madagascar',
-                'Malawi'  =>  'Malawi',
-                'Malaysia'  =>  'Malaysia',
-                'Maldives'  =>  'Maldives',
-                'Mali'  =>  'Mali',
-                'Malta'  =>  'Malta',
-                'Marshall Islands'  =>  'Marshall Islands',
-                'Martinique'  =>  'Martinique',
-                'Mauritania'  =>  'Mauritania',
-                'Mauritius'  =>  'Mauritius',
-                'Mayotte'  =>  'Mayotte',
-                'Mexico'  =>  'Mexico',
-                'Micronesia, Federated States of'  =>  'Micronesia, Federated States of',
-                'Moldova, Republic of'  =>  'Moldova, Republic of',
-                'Monaco'  =>  'Monaco',
-                'Mongolia'  =>  'Mongolia',
-                'Montserrat'  =>  'Montserrat',
-                'Morocco'  =>  'Morocco',
-                'Mozambique'  =>  'Mozambique',
-                'Myanmar'  =>  'Myanmar',
-                'Namibia'  =>  'Namibia',
-                'Nauru'  =>  'Nauru',
-                'Nepal'  =>  'Nepal',
-                'Netherlands'  =>  'Netherlands',
-                'Netherlands Antilles'  =>  'Netherlands Antilles',
-                'New Caledonia'  =>  'New Caledonia',
-                'New Zealand'  =>  'New Zealand',
-                'Nicaragua'  =>  'Nicaragua',
-                'Niger'  =>  'Niger',
-                'Nigeria'  =>  'Nigeria',
-                'Niue'  =>  'Niue',
-                'Norfolk Island'  =>  'Norfolk Island',
-                'Northern Mariana Islands'  =>  'Northern Mariana Islands',
-                'Norway'  =>  'Norway',
-                'Oman'  =>  'Oman',
-                'Pakistan'  =>  'Pakistan',
-                'Palau'  =>  'Palau',
-                'Palestinian Territory, oCCUPIED'  =>  'Palestinian Territory, oCCUPIED',
-                'Panama'  =>  'Panama',
-                'Papua New Guinea'  =>  'Papua New Guinea',
-                'Paraguay'  =>  'Paraguay',
-                'Peru'  =>  'Peru',
-                'Philippines'  =>  'Philippines',
-                'Pitcairn'  =>  'Pitcairn',
-                'Poland'  =>  'Poland',
-                'Portugal'  =>  'Portugal',
-                'Puerto Rico'  =>  'Puerto Rico',
-                'Qatar'  =>  'Qatar',
-                'Reunion'  =>  'Reunion',
-                'Romania'  =>  'Romania',
-                'Russian Federation'  =>  'Russian Federation',
-                'Rwanda'  =>  'Rwanda',
-                'Saint Helena'  =>  'Saint Helena',
-                'Saint Kitts and Nevis'  =>  'Saint Kitts and Nevis',
-                'Saint Lucia'  =>  'Saint Lucia',
-                'Saint Pierre and Miquelon'  =>  'Saint Pierre and Miquelon',
-                'Saint Vincent and the Grenadines'  =>  'Saint Vincent and the Grenadines',
-                'Samoa'  =>  'Samoa',
-                'San Marino'  =>  'San Marino',
-                'Sao tome and Principe'  =>  'Sao tome and Principe',
-                'Saudi Arabia'  =>  'Saudi Arabia',
-                'Senegal'  =>  'Senegal',
-                'Serbia and Montenegro'  =>  'Serbia and Montenegro',
-                'Seychelles'  =>  'Seychelles',
-                'Sierra Leone'  =>  'Sierra Leone',
-                'Singapore'  =>  'Singapore',
-                'Slovakia'  =>  'Slovakia',
-                'Slovenia'  =>  'Slovenia',
-                'Solomon Islands'  =>  'Solomon Islands',
-                'Somalia'  =>  'Somalia',
-                'South Africa'  =>  'South Africa',
-                'South Georgia and the South Sandwich Islands'  =>  'South Georgia and the South Sandwich Islands',
-                'Spain'  =>  'Spain',
-                'Sri Lanka'  =>  'Sri Lanka',
-                'Sudan'  =>  'Sudan',
-                'Suriname'  =>  'Suriname',
-                'Svalbard and Jan Mayen Islands'  =>  'Svalbard and Jan Mayen Islands',
-                'Swaziland'  =>  'Swaziland',
-                'Sweden'  =>  'Sweden',
-                'Switzerland'  =>  'Switzerland',
-                'Syrian Arab Republic'  =>  'Syrian Arab Republic',
-                'Taiwan'  =>  'Taiwan',
-                'Tajikistan'  =>  'Tajikistan',
-                'Thailand'  =>  'Thailand',
-                'Timor-Leste'  =>  'Timor-Leste',
-                'Togo'  =>  'Togo',
-                'Tokelau'  =>  'Tokelau',
-                'Tonga'  =>  'Tonga',
-                'Trinidad and Tobago'  =>  'Trinidad and Tobago',
-                'Tunisia'  =>  'Tunisia',
-                'Turkey'  =>  'Turkey',
-                'Turkmenistan'  =>  'Turkmenistan',
-                'Turks and Caicos Islands'  =>  'Turks and Caicos Islands',
-                'Tuvalu'  =>  'Tuvalu',
-                'Uganda'  =>  'Uganda',
-                'Ukraine'  =>  'Ukraine',
-                'United Arab Emirates'  =>  'United Arab Emirates',
-                'United Kingdom'  =>  'United Kingdom',
-                'United States'  =>  'United States',
-                'United States Minor outlying Islands'  =>  'United States Minor outlying Islands',
-                'Uruguay'  =>  'Uruguay',
-                'Uzbekistan'  =>  'Uzbekistan',
-                'Vanuatu'  =>  'Vanuatu',
-                'Vatican City State (Holy See)'  =>  'Vatican City State (Holy See)',
-                'Venezuela'  =>  'Venezuela',
-                'Viet nam'  =>  'Viet nam',
-                'Virgin Islands (British)'  =>  'Virgin Islands (British)',
-                'Virgin Islands (U.S.)'  =>  'Virgin Islands (U.S.)',
-                'Wallis and Futuna Islands'  =>  'Wallis and Futuna Islands',
-                'Western Sahara'  =>  'Western Sahara',
-                'Yemen'  =>  'Yemen',
-                'Zambia'  =>  'Zambia',
-                'Zimbabwe'  =>  'Zimbabwe',
-                'Lettland'  =>  'Lettland',
+                '-'                              => '-',
+                'Afghanistan'                    => 'Afghanistan',
+                'Albania'                        => 'Albania',
+                'Algeria'                        => 'Algeria',
+                'American Samoa'                 => 'American Samoa',
+                'Andorra'                        => 'Andorra',
+                'Angola'                         => 'Angola',
+                'Anguilla'                       => 'Anguilla',
+                'Antarctica'                     => 'Antarctica',
+                'Antigua and Barbuda'            => 'Antigua and Barbuda',
+                'Argentina'                      => 'Argentina',
+                'Armenia'                        => 'Armenia',
+                'Aruba'                          => 'Aruba',
+                'Australia'                      => 'Australia',
+                'Austria'                        => 'Austria',
+                'Azerbaijan'                     => 'Azerbaijan',
+                'Bahamas'                        => 'Bahamas',
+                'Bahrain'                        => 'Bahrain',
+                'Bangladesh'                     => 'Bangladesh',
+                'Barbados'                       => 'Barbados',
+                'Belarus'                        => 'Belarus',
+                'Belgium'                        => 'Belgium',
+                'Belize'                         => 'Belize',
+                'Benin'                          => 'Benin',
+                'Bermuda'                        => 'Bermuda',
+                'Bhutan'                         => 'Bhutan',
+                'Bolivia'                        => 'Bolivia',
+                'Bosnia and Herzegowina'         => 'Bosnia and Herzegowina',
+                'Botswana'                       => 'Botswana',
+                'Bouvet Island'                  => 'Bouvet Island',
+                'Brazil'                         => 'Brazil',
+                'British Indian Ocean Territory' => 'British Indian Ocean Territory',
+                'Brunei Darussalam'              => 'Brunei Darussalam',
+                'Bulgaria'                       => 'Bulgaria',
+                'Burkina Faso'                   => 'Burkina Faso',
+                'Burundi'                        => 'Burundi',
+                'Cambodia'                       => 'Cambodia',
+                'Cameroon'                       => 'Cameroon',
+                'Canada'                         => 'Canada',
+                'Cape Verde'                     => 'Cape Verde',
+                'Cayman Islands'                 => 'Cayman Islands',
+                'Central African Republic'       => 'Central African Republic',
+                'Chad'                           => 'Chad',
+                'Chile'                          => 'Chile',
+                'China'                          => 'China',
+                'Christmas Island'               => 'Christmas Island',
+                'Cocos (Keeling) Islands'        => 'Cocos (Keeling) Islands',
+                'Colombia'                       => 'Colombia',
+                'Comoros'                        => 'Comoros',
+                'Congo, Democratic Republic of'  => 'Congo, Democratic Republic of',
+                'Congo, Republic of'             => 'Congo, Republic of',
+                'Cook Islands'                   => 'Cook Islands',
+                'Costa Rica'                     => 'Costa Rica',
+                'Cote d\'Ivoire'                 => 'Cote d\'Ivoire',
+                'Croatia'                        => 'Croatia',
+                'Cuba'                           => 'Cuba',
+                'Cyprus'                         => 'Cyprus',
+                'Czech Republic'                 => 'Czech Republic',
+                'Denmark'                        => 'Denmark',
+                'Djibouti'                       => 'Djibouti',
+                'Dominica'                       => 'Dominica',
+                'Dominican Republic'             => 'Dominican Republic',
+                'Ecuador'                        => 'Ecuador',
+                'Egypt'                          => 'Egypt',
+                'El Salvador'                    => 'El Salvador',
+                'Equatorial Guinea'              => 'Equatorial Guinea',
+                'Eritrea'                        => 'Eritrea',
+                'Estonia'                        => 'Estonia',
+                'Ethiopia'                       => 'Ethiopia',
+                'Falkland Islands (Malvinas)'    => 'Falkland Islands (Malvinas)',
+                'Faroe Islands'                  => 'Faroe Islands',
+                'Fiji'                           => 'Fiji',
+                'Finland'                        => 'Finland',
+                'France'                         => 'France',
+                'French Guiana'                  => 'French Guiana',
+                'French Polynesia'               => 'French Polynesia',
+                'French Southern Territories'    => 'French Southern Territories',
+                'Gabon'                          => 'Gabon',
+                'Gambia'                         => 'Gambia',
+                'Georgia'                        => 'Georgia',
+                'Germany'                        => 'Germany',
+                'Ghana'                          => 'Ghana',
+                'Gibraltar'                      => 'Gibraltar',
+                'Greece'                         => 'Greece',
+                'Greenland'                      => 'Greenland',
+                'Grenada'                        => 'Grenada',
+                'Guadeloupe'                     => 'Guadeloupe',
+                'Guam'                           => 'Guam',
+                'Guatemala'                      => 'Guatemala',
+                'Guinea'                         => 'Guinea',
+                'Guinea-bissau'                  => 'Guinea-bissau',
+                'Guyana'                         => 'Guyana',
+                'Haiti'                          => 'Haiti',
+                'Heard and Mc Donald Islands'    => 'Heard and Mc Donald Islands',
+                'Honduras'                       => 'Honduras',
+                'Hong Kong'                      => 'Hong Kong',
+                'Hungary'                        => 'Hungary',
+                'Iceland'                        => 'Iceland',
+                'India'                          => 'India',
+                'Indonesia'                      => 'Indonesia',
+                'Iran (Islamic Republic of)'     => 'Iran (Islamic Republic of)',
+                'Iraq'                           => 'Iraq',
+                'Ireland'                        => 'Ireland',
+                'Israel'                         => 'Israel',
+                'Italy'                          => 'Italy',
+                'Jamaica'                        => 'Jamaica',
+                'Japan'                          => 'Japan',
+                'Jordan'                         => 'Jordan',
+                'Kazakhstan'                     => 'Kazakhstan',
+                'Kenya'                          => 'Kenya',
+                'Kiribati'                       => 'Kiribati',
+                'Korea, Democratic People\'s Republic of' =>
+                    'Korea, Democratic People\'s Republic of',
+                'Korea, Republic of'                => 'Korea, Republic of',
+                'Kuwait'                            => 'Kuwait',
+                'Kyrgyzstan'                        => 'Kyrgyzstan',
+                'Lao People\'s Democratic Republic' => 'Lao People\'s Democratic Republic',
+                'Latvia'                            => 'Latvia',
+                'Lebanon'                           => 'Lebanon',
+                'Lesotho'                           => 'Lesotho',
+                'Liberia'                           => 'Liberia',
+                'Libyan Arab Jamahiriya'            => 'Libyan Arab Jamahiriya',
+                'Liechtenstein'                     => 'Liechtenstein',
+                'Lithuania'                         => 'Lithuania',
+                'Luxembourg'                        => 'Luxembourg',
+                'Macau'                             => 'Macau',
+                'Macedonia, the Former Yugoslav Republic of' =>
+                    'Macedonia, the Former Yugoslav Republic of',
+                'Madagascar'                       => 'Madagascar',
+                'Malawi'                           => 'Malawi',
+                'Malaysia'                         => 'Malaysia',
+                'Maldives'                         => 'Maldives',
+                'Mali'                             => 'Mali',
+                'Malta'                            => 'Malta',
+                'Marshall Islands'                 => 'Marshall Islands',
+                'Martinique'                       => 'Martinique',
+                'Mauritania'                       => 'Mauritania',
+                'Mauritius'                        => 'Mauritius',
+                'Mayotte'                          => 'Mayotte',
+                'Mexico'                           => 'Mexico',
+                'Micronesia, Federated States of'  => 'Micronesia, Federated States of',
+                'Moldova, Republic of'             => 'Moldova, Republic of',
+                'Monaco'                           => 'Monaco',
+                'Mongolia'                         => 'Mongolia',
+                'Montserrat'                       => 'Montserrat',
+                'Morocco'                          => 'Morocco',
+                'Mozambique'                       => 'Mozambique',
+                'Myanmar'                          => 'Myanmar',
+                'Namibia'                          => 'Namibia',
+                'Nauru'                            => 'Nauru',
+                'Nepal'                            => 'Nepal',
+                'Netherlands'                      => 'Netherlands',
+                'Netherlands Antilles'             => 'Netherlands Antilles',
+                'New Caledonia'                    => 'New Caledonia',
+                'New Zealand'                      => 'New Zealand',
+                'Nicaragua'                        => 'Nicaragua',
+                'Niger'                            => 'Niger',
+                'Nigeria'                          => 'Nigeria',
+                'Niue'                             => 'Niue',
+                'Norfolk Island'                   => 'Norfolk Island',
+                'Northern Mariana Islands'         => 'Northern Mariana Islands',
+                'Norway'                           => 'Norway',
+                'Oman'                             => 'Oman',
+                'Pakistan'                         => 'Pakistan',
+                'Palau'                            => 'Palau',
+                'Palestinian Territory, oCCUPIED'  => 'Palestinian Territory, oCCUPIED',
+                'Panama'                           => 'Panama',
+                'Papua New Guinea'                 => 'Papua New Guinea',
+                'Paraguay'                         => 'Paraguay',
+                'Peru'                             => 'Peru',
+                'Philippines'                      => 'Philippines',
+                'Pitcairn'                         => 'Pitcairn',
+                'Poland'                           => 'Poland',
+                'Portugal'                         => 'Portugal',
+                'Puerto Rico'                      => 'Puerto Rico',
+                'Qatar'                            => 'Qatar',
+                'Reunion'                          => 'Reunion',
+                'Romania'                          => 'Romania',
+                'Russian Federation'               => 'Russian Federation',
+                'Rwanda'                           => 'Rwanda',
+                'Saint Helena'                     => 'Saint Helena',
+                'Saint Kitts and Nevis'            => 'Saint Kitts and Nevis',
+                'Saint Lucia'                      => 'Saint Lucia',
+                'Saint Pierre and Miquelon'        => 'Saint Pierre and Miquelon',
+                'Saint Vincent and the Grenadines' => 'Saint Vincent and the Grenadines',
+                'Samoa'                            => 'Samoa',
+                'San Marino'                       => 'San Marino',
+                'Sao tome and Principe'            => 'Sao tome and Principe',
+                'Saudi Arabia'                     => 'Saudi Arabia',
+                'Senegal'                          => 'Senegal',
+                'Serbia and Montenegro'            => 'Serbia and Montenegro',
+                'Seychelles'                       => 'Seychelles',
+                'Sierra Leone'                     => 'Sierra Leone',
+                'Singapore'                        => 'Singapore',
+                'Slovakia'                         => 'Slovakia',
+                'Slovenia'                         => 'Slovenia',
+                'Solomon Islands'                  => 'Solomon Islands',
+                'Somalia'                          => 'Somalia',
+                'South Africa'                     => 'South Africa',
+                'South Georgia and the South Sandwich Islands' =>
+                    'South Georgia and the South Sandwich Islands',
+                'Spain'                                => 'Spain',
+                'Sri Lanka'                            => 'Sri Lanka',
+                'Sudan'                                => 'Sudan',
+                'Suriname'                             => 'Suriname',
+                'Svalbard and Jan Mayen Islands'       => 'Svalbard and Jan Mayen Islands',
+                'Swaziland'                            => 'Swaziland',
+                'Sweden'                               => 'Sweden',
+                'Switzerland'                          => 'Switzerland',
+                'Syrian Arab Republic'                 => 'Syrian Arab Republic',
+                'Taiwan'                               => 'Taiwan',
+                'Tajikistan'                           => 'Tajikistan',
+                'Thailand'                             => 'Thailand',
+                'Timor-Leste'                          => 'Timor-Leste',
+                'Togo'                                 => 'Togo',
+                'Tokelau'                              => 'Tokelau',
+                'Tonga'                                => 'Tonga',
+                'Trinidad and Tobago'                  => 'Trinidad and Tobago',
+                'Tunisia'                              => 'Tunisia',
+                'Turkey'                               => 'Turkey',
+                'Turkmenistan'                         => 'Turkmenistan',
+                'Turks and Caicos Islands'             => 'Turks and Caicos Islands',
+                'Tuvalu'                               => 'Tuvalu',
+                'Uganda'                               => 'Uganda',
+                'Ukraine'                              => 'Ukraine',
+                'United Arab Emirates'                 => 'United Arab Emirates',
+                'United Kingdom'                       => 'United Kingdom',
+                'United States'                        => 'United States',
+                'United States Minor outlying Islands' => 'United States Minor outlying Islands',
+                'Uruguay'                              => 'Uruguay',
+                'Uzbekistan'                           => 'Uzbekistan',
+                'Vanuatu'                              => 'Vanuatu',
+                'Vatican City State (Holy See)'        => 'Vatican City State (Holy See)',
+                'Venezuela'                            => 'Venezuela',
+                'Viet nam'                             => 'Viet nam',
+                'Virgin Islands (British)'             => 'Virgin Islands (British)',
+                'Virgin Islands (U.S.)'                => 'Virgin Islands (U.S.)',
+                'Wallis and Futuna Islands'            => 'Wallis and Futuna Islands',
+                'Western Sahara'                       => 'Western Sahara',
+                'Yemen'                                => 'Yemen',
+                'Zambia'                               => 'Zambia',
+                'Zimbabwe'                             => 'Zimbabwe',
+                'Lettland'                             => 'Lettland',
             },
         },
     };
@@ -1524,69 +1563,70 @@ Your OTRS Notification Master
     $Self->{'CustomerPreferences'} = {
         Module => 'Kernel::System::CustomerUser::Preferences::DB',
         Params => {
-            Table => 'customer_preferences',
-            TableKey => 'preferences_key',
-            TableValue => 'preferences_value',
+            Table       => 'customer_preferences',
+            TableKey    => 'preferences_key',
+            TableValue  => 'preferences_value',
             TableUserID => 'user_id',
         },
     };
 
     # CustomerPreferencesView
     # (Order of shown items)
-    $Self->{CustomerPreferencesView} = ['Frontend', 'Other Options'];
+    $Self->{CustomerPreferencesView} = [ 'Frontend', 'Other Options' ];
 
     # CustomerPreferencesGroups
     # (All possible items)
     $Self->{CustomerPreferencesGroups}->{Password} = {
-        Module => 'Kernel::Output::HTML::PreferencesPassword',
-        Colum => 'Other Options',
-        Label => 'Change Password',
-        Prio => 1000,
-        Area => 'Customer',
+        Module          => 'Kernel::Output::HTML::PreferencesPassword',
+        Colum           => 'Other Options',
+        Label           => 'Change Password',
+        Prio            => 1000,
+        Area            => 'Customer',
         PasswordHistory => 0,
-#        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
-        PasswordRegExp => '',
-        PasswordMinSize => 0,
+
+        #        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
+        PasswordRegExp                    => '',
+        PasswordMinSize                   => 0,
         PasswordMin2Lower2UpperCharacters => 0,
-        PasswordMin2Characters => 0,
-        PasswordNeedDigit => 0,
-        Activ => 1,
+        PasswordMin2Characters            => 0,
+        PasswordNeedDigit                 => 0,
+        Activ                             => 1,
     };
     $Self->{CustomerPreferencesGroups}->{Language} = {
-        Module => 'Kernel::Output::HTML::PreferencesLanguage',
-        Colum => 'Frontend',
-        Label => 'Language',
-        Desc => 'Select your frontend language.',
+        Module  => 'Kernel::Output::HTML::PreferencesLanguage',
+        Colum   => 'Frontend',
+        Label   => 'Language',
+        Desc    => 'Select your frontend language.',
         PrefKey => 'UserLanguage',
-        Prio => 2000,
-        Activ => 1,
+        Prio    => 2000,
+        Activ   => 1,
     };
     $Self->{CustomerPreferencesGroups}->{Theme} = {
-        Module => 'Kernel::Output::HTML::PreferencesTheme',
-        Colum => 'Frontend',
-        Label => 'Theme',
-        Desc => 'Select your frontend Theme.',
+        Module  => 'Kernel::Output::HTML::PreferencesTheme',
+        Colum   => 'Frontend',
+        Label   => 'Theme',
+        Desc    => 'Select your frontend Theme.',
         PrefKey => 'UserTheme',
-        Prio => 1000,
-        Activ => 0,
+        Prio    => 1000,
+        Activ   => 0,
     };
     $Self->{CustomerPreferencesGroups}->{PGP} = {
-        Module => 'Kernel::Output::HTML::PreferencesPGP',
-        Colum => 'Other Options',
-        Label => 'PGP Key',
-        Desc => 'PGP Key Upload',
+        Module  => 'Kernel::Output::HTML::PreferencesPGP',
+        Colum   => 'Other Options',
+        Label   => 'PGP Key',
+        Desc    => 'PGP Key Upload',
         PrefKey => 'UserPGPKey',
-        Prio => 10000,
-        Activ => 1,
+        Prio    => 10000,
+        Activ   => 1,
     };
     $Self->{CustomerPreferencesGroups}->{SMIME} = {
-        Module => 'Kernel::Output::HTML::PreferencesSMIME',
-        Colum => 'Other Options',
-        Label => 'S/MIME Certificate',
-        Desc => 'S/MIME Certificate Upload',
+        Module  => 'Kernel::Output::HTML::PreferencesSMIME',
+        Colum   => 'Other Options',
+        Label   => 'S/MIME Certificate',
+        Desc    => 'S/MIME Certificate Upload',
         PrefKey => 'UserSMIMEKey',
-        Prio => 11000,
-        Activ => 1,
+        Prio    => 11000,
+        Activ   => 1,
     };
 
     # --------------------------------------------------- #
@@ -1602,36 +1642,45 @@ Your OTRS Notification Master
     # default core objects and params in frontend
     # --------------------------------------------------- #
     $Self->{'Frontend::CommonObject'} = {
+
         # key => module
         # SomeObject => 'Kernel::System::Some',
     };
     $Self->{'Frontend::CommonParam'} = {
+
         # param => default value
-#        SomeParam => 'DefaultValue',
+        #        SomeParam => 'DefaultValue',
         Action => 'AdminInit',
     };
+
     # --------------------------------------------------- #
     # default core objects and params in customer frontend
     # --------------------------------------------------- #
     $Self->{'CustomerFrontend::CommonObject'} = {
+
         # key => module
-#        SomeObject => 'Kernel::System::Some',
+        #        SomeObject => 'Kernel::System::Some',
     };
     $Self->{'CustomerFrontend::CommonParam'} = {
+
         # param => default value
-#        SomeParam => 'DefaultValue',
+        #        SomeParam => 'DefaultValue',
     };
+
     # --------------------------------------------------- #
     # default core objects and params in public frontend
     # --------------------------------------------------- #
     $Self->{'PublicFrontend::CommonObject'} = {
+
         # key => module
-#        SomeObject => 'Kernel::System::Some',
+        #        SomeObject => 'Kernel::System::Some',
     };
     $Self->{'PublicFrontend::CommonParam'} = {
+
         # param => default value
-#        SomeParam => 'DefaultValue',
+        #        SomeParam => 'DefaultValue',
     };
+
     # --------------------------------------------------- #
     # Frontend Module Registry (Agent)
     # --------------------------------------------------- #
@@ -1639,341 +1688,334 @@ Your OTRS Notification Master
 
     $Self->{'Frontend::Module'}->{'Logout'} = {
         Description => 'Logout',
-        NavBar => [
-            {
-                Description => 'Logout',
-                Name => 'Logout',
-                Image => 'exit.png',
-                Link => 'Action=Logout',
-                NavBar => '',
-                Block => 'ItemPre',
-                Prio => 100,
-                AccessKey => 'l',
+        NavBar      => [
+            {   Description => 'Logout',
+                Name        => 'Logout',
+                Image       => 'exit.png',
+                Link        => 'Action=Logout',
+                NavBar      => '',
+                Block       => 'ItemPre',
+                Prio        => 100,
+                AccessKey   => 'l',
             },
         ],
     };
 
     $Self->{'Frontend::Module'}->{'AgentPreferences'} = {
         Description => 'Agent Preferences',
-        Title => 'Preferences',
-        NavBar => [
-            {
-                Description => 'Agent Preferences',
-                Name => 'Preferences',
-                Image => 'prefer.png',
-                Link => 'Action=AgentPreferences',
-                NavBar => 'Preferences',
-                Type => 'Menu',
-                Block => 'ItemArea',
-                Prio => 9900,
-                AccessKey => 'p',
+        Title       => 'Preferences',
+        NavBar      => [
+            {   Description => 'Agent Preferences',
+                Name        => 'Preferences',
+                Image       => 'prefer.png',
+                Link        => 'Action=AgentPreferences',
+                NavBar      => 'Preferences',
+                Type        => 'Menu',
+                Block       => 'ItemArea',
+                Prio        => 9900,
+                AccessKey   => 'p',
             },
         ],
     };
     $Self->{'Frontend::Module'}->{'AgentSpelling'} = {
         Description => 'Spell checker',
-        Title => 'Spell Checker',
+        Title       => 'Spell Checker',
     };
     $Self->{'Frontend::Module'}->{'AgentBook'} = {
         Description => 'Address book of CustomerUser sources',
-        Title => 'Address Book',
+        Title       => 'Address Book',
     };
     $Self->{'Frontend::Module'}->{'AgentLookup'} = {
         Description => 'Data table lookup module.',
-        Title => 'Lookup',
+        Title       => 'Lookup',
     };
     $Self->{'Frontend::Module'}->{'AgentLinkObject'} = {
         Description => 'Link Object',
-        Title => 'Link Object',
+        Title       => 'Link Object',
     };
     $Self->{'Frontend::Module'}->{'AgentInfo'} = {
         Description => 'Generic Info module',
-        Title => 'Info',
+        Title       => 'Info',
     };
     $Self->{'Frontend::Module'}->{'AgentCalendarSmall'} = {
-        Description     => 'Small calendar for date selection.',
-        NavBarName      => '',
-        Title           => 'Calendar',
+        Description => 'Small calendar for date selection.',
+        NavBarName  => '',
+        Title       => 'Calendar',
     };
 
     # admin interface
     $Self->{'Frontend::Module'}->{'Admin'} = {
-        Group => ['admin'],
+        Group       => ['admin'],
         Description => 'Admin-Area',
-        Title => '',
-        NavBarName => 'Admin',
-        NavBar => [
-            {
-                Description => 'Admin-Area',
-                Type => 'Menu',
-                Block => 'ItemArea',
-                Name => 'Admin',
-                Image => 'admin.png',
-                Link => 'Action=Admin',
-                NavBar => 'Admin',
-                Prio => 10000,
-                AccessKey => 'a',
+        Title       => '',
+        NavBarName  => 'Admin',
+        NavBar      => [
+            {   Description => 'Admin-Area',
+                Type        => 'Menu',
+                Block       => 'ItemArea',
+                Name        => 'Admin',
+                Image       => 'admin.png',
+                Link        => 'Action=Admin',
+                NavBar      => 'Admin',
+                Prio        => 10000,
+                AccessKey   => 'a',
             },
         ],
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-        },
+        NavBarModule => { Module => 'Kernel::Output::HTML::NavBarModuleAdmin', },
     };
     $Self->{'Frontend::Module'}->{'AdminInit'} = {
-        Group => ['admin'],
+        Group       => ['admin'],
         Description => 'Admin',
-        Title => 'Init',
+        Title       => 'Init',
     };
     $Self->{'Frontend::Module'}->{'AdminUser'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'User',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'User',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Users',
-            Block => 'Block1',
-            Prio => 100,
+            Name   => 'Users',
+            Block  => 'Block1',
+            Prio   => 100,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminGroup'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'Group',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'Group',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Groups',
-            Block => 'Block1',
-            Prio => 150,
+            Name   => 'Groups',
+            Block  => 'Block1',
+            Prio   => 150,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminUserGroup'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'Users <-> Groups',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'Users <-> Groups',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Users <-> Groups',
-            Block => 'Block1',
-            Prio => 200,
+            Name   => 'Users <-> Groups',
+            Block  => 'Block1',
+            Prio   => 200,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminCustomerUser'} = {
-        GroupRo => [],
-        Group => ['admin', 'users'],
+        GroupRo     => [],
+        Group       => [ 'admin', 'users' ],
         Description => 'Edit Customer Users',
-        Title => 'Customer User',
-        NavBarName => '',
-        NavBar => [
-            {
-                Description => 'Edit Customer Users',
-                Name => 'Customer',
-                Image => 'folder_yellow.png',
-                Link => 'Action=AdminCustomerUser&Nav=Agent',
-                NavBar => 'Ticket',
-                Prio => 9000,
-                AccessKey => 'c',
+        Title       => 'Customer User',
+        NavBarName  => '',
+        NavBar      => [
+            {   Description => 'Edit Customer Users',
+                Name        => 'Customer',
+                Image       => 'folder_yellow.png',
+                Link        => 'Action=AdminCustomerUser&Nav=Agent',
+                NavBar      => 'Ticket',
+                Prio        => 9000,
+                AccessKey   => 'c',
             }
         ],
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Customer Users',
-            Block => 'Block1',
-            Prio => 300,
+            Name   => 'Customer Users',
+            Block  => 'Block1',
+            Prio   => 300,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminCustomerCompany'} = {
-        GroupRo => [],
-        Group => ['admin', 'users'],
+        GroupRo     => [],
+        Group       => [ 'admin', 'users' ],
         Description => 'Edit Customer Users',
-        Title => 'Customer User',
-        NavBarName => '',
-        NavBar => [
-            {
-                Description => 'Edit Customer Company',
-                Name => 'Company',
-                Image => 'folder_yellow.png',
-                Link => 'Action=AdminCustomerCompany&Nav=Agent',
-                NavBar => 'Ticket',
-                Prio => 9000,
-                AccessKey => 'c',
+        Title       => 'Customer User',
+        NavBarName  => '',
+        NavBar      => [
+            {   Description => 'Edit Customer Company',
+                Name        => 'Company',
+                Image       => 'folder_yellow.png',
+                Link        => 'Action=AdminCustomerCompany&Nav=Agent',
+                NavBar      => 'Ticket',
+                Prio        => 9000,
+                AccessKey   => 'c',
             }
         ],
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Customer Company',
-            Block => 'Block1',
-            Prio => 310,
+            Name   => 'Customer Company',
+            Block  => 'Block1',
+            Prio   => 310,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminCustomerUserGroup'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'Customer Users <-> Groups',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'Customer Users <-> Groups',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Customer Users <-> Groups',
-            Block => 'Block1',
-            Prio => 400,
+            Name   => 'Customer Users <-> Groups',
+            Block  => 'Block1',
+            Prio   => 400,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminRole'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'Role',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'Role',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Roles',
-            Block => 'Block1',
-            Prio => 500,
+            Name   => 'Roles',
+            Block  => 'Block1',
+            Prio   => 500,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminRoleUser'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'Roles <-> Users',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'Roles <-> Users',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Roles <-> Users',
-            Block => 'Block1',
-            Prio => 600,
+            Name   => 'Roles <-> Users',
+            Block  => 'Block1',
+            Prio   => 600,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminRoleGroup'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'Roles <-> Groups',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'Roles <-> Groups',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Roles <-> Groups',
-            Block => 'Block1',
-            Prio => 700,
+            Name   => 'Roles <-> Groups',
+            Block  => 'Block1',
+            Prio   => 700,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminSMIME'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'S/MIME Management',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'S/MIME Management',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'S/MIME',
-            Block => 'Block3',
-            Prio => 1100,
+            Name   => 'S/MIME',
+            Block  => 'Block3',
+            Prio   => 1100,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminPGP'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'PGP Key Management',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'PGP Key Management',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'PGP',
-            Block => 'Block3',
-            Prio => 1200,
+            Name   => 'PGP',
+            Block  => 'Block3',
+            Prio   => 1200,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminPOP3'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'POP3 Account',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'POP3 Account',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'PostMaster POP3 Account',
-            Block => 'Block4',
-            Prio => 100,
+            Name   => 'PostMaster POP3 Account',
+            Block  => 'Block4',
+            Prio   => 100,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminPostMasterFilter'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'PostMaster Filter',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'PostMaster Filter',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'PostMaster Filter',
-            Block => 'Block4',
-            Prio => 200,
+            Name   => 'PostMaster Filter',
+            Block  => 'Block4',
+            Prio   => 200,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminEmail'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'Admin-Email',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'Admin-Email',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Admin Notification',
-            Block => 'Block4',
-            Prio => 400,
+            Name   => 'Admin Notification',
+            Block  => 'Block4',
+            Prio   => 400,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminSession'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'Session Management',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'Session Management',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Session Management',
-            Block => 'Block4',
-            Prio => 500,
+            Name   => 'Session Management',
+            Block  => 'Block4',
+            Prio   => 500,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminLog'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'System Log',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'System Log',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'System Log',
-            Block => 'Block4',
-            Prio => 600,
+            Name   => 'System Log',
+            Block  => 'Block4',
+            Prio   => 600,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminSelectBox'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'SQL Box',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'SQL Box',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'SQL Box',
-            Block => 'Block4',
-            Prio => 700,
+            Name   => 'SQL Box',
+            Block  => 'Block4',
+            Prio   => 700,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminSysConfig'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        Title => 'SysConfig',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Admin',
+        Title        => 'SysConfig',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'SysConfig',
-            Block => 'Block4',
-            Prio => 800,
+            Name   => 'SysConfig',
+            Block  => 'Block4',
+            Prio   => 800,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminPackageManager'} = {
-        Group => ['admin'],
-        Description => 'Software Package Manager',
-        Title => 'Package Manager',
-        NavBarName => 'Admin',
+        Group        => ['admin'],
+        Description  => 'Software Package Manager',
+        Title        => 'Package Manager',
+        NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Package Manager',
-            Block => 'Block4',
-            Prio => 1000,
+            Name   => 'Package Manager',
+            Block  => 'Block4',
+            Prio   => 1000,
         },
     };
 
@@ -1982,43 +2024,41 @@ Your OTRS Notification Master
     # --------------------------------------------------- #
     $Self->{'CustomerFrontend::Module'}->{'Logout'} = {
         Description => 'Logout of customer panel.',
-        NavBarName => '',
-        Title => 'Preferences',
-        NavBar => [
-            {
-                Description => 'Logout',
-                Name => 'Logout',
-                Image => 'exit.png',
-                Link => 'Action=Logout',
-                Prio => 10,
-                AccessKey => 'l',
+        NavBarName  => '',
+        Title       => 'Preferences',
+        NavBar      => [
+            {   Description => 'Logout',
+                Name        => 'Logout',
+                Image       => 'exit.png',
+                Link        => 'Action=Logout',
+                Prio        => 10,
+                AccessKey   => 'l',
             },
         ],
     };
     $Self->{'CustomerFrontend::Module'}->{'CustomerPreferences'} = {
         Description => 'Customer preferences.',
-        NavBarName => '',
-        Title => 'Preferences',
-        NavBar => [
-            {
-                Description => 'Preferences',
-                Name => 'Preferences',
-                Image => 'prefer.png',
-                Link => 'Action=CustomerPreferences',
-                Prio => 1000,
-                AccessKey => 'p',
+        NavBarName  => '',
+        Title       => 'Preferences',
+        NavBar      => [
+            {   Description => 'Preferences',
+                Name        => 'Preferences',
+                Image       => 'prefer.png',
+                Link        => 'Action=CustomerPreferences',
+                Prio        => 1000,
+                AccessKey   => 'p',
             },
         ],
     };
     $Self->{'CustomerFrontend::Module'}->{'CustomerCalendarSmall'} = {
-        Description     => 'Small calendar for date selection.',
-        NavBarName      => '',
-        Title           => 'Calendar',
+        Description => 'Small calendar for date selection.',
+        NavBarName  => '',
+        Title       => 'Calendar',
     };
     $Self->{'CustomerFrontend::Module'}->{'CustomerAccept'} = {
         Description => 'To accept login infos',
-        NavBarName      => '',
-        Title => 'Info',
+        NavBarName  => '',
+        Title       => 'Info',
     };
 
     # --------------------------------------------------- #
@@ -2027,126 +2067,145 @@ Your OTRS Notification Master
 sub Get {
     my $Self = shift;
     my $What = shift;
+
     # debug
-    if ($Self->{Debug} > 1) {
+    if ( $Self->{Debug} > 1 ) {
         print STDERR "Debug: Config.pm ->Get('$What') --> $Self->{$What}\n";
     }
+
     # warn if the value is not def
-    if (!$Self->{$What} && $Self->{Debug} > 0) {
+    if ( !$Self->{$What} && $Self->{Debug} > 0 ) {
         print STDERR "Error: Config.pm No value for '$What' in Config.pm found!\n";
     }
     return $Self->{$What};
 }
 
 sub Set {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    foreach (qw(Key Value)) {
-        if (!defined $Param{$_}) {
+    for (qw(Key Value)) {
+        if ( !defined $Param{$_} ) {
             $Param{$_} = '';
         }
     }
+
     # debug
-    if ($Self->{Debug} > 1) {
+    if ( $Self->{Debug} > 1 ) {
         print STDERR "Debug: Config.pm ->Set(Key => $Param{Key}, Value => $Param{Value})\n";
     }
-    $Self->{$Param{Key}} = $Param{Value};
+    $Self->{ $Param{Key} } = $Param{Value};
     return 1;
 }
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
+
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
+
     # 0=off; 1=log if there exists no entry; 2=log all;
     $Self->{Debug} = 0;
+
     # return on clear level
-    if ($Param{Level} && $Param{Level} eq 'Clear') {
+    if ( $Param{Level} && $Param{Level} eq 'Clear' ) {
+
         # load config
         $Self->Load();
         return $Self;
     }
+
     # load defaults
     $Self->LoadDefaults();
+
     # load config
     $Self->Load();
+
     # load extra config files
-    if (-e "$Self->{Home}/Kernel/Config/Files/") {
+    if ( -e "$Self->{Home}/Kernel/Config/Files/" ) {
         my @Files = glob("$Self->{Home}/Kernel/Config/Files/*.pm");
+
         # sort
-        my @NewFileOrderPre = ();
+        my @NewFileOrderPre  = ();
         my @NewFileOrderPost = ();
-        foreach my $File (@Files) {
-            if ($File =~ /Ticket/) {
-                push (@NewFileOrderPre, $File);
+        for my $File (@Files) {
+            if ( $File =~ /Ticket/ ) {
+                push( @NewFileOrderPre, $File );
             }
             else {
-                push (@NewFileOrderPost, $File);
+                push( @NewFileOrderPost, $File );
             }
         }
-        @Files = (@NewFileOrderPre, @NewFileOrderPost);
-        foreach my $File (@Files) {
+        @Files = ( @NewFileOrderPre, @NewFileOrderPost );
+        for my $File (@Files) {
+
             # do not use ZZZ files
-            if ($Param{Level} && $Param{Level} eq 'Default' && $File =~ /ZZZ/) {
+            if ( $Param{Level} && $Param{Level} eq 'Default' && $File =~ /ZZZ/ ) {
                 next;
             }
             my $ConfigFile = '';
-            if (open (my $In, '<', $File)) {
+            if ( open( my $In, '<', $File ) ) {
                 while (<$In>) {
                     $ConfigFile .= $_;
                 }
-                close ($In);
+                close($In);
             }
             else {
                 print STDERR "ERROR: $!: $File\n";
             }
             if ($ConfigFile) {
-                if (! eval $ConfigFile) {
+                if ( !eval $ConfigFile ) {
                     print STDERR "ERROR: Syntax error in $File: $@\n";
                 }
                 else {
+
                     # file loaded
-#                    print STDERR "Notice: Loaded: $File\n";
+                    #                    print STDERR "Notice: Loaded: $File\n";
                 }
             }
         }
     }
+
     # load RELEASE file
-    if (-e "$Self->{Home}/RELEASE") {
-        if (open (my $Product, '<', "$Self->{Home}/RELEASE")) {
+    if ( -e "$Self->{Home}/RELEASE" ) {
+        if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) {
             while (<$Product>) {
+
                 # filtering of comment lines
-                if ($_ !~ /^#/) {
-                    if ($_ =~ /^PRODUCT\s{0,2}=\s{0,2}(.*)\s{0,2}$/i) {
+                if ( $_ !~ /^#/ ) {
+                    if ( $_ =~ /^PRODUCT\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
                         $Self->{Product} = $1;
                     }
-                    elsif ($_ =~ /^VERSION\s{0,2}=\s{0,2}(.*)\s{0,2}$/i) {
+                    elsif ( $_ =~ /^VERSION\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
                         $Self->{Version} = $1;
                     }
                 }
             }
-            close ($Product);
+            close($Product);
         }
         else {
-            print STDERR "ERROR: Can't read $Self->{Home}/RELEASE: $! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
+            print STDERR
+                "ERROR: Can't read $Self->{Home}/RELEASE: $! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
             die;
         }
     }
     else {
-        print STDERR "ERROR: $Self->{Home}/RELEASE does not exist! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
+        print STDERR
+            "ERROR: $Self->{Home}/RELEASE does not exist! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
         die;
     }
+
     # load config (again)
     $Self->Load();
 
     # do not use ZZZ files
-    if (!$Param{Level}) {
+    if ( !$Param{Level} ) {
+
         # replace config variables in config variables
-        foreach (keys %{$Self}) {
+        for ( keys %{$Self} ) {
             if ($_) {
-                if (defined($Self->{$_})) {
+                if ( defined( $Self->{$_} ) ) {
                     $Self->{$_} =~ s/\<OTRS_CONFIG_(.+?)\>/$Self->{$1}/g;
                 }
                 else {
@@ -2173,6 +2232,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.273 $ $Date: 2007-09-26 23:04:56 $
+$Revision: 1.274 $ $Date: 2007-09-29 10:34:53 $
 
 =cut

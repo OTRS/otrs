@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.8 2006-10-09 17:38:03 mh Exp $
+# $Id: AdminNotification.pm,v 1.9 2007-09-29 10:39:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,29 +12,30 @@
 package Kernel::Modules::AdminNotification;
 
 use strict;
+use warnings;
+
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get common opjects
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
 
     # check all needed objects
-    foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if (!$Self->{$_}) {
-            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
+        if ( !$Self->{$_} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
 
@@ -45,61 +46,66 @@ sub new {
 }
 
 sub Run {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
 
     my @Params = (qw(Name Type Charset Language Subject Body UserID));
     my %GetParam;
-    foreach (@Params) {
-        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+    for (@Params) {
+        $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
     }
-    if (!$GetParam{Language} && $GetParam{Name}) {
-        if ($GetParam{Name} =~ /^(.+?)(::.*)/) {
+    if ( !$GetParam{Language} && $GetParam{Name} ) {
+        if ( $GetParam{Name} =~ /^(.+?)(::.*)/ ) {
             $GetParam{Language} = $1;
         }
     }
 
     # get data 2 form
-    if ($Self->{Subaction} eq 'Change') {
+    if ( $Self->{Subaction} eq 'Change' ) {
         my %Notification = $Self->{NotificationObject}->NotificationGet(%GetParam);
         $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->_MaskNotificationForm(
-            %Param,
-            %Notification,
-        );
+        $Output .= $Self->_MaskNotificationForm( %Param, %Notification, );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
+
     # update action
-    elsif ($Self->{Subaction} eq 'ChangeAction') {
-        if ($Self->{NotificationObject}->NotificationUpdate(%GetParam, UserID => $Self->{UserID})) {
-            return $Self->{LayoutObject}->Redirect(OP => "Action=AdminNotification");
+    elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
+        if ( $Self->{NotificationObject}->NotificationUpdate( %GetParam, UserID => $Self->{UserID} )
+            )
+        {
+            return $Self->{LayoutObject}->Redirect( OP => "Action=AdminNotification" );
         }
         else {
             return $Self->{LayoutObject}->Error();
         }
     }
+
     # add new response
-    elsif ($Self->{Subaction} eq 'AddAction') {
-        if (my $Id = $Self->{StdNotificationObject}->StdNotificationAdd(%GetParam, UserID => $Self->{UserID})) {
+    elsif ( $Self->{Subaction} eq 'AddAction' ) {
+        if ( my $Id
+            = $Self->{StdNotificationObject}
+            ->StdNotificationAdd( %GetParam, UserID => $Self->{UserID} ) )
+        {
+
             # add attachments to response
-            my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
+            my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
             $Self->{StdAttachmentObject}->SetStdAttachmentsOfNotificationID(
                 AttachmentIDsRef => \@NewIDs,
-                ID => $Id,
-                UserID => $Self->{UserID},
+                ID               => $Id,
+                UserID           => $Self->{UserID},
             );
+
             # show next page
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AdminNotifications",
-            );
+            return $Self->{LayoutObject}->Redirect( OP => "Action=AdminNotifications", );
         }
         else {
             return $Self->{LayoutObject}->Error();
         }
     }
+
     # else ! print form
     else {
         $Output = $Self->{LayoutObject}->Header();
@@ -111,18 +117,20 @@ sub Run {
 }
 
 sub _MaskNotificationForm {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # build NotificationOption string
     $Param{'NotificationOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => {$Self->{NotificationObject}->NotificationList()},
-        Name => 'Name',
-        Size => 15,
+        Data       => { $Self->{NotificationObject}->NotificationList() },
+        Name       => 'Name',
+        Size       => 15,
         SelectedID => $Param{Name},
-        HTMLQuote => 1,
+        HTMLQuote  => 1,
     );
 
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminNotificationForm', Data => \%Param);
+    return $Self->{LayoutObject}
+        ->Output( TemplateFile => 'AdminNotificationForm', Data => \%Param );
 }
 
 1;

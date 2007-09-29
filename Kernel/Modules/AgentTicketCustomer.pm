@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.11 2007-08-20 14:49:10 mh Exp $
+# $Id: AgentTicketCustomer.pm,v 1.12 2007-09-29 10:39:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,33 +12,33 @@
 package Kernel::Modules::AgentTicketCustomer;
 
 use strict;
+use warnings;
+
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
-
-    foreach (keys %Param) {
+    bless( $Self, $Type );
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
 
     # check needed Objects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
-        if (!$Self->{$_}) {
-            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+    for (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
+        if ( !$Self->{$_} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
 
-    $Self->{Search} = $Self->{ParamObject}->GetParam(Param => 'Search') || 0;
-    $Self->{CustomerID} = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
+    $Self->{Search}     = $Self->{ParamObject}->GetParam( Param => 'Search' )     || 0;
+    $Self->{CustomerID} = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
 
     # customer user object
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
@@ -49,111 +49,136 @@ sub new {
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my $Output;
+
     # check needed stuff
-    if (!$Self->{TicketID}) {
+    if ( !$Self->{TicketID} ) {
+
         # error page
         return $Self->{LayoutObject}->ErrorScreen(
             Message => "Need TicketID is given!",
             Comment => 'Please contact the admin.',
         );
     }
+
     # check permissions
     if (!$Self->{TicketObject}->Permission(
-        Type => $Self->{Config}->{Permission},
-        TicketID => $Self->{TicketID},
-        UserID => $Self->{UserID})) {
+            Type     => $Self->{Config}->{Permission},
+            TicketID => $Self->{TicketID},
+            UserID   => $Self->{UserID}
+        )
+        )
+    {
+
         # error screen, don't show ticket
         return $Self->{LayoutObject}->NoPermission(
-            Message => "You need $Self->{Config}->{Permission} permissions!",
+            Message    => "You need $Self->{Config}->{Permission} permissions!",
             WithHeader => 'yes',
         );
     }
+
     # check permissions
-    if ($Self->{TicketID}) {
+    if ( $Self->{TicketID} ) {
         if (!$Self->{TicketObject}->Permission(
-            Type => 'customer',
-            TicketID => $Self->{TicketID},
-            UserID => $Self->{UserID})) {
+                Type     => 'customer',
+                TicketID => $Self->{TicketID},
+                UserID   => $Self->{UserID}
+            )
+            )
+        {
+
             # no permission screen, don't show ticket
-            return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+            return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
         }
     }
 
-    if ($Self->{Subaction} eq 'Update') {
+    if ( $Self->{Subaction} eq 'Update' ) {
+
         # set customer id
-        my $ExpandCustomerName1 = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName1') || 0;
-        my $ExpandCustomerName2 = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName2') || 0;
-        my $CustomerUserOption = $Self->{ParamObject}->GetParam(Param => 'CustomerUserOption') || '';
-        $Param{CustomerUserID} = $Self->{ParamObject}->GetParam(Param => 'CustomerUserID') || '';
-        $Param{CustomerID} = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
+        my $ExpandCustomerName1 = $Self->{ParamObject}->GetParam( Param => 'ExpandCustomerName1' )
+            || 0;
+        my $ExpandCustomerName2 = $Self->{ParamObject}->GetParam( Param => 'ExpandCustomerName2' )
+            || 0;
+        my $CustomerUserOption = $Self->{ParamObject}->GetParam( Param => 'CustomerUserOption' )
+            || '';
+        $Param{CustomerUserID} = $Self->{ParamObject}->GetParam( Param => 'CustomerUserID' ) || '';
+        $Param{CustomerID}     = $Self->{ParamObject}->GetParam( Param => 'CustomerID' )     || '';
+
         # Expand Customer Name
         if ($ExpandCustomerName1) {
+
             # search customer
             my %CustomerUserList = ();
-            %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
-                Search => $Param{CustomerUserID},
-            );
+            %CustomerUserList
+                = $Self->{CustomerUserObject}->CustomerSearch( Search => $Param{CustomerUserID}, );
+
             # check if just one customer user exists
             # if just one, fillup CustomerUserID and CustomerID
             $Param{CustomerUserListCount} = 0;
-            foreach (keys %CustomerUserList) {
+            for ( keys %CustomerUserList ) {
                 $Param{CustomerUserListCount}++;
-                $Param{CustomerUserListLast} = $CustomerUserList{$_};
+                $Param{CustomerUserListLast}     = $CustomerUserList{$_};
                 $Param{CustomerUserListLastUser} = $_;
             }
-            if ($Param{CustomerUserListCount} == 1) {
+            if ( $Param{CustomerUserListCount} == 1 ) {
                 $Param{CustomerUserID} = $Param{CustomerUserListLastUser};
-                my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                    User => $Param{CustomerUserListLastUser},
-                );
-                if ($CustomerUserData{UserCustomerID}) {
+                my %CustomerUserData = $Self->{CustomerUserObject}
+                    ->CustomerUserDataGet( User => $Param{CustomerUserListLastUser}, );
+                if ( $CustomerUserData{UserCustomerID} ) {
                     $Param{CustomerID} = $CustomerUserData{UserCustomerID};
                 }
 
             }
+
             # if more the one customer user exists, show list
             # and clean CustomerUserID and CustomerID
             else {
-#                $Param{CustomerUserID} = '';
+
+                #                $Param{CustomerUserID} = '';
                 $Param{CustomerID} = '';
                 $Param{"CustomerUserOptions"} = \%CustomerUserList;
             }
             return $Self->Form(%Param);
         }
+
         # get customer user and customer id
         elsif ($ExpandCustomerName2) {
-            my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                User => $CustomerUserOption,
-            );
-            my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
-                UserLogin => $CustomerUserOption,
-            );
-            foreach (keys %CustomerUserList) {
+            my %CustomerUserData
+                = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $CustomerUserOption, );
+            my %CustomerUserList
+                = $Self->{CustomerUserObject}->CustomerSearch( UserLogin => $CustomerUserOption, );
+            for ( keys %CustomerUserList ) {
                 $Param{CustomerUserID} = $_;
             }
-            if ($CustomerUserData{UserCustomerID}) {
+            if ( $CustomerUserData{UserCustomerID} ) {
                 $Param{CustomerID} = $CustomerUserData{UserCustomerID};
             }
             return $Self->Form(%Param);
         }
+
         # update customer user data
         if ($Self->{TicketObject}->SetCustomerData(
-            TicketID => $Self->{TicketID},
-            No => $Param{CustomerID},
-            User => $Param{CustomerUserID},
-            UserID => $Self->{UserID},
-        )) {
+                TicketID => $Self->{TicketID},
+                No       => $Param{CustomerID},
+                User     => $Param{CustomerUserID},
+                UserID   => $Self->{UserID},
+            )
+            )
+        {
+
             # redirect
-            return $Self->{LayoutObject}->Redirect(OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}");
+            return $Self->{LayoutObject}
+                ->Redirect( OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}" );
         }
         else {
+
             # error?!
             return $Self->{LayoutObject}->ErrorScreen();
         }
     }
+
     # show form
     else {
         return $Self->Form(%Param);
@@ -161,9 +186,10 @@ sub Run {
 }
 
 sub Form {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my $Output;
+
     # print header
     $Output .= $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -171,61 +197,61 @@ sub Form {
 
     # print change form if ticket id is given
     my %CustomerUserData = ();
-    if ($Self->{TicketID}) {
+    if ( $Self->{TicketID} ) {
+
         # get ticket data
-        my %TicketData = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-        if ($TicketData{CustomerUserID} || $Param{CustomerUserID}) {
-            %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                User => $Param{CustomerUserID} || $TicketData{CustomerUserID},
-            );
+        my %TicketData = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+        if ( $TicketData{CustomerUserID} || $Param{CustomerUserID} ) {
+            %CustomerUserData
+                = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Param{CustomerUserID}
+                    || $TicketData{CustomerUserID}, );
         }
         $TicketCustomerID = $TicketData{CustomerID};
-        $Param{Table} = $Self->{LayoutObject}->AgentCustomerViewTable(Data => \%CustomerUserData);
+        $Param{Table} = $Self->{LayoutObject}->AgentCustomerViewTable( Data => \%CustomerUserData );
         $Self->{LayoutObject}->Block(
             Name => 'Customer',
-            Data => {
-                %TicketData,
-                %Param,
-            },
+            Data => { %TicketData, %Param, },
         );
+
         # build from string
-        if ($Param{CustomerUserOptions} && %{$Param{CustomerUserOptions}}) {
+        if ( $Param{CustomerUserOptions} && %{ $Param{CustomerUserOptions} } ) {
             $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
                 Data => $Param{CustomerUserOptions},
                 Name => 'CustomerUserOption',
-                Max => 70,
+                Max  => 70,
             );
             $Self->{LayoutObject}->Block(
                 Name => 'CustomerTakeOver',
-                Data => {
-                    %Param,
-                },
+                Data => { %Param, },
             );
         }
     }
 
     # get ticket ids with customer id
     my @TicketIDs = ();
-    if ($CustomerUserData{UserID}) {
+    if ( $CustomerUserData{UserID} ) {
+
         # get secondary customer ids
-        my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $CustomerUserData{UserID});
+        my @CustomerIDs
+            = $Self->{CustomerUserObject}->CustomerIDs( User => $CustomerUserData{UserID} );
+
         # get own customer id
-        if ($CustomerUserData{UserCustomerID}) {
-            push (@CustomerIDs, $CustomerUserData{UserCustomerID});
+        if ( $CustomerUserData{UserCustomerID} ) {
+            push( @CustomerIDs, $CustomerUserData{UserCustomerID} );
         }
         @TicketIDs = $Self->{TicketObject}->TicketSearch(
-            Result => 'ARRAY',
+            Result     => 'ARRAY',
             CustomerID => \@CustomerIDs,
-            UserID => $Self->{UserID},
+            UserID     => $Self->{UserID},
             Permission => 'ro',
             Limit => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerShownTickets') || '40',
         );
     }
     elsif ($TicketCustomerID) {
         @TicketIDs = $Self->{TicketObject}->TicketSearch(
-            Result => 'ARRAY',
+            Result     => 'ARRAY',
             CustomerID => $TicketCustomerID,
-            UserID => $Self->{UserID},
+            UserID     => $Self->{UserID},
             Permission => 'ro',
             Limit => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerShownTickets') || '40',
         );
@@ -233,41 +259,43 @@ sub Form {
     if (@TicketIDs) {
         $Self->{LayoutObject}->Block(
             Name => 'CustomerHistory',
-            Data => { },
+            Data => {},
         );
     }
     my $OutputTables = '';
-    foreach my $TicketID (@TicketIDs) {
+    for my $TicketID (@TicketIDs) {
+
         # get ack actions
         $Self->{TicketObject}->TicketAcl(
-            Data => '-',
-            Action => $Self->{Action},
-            TicketID => $TicketID,
-            ReturnType => 'Action',
+            Data          => '-',
+            Action        => $Self->{Action},
+            TicketID      => $TicketID,
+            ReturnType    => 'Action',
             ReturnSubType => '-',
-            UserID => $Self->{UserID},
+            UserID        => $Self->{UserID},
         );
         my %AclAction = $Self->{TicketObject}->TicketAclActionData();
-        my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
+        my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $TicketID );
+
         # run ticket menu modules
-        if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')) eq 'HASH') {
-            my %Menus = %{$Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')};
+        if ( ref( $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') ) eq 'HASH' ) {
+            my %Menus   = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
             my $Counter = 0;
-            foreach my $Menu (sort keys %Menus) {
+            for my $Menu ( sort keys %Menus ) {
+
                 # load module
-                if ($Self->{MainObject}->Require($Menus{$Menu}->{Module})) {
-                    my $Object = $Menus{$Menu}->{Module}->new(
-                        %{$Self},
-                        TicketID => $Self->{TicketID},
-                    );
+                if ( $Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
+                    my $Object
+                        = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Self->{TicketID}, );
+
                     # run module
                     $Counter = $Object->Run(
                         %Param,
                         TicketID => $TicketID,
-                        Ticket => \%Article,
-                        Counter => $Counter,
-                        ACL => \%AclAction,
-                        Config => $Menus{$Menu},
+                        Ticket   => \%Article,
+                        Counter  => $Counter,
+                        ACL      => \%AclAction,
+                        Config   => $Menus{$Menu},
                     );
                 }
                 else {
@@ -275,12 +303,12 @@ sub Form {
                 }
             }
         }
-        foreach (qw(From To Cc Subject)) {
-            if ($Article{$_}) {
+        for (qw(From To Cc Subject)) {
+            if ( $Article{$_} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'Row',
                     Data => {
-                        Key => $_,
+                        Key   => $_,
                         Value => $Article{$_},
                     },
                 );
@@ -288,16 +316,16 @@ sub Form {
         }
         $OutputTables .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketQueueTicketViewLite',
-            Data => {
-                %AclAction,
-                %Article,
-                Age => $Self->{LayoutObject}->CustomerAge(Age => $Article{Age}, Space => ' '),
+            Data         => {
+                %AclAction, %Article,
+                Age => $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' ),
             }
         );
 
     }
-    $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketCustomer', Data => \%Param);
-    $Output .= $OutputTables.$Self->{LayoutObject}->Footer();
+    $Output
+        .= $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketCustomer', Data => \%Param );
+    $Output .= $OutputTables . $Self->{LayoutObject}->Footer();
     return $Output;
 }
 

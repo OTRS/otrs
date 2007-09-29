@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.16 2007-02-27 10:49:46 martin Exp $
+# $Id: AgentTicketMailbox.pm,v 1.17 2007-09-29 10:39:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,258 +12,271 @@
 package Kernel::Modules::AgentTicketMailbox;
 
 use strict;
+use warnings;
+
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get common opjects
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
 
     # check all needed objects
-    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject UserObject)) {
-        if (!$Self->{$_}) {
-            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+    for (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject UserObject)) {
+        if ( !$Self->{$_} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
 
-    $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{StateObject}     = Kernel::System::State->new(%Param);
     $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
-    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
-    $Self->{PageShown} = $Self->{UserQueueViewShowTickets} || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected} || 10;
+    $Self->{StartHit}        = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
+    $Self->{PageShown}       = $Self->{UserQueueViewShowTickets}
+        || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected}
+        || 10;
 
     return $Self;
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my $Output;
     my $QueueID = $Self->{QueueID};
-    my $SortBy = $Self->{ParamObject}->GetParam(Param => 'SortBy') ||
-        $Self->{ConfigObject}->Get('Ticket::Frontend::MailboxSortBy::Default') || 'Age';
-    my $OrderBy = $Self->{ParamObject}->GetParam(Param => 'OrderBy') ||
-        $Self->{ConfigObject}->Get('Ticket::Frontend::MailboxOrder::Default') || 'Up';
+    my $SortBy = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
+        || $Self->{ConfigObject}->Get('Ticket::Frontend::MailboxSortBy::Default')
+        || 'Age';
+    my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' )
+        || $Self->{ConfigObject}->Get('Ticket::Frontend::MailboxOrder::Default')
+        || 'Up';
 
     # store last screen
     $Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
-        Key => 'LastScreenView',
-        Value => $Self->{RequestedURL},
+        Key       => 'LastScreenView',
+        Value     => $Self->{RequestedURL},
     );
+
     # store last queue screen
     $Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
-        Key => 'LastScreenOverview',
-        Value => $Self->{RequestedURL},
+        Key       => 'LastScreenOverview',
+        Value     => $Self->{RequestedURL},
     );
 
     # starting with page ...
     my $Refresh = '';
-    if ($Self->{UserRefreshTime}) {
+    if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
-    $Output .= $Self->{LayoutObject}->Header(
-        Refresh => $Refresh,
-    );
+    $Output .= $Self->{LayoutObject}->Header( Refresh => $Refresh, );
     $Output .= $Self->{LayoutObject}->NavigationBar();
-    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
+    my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
 
     # get locked  viewable tickets...
     my @ViewableTickets = ();
-    my $SortByS = $SortBy;
-    if ($SortByS eq 'CreateTime') {
+    my $SortByS         = $SortBy;
+    if ( $SortByS eq 'CreateTime' ) {
         $SortByS = 'Age';
     }
+
     # check view type
-    if (!$Self->{Subaction}) {
+    if ( !$Self->{Subaction} ) {
         $Self->{Subaction} = 'All';
     }
-    if ($Self->{Subaction} eq 'Pending') {
+    if ( $Self->{Subaction} eq 'Pending' ) {
         my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
-            Type => 'PendingReminder',
+            Type   => 'PendingReminder',
             Result => 'ARRAY',
         );
-        push (@StateIDs, $Self->{StateObject}->StateGetStatesByType(
-                Type => 'PendingAuto',
+        push(
+            @StateIDs,
+            $Self->{StateObject}->StateGetStatesByType(
+                Type   => 'PendingAuto',
                 Result => 'ARRAY',
             )
         );
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            Result => 'ARRAY',
-            Limit => 1000,
-            StateIDs => \@StateIDs,
-            Locks => ['lock'],
-            OwnerIDs => [$Self->{UserID}],
-            OrderBy => $OrderBy,
-            SortBy => $SortByS,
-            UserID => 1,
+            Result     => 'ARRAY',
+            Limit      => 1000,
+            StateIDs   => \@StateIDs,
+            Locks      => ['lock'],
+            OwnerIDs   => [ $Self->{UserID} ],
+            OrderBy    => $OrderBy,
+            SortBy     => $SortByS,
+            UserID     => 1,
             Permission => 'ro',
         );
     }
-    elsif ($Self->{Subaction} eq 'Reminder') {
+    elsif ( $Self->{Subaction} eq 'Reminder' ) {
         my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
-            Type => 'PendingReminder',
+            Type   => 'PendingReminder',
             Result => 'ARRAY',
         );
         @ViewableTickets = ();
         my @ViewableTicketsTmp = $Self->{TicketObject}->TicketSearch(
-            Result => 'ARRAY',
-            Limit => 1000,
-            StateIDs => \@StateIDs,
-            Locks => ['lock'],
-            OwnerIDs => [$Self->{UserID}],
-            OrderBy => $OrderBy,
-            SortBy => $SortByS,
-            UserID => 1,
+            Result     => 'ARRAY',
+            Limit      => 1000,
+            StateIDs   => \@StateIDs,
+            Locks      => ['lock'],
+            OwnerIDs   => [ $Self->{UserID} ],
+            OrderBy    => $OrderBy,
+            SortBy     => $SortByS,
+            UserID     => 1,
             Permission => 'ro',
         );
-        foreach my $TicketID (@ViewableTicketsTmp) {
-            my @Index = $Self->{TicketObject}->ArticleIndex(TicketID => $TicketID);
+        for my $TicketID (@ViewableTicketsTmp) {
+            my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $TicketID );
             if (@Index) {
-                my %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $Index[$#Index]);
-                if ($Article{UntilTime} < 1) {
-                    push (@ViewableTickets, $TicketID);
+                my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[$#Index] );
+                if ( $Article{UntilTime} < 1 ) {
+                    push( @ViewableTickets, $TicketID );
                 }
             }
         }
     }
-    elsif ($Self->{Subaction} eq 'New') {
+    elsif ( $Self->{Subaction} eq 'New' ) {
         @ViewableTickets = ();
         my @ViewableTicketsTmp = $Self->{TicketObject}->TicketSearch(
-            Result => 'ARRAY',
-            Limit => 1000,
-            Locks => ['lock'],
-            OwnerIDs => [$Self->{UserID}],
-            OrderBy => $OrderBy,
-            SortBy => $SortByS,
-            UserID => 1,
+            Result     => 'ARRAY',
+            Limit      => 1000,
+            Locks      => ['lock'],
+            OwnerIDs   => [ $Self->{UserID} ],
+            OrderBy    => $OrderBy,
+            SortBy     => $SortByS,
+            UserID     => 1,
             Permission => 'ro',
         );
-        foreach my $TicketID (@ViewableTicketsTmp) {
+        for my $TicketID (@ViewableTicketsTmp) {
             my $Message = '';
 
             # put all tickets to ToDo where last sender type is customer / system or ! UserID
             # show just unseen tickets as new
-            if ($Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen') {
-                my @Index = $Self->{TicketObject}->ArticleIndex(TicketID => $TicketID);
+            if ( $Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen' ) {
+                my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $TicketID );
                 if (@Index) {
-                    my %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $Index[$#Index]);
+                    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[$#Index] );
                     my %Flag = $Self->{TicketObject}->ArticleFlagGet(
                         ArticleID => $Article{ArticleID},
-                        UserID => $Self->{UserID},
+                        UserID    => $Self->{UserID},
                     );
-                    if (!$Flag{seen}) {
+                    if ( !$Flag{seen} ) {
                         $Message = 'New message!';
                     }
                 }
             }
             else {
-                my @Index = $Self->{TicketObject}->ArticleIndex(TicketID => $TicketID);
+                my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $TicketID );
                 if (@Index) {
-                    my %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $Index[$#Index]);
-                    if ($Article{SenderType} eq 'customer' ||
-                        $Article{SenderType} eq 'system' ||
-                        $Article{CreatedBy} ne $Self->{UserID}) {
+                    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[$#Index] );
+                    if (   $Article{SenderType} eq 'customer'
+                        || $Article{SenderType} eq 'system'
+                        || $Article{CreatedBy} ne $Self->{UserID} )
+                    {
                         $Message = 'New message!';
                     }
                 }
             }
             if ($Message) {
-                push (@ViewableTickets, $TicketID);
+                push( @ViewableTickets, $TicketID );
             }
         }
     }
-    elsif ($Self->{Subaction} eq 'Responsible') {
+    elsif ( $Self->{Subaction} eq 'Responsible' ) {
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            Result => 'ARRAY',
-            Limit => 1000,
-            StateType => 'Open',
-            ResponsibleIDs => [$Self->{UserID}],
-            OrderBy => $OrderBy,
-            SortBy => $SortByS,
-            UserID => 1,
-            Permission => 'ro',
+            Result         => 'ARRAY',
+            Limit          => 1000,
+            StateType      => 'Open',
+            ResponsibleIDs => [ $Self->{UserID} ],
+            OrderBy        => $OrderBy,
+            SortBy         => $SortByS,
+            UserID         => 1,
+            Permission     => 'ro',
         );
     }
-    elsif ($Self->{Subaction} eq 'Watched') {
+    elsif ( $Self->{Subaction} eq 'Watched' ) {
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            Result => 'ARRAY',
-            Limit => 1000,
-            OrderBy => $OrderBy,
-            SortBy => $SortByS,
-            WatchUserIDs => [$Self->{UserID}],
-            UserID => 1,
-            Permission => 'ro',
+            Result       => 'ARRAY',
+            Limit        => 1000,
+            OrderBy      => $OrderBy,
+            SortBy       => $SortByS,
+            WatchUserIDs => [ $Self->{UserID} ],
+            UserID       => 1,
+            Permission   => 'ro',
         );
     }
     else {
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            Result => 'ARRAY',
-            Limit => 1000,
-            Locks => ['lock'],
-            OwnerIDs => [$Self->{UserID}],
-            OrderBy => $OrderBy,
-            SortBy => $SortByS,
-            UserID => 1,
+            Result     => 'ARRAY',
+            Limit      => 1000,
+            Locks      => ['lock'],
+            OwnerIDs   => [ $Self->{UserID} ],
+            OrderBy    => $OrderBy,
+            SortBy     => $SortByS,
+            UserID     => 1,
             Permission => 'ro',
         );
     }
 
     # get article data
-    my $Counter = 0;
+    my $Counter      = 0;
     my $CounterShown = 0;
-    my $AllTickets = 0;
+    my $AllTickets   = 0;
     if (@ViewableTickets) {
-        $AllTickets = $#ViewableTickets+1;
+        $AllTickets = $#ViewableTickets + 1;
     }
-    foreach my $TicketID (@ViewableTickets) {
+    for my $TicketID (@ViewableTickets) {
         $Counter++;
-        if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{PageShown}+$Self->{StartHit})) {
+        if (   $Counter >= $Self->{StartHit}
+            && $Counter < ( $Self->{PageShown} + $Self->{StartHit} ) )
+        {
             my %Article = ();
-            my @ArticleBody = $Self->{TicketObject}->ArticleGet(TicketID => $TicketID);
-            if (!@ArticleBody) {
+            my @ArticleBody = $Self->{TicketObject}->ArticleGet( TicketID => $TicketID );
+            if ( !@ArticleBody ) {
                 next;
             }
-            %Article = %{$ArticleBody[$#ArticleBody]};
+            %Article = %{ $ArticleBody[$#ArticleBody] };
+
             # return latest non internal article
-            foreach my $Content (reverse @ArticleBody) {
+            for my $Content ( reverse @ArticleBody ) {
                 my %ArticlePart = %{$Content};
-                if ($ArticlePart{SenderType} eq 'customer') {
+                if ( $ArticlePart{SenderType} eq 'customer' ) {
                     %Article = %ArticlePart;
                     last;
                 }
             }
 
             my $Message = '';
+
             # put all tickets to ToDo where last sender type is customer / system or ! UserID
             # show just unseen tickets as new
-            if ($Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen') {
-                my %Article = %{$ArticleBody[$#ArticleBody]};
-                my %Flag = $Self->{TicketObject}->ArticleFlagGet(
+            if ( $Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen' ) {
+                my %Article = %{ $ArticleBody[$#ArticleBody] };
+                my %Flag    = $Self->{TicketObject}->ArticleFlagGet(
                     ArticleID => $Article{ArticleID},
-                    UserID => $Self->{UserID},
+                    UserID    => $Self->{UserID},
                 );
-                if (!$Flag{seen}) {
+                if ( !$Flag{seen} ) {
                     $Message = 'New message!';
                 }
             }
             else {
-                my %Article = %{$ArticleBody[$#ArticleBody]};
-                if ($Article{SenderType} eq 'customer' ||
-                    $Article{SenderType} eq 'system' ||
-                    $Article{CreatedBy} ne $Self->{UserID}) {
+                my %Article = %{ $ArticleBody[$#ArticleBody] };
+                if (   $Article{SenderType} eq 'customer'
+                    || $Article{SenderType} eq 'system'
+                    || $Article{CreatedBy} ne $Self->{UserID} )
+                {
                     $Message = 'New message!';
                 }
             }
@@ -278,130 +291,134 @@ sub Run {
 
     # create & return output
     my %PageNav = $Self->{LayoutObject}->PageNavBar(
-        Limit => 10000,
-        StartHit => $Self->{StartHit},
+        Limit     => 10000,
+        StartHit  => $Self->{StartHit},
         PageShown => $Self->{PageShown},
-        AllHits => $AllTickets,
-        Action => "Action=AgentTicketMailbox",
-        Link => "Subaction=$Self->{Subaction}&SortBy=$SortBy&OrderBy=$OrderBy&",
+        AllHits   => $AllTickets,
+        Action    => "Action=AgentTicketMailbox",
+        Link      => "Subaction=$Self->{Subaction}&SortBy=$SortBy&OrderBy=$OrderBy&",
     );
     $Self->{LayoutObject}->Block(
         Name => 'NavBar',
         Data => {
             %LockedData,
-            SortBy => $SortBy,
-            OrderBy => $OrderBy,
+            SortBy   => $SortBy,
+            OrderBy  => $OrderBy,
             ViewType => $Self->{Subaction},
             %PageNav,
         }
     );
+
     # create & return output
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketMailbox',
-        Data => {
-            %Param,
-        },
+        Data         => { %Param, },
     );
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
 
 sub MaskMailboxTicket {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    $Param{Message} = $Self->{LayoutObject}->{LanguageObject}->Get($Param{Message}).' ';
+    $Param{Message} = $Self->{LayoutObject}->{LanguageObject}->Get( $Param{Message} ) . ' ';
+
     # get ack actions
     $Self->{TicketObject}->TicketAcl(
-        Data => '-',
-        Action => $Self->{Action},
-        TicketID => $Param{TicketID},
-        ReturnType => 'Action',
+        Data          => '-',
+        Action        => $Self->{Action},
+        TicketID      => $Param{TicketID},
+        ReturnType    => 'Action',
         ReturnSubType => '-',
-        UserID => $Self->{UserID},
+        UserID        => $Self->{UserID},
     );
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+
     # check if the pending ticket is Over Time
-    if ($Param{UntilTime} < 0 && $Param{State} !~ /^pending auto/i) {
-        $Param{Message} .= $Self->{LayoutObject}->{LanguageObject}->Get('Timeover').' '.
-            $Self->{LayoutObject}->CustomerAge(Age => $Param{UntilTime}, Space => ' ').'!';
+    if ( $Param{UntilTime} < 0 && $Param{State} !~ /^pending auto/i ) {
+        $Param{Message} .= $Self->{LayoutObject}->{LanguageObject}->Get('Timeover') . ' '
+            . $Self->{LayoutObject}->CustomerAge( Age => $Param{UntilTime}, Space => ' ' ) . '!';
     }
+
     # create PendingUntil string if UntilTime is < -1
-    if ($Param{UntilTime}) {
-        if ($Param{UntilTime} < -1) {
+    if ( $Param{UntilTime} ) {
+        if ( $Param{UntilTime} < -1 ) {
             $Param{PendingUntil} = "<font color='$Self->{HighlightColor2}'>";
         }
         $Param{PendingUntil} .= $Self->{LayoutObject}->CustomerAge(
-            Age => $Param{UntilTime},
+            Age   => $Param{UntilTime},
             Space => '<br>',
         );
-        if ($Param{UntilTime} < -1) {
+        if ( $Param{UntilTime} < -1 ) {
             $Param{PendingUntil} .= "</font>";
         }
     }
+
     # do some strips && quoting
-    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
+    $Param{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Param{Age}, Space => ' ' );
     $Self->{LayoutObject}->Block(
         Name => 'Ticket',
-        Data => {
-            %Param,
-            %AclAction,
-        },
+        Data => { %Param, %AclAction, },
     );
+
     # ticket bulk block
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature')) {
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
         $Self->{LayoutObject}->Block(
             Name => 'Bulk',
-            Data => { %Param },
+            Data => {%Param},
         );
     }
+
     # ticket title
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::Title')) {
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::Title') ) {
         $Self->{LayoutObject}->Block(
             Name => 'Title',
-            Data => { %Param },
+            Data => {%Param},
         );
     }
+
     # build ticket view
-    foreach (qw(From To Cc Subject)) {
-        if ($Param{$_}) {
+    for (qw(From To Cc Subject)) {
+        if ( $Param{$_} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'Row',
                 Data => {
-                    Key => $_,
+                    Key   => $_,
                     Value => $Param{$_},
                 },
             );
         }
     }
-    foreach (1..3) {
-        if ($Param{"ArticleFreeText$_"}) {
+    for ( 1 .. 3 ) {
+        if ( $Param{"ArticleFreeText$_"} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleFreeText',
                 Data => {
-                    Key => $Param{"ArticleFreeKey$_"},
+                    Key   => $Param{"ArticleFreeKey$_"},
                     Value => $Param{"ArticleFreeText$_"},
                 },
             );
         }
     }
+
     # run ticket pre menu modules
-    if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')) eq 'HASH') {
-        my %Menus = %{$Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')};
+    if ( ref( $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') ) eq 'HASH' ) {
+        my %Menus   = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
         my $Counter = 0;
-        foreach my $Menu (sort keys %Menus) {
+        for my $Menu ( sort keys %Menus ) {
+
             # load module
-            if ($Self->{MainObject}->Require($Menus{$Menu}->{Module})) {
-                my $Object = $Menus{$Menu}->{Module}->new(
-                    %{$Self},
-                    TicketID => $Self->{TicketID},
-                );
+            if ( $Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
+                my $Object
+                    = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Self->{TicketID}, );
+
                 # run module
                 $Counter = $Object->Run(
                     %Param,
-                    Ticket => \%Param,
+                    Ticket  => \%Param,
                     Counter => $Counter,
-                    ACL => \%AclAction,
-                    Config => $Menus{$Menu},
+                    ACL     => \%AclAction,
+                    Config  => $Menus{$Menu},
                 );
             }
             else {

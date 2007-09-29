@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketHistory.pm - ticket history
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.pm,v 1.7 2007-01-20 18:04:49 mh Exp $
+# $Id: AgentTicketHistory.pm,v 1.8 2007-09-29 10:39:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,104 +12,117 @@
 package Kernel::Modules::AgentTicketHistory;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
-
-    foreach (keys %Param) {
+    bless( $Self, $Type );
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
 
     # check needed Opjects
-    foreach (qw(DBObject TicketObject LayoutObject LogObject UserObject ConfigObject)) {
-        if (!$Self->{$_}) {
-            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+    for (qw(DBObject TicketObject LayoutObject LogObject UserObject ConfigObject)) {
+        if ( !$Self->{$_} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
     return $Self;
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my $Output;
+
     # check needed stuff
-    if (!$Self->{TicketID}) {
+    if ( !$Self->{TicketID} ) {
+
         # error page
         return $Self->{LayoutObject}->ErrorScreen(
             Message => "Can't show history, no TicketID is given!",
             Comment => 'Please contact the admin.',
         );
     }
+
     # check permissions
     if (!$Self->{TicketObject}->Permission(
-        Type => 'ro',
-        TicketID => $Self->{TicketID},
-        UserID => $Self->{UserID})) {
+            Type     => 'ro',
+            TicketID => $Self->{TicketID},
+            UserID   => $Self->{UserID}
+        )
+        )
+    {
+
         # error screen, don't show ticket
-        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
     }
 
     my @Lines = $Self->{TicketObject}->HistoryGet(
         TicketID => $Self->{TicketID},
-        UserID => $Self->{UserID},
+        UserID   => $Self->{UserID},
     );
-    my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
+    my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $Self->{TicketID} );
+
     # get shown user info
     my @NewLines = ();
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::HistoryOrder') eq 'reverse') {
-        @NewLines = reverse (@Lines);
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::HistoryOrder') eq 'reverse' ) {
+        @NewLines = reverse(@Lines);
     }
     else {
         @NewLines = @Lines;
     }
     my $Table = '';
-    foreach my $DataTmp (@NewLines) {
+    for my $DataTmp (@NewLines) {
         my %Data = %{$DataTmp};
+
         # replace text
-        if ($Data{Name} && $Data{Name} =~ /^%%/) {
+        if ( $Data{Name} && $Data{Name} =~ /^%%/ ) {
             my %Info = ();
             $Data{Name} =~ s/^%%//g;
-            my @Values = split(/%%/, $Data{Name});
+            my @Values = split( /%%/, $Data{Name} );
             $Data{Name} = '';
-            foreach (@Values) {
-                if ($Data{Name}) {
+            for (@Values) {
+                if ( $Data{Name} ) {
                     $Data{Name} .= "\", ";
                 }
                 $Data{Name} .= "\"$_";
             }
-            if (!$Data{Name}) {
+            if ( !$Data{Name} ) {
                 $Data{Name} = '" ';
             }
-            $Data{Name} = $Self->{LayoutObject}->{LanguageObject}->Get('History::'.$Data{HistoryType}.'", '.$Data{Name});
+            $Data{Name} = $Self->{LayoutObject}->{LanguageObject}
+                ->Get( 'History::' . $Data{HistoryType} . '", ' . $Data{Name} );
+
             # remove not needed place holder
-            $Data{Name} =~ s/\%s//g
+            $Data{Name} =~ s/\%s//g;
         }
         $Self->{LayoutObject}->Block(
             Name => "Row",
             Data => {%Data},
         );
     }
+
     # build header
-    $Output .= $Self->{LayoutObject}->Header(Value => $Tn);
+    $Output .= $Self->{LayoutObject}->Header( Value => $Tn );
     $Output .= $Self->{LayoutObject}->NavigationBar();
+
     # get output
     $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentTicketHistory',
-            Data => {
-                TicketNumber => $Tn,
-                TicketID => $Self->{TicketID},
-            },
-        );
+        TemplateFile => 'AgentTicketHistory',
+        Data         => {
+            TicketNumber => $Tn,
+            TicketID     => $Self->{TicketID},
+        },
+    );
+
     # add footer
     $Output .= $Self->{LayoutObject}->Footer();
 

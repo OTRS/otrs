@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.pm,v 1.21 2007-03-21 11:12:05 martin Exp $
+# $Id: AdminSystemAddress.pm,v 1.22 2007-09-29 10:39:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,50 +12,49 @@
 package Kernel::Modules::AdminSystemAddress;
 
 use strict;
+use warnings;
+
 use Kernel::System::SystemAddress;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # allocate new hash for objects
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
 
     # check all needed objects
-    foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if (!$Self->{$_}) {
-            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
+        if ( !$Self->{$_} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
     $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new(%Param);
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
 
     return $Self;
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
 
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
-    if ($Self->{Subaction} eq 'Change') {
-        my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        my %Data = $Self->{SystemAddressObject}->SystemAddressGet(
-            ID => $ID,
-        );
+    if ( $Self->{Subaction} eq 'Change' ) {
+        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+        my %Data = $Self->{SystemAddressObject}->SystemAddressGet( ID => $ID, );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -64,29 +63,33 @@ sub Run {
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSystemAddressForm',
-            Data => \%Param,
+            Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
+
     # ------------------------------------------------------------ #
     # change action
     # ------------------------------------------------------------ #
-    elsif ($Self->{Subaction} eq 'ChangeAction') {
+    elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
         my $Note = '';
         my %GetParam;
-        foreach (qw(ID Name Realname QueueID Comment ValidID)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+        for (qw(ID Name Realname QueueID Comment ValidID)) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
+
         # update group
-        if ($Self->{SystemAddressObject}->SystemAddressUpdate(%GetParam, UserID => $Self->{UserID})) {
+        if ( $Self->{SystemAddressObject}
+            ->SystemAddressUpdate( %GetParam, UserID => $Self->{UserID} ) )
+        {
             $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify(Info => 'System Address updated!');
+            $Output .= $Self->{LayoutObject}->Notify( Info => 'System Address updated!' );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSystemAddressForm',
-                Data => \%Param,
+                Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -94,26 +97,27 @@ sub Run {
         else {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify(Priority => 'Error');
+            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action => "Change",
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSystemAddressForm',
-                Data => \%Param,
+                Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
     }
+
     # ------------------------------------------------------------ #
     # add
     # ------------------------------------------------------------ #
-    elsif ($Self->{Subaction} eq 'Add') {
+    elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam = ();
-        foreach (qw(Name)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+        for (qw(Name)) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
         }
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -123,29 +127,34 @@ sub Run {
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSystemAddressForm',
-            Data => \%Param,
+            Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
+
     # ------------------------------------------------------------ #
     # add action
     # ------------------------------------------------------------ #
-    elsif ($Self->{Subaction} eq 'AddAction') {
+    elsif ( $Self->{Subaction} eq 'AddAction' ) {
         my $Note = '';
         my %GetParam;
-        foreach (qw(ID Name Realname QueueID Comment ValidID)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+        for (qw(ID Name Realname QueueID Comment ValidID)) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
+
         # add user
-        if (my $AddressID = $Self->{SystemAddressObject}->SystemAddressAdd(%GetParam, UserID => $Self->{UserID})) {
+        if ( my $AddressID
+            = $Self->{SystemAddressObject}->SystemAddressAdd( %GetParam, UserID => $Self->{UserID} )
+            )
+        {
             $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify(Info => 'System Address added!');
+            $Output .= $Self->{LayoutObject}->Notify( Info => 'System Address added!' );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSystemAddressForm',
-                Data => \%Param,
+                Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -153,19 +162,20 @@ sub Run {
         else {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify(Priority => 'Error');
+            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action => "Add",
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSystemAddressForm',
-                Data => \%Param,
+                Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
     }
+
     # ------------------------------------------------------------
     # overview
     # ------------------------------------------------------------
@@ -175,7 +185,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSystemAddressForm',
-            Data => \%Param,
+            Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -184,7 +194,7 @@ sub Run {
 }
 
 sub _Edit {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
 
     $Self->{LayoutObject}->Block(
@@ -192,22 +202,20 @@ sub _Edit {
         Data => \%Param,
     );
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => {
-            $Self->{ValidObject}->ValidList(),
-        },
-        Name => 'ValidID',
+        Data       => { $Self->{ValidObject}->ValidList(), },
+        Name       => 'ValidID',
         SelectedID => $Param{ValidID},
     );
     $Param{'QueueOption'} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => {
             $Self->{DBObject}->GetTableData(
-                What => 'id, name',
+                What  => 'id, name',
                 Table => 'queue',
                 Valid => 1,
             )
         },
-        Name => 'QueueID',
-        SelectedID => $Param{QueueID},
+        Name           => 'QueueID',
+        SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
     );
 
@@ -219,8 +227,8 @@ sub _Edit {
 }
 
 sub _Overview {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
 
     $Self->{LayoutObject}->Block(
@@ -231,27 +239,25 @@ sub _Overview {
         Name => 'OverviewResult',
         Data => \%Param,
     );
-    my %List = $Self->{SystemAddressObject}->SystemAddressList(
-        Valid => 0,
-    );
+    my %List = $Self->{SystemAddressObject}->SystemAddressList( Valid => 0, );
+
     # get valid list
     my %ValidList = $Self->{ValidObject}->ValidList();
-    my $CssClass = '';
-    foreach (sort {$List{$a} cmp $List{$b}}  keys %List) {
+    my $CssClass  = '';
+    for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+
         # set output class
-        if ($CssClass && $CssClass eq 'searchactive') {
+        if ( $CssClass && $CssClass eq 'searchactive' ) {
             $CssClass = 'searchpassive';
         }
         else {
             $CssClass = 'searchactive';
         }
-        my %Data = $Self->{SystemAddressObject}->SystemAddressGet(
-            ID => $_,
-        );
+        my %Data = $Self->{SystemAddressObject}->SystemAddressGet( ID => $_, );
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResultRow',
             Data => {
-                Valid => $ValidList{$Data{ValidID}},
+                Valid    => $ValidList{ $Data{ValidID} },
                 CssClass => $CssClass,
                 %Data,
             },

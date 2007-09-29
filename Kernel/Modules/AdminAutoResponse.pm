@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.19 2007-01-30 14:08:06 mh Exp $
+# $Id: AdminAutoResponse.pm,v 1.20 2007-09-29 10:39:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,96 +12,92 @@
 package Kernel::Modules::AdminAutoResponse;
 
 use strict;
+use warnings;
+
 use Kernel::System::AutoResponse;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get common opjects
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
 
     # check all needed objects
-    foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if (!$Self->{$_}) {
-            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
+        if ( !$Self->{$_} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
     $Self->{AutoResponseObject} = Kernel::System::AutoResponse->new(%Param);
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject}        = Kernel::System::Valid->new(%Param);
 
     return $Self;
 }
 
 sub Run {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
-    $Param{Subaction} = $Self->{Subaction};
+    $Param{Subaction}  = $Self->{Subaction};
     $Param{NextScreen} = 'AdminAutoResponse';
 
     my @Params = (
-        'ID',
-        'Name',
-        'Comment',
-        'ValidID',
-        'Response',
-        'Subject',
-        'TypeID',
-        'AddressID',
-        'Charset',
+        'ID',     'Name',      'Comment', 'ValidID', 'Response', 'Subject',
+        'TypeID', 'AddressID', 'Charset',
     );
     my %GetParam;
-    foreach (@Params) {
-        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+    for (@Params) {
+        $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
     }
+
     # get composed charset
     $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
+
     # get data
-    if ($Param{Subaction} eq 'Change') {
-        my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        my %Data = $Self->{AutoResponseObject}->AutoResponseGet(ID => $ID);
+    if ( $Param{Subaction} eq 'Change' ) {
+        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+        my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID );
         $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(%Data);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
+
     # update action
-    elsif ($Param{Subaction} eq 'ChangeAction') {
-        if ($Self->{AutoResponseObject}->AutoResponseUpdate(
-            %GetParam,
-            UserID => $Self->{UserID},
-        )) {
-            return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
+    elsif ( $Param{Subaction} eq 'ChangeAction' ) {
+        if ($Self->{AutoResponseObject}->AutoResponseUpdate( %GetParam, UserID => $Self->{UserID}, )
+            )
+        {
+            return $Self->{LayoutObject}->Redirect( OP => "Action=$Param{NextScreen}" );
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();
         }
     }
+
     # add new auto response
-    elsif ($Param{Subaction} eq 'AddAction') {
-        if ($Self->{AutoResponseObject}->AutoResponseAdd(
-            %GetParam,
-            UserID => $Self->{UserID},
-        )) {
-            return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
+    elsif ( $Param{Subaction} eq 'AddAction' ) {
+        if ( $Self->{AutoResponseObject}->AutoResponseAdd( %GetParam, UserID => $Self->{UserID}, ) )
+        {
+            return $Self->{LayoutObject}->Redirect( OP => "Action=$Param{NextScreen}" );
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();
         }
     }
+
     # else ! print form
     else {
         $Output = $Self->{LayoutObject}->Header();
@@ -113,62 +109,62 @@ sub Run {
 }
 
 sub _Mask {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
 
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => {
-            $Self->{ValidObject}->ValidList(),
-        },
-        Name => 'ValidID',
+        Data       => { $Self->{ValidObject}->ValidList(), },
+        Name       => 'ValidID',
         SelectedID => $Param{ValidID},
     );
 
     $Param{'AutoResponseOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             $Self->{DBObject}->GetTableData(
-                What => 'id, name, id',
+                What  => 'id, name, id',
                 Valid => 0,
                 Clamp => 1,
                 Table => 'auto_response',
             )
         },
-        Name => 'ID',
-        Size => 15,
+        Name       => 'ID',
+        Size       => 15,
         SelectedID => $Param{ID},
     );
 
     $Param{'TypeOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             $Self->{DBObject}->GetTableData(
-                What => 'id, name',
+                What  => 'id, name',
                 Valid => 1,
                 Clamp => 1,
                 Table => 'auto_response_type',
             )
         },
-        Name => 'TypeID',
+        Name       => 'TypeID',
         SelectedID => $Param{TypeID},
     );
 
     $Param{'SystemAddressOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             $Self->{DBObject}->GetTableData(
-                What => 'id, value0, value1',
+                What  => 'id, value0, value1',
                 Valid => 1,
                 Clamp => 1,
                 Table => 'system_address',
             )
         },
-        Name => 'AddressID',
+        Name       => 'AddressID',
         SelectedID => $Param{AddressID},
     );
-    $Param{'Subaction'} = "Add" if (!$Param{'Subaction'});
-    if ($Param{Charset} && $Param{Charset} !~ /$Self->{LayoutObject}->{UserCharset}/i) {
-        $Param{Note} = '(<i>$Text{"This message was written in a character set other than your own."}</i>)';
+    $Param{'Subaction'} = "Add" if ( !$Param{'Subaction'} );
+    if ( $Param{Charset} && $Param{Charset} !~ /$Self->{LayoutObject}->{UserCharset}/i ) {
+        $Param{Note}
+            = '(<i>$Text{"This message was written in a character set other than your own."}</i>)';
     }
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminAutoResponseForm', Data => \%Param);
+    return $Self->{LayoutObject}
+        ->Output( TemplateFile => 'AdminAutoResponseForm', Data => \%Param );
 }
 
 1;

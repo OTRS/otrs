@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.15 2007-01-20 18:04:49 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.16 2007-09-29 10:39:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,208 +12,208 @@
 package Kernel::Modules::AgentLinkObject;
 
 use strict;
+use warnings;
+
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
-
-    foreach (keys %Param) {
+    bless( $Self, $Type );
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
-        if (!$Self->{$_}) {
-            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+    for (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
+        if ( !$Self->{$_} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
 
     # load generic backend link object module
     $Self->{LinkObject} = Kernel::System::LinkObject->new(%Param);
-    $Self->{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-    $Self->{PreviewID} = $Self->{ParamObject}->GetParam(Param => 'PreviewID') || '';
-    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
-
-    foreach my $Key (qw(SourceID SourceObject DestinationObject)) {
-        my $Value = $Self->{ParamObject}->GetParam(Param => $Key) || '';
+    $Self->{ID}         = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+    $Self->{PreviewID}  = $Self->{ParamObject}->GetParam( Param => 'PreviewID' ) || '';
+    $Self->{StartHit}   = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
+    for my $Key (qw(SourceID SourceObject DestinationObject)) {
+        my $Value = $Self->{ParamObject}->GetParam( Param => $Key ) || '';
         if ($Value) {
             $Self->{$Key} = $Value;
             $Self->{SessionObject}->UpdateSessionID(
                 SessionID => $Self->{SessionID},
-                Key => $Key,
-                Value => $Value,
+                Key       => $Key,
+                Value     => $Value,
             );
         }
     }
 
     # the following 12 lines check if how much destination objects are available
     # if only one available this will be automatically selected
-    if (!$Self->{DestinationObject}) {
-        my %DestinationObjects = $Self->{LinkObject}->LinkObjects(SourceObject => $Self->{SourceObject});
-        my $Counter = 0;
+    if ( !$Self->{DestinationObject} ) {
+        my %DestinationObjects
+            = $Self->{LinkObject}->LinkObjects( SourceObject => $Self->{SourceObject} );
+        my $Counter                   = 0;
         my $PossibleDestinationObject = '';
-        foreach (keys %DestinationObjects) {
+        for ( keys %DestinationObjects ) {
             $Counter++;
             $PossibleDestinationObject = $_;
         }
-        if ($Counter && $Counter == 1) {
+        if ( $Counter && $Counter == 1 ) {
             $Self->{DestinationObject} = $PossibleDestinationObject;
         }
     }
 
-    if ($Self->{DestinationObject}) {
+    if ( $Self->{DestinationObject} ) {
         $Param{Module} = $Self->{DestinationObject};
-        $Param{ID} = $Self->{ID};
+        $Param{ID}     = $Self->{ID};
         $Self->{LinkObject}->LoadBackend(%Param);
     }
     return $Self;
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # start application page
     my $Output .= $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    $Output    .= $Self->{LayoutObject}->NavigationBar();
 
     # check needed stuff
-    foreach (qw(SourceID SourceObject)) {
-        if (!$Self->{$_}) {
+    for (qw(SourceID SourceObject)) {
+        if ( !$Self->{$_} ) {
+
             # error page
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Need $_ Param!",
-            );
+            return $Self->{LayoutObject}->ErrorScreen( Message => "Need $_ Param!", );
         }
     }
 
     # update action
-    if ($Self->{Subaction} eq 'LinkParent') {
+    if ( $Self->{Subaction} eq 'LinkParent' ) {
         $Self->{LinkObject}->LinkObject(
-            LinkType => 'Parent',
-            LinkID1 => $Self->{ID},
+            LinkType    => 'Parent',
+            LinkID1     => $Self->{ID},
             LinkObject1 => $Self->{DestinationObject},
-            LinkID2 => $Self->{SourceID},
+            LinkID2     => $Self->{SourceID},
             LinkObject2 => $Self->{SourceObject},
-            UserID => $Self->{UserID},
+            UserID      => $Self->{UserID},
         );
     }
-    elsif ($Self->{Subaction} eq 'LinkChild') {
+    elsif ( $Self->{Subaction} eq 'LinkChild' ) {
         $Self->{LinkObject}->LinkObject(
-            LinkType => 'Child',
-            LinkID1 => $Self->{SourceID},
+            LinkType    => 'Child',
+            LinkID1     => $Self->{SourceID},
             LinkObject1 => $Self->{SourceObject},
-            LinkID2 => $Self->{ID},
+            LinkID2     => $Self->{ID},
             LinkObject2 => $Self->{DestinationObject},
-            UserID => $Self->{UserID},
+            UserID      => $Self->{UserID},
         );
     }
-    elsif ($Self->{Subaction} eq 'LinkNormal') {
+    elsif ( $Self->{Subaction} eq 'LinkNormal' ) {
         $Self->{LinkObject}->LinkObject(
-            LinkType => 'Normal',
-            LinkID1 => $Self->{SourceID},
+            LinkType    => 'Normal',
+            LinkID1     => $Self->{SourceID},
             LinkObject1 => $Self->{SourceObject},
-            LinkID2 => $Self->{ID},
+            LinkID2     => $Self->{ID},
             LinkObject2 => $Self->{DestinationObject},
-            UserID => $Self->{UserID},
+            UserID      => $Self->{UserID},
         );
     }
-    elsif ($Self->{Subaction} eq 'UnlinkParent') {
+    elsif ( $Self->{Subaction} eq 'UnlinkParent' ) {
         $Self->{LinkObject}->UnlinkObject(
-            LinkType => 'Parent',
-            LinkID1 => $Self->{ID},
+            LinkType    => 'Parent',
+            LinkID1     => $Self->{ID},
             LinkObject1 => $Self->{DestinationObject},
-            LinkID2 => $Self->{SourceID},
+            LinkID2     => $Self->{SourceID},
             LinkObject2 => $Self->{SourceObject},
-            UserID => $Self->{UserID},
+            UserID      => $Self->{UserID},
         );
     }
-    elsif ($Self->{Subaction} eq 'UnlinkChild') {
+    elsif ( $Self->{Subaction} eq 'UnlinkChild' ) {
         $Self->{LinkObject}->UnlinkObject(
-            LinkType => 'Child',
-            LinkID1 => $Self->{SourceID},
+            LinkType    => 'Child',
+            LinkID1     => $Self->{SourceID},
             LinkObject1 => $Self->{SourceObject},
-            LinkID2 => $Self->{ID},
+            LinkID2     => $Self->{ID},
             LinkObject2 => $Self->{DestinationObject},
-            UserID => $Self->{UserID},
+            UserID      => $Self->{UserID},
         );
     }
-    elsif ($Self->{Subaction} eq 'UnlinkNormal') {
+    elsif ( $Self->{Subaction} eq 'UnlinkNormal' ) {
         $Self->{LinkObject}->UnlinkObject(
-            LinkType => 'Normal',
-            LinkID1 => $Self->{SourceID},
+            LinkType    => 'Normal',
+            LinkID1     => $Self->{SourceID},
             LinkObject1 => $Self->{SourceObject},
-            LinkID2 => $Self->{ID},
+            LinkID2     => $Self->{ID},
             LinkObject2 => $Self->{DestinationObject},
-            UserID => $Self->{UserID},
+            UserID      => $Self->{UserID},
         );
     }
 
     # show link objects
     $Param{'LinkToObject'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => {$Self->{LinkObject}->LinkObjects(SourceObject => $Self->{SourceObject})},
-        Name => 'DestinationObject',
+        Data       => { $Self->{LinkObject}->LinkObjects( SourceObject => $Self->{SourceObject} ) },
+        Name       => 'DestinationObject',
         SelectedID => $Self->{DestinationObject},
     );
     $Self->{LayoutObject}->Block(
         Name => 'LinkOption',
-        Data => {
-            %Param,
-            SourceObject => $Self->{SourceObject},
-        },
+        Data => { %Param, SourceObject => $Self->{SourceObject}, },
     );
 
     # search mask
-    if ($Self->{DestinationObject}) {
+    if ( $Self->{DestinationObject} ) {
+
         # get backend module params
         my %GetParams = ();
-        foreach my $Param ($Self->{LinkObject}->LinkSearchParams()) {
-            if (defined($Self->{ParamObject}->GetParam(Param => $Param->{Name}))) {
-                $GetParams{$Param->{Name}} = $Self->{ParamObject}->GetParam(Param => $Param->{Name});
-                $GetParams{$Param->{Name}} =~ s/\s+$//g;
-                $GetParams{$Param->{Name}} =~ s/^\s+//g;
+        for my $Param ( $Self->{LinkObject}->LinkSearchParams() ) {
+            if ( defined( $Self->{ParamObject}->GetParam( Param => $Param->{Name} ) ) ) {
+                $GetParams{ $Param->{Name} }
+                    = $Self->{ParamObject}->GetParam( Param => $Param->{Name} );
+                $GetParams{ $Param->{Name} } =~ s/\s+$//g;
+                $GetParams{ $Param->{Name} } =~ s/^\s+//g;
             }
             else {
-                $GetParams{$Param->{Name}} = $Self->{"ObjectLink_$Self->{DestinationObject}_$Param->{Name}"} || '';
+                $GetParams{ $Param->{Name} }
+                    = $Self->{"ObjectLink_$Self->{DestinationObject}_$Param->{Name}"} || '';
             }
         }
-        if ($Self->{Subaction} eq 'Search') {
-            foreach (keys %GetParams) {
+        if ( $Self->{Subaction} eq 'Search' ) {
+            for ( keys %GetParams ) {
                 $Self->{SessionObject}->UpdateSessionID(
                     SessionID => $Self->{SessionID},
-                    Key => "ObjectLink_$Self->{DestinationObject}_$_",
-                    Value => $GetParams{$_},
+                    Key       => "ObjectLink_$Self->{DestinationObject}_$_",
+                    Value     => $GetParams{$_},
                 );
             }
         }
+
         # get search mask
         $Self->{LayoutObject}->Block(
             Name => 'Search',
-            Data => {
-                %Param,
-            },
+            Data => { %Param, },
         );
+
         # get search item
-        foreach my $Data ($Self->{LinkObject}->LinkSearchParams()) {
-            if (defined($Data->{Select})) {
+        for my $Data ( $Self->{LinkObject}->LinkSearchParams() ) {
+            if ( defined( $Data->{Select} ) ) {
                 $Data->{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
-                    SelectedID => $GetParams{$Data->{Name}},
-                    Data => $Data->{Select},
-                    Name => $Data->{Name},
+                    SelectedID => $GetParams{ $Data->{Name} },
+                    Data       => $Data->{Select},
+                    Name       => $Data->{Name},
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'SearchItemSelect',
                     Data => {
                         %Param,
-                        Value => $GetParams{$Data->{Name}},
+                        Value => $GetParams{ $Data->{Name} },
                         %{$Data},
                     },
                 );
@@ -223,134 +223,133 @@ sub Run {
                     Name => 'SearchItem',
                     Data => {
                         %Param,
-                        Value => $GetParams{$Data->{Name}},
+                        Value => $GetParams{ $Data->{Name} },
                         %{$Data},
                     },
                 );
             }
         }
+
         # result
         my $SearchPageShown = 15;
-        my $Limit = 100;
+        my $Limit           = 100;
 
         my @DataResultRaw = $Self->{LinkObject}->LinkSearch(
             %GetParams,
-            Limit => $Limit,
+            Limit  => $Limit,
             UserID => $Self->{UserID},
         );
+
         # show no own ticket
         my @DataResult = ();
-        foreach my $Data (@DataResultRaw) {
-            if ($Self->{SourceObject} eq $Self->{DestinationObject} && $Self->{SourceID} eq $Data->{ID}) {
+        for my $Data (@DataResultRaw) {
+            if (   $Self->{SourceObject} eq $Self->{DestinationObject}
+                && $Self->{SourceID} eq $Data->{ID} )
+            {
+
                 # no action
             }
             else {
-                push(@DataResult, $Data);
+                push( @DataResult, $Data );
             }
         }
         if (@DataResult) {
             my %PageNav = $Self->{LayoutObject}->PageNavBar(
-                Limit => $Limit,
-                StartHit => $Self->{StartHit},
+                Limit     => $Limit,
+                StartHit  => $Self->{StartHit},
                 PageShown => $SearchPageShown,
-                AllHits => $#DataResult+1,
-                Action => "Action=AgentLinkObject&Subaction=Search",
-                Link => "",
+                AllHits   => $#DataResult + 1,
+                Action    => "Action=AgentLinkObject&Subaction=Search",
+                Link      => "",
             );
             $Self->{LayoutObject}->Block(
                 Name => 'SearchResult',
-                Data => {
-                    %Param, %PageNav
-                },
+                Data => { %Param, %PageNav },
             );
-            my $Counter = 0;
+            my $Counter      = 0;
             my %LinkedParent = $Self->{LinkObject}->LinkedObjects(
-                LinkType => 'Parent',
+                LinkType    => 'Parent',
                 LinkObject1 => $Self->{DestinationObject},
-                LinkID2 => $Self->{SourceID},
+                LinkID2     => $Self->{SourceID},
                 LinkObject2 => $Self->{SourceObject},
-                UserID => $Self->{UserID},
+                UserID      => $Self->{UserID},
             );
             my %LinkedChild = $Self->{LinkObject}->LinkedObjects(
-                LinkType => 'Child',
-                LinkID1 => $Self->{SourceID},
+                LinkType    => 'Child',
+                LinkID1     => $Self->{SourceID},
                 LinkObject1 => $Self->{SourceObject},
                 LinkObject2 => $Self->{DestinationObject},
-                UserID => $Self->{UserID},
+                UserID      => $Self->{UserID},
             );
             my %LinkedNormal = $Self->{LinkObject}->LinkedObjects(
-                LinkType => 'Normal',
-                LinkID1 => $Self->{SourceID},
+                LinkType    => 'Normal',
+                LinkID1     => $Self->{SourceID},
                 LinkObject1 => $Self->{SourceObject},
                 LinkObject2 => $Self->{DestinationObject},
-                UserID => $Self->{UserID},
+                UserID      => $Self->{UserID},
             );
-
-            foreach my $Data (@DataResult) {
+            for my $Data (@DataResult) {
                 $Counter++;
-                if ($Counter >= $Self->{StartHit} && $Counter < ($SearchPageShown+$Self->{StartHit}) ) {
-                    if ($LinkedParent{$Data->{ID}}) {
+                if (   $Counter >= $Self->{StartHit}
+                    && $Counter < ( $SearchPageShown + $Self->{StartHit} ) )
+                {
+                    if ( $LinkedParent{ $Data->{ID} } ) {
                         $Param{LinkedParent} = 1;
                     }
                     else {
                         $Param{LinkedParent} = 0;
                     }
-                    if ($LinkedChild{$Data->{ID}}) {
+                    if ( $LinkedChild{ $Data->{ID} } ) {
                         $Param{LinkedChild} = 1;
                     }
                     else {
                         $Param{LinkedChild} = 0;
                     }
-                    if ($LinkedNormal{$Data->{ID}}) {
+                    if ( $LinkedNormal{ $Data->{ID} } ) {
                         $Param{LinkedNormal} = 1;
                     }
                     else {
                         $Param{LinkedNormal} = 0;
                     }
 
-                    if ($Param{LinkedNormal} == 1) {
+                    if ( $Param{LinkedNormal} == 1 ) {
                         $Param{LinkedParent} = 2;
-                        $Param{LinkedChild} = 2;
+                        $Param{LinkedChild}  = 2;
                     }
-                    if ($Param{LinkedParent} == 1) {
+                    if ( $Param{LinkedParent} == 1 ) {
                         $Param{LinkedNormal} = 2;
-                        $Param{LinkedChild} = 2;
+                        $Param{LinkedChild}  = 2;
                     }
-                    if ($Param{LinkedChild} == 1) {
+                    if ( $Param{LinkedChild} == 1 ) {
                         $Param{LinkedParent} = 2;
                         $Param{LinkedNormal} = 2;
                     }
 
-                    if ($LinkedParent{$Data->{ID}}) {
+                    if ( $LinkedParent{ $Data->{ID} } ) {
                         $Param{LinkedParent} = 1;
                     }
                     $Self->{LayoutObject}->Block(
                         Name => 'SearchResultItem',
-                        Data => {
-                            %Param,
-                            %{$Data},
-                            StartHit => $Self->{StartHit},
-                        },
+                        Data => { %Param, %{$Data}, StartHit => $Self->{StartHit}, },
                     );
                 }
             }
         }
 
-        if ($Self->{PreviewID}) {
+        if ( $Self->{PreviewID} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'Preview',
                 Data => {
                     %Param,
-                    $Self->{LinkObject}->LinkItemData(ID => $Self->{PreviewID}, UserID => $Self->{UserID}),
+                    $Self->{LinkObject}
+                        ->LinkItemData( ID => $Self->{PreviewID}, UserID => $Self->{UserID} ),
                 },
             );
         }
     }
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentLinkObject',
-        Data => {
-            %Param,
-        },
+        Data         => { %Param, },
     );
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
