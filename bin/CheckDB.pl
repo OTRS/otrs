@@ -3,7 +3,7 @@
 # bin/CheckDB.pl - to check the db access
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckDB.pl,v 1.18 2007-09-29 11:06:20 mh Exp $
+# $Id: CheckDB.pl,v 1.19 2007-09-29 11:40:56 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,17 +20,19 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
+use strict;
+use warnings;
+
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
-use strict;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $)[1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -40,38 +42,38 @@ use Kernel::System::DB;
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-CheckDB',
+$CommonObject{LogObject}    = Kernel::System::Log->new(
+    LogPrefix    => 'OTRS-CheckDB',
     ConfigObject => $CommonObject{ConfigObject},
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
 
 # get options
 my %Opts = ();
-getopt('s',  \%Opts);
+getopt( 's', \%Opts );
 my $End = "\n";
-if ($Opts{'s'}) {
+if ( $Opts{'s'} ) {
     $End = '';
 }
 
 # chech database state
-if ($CommonObject{DBObject}) {
-    $CommonObject{DBObject}->Prepare(SQL => "SELECT * FROM valid");
+if ( $CommonObject{DBObject} ) {
+    $CommonObject{DBObject}->Prepare( SQL => "SELECT * FROM valid" );
     my $Check = 0;
-    while (my @Row = $CommonObject{DBObject}->FetchrowArray()) {
+    while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
         $Check++;
     }
-    if (!$Check) {
+    if ( !$Check ) {
         print "No initial inserts found!$End";
-        exit (1);
+        exit(1);
     }
     else {
         print "It looks Ok!$End";
-        exit (0);
+        exit(0);
     }
 }
 else {
     print "No database connect!$End";
-    exit (1);
+    exit(1);
 }

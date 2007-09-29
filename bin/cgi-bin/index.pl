@@ -3,7 +3,7 @@
 # bin/cgi-bin/index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: index.pl,v 1.84 2007-09-29 11:07:04 mh Exp $
+# $Id: index.pl,v 1.85 2007-09-29 11:41:48 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,10 +28,10 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.84 $)[1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 # check @INC for mod_perl (add lib path for "require module"!)
-push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
+push( @INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib" );
 
 # 0=off;1=on;
 my $Debug = 0;
@@ -40,7 +40,7 @@ my $Debug = 0;
 use Kernel::System::Web::InterfaceAgent();
 
 # create new object
-my $Interface = Kernel::System::Web::InterfaceAgent->new(Debug => $Debug);
+my $Interface = Kernel::System::Web::InterfaceAgent->new( Debug => $Debug );
 
 # execute object
 $Interface->Run();

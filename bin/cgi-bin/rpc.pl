@@ -3,7 +3,7 @@
 # bin/cgi-bin/rpc.pl - soap handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: rpc.pl,v 1.2 2007-09-29 11:07:04 mh Exp $
+# $Id: rpc.pl,v 1.3 2007-09-29 11:41:48 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,27 +39,25 @@ use Kernel::System::Queue;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $)[1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 # common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-RPC',
     %CommonObject,
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
-$CommonObject{PIDObject} = Kernel::System::PID->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
-$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
-$CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{PIDObject}    = Kernel::System::PID->new(%CommonObject);
+$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
+$CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
+$CommonObject{GroupObject}  = Kernel::System::Group->new(%CommonObject);
+$CommonObject{QueueObject}  = Kernel::System::Queue->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 
-SOAP::Transport::HTTP::CGI
-    -> dispatch_to('Core')
-    -> handle;
+SOAP::Transport::HTTP::CGI->dispatch_to('Core')->handle;
 
 package Core;
 
@@ -71,23 +69,25 @@ sub new {
 }
 
 sub Dispatch {
-    my $Self = shift;
-    my $User = shift || '';
-    my $Pw = shift || '';
+    my $Self   = shift;
+    my $User   = shift || '';
+    my $Pw     = shift || '';
     my $Object = shift;
     my $Method = shift;
-    my %Param = @_;
-    if ($User ne $CommonObject{ConfigObject}->Get('SOAP::User') || $Pw ne $CommonObject{ConfigObject}->Get('SOAP::Password')) {
+    my %Param  = @_;
+    if (   $User ne $CommonObject{ConfigObject}->Get('SOAP::User')
+        || $Pw ne $CommonObject{ConfigObject}->Get('SOAP::Password') )
+    {
         $CommonObject{LogObject}->Log(
             Priority => 'notice',
-            Message => "Auth for user $User faild!",
+            Message  => "Auth for user $User faild!",
         );
         return;
     }
-    if (!$CommonObject{$Object}) {
+    if ( !$CommonObject{$Object} ) {
         $CommonObject{LogObject}->Log(
             Priority => 'error',
-            Message => "No such Object $Object!",
+            Message  => "No such Object $Object!",
         );
         return "No such Object $Object!";
     }

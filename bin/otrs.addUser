@@ -3,7 +3,7 @@
 # otrs.addUser - Add User from CLI
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: otrs.addUser,v 1.10 2007-05-24 10:25:07 martin Exp $
+# $Id: otrs.addUser,v 1.11 2007-09-29 11:40:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,13 +13,14 @@
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw (%opts);
 use Getopt::Std;
-getopt('flpge',  \%opts);
-unless ($ARGV[0]){
-    print "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname] [-e email] username\n";
+getopt( 'flpge', \%opts );
+unless ( $ARGV[0] ) {
+    print
+        "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname] [-e email] username\n";
     print "\tif you define -g with a valid group name then the user will be added that group\n";
     print "\n";
     exit;
@@ -36,52 +37,52 @@ use Kernel::System::User;
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{LogObject} = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.addUser');
+$CommonObject{LogObject}  = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addUser' );
 $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 
 my %Param;
 undef %Param;
 
 #user id of the person adding the record
-$Param{UserID}='1';
+$Param{UserID} = '1';
 
 #Validrecord
-$Param{ValidID}='1';
+$Param{ValidID} = '1';
 
-$Param{UserFirstname}=$opts{'f'};
-$Param{UserLastname}=$opts{'l'};
-$Param{UserPw}=$opts{'p'};
-$Param{UserLogin}=$ARGV[0];
-$Param{UserEmail}=$opts{'e'};
+$Param{UserFirstname} = $opts{'f'};
+$Param{UserLastname}  = $opts{'l'};
+$Param{UserPw}        = $opts{'p'};
+$Param{UserLogin}     = $ARGV[0];
+$Param{UserEmail}     = $opts{'e'};
 
-if ($Param{UID} = $CommonObject{UserObject}->UserAdd(%Param, ChangeUserID => 1)){
-   print "User added. user  id is $Param{UID}\n";
+if ( $Param{UID} = $CommonObject{UserObject}->UserAdd( %Param, ChangeUserID => 1 ) ) {
+    print "User added. user  id is $Param{UID}\n";
 }
 
-if ($opts{'g'}) {
-   # bring in the groups module
-   require Kernel::System::Group;
-   import  Kernel::System::Group;
-   $CommonObject{GroupObject}   = Kernel::System::Group->new(%CommonObject);
+if ( $opts{'g'} ) {
 
+    # bring in the groups module
+    require Kernel::System::Group;
+    import Kernel::System::Group;
+    $CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 
-   $Param{Group}=$opts{'g'};
+    $Param{Group} = $opts{'g'};
 
-   if ($Param{GID}=$CommonObject{GroupObject}->GetGroupIdByName(%Param)){
-        print "Found Group.. GID is $Param{GID}" , "\n";
-   }
-   else {
+    if ( $Param{GID} = $CommonObject{GroupObject}->GetGroupIdByName(%Param) ) {
+        print "Found Group.. GID is $Param{GID}", "\n";
+    }
+    else {
         print "Failed to get Group ID. Perhaps non-existent group..\n";
-   }
-   if ($CommonObject{GroupObject}->GroupMemberAdd(%Param, Permission => {'rw' => 1})) {
+    }
+    if ( $CommonObject{GroupObject}->GroupMemberAdd( %Param, Permission => { 'rw' => 1 } ) ) {
         print "User added to group\n";
-   }
-   else {
+    }
+    else {
         print "Failed to add user to group\n";
-   }
+    }
 }
 
-exit (0);
+exit(0);

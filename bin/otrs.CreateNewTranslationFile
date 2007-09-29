@@ -3,7 +3,7 @@
 # otrs.CreateNewTranslationFile - create new translation file
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.19 2007-09-29 11:06:38 mh Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.20 2007-09-29 11:40:37 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,12 +24,12 @@
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use strict;
 
 use vars qw($VERSION %Opts);
-$VERSION = qw($Revision: 1.19 $)[1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -38,7 +38,7 @@ use Kernel::System::Main;
 use Kernel::Language;
 
 # get opts
-getopt('olst',  \%Opts);
+getopt( 'olst', \%Opts );
 
 # print head
 print "otrs.CreateNewTranslationFile <Revision $VERSION> - create new translation file\n";
@@ -48,29 +48,31 @@ print "usage: otrs.CreateNewTranslationFile -l <Language> -t <dtl_files_or_direc
 # common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-CreateNewTranslationFile',
     %CommonObject,
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(
-    %CommonObject,
-);
+$CommonObject{MainObject} = Kernel::System::Main->new( %CommonObject, );
 
 # check params
-if (!$Opts{'l'}) {
+if ( !$Opts{'l'} ) {
     print "ERROR: -l <Language>!\n";
     exit 1;
 }
 else {
-    $Opts{LanguageFile} = $CommonObject{ConfigObject}->Get('Home')."/Kernel/Language/$Opts{'l'}.pm";
-    if (! -f $Opts{LanguageFile}) {
+    $Opts{LanguageFile}
+        = $CommonObject{ConfigObject}->Get('Home') . "/Kernel/Language/$Opts{'l'}.pm";
+    if ( !-f $Opts{LanguageFile} ) {
         print "ERROR: Not translation file: $Opts{LanguageFile}!\n";
         exit 1;
     }
 }
-if (!$Opts{'t'}) {
-    $Opts{'t'} = $CommonObject{ConfigObject}->Get('Home').'/Kernel/Output/HTML/'.
-        $CommonObject{ConfigObject}->Get('DefaultTheme').'/*.dtl';
+if ( !$Opts{'t'} ) {
+    $Opts{'t'}
+        = $CommonObject{ConfigObject}->Get('Home')
+        . '/Kernel/Output/HTML/'
+        . $CommonObject{ConfigObject}->Get('DefaultTheme')
+        . '/*.dtl';
     $Opts{LanguageOutFile} = $Opts{LanguageFile};
     print "INFO: Templates from $Opts{'t'}!\n";
     print "INFO: Output: $Opts{LanguageOutFile}!\n";
@@ -81,7 +83,8 @@ else {
     $Out =~ s/^.*\/(.+?)(\.dtl|)$/$1/;
     $Out =~ s/\*//g;
     $Opts{Out} = $Out;
-    $Opts{LanguageOutFile} = $CommonObject{ConfigObject}->Get('Home')."/Kernel/Language/$Opts{'l'}_$Out.pm";
+    $Opts{LanguageOutFile}
+        = $CommonObject{ConfigObject}->Get('Home') . "/Kernel/Language/$Opts{'l'}_$Out.pm";
     print "INFO: Templates from $Opts{'t'}!\n";
     print "INFO: Output: $Opts{LanguageOutFile}!\n";
 }
@@ -89,27 +92,28 @@ else {
 # common objects
 $CommonObject{LanguageObject} = Kernel::Language->new(
     %CommonObject,
-    UserLanguage => $Opts{'l'},
+    UserLanguage    => $Opts{'l'},
     TranslationFile => 1,
 );
 
 # open .dtl files and write new translation file
-my $Data = '';
-my %UsedWords = ();
+my $Data          = '';
+my %UsedWords     = ();
 my %UsedWordsMisc = ();
-my @List = glob("$Opts{t}");
+my @List          = glob("$Opts{t}");
 for my $File (@List) {
-    if (open (IN, "< $File")) {
+    if ( open( IN, "< $File" ) ) {
         my $Content = '';
-        while (my $Line = <IN>) {
-            if ($Line !~ /^#/) {
+        while ( my $Line = <IN> ) {
+            if ( $Line !~ /^#/ ) {
                 $Content .= $Line;
             }
         }
-        close (IN);
+        close(IN);
         $File =~ s!^.*/(.+?)\.dtl!$1!;
         print "# Template: $File\n";
         $Data .= "\n        # Template: $File\n";
+
         # do dtl
         $Content =~ s{
             <dtl\sif.+?;\s\}>
@@ -117,6 +121,7 @@ for my $File (@List) {
         {
             '';
         }egx;
+
         # do data
         $Content =~ s{
             \$(Env|Data|QData)({"(.+?)"}|{""}|{"(.+?)","(.+?)"})
@@ -124,6 +129,7 @@ for my $File (@List) {
         {
             '';
         }egx;
+
         # do config
         $Content =~ s{
             \$Config({"(.+?)"}|{""})
@@ -136,6 +142,7 @@ for my $File (@List) {
                 '';
             }
         }egx;
+
         # do translation
         $Content =~ s{
             \$Text({"(.+?)",.+?}|{"(.+?)"}|{""})
@@ -176,15 +183,16 @@ for my $File (@List) {
         die "Can't open $File: $!";
     }
 }
+
 # add misc words
 print "# Misc\n";
 $Data .= "        # Misc\n";
-for my $Key (keys %{$CommonObject{LanguageObject}->{Translation}}) {
-    if (!$UsedWordsMisc{$Key}) {
+for my $Key ( keys %{ $CommonObject{LanguageObject}->{Translation} } ) {
+    if ( !$UsedWordsMisc{$Key} ) {
         my $Translation = $CommonObject{LanguageObject}->{Translation}->{$Key};
         $Translation =~ s/'/\\'/g;
-        $Key =~ s/'/\\'/g;
-        if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
+        $Key         =~ s/'/\\'/g;
+        if ( $Key !~ /(a href|\$(Text|Quote)\{")/i ) {
             $Data .= "        '$Key' => '$Translation',\n";
         }
     }
@@ -192,43 +200,44 @@ for my $Key (keys %{$CommonObject{LanguageObject}->{Translation}}) {
 
 # open old translation file
 my %MetaData = ();
-my $NewOut = '';
-open (IN, "< $Opts{LanguageFile}") || die "Can't open: $Opts{LanguageFile}\n";
+my $NewOut   = '';
+open( IN, "< $Opts{LanguageFile}" ) || die "Can't open: $Opts{LanguageFile}\n";
 while (<IN>) {
-    if (!$MetaData{DataPrinted}) {
+    if ( !$MetaData{DataPrinted} ) {
         $NewOut .= $_;
     }
-    if ($_ =~ /\$\$START\$\$/ && !$MetaData{DataPrinted}) {
+    if ( $_ =~ /\$\$START\$\$/ && !$MetaData{DataPrinted} ) {
         $MetaData{DataPrinted} = 1;
-        $NewOut .= "    # Last translation file sync: ".scalar localtime()."\n\n";
-        $NewOut .= "    # possible charsets\n".
-            "    \$Self->{Charset} = [";
-       for ($CommonObject{LanguageObject}->GetPossibleCharsets()) {
+        $NewOut .= "    # Last translation file sync: " . scalar localtime() . "\n\n";
+        $NewOut .= "    # possible charsets\n" . "    \$Self->{Charset} = [";
+        for ( $CommonObject{LanguageObject}->GetPossibleCharsets() ) {
             $NewOut .= "'$_', ";
         }
-        $NewOut .= "];\n".
-            "    # date formats (\%A=WeekDay;\%B=LongMonth;\%T=Time;\%D=Day;\%M=Month;\%Y=Jear;)\n".
-            "    \$Self->{DateFormat} = '$CommonObject{LanguageObject}->{DateFormat}';\n".
-            "    \$Self->{DateFormatLong} = '$CommonObject{LanguageObject}->{DateFormatLong}';\n".
-            "    \$Self->{DateFormatShort} = '$CommonObject{LanguageObject}->{DateFormatShort}';\n".
-            "    \$Self->{DateInputFormat} = '$CommonObject{LanguageObject}->{DateInputFormat}';\n".
-            "    \$Self->{DateInputFormatLong} = '$CommonObject{LanguageObject}->{DateInputFormatLong}';\n\n";
-        if ($CommonObject{LanguageObject}->{TextDirection}) {
+        $NewOut
+            .= "];\n"
+            . "    # date formats (\%A=WeekDay;\%B=LongMonth;\%T=Time;\%D=Day;\%M=Month;\%Y=Jear;)\n"
+            . "    \$Self->{DateFormat} = '$CommonObject{LanguageObject}->{DateFormat}';\n"
+            . "    \$Self->{DateFormatLong} = '$CommonObject{LanguageObject}->{DateFormatLong}';\n"
+            . "    \$Self->{DateFormatShort} = '$CommonObject{LanguageObject}->{DateFormatShort}';\n"
+            . "    \$Self->{DateInputFormat} = '$CommonObject{LanguageObject}->{DateInputFormat}';\n"
+            . "    \$Self->{DateInputFormatLong} = '$CommonObject{LanguageObject}->{DateInputFormatLong}';\n\n";
+        if ( $CommonObject{LanguageObject}->{TextDirection} ) {
             $NewOut .= "    # TextDirection rtl or ltr\n";
-            $NewOut .= "    \$Self->{TextDirection} = '$CommonObject{LanguageObject}->{TextDirection}';\n\n";
+            $NewOut
+                .= "    \$Self->{TextDirection} = '$CommonObject{LanguageObject}->{TextDirection}';\n\n";
 
         }
         $NewOut .= "    \$Self->{Translation} = {";
         $NewOut .= $Data;
     }
-    if ($_ =~ /\$\$STOP\$\$/) {
-        $NewOut .= "    };\n".$_;
+    if ( $_ =~ /\$\$STOP\$\$/ ) {
+        $NewOut .= "    };\n" . $_;
         $MetaData{DataPrinted} = 0;
     }
 }
-close (IN);
+close(IN);
 
-if ($Opts{'SubTranslation'}) {
+if ( $Opts{'SubTranslation'} ) {
     $NewOut = '';
     $NewOut .= "\n";
     $NewOut .= "package Kernel::Language::$Opts{'l'}_$Opts{Out};\n";
@@ -247,13 +256,13 @@ if ($Opts{'SubTranslation'}) {
     $NewOut .= "1;\n";
 }
 
-if (-e $Opts{LanguageOutFile}) {
+if ( -e $Opts{LanguageOutFile} ) {
     print "INFO: Moving $Opts{LanguageOutFile} to $Opts{LanguageOutFile}.old\n";
-    rename ($Opts{LanguageOutFile}, "$Opts{LanguageOutFile}.old") || die $!;
+    rename( $Opts{LanguageOutFile}, "$Opts{LanguageOutFile}.old" ) || die $!;
 }
 
 print "INFO: Writing $Opts{LanguageOutFile}\n";
-open (OUT, "> $Opts{LanguageOutFile}") || die $!;
+open( OUT, "> $Opts{LanguageOutFile}" ) || die $!;
 print OUT $NewOut;
-close (OUT);
+close(OUT);
 

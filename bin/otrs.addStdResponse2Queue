@@ -2,7 +2,7 @@
 # --
 # otrs.addStdResponse2Queue - Add Resposes to Queue from CLI
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.addStdResponse2Queue,v 1.9 2006-11-02 12:20:59 tr Exp $
+# $Id: otrs.addStdResponse2Queue,v 1.10 2007-09-29 11:40:37 mh Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
@@ -11,9 +11,9 @@
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
-unless ($ARGV[1]){
+unless ( $ARGV[1] ) {
     print "$FindBin::Script  queue_id std_response_id";
     print "\n";
     exit;
@@ -28,26 +28,25 @@ use Kernel::System::Queue;
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.addStdResponse2Queue');
-$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
-$CommonObject{QueueObject}  = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{LogObject}
+    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addStdResponse2Queue' );
+$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
+$CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
 
 my %Param;
 undef %Param;
 
 #user id of the person adding the queue?
-$Param{UserID}='1';
+$Param{UserID} = '1';
 
 #Validrecord
-$Param{ValidID}='1';
+$Param{ValidID} = '1';
 
-$Param{QueueID}=$ARGV[0];
-$Param{ResponseID}=$ARGV[1];
-
-
+$Param{QueueID}    = $ARGV[0];
+$Param{ResponseID} = $ARGV[1];
 
 $CommonObject{QueueObject}->SetQueueStdResponse(%Param);
-exit (0);
+exit(0);
 
 __END__
 

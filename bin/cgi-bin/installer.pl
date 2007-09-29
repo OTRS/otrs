@@ -3,7 +3,7 @@
 # bin/cgi-bin/installer.pl - the web Installer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: installer.pl,v 1.24 2007-09-29 11:07:04 mh Exp $
+# $Id: installer.pl,v 1.25 2007-09-29 11:41:48 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,10 +28,10 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.24 $)[1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 # check @INC for mod_perl (add lib path for "require module"!)
-push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
+push( @INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib" );
 
 # all OTRS Installer modules
 use Kernel::Config;
@@ -47,32 +47,34 @@ use Kernel::Output::HTML::Layout;
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-Installer',
     %CommonObject,
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
+
 # debug info
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
-        Message => 'OTRS installer handle started...',
+        Message  => 'OTRS installer handle started...',
     );
 }
+
 # ... common objects ...
-$CommonObject{ParamObject} = Kernel::System::Web::Request->new(%CommonObject);
+$CommonObject{ParamObject}  = Kernel::System::Web::Request->new(%CommonObject);
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new(%CommonObject);
 
 # get common parameters
 my %Param = ();
-$Param{Action} = $CommonObject{ParamObject}->GetParam(Param => 'Action') || 'Installer';
-$Param{Subaction} = $CommonObject{ParamObject}->GetParam(Param => 'Subaction') || '';
-$Param{NextScreen} = $CommonObject{ParamObject}->GetParam(Param => 'NextScreen') || '';
+$Param{Action}     = $CommonObject{ParamObject}->GetParam( Param => 'Action' )     || 'Installer';
+$Param{Subaction}  = $CommonObject{ParamObject}->GetParam( Param => 'Subaction' )  || '';
+$Param{NextScreen} = $CommonObject{ParamObject}->GetParam( Param => 'NextScreen' ) || '';
 
 # check secure mode
-if ($CommonObject{ConfigObject}->Get('SecureMode')) {
+if ( $CommonObject{ConfigObject}->Get('SecureMode') ) {
     print $CommonObject{LayoutObject}->Header();
     print $CommonObject{LayoutObject}->Error(
         Message => "SecureMode active!",
@@ -82,16 +84,14 @@ if ($CommonObject{ConfigObject}->Get('SecureMode')) {
 }
 
 # run modules if exists a version value
-elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
-    $CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new(
-        %CommonObject,
-        %Param,
-    );
-    GenericModules(%CommonObject, %Param);
+elsif ( eval '$Kernel::Modules::' . $Param{Action} . '::VERSION' ) {
+    $CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new( %CommonObject, %Param, );
+    GenericModules( %CommonObject, %Param );
 }
 
 # else print an error screen
 else {
+
     # create new LayoutObject with '%Param'
     print $CommonObject{LayoutObject}->Header();
     print $CommonObject{LayoutObject}->Error(
@@ -105,7 +105,7 @@ else {
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
-        Message => 'OTRS installer handle stopped.',
+        Message  => 'OTRS installer handle stopped.',
     );
 }
 
@@ -117,12 +117,12 @@ sub GenericModules {
     if ($Debug) {
         $Data{LogObject}->Log(
             Priority => 'debug',
-            Message => 'Kernel::Modules::' . $Data{Action} .'->new',
+            Message  => 'Kernel::Modules::' . $Data{Action} . '->new',
         );
     }
 
     # prove of concept! - create $GenericObject
-    my $GenericObject = ('Kernel::Modules::' . $Data{Action})->new (%Data);
+    my $GenericObject = ( 'Kernel::Modules::' . $Data{Action} )->new(%Data);
 
     # ->Run $Action with $GenericObject
     print $GenericObject->Run();
@@ -131,7 +131,7 @@ sub GenericModules {
     if ($Debug) {
         $Data{LogObject}->Log(
             Priority => 'debug',
-            Message => ''. 'Kernel::Modules::' . $Data{Action} .'->run',
+            Message  => '' . 'Kernel::Modules::' . $Data{Action} . '->run',
         );
     }
 }

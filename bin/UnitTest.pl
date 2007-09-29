@@ -3,7 +3,7 @@
 # UnitTest.pl - the global test handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UnitTest.pl,v 1.11 2007-09-29 11:08:29 mh Exp $
+# $Id: UnitTest.pl,v 1.12 2007-09-29 11:41:28 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,16 +20,17 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
+use strict;
+use warnings;
+
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
-
-use strict;
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $)[1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -42,8 +43,8 @@ use Kernel::System::Main;
 
 # get options
 my %Opts = ();
-getopt('hqtdno', \%Opts);
-if ($Opts{'h'}) {
+getopt( 'hqtdno', \%Opts );
+if ( $Opts{'h'} ) {
     print "UnitTest.pl <Revision $VERSION> - OTRS test handle\n";
     print "Copyright (c) 2001-2007 OTRS GmbH, http://otrs.org/\n";
     print "usage: UnitTest.pl [-n Name e.g. Ticket or Queue] [-o ASCII|HTML|XML]\n";
@@ -53,25 +54,19 @@ if ($Opts{'h'}) {
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-Test',
     %CommonObject,
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(
-    %CommonObject,
-);
+$CommonObject{TimeObject}   = Kernel::System::Time->new( %CommonObject, );
 
 # create needed objects
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UnitTestObject} = Kernel::System::UnitTest->new(
-    %CommonObject,
-    Output => $Opts{o} || '',
-);
+$CommonObject{UnitTestObject}
+    = Kernel::System::UnitTest->new( %CommonObject, Output => $Opts{o} || '', );
 
-$CommonObject{UnitTestObject}->Run(
-    Name => $Opts{n} || '',
-);
+$CommonObject{UnitTestObject}->Run( Name => $Opts{n} || '', );
 
-exit (0);
+exit(0);

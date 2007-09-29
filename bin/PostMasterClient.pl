@@ -3,7 +3,7 @@
 # bin/PostMasterClient.pl - the PostMasterDaemon.pl client
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMasterClient.pl,v 1.6 2007-02-07 11:37:26 tr Exp $
+# $Id: PostMasterClient.pl,v 1.7 2007-09-29 11:41:10 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,29 +28,33 @@ my $Client = IO::Socket::INET->new(
     PeerHost => 'localhost',
     PeerPort => '5555',
 ) || die $@;
+
 # get email
 my @Email = <STDIN>;
+
 # check handshake
 my $Line = <$Client>;
-if ($Line !~ /^\* --OK--/i) {
+if ( $Line !~ /^\* --OK--/i ) {
     print "Got no OK from daemon! Exiting!\n";
-    close ($Client);
+    close($Client);
     exit 1;
 }
 print "handshake ok!\n";
+
 # send email
 print $Client "* --SEND EMAIL--\n";
 print $Client @Email;
 print $Client "* --END EMAIL--\n";
+
 # return
 my $Answer = <$Client>;
-if ($Answer =~ /^\* --DONE--/) {
+if ( $Answer =~ /^\* --DONE--/ ) {
     print "email processed!\n";
-    close ($Client);
+    close($Client);
     exit;
 }
 else {
     print "email not processed\n";
-    close ($Client);
+    close($Client);
     exit 1;
 }

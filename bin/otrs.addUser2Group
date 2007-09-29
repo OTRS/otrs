@@ -4,7 +4,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.addUser2Group,v 1.12 2006-11-02 12:20:59 tr Exp $
+# $Id: otrs.addUser2Group,v 1.13 2007-09-29 11:40:37 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use strict;
 use Kernel::Config;
@@ -33,54 +33,55 @@ use Kernel::System::DB;
 use Kernel::System::User;
 use Kernel::System::Group;
 
-my %Param = ();
+my %Param        = ();
 my %CommonObject = ();
-my %Opts = ();
+my %Opts         = ();
 
 use Getopt::Std;
-getopt('guph',  \%Opts);
+getopt( 'guph', \%Opts );
 
-if ($Opts{h}) {
+if ( $Opts{h} ) {
     print STDERR "Usage: bin/otrs.addUser2Group -g groupname -u username -p ro|rw\n";
     exit;
 }
 
-if (!$Opts{g}) {
+if ( !$Opts{g} ) {
     print STDERR "ERROR: Need -g groupname\n";
     exit 1;
 }
-if (!$Opts{u}) {
+if ( !$Opts{u} ) {
     print STDERR "ERROR: Need -u username\n";
     exit 1;
 }
-if (!$Opts{p}) {
+if ( !$Opts{p} ) {
     print STDERR "ERROR: Need -p permission\n";
     exit 1;
 }
 
 # create common objects
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.addUser2Group');
-$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
-$CommonObject{GroupObject}  = Kernel::System::Group->new(%CommonObject);
-
+$CommonObject{LogObject}
+    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addUser2Group' );
+$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
+$CommonObject{UserObject}  = Kernel::System::User->new(%CommonObject);
+$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 
 # user id
-$Param{UserID}='1';
+$Param{UserID} = '1';
+
 # valid id
-$Param{ValidID}='1';
+$Param{ValidID} = '1';
 
-$Param{Permission}->{$Opts{p}} = 1;
-$Param{UserLogin}=$Opts{u};
-$Param{Group}=$Opts{g};
+$Param{Permission}->{ $Opts{p} } = 1;
+$Param{UserLogin}                = $Opts{u};
+$Param{Group}                    = $Opts{g};
 
-unless  ($Param{UID}=$CommonObject{UserObject}->UserLookup(UserLogin => $Param{UserLogin})){
+unless ( $Param{UID} = $CommonObject{UserObject}->UserLookup( UserLogin => $Param{UserLogin} ) ) {
     print STDERR "ERROR: Failed to get User ID. Perhaps non-existent user..\n";
     exit 1;
 }
 
-unless  ($Param{GID}=$CommonObject{GroupObject}->GetGroupIdByName(%Param)){
+unless ( $Param{GID} = $CommonObject{GroupObject}->GetGroupIdByName(%Param) ) {
     print STDERR "ERROR: Failed to get Group ID. Perhaps non-existent group..\n";
     exit;
 }
@@ -89,10 +90,10 @@ print "GID: $Param{Group}/$Param{GID} \n";
 print "UID: $Param{User}/$Param{UID} \n";
 print "Perrmission: $Opts{p} \n";
 
-if (!$CommonObject{GroupObject}->GroupMemberAdd(%Param)) {
+if ( !$CommonObject{GroupObject}->GroupMemberAdd(%Param) ) {
     print STDERR "ERROR: Can't add user to group\n";
     exit 1;
 }
 else {
-    exit (0);
+    exit(0);
 }

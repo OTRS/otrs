@@ -3,7 +3,7 @@
 # bin/DeleteSessionIDs.pl - to delete all existing, idle or expired session ids
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DeleteSessionIDs.pl,v 1.19 2007-09-29 11:08:29 mh Exp $
+# $Id: DeleteSessionIDs.pl,v 1.20 2007-09-29 11:41:28 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,12 +24,12 @@
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $)[1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -41,17 +41,14 @@ use Kernel::System::AuthSession;
 # common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-DeleteSessionIDs',
     %CommonObject,
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
-$CommonObject{SessionObject} = Kernel::System::AuthSession->new(
-    %CommonObject,
-    CMD => 1,
-);
+$CommonObject{MainObject}    = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject}    = Kernel::System::Time->new(%CommonObject);
+$CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
+$CommonObject{SessionObject} = Kernel::System::AuthSession->new( %CommonObject, CMD => 1, );
 
 # check args
 my $Command = shift || '--help';
@@ -59,53 +56,56 @@ print "DeleteSessionIDs.pl <Revision $VERSION> - delete all existing or expired 
 print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
 
 # show/delete all session ids
-if (($Command eq '--all') || ($Command eq '--showall')) {
+if ( ( $Command eq '--all' ) || ( $Command eq '--showall' ) ) {
     print " Working on all session ids:\n";
     my @List = $CommonObject{SessionObject}->GetAllSessionIDs();
-   for my $SessionID (@List) {
-        if ($Command eq '--showall') {
+    for my $SessionID (@List) {
+        if ( $Command eq '--showall' ) {
             print " SessionID $SessionID!\n";
         }
-        elsif ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
+        elsif ( $CommonObject{SessionObject}->RemoveSessionID( SessionID => $SessionID ) ) {
             print " SessionID $SessionID deleted.\n";
         }
         else {
             print " Warning: Can't delete SessionID $SessionID!\n";
         }
     }
-    exit (0);
+    exit(0);
 }
 
 # show/delete all expired session ids
-elsif (($Command eq '--expired') || ($Command eq '--showexpired')) {
+elsif ( ( $Command eq '--expired' ) || ( $Command eq '--showexpired' ) ) {
     print " Working on expired session ids:\n";
+
     # get expired session ids
     my @Expired = $CommonObject{SessionObject}->GetExpiredSessionIDs();
+
     # expired session
-   for my $SessionID (@{$Expired[0]}) {
-        if ($Command eq '--showexpired') {
+    for my $SessionID ( @{ $Expired[0] } ) {
+        if ( $Command eq '--showexpired' ) {
             print " SessionID $SessionID expired!\n";
         }
-        elsif ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
+        elsif ( $CommonObject{SessionObject}->RemoveSessionID( SessionID => $SessionID ) ) {
             print " SessionID $SessionID deleted (too old).\n";
         }
         else {
             print " Warning: Can't delete SessionID $SessionID!\n";
         }
     }
+
     # idle session
-   for my $SessionID (@{$Expired[1]}) {
-        if ($Command eq '--showexpired') {
+    for my $SessionID ( @{ $Expired[1] } ) {
+        if ( $Command eq '--showexpired' ) {
             print " SessionID $SessionID idle timeout!\n";
         }
-        elsif ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
+        elsif ( $CommonObject{SessionObject}->RemoveSessionID( SessionID => $SessionID ) ) {
             print " SessionID $SessionID deleted (idle timeout).\n";
         }
         else {
             print " Warning: Can't delete SessionID $SessionID!\n";
         }
     }
-    exit (0);
+    exit(0);
 }
 
 # show usage
@@ -117,5 +117,5 @@ else {
     print "  --expired       delete all expired session ids\n";
     print "  --showall       show all session ids\n";
     print "  --all           delete all session ids\n";
-    exit (1);
+    exit(1);
 }

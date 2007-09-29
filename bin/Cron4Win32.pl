@@ -3,7 +3,7 @@
 # bin/Cron4Win32.pl - a script tp generate a full crontab file for OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Cron4Win32.pl,v 1.5 2007-09-29 11:06:20 mh Exp $
+# $Id: Cron4Win32.pl,v 1.6 2007-09-29 11:40:56 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,49 +24,50 @@
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $)[1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use strict;
 
-my $PerlExe = "";
+my $PerlExe   = "";
 my $Directory = "";
-my $CronTab = "";
-my $OTRSHome = "";
+my $CronTab   = "";
+my $OTRSHome  = "";
 
 #system ('NSISINSTDIR\cronHelper.pl  --install');
 #system ('NSISCronplfile');
 #system ('NET START CRON');
 
-if (!open (DATOUT, ">$CronTab")) {
+if ( !open( DATOUT, ">$CronTab" ) ) {
     print STDERR "ERROR: Can't open directory 'crontab.txt: $!";
 }
 else {
-    flock (DATOUT, 2);
+    flock( DATOUT, 2 );
     seek DATOUT, 0, 0;
     truncate DATOUT, 0;
 
-    if (!opendir(DIR, $Directory)) {
+    if ( !opendir( DIR, $Directory ) ) {
         print STDERR "ERROR: Can't open directory '$Directory': $!";
-        exit (1);
+        exit(1);
     }
     else {
         my @Eintraege = readdir(DIR);
         for my $CronData (@Eintraege) {
 
-            if (! -d $CronData) {
+            if ( !-d $CronData ) {
 
-                if (!open (DAT, "<$Directory/$CronData")) {
-#                    print STDERR "ERROR: Can't open directory '$Directory/$CronData: $!";
-#                    exit (1);
+                if ( !open( DAT, "<$Directory/$CronData" ) ) {
+
+          #                    print STDERR "ERROR: Can't open directory '$Directory/$CronData: $!";
+          #                    exit (1);
                 }
-            else {
-                    flock (DAT, 2);
+                else {
+                    flock( DAT, 2 );
 
-                    while (my $Line=<DAT>) {
-                        if ($Line =~ /^#/) {
+                    while ( my $Line = <DAT> ) {
+                        if ( $Line =~ /^#/ ) {
                             next;
                         }
                         else {
@@ -80,9 +81,9 @@ else {
         }
     }
 
-closedir(DIR);
-closedir(DAT);
-closedir(DATOUT);
+    closedir(DIR);
+    closedir(DAT);
+    closedir(DATOUT);
 
-1;
+    1;
 }

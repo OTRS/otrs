@@ -3,7 +3,7 @@
 # bin/PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.pl,v 1.27 2007-09-29 11:08:29 mh Exp $
+# $Id: PostMaster.pl,v 1.28 2007-09-29 11:41:10 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use strict;
 
@@ -34,7 +34,7 @@ use strict;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $)[1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -46,79 +46,84 @@ use Kernel::System::PostMaster;
 
 # get options
 my %Opts = ();
-getopt('hqtd', \%Opts);
-if ($Opts{'h'}) {
+getopt( 'hqtd', \%Opts );
+if ( $Opts{'h'} ) {
     print "PostMaster.pl <Revision $VERSION> - OTRS cmd postmaster\n";
     print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
-    print "usage: PostMaster.pl -q <QUEUE> -t <TRUSTED> (default is trusted, use '-t 0' to disable trusted mode)\n";
+    print
+        "usage: PostMaster.pl -q <QUEUE> -t <TRUSTED> (default is trusted, use '-t 0' to disable trusted mode)\n";
     exit 1;
 }
-if (!$Opts{'d'}) {
+if ( !$Opts{'d'} ) {
     $Opts{'d'} = 0;
 }
-if (! defined($Opts{'t'})) {
+if ( !defined( $Opts{'t'} ) ) {
     $Opts{'t'} = 1;
 }
-if (!$Opts{'q'}) {
+if ( !$Opts{'q'} ) {
     $Opts{'q'} = '';
 }
 
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-PM',
     %CommonObject,
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(
-    %CommonObject,
-);
+$CommonObject{TimeObject} = Kernel::System::Time->new( %CommonObject, );
+
 # Wrap the majority of the script in an "eval" block so that any
 # unexpected (but probably transient) fatal errors (such as the
 # database being unavailable) can be trapped without causing a
 # bounce
 eval {
+
     # create needed objects
     $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+
     # debug info
-    if ($Opts{'d'}) {
+    if ( $Opts{'d'} ) {
         $CommonObject{LogObject}->Log(
             Priority => 'debug',
-            Message => 'Global OTRS email handle (PostMaster.pl) started...',
+            Message  => 'Global OTRS email handle (PostMaster.pl) started...',
         );
     }
+
     # get email from SDTIN
     my @Email = <STDIN>;
-    if (!@Email) {
+    if ( !@Email ) {
         $CommonObject{LogObject}->Log(
             Priority => 'error',
-            Message => 'Got not email on STDIN!',
+            Message  => 'Got not email on STDIN!',
         );
-        exit (1);
+        exit(1);
     }
+
     # common objects
     $CommonObject{PostMaster} = Kernel::System::PostMaster->new(
         %CommonObject,
-        Email => \@Email,
+        Email   => \@Email,
         Trusted => $Opts{'t'},
-        Debug => $Opts{'d'},
+        Debug   => $Opts{'d'},
     );
-    my @Return = $CommonObject{PostMaster}->Run(Queue => $Opts{'q'});
-    if (!$Return[0]) {
+    my @Return = $CommonObject{PostMaster}->Run( Queue => $Opts{'q'} );
+    if ( !$Return[0] ) {
         die "Can't process mail, see log sub system!";
     }
 
     # debug info
-    if ($Opts{'d'}) {
+    if ( $Opts{'d'} ) {
         $CommonObject{LogObject}->Log(
             Priority => 'debug',
-            Message => 'Global OTRS email handle (PostMaster.pl) stoped.',
+            Message  => 'Global OTRS email handle (PostMaster.pl) stoped.',
         );
     }
 };
 
 if ($@) {
+
     # An unexpected problem occurred (for example, the database was
     # unavailable). Return an EX_TEMPFAIL error to cause the mail
     # program to requeue the message instead of immediately bouncing
@@ -127,9 +132,9 @@ if ($@) {
     # message.)
     $CommonObject{LogObject}->Log(
         Priority => 'error',
-        Message => $@,
+        Message  => $@,
     );
     exit 75;
 }
 
-exit (0);
+exit(0);

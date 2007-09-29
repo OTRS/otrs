@@ -3,7 +3,7 @@
 # bin/RebuildTicketIndex.pl - rebuild ticket index for queue view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: RebuildTicketIndex.pl,v 1.13 2007-09-29 11:08:29 mh Exp $
+# $Id: RebuildTicketIndex.pl,v 1.14 2007-09-29 11:41:28 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,12 +24,12 @@
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $)[1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Time;
@@ -41,22 +41,20 @@ use Kernel::System::Ticket;
 # common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-RebuildTicketIndex',
     %CommonObject,
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(
-    %CommonObject,
-);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject}   = Kernel::System::Time->new( %CommonObject, );
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 
 # rebuild
-if ($CommonObject{TicketObject}->TicketAcceleratorRebuild()) {
+if ( $CommonObject{TicketObject}->TicketAcceleratorRebuild() ) {
     exit;
 }
 else {
-    $CommonObject{LogObject}->Log(Priority => 'error');
+    $CommonObject{LogObject}->Log( Priority => 'error' );
     exit 1;
 }

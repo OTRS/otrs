@@ -4,7 +4,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.addQueue,v 1.12 2007-09-29 11:06:38 mh Exp $
+# $Id: otrs.addQueue,v 1.13 2007-09-29 11:40:37 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,12 +25,12 @@
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $)[1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -43,8 +43,8 @@ use Kernel::System::Main;
 
 # get options
 my %Opts = ();
-getopt('hgnsc', \%Opts);
-if ($Opts{'h'}) {
+getopt( 'hgnsc', \%Opts );
+if ( $Opts{'h'} ) {
     print "otrs.addQueue.pl <Revision $VERSION> - add new queue\n";
     print "Copyright (C) 2002 Atif Ghaffar <aghaffar\@developer.ch>\n";
     print "Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/\n";
@@ -52,11 +52,11 @@ if ($Opts{'h'}) {
     exit 1;
 }
 
-if (!$Opts{'n'}) {
+if ( !$Opts{'n'} ) {
     print STDERR "ERROR: Need -n <NAME>\n";
     exit 1;
 }
-if (!$Opts{'g'}) {
+if ( !$Opts{'g'} ) {
     print STDERR "ERROR: Need -g <GROUP>\n";
     exit 1;
 }
@@ -64,33 +64,33 @@ if (!$Opts{'g'}) {
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    %CommonObject,
-    LogPrefix => 'otrs.addQueue',
-);
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
-$CommonObject{QueueObject}  = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{GroupObject}  = Kernel::System::Group->new(%CommonObject);
+$CommonObject{LogObject} = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addQueue', );
+$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
+$CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 
 # check group
-if (!$CommonObject{GroupObject}->GetGroupIdByName(Group => $Opts{'g'})){
+if ( !$CommonObject{GroupObject}->GetGroupIdByName( Group => $Opts{'g'} ) ) {
     print STDERR "ERROR: Found no GroupID for $Opts{'g'}\n";
     exit 1;
 }
+
 # add queue
 if (!$CommonObject{QueueObject}->QueueAdd(
-    Name => $Opts{'n'},
-    GroupID => $CommonObject{GroupObject}->GetGroupIdByName(Group => $Opts{'g'}),
-    SystemAddressID => $Opts{'s'} || undef,
-    Comment => $Opts{'c'} || undef,
-    ValidID => 1,
-    UserID => 1,
-)) {
+        Name            => $Opts{'n'},
+        GroupID         => $CommonObject{GroupObject}->GetGroupIdByName( Group => $Opts{'g'} ),
+        SystemAddressID => $Opts{'s'} || undef,
+        Comment         => $Opts{'c'} || undef,
+        ValidID         => 1,
+        UserID          => 1,
+    )
+    )
+{
     print STDERR "ERROR: Can't create queue!\n";
     exit 1;
 }
 else {
     print "Notice: Queue '$Opts{'n'}' created.\n";
-    exit (0);
+    exit(0);
 }

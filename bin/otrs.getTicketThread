@@ -3,7 +3,7 @@
 # bin/otrs.getTicketThread - to print the whole ticket thread to STDOUT
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.getTicketThread,v 1.9 2007-09-29 11:06:38 mh Exp $
+# $Id: otrs.getTicketThread,v 1.10 2007-09-29 11:40:37 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,12 +24,12 @@
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $)[1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Time;
@@ -42,32 +42,32 @@ use Kernel::System::User;
 # common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-getTicketThread',
     %CommonObject,
 );
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
-$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
+$CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
 
 my $TicketID = shift || die 'Got no ARG[0]';
-my %Ticket = $CommonObject{TicketObject}->TicketGet(TicketID => $TicketID);
-if (!%Ticket) {
+my %Ticket = $CommonObject{TicketObject}->TicketGet( TicketID => $TicketID );
+if ( !%Ticket ) {
     exit 1;
 }
 print "=====================================================================\n";
 for (qw(TicketNumber TicketID Created Queue State Priority Lock CustomerID CustomerUserID)) {
-    print "$_: $Ticket{$_}\n" if ($Ticket{$_});
+    print "$_: $Ticket{$_}\n" if ( $Ticket{$_} );
 }
 print "---------------------------------------------------------------------\n";
 
-my @Index = $CommonObject{TicketObject}->ArticleIndex(TicketID => $TicketID);
+my @Index = $CommonObject{TicketObject}->ArticleIndex( TicketID => $TicketID );
 for (@Index) {
-    my %Article = $CommonObject{TicketObject}->ArticleGet(ArticleID => $_);
-   for (qw(From To Cc Subject ReplyTo InReplyTo Created SenderType )) {
-        print "$_: $Article{$_}\n" if ($Article{$_});
+    my %Article = $CommonObject{TicketObject}->ArticleGet( ArticleID => $_ );
+    for (qw(From To Cc Subject ReplyTo InReplyTo Created SenderType )) {
+        print "$_: $Article{$_}\n" if ( $Article{$_} );
     }
     print "Body:\n";
     print "$Article{Body}\n";

@@ -3,7 +3,7 @@
 # bin/otrs.checkModules - to check needed cpan framework modules
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.checkModules,v 1.15 2007-09-29 11:06:38 mh Exp $
+# $Id: otrs.checkModules,v 1.16 2007-09-29 11:40:37 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,42 +24,45 @@
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 # config
-my @NeededModules = (qw(
-    CGI
-    Date::Pcalc
-    Date::Format
-    DBI DBD::mysql
-    Digest::MD5
-    Crypt::PasswdMD5
-    LWP::UserAgent
-    IO::Scalar IO::Wrap
-    MIME::Base64 MIME::Tools Mail::Internet
-    Net::DNS Net::POP3 Net::LDAP Net::SMTP
-    Authen::SASL
-    GD GD::Text GD::Graph GD::Graph::lines GD::Text::Align
-    XML::Parser
-    PDF::API2 Compress::Zlib
-));
+my @NeededModules = (
+    qw(
+        CGI
+        Date::Pcalc
+        Date::Format
+        DBI DBD::mysql
+        Digest::MD5
+        Crypt::PasswdMD5
+        LWP::UserAgent
+        IO::Scalar IO::Wrap
+        MIME::Base64 MIME::Tools Mail::Internet
+        Net::DNS Net::POP3 Net::LDAP Net::SMTP
+        Authen::SASL
+        GD GD::Text GD::Graph GD::Graph::lines GD::Text::Align
+        XML::Parser
+        PDF::API2 Compress::Zlib
+        )
+);
 
 # try to load modules
 for (@NeededModules) {
-    if (eval "require $_") {
+    if ( eval "require $_" ) {
         printf "%20s ...", $_;
-        if ($_ eq 'Net::DNS') {
-            if ($Net::DNS::VERSION =~ m{\A0\.60\z}mx) {
-                print " version 0.60 is not useable with OTRS. Please use an older or an newer one.\n";
+        if ( $_ eq 'Net::DNS' ) {
+            if ( $Net::DNS::VERSION =~ m{\A0\.60\z}mx ) {
+                print
+                    " version 0.60 is not useable with OTRS. Please use an older or an newer one.\n";
             }
             else {
                 print " ok\n";
             }
         }
-        elsif ($_ eq 'PDF::API2') {
-            if ($PDF::API2::Version::VERSION =~ m{^(\d)\.(\d\d).*}mx &&
-                ($1 > 0 || ($1 eq 0 && $2 >= 57))
-            ) {
+        elsif ( $_ eq 'PDF::API2' ) {
+            if ( $PDF::API2::Version::VERSION =~ m{^(\d)\.(\d\d).*}mx
+                && ( $1 > 0 || ( $1 eq 0 && $2 >= 57 ) ) )
+            {
                 print " ok\n";
             }
             else {
@@ -71,23 +74,27 @@ for (@NeededModules) {
         }
     }
     else {
-        if ($_ =~ /^GD/) {
-            print sprintf(" %20s %s\n", $_, '... not installed! (for stats - not required)');
+        if ( $_ =~ /^GD/ ) {
+            print sprintf( " %20s %s\n", $_, '... not installed! (for stats - not required)' );
         }
-        elsif ($_ =~ /^Net::SMTP$/ || $_ =~ /^Authen::SASL$/) {
-            print sprintf(" %20s %s\n", $_, '... not installed! (for SMTP backend - not required)');
+        elsif ( $_ =~ /^Net::SMTP$/ || $_ =~ /^Authen::SASL$/ ) {
+            print
+                sprintf( " %20s %s\n", $_, '... not installed! (for SMTP backend - not required)' );
         }
-        elsif ($_ =~ /^Net::LDAP/) {
-            print sprintf(" %20s %s\n", $_, '... not installed! (for directory authentication - not required)');
+        elsif ( $_ =~ /^Net::LDAP/ ) {
+            print sprintf( " %20s %s\n",
+                $_, '... not installed! (for directory authentication - not required)' );
         }
-        elsif ($_ =~ /^XML::Parser$/) {
-            print sprintf(" %20s %s\n", $_, '... not installed! (required for strong xml use - not required!)');
+        elsif ( $_ =~ /^XML::Parser$/ ) {
+            print sprintf( " %20s %s\n",
+                $_, '... not installed! (required for strong xml use - not required!)' );
         }
-        elsif ($_ =~ /^PDF::API2$/ || $_ =~ /^Compress::Zlib$/) {
-            print sprintf(" %20s %s\n", $_, '... not installed! (for PDF output - not required)');
+        elsif ( $_ =~ /^PDF::API2$/ || $_ =~ /^Compress::Zlib$/ ) {
+            print sprintf( " %20s %s\n", $_, '... not installed! (for PDF output - not required)' );
         }
         else {
-            print sprintf(" %20s %s\n", $_, '... not installed! (required - use "perl -MCPAN -e shell;")');
+            print sprintf( " %20s %s\n",
+                $_, '... not installed! (required - use "perl -MCPAN -e shell;")' );
         }
     }
 }

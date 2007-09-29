@@ -3,7 +3,7 @@
 # UnlockTickets.pl - to unlock tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UnlockTickets.pl,v 1.25 2007-09-29 11:08:29 mh Exp $
+# $Id: UnlockTickets.pl,v 1.26 2007-09-29 11:41:28 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,12 +24,12 @@
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $)[1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -47,23 +47,23 @@ my $Debug = 0;
 # common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-UnlockTickets',
     %CommonObject,
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
-$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
-$CommonObject{StateObject} = Kernel::System::State->new(%CommonObject);
-$CommonObject{LockObject} = Kernel::System::Lock->new(%CommonObject);
+$CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
+$CommonObject{StateObject}  = Kernel::System::State->new(%CommonObject);
+$CommonObject{LockObject}   = Kernel::System::Lock->new(%CommonObject);
 
 my @UnlockStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
-    Type => 'Unlock',
+    Type   => 'Unlock',
     Result => 'ID',
 );
-my @ViewableLockIDs = $CommonObject{LockObject}->LockViewableLock(Type => 'ID');
+my @ViewableLockIDs = $CommonObject{LockObject}->LockViewableLock( Type => 'ID' );
 
 # check args
 my $Command = shift || '--help';
@@ -71,79 +71,80 @@ print "UnlockTickets.pl <Revision $VERSION> - unlock tickets\n";
 print "Copyright (c) 2001-2006 OTRS GmbH, http//otrs.org/\n";
 
 # unlock all tickets
-if ($Command eq '--all') {
+if ( $Command eq '--all' ) {
     print " Unlock all tickets:\n";
     my @Tickets = ();
-    my $SQL = "SELECT st.tn, st.ticket_answered, st.id, st.user_id FROM " .
-    " ticket st, queue sq " .
-    " WHERE " .
-    " st.queue_id = sq.id " .
-    " AND " .
-    " st.ticket_lock_id NOT IN ( ${\(join ', ', @ViewableLockIDs)} ) ";
-    $CommonObject{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
-        push (@Tickets, \@RowTmp);
+    my $SQL
+        = "SELECT st.tn, st.ticket_answered, st.id, st.user_id FROM "
+        . " ticket st, queue sq "
+        . " WHERE "
+        . " st.queue_id = sq.id " . " AND "
+        . " st.ticket_lock_id NOT IN ( ${\(join ', ', @ViewableLockIDs)} ) ";
+    $CommonObject{DBObject}->Prepare( SQL => $SQL );
+    while ( my @RowTmp = $CommonObject{DBObject}->FetchrowArray() ) {
+        push( @Tickets, \@RowTmp );
     }
-   for (@Tickets) {
+    for (@Tickets) {
         my @Row = @{$_};
         print " Unlocking ticket id $Row[0] ...";
         if ($CommonObject{TicketObject}->LockSet(
-            TicketID => $Row[2],
-            Lock => 'unlock',
-            UserID => 1,
-        ) ) {
+                TicketID => $Row[2],
+                Lock     => 'unlock',
+                UserID   => 1,
+            )
+            )
+        {
             print " done.\n";
         }
         else {
             print " failed.\n";
         }
     }
-    exit (0);
+    exit(0);
 }
 
 # unlock old tickets
-elsif ($Command eq '--timeout') {
+elsif ( $Command eq '--timeout' ) {
     print " Unlock old tickets:\n";
     my @Tickets = ();
-    my $SQL = "SELECT st.tn, st.ticket_answered, st.id, st.timeout, ".
-    " sq.unlock_timeout  ".
-    " FROM " .
-    " ticket st, queue sq " .
-    " WHERE " .
-    " st.queue_id = sq.id " .
-    " AND " .
-    " st.ticket_answered != 1 ".
-    " AND " .
-    " sq.unlock_timeout != 0 " .
-    " AND " .
-    " st.ticket_state_id IN ( ${\(join ', ', @UnlockStateIDs)} ) " .
-    " AND " .
-    " st.ticket_lock_id NOT IN ( ${\(join ', ', @ViewableLockIDs)} ) ";
-    $CommonObject{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $CommonObject{DBObject}->FetchrowArray()) {
+    my $SQL
+        = "SELECT st.tn, st.ticket_answered, st.id, st.timeout, "
+        . " sq.unlock_timeout  "
+        . " FROM "
+        . " ticket st, queue sq "
+        . " WHERE "
+        . " st.queue_id = sq.id " . " AND "
+        . " st.ticket_answered != 1 " . " AND "
+        . " sq.unlock_timeout != 0 " . " AND "
+        . " st.ticket_state_id IN ( ${\(join ', ', @UnlockStateIDs)} ) " . " AND "
+        . " st.ticket_lock_id NOT IN ( ${\(join ', ', @ViewableLockIDs)} ) ";
+    $CommonObject{DBObject}->Prepare( SQL => $SQL );
+    while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
         my $CountedTime = $CommonObject{TimeObject}->WorkingTime(
             StartTime => $Row[3],
-            StopTime => $CommonObject{TimeObject}->SystemTime(),
+            StopTime  => $CommonObject{TimeObject}->SystemTime(),
         );
-        if ($CountedTime >= $Row[4]*60) {
-            push (@Tickets, \@Row);
+        if ( $CountedTime >= $Row[4] * 60 ) {
+            push( @Tickets, \@Row );
         }
     }
-   for (@Tickets) {
+    for (@Tickets) {
         my @Row = @{$_};
         print " Unlocking ticket id $Row[0] ...";
         if ($CommonObject{TicketObject}->LockSet(
-            TicketID => $Row[2],
-            Lock => 'unlock',
-            UserID => 1,
-        ) ) {
+                TicketID => $Row[2],
+                Lock     => 'unlock',
+                UserID   => 1,
+            )
+            )
+        {
             print " done.\n";
         }
         else {
             print " failed.\n";
         }
     }
-    exit (0);
+    exit(0);
 }
 
 # show usage
@@ -153,5 +154,5 @@ else {
     print "  --help        display this option help\n";
     print "  --timeout     unlock old tickets\n";
     print "  --all         unlock all tickets (force)\n";
-    exit (1);
+    exit(1);
 }

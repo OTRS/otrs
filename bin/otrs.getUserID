@@ -3,7 +3,7 @@
 # otrs.getUserId - Returns numeric user id
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: otrs.getUserID,v 1.8 2006-11-02 12:20:59 tr Exp $
+# $Id: otrs.getUserID,v 1.9 2007-09-29 11:40:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,9 @@
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
-unless ($ARGV[0]){
+unless ( $ARGV[0] ) {
     print "Usage: $FindBin::Script username";
     print "\n";
     exit;
@@ -30,23 +30,22 @@ use Kernel::System::User;
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.getUserId');
-$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
+$CommonObject{LogObject} = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.getUserId' );
+$CommonObject{DBObject}  = Kernel::System::DB->new(%CommonObject);
+$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 
 my %Param = ();
 
 #user id of the person making the query
-$Param{UserID}='1';
+$Param{UserID} = '1';
 
-$Param{UserLogin}=$ARGV[0];
+$Param{UserLogin} = $ARGV[0];
 
-
-if (my $Uid=$CommonObject{UserObject}->UserLookup(UserLogin => $Param{UserLogin})){
+if ( my $Uid = $CommonObject{UserObject}->UserLookup( UserLogin => $Param{UserLogin} ) ) {
     print $Uid , "\n";
 }
 else {
     print "Failed to get User ID. Perhaps non-existent user..\n";
 }
 
-exit (0);
+exit(0);

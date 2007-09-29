@@ -3,7 +3,7 @@
 # bin/otrs.RebuildConfig.pl - rebuild config
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.RebuildConfig.pl,v 1.2 2007-09-29 11:06:38 mh Exp $
+# $Id: otrs.RebuildConfig.pl,v 1.3 2007-09-29 11:40:37 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,12 +24,12 @@
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $)[1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Time;
@@ -43,13 +43,13 @@ use Kernel::System::Config;
 # --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-otrs.RebuildConfig.pl',
     %CommonObject,
 );
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
 $CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
 
 # --
@@ -57,10 +57,10 @@ $CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
 # --
 print "otrs.RebuildConfig.pl <Revision $VERSION> - OTRS rebuild default config\n";
 print "Copyright (c) 2001-2007 OTRS GmbH, http://otrs.org/\n";
-if ($CommonObject{SysConfigObject}->WriteDefault()) {
+if ( $CommonObject{SysConfigObject}->WriteDefault() ) {
     exit;
 }
 else {
-    $CommonObject{LogObject}->Log(Priority => 'error');
+    $CommonObject{LogObject}->Log( Priority => 'error' );
     exit 1;
 }

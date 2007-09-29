@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.50 2007-09-29 11:08:29 mh Exp $
+# $Id: mkStats.pl,v 1.51 2007-09-29 11:41:28 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,11 +27,11 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.50 $)[1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -50,286 +50,293 @@ use Kernel::Language;
 
 # create common objects
 my %CommonObject = ();
-$CommonObject{UserID} = 1;
+$CommonObject{UserID}       = 1;
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-SendStats',
     %CommonObject,
 );
-$CommonObject{CSVObject} = Kernel::System::CSV->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
-$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
-$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
-$CommonObject{StatsObject} = Kernel::System::Stats->new(%CommonObject);
+$CommonObject{CSVObject}       = Kernel::System::CSV->new(%CommonObject);
+$CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
+$CommonObject{GroupObject}     = Kernel::System::Group->new(%CommonObject);
+$CommonObject{UserObject}      = Kernel::System::User->new(%CommonObject);
+$CommonObject{StatsObject}     = Kernel::System::Stats->new(%CommonObject);
 $CommonObject{CheckItemObject} = Kernel::System::CheckItem->new(%CommonObject);
-$CommonObject{EmailObject} = Kernel::System::Email->new(%CommonObject);
-$CommonObject{PDFObject} = Kernel::System::PDF->new(%CommonObject);
+$CommonObject{EmailObject}     = Kernel::System::Email->new(%CommonObject);
+$CommonObject{PDFObject}       = Kernel::System::PDF->new(%CommonObject);
 
 # get options
 my %Opts = ();
-getopt('nrsmhoplf', \%Opts);
-if ($Opts{'h'}) {
+getopt( 'nrsmhoplf', \%Opts );
+if ( $Opts{'h'} ) {
     print "mkStats.pl <Revision $VERSION> - OTRS cmd stats\n";
     print "Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/\n";
-    print "usage: mkStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print]\n";
+    print
+        "usage: mkStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print]\n";
     print "       <PARAM_STRING> e. g. 'Year=1977&Month=10' (only for static files)\n";
     print "       <DIRECTORY> /output/dir/\n";
     exit 1;
 }
+
 # required output param check
-if (!$Opts{o} && !$Opts{r}) {
+if ( !$Opts{o} && !$Opts{r} ) {
     print STDERR "ERROR: Need -o /tmp/ OR -r email\@example.com [-m 'some message']\n";
     exit 1;
 }
+
 # stats module check
-if (!$Opts{n}) {
+if ( !$Opts{n} ) {
     print STDERR "ERROR: Need -n StatNumber\n";
     exit 1;
 }
+
 # fill up body
-if (!$Opts{m} && $Opts{p}) {
+if ( !$Opts{m} && $Opts{p} ) {
     $Opts{m} .= "Stats with following options:\n\n";
     $Opts{m} .= "StatNumber: $Opts{n}\n";
-    my @P = split(/&/, $Opts{'p'});
+    my @P = split( /&/, $Opts{'p'} );
     for (@P) {
-        my ($Key, $Value) = split(/=/, $_, 2);
+        my ( $Key, $Value ) = split( /=/, $_, 2 );
         $Opts{'m'} .= "$Key: $Value\n";
     }
 }
+
 # only necessary for emails
-if (!$Opts{m} && $Opts{r}) {
+if ( !$Opts{m} && $Opts{r} ) {
     print STDERR "ERROR: Need -m 'some message (necessary for emails)'\n";
     exit 1;
 }
+
 # language
 my $Lang = $CommonObject{ConfigObject}->Get('DefaultLanguage') || 'en';
-if ($Opts{l}) {
+if ( $Opts{l} ) {
     $Lang = $Opts{l};
 }
 $CommonObject{LanguageObject} = Kernel::Language->new(
     UserLanguage => $Lang,
-    LogObject => $CommonObject{LogObject},
+    LogObject    => $CommonObject{LogObject},
     ConfigObject => $CommonObject{ConfigObject},
-    MainObject => $CommonObject{MainObject},
+    MainObject   => $CommonObject{MainObject},
 );
 
 # format
 my $Format = 'CSV';
-if ($Opts{f}) {
-    if ($Opts{f} eq 'Print') {
+if ( $Opts{f} ) {
+    if ( $Opts{f} eq 'Print' ) {
         $Format = 'Print';
     }
 }
 
 # recipient check
-if ($Opts{r}) {
-    if (!$CommonObject{CheckItemObject}->CheckEmail(Address => $Opts{r})) {
+if ( $Opts{r} ) {
+    if ( !$CommonObject{CheckItemObject}->CheckEmail( Address => $Opts{r} ) ) {
         print STDERR "ERROR: " . $CommonObject{CheckItemObject}->CheckError() . "\n";
         exit 1;
     }
 }
 
 # sender, if given
-if (!$Opts{s}) {
+if ( !$Opts{s} ) {
     $Opts{s} = '';
 }
 
 # directory check
-if ($Opts{o} && !-e $Opts{o}) {
+if ( $Opts{o} && !-e $Opts{o} ) {
     print STDERR "ERROR: No such directory: $Opts{o}\n";
     exit 1;
 }
 
 # process the informations
 my $StatNumber = $Opts{n};
-my $StatID = $CommonObject{StatsObject}->StatNumber2StatID(StatNumber => $StatNumber);
-if (!$StatID) {
+my $StatID = $CommonObject{StatsObject}->StatNumber2StatID( StatNumber => $StatNumber );
+if ( !$StatID ) {
     print STDERR "ERROR: No StatNumber: $Opts{n}\n";
     exit 1;
 }
 
-my ($s,$m,$h, $D,$M,$Y) = $CommonObject{TimeObject}->SystemTime2Date(
-    SystemTime => $CommonObject{TimeObject}->SystemTime(),
-);
+my ( $s, $m, $h, $D, $M, $Y )
+    = $CommonObject{TimeObject}
+    ->SystemTime2Date( SystemTime => $CommonObject{TimeObject}->SystemTime(), );
 
 my %GetParam = ();
-my $Stat = $CommonObject{StatsObject}->StatsGet(StatID => $StatID);
+my $Stat = $CommonObject{StatsObject}->StatsGet( StatID => $StatID );
 
-if ($Stat->{StatType} eq 'static') {
-    $GetParam{Year} = $Y;
+if ( $Stat->{StatType} eq 'static' ) {
+    $GetParam{Year}  = $Y;
     $GetParam{Month} = $M;
-    $GetParam{Day} = $D;
+    $GetParam{Day}   = $D;
 
     # get params from -p
     # only for static files
-    my $Params = $CommonObject{StatsObject}->GetParams(StatID => $StatID);
-   for my $ParamItem (@{$Params}) {
-        if (!$ParamItem->{Multiple}) {
-            my $Value = GetParam(
-                Param => $ParamItem->{Name},
-            );
-            if (defined($Value)) {
-                $GetParam{$ParamItem->{Name}} = GetParam(
-                    Param => $ParamItem->{Name},
-                );
+    my $Params = $CommonObject{StatsObject}->GetParams( StatID => $StatID );
+    for my $ParamItem ( @{$Params} ) {
+        if ( !$ParamItem->{Multiple} ) {
+            my $Value = GetParam( Param => $ParamItem->{Name}, );
+            if ( defined($Value) ) {
+                $GetParam{ $ParamItem->{Name} } = GetParam( Param => $ParamItem->{Name}, );
             }
-            elsif (defined($ParamItem->{SelectedID})) {
-                $GetParam{$ParamItem->{Name}} = $ParamItem->{SelectedID};
+            elsif ( defined( $ParamItem->{SelectedID} ) ) {
+                $GetParam{ $ParamItem->{Name} } = $ParamItem->{SelectedID};
             }
         }
         else {
-            my @Value = GetArray(
-                Param => $ParamItem->{Name},
-            );
+            my @Value = GetArray( Param => $ParamItem->{Name}, );
             if (@Value) {
-                $GetParam{$ParamItem->{Name}} = \@Value;
+                $GetParam{ $ParamItem->{Name} } = \@Value;
             }
-            elsif (defined($ParamItem->{SelectedID})) {
-                $GetParam{$ParamItem->{Name}} = [$ParamItem->{SelectedID}];
+            elsif ( defined( $ParamItem->{SelectedID} ) ) {
+                $GetParam{ $ParamItem->{Name} } = [ $ParamItem->{SelectedID} ];
             }
         }
     }
 }
-elsif ($Stat->{StatType} eq 'dynamic') {
+elsif ( $Stat->{StatType} eq 'dynamic' ) {
     %GetParam = %{$Stat};
 }
 
 # run stat...
-my @StatArray = @{$CommonObject{StatsObject}->StatsRun(
-    StatID => $StatID,
-    GetParam => \%GetParam,
-)};
+my @StatArray = @{
+    $CommonObject{StatsObject}->StatsRun(
+        StatID   => $StatID,
+        GetParam => \%GetParam,
+    )
+    };
 
 # generate output
-my $TitleArrayRef = shift (@StatArray);
-my $Title = $TitleArrayRef->[0];
-my $HeadArrayRef = shift (@StatArray);
+my $TitleArrayRef  = shift(@StatArray);
+my $Title          = $TitleArrayRef->[0];
+my $HeadArrayRef   = shift(@StatArray);
 my $CountStatArray = @StatArray;
-my $Time = sprintf("%04d-%02d-%02d %02d:%02d:%02d",$Y,$M,$D,$h,$m,$s);
-if (!@StatArray) {
-    push(@StatArray, [' ',0]);
+my $Time           = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s );
+if ( !@StatArray ) {
+    push( @StatArray, [ ' ', 0 ] );
 }
 my %Attachment;
 
-if ($Format eq 'Print' && $CommonObject{PDFObject}) {
-    # Create the PDF
-    my %User = $CommonObject{UserObject}->GetUserData(UserID => $CommonObject{UserID});
+if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
 
-    my $PrintedBy = $CommonObject{LanguageObject}->Get('printed by');
-    my $Page = $CommonObject{LanguageObject}->Get('Page');
+    # Create the PDF
+    my %User = $CommonObject{UserObject}->GetUserData( UserID => $CommonObject{UserID} );
+
+    my $PrintedBy  = $CommonObject{LanguageObject}->Get('printed by');
+    my $Page       = $CommonObject{LanguageObject}->Get('Page');
     my $SystemTime = $CommonObject{TimeObject}->SystemTime();
-    my $TimeStamp = $CommonObject{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => $SystemTime,
-    );
-    my $Time = $CommonObject{LanguageObject}->FormatTimeString($TimeStamp, 'DateFormat');
+    my $TimeStamp  = $CommonObject{TimeObject}->SystemTime2TimeStamp( SystemTime => $SystemTime, );
+    my $Time       = $CommonObject{LanguageObject}->FormatTimeString( $TimeStamp, 'DateFormat' );
 
     # create the content array
     my $CellData;
-    my $CounterRow = 0;
+    my $CounterRow  = 0;
     my $CounterHead = 0;
-   for my $Content (@{$HeadArrayRef}) {
+    for my $Content ( @{$HeadArrayRef} ) {
         $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
-        $CellData->[$CounterRow]->[$CounterHead]->{Font} = 'ProportionalBold';
+        $CellData->[$CounterRow]->[$CounterHead]->{Font}    = 'ProportionalBold';
         $CounterHead++;
     }
-    if ($CounterHead > 0) {
+    if ( $CounterHead > 0 ) {
         $CounterRow++;
     }
-   for my $Row (@StatArray) {
+    for my $Row (@StatArray) {
         my $CounterColumn = 0;
-       for my $Content (@{$Row}) {
+        for my $Content ( @{$Row} ) {
             $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
             $CounterColumn++;
         }
         $CounterRow++;
     }
-    if (!$CellData->[0]->[0]) {
+    if ( !$CellData->[0]->[0] ) {
         $CellData->[0]->[0]->{Content} = $CommonObject{LanguageObject}->Get('No Result!');
     }
+
     # page params
     my %PageParam;
     $PageParam{PageOrientation} = 'landscape';
-    $PageParam{MarginTop} = 30;
-    $PageParam{MarginRight} = 40;
-    $PageParam{MarginBottom} = 40;
-    $PageParam{MarginLeft} = 40;
-    $PageParam{HeaderRight} = $CommonObject{ConfigObject}->Get('Stats::StatsHook') . $Stat->{StatNumber};
-    $PageParam{FooterLeft} = 'mkStats.pl';
+    $PageParam{MarginTop}       = 30;
+    $PageParam{MarginRight}     = 40;
+    $PageParam{MarginBottom}    = 40;
+    $PageParam{MarginLeft}      = 40;
+    $PageParam{HeaderRight}
+        = $CommonObject{ConfigObject}->Get('Stats::StatsHook') . $Stat->{StatNumber};
+    $PageParam{FooterLeft}   = 'mkStats.pl';
     $PageParam{HeadlineLeft} = $Title;
-    $PageParam{HeadlineRight} = $PrintedBy . ' ' .
-        $User{UserFirstname} . ' ' .
-        $User{UserLastname} . ' (' .
-        $User{UserEmail} . ') ' .
-        $Time;
+    $PageParam{HeadlineRight}
+        = $PrintedBy . ' '
+        . $User{UserFirstname} . ' '
+        . $User{UserLastname} . ' ('
+        . $User{UserEmail} . ') '
+        . $Time;
+
     # table params
     my %TableParam;
-    $TableParam{CellData} = $CellData;
-    $TableParam{Type} = 'Cut';
-    $TableParam{FontSize} = 6;
-    $TableParam{Border} = 0;
+    $TableParam{CellData}            = $CellData;
+    $TableParam{Type}                = 'Cut';
+    $TableParam{FontSize}            = 6;
+    $TableParam{Border}              = 0;
     $TableParam{BackgroundColorEven} = '#AAAAAA';
-    $TableParam{BackgroundColorOdd} = '#DDDDDD';
-    $TableParam{Padding} = 1;
-    $TableParam{PaddingTop} = 3;
-    $TableParam{PaddingBottom} = 3;
+    $TableParam{BackgroundColorOdd}  = '#DDDDDD';
+    $TableParam{Padding}             = 1;
+    $TableParam{PaddingTop}          = 3;
+    $TableParam{PaddingBottom}       = 3;
+
     # get maximum number of pages
     my $MaxPages = $CommonObject{ConfigObject}->Get('PDF::MaxPages');
-    if (!$MaxPages || $MaxPages < 1 || $MaxPages > 1000) {
+    if ( !$MaxPages || $MaxPages < 1 || $MaxPages > 1000 ) {
         $MaxPages = 100;
     }
+
     # create new pdf document
     $CommonObject{PDFObject}->DocumentNew(
-        Title => $CommonObject{ConfigObject}->Get('Product') . ': ' . $Title,
+        Title  => $CommonObject{ConfigObject}->Get('Product') . ': ' . $Title,
         Encode => $CommonObject{LanguageObject}->GetRecommendedCharset(),
     );
+
     # start table output
-    my $Loop = 1;
+    my $Loop    = 1;
     my $Counter = 1;
     while ($Loop) {
+
         # if first page
-        if ($Counter eq 1) {
-            $CommonObject{PDFObject}->PageNew(
-                %PageParam,
-                FooterRight => $Page . ' ' . $Counter,
-            );
+        if ( $Counter eq 1 ) {
+            $CommonObject{PDFObject}->PageNew( %PageParam, FooterRight => $Page . ' ' . $Counter, );
         }
+
         # output table (or a fragment of it)
-        %TableParam = $CommonObject{PDFObject}->Table(
-            %TableParam,
-        );
+        %TableParam = $CommonObject{PDFObject}->Table( %TableParam, );
+
         # stop output or another page
-        if ($TableParam{State}) {
+        if ( $TableParam{State} ) {
             $Loop = 0;
         }
         else {
-            $CommonObject{PDFObject}->PageNew(
-                %PageParam,
-                FooterRight => $Page . ' ' . ($Counter + 1),
-            );
+            $CommonObject{PDFObject}
+                ->PageNew( %PageParam, FooterRight => $Page . ' ' . ( $Counter + 1 ), );
         }
         $Counter++;
+
         # check max pages
-        if ($Counter >= $MaxPages) {
+        if ( $Counter >= $MaxPages ) {
             $Loop = 0;
         }
     }
+
     # return the document
     my $PDFString = $CommonObject{PDFObject}->DocumentOutput();
+
     # save the pdf with the title and timestamp as filename
-    my $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
-        String => $Stat->{Title} . " Created",
-    );
+    my $Filename = $CommonObject{StatsObject}
+        ->StringAndTimestamp2Filename( String => $Stat->{Title} . " Created", );
     %Attachment = (
-        Filename => $Filename . ".pdf",
+        Filename    => $Filename . ".pdf",
         ContentType => "application/pdf",
-        Content => $PDFString,
-        Encoding => "base64",
+        Content     => $PDFString,
+        Encoding    => "base64",
         Disposition => "attachment",
     );
 }
 else {
+
     # Create the CVS data
     my $Output = "Name: $Title; Created: $Time\n";
     $Output .= $CommonObject{CSVObject}->Array2CSV(
@@ -338,22 +345,21 @@ else {
     );
 
     # save the csv with the title and timestamp as filename
-    my $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
-        String => $Stat->{Title} . " Created",
-    );
+    my $Filename = $CommonObject{StatsObject}
+        ->StringAndTimestamp2Filename( String => $Stat->{Title} . " Created", );
 
     %Attachment = (
-        Filename => $Filename . ".csv",
+        Filename    => $Filename . ".csv",
         ContentType => "text/csv",
-        Content => $Output,
-        Encoding => "base64",
+        Content     => $Output,
+        Encoding    => "base64",
         Disposition => "attachment",
     );
 }
 
 # write output
-if ($Opts{o}) {
-    if (open my $Filehandle, '>', "$Opts{o}/$Attachment{Filename}") {
+if ( $Opts{o} ) {
+    if ( open my $Filehandle, '>', "$Opts{o}/$Attachment{Filename}" ) {
         print $Filehandle $Attachment{Content};
         close $Filehandle;
         print "NOTICE: Writing file $Opts{o}/$Attachment{Filename}.\n";
@@ -366,31 +372,30 @@ if ($Opts{o}) {
 }
 
 # send email
-elsif ($CommonObject{EmailObject}->Send(
-    From => $Opts{s},
-    To => $Opts{r},
-    Subject => "[Stats - $CountStatArray Records] $Title; Created: $Time",
-    Body => $CommonObject{LanguageObject}->Get($Opts{'m'}),
-    Charset => $CommonObject{ConfigObject}  ->{DefaultCharset},
-    Attachment => [
-        {
-            %Attachment
-        },
-    ],
-)) {
+elsif (
+    $CommonObject{EmailObject}->Send(
+        From       => $Opts{s},
+        To         => $Opts{r},
+        Subject    => "[Stats - $CountStatArray Records] $Title; Created: $Time",
+        Body       => $CommonObject{LanguageObject}->Get( $Opts{'m'} ),
+        Charset    => $CommonObject{ConfigObject}->{DefaultCharset},
+        Attachment => [ { %Attachment }, ],
+    )
+    )
+{
     print "NOTICE: Email sent to '$Opts{'r'}'.\n";
 }
 exit(0);
 
 sub GetParam {
     my %Param = @_;
-    if (!$Param{Param}) {
+    if ( !$Param{Param} ) {
         print STDERR "ERROR: Need Param Arg in GetParam()\n";
     }
-    my @P = split(/&/, $Opts{p} || '');
+    my @P = split( /&/, $Opts{p} || '' );
     for (@P) {
-        my ($Key, $Value) = split(/=/, $_, 2);
-        if ($Key eq $Param{Param}) {
+        my ( $Key, $Value ) = split( /=/, $_, 2 );
+        if ( $Key eq $Param{Param} ) {
             return $Value;
         }
     }
@@ -399,15 +404,15 @@ sub GetParam {
 
 sub GetArray {
     my %Param = @_;
-    if (!$Param{Param}) {
+    if ( !$Param{Param} ) {
         print STDERR "ERROR: Need Param Arg in GetArray()\n";
     }
-    my @P = split(/&/, $Opts{p} || '');
+    my @P = split( /&/, $Opts{p} || '' );
     my @Array;
     for (@P) {
-        my ($Key, $Value) = split(/=/, $_, 1);
-        if ($Key eq $Param{Param}) {
-            push (@Array, $Value);
+        my ( $Key, $Value ) = split( /=/, $_, 1 );
+        if ( $Key eq $Param{Param} ) {
+            push( @Array, $Value );
         }
     }
     return @Array;

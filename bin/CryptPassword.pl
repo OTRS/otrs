@@ -3,7 +3,7 @@
 # bin/CryptPassword.pl - to crypt database password for Kernel/Config.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CryptPassword.pl,v 1.4 2007-09-29 11:06:20 mh Exp $
+# $Id: CryptPassword.pl,v 1.5 2007-09-29 11:40:56 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,28 +23,33 @@
 use strict;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $)[1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 # check args
 my $Password = shift;
-print "bin/CryptPassword.pl <Revision $VERSION> - to crypt database password for Kernel/Config.pm\n";
+print
+    "bin/CryptPassword.pl <Revision $VERSION> - to crypt database password for Kernel/Config.pm\n";
 print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
 
-if (!$Password) {
+if ( !$Password ) {
     print STDERR "Usage: bin/CryptPassword.pl NEWPW\n";
 }
 else {
-    my $Length = length($Password)*8;
+    my $Length = length($Password) * 8;
     chomp $Password;
+
     # get bit code
-    my $T = unpack("B$Length", $Password);
+    my $T = unpack( "B$Length", $Password );
+
     # crypt bit code
     $T =~ s/1/A/g;
     $T =~ s/0/1/g;
     $T =~ s/A/0/g;
+
     # get ascii code
-    $T = pack("B$Length", $T);
+    $T = pack( "B$Length", $T );
+
     # get hex code
-    my $H = unpack("h$Length", $T);
+    my $H = unpack( "h$Length", $T );
     print "Crypted password: {$H}\n";
 }
