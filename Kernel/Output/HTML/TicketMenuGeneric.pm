@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/TicketMenuGeneric.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TicketMenuGeneric.pm,v 1.4 2006-11-15 06:58:51 martin Exp $
+# $Id: TicketMenuGeneric.pm,v 1.5 2007-09-29 10:49:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,21 +12,21 @@
 package Kernel::Output::HTML::TicketMenuGeneric;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get needed objects
-    foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject)) {
+    for (qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -34,34 +34,37 @@ sub new {
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{Ticket}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Ticket!");
+    if ( !$Param{Ticket} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Ticket!" );
         return;
     }
 
     # check permission
-    if ($Self->{ConfigObject}->Get("Ticket::Frontend::$Param{Config}->{Action}")) {
+    if ( $Self->{ConfigObject}->Get("Ticket::Frontend::$Param{Config}->{Action}") ) {
         my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::$Param{Config}->{Action}");
-        if ($Config->{Permission}) {
+        if ( $Config->{Permission} ) {
             if (!$Self->{TicketObject}->Permission(
-                Type => $Config->{Permission},
-                TicketID => $Param{TicketID},
-                UserID => $Self->{UserID},
-                LogNo => 1,
-            )) {
+                    Type     => $Config->{Permission},
+                    TicketID => $Param{TicketID},
+                    UserID   => $Self->{UserID},
+                    LogNo    => 1,
+                )
+                )
+            {
                 return $Param{Counter};
             }
         }
-        if ($Config->{RequiredLock}) {
-            if ($Self->{TicketObject}->LockIsTicketLocked(TicketID => $Param{TicketID})) {
+        if ( $Config->{RequiredLock} ) {
+            if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Param{TicketID} ) ) {
                 my $AccessOk = $Self->{TicketObject}->OwnerCheck(
                     TicketID => $Param{TicketID},
-                    OwnerID => $Self->{UserID},
+                    OwnerID  => $Self->{UserID},
                 );
-                if (!$AccessOk) {
+                if ( !$AccessOk ) {
                     return $Param{Counter};
                 }
             }
@@ -69,24 +72,22 @@ sub Run {
     }
 
     # check acl
-    if (!defined($Param{ACL}->{$Param{Config}->{Action}}) || $Param{ACL}->{$Param{Config}->{Action}}) {
+    if ( !defined( $Param{ACL}->{ $Param{Config}->{Action} } )
+        || $Param{ACL}->{ $Param{Config}->{Action} } )
+    {
         $Self->{LayoutObject}->Block(
             Name => 'Menu',
-            Data => { },
+            Data => {},
         );
-        if ($Param{Counter}) {
+        if ( $Param{Counter} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'MenuItemSplit',
-                Data => { },
+                Data => {},
             );
         }
         $Self->{LayoutObject}->Block(
             Name => 'MenuItem',
-            Data => {
-                %{$Param{Config}},
-                %{$Param{Ticket}},
-                %Param,
-            },
+            Data => { %{ $Param{Config} }, %{ $Param{Ticket} }, %Param, },
         );
         $Param{Counter}++;
     }

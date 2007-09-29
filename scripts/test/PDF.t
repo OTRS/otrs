@@ -2,7 +2,7 @@
 # PDF.t - PDF tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.t,v 1.9 2007-07-26 14:27:25 mh Exp $
+# $Id: PDF.t,v 1.10 2007-09-29 11:09:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -281,7 +281,7 @@ $TextCalculateData{14}{RequiredHeight} = 0;
 $TextCalculateData{14}{LeftOver} = 'ISS - International Space Station';
 
 # start testing _TextCalculate()
-foreach (sort keys %TextCalculateData) {
+for (sort keys %TextCalculateData) {
     my $Test = $_;
     my $TestOk = 0;
     if (!defined($TextCalculateData{$Test}{Width})) {
@@ -307,7 +307,7 @@ foreach (sort keys %TextCalculateData) {
 
     my $C1 = 0;
     my $PossibleRowsOK = 1;
-    foreach (@{$Return{PossibleRows}}) {
+    for (@{$Return{PossibleRows}}) {
         if (!$TextCalculateData{$Test}{PossibleRows}{$C1} || $TextCalculateData{$Test}{PossibleRows}{$C1} ne $_) {
             $PossibleRowsOK = 0;
             print "ERROR Row $C1 -->" . $_ . "<--\n";
@@ -450,7 +450,7 @@ $TextData{11}{RequiredHeight} = 0;
 $TextData{11}{LeftOver} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 
 # start testing Text()
-foreach (sort keys %TextData) {
+for (sort keys %TextData) {
     my $Test = $_;
     my $TestOk = 0;
 
@@ -616,7 +616,7 @@ $TextData2{6}{PositionReturnX} = 421;
 $TextData2{6}{PositionReturnY} = 188.5;
 
 # start testing Text()
-foreach (sort keys %TextData2) {
+for (sort keys %TextData2) {
     my $Test = $_;
     my $TestOk = 0;
 
@@ -1622,7 +1622,7 @@ $TableCalculate{18}{ReturnColumnData}[0]{Block} = 0;
 $TableCalculate{18}{ReturnRowData}[0]{MinFontSize} = 10;
 
 # start testing TableCalculate()
-foreach (sort keys %TableCalculate) {
+for (sort keys %TableCalculate) {
     my $Test = $_;
     my $TestOk = 0;
 
@@ -1665,7 +1665,7 @@ foreach (sort keys %TableCalculate) {
     # check returned ColumnData
     my $TestColumnOk = 0;
     my $CounterColumn = 0;
-    foreach my $Column (@{$TableCalculate{$Test}{ReturnColumnData}}) {
+    for my $Column (@{$TableCalculate{$Test}{ReturnColumnData}}) {
         if ($Return{ColumnData}->[$CounterColumn]->{Width} eq $Column->{Width} &&
             $Return{ColumnData}->[$CounterColumn]->{EstimateWidth} eq $Column->{EstimateWidth} &&
             $Return{ColumnData}->[$CounterColumn]->{TextWidth} eq $Column->{TextWidth} &&
@@ -1693,7 +1693,7 @@ foreach (sort keys %TableCalculate) {
     my $TestRowOk = 0;
     my $CounterRow = 0;
     if ($TestColumnOk) {
-        foreach my $Row (@{$TableCalculate{$Test}{ReturnRowData}}) {
+        for my $Row (@{$TableCalculate{$Test}{ReturnRowData}}) {
             if ($Return{RowData}->[$CounterRow]->{MinFontSize} eq $Row->{MinFontSize}) {
                 $TestRowOk = 1;
             }
@@ -1713,9 +1713,9 @@ foreach (sort keys %TableCalculate) {
     # check returned CellData
     if ($TestRowOk) {
         my $CounterCellRow = 0;
-        foreach my $Row (@{$TableCalculate{$Test}{ReturnCellData}}) {
+        for my $Row (@{$TableCalculate{$Test}{ReturnCellData}}) {
             my $CounterCellColumn = 0;
-            foreach my $Cell (@{$TableCalculate{$Test}{ReturnCellData}[$CounterCellRow]}) {
+            for my $Cell (@{$TableCalculate{$Test}{ReturnCellData}[$CounterCellRow]}) {
                 if ($Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Content} eq $Cell->{Content} &&
                     $Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Type} eq $Cell->{Type} &&
                     $Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Font} eq $Cell->{Font} &&
@@ -2239,7 +2239,7 @@ $TableBlockNextCalculate{21}{ReturnColumnStart} = 1;
 $TableBlockNextCalculate{21}{ReturnColumnStop} = 1;
 
 # start testing _TableBlockNextCalculate()
-foreach (sort keys %TableBlockNextCalculate) {
+for (sort keys %TableBlockNextCalculate) {
     my $Test = $_;
     my $TestOk = 0;
 
@@ -2436,7 +2436,7 @@ $TableRowCalculate{7}{ReturnRowData}[0]{TextHeight} = 187;
 $TableRowCalculate{7}{ReturnRowData}[0]{OutputHeight} = 191;
 
 # start testing TableCalculate()
-foreach (sort keys %TableRowCalculate) {
+for (sort keys %TableRowCalculate) {
     my $Test = $_;
     my $TestOk = 0;
 
@@ -2520,7 +2520,7 @@ $TableCellOnCount{6}{CellData}[1][1]{Off} = 1;
 $TableCellOnCount{6}{Return} = 0;
 
 # start testing TableCellOnCount()
-foreach (sort keys %TableCellOnCount) {
+for (sort keys %TableCellOnCount) {
     my $Test = $_;
     my $TestOk = 0;
 

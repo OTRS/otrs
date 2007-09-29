@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/NotificationAgentOnline.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NotificationAgentOnline.pm,v 1.3 2006-12-13 17:00:15 martin Exp $
+# $Id: NotificationAgentOnline.pm,v 1.4 2007-09-29 10:50:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,22 +12,23 @@
 package Kernel::Output::HTML::NotificationAgentOnline;
 
 use strict;
+use warnings;
+
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get needed objects
-    foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID)) {
+    for (qw(ConfigObject LogObject DBObject LayoutObject UserID)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{SessionObject} = Kernel::System::AuthSession->new(%Param);
@@ -35,30 +36,33 @@ sub new {
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # get session info
-    my %Online = ();
+    my %Online   = ();
     my @Sessions = $Self->{SessionObject}->GetAllSessionIDs();
-    foreach (@Sessions) {
-        my %Data = $Self->{SessionObject}->GetSessionIDData(
-            SessionID => $_,
-        );
-        if ($Self->{UserID} ne $Data{UserID} && $Data{UserType} eq 'User' && $Data{UserFirstname} && $Data{UserLastname}) {
-            $Online{$Data{UserID}} = "$Data{UserFirstname} $Data{UserLastname}";
-            if ($Param{Config}->{ShowEmail}) {
-                $Online{$Data{UserID}} .= " ($Data{UserEmail})";
+    for (@Sessions) {
+        my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $_, );
+        if (   $Self->{UserID} ne $Data{UserID}
+            && $Data{UserType} eq 'User'
+            && $Data{UserFirstname}
+            && $Data{UserLastname} )
+        {
+            $Online{ $Data{UserID} } = "$Data{UserFirstname} $Data{UserLastname}";
+            if ( $Param{Config}->{ShowEmail} ) {
+                $Online{ $Data{UserID} } .= " ($Data{UserEmail})";
             }
         }
     }
-    foreach (sort {$Online{$a} cmp $Online{$b}} keys %Online) {
-        if ($Param{Message}) {
+    for ( sort { $Online{$a} cmp $Online{$b} } keys %Online ) {
+        if ( $Param{Message} ) {
             $Param{Message} .= ', ';
         }
         $Param{Message} .= "$Online{$_}";
     }
-    if ($Param{Message}) {
-        return $Self->{LayoutObject}->Notify(Info => 'Online Agent: %s", "'.$Param{Message});
+    if ( $Param{Message} ) {
+        return $Self->{LayoutObject}->Notify( Info => 'Online Agent: %s", "' . $Param{Message} );
     }
     else {
         return '';

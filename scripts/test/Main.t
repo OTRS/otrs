@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.t,v 1.4 2007-09-24 04:36:48 martin Exp $
+# $Id: Main.t,v 1.5 2007-09-29 11:09:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -111,7 +111,7 @@ $Self->Is(
     '56a681e0c46b1f156020182cdf62e825',
     "#9 MD5sum() - String - abc1234567890äöüß-カスタマ",
 );
-foreach my $Extention (qw(doc pdf png txt xls)) {
+for my $Extention (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
         Filename => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/Main-Test1.$Extention",
     );
@@ -153,7 +153,7 @@ foreach my $Extention (qw(doc pdf png txt xls)) {
 }
 
 # write & read some files via Directory/Filename
-foreach my $Extention (qw(doc pdf png txt xls)) {
+for my $Extention (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
         Filename => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/Main-Test1.$Extention",
     );
@@ -193,7 +193,7 @@ foreach my $Extention (qw(doc pdf png txt xls)) {
 }
 
 # write & read some files via Location
-foreach my $Extention (qw(doc pdf png txt xls)) {
+for my $Extention (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
         Filename => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/Main-Test1.$Extention",
     );

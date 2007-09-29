@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.45 2007-07-23 09:35:09 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.46 2007-09-29 10:53:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,66 +17,76 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.45 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub ArticleStorageInit {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # ArticleDataDir
     $Self->{ArticleDataDir} = $Self->{ConfigObject}->Get('ArticleDir')
         || die "Got no ArticleDir!";
+
     # create ArticleContentPath
-    my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
-        SystemTime => $Self->{TimeObject}->SystemTime(),
-    );
-    $Self->{ArticleContentPath} = $Year.'/'.$Month.'/'.$Day;
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
+        = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+    $Self->{ArticleContentPath} = $Year . '/' . $Month . '/' . $Day;
 
     return 1;
 }
 
 sub ArticleDelete {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(TicketID UserID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(TicketID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # delete attachments and plain emails
-    my @Articles = $Self->ArticleIndex(TicketID => $Param{TicketID});
-    foreach (@Articles) {
+    my @Articles = $Self->ArticleIndex( TicketID => $Param{TicketID} );
+    for (@Articles) {
+
         # delete time accounting
         $Self->ArticleAccountedTimeDelete(
             ArticleID => $_,
-            UserID => $Param{UserID},
+            UserID    => $Param{UserID},
         );
+
         # delete attachments
         $Self->ArticleDeleteAttachment(
             ArticleID => $_,
-            UserID => $Param{UserID},
+            UserID    => $Param{UserID},
         );
+
         # delete plain message
         $Self->ArticleDeletePlain(
             ArticleID => $_,
-            UserID => $Param{UserID},
+            UserID    => $Param{UserID},
         );
+
         # delete storage directory
         $Self->_ArticleDeleteDirectory(
             ArticleID => $_,
-            UserID => $Param{UserID},
+            UserID    => $Param{UserID},
         );
     }
+
     # db quote
-    foreach (qw(TicketID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    for (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
+
     # delete articles
-    if ($Self->{DBObject}->Do(SQL => "DELETE FROM article WHERE ticket_id = $Param{TicketID}")) {
+    if ( $Self->{DBObject}->Do( SQL => "DELETE FROM article WHERE ticket_id = $Param{TicketID}" ) )
+    {
+
         # delete history
-        if ($Self->HistoryDelete(TicketID => $Param{TicketID}, UserID => $Param{UserID})) {
+        if ( $Self->HistoryDelete( TicketID => $Param{TicketID}, UserID => $Param{UserID} ) ) {
             return 1;
         }
         else {
@@ -89,23 +99,25 @@ sub ArticleDelete {
 }
 
 sub _ArticleDeleteDirectory {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(ArticleID UserID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(ArticleID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # delete directory from fs
-    my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
+    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
-    if (-d $Path) {
-        if (! rmdir($Path)) {
+    if ( -d $Path ) {
+        if ( !rmdir($Path) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Can't remove: $Path: $!!",
+                Message  => "Can't remove: $Path: $!!",
             );
             return;
         }
@@ -114,29 +126,34 @@ sub _ArticleDeleteDirectory {
 }
 
 sub ArticleDeletePlain {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(ArticleID UserID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(ArticleID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # db quote
-    foreach (qw(ArticleID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    for (qw(ArticleID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
+
     # delete attachments
-    $Self->{DBObject}->Do(SQL => "DELETE FROM article_plain WHERE article_id = $Param{ArticleID}");
+    $Self->{DBObject}
+        ->Do( SQL => "DELETE FROM article_plain WHERE article_id = $Param{ArticleID}" );
+
     # delete from fs
-    my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
+    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my $File = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt";
-    if (-f $File) {
-        if (!unlink($File)) {
+    if ( -f $File ) {
+        if ( !unlink($File) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Can't remove: $File: $!!",
+                Message  => "Can't remove: $File: $!!",
             );
             return;
         }
@@ -145,32 +162,37 @@ sub ArticleDeletePlain {
 }
 
 sub ArticleDeleteAttachment {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(ArticleID UserID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(ArticleID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # db quote
-    foreach (qw(ArticleID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    for (qw(ArticleID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
+
     # delete attachments
-    $Self->{DBObject}->Do(SQL => "DELETE FROM article_attachment WHERE article_id = $Param{ArticleID}");
+    $Self->{DBObject}
+        ->Do( SQL => "DELETE FROM article_attachment WHERE article_id = $Param{ArticleID}" );
+
     # delete from fs
-    my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
+    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
-    if (-e $Path) {
+    if ( -e $Path ) {
         my @List = glob($Path);
-        foreach my $File (@List) {
-            if ($File !~ /(\/|\\)plain.txt$/) {
-                if (!unlink $File) {
+        for my $File (@List) {
+            if ( $File !~ /(\/|\\)plain.txt$/ ) {
+                if ( !unlink $File ) {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
-                        Message => "Can't remove: $File: $!!",
+                        Message  => "Can't remove: $File: $!!",
                     );
                 }
             }
@@ -180,31 +202,36 @@ sub ArticleDeleteAttachment {
 }
 
 sub ArticleWritePlain {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(ArticleID Email UserID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(ArticleID Email UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # encode attachemnt if it's a postgresql backend!!!
-    if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
-        $Self->{EncodeObject}->EncodeOutput(\$Param{Email});
-        $Param{Email} = encode_base64($Param{Email});
+    if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
+        $Self->{EncodeObject}->EncodeOutput( \$Param{Email} );
+        $Param{Email} = encode_base64( $Param{Email} );
     }
+
     # db quote
-    foreach (qw(ArticleID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    for (qw(ArticleID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
+
     # write article to db 1:1
-    my $SQL = "INSERT INTO article_plain ".
-        " (article_id, body, create_time, create_by, change_time, change_by) " .
-        " VALUES ".
-        " ($Param{ArticleID}, ?, ".
-        " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-    if ($Self->{DBObject}->Do(SQL => $SQL, Bind => [\$Param{Email}])) {
+    my $SQL
+        = "INSERT INTO article_plain "
+        . " (article_id, body, create_time, create_by, change_time, change_by) "
+        . " VALUES "
+        . " ($Param{ArticleID}, ?, "
+        . " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+    if ( $Self->{DBObject}->Do( SQL => $SQL, Bind => [ \$Param{Email} ] ) ) {
         return 1;
     }
     else {
@@ -213,24 +240,25 @@ sub ArticleWritePlain {
 }
 
 sub ArticleWriteAttachment {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(Content Filename ContentType ArticleID UserID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Content Filename ContentType ArticleID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     my $NewFileName = $Param{Filename};
-    my %UsedFile = ();
-    my %Index = $Self->ArticleAttachmentIndex(ArticleID => $Param{ArticleID});
-    foreach (keys %Index) {
-        $UsedFile{$Index{$_}->{Filename}} = 1;
+    my %UsedFile    = ();
+    my %Index       = $Self->ArticleAttachmentIndex( ArticleID => $Param{ArticleID} );
+    for ( keys %Index ) {
+        $UsedFile{ $Index{$_}->{Filename} } = 1;
     }
-    for (my $i=1; $i<=12; $i++) {
-        if (exists $UsedFile{$NewFileName}) {
-            if ($Param{Filename} =~ /^(.*)\.(.+?)$/) {
+    for ( my $i = 1; $i <= 12; $i++ ) {
+        if ( exists $UsedFile{$NewFileName} ) {
+            if ( $Param{Filename} =~ /^(.*)\.(.+?)$/ ) {
                 $NewFileName = "$1-$i.$2";
             }
             else {
@@ -238,34 +266,40 @@ sub ArticleWriteAttachment {
             }
         }
     }
+
     # get file name
     $Param{Filename} = $NewFileName;
+
     # get attachment size
     {
         use bytes;
-        $Param{Filesize} = length($Param{Content});
+        $Param{Filesize} = length( $Param{Content} );
         no bytes;
     }
+
     # encode attachemnt if it's a postgresql backend!!!
-    if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
-        $Self->{EncodeObject}->EncodeOutput(\$Param{Content});
-        $Param{Content} = encode_base64($Param{Content});
+    if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
+        $Self->{EncodeObject}->EncodeOutput( \$Param{Content} );
+        $Param{Content} = encode_base64( $Param{Content} );
     }
+
     # db quote (just not Content, use db Bind values)
-    foreach (qw(Filename ContentType Filesize)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    for (qw(Filename ContentType Filesize)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
     }
-    foreach (qw(ArticleID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    for (qw(ArticleID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
-    my $SQL = "INSERT INTO article_attachment ".
-        " (article_id, filename, content_type, content_size, content, ".
-        " create_time, create_by, change_time, change_by) " .
-        " VALUES ".
-        " ($Param{ArticleID}, '$Param{Filename}', '$Param{ContentType}', '$Param{Filesize}', ?, ".
-        " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+    my $SQL
+        = "INSERT INTO article_attachment "
+        . " (article_id, filename, content_type, content_size, content, "
+        . " create_time, create_by, change_time, change_by) "
+        . " VALUES "
+        . " ($Param{ArticleID}, '$Param{Filename}', '$Param{ContentType}', '$Param{Filesize}', ?, "
+        . " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+
     # write attachment to db
-    if ($Self->{DBObject}->Do(SQL => $SQL, Bind => [\$Param{Content}])) {
+    if ( $Self->{DBObject}->Do( SQL => $SQL, Bind => [ \$Param{Content} ] ) ) {
         return 1;
     }
     else {
@@ -274,139 +308,158 @@ sub ArticleWriteAttachment {
 }
 
 sub ArticlePlain {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{ArticleID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+    if ( !$Param{ArticleID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ArticleID!" );
         return;
     }
+
     # prepare/filter ArticleID
-    $Param{ArticleID} = quotemeta($Param{ArticleID});
+    $Param{ArticleID} = quotemeta( $Param{ArticleID} );
     $Param{ArticleID} =~ s/\0//g;
+
     # get content path
-    my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
+    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+
     # open plain article
     my $Data = '';
-    if (!open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt")) {
+    if ( !open( DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt" ) ) {
+
         # can't open article
         # try database
-        foreach (qw(ArticleID)) {
-            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+        for (qw(ArticleID)) {
+            $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
         }
-        my $SQL = "SELECT body FROM article_plain ".
-            " WHERE ".
-            " article_id = $Param{ArticleID}";
-        $Self->{DBObject}->Prepare(SQL => $SQL);
-        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        my $SQL = "SELECT body FROM article_plain " . " WHERE " . " article_id = $Param{ArticleID}";
+        $Self->{DBObject}->Prepare( SQL => $SQL );
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
             # decode attachemnt if it's e. g. a postgresql backend!!!
-            if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob') && $Row[0] !~ / /) {
-                $Data = decode_base64($Row[0]);
+            if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') && $Row[0] !~ / / ) {
+                $Data = decode_base64( $Row[0] );
             }
             else {
                 $Data = $Row[0];
             }
         }
+
         # return plain email
         if ($Data) {
             return $Data;
         }
+
         # else error!
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "No plain article (article id $Param{ArticleID}) in database!",
+                Message  => "No plain article (article id $Param{ArticleID}) in database!",
             );
             return;
         }
     }
     else {
+
         # read whole article
         binmode(DATA);
         while (<DATA>) {
             $Data .= $_;
         }
-        close (DATA);
+        close(DATA);
         return $Data;
     }
 }
 
 sub ArticleAttachmentIndex {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check ArticleContentPath
-    if (!$Self->{ArticleContentPath}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleContentPath!");
+    if ( !$Self->{ArticleContentPath} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ArticleContentPath!" );
         return;
     }
+
     # check needed stuff
-    if (!$Param{ArticleID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+    if ( !$Param{ArticleID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ArticleID!" );
         return;
     }
+
     # get ContentPath if not given
-    if (!$Param{ContentPath}) {
-        $Param{ContentPath} = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID}) || '';
+    if ( !$Param{ContentPath} ) {
+        $Param{ContentPath} = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} ) || '';
     }
-    my %Index = ();
+    my %Index   = ();
     my $Counter = 0;
+
     # try database
-    foreach (qw(ArticleID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    for (qw(ArticleID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
-    my $SQL = "SELECT filename, content_type, content_size FROM article_attachment ".
-        " WHERE ".
-        " article_id = $Param{ArticleID} ORDER BY id";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+    my $SQL
+        = "SELECT filename, content_type, content_size FROM article_attachment "
+        . " WHERE "
+        . " article_id = $Param{ArticleID} ORDER BY id";
+    $Self->{DBObject}->Prepare( SQL => $SQL );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
         # human readable file size
-        if ($Row[2]) {
-            if ($Row[2] > (1024*1024)) {
-                $Row[2] = sprintf "%.1f MBytes", ($Row[2]/(1024*1024));
+        if ( $Row[2] ) {
+            if ( $Row[2] > ( 1024 * 1024 ) ) {
+                $Row[2] = sprintf "%.1f MBytes", ( $Row[2] / ( 1024 * 1024 ) );
             }
-            elsif ($Row[2] > 1024) {
-                $Row[2] = sprintf "%.1f KBytes", (($Row[2]/1024));
+            elsif ( $Row[2] > 1024 ) {
+                $Row[2] = sprintf "%.1f KBytes", ( ( $Row[2] / 1024 ) );
             }
             else {
-                $Row[2] = $Row[2].' Bytes';
+                $Row[2] = $Row[2] . ' Bytes';
             }
         }
+
         # add the info the the hash
         $Counter++;
         $Index{$Counter} = {
-            Filename => $Row[0],
+            Filename    => $Row[0],
             ContentType => $Row[1],
-            Filesize => $Row[2] || '',
+            Filesize    => $Row[2] || '',
         };
     }
+
     # try fs (if there is no index in fs)
-    if (!%Index) {
+    if ( !%Index ) {
         my @List = glob("$Self->{ArticleDataDir}/$Param{ContentPath}/$Param{ArticleID}/*");
-        foreach my $Filename (@List) {
+        for my $Filename (@List) {
             my $FileSize = -s $Filename;
+
             # convert the file name in utf-8 if utf-8 is used
             $Filename = $Self->{EncodeObject}->Decode(
                 Text => $Filename,
                 From => 'utf-8',
             );
+
             # human readable file size
             if ($FileSize) {
+
                 # remove meta data in files
-                $FileSize = $FileSize - 30 if ($FileSize > 30);
-                if ($FileSize > (1024*1024)) {
-                    $FileSize = sprintf "%.1f MBytes", ($FileSize/(1024*1024));
+                $FileSize = $FileSize - 30 if ( $FileSize > 30 );
+                if ( $FileSize > ( 1024 * 1024 ) ) {
+                    $FileSize = sprintf "%.1f MBytes", ( $FileSize / ( 1024 * 1024 ) );
                 }
-                elsif ($FileSize > 1024) {
-                    $FileSize = sprintf "%.1f KBytes", (($FileSize/1024));
+                elsif ( $FileSize > 1024 ) {
+                    $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
                 }
                 else {
-                    $FileSize = $FileSize.' Bytes';
+                    $FileSize = $FileSize . ' Bytes';
                 }
             }
+
             # read content type
             my $ContentType = '';
-            if (-e "$Filename.content_type") {
-                if (open(DATA, "$Filename.content_type")) {
+            if ( -e "$Filename.content_type" ) {
+                if ( open( DATA, "$Filename.content_type" ) ) {
                     while (<DATA>) {
                         $ContentType .= $_;
                     }
@@ -415,14 +468,15 @@ sub ArticleAttachmentIndex {
                 else {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
-                        Message => "$!: $Filename.content_type!",
+                        Message  => "$!: $Filename.content_type!",
                     );
                     return;
                 }
             }
+
             # read content type (old style)
             else {
-                if (open(IN, "< $Filename")) {
+                if ( open( IN, "< $Filename" ) ) {
                     while (<IN>) {
                         if ($ContentType) {
                             last;
@@ -434,14 +488,16 @@ sub ArticleAttachmentIndex {
                     close(IN);
                 }
             }
+
             # strip filename
             $Filename =~ s!^.*/!!;
-            if ($Filename ne 'plain.txt') {
+            if ( $Filename ne 'plain.txt' ) {
+
                 # add the info the the hash
                 $Counter++;
                 $Index{$Counter} = {
-                    Filename => $Filename,
-                    Filesize => $FileSize,
+                    Filename    => $Filename,
+                    Filesize    => $FileSize,
                     ContentType => $ContentType,
                 };
             }
@@ -451,44 +507,50 @@ sub ArticleAttachmentIndex {
 }
 
 sub ArticleAttachment {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(ArticleID FileID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(ArticleID FileID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # prepare/filter ArticleID
-    $Param{ArticleID} = quotemeta($Param{ArticleID});
+    $Param{ArticleID} = quotemeta( $Param{ArticleID} );
     $Param{ArticleID} =~ s/\0//g;
+
     # get attachment index
-    my %Index = $Self->ArticleAttachmentIndex(ArticleID => $Param{ArticleID});
+    my %Index = $Self->ArticleAttachmentIndex( ArticleID => $Param{ArticleID} );
+
     # get content path
-    my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
-    my %Data = %{$Index{$Param{FileID}}};
+    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my %Data = %{ $Index{ $Param{FileID} } };
 
     my $Counter = 0;
-    my @List = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");
+    my @List    = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");
     if (@List) {
-        foreach my $Filename (@List) {
-            if ($Filename !~ /\/plain.txt$/ && $Filename !~ /\.content_type$/) {
+        for my $Filename (@List) {
+            if ( $Filename !~ /\/plain.txt$/ && $Filename !~ /\.content_type$/ ) {
+
                 # add the info the the hash
                 $Counter++;
-                if ($Counter == $Param{FileID}) {
+                if ( $Counter == $Param{FileID} ) {
+
                     # convert the file name in utf-8 if utf-8 is used
                     $Filename = $Self->{EncodeObject}->Decode(
                         Text => $Filename,
                         From => 'utf-8',
                     );
-                    if (-e "$Filename.content_type") {
-                        if (open(DATA, "$Filename.content_type")) {
+                    if ( -e "$Filename.content_type" ) {
+                        if ( open( DATA, "$Filename.content_type" ) ) {
                             while (<DATA>) {
                                 $Data{ContentType} = $_;
                             }
                             close(DATA);
-                            if (open(DATA, $Filename)) {
+                            if ( open( DATA, $Filename ) ) {
                                 my $Counter = 0;
                                 binmode(DATA);
                                 while (<DATA>) {
@@ -499,7 +561,7 @@ sub ArticleAttachment {
                             else {
                                 $Self->{LogObject}->Log(
                                     Priority => 'error',
-                                    Message => "$!: $Filename!",
+                                    Message  => "$!: $Filename!",
                                 );
                                 return;
 
@@ -508,17 +570,17 @@ sub ArticleAttachment {
                         else {
                             $Self->{LogObject}->Log(
                                 Priority => 'error',
-                                Message => "$!: $Filename.content_type!",
+                                Message  => "$!: $Filename.content_type!",
                             );
                             return;
                         }
                     }
                     else {
-                        if (open(DATA, $Filename)) {
+                        if ( open( DATA, $Filename ) ) {
                             my $Counter = 0;
                             binmode(DATA);
                             while (<DATA>) {
-                                if ($Counter == 0) {
+                                if ( $Counter == 0 ) {
                                     $Data{ContentType} = $_;
                                 }
                                 else {
@@ -529,41 +591,47 @@ sub ArticleAttachment {
                             close(DATA);
                         }
                     }
-                    if ($Data{ContentType} =~ /plain\/text/i && $Data{ContentType} =~ /(utf\-8|utf8)/i) {
-                        $Self->{EncodeObject}->Encode(\$Data{Content});
+                    if (   $Data{ContentType} =~ /plain\/text/i
+                        && $Data{ContentType} =~ /(utf\-8|utf8)/i )
+                    {
+                        $Self->{EncodeObject}->Encode( \$Data{Content} );
                     }
-                    chomp ($Data{ContentType});
+                    chomp( $Data{ContentType} );
                     return %Data;
                 }
             }
         }
     }
     else {
+
         # try database
-        foreach (qw(ArticleID)) {
-            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+        for (qw(ArticleID)) {
+            $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
         }
-        my $SQL = "SELECT content_type, content FROM article_attachment ".
-            " WHERE ".
-            " article_id = $Param{ArticleID} ORDER BY id";
-        $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Param{FileID}, Encode => [1,0]);
-        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        my $SQL
+            = "SELECT content_type, content FROM article_attachment "
+            . " WHERE "
+            . " article_id = $Param{ArticleID} ORDER BY id";
+        $Self->{DBObject}->Prepare( SQL => $SQL, Limit => $Param{FileID}, Encode => [ 1, 0 ] );
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Data{ContentType} = $Row[0];
+
             # decode attachemnt if it's e. g. a postgresql backend!!!
-            if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
-                $Data{Content} = decode_base64($Row[1]);
+            if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
+                $Data{Content} = decode_base64( $Row[1] );
             }
             else {
                 $Data{Content} = $Row[1];
             }
         }
-        if ($Data{Content}) {
+        if ( $Data{Content} ) {
             return %Data;
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "No article attachment (article id $Param{ArticleID}, file id $Param{FileID}) in database!",
+                Message =>
+                    "No article attachment (article id $Param{ArticleID}, file id $Param{FileID}) in database!",
             );
             return;
         }

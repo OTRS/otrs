@@ -2,7 +2,7 @@
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerGroup.pm,v 1.12 2007-02-06 23:13:55 martin Exp $
+# $Id: CustomerGroup.pm,v 1.13 2007-09-29 11:00:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,12 +12,13 @@
 package Kernel::System::CustomerGroup;
 
 use strict;
+use warnings;
+
 use Kernel::System::Group;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -65,15 +66,15 @@ create a object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{GroupObject} = Kernel::System::Group->new(%Param);
@@ -105,45 +106,53 @@ to add a member to a group
 =cut
 
 sub GroupMemberAdd {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my $count;
+
     # check needed stuff
-    foreach (qw(UID GID UserID Permission)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(UID GID UserID Permission)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # update permission
-    foreach (keys %{$Param{Permission}}) {
+    for ( keys %{ $Param{Permission} } ) {
+
         # delete existing permission
-        my $SQL = "DELETE FROM group_customer_user ".
-            " WHERE ".
-            " group_id = ".$Self->{DBObject}->Quote($Param{GID}).
-            " AND ".
-            " user_id = '".$Self->{DBObject}->Quote($Param{UID})."' ".
-            " AND ".
-            " permission_key = '".$Self->{DBObject}->Quote($_)."'";
-        $Self->{DBObject}->Do(SQL => $SQL);
+        my $SQL
+            = "DELETE FROM group_customer_user "
+            . " WHERE "
+            . " group_id = "
+            . $Self->{DBObject}->Quote( $Param{GID} ) . " AND "
+            . " user_id = '"
+            . $Self->{DBObject}->Quote( $Param{UID} ) . "' " . " AND "
+            . " permission_key = '"
+            . $Self->{DBObject}->Quote($_) . "'";
+        $Self->{DBObject}->Do( SQL => $SQL );
+
         # debug
-        if ($Self->{Debug}) {
+        if ( $Self->{Debug} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Add UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!",
+                Message  => "Add UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!",
             );
         }
+
         # insert new permission
-        $SQL = "INSERT INTO group_customer_user ".
-            " (user_id, group_id, permission_key, permission_value, ".
-            " create_time, create_by, change_time, change_by) ".
-            " VALUES ".
-            " ('".$Self->{DBObject}->Quote($Param{UID})."', ".
-            " ".$Self->{DBObject}->Quote($Param{GID}).", ".
-            " '".$Self->{DBObject}->Quote($_)."', ".
-            " ".$Self->{DBObject}->Quote($Param{Permission}->{$_}).",".
-            " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-        $Self->{DBObject}->Do(SQL => $SQL);
+        $SQL
+            = "INSERT INTO group_customer_user "
+            . " (user_id, group_id, permission_key, permission_value, "
+            . " create_time, create_by, change_time, change_by) "
+            . " VALUES " . " ('"
+            . $Self->{DBObject}->Quote( $Param{UID} ) . "', " . " "
+            . $Self->{DBObject}->Quote( $Param{GID} ) . ", " . " '"
+            . $Self->{DBObject}->Quote($_) . "', " . " "
+            . $Self->{DBObject}->Quote( $Param{Permission}->{$_} ) . ","
+            . " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+        $Self->{DBObject}->Do( SQL => $SQL );
     }
     return 1;
 }
@@ -168,86 +177,92 @@ returns a list of users of a group with ro/move_into/create/owner/priority/rw pe
 =cut
 
 sub GroupMemberList {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(Result Type)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Result Type)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    if (!$Param{UserID} && !$Param{GroupID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or GroupID!");
+    if ( !$Param{UserID} && !$Param{GroupID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID or GroupID!" );
         return;
     }
     my %Data = ();
     my @Name = ();
-    my @ID = ();
+    my @ID   = ();
+
     # check if customer group feature is activ, if not, return all groups
-    if (!$Self->{ConfigObject}->Get('CustomerGroupSupport')) {
+    if ( !$Self->{ConfigObject}->Get('CustomerGroupSupport') ) {
+
         # get permissions
-        %Data = $Self->{GroupObject}->GroupList(Valid => 1);
-        foreach (keys %Data) {
-            push (@Name, $Data{$_});
-            push (@ID, $_);
+        %Data = $Self->{GroupObject}->GroupList( Valid => 1 );
+        for ( keys %Data ) {
+            push( @Name, $Data{$_} );
+            push( @ID,   $_ );
         }
     }
+
     # if it's activ, return just the permitted groups
-    my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, ".
-        " gu.user_id ".
-        " FROM ".
-        " groups g, group_customer_user gu".
-        " WHERE " .
-        " g.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) ".
-        " AND ".
-        " g.id = gu.group_id ".
-        " AND ".
-        " gu.permission_value = 1 ".
-        " AND ".
-        " gu.permission_key IN ('".$Self->{DBObject}->Quote($Param{Type})."', 'rw') ".
-        " AND ";
-    if ($Param{UserID}) {
-        $SQL .= " gu.user_id = '".$Self->{DBObject}->Quote($Param{UserID})."'";
+    my $SQL
+        = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
+        . " gu.user_id "
+        . " FROM "
+        . " groups g, group_customer_user gu"
+        . " WHERE "
+        . " g.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) " . " AND "
+        . " g.id = gu.group_id " . " AND "
+        . " gu.permission_value = 1 " . " AND "
+        . " gu.permission_key IN ('"
+        . $Self->{DBObject}->Quote( $Param{Type} )
+        . "', 'rw') " . " AND ";
+    if ( $Param{UserID} ) {
+        $SQL .= " gu.user_id = '" . $Self->{DBObject}->Quote( $Param{UserID} ) . "'";
     }
     else {
-        $SQL .= " gu.group_id = ".$Self->{DBObject}->Quote($Param{GroupID})."";
+        $SQL .= " gu.group_id = " . $Self->{DBObject}->Quote( $Param{GroupID} ) . "";
     }
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        my $Key = '';
+    $Self->{DBObject}->Prepare( SQL => $SQL );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        my $Key   = '';
         my $Value = '';
-        if ($Param{UserID}) {
-            $Key = $Row[0];
+        if ( $Param{UserID} ) {
+            $Key   = $Row[0];
             $Value = $Row[1];
         }
         else {
-            $Key = $Row[4];
+            $Key   = $Row[4];
             $Value = $Row[1];
         }
+
         # get permissions
         $Data{$Key} = $Value;
-        push (@Name, $Value);
-        push (@ID, $Key);
+        push( @Name, $Value );
+        push( @ID,   $Key );
     }
+
     # add always groups
-    if ($Self->{ConfigObject}->Get('CustomerGroupAlwaysGroups')) {
-        my %Groups = $Self->{GroupObject}->GroupList(Valid => 1);
-        foreach (@{$Self->{ConfigObject}->Get('CustomerGroupAlwaysGroups')}) {
-            foreach my $GroupID (keys %Groups) {
-                if ($_ eq $Groups{$GroupID} && !$Data{$GroupID}) {
+    if ( $Self->{ConfigObject}->Get('CustomerGroupAlwaysGroups') ) {
+        my %Groups = $Self->{GroupObject}->GroupList( Valid => 1 );
+        for ( @{ $Self->{ConfigObject}->Get('CustomerGroupAlwaysGroups') } ) {
+            for my $GroupID ( keys %Groups ) {
+                if ( $_ eq $Groups{$GroupID} && !$Data{$GroupID} ) {
                     $Data{$GroupID} = $_;
-                    push (@Name, $_);
-                    push (@ID, $GroupID);
+                    push( @Name, $_ );
+                    push( @ID,   $GroupID );
                 }
             }
         }
     }
+
     # return type
-    if ($Param{Result} && $Param{Result} eq 'ID') {
+    if ( $Param{Result} && $Param{Result} eq 'ID' ) {
         return @ID;
     }
-    if ($Param{Result} && $Param{Result} eq 'Name') {
+    if ( $Param{Result} && $Param{Result} eq 'Name' ) {
         return @Name;
     }
     else {
@@ -271,6 +286,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2007-02-06 23:13:55 $
+$Revision: 1.13 $ $Date: 2007-09-29 11:00:47 $
 
 =cut

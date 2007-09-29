@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleAttachmentHTMLViewer.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleAttachmentHTMLViewer.pm,v 1.4 2006-10-09 15:42:14 mh Exp $
+# $Id: ArticleAttachmentHTMLViewer.pm,v 1.5 2007-09-29 10:49:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,45 +12,48 @@
 package Kernel::Output::HTML::ArticleAttachmentHTMLViewer;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get needed objects
-    foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ArticleID)) {
+    for (qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ArticleID)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     return $Self;
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(File Article)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(File Article)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # check if config exists
-    if ($Self->{ConfigObject}->Get('MIME-Viewer')) {
-        foreach (keys %{$Self->{ConfigObject}->Get('MIME-Viewer')}) {
-            if ($Param{File}->{ContentType} =~ /^$_/i) {
+    if ( $Self->{ConfigObject}->Get('MIME-Viewer') ) {
+        for ( keys %{ $Self->{ConfigObject}->Get('MIME-Viewer') } ) {
+            if ( $Param{File}->{ContentType} =~ /^$_/i ) {
                 return (
-                    %{$Param{File}},
+                    %{ $Param{File} },
                     Action => 'Viewer',
-                    Link => "\$Env{\"Baselink\"}Action=AgentTicketAttachment&ArticleID=$Param{Article}->{ArticleID}&FileID=$Param{File}->{FileID}&Viewer=1",
-                    Image => 'screen-s.png',
+                    Link =>
+                        "\$Env{\"Baselink\"}Action=AgentTicketAttachment&ArticleID=$Param{Article}->{ArticleID}&FileID=$Param{File}->{FileID}&Viewer=1",
+                    Image  => 'screen-s.png',
                     Target => 'target="attachment"',
                 );
             }

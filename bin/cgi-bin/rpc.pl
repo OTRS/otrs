@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/cgi-bin/rpc.pl - soap handle
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: rpc.pl,v 1.1 2006-08-29 13:42:35 martin Exp $
+# $Id: rpc.pl,v 1.2 2007-09-29 11:07:04 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,8 +39,7 @@ use Kernel::System::Queue;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.2 $)[1];
 
 # common objects
 my %CommonObject = ();

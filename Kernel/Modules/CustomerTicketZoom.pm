@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.13 2007-03-15 08:20:30 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.14 2007-09-29 10:41:48 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,42 +12,51 @@
 package Kernel::Modules::CustomerTicketZoom;
 
 use strict;
+use warnings;
+
 use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
+
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
+
     # get common objects
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
+
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject
+    for (
+        qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject
         ConfigObject UserObject SessionObject
-    )) {
-        if (!$Self->{$_}) {
-            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        )
+        )
+    {
+        if ( !$Self->{$_} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
+
     # needed objects
-    $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{StateObject}      = Kernel::System::State->new(%Param);
     $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
 
     # get article id
-    $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID');
+    $Self->{ArticleID} = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
 
     # get form id
-    $Self->{FormID} = $Self->{ParamObject}->GetParam(Param => 'FormID');
+    $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
+
     # create form id
-    if (!$Self->{FormID}) {
+    if ( !$Self->{FormID} ) {
         $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
     }
 
@@ -57,67 +66,82 @@ sub new {
 }
 
 sub Run {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self     = shift;
+    my %Param    = @_;
     my %GetParam = ();
+
     # check needed stuff
-    if (!$Self->{TicketID}) {
-        my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->CustomerError(Message => 'Need TicketID!');
+    if ( !$Self->{TicketID} ) {
+        my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
+        $Output .= $Self->{LayoutObject}->CustomerError( Message => 'Need TicketID!' );
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
     }
+
     # check permissions
     if (!$Self->{TicketObject}->CustomerPermission(
-        Type => 'ro',
-        TicketID => $Self->{TicketID},
-        UserID => $Self->{UserID})) {
+            Type     => 'ro',
+            TicketID => $Self->{TicketID},
+            UserID   => $Self->{UserID}
+        )
+        )
+    {
+
         # error screen, don't show ticket
-        return $Self->{LayoutObject}->CustomerNoPermission(WithHeader => 'yes');
+        return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'yes' );
     }
+
     # store last screen
-    if ($Self->{Subaction} ne 'ShowHTMLeMail') {
+    if ( $Self->{Subaction} ne 'ShowHTMLeMail' ) {
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
-            Key => 'LastScreenView',
-            Value => $Self->{RequestedURL},
+            Key       => 'LastScreenView',
+            Value     => $Self->{RequestedURL},
         );
     }
+
     # get ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
+    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+
     # check follow up
-    if ($Self->{Subaction} eq 'Store') {
+    if ( $Self->{Subaction} eq 'Store' ) {
         my $NextScreen = $Self->{NextScreen} || $Self->{Config}->{NextScreenAfterFollowUp};
         my %Error = ();
+
         # get params
-        foreach (qw(
+        for (
+            qw(
             Subject Body StateID PriorityID
             AttachmentUpload
             AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
             AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
             AttachmentDelete9 AttachmentDelete10
-        )) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+            )
+            )
+        {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
         }
+
         # rewrap body if exists
-        if ($GetParam{Body}) {
-            $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
+        if ( $GetParam{Body} ) {
+            $GetParam{Body}
+                =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
+
         # get follow up option (possible or not)
-        my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption(
-            QueueID => $Ticket{QueueID},
-        );
+        my $FollowUpPossible
+            = $Self->{QueueObject}->GetFollowUpOption( QueueID => $Ticket{QueueID}, );
+
         # get lock option (should be the ticket locked - if closed - after the follow up)
-        my $Lock = $Self->{QueueObject}->GetFollowUpLockOption(
-            QueueID => $Ticket{QueueID},
-        );
+        my $Lock = $Self->{QueueObject}->GetFollowUpLockOption( QueueID => $Ticket{QueueID}, );
+
         # get ticket state details
         my %State = $Self->{StateObject}->StateGet(
-            ID => $Ticket{StateID},
+            ID    => $Ticket{StateID},
             Cache => 1,
         );
-        if ($FollowUpPossible =~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i) {
-            my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
+        if ( $FollowUpPossible =~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i ) {
+            my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
             $Output .= $Self->{LayoutObject}->CustomerWarning(
                 Message => 'Can\'t reopen ticket, not possible in this queue!',
                 Comment => 'Create a new ticket!',
@@ -125,13 +149,16 @@ sub Run {
             $Output .= $Self->{LayoutObject}->CustomerFooter();
             return $Output;
         }
+
         # rewrap body if exists
-        if ($GetParam{Body}) {
-            $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
+        if ( $GetParam{Body} ) {
+            $GetParam{Body}
+                =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
+
         # attachment delete
-        foreach (1..10) {
-            if ($GetParam{"AttachmentDelete$_"}) {
+        for ( 1 .. 10 ) {
+            if ( $GetParam{"AttachmentDelete$_"} ) {
                 $Error{AttachmentDelete} = 1;
                 $Self->{UploadCachObject}->FormIDRemoveFile(
                     FormID => $Self->{FormID},
@@ -139,11 +166,12 @@ sub Run {
                 );
             }
         }
+
         # attachment upload
-        if ($GetParam{AttachmentUpload}) {
+        if ( $GetParam{AttachmentUpload} ) {
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param => "file_upload",
+                Param  => "file_upload",
                 Source => 'string',
             );
             $Self->{UploadCachObject}->FormIDAddFile(
@@ -151,87 +179,93 @@ sub Run {
                 %UploadStuff,
             );
         }
-        if (!%Error) {
+        if ( !%Error ) {
+
             # set lock if ticket was cloased
-            if ($Lock && $State{TypeName} =~ /^close/i && $Ticket{OwnerID} ne '1') {
+            if ( $Lock && $State{TypeName} =~ /^close/i && $Ticket{OwnerID} ne '1' ) {
                 $Self->{TicketObject}->LockSet(
                     TicketID => $Self->{TicketID},
-                    Lock => 'lock',
-                    UserID => => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                    Lock     => 'lock',
+                    UserID   => => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                 );
             }
             my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
             if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                TicketID => $Self->{TicketID},
-                ArticleType => $Self->{Config}->{ArticleType},
-                SenderType => $Self->{Config}->{SenderType},
-                From => $From,
-                Subject => $GetParam{Subject},
-                Body => $GetParam{Body},
-                ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
-                UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                OrigHeader => {
-                    From => $From,
-                    To => 'System',
-                    Subject => $GetParam{Subject},
-                    Body => $GetParam{Body},
-                },
-                HistoryType => $Self->{Config}->{HistoryType},
-                HistoryComment => $Self->{Config}->{HistoryComment} || '%%',
-                AutoResponseType => 'auto follow up',
-            )) {
+                    TicketID    => $Self->{TicketID},
+                    ArticleType => $Self->{Config}->{ArticleType},
+                    SenderType  => $Self->{Config}->{SenderType},
+                    From        => $From,
+                    Subject     => $GetParam{Subject},
+                    Body        => $GetParam{Body},
+                    ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
+                    UserID      => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                    OrigHeader  => {
+                        From    => $From,
+                        To      => 'System',
+                        Subject => $GetParam{Subject},
+                        Body    => $GetParam{Body},
+                    },
+                    HistoryType      => $Self->{Config}->{HistoryType},
+                    HistoryComment   => $Self->{Config}->{HistoryComment} || '%%',
+                    AutoResponseType => 'auto follow up',
+                )
+                )
+            {
+
                 # set state
-                my %NextStateData = $Self->{StateObject}->StateGet(
-                    ID => $GetParam{StateID},
-                );
-                my $NextState = $NextStateData{Name} ||
-                    $Self->{Config}->{StateDefault} || 'open';
+                my %NextStateData = $Self->{StateObject}->StateGet( ID => $GetParam{StateID}, );
+                my $NextState = $NextStateData{Name}
+                    || $Self->{Config}->{StateDefault}
+                    || 'open';
                 $Self->{TicketObject}->StateSet(
-                    TicketID => $Self->{TicketID},
+                    TicketID  => $Self->{TicketID},
                     ArticleID => $ArticleID,
-                    State => $NextState,
-                    UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                    State     => $NextState,
+                    UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                 );
+
                 # set priority
-                if ($Self->{Config}->{Priority} && $GetParam{PriorityID}) {
+                if ( $Self->{Config}->{Priority} && $GetParam{PriorityID} ) {
                     $Self->{TicketObject}->PrioritySet(
-                        TicketID => $Self->{TicketID},
+                        TicketID   => $Self->{TicketID},
                         PriorityID => $GetParam{PriorityID},
-                        UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                        UserID     => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                     );
                 }
+
                 # get pre loaded attachment
-                my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
-                    FormID => $Self->{FormID},
-                );
-                foreach my $Ref (@AttachmentData) {
+                my @AttachmentData = $Self->{UploadCachObject}
+                    ->FormIDGetAllFilesData( FormID => $Self->{FormID}, );
+                for my $Ref (@AttachmentData) {
                     $Self->{TicketObject}->ArticleWriteAttachment(
                         %{$Ref},
                         ArticleID => $ArticleID,
-                        UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                        UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                     );
                 }
+
                 # get submit attachment
                 my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                    Param => 'file_upload',
+                    Param  => 'file_upload',
                     Source => 'String',
                 );
                 if (%UploadStuff) {
                     $Self->{TicketObject}->ArticleWriteAttachment(
                         %UploadStuff,
                         ArticleID => $ArticleID,
-                        UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                        UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                     );
                 }
+
                 # remove pre submited attachments
-                $Self->{UploadCachObject}->FormIDRemove(FormID => $Self->{FormID});
+                $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
+
                 # redirect to zoom view
-                return $Self->{LayoutObject}->Redirect(
-                    OP => "Action=$NextScreen&TicketID=$Self->{TicketID}",
-                );
+                return $Self->{LayoutObject}
+                    ->Redirect( OP => "Action=$NextScreen&TicketID=$Self->{TicketID}", );
             }
             else {
-                my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
+                my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
                 $Output .= $Self->{LayoutObject}->CustomerError();
                 $Output .= $Self->{LayoutObject}->CustomerFooter();
                 return $Output;
@@ -240,48 +274,53 @@ sub Run {
     }
 
     $Ticket{TmpCounter} = 0;
-    $Ticket{TicketTimeUnits} = $Self->{TicketObject}->TicketAccountedTimeGet(
-        TicketID => $Ticket{TicketID},
-    );
+    $Ticket{TicketTimeUnits}
+        = $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $Ticket{TicketID}, );
+
     # get all atricle of this ticket
-#    my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList(Type => 'Customer');
-#    my @ArticleBox = $Self->{TicketObject}->ArticleGet(
-#        TicketID => $Self->{TicketID},
-#        ArticleType => \@CustomerArticleTypes,
-#    );
-    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(TicketID => $Self->{TicketID});
+    #    my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList(Type => 'Customer');
+    #    my @ArticleBox = $Self->{TicketObject}->ArticleGet(
+    #        TicketID => $Self->{TicketID},
+    #        ArticleType => \@CustomerArticleTypes,
+    #    );
+    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex( TicketID => $Self->{TicketID} );
+
     # get article attachments
-    foreach my $Article (@ArticleBox) {
+    for my $Article (@ArticleBox) {
         my %AtmIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
             ContentPath => $Article->{ContentPath},
-            ArticleID => $Article->{ArticleID},
+            ArticleID   => $Article->{ArticleID},
         );
         $Article->{Atms} = \%AtmIndex;
     }
+
     # genterate output
-    my $Output = $Self->{LayoutObject}->CustomerHeader(Value => $Ticket{TicketNumber});
+    my $Output = $Self->{LayoutObject}->CustomerHeader( Value => $Ticket{TicketNumber} );
     $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
 
     # show ticket
-    if ($Self->{Subaction} eq 'ShowHTMLeMail') {
+    if ( $Self->{Subaction} eq 'ShowHTMLeMail' ) {
+
         # if it is a html email, drop normal header
         $Ticket{ShowHTMLeMail} = 1;
         $Output = '';
     }
     $Output .= $Self->_Mask(
-        TicketID => $Self->{TicketID},
+        TicketID   => $Self->{TicketID},
         ArticleBox => \@ArticleBox,
-        ArticleID => $Self->{ArticleID},
+        ArticleID  => $Self->{ArticleID},
         %Ticket,
         %GetParam,
     );
 
     # return if HTML email
-    if ($Self->{Subaction} eq 'ShowHTMLeMail') {
+    if ( $Self->{Subaction} eq 'ShowHTMLeMail' ) {
+
         # if it is a html email, return here
         $Ticket{ShowHTMLeMail} = 1;
         return $Output;
     }
+
     # add footer
     $Output .= $Self->{LayoutObject}->CustomerFooter();
 
@@ -290,75 +329,84 @@ sub Run {
 }
 
 sub _Mask {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     $Param{FormID} = $Self->{FormID};
+
     # do some html quoting
-    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
+    $Param{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Param{Age}, Space => ' ' );
+
     # build article stuff
     my $SelectedArticleID = $Param{ArticleID} || '';
-    my $BaseLink = $Self->{LayoutObject}->{Baselink} . "TicketID=$Self->{TicketID}&";
-    my @ArticleBox = @{$Param{ArticleBox}};
+    my $BaseLink          = $Self->{LayoutObject}->{Baselink} . "TicketID=$Self->{TicketID}&";
+    my @ArticleBox        = @{ $Param{ArticleBox} };
+
     # get last customer article
     my $CounterArray = 0;
     my $LastCustomerArticleID;
     my $LastCustomerArticle = $#ArticleBox;
-    my $ArticleID = '';
-    foreach my $ArticleTmp (@ArticleBox) {
+    my $ArticleID           = '';
+    for my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;
+
         # if it is a customer article
-        if ($Article{SenderType} eq 'customer') {
+        if ( $Article{SenderType} eq 'customer' ) {
             $LastCustomerArticleID = $Article{'ArticleID'};
-            $LastCustomerArticle = $CounterArray;
+            $LastCustomerArticle   = $CounterArray;
         }
         $CounterArray++;
-        if ($SelectedArticleID eq $Article{ArticleID}) {
+        if ( $SelectedArticleID eq $Article{ArticleID} ) {
             $ArticleID = $Article{ArticleID};
         }
     }
+
     # try to use the latest customer article
-    if (!$ArticleID && $LastCustomerArticleID) {
+    if ( !$ArticleID && $LastCustomerArticleID ) {
         $ArticleID = $LastCustomerArticleID;
     }
+
     # try to use the latest non internal agent article
-    if (!$ArticleID) {
-        foreach my $ArticleTmp (@ArticleBox) {
-            if ($ArticleTmp->{StateType} eq 'merged' || $ArticleTmp->{ArticleType} !~ /int/) {
+    if ( !$ArticleID ) {
+        for my $ArticleTmp (@ArticleBox) {
+            if ( $ArticleTmp->{StateType} eq 'merged' || $ArticleTmp->{ArticleType} !~ /int/ ) {
                 $ArticleID = $ArticleTmp->{ArticleID};
             }
         }
     }
+
     # build thread string
     $Self->{LayoutObject}->Block(
         Name => 'Tree',
         Data => {%Param},
     );
-    my $CounterTree = 0;
-    my $Counter = '';
-    my $Space = '';
+    my $CounterTree    = 0;
+    my $Counter        = '';
+    my $Space          = '';
     my $LastSenderType = '';
     $Param{ArticleStrg} = '';
-    foreach my $ArticleTmp (@ArticleBox) {
+    for my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;
-        my $Start = '';
-        my $Stop = '';
-        if ($Article{ArticleType} !~ /int/) {
+        my $Start   = '';
+        my $Stop    = '';
+        if ( $Article{ArticleType} !~ /int/ ) {
             $CounterTree++;
             my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
                 TicketNumber => $Article{TicketNumber},
-                Subject => $Article{Subject} || '',
+                Subject      => $Article{Subject} || '',
             );
-            if ($LastSenderType ne $Article{SenderType}) {
+            if ( $LastSenderType ne $Article{SenderType} ) {
                 $Counter .= "&nbsp;";
                 $Space = "$Counter&nbsp;|--&gt;";
             }
             $LastSenderType = $Article{SenderType};
+
             # if this is the shown article -=> add <b>
-            if ($ArticleID eq $Article{ArticleID}) {
+            if ( $ArticleID eq $Article{ArticleID} ) {
                 $Start = '&gt;&gt;<i><b><u>';
             }
+
             # if this is the shown article -=> add </b>
-            if ($ArticleID eq $Article{ArticleID}) {
+            if ( $ArticleID eq $Article{ArticleID} ) {
                 $Stop = '</u></b></i>';
             }
             $Self->{LayoutObject}->Block(
@@ -366,41 +414,50 @@ sub _Mask {
                 Data => {
                     %Article,
                     Subject => $TmpSubject,
-                    Space => $Space,
-                    Start => $Start,
-                    Stop => $Stop,
-                    Count => $CounterTree,
+                    Space   => $Space,
+                    Start   => $Start,
+                    Stop    => $Stop,
+                    Count   => $CounterTree,
                 },
             );
+
             # add attachment icon
-            if ($Article{Atms}->{1} && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay')) {
+            if (   $Article{Atms}->{1}
+                && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay') )
+            {
                 my $Title = '';
+
                 # download type
                 my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
+
                 # if attachment will be forced to download, don't open a new download window!
                 my $Target = '';
-                if ($Type =~ /inline/i) {
+                if ( $Type =~ /inline/i ) {
                     $Target = 'target="attachment" ';
                 }
-                foreach my $Count (1..($Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount')+1)) {
-                    if ($Article{Atms}->{$Count}) {
-                        if ($Count > $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount')) {
+                for my $Count (
+                    1 .. ( $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount') + 1 ) )
+                {
+                    if ( $Article{Atms}->{$Count} ) {
+                        if ( $Count
+                            > $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount') )
+                        {
                             $Self->{LayoutObject}->Block(
                                 Name => 'TreeItemAttachmentMore',
                                 Data => {
                                     %Article,
-                                    %{$Article{Atms}->{$Count}},
+                                    %{ $Article{Atms}->{$Count} },
                                     FileID => $Count,
                                     Target => $Target,
                                 },
                             );
                         }
-                        elsif ($Article{Atms}->{$Count}) {
+                        elsif ( $Article{Atms}->{$Count} ) {
                             $Self->{LayoutObject}->Block(
                                 Name => 'TreeItemAttachment',
                                 Data => {
                                     %Article,
-                                    %{$Article{Atms}->{$Count}},
+                                    %{ $Article{Atms}->{$Count} },
                                     FileID => $Count,
                                     Target => $Target,
                                 },
@@ -413,45 +470,46 @@ sub _Mask {
     }
 
     my $ArticleOB = $ArticleBox[$LastCustomerArticle];
-    my %Article = %$ArticleOB;
+    my %Article   = %$ArticleOB;
 
     my $ArticleArray = 0;
-    foreach my $ArticleTmp (@ArticleBox) {
+    for my $ArticleTmp (@ArticleBox) {
         my %ArticleTmp1 = %$ArticleTmp;
-        if ($ArticleID eq $ArticleTmp1{ArticleID}) {
+        if ( $ArticleID eq $ArticleTmp1{ArticleID} ) {
             %Article = %ArticleTmp1;
         }
     }
+
     # check show article type
-    if ($Article{StateType} ne 'merged' && $Article{ArticleType} =~ /int/) {
-        return $Self->{LayoutObject}->CustomerError(Message => 'No permission!');
+    if ( $Article{StateType} ne 'merged' && $Article{ArticleType} =~ /int/ ) {
+        return $Self->{LayoutObject}->CustomerError( Message => 'No permission!' );
     }
+
     # get attacment string
     my %AtmIndex = ();
-    if ($Article{Atms}) {
-        %AtmIndex = %{$Article{Atms}};
+    if ( $Article{Atms} ) {
+        %AtmIndex = %{ $Article{Atms} };
     }
+
     # add block for attachments
     if (%AtmIndex) {
         $Self->{LayoutObject}->Block(
             Name => 'ArticleAttachment',
-            Data => {
-                Key => 'Attachment',
-            },
+            Data => { Key => 'Attachment', },
         );
-        foreach my $FileID (sort keys %AtmIndex) {
-            my %File = %{$AtmIndex{$FileID}};
+        for my $FileID ( sort keys %AtmIndex ) {
+            my %File = %{ $AtmIndex{$FileID} };
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleAttachmentRow',
-                Data => {
-                    %File,
-                },
+                Data => { %File, },
             );
+
             # download type
             my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
+
             # if attachment will be forced to download, don't open a new download window!
             my $Target = '';
-            if ($Type =~ /inline/i) {
+            if ( $Type =~ /inline/i ) {
                 $Target = 'target="attachment" ';
             }
             $Self->{LayoutObject}->Block(
@@ -459,54 +517,66 @@ sub _Mask {
                 Data => {
                     %File,
                     Action => 'Download',
-                    Link => "\$Env{\"Baselink\"}Action=CustomerTicketAttachment&ArticleID=$Article{ArticleID}&FileID=$FileID",
-                    Image => 'disk-s.png',
+                    Link =>
+                        "\$Env{\"Baselink\"}Action=CustomerTicketAttachment&ArticleID=$Article{ArticleID}&FileID=$FileID",
+                    Image  => 'disk-s.png',
                     Target => $Target,
                 },
             );
         }
     }
+
     # just body if html email
-    if ($Param{"ShowHTMLeMail"}) {
+    if ( $Param{"ShowHTMLeMail"} ) {
+
         # generate output
         return $Self->{LayoutObject}->Attachment(
-            Filename => $Self->{ConfigObject}->Get('Ticket::Hook')."-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
-            Type => 'inline',
+            Filename => $Self->{ConfigObject}->Get('Ticket::Hook')
+                . "-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
+            Type        => 'inline',
             ContentType => "$Article{MimeType}; charset=$Article{ContentCharset}",
-            Content => $Article{Body},
+            Content     => $Article{Body},
         );
     }
+
     # check if just a only html email
-    if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(%Param, %Article)) {
+    if ( my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType( %Param, %Article ) ) {
         $Param{"Article::TextNote"} = $MimeTypeText;
-        $Param{"Article::Text"} = '';
+        $Param{"Article::Text"}     = '';
     }
     else {
+
         # html quoting
         $Param{"Article::Text"} = $Self->{LayoutObject}->Ascii2Html(
-            NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
-            Text => $Article{Body},
-            VMax => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
+            NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
+            Text           => $Article{Body},
+            VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
             HTMLResultMode => 1,
-            LinkFeature => 1,
+            LinkFeature    => 1,
         );
+
         # do charset check
         if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-            ContentCharset => $Article{ContentCharset},
-            TicketID => $Param{TicketID},
-            ArticleID => $Article{ArticleID} )) {
+                ContentCharset => $Article{ContentCharset},
+                TicketID       => $Param{TicketID},
+                ArticleID      => $Article{ArticleID}
+            )
+            )
+        {
             $Param{"Article::TextNote"} = $CharsetText;
         }
     }
+
     # get article id
     $Param{"Article::ArticleID"} = $Article{ArticleID};
+
     # do some strips && quoting
-    foreach (qw(From To Cc Subject)) {
-        if ($Article{$_}) {
+    for (qw(From To Cc Subject)) {
+        if ( $Article{$_} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'Row',
                 Data => {
-                    Key => $_,
+                    Key   => $_,
                     Value => $Article{$_},
                 },
             );
@@ -514,38 +584,38 @@ sub _Mask {
     }
 
     # check follow up permissions
-    my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption(
-        QueueID => $Article{QueueID},
-    );
+    my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption( QueueID => $Article{QueueID}, );
     my %State = $Self->{StateObject}->StateGet(
-        ID => $Article{StateID},
+        ID    => $Article{StateID},
         Cache => 1,
     );
     if ($Self->{TicketObject}->CustomerPermission(
-        Type => 'update',
-        TicketID => $Self->{TicketID},
-        UserID => $Self->{UserID}) &&
-            (($FollowUpPossible !~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i) || $State{TypeName} !~ /^close/i)
-        ) {
+            Type     => 'update',
+            TicketID => $Self->{TicketID},
+            UserID   => $Self->{UserID}
+        )
+        && ( ( $FollowUpPossible !~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i )
+            || $State{TypeName} !~ /^close/i )
+        )
+    {
         $Self->{LayoutObject}->Block(
             Name => 'FollowUp',
-            Data => {
-                %Param,
-            },
+            Data => { %Param, },
         );
+
         # build next states string
-        if ($Self->{Config}->{State}) {
+        if ( $Self->{Config}->{State} ) {
             my %NextStates = $Self->{TicketObject}->StateList(
-                TicketID => $Self->{TicketID},
-                Action => $Self->{Action},
+                TicketID       => $Self->{TicketID},
+                Action         => $Self->{Action},
                 CustomerUserID => $Self->{UserID},
             );
             my %StateSelected = ();
-            if ($Param{StateID}) {
+            if ( $Param{StateID} ) {
                 $StateSelected{SelectedID} = $Param{StateID};
-                }
+            }
             else {
-                $StateSelected{Selected} = $Self->{Config}->{StateDefault},
+                $StateSelected{Selected} = $Self->{Config}->{StateDefault},;
             }
             $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
                 Data => \%NextStates,
@@ -554,23 +624,22 @@ sub _Mask {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'State',
-                Data => {
-                    %Param,
-                },
+                Data => { %Param, },
             );
         }
+
         # get priority
-        if ($Self->{Config}->{Priority}) {
+        if ( $Self->{Config}->{Priority} ) {
             my %Priorities = $Self->{TicketObject}->PriorityList(
                 CustomerUserID => $Self->{UserID},
-                Action => $Self->{Action},
+                Action         => $Self->{Action},
             );
             my %PrioritySelected = ();
-            if ($Param{PriorityID}) {
+            if ( $Param{PriorityID} ) {
                 $PrioritySelected{SelectedID} = $Param{PriorityID};
             }
             else {
-                $PrioritySelected{Selected} = $Self->{Config}->{PriorityDefault} || '3 normal',
+                $PrioritySelected{Selected} = $Self->{Config}->{PriorityDefault} || '3 normal',;
             }
             $Param{'PriorityStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
                 Data => \%Priorities,
@@ -579,50 +648,48 @@ sub _Mask {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'Priority',
-                Data => {
-                    %Param,
-                },
+                Data => { %Param, },
             );
         }
+
         # show attachments
         # get all attachments meta data
-        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
-            FormID => $Self->{FormID},
-        );
-        foreach my $DataRef (@Attachments) {
+        my @Attachments
+            = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID}, );
+        for my $DataRef (@Attachments) {
             $Self->{LayoutObject}->Block(
                 Name => 'Attachment',
                 Data => $DataRef,
             );
         }
     }
+
     # ticket type
-    if ($Self->{ConfigObject}->Get('Ticket::Type')) {
+    if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
         $Self->{LayoutObject}->Block(
             Name => 'Type',
-            Data => {%Param, %Article},
+            Data => { %Param, %Article },
         );
     }
+
     # ticket service
-    if ($Self->{ConfigObject}->Get('Ticket::Service') && $Article{Service}) {
+    if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Article{Service} ) {
         $Self->{LayoutObject}->Block(
             Name => 'Service',
-            Data => {%Param, %Article},
+            Data => { %Param, %Article },
         );
-        if ($Article{SLA}) {
+        if ( $Article{SLA} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'SLA',
-                Data => {%Param, %Article},
+                Data => { %Param, %Article },
             );
         }
     }
+
     # select the output template
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'CustomerTicketZoom',
-        Data => {
-            %Article,
-            %Param,
-        },
+        Data         => { %Article, %Param, },
     );
 }
 

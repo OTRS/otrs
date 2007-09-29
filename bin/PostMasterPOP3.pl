@@ -3,7 +3,7 @@
 # bin/PostMasterPOP3.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMasterPOP3.pl,v 1.25 2007-03-19 22:27:19 martin Exp $
+# $Id: PostMasterPOP3.pl,v 1.26 2007-09-29 11:08:29 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,8 +27,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.26 $)[1];
 
 use strict;
 use Net::POP3;
@@ -120,7 +119,7 @@ if ($Opts{'s'} || $Opts{'u'} || $Opts{'p'}) {
 }
 else {
     %List = $CommonObject{POP3Account}->POP3AccountList(Valid => 1);
-    foreach (keys %List) {
+   for (keys %List) {
         my %Data = $CommonObject{POP3Account}->POP3AccountGet(ID => $_);
         FetchMail(%Data);
     }
@@ -167,7 +166,7 @@ sub FetchMail {
     }
     # fetch messages
     if ($NOM > 0) {
-        foreach my $Messageno ( sort { $a <=> $b } keys %{$PopObject->list()}) {
+       for my $Messageno ( sort { $a <=> $b } keys %{$PopObject->list()}) {
             # check if reconnect is needed
             if (($FetchCounter+1) > $MaxPopEmailSession) {
                 $Reconnect = 1;

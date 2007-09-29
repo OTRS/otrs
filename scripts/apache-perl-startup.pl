@@ -1,5 +1,6 @@
 #! /usr/bin/perl
 use strict;
+use warnings;
 
 # make sure we are in a sane environment.
 $ENV{GATEWAY_INTERFACE} =~ /^CGI-Perl/ or die "GATEWAY_INTERFACE not Perl!";
@@ -8,18 +9,20 @@ $ENV{GATEWAY_INTERFACE} =~ /^CGI-Perl/ or die "GATEWAY_INTERFACE not Perl!";
 use lib "/opt/otrs/";
 use lib "/opt/otrs/Kernel/cpan-lib";
 
-use Apache::Registry ();       # for things in the "/programs" URL
+use Apache::Registry ();    # for things in the "/programs" URL
 
 # pull in things we will use in most requests so it is read and compiled
 # exactly once
 
 #use CGI (); CGI->compile(':all');
-use CGI (); CGI->compile(':cgi');
+use CGI ();
+CGI->compile(':cgi');
 use CGI::Carp ();
 
 #use Apache::DBI ();
 #Apache::DBI->connect_on_init('DBI:mysql:otrs', 'otrs', 'some-pass');
 use DBI ();
+
 # enable this if you use mysql
 #use DBD::mysql ();
 # enable this if you use postgresql
@@ -35,30 +38,38 @@ use Kernel::System::Web::InterfacePublic;
 use Kernel::System::Web::Request;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::DB;
+
 #use Kernel::System::DB::mysql;
 use Kernel::System::Encode;
 use Kernel::System::Time;
 use Kernel::System::Auth;
 use Kernel::System::Auth::DB;
+
 #use Kernel::System::Auth::LDAP;
 use Kernel::System::AuthSession;
+
 #use Kernel::System::AuthSession::IPC;
 use Kernel::System::AuthSession::DB;
+
 #use Kernel::System::AuthSession::FS;
 use Kernel::System::User;
 use Kernel::System::User::Preferences::DB;
+
 #use Kernel::System::PDF;
 use Kernel::System::XML;
 use Kernel::System::Log;
+
 #use Kernel::System::Log::SysLog;
 #use Kernel::System::Log::File;
 
 use Kernel::System::Ticket;
+
 #use Kernel::System::Ticket::ArticleStorageDB;
 #use Kernel::System::Ticket::ArticleStorageFS;
 #use Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 #use Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use Kernel::System::Ticket::Number::DateChecksum;
+
 #use Kernel::System::Ticket::Number::Date;
 #use Kernel::System::Ticket::Number::AutoIncrement;
 #use Kernel::System::Ticket::Number::Random;
@@ -68,10 +79,12 @@ use Kernel::System::Lock;
 use Kernel::System::State;
 use Kernel::System::Priority;
 use Kernel::System::CustomerUser;
+
 #use Kernel::System::CustomerUser::DB;
 #use Kernel::System::CustomerUser::LDAP;
 use Kernel::System::CustomerGroup;
 use Kernel::System::CustomerAuth;
+
 #use Kernel::System::CustomerAuth::DB;
 #use Kernel::System::CustomerAuth::LDAP;
 use Kernel::System::CheckItem;

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/tools/base64.pl - mime base 64 encode/decode
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: base64.pl,v 1.2 2006-10-03 14:34:47 mh Exp $
+# $Id: base64.pl,v 1.3 2007-09-29 11:10:33 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,33 +21,33 @@
 # --
 
 use strict;
+use warnings;
 
 use MIME::Base64;
 
 # get type
 my $Type = shift;
 
-if (!$Type) {
+if ( !$Type ) {
     print STDERR "ERROR: Need ARG 1 - (encode|decode)\n";
     exit 1;
 }
-elsif ($Type !~ /^encode|decode$/) {
+elsif ( $Type !~ /^encode|decode$/ ) {
     print STDERR "ERROR: ARG 1 - (encode|decode)\n";
     exit 1;
 }
 
 # get source text
 my @InArray = <STDIN>;
-my $In = '';
-
-foreach (@InArray) {
+my $In      = '';
+for (@InArray) {
     $In .= $_;
 }
 
-if ($Type eq 'decode') {
+if ( $Type eq 'decode' ) {
     $In = decode_base64($In);
 }
 else {
     $In = encode_base64($In);
 }
-print $In."\n";
+print $In. "\n";

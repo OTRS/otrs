@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.11 2007-01-21 01:26:10 mh Exp $
+# $Id: Ticket.pm,v 1.12 2007-09-29 10:55:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,76 +12,82 @@
 package Kernel::System::LinkObject::Ticket;
 
 use strict;
+use warnings;
+
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub Init {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
 
-    $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
+    $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
 
     return 1;
 }
 
 sub FillDataMap {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    foreach (qw(ID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(ID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Param{ID}, UserID => $Self->{UserID});
+    my %Ticket
+        = $Self->{TicketObject}->TicketGet( TicketID => $Param{ID}, UserID => $Self->{UserID} );
     return (
-        Text => 'T:'.$Ticket{TicketNumber},
-        Number => $Ticket{TicketNumber},
-        ID => $Param{ID},
-        Object => 'Ticket',
+        Text         => 'T:' . $Ticket{TicketNumber},
+        Number       => $Ticket{TicketNumber},
+        ID           => $Param{ID},
+        Object       => 'Ticket',
         FrontendDest => "Action=AgentTicketZoom&TicketID=",
     );
 }
 
 sub BackendLinkObject {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    if ($Param{LinkObject1} eq 'Ticket' && $Param{LinkObject2} eq 'Ticket') {
+    if ( $Param{LinkObject1} eq 'Ticket' && $Param{LinkObject2} eq 'Ticket' ) {
+
         # add ticket hostory
         my $SlaveTicketNumber = $Self->{TicketObject}->TicketNumberLookup(
             TicketID => $Param{LinkID2},
-            UserID => $Self->{UserID},
+            UserID   => $Self->{UserID},
         );
         $Self->{TicketObject}->HistoryAdd(
-            TicketID => $Param{LinkID1},
+            TicketID     => $Param{LinkID1},
             CreateUserID => $Self->{UserID},
-            HistoryType => 'TicketLinkAdd',
-            Name => "\%\%$SlaveTicketNumber\%\%$Param{LinkID2}\%\%$Param{LinkID1}",
+            HistoryType  => 'TicketLinkAdd',
+            Name         => "\%\%$SlaveTicketNumber\%\%$Param{LinkID2}\%\%$Param{LinkID1}",
         );
+
         # ticket event
         $Self->{TicketObject}->TicketEventHandlerPost(
-            Event => 'TicketSlaveLinkAdd'.$Param{LinkType},
-            UserID => $Self->{UserID},
+            Event    => 'TicketSlaveLinkAdd' . $Param{LinkType},
+            UserID   => $Self->{UserID},
             TicketID => $Param{LinkID1},
         );
+
         # added slave ticket history
         my $MasterTicketNumber = $Self->{TicketObject}->TicketNumberLookup(
             TicketID => $Param{LinkID1},
-            UserID => $Self->{UserID},
+            UserID   => $Self->{UserID},
         );
         $Self->{TicketObject}->HistoryAdd(
-            TicketID => $Param{LinkID2},
+            TicketID     => $Param{LinkID2},
             CreateUserID => $Self->{UserID},
-            HistoryType => 'TicketLinkAdd',
-            Name => "\%\%$MasterTicketNumber\%\%$Param{LinkID1}\%\%$Param{LinkID2}",
+            HistoryType  => 'TicketLinkAdd',
+            Name         => "\%\%$MasterTicketNumber\%\%$Param{LinkID1}\%\%$Param{LinkID2}",
         );
+
         # ticket event
         $Self->{TicketObject}->TicketEventHandlerPost(
-            Event => 'TicketMasterLinkAdd'.$Param{LinkType},
-            UserID => $Self->{UserID},
+            Event    => 'TicketMasterLinkAdd' . $Param{LinkType},
+            UserID   => $Self->{UserID},
             TicketID => $Param{LinkID2},
         );
     }
@@ -89,41 +95,45 @@ sub BackendLinkObject {
 }
 
 sub BackendUnlinkObject {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    if ($Param{LinkObject1} eq 'Ticket' && $Param{LinkObject2} eq 'Ticket') {
+    if ( $Param{LinkObject1} eq 'Ticket' && $Param{LinkObject2} eq 'Ticket' ) {
+
         # add ticket hostory
         my $SlaveTicketNumber = $Self->{TicketObject}->TicketNumberLookup(
             TicketID => $Param{LinkID1},
-            UserID => $Self->{UserID},
+            UserID   => $Self->{UserID},
         );
         $Self->{TicketObject}->HistoryAdd(
-            TicketID => $Param{LinkID2},
+            TicketID     => $Param{LinkID2},
             CreateUserID => $Self->{UserID},
-            HistoryType => 'TicketLinkDelete',
-            Name => "\%\%$SlaveTicketNumber\%\%$Param{LinkID2}\%\%$Param{LinkID1}",
+            HistoryType  => 'TicketLinkDelete',
+            Name         => "\%\%$SlaveTicketNumber\%\%$Param{LinkID2}\%\%$Param{LinkID1}",
         );
+
         # ticket event
         $Self->{TicketObject}->TicketEventHandlerPost(
-            Event => 'TicketSlaveLinkDelete'.$Param{LinkType},
-            UserID => $Self->{UserID},
+            Event    => 'TicketSlaveLinkDelete' . $Param{LinkType},
+            UserID   => $Self->{UserID},
             TicketID => $Param{LinkID2},
         );
+
         # added slave ticket history
         my $MasterTicketNumber = $Self->{TicketObject}->TicketNumberLookup(
             TicketID => $Param{LinkID2},
-            UserID => $Self->{UserID},
+            UserID   => $Self->{UserID},
         );
         $Self->{TicketObject}->HistoryAdd(
-            TicketID => $Param{LinkID1},
+            TicketID     => $Param{LinkID1},
             CreateUserID => $Self->{UserID},
-            HistoryType => 'TicketLinkDelete',
-            Name => "\%\%$MasterTicketNumber\%\%$Param{LinkID1}\%\%$Param{LinkID2}",
+            HistoryType  => 'TicketLinkDelete',
+            Name         => "\%\%$MasterTicketNumber\%\%$Param{LinkID1}\%\%$Param{LinkID2}",
         );
+
         # ticket event
         $Self->{TicketObject}->TicketEventHandlerPost(
-            Event => 'TicketMasterLinkDelete'.$Param{LinkType},
-            UserID => $Self->{UserID},
+            Event    => 'TicketMasterLinkDelete' . $Param{LinkType},
+            UserID   => $Self->{UserID},
             TicketID => $Param{LinkID1},
         );
     }
@@ -131,27 +141,27 @@ sub BackendUnlinkObject {
 }
 
 sub LinkSearchParams {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     return (
-        { Name => 'TicketNumber', Text => 'Ticket#'},
-        { Name => 'TicketFulltext', Text => 'Fulltext'},
+        { Name => 'TicketNumber',   Text => 'Ticket#' },
+        { Name => 'TicketFulltext', Text => 'Fulltext' },
     );
 }
 
 sub LinkSearch {
-    my $Self = shift;
-    my %Param = @_;
-    my %Search = ();
+    my $Self           = shift;
+    my %Param          = @_;
+    my %Search         = ();
     my @ResultWithData = ();
-    if ($Param{TicketFulltext}) {
-        $Param{TicketFulltext} = '*'.$Param{TicketFulltext}.'*';
+    if ( $Param{TicketFulltext} ) {
+        $Param{TicketFulltext} = '*' . $Param{TicketFulltext} . '*';
         %Search = (
-            From => $Param{TicketFulltext},
-            To => $Param{TicketFulltext},
-            Cc => $Param{TicketFulltext},
-            Subject => $Param{TicketFulltext},
-            Body => $Param{TicketFulltext},
+            From          => $Param{TicketFulltext},
+            To            => $Param{TicketFulltext},
+            Cc            => $Param{TicketFulltext},
+            Subject       => $Param{TicketFulltext},
+            Body          => $Param{TicketFulltext},
             ContentSearch => 'OR',
         );
     }
@@ -160,14 +170,15 @@ sub LinkSearch {
         %Param,
         %Search,
     );
-    foreach (@TicketIDs) {
+    for (@TicketIDs) {
         my %Ticket = $Self->{TicketObject}->TicketGet(
             TicketID => $_,
-            UserID => $Self->{UserID},
+            UserID   => $Self->{UserID},
         );
-        push (@ResultWithData, {
-                %Ticket,
-                ID => $_,
+        push(
+            @ResultWithData,
+            {   %Ticket,
+                ID     => $_,
                 Number => $Ticket{TicketNumber},
             },
         );
@@ -177,20 +188,20 @@ sub LinkSearch {
 }
 
 sub LinkItemData {
-    my $Self = shift;
-    my %Param = @_;
-    my $Body = '';
-    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Param{ID});
-    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(TicketID => $Param{ID});
-    foreach my $Article (reverse @ArticleBox) {
+    my $Self       = shift;
+    my %Param      = @_;
+    my $Body       = '';
+    my %Ticket     = $Self->{TicketObject}->TicketGet( TicketID => $Param{ID} );
+    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex( TicketID => $Param{ID} );
+    for my $Article ( reverse @ArticleBox ) {
         $Body .= $Article->{Body};
     }
     return (
         %Ticket,
-        ID => $Param{ID},
-        Title => $Ticket{Title},
-        Number => $Ticket{TicketNumber},
-        Body => $Body,
+        ID         => $Param{ID},
+        Title      => $Ticket{Title},
+        Number     => $Ticket{TicketNumber},
+        Body       => $Body,
         DetailLink => "Action=AgentTicketZoom&TicketID=$Param{ID}",
     );
 }

@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.10 2007-01-20 23:11:33 mh Exp $
+# $Id: CSV.pm,v 1.11 2007-09-29 11:00:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,10 @@
 package Kernel::System::CSV;
 
 use strict;
+use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -47,15 +47,15 @@ create a object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # check needed objects
-    foreach (qw(LogObject)) {
+    for (qw(LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -79,41 +79,45 @@ Returns a csv formatted string based on a array with head data.
 =cut
 
 sub Array2CSV {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
-    my @Head = ();
-    my @Data = (['##No Data##']);
+    my @Head   = ();
+    my @Data   = ( ['##No Data##'] );
+
     # check required params
-    foreach (qw(Data)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => "error", Message => "Got no $_ param!");
+    for (qw(Data)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => "error", Message => "Got no $_ param!" );
             return;
         }
     }
-    if ($Param{Head}) {
-        @Head = @{$Param{Head}};
+    if ( $Param{Head} ) {
+        @Head = @{ $Param{Head} };
     }
-    if ($Param{Data}) {
-        @Data = @{$Param{Data}};
+    if ( $Param{Data} ) {
+        @Data = @{ $Param{Data} };
     }
 
     # if we have head param fill in header
-    foreach my $Entry (@Head) {
+    for my $Entry (@Head) {
+
         # csv quote
         $Entry =~ s/"/""/g if ($Entry);
-        $Entry = '' if (!defined($Entry));
+        $Entry = '' if ( !defined($Entry) );
         $Output .= "\"$Entry\";";
     }
     if ($Output) {
         $Output .= "\n";
     }
+
     # fill in data
-    foreach my $EntryRow (@Data) {
-        foreach my $Entry (@{$EntryRow}) {
+    for my $EntryRow (@Data) {
+        for my $Entry ( @{$EntryRow} ) {
+
             # csv quote
             $Entry =~ s/"/""/g if ($Entry);
-            $Entry = '' if (!defined($Entry));
+            $Entry = '' if ( !defined($Entry) );
             $Output .= "\"$Entry\";";
         }
         $Output .= "\n";
@@ -135,12 +139,12 @@ Returns an array with parsed csv data.
 =cut
 
 sub CSV2Array {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my @Array = ();
 
     # get separator
-    if (!defined($Param{Separator}) || $Param{Separator} eq '') {
+    if ( !defined( $Param{Separator} ) || $Param{Separator} eq '' ) {
         $Param{Separator} = ';';
     }
 
@@ -149,19 +153,19 @@ sub CSV2Array {
     # for more information read "PerlKochbuch" page 32
 
     # get separator
-    if (!defined($Param{Quote})) {
+    if ( !defined( $Param{Quote} ) ) {
         $Param{Quote} = '"';
     }
 
     # if you change the split options, remember that each value can include \n
-    my @Lines = split(/$Param{Quote}$Param{Separator}\n/, $Param{String});
-
-    foreach (@Lines) {
-        my @Fields = split(/$Param{Quote}$Param{Separator}$Param{Quote}/, $_);
+    my @Lines = split( /$Param{Quote}$Param{Separator}\n/, $Param{String} );
+    for (@Lines) {
+        my @Fields = split( /$Param{Quote}$Param{Separator}$Param{Quote}/, $_ );
         $Fields[0] =~ s/^$Param{Quote}//mgs;
+
         #$Fields[$#Fields] =~ s/$Param{Quote}$//mgs;
 
-        push(@Array, \@Fields);
+        push( @Array, \@Fields );
     }
 
     return \@Array;
@@ -181,6 +185,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2007-01-20 23:11:33 $
+$Revision: 1.11 $ $Date: 2007-09-29 11:00:47 $
 
 =cut

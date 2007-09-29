@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.75 2007-08-28 20:02:13 martin Exp $
+# $Id: DB.pm,v 1.76 2007-09-29 11:03:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,8 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.75 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.76 $) [1];
 
 =head1 NAME
 
@@ -66,112 +65,121 @@ create database object with database connect
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # 0=off; 1=updates; 2=+selects; 3=+Connects;
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
-    foreach (qw(ConfigObject LogObject MainObject)) {
-        if ($Param{$_}) {
+    for (qw(ConfigObject LogObject MainObject)) {
+        if ( $Param{$_} ) {
             $Self->{$_} = $Param{$_};
         }
         else {
             die "Got no $_!";
         }
     }
+
     # encode object
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+
     # time object
     $Self->{TimeObject} = Kernel::System::Time->new(%Param);
+
     # get config data
-    $Self->{DSN} = $Param{DatabaseDSN} || $Self->{ConfigObject}->Get('DatabaseDSN');
+    $Self->{DSN}  = $Param{DatabaseDSN}  || $Self->{ConfigObject}->Get('DatabaseDSN');
     $Self->{USER} = $Param{DatabaseUser} || $Self->{ConfigObject}->Get('DatabaseUser');
-    $Self->{PW} = $Param{DatabasePw} || $Self->{ConfigObject}->Get('DatabasePw');
-    $Self->{SlowLog} = $Param{'Database::SlowLog'} || $Self->{ConfigObject}->Get('Database::SlowLog');
+    $Self->{PW}   = $Param{DatabasePw}   || $Self->{ConfigObject}->Get('DatabasePw');
+    $Self->{SlowLog} = $Param{'Database::SlowLog'}
+        || $Self->{ConfigObject}->Get('Database::SlowLog');
+
     # decrypt pw (if needed)
-    if ($Self->{PW} =~ /^\{(.*)\}$/) {
-        my $Length = length($1)*4;
-        $Self->{PW} = pack("h$Length", $1);
-        $Self->{PW} = unpack("B$Length", $Self->{PW});
+    if ( $Self->{PW} =~ /^\{(.*)\}$/ ) {
+        my $Length = length($1) * 4;
+        $Self->{PW} = pack( "h$Length", $1 );
+        $Self->{PW} = unpack( "B$Length", $Self->{PW} );
         $Self->{PW} =~ s/1/A/g;
         $Self->{PW} =~ s/0/1/g;
         $Self->{PW} =~ s/A/0/g;
-        $Self->{PW} = pack("B$Length", $Self->{PW});
+        $Self->{PW} = pack( "B$Length", $Self->{PW} );
     }
+
     # get database type (auto detection)
-    if ($Self->{DSN} =~ /:mysql/i) {
+    if ( $Self->{DSN} =~ /:mysql/i ) {
         $Self->{'DB::Type'} = 'mysql';
     }
-    elsif ($Self->{DSN} =~ /:pg/i) {
+    elsif ( $Self->{DSN} =~ /:pg/i ) {
         $Self->{'DB::Type'} = 'postgresql';
     }
-    elsif ($Self->{DSN} =~ /:oracle/i) {
+    elsif ( $Self->{DSN} =~ /:oracle/i ) {
         $Self->{'DB::Type'} = 'oracle';
     }
-    elsif ($Self->{DSN} =~ /:sapdb/i) {
+    elsif ( $Self->{DSN} =~ /:sapdb/i ) {
         $Self->{'DB::Type'} = 'maxdb';
     }
-    elsif ($Self->{DSN} =~ /:maxdb/i) {
+    elsif ( $Self->{DSN} =~ /:maxdb/i ) {
         $Self->{'DB::Type'} = 'maxdb';
     }
-    elsif ($Self->{DSN} =~ /:db2/i) {
+    elsif ( $Self->{DSN} =~ /:db2/i ) {
         $Self->{'DB::Type'} = 'db2';
     }
-    elsif ($Self->{DSN} =~ /:(mssql|sybase)/i) {
+    elsif ( $Self->{DSN} =~ /:(mssql|sybase)/i ) {
         $Self->{'DB::Type'} = 'mssql';
     }
 
     # get database type (config option)
-    if ($Self->{ConfigObject}->Get("Database::Type")) {
+    if ( $Self->{ConfigObject}->Get("Database::Type") ) {
         $Self->{'DB::Type'} = $Self->{ConfigObject}->Get("Database::Type");
     }
+
     # get database type (overwrite with params)
-    if ($Param{Type}) {
+    if ( $Param{Type} ) {
         $Self->{'DB::Type'} = $Param{Type};
     }
 
     # load backend module
-    if ($Self->{'DB::Type'}) {
+    if ( $Self->{'DB::Type'} ) {
         my $GenericModule = "Kernel::System::DB::$Self->{'DB::Type'}";
-        if (!$Self->{MainObject}->Require($GenericModule)) {
+        if ( !$Self->{MainObject}->Require($GenericModule) ) {
             return;
         }
-        $Self->{Backend} = $GenericModule->new(%{$Self});
+        $Self->{Backend} = $GenericModule->new( %{$Self} );
+
         # set database functions
         $Self->{Backend}->LoadPreferences();
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'Error',
-            Message => "Unknown database type! Set option Database::Type in ".
-                "Kernel/Config.pm to (mysql|postgresql|maxdb|oracle|db2|mssql).",
+            Message  => "Unknown database type! Set option Database::Type in "
+                . "Kernel/Config.pm to (mysql|postgresql|maxdb|oracle|db2|mssql).",
         );
         return;
     }
 
     # check/get extra database config options
     # (overwrite auto detection with config options)
-    foreach (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode)) {
-        if (defined($Self->{ConfigObject}->Get("Database::$_"))) {
+    for (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode)) {
+        if ( defined( $Self->{ConfigObject}->Get("Database::$_") ) ) {
             $Self->{Backend}->{"DB::$_"} = $Self->{ConfigObject}->Get("Database::$_");
         }
     }
+
     # check/get extra database config options
     # (overwrite with params)
-    foreach (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode)) {
-        if (defined($Param{$_})) {
+    for (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode)) {
+        if ( defined( $Param{$_} ) ) {
             $Self->{Backend}->{"DB::$_"} = $Param{$_};
         }
     }
 
     # do database connect
-    if (!$Self->Connect()) {
+    if ( !$Self->Connect() ) {
         return;
     }
     return $Self;
@@ -185,25 +193,33 @@ to connect to a database
 
 sub Connect {
     my $Self = shift;
+
     # debug
-    if ($Self->{Debug} > 2) {
+    if ( $Self->{Debug} > 2 ) {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'debug',
-            Message => "DB.pm->Connect: DSN: $Self->{DSN}, User: $Self->{USER}, Pw: $Self->{PW}, DB Type: $Self->{'DB::Type'};",
+            Message =>
+                "DB.pm->Connect: DSN: $Self->{DSN}, User: $Self->{USER}, Pw: $Self->{PW}, DB Type: $Self->{'DB::Type'};",
         );
     }
+
     # db connect
-    if (!($Self->{dbh} = DBI->connect("$Self->{DSN}", $Self->{USER}, $Self->{PW}, $Self->{Backend}->{'DB::Attribute'}))) {
+    if (!(  $Self->{dbh} = DBI->connect(
+                "$Self->{DSN}", $Self->{USER}, $Self->{PW}, $Self->{Backend}->{'DB::Attribute'}
+            )
+        )
+        )
+    {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'Error',
-            Message => $DBI::errstr,
+            Message  => $DBI::errstr,
         );
         return;
     }
-    if ($Self->{Backend}->{"DB::Connect"}) {
-        $Self->Do(SQL => $Self->{Backend}->{"DB::Connect"});
+    if ( $Self->{Backend}->{"DB::Connect"} ) {
+        $Self->Do( SQL => $Self->{Backend}->{"DB::Connect"} );
     }
     return $Self->{dbh};
 }
@@ -216,16 +232,18 @@ to disconnect to a database
 
 sub Disconnect {
     my $Self = shift;
+
     # debug
-    if ($Self->{Debug} > 2) {
+    if ( $Self->{Debug} > 2 ) {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'debug',
-            Message => "DB.pm->Disconnect",
+            Message  => "DB.pm->Disconnect",
         );
     }
+
     # do disconnect
-    $Self->{dbh}->disconnect() if ($Self->{dbh});
+    $Self->{dbh}->disconnect() if ( $Self->{dbh} );
     return 1;
 }
 
@@ -253,43 +271,45 @@ sub Quote {
     my $Self = shift;
     my $Text = shift;
     my $Type = shift;
-    if (!defined $Text) {
+    if ( !defined $Text ) {
         return;
     }
 
     # do quote integer
-    if ($Type && $Type eq 'Integer') {
-        if ($Text !~ /^(\+|\-|)\d{1,16}$/) {
+    if ( $Type && $Type eq 'Integer' ) {
+        if ( $Text !~ /^(\+|\-|)\d{1,16}$/ ) {
             $Self->{LogObject}->Log(
-                Caller => 1,
+                Caller   => 1,
                 Priority => 'error',
-                Message => "Invalid integer in query '$Text'!",
+                Message  => "Invalid integer in query '$Text'!",
             );
             return '';
         }
         return $Text;
     }
+
     # numbers
-    elsif ($Type && $Type eq 'Number') {
-        if ($Text !~ /^(\+|\-|)(\d{1,20}|\d{1,20}\.\d{1,20})$/) {
+    elsif ( $Type && $Type eq 'Number' ) {
+        if ( $Text !~ /^(\+|\-|)(\d{1,20}|\d{1,20}\.\d{1,20})$/ ) {
             $Self->{LogObject}->Log(
-                Caller => 1,
+                Caller   => 1,
                 Priority => 'error',
-                Message => "Invalid number in query '$Text'!",
+                Message  => "Invalid number in query '$Text'!",
             );
             return '';
         }
         return $Text;
     }
+
     # do quote string
-    elsif (!defined($Type)) {
-        return ${$Self->{Backend}->Quote(\$Text)};
+    elsif ( !defined($Type) ) {
+        return ${ $Self->{Backend}->Quote( \$Text ) };
     }
     else {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'error',
-            Message => "Invalid quote type '$Type'!",
+            Message  => "Invalid quote type '$Type'!",
         );
         return '';
     }
@@ -329,66 +349,74 @@ to insert, update or delete something
 =cut
 
 sub Do {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my @Array = ();
+
     # check needed stuff
-    if (!$Param{SQL}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need SQL!");
+    if ( !$Param{SQL} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need SQL!" );
         return;
     }
+
     # check bind params
-    if ($Param{Bind}) {
-        foreach my $Data (@{$Param{Bind}}) {
-            if (ref($Data) eq 'SCALAR') {
-                push(@Array, $$Data);
+    if ( $Param{Bind} ) {
+        for my $Data ( @{ $Param{Bind} } ) {
+            if ( ref($Data) eq 'SCALAR' ) {
+                push( @Array, $$Data );
             }
-            else  {
+            else {
                 $Self->{LogObject}->Log(
-                    Caller => 1,
+                    Caller   => 1,
                     Priority => 'Error',
-                    Message => "No SCALAR param in Bind!",
+                    Message  => "No SCALAR param in Bind!",
                 );
                 return;
             }
         }
     }
-    if (!$Self->{ConfigObject}->Get('TimeZone')) {
+    if ( !$Self->{ConfigObject}->Get('TimeZone') ) {
+
         # doing timestamp workaround (if needed)
-        if ($Self->{Backend}->{'DB::CurrentTimestamp'}) {
+        if ( $Self->{Backend}->{'DB::CurrentTimestamp'} ) {
             $Param{SQL} =~ s/current_timestamp/$Self->{Backend}->{'DB::CurrentTimestamp'}/g;
         }
     }
     else {
+
         # replace current_timestamp
         my $Timestamp = $Self->{TimeObject}->CurrentTimestamp();
         $Param{SQL} =~ s/(\s|\(|,| )current_timestamp(\s|\)|,| )/$1'$Timestamp'$2/g;
     }
+
     # debug
-    if ($Self->{Debug} > 0) {
+    if ( $Self->{Debug} > 0 ) {
         $Self->{DoCounter}++;
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'debug',
-            Message => "DB.pm->Do ($Self->{DoCounter}) SQL: '$Param{SQL}'",
+            Message  => "DB.pm->Do ($Self->{DoCounter}) SQL: '$Param{SQL}'",
         );
     }
+
     # check length, don't use more the 4 k
     use bytes;
-    if (length($Param{SQL}) > 4*1024) {
+    if ( length( $Param{SQL} ) > 4 * 1024 ) {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'error',
-            Message => "Your SQL is longer the 4k, this probably not work on many databases (use Bind instead)!",
+            Message =>
+                "Your SQL is longer the 4k, this probably not work on many databases (use Bind instead)!",
         );
     }
     no bytes;
+
     # send sql to database
-    if (!$Self->{dbh}->do($Param{SQL}, undef, @Array)) {
+    if ( !$Self->{dbh}->do( $Param{SQL}, undef, @Array ) ) {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'Error',
-            Message => "$DBI::errstr, SQL: '$Param{SQL}'",
+            Message  => "$DBI::errstr, SQL: '$Param{SQL}'",
         );
         return;
     }
@@ -423,80 +451,86 @@ not encode content column
 =cut
 
 sub Prepare {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my $SQL = $Param{SQL};
+    my $SQL   = $Param{SQL};
     my $Limit = $Param{Limit} || '';
     my $Start = $Param{Start} || '';
+
     # check needed stuff
-    if (!$Param{SQL}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need SQL!");
+    if ( !$Param{SQL} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need SQL!" );
         return;
     }
-    if (defined($Param{Encode})) {
+    if ( defined( $Param{Encode} ) ) {
         $Self->{Encode} = $Param{Encode};
     }
     else {
         $Self->{Encode} = undef;
     }
-    $Self->{Limit} = 0;
-    $Self->{LimitStart} = 0;
+    $Self->{Limit}        = 0;
+    $Self->{LimitStart}   = 0;
     $Self->{LimitCounter} = 0;
+
     # build finally select query
     if ($Limit) {
         if ($Start) {
             $Limit = $Limit + $Start;
             $Self->{LimitStart} = $Start;
         }
-        if ($Self->{Backend}->{'DB::Limit'} eq 'limit') {
+        if ( $Self->{Backend}->{'DB::Limit'} eq 'limit' ) {
             $SQL .= " LIMIT $Limit";
         }
-        elsif ($Self->{Backend}->{'DB::Limit'} eq 'fetch') {
+        elsif ( $Self->{Backend}->{'DB::Limit'} eq 'fetch' ) {
             $SQL .= " fetch $Limit first row";
         }
         else {
             $Self->{Limit} = $Limit;
         }
     }
+
     # debug
-    if ($Self->{Debug} > 1) {
+    if ( $Self->{Debug} > 1 ) {
         $Self->{PrepareCounter}++;
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'debug',
-            Message => "DB.pm->Prepare ($Self->{PrepareCounter}/".time().") SQL: '$SQL'",
+            Message  => "DB.pm->Prepare ($Self->{PrepareCounter}/" . time() . ") SQL: '$SQL'",
         );
     }
+
     # slow log feature
     my $LogTime;
-    if ($Self->{SlowLog}) {
+    if ( $Self->{SlowLog} ) {
         $LogTime = time();
     }
+
     # do
-    if (!($Self->{Curser} = $Self->{dbh}->prepare($SQL))) {
+    if ( !( $Self->{Curser} = $Self->{dbh}->prepare($SQL) ) ) {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'Error',
-            Message => "$DBI::errstr, SQL: '$SQL'",
+            Message  => "$DBI::errstr, SQL: '$SQL'",
         );
         return;
     }
-    if (!$Self->{Curser}->execute()) {
+    if ( !$Self->{Curser}->execute() ) {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'Error',
-            Message => "$DBI::errstr, SQL: '$SQL'",
+            Message  => "$DBI::errstr, SQL: '$SQL'",
         );
         return;
     }
+
     # slow log feature
-    if ($Self->{SlowLog}) {
+    if ( $Self->{SlowLog} ) {
         my $LogTimeTaken = time() - $LogTime;
-        if ($LogTimeTaken > 4) {
+        if ( $LogTimeTaken > 4 ) {
             $Self->{LogObject}->Log(
-                Caller => 1,
+                Caller   => 1,
                 Priority => 'error',
-                Message => "Slow ($LogTimeTaken s) SQL: '$SQL'",
+                Message  => "Slow ($LogTimeTaken s) SQL: '$SQL'",
             );
         }
     }
@@ -520,18 +554,20 @@ to get a select return
 
 sub FetchrowArray {
     my $Self = shift;
+
     # work with cursers if database don't support limit
-    if (!$Self->{Backend}->{'DB::Limit'} && $Self->{Limit}) {
-        if ($Self->{Limit} <= $Self->{LimitCounter}) {
+    if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
+        if ( $Self->{Limit} <= $Self->{LimitCounter} ) {
             $Self->{Curser}->finish();
             return;
         }
         $Self->{LimitCounter}++;
     }
+
     # fetch first not used rows
-    if ($Self->{LimitStart}) {
-        foreach (1..$Self->{LimitStart}) {
-            if (!$Self->{Curser}->fetchrow_array()) {
+    if ( $Self->{LimitStart} ) {
+        for ( 1 .. $Self->{LimitStart} ) {
+            if ( !$Self->{Curser}->fetchrow_array() ) {
                 $Self->{LimitStart} = 0;
                 return ();
             }
@@ -539,14 +575,16 @@ sub FetchrowArray {
         }
         $Self->{LimitStart} = 0;
     }
+
     # return
     my @Row = $Self->{Curser}->fetchrow_array();
+
     # e. g. set utf-8 flag
     my $Count = 0;
-    foreach (@Row) {
-        if ($Self->{Backend}->{"DB::Encode"}) {
-            if (!defined($Self->{Encode}) || ($Self->{Encode} && $Self->{Encode}->[$Count])) {
-                $Self->{EncodeObject}->Encode(\$_);
+    for (@Row) {
+        if ( $Self->{Backend}->{"DB::Encode"} ) {
+            if ( !defined( $Self->{Encode} ) || ( $Self->{Encode} && $Self->{Encode}->[$Count] ) ) {
+                $Self->{EncodeObject}->Encode( \$_ );
             }
         }
         $Count++;
@@ -557,22 +595,25 @@ sub FetchrowArray {
 # _should_ not used because of database incompat.
 sub FetchrowHashref {
     my $Self = shift;
+
     # work with cursers if database don't support limit
-    if (!$Self->{Backend}->{'DB::Limit'} && $Self->{Limit}) {
-        if ($Self->{Limit} <= $Self->{LimitCounter}) {
+    if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
+        if ( $Self->{Limit} <= $Self->{LimitCounter} ) {
             $Self->{Curser}->finish();
             $Self->{LimitCounter}++;
             return;
         }
         $Self->{LimitCounter}++;
     }
+
     # fetch first not used rows
-    if ($Self->{LimitStart}) {
-        foreach (1..$Self->{LimitStart}) {
+    if ( $Self->{LimitStart} ) {
+        for ( 1 .. $Self->{LimitStart} ) {
             $Self->{Curser}->fetchrow_array();
         }
         $Self->{LimitStart} = 0;
     }
+
     # return
     return $Self->{Curser}->fetchrow_hashref();
 }
@@ -588,7 +629,7 @@ to get database functions like Limit, DirectBlob, ...
 sub GetDatabaseFunction {
     my $Self = shift;
     my $What = shift;
-    return $Self->{Backend}->{'DB::'.$What};
+    return $Self->{Backend}->{ 'DB::' . $What };
 }
 
 =item SQLProcessor()
@@ -620,81 +661,90 @@ generate database based sql syntax (e. g. CREATE TABLE ...)
 =cut
 
 sub SQLProcessor {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my @SQL = ();
-    if ($Param{Database} && ref($Param{Database}) eq 'ARRAY') {
+    my @SQL   = ();
+    if ( $Param{Database} && ref( $Param{Database} ) eq 'ARRAY' ) {
         my @Table = ();
-        foreach my $Tag (@{$Param{Database}}) {
-#            print STDERR "$Tag->{Tag} $Tag->{TagType}------\n";
-            if (($Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate') && $Tag->{TagType} eq 'Start') {
-                push (@Table, $Tag);
+        for my $Tag ( @{ $Param{Database} } ) {
+
+            #            print STDERR "$Tag->{Tag} $Tag->{TagType}------\n";
+            if ( ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
+                && $Tag->{TagType} eq 'Start' )
+            {
+                push( @Table, $Tag );
             }
-            elsif (($Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate') && $Tag->{TagType} eq 'End') {
-                push (@Table, $Tag);
-                push (@SQL, $Self->{Backend}->TableCreate(@Table));
+            elsif ( ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
+                && $Tag->{TagType} eq 'End' )
+            {
+                push( @Table, $Tag );
+                push( @SQL,   $Self->{Backend}->TableCreate(@Table) );
                 @Table = ();
             }
-            elsif ($Tag->{Tag} eq 'Column' && $Tag->{TagType} eq 'Start') {
+            elsif ( $Tag->{Tag} eq 'Column' && $Tag->{TagType} eq 'Start' ) {
+
                 # type check
                 $Self->_TypeCheck($Tag);
-                push (@Table, $Tag);
+                push( @Table, $Tag );
             }
-            elsif ($Tag->{Tag} eq 'Unique' && $Tag->{TagType} eq 'Start') {
-                push (@Table, $Tag);
+            elsif ( $Tag->{Tag} eq 'Unique' && $Tag->{TagType} eq 'Start' ) {
+                push( @Table, $Tag );
             }
-            elsif ($Tag->{Tag} eq 'UniqueColumn' && $Tag->{TagType} eq 'Start') {
-                push (@Table, $Tag);
+            elsif ( $Tag->{Tag} eq 'UniqueColumn' && $Tag->{TagType} eq 'Start' ) {
+                push( @Table, $Tag );
             }
-            elsif ($Tag->{Tag} eq 'Index' && $Tag->{TagType} eq 'Start') {
-                push (@Table, $Tag);
+            elsif ( $Tag->{Tag} eq 'Index' && $Tag->{TagType} eq 'Start' ) {
+                push( @Table, $Tag );
             }
-            elsif ($Tag->{Tag} eq 'IndexColumn' && $Tag->{TagType} eq 'Start') {
-                push (@Table, $Tag);
+            elsif ( $Tag->{Tag} eq 'IndexColumn' && $Tag->{TagType} eq 'Start' ) {
+                push( @Table, $Tag );
             }
-            elsif ($Tag->{Tag} eq 'ForeignKey' && $Tag->{TagType} eq 'Start') {
-                push (@Table, $Tag);
+            elsif ( $Tag->{Tag} eq 'ForeignKey' && $Tag->{TagType} eq 'Start' ) {
+                push( @Table, $Tag );
             }
-            elsif ($Tag->{Tag} eq 'Reference' && $Tag->{TagType} eq 'Start') {
-                push (@Table, $Tag);
+            elsif ( $Tag->{Tag} eq 'Reference' && $Tag->{TagType} eq 'Start' ) {
+                push( @Table, $Tag );
             }
-            elsif ($Tag->{Tag} eq 'TableDrop' && $Tag->{TagType} eq 'Start') {
-                push (@Table, $Tag);
-                push (@SQL, $Self->{Backend}->TableDrop(@Table));
+            elsif ( $Tag->{Tag} eq 'TableDrop' && $Tag->{TagType} eq 'Start' ) {
+                push( @Table, $Tag );
+                push( @SQL,   $Self->{Backend}->TableDrop(@Table) );
                 @Table = ();
             }
-            elsif ($Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start') {
-                push (@Table, $Tag);
+            elsif ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
+                push( @Table, $Tag );
             }
-            elsif ($Tag->{Tag} eq 'ColumnAdd' && $Tag->{TagType} eq 'Start') {
+            elsif ( $Tag->{Tag} eq 'ColumnAdd' && $Tag->{TagType} eq 'Start' ) {
+
                 # type check
                 $Self->_TypeCheck($Tag);
-                push (@Table, $Tag);
+                push( @Table, $Tag );
             }
-            elsif ($Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start') {
+            elsif ( $Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start' ) {
+
                 # type check
                 $Self->_TypeCheck($Tag);
-                push (@Table, $Tag);
+                push( @Table, $Tag );
             }
-            elsif ($Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start') {
+            elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
+
                 # type check
                 $Self->_TypeCheck($Tag);
-                push (@Table, $Tag);
+                push( @Table, $Tag );
             }
-            elsif ($Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'End') {
-                push (@Table, $Tag);
-                push (@SQL, $Self->{Backend}->TableAlter(@Table));
+            elsif ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'End' ) {
+                push( @Table, $Tag );
+                push( @SQL,   $Self->{Backend}->TableAlter(@Table) );
                 @Table = ();
             }
-            elsif ($Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start') {
-                push (@Table, $Tag);
+            elsif ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start' ) {
+                push( @Table, $Tag );
             }
-            elsif ($Tag->{Tag} eq 'Data' && $Tag->{TagType} eq 'Start') {
-                push (@Table, $Tag);
+            elsif ( $Tag->{Tag} eq 'Data' && $Tag->{TagType} eq 'Start' ) {
+                push( @Table, $Tag );
             }
-            elsif ($Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'End') {
-                push (@Table, $Tag);
-                push (@SQL, $Self->{Backend}->Insert(@Table));
+            elsif ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'End' ) {
+                push( @Table, $Tag );
+                push( @SQL,   $Self->{Backend}->Insert(@Table) );
                 @Table = ();
             }
         }
@@ -712,11 +762,11 @@ e. g. foreign keys
 =cut
 
 sub SQLProcessorPost {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my @SQL = ();
-    if ($Self->{Backend}->{Post}) {
-        my @Return = @{$Self->{Backend}->{Post}};
+    my @SQL   = ();
+    if ( $Self->{Backend}->{Post} ) {
+        my @Return = @{ $Self->{Backend}->{Post} };
         undef $Self->{Backend}->{Post};
         return @Return;
     }
@@ -733,10 +783,10 @@ sub SQLProcessorPost {
 # in a further release.
 
 sub GetTableData {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my $Table = $Param{Table};
-    my $What = $Param{What};
+    my $What  = $Param{What};
     my $Where = $Param{Where} || '';
     my $Valid = $Param{Valid} || '';
     my $Clamp = $Param{Clamp} || '';
@@ -745,36 +795,36 @@ sub GetTableData {
     my $SQL = "SELECT $What FROM $Table ";
     $SQL .= " WHERE " . $Where if ($Where);
 
-    if (!$Where && $Valid) {
+    if ( !$Where && $Valid ) {
         my @ValidIDs;
 
-        $Self->Prepare(SQL => "SELECT id FROM valid WHERE name = 'valid'");
-        while (my @Row = $Self->FetchrowArray()) {
-            push(@ValidIDs, $Row[0]);
+        $Self->Prepare( SQL => "SELECT id FROM valid WHERE name = 'valid'" );
+        while ( my @Row = $Self->FetchrowArray() ) {
+            push( @ValidIDs, $Row[0] );
         }
 
         $SQL .= " WHERE valid_id IN ( ${\(join ', ', @ValidIDs)} )";
     }
-    $Self->Prepare(SQL => $SQL);
-    while (my @Row = $Self->FetchrowArray()) {
-        if ($Row[3]) {
+    $Self->Prepare( SQL => $SQL );
+    while ( my @Row = $Self->FetchrowArray() ) {
+        if ( $Row[3] ) {
             if ($Clamp) {
-                $Data{$Row[0]} = "$Row[1] $Row[2] ($Row[3])";
+                $Data{ $Row[0] } = "$Row[1] $Row[2] ($Row[3])";
             }
             else {
-                $Data{$Row[0]} = "$Row[1] $Row[2] $Row[3]";
+                $Data{ $Row[0] } = "$Row[1] $Row[2] $Row[3]";
             }
         }
-        elsif ($Row[2]) {
+        elsif ( $Row[2] ) {
             if ($Clamp) {
-                $Data{$Row[0]} = "$Row[1] ( $Row[2] )";
+                $Data{ $Row[0] } = "$Row[1] ( $Row[2] )";
             }
             else {
-                $Data{$Row[0]} = "$Row[1] $Row[2]";
+                $Data{ $Row[0] } = "$Row[1] $Row[2]";
             }
         }
         else {
-            $Data{$Row[0]} = $Row[1];
+            $Data{ $Row[0] } = $Row[1];
         }
     }
     return %Data;
@@ -782,11 +832,13 @@ sub GetTableData {
 
 sub _TypeCheck {
     my $Self = shift;
-    my $Tag = shift;
-    if ($Tag->{Type} && $Tag->{Type} !~ /^(DATE|SMALLINT|BIGINT|INTEGER|DECIMAL|VARCHAR|LONGBLOB)$/i) {
+    my $Tag  = shift;
+    if (   $Tag->{Type}
+        && $Tag->{Type} !~ /^(DATE|SMALLINT|BIGINT|INTEGER|DECIMAL|VARCHAR|LONGBLOB)$/i )
+    {
         $Self->{LogObject}->Log(
             Priority => 'Error',
-            Message => "Unknown data type '$Tag->{Type}'!",
+            Message  => "Unknown data type '$Tag->{Type}'!",
         );
     }
     return 1;
@@ -813,6 +865,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.75 $ $Date: 2007-08-28 20:02:13 $
+$Revision: 1.76 $ $Date: 2007-09-29 11:03:51 $
 
 =cut

@@ -2,7 +2,7 @@
 # Group.t - Group tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Group.t,v 1.6 2007-03-21 15:09:22 martin Exp $
+# $Id: Group.t,v 1.7 2007-09-29 11:09:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -318,7 +318,7 @@ my %MemberList1 = $Self->{GroupObject}->GroupMemberList(
     Result => 'HASH',
 );
 my $GroupMemberList1 = 1;
-foreach (keys %MemberList1) {
+for (keys %MemberList1) {
     if ($_ ne $GroupID1) {
         $GroupMemberList1 = 0;
     }
@@ -335,7 +335,7 @@ my %MemberList2 = $Self->{GroupObject}->GroupMemberList(
     Result => 'HASH',
 );
 my $GroupMemberList2 = 1;
-foreach (keys %MemberList2) {
+for (keys %MemberList2) {
     if ($_ ne $GroupID1 && $_ ne $GroupID3) {
         $GroupMemberList2 = 0;
     }
@@ -355,7 +355,7 @@ my %MemberList3 = $Self->{GroupObject}->GroupMemberList(
     Result => 'HASH',
 );
 my $GroupMemberList3 = 1;
-foreach (keys %MemberList3) {
+for (keys %MemberList3) {
     if ($_ ne $GroupID2 && $_ ne $GroupID3) {
         $GroupMemberList3 = 0;
     }
@@ -375,7 +375,7 @@ my %MemberList4 = $Self->{GroupObject}->GroupMemberList(
     Result => 'HASH',
 );
 my $GroupMemberList4 = 1;
-foreach (keys %MemberList4) {
+for (keys %MemberList4) {
     if ($_ ne $UserID1 && $_ ne $UserID2) {
         $GroupMemberList4 = 0;
     }
@@ -395,7 +395,7 @@ my %MemberList5 = $Self->{GroupObject}->GroupMemberList(
     Result => 'HASH',
 );
 my $GroupMemberList5 = 1;
-foreach (keys %MemberList5) {
+for (keys %MemberList5) {
     if ($_ ne $UserID3) {
         $GroupMemberList5 = 0;
     }
@@ -412,7 +412,7 @@ my %MemberList6 = $Self->{GroupObject}->GroupMemberList(
     Result => 'HASH',
 );
 my $GroupMemberList6 = 1;
-foreach (keys %MemberList6) {
+for (keys %MemberList6) {
     if ($_ ne $UserID2 && $_ ne $UserID3) {
         $GroupMemberList6 = 0;
     }
@@ -431,7 +431,7 @@ my @InvolvedList1 = $Self->{GroupObject}->GroupMemberInvolvedList(
     Type => 'ro',
 );
 my $GroupMemberInvolvedList1 = 1;
-foreach (@InvolvedList1) {
+for (@InvolvedList1) {
     if ($_ ne $UserID1 && $_ ne $UserID2) {
         $GroupMemberInvolvedList1 = 0;
     }
@@ -447,7 +447,7 @@ my @InvolvedList2 = $Self->{GroupObject}->GroupMemberInvolvedList(
     Type => 'ro',
 );
 my $GroupMemberInvolvedList2 = 1;
-foreach (@InvolvedList2) {
+for (@InvolvedList2) {
     if ($_ ne $UserID1 && $_ ne $UserID2 && $_ ne $UserID3) {
         $GroupMemberInvolvedList2 = 0;
     }
@@ -463,7 +463,7 @@ my @InvolvedList3 = $Self->{GroupObject}->GroupMemberInvolvedList(
     Type => 'ro',
 );
 my $GroupMemberInvolvedList3 = 1;
-foreach (@InvolvedList3) {
+for (@InvolvedList3) {
     if ($_ ne $UserID2 && $_ ne $UserID3) {
         $GroupMemberInvolvedList3 = 0;
     }
@@ -478,7 +478,7 @@ my @GroupIDs = ($GroupID1, $GroupID2, $GroupID3);
 my @GroupRands = ($GroupRand1, $GroupRand2, $GroupRand3);
 my @RoleIDs = ($RoleID1, $RoleID2, $RoleID3);
 my @RoleRands = ($RoleRand1, $RoleRand2, $RoleRand3);
-foreach (0..2) {
+for (0..2) {
     my $GroupUpdate = $Self->{GroupObject}->GroupUpdate(
         ID => $GroupIDs[$_],
         Name => $GroupRands[$_],

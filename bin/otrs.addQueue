@@ -4,7 +4,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.addQueue,v 1.11 2007-06-05 07:52:57 rk Exp $
+# $Id: otrs.addQueue,v 1.12 2007-09-29 11:06:38 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,8 +30,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.12 $)[1];
 
 use Getopt::Std;
 use Kernel::Config;

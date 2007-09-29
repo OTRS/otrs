@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: State.pm,v 1.20 2007-03-21 11:15:29 martin Exp $
+# $Id: State.pm,v 1.21 2007-09-29 11:03:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,11 +12,12 @@
 package Kernel::System::State;
 
 use strict;
+use warnings;
+
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -63,19 +64,21 @@ create a object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
+
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
+
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     # check needed config options
-    foreach (qw(Ticket::ViewableStateType Ticket::UnlockStateType)) {
+    for (qw(Ticket::ViewableStateType Ticket::UnlockStateType)) {
         $Self->{ConfigObject}->Get($_) || die "Need $_ in Kernel/Config.pm!\n";
     }
 
@@ -97,34 +100,38 @@ add new states
 =cut
 
 sub StateAdd {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(Name ValidID TypeID UserID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Name ValidID TypeID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # quote params
-    foreach (qw(Name Comment)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    for (qw(Name Comment)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
     }
-    foreach (qw(ValidID TypeID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    for (qw(ValidID TypeID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
-    my $SQL = "INSERT INTO ticket_state (name, valid_id, type_id, comments, " .
-        " create_time, create_by, change_time, change_by)" .
-        " VALUES " .
-        " ('$Param{Name}', $Param{ValidID}, " .
-        " $Param{TypeID}, '$Param{Comment}', " .
-        " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+    my $SQL
+        = "INSERT INTO ticket_state (name, valid_id, type_id, comments, "
+        . " create_time, create_by, change_time, change_by)"
+        . " VALUES "
+        . " ('$Param{Name}', $Param{ValidID}, "
+        . " $Param{TypeID}, '$Param{Comment}', "
+        . " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
+
         # get new state id
         my $SQL = "SELECT id FROM ticket_state WHERE name = '$Param{Name}'";
-        my $ID = '';
-        $Self->{DBObject}->Prepare(SQL => $SQL);
-        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        my $ID  = '';
+        $Self->{DBObject}->Prepare( SQL => $SQL );
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $ID = $Row[0];
         }
         return $ID;
@@ -151,64 +158,70 @@ get states attributes
 =cut
 
 sub StateGet {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{ID} && !$Param{Name}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID or Name!");
+    if ( !$Param{ID} && !$Param{Name} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID or Name!" );
         return;
     }
+
     # cache data
-    if ($Param{Cache}) {
-        if ($Param{Name} && $Self->{"StateGet::$Param{Name}"}) {
-            return %{$Self->{"StateGet::$Param{Name}"}};
+    if ( $Param{Cache} ) {
+        if ( $Param{Name} && $Self->{"StateGet::$Param{Name}"} ) {
+            return %{ $Self->{"StateGet::$Param{Name}"} };
         }
-        elsif ($Param{ID} && $Self->{"StateGet::$Param{ID}"}) {
-            return %{$Self->{"StateGet::$Param{ID}"}};
+        elsif ( $Param{ID} && $Self->{"StateGet::$Param{ID}"} ) {
+            return %{ $Self->{"StateGet::$Param{ID}"} };
         }
     }
+
     # sql
-    my $SQL = "SELECT ts.id, ts.name, ts.valid_id, ts.comments, ts.type_id, tst.name, ".
-        " ts.change_time, ts.create_time ".
-        " FROM ".
-        " ticket_state ts, ticket_state_type tst ".
-        " WHERE ".
-        " ts.type_id = tst.id ".
-        " AND ";
-    if ($Param{Name}) {
-        $SQL .= " ts.name = '".$Self->{DBObject}->Quote($Param{Name})."'";
+    my $SQL
+        = "SELECT ts.id, ts.name, ts.valid_id, ts.comments, ts.type_id, tst.name, "
+        . " ts.change_time, ts.create_time "
+        . " FROM "
+        . " ticket_state ts, ticket_state_type tst "
+        . " WHERE "
+        . " ts.type_id = tst.id " . " AND ";
+    if ( $Param{Name} ) {
+        $SQL .= " ts.name = '" . $Self->{DBObject}->Quote( $Param{Name} ) . "'";
     }
     else {
-        $SQL .= " ts.id = ".$Self->{DBObject}->Quote($Param{ID}, 'Integer')."";
+        $SQL .= " ts.id = " . $Self->{DBObject}->Quote( $Param{ID}, 'Integer' ) . "";
     }
-    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
+    if ( $Self->{DBObject}->Prepare( SQL => $SQL ) ) {
         my %Data = ();
-        while (my @Data = $Self->{DBObject}->FetchrowArray()) {
+        while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
             %Data = (
-                ID => $Data[0],
-                Name => $Data[1],
-                Comment => $Data[3],
-                ValidID => $Data[2],
-                TypeID => $Data[4],
-                TypeName => $Data[5],
+                ID         => $Data[0],
+                Name       => $Data[1],
+                Comment    => $Data[3],
+                ValidID    => $Data[2],
+                TypeID     => $Data[4],
+                TypeName   => $Data[5],
                 ChangeTime => $Data[6],
                 CreateTime => $Data[7],
             );
         }
+
         # cache data
-        if ($Param{Name}) {
+        if ( $Param{Name} ) {
             $Self->{"StateGet::$Param{Name}"} = \%Data;
         }
         else {
             $Self->{"StateGet::$Param{ID}"} = \%Data;
         }
+
         # no data found...
-        if (!%Data) {
+        if ( !%Data ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "StateType '$Param{Name}' not found!"
+                Message  => "StateType '$Param{Name}' not found!"
             );
         }
+
         # return data
         return %Data;
     }
@@ -233,29 +246,33 @@ update state attributes
 =cut
 
 sub StateUpdate {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(ID Name ValidID TypeID UserID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(ID Name ValidID TypeID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # quote params
-    foreach (qw(Name Comment)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    for (qw(Name Comment)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
     }
-    foreach (qw(ID ValidID TypeID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    for (qw(ID ValidID TypeID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
+
     # sql
-    my $SQL = "UPDATE ticket_state SET name = '$Param{Name}', " .
-        " comments = '$Param{Comment}', " .
-        " type_id = $Param{TypeID}, valid_id = $Param{ValidID}, " .
-        " change_time = current_timestamp, change_by = $Param{UserID} " .
-        " WHERE id = $Param{ID}";
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+    my $SQL
+        = "UPDATE ticket_state SET name = '$Param{Name}', "
+        . " comments = '$Param{Comment}', "
+        . " type_id = $Param{TypeID}, valid_id = $Param{ValidID}, "
+        . " change_time = current_timestamp, change_by = $Param{UserID} "
+        . " WHERE id = $Param{ID}";
+    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         return 1;
     }
     else {
@@ -288,58 +305,59 @@ get list of state types
 =cut
 
 sub StateGetStatesByType {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my @Name = ();
-    my @ID = ();
-    my %Data = ();
+    my @Name  = ();
+    my @ID    = ();
+    my %Data  = ();
+
     # check needed stuff
-    foreach (qw(Result)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Result)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    if (!$Param{Type} && !$Param{StateType}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type or StateType!");
+    if ( !$Param{Type} && !$Param{StateType} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Type or StateType!" );
         return;
     }
+
     # sql
     my @StateType = ();
-    if ($Param{Type}) {
-        if ($Self->{ConfigObject}->Get('Ticket::'.$Param{Type}.'StateType')) {
-            @StateType = @{$Self->{ConfigObject}->Get('Ticket::'.$Param{Type}.'StateType')};
+    if ( $Param{Type} ) {
+        if ( $Self->{ConfigObject}->Get( 'Ticket::' . $Param{Type} . 'StateType' ) ) {
+            @StateType = @{ $Self->{ConfigObject}->Get( 'Ticket::' . $Param{Type} . 'StateType' ) };
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Type 'Ticket::$Param{Type}StateType' not found in Kernel/Config.pm!",
+                Message  => "Type 'Ticket::$Param{Type}StateType' not found in Kernel/Config.pm!",
             );
             die;
         }
     }
     else {
-        @StateType = @{$Param{StateType}};
+        @StateType = @{ $Param{StateType} };
     }
-    my $SQL = "SELECT ts.id, ts.name, tst.name  ".
-        " FROM ".
-        " ticket_state ts, ticket_state_type tst ".
-        " WHERE ".
-        " tst.id = ts.type_id ".
-        " AND ".
-        " tst.name IN ('${\(join '\', \'', @StateType)}' )".
-        " AND ".
-        " ts.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
-    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
-        while (my @Data = $Self->{DBObject}->FetchrowArray()) {
-            push (@Name, $Data[1]);
-            push (@ID, $Data[0]);
-            $Data{$Data[0]} = $Data[1];
+    my $SQL
+        = "SELECT ts.id, ts.name, tst.name  "
+        . " FROM "
+        . " ticket_state ts, ticket_state_type tst "
+        . " WHERE "
+        . " tst.id = ts.type_id " . " AND "
+        . " tst.name IN ('${\(join '\', \'', @StateType)}' )" . " AND "
+        . " ts.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
+    if ( $Self->{DBObject}->Prepare( SQL => $SQL ) ) {
+        while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+            push( @Name, $Data[1] );
+            push( @ID,   $Data[0] );
+            $Data{ $Data[0] } = $Data[1];
         }
-        if ($Param{Result} eq 'Name') {
+        if ( $Param{Result} eq 'Name' ) {
             return @Name;
         }
-        elsif ($Param{Result} eq 'HASH') {
+        elsif ( $Param{Result} eq 'HASH' ) {
             return %Data;
         }
         else {
@@ -369,29 +387,28 @@ get state list
 =cut
 
 sub StateList {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my $Valid = 1;
+
     # check needed stuff
-    if (!$Param{UserID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "UserID!");
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "UserID!" );
         return;
     }
-    if (!$Param{Valid} && defined($Param{Valid})) {
+    if ( !$Param{Valid} && defined( $Param{Valid} ) ) {
         $Valid = 0;
     }
+
     # sql
-    my $SQL = "SELECT id, name ".
-        " FROM ".
-        " ticket_state";
+    my $SQL = "SELECT id, name " . " FROM " . " ticket_state";
     if ($Valid) {
-        $SQL .= " WHERE ".
-            " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
+        $SQL .= " WHERE " . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     }
     my %Data = ();
-    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
-        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-            $Data{$Row[0]} = $Row[1];
+    if ( $Self->{DBObject}->Prepare( SQL => $SQL ) ) {
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            $Data{ $Row[0] } = $Row[1];
         }
         return %Data;
     }
@@ -411,21 +428,21 @@ get state type list
 =cut
 
 sub StateTypeList {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{UserID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "UserID!");
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "UserID!" );
         return;
     }
+
     # sql
-    my $SQL = "SELECT id, name ".
-        " FROM ".
-        " ticket_state_type";
+    my $SQL  = "SELECT id, name " . " FROM " . " ticket_state_type";
     my %Data = ();
-    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
-        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-            $Data{$Row[0]} = $Row[1];
+    if ( $Self->{DBObject}->Prepare( SQL => $SQL ) ) {
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            $Data{ $Row[0] } = $Row[1];
         }
         return %Data;
     }
@@ -450,6 +467,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2007-03-21 11:15:29 $
+$Revision: 1.21 $ $Date: 2007-09-29 11:03:39 $
 
 =cut

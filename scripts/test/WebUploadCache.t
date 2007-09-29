@@ -2,7 +2,7 @@
 # AuthSession.t - auth session tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: WebUploadCache.t,v 1.6 2007-08-21 11:43:08 martin Exp $
+# $Id: WebUploadCache.t,v 1.7 2007-09-29 11:09:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use Digest::MD5 qw(md5_hex);
 
 use utf8;
 
-foreach my $Module (qw(DB FS)) {
+for my $Module (qw(DB FS)) {
 
     $Self->{ConfigObject}->Set(
         Key => 'WebUploadCacheModule',
@@ -31,7 +31,7 @@ foreach my $Module (qw(DB FS)) {
     );
 
     # file checks
-    foreach my $File (qw(xls txt doc png pdf)) {
+    for my $File (qw(xls txt doc png pdf)) {
         my $Content = '';
         open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/WebUploadCache-Test1.$File") || die $!;
         binmode(IN);

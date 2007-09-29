@@ -2,7 +2,7 @@
 # Kernel/System/Auth.pm - provides the authentification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Auth.pm,v 1.24 2007-09-13 01:01:27 martin Exp $
+# $Id: Auth.pm,v 1.25 2007-09-29 11:00:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,8 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.24 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -58,26 +57,26 @@ create a object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # check needed objects
-    foreach (qw(LogObject ConfigObject DBObject MainObject)) {
+    for (qw(LogObject ConfigObject DBObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
     # load generator auth module
-    foreach my $Count ('', 1..10) {
+    for my $Count ( '', 1 .. 10 ) {
         my $GenericModule = $Self->{ConfigObject}->Get("AuthModule$Count");
         if ($GenericModule) {
-            if (!$Self->{MainObject}->Require($GenericModule)) {
+            if ( !$Self->{MainObject}->Require($GenericModule) ) {
                 $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
             }
-            $Self->{"Backend$Count"} = $GenericModule->new(%Param, Count => $Count);
+            $Self->{"Backend$Count"} = $GenericModule->new( %Param, Count => $Count );
         }
     }
 
@@ -95,7 +94,7 @@ Get module options. Currently exists just one option, "PreAuth".
 =cut
 
 sub GetOption {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     return $Self->{Backend}->GetOption(%Param);
 }
@@ -114,10 +113,10 @@ The autentificaion function.
 =cut
 
 sub Auth {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    foreach ('', 1..10) {
-        if ($Self->{"Backend$_"}) {
+    for ( '', 1 .. 10 ) {
+        if ( $Self->{"Backend$_"} ) {
             my $Return = $Self->{"Backend$_"}->Auth(%Param);
             if ($Return) {
                 return $Return;
@@ -143,6 +142,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2007-09-13 01:01:27 $
+$Revision: 1.25 $ $Date: 2007-09-29 11:00:37 $
 
 =cut

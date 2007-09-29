@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # login.pl - a simple external login page for OTRS
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: login.pl,v 1.4 2006-11-02 12:21:00 tr Exp $
+# $Id: login.pl,v 1.5 2007-09-29 11:10:47 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,8 +21,11 @@
 # --
 
 use strict;
+use warnings;
+
 # to get the errors on screen
 use CGI::Carp qw(fatalsToBrowser);
+
 # Simple Common Gateway Interface Class
 use CGI;
 my $CGI = new CGI;
@@ -30,16 +33,16 @@ my $CGI = new CGI;
 # config options
 my $OTRSLocation = 'http://otrs.example.com/otrs/index.pl';
 my $RequestedURL = $CGI->param('RequestedURL') || '';
-my $User = $CGI->param('User') || '';
-my $Reason = $CGI->param('Reason') || '';
+my $User         = $CGI->param('User') || '';
+my $Reason       = $CGI->param('Reason') || '';
 
 # reason param translation
 my $ReasonTranslation = {
-    SystemError => 'System error! Contact your admin!',
-    LoginFailed => 'Login failed! Your username or password was entered incorrectly.',
-    Logout => 'Logout successful. Thank you for using OTRS!',
+    SystemError      => 'System error! Contact your admin!',
+    LoginFailed      => 'Login failed! Your username or password was entered incorrectly.',
+    Logout           => 'Logout successful. Thank you for using OTRS!',
     InvalidSessionID => 'Invalid SessionID!',
-    '' => '',
+    ''               => '',
 };
 
 # html page

@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.27 2007-09-13 15:57:42 martin Exp $
+# $Id: Ticket.t,v 1.28 2007-09-29 11:09:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -175,7 +175,7 @@ $Self->Is(
 
 # Check the TicketFreeField functions
 my %TicketFreeText = ();
-foreach (1..16) {
+for (1..16) {
     my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
         Counter => $_,
         Key => 'Planet'.$_,
@@ -192,7 +192,7 @@ foreach (1..16) {
 %TicketFreeText = $Self->{TicketObject}->TicketGet(
     TicketID => $TicketID,
 );
-foreach (1..16) {
+for (1..16) {
     $Self->Is(
         $TicketFreeText{'TicketFreeKey'.$_},
         'Planet'.$_,
@@ -206,7 +206,7 @@ foreach (1..16) {
 }
 
 # TicketFreeTextSet check, if only a value is available but no key
-foreach (1..16) {
+for (1..16) {
     my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
         Counter => $_,
         Value => 'Earth'.$_,
@@ -223,7 +223,7 @@ foreach (1..16) {
     TicketID => $TicketID,
 );
 
-foreach (1..16) {
+for (1..16) {
     $Self->Is(
         $TicketFreeText{'TicketFreeKey'.$_},
         'Planet'.$_,
@@ -237,7 +237,7 @@ foreach (1..16) {
 }
 
 # TicketFreeTextSet check, if only a key is available but no value
-foreach (1..16) {
+for (1..16) {
     my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
         Counter => $_,
         Key => 'Location'.$_,
@@ -254,7 +254,7 @@ foreach (1..16) {
     TicketID => $TicketID,
 );
 
-foreach (1..16) {
+for (1..16) {
     $Self->Is(
         $TicketFreeText{'TicketFreeKey'.$_},
         'Location'.$_,
@@ -268,7 +268,7 @@ foreach (1..16) {
 }
 
 # TicketFreeTextSet check, if no key and value
-foreach (1..16) {
+for (1..16) {
     my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
         Counter => $_,
         TicketID => $TicketID,
@@ -283,7 +283,7 @@ foreach (1..16) {
 %TicketFreeText = $Self->{TicketObject}->TicketGet(
     TicketID => $TicketID,
 );
-foreach (1..16) {
+for (1..16) {
     $Self->Is(
         $TicketFreeText{'TicketFreeKey'.$_},
         'Location'.$_,
@@ -297,7 +297,7 @@ foreach (1..16) {
 }
 
 # TicketFreeTextSet check, with empty keys and values
-foreach (1..16) {
+for (1..16) {
     my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
         Counter  => $_,
         TicketID => $TicketID,
@@ -314,7 +314,7 @@ foreach (1..16) {
 %TicketFreeText = $Self->{TicketObject}->TicketGet(
     TicketID => $TicketID,
 );
-foreach (1..16) {
+for (1..16) {
     $Self->Is(
         $TicketFreeText{'TicketFreeKey'.$_},
         '',
@@ -327,7 +327,7 @@ foreach (1..16) {
     );
 }
 
-foreach (1..16) {
+for (1..16) {
     my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
         Counter => $_,
         Key => 'Hans'.$_,
@@ -2929,7 +2929,7 @@ $Self->True(
 );
 
 # article attachment checks
-foreach my $File (qw(Ticket-Article-Test1.xls Ticket-Article-Test1.txt Ticket-Article-Test1.doc
+for my $File (qw(Ticket-Article-Test1.xls Ticket-Article-Test1.txt Ticket-Article-Test1.doc
     Ticket-Article-Test1.png Ticket-Article-Test1.pdf Ticket-Article-Test-utf8-1.txt Ticket-Article-Test-utf8-1.bin)) {
     my $Content = '';
     open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/$File") || die $!;
@@ -3198,7 +3198,7 @@ $Self->False(
     'TicketSearch() (HASH:TicketNumber,StateType:Closed)',
 );
 
-foreach my $Condition (
+for my $Condition (
     '(Some&&Agent)',
     'Some&&Agent',
     '(Some Agent)',
@@ -3228,7 +3228,7 @@ foreach my $Condition (
     );
 }
 
-foreach my $Condition (
+for my $Condition (
     '(SomeNotFoundWord&&AgentNotFoundWord)',
     'SomeNotFoundWord||AgentNotFoundWord',
     ' SomeNotFoundWord||AgentNotFoundWord',
@@ -3557,7 +3557,7 @@ $Self->Is(
     'lock',
     'ArticleGet() (Lock)',
 );
-foreach (1..16) {
+for (1..16) {
     $Self->Is(
         $Article{'TicketFreeKey'.$_},
         'Hans'.$_,
@@ -3700,7 +3700,7 @@ if ($TicketStatus{$TicketID}) {
         '3 normal',
         "HistoryTicketStatusGet() (CreatePriority)",
     );
-    foreach (1..16) {
+    for (1..16) {
         $Self->Is(
             $TicketHistory{'TicketFreeKey'.$_},
             'Hans'.$_,
@@ -3729,7 +3729,7 @@ $Self->True(
 );
 
 # ticket index accelerator tests
-foreach my $Module ('RuntimeDB', 'StaticDB') {
+for my $Module ('RuntimeDB', 'StaticDB') {
     my $QueueID = $Self->{QueueObject}->QueueLookup(Queue => 'Raw');
     $Self->{ConfigObject}->Set(
         Key => 'Ticket::IndexModule',
@@ -3836,9 +3836,9 @@ foreach my $Module ('RuntimeDB', 'StaticDB') {
         $IndexNow{AllTickets}-2 || '',
         "$Module TicketAcceleratorIndex() - AllTickets",
     );
-    foreach my $ItemNow (@{$IndexNow{Queues}}) {
+    for my $ItemNow (@{$IndexNow{Queues}}) {
         if ($ItemNow->{Queue} eq 'Raw') {
-            foreach my $ItemBefore (@{$IndexBefore{Queues}}) {
+            for my $ItemBefore (@{$IndexBefore{Queues}}) {
                 if ($ItemBefore->{Queue} eq 'Raw') {
                     $Self->Is(
                         $ItemBefore->{Count} || 0,
@@ -3869,9 +3869,9 @@ foreach my $Module ('RuntimeDB', 'StaticDB') {
         $IndexNow{AllTickets}-2 || '',
         "$Module TicketAcceleratorIndex() - AllTickets",
     );
-    foreach my $ItemNow (@{$IndexNow{Queues}}) {
+    for my $ItemNow (@{$IndexNow{Queues}}) {
         if ($ItemNow->{Queue} eq 'Raw') {
-            foreach my $ItemBefore (@{$IndexBefore{Queues}}) {
+            for my $ItemBefore (@{$IndexBefore{Queues}}) {
                 if ($ItemBefore->{Queue} eq 'Raw') {
                     $Self->Is(
                         $ItemBefore->{Count} || 0,
@@ -3902,9 +3902,9 @@ foreach my $Module ('RuntimeDB', 'StaticDB') {
         $IndexNow{AllTickets}-2 || '',
         "$Module TicketAcceleratorIndex() - AllTickets",
     );
-    foreach my $ItemNow (@{$IndexNow{Queues}}) {
+    for my $ItemNow (@{$IndexNow{Queues}}) {
         if ($ItemNow->{Queue} eq 'Raw') {
-            foreach my $ItemBefore (@{$IndexBefore{Queues}}) {
+            for my $ItemBefore (@{$IndexBefore{Queues}}) {
                 if ($ItemBefore->{Queue} eq 'Raw') {
                     $Self->Is(
                         $ItemBefore->{Count} || 0,
@@ -3935,9 +3935,9 @@ foreach my $Module ('RuntimeDB', 'StaticDB') {
         $IndexNow{AllTickets}-2 || '',
         "$Module TicketAcceleratorIndex() - AllTickets",
     );
-    foreach my $ItemNow (@{$IndexNow{Queues}}) {
+    for my $ItemNow (@{$IndexNow{Queues}}) {
         if ($ItemNow->{Queue} eq 'Raw') {
-            foreach my $ItemBefore (@{$IndexBefore{Queues}}) {
+            for my $ItemBefore (@{$IndexBefore{Queues}}) {
                 if ($ItemBefore->{Queue} eq 'Raw') {
                     $Self->Is(
                         $ItemBefore->{Count} || 0,
@@ -3978,9 +3978,9 @@ foreach my $Module ('RuntimeDB', 'StaticDB') {
         $IndexNow{AllTickets}-3 || '',
         "$Module TicketAcceleratorIndex() - AllTickets",
     );
-    foreach my $ItemNow (@{$IndexNow{Queues}}) {
+    for my $ItemNow (@{$IndexNow{Queues}}) {
         if ($ItemNow->{Queue} eq 'Raw') {
-            foreach my $ItemBefore (@{$IndexBefore{Queues}}) {
+            for my $ItemBefore (@{$IndexBefore{Queues}}) {
                 if ($ItemBefore->{Queue} eq 'Raw') {
                     $Self->Is(
                         $ItemBefore->{Count} || 0,
@@ -3992,7 +3992,7 @@ foreach my $Module ('RuntimeDB', 'StaticDB') {
         }
     }
 
-    foreach my $TicketID (@TicketIDs) {
+    for my $TicketID (@TicketIDs) {
         $Self->True(
             $Self->{TicketObject}->TicketDelete(
                 TicketID => $TicketID,

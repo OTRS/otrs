@@ -3,7 +3,7 @@
 # xml2docbook.pl - config xml to docbook
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xml2docbook.pl,v 1.13 2007-02-13 15:04:06 tr Exp $
+# $Id: xml2docbook.pl,v 1.14 2007-09-29 11:10:47 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,15 +23,16 @@
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
-use lib dirname($RealBin)."/../";
-use lib dirname($RealBin)."/../Kernel/cpan-lib";
+use lib dirname($RealBin) . "/../";
+use lib dirname($RealBin) . "/../Kernel/cpan-lib";
 
 use strict;
+use warnings;
+
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.14 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -43,26 +44,26 @@ use Kernel::System::Config;
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-xml2docbook',
     %CommonObject,
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
+$CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
 $CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
 
 # list Groups
 #my %List = $CommonObject{SysConfigObject}->ConfigGroupList();
-my @Groups = (qw(Framework Ticket));
+my @Groups   = (qw(Framework Ticket));
 my $UserLang = '';
 
 # get options
 my %Opts = ();
 
-getopt('l',  \%Opts);
+getopt( 'l', \%Opts );
 
-if ($Opts{'l'}) {
+if ( $Opts{'l'} ) {
     $UserLang = $Opts{'l'};
 }
 else {
@@ -76,14 +77,15 @@ print '<?xml version="1.0" encoding="' . $CommonObject{ConfigObject}->Get('Defau
     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 ';
 print "\n<appendix id=\"config\"><title>Config Referenzliste</title>\n";
-foreach my $Group (@Groups) {
-    my %SubList = $CommonObject{SysConfigObject}->ConfigSubGroupList(Name => $Group);
+for my $Group (@Groups) {
+    my %SubList = $CommonObject{SysConfigObject}->ConfigSubGroupList( Name => $Group );
     print "<sect1 id=\"$Group\"><title>$Group</title> \n";
-    foreach my $SubGroup (sort keys %SubList) {
+    for my $SubGroup ( sort keys %SubList ) {
         print "<sect2 id=\"$Group:$SubGroup\"><title>$SubGroup</title> \n";
-        my @List = $CommonObject{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
-        foreach my $Name (@List) {
-            my %Item = $CommonObject{SysConfigObject}->ConfigItemGet(Name => $Name);
+        my @List = $CommonObject{SysConfigObject}
+            ->ConfigSubGroupConfigItemList( Group => $Group, SubGroup => $SubGroup );
+        for my $Name (@List) {
+            my %Item = $CommonObject{SysConfigObject}->ConfigItemGet( Name => $Name );
             my $Link = $Name;
             $Link =~ s/###/_/g;
             $Link =~ s/\///g;
@@ -101,16 +103,19 @@ foreach my $Group (@Groups) {
             print "     </row>\n";
             print "   </thead>\n";
             print "   <tbody>\n";
+
             #Description
             my %HashLang;
-            foreach my $Index (1...$#{$Item{Description}}) {
-                $HashLang{$Item{Description}[$Index]{Lang}} = $Item{Description}[$Index]{Content};
+            for my $Index ( 1 ... $#{ $Item{Description} } ) {
+                $HashLang{ $Item{Description}[$Index]{Lang} } = $Item{Description}[$Index]{Content};
             }
             my $Description;
+
             # Description in User Language
-            if (defined $HashLang{$UserLang}) {
+            if ( defined $HashLang{$UserLang} ) {
                 $Description = $HashLang{$UserLang};
             }
+
             # Description in Default Language
             else {
                 $Description = $HashLang{'en'};
@@ -126,34 +131,41 @@ foreach my $Group (@Groups) {
             print " <entry>Group:</entry>\n";
             print " <entry namest=\"col2\" nameend=\"col4\">$Group</entry>\n";
             print "</row>\n";
-            foreach my $Area (qw(SubGroup)) {
-                foreach (1..10) {
-                    if ($Item{$Area}->[$_]) {
+
+            for my $Area (qw(SubGroup)) {
+                for ( 1 .. 10 ) {
+                    if ( $Item{$Area}->[$_] ) {
                         print "<row>\n";
                         print " <entry>$Area:</entry>\n";
-                        print " <entry namest=\"col2\" nameend=\"col4\">$Item{$Area}->[$_]->{Content}</entry>\n";
+                        print
+                            " <entry namest=\"col2\" nameend=\"col4\">$Item{$Area}->[$_]->{Content}</entry>\n";
                         print "</row>\n";
                     }
                 }
             }
             my %ConfigItemDefault = $CommonObject{SysConfigObject}->ConfigItemGet(
-                Name => $Name,
+                Name    => $Name,
                 Default => 1,
             );
             print "<row>\n";
             print " <entry>Valid:</entry>\n";
-            print " <entry namest=\"col2\" nameend=\"col4\">".(defined $ConfigItemDefault{Valid} ? $ConfigItemDefault{Valid} : 1)."</entry>\n";
+            print " <entry namest=\"col2\" nameend=\"col4\">"
+                . ( defined $ConfigItemDefault{Valid} ? $ConfigItemDefault{Valid} : 1 )
+                . "</entry>\n";
             print "</row>\n";
             print "<row>\n";
             print " <entry>Required:</entry>\n";
-            print " <entry namest=\"col2\" nameend=\"col4\">".(defined $ConfigItemDefault{Required} ? $ConfigItemDefault{Required} : 0)."</entry>\n";
+            print " <entry namest=\"col2\" nameend=\"col4\">"
+                . ( defined $ConfigItemDefault{Required} ? $ConfigItemDefault{Required} : 0 )
+                . "</entry>\n";
             print "</row>\n";
 
             my $Key = $Name;
             $Key =~ s/\\/\\\\/g;
             $Key =~ s/'/\'/g;
             $Key =~ s/###/'}->{'/g;
-            my $Config = " \$Self->{'$Key'} = ".$CommonObject{SysConfigObject}->_XML2Perl(Data => \%ConfigItemDefault);
+            my $Config = " \$Self->{'$Key'} = "
+                . $CommonObject{SysConfigObject}->_XML2Perl( Data => \%ConfigItemDefault );
             $Config =~ s/&/&amp;/g;
             $Config =~ s/</&lt;/g;
             $Config =~ s/>/&gt;/g;

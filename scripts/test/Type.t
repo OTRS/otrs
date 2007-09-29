@@ -2,7 +2,7 @@
 # Type.t - Type tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Type.t,v 1.1 2007-03-22 08:58:39 martin Exp $
+# $Id: Type.t,v 1.2 2007-09-29 11:09:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -44,7 +44,7 @@ my %TypeList = $Self->{TypeObject}->TypeList(
     Valid => 0,
 );
 my $Hit = 0;
-foreach (sort keys %TypeList) {
+for (sort keys %TypeList) {
     if ($_ eq $TypeID) {
         $Hit = 1;
     }

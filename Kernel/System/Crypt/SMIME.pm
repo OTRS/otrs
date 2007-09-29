@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.11 2007-08-21 19:55:45 martin Exp $
+# $Id: SMIME.pm,v 1.12 2007-09-29 10:58:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,10 @@
 package Kernel::System::Crypt::SMIME;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -32,14 +32,14 @@ This is a sub module of Kernel::System::Crypt and contains all smime functions.
 =cut
 
 sub _Init {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
 
-    $Self->{Bin} = $Self->{ConfigObject}->Get('SMIME::Bin') || '/usr/bin/openssl';
-    $Self->{CertPath} = $Self->{ConfigObject}->Get('SMIME::CertPath');
+    $Self->{Bin}         = $Self->{ConfigObject}->Get('SMIME::Bin') || '/usr/bin/openssl';
+    $Self->{CertPath}    = $Self->{ConfigObject}->Get('SMIME::CertPath');
     $Self->{PrivatePath} = $Self->{ConfigObject}->Get('SMIME::PrivatePath');
 
-    if ($Self->{CertPath}) {
+    if ( $Self->{CertPath} ) {
         $Self->{CertPathArg} = " -CApath $Self->{CertPath}";
     }
     else {
@@ -58,62 +58,62 @@ check if environment is working
 =cut
 
 sub Check {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
 
-    if (! -e $Self->{Bin}) {
+    if ( !-e $Self->{Bin} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "No such $Self->{Bin}!",
+            Message  => "No such $Self->{Bin}!",
         );
         return "No such $Self->{Bin}!";
     }
-    elsif (! -x $Self->{Bin}) {
+    elsif ( !-x $Self->{Bin} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "$Self->{Bin} not executable!",
+            Message  => "$Self->{Bin} not executable!",
         );
         return "$Self->{Bin} not executable!";
     }
-    elsif (! -e $Self->{CertPath}) {
+    elsif ( !-e $Self->{CertPath} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "No such $Self->{CertPath}!",
+            Message  => "No such $Self->{CertPath}!",
         );
         return "No such $Self->{CertPath}!";
     }
-    elsif (! -d $Self->{CertPath}) {
+    elsif ( !-d $Self->{CertPath} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "No such $Self->{CertPath} directory!",
+            Message  => "No such $Self->{CertPath} directory!",
         );
         return "No such $Self->{CertPath} directory!";
     }
-    elsif (! -w $Self->{CertPath}) {
+    elsif ( !-w $Self->{CertPath} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "$Self->{CertPath} not writable!",
+            Message  => "$Self->{CertPath} not writable!",
         );
         return "$Self->{CertPath} not writable!";
     }
-    elsif (! -e $Self->{PrivatePath}) {
+    elsif ( !-e $Self->{PrivatePath} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "No such $Self->{PrivatePath}!",
+            Message  => "No such $Self->{PrivatePath}!",
         );
         return "No such $Self->{PrivatePath}!";
     }
-    elsif (! -d $Self->{PrivatePath}) {
+    elsif ( !-d $Self->{PrivatePath} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "No such $Self->{PrivatePath} directory!",
+            Message  => "No such $Self->{PrivatePath} directory!",
         );
         return "No such $Self->{PrivatePath} directory!";
     }
-    elsif (! -w $Self->{PrivatePath}) {
+    elsif ( !-w $Self->{PrivatePath} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "$Self->{PrivatePath} not writable!",
+            Message  => "$Self->{PrivatePath} not writable!",
         );
         return "$Self->{PrivatePath} not writable!";
     }
@@ -132,39 +132,42 @@ crypt a message
 =cut
 
 sub Crypt {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self       = shift;
+    my %Param      = @_;
     my $LogMessage = '';
-    my $UsedKey = '';
+    my $UsedKey    = '';
+
     # check needed stuff
-    foreach (qw(Message Hash)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Message Hash)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     my $Certificate = $Self->CertificateGet(%Param);
-    my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
-    my ($FHCertificate, $FilenameCertificate) = $Self->{FileTempObject}->TempFile();
+    my ( $FH,            $Filename )            = $Self->{FileTempObject}->TempFile();
+    my ( $FHCertificate, $FilenameCertificate ) = $Self->{FileTempObject}->TempFile();
     print $FHCertificate $Certificate;
-    my ($FHCrypted, $FilenameCrypted) = $Self->{FileTempObject}->TempFile();
+    my ( $FHCrypted, $FilenameCrypted ) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Message};
 
-    open (SIGN, "$Self->{Bin} smime -encrypt -in $Filename -out $FilenameCrypted -des3 $FilenameCertificate 2>&1 |");
+    open( SIGN,
+        "$Self->{Bin} smime -encrypt -in $Filename -out $FilenameCrypted -des3 $FilenameCertificate 2>&1 |"
+    );
     while (<SIGN>) {
         $LogMessage .= $_;
     }
-    close (SIGN);
+    close(SIGN);
     if ($LogMessage) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't crypt: $LogMessage!");
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't crypt: $LogMessage!" );
         return;
     }
     my $Crypted;
-    open (TMP, "< $FilenameCrypted");
+    open( TMP, "< $FilenameCrypted" );
     while (<TMP>) {
         $Crypted .= $_;
     }
-    close (TMP);
+    close(TMP);
     return $Crypted;
 }
 
@@ -180,50 +183,55 @@ decrypt a message and returns a hash (Successful, Message, Data)
 =cut
 
 sub Decrypt {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self       = shift;
+    my %Param      = @_;
     my $LogMessage = '';
-    my $UsedKey = '';
+    my $UsedKey    = '';
+
     # check needed stuff
-    foreach (qw(Message Hash)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Message Hash)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    my ($Private, $Secret) = $Self->PrivateGet(%Param);
+    my ( $Private, $Secret ) = $Self->PrivateGet(%Param);
     my $Certificate = $Self->CertificateGet(%Param);
-    my ($FHPrivate, $FilenamePrivate) = $Self->{FileTempObject}->TempFile();
+    my ( $FHPrivate, $FilenamePrivate ) = $Self->{FileTempObject}->TempFile();
     print $FHPrivate $Private;
-    my ($FHCertificate, $FilenameCertificate) = $Self->{FileTempObject}->TempFile();
+    my ( $FHCertificate, $FilenameCertificate ) = $Self->{FileTempObject}->TempFile();
     print $FHCertificate $Certificate;
-    my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
-    my ($FHDecrypted, $FilenameDecrypted) = $Self->{FileTempObject}->TempFile();
+    my ( $FH,          $Filename )          = $Self->{FileTempObject}->TempFile();
+    my ( $FHDecrypted, $FilenameDecrypted ) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Message};
 
 #    open (IN, "$Self->{Bin} smime -decrypt -passin pass:1234 -in $Filename -out $FilenameDecrypted -recip newcert.pem -inkey newpriv.pem 2>&1 |");
-    open (IN, "$Self->{Bin} smime -decrypt -passin ".quotemeta($Secret)." -in $Filename -out $FilenameDecrypted -recip $FilenameCertificate -inkey $FilenamePrivate 2>&1 |");
+    open( IN,
+              "$Self->{Bin} smime -decrypt -passin "
+            . quotemeta($Secret)
+            . " -in $Filename -out $FilenameDecrypted -recip $FilenameCertificate -inkey $FilenamePrivate 2>&1 |"
+    );
     while (<IN>) {
         $LogMessage .= $_;
     }
-    close (IN);
+    close(IN);
     if ($LogMessage) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't decrypt: $LogMessage!");
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't decrypt: $LogMessage!" );
         return (
             Successful => 0,
-            Message => $LogMessage,
+            Message    => $LogMessage,
         );
     }
     my $Decrypted;
-    open (TMP, "< $FilenameDecrypted");
+    open( TMP, "< $FilenameDecrypted" );
     while (<TMP>) {
         $Decrypted .= $_;
     }
-    close (TMP);
+    close(TMP);
     return (
         Successful => 1,
-        Message => "OpenSSL: OK",
-        Data => $Decrypted,
+        Message    => "OpenSSL: OK",
+        Data       => $Decrypted,
     );
 }
 
@@ -239,41 +247,47 @@ sign a message
 =cut
 
 sub Sign {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self       = shift;
+    my %Param      = @_;
     my $LogMessage = '';
-    my $UsedKey = '';
+    my $UsedKey    = '';
+
     # check needed stuff
-    foreach (qw(Message Hash)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Message Hash)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    my ($Private, $Secret) = $Self->PrivateGet(%Param);
+    my ( $Private, $Secret ) = $Self->PrivateGet(%Param);
     my $Certificate = $Self->CertificateGet(%Param);
-    my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
+    my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Message};
-    my ($FHSign, $FilenameSign) = $Self->{FileTempObject}->TempFile();
-    my ($FHPrivate, $FilenamePrivate) = $Self->{FileTempObject}->TempFile();
+    my ( $FHSign,    $FilenameSign )    = $Self->{FileTempObject}->TempFile();
+    my ( $FHPrivate, $FilenamePrivate ) = $Self->{FileTempObject}->TempFile();
     print $FHPrivate $Private;
-    my ($FHCertificate, $FilenameCertificate) = $Self->{FileTempObject}->TempFile();
+    my ( $FHCertificate, $FilenameCertificate ) = $Self->{FileTempObject}->TempFile();
     print $FHCertificate $Certificate;
-    open (SIGN, "$Self->{Bin} smime -sign -passin pass:".quotemeta($Secret)." -in $Filename -out $FilenameSign -text -signer $FilenameCertificate -inkey $FilenamePrivate -binary 2>&1 |");
+    open( SIGN,
+              "$Self->{Bin} smime -sign -passin pass:"
+            . quotemeta($Secret)
+            . " -in $Filename -out $FilenameSign -text -signer $FilenameCertificate -inkey $FilenamePrivate -binary 2>&1 |"
+    );
+
     while (<SIGN>) {
         $LogMessage .= $_;
     }
-    close (SIGN);
+    close(SIGN);
     if ($LogMessage) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't sign: $LogMessage!");
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't sign: $LogMessage!" );
         return;
     }
     my $Signed;
-    open (TMP, "< $FilenameSign");
+    open( TMP, "< $FilenameSign" );
     while (<TMP>) {
         $Signed .= $_;
     }
-    close (TMP);
+    close(TMP);
     return $Signed;
 
 }
@@ -289,72 +303,79 @@ verify a message with signature and returns a hash (Successful, Message, SignerC
 =cut
 
 sub Verify {
-    my $Self = shift;
-    my %Param = @_;
-    my %Return = ();
-    my $Message = '';
+    my $Self        = shift;
+    my %Param       = @_;
+    my %Return      = ();
+    my $Message     = '';
     my $MessageLong = '';
-    my $UsedKey = '';
+    my $UsedKey     = '';
+
     # check needed stuff
-    if (!$Param{Message}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Message!");
+    if ( !$Param{Message} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Message!" );
         return;
     }
 
-    my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
-    my ($FHSign, $FilenameSign) = $Self->{FileTempObject}->TempFile();
-    my ($FHOutput, $FilenameOutput) = $Self->{FileTempObject}->TempFile();
+    my ( $FH,       $Filename )       = $Self->{FileTempObject}->TempFile();
+    my ( $FHSign,   $FilenameSign )   = $Self->{FileTempObject}->TempFile();
+    my ( $FHOutput, $FilenameOutput ) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Message};
     my $File = $Filename;
-    if ($Param{Sign}) {
+    if ( $Param{Sign} ) {
         print $FHSign $Param{Sign};
         $File = "$FilenameSign $File";
     }
-    open (VERIFY, "$Self->{Bin} smime -verify -in $Filename -signer $FilenameSign -out $FilenameOutput $Self->{CertPathArg} 2>&1 |");
+    open( VERIFY,
+        "$Self->{Bin} smime -verify -in $Filename -signer $FilenameSign -out $FilenameOutput $Self->{CertPathArg} 2>&1 |"
+    );
     while (<VERIFY>) {
         $MessageLong .= $_;
-        if ($_ =~ /^\d.*:(.+?):.+?:.+?:$/ || $_ =~ /^\d.*:(.+?)$/) {
+        if ( $_ =~ /^\d.*:(.+?):.+?:.+?:$/ || $_ =~ /^\d.*:(.+?)$/ ) {
             $Message .= ";$1";
         }
         else {
             $Message .= $_;
         }
     }
-    close (VERIFY);
+    close(VERIFY);
+
     # read signer certificate
     my $SignerCertificate = '';
-    if (open (IN, "< $FilenameSign")) {
+    if ( open( IN, "< $FilenameSign" ) ) {
         while (<IN>) {
             $SignerCertificate .= $_;
         }
-        close (IN);
+        close(IN);
     }
+
     # read clear content
     my $SignerContent = '';
-    if (open (IN, "< $FilenameOutput")) {
+    if ( open( IN, "< $FilenameOutput" ) ) {
         while (<IN>) {
             $SignerContent .= $_;
         }
-        close (IN);
+        close(IN);
     }
+
     # return message
-    if ($Message =~ /Verification successful/i) {
+    if ( $Message =~ /Verification successful/i ) {
         %Return = (
             SignatureFound => 1,
-            Successful => 1,
-#            Message => $1,
-            Message => "OpenSSL: ".$Message,
-            MessageLong => "OpenSSL: ".$MessageLong,
+            Successful     => 1,
+
+            #            Message => $1,
+            Message           => "OpenSSL: " . $Message,
+            MessageLong       => "OpenSSL: " . $MessageLong,
             SignerCertificate => $SignerCertificate,
-            Content => $SignerContent,
+            Content           => $SignerContent,
         );
     }
     else {
         %Return = (
             SignatureFound => 1,
-            Successful => 0,
-            Message => "OpenSSL: ".$Message,
-            MessageLong => "OpenSSL: ".$MessageLong,
+            Successful     => 0,
+            Message        => "OpenSSL: " . $Message,
+            MessageLong    => "OpenSSL: " . $MessageLong,
         );
     }
     return %Return;
@@ -371,10 +392,10 @@ search a certifcate or an private key
 =cut
 
 sub Search {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my @Result = $Self->CertificateSearch(%Param);
-    @Result = (@Result, $Self->PrivateSearch(%Param));
+    @Result = ( @Result, $Self->PrivateSearch(%Param) );
     return @Result;
 }
 
@@ -389,18 +410,18 @@ search a local certifcate
 =cut
 
 sub CertificateSearch {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Search = $Param{Search} || '';
     my @Result = ();
-    my @Hash = $Self->CertificateList();
-    foreach (@Hash) {
-        my $Certificate = $Self->CertificateGet(Hash => $_);
-        my %Attributes = $Self->CertificateAttributes(Certificate => $Certificate);
-        my $Hit = 0;
+    my @Hash   = $Self->CertificateList();
+    for (@Hash) {
+        my $Certificate = $Self->CertificateGet( Hash               => $_ );
+        my %Attributes  = $Self->CertificateAttributes( Certificate => $Certificate );
+        my $Hit         = 0;
         if ($Search) {
-            foreach (keys %Attributes) {
-                if (eval {$Attributes{$_} =~ /$Search/i}) {
+            for ( keys %Attributes ) {
+                if ( eval { $Attributes{$_} =~ /$Search/i } ) {
                     $Hit = 1;
                 }
             }
@@ -409,7 +430,7 @@ sub CertificateSearch {
             $Hit = 1;
         }
         if ($Hit) {
-            push (@Result, \%Attributes);
+            push( @Result, \%Attributes );
         }
     }
     return @Result;
@@ -426,28 +447,29 @@ add a certificate to local certificates
 =cut
 
 sub CertificateAdd {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{Certificate}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Certificate!");
+    if ( !$Param{Certificate} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Certificate!" );
         return;
     }
     my %Attributes = $Self->CertificateAttributes(%Param);
-    if ($Attributes{Hash}) {
+    if ( $Attributes{Hash} ) {
         my $File = "$Self->{CertPath}/$Attributes{Hash}.0";
-        if (open (OUT, "> $File")) {
+        if ( open( OUT, "> $File" ) ) {
             print OUT $Param{Certificate};
-            close (OUT);
+            close(OUT);
             return "Certificate uploaded!";
         }
         else {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write $File: $!!");
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Can't write $File: $!!" );
             return;
         }
     }
     else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't add invalid certificat!");
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't add invalid certificat!" );
         return;
     }
 }
@@ -463,24 +485,25 @@ get a local certificate
 =cut
 
 sub CertificateGet {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{Hash}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Hash!");
+    if ( !$Param{Hash} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Hash!" );
         return;
     }
     my $File = "$Self->{CertPath}/$Param{Hash}.0";
-    if (open (IN, "< $File")) {
+    if ( open( IN, "< $File" ) ) {
         my $Certificate = '';
         while (<IN>) {
             $Certificate .= $_;
         }
-        close (IN);
+        close(IN);
         return $Certificate;
     }
     else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't open $File: $!!");
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't open $File: $!!" );
         return;
     }
 }
@@ -496,11 +519,12 @@ remove a local certificate
 =cut
 
 sub CertificateRemove {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{Hash}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Hash!");
+    if ( !$Param{Hash} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Hash!" );
         return;
     }
     unlink "$Self->{CertPath}/$Param{Hash}.0" || return $!;
@@ -516,14 +540,14 @@ get list of local certificates
 =cut
 
 sub CertificateList {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my @Hash = ();
-    my @List = glob("$Self->{CertPath}/*.0");
-    foreach my $File (@List) {
+    my @Hash  = ();
+    my @List  = glob("$Self->{CertPath}/*.0");
+    for my $File (@List) {
         $File =~ s!^.*/!!;
         $File =~ s/(.*)\.0/$1/;
-        push (@Hash, $File);
+        push( @Hash, $File );
     }
     return @Hash;
 }
@@ -539,97 +563,97 @@ get certificate attributes
 =cut
 
 sub CertificateAttributes {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self       = shift;
+    my %Param      = @_;
     my %Attributes = ();
-    my %Option = (
-        Hash => '-hash',
-        Issuer => '-issuer',
+    my %Option     = (
+        Hash        => '-hash',
+        Issuer      => '-issuer',
         Fingerprint => '-fingerprint',
-        Serial => '-serial',
-        Subject => '-subject',
-        StartDate => '-startdate',
-        EndDate => '-enddate',
-        Email => '-email',
-        Modulus => '-modulus',
+        Serial      => '-serial',
+        Subject     => '-subject',
+        StartDate   => '-startdate',
+        EndDate     => '-enddate',
+        Email       => '-email',
+        Modulus     => '-modulus',
     );
-    if (!$Param{Certificate}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Certificate!");
+    if ( !$Param{Certificate} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Certificate!" );
         return;
     }
-    my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
+    my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Certificate};
-    foreach my $Key (keys %Option) {
-        open (VERIFY, "$Self->{Bin} x509 -in $Filename -noout $Option{$Key} |");
+    for my $Key ( keys %Option ) {
+        open( VERIFY, "$Self->{Bin} x509 -in $Filename -noout $Option{$Key} |" );
         my $Line = '';
         while (<VERIFY>) {
             chomp($_);
             $Line .= $_;
         }
-        close (VERIFY);
-        if ($Key eq 'Issuer') {
+        close(VERIFY);
+        if ( $Key eq 'Issuer' ) {
             $Line =~ s/=/= /g;
         }
-        elsif ($Key eq 'Fingerprint') {
+        elsif ( $Key eq 'Fingerprint' ) {
             $Line =~ s/MD5 Fingerprint=//;
         }
-        elsif ($Key eq 'StartDate') {
+        elsif ( $Key eq 'StartDate' ) {
             $Line =~ s/notBefore=//;
         }
-        elsif ($Key eq 'EndDate') {
+        elsif ( $Key eq 'EndDate' ) {
             $Line =~ s/notAfter=//;
         }
-        elsif ($Key eq 'Subject') {
+        elsif ( $Key eq 'Subject' ) {
             $Line =~ s/subject=//;
             $Line =~ s/\// /g;
             $Line =~ s/=/= /g;
         }
-        elsif ($Key eq 'Modulus') {
+        elsif ( $Key eq 'Modulus' ) {
             $Line =~ s/Modulus=//;
         }
-        if ($Key =~ /(StartDate|EndDate)/) {
+        if ( $Key =~ /(StartDate|EndDate)/ ) {
             my $Type = $1;
-            if ($Line =~ /(.+?)\s(.+?)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)/) {
+            if ( $Line =~ /(.+?)\s(.+?)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)/ ) {
                 my $Day = $2;
-                if ($Day < 10) {
-                    $Day = "0".int($Day);
+                if ( $Day < 10 ) {
+                    $Day = "0" . int($Day);
                 }
                 my $Month = '';
-                my $Year = $4;
-                if ($Line =~ /jan/i) {
+                my $Year  = $4;
+                if ( $Line =~ /jan/i ) {
                     $Month = '01';
                 }
-                elsif ($Line =~ /feb/i) {
+                elsif ( $Line =~ /feb/i ) {
                     $Month = '02';
                 }
-                elsif ($Line =~ /mar/i) {
+                elsif ( $Line =~ /mar/i ) {
                     $Month = '03';
                 }
-                elsif ($Line =~ /apr/i) {
+                elsif ( $Line =~ /apr/i ) {
                     $Month = '04';
                 }
-                elsif ($Line =~ /mai/i) {
+                elsif ( $Line =~ /mai/i ) {
                     $Month = '05';
                 }
-                elsif ($Line =~ /jun/i) {
+                elsif ( $Line =~ /jun/i ) {
                     $Month = '06';
                 }
-                elsif ($Line =~ /jul/i) {
+                elsif ( $Line =~ /jul/i ) {
                     $Month = '07';
                 }
-                elsif ($Line =~ /aug/i) {
+                elsif ( $Line =~ /aug/i ) {
                     $Month = '08';
                 }
-                elsif ($Line =~ /sep/i) {
+                elsif ( $Line =~ /sep/i ) {
                     $Month = '09';
                 }
-                elsif ($Line =~ /oct/i) {
+                elsif ( $Line =~ /oct/i ) {
                     $Month = '10';
                 }
-                elsif ($Line =~ /nov/i) {
+                elsif ( $Line =~ /nov/i ) {
                     $Month = '11';
                 }
-                elsif ($Line =~ /dec/i) {
+                elsif ( $Line =~ /dec/i ) {
                     $Month = '12';
                 }
                 $Attributes{"Short$Type"} = "$Year-$Month-$Day";
@@ -637,8 +661,8 @@ sub CertificateAttributes {
         }
         $Attributes{$Key} = $Line;
     }
-    if ($Attributes{Hash}) {
-        my $Private = $Self->PrivateGet(Hash => $Attributes{Hash});
+    if ( $Attributes{Hash} ) {
+        my $Private = $Self->PrivateGet( Hash => $Attributes{Hash} );
         if ($Private) {
             $Attributes{Private} = 'Yes';
         }
@@ -661,18 +685,18 @@ returns private keys
 =cut
 
 sub PrivateSearch {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Search = $Param{Search} || '';
     my @Result = ();
-    my @Hash = $Self->CertificateList();
-    foreach (@Hash) {
-        my $Certificate = $Self->CertificateGet(Hash => $_);
-        my %Attributes = $Self->CertificateAttributes(Certificate => $Certificate);
-        my $Hit = 0;
+    my @Hash   = $Self->CertificateList();
+    for (@Hash) {
+        my $Certificate = $Self->CertificateGet( Hash               => $_ );
+        my %Attributes  = $Self->CertificateAttributes( Certificate => $Certificate );
+        my $Hit         = 0;
         if ($Search) {
-            foreach (keys %Attributes) {
-                if ($Attributes{$_} =~ /$Search/i) {
+            for ( keys %Attributes ) {
+                if ( $Attributes{$_} =~ /$Search/i ) {
                     $Hit = 1;
                 }
             }
@@ -680,9 +704,9 @@ sub PrivateSearch {
         else {
             $Hit = 1;
         }
-        if ($Hit && $Attributes{Private} eq 'Yes') {
+        if ( $Hit && $Attributes{Private} eq 'Yes' ) {
             $Attributes{Type} = 'key';
-            push (@Result, \%Attributes);
+            push( @Result, \%Attributes );
         }
     }
     return @Result;
@@ -701,55 +725,57 @@ add private key
 =cut
 
 sub PrivateAdd {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{Private}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Private!");
+    if ( !$Param{Private} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Private!" );
         return;
     }
+
     # get private attributes
     my %Attributes = $Self->PrivateAttributes(%Param);
-    if (!$Attributes{Modulus}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "No Private Key!");
+    if ( !$Attributes{Modulus} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "No Private Key!" );
         return;
     }
+
     # get certificate hash
-    my @Certificates = $Self->CertificateSearch(Search => $Attributes{Modulus});
-    if (!@Certificates) {
+    my @Certificates = $Self->CertificateSearch( Search => $Attributes{Modulus} );
+    if ( !@Certificates ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need Certificate of Private Key first -$Attributes{Modulus})!",
+            Message  => "Need Certificate of Private Key first -$Attributes{Modulus})!",
         );
         return;
     }
-    elsif ($#Certificates > 0) {
+    elsif ( $#Certificates > 0 ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Multible Certificates with the same Modulus, can't add Private Key!",
+            Message  => "Multible Certificates with the same Modulus, can't add Private Key!",
         );
         return;
     }
     my %CertificateAttributes = $Self->CertificateAttributes(
-        Certificate => $Self->CertificateGet(Hash => $Certificates[0]->{Hash}),
-    );
-    if ($CertificateAttributes{Hash}) {
+        Certificate => $Self->CertificateGet( Hash => $Certificates[0]->{Hash} ), );
+    if ( $CertificateAttributes{Hash} ) {
         my $File = "$Self->{PrivatePath}/$CertificateAttributes{Hash}";
-        if (open (OUT, "> $File.0")) {
+        if ( open( OUT, "> $File.0" ) ) {
             print OUT $Param{Private};
-            close (OUT);
-            open (OUT, "> $File.P");
+            close(OUT);
+            open( OUT, "> $File.P" );
             print OUT $Param{Secret};
-            close (OUT);
+            close(OUT);
             return "Private Key uploaded!";
         }
         else {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write $File: $!!");
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Can't write $File: $!!" );
             return;
         }
     }
     else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't add invalid private key!");
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't add invalid private key!" );
         return;
     }
 
@@ -766,37 +792,40 @@ get private key
 =cut
 
 sub PrivateGet {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{Hash}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Hash!");
+    if ( !$Param{Hash} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Hash!" );
         return;
     }
     my $File = "$Self->{PrivatePath}/$Param{Hash}.0";
-    if (! -f $File) {
+    if ( !-f $File ) {
+
         # no private exists
         return;
     }
-    elsif (open (IN, "< $File")) {
+    elsif ( open( IN, "< $File" ) ) {
         my $Private = '';
         while (<IN>) {
             $Private .= $_;
         }
-        close (IN);
+        close(IN);
+
         # read secret
-        my $File = "$Self->{PrivatePath}/$Param{Hash}.P";
+        my $File   = "$Self->{PrivatePath}/$Param{Hash}.P";
         my $Secret = '';
-        if (open (IN, "< $File")) {
+        if ( open( IN, "< $File" ) ) {
             while (<IN>) {
                 $Secret .= $_;
             }
-            close (IN);
+            close(IN);
         }
-        return ($Private, $Secret);
+        return ( $Private, $Secret );
     }
     else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't open $File: $!!");
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't open $File: $!!" );
         return;
     }
 
@@ -813,11 +842,12 @@ remove private key
 =cut
 
 sub PrivateRemove {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{Hash}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Hash!");
+    if ( !$Param{Hash} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Hash!" );
         return;
     }
     unlink "$Self->{PrivatePath}/$Param{Hash}.0" || return $!;
@@ -834,14 +864,14 @@ returns a list of private key hashs
 =cut
 
 sub PrivateList {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my @Hash = ();
-    my @List = glob("$Self->{PrivatePath}/*.0");
-    foreach my $File (@List) {
+    my @Hash  = ();
+    my @List  = glob("$Self->{PrivatePath}/*.0");
+    for my $File (@List) {
         $File =~ s!^.*/!!;
         $File =~ s/(.*)\.0/$1/;
-        push (@Hash, $File);
+        push( @Hash, $File );
     }
     return @Hash;
 
@@ -859,31 +889,29 @@ returns attributes of private key
 =cut
 
 sub PrivateAttributes {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self       = shift;
+    my %Param      = @_;
     my %Attributes = ();
-    my %Option = (
-        Modulus => '-modulus',
-    );
-    if (!$Param{Private}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Private!");
+    my %Option     = ( Modulus => '-modulus', );
+    if ( !$Param{Private} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Private!" );
         return;
     }
-    my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
+    my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Private};
-    foreach my $Key (keys %Option) {
+    for my $Key ( keys %Option ) {
         my $Pass = '';
-        if ($Param{Secret}) {
+        if ( $Param{Secret} ) {
             $Pass = " -passin pass:$Param{Secret}";
         }
-        open (VERIFY, "$Self->{Bin} rsa -in $Filename -noout $Option{$Key} $Pass |");
+        open( VERIFY, "$Self->{Bin} rsa -in $Filename -noout $Option{$Key} $Pass |" );
         my $Line = '';
         while (<VERIFY>) {
             chomp($_);
             $Line .= $_;
         }
-        close (VERIFY);
-        if ($Key eq 'Modulus') {
+        close(VERIFY);
+        if ( $Key eq 'Modulus' ) {
             $Line =~ s/Modulus=//;
         }
         $Attributes{$Key} = $Line;
@@ -908,6 +936,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2007-08-21 19:55:45 $
+$Revision: 1.12 $ $Date: 2007-09-29 10:58:37 $
 
 =cut

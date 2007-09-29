@@ -3,7 +3,7 @@
 # scripts/rpc-example.pl - soap example client
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: rpc-example.pl,v 1.1 2007-08-09 04:30:34 tr Exp $
+# $Id: rpc-example.pl,v 1.2 2007-09-29 11:10:47 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,20 +21,20 @@
 # --
 
 # config
-use SOAP::Lite('autodispatch', proxy => 'http://otrs.example.com/otrs/rpc.pl');
+use SOAP::Lite( 'autodispatch', proxy => 'http://otrs.example.com/otrs/rpc.pl' );
 my $User = 'some_user';
-my $Pw = 'some_pass';
+my $Pw   = 'some_pass';
 
 my $RPC = Core->new();
 
 # create a new ticket number
 print "NOTICE: TicketObject->TicketCreateNumber()\n";
-my $TicketNumber = $RPC->Dispatch($User, $Pw, 'TicketObject', 'TicketCreateNumber');
+my $TicketNumber = $RPC->Dispatch( $User, $Pw, 'TicketObject', 'TicketCreateNumber' );
 print "NOTICE: New Ticket Number is: $TicketNumber\n";
 
 # get ticket attributes
 print "NOTICE: TicketObject->TicketGet(TicketID => 1)\n";
-my %Ticket = $RPC->Dispatch($User, $Pw, 'TicketObject', 'TicketGet', TicketID => 1);
+my %Ticket = $RPC->Dispatch( $User, $Pw, 'TicketObject', 'TicketGet', TicketID => 1 );
 print "NOTICE: Ticket Number is: $Ticket{TicketNumber}\n";
 print "NOTICE: Ticket State is:  $Ticket{State}\n";
 print "NOTICE: Ticket Queue is:  $Ticket{Queue}\n";

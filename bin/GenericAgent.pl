@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pl,v 1.41 2007-02-07 11:37:26 tr Exp $
+# $Id: GenericAgent.pl,v 1.42 2007-09-29 11:08:29 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,8 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = '$Revision: 1.41 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.42 $)[1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -119,7 +118,7 @@ if ($Opts{'c'} eq 'db') {
     }
     # process all jobs
     my %DBJobs = $CommonObject{GenericAgentObject}->JobList();
-    foreach my $DBJob (sort keys %DBJobs) {
+   for my $DBJob (sort keys %DBJobs) {
         my %DBJobRaw = $CommonObject{GenericAgentObject}->JobGet(Name => $DBJob);
         my $Run = 0;
         my $False = 0;
@@ -133,7 +132,7 @@ if ($Opts{'c'} eq 'db') {
         }
         if ($DBJobRaw{ScheduleDays}) {
             my $Match = 0;
-            foreach (@{$DBJobRaw{ScheduleDays}}) {
+           for (@{$DBJobRaw{ScheduleDays}}) {
                 if ($_ eq $WDay) {
                     $Match = 1;
                     $Run = 1;
@@ -147,7 +146,7 @@ if ($Opts{'c'} eq 'db') {
             @{$DBJobRaw{ScheduleMinutes}} = qw(00 10 20 30 40 50);
         }
         my $Match = 0;
-        foreach (@{$DBJobRaw{ScheduleMinutes}}) {
+       for (@{$DBJobRaw{ScheduleMinutes}}) {
             if ($_ == $Min) {
                 $Match = 1;
                 $Run = 1;
@@ -160,7 +159,7 @@ if ($Opts{'c'} eq 'db') {
             @{$DBJobRaw{ScheduleHours}} = qw(00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23);
         }
         $Match = 0;
-        foreach (@{$DBJobRaw{ScheduleHours}}) {
+       for (@{$DBJobRaw{ScheduleHours}}) {
             if ($_ == $Hour) {
                 $Match = 1;
                 $Run = 1;
@@ -194,7 +193,7 @@ if ($Opts{'c'} eq 'db') {
 
 # process all config file jobs
 else {
-    foreach my $Job (sort keys %Jobs) {
+   for my $Job (sort keys %Jobs) {
         # log event
         $CommonObject{GenericAgentObject}->JobRun(
             Job => $Job,

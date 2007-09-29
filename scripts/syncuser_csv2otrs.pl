@@ -3,7 +3,7 @@
 # syncuser_csv2otrs.pl - sync csv user list or otrs
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: syncuser_csv2otrs.pl,v 1.6 2007-06-05 14:20:34 martin Exp $
+# $Id: syncuser_csv2otrs.pl,v 1.7 2007-09-29 11:10:47 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,19 +27,21 @@
 
 # config options / csv file - column 0-...
 my %Fields = ();
-$Fields{UserLogin} = 0;
-$Fields{UserEmail} = 1;
+$Fields{UserLogin}      = 0;
+$Fields{UserEmail}      = 1;
 $Fields{UserSalutation} = 5;
-$Fields{UserFirstname} = 2;
-$Fields{UserLastname} = 3;
-$Fields{UserPw} = 4;
+$Fields{UserFirstname}  = 2;
+$Fields{UserLastname}   = 3;
+$Fields{UserPw}         = 4;
 
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin) . "/Kernel/cpan-lib";
 use strict;
+use warnings;
+
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Log;
@@ -51,63 +53,67 @@ use Kernel::System::User;
 # common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-syncuser_csv2otrs.pl',
     %CommonObject
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 
 # get options
 my %Opts = ();
-getopt('s',  \%Opts);
+getopt( 's', \%Opts );
 my $End = "\n";
-if (!$Opts{'s'}) {
+if ( !$Opts{'s'} ) {
     die "Need -s <CSV_FILE>\n";
 }
 
 # read csv file
-open (IN, "< $Opts{'s'}") || die "Can't read $Opts{'s'}: $!";
+open( IN, "< $Opts{'s'}" ) || die "Can't read $Opts{'s'}: $!";
 while (<IN>) {
-    my @Line = split(/;/, $_);
+    my @Line = split( /;/, $_ );
+
     # check if user extsis
-    my %UserData = $CommonObject{UserObject}->GetUserData(User => $Line[$Fields{UserLogin}]);
+    my %UserData = $CommonObject{UserObject}->GetUserData( User => $Line[ $Fields{UserLogin} ] );
+
     # if there is no pw in the csv list, gererate one
-    if (!$Line[$Fields{UserPw}]) {
-        $Line[$Fields{UserPw}] = $CommonObject{UserObject}->GenerateRandomPassword();
+    if ( !$Line[ $Fields{UserPw} ] ) {
+        $Line[ $Fields{UserPw} ] = $CommonObject{UserObject}->GenerateRandomPassword();
     }
+
     # update user
     if (%UserData) {
         print "Update user '$Line[$Fields{UserLogin}]'\n";
         $CommonObject{UserObject}->UserUpdate(
-            UserID => $UserData{UserID},
-            UserSalutation => $Line[$Fields{UserSalutation}],
-            UserFirstname => $Line[$Fields{UserFirstname}],
-            UserLastname => $Line[$Fields{UserLastname}],
-            UserLogin => $Line[$Fields{UserLogin}],
-            UserPw => $Line[$Fields{UserPw}],
-            UserEmail => $Line[$Fields{UserEmail}],
-            UserType => 'User',
-            ValidID => 1,
-            ChangeUserID => 1,
+            UserID         => $UserData{UserID},
+            UserSalutation => $Line[ $Fields{UserSalutation} ],
+            UserFirstname  => $Line[ $Fields{UserFirstname} ],
+            UserLastname   => $Line[ $Fields{UserLastname} ],
+            UserLogin      => $Line[ $Fields{UserLogin} ],
+            UserPw         => $Line[ $Fields{UserPw} ],
+            UserEmail      => $Line[ $Fields{UserEmail} ],
+            UserType       => 'User',
+            ValidID        => 1,
+            ChangeUserID   => 1,
         );
     }
+
     # add user
     else {
         print "Add user '$Line[$Fields{UserLogin}]'\n";
         $CommonObject{UserObject}->UserAdd(
-            UserSalutation => $Line[$Fields{UserSalutation}],
-            UserFirstname => $Line[$Fields{UserFirstname}],
-            UserLastname => $Line[$Fields{UserLastname}],
-            UserLogin => $Line[$Fields{UserLogin}],
-            UserPw => $Line[$Fields{UserPw}],
-            UserEmail => $Line[$Fields{UserEmail}],
-            UserType => 'User',
-            ValidID => 1,
-            ChangeUserID => 1,
+            UserSalutation => $Line[ $Fields{UserSalutation} ],
+            UserFirstname  => $Line[ $Fields{UserFirstname} ],
+            UserLastname   => $Line[ $Fields{UserLastname} ],
+            UserLogin      => $Line[ $Fields{UserLogin} ],
+            UserPw         => $Line[ $Fields{UserPw} ],
+            UserEmail      => $Line[ $Fields{UserEmail} ],
+            UserType       => 'User',
+            ValidID        => 1,
+            ChangeUserID   => 1,
         );
     }
 }
-close (IN);
+close(IN);

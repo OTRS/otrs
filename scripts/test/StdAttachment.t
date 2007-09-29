@@ -2,7 +2,7 @@
 # StdAttachment.t - StdAttachment tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StdAttachment.t,v 1.2 2007-08-09 23:49:24 martin Exp $
+# $Id: StdAttachment.t,v 1.3 2007-09-29 11:09:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use Kernel::System::StdAttachment;
 $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%{$Self});
 
 # file checks
-foreach my $File (qw(xls txt doc png pdf)) {
+for my $File (qw(xls txt doc png pdf)) {
     my $Content = '';
     open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/StdAttachment-Test1.$File") || die $!;
     binmode(IN);

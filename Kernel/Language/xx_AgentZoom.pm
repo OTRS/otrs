@@ -2,7 +2,7 @@
 # Kernel/Language/xx_AgentZoom.pm - provides xx Kernel/Modules/*.pm module language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xx_AgentZoom.pm,v 1.5 2007-09-29 10:36:40 mh Exp $
+# $Id: xx_AgentZoom.pm,v 1.6 2007-09-29 10:47:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub Data {
     my $Self  = shift;

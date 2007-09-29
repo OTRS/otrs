@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerPreferences.pm,v 1.15 2007-09-29 10:39:11 mh Exp $
+# $Id: CustomerPreferences.pm,v 1.16 2007-09-29 10:44:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my $Type  = shift;

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/CryptPassword.pl - to crypt database password for Kernel/Config.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CryptPassword.pl,v 1.3 2006-11-02 12:20:59 tr Exp $
+# $Id: CryptPassword.pl,v 1.4 2007-09-29 11:06:20 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,8 +23,7 @@
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.4 $)[1];
 
 # check args
 my $Password = shift;

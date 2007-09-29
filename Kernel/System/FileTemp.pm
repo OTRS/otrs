@@ -1,8 +1,8 @@
 # --
 # Kernel/System/FileTemp.pm - tmp files
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FileTemp.pm,v 1.6 2006-12-14 12:07:58 martin Exp $
+# $Id: FileTemp.pm,v 1.7 2007-09-29 11:03:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,12 +12,13 @@
 package Kernel::System::FileTemp;
 
 use strict;
+use warnings;
+
 use File::Temp qw/ tempfile tempdir /;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.6 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -49,20 +50,21 @@ create a tmp file object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get common objects
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
+
     # check needed objects
-    foreach (qw(ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+    for (qw(ConfigObject)) {
+        die "Got no $_!" if ( !$Self->{$_} );
     }
 
     # 0=off; 1=on;
@@ -80,32 +82,36 @@ returns a file handle and the file name
 =cut
 
 sub TempFile {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-#    my $FH = new File::Temp(
-#        DIR => $Self->{ConfigObject}->Get('TempDir'),
-#        SUFFIX => '.tmp',
-#        UNLINK => 1,
-#    );
-#    my $Filename = $FH->filename();
-    my ($FH, $Filename) = tempfile(
-        DIR => $Self->{ConfigObject}->Get('TempDir'),
+
+    #    my $FH = new File::Temp(
+    #        DIR => $Self->{ConfigObject}->Get('TempDir'),
+    #        SUFFIX => '.tmp',
+    #        UNLINK => 1,
+    #    );
+    #    my $Filename = $FH->filename();
+    my ( $FH, $Filename ) = tempfile(
+        DIR    => $Self->{ConfigObject}->Get('TempDir'),
         SUFFIX => '.tmp',
         UNLINK => 1,
     );
+
     # remember created tmp files
-    push (@{$Self->{FileList}}, $Filename);
+    push( @{ $Self->{FileList} }, $Filename );
+
     # return FH and Filename
-    return ($FH, $Filename);
+    return ( $FH, $Filename );
 }
 
 sub DESTROY {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # remove all existing tmp files
-    if ($Self->{FileList}) {
-        foreach (@{$Self->{FileList}}) {
-            if (-f $_) {
+    if ( $Self->{FileList} ) {
+        for ( @{ $Self->{FileList} } ) {
+            if ( -f $_ ) {
                 unlink $_;
             }
         }
@@ -129,6 +135,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2006-12-14 12:07:58 $
+$Revision: 1.7 $ $Date: 2007-09-29 11:03:51 $
 
 =cut

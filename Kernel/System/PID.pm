@@ -2,7 +2,7 @@
 # Kernel/System/PID.pm - all system pid functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PID.pm,v 1.6 2007-01-20 23:11:34 mh Exp $
+# $Id: PID.pm,v 1.7 2007-09-29 11:00:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,10 @@
 package Kernel::System::PID;
 
 use strict;
+use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -57,21 +57,21 @@ create a object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     # get common config options
     $Self->{Host} = $Self->{ConfigObject}->Get('FQDN');
-    $Self->{PID} = $$;
+    $Self->{PID}  = $$;
 
     return $Self;
 }
@@ -87,46 +87,54 @@ create a new process id lock
 =cut
 
 sub PIDCreate {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(Name)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Name)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # check if already exists
     my %PID = $Self->PIDGet(%Param);
     if (%PID) {
-        if ($PID{Created} > (time()-(60*60))) {
+        if ( $PID{Created} > ( time() - ( 60 * 60 ) ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message => "Can't create PID $PID{Name}, because it's already running ($PID{Host}/$PID{PID})!",
+                Message =>
+                    "Can't create PID $PID{Name}, because it's already running ($PID{Host}/$PID{PID})!",
             );
             return;
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message => "Removed PID ($PID{Name}/$PID{Host}/$PID{PID}, because 1 hour old!",
+                Message  => "Removed PID ($PID{Name}/$PID{Host}/$PID{PID}, because 1 hour old!",
             );
             $Self->PIDDelete(%Param);
         }
     }
+
     # remember to delete it in DESTROY
     $Self->{Name} = $Param{Name};
-    # db quote
-    foreach (qw(Name)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
-    # sql
-    my $SQL = "INSERT INTO process_id ".
-        " (process_name, process_id, process_host, process_create) ".
-        " VALUES ".
-        " ('$Param{Name}', '$Self->{PID}', '$Self->{Host}', ".time().")";
 
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+    # db quote
+    for (qw(Name)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
+    }
+
+    # sql
+    my $SQL
+        = "INSERT INTO process_id "
+        . " (process_name, process_id, process_host, process_create) "
+        . " VALUES "
+        . " ('$Param{Name}', '$Self->{PID}', '$Self->{Host}', "
+        . time() . ")";
+
+    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         return 1;
     }
     else {
@@ -145,34 +153,38 @@ get process id lock info
 =cut
 
 sub PIDGet {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(Name)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Name)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # db quote
-    foreach (qw(Name)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    for (qw(Name)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
     }
+
     # sql
-    my $SQL = "SELECT process_name, process_id, process_host, process_create " .
-        " FROM " .
-        " process_id " .
-        " WHERE " .
-        " process_name = '$Param{Name}'";
-    if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
+    my $SQL
+        = "SELECT process_name, process_id, process_host, process_create "
+        . " FROM "
+        . " process_id "
+        . " WHERE "
+        . " process_name = '$Param{Name}'";
+    if ( !$Self->{DBObject}->Prepare( SQL => $SQL ) ) {
         return;
     }
     my %Data = ();
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
-            PID => $Row[1],
-            Name => $Row[0],
-            Host => $Row[2],
+            PID     => $Row[1],
+            Name    => $Row[0],
+            Host    => $Row[2],
             Created => $Row[3],
         );
     }
@@ -190,24 +202,27 @@ delete the process id lock
 =cut
 
 sub PIDDelete {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(Name)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Name)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    # db quote
-    foreach (qw(Name)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
-    # sql
-    my $SQL = "DELETE FROM process_id WHERE ".
-        " process_name = '$Param{Name}' AND process_host = '$Self->{Host}'";
 
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+    # db quote
+    for (qw(Name)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
+    }
+
+    # sql
+    my $SQL = "DELETE FROM process_id WHERE "
+        . " process_name = '$Param{Name}' AND process_host = '$Self->{Host}'";
+
+    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         return 1;
     }
     else {
@@ -231,6 +246,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.7 $ $Date: 2007-09-29 11:00:19 $
 
 =cut

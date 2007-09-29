@@ -3,7 +3,7 @@
 # bin/CheckSum.pl - a tool to compare changes in a installation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckSum.pl,v 1.6 2007-03-04 23:59:50 martin Exp $
+# $Id: CheckSum.pl,v 1.7 2007-09-29 11:06:20 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,8 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $RealBin);
-$VERSION = '$Revision: 1.6 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.7 $)[1];
 
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);
@@ -79,7 +78,7 @@ else {
 
 my @Dirs = ();
 R($Start);
-foreach my $File (sort keys %Compare) {
+for my $File (sort keys %Compare) {
 #    print "Notice: Removed $Compare{$File}\n";
     print "Notice: Removed $File\n";
 }
@@ -91,7 +90,7 @@ if ($Action eq 'create') {
 sub R {
     my $In = shift;
     my @List = glob("$In/*");
-    foreach my $File (@List) {
+   for my $File (@List) {
         $File =~ s/\/\//\//g;
         if (-d $File && $File !~ /CVS/ && $File !~ /^doc\// && $File !~ /^var\/tmp/) {
             R($File);

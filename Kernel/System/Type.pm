@@ -2,7 +2,7 @@
 # Kernel/System/Type.pm - All type related function should be here eventually
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.1 2007-03-22 08:58:39 martin Exp $
+# $Id: Type.pm,v 1.2 2007-09-29 11:01:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,11 +12,12 @@
 package Kernel::System::Type;
 
 use strict;
+use warnings;
+
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -63,13 +64,15 @@ create a object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
+
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
+
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
@@ -90,33 +93,37 @@ add new types
 =cut
 
 sub TypeAdd {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(Name ValidID UserID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Name ValidID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # quote params
-    foreach (qw(Name)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    for (qw(Name)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
     }
-    foreach (qw(ValidID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    for (qw(ValidID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
-    my $SQL = "INSERT INTO ticket_type (name, valid_id, " .
-        " create_time, create_by, change_time, change_by)" .
-        " VALUES " .
-        " ('$Param{Name}', $Param{ValidID}, " .
-        " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+    my $SQL
+        = "INSERT INTO ticket_type (name, valid_id, "
+        . " create_time, create_by, change_time, change_by)"
+        . " VALUES "
+        . " ('$Param{Name}', $Param{ValidID}, "
+        . " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
+
         # get new type id
         my $SQL = "SELECT id FROM ticket_type WHERE name = '$Param{Name}'";
-        my $ID = '';
-        $Self->{DBObject}->Prepare(SQL => $SQL);
-        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        my $ID  = '';
+        $Self->{DBObject}->Prepare( SQL => $SQL );
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $ID = $Row[0];
         }
         return $ID;
@@ -137,41 +144,47 @@ get types attributes
 =cut
 
 sub TypeGet {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{ID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+    if ( !$Param{ID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
         return;
     }
+
     # quote params
-    foreach (qw(ID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    for (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
+
     # sql
-    my $SQL = "SELECT id, name, valid_id, change_time, create_time " .
-        " FROM " .
-        " ticket_type " .
-        " WHERE " .
-        " id = $Param{ID}";
-    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
+    my $SQL
+        = "SELECT id, name, valid_id, change_time, create_time "
+        . " FROM "
+        . " ticket_type "
+        . " WHERE "
+        . " id = $Param{ID}";
+    if ( $Self->{DBObject}->Prepare( SQL => $SQL ) ) {
         my %Data = ();
-        while (my @Data = $Self->{DBObject}->FetchrowArray()) {
+        while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
             %Data = (
-                ID => $Data[0],
-                Name => $Data[1],
-                ValidID => $Data[2],
+                ID         => $Data[0],
+                Name       => $Data[1],
+                ValidID    => $Data[2],
                 ChangeTime => $Data[3],
                 CreateTime => $Data[4],
             );
         }
+
         # no data found
-        if (!%Data) {
+        if ( !%Data ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "TypeType '$Param{Name}' not found!"
+                Message  => "TypeType '$Param{Name}' not found!"
             );
         }
+
         # return data
         return %Data;
     }
@@ -194,28 +207,32 @@ update type attributes
 =cut
 
 sub TypeUpdate {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(ID Name ValidID UserID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(ID Name ValidID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # quote params
-    foreach (qw(Name)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    for (qw(Name)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
     }
-    foreach (qw(ID ValidID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    for (qw(ID ValidID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
+
     # sql
-    my $SQL = "UPDATE ticket_type SET name = '$Param{Name}', " .
-        " valid_id = $Param{ValidID}, " .
-        " change_time = current_timestamp, change_by = $Param{UserID} " .
-        " WHERE id = $Param{ID}";
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+    my $SQL
+        = "UPDATE ticket_type SET name = '$Param{Name}', "
+        . " valid_id = $Param{ValidID}, "
+        . " change_time = current_timestamp, change_by = $Param{UserID} "
+        . " WHERE id = $Param{ID}";
+    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         return 1;
     }
     else {
@@ -236,16 +253,18 @@ get type list
 =cut
 
 sub TypeList {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my $Valid = 1;
+
     # check needed stuff
-    if (!$Param{Valid} && defined($Param{Valid})) {
+    if ( !$Param{Valid} && defined( $Param{Valid} ) ) {
         $Valid = 0;
     }
+
     # sql
     return $Self->{DBObject}->GetTableData(
-        What => 'id, name',
+        What  => 'id, name',
         Valid => $Valid,
         Clamp => 1,
         Table => 'ticket_type',
@@ -263,46 +282,54 @@ get id or name for queue
 =cut
 
 sub TypeLookup {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{Type} && !$Param{TypeID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Got no Type or TypeID!");
+    if ( !$Param{Type} && !$Param{TypeID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no Type or TypeID!" );
         return;
     }
+
     # check if we ask the same request (cache)?
-    if ($Param{TypeID} && $Self->{"QL::Type$Param{TypeID}"}) {
+    if ( $Param{TypeID} && $Self->{"QL::Type$Param{TypeID}"} ) {
         return $Self->{"QL::Type$Param{TypeID}"};
     }
-    if ($Param{Type} && $Self->{"QL::TypeID$Param{Type}"}) {
+    if ( $Param{Type} && $Self->{"QL::TypeID$Param{Type}"} ) {
         return $Self->{"QL::TypeID$Param{Type}"};
     }
+
     # get data
-    my $SQL = '';
+    my $SQL    = '';
     my $Suffix = '';
-    if ($Param{Type}) {
+    if ( $Param{Type} ) {
         $Param{What} = $Param{Type};
-        $Suffix = 'TypeID';
-        $SQL = "SELECT id FROM ticket_type WHERE name = '".$Self->{DBObject}->Quote($Param{Type})."'";
+        $Suffix      = 'TypeID';
+        $SQL         = "SELECT id FROM ticket_type WHERE name = '"
+            . $Self->{DBObject}->Quote( $Param{Type} ) . "'";
     }
     else {
         $Param{What} = $Param{TypeID};
-        $Suffix = 'Type';
-        $SQL = "SELECT name FROM ticket_type WHERE id = ".$Self->{DBObject}->Quote($Param{TypeID}, 'Integer')."";
+        $Suffix      = 'Type';
+        $SQL         = "SELECT name FROM ticket_type WHERE id = "
+            . $Self->{DBObject}->Quote( $Param{TypeID}, 'Integer' ) . "";
     }
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+    $Self->{DBObject}->Prepare( SQL => $SQL );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
         # store result
         $Self->{"QL::$Suffix$Param{What}"} = $Row[0];
     }
+
     # check if data exists
-    if (!exists $Self->{"QL::$Suffix$Param{What}"}) {
+    if ( !exists $Self->{"QL::$Suffix$Param{What}"} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Found no \$$Suffix for $Param{What}!",
+            Message  => "Found no \$$Suffix for $Param{What}!",
         );
         return;
     }
+
     # return result
     return $Self->{"QL::$Suffix$Param{What}"};
 }
@@ -323,6 +350,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2007-03-22 08:58:39 $
+$Revision: 1.2 $ $Date: 2007-09-29 11:01:39 $
 
 =cut

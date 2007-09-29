@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentZoom.pm,v 1.88 2007-09-29 10:39:11 mh Exp $
+# $Id: AgentZoom.pm,v 1.89 2007-09-29 10:44:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub new {
     my $Type  = shift;

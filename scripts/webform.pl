@@ -4,7 +4,7 @@
 # X-OTRS-Queue header for an OTRS system (x-headers for dispatching!).
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: webform.pl,v 1.8 2007-02-07 05:27:22 tr Exp $
+# $Id: webform.pl,v 1.9 2007-09-29 11:10:47 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,30 +22,36 @@
 # --
 
 use strict;
+use warnings;
+
 # to get the errors on screen
 use CGI::Carp qw(fatalsToBrowser);
+
 # Simple Common Gateway Interface Class
 use CGI;
 
-my $VERSION = '$Revision: 1.8 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+my $VERSION = qw($Revision: 1.9 $) [1];
 
 # --------------------------
 # web form options
 # --------------------------
 my $Ident = 'ahfiw2Fw32r230dddl2foeo3r';
+
 # sendmail location and options
 my $Sendmail = '/usr/sbin/sendmail -t -i -f ';
+
 # email where the emails of the form will send to
 my $OTRSEmail = 'otrs-system@example.com';
+
 # topics and dest. queues
 my %Topics = (
+
     # topic => OTRS queue
-    'Info' => 'info',
-    'Support' => 'support',
-    'Bugs' => 'bugs',
-    'Sales' => 'sales',
-    'Billing' => 'billing',
+    'Info'      => 'info',
+    'Support'   => 'support',
+    'Bugs'      => 'bugs',
+    'Sales'     => 'sales',
+    'Billing'   => 'billing',
     'Webmaster' => 'webmaster',
 );
 
@@ -55,7 +61,7 @@ my %Topics = (
 
 sub Header {
     my %Param = @_;
-    (my $Output = <<EOF);
+    ( my $Output = <<EOF);
 Content-Type: text/html
 
 <html>
@@ -75,7 +81,7 @@ EOF
 # -------------------------
 
 sub Footer {
-    (my $Output = <<EOF);
+    ( my $Output = <<EOF);
 <hr>
 
 </body>
@@ -90,7 +96,7 @@ EOF
 
 sub Thanks {
     my %Param = @_;
-    (my $Output = <<EOF);
+    ( my $Output = <<EOF);
 Thanks <b>$Param{From}</b>! Your request is forwarded to us. <br>
 We will answer ASAP.<br>
 EOF
@@ -103,7 +109,7 @@ EOF
 
 sub Error {
     my %Param = @_;
-    (my $Output = <<EOF);
+    ( my $Output = <<EOF);
 <font color="red">$Param{Message}</font><br>
 EOF
     return $Output;
@@ -112,13 +118,14 @@ EOF
 # ------------------------
 # start the real actions
 # ------------------------
-my $CGI = new CGI;
+my $CGI      = new CGI;
 my %GetParam = ();
-foreach (qw(Action From FromEmail Subject Topic Body)) {
+for (qw(Action From FromEmail Subject Topic Body)) {
     $GetParam{$_} = $CGI->param($_) || '';
 }
+
 # what should I do?
-if ($GetParam{Action} eq 'SendMail') {
+if ( $GetParam{Action} eq 'SendMail' ) {
     SendMail(%GetParam);
 }
 else {
@@ -129,8 +136,8 @@ else {
 # web form
 # ------------------------
 sub WebForm {
-    print Header(Title => 'Submit Request');
-print '
+    print Header( Title => 'Submit Request' );
+    print '
     <form action="webform.pl" method="post">
         <input type="hidden" name="Action" value="SendMail">
         <table>
@@ -138,10 +145,10 @@ print '
                 <td>Topic:</td>
                 <td>
 ';
-    foreach (sort keys %Topics) {
-        print $_.'<input type="radio" name="Topic" value="'.$Topics{$_}.'">';
+    for ( sort keys %Topics ) {
+        print $_. '<input type="radio" name="Topic" value="' . $Topics{$_} . '">';
     }
-print '
+    print '
                 </td>
             </tr>
             <tr>
@@ -169,48 +176,50 @@ print '
 ';
     print Footer();
 }
+
 # --------------------------
 # send email
 # --------------------------
 
 sub SendMail {
-    my %Param = @_;
+    my %Param  = @_;
     my $Output = '';
 
     # check needed params
-    foreach (qw(From FromEmail Subject Topic Body)) {
-        if (!$Param{$_}) {
-            $Output .= Error(Message => "Param $_ is needed!");
+    for (qw(From FromEmail Subject Topic Body)) {
+        if ( !$Param{$_} ) {
+            $Output .= Error( Message => "Param $_ is needed!" );
         }
     }
     if ($Output) {
-        $Output = Header(Title => 'Error!') . $Output;
+        $Output = Header( Title => 'Error!' ) . $Output;
         $Output .= Footer();
         print $Output;
         return;
     }
 
     # simple email check
-    my $NonAscii      = "\x80-\xff"; # Non-ASCII-Chars are not allowed
-    my $Nqtext        = "[^\\\\$NonAscii\015\012\"]";
-    my $Qchar         = "\\\\[^$NonAscii]";
-    my $Protocol      = '(?:mailto:)';
-    my $NormUser      = '[a-zA-Z0-9][a-zA-Z0-9_.-]*';
-    my $QuotedString  = "\"(?:$Nqtext|$Qchar)+\"";
+    my $NonAscii     = "\x80-\xff";                            # Non-ASCII-Chars are not allowed
+    my $Nqtext       = "[^\\\\$NonAscii\015\012\"]";
+    my $Qchar        = "\\\\[^$NonAscii]";
+    my $Protocol     = '(?:mailto:)';
+    my $NormUser     = '[a-zA-Z0-9][a-zA-Z0-9_.-]*';
+    my $QuotedString = "\"(?:$Nqtext|$Qchar)+\"";
     my $UserPart     = "(?:$NormUser|$QuotedString)";
     my $DomMainPart  = '[a-zA-Z0-9][a-zA-Z0-9._-]*\\.';
     my $DomSubPart   = '(?:[a-zA-Z0-9][a-zA-Z0-9._-]*\\.)*';
     my $DomTldPart   = '[a-zA-Z]{2,5}';
     my $DomainPart   = "$DomSubPart$DomMainPart$DomTldPart";
-    my $Regex         = "$Protocol?$UserPart\@$DomainPart";
+    my $Regex        = "$Protocol?$UserPart\@$DomainPart";
 
-    if ($Param{FromEmail} !~ /^$Regex$/) {
-        $Output = Header(Title => 'Error!');
-        $Output .= Error(Message => "Your email '$Param{FromEmail}' is invalid!");
+    if ( $Param{FromEmail} !~ /^$Regex$/ ) {
+        $Output = Header( Title => 'Error!' );
+        $Output .= Error( Message => "Your email '$Param{FromEmail}' is invalid!" );
         $Output .= Footer();
         print $Output;
         return;
     }
+
     # build email
     my @Mail = ("From: $Param{From} <$Param{FromEmail}>\n");
     push @Mail, "To: $Param{Topic} <$OTRSEmail>\n";
@@ -229,20 +238,21 @@ sub SendMail {
 
     # send mail
     $Param{From} =~ s/"|;|'|<|>|\|| //ig;
-    if (open(MAIL, "|$Sendmail $Param{From} ")) {
+    if ( open( MAIL, "|$Sendmail $Param{From} " ) ) {
         print MAIL @Mail;
         close(MAIL);
 
         # thanks!
-        $Output = Header(Title => 'Thanks!');
+        $Output = Header( Title => 'Thanks!' );
         $Output .= Thanks(%Param);
         $Output .= Footer();
         print $Output;
     }
     else {
+
         # error
-        $Output = Header(Title => 'Error!');
-        $Output .= Error(Message => "Can't send email: $!");
+        $Output = Header( Title => 'Error!' );
+        $Output .= Error( Message => "Can't send email: $!" );
         $Output .= Footer();
         print $Output;
     }

@@ -2,7 +2,7 @@
 # Kernel/Language/zh_CN.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.31 2007-09-29 10:36:40 mh Exp $
+# $Id: zh_CN.pm,v 1.32 2007-09-29 10:47:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub Data {
     my $Self  = shift;

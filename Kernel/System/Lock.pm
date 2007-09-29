@@ -2,7 +2,7 @@
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Lock.pm,v 1.12 2007-03-05 02:06:32 martin Exp $
+# $Id: Lock.pm,v 1.13 2007-09-29 11:01:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,11 +12,12 @@
 package Kernel::System::Lock;
 
 use strict;
+use warnings;
+
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -63,15 +64,15 @@ create a object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
@@ -100,35 +101,38 @@ get list of lock types
 =cut
 
 sub LockViewableLock {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my @Name = ();
-    my @ID = ();
+    my @Name  = ();
+    my @ID    = ();
+
     # check needed stuff
-    foreach (qw(Type)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Type)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    for ( keys %Param ) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
     }
+
     # sql
-    my $SQL = "SELECT id, name ".
-        " FROM ".
-        " ticket_lock_type ".
-        " WHERE ".
-        " name IN ( ${\(join ', ', @{$Self->{ViewableLocks}})} ) " .
-        " AND ".
-        " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
-    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
-        while (my @Data = $Self->{DBObject}->FetchrowArray()) {
-            push (@Name, $Data[1]);
-            push (@ID, $Data[0]);
+    my $SQL
+        = "SELECT id, name "
+        . " FROM "
+        . " ticket_lock_type "
+        . " WHERE "
+        . " name IN ( ${\(join ', ', @{$Self->{ViewableLocks}})} ) " . " AND "
+        . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
+    if ( $Self->{DBObject}->Prepare( SQL => $SQL ) ) {
+        while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+            push( @Name, $Data[1] );
+            push( @ID,   $Data[0] );
         }
-        if ($Param{Type} eq 'Name') {
+        if ( $Param{Type} eq 'Name' ) {
             return @Name;
         }
         else {
@@ -148,40 +152,48 @@ lock lookup
 =cut
 
 sub LockLookup {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my $Key = '';
+    my $Key   = '';
+
     # check needed stuff
-    if (!$Param{Lock} && $Param{LockID}) {
+    if ( !$Param{Lock} && $Param{LockID} ) {
         $Key = 'LockID';
     }
-    if ($Param{Lock} && !$Param{LockID}) {
+    if ( $Param{Lock} && !$Param{LockID} ) {
         $Key = 'Lock';
     }
-    if (!$Param{Lock} && !$Param{LockID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Lock or LockID!");
+    if ( !$Param{Lock} && !$Param{LockID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Lock or LockID!" );
         return;
     }
+
     # check if we ask the same request?
-    if (exists $Self->{"Lock::Lookup::$Param{$Key}"}) {
+    if ( exists $Self->{"Lock::Lookup::$Param{$Key}"} ) {
         return $Self->{"Lock::Lookup::$Param{$Key}"};
     }
+
     # db query
     my $SQL = '';
-    if ($Param{Lock}) {
-        $SQL = "SELECT id FROM ticket_lock_type WHERE name = '".$Self->{DBObject}->Quote($Param{Lock})."'";
+    if ( $Param{Lock} ) {
+        $SQL = "SELECT id FROM ticket_lock_type WHERE name = '"
+            . $Self->{DBObject}->Quote( $Param{Lock} ) . "'";
     }
     else {
-        $SQL = "SELECT name FROM ticket_lock_type WHERE id = ".$Self->{DBObject}->Quote($Param{LockID}, 'Integer');
+        $SQL = "SELECT name FROM ticket_lock_type WHERE id = "
+            . $Self->{DBObject}->Quote( $Param{LockID}, 'Integer' );
     }
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+    $Self->{DBObject}->Prepare( SQL => $SQL );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
         # store result
         $Self->{"Lock::Lookup::$Param{$Key}"} = $Row[0];
     }
+
     # check if data exists
-    if (!exists $Self->{"Lock::Lookup::$Param{$Key}"}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "No Lock/LockID for $Param{$Key} found!");
+    if ( !exists $Self->{"Lock::Lookup::$Param{$Key}"} ) {
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => "No Lock/LockID for $Param{$Key} found!" );
         return;
     }
     else {
@@ -200,24 +212,28 @@ get lock list
 =cut
 
 sub LockList {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{UserID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "UserID!");
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "UserID!" );
         return;
     }
+
     # check cache
-    if ($Self->{LockList}) {
-        return %{$Self->{LockList}};
+    if ( $Self->{LockList} ) {
+        return %{ $Self->{LockList} };
     }
+
     # sql
     my %Data = ();
-    if ($Self->{DBObject}->Prepare(SQL => 'SELECT id, name FROM ticket_lock_type')) {
-        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-            $Data{$Row[0]} = $Row[1];
+    if ( $Self->{DBObject}->Prepare( SQL => 'SELECT id, name FROM ticket_lock_type' ) ) {
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            $Data{ $Row[0] } = $Row[1];
         }
     }
+
     # cache result
     $Self->{LockList} = \%Data;
     return %Data;
@@ -239,6 +255,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2007-03-05 02:06:32 $
+$Revision: 1.13 $ $Date: 2007-09-29 11:01:00 $
 
 =cut

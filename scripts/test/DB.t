@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.14 2007-05-07 08:24:25 martin Exp $
+# $Id: DB.t,v 1.15 2007-09-29 11:09:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -179,7 +179,7 @@ $Self->True(
     '#1 SQLProcessorPost() CREATE TABLE',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#1 Do() CREATE TABLE ($SQL)",
@@ -222,7 +222,7 @@ $Self->True(
     '#1 SQLProcessorPost() DROP TABLE',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#1 Do() DROP TABLE ($SQL)",
@@ -247,7 +247,7 @@ $Self->True(
     '#2 SQLProcessorPost() CREATE TABLE',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#2 Do() CREATE TABLE ($SQL)",
@@ -269,7 +269,7 @@ $Self->True(
     '#2 SQLProcessorPost() ALTER TABLE',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#2 Do() CREATE TABLE ($SQL)",
@@ -289,7 +289,7 @@ $Self->True(
     '#2 SQLProcessorPost() INSERT 1',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#2 Do() XML INSERT 1 ($SQL)",
@@ -304,7 +304,7 @@ $Self->True(
 );
 # xml
 my $String = '';
-foreach (1..6) {
+for (1..6) {
     $String .= $String.$_."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz";
     my $Length = length($String);
     my $Size = $Length;
@@ -330,7 +330,7 @@ foreach (1..6) {
         "#2 SQLProcessorPost() INSERT 2 - $_",
     );
 
-    foreach my $SQL (@SQL) {
+    for my $SQL (@SQL) {
         $Self->True(
             $Self->{DBObject}->Do(SQL => $SQL) || 0,
             "#2 Do() XML INSERT 2 - $_ (length:$Length/$Size)",
@@ -339,7 +339,7 @@ foreach (1..6) {
 }
 # sql
 $String = '';
-foreach (1..6) {
+for (1..6) {
     $String .= $String.$_."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz";
     my $Length = length($String);
     my $Size = $Length;
@@ -361,7 +361,7 @@ foreach (1..6) {
 }
 # sql bind
 $String = '';
-foreach (1..19) {
+for (1..19) {
     $String .= $String." $_ abcdefghijklmno1234567890";
     my $Length = length($String);
     my $Size = $Length;
@@ -442,7 +442,7 @@ $Self->True(
     '#2 SQLProcessorPost() DROP TABLE',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#2 Do() DROP TABLE ($SQL)",
@@ -467,7 +467,7 @@ $Self->True(
     '#3 SQLProcessorPost() CREATE TABLE',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#3 Do() CREATE TABLE ($SQL)",
@@ -475,7 +475,7 @@ foreach my $SQL (@SQL) {
 }
 
 # xml
-foreach (1..40) {
+for (1..40) {
     $XML = '
         <Insert Table="test_b">
             <Data Key="name_a" Type="Quote">Some</Data>
@@ -489,7 +489,7 @@ foreach (1..40) {
         "#3 SQLProcessorPost() INSERT - $_",
     );
 
-    foreach my $SQL (@SQL) {
+    for my $SQL (@SQL) {
         $Self->True(
             $Self->{DBObject}->Do(SQL => $SQL) || 0,
             "#3 Do() XML INSERT - $_ ",
@@ -617,7 +617,7 @@ $Self->True(
     '#3 SQLProcessorPost() DROP TABLE',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#3 Do() DROP TABLE ($SQL)",

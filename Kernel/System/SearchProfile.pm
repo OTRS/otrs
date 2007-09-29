@@ -2,7 +2,7 @@
 # Kernel/System/SearchProfile.pm - module to manage search profiles
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SearchProfile.pm,v 1.6 2007-01-20 23:11:34 mh Exp $
+# $Id: SearchProfile.pm,v 1.7 2007-09-29 11:03:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,10 @@
 package Kernel::System::SearchProfile;
 
 use strict;
+use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -57,15 +57,15 @@ create a object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -87,40 +87,44 @@ to add a search profile item
 =cut
 
 sub SearchProfileAdd {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my @Data = ();
+    my @Data  = ();
+
     # check needed stuff
-    foreach (qw(Base Name Key UserLogin)) {
-        if (!defined($Param{$_})) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Base Name Key UserLogin)) {
+        if ( !defined( $Param{$_} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # check value
-    if (!defined($Param{Value})) {
+    if ( !defined( $Param{Value} ) ) {
         return 1;
     }
-    if (ref($Param{Value}) eq 'ARRAY') {
-        @Data = @{$Param{Value}};
+    if ( ref( $Param{Value} ) eq 'ARRAY' ) {
+        @Data = @{ $Param{Value} };
         $Param{Type} = 'ARRAY';
     }
     else {
-        @Data = ($Param{Value});
+        @Data = ( $Param{Value} );
         $Param{Type} = 'SCALAR';
     }
+
     # qoute params
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    for ( keys %Param ) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
     }
-    foreach my $Value (@Data) {
+    for my $Value (@Data) {
         my $Value = $Self->{DBObject}->Quote($Value);
-        my $SQL = "INSERT INTO search_profile (login, profile_name, ".
-            " profile_type, profile_key, profile_value)".
-            " VALUES ".
-            " ('$Param{Base}::$Param{UserLogin}', '$Param{Name}', ".
-            " '$Param{Type}', '$Param{Key}', '$Value') ";
-        if (!$Self->{DBObject}->Do(SQL => $SQL)) {
+        my $SQL
+            = "INSERT INTO search_profile (login, profile_name, "
+            . " profile_type, profile_key, profile_value)"
+            . " VALUES "
+            . " ('$Param{Base}::$Param{UserLogin}', '$Param{Name}', "
+            . " '$Param{Type}', '$Param{Key}', '$Value') ";
+        if ( !$Self->{DBObject}->Do( SQL => $SQL ) ) {
             return;
         }
     }
@@ -140,35 +144,38 @@ returns a hash with search profile
 =cut
 
 sub SearchProfileGet {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(Base Name UserLogin)) {
-        if (!defined($Param{$_})) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Base Name UserLogin)) {
+        if ( !defined( $Param{$_} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    for ( keys %Param ) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
     }
+
     # sql
-    my $SQL = "SELECT profile_type, profile_key, profile_value".
-        " FROM ".
-        " search_profile ".
-        " WHERE ".
-        " profile_name = '$Param{Name}' ".
-        " AND ".
-        " LOWER(login) = LOWER('$Param{Base}::$Param{UserLogin}')";
+    my $SQL
+        = "SELECT profile_type, profile_key, profile_value"
+        . " FROM "
+        . " search_profile "
+        . " WHERE "
+        . " profile_name = '$Param{Name}' " . " AND "
+        . " LOWER(login) = LOWER('$Param{Base}::$Param{UserLogin}')";
     my %Result = ();
-    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
-        while (my @Data = $Self->{DBObject}->FetchrowArray()) {
-            if ($Data[0] eq 'ARRAY') {
-                push (@{$Result{$Data[1]}}, $Data[2]);
+    if ( $Self->{DBObject}->Prepare( SQL => $SQL ) ) {
+        while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+            if ( $Data[0] eq 'ARRAY' ) {
+                push( @{ $Result{ $Data[1] } }, $Data[2] );
             }
             else {
-                $Result{$Data[1]} = $Data[2];
+                $Result{ $Data[1] } = $Data[2];
             }
         }
         return %Result;
@@ -191,24 +198,28 @@ deletes an profile
 =cut
 
 sub SearchProfileDelete {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(Base Name UserLogin)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Base Name UserLogin)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    for ( keys %Param ) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
     }
+
     # sql
-    my $SQL = "DELETE FROM search_profile WHERE ".
-        " profile_name = '$Param{Name}' AND ".
-        " LOWER(login) = LOWER('$Param{Base}::$Param{UserLogin}')";
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+    my $SQL
+        = "DELETE FROM search_profile WHERE "
+        . " profile_name = '$Param{Name}' AND "
+        . " LOWER(login) = LOWER('$Param{Base}::$Param{UserLogin}')";
+    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         return 1;
     }
     else {
@@ -228,29 +239,33 @@ returns a hash of all proviles
 =cut
 
 sub SearchProfileList {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(Base UserLogin)) {
-        if (!defined($Param{$_})) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Base UserLogin)) {
+        if ( !defined( $Param{$_} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    for ( keys %Param ) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
     }
+
     # sql
-    my $SQL = "SELECT profile_name ".
-        " FROM ".
-        " search_profile ".
-        " WHERE ".
-        " LOWER(login) = LOWER('$Param{Base}::$Param{UserLogin}')";
+    my $SQL
+        = "SELECT profile_name "
+        . " FROM "
+        . " search_profile "
+        . " WHERE "
+        . " LOWER(login) = LOWER('$Param{Base}::$Param{UserLogin}')";
     my %Result = ();
-    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
-        while (my @Data = $Self->{DBObject}->FetchrowArray()) {
-            $Result{$Data[0]} = $Data[0];
+    if ( $Self->{DBObject}->Prepare( SQL => $SQL ) ) {
+        while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+            $Result{ $Data[0] } = $Data[0];
         }
         return %Result;
     }
@@ -275,6 +290,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.7 $ $Date: 2007-09-29 11:03:39 $
 
 =cut

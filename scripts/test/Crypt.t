@@ -2,7 +2,7 @@
 # Crypt.t - Crypt tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.4 2007-08-28 09:24:13 martin Exp $
+# $Id: Crypt.t,v 1.5 2007-09-29 11:09:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -58,7 +58,7 @@ my %Check = (
     },
 );
 
-foreach my $Count (1..2) {
+for my $Count (1..2) {
     my @Keys = $Self->{CryptObject}->KeySearch(
         Search => $Search{$Count},
     );
@@ -88,7 +88,7 @@ foreach my $Count (1..2) {
         $Keys[0] || '',
         "#$Count KeySearch()",
     );
-    foreach my $ID (qw(Type Identifier Bit Key KeyPrivate Created Expires Fingerprint FingerprintShort)) {
+    for my $ID (qw(Type Identifier Bit Key KeyPrivate Created Expires Fingerprint FingerprintShort)) {
         $Self->Is(
             $Keys[0]->{$ID} || '',
             $Check{$Count}->{$ID},
@@ -173,7 +173,7 @@ foreach my $Count (1..2) {
     );
 
     # file checks
-    foreach my $File (qw(xls txt doc png pdf)) {
+    for my $File (qw(xls txt doc png pdf)) {
         my $Content = $Self->{MainObject}->FileRead(
             Directory => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/",
             Filename => "PGP-Test1.$File",
@@ -243,7 +243,7 @@ foreach my $Count (1..2) {
 }
 
 # delete keys
-foreach my $Count (1..2) {
+for my $Count (1..2) {
     my @Keys = $Self->{CryptObject}->KeySearch(
         Search => $Search{$Count},
     );

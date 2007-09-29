@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.33 2007-09-26 08:48:55 martin Exp $
+# $Id: CustomerUser.pm,v 1.34 2007-09-29 11:00:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,8 +16,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.33 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -59,35 +58,37 @@ create a object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
+
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject MainObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
     # load generator customer preferences module
-    my $GeneratorModule = $Self->{ConfigObject}->Get('CustomerPreferences')->{Module} ||
-        'Kernel::System::CustomerUser::Preferences::DB';
-    if ($Self->{MainObject}->Require($GeneratorModule)) {
+    my $GeneratorModule = $Self->{ConfigObject}->Get('CustomerPreferences')->{Module}
+        || 'Kernel::System::CustomerUser::Preferences::DB';
+    if ( $Self->{MainObject}->Require($GeneratorModule) ) {
         $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
     }
 
     # load customer user backend module
-    foreach my $Count ('', 1..10) {
-        if ($Self->{ConfigObject}->Get("CustomerUser$Count")) {
+    for my $Count ( '', 1 .. 10 ) {
+        if ( $Self->{ConfigObject}->Get("CustomerUser$Count") ) {
             my $GenericModule = $Self->{ConfigObject}->Get("CustomerUser$Count")->{Module};
-            if (!$Self->{MainObject}->Require($GenericModule)) {
+            if ( !$Self->{MainObject}->Require($GenericModule) ) {
                 $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
             }
             $Self->{"CustomerUser$Count"} = $GenericModule->new(
                 Count => $Count,
                 %Param,
                 PreferencesObject => $Self->{PreferencesObject},
-                CustomerUserMap => $Self->{ConfigObject}->Get("CustomerUser$Count"),
+                CustomerUserMap   => $Self->{ConfigObject}->Get("CustomerUser$Count"),
             );
         }
     }
@@ -106,12 +107,13 @@ return customer source list
 =cut
 
 sub CustomerSourceList {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my %Data = ();
-    foreach ('', 1..10) {
-        if ($Self->{ConfigObject}->Get("CustomerUser$_")) {
-            $Data{"CustomerUser$_"} = $Self->{ConfigObject}->Get("CustomerUser$_")->{Name} || "No Name $_";
+    my %Data  = ();
+    for ( '', 1 .. 10 ) {
+        if ( $Self->{ConfigObject}->Get("CustomerUser$_") ) {
+            $Data{"CustomerUser$_"} = $Self->{ConfigObject}->Get("CustomerUser$_")->{Name}
+                || "No Name $_";
         }
     }
     return %Data;
@@ -139,18 +141,19 @@ to search users
 =cut
 
 sub CustomerSearch {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my %Data = ();
+    my %Data  = ();
+
     # remove leading and ending spaces
-    if ($Param{Search}) {
+    if ( $Param{Search} ) {
         $Param{Search} =~ s/^\s+//;
         $Param{Search} =~ s/\s+$//;
     }
-    foreach ('', 1..10) {
-        if ($Self->{"CustomerUser$_"}) {
+    for ( '', 1 .. 10 ) {
+        if ( $Self->{"CustomerUser$_"} ) {
             my %SubData = $Self->{"CustomerUser$_"}->CustomerSearch(%Param);
-            %Data = (%SubData, %Data);
+            %Data = ( %SubData, %Data );
         }
     }
     return %Data;
@@ -167,13 +170,13 @@ return a hash with all users (depreciated)
 =cut
 
 sub CustomerUserList {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my %Data = ();
-    foreach ('', 1..10) {
-        if ($Self->{"CustomerUser$_"}) {
+    my %Data  = ();
+    for ( '', 1 .. 10 ) {
+        if ( $Self->{"CustomerUser$_"} ) {
             my %SubData = $Self->{"CustomerUser$_"}->CustomerUserList(%Param);
-            %Data = (%Data, %SubData);
+            %Data = ( %Data, %SubData );
         }
     }
     return %Data;
@@ -190,10 +193,10 @@ get customer user name
 =cut
 
 sub CustomerName {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    foreach ('', 1..10) {
-        if ($Self->{"CustomerUser$_"}) {
+    for ( '', 1 .. 10 ) {
+        if ( $Self->{"CustomerUser$_"} ) {
             my $Name = $Self->{"CustomerUser$_"}->CustomerName(%Param);
             if ($Name) {
                 return $Name;
@@ -214,10 +217,10 @@ get customer user customer ids
 =cut
 
 sub CustomerIDs {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    foreach ('', 1..10) {
-        if ($Self->{"CustomerUser$_"}) {
+    for ( '', 1 .. 10 ) {
+        if ( $Self->{"CustomerUser$_"} ) {
             my @CustomerIDs = $Self->{"CustomerUser$_"}->CustomerIDs(%Param);
             if (@CustomerIDs) {
                 return @CustomerIDs;
@@ -238,27 +241,26 @@ get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
 =cut
 
 sub CustomerUserDataGet {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    foreach ('', 1..10) {
-        if ($Self->{"CustomerUser$_"}) {
-            my %Customer = $Self->{"CustomerUser$_"}->CustomerUserDataGet(
-                %Param,
-            );
+    for ( '', 1 .. 10 ) {
+        if ( $Self->{"CustomerUser$_"} ) {
+            my %Customer = $Self->{"CustomerUser$_"}->CustomerUserDataGet( %Param, );
             if (%Customer) {
                 my %Company = ();
+
                 # check if customer company support is enabled
-                if ($Self->{ConfigObject}->Get("CustomerCompany") &&
-                        $Self->{ConfigObject}->Get("CustomerUser$_")->{CustomerCompanySupport}) {
-                    %Company = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
-                        CustomerID => $Customer{UserCustomerID},
-                    );
+                if (   $Self->{ConfigObject}->Get("CustomerCompany")
+                    && $Self->{ConfigObject}->Get("CustomerUser$_")->{CustomerCompanySupport} )
+                {
+                    %Company = $Self->{CustomerCompanyObject}
+                        ->CustomerCompanyGet( CustomerID => $Customer{UserCustomerID}, );
                 }
                 return (
                     %Company,
                     %Customer,
-                    Source => "CustomerUser$_",
-                    Config => $Self->{ConfigObject}->Get("CustomerUser$_"),
+                    Source        => "CustomerUser$_",
+                    Config        => $Self->{ConfigObject}->Get("CustomerUser$_"),
                     CompanyConfig => $Self->{ConfigObject}->Get("CustomerCompany"),
                 );
             }
@@ -286,21 +288,24 @@ to add new customer users
 =cut
 
 sub CustomerUserAdd {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check data source
-    if (!$Param{Source}) {
+    if ( !$Param{Source} ) {
         $Param{Source} = 'CustomerUser';
     }
+
     # check if user exists
-    if ($Param{UserLogin}) {
-        my %User = $Self->CustomerUserDataGet(User => $Param{UserLogin});
+    if ( $Param{UserLogin} ) {
+        my %User = $Self->CustomerUserDataGet( User => $Param{UserLogin} );
         if (%User) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "User already exists '$Param{UserLogin}'!");
+            $Self->{LogObject}
+                ->Log( Priority => 'error', Message => "User already exists '$Param{UserLogin}'!" );
             return;
         }
     }
-    return $Self->{$Param{Source}}->CustomerUserAdd(@_);
+    return $Self->{ $Param{Source} }->CustomerUserAdd(@_);
 }
 
 =item CustomerUserUpdate()
@@ -321,20 +326,22 @@ to update customer users
 =cut
 
 sub CustomerUserUpdate {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{UserLogin}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "User UserLogin!");
+    if ( !$Param{UserLogin} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "User UserLogin!" );
         return;
     }
+
     # check if user exists
-    my %User = $Self->CustomerUserDataGet(User => $Param{ID} || $Param{UserLogin});
-    if (!%User) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "No such user!");
+    my %User = $Self->CustomerUserDataGet( User => $Param{ID} || $Param{UserLogin} );
+    if ( !%User ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "No such user!" );
         return;
     }
-    return $Self->{$User{Source}}->CustomerUserUpdate(%Param);
+    return $Self->{ $User{Source} }->CustomerUserUpdate(%Param);
 }
 
 =item SetPassword()
@@ -349,20 +356,22 @@ to set customer users passwords
 =cut
 
 sub SetPassword {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{UserLogin}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "User UserLogin!");
+    if ( !$Param{UserLogin} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "User UserLogin!" );
         return;
     }
+
     # check if user exists
-    my %User = $Self->CustomerUserDataGet(User => $Param{UserLogin});
-    if (!%User) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "No such user!");
+    my %User = $Self->CustomerUserDataGet( User => $Param{UserLogin} );
+    if ( !%User ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "No such user!" );
         return;
     }
-    return $Self->{$User{Source}}->SetPassword(%Param);
+    return $Self->{ $User{Source} }->SetPassword(%Param);
 }
 
 =item GenerateRandomPassword()
@@ -380,7 +389,7 @@ generate a random password
 =cut
 
 sub GenerateRandomPassword {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     return $Self->{CustomerUser}->GenerateRandomPassword(@_);
 }
@@ -433,6 +442,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2007-09-26 08:48:55 $
+$Revision: 1.34 $ $Date: 2007-09-29 11:00:47 $
 
 =cut

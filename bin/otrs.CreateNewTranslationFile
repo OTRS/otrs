@@ -3,7 +3,7 @@
 # otrs.CreateNewTranslationFile - create new translation file
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.18 2007-05-29 13:32:39 martin Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.19 2007-09-29 11:06:38 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,8 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.18 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.19 $)[1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -99,7 +98,7 @@ my $Data = '';
 my %UsedWords = ();
 my %UsedWordsMisc = ();
 my @List = glob("$Opts{t}");
-foreach my $File (@List) {
+for my $File (@List) {
     if (open (IN, "< $File")) {
         my $Content = '';
         while (my $Line = <IN>) {
@@ -180,7 +179,7 @@ foreach my $File (@List) {
 # add misc words
 print "# Misc\n";
 $Data .= "        # Misc\n";
-foreach my $Key (keys %{$CommonObject{LanguageObject}->{Translation}}) {
+for my $Key (keys %{$CommonObject{LanguageObject}->{Translation}}) {
     if (!$UsedWordsMisc{$Key}) {
         my $Translation = $CommonObject{LanguageObject}->{Translation}->{$Key};
         $Translation =~ s/'/\\'/g;
@@ -204,7 +203,7 @@ while (<IN>) {
         $NewOut .= "    # Last translation file sync: ".scalar localtime()."\n\n";
         $NewOut .= "    # possible charsets\n".
             "    \$Self->{Charset} = [";
-        foreach ($CommonObject{LanguageObject}->GetPossibleCharsets()) {
+       for ($CommonObject{LanguageObject}->GetPossibleCharsets()) {
             $NewOut .= "'$_', ";
         }
         $NewOut .= "];\n".

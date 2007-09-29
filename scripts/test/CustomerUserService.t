@@ -2,7 +2,7 @@
 # CustomerUserService.t - CustomerUserService tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerUserService.t,v 1.1 2007-07-30 14:52:58 mh Exp $
+# $Id: CustomerUserService.t,v 1.2 2007-09-29 11:09:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ my @OriginalDefaultServices = $Self->{ServiceObject}->CustomerUserServiceMemberL
 );
 
 # delete all default services
-foreach my $ServiceID (@OriginalDefaultServices) {
+for my $ServiceID (@OriginalDefaultServices) {
     $Self->{ServiceObject}->CustomerUserServiceMemberAdd(
         CustomerUserLogin => '<DEFAULT>',
         ServiceID => $ServiceID,
@@ -374,7 +374,7 @@ $Self->{ServiceObject}->CustomerUserServiceMemberAdd(
 );
 
 # restore all original default services
-foreach my $ServiceID (@OriginalDefaultServices) {
+for my $ServiceID (@OriginalDefaultServices) {
     $Self->{ServiceObject}->CustomerUserServiceMemberAdd(
         CustomerUserLogin => '<DEFAULT>',
         ServiceID => $ServiceID,

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # XMLMaster.pl - the global xml handle for xml2db
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XMLMaster.pl,v 1.5 2006-11-02 12:20:59 tr Exp $
+# $Id: XMLMaster.pl,v 1.6 2007-09-29 11:08:29 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,8 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.6 $)[1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -79,7 +78,7 @@ eval {
     # get email from SDTIN
     my @XML = <STDIN>;
     my $String = '';
-    foreach (@XML) {
+   for (@XML) {
         $String .= $_;
     }
     if (!@XML) {

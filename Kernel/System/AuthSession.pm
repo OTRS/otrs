@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AuthSession.pm,v 1.30 2007-09-13 01:14:28 martin Exp $
+# $Id: AuthSession.pm,v 1.31 2007-09-29 11:00:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,8 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -60,22 +59,22 @@ create a object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # check needed objects
-    foreach (qw(LogObject ConfigObject TimeObject DBObject MainObject)) {
+    for (qw(LogObject ConfigObject TimeObject DBObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
     # load generator backend module
     my $GenericModule = $Self->{ConfigObject}->Get('SessionModule')
         || 'Kernel::System::AuthSession::DB';
-    if (!$Self->{MainObject}->Require($GenericModule)) {
+    if ( !$Self->{MainObject}->Require($GenericModule) ) {
         $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
     }
     $Self->{Backend} = $GenericModule->new(%Param);
@@ -92,7 +91,7 @@ checks a session, returns true (session ok) or false (session invalid)
 =cut
 
 sub CheckSessionID {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     return $Self->{Backend}->CheckSessionID(%Param);
 }
@@ -107,7 +106,7 @@ different remote ip, ...)
 =cut
 
 sub CheckSessionIDMessage {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     return $Self->{Backend}->CheckSessionIDMessage(%Param);
 }
@@ -121,7 +120,7 @@ get session data in a hash
 =cut
 
 sub GetSessionIDData {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     return $Self->{Backend}->GetSessionIDData(%Param);
 }
@@ -138,15 +137,17 @@ create a new session with given data
 =cut
 
 sub CreateSessionID {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # delete old session ids
     my @Expired = $Self->GetExpiredSessionIDs();
-    foreach (0..1) {
-        foreach my $SessionID (@{$Expired[$_]}) {
-            $Self->RemoveSessionID(SessionID => $SessionID);
+    for ( 0 .. 1 ) {
+        for my $SessionID ( @{ $Expired[$_] } ) {
+            $Self->RemoveSessionID( SessionID => $SessionID );
         }
     }
+
     # return created session id
     return $Self->{Backend}->CreateSessionID(%Param);
 }
@@ -161,7 +162,7 @@ session can't get deleted)
 =cut
 
 sub RemoveSessionID {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     return $Self->{Backend}->RemoveSessionID(%Param);
 }
@@ -180,12 +181,12 @@ false (if can't update)
 =cut
 
 sub UpdateSessionID {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    if ($Param{Key} && $Param{Key} =~ /:/) {
+    if ( $Param{Key} && $Param{Key} =~ /:/ ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can't Update Key: '$Param{Key}' because of ':' is not alown!",
+            Message  => "Can't Update Key: '$Param{Key}' because of ':' is not alown!",
         );
         return;
     }
@@ -204,27 +205,31 @@ returns a array with expired session ids
 =cut
 
 sub GetExpiredSessionIDs {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self           = shift;
+    my %Param          = @_;
     my @ExpiredSession = ();
-    my @ExpiredIdle = ();
-    my @List = $Self->{Backend}->GetAllSessionIDs();
-    foreach my $SessionID (@List) {
-        my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
+    my @ExpiredIdle    = ();
+    my @List           = $Self->{Backend}->GetAllSessionIDs();
+    for my $SessionID (@List) {
+        my %SessionData    = $Self->GetSessionIDData( SessionID => $SessionID );
         my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
-        my $ValidTime = (($SessionData{UserSessionStart}||0) + $MaxSessionTime) - $Self->{TimeObject}->SystemTime();
+        my $ValidTime      = ( ( $SessionData{UserSessionStart} || 0 ) + $MaxSessionTime )
+            - $Self->{TimeObject}->SystemTime();
         my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
-        my $ValidIdleTime = (($SessionData{UserLastRequest}||0) + $MaxSessionIdleTime) - $Self->{TimeObject}->SystemTime();
+        my $ValidIdleTime = ( ( $SessionData{UserLastRequest} || 0 ) + $MaxSessionIdleTime )
+            - $Self->{TimeObject}->SystemTime();
+
         # delete invalid session time
-        if ($ValidTime <= 0) {
-            push (@ExpiredSession, $SessionID);
+        if ( $ValidTime <= 0 ) {
+            push( @ExpiredSession, $SessionID );
         }
+
         # delete invalid idle session time
-        elsif ($ValidIdleTime <= 0) {
-            push (@ExpiredIdle, $SessionID);
+        elsif ( $ValidIdleTime <= 0 ) {
+            push( @ExpiredIdle, $SessionID );
         }
     }
-    return (\@ExpiredSession, \@ExpiredIdle);
+    return ( \@ExpiredSession, \@ExpiredIdle );
 }
 
 =item GetAllSessionIDs()
@@ -236,7 +241,7 @@ returns a array with all session ids
 =cut
 
 sub GetAllSessionIDs {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     return $Self->{Backend}->GetAllSessionIDs(%Param);
 }
@@ -250,7 +255,7 @@ clean up of sessions in your system
 =cut
 
 sub CleanUp {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     return $Self->{Backend}->CleanUp(%Param);
 }
@@ -268,6 +273,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2007-09-13 01:14:28 $
+$Revision: 1.31 $ $Date: 2007-09-29 11:00:37 $
 
 =cut

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # UnlockTickets.pl - to unlock tickets
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UnlockTickets.pl,v 1.24 2006-11-02 12:20:59 tr Exp $
+# $Id: UnlockTickets.pl,v 1.25 2007-09-29 11:08:29 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,8 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.25 $)[1];
 
 use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -85,7 +84,7 @@ if ($Command eq '--all') {
     while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
         push (@Tickets, \@RowTmp);
     }
-    foreach (@Tickets) {
+   for (@Tickets) {
         my @Row = @{$_};
         print " Unlocking ticket id $Row[0] ...";
         if ($CommonObject{TicketObject}->LockSet(
@@ -130,7 +129,7 @@ elsif ($Command eq '--timeout') {
             push (@Tickets, \@Row);
         }
     }
-    foreach (@Tickets) {
+   for (@Tickets) {
         my @Row = @{$_};
         print " Unlocking ticket id $Row[0] ...";
         if ($CommonObject{TicketObject}->LockSet(

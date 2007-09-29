@@ -3,7 +3,7 @@
 # scripts/test/TicketHistoryState.pl - test script of user auth
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TicketHistoryState.pl,v 1.4 2007-02-06 19:38:36 martin Exp $
+# $Id: TicketHistoryState.pl,v 1.5 2007-09-29 11:09:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,14 +23,14 @@
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
-use lib dirname($RealBin).'/..';
-use lib dirname($RealBin).'/../Kernel/cpan-lib';
+use lib dirname($RealBin) . '/..';
+use lib dirname($RealBin) . '/../Kernel/cpan-lib';
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -42,19 +42,19 @@ use Kernel::System::Ticket;
 # common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-test-TicketHistoryState.pl',
     %CommonObject,
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 
 my $TicketID = shift || die "Need TicketID as argument!\n";
-my $Year = shift || die "Need Year (e. g. 2004) as argument!\n";
-my $Month = shift || die "Need Month (e. g. 2) as argument!\n";
-my $Day = shift || die "Need Day (e. g. 2) as argument!\n";
+my $Year     = shift || die "Need Year (e. g. 2004) as argument!\n";
+my $Month    = shift || die "Need Month (e. g. 2) as argument!\n";
+my $Day      = shift || die "Need Day (e. g. 2) as argument!\n";
 
 print "OTRS::TicketHistoryState::Test ($VERSION)\n";
 print "==============================\n";
@@ -65,12 +65,11 @@ print "HistoryTicketGet()\n";
 print "------\n";
 
 my %Ticket = $CommonObject{TicketObject}->HistoryTicketGet(
-    TicketID => $TicketID,
-    StopYear => $Year,
+    TicketID  => $TicketID,
+    StopYear  => $Year,
     StopMonth => $Month,
-    StopDay => $Day,
+    StopDay   => $Day,
 );
-
-foreach (sort keys %Ticket) {
+for ( sort keys %Ticket ) {
     print "$_: $Ticket{$_}\n";
 }

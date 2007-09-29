@@ -2,7 +2,7 @@
 # Kernel/System/Cache.pm - all cache functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Cache.pm,v 1.3 2007-08-28 21:44:26 martin Exp $
+# $Id: Cache.pm,v 1.4 2007-09-29 11:00:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,8 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -58,22 +57,25 @@ create a object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
+
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
+
     # 0=off; 1=set+get_cache; 2=+delete+get_request;
     $Self->{Debug} = $Param{Debug} || 0;
+
     # check needed objects
-    foreach (qw(MainObject ConfigObject LogObject)) {
+    for (qw(MainObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     # cache backend
     my $CacheModule = $Self->{ConfigObject}->Get('Cache::Module')
         || 'Kernel::System::Cache::File';
-    if (!$Self->{MainObject}->Require($CacheModule)) {
+    if ( !$Self->{MainObject}->Require($CacheModule) ) {
         die "Can't load backend module $CacheModule! $@";
     }
 
@@ -95,19 +97,20 @@ set a new cache
 =cut
 
 sub Set {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    foreach (qw(Key Value)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Key Value)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # debug
-    if ($Self->{Debug} > 0) {
+    if ( $Self->{Debug} > 0 ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "Set Key:$Param{Key} TTL:$Param{TTL}!",
+            Message  => "Set Key:$Param{Key} TTL:$Param{TTL}!",
         );
     }
     return $Self->{CacheObject}->Set(%Param);
@@ -124,28 +127,30 @@ return a cache
 =cut
 
 sub Get {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(Key)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Key)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # debug
-    if ($Self->{Debug} > 1) {
+    if ( $Self->{Debug} > 1 ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "Get Key:$Param{Key}!",
+            Message  => "Get Key:$Param{Key}!",
         );
     }
     my $Value = $Self->{CacheObject}->Get(%Param);
-    if (defined($Value)) {
-        if ($Self->{Debug} > 0) {
+    if ( defined($Value) ) {
+        if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message => "Get cached Key:$Param{Key}!",
+                Message  => "Get cached Key:$Param{Key}!",
             );
         }
     }
@@ -163,20 +168,22 @@ delete a cache
 =cut
 
 sub Delete {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(Key)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Key)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # debug
-    if ($Self->{Debug} > 1) {
+    if ( $Self->{Debug} > 1 ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "Delete Key:$Param{Key}!",
+            Message  => "Delete Key:$Param{Key}!",
         );
     }
     return $Self->{CacheObject}->Delete(%Param);
@@ -198,6 +205,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2007-08-28 21:44:26 $
+$Revision: 1.4 $ $Date: 2007-09-29 11:00:47 $
 
 =cut

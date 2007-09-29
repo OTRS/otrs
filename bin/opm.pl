@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: opm.pl,v 1.17 2007-09-24 04:36:48 martin Exp $
+# $Id: opm.pl,v 1.18 2007-09-29 11:08:29 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -38,8 +38,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.18 $)[1];
 
 # common objects
 my %CommonObject = ();
@@ -121,7 +120,7 @@ if ($Opts{'a'} !~ /^(list|file)/ && $Opts{'p'}) {
         if ($URL eq 'online') {
             my %List = %{$CommonObject{ConfigObject}->Get('Package::RepositoryList')};
             %List = (%List, $CommonObject{PackageObject}->PackageOnlineRepositories());
-            foreach (sort keys %List) {
+           for (sort keys %List) {
                 if ($List{$_} =~ /^\[-Master-\]/) {
                     $URL = $_;
                 }
@@ -132,7 +131,7 @@ if ($Opts{'a'} !~ /^(list|file)/ && $Opts{'p'}) {
                 URL => $URL,
                 Lang => $CommonObject{ConfigObject}->Get('DefaultLanguage'),
             );
-            foreach my $Package (@Packages) {
+           for my $Package (@Packages) {
                 if ($Package->{Name} eq $PackageName) {
                     $PackageName = $Package->{File};
                     last;
@@ -155,7 +154,7 @@ if ($Opts{'a'} !~ /^(list|file)/ && $Opts{'p'}) {
             );
         }
         else {
-            foreach my $Package ($CommonObject{PackageObject}->RepositoryList()) {
+           for my $Package ($CommonObject{PackageObject}->RepositoryList()) {
                 if ($Opts{'p'} eq $Package->{Name}->{Content}) {
                     $FileString = $CommonObject{PackageObject}->RepositoryGet(
                         Name => $Package->{Name}->{Content},
@@ -174,8 +173,8 @@ if ($Opts{'a'} !~ /^(list|file)/ && $Opts{'p'}) {
 if ($Opts{'a'} eq 'file') {
     $Opts{'p'} =~ s/\/\//\//g;
     my $Hit = 0;
-    foreach my $Package ($CommonObject{PackageObject}->RepositoryList()) {
-        foreach my $File (@{$Package->{Filelist}}) {
+   for my $Package ($CommonObject{PackageObject}->RepositoryList()) {
+       for my $File (@{$Package->{Filelist}}) {
             if ($Opts{'p'} =~ /^\Q$File->{Location}\E$/) {
                 print "+----------------------------------------------------------------------------+\n";
                 print "| File:        $File->{Location}!\n";
@@ -387,7 +386,7 @@ elsif ($Opts{'a'} eq 'upgrade') {
     exit;
 }
 elsif ($Opts{'a'} eq 'list') {
-    foreach my $Package ($CommonObject{PackageObject}->RepositoryList()) {
+   for my $Package ($CommonObject{PackageObject}->RepositoryList()) {
         my %Data = _MessageGet(Info => $Package->{Description}, Reformat => 'No');
         print "+----------------------------------------------------------------------------+\n";
         print "| Name:        $Package->{Name}->{Content}\n";
@@ -407,7 +406,7 @@ elsif ($Opts{'a'} eq 'list-repository') {
         %List = %{$CommonObject{ConfigObject}->Get('Package::RepositoryList')};
     }
     %List = (%List, $CommonObject{PackageObject}->PackageOnlineRepositories());
-    foreach my $URL (sort {$List{$a} cmp $List{$b}} keys %List) {
+   for my $URL (sort {$List{$a} cmp $List{$b}} keys %List) {
         $Count++;
         print "+----------------------------------------------------------------------------+\n";
         print "| $Count) Name: $List{$URL}\n";
@@ -421,7 +420,7 @@ elsif ($Opts{'a'} eq 'list-repository') {
         $Repository = 1;
     }
     $Count = 0;
-    foreach my $URL (sort {$List{$a} cmp $List{$b}} keys %List) {
+   for my $URL (sort {$List{$a} cmp $List{$b}} keys %List) {
         $Count++;
         if ($Count == $Repository) {
             print "+----------------------------------------------------------------------------+\n";
@@ -431,7 +430,7 @@ elsif ($Opts{'a'} eq 'list-repository') {
                 Lang => $CommonObject{ConfigObject}->Get('DefaultLanguage'),
             );
             my $Count = 0;
-            foreach my $Package (@Packages) {
+           for my $Package (@Packages) {
                 $Count++;
                 print "+----------------------------------------------------------------------------+\n";
                 print "| $Count) Name:        $Package->{Name}\n";
@@ -447,7 +446,7 @@ elsif ($Opts{'a'} eq 'list-repository') {
             my $PackageCount = <STDIN>;
             chomp ($PackageCount);
             $Count = 0;
-            foreach my $Package (@Packages) {
+           for my $Package (@Packages) {
                 $Count++;
                 if ($Count eq $PackageCount) {
                     my $FileString = $CommonObject{PackageObject}->PackageOnlineGet(
@@ -468,7 +467,7 @@ elsif ($Opts{'a'} eq 'p') {
     my @Data = $CommonObject{PackageObject}->PackageParse(
         String => $FileString,
     );
-    foreach my $Tag (@Data) {
+   for my $Tag (@Data) {
         print STDERR "Tag: $Tag->{Type} $Tag->{Tag} $Tag->{Content}\n";
     }
 }
@@ -476,12 +475,12 @@ elsif ($Opts{'a'} eq 'parse') {
     my %Structure = $CommonObject{PackageObject}->PackageParse(
         String => $FileString,
     );
-    foreach my $Key (sort keys %Structure) {
+   for my $Key (sort keys %Structure) {
         if (ref($Structure{$Key}) eq 'ARRAY') {
-            foreach my $Data (@{$Structure{$Key}}) {
+           for my $Data (@{$Structure{$Key}}) {
                 print "--------------------------------------\n";
                 print "$Key:\n";
-                foreach (%{$Data}) {
+               for (%{$Data}) {
                     if (defined($_) && defined($Data->{$_})) {
                         print "  $_: $Data->{$_}\n";
                     }
@@ -491,7 +490,7 @@ elsif ($Opts{'a'} eq 'parse') {
         else {
             print "--------------------------------------\n";
             print "$Key:\n";
-            foreach my $Data (%{$Structure{$Key}}) {
+           for my $Data (%{$Structure{$Key}}) {
                 if (defined($Structure{$Key}->{$Data})) {
                     print "  $Data: $Structure{$Key}->{$Data}\n";
                 }
@@ -521,7 +520,7 @@ else {
 sub BuildPackageIndex {
     my $In = shift;
     my @List = glob("$In/*");
-    foreach my $File (@List) {
+   for my $File (@List) {
         $File =~ s/\/\//\//g;
         if (-d $File && $File !~ /CVS/) {
             BuildPackageIndex($File);
@@ -562,14 +561,14 @@ sub _MessageGet {
     my $Title = '';
     my $Description = '';
     if ($Param{Info}) {
-        foreach my $Tag (@{$Param{Info}}) {
+       for my $Tag (@{$Param{Info}}) {
             if (!$Description && $Tag->{Lang} eq 'en') {
                 $Description = $Tag->{Content} || '';
                 $Title = $Tag->{Title} || '';
             }
         }
         if (!$Description) {
-            foreach my $Tag (@{$Param{Info}}) {
+           for my $Tag (@{$Param{Info}}) {
                 if (!$Description) {
                     $Description = $Tag->{Content} || '';
                     $Title = $Tag->{Title} || '';

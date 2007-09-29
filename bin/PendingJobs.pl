@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PendingJobs.pl,v 1.27 2007-02-07 05:27:22 tr Exp $
+# $Id: PendingJobs.pl,v 1.28 2007-09-29 11:08:29 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,8 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.28 $)[1];
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -76,7 +75,7 @@ if (@PendingAutoStateIDs) {
     while (my @Row = $CommonObject{DBObject}->FetchrowArray()) {
         push (@TicketIDs, $Row[0]);
     }
-    foreach (@TicketIDs) {
+   for (@TicketIDs) {
         my %Ticket = $CommonObject{TicketObject}->TicketGet(TicketID => $_);
         if ($Ticket{UntilTime} < 1) {
             my %States = %{$CommonObject{ConfigObject}->Get('Ticket::StateAfterPending')};
@@ -124,7 +123,7 @@ if (@PendingReminderStateIDs) {
     while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
         push (@TicketIDs, $RowTmp[1]);
     }
-    foreach (@TicketIDs) {
+   for (@TicketIDs) {
         my %Ticket = $CommonObject{TicketObject}->TicketGet(TicketID => $_);
         # check if bussines hours is, then send escalation info
         my $CountedTime = $CommonObject{TimeObject}->WorkingTime(
@@ -154,7 +153,7 @@ if (@PendingReminderStateIDs) {
             }
             # send reminder notification
             print " Send reminder notification (TicketID=$_)\n";
-            foreach (@UserID) {
+           for (@UserID) {
                 # get user data
                 my %Preferences = $CommonObject{UserObject}->GetUserData(UserID => $_);
                 # check if today a reminder is already sent
@@ -166,7 +165,7 @@ if (@PendingReminderStateIDs) {
                     UserID => 1,
                 );
                 my $Sent = 0;
-                foreach my $Line (@Lines) {
+               for my $Line (@Lines) {
                     if ($Line->{Name} =~ /PendingReminder/ && $Line->{Name} =~ /\Q$Preferences{UserEmail}\E/i && $Line->{CreateTime} =~ /$Year-$Month-$Day/) {
                         $Sent = 1;
                     }

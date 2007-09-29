@@ -1,8 +1,8 @@
 # --
 # Ticket/Number/Random.pm - a ticket number random generator
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Random.pm,v 1.15 2006-12-21 11:17:05 martin Exp $
+# $Id: Random.pm,v 1.16 2007-09-29 10:52:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,41 +17,48 @@
 package Kernel::System::Ticket::Number::Random;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub TicketCreateNumber {
     my $Self = shift;
+
     # get needed config options
     my $SystemID = $Self->{ConfigObject}->Get('SystemID');
+
     # random counter
-    my $Count = int(rand(9999999999));
+    my $Count  = int( rand(9999999999) );
     my $Length = length($Count);
     $Length = 10 - $Length;
+
     # fill up
-    foreach (1..$Length) {
+    for ( 1 .. $Length ) {
         $Count = "0$Count";
     }
+
     # create new ticket number
-    my $Tn = $SystemID.$Count;
+    my $Tn = $SystemID . $Count;
+
     # Check ticket number. If exists generate new one!
-    if ($Self->TicketCheckNumber(Tn=>$Tn)) {
+    if ( $Self->TicketCheckNumber( Tn => $Tn ) ) {
         $Self->{LoopProtectionCounter}++;
-        if ($Self->{LoopProtectionCounter} >= 6000) {
+        if ( $Self->{LoopProtectionCounter} >= 6000 ) {
+
             # loop protection
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "CounterLoopProtection is now $Self->{LoopProtectionCounter}!".
-                    " Stoped TicketCreateNumber()!",
+                Message  => "CounterLoopProtection is now $Self->{LoopProtectionCounter}!"
+                    . " Stoped TicketCreateNumber()!",
             );
             return;
         }
+
         # create new ticket number again
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "Tn ($Tn) exists! Creating a new one.",
+            Message  => "Tn ($Tn) exists! Creating a new one.",
         );
         $Tn = $Self->TicketCreateNumber();
     }
@@ -61,21 +68,24 @@ sub TicketCreateNumber {
 sub GetTNByString {
     my $Self = shift;
     my $String = shift || return;
+
     # get needed config options
     my $CheckSystemID = $Self->{ConfigObject}->Get('Ticket::NumberGenerator::CheckSystemID');
-    my $SystemID = '';
+    my $SystemID      = '';
     if ($CheckSystemID) {
         $SystemID = $Self->{ConfigObject}->Get('SystemID');
     }
-    my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
+    my $TicketHook        = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
+
     # check current setting
-    if ($String =~ /\Q$TicketHook$TicketHookDivider\E($SystemID\d{2,20})/i) {
+    if ( $String =~ /\Q$TicketHook$TicketHookDivider\E($SystemID\d{2,20})/i ) {
         return $1;
     }
     else {
+
         # check default setting
-        if ($String =~ /\Q$TicketHook\E:+.{0,2}($SystemID\d{2,20})/i) {
+        if ( $String =~ /\Q$TicketHook\E:+.{0,2}($SystemID\d{2,20})/i ) {
             return $1;
         }
         else {

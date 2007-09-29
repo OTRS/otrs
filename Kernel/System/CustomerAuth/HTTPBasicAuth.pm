@@ -1,9 +1,9 @@
 # --
 # Kernel/System/CustomerAuth/HTTPBasicAuth.pm - provides the $ENV{REMOTE_USER}
 # authentification
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: HTTPBasicAuth.pm,v 1.5 2006-12-13 17:09:57 martin Exp $
+# $Id: HTTPBasicAuth.pm,v 1.6 2007-09-29 10:58:17 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,21 +23,21 @@
 package Kernel::System::CustomerAuth::HTTPBasicAuth;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # check needed objects
-    foreach (qw(LogObject ConfigObject DBObject)) {
+    for (qw(LogObject ConfigObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
@@ -50,42 +50,45 @@ sub new {
 }
 
 sub GetOption {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{What}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need What!");
+    if ( !$Param{What} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need What!" );
         return;
     }
+
     # module options
-    my %Option = (
-        PreAuth => 1,
-    );
+    my %Option = ( PreAuth => 1, );
+
     # return option
-    return $Option{$Param{What}};
+    return $Option{ $Param{What} };
 }
 
 sub Auth {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # get params
     my $User = $ENV{REMOTE_USER};
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     if ($User) {
-        my $Replace = $Self->{ConfigObject}->Get('Customer::AuthModule::HTTPBasicAuth::Replace'.$Self->{Count});
+        my $Replace = $Self->{ConfigObject}
+            ->Get( 'Customer::AuthModule::HTTPBasicAuth::Replace' . $Self->{Count} );
         if ($Replace) {
             $User =~ s/^\Q$Replace\E//;
         }
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "User: $User authentification ok (REMOTE_ADDR: $RemoteAddr).",
+            Message  => "User: $User authentification ok (REMOTE_ADDR: $RemoteAddr).",
         );
         return $User;
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "User: No \$ENV{REMOTE_USER} !(REMOTE_ADDR: $RemoteAddr).",
+            Message  => "User: No \$ENV{REMOTE_USER} !(REMOTE_ADDR: $RemoteAddr).",
         );
         return;
     }

@@ -3,7 +3,7 @@
 # scripts/test/CustomerBackend.pl - test script of customer backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerBackend.pl,v 1.5 2007-02-06 19:41:25 martin Exp $
+# $Id: CustomerBackend.pl,v 1.6 2007-09-29 11:09:40 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,14 +23,14 @@
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
-use lib dirname($RealBin).'/..';
-use lib dirname($RealBin).'/../Kernel/cpan-lib';
+use lib dirname($RealBin) . '/..';
+use lib dirname($RealBin) . '/../Kernel/cpan-lib';
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -41,12 +41,12 @@ use Kernel::System::CustomerUser;
 # common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
+$CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-test-CustomerBackend.pl',
     %CommonObject,
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{MainObject}     = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}       = Kernel::System::DB->new(%CommonObject);
 $CommonObject{CustomerObject} = Kernel::System::CustomerUser->new(%CommonObject);
 
 my $SearchUser = shift || '*';
@@ -59,9 +59,8 @@ print "CustomerSearch()\n";
 print "----------------\n";
 
 my $LastCustomer = '';
-my %Customers = $CommonObject{CustomerObject}->CustomerSearch(Search => $SearchUser);
-
-foreach (keys %Customers) {
+my %Customers = $CommonObject{CustomerObject}->CustomerSearch( Search => $SearchUser );
+for ( keys %Customers ) {
     $LastCustomer = $_;
     print "$_: $Customers{$_}\n";
 }
@@ -72,8 +71,8 @@ print "---------------------\n";
 
 if ($LastCustomer) {
     print "Show Customer User Data of '$LastCustomer':\n";
-    my %CustomerData = $CommonObject{CustomerObject}->CustomerUserDataGet(User => $LastCustomer);
-    foreach (keys %CustomerData) {
+    my %CustomerData = $CommonObject{CustomerObject}->CustomerUserDataGet( User => $LastCustomer );
+    for ( keys %CustomerData ) {
         print "$_: $CustomerData{$_}\n";
     }
 }
@@ -87,7 +86,7 @@ print "--------------\n";
 
 if ($LastCustomer) {
     print "Show Customer User Name of '$LastCustomer':\n";
-    my $Customer = $CommonObject{CustomerObject}->CustomerName(UserLogin => $LastCustomer) || '';
+    my $Customer = $CommonObject{CustomerObject}->CustomerName( UserLogin => $LastCustomer ) || '';
     print "Name: '$Customer'\n";
 }
 else {

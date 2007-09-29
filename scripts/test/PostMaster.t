@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.4 2007-05-07 08:24:25 martin Exp $
+# $Id: PostMaster.t,v 1.5 2007-09-29 11:09:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use Kernel::System::PostMaster;
 use Kernel::System::Ticket;
 use Digest::MD5 qw(md5_hex);
 
-foreach my $Module (qw(DB FS)) {
+for my $Module (qw(DB FS)) {
     $Self->{ConfigObject}->Set(
         Key => 'LoopProtectionModule',
         Value => "Kernel::System::PostMaster::LoopProtection::$Module",
@@ -34,7 +34,7 @@ foreach my $Module (qw(DB FS)) {
         "#$Module - Check() - $UserRand1",
     );
 
-    foreach (1..42) {
+    for (1..42) {
         my $SendEmail = $Self->{LoopProtectionObject}->SendEmail(
             To => $UserRand1,
         );
@@ -54,20 +54,20 @@ foreach my $Module (qw(DB FS)) {
     );
 }
 
-#foreach my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
-foreach my $NumberModule (qw(Random)) {
+#for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
+for my $NumberModule (qw(Random)) {
     $Self->{ConfigObject}->Set(
         Key => 'Ticket::NumberGenerator',
         Value => "Kernel::System::Ticket::Number::$NumberModule",
     );
-    foreach my $StorageModule (qw(ArticleStorageDB ArticleStorageFS)) {
+    for my $StorageModule (qw(ArticleStorageDB ArticleStorageFS)) {
         $Self->{ConfigObject}->Set(
             Key => 'Ticket::StorageModule',
             Value => "Kernel::System::Ticket::$StorageModule",
         );
         # get rand sender address
         my $UserRand1 = 'example-user'.int(rand(1000000)).'@example.com';
-        foreach my $File (qw(1 2 3 6)) {
+        for my $File (qw(1 2 3 6)) {
             # new ticket check
             my @Content = ();
             open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/PostMaster-Test$File.box") || die $!;
@@ -82,7 +82,7 @@ foreach my $NumberModule (qw(Random)) {
 
             # follow up check
             my @ContentNew = ();
-            foreach my $Line (@Content) {
+            for my $Line (@Content) {
                 push (@ContentNew, $Line);
             }
 
@@ -177,7 +177,7 @@ foreach my $NumberModule (qw(Random)) {
 
             # send follow up #1
             @Content = ();
-            foreach my $Line (@ContentNew) {
+            for my $Line (@ContentNew) {
                 if ($Line =~ /^Subject:/) {
                     $Line = 'Subject: '.$Self->{TicketObject}->TicketSubjectBuild(
                         TicketNumber => $Ticket{TicketNumber},
@@ -220,7 +220,7 @@ foreach my $NumberModule (qw(Random)) {
 
             # send follow up #2
             @Content = ();
-            foreach my $Line (@ContentNew) {
+            for my $Line (@ContentNew) {
                 if ($Line =~ /^Subject:/) {
                     $Line = 'Subject: '.$Self->{TicketObject}->TicketSubjectBuild(
                         TicketNumber => $Ticket{TicketNumber},
@@ -263,7 +263,7 @@ foreach my $NumberModule (qw(Random)) {
 
             # send follow up #3
             @Content = ();
-            foreach my $Line (@ContentNew) {
+            for my $Line (@ContentNew) {
                 if ($Line =~ /^Subject:/) {
                     $Line = 'Subject: '.$Self->{TicketObject}->TicketSubjectBuild(
                         TicketNumber => $Ticket{TicketNumber},

@@ -2,7 +2,7 @@
 # Kernel/System/POP3Account.pm - lib for POP3 accounts
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: POP3Account.pm,v 1.14 2007-01-20 23:11:34 mh Exp $
+# $Id: POP3Account.pm,v 1.15 2007-09-29 11:00:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,10 @@
 package Kernel::System::POP3Account;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -57,21 +57,21 @@ create a object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get common objects
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
 
     # check all needed objects
-    foreach (qw(DBObject ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+    for (qw(DBObject ConfigObject LogObject)) {
+        die "Got no $_" if ( !$Self->{$_} );
     }
 
     return $Self;
@@ -95,50 +95,53 @@ adds a new pop3 account
 =cut
 
 sub POP3AccountAdd {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(Login Password Host ValidID Trusted DispatchingBy QueueID UserID)) {
-        if (!defined $Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+    for (qw(Login Password Host ValidID Trusted DispatchingBy QueueID UserID)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
             return;
         }
     }
-    foreach (qw(Login Password Host ValidID UserID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Login Password Host ValidID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # check if dispatching is by From
-    if ($Param{DispatchingBy} eq 'From') {
+    if ( $Param{DispatchingBy} eq 'From' ) {
         $Param{QueueID} = 0;
     }
-    elsif ($Param{DispatchingBy} eq 'Queue' && !$Param{QueueID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID for dispatching!");
+    elsif ( $Param{DispatchingBy} eq 'Queue' && !$Param{QueueID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need QueueID for dispatching!" );
         return;
     }
+
     # db quote
-    foreach (qw(Login Password Host Comment)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    for (qw(Login Password Host Comment)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
     }
-    foreach (qw(ValidID QueueID Trusted UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    for (qw(ValidID QueueID Trusted UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
+
     # sql
-    my $SQL = "INSERT INTO pop3_account (login, pw, host, valid_id, comments, queue_id, " .
-        " trusted, create_time, create_by, change_time, change_by)" .
-        " VALUES " .
-        " ('$Param{Login}', '$Param{Password}', '$Param{Host}', $Param{ValidID}, " .
-        " '$Param{Comment}', $Param{QueueID}, $Param{Trusted}, " .
-        " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+    my $SQL
+        = "INSERT INTO pop3_account (login, pw, host, valid_id, comments, queue_id, "
+        . " trusted, create_time, create_by, change_time, change_by)"
+        . " VALUES "
+        . " ('$Param{Login}', '$Param{Password}', '$Param{Host}', $Param{ValidID}, "
+        . " '$Param{Comment}', $Param{QueueID}, $Param{Trusted}, "
+        . " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         my $Id = 0;
-        $Self->{DBObject}->Prepare(
-            SQL => "SELECT id FROM pop3_account WHERE ".
-                "login = '$Param{Login}' AND host = '$Param{Host}'",
-        );
-        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Self->{DBObject}->Prepare( SQL => "SELECT id FROM pop3_account WHERE "
+                . "login = '$Param{Login}' AND host = '$Param{Host}'", );
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Id = $Row[0];
         }
         return $Id;
@@ -161,41 +164,45 @@ returns a hash of pop4 account data
 =cut
 
 sub POP3AccountGet {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{ID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+    if ( !$Param{ID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
         return;
     }
-    # db quote
-    foreach (qw(ID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
-    }
-    # sql
-    my $SQL = "SELECT login, pw, host, queue_id, trusted, comments, valid_id " .
-        " FROM " .
-        " pop3_account " .
-        " WHERE " .
-        " id = $Param{ID}";
 
-    if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
+    # db quote
+    for (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
+    }
+
+    # sql
+    my $SQL
+        = "SELECT login, pw, host, queue_id, trusted, comments, valid_id "
+        . " FROM "
+        . " pop3_account "
+        . " WHERE "
+        . " id = $Param{ID}";
+
+    if ( !$Self->{DBObject}->Prepare( SQL => $SQL ) ) {
         return;
     }
     my %Data = ();
-    while (my @Data = $Self->{DBObject}->FetchrowArray()) {
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
-            ID => $Param{ID},
-            Login => $Data[0],
+            ID       => $Param{ID},
+            Login    => $Data[0],
             Password => $Data[1],
-            Host => $Data[2],
-            QueueID => $Data[3],
-            Trusted => $Data[4],
-            Comment => $Data[5],
-            ValidID => $Data[6],
+            Host     => $Data[2],
+            QueueID  => $Data[3],
+            Trusted  => $Data[4],
+            Comment  => $Data[5],
+            ValidID  => $Data[6],
         );
     }
-    if ($Data{QueueID} == 0) {
+    if ( $Data{QueueID} == 0 ) {
         $Data{DispatchingBy} = 'From';
     }
     else {
@@ -223,37 +230,42 @@ update a new pop3 account
 =cut
 
 sub POP3AccountUpdate {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(ID Login Password Host ValidID Trusted DispatchingBy QueueID UserID)) {
-        if (!defined $Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(ID Login Password Host ValidID Trusted DispatchingBy QueueID UserID)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # check if dispatching is by From
-    if ($Param{DispatchingBy} eq 'From') {
+    if ( $Param{DispatchingBy} eq 'From' ) {
         $Param{QueueID} = 0;
     }
-    elsif ($Param{DispatchingBy} eq 'Queue' && !$Param{QueueID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID for dispatching!");
+    elsif ( $Param{DispatchingBy} eq 'Queue' && !$Param{QueueID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need QueueID for dispatching!" );
         return;
     }
+
     # db quote
-    foreach (qw(Login Password Host Comment)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    for (qw(Login Password Host Comment)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
     }
-    foreach (qw(ID ValidID QueueID Trusted UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    for (qw(ID ValidID QueueID Trusted UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
+
     # sql
-    my $SQL = "UPDATE pop3_account SET login = '$Param{Login}', pw = '$Param{Password}', ".
-        " host = '$Param{Host}', comments = '$Param{Comment}', ".
-        " trusted = $Param{Trusted}, valid_id = $Param{ValidID}, ".
-        " change_time = current_timestamp, change_by = $Param{UserID}, queue_id = $Param{QueueID} " .
-        " WHERE id = $Param{ID}";
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+    my $SQL
+        = "UPDATE pop3_account SET login = '$Param{Login}', pw = '$Param{Password}', "
+        . " host = '$Param{Host}', comments = '$Param{Comment}', "
+        . " trusted = $Param{Trusted}, valid_id = $Param{ValidID}, "
+        . " change_time = current_timestamp, change_by = $Param{UserID}, queue_id = $Param{QueueID} "
+        . " WHERE id = $Param{ID}";
+    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         return 1;
     }
     else {
@@ -272,21 +284,24 @@ deletes a pop3 account
 =cut
 
 sub POP3AccountDelete {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{ID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+    if ( !$Param{ID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
         return;
     }
+
     # db quote
-    foreach (qw(ID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    for (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
+
     # sql
     my $SQL = "DELETE FROM pop3_account WHERE id = $Param{ID}";
 
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         return 1;
     }
     else {
@@ -305,11 +320,11 @@ returns a list (Key, Name) of all pop3 accounts
 =cut
 
 sub POP3AccountList {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my $Valid = $Param{Valid} || 0;
     return $Self->{DBObject}->GetTableData(
-        What => 'id, login, host',
+        What  => 'id, login, host',
         Valid => $Valid,
         Clamp => 1,
         Table => 'pop3_account',
@@ -332,6 +347,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2007-01-20 23:11:34 $
+$Revision: 1.15 $ $Date: 2007-09-29 11:00:19 $
 
 =cut

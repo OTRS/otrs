@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.65 2007-09-13 01:30:35 martin Exp $
+# $Id: User.pm,v 1.66 2007-09-29 11:01:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,8 +19,7 @@ use Digest::MD5;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.65 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.66 $) [1];
 
 =head1 NAME
 
@@ -75,29 +74,32 @@ create a object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
+
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject TimeObject MainObject)) {
+    for (qw(DBObject ConfigObject LogObject TimeObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
     # get user table
-    $Self->{UserTable} = $Self->{ConfigObject}->Get('DatabaseUserTable') || 'user';
+    $Self->{UserTable}       = $Self->{ConfigObject}->Get('DatabaseUserTable')       || 'user';
     $Self->{UserTableUserID} = $Self->{ConfigObject}->Get('DatabaseUserTableUserID') || 'id';
     $Self->{UserTableUserPW} = $Self->{ConfigObject}->Get('DatabaseUserTableUserPW') || 'pw';
-    $Self->{UserTableUser} = $Self->{ConfigObject}->Get('DatabaseUserTableUser') || 'login';
+    $Self->{UserTableUser}   = $Self->{ConfigObject}->Get('DatabaseUserTableUser')   || 'login';
 
     # create needed object
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject}     = Kernel::System::Valid->new(%Param);
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
 
     # load generator preferences module
-    my $GeneratorModule = $Self->{ConfigObject}->Get('User::PreferencesModule') || 'Kernel::System::User::Preferences::DB';
-    if ($Self->{MainObject}->Require($GeneratorModule)) {
+    my $GeneratorModule = $Self->{ConfigObject}->Get('User::PreferencesModule')
+        || 'Kernel::System::User::Preferences::DB';
+    if ( $Self->{MainObject}->Require($GeneratorModule) ) {
         $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
     }
 
@@ -123,89 +125,102 @@ get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
 =cut
 
 sub GetUserData {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{User} && !$Param{UserID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need User or UserID!");
+    if ( !$Param{User} && !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need User or UserID!" );
         return;
     }
+
     # check if result is cached
-    if ($Param{Cached}) {
-        if ($Param{User} && $Self->{'GetUserData::User::'.$Param{User}}) {
-            return %{$Self->{'GetUserData::User::'.$Param{User}}};
+    if ( $Param{Cached} ) {
+        if ( $Param{User} && $Self->{ 'GetUserData::User::' . $Param{User} } ) {
+            return %{ $Self->{ 'GetUserData::User::' . $Param{User} } };
         }
-        elsif ($Param{UserID} && $Self->{'GetUserData::UserID::'.$Param{UserID}}) {
-            return %{$Self->{'GetUserData::UserID::'.$Param{UserID}}};
+        elsif ( $Param{UserID} && $Self->{ 'GetUserData::UserID::' . $Param{UserID} } ) {
+            return %{ $Self->{ 'GetUserData::UserID::' . $Param{UserID} } };
         }
     }
     my %Data;
+
     # get initial data
-    my $SQL = "SELECT $Self->{UserTableUserID}, $Self->{UserTableUser}, ".
-        " salutation, first_name, last_name, $Self->{UserTableUserPW}, valid_id ".
-        " FROM " .
-        " $Self->{UserTable} " .
-        " WHERE ";
-    if ($Param{User}) {
-        $SQL .= " LOWER($Self->{UserTableUser}) = LOWER('".$Self->{DBObject}->Quote($Param{User})."')";
+    my $SQL
+        = "SELECT $Self->{UserTableUserID}, $Self->{UserTableUser}, "
+        . " salutation, first_name, last_name, $Self->{UserTableUserPW}, valid_id "
+        . " FROM "
+        . " $Self->{UserTable} "
+        . " WHERE ";
+    if ( $Param{User} ) {
+        $SQL .= " LOWER($Self->{UserTableUser}) = LOWER('"
+            . $Self->{DBObject}->Quote( $Param{User} ) . "')";
     }
     else {
-        $SQL .= " $Self->{UserTableUserID} = ".$Self->{DBObject}->Quote($Param{UserID}, 'Integer')."";
+        $SQL .= " $Self->{UserTableUserID} = "
+            . $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' ) . "";
     }
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $Data{UserID} = $Row[0];
-        $Data{UserLogin} = $Row[1];
+    $Self->{DBObject}->Prepare( SQL => $SQL );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data{UserID}         = $Row[0];
+        $Data{UserLogin}      = $Row[1];
         $Data{UserSalutation} = $Row[2];
-        $Data{UserFirstname} = $Row[3];
-        $Data{UserLastname} = $Row[4];
-        $Data{UserPw} = $Row[5];
-        $Data{ValidID} = $Row[6];
+        $Data{UserFirstname}  = $Row[3];
+        $Data{UserLastname}   = $Row[4];
+        $Data{UserPw}         = $Row[5];
+        $Data{ValidID}        = $Row[6];
     }
+
     # check data
-    if (!$Data{UserID}) {
-        if ($Param{User}) {
+    if ( !$Data{UserID} ) {
+        if ( $Param{User} ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message => "Panic! No UserData for user: '$Param{User}'!!!",
+                Message  => "Panic! No UserData for user: '$Param{User}'!!!",
             );
             return;
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message => "Panic! No UserData for user id: '$Param{UserID}'!!!",
+                Message  => "Panic! No UserData for user id: '$Param{UserID}'!!!",
             );
             return;
         }
     }
+
     # check valid, return if there is locked for valid users
-    if ($Param{Valid}) {
+    if ( $Param{Valid} ) {
         my $Hit = 0;
-        foreach ($Self->{ValidObject}->ValidIDsGet()) {
-            if ($_ eq $Data{ValidID}) {
+        for ( $Self->{ValidObject}->ValidIDsGet() ) {
+            if ( $_ eq $Data{ValidID} ) {
                 $Hit = 1;
             }
         }
-        if (!$Hit) {
+        if ( !$Hit ) {
             return;
         }
     }
+
     # get preferences
-    my %Preferences = $Self->GetPreferences(UserID => $Data{UserID});
+    my %Preferences = $Self->GetPreferences( UserID => $Data{UserID} );
+
     # check compat stuff
-    if (!$Preferences{UserEmail}) {
+    if ( !$Preferences{UserEmail} ) {
         $Preferences{UserEmail} = $Data{UserLogin};
     }
+
     # merge hash
-    %Data = (%Data, %Preferences);
+    %Data = ( %Data, %Preferences );
+
     # cache user result
-    if ($Param{User}) {
-        $Self->{'GetUserData::User::'.$Param{User}} = \%Data;
+    if ( $Param{User} ) {
+        $Self->{ 'GetUserData::User::' . $Param{User} } = \%Data;
     }
-    elsif ($Param{UserID}) {
-        $Self->{'GetUserData::UserID::'.$Param{UserID}} = \%Data;
+    elsif ( $Param{UserID} ) {
+        $Self->{ 'GetUserData::UserID::' . $Param{UserID} } = \%Data;
     }
+
     # return data
     return %Data;
 }
@@ -227,73 +242,87 @@ to add new users
 =cut
 
 sub UserAdd {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(UserFirstname UserLastname UserLogin UserEmail ValidID ChangeUserID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(UserFirstname UserLastname UserLogin UserEmail ValidID ChangeUserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # check email address
-    if ($Param{UserEmail} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{UserEmail})) {
+    if ( $Param{UserEmail}
+        && !$Self->{CheckItemObject}->CheckEmail( Address => $Param{UserEmail} ) )
+    {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Email address ($Param{UserEmail}) not valid (".
-                $Self->{CheckItemObject}->CheckError().")!",
+            Message  => "Email address ($Param{UserEmail}) not valid ("
+                . $Self->{CheckItemObject}->CheckError() . ")!",
         );
         return;
     }
+
     # check password
-    if (!$Param{UserPw}) {
+    if ( !$Param{UserPw} ) {
         $Param{UserPw} = $Self->GenerateRandomPassword();
     }
-    # quote params
-    foreach (qw(UserSalutation UserFirstname UserLastname UserLogin UserPw)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
-    }
-    foreach (qw(ValidID ChangeUserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
-    }
-    # sql
-    my $SQL = "INSERT INTO $Self->{UserTable} " .
-        "(salutation, " .
-        " first_name, " .
-        " last_name, " .
-        " $Self->{UserTableUser}, " .
-        " $Self->{UserTableUserPW}, " .
-        " valid_id, create_time, create_by, change_time, change_by)" .
-        " VALUES " .
-        " ('$Param{UserSalutation}', " .
-        " '$Param{UserFirstname}', " .
-        " '$Param{UserLastname}', " .
-        " '$Param{UserLogin}', " .
-        " '$Param{UserPw}', " .
-        " $Param{ValidID}, current_timestamp, $Param{ChangeUserID}, ".
-        " current_timestamp, $Param{ChangeUserID})";
 
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+    # quote params
+    for (qw(UserSalutation UserFirstname UserLastname UserLogin UserPw)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
+    }
+    for (qw(ValidID ChangeUserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
+    }
+
+    # sql
+    my $SQL
+        = "INSERT INTO $Self->{UserTable} "
+        . "(salutation, "
+        . " first_name, "
+        . " last_name, "
+        . " $Self->{UserTableUser}, "
+        . " $Self->{UserTableUserPW}, "
+        . " valid_id, create_time, create_by, change_time, change_by)"
+        . " VALUES "
+        . " ('$Param{UserSalutation}', "
+        . " '$Param{UserFirstname}', "
+        . " '$Param{UserLastname}', "
+        . " '$Param{UserLogin}', "
+        . " '$Param{UserPw}', "
+        . " $Param{ValidID}, current_timestamp, $Param{ChangeUserID}, "
+        . " current_timestamp, $Param{ChangeUserID})";
+
+    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
+
         # get new user id
-        $SQL = "SELECT $Self->{UserTableUserID} ".
-            " FROM " .
-            " $Self->{UserTable} " .
-            " WHERE " .
-            " LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')";
+        $SQL
+            = "SELECT $Self->{UserTableUserID} "
+            . " FROM "
+            . " $Self->{UserTable} "
+            . " WHERE "
+            . " LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')";
         my $UserID = '';
-        $Self->{DBObject}->Prepare(SQL => $SQL);
-        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Self->{DBObject}->Prepare( SQL => $SQL );
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $UserID = $Row[0];
         }
+
         # log notice
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "User: '$Param{UserLogin}' ID: '$UserID' created successfully ($Param{ChangeUserID})!",
+            Message =>
+                "User: '$Param{UserLogin}' ID: '$UserID' created successfully ($Param{ChangeUserID})!",
         );
+
         # set password
-        $Self->SetPassword(UserLogin => $Param{UserLogin}, PW => $Param{UserPw});
+        $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPw} );
+
         # set email address
-        $Self->SetPreferences(UserID => $UserID, Key => 'UserEmail', Value => $Param{UserEmail});
+        $Self->SetPreferences( UserID => $UserID, Key => 'UserEmail', Value => $Param{UserEmail} );
         return $UserID;
     }
     else {
@@ -319,56 +348,71 @@ to update users
 =cut
 
 sub UserUpdate {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(UserID UserFirstname UserLastname UserLogin ValidID UserID ChangeUserID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(UserID UserFirstname UserLastname UserLogin ValidID UserID ChangeUserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # check email address
-    if ($Param{UserEmail} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{UserEmail})) {
+    if ( $Param{UserEmail}
+        && !$Self->{CheckItemObject}->CheckEmail( Address => $Param{UserEmail} ) )
+    {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Email address ($Param{UserEmail}) not valid (".
-                $Self->{CheckItemObject}->CheckError().")!",
+            Message  => "Email address ($Param{UserEmail}) not valid ("
+                . $Self->{CheckItemObject}->CheckError() . ")!",
         );
         return;
     }
-    # get old user data (pw)
-    my %UserData = $Self->GetUserData(UserID => $Param{UserID});
-    # quote params
-    foreach (qw(UserSalutation UserFirstname UserLastname)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
-    }
-    foreach (qw(ID ValidID UserID ChangeUserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
-    }
-    # update db
-    my $SQL = "UPDATE $Self->{UserTable} SET " .
-        " salutation = '$Param{UserSalutation}', " .
-        " first_name = '$Param{UserFirstname}'," .
-        " last_name = '$Param{UserLastname}', " .
-        " $Self->{UserTableUser} = '$Param{UserLogin}', " .
-        " valid_id = $Param{ValidID}, " .
-        " change_time = current_timestamp, " .
-        " change_by = $Param{ChangeUserID} " .
-        " WHERE $Self->{UserTableUserID} = $Param{UserID}";
 
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+    # get old user data (pw)
+    my %UserData = $Self->GetUserData( UserID => $Param{UserID} );
+
+    # quote params
+    for (qw(UserSalutation UserFirstname UserLastname)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
+    }
+    for (qw(ID ValidID UserID ChangeUserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
+    }
+
+    # update db
+    my $SQL
+        = "UPDATE $Self->{UserTable} SET "
+        . " salutation = '$Param{UserSalutation}', "
+        . " first_name = '$Param{UserFirstname}',"
+        . " last_name = '$Param{UserLastname}', "
+        . " $Self->{UserTableUser} = '$Param{UserLogin}', "
+        . " valid_id = $Param{ValidID}, "
+        . " change_time = current_timestamp, "
+        . " change_by = $Param{ChangeUserID} "
+        . " WHERE $Self->{UserTableUserID} = $Param{UserID}";
+
+    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
+
         # log notice
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "User: '$Param{UserLogin}' updated successfully ($Param{ChangeUserID})!",
+            Message  => "User: '$Param{UserLogin}' updated successfully ($Param{ChangeUserID})!",
         );
+
         # check pw
-        if ($Param{UserPw}) {
-            $Self->SetPassword(UserLogin => $Param{UserLogin}, PW => $Param{UserPw});
+        if ( $Param{UserPw} ) {
+            $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPw} );
         }
+
         # set email address
-        $Self->SetPreferences(UserID => $Param{UserID}, Key => 'UserEmail', Value => $Param{UserEmail});
+        $Self->SetPreferences(
+            UserID => $Param{UserID},
+            Key    => 'UserEmail',
+            Value  => $Param{UserEmail}
+        );
         return 1;
     }
     else {
@@ -399,45 +443,48 @@ to search users
 =cut
 
 sub UserSearch {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my %Users = ();
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+
     # check needed stuff
-    if (!$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Search, UserLogin or PostMasterSearch!");
+    if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} ) {
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => "Need Search, UserLogin or PostMasterSearch!" );
         return;
     }
+
     # build SQL string 1/2
-    my $SQL = "SELECT $Self->{UserTableUserID} ";
+    my $SQL    = "SELECT $Self->{UserTableUserID} ";
     my @Fields = qw(login first_name last_name);
     if (@Fields) {
-        foreach my $Entry (@Fields) {
+        for my $Entry (@Fields) {
             $SQL .= ", $Entry";
         }
     }
+
     # build SQL string 2/2
-    $SQL .= " FROM " .
-        " $Self->{UserTable} ".
-        " WHERE ";
-    if ($Param{Search}) {
+    $SQL .= " FROM " . " $Self->{UserTable} " . " WHERE ";
+    if ( $Param{Search} ) {
         my $Count = 0;
-        my @Parts = split(/\+/, $Param{Search}, 6);
-        foreach my $Part (@Parts) {
-#            $Part = $Self->{SearchPrefix}.$Part.$Self->{SearchSuffix};
+        my @Parts = split( /\+/, $Param{Search}, 6 );
+        for my $Part (@Parts) {
+
+            #            $Part = $Self->{SearchPrefix}.$Part.$Self->{SearchSuffix};
             $Part =~ s/\*/%/g;
             $Part =~ s/%%/%/g;
             if ($Count) {
                 $SQL .= " AND ";
             }
-            $Count ++;
+            $Count++;
             if (@Fields) {
                 my $SQLExt = '';
-                foreach (@Fields) {
+                for (@Fields) {
                     if ($SQLExt) {
                         $SQLExt .= ' OR ';
                     }
-                    $SQLExt .= " LOWER($_) LIKE LOWER('".$Self->{DBObject}->Quote($Part)."') ";
+                    $SQLExt .= " LOWER($_) LIKE LOWER('" . $Self->{DBObject}->Quote($Part) . "') ";
                 }
                 if ($SQLExt) {
                     $SQL .= "($SQLExt)";
@@ -445,15 +492,15 @@ sub UserSearch {
             }
         }
     }
-    elsif ($Param{PostMasterSearch}) {
+    elsif ( $Param{PostMasterSearch} ) {
         my %UserID = $Self->SearchPreferences(
-            Key => 'UserEmail',
+            Key   => 'UserEmail',
             Value => $Param{PostMasterSearch},
         );
-        foreach (sort keys %UserID) {
+        for ( sort keys %UserID ) {
             my %User = $Self->GetUserData(
                 UserID => $_,
-                Valid => $Param{Valid},
+                Valid  => $Param{Valid},
             );
             if (%User) {
                 return %UserID;
@@ -461,23 +508,27 @@ sub UserSearch {
         }
         return ();
     }
-    elsif ($Param{UserLogin}) {
+    elsif ( $Param{UserLogin} ) {
         $Param{UserLogin} =~ s/\*/%/g;
-        $SQL .= " LOWER($Self->{UserTableUser}) LIKE LOWER('".$Self->{DBObject}->Quote($Param{UserLogin})."')";
+        $SQL .= " LOWER($Self->{UserTableUser}) LIKE LOWER('"
+            . $Self->{DBObject}->Quote( $Param{UserLogin} ) . "')";
     }
+
     # add valid option
     if ($Valid) {
         $SQL .= "AND valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) ";
     }
+
     # get data
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{UserSearchListLimit} || $Param{Limit});
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        foreach (1..8) {
-            if ($Row[$_]) {
-                $Users{$Row[0]} .= $Row[$_].' ';
+    $Self->{DBObject}
+        ->Prepare( SQL => $SQL, Limit => $Self->{UserSearchListLimit} || $Param{Limit} );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        for ( 1 .. 8 ) {
+            if ( $Row[$_] ) {
+                $Users{ $Row[0] } .= $Row[$_] . ' ';
             }
         }
-        $Users{$Row[0]} =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+        $Users{ $Row[0] } =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
     }
     return %Users;
 }
@@ -494,51 +545,58 @@ to set users passwords
 =cut
 
 sub SetPassword {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my $Pw = $Param{PW} || '';
+    my $Pw    = $Param{PW} || '';
 
     # check needed stuff
-    if (!$Param{UserLogin}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin!");
+    if ( !$Param{UserLogin} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserLogin!" );
         return;
     }
+
     # get old user data
-    my %User = $Self->GetUserData(User => $Param{UserLogin});
-    if (!$User{UserLogin}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "No such User!");
+    my %User = $Self->GetUserData( User => $Param{UserLogin} );
+    if ( !$User{UserLogin} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "No such User!" );
         return;
     }
     my $CryptedPw = '';
+
     # md5 pw
-    if ($Self->{ConfigObject}->Get('AuthModule::DB::CryptType') &&
-        $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') eq 'plain') {
+    if (   $Self->{ConfigObject}->Get('AuthModule::DB::CryptType')
+        && $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') eq 'plain' )
+    {
         $CryptedPw = $Pw;
     }
-    elsif ($Self->{ConfigObject}->Get('AuthModule::DB::CryptType') &&
-        $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') eq 'md5') {
-        $CryptedPw = unix_md5_crypt($Pw, $Param{UserLogin});
+    elsif ($Self->{ConfigObject}->Get('AuthModule::DB::CryptType')
+        && $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') eq 'md5' )
+    {
+        $CryptedPw = unix_md5_crypt( $Pw, $Param{UserLogin} );
     }
+
     # crypt pw
     else {
+
         # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if
         # crypt() is working correctly) :-/
-        if (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM') {
-            $CryptedPw = crypt($Pw, $Param{UserLogin});
+        if ( crypt( 'root', 'root@localhost' ) eq 'roK20XGbWEsSM' ) {
+            $CryptedPw = crypt( $Pw, $Param{UserLogin} );
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
+                Message =>
+                    "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
             );
-            my $TempUser = quotemeta($Param{UserLogin});
-            my $TempPw = quotemeta($Pw);
-            my $CMD = "perl -e \"print crypt('$TempPw', '$TempUser');\"";
-            open (IO, " $CMD | ") || print STDERR "Can't open $CMD: $!";
+            my $TempUser = quotemeta( $Param{UserLogin} );
+            my $TempPw   = quotemeta($Pw);
+            my $CMD      = "perl -e \"print crypt('$TempPw', '$TempUser');\"";
+            open( IO, " $CMD | " ) || print STDERR "Can't open $CMD: $!";
             while (<IO>) {
                 $CryptedPw .= $_;
             }
-            close (IO);
+            close(IO);
             chomp $CryptedPw;
         }
     }
@@ -548,25 +606,28 @@ sub SetPassword {
     $MD5->add($Pw);
     my $MD5Pw = $MD5->hexdigest;
 
-    $Self->SetPreferences(UserID => $User{UserID}, Key => 'UserLastPw', Value => $MD5Pw);
+    $Self->SetPreferences( UserID => $User{UserID}, Key => 'UserLastPw', Value => $MD5Pw );
 
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    for ( keys %Param ) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
     }
     my $NewPw = $Self->{DBObject}->Quote($CryptedPw);
+
     # update db
     if ($Self->{DBObject}->Do(
-        SQL => "UPDATE $Self->{UserTable} ".
-            " SET ".
-            " $Self->{UserTableUserPW} = '$NewPw' ".
-            " WHERE ".
-            " LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')",
-    )) {
+                  SQL => "UPDATE $Self->{UserTable} " . " SET "
+                . " $Self->{UserTableUserPW} = '$NewPw' "
+                . " WHERE "
+                . " LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')",
+        )
+        )
+    {
+
         # log notice
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "User: '$Param{UserLogin}' changed password successfully!",
+            Message  => "User: '$Param{UserLogin}' changed password successfully!",
         );
         return 1;
     }
@@ -590,69 +651,78 @@ user login or id lookup
 =cut
 
 sub UserLookup {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    if (!$Param{UserLogin} && !$Param{UserID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin or UserID!");
+    if ( !$Param{UserLogin} && !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserLogin or UserID!" );
         return;
     }
-    if ($Param{UserLogin}) {
+    if ( $Param{UserLogin} ) {
         my $ID;
+
         # db quote
-        foreach (qw(UserLogin)) {
-            $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+        for (qw(UserLogin)) {
+            $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
         }
+
         # check cache
-        if ($Self->{'UserLookup::ID::'.$Param{UserLogin}}) {
-            return $Self->{'UserLookup::ID::'.$Param{UserLogin}};
+        if ( $Self->{ 'UserLookup::ID::' . $Param{UserLogin} } ) {
+            return $Self->{ 'UserLookup::ID::' . $Param{UserLogin} };
         }
+
         # build sql query
-        my $SQL = "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} ".
-            " WHERE LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')";
-        $Self->{DBObject}->Prepare(SQL => $SQL);
-        while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        my $SQL = "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} "
+            . " WHERE LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')";
+        $Self->{DBObject}->Prepare( SQL => $SQL );
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $ID = $Row[0];
         }
         if ($ID) {
+
             # cache request
-            $Self->{'UserLookup::ID::'.$Param{UserLogin}} = $ID;
+            $Self->{ 'UserLookup::ID::' . $Param{UserLogin} } = $ID;
             return $ID;
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "No UserID found for '$Param{UserLogin}'!",
+                Message  => "No UserID found for '$Param{UserLogin}'!",
             );
             return;
         }
     }
     else {
         my $Login;
+
         # db quote
-        foreach (qw(UserID)) {
-            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+        for (qw(UserID)) {
+            $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
         }
+
         # check cache
-        if ($Self->{'UserLookup::Login::'.$Param{UserID}}) {
-            return $Self->{'UserLookup::Login::'.$Param{UserID}};
+        if ( $Self->{ 'UserLookup::Login::' . $Param{UserID} } ) {
+            return $Self->{ 'UserLookup::Login::' . $Param{UserID} };
         }
+
         # build sql query
-        my $SQL = "SELECT $Self->{UserTableUser} FROM $Self->{UserTable} ".
-            " WHERE $Self->{UserTableUserID} = $Param{UserID}";
-        $Self->{DBObject}->Prepare(SQL => $SQL);
-        while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        my $SQL = "SELECT $Self->{UserTableUser} FROM $Self->{UserTable} "
+            . " WHERE $Self->{UserTableUserID} = $Param{UserID}";
+        $Self->{DBObject}->Prepare( SQL => $SQL );
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Login = $Row[0];
         }
         if ($Login) {
+
             # cache request
-            $Self->{'UserLookup::Login::'.$Param{UserID}} = $Login;
+            $Self->{ 'UserLookup::Login::' . $Param{UserID} } = $Login;
             return $Login;
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "No UserLogin found for '$Param{UserID}'!",
+                Message  => "No UserLogin found for '$Param{UserID}'!",
             );
             return;
         }
@@ -676,9 +746,9 @@ get user name
 =cut
 
 sub UserName {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my %User = $Self->GetUserData(%Param);
+    my %User  = $Self->GetUserData(%Param);
     if (%User) {
         return "$User{UserFirstname} $User{UserLastname}";
     }
@@ -699,21 +769,22 @@ return a hash with all users
 =cut
 
 sub UserList {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my $Valid = $Param{Valid} || 0;
-    my $Type = $Param{Type} || 'Short';
-    if ($Type eq 'Short') {
-        $Param{What} = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
-            " $Self->{ConfigObject}->{DatabaseUserTableUser}";
+    my $Type  = $Param{Type} || 'Short';
+    if ( $Type eq 'Short' ) {
+        $Param{What} = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
+            . " $Self->{ConfigObject}->{DatabaseUserTableUser}";
     }
     else {
-        $Param{What} = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
-            " last_name, first_name, ".
-            " $Self->{ConfigObject}->{DatabaseUserTableUser}";
+        $Param{What}
+            = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
+            . " last_name, first_name, "
+            . " $Self->{ConfigObject}->{DatabaseUserTableUser}";
     }
     my %Users = $Self->{DBObject}->GetTableData(
-        What => $Param{What},
+        What  => $Param{What},
         Table => $Self->{ConfigObject}->{DatabaseUserTable},
         Clamp => 1,
         Valid => $Valid,
@@ -736,22 +807,24 @@ generate a random password
 =cut
 
 sub GenerateRandomPassword {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # Generated passwords are eight characters long by default.
     my $Size = $Param{Size} || 8;
 
     # The list of characters that can appear in a randomly generated password.
     # Note that users can put any character into a password they choose themselves.
-    my @PwChars = (0..9, 'A'..'Z', 'a'..'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*');
+    my @PwChars
+        = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
 
     # The number of characters in the list.
     my $PwCharsLen = scalar(@PwChars);
 
     # Generate the password.
     my $Password = '';
-    for ( my $i=0 ; $i<$Size ; $i++ ) {
-        $Password .= $PwChars[rand($PwCharsLen)];
+    for ( my $i = 0; $i < $Size; $i++ ) {
+        $Password .= $PwChars[ rand($PwCharsLen) ];
     }
 
     # Return the password.
@@ -822,6 +895,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.65 $ $Date: 2007-09-13 01:30:35 $
+$Revision: 1.66 $ $Date: 2007-09-29 11:01:12 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerZoom.pm,v 1.34 2006-11-02 13:02:03 tr Exp $
+# $Id: CustomerZoom.pm,v 1.35 2007-09-29 10:41:48 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,26 +12,30 @@
 package Kernel::Modules::CustomerZoom;
 
 use strict;
+use warnings;
+
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
+
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
+
     # get common objects
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
+
     # check needed Opjects
-    foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject )) {
-        if (!$Self->{$_}) {
-            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+    for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject )) {
+        if ( !$Self->{$_} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
 
@@ -39,12 +43,13 @@ sub new {
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # compat link
     my $Redirect = $ENV{REQUEST_URI};
     $Redirect =~ s/CustomerZoom/CustomerTicketZoom/;
-    return $Self->{LayoutObject}->Redirect(OP => $Redirect);
+    return $Self->{LayoutObject}->Redirect( OP => $Redirect );
 }
 
 1;

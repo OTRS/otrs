@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/tools/charset-convert.pl - converts a text file from one to an other one charset
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: charset-convert.pl,v 1.3 2006-10-03 14:34:47 mh Exp $
+# $Id: charset-convert.pl,v 1.4 2007-09-29 11:10:33 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,18 +21,19 @@
 # --
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use strict;
+use warnings;
+
 use Encode;
 use Getopt::Std;
 
 my %Opts = ();
-getopt('hsdf', \%Opts);
+getopt( 'hsdf', \%Opts );
 
 # usage
-if ($Opts{'h'}) {
+if ( $Opts{'h'} ) {
     print "charset-convert.pl <Revision $VERSION> - convert a charset of a file\n";
     print "Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/\n";
     print "usage: charset-convert.pl -s <SOURCE_CHARSET> -d <DEST_CHARSET> -f <FILE>\n";
@@ -41,43 +42,43 @@ if ($Opts{'h'}) {
 }
 
 # get charsts
-if (!$Opts{'s'}){
+if ( !$Opts{'s'} ) {
     print STDERR "ERROR: Need -s <SOURCE_CHARSET>\n";
     exit 1;
 }
-if (!$Opts{'d'}) {
+if ( !$Opts{'d'} ) {
     print STDERR "ERROR: Need -d <DEST_CHARSET>\n";
     exit 1;
 }
 
 # check stdin
-my $In = '';
+my $In  = '';
 my @STD = ();
 
-if (!$Opts{'f'}) {
+if ( !$Opts{'f'} ) {
     @STD = <STDIN>;
-    foreach (@STD) {
+    for (@STD) {
         $In .= $_;
     }
 }
 
 # check file
-elsif (! -f $Opts{'f'}) {
+elsif ( !-f $Opts{'f'} ) {
     print STDERR "ERROR: Invalid -f <FILE>: no such file!\n";
     exit 1;
 }
 
 # read file
 else {
-    open (IN, "< $Opts{'f'}") || die "Can't open $Opts{'f'}: $!\n";
+    open( IN, "< $Opts{'f'}" ) || die "Can't open $Opts{'f'}: $!\n";
     while (<IN>) {
         $In .= $_;
     }
-    close (IN);
+    close(IN);
 }
 
 # convert
-Encode::from_to($In, $Opts{'s'}, $Opts{'d'});
+Encode::from_to( $In, $Opts{'s'}, $Opts{'d'} );
 
 # print
 if (@STD) {
@@ -86,7 +87,7 @@ if (@STD) {
 
 # write
 else {
-    open (OUT, "> $Opts{'f'}") || die "Can't write $Opts{'f'}: $!\n";
+    open( OUT, "> $Opts{'f'}" ) || die "Can't write $Opts{'f'}: $!\n";
     print OUT $In;
-    close (OUT);
+    close(OUT);
 }

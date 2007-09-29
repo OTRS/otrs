@@ -3,7 +3,7 @@
 # bin/cgi-bin/installer.pl - the web Installer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: installer.pl,v 1.23 2007-03-05 02:10:23 martin Exp $
+# $Id: installer.pl,v 1.24 2007-09-29 11:07:04 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,8 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.23 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.24 $)[1];
 
 # check @INC for mod_perl (add lib path for "require module"!)
 push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");

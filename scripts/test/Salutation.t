@@ -2,7 +2,7 @@
 # Salutation.t - Salutation tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Salutation.t,v 1.1 2007-03-21 11:12:38 martin Exp $
+# $Id: Salutation.t,v 1.2 2007-09-29 11:09:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -60,7 +60,7 @@ my %SalutationList = $Self->{SalutationObject}->SalutationList(
     Valid => 0,
 );
 my $Hit = 0;
-foreach (sort keys %SalutationList) {
+for (sort keys %SalutationList) {
     if ($_ eq $SalutationID) {
         $Hit = 1;
     }

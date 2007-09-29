@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache.pm - a fs upload cache
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UploadCache.pm,v 1.8 2007-09-24 05:00:34 martin Exp $
+# $Id: UploadCache.pm,v 1.9 2007-09-29 10:51:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,8 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.8 $ ';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = '$Revision: 1.9 $ ';
 
 =head1 NAME
 
@@ -70,14 +69,15 @@ create param object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
+
     # check needed objects
-    foreach (qw(ConfigObject LogObject MainObject EncodeObject)) {
+    for (qw(ConfigObject LogObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -85,7 +85,7 @@ sub new {
     $Self->{GenericModule} = $Self->{ConfigObject}->Get('WebUploadCacheModule')
         || 'Kernel::System::Web::UploadCache::DB';
 
-    if ($Self->{MainObject}->Require($Self->{GenericModule})) {
+    if ( $Self->{MainObject}->Require( $Self->{GenericModule} ) ) {
         $Self->{Backend} = $Self->{GenericModule}->new(%Param);
     }
     else {
@@ -169,7 +169,7 @@ returns a array with hash ref of all form id files
 
 sub FormIDGetAllFilesData {
     my $Self = shift;
-    return @{$Self->{Backend}->FormIDGetAllFilesData(@_)};
+    return @{ $Self->{Backend}->FormIDGetAllFilesData(@_) };
 }
 
 =item FormIDGetAllFilesMeta()
@@ -188,7 +188,7 @@ Note: No Content will be returned, just meta data.
 
 sub FormIDGetAllFilesMeta {
     my $Self = shift;
-    return @{$Self->{Backend}->FormIDGetAllFilesMeta(@_)};
+    return @{ $Self->{Backend}->FormIDGetAllFilesMeta(@_) };
 }
 
 =item FormIDCleanUp()
@@ -222,6 +222,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2007-09-24 05:00:34 $
+$Revision: 1.9 $ $Date: 2007-09-29 10:51:40 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesLanguage.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesLanguage.pm,v 1.5 2007-04-11 21:47:59 martin Exp $
+# $Id: PreferencesLanguage.pm,v 1.6 2007-09-29 10:49:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,26 +12,26 @@
 package Kernel::Output::HTML::PreferencesLanguage;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get env
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
 
     # get needed objects
-    foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem)) {
+    for (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -39,45 +39,47 @@ sub new {
 }
 
 sub Param {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my @Params = ();
-    push (@Params, {
-            %Param,
-            Name => $Self->{ConfigItem}->{PrefKey},
-            Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
-            HTMLQuote => 0,
-            SelectedID => $Self->{ParamObject}->GetParam(Param => 'UserLanguage') ||
-                $Param{UserData}->{UserLanguage} ||
-                $Self->{ConfigObject}->Get('DefaultLanguage'),
+    push(
+        @Params,
+        {   %Param,
+            Name       => $Self->{ConfigItem}->{PrefKey},
+            Data       => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
+            HTMLQuote  => 0,
+            SelectedID => $Self->{ParamObject}->GetParam( Param => 'UserLanguage' )
+                || $Param{UserData}->{UserLanguage}
+                || $Self->{ConfigObject}->Get('DefaultLanguage'),
             Block => 'Option',
-            Max => 100,
+            Max   => 100,
         },
     );
     return @Params;
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+    for my $Key ( keys %{ $Param{GetParam} } ) {
+        my @Array = @{ $Param{GetParam}->{$Key} };
+        for (@Array) {
 
-    foreach my $Key (keys %{$Param{GetParam}}) {
-        my @Array = @{$Param{GetParam}->{$Key}};
-        foreach (@Array) {
             # pref update db
-            if (!$Self->{ConfigObject}->Get('DemoSystem')) {
+            if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
                 $Self->{UserObject}->SetPreferences(
                     UserID => $Param{UserData}->{UserID},
-                    Key => $Key,
-                    Value => $_,
+                    Key    => $Key,
+                    Value  => $_,
                 );
             }
+
             # update SessionID
-            if ($Param{UserData}->{UserID} eq $Self->{UserID}) {
+            if ( $Param{UserData}->{UserID} eq $Self->{UserID} ) {
                 $Self->{SessionObject}->UpdateSessionID(
                     SessionID => $Self->{SessionID},
-                    Key => $Key,
-                    Value => $_,
+                    Key       => $Key,
+                    Value     => $_,
                 );
             }
         }
@@ -87,13 +89,13 @@ sub Run {
 }
 
 sub Error {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     return $Self->{Error} || '';
 }
 
 sub Message {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     return $Self->{Message} || '';
 }

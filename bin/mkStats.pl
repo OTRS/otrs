@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.49 2007-07-31 13:09:19 tr Exp $
+# $Id: mkStats.pl,v 1.50 2007-09-29 11:08:29 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,8 +31,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.49 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.50 $)[1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -166,7 +165,7 @@ if ($Stat->{StatType} eq 'static') {
     # get params from -p
     # only for static files
     my $Params = $CommonObject{StatsObject}->GetParams(StatID => $StatID);
-    foreach my $ParamItem (@{$Params}) {
+   for my $ParamItem (@{$Params}) {
         if (!$ParamItem->{Multiple}) {
             my $Value = GetParam(
                 Param => $ParamItem->{Name},
@@ -230,7 +229,7 @@ if ($Format eq 'Print' && $CommonObject{PDFObject}) {
     my $CellData;
     my $CounterRow = 0;
     my $CounterHead = 0;
-    foreach my $Content (@{$HeadArrayRef}) {
+   for my $Content (@{$HeadArrayRef}) {
         $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
         $CellData->[$CounterRow]->[$CounterHead]->{Font} = 'ProportionalBold';
         $CounterHead++;
@@ -238,9 +237,9 @@ if ($Format eq 'Print' && $CommonObject{PDFObject}) {
     if ($CounterHead > 0) {
         $CounterRow++;
     }
-    foreach my $Row (@StatArray) {
+   for my $Row (@StatArray) {
         my $CounterColumn = 0;
-        foreach my $Content (@{$Row}) {
+       for my $Content (@{$Row}) {
             $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
             $CounterColumn++;
         }

@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.t,v 1.18 2007-08-01 01:45:35 martin Exp $
+# $Id: XML.t,v 1.19 2007-09-29 11:09:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -150,7 +150,7 @@ $Self->True(
     '#3 XMLParse2XMLHash() (Contact->GermanText) Encode::is_utf8',
 );
 
-foreach my $Key ('123', 'Some\'Key') {
+for my $Key ('123', 'Some\'Key') {
     my $XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
         Type => 'SomeType',
         Key => $Key,
@@ -374,7 +374,7 @@ $Self->True(
 @Keys = $Self->{XMLObject}->XMLHashList(
     Type => 'SomeType',
 );
-foreach my $Key (@Keys) {
+for my $Key (@Keys) {
     my $XMLHashMove = $Self->{XMLObject}->XMLHashMove(
         OldType => 'SomeType',
         OldKey => $Key,
@@ -390,7 +390,7 @@ foreach my $Key (@Keys) {
 @Keys = $Self->{XMLObject}->XMLHashList(
     Type => 'SomeTypeNew',
 );
-foreach my $Key (@Keys) {
+for my $Key (@Keys) {
     my $XMLHashDelete = $Self->{XMLObject}->XMLHashDelete(
         Type => 'SomeTypeNew',
         Key => $Key,
@@ -401,7 +401,7 @@ foreach my $Key (@Keys) {
     );
 }
 
-foreach my $KeyShould (1..12) {
+for my $KeyShould (1..12) {
     my $XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
         Type => 'SomeType',
         KeyAutoIncrement => 1,
@@ -417,7 +417,7 @@ foreach my $KeyShould (1..12) {
 @Keys = $Self->{XMLObject}->XMLHashList(
     Type => 'SomeType',
 );
-foreach my $Key (@Keys) {
+for my $Key (@Keys) {
     my $XMLHashMove = $Self->{XMLObject}->XMLHashMove(
         OldType => 'SomeType',
         OldKey => $Key,
@@ -433,7 +433,7 @@ foreach my $Key (@Keys) {
 @Keys = $Self->{XMLObject}->XMLHashList(
     Type => 'SomeTypeNew',
 );
-foreach my $Key (@Keys) {
+for my $Key (@Keys) {
     my $XMLHashDelete = $Self->{XMLObject}->XMLHashDelete(
         Type => 'SomeTypeNew',
         Key => $Key,

@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.14 2007-09-26 08:57:58 martin Exp $
+# $Id: Request.pm,v 1.15 2007-09-29 10:51:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,8 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.14 $ ';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = '$Revision: 1.15 $ ';
 
 =head1 NAME
 
@@ -48,27 +47,32 @@ create param object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
+
     # check needed objects
-    foreach (qw(ConfigObject LogObject EncodeObject)) {
-        if ($Param{$_}) {
+    for (qw(ConfigObject LogObject EncodeObject)) {
+        if ( $Param{$_} ) {
             $Self->{$_} = $Param{$_};
         }
         else {
             die "Gor no $_";
         }
     }
+
     # Simple Common Gateway Interface Class
     use CGI qw(:cgi);
+
     # to get the errors on screen
     use CGI::Carp qw(fatalsToBrowser);
+
     # max 5 MB posts
     $CGI::POST_MAX = $Self->{ConfigObject}->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
+
     # query object (in case use already existing WebRequest, e. g. fast cgi)
     $Self->{Query} = $Param{WebRequest} || new CGI;
 
@@ -87,8 +91,8 @@ to get the error back
 
 sub Error {
     my $Self = shift;
-    if (cgi_error()) {
-        return cgi_error()." - POST_MAX=".($CGI::POST_MAX/1024)."KB";
+    if ( cgi_error() ) {
+        return cgi_error() . " - POST_MAX=" . ( $CGI::POST_MAX / 1024 ) . "KB";
     }
     else {
         return;
@@ -106,10 +110,10 @@ to get params
 =cut
 
 sub GetParam {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my $Value = $Self->{Query}->param($Param{Param});
-    $Self->{EncodeObject}->Encode(\$Value);
+    my $Value = $Self->{Query}->param( $Param{Param} );
+    $Self->{EncodeObject}->Encode( \$Value );
     return $Value;
 }
 
@@ -122,10 +126,10 @@ to get array params
 =cut
 
 sub GetArray {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my @Value = $Self->{Query}->param($Param{Param});
-    $Self->{EncodeObject}->Encode(\@Value);
+    my @Value = $Self->{Query}->param( $Param{Param} );
+    $Self->{EncodeObject}->Encode( \@Value );
     return @Value;
 }
 
@@ -136,9 +140,9 @@ internal function for GetUploadAll()
 =cut
 
 sub GetUpload {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my $File = $Self->{Query}->upload($Param{Filename});
+    my $File  = $Self->{Query}->upload( $Param{Filename} );
     return $File;
 }
 
@@ -149,9 +153,9 @@ internal function for GetUploadAll()
 =cut
 
 sub GetUploadInfo {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my $Info = $Self->{Query}->uploadInfo($Param{Filename})->{$Param{Header}};
+    my $Info  = $Self->{Query}->uploadInfo( $Param{Filename} )->{ $Param{Header} };
     return $Info;
 }
 
@@ -177,55 +181,61 @@ to get file upload
 =cut
 
 sub GetUploadAll {
-    my $Self = shift;
-    my %Param = @_;
-    my $Upload = $Self->GetUpload(Filename => $Param{Param});
+    my $Self   = shift;
+    my %Param  = @_;
+    my $Upload = $Self->GetUpload( Filename => $Param{Param} );
     if ($Upload) {
-        $Param{UploadFilenameOrig} = $Self->GetParam(Param => $Param{Param}) || 'unkown';
-        my $Filename = $Param{UploadFilenameOrig}.'';
-        $Self->{EncodeObject}->Encode(\$Filename);
+        $Param{UploadFilenameOrig} = $Self->GetParam( Param => $Param{Param} ) || 'unkown';
+        my $Filename = $Param{UploadFilenameOrig} . '';
+        $Self->{EncodeObject}->Encode( \$Filename );
+
         # replace all devices like c: or d: and dirs for IE!
         my $NewFileName = $Filename;
         $NewFileName =~ s/.:\\(.*)/$1/g;
         $NewFileName =~ s/.*\\(.+?)/$1/g;
+
         # return a string
-        if ($Param{Source} && $Param{Source} =~ /^string$/i) {
+        if ( $Param{Source} && $Param{Source} =~ /^string$/i ) {
             $Param{UploadFilename} = '';
             while (<$Upload>) {
                 $Param{UploadFilename} .= $_;
             }
         }
+
         # return file location in FS
         else {
+
             # delete upload dir if exists
             my $Path = "/tmp/$$";
-            if (-d $Path) {
-                File::Path::rmtree([$Path]);
+            if ( -d $Path ) {
+                File::Path::rmtree( [$Path] );
             }
+
             # create upload dir
-            File::Path::mkpath([$Path], 0, '0700');
+            File::Path::mkpath( [$Path], 0, '0700' );
 
             $Param{UploadFilename} = "$Path/$NewFileName";
-            open (my $Out,"> $Param{UploadFilename}") || die $!;
+            open( my $Out, "> $Param{UploadFilename}" ) || die $!;
             while (<$Upload>) {
                 print $Out $_;
             }
-            close ($Out);
+            close($Out);
         }
+
         # check if content is there, IE is always sending file uploades
         # without content
-        if (!$Param{UploadFilename}) {
+        if ( !$Param{UploadFilename} ) {
             return;
         }
-        if ($Param{UploadFilename}) {
+        if ( $Param{UploadFilename} ) {
             $Param{UploadContentType} = $Self->GetUploadInfo(
                 Filename => $Param{UploadFilenameOrig},
-                Header => 'Content-Type',
+                Header   => 'Content-Type',
             ) || '';
         }
         return (
-            Filename => $NewFileName,
-            Content => $Param{UploadFilename},
+            Filename    => $NewFileName,
+            Content     => $Param{UploadFilename},
             ContentType => $Param{UploadContentType},
         );
     }
@@ -246,12 +256,12 @@ set a cookie
 =cut
 
 sub SetCookie {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     return $Self->{Query}->cookie(
-        -name=> $Param{Key},
-        -value=> $Param{Value},
-        -expires=> $Param{Expires},
+        -name    => $Param{Key},
+        -value   => $Param{Value},
+        -expires => $Param{Expires},
     );
 }
 
@@ -266,9 +276,9 @@ get a cookie
 =cut
 
 sub GetCookie {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    return $Self->{Query}->cookie($Param{Key}) || '';
+    return $Self->{Query}->cookie( $Param{Key} ) || '';
 }
 
 1;
@@ -287,6 +297,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2007-09-26 08:57:58 $
+$Revision: 1.15 $ $Date: 2007-09-29 10:51:40 $
 
 =cut

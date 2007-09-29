@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/ForceState.pm - set state
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ForceState.pm,v 1.4 2006-10-19 20:58:25 martin Exp $
+# $Id: ForceState.pm,v 1.5 2007-09-29 10:52:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,21 +12,24 @@
 package Kernel::System::Ticket::Event::ForceState;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get needed objects
-    foreach (qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject SendmailObject TimeObject EncodeObject)) {
+    for (
+        qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject SendmailObject TimeObject EncodeObject)
+        )
+    {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -34,25 +37,27 @@ sub new {
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(TicketID Event Config)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(TicketID Event Config)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     my %Ticket = $Self->{TicketObject}->TicketGet(%Param);
+
     # should I unlock a ticket after move?
-    if ($Ticket{Lock} =~ /^lock$/i) {
-        foreach (keys %{$Param{Config}}) {
-            if ($_ eq $Ticket{State} && $_) {
+    if ( $Ticket{Lock} =~ /^lock$/i ) {
+        for ( keys %{ $Param{Config} } ) {
+            if ( $_ eq $Ticket{State} && $_ ) {
                 $Self->{TicketObject}->StateSet(
-                    TicketID => $Param{TicketID},
-                    State => $Param{Config}->{$_},
+                    TicketID           => $Param{TicketID},
+                    State              => $Param{Config}->{$_},
                     SendNoNotification => 1,
-                    UserID => 1,
+                    UserID             => 1,
                 );
             }
         }

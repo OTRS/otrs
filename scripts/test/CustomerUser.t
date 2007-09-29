@@ -2,7 +2,7 @@
 # CustomerUser.t - CustomerUser tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.2 2007-08-10 11:36:03 martin Exp $
+# $Id: CustomerUser.t,v 1.3 2007-09-29 11:09:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ $Self->{ConfigObject}->Set(
     Value => 0,
 );
 my $UserID = '';
-foreach my $Key (1..3) {
+for my $Key (1..3) {
     my $UserRand = 'Example-Customer-User'.int(rand(1000000));
     $UserID = $UserRand;
     my $UserID = $Self->{CustomerUserObject}->CustomerUserAdd(

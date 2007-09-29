@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.48 2007-09-27 18:47:33 martin Exp $
+# $Id: Language.pm,v 1.49 2007-09-29 11:05:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,13 +12,14 @@
 package Kernel::Language;
 
 use strict;
+use warnings;
+
 use Kernel::System::Encode;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.48 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.49 $) [1];
 
 =head1 NAME
 
@@ -63,111 +64,125 @@ create a language object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get common objects
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
+
     # check needed objects
-    foreach (qw(ConfigObject LogObject MainObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+    for (qw(ConfigObject LogObject MainObject)) {
+        die "Got no $_!" if ( !$Self->{$_} );
     }
+
     # encode object
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+
     # time object
     $Self->{TimeObject} = Kernel::System::Time->new(%Param);
+
     # 0=off; 1=on; 2=get all not translated words; 3=get all requests
     $Self->{Debug} = 0;
+
     # check if LanguageDebug is configured
-    if ($Self->{ConfigObject}->Get('LanguageDebug')) {
+    if ( $Self->{ConfigObject}->Get('LanguageDebug') ) {
         $Self->{LanguageDebug} = 1;
     }
+
     # user language
-    $Self->{UserLanguage} = $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
+    $Self->{UserLanguage} = $Param{UserLanguage}
+        || $Self->{ConfigObject}->Get('DefaultLanguage')
+        || 'en';
     $Self->{TimeZone} = $Param{UserTimeZone} || $Param{TimeZone} || 0;
+
     # Debug
-    if ($Self->{Debug} > 0) {
+    if ( $Self->{Debug} > 0 ) {
         $Self->{LogObject}->Log(
             Priority => 'Debug',
-            Message => "UserLanguage = $Self->{UserLanguage}",
+            Message  => "UserLanguage = $Self->{UserLanguage}",
         );
     }
+
     # load text catalog ...
-    if ($Self->{MainObject}->Require("Kernel::Language::$Self->{UserLanguage}")) {
+    if ( $Self->{MainObject}->Require("Kernel::Language::$Self->{UserLanguage}") ) {
         @ISA = ("Kernel::Language::$Self->{UserLanguage}");
         $Self->Data();
-        if ($Self->{Debug} > 0) {
+        if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'Debug',
-                Message => "Kernel::Language::$Self->{UserLanguage} load ... done."
+                Message  => "Kernel::Language::$Self->{UserLanguage} load ... done."
             );
         }
     }
+
     # if there is no translation
     else {
         $Self->{LogObject}->Log(
             Priority => 'Error',
-            Message => "Sorry, can't locate or load Kernel::Language::$Self->{UserLanguage} ".
-                "translation! Check the Kernel/Language/$Self->{UserLanguage}.pm (perl -cw)!",
+            Message  => "Sorry, can't locate or load Kernel::Language::$Self->{UserLanguage} "
+                . "translation! Check the Kernel/Language/$Self->{UserLanguage}.pm (perl -cw)!",
         );
     }
+
     # load action text catalog ...
     my $CustomTranslationModule = '';
-    if (!$Param{TranslationFile}) {
-        my $Home = $Self->{ConfigObject}->Get('Home').'/';
-        my @Files = glob($Home."Kernel/Language/$Self->{UserLanguage}_*.pm");
-        foreach my $File (@Files) {
+    if ( !$Param{TranslationFile} ) {
+        my $Home  = $Self->{ConfigObject}->Get('Home') . '/';
+        my @Files = glob( $Home . "Kernel/Language/$Self->{UserLanguage}_*.pm" );
+        for my $File (@Files) {
             $File =~ s/^$Home(.*)\.pm$/$1/g;
             $File =~ s/\/\//\//g;
             $File =~ s/\//::/g;
-            if ($File =~ /_Custom$/) {
+            if ( $File =~ /_Custom$/ ) {
                 $CustomTranslationModule = $File;
                 next;
             }
-            if ($Self->{MainObject}->Require($File)) {
+            if ( $Self->{MainObject}->Require($File) ) {
                 @ISA = ($File);
                 $Self->Data();
-                if ($Self->{Debug} > 0) {
+                if ( $Self->{Debug} > 0 ) {
                     $Self->{LogObject}->Log(
                         Priority => 'Debug',
-                        Message => "$File load ... done."
+                        Message  => "$File load ... done."
                     );
                 }
             }
             else {
                 $Self->{LogObject}->Log(
                     Priority => 'Error',
-                    Message => "Sorry, can't load $File! ".
-                        "Check the $File (perl -cw)!",
+                    Message  => "Sorry, can't load $File! " . "Check the $File (perl -cw)!",
                 );
             }
         }
+
         # load custom text catalog ...
-        if ($CustomTranslationModule && $Self->{MainObject}->Require($CustomTranslationModule)) {
+        if ( $CustomTranslationModule && $Self->{MainObject}->Require($CustomTranslationModule) ) {
             @ISA = ($CustomTranslationModule);
             $Self->Data();
-            if ($Self->{Debug} > 0) {
+            if ( $Self->{Debug} > 0 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'Debug',
-                    Message => "Kernel::Language::$Self->{UserLanguage}_Custom load ... done."
+                    Message  => "Kernel::Language::$Self->{UserLanguage}_Custom load ... done."
                 );
             }
         }
     }
+
     # if no return charset is given, use recommended return charset
-    if (!$Self->{ReturnCharset}) {
+    if ( !$Self->{ReturnCharset} ) {
         $Self->{ReturnCharset} = $Self->GetRecommendedCharset();
     }
+
     # get source file charset
     # what charset shoud I use (take it from translation file)!
-    if ($Self->{Charset}) {
-        my @Chatsets = @{$Self->{Charset}};
+    if ( $Self->{Charset} ) {
+        my @Chatsets = @{ $Self->{Charset} };
         $Self->{TranslationCharset} = $Chatsets[$#Chatsets];
     }
     return $Self;
@@ -185,30 +200,37 @@ sub Get {
     my $Self = shift;
     my $What = shift;
     my $File = shift || '';
-    my @Dyn = ();
+    my @Dyn  = ();
+
     # check
-    if (! defined $What) {
+    if ( !defined $What ) {
         return;
     }
+
     # check dyn spaces
-    if ($What && $What =~ /^(.+?)", "(.+?|)$/) {
+    if ( $What && $What =~ /^(.+?)", "(.+?|)$/ ) {
         $What = $1;
-        @Dyn = split(/", "/, $2);
+        @Dyn = split( /", "/, $2 );
     }
+
     # check wanted param and returns the
     # lookup or the english data
-    if (exists $Self->{Translation}->{$What} && $Self->{Translation}->{$What} ne '') {
+    if ( exists $Self->{Translation}->{$What} && $Self->{Translation}->{$What} ne '' ) {
+
         # Debug
-        if ($Self->{Debug} > 3) {
+        if ( $Self->{Debug} > 3 ) {
             $Self->{LogObject}->Log(
                 Priority => 'Debug',
-                Message => "->Get('$What') = ('$Self->{Translation}->{$What}').",
+                Message  => "->Get('$What') = ('$Self->{Translation}->{$What}').",
             );
         }
+
         # charset convert from source translation into shown charset
-        if (!$Self->{TranslationConvert}->{$What}) {
+        if ( !$Self->{TranslationConvert}->{$What} ) {
+
             # remember that charset convert is already done
             $Self->{TranslationConvert}->{$What} = 1;
+
             # convert it
             $Self->{Translation}->{$What} = $Self->CharsetConvert(
                 Text => $Self->{Translation}->{$What},
@@ -216,9 +238,9 @@ sub Get {
             );
         }
         my $Text = $Self->{Translation}->{$What};
-        foreach (0..3) {
-            if (defined $Dyn[$_]) {
-                if ($Dyn[$_] =~ /Time\((.*)\)/) {
+        for ( 0 .. 3 ) {
+            if ( defined $Dyn[$_] ) {
+                if ( $Dyn[$_] =~ /Time\((.*)\)/ ) {
                     $Dyn[$_] = $Self->Time(
                         Action => 'GET',
                         Format => $1,
@@ -233,21 +255,21 @@ sub Get {
         return $Text;
     }
     else {
+
         # warn if the value is not def
-        if ($Self->{Debug} > 1) {
+        if ( $Self->{Debug} > 1 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message => "->Get('$What') Is not translated!!!",
+                Message  => "->Get('$What') Is not translated!!!",
             );
         }
 
-        if ($Self->{LanguageDebug}) {
+        if ( $Self->{LanguageDebug} ) {
             print STDERR "No translation available for '$What'\n";
         }
-
-        foreach (0..3) {
-            if (defined $Dyn[$_]) {
-                if ($Dyn[$_] =~ /Time\((.*)\)/) {
+        for ( 0 .. 3 ) {
+            if ( defined $Dyn[$_] ) {
+                if ( $Dyn[$_] =~ /Time\((.*)\)/ ) {
                     $Dyn[$_] = $Self->Time(
                         Action => 'GET',
                         Format => $1,
@@ -272,23 +294,21 @@ Get date format in used language formate (based on translation file).
 =cut
 
 sub FormatTimeString {
-    my $Self = shift;
-    my $String = shift || return;
-    my $Config = shift || 'DateFormat';
-    my $Short  = shift || 0;
+    my $Self         = shift;
+    my $String       = shift || return;
+    my $Config       = shift || 'DateFormat';
+    my $Short        = shift || 0;
     my $ReturnString = $Self->{$Config} || "$Config needs to be translated!";
-    if ($String =~ /(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d:\d\d:\d\d)/) {
-        my ($Y,$M,$D, $T) = ($1, $2, $3, $4);
+    if ( $String =~ /(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d:\d\d:\d\d)/ ) {
+        my ( $Y, $M, $D, $T ) = ( $1, $2, $3, $4 );
+
         # add user time zone diff
-        if ($Self->{TimeZone}) {
-            my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
-                String => "$Y-$M-$D $T",
-            );
-            $TimeStamp = $TimeStamp + ($Self->{TimeZone}*60*60);
-            my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
-                SystemTime => $TimeStamp,
-            );
-            ($Y,$M,$D, $T) = ($Year, $Month, $Day, "$Hour:$Min:$Sec");
+        if ( $Self->{TimeZone} ) {
+            my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime( String => "$Y-$M-$D $T", );
+            $TimeStamp = $TimeStamp + ( $Self->{TimeZone} * 60 * 60 );
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
+                = $Self->{TimeObject}->SystemTime2Date( SystemTime => $TimeStamp, );
+            ( $Y, $M, $D, $T ) = ( $Year, $Month, $Day, "$Hour:$Min:$Sec" );
         }
 
         if ($Short) {
@@ -298,20 +318,20 @@ sub FormatTimeString {
         $ReturnString =~ s/\%D/$D/g;
         $ReturnString =~ s/\%M/$M/g;
         $ReturnString =~ s/\%Y/$Y/g;
-        if ($Self->{TimeZone}) {
-            return $ReturnString ." ($Self->{TimeZone})";
+        if ( $Self->{TimeZone} ) {
+            return $ReturnString . " ($Self->{TimeZone})";
         }
         else {
             return $ReturnString;
         }
     }
-    elsif ($String =~ /^(\d\d:\d\d:\d\d)$/) {
+    elsif ( $String =~ /^(\d\d:\d\d:\d\d)$/ ) {
         return $String;
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "No FormatTimeString() translation found for '$String' string!",
+            Message  => "No FormatTimeString() translation found for '$String' string!",
         );
         return $String;
     }
@@ -328,13 +348,15 @@ file or from DefaultCharset (from Kernel/Config.pm) is utf-8).
 
 sub GetRecommendedCharset {
     my $Self = shift;
+
     # should I use default frontend charset (e. g. utf-8)?
-    if ($Self->{EncodeObject}->EncodeFrontendUsed()) {
+    if ( $Self->{EncodeObject}->EncodeFrontendUsed() ) {
         return $Self->{EncodeObject}->EncodeFrontendUsed();
     }
+
     # if not, what charset shoud I use (take it from translation file)?
-    if ($Self->{Charset}) {
-        my @Chatsets = @{$Self->{Charset}};
+    if ( $Self->{Charset} ) {
+        my @Chatsets = @{ $Self->{Charset} };
         return $Chatsets[$#Chatsets];
     }
     else {
@@ -352,8 +374,8 @@ Returns an array of possible charsets (based on translation file).
 
 sub GetPossibleCharsets {
     my $Self = shift;
-    if ($Self->{Charset}) {
-        return @{$Self->{Charset}};
+    if ( $Self->{Charset} ) {
+        return @{ $Self->{Charset} };
     }
     else {
         return;
@@ -387,39 +409,42 @@ Returns a time string in language formate (based on translation file).
 =cut
 
 sub Time {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(Action Format)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Action Format)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    my $ReturnString = $Self->{$Param{Format}} || 'Need to be translated!';
-    my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst);
+    my $ReturnString = $Self->{ $Param{Format} } || 'Need to be translated!';
+    my ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst );
+
     # set or get time
-    if ($Param{Action} =~ /^GET$/i) {
+    if ( $Param{Action} =~ /^GET$/i ) {
         my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
         my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
-        ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = $Self->{TimeObject}->SystemTime2Date(
-            SystemTime => $Self->{TimeObject}->SystemTime(),
-        );
+        ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst )
+            = $Self->{TimeObject}
+            ->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
     }
-    elsif ($Param{Action} =~ /^RETURN$/i) {
+    elsif ( $Param{Action} =~ /^RETURN$/i ) {
         $m = $Param{Minute} || 0;
-        $h = $Param{Hour} || 0;
-        $D = $Param{Day} || 0;
-        $M = $Param{Month} || 0;
-        $Y = $Param{Year} || 0;
+        $h = $Param{Hour}   || 0;
+        $D = $Param{Day}    || 0;
+        $M = $Param{Month}  || 0;
+        $Y = $Param{Year}   || 0;
     }
+
     # do replace
-    if ($Param{Action} =~ /^(GET|RETURN)$/i) {
+    if ( $Param{Action} =~ /^(GET|RETURN)$/i ) {
         my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
         my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
         my $Time = '';
-        if ($Param{Mode} && $Param{Mode} =~ /^NotNumeric$/i) {
-            if (!$s) {
+        if ( $Param{Mode} && $Param{Mode} =~ /^NotNumeric$/i ) {
+            if ( !$s ) {
                 $Time = "$h:$m";
             }
             else {
@@ -427,9 +452,9 @@ sub Time {
             }
         }
         else {
-            $Time = sprintf("%02d:%02d:%02d", $h,$m,$s);
-            $D = sprintf("%02d", $D);
-            $M = sprintf("%02d", $M);
+            $Time = sprintf( "%02d:%02d:%02d", $h, $m, $s );
+            $D    = sprintf( "%02d",           $D );
+            $M    = sprintf( "%02d",           $M );
         }
         $ReturnString =~ s/\%T/$Time/g;
         $ReturnString =~ s/\%D/$D/g;
@@ -440,6 +465,7 @@ sub Time {
         $ReturnString =~ s{(\%B)}{$Self->Get($MONS[$M-1]);}egx;
         return $ReturnString;
     }
+
     # return
     return $ReturnString;
 }
@@ -458,16 +484,17 @@ GetRecommendedCharset() will be used).
 =cut
 
 sub CharsetConvert {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my $Text = defined $Param{Text} ? $Param{Text} : return;
-    my $From = $Param{From} || return $Text;
-    my $To = $Param{To} || $Self->{ReturnCharset} || return $Text;
+    my $Text  = defined $Param{Text} ? $Param{Text} : return;
+    my $From  = $Param{From} || return $Text;
+    my $To    = $Param{To} || $Self->{ReturnCharset} || return $Text;
     $From =~ s/'|"//g;
+
     # encode
     return $Self->{EncodeObject}->Convert(
         From => $From,
-        To => $To,
+        To   => $To,
         Text => $Text,
     );
 }
@@ -488,6 +515,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2007-09-27 18:47:33 $
+$Revision: 1.49 $ $Date: 2007-09-29 11:05:14 $
 
 =cut

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/cgi-bin/customer.pl - the global CGI handle file (incl. auth) for OTRS
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: customer.pl,v 1.37 2006-08-26 17:33:32 martin Exp $
+# $Id: customer.pl,v 1.38 2007-09-29 11:07:04 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,8 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.37 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.38 $)[1];
 
 # check @INC for mod_perl (add lib path for "require module"!)
 push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
@@ -45,4 +44,3 @@ my $Interface = Kernel::System::Web::InterfaceCustomer->new(Debug => $Debug);
 
 # execute object
 $Interface->Run();
-

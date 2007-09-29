@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.13 2007-09-26 09:14:33 martin Exp $
+# $Id: Main.pm,v 1.14 2007-09-29 11:03:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,8 +18,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -55,22 +54,23 @@ create new object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
+
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get common objects
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
 
     # check all needed objects
-    foreach (qw(ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+    for (qw(ConfigObject LogObject)) {
+        die "Got no $_" if ( !$Self->{$_} );
     }
 
     # encode object
@@ -88,70 +88,78 @@ require/load a module
 =cut
 
 sub Require {
-    my $Self = shift;
+    my $Self   = shift;
     my $Module = shift;
     my $Result = 0;
-    if (!$Module) {
+    if ( !$Module ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => 'Need module!',
+            Message  => 'Need module!',
         );
     }
     $Module =~ s/::/\//g;
     $Module .= '.pm';
+
     # check if module is already loaded
-    if (exists $INC{$Module}) {
+    if ( exists $INC{$Module} ) {
+
         # just return if it's already loaded
-        if ($INC{$Module}) {
+        if ( $INC{$Module} ) {
             return 1;
         }
+
         # if was not possible to load, log it
         else {
             $Self->{LogObject}->Log(
-                Caller => 1,
+                Caller   => 1,
                 Priority => 'error',
-                Message => "Compilation failed in require!",
+                Message  => "Compilation failed in require!",
             );
             return;
         }
     }
+
     # find full path of module
-    foreach my $Prefix (@INC) {
+    for my $Prefix (@INC) {
         my $File = $Prefix . '/' . $Module;
-        if (-f $File) {
+        if ( -f $File ) {
             $INC{$Module} = $File;
             $Result = do $File;
             last;
         }
     }
+
     # if there was an error
     if ($@) {
         $INC{$Module} = undef;
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'error',
-            Message => "$@",
+            Message  => "$@",
         );
         return;
     }
+
     # return true if module is loaded
     elsif ($Result) {
+
         # log loaded module
-        if ($Self->{Debug} > 1) {
+        if ( $Self->{Debug} > 1 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message => "Module: $Module loaded!",
+                Message  => "Module: $Module loaded!",
             );
         }
         return 1;
     }
+
     # if there is no file, show not found error
     else {
         delete $INC{$Module};
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'error',
-            Message => "Module $Module not found!",
+            Message  => "Module $Module not found!",
         );
         return;
     }
@@ -166,20 +174,20 @@ to die
 =cut
 
 sub Die {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    if ($Param{Message}) {
+    if ( $Param{Message} ) {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'error',
-            Message => "$Param{Message}",
+            Message  => "$Param{Message}",
         );
     }
     else {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'error',
-            Message => "Died!",
+            Message  => "Died!",
         );
     }
     exit;
@@ -202,24 +210,27 @@ to clean up filenames which can be used in any case (also quoting is done)
 =cut
 
 sub FilenameCleanUp {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
 
-    if (!$Param{Filename}) {
+    if ( !$Param{Filename} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need Filename!"
+            Message  => "Need Filename!"
         );
         return;
     }
 
-    if ($Param{Type} && $Param{Type} =~ /^md5/i) {
-        $Param{Filename} = md5_hex($Param{Filename});
+    if ( $Param{Type} && $Param{Type} =~ /^md5/i ) {
+        $Param{Filename} = md5_hex( $Param{Filename} );
     }
+
     # replace invalid token for attachment file names
-    elsif ($Param{Type} && $Param{Type} =~ /^attachment/i) {
+    elsif ( $Param{Type} && $Param{Type} =~ /^attachment/i ) {
+
         # replace invalid token like < > ? " : ; | \ / or *
         $Param{Filename} =~ s/[ <>\?":\\\*\|\/;\[\]]/_/g;
+
         # replace utf8 and iso
         $Param{Filename} =~ s/(\x{00C3}\x{00A4}|\x{00A4})/ae/g;
         $Param{Filename} =~ s/(\x{00C3}\x{00B6}|\x{00B6})/oe/g;
@@ -229,16 +240,18 @@ sub FilenameCleanUp {
         $Param{Filename} =~ s/(\x{00C3}\x{009C}|\x{009C})/Ue/g;
         $Param{Filename} =~ s/(\x{00C3}\x{009F}|\x{00DF})/ss/g;
         $Param{Filename} =~ s/-+/-/g;
+
         # cut the string if too long
-        if (length($Param{Filename}) > 100) {
+        if ( length( $Param{Filename} ) > 100 ) {
             my $Ext = '';
-            if ($Param{Filename} =~ /^.*(\.(...|....))$/) {
+            if ( $Param{Filename} =~ /^.*(\.(...|....))$/ ) {
                 $Ext = $1;
             }
-            $Param{Filename} = substr($Param{Filename},0,95).$Ext;
+            $Param{Filename} = substr( $Param{Filename}, 0, 95 ) . $Ext;
         }
     }
     else {
+
         # replace invalid token like [ ] * : ? " < > ; | \ /
         $Param{Filename} =~ s/[<>\?":\\\*\|\/;\[\]]/_/g;
     }
@@ -281,58 +294,64 @@ to read files from file system
 =cut
 
 sub FileRead {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my $FH;
-    if ($Param{Filename} && $Param{Directory}) {
+    if ( $Param{Filename} && $Param{Directory} ) {
+
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local', # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
-    elsif ($Param{Location}) {
+    elsif ( $Param{Location} ) {
+
         # filename clean up
         $Param{Location} =~ s/\/\//\//g;
     }
     else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Filename and Directory or Location!");
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => "Need Filename and Directory or Location!" );
 
     }
+
     # check if file exists
-    if (!-e $Param{Location}) {
-        if (!$Param{DisableWarnings}) {
+    if ( !-e $Param{Location} ) {
+        if ( !$Param{DisableWarnings} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "File '$Param{Location}' doesn't exists!"
+                Message  => "File '$Param{Location}' doesn't exists!"
             );
         }
         return;
     }
+
     # open file
     my $Mode = '<';
-    if ($Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i) {
+    if ( $Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i ) {
         $Mode = '<:utf8';
     }
-    if (open ($FH, $Mode, $Param{Location})) {
+    if ( open( $FH, $Mode, $Param{Location} ) ) {
+
         # read whole file
         my @Array;
         my $String;
-        if (!$Param{Mode} || $Param{Mode} =~ /^binmode/i) {
+        if ( !$Param{Mode} || $Param{Mode} =~ /^binmode/i ) {
             binmode($FH);
         }
-        while (my $Line = <$FH>) {
-            if ($Param{Result} && $Param{Result} eq 'ARRAY') {
-                push (@Array, $Line);
+        while ( my $Line = <$FH> ) {
+            if ( $Param{Result} && $Param{Result} eq 'ARRAY' ) {
+                push( @Array, $Line );
             }
             else {
                 $String .= $Line;
 
             }
         }
-        close ($FH);
-        if ($Param{Result} && $Param{Result} eq 'ARRAY') {
+        close($FH);
+        if ( $Param{Result} && $Param{Result} eq 'ARRAY' ) {
             return \@Array;
         }
         else {
@@ -342,7 +361,7 @@ sub FileRead {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can't open '$Param{Location}': $!",
+            Message  => "Can't open '$Param{Location}': $!",
         );
         return;
     }
@@ -376,52 +395,58 @@ to write data to file system
 =cut
 
 sub FileWrite {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my $FH;
-    if ($Param{Filename} && $Param{Directory}) {
+    if ( $Param{Filename} && $Param{Directory} ) {
+
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local', # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
-    elsif ($Param{Location}) {
+    elsif ( $Param{Location} ) {
+
         # filename clean up
         $Param{Location} =~ s/\/\//\//g;
     }
     else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Filename and Directory or Location!");
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => "Need Filename and Directory or Location!" );
 
     }
+
     # open file
     my $Mode = '>';
-    if ($Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i) {
+    if ( $Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i ) {
         $Mode = '>:utf8';
     }
-    if (!open ($FH, $Mode, $Param{Location})) {
+    if ( !open( $FH, $Mode, $Param{Location} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can't write '$Param{Location}': $!",
+            Message  => "Can't write '$Param{Location}': $!",
         );
         return;
     }
     else {
+
         # read whole file
-        if (!$Param{Mode} || $Param{Mode} =~ /^binmode/i) {
+        if ( !$Param{Mode} || $Param{Mode} =~ /^binmode/i ) {
             binmode($FH);
         }
-        print $FH ${$Param{Content}};
-        close ($FH);
+        print $FH ${ $Param{Content} };
+        close($FH);
+
         # set permission
-        if ($Param{Permission}) {
-            if (length($Param{Permission}) == 3) {
+        if ( $Param{Permission} ) {
+            if ( length( $Param{Permission} ) == 3 ) {
                 $Param{Permission} = "0$Param{Permission}";
             }
-            chmod(oct($Param{Permission}), $Param{Location});
+            chmod( oct( $Param{Permission} ), $Param{Location} );
         }
-        if ($Param{Filename}) {
+        if ( $Param{Filename} ) {
             return $Param{Filename};
         }
         else {
@@ -446,39 +471,44 @@ to delete a file from file system
 =cut
 
 sub FileDelete {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    if ($Param{Filename} && $Param{Directory}) {
+    if ( $Param{Filename} && $Param{Directory} ) {
+
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local', # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
-    elsif ($Param{Location}) {
+    elsif ( $Param{Location} ) {
+
         # filename clean up
         $Param{Location} =~ s/\/\//\//g;
     }
     else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Filename and Directory or Location!");
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => "Need Filename and Directory or Location!" );
 
     }
+
     # check if file exists
-    if (! -e $Param{Location}) {
-        if (!$Param{DisableWarnings}) {
+    if ( !-e $Param{Location} ) {
+        if ( !$Param{DisableWarnings} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "File '$Param{Location}' dosn't exists!"
+                Message  => "File '$Param{Location}' dosn't exists!"
             );
         }
         return;
     }
+
     # delete file
-    if (!unlink($Param{Location})) {
+    if ( !unlink( $Param{Location} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can't delete '$Param{Location}': $!",
+            Message  => "Can't delete '$Param{Location}': $!",
         );
         return;
     }
@@ -502,24 +532,26 @@ get a md5 sum of a file or an string
 =cut
 
 sub MD5sum {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my $FH;
-    if (!$Param{Filename} && !$Param{String}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Filename or String!");
+    if ( !$Param{Filename} && !$Param{String} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Filename or String!" );
         return;
     }
+
     # check if file exists
-    if ($Param{Filename} && !-e $Param{Filename}) {
+    if ( $Param{Filename} && !-e $Param{Filename} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "File '$Param{Filename}' doesn't exists!"
+            Message  => "File '$Param{Filename}' doesn't exists!"
         );
         return;
     }
+
     # md5sum file
-    if ($Param{Filename}) {
-        if (open($FH, '<', $Param{Filename})) {
+    if ( $Param{Filename} ) {
+        if ( open( $FH, '<', $Param{Filename} ) ) {
             binmode($FH);
             my $MD5sum = Digest::MD5->new()->addfile($FH)->hexdigest();
             close($FH);
@@ -528,23 +560,24 @@ sub MD5sum {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Can't write '$Param{Filename}': $!",
+                Message  => "Can't write '$Param{Filename}': $!",
             );
             return;
         }
     }
+
     # md5sum string
-    if ($Param{String}) {
-        if (ref($Param{String}) ne 'SCALAR') {
+    if ( $Param{String} ) {
+        if ( ref( $Param{String} ) ne 'SCALAR' ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Need a SCALAR reference like 'String => \$Content' in String param.",
+                Message  => "Need a SCALAR reference like 'String => \$Content' in String param.",
             );
             return;
         }
         else {
-            $Self->{EncodeObject}->EncodeOutput($Param{String});
-            return md5_hex(${$Param{String}});
+            $Self->{EncodeObject}->EncodeOutput( $Param{String} );
+            return md5_hex( ${ $Param{String} } );
         }
     }
 }
@@ -569,29 +602,38 @@ sub Dump {
     my $Self = shift;
     my $Data = shift;
     my $String;
-    if (!defined($Data)) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need \$String in Dump()!");
+    if ( !defined($Data) ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need \$String in Dump()!" );
         return;
     }
+
     # mild pretty print
     $Data::Dumper::Indent = 1;
+
     # This Dump() is using Data::Dumer with a utf8 workarounds to handle
     # the bug [rt.cpan.org #28607] Data::Dumper::Dumper is dumping utf8
     # strings as latin1/8bit instead of utf8. Use Storable module used for
     # workaround.
     # -> http://rt.cpan.org/Ticket/Display.html?id=28607
-    if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /utf(8|\-8)/i && $Self->Require('Storable')) {
+    if (   $Self->{ConfigObject}->Get('DefaultCharset') =~ /utf(8|\-8)/i
+        && $Self->Require('Storable') )
+    {
+
         # Clone the data because we need to disable the utf8 flag in all
         # reference variables and we want not to do this in the orig.
         # variables because this will still used in the system.
-        my $DataNew = Storable::dclone(\$Data);
+        my $DataNew = Storable::dclone( \$Data );
+
         # Disable utf8 flag.
         $Self->_Dump($DataNew);
+
         # Dump it as binary strings.
-        $String = Data::Dumper::Dumper(${$DataNew});
+        $String = Data::Dumper::Dumper( ${$DataNew} );
+
         # Enable utf8 flag.
         Encode::_utf8_on($String);
     }
+
     # fallback if Storable can not be loaded
     else {
         $String = Data::Dumper::Dumper($Data);
@@ -603,30 +645,30 @@ sub Dump {
 sub _Dump {
     my $Self = shift;
     my $Data = shift;
-    if (!ref(${$Data})) {
-        Encode::_utf8_off(${$Data});
+    if ( !ref( ${$Data} ) ) {
+        Encode::_utf8_off( ${$Data} );
     }
-    elsif (ref(${$Data}) eq 'SCALAR') {
-        $Self->_Dump(${$Data});
+    elsif ( ref( ${$Data} ) eq 'SCALAR' ) {
+        $Self->_Dump( ${$Data} );
     }
-    elsif (ref(${$Data}) eq 'HASH') {
-        foreach my $Key (keys %{${$Data}}) {
-            if (defined(${$Data}->{$Key})) {
-               $Self->_Dump(\${$Data}->{$Key});
+    elsif ( ref( ${$Data} ) eq 'HASH' ) {
+        for my $Key ( keys %{ ${$Data} } ) {
+            if ( defined( ${$Data}->{$Key} ) ) {
+                $Self->_Dump( \${$Data}->{$Key} );
             }
         }
     }
-    elsif (ref(${$Data}) eq 'ARRAY') {
-        foreach my $Key (0..$#{${$Data}}) {
-            if (defined(${$Data}->[$Key])) {
-                $Self->_Dump(\${$Data}->[$Key]);
+    elsif ( ref( ${$Data} ) eq 'ARRAY' ) {
+        for my $Key ( 0 .. $#{ ${$Data} } ) {
+            if ( defined( ${$Data}->[$Key] ) ) {
+                $Self->_Dump( \${$Data}->[$Key] );
             }
         }
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Unknown ref '".ref(${$Data})."'!",
+            Message  => "Unknown ref '" . ref( ${$Data} ) . "'!",
         );
     }
     return;
@@ -648,6 +690,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2007-09-26 09:14:33 $
+$Revision: 1.14 $ $Date: 2007-09-29 11:03:51 $
 
 =cut

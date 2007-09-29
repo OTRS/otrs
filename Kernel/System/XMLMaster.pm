@@ -2,7 +2,7 @@
 # Kernel/System/XMLMaster.pm - the global XMLMaster module for OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XMLMaster.pm,v 1.7 2007-02-12 15:52:22 tr Exp $
+# $Id: XMLMaster.pm,v 1.8 2007-09-29 11:01:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,12 +12,13 @@
 package Kernel::System::XMLMaster;
 
 use strict;
+use warnings;
+
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.7 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -76,19 +77,21 @@ create a xml master object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
+
     # get common objects
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
+
     # check needed objects
-    foreach (qw(DBObject LogObject ConfigObject TimeObject MainObject)) {
-        die "Got no $_" if (!$Param{$_});
+    for (qw(DBObject LogObject ConfigObject TimeObject MainObject)) {
+        die "Got no $_" if ( !$Param{$_} );
     }
 
     # for debug
@@ -113,38 +116,43 @@ to execute the run process
 =cut
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(XML)) {
-        if (!defined $Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_ !");
+    for (qw(XML)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ !" );
             return;
         }
     }
 
-    my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => ${$Param{XML}});
+    my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => ${ $Param{XML} } );
 
     # run all XMLMasterModules
-    if (ref($Self->{ConfigObject}->Get('XMLMaster::Module')) eq 'HASH') {
-        my %Jobs = %{$Self->{ConfigObject}->Get('XMLMaster::Module')};
-        foreach my $Job (sort keys %Jobs) {
-            if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
+    if ( ref( $Self->{ConfigObject}->Get('XMLMaster::Module') ) eq 'HASH' ) {
+        my %Jobs = %{ $Self->{ConfigObject}->Get('XMLMaster::Module') };
+        for my $Job ( sort keys %Jobs ) {
+            if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 my $FilterObject = $Jobs{$Job}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
-                    LogObject => $Self->{LogObject},
-                    DBObject => $Self->{DBObject},
-                    TimeObject => $Self->{TimeObject},
-                    Debug => $Self->{Debug},
+                    LogObject    => $Self->{LogObject},
+                    DBObject     => $Self->{DBObject},
+                    TimeObject   => $Self->{TimeObject},
+                    Debug        => $Self->{Debug},
                 );
+
                 # modify params
                 if (!$FilterObject->Run(
-                    XMLHash => \@XMLHash,
-                    JobConfig => $Jobs{$Job},
-                )) {
+                        XMLHash   => \@XMLHash,
+                        JobConfig => $Jobs{$Job},
+                    )
+                    )
+                {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
-                        Message => "Execute Run() of XMLModule $Jobs{$Job}->{Module} not successfully!",
+                        Message =>
+                            "Execute Run() of XMLModule $Jobs{$Job}->{Module} not successfully!",
                     );
                 }
             }
@@ -167,6 +175,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2007-02-12 15:52:22 $
+$Revision: 1.8 $ $Date: 2007-09-29 11:01:25 $
 
 =cut

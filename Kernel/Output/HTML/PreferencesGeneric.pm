@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesGeneric.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesGeneric.pm,v 1.4 2007-03-20 14:24:24 martin Exp $
+# $Id: PreferencesGeneric.pm,v 1.5 2007-09-29 10:49:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,43 +12,47 @@
 package Kernel::Output::HTML::PreferencesGeneric;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get env
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
 
     # get needed objects
-    foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem)) {
-        die "Got no $_!" if (!$Self->{$_});
+    for (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem)) {
+        die "Got no $_!" if ( !$Self->{$_} );
     }
 
     return $Self;
 }
 
 sub Param {
-    my $Self = shift;
-    my %Param = @_;
-    my @Params = ();
-    my $GetParam = $Self->{ParamObject}->GetParam(Param => $Self->{ConfigItem}->{PrefKey});
-    if (!defined($GetParam)) {
-        $GetParam = defined($Param{UserData}->{$Self->{ConfigItem}->{PrefKey}}) ? $Param{UserData}->{$Self->{ConfigItem}->{PrefKey}} : $Self->{ConfigItem}->{DataSelected};
+    my $Self     = shift;
+    my %Param    = @_;
+    my @Params   = ();
+    my $GetParam = $Self->{ParamObject}->GetParam( Param => $Self->{ConfigItem}->{PrefKey} );
+    if ( !defined($GetParam) ) {
+        $GetParam
+            = defined( $Param{UserData}->{ $Self->{ConfigItem}->{PrefKey} } )
+            ? $Param{UserData}->{ $Self->{ConfigItem}->{PrefKey} }
+            : $Self->{ConfigItem}->{DataSelected};
     }
-    push (@Params, {
-            %Param,
-            Name => $Self->{ConfigItem}->{PrefKey},
+    push(
+        @Params,
+        {   %Param,
+            Name       => $Self->{ConfigItem}->{PrefKey},
             SelectedID => $GetParam,
         },
     );
@@ -56,26 +60,27 @@ sub Param {
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+    for my $Key ( keys %{ $Param{GetParam} } ) {
+        my @Array = @{ $Param{GetParam}->{$Key} };
+        for (@Array) {
 
-    foreach my $Key (keys %{$Param{GetParam}}) {
-        my @Array = @{$Param{GetParam}->{$Key}};
-        foreach (@Array) {
             # pref update db
-            if (!$Self->{ConfigObject}->Get('DemoSystem')) {
+            if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
                 $Self->{UserObject}->SetPreferences(
                     UserID => $Param{UserData}->{UserID},
-                    Key => $Key,
-                    Value => $_,
+                    Key    => $Key,
+                    Value  => $_,
                 );
             }
-            if ($Param{UserData}->{UserID} eq $Self->{UserID}) {
+            if ( $Param{UserData}->{UserID} eq $Self->{UserID} ) {
+
                 # update SessionID
                 $Self->{SessionObject}->UpdateSessionID(
                     SessionID => $Self->{SessionID},
-                    Key => $Key,
-                    Value => $_,
+                    Key       => $Key,
+                    Value     => $_,
                 );
             }
         }
@@ -85,13 +90,13 @@ sub Run {
 }
 
 sub Error {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     return $Self->{Error} || '';
 }
 
 sub Message {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     return $Self->{Message} || '';
 }

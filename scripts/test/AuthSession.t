@@ -2,7 +2,7 @@
 # AuthSession.t - auth session tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AuthSession.t,v 1.5 2007-06-27 12:09:56 martin Exp $
+# $Id: AuthSession.t,v 1.6 2007-09-29 11:09:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 use utf8;
 use Kernel::System::AuthSession;
 
-foreach my $Module (qw(DB FS IPC)) {
+for my $Module (qw(DB FS IPC)) {
 
     # don't use IPC on win
     if ($Module eq 'IPC' && $^O =~ /win/i) {
@@ -24,8 +24,8 @@ foreach my $Module (qw(DB FS IPC)) {
     $Self->{SessionObject} = Kernel::System::AuthSession->new(%{$Self});
 
     my $LongString = '';
-    foreach my $Count (1..2) {
-        foreach (1..4) {
+    for my $Count (1..2) {
+        for (1..4) {
             $LongString .= $LongString." $_ abcdefghijklmnopqrstuvwxyz1234567890äöüß\n";
         }
         my $Length = length($LongString);

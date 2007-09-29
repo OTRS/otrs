@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.12 2007-09-26 09:16:29 martin Exp $
+# $Id: UnitTest.pm,v 1.13 2007-09-29 11:01:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,8 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -70,18 +69,18 @@ create test object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
-    foreach (qw(ConfigObject DBObject LogObject TimeObject MainObject EncodeObject)) {
-        if ($Param{$_}) {
+    for (qw(ConfigObject DBObject LogObject TimeObject MainObject EncodeObject)) {
+        if ( $Param{$_} ) {
             $Self->{$_} = $Param{$_};
         }
         else {
@@ -91,11 +90,14 @@ sub new {
 
     $Self->{Output} = $Param{Output} || 'ASCII';
 
-    if ($Self->{Output} eq 'HTML') {
+    if ( $Self->{Output} eq 'HTML' ) {
         print "
 <html>
 <head>
-    <title>".$Self->{ConfigObject}->Get('Product')." ".$Self->{ConfigObject}->Get('Version')." - Test Summary</title>
+    <title>"
+            . $Self->{ConfigObject}->Get('Product') . " "
+            . $Self->{ConfigObject}->Get('Version')
+            . " - Test Summary</title>
 </head>
 <a name='top'></a>
 <body>
@@ -115,35 +117,35 @@ Run all tests located in scripts/test/*.t and print result to stdout.
 =cut
 
 sub Run {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self          = shift;
+    my %Param         = @_;
     my %ResultSummary = ();
-    my $Home = $Self->{ConfigObject}->Get('Home');
-    my @Files = glob("$Home/scripts/test/*.t");
-    my $StartTime = $Self->{TimeObject}->SystemTime();
-    $Self->{TestCountOk} = 0;
+    my $Home          = $Self->{ConfigObject}->Get('Home');
+    my @Files         = glob("$Home/scripts/test/*.t");
+    my $StartTime     = $Self->{TimeObject}->SystemTime();
+    $Self->{TestCountOk}    = 0;
     $Self->{TestCountNotOk} = 0;
-    foreach my $File (@Files) {
-        if ($Param{Name} && $File !~ /\/\Q$Param{Name}\E\.t$/) {
+    for my $File (@Files) {
+
+        if ( $Param{Name} && $File !~ /\/\Q$Param{Name}\E\.t$/ ) {
             next;
         }
         $Self->{TestCount} = 0;
-        my $ConfigFile = $Self->{MainObject}->FileRead(
-            Location => $File,
-        );
-        if (!$ConfigFile) {
-            $Self->True(0, "ERROR: $!: $File");
+        my $ConfigFile = $Self->{MainObject}->FileRead( Location => $File, );
+        if ( !$ConfigFile ) {
+            $Self->True( 0, "ERROR: $!: $File" );
             print STDERR "ERROR: $!: $File\n";
         }
         else {
             $Self->_PrintHeadlineStart($File);
-            if (! eval ${$ConfigFile}) {
-                $Self->True(0, "ERROR: Syntax error in $File: $@");
+            if ( !eval ${$ConfigFile} ) {
+                $Self->True( 0, "ERROR: Syntax error in $File: $@" );
                 print STDERR "ERROR: Syntax error in $File: $@\n";
             }
             else {
+
                 # file loaded
-#                print STDERR "Notice: Loaded: $File\n";
+                #                print STDERR "Notice: Loaded: $File\n";
             }
             $Self->_PrintHeadlineEnd($File);
         }
@@ -151,56 +153,56 @@ sub Run {
 
     my $Time = $Self->{TimeObject}->SystemTime() - $StartTime;
     $ResultSummary{TimeTaken} = $Time;
-    $ResultSummary{Time} = $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => $Self->{TimeObject}->SystemTime(),
-    );
-    $ResultSummary{Product} = $Self->{ConfigObject}->Get('Product')." ".$Self->{ConfigObject}->Get('Version');
+    $ResultSummary{Time}      = $Self->{TimeObject}
+        ->SystemTime2TimeStamp( SystemTime => $Self->{TimeObject}->SystemTime(), );
+    $ResultSummary{Product}
+        = $Self->{ConfigObject}->Get('Product') . " " . $Self->{ConfigObject}->Get('Version');
     $ResultSummary{Host} = $Self->{ConfigObject}->Get('FQDN');
     $ResultSummary{Perl} = sprintf "%vd", $^V;
-    $ResultSummary{OS} = $^O;
-    if (-e '/etc/SuSE-release') {
+    $ResultSummary{OS}   = $^O;
+    if ( -e '/etc/SuSE-release' ) {
         my $ConfigFile = $Self->{MainObject}->FileRead(
             Location => '/etc/SuSE-release',
-            Result => 'ARRAY',
+            Result   => 'ARRAY',
         );
-        if ($ConfigFile && $ConfigFile->[0]) {
+        if ( $ConfigFile && $ConfigFile->[0] ) {
             $ResultSummary{Vendor} = $ConfigFile->[0];
         }
         else {
             $ResultSummary{Vendor} = 'SUSE unknown';
         }
     }
-    elsif (-e '/etc/fedora-release') {
+    elsif ( -e '/etc/fedora-release' ) {
         my $ConfigFile = $Self->{MainObject}->FileRead(
             Location => '/etc/fedora-release',
-            Result => 'ARRAY',
+            Result   => 'ARRAY',
         );
-        if ($ConfigFile && $ConfigFile->[0]) {
+        if ( $ConfigFile && $ConfigFile->[0] ) {
             $ResultSummary{Vendor} = $ConfigFile->[0];
         }
         else {
             $ResultSummary{Vendor} = 'fedora unknown';
         }
     }
-    elsif (-e '/etc/redhat-release') {
+    elsif ( -e '/etc/redhat-release' ) {
         my $ConfigFile = $Self->{MainObject}->FileRead(
             Location => '/etc/redhat-release',
-            Result => 'ARRAY',
+            Result   => 'ARRAY',
         );
-        if ($ConfigFile && $ConfigFile->[0]) {
+        if ( $ConfigFile && $ConfigFile->[0] ) {
             $ResultSummary{Vendor} = $ConfigFile->[0];
         }
         else {
             $ResultSummary{Vendor} = 'RedHat unknown';
         }
     }
-    elsif (-e '/etc/debian_version') {
+    elsif ( -e '/etc/debian_version' ) {
         my $ConfigFile = $Self->{MainObject}->FileRead(
             Location => '/etc/debian_version',
-            Result => 'ARRAY',
+            Result   => 'ARRAY',
         );
-        if ($ConfigFile && $ConfigFile->[0]) {
-            $ResultSummary{Vendor} = 'debian '.$ConfigFile->[0];
+        if ( $ConfigFile && $ConfigFile->[0] ) {
+            $ResultSummary{Vendor} = 'debian ' . $ConfigFile->[0];
         }
         else {
             $ResultSummary{Vendor} = 'debian unknown';
@@ -209,16 +211,16 @@ sub Run {
     else {
         $ResultSummary{Vendor} = 'unknown';
     }
-    chomp($ResultSummary{Vendor});
-    $ResultSummary{Database} = $Self->{DBObject}->{'DB::Type'};
-    $ResultSummary{TestOk} = $Self->{TestCountOk};
+    chomp( $ResultSummary{Vendor} );
+    $ResultSummary{Database}  = $Self->{DBObject}->{'DB::Type'};
+    $ResultSummary{TestOk}    = $Self->{TestCountOk};
     $ResultSummary{TestNotOk} = $Self->{TestCountNotOk};
 
     $Self->_PrintSummary(%ResultSummary);
     my $XML = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
     $XML .= "<otrs_test>\n";
     $XML .= "<Summary>\n";
-    foreach my $Key (sort keys %ResultSummary) {
+    for my $Key ( sort keys %ResultSummary ) {
         $ResultSummary{$Key} =~ s/&/&amp;/g;
         $ResultSummary{$Key} =~ s/</&lt;/g;
         $ResultSummary{$Key} =~ s/>/&gt;/g;
@@ -226,24 +228,25 @@ sub Run {
         $XML .= "  <Item Name=\"$Key\">$ResultSummary{$Key}</Item>\n";
     }
     $XML .= "</Summary>\n";
-    foreach my $Key (sort keys %{$Self->{XML}->{Test}}) {
+    for my $Key ( sort keys %{ $Self->{XML}->{Test} } ) {
         $XML .= "<Unit Name=\"$Key\">\n";
-        foreach my $TestCount (sort {$a <=> $b} keys %{$Self->{XML}->{Test}->{$Key}}) {
+        for my $TestCount ( sort { $a <=> $b } keys %{ $Self->{XML}->{Test}->{$Key} } ) {
             my $Content = $Self->{XML}->{Test}->{$Key}->{$TestCount}->{Name};
             $Content =~ s/&/&amp;/g;
             $Content =~ s/</&lt;/g;
             $Content =~ s/>/&gt;/g;
             $Content =~ s/"/&quot;/g;
             $Content =~ s/'/&quot;/g;
-            $XML .= "  <Test Result=\"$Self->{XML}->{Test}->{$Key}->{$TestCount}->{Result}\" Count=\"$TestCount\">$Content</Test>\n";
+            $XML
+                .= "  <Test Result=\"$Self->{XML}->{Test}->{$Key}->{$TestCount}->{Result}\" Count=\"$TestCount\">$Content</Test>\n";
         }
         $XML .= "</Unit>\n";
     }
     $XML .= "</otrs_test>\n";
-    if ($Self->{Content}) {
+    if ( $Self->{Content} ) {
         print $Self->{Content};
     }
-    if ($Self->{Output} eq 'XML' && $XML) {
+    if ( $Self->{Output} eq 'XML' && $XML ) {
         print $XML;
     }
     return 1;
@@ -264,11 +267,11 @@ sub True {
     my $True = shift;
     my $Name = shift;
     if ($True) {
-        $Self->_Print($True, $Name);
+        $Self->_Print( $True, $Name );
         return 1;
     }
     else {
-        $Self->_Print($True, $Name);
+        $Self->_Print( $True, $Name );
         return;
     }
 }
@@ -284,15 +287,15 @@ A false test.
 =cut
 
 sub False {
-    my $Self = shift;
+    my $Self  = shift;
     my $False = shift;
-    my $Name = shift;
-    if (!$False) {
-        $Self->_Print(1, $Name);
+    my $Name  = shift;
+    if ( !$False ) {
+        $Self->_Print( 1, $Name );
         return 1;
     }
     else {
-        $Self->_Print(0, $Name);
+        $Self->_Print( 0, $Name );
         return;
     }
 }
@@ -306,16 +309,16 @@ A Is $A (is) eq $B (should be) test.
 =cut
 
 sub Is {
-    my $Self = shift;
-    my $Test = shift;
+    my $Self     = shift;
+    my $Test     = shift;
     my $ShouldBe = shift;
-    my $Name = shift;
-    if ($Test eq $ShouldBe) {
-        $Self->_Print(1, "$Name (is '$ShouldBe')");
+    my $Name     = shift;
+    if ( $Test eq $ShouldBe ) {
+        $Self->_Print( 1, "$Name (is '$ShouldBe')" );
         return 1;
     }
     else {
-        $Self->_Print(0, "$Name (is '$Test' should be '$ShouldBe')" );
+        $Self->_Print( 0, "$Name (is '$Test' should be '$ShouldBe')" );
         return;
     }
 }
@@ -329,27 +332,28 @@ A Is $A (is) nq $B (should not be) test.
 =cut
 
 sub IsNot {
-    my $Self = shift;
-    my $Test = shift;
+    my $Self     = shift;
+    my $Test     = shift;
     my $ShouldBe = shift;
-    my $Name = shift;
-    if ($Test ne $ShouldBe) {
-        $Self->_Print(1, "$Name (is '$Test')");
+    my $Name     = shift;
+    if ( $Test ne $ShouldBe ) {
+        $Self->_Print( 1, "$Name (is '$Test')" );
         return 1;
     }
     else {
-        $Self->_Print(0, "$Name (is '$Test' should not be '$ShouldBe')" );
+        $Self->_Print( 0, "$Name (is '$Test' should not be '$ShouldBe')" );
         return;
     }
 }
 
 sub _PrintSummary {
-    my $Self = shift;
+    my $Self          = shift;
     my %ResultSummary = @_;
+
     # show result
-    if ($Self->{Output} eq 'HTML') {
+    if ( $Self->{Output} eq 'HTML' ) {
         print "<table width='600' border='1'>\n";
-        if ($ResultSummary{TestNotOk}) {
+        if ( $ResultSummary{TestNotOk} ) {
             print "<tr><td bgcolor='red' colspan='2'>Summary</td></tr>\n";
         }
         else {
@@ -367,7 +371,7 @@ sub _PrintSummary {
         print "<tr><td>TestNotOk:</td><td>$ResultSummary{TestNotOk}</td></tr>\n";
         print "</table><br>\n";
     }
-    elsif ($Self->{Output} eq 'ASCII') {
+    elsif ( $Self->{Output} eq 'ASCII' ) {
         print "=====================================================================\n";
         print " Product:   $ResultSummary{Product}\n";
         print " Test Time: $ResultSummary{TimeTaken} s\n";
@@ -387,11 +391,11 @@ sub _PrintSummary {
 sub _PrintHeadlineStart {
     my $Self = shift;
     my $Name = shift || '->>No Name!<<-';
-    if ($Self->{Output} eq 'HTML') {
+    if ( $Self->{Output} eq 'HTML' ) {
         $Self->{Content} .= "<table width='600' border='1'>\n";
         $Self->{Content} .= "<tr><td colspan='2'>$Name</td></tr>\n";
     }
-    elsif ($Self->{Output} eq 'ASCII') {
+    elsif ( $Self->{Output} eq 'ASCII' ) {
         print "+-------------------------------------------------------------------+\n";
         print "$Name:\n";
         print "+-------------------------------------------------------------------+\n";
@@ -403,10 +407,10 @@ sub _PrintHeadlineStart {
 sub _PrintHeadlineEnd {
     my $Self = shift;
     my $Name = shift || '->>No Name!<<-';
-    if ($Self->{Output} eq 'HTML') {
+    if ( $Self->{Output} eq 'HTML' ) {
         $Self->{Content} .= "</table><br>\n";
     }
-    elsif ($Self->{Output} eq 'ASCII') {
+    elsif ( $Self->{Output} eq 'ASCII' ) {
     }
     return 1;
 }
@@ -418,33 +422,35 @@ sub _Print {
     $Self->{TestCount}++;
     if ($Test) {
         $Self->{TestCountOk}++;
-        if ($Self->{Output} eq 'HTML') {
-            $Self->{Content} .= "<tr><td width='70' bgcolor='green'>ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
+        if ( $Self->{Output} eq 'HTML' ) {
+            $Self->{Content}
+                .= "<tr><td width='70' bgcolor='green'>ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
         }
-        elsif ($Self->{Output} eq 'ASCII') {
+        elsif ( $Self->{Output} eq 'ASCII' ) {
             print " ok $Self->{TestCount} - $Name\n";
         }
-        $Self->{XML}->{Test}->{$Self->{XMLUnit}}->{$Self->{TestCount}}->{Result} = 'ok';
-        $Self->{XML}->{Test}->{$Self->{XMLUnit}}->{$Self->{TestCount}}->{Name} = $Name;
+        $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Result} = 'ok';
+        $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Name}   = $Name;
         return 1;
     }
-    elsif ($Self->{Output} eq 'ASCII') {
+    elsif ( $Self->{Output} eq 'ASCII' ) {
         $Self->{TestCountNotOk}++;
-        if ($Self->{Output} eq 'HTML') {
-            $Self->{Content} .= "<tr><td width='70' bgcolor='red'>not ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
+        if ( $Self->{Output} eq 'HTML' ) {
+            $Self->{Content}
+                .= "<tr><td width='70' bgcolor='red'>not ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
         }
         else {
             print " not ok $Self->{TestCount} - $Name\n";
         }
-        $Self->{XML}->{Test}->{$Self->{XMLUnit}}->{$Self->{TestCount}}->{Result} = 'not ok';
-        $Self->{XML}->{Test}->{$Self->{XMLUnit}}->{$Self->{TestCount}}->{Name} = $Name;
+        $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Result} = 'not ok';
+        $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Name}   = $Name;
         return;
     }
 }
 
 sub DESTROY {
     my $Self = shift;
-    if ($Self->{Output} eq 'HTML') {
+    if ( $Self->{Output} eq 'HTML' ) {
         print "</body>\n";
         print "</html>\n";
     }
@@ -467,6 +473,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2007-09-26 09:16:29 $
+$Revision: 1.13 $ $Date: 2007-09-29 11:01:12 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.54 2007-09-27 18:53:17 martin Exp $
+# $Id: Layout.pm,v 1.55 2007-09-29 10:50:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,11 +14,12 @@ package Kernel::Output::HTML::Layout;
 use lib "../../";
 
 use strict;
+use warnings;
+
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.54 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.55 $) [1];
 
 =head1 NAME
 
@@ -35,180 +36,210 @@ All generic html finctions. E. g. to get options fields, template processing, ..
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
+
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
+
     # get common objects
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
+
     # set debug
     $Self->{Debug} = 0;
+
     # check needed objects
-    foreach (qw(ConfigObject LogObject TimeObject MainObject EncodeObject)) {
-        if (!$Self->{$_}) {
+    for (qw(ConfigObject LogObject TimeObject MainObject EncodeObject)) {
+        if ( !$Self->{$_} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Got no $_!",
+                Message  => "Got no $_!",
             );
             $Self->FatalError();
         }
     }
+
     # get/set some common params
-    if (!$Self->{UserTheme}) {
+    if ( !$Self->{UserTheme} ) {
         $Self->{UserTheme} = $Self->{ConfigObject}->Get('DefaultTheme');
     }
-    if ($Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone}) {
+    if ( $Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone} ) {
         $Self->{UserTimeObject} = Kernel::System::Time->new(%Param);
     }
     else {
         $Self->{UserTimeObject} = $Self->{TimeObject};
-        $Self->{UserTimeZone} = '';
+        $Self->{UserTimeZone}   = '';
     }
+
     # get use language (from browser) if no language is there!
-    if (!$Self->{UserLanguage}) {
+    if ( !$Self->{UserLanguage} ) {
         my $BrowserLang = $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
-        my %Data = %{$Self->{ConfigObject}->Get('DefaultUsedLanguages')};
-        foreach (keys %Data) {
-            if ($BrowserLang =~ /^$_/i) {
+        my %Data = %{ $Self->{ConfigObject}->Get('DefaultUsedLanguages') };
+        for ( keys %Data ) {
+            if ( $BrowserLang =~ /^$_/i ) {
                 $Self->{UserLanguage} = $_;
             }
         }
     }
+
     # create language object
     $Self->{LanguageObject} = Kernel::Language->new(
         UserTimeZone => $Self->{UserTimeZone},
         UserLanguage => $Self->{UserLanguage},
-        LogObject => $Self->{LogObject},
+        LogObject    => $Self->{LogObject},
         ConfigObject => $Self->{ConfigObject},
-        MainObject => $Self->{MainObject},
-        Action => $Self->{Action},
+        MainObject   => $Self->{MainObject},
+        Action       => $Self->{Action},
     );
+
     # set charset if there is no charset given
     $Self->{UserCharset} = $Self->{LanguageObject}->GetRecommendedCharset();
-    $Self->{Charset}   = $Self->{UserCharset}; # just for compat.
-    $Self->{SessionID} = $Param{SessionID} || '';
+    $Self->{Charset}     = $Self->{UserCharset};                               # just for compat.
+    $Self->{SessionID}   = $Param{SessionID} || '';
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
-    $Self->{CGIHandle} = $ENV{'SCRIPT_NAME'} || 'No-$ENV{"SCRIPT_NAME"}';
+    $Self->{CGIHandle}   = $ENV{'SCRIPT_NAME'} || 'No-$ENV{"SCRIPT_NAME"}';
+
     # baselink
-    $Self->{Baselink}  = "$Self->{CGIHandle}?";
-    $Self->{Time}      = $Self->{LanguageObject}->Time(
+    $Self->{Baselink} = "$Self->{CGIHandle}?";
+    $Self->{Time}     = $Self->{LanguageObject}->Time(
         Action => 'GET',
         Format => 'DateFormat',
     );
-    $Self->{TimeLong}  = $Self->{LanguageObject}->Time(
+    $Self->{TimeLong} = $Self->{LanguageObject}->Time(
         Action => 'GET',
         Format => 'DateFormatLong',
     );
+
     # check browser (defaut is IE because I don't have IE)
     $Self->{BrowserWrap} = 'physical';
-    $Self->{Browser} = 'Unknown';
-    if ($Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre') &&
-        $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre')->{ActiveElementFilter}) {
+    $Self->{Browser}     = 'Unknown';
+    if (   $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre')
+        && $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre')->{ActiveElementFilter} )
+    {
         $Self->{BrowserJavaScriptSupport} = 0;
     }
-    elsif ($Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost') &&
-        $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost')->{ActiveElementFilter}) {
+    elsif ($Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost')
+        && $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost')
+        ->{ActiveElementFilter} )
+    {
         $Self->{BrowserJavaScriptSupport} = 0;
     }
-    elsif ($Self->{ConfigObject}->Get('Frontend::Output::FilterContent') &&
-        $Self->{ConfigObject}->Get('Frontend::Output::FilterContent')->{ActiveElementFilter}) {
+    elsif ($Self->{ConfigObject}->Get('Frontend::Output::FilterContent')
+        && $Self->{ConfigObject}->Get('Frontend::Output::FilterContent')->{ActiveElementFilter} )
+    {
         $Self->{BrowserJavaScriptSupport} = 0;
     }
     else {
         $Self->{BrowserJavaScriptSupport} = 1;
     }
-    if (!$ENV{'HTTP_USER_AGENT'}) {
+    if ( !$ENV{'HTTP_USER_AGENT'} ) {
         $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
     }
-    elsif ($ENV{'HTTP_USER_AGENT'}) {
+    elsif ( $ENV{'HTTP_USER_AGENT'} ) {
+
         # msie
-        if ($ENV{'HTTP_USER_AGENT'} =~ /MSIE ([0-9.]+)/i ||
-            $ENV{'HTTP_USER_AGENT'} =~ /Internet Explorer\/([0-9.]+)/i) {
-            $Self->{Browser} = 'MSIE';
+        if (   $ENV{'HTTP_USER_AGENT'} =~ /MSIE ([0-9.]+)/i
+            || $ENV{'HTTP_USER_AGENT'} =~ /Internet Explorer\/([0-9.]+)/i )
+        {
+            $Self->{Browser}     = 'MSIE';
             $Self->{BrowserWrap} = 'physical';
+
             # For IE 5.5, we break the header in a special way that makes
             # things work. I don't really want to know.
-            if ($1 =~ /(\d)\.(\d)/) {
+            if ( $1 =~ /(\d)\.(\d)/ ) {
                 $Self->{BrowserMajorVersion} = $1;
                 $Self->{BrowserMinorVersion} = $2;
-                if ($1 == 5 && $2 == 5 || $1 == 6 && $2 == 0) {
+                if ( $1 == 5 && $2 == 5 || $1 == 6 && $2 == 0 ) {
                     $Self->{BrowserBreakDispositionHeader} = 1;
                 }
             }
         }
+
         # netscape
-        elsif ($ENV{'HTTP_USER_AGENT'} =~ /netscape/i) {
-            $Self->{Browser} = 'Netscape';
+        elsif ( $ENV{'HTTP_USER_AGENT'} =~ /netscape/i ) {
+            $Self->{Browser}     = 'Netscape';
             $Self->{BrowserWrap} = 'hard';
         }
+
         # konqueror
-        elsif ($ENV{'HTTP_USER_AGENT'} =~ /konqueror/i) {
-            $Self->{Browser} = 'Konqueror';
+        elsif ( $ENV{'HTTP_USER_AGENT'} =~ /konqueror/i ) {
+            $Self->{Browser}     = 'Konqueror';
             $Self->{BrowserWrap} = 'hard';
         }
+
         # mozilla
-        elsif ($ENV{'HTTP_USER_AGENT'} =~ /^mozilla/i) {
-            $Self->{Browser} = 'Mozilla';
+        elsif ( $ENV{'HTTP_USER_AGENT'} =~ /^mozilla/i ) {
+            $Self->{Browser}     = 'Mozilla';
             $Self->{BrowserWrap} = 'hard';
         }
+
         # konqueror
-        elsif ($ENV{'HTTP_USER_AGENT'} =~ /^opera.*/i) {
-            $Self->{Browser} = 'Opera';
+        elsif ( $ENV{'HTTP_USER_AGENT'} =~ /^opera.*/i ) {
+            $Self->{Browser}     = 'Opera';
             $Self->{BrowserWrap} = 'hard';
         }
+
         # w3m
-        elsif ($ENV{'HTTP_USER_AGENT'} =~ /^w3m.*/i) {
-            $Self->{Browser} = 'w3m';
+        elsif ( $ENV{'HTTP_USER_AGENT'} =~ /^w3m.*/i ) {
+            $Self->{Browser}                  = 'w3m';
             $Self->{BrowserJavaScriptSupport} = 0;
         }
+
         # lynx
-        elsif ($ENV{'HTTP_USER_AGENT'} =~ /^lynx.*/i) {
-            $Self->{Browser} = 'Lynx';
+        elsif ( $ENV{'HTTP_USER_AGENT'} =~ /^lynx.*/i ) {
+            $Self->{Browser}                  = 'Lynx';
             $Self->{BrowserJavaScriptSupport} = 0;
         }
+
         # links
-        elsif ($ENV{'HTTP_USER_AGENT'} =~ /^links.*/i) {
+        elsif ( $ENV{'HTTP_USER_AGENT'} =~ /^links.*/i ) {
             $Self->{Browser} = 'Links';
         }
         else {
             $Self->{Browser} = "Unknown - $ENV{'HTTP_USER_AGENT'}";
         }
     }
+
     # load theme
     my $Theme = $Self->{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme') || 'Standard';
+
     # force a theme based on host name
-    if ($Self->{ConfigObject}->Get('DefaultTheme::HostBased') && $ENV{HTTP_HOST}) {
-        foreach (sort keys %{$Self->{ConfigObject}->Get('DefaultTheme::HostBased')}) {
-            if ($ENV{HTTP_HOST} =~ /$_/i) {
+    if ( $Self->{ConfigObject}->Get('DefaultTheme::HostBased') && $ENV{HTTP_HOST} ) {
+        for ( sort keys %{ $Self->{ConfigObject}->Get('DefaultTheme::HostBased') } ) {
+            if ( $ENV{HTTP_HOST} =~ /$_/i ) {
                 $Theme = $Self->{ConfigObject}->Get('DefaultTheme::HostBased')->{$_};
             }
         }
     }
+
     # locate template files
-    $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir')."/HTML/$Theme";
-    if (! -e $Self->{TemplateDir}) {
+    $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir') . "/HTML/$Theme";
+    if ( !-e $Self->{TemplateDir} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm",
+            Message =>
+                "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm",
         );
         $Self->FatalDie();
     }
+
     # define $Env{"Images"}
     $Self->{Images} = $Self->{ConfigObject}->Get('Frontend::ImagePath');
+
     # load sub layout files
-    my $Dir = $Self->{ConfigObject}->Get('TemplateDir').'/HTML/';
-    if (-e $Dir) {
+    my $Dir = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/';
+    if ( -e $Dir ) {
         my @Files = glob("$Dir/Layout*.pm");
-        foreach my $File (@Files) {
-            if ($File !~ /Layout.pm$/) {
+        for my $File (@Files) {
+            if ( $File !~ /Layout.pm$/ ) {
                 $File =~ s/^.*\/(.+?).pm$/$1/g;
-                if (!$Self->{MainObject}->Require("Kernel::Output::HTML::$File")) {
+                if ( !$Self->{MainObject}->Require("Kernel::Output::HTML::$File") ) {
                     $Self->FatalError();
                 }
-                push (@ISA, "Kernel::Output::HTML::$File");
+                push( @ISA, "Kernel::Output::HTML::$File" );
             }
         }
     }
@@ -217,15 +248,15 @@ sub new {
 }
 
 sub SetEnv {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    foreach (qw(Key Value)) {
-        if (!defined($Param{$_})) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Key Value)) {
+        if ( !defined( $Param{$_} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             $Self->FatalError();
         }
     }
-    $Self->{EnvNewRef}->{$Param{Key}} = $Param{Value};
+    $Self->{EnvNewRef}->{ $Param{Key} } = $Param{Value};
     return 1;
 }
 
@@ -246,31 +277,31 @@ use a dtl block
 =cut
 
 sub Block {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    if (!$Param{Name}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Name!");
+    if ( !$Param{Name} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Name!" );
         return;
     }
-    push (@{$Self->{BlockData}}, {Name => $Param{Name}, Data => $Param{Data}});
+    push( @{ $Self->{BlockData} }, { Name => $Param{Name}, Data => $Param{Data} } );
 }
 
 sub _BlockTemplatePreferences {
-    my $Self = shift;
-    my %Param = @_;
-    my %TagsOpen = ();
-    my @Preferences = ();
+    my $Self           = shift;
+    my %Param          = @_;
+    my %TagsOpen       = ();
+    my @Preferences    = ();
     my $LastLayerCount = 0;
-    my $Layer = 0;
-    my $LastLayer = '';
-    my $CurrentLayer = '';
-    my %UsedNames = ();
-    my $TemplateFile = $Param{TemplateFile} || '';
-    if (!defined($Param{Template})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Template!");
+    my $Layer          = 0;
+    my $LastLayer      = '';
+    my $CurrentLayer   = '';
+    my %UsedNames      = ();
+    my $TemplateFile   = $Param{TemplateFile} || '';
+    if ( !defined( $Param{Template} ) ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Template!" );
         return;
     }
-    if (!$Self->{PrasedBlockTemplatePreferences}->{$TemplateFile}) {
+    if ( !$Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} ) {
         $Param{Template} =~ s{
             <!--\s{0,1}dtl:block:(.+?)\s{0,1}-->
         }
@@ -308,13 +339,13 @@ sub _BlockTemplatePreferences {
         }segxm;
 
         # check open (invalid) tags
-        foreach (keys %TagsOpen) {
-            if ($TagsOpen{$_}) {
+        for ( keys %TagsOpen ) {
+            if ( $TagsOpen{$_} ) {
                 my $Message = "'dtl:block:$_' isn't closed!";
                 if ($TemplateFile) {
                     $Message .= " ($TemplateFile.dtl)";
                 }
-                $Self->{LogObject}->Log(Priority => 'error', Message => $Message);
+                $Self->{LogObject}->Log( Priority => 'error', Message => $Message );
                 $Self->FatalError();
             }
         }
@@ -329,29 +360,31 @@ sub _BlockTemplatePreferences {
         return @Preferences;
     }
     else {
+
         # return already parsed block data
-        return @{$Self->{PrasedBlockTemplatePreferences}->{$TemplateFile}};
+        return @{ $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} };
     }
 }
 
 sub _BlockTemplatesReplace {
-    my $Self = shift;
-    my %Param = @_;
-    my %BlockLayer = ();
+    my $Self           = shift;
+    my %Param          = @_;
+    my %BlockLayer     = ();
     my %BlockTemplates = ();
-    my @BR = ();
-    if (!$Param{Template}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Template!");
+    my @BR             = ();
+    if ( !$Param{Template} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Template!" );
         return;
     }
     my $TemplateString = $Param{Template};
     my $TemplateFile = $Param{TemplateFile} || '';
+
     # get availabe template block preferences
     my @Blocks = $Self->_BlockTemplatePreferences(
-        Template => $$TemplateString,
+        Template     => $$TemplateString,
         TemplateFile => $TemplateFile,
     );
-    foreach my $Block (reverse @Blocks) {
+    for my $Block ( reverse @Blocks ) {
         $$TemplateString =~ s{
             <!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->(.+?)<!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->
         }
@@ -359,27 +392,33 @@ sub _BlockTemplatesReplace {
             $BlockTemplates{$Block->{Name}} = $1;
             "<!-- dtl:place_block:$Block->{Name} -->";
         }segxm;
-        $BlockLayer{$Block->{Name}} = $Block->{Layer};
+        $BlockLayer{ $Block->{Name} } = $Block->{Layer};
     }
+
     # create block template string
-    if ($Self->{BlockData} && %BlockTemplates) {
+    if ( $Self->{BlockData} && %BlockTemplates ) {
         my @NotUsedBlockData = ();
-        foreach my $Block (@{$Self->{BlockData}}) {
-            if ($BlockTemplates{$Block->{Name}}) {
-                push (@BR, {
-                    Layer => $BlockLayer{$Block->{Name}},
-                    Name => $Block->{Name},
-                    Data => $Self->Output(
-                        Template => "<!--start $Block->{Name}-->".$BlockTemplates{$Block->{Name}}."<!--stop $Block->{Name} -->",
-                        Data => $Block->{Data},
-                        NoBlockReplace => 1,
-                    ),
-                });
+        for my $Block ( @{ $Self->{BlockData} } ) {
+            if ( $BlockTemplates{ $Block->{Name} } ) {
+                push(
+                    @BR,
+                    {   Layer => $BlockLayer{ $Block->{Name} },
+                        Name  => $Block->{Name},
+                        Data  => $Self->Output(
+                            Template => "<!--start $Block->{Name}-->"
+                                . $BlockTemplates{ $Block->{Name} }
+                                . "<!--stop $Block->{Name} -->",
+                            Data           => $Block->{Data},
+                            NoBlockReplace => 1,
+                        ),
+                    }
+                );
             }
             else {
-                push (@NotUsedBlockData, {%{$Block}});
+                push( @NotUsedBlockData, { %{$Block} } );
             }
         }
+
         # remember not use block data
         $Self->{BlockData} = \@NotUsedBlockData;
     }
@@ -398,23 +437,25 @@ use a dtl template and get html back
 =cut
 
 sub Output {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # deep recursion protection
     $Self->{OutputCount}++;
-    if ($Self->{OutputCount} > 20) {
+    if ( $Self->{OutputCount} > 20 ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Loop detection!",
+            Message  => "Loop detection!",
         );
         $Self->FatalDie();
     }
+
     # get and check param Data
-    if ($Param{Data}) {
-        if (ref($Param{Data}) ne 'HASH') {
+    if ( $Param{Data} ) {
+        if ( ref( $Param{Data} ) ne 'HASH' ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Need HashRef in Param Data! Got: '".ref($Param{Data})."'!",
+                Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
             );
             $Self->FatalError();
         }
@@ -425,122 +466,135 @@ sub Output {
 
     # create %Env for this round!
     my $EnvRef = {};
+
     # fill init Env
-    if (!$Self->{EnvRef}) {
+    if ( !$Self->{EnvRef} ) {
+
         # build OTRS env
         %{$EnvRef} = %ENV;
+
         # all $Self->{*}
-        foreach (keys %{$Self}) {
-            if (defined($Self->{$_}) && !ref($Self->{$_})) {
+        for ( keys %{$Self} ) {
+            if ( defined( $Self->{$_} ) && !ref( $Self->{$_} ) ) {
                 $EnvRef->{$_} = $Self->{$_};
             }
         }
     }
+
     # get %Env from $Self->{EnvRef}
     else {
         $EnvRef = $Self->{EnvRef};
     }
+
     # add new env
-    if ($Self->{EnvNewRef}) {
-        foreach (%{$Self->{EnvNewRef}}) {
+    if ( $Self->{EnvNewRef} ) {
+        for ( %{ $Self->{EnvNewRef} } ) {
             $EnvRef->{$_} = $Self->{EnvNewRef}->{$_};
         }
         undef $Self->{EnvNewRef};
     }
+
     # create refs
     my $GlobalRef = {
-        Env => $EnvRef,
-        Data => $Param{Data},
+        Env    => $EnvRef,
+        Data   => $Param{Data},
         Config => $Self->{ConfigObject},
     };
+
     # read template from filesystem
     my $TemplateString = '';
-    if (defined($Param{Template}) && ref($Param{Template}) eq 'ARRAY') {
-        foreach (@{$Param{Template}}) {
+    if ( defined( $Param{Template} ) && ref( $Param{Template} ) eq 'ARRAY' ) {
+        for ( @{ $Param{Template} } ) {
             $TemplateString .= $_;
         }
     }
-    elsif (defined($Param{Template})) {
+    elsif ( defined( $Param{Template} ) ) {
         $TemplateString = $Param{Template};
     }
-    elsif ($Param{TemplateFile}) {
+    elsif ( $Param{TemplateFile} ) {
         my $File = '';
-        if (-f "$Self->{TemplateDir}/$Param{TemplateFile}.dtl") {
+        if ( -f "$Self->{TemplateDir}/$Param{TemplateFile}.dtl" ) {
             $File = "$Self->{TemplateDir}/$Param{TemplateFile}.dtl";
         }
         else {
             $File = "$Self->{TemplateDir}/../Standard/$Param{TemplateFile}.dtl";
         }
-        if (open (TEMPLATEIN, "< $File")) {
-            while (my $Line = <TEMPLATEIN>) {
+        if ( open( TEMPLATEIN, "< $File" ) ) {
+            while ( my $Line = <TEMPLATEIN> ) {
                 $TemplateString .= $Line;
             }
-            close (TEMPLATEIN);
+            close(TEMPLATEIN);
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Can't read $File: $!",
+                Message  => "Can't read $File: $!",
             );
         }
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need Template or TemplateFile Param!",
+            Message  => "Need Template or TemplateFile Param!",
         );
         $Self->FatalError();
     }
+
     # custom pre filters
-    if ($Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre')) {
-        my %Filters = %{$Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre')};
-        foreach my $Filter (sort keys %Filters) {
-            if ($Self->{MainObject}->Require($Filters{$Filter}->{Module})) {
+    if ( $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre') ) {
+        my %Filters = %{ $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre') };
+        for my $Filter ( sort keys %Filters ) {
+            if ( $Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
                 my $Object = $Filters{$Filter}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
-                    MainObject => $Self->{MainObject},
-                    LogObject => $Self->{LogObject},
-                    Debug => $Self->{Debug},
+                    MainObject   => $Self->{MainObject},
+                    LogObject    => $Self->{LogObject},
+                    Debug        => $Self->{Debug},
                 );
+
                 # run module
-                $Object->Run(%{$Filters{$Filter}}, Data => \$TemplateString);
+                $Object->Run( %{ $Filters{$Filter} }, Data => \$TemplateString );
             }
             else {
                 $Self->FatalDie();
             }
         }
     }
+
     # filtering of comment lines
     $TemplateString =~ s/^#.*\n//gm;
+
     # parse/get text blocks
     my @BR = $Self->_BlockTemplatesReplace(
-        Template => \$TemplateString,
+        Template     => \$TemplateString,
         TemplateFile => $Param{TemplateFile} || '',
     );
-    my $ID = 0;
+    my $ID        = 0;
     my %LayerHash = ();
-    my $OldLayer = 1;
+    my $OldLayer  = 1;
+    for my $Block (@BR) {
 
-    foreach my $Block (@BR) {
         # reset layer counter if we switched on layer lower
-        if ($Block->{Layer} > $OldLayer) {
-            $LayerHash{$Block->{Layer}} = 0;
+        if ( $Block->{Layer} > $OldLayer ) {
+            $LayerHash{ $Block->{Layer} } = 0;
         }
+
         # count current layer
-        $LayerHash{$Block->{Layer}}++;
+        $LayerHash{ $Block->{Layer} }++;
+
         # create current id (1:2:3)
         undef $ID;
-        for (my $i = 1; $i <= $Block->{Layer}; $i++) {
-            if (defined($ID)) {
+        for ( my $i = 1; $i <= $Block->{Layer}; $i++ ) {
+            if ( defined($ID) ) {
                 $ID .= ":";
             }
-            if (defined($LayerHash{$i})) {
+            if ( defined( $LayerHash{$i} ) ) {
                 $ID .= $LayerHash{$i};
             }
         }
 
         # add block counter to template blocks
-        if ($Block->{Layer} == 1) {
+        if ( $Block->{Layer} == 1 ) {
             $TemplateString =~ s{
                 (<!--\s{0,1}dtl:place_block:$Block->{Name})(\s{0,1}-->)
             }
@@ -548,6 +602,7 @@ sub Output {
                 "$1:".$LayerHash{$Block->{Layer}}.$2;
             }segxm;
         }
+
         # add block counter to in block blocks
         $Block->{Data} =~ s{
             (<!--\s{0,1}dtl:place_block:.+?)(\s{0,1}-->)
@@ -556,17 +611,17 @@ sub Output {
             "$1:$ID:-$2";
         }segxm;
 
-       # count up place_block counter
+        # count up place_block counter
         $ID =~ s/^(.*:)(\d+)$/$1-/g;
 
         my $NewID = '';
-        if ($ID =~ /^(.*:)(\d+)$/) {
-            $NewID = $1.($2+1);
+        if ( $ID =~ /^(.*:)(\d+)$/ ) {
+            $NewID = $1 . ( $2 + 1 );
         }
-        elsif ($ID =~ /^(\d+)$/) {
-            $NewID = ($1+1);
+        elsif ( $ID =~ /^(\d+)$/ ) {
+            $NewID = ( $1 + 1 );
         }
-        elsif ($ID =~ /^(.*:)-$/) {
+        elsif ( $ID =~ /^(.*:)-$/ ) {
             $NewID = $ID;
         }
 
@@ -581,7 +636,7 @@ sub Output {
 
     # remove empty blocks and block preferences
 
-    if (!$Param{NoBlockReplace}) {
+    if ( !$Param{NoBlockReplace} ) {
         undef $Self->{BlockTemplatePreferences};
         $TemplateString =~ s{
             <!--\s{0,1}dtl:place_block:.+?\s{0,1}-->
@@ -592,16 +647,18 @@ sub Output {
     }
 
     # process template
-    my @Template = split(/\n/, $TemplateString);
-    my $Output = '';
+    my @Template  = split( /\n/, $TemplateString );
+    my $Output    = '';
     my $LineCount = 0;
-    foreach my $Line (@Template) {
+    for my $Line (@Template) {
         $LineCount++;
+
         # add missing new line (striped from split)
-        if ($LineCount != $#Template+1) {
+        if ( $LineCount != $#Template + 1 ) {
             $Line .= "\n";
         }
-        if ($Line =~ /<dtl/) {
+        if ( $Line =~ /<dtl/ ) {
+
             # do template set (<dtl set $Data{"adasd"} = "lala">)
             # do system call (<dtl system-call $Data{"adasd"} = "uptime">)
             $Line =~ s{
@@ -670,8 +727,9 @@ sub Output {
                 }
             }egx;
         }
+
         # variable & env & config replacement (three times)
-        foreach (1..3) {
+        for ( 1 .. 3 ) {
             $Line =~ s{
                 \$(QData|LQData|Data|Env|QEnv|Config|Include){"(.+?)"}
             }
@@ -760,11 +818,13 @@ sub Output {
                 }
             }egx;
         }
+
         # add this line to output
         $Output .= $Line;
     }
+
     # do time translation (with seconds)
-    foreach (1..1) {
+    for ( 1 .. 1 ) {
         $Output =~ s{
             \$TimeLong({"(.+?)"}|{""})
         }
@@ -777,8 +837,9 @@ sub Output {
             }
         }egx;
     }
+
     # do time translation (without seconds)
-    foreach (1..1) {
+    for ( 1 .. 1 ) {
         $Output =~ s{
             \$TimeShort({"(.+?)"}|{""})
         }
@@ -791,8 +852,9 @@ sub Output {
             }
         }egx;
     }
+
     # do date translation
-    foreach (1..1) {
+    for ( 1 .. 1 ) {
         $Output =~ s{
             \$Date({"(.+?)"}|{""})
         }
@@ -800,8 +862,9 @@ sub Output {
             $Self->{LanguageObject}->FormatTimeString($2, 'DateFormatShort');
         }egx;
     }
+
     # do translation
-    foreach (1..2) {
+    for ( 1 .. 2 ) {
         $Output =~ s{
             \$Text({"(.+?)"}|{""})
         }
@@ -816,7 +879,7 @@ sub Output {
             }
         }egx;
     }
-    foreach (1..1) {
+    for ( 1 .. 1 ) {
         $Output =~ s{
             \$JSText({"(.+?)"}|{""})
         }
@@ -832,8 +895,9 @@ sub Output {
             }
         }egx;
     }
+
     # do html quote
-    foreach (1..1) {
+    for ( 1 .. 1 ) {
         $Output =~ s{
             \$Quote({"(.+?)"}|{""})
         }
@@ -850,9 +914,11 @@ sub Output {
             }
         }egx;
     }
+
     # Check if the browser sends the session id cookie!
     # If not, add the session id to the links and forms!
-    if (!$Self->{SessionIDCookie}) {
+    if ( !$Self->{SessionIDCookie} ) {
+
         # rewrite a hrefs
         $Output =~ s{
             (<a.+?href=")(.+?)(\#.+?|)(">|".+?>)
@@ -871,6 +937,7 @@ sub Output {
                 $AHref.$Target.'&'.$Self->{SessionName}.'='.$Self->{SessionID}.$End.$RealEnd;
             }
         }iegx;
+
         # rewrite img src
         $Output =~ s{
             (<img.+?src=")(.+?)(">|".+?>)
@@ -888,6 +955,7 @@ sub Output {
                 $AHref.$Target.'&'.$Self->{SessionName}.'='.$Self->{SessionID}.$End;
             }
         }iegx;
+
         # rewrite forms: <form action="index.pl" method="get">
         $Output =~ s{
             (<form.+?action=")(.+?)(">|".+?>)
@@ -904,8 +972,11 @@ sub Output {
             }
         }iegx;
     }
+
     # do correct direction
-    if ($Self->{LanguageObject}->{TextDirection} && $Self->{LanguageObject}->{TextDirection} eq 'rtl') {
+    if (   $Self->{LanguageObject}->{TextDirection}
+        && $Self->{LanguageObject}->{TextDirection} eq 'rtl' )
+    {
         $Output =~ s{
             <(table.+?)>
         }
@@ -930,21 +1001,24 @@ sub Output {
             }
         }iegx;
     }
+
     # save %Env
     $Self->{EnvRef} = $EnvRef;
+
     # custom post filters
-    if ($Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost')) {
-        my %Filters = %{$Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost')};
-        foreach my $Filter (sort keys %Filters) {
-            if ($Self->{MainObject}->Require($Filters{$Filter}->{Module})) {
+    if ( $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost') ) {
+        my %Filters = %{ $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost') };
+        for my $Filter ( sort keys %Filters ) {
+            if ( $Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
                 my $Object = $Filters{$Filter}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
-                    MainObject => $Self->{MainObject},
-                    LogObject => $Self->{LogObject},
-                    Debug => $Self->{Debug},
+                    MainObject   => $Self->{MainObject},
+                    LogObject    => $Self->{LogObject},
+                    Debug        => $Self->{Debug},
                 );
+
                 # run module
-                $Object->Run(%{$Filters{$Filter}}, Data => \$Output);
+                $Object->Run( %{ $Filters{$Filter} }, Data => \$Output );
             }
             else {
                 $Self->FatalDie();
@@ -952,6 +1026,7 @@ sub Output {
         }
     }
     $Self->{OutputCount} = 0;
+
     # return output
     return $Output;
 }
@@ -971,37 +1046,43 @@ return html for browser to redirect
 =cut
 
 sub Redirect {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self            = shift;
+    my %Param           = @_;
     my $SessionIDCookie = '';
-    my $Cookies = '';
+    my $Cookies         = '';
+
     # add cookies if exists
-    if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
-        foreach (keys %{$Self->{SetCookies}}) {
+    if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
+        for ( keys %{ $Self->{SetCookies} } ) {
             $Cookies .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
+
     # create & return output
-    if ($Param{ExtURL}) {
+    if ( $Param{ExtURL} ) {
+
         # external redirect
         $Param{Redirect} = $Param{ExtURL};
-        return $Cookies.$Self->Output(TemplateFile => 'Redirect', Data => \%Param);
+        return $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
     }
     else {
+
         # internal redirect
         $Param{OP} =~ s/^.*\?(.+?)$/$1/;
         $Param{Redirect} = $Self->{Baselink} . $Param{OP};
+
         # check if IIS is used, add absolute url for IIS workaround
         # see also:
         #  o http://bugs.otrs.org/show_bug.cgi?id=2230
         #  o http://support.microsoft.com/default.aspx?scid=kb;en-us;221154
-        if ($ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis/i) {
+        if ( $ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis/i ) {
             my $Host = $ENV{HTTP_HOST} || $Self->{ConfigObject}->Get('FQDN');
-            $Param{Redirect} = $Self->{ConfigObject}->Get('HttpType').'://'.
-                $Host.'/'.$Param{Redirect};
+            $Param{Redirect}
+                = $Self->{ConfigObject}->Get('HttpType') . '://' . $Host . '/' . $Param{Redirect};
         }
-        my $Output = $Cookies.$Self->Output(TemplateFile => 'Redirect', Data => \%Param);
-        if (!$Self->{SessionIDCookie}) {
+        my $Output = $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
+        if ( !$Self->{SessionIDCookie} ) {
+
             # rewrite location header
             $Output =~ s{
                 (location: )(.*)
@@ -1038,80 +1119,86 @@ sub Redirect {
 }
 
 sub Login {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
+
     # add cookies if exists
-    if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
-        foreach (keys %{$Self->{SetCookies}}) {
+    if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
+        for ( keys %{ $Self->{SetCookies} } ) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
+
     # get message of the day
-    if ($Self->{ConfigObject}->Get('ShowMotd')) {
-        $Param{"Motd"} = $Self->Output(TemplateFile => 'Motd', Data => \%Param);
+    if ( $Self->{ConfigObject}->Get('ShowMotd') ) {
+        $Param{"Motd"} = $Self->Output( TemplateFile => 'Motd', Data => \%Param );
     }
+
     # get language options
     $Param{Language} = $Self->OptionStrgHashRef(
-        Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
-        Name => 'Lang',
+        Data       => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
+        Name       => 'Lang',
         SelectedID => $Self->{UserLanguage},
-        OnChange => 'submit()',
-        HTMLQuote => 0,
+        OnChange   => 'submit()',
+        HTMLQuote  => 0,
     );
+
     # get lost password y
-    if ($Self->{ConfigObject}->Get('LostPassword') &&
-        $Self->{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::DB'
-    ) {
+    if (   $Self->{ConfigObject}->Get('LostPassword')
+        && $Self->{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::DB' )
+    {
         $Self->Block(
             Name => 'LostPassword',
             Data => \%Param,
         );
     }
+
     # create & return output
-    $Output .= $Self->Output(TemplateFile => 'Login', Data => \%Param);
+    $Output .= $Self->Output( TemplateFile => 'Login', Data => \%Param );
     return $Output;
 }
 
 sub FatalError {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    if ($Param{Message}) {
+    if ( $Param{Message} ) {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'error',
-            Message => "$Param{Message}",
+            Message  => "$Param{Message}",
         );
     }
-    my $Output = $Self->Header(Area => 'Frontend', Title => 'Fatal Error');
+    my $Output = $Self->Header( Area => 'Frontend', Title => 'Fatal Error' );
     $Output .= $Self->Error(%Param);
     $Output .= $Self->Footer();
-    $Self->Print(Output => \$Output);
+    $Self->Print( Output => \$Output );
     exit;
 }
 
 sub FatalDie {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    if ($Param{Message}) {
+    if ( $Param{Message} ) {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'error',
-            Message => "$Param{Message}",
+            Message  => "$Param{Message}",
         );
     }
+
     # get backend error messages
-    foreach (qw(Message Traceback)) {
-        $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+    for (qw(Message Traceback)) {
+        $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
             Type => 'Error',
             What => $_
         ) || '';
-        $Param{'Backend'.$_} = $Self->Ascii2Html(
-            Text => $Param{'Backend'.$_},
+        $Param{ 'Backend' . $_ } = $Self->Ascii2Html(
+            Text           => $Param{ 'Backend' . $_ },
             HTMLResultMode => 1,
         );
     }
-    if (!$Param{Message}) {
+    if ( !$Param{Message} ) {
         $Param{Message} = $Param{BackendMessage};
     }
     die $Param{Message};
@@ -1119,74 +1206,79 @@ sub FatalDie {
 }
 
 sub ErrorScreen {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output = $Self->Header(Title => 'Error');
+    my $Self   = shift;
+    my %Param  = @_;
+    my $Output = $Self->Header( Title => 'Error' );
     $Output .= $Self->Error(%Param);
     $Output .= $Self->Footer();
     return $Output;
 }
 
 sub Error {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # get backend error messages
-    foreach (qw(Message Traceback)) {
-        $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+    for (qw(Message Traceback)) {
+        $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
             Type => 'Error',
             What => $_
         ) || '';
-        $Param{'Backend'.$_} = $Self->Ascii2Html(
-            Text => $Param{'Backend'.$_},
+        $Param{ 'Backend' . $_ } = $Self->Ascii2Html(
+            Text           => $Param{ 'Backend' . $_ },
             HTMLResultMode => 1,
         );
     }
-    if (!$Param{'BackendMessage'} && !$Param{'BackendTraceback'}) {
+    if ( !$Param{'BackendMessage'} && !$Param{'BackendTraceback'} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => $Param{Message} || '?',
+            Message  => $Param{Message} || '?',
         );
-        foreach (qw(Message Traceback)) {
-            $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+        for (qw(Message Traceback)) {
+            $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
                 Type => 'Error',
                 What => $_
             ) || '';
-            $Param{'Backend'.$_} = $Self->Ascii2Html(
-                Text => $Param{'Backend'.$_},
+            $Param{ 'Backend' . $_ } = $Self->Ascii2Html(
+                Text           => $Param{ 'Backend' . $_ },
                 HTMLResultMode => 1,
             );
         }
     }
-    if (!$Param{Message}) {
+    if ( !$Param{Message} ) {
         $Param{Message} = $Param{BackendMessage};
     }
     $Param{Message} =~ s/^(.{80}).*$/$1\[\.\.\]/gs;
+
     # create & return output
-    return $Self->Output(TemplateFile => 'Error', Data => \%Param);
+    return $Self->Output( TemplateFile => 'Error', Data => \%Param );
 }
 
 sub Warning {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # get backend error messages
-    foreach (qw(Message)) {
-        $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+    for (qw(Message)) {
+        $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
             Type => 'Notice',
             What => $_
-        ) || $Self->{LogObject}->GetLogEntry(
+            )
+            || $Self->{LogObject}->GetLogEntry(
             Type => 'Error',
             What => $_
-        ) || '';
-        $Param{'Backend'.$_} = $Self->Ascii2Html(
-            Text => $Param{'Backend'.$_},
+            ) || '';
+        $Param{ 'Backend' . $_ } = $Self->Ascii2Html(
+            Text           => $Param{ 'Backend' . $_ },
             HTMLResultMode => 1,
         );
     }
-    if (!$Param{Message}) {
+    if ( !$Param{Message} ) {
         $Param{Message} = $Param{BackendMessage};
     }
+
     # create & return output
-    return $Self->Output(TemplateFile => 'Warning', Data => \%Param);
+    return $Self->Output( TemplateFile => 'Warning', Data => \%Param );
 }
 
 =item Notify()
@@ -1224,29 +1316,32 @@ create notify lines
 =cut
 
 sub Notify {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # create & return output
-    if (!$Param{Info} && !$Param{Data}) {
-        foreach (qw(Message)) {
-            $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+    if ( !$Param{Info} && !$Param{Data} ) {
+        for (qw(Message)) {
+            $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
                 Type => 'Notice',
                 What => $_
-            ) || $Self->{LogObject}->GetLogEntry(
+                )
+                || $Self->{LogObject}->GetLogEntry(
                 Type => 'Error',
                 What => $_
-            ) || '';
+                ) || '';
         }
         $Param{Info} = $Param{BackendMessage};
+
         # return if we have nothing to show
-        if (!$Param{Info}) {
+        if ( !$Param{Info} ) {
             return '';
         }
     }
-    if ($Param{Info}) {
+    if ( $Param{Info} ) {
         $Param{Info} =~ s/\n//g;
     }
-    if ($Param{Priority} && $Param{Priority} eq 'Error') {
+    if ( $Param{Priority} && $Param{Priority} eq 'Error' ) {
         $Self->Block(
             Name => 'Error',
             Data => {},
@@ -1258,15 +1353,13 @@ sub Notify {
             Data => {},
         );
     }
-    if ($Param{Link}) {
+    if ( $Param{Link} ) {
         $Self->Block(
             Name => 'LinkStart',
-            Data => {
-                LinkStart => $Param{Link},
-            },
+            Data => { LinkStart => $Param{Link}, },
         );
     }
-    if ($Param{Data}) {
+    if ( $Param{Data} ) {
         $Self->Block(
             Name => 'Data',
             Data => \%Param,
@@ -1278,148 +1371,164 @@ sub Notify {
             Data => \%Param,
         );
     }
-    if ($Param{Link}) {
+    if ( $Param{Link} ) {
         $Self->Block(
             Name => 'LinkStop',
-            Data => {
-                LinkStop => '</a>',
-            },
+            Data => { LinkStop => '</a>', },
         );
     }
-    return $Self->Output(TemplateFile => 'Notify', Data => \%Param);
+    return $Self->Output( TemplateFile => 'Notify', Data => \%Param );
 }
 
 sub Header {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
-    my $Type = $Param{Type} || '';
+    my $Type   = $Param{Type} || '';
+
     # add cookies if exists
-    if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
-        foreach (keys %{$Self->{SetCookies}}) {
+    if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
+        for ( keys %{ $Self->{SetCookies} } ) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
+
     # fix IE bug if in filename is the word attachment
     my $File = $Param{Filename} || $Self->{Action} || 'unknown';
-    if ($Self->{BrowserBreakDispositionHeader}) {
+    if ( $Self->{BrowserBreakDispositionHeader} ) {
         $File =~ s/attachment/bttachment/gi;
     }
+
     # set file name for "save page as"
     $Param{"ContentDisposition"} = "filename=\"$File.html\"";
+
     # area and title
-    if (!$Param{Area}) {
-        $Param{Area} = $Self->{ConfigObject}->Get('Frontend::Module')->{$Self->{Action}}->{NavBarName} || '';
+    if ( !$Param{Area} ) {
+        $Param{Area}
+            = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName}
+            || '';
     }
-    if (!$Param{Title}) {
-        $Param{Title} = $Self->{ConfigObject}->Get('Frontend::Module')->{$Self->{Action}}->{Title} || '';
+    if ( !$Param{Title} ) {
+        $Param{Title} = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{Title}
+            || '';
     }
-    foreach (qw(Area Title Value)) {
-        if ($Param{$_}) {
-            $Param{TitleArea} .= " :: ".$Self->{LanguageObject}->Get($Param{$_});
+    for (qw(Area Title Value)) {
+        if ( $Param{$_} ) {
+            $Param{TitleArea} .= " :: " . $Self->{LanguageObject}->Get( $Param{$_} );
         }
     }
+
     # check if refresh block should be used
-    if ($Param{Refresh}) {
+    if ( $Param{Refresh} ) {
         $Self->Block(
             Name => 'MetaHttpEquivRefresh',
             Data => \%Param,
         );
     }
+
     # create & return output
-    $Output .= $Self->Output(TemplateFile => "Header$Type", Data => \%Param);
+    $Output .= $Self->Output( TemplateFile => "Header$Type", Data => \%Param );
     return $Output;
 }
 
 sub Footer {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my $Type = $Param{Type} || '';
+    my $Type  = $Param{Type} || '';
+
     # create & return output
-    return $Self->Output(TemplateFile => "Footer$Type", Data => \%Param);
+    return $Self->Output( TemplateFile => "Footer$Type", Data => \%Param );
 }
 
 sub Print {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # custom post filters
-    if ($Self->{ConfigObject}->Get('Frontend::Output::FilterContent')) {
-        my %Filters = %{$Self->{ConfigObject}->Get('Frontend::Output::FilterContent')};
-        foreach my $Filter (sort keys %Filters) {
-            if ($Self->{MainObject}->Require($Filters{$Filter}->{Module})) {
+    if ( $Self->{ConfigObject}->Get('Frontend::Output::FilterContent') ) {
+        my %Filters = %{ $Self->{ConfigObject}->Get('Frontend::Output::FilterContent') };
+        for my $Filter ( sort keys %Filters ) {
+            if ( $Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
                 my $Object = $Filters{$Filter}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
-                    MainObject => $Self->{MainObject},
-                    LogObject => $Self->{LogObject},
-                    Debug => $Self->{Debug},
+                    MainObject   => $Self->{MainObject},
+                    LogObject    => $Self->{LogObject},
+                    Debug        => $Self->{Debug},
                     LayoutObject => $Self,
                 );
+
                 # run module
-                $Object->Run(%{$Filters{$Filter}}, Data => $Param{Output});
+                $Object->Run( %{ $Filters{$Filter} }, Data => $Param{Output} );
             }
             else {
                 $Self->FatalDie();
             }
         }
     }
-    print ${$Param{Output}};
+    print ${ $Param{Output} };
 }
 
 sub PrintHeader {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
-    if (!$Param{Width}) {
+    if ( !$Param{Width} ) {
         $Param{Width} = 640;
     }
+
     # fix IE bug if in filename is the word attachment
     my $File = $Param{Filename} || $Self->{Action} || 'unknown';
-    if ($Self->{BrowserBreakDispositionHeader}) {
+    if ( $Self->{BrowserBreakDispositionHeader} ) {
         $File =~ s/attachment/bttachment/gi;
     }
+
     # set file name for "save page as"
     $Param{"ContentDisposition"} = "filename=\"$File.html\"";
+
     # area and title
-    if (!$Param{Area}) {
-        $Param{Area} = $Self->{ConfigObject}->Get('Frontend::Module')->{$Self->{Action}}->{NavBarName} || '';
+    if ( !$Param{Area} ) {
+        $Param{Area}
+            = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName}
+            || '';
     }
-    if (!$Param{Title}) {
-        $Param{Title} = $Self->{ConfigObject}->Get('Frontend::Module')->{$Self->{Action}}->{Title} || '';
+    if ( !$Param{Title} ) {
+        $Param{Title} = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{Title}
+            || '';
     }
-    foreach (qw(Area Title Value)) {
-        if ($Param{$_}) {
-            $Param{TitleArea} .= " :: ".$Self->{LanguageObject}->Get($Param{$_});
+    for (qw(Area Title Value)) {
+        if ( $Param{$_} ) {
+            $Param{TitleArea} .= " :: " . $Self->{LanguageObject}->Get( $Param{$_} );
         }
     }
+
     # create & return output
-    $Output .= $Self->Output(TemplateFile => 'PrintHeader', Data => \%Param);
+    $Output .= $Self->Output( TemplateFile => 'PrintHeader', Data => \%Param );
     return $Output;
 }
 
 sub PrintFooter {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    $Param{Host} = $Self->Ascii2Html(
-        Text => $ENV{SERVER_NAME}.$ENV{REQUEST_URI},
-    );
+    $Param{Host} = $Self->Ascii2Html( Text => $ENV{SERVER_NAME} . $ENV{REQUEST_URI}, );
     $Param{Host} =~ s/&amp;/&/ig;
+
     # create & return output
-    return $Self->Output(TemplateFile => 'PrintFooter', Data => \%Param);
+    return $Self->Output( TemplateFile => 'PrintFooter', Data => \%Param );
 }
 
 sub Ascii2Html {
-    my $Self = shift;
-    my %Param = @_;
-    my $Text = defined $Param{Text} ? $Param{Text} : return;
-    my $Max  = $Param{Max} || '';
-    my $VMax = $Param{VMax} || '';
-    my $NewLine = $Param{NewLine} || '';
-    my $HTMLMode = $Param{HTMLResultMode} || '';
+    my $Self            = shift;
+    my %Param           = @_;
+    my $Text            = defined $Param{Text} ? $Param{Text} : return;
+    my $Max             = $Param{Max} || '';
+    my $VMax            = $Param{VMax} || '';
+    my $NewLine         = $Param{NewLine} || '';
+    my $HTMLMode        = $Param{HTMLResultMode} || '';
     my $StripEmptyLines = $Param{StripEmptyLines} || '';
-    my $Type = $Param{Type} || '';
+    my $Type            = $Param{Type} || '';
 
     my %LinkHash = ();
-    if ($Param{LinkFeature}) {
+    if ( $Param{LinkFeature} ) {
         my $Counter = 0;
         $Text =~ s{
             (>|<|&gt;|&lt;|)(https|http|\sftp|\swww)((:\/\/|\.).*?)([\?,;!\.]\s|[\?,;!\.]$|\s|\)|\"|&quot;|&nbsp;|]|'|>|<|&gt;|&lt;)
@@ -1439,7 +1548,7 @@ sub Ascii2Html {
             }
             my $Length = length($Link);
             my $String = '';
-            foreach (1..$Length) {
+           for (1..$Length) {
                 if ($_ > 75) {
                     last;
                 }
@@ -1454,62 +1563,72 @@ sub Ascii2Html {
     if ($Max) {
         $Text =~ s/^(.{$Max}).*$/$1\[\.\.\]/gs;
     }
+
     # newline
-    if ($NewLine && length($Text) < 20000) {
+    if ( $NewLine && length($Text) < 20000 ) {
         $Text =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
         $Text =~ s/\r/\n/g;
         $Text =~ s/(.{4,$NewLine})(?:\s|\z)/$1\n/gm;
-        my $ForceNewLine = $NewLine+10;
-#        $Text =~ s/([A-z-_#=\.]{$ForceNewLine})/$1\n/g;
+        my $ForceNewLine = $NewLine + 10;
+
+        #        $Text =~ s/([A-z-_#=\.]{$ForceNewLine})/$1\n/g;
         $Text =~ s/(.{$ForceNewLine})(.+?)/$1\n$2/g;
     }
+
     # remove taps
     $Text =~ s/\t/ /g;
+
     # strip empty lines
     if ($StripEmptyLines) {
         $Text =~ s/^\s*\n//mg;
     }
+
     # max lines
     if ($VMax) {
-        my @TextList = split ('\n', $Text);
+        my @TextList = split( '\n', $Text );
         $Text = '';
         my $Counter = 1;
-        foreach (@TextList) {
-            $Text .= $_ . "\n" if ($Counter <= $VMax);
+        for (@TextList) {
+            $Text .= $_ . "\n" if ( $Counter <= $VMax );
             $Counter++;
         }
-        $Text .= "[...]\n" if ($Counter >= $VMax);
+        $Text .= "[...]\n" if ( $Counter >= $VMax );
     }
+
     # html quoting
     $Text =~ s/&/&amp;/g;
     $Text =~ s/</&lt;/g;
     $Text =~ s/>/&gt;/g;
     $Text =~ s/"/&quot;/g;
+
     # text -> html format quoting
-    if ($Param{LinkFeature} && %LinkHash) {
-        foreach my $Key (sort keys %LinkHash) {
+    if ( $Param{LinkFeature} && %LinkHash ) {
+        for my $Key ( sort keys %LinkHash ) {
             my $LinkSmall = $LinkHash{$Key};
-            $LinkSmall =~ s/^(.{75}).*$/$1\[\.\.\]/gs;
+            $LinkSmall      =~ s/^(.{75}).*$/$1\[\.\.\]/gs;
             $LinkHash{$Key} =~ s/ //g;
-            $Text =~ s/\Q$Key\E/<a href=\"$LinkHash{$Key}\" target=\"_blank\" title=\"$LinkHash{$Key}\">$LinkSmall<\/a>/;
+            $Text
+                =~ s/\Q$Key\E/<a href=\"$LinkHash{$Key}\" target=\"_blank\" title=\"$LinkHash{$Key}\">$LinkSmall<\/a>/;
         }
     }
     if ($HTMLMode) {
         $Text =~ s/\n/<br>\n/g;
         $Text =~ s/  /&nbsp;&nbsp;/g;
     }
-    if ($Type eq 'JSText') {
+    if ( $Type eq 'JSText' ) {
         $Text =~ s/'/\\'/g;
     }
+
     # return result
     return $Text;
 }
 
 sub LinkQuote {
-    my $Self = shift;
-    my %Param = @_;
-    my $Text = $Param{Text} || '';
-    my $Target = $Param{Target} || 'NewPage'. int(rand(199));
+    my $Self   = shift;
+    my %Param  = @_;
+    my $Text   = $Param{Text} || '';
+    my $Target = $Param{Target} || 'NewPage' . int( rand(199) );
+
     # do link quote
     $Text .= ' ';
     $Text =~ s{
@@ -1525,6 +1644,7 @@ sub LinkQuote {
         }
         "<a href=\"$Link\" target=\"$Target\">$OrigText<\/a>$OrigTextEnd";
     }egxi;
+
     # do mail to quote
     $Text =~ s/(mailto:.*?)(\.\s|\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
     chop($Text);
@@ -1534,7 +1654,7 @@ sub LinkQuote {
 sub LinkEncode {
     my $Self = shift;
     my $Link = shift;
-    if (!defined($Link)) {
+    if ( !defined($Link) ) {
         return;
     }
     $Link =~ s/&/%26/g;
@@ -1553,19 +1673,20 @@ sub LinkEncode {
 }
 
 sub CustomerAgeInHours {
-    my $Self = shift;
-    my %Param = @_;
-    my $Age = defined($Param{Age}) ? $Param{Age} : return;
-    my $Space = $Param{Space} || '<BR>';
+    my $Self    = shift;
+    my %Param   = @_;
+    my $Age     = defined( $Param{Age} ) ? $Param{Age} : return;
+    my $Space   = $Param{Space} || '<BR>';
     my $AgeStrg = '';
-    if ($Age =~ /^-(.*)/) {
-        $Age = $1;
+    if ( $Age =~ /^-(.*)/ ) {
+        $Age     = $1;
         $AgeStrg = '-';
     }
+
     # get hours
-    if ($Age >= 3600) {
-        $AgeStrg .= int( ($Age / 3600)) . ' ';
-        if (int( ($Age / 3600) % 24 ) > 1) {
+    if ( $Age >= 3600 ) {
+        $AgeStrg .= int( ( $Age / 3600 ) ) . ' ';
+        if ( int( ( $Age / 3600 ) % 24 ) > 1 ) {
             $AgeStrg .= $Self->{LanguageObject}->Get('hours');
         }
         else {
@@ -1573,10 +1694,11 @@ sub CustomerAgeInHours {
         }
         $AgeStrg .= $Space;
     }
+
     # get minutes (just if age < 1 day)
-    if ($Age <= 3600 || int( ($Age / 60) % 60)) {
-        $AgeStrg .= int( ($Age / 60) % 60) . ' ';
-        if (int( ($Age / 60) % 60) > 1) {
+    if ( $Age <= 3600 || int( ( $Age / 60 ) % 60 ) ) {
+        $AgeStrg .= int( ( $Age / 60 ) % 60 ) . ' ';
+        if ( int( ( $Age / 60 ) % 60 ) > 1 ) {
             $AgeStrg .= $Self->{LanguageObject}->Get('minutes');
         }
         else {
@@ -1587,19 +1709,20 @@ sub CustomerAgeInHours {
 }
 
 sub CustomerAge {
-    my $Self = shift;
-    my %Param = @_;
-    my $Age = defined($Param{Age}) ? $Param{Age} : return;
-    my $Space = $Param{Space} || '<BR>';
+    my $Self    = shift;
+    my %Param   = @_;
+    my $Age     = defined( $Param{Age} ) ? $Param{Age} : return;
+    my $Space   = $Param{Space} || '<BR>';
     my $AgeStrg = '';
-    if ($Age =~ /^-(.*)/) {
-        $Age = $1;
+    if ( $Age =~ /^-(.*)/ ) {
+        $Age     = $1;
         $AgeStrg = '-';
     }
+
     # get days
-    if ($Age >= 86400) {
-        $AgeStrg .= int( ($Age / 3600) / 24 ) . ' ';
-        if (int( ($Age / 3600) / 24 ) > 1) {
+    if ( $Age >= 86400 ) {
+        $AgeStrg .= int( ( $Age / 3600 ) / 24 ) . ' ';
+        if ( int( ( $Age / 3600 ) / 24 ) > 1 ) {
             $AgeStrg .= $Self->{LanguageObject}->Get('days');
         }
         else {
@@ -1607,10 +1730,11 @@ sub CustomerAge {
         }
         $AgeStrg .= $Space;
     }
+
     # get hours
-    if ($Age >= 3600) {
-        $AgeStrg .= int( ($Age / 3600) % 24 ) . ' ';
-        if (int( ($Age / 3600) % 24 ) > 1) {
+    if ( $Age >= 3600 ) {
+        $AgeStrg .= int( ( $Age / 3600 ) % 24 ) . ' ';
+        if ( int( ( $Age / 3600 ) % 24 ) > 1 ) {
             $AgeStrg .= $Self->{LanguageObject}->Get('hours');
         }
         else {
@@ -1618,10 +1742,11 @@ sub CustomerAge {
         }
         $AgeStrg .= $Space;
     }
+
     # get minutes (just if age < 1 day)
-    if ($Self->{ConfigObject}->Get('TimeShowAlwaysLong') || $Age < 86400) {
-        $AgeStrg .= int( ($Age / 60) % 60) . ' ';
-        if (int( ($Age / 60) % 60) > 1) {
+    if ( $Self->{ConfigObject}->Get('TimeShowAlwaysLong') || $Age < 86400 ) {
+        $AgeStrg .= int( ( $Age / 60 ) % 60 ) . ' ';
+        if ( int( ( $Age / 60 ) % 60 ) > 1 ) {
             $AgeStrg .= $Self->{LanguageObject}->Get('minutes');
         }
         else {
@@ -1639,112 +1764,119 @@ sub CustomerAge {
 # in a further release.
 
 sub OptionStrgHashRef {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output = '';
-    my $Name = $Param{Name} || '';
-    my $Max = $Param{Max} || 80;
-    my $Multiple = $Param{Multiple} ? 'multiple' : '';
-    my $HTMLQuote = defined($Param{HTMLQuote}) ? $Param{HTMLQuote} : 1;
-    my $LT = defined($Param{LanguageTranslation}) ? $Param{LanguageTranslation} : 1;
-    my $Selected = defined($Param{Selected}) ? $Param{Selected} : '-not-possible-to-use-';
-    my $SelectedID = defined($Param{SelectedID}) ? $Param{SelectedID} : '-not-possible-to-use-';
+    my $Self       = shift;
+    my %Param      = @_;
+    my $Output     = '';
+    my $Name       = $Param{Name} || '';
+    my $Max        = $Param{Max} || 80;
+    my $Multiple   = $Param{Multiple} ? 'multiple' : '';
+    my $HTMLQuote  = defined( $Param{HTMLQuote} ) ? $Param{HTMLQuote} : 1;
+    my $LT         = defined( $Param{LanguageTranslation} ) ? $Param{LanguageTranslation} : 1;
+    my $Selected   = defined( $Param{Selected} ) ? $Param{Selected} : '-not-possible-to-use-';
+    my $SelectedID = defined( $Param{SelectedID} ) ? $Param{SelectedID} : '-not-possible-to-use-';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
-    my $PossibleNone = $Param{PossibleNone} || '';
-    my $SortBy = $Param{SortBy} || 'Value';
-    my $Size = $Param{Size} || '';
+    my $PossibleNone       = $Param{PossibleNone} || '';
+    my $SortBy             = $Param{SortBy} || 'Value';
+    my $Size               = $Param{Size} || '';
     $Size = "size=$Size" if ($Size);
-    if (!$Param{Data}) {
+
+    if ( !$Param{Data} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Got no Data Param ref in OptionStrgHashRef()!",
+            Message  => "Got no Data Param ref in OptionStrgHashRef()!",
         );
         $Self->FatalError();
     }
-    elsif (ref($Param{Data}) ne 'HASH') {
+    elsif ( ref( $Param{Data} ) ne 'HASH' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need HashRef in Param Data! Got: '".ref($Param{Data})."'!",
+            Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
         );
         $Self->FatalError();
     }
-    my %Data = %{$Param{Data}};
+    my %Data    = %{ $Param{Data} };
     my $OnStuff = '';
-    if ($Param{OnChangeSubmit}) {
+    if ( $Param{OnChangeSubmit} ) {
         $OnStuff .= ' onchange="submit()" ';
     }
-    if ($Param{OnChange}) {
+    if ( $Param{OnChange} ) {
         $OnStuff = " onchange=\"$Param{OnChange}\" ";
     }
-    if ($Param{OnClick}) {
+    if ( $Param{OnClick} ) {
         $OnStuff = " onclick=\"$Param{OnClick}\" ";
     }
+
     # set default value
     my $NoSelectedDataGiven = 0;
-    if ($Selected eq '-not-possible-to-use-' && $SelectedID eq '-not-possible-to-use-') {
+    if ( $Selected eq '-not-possible-to-use-' && $SelectedID eq '-not-possible-to-use-' ) {
         $NoSelectedDataGiven = 1;
     }
-    if (($Name eq 'ValidID' || $Name eq 'Valid') && $NoSelectedDataGiven) {
+    if ( ( $Name eq 'ValidID' || $Name eq 'Valid' ) && $NoSelectedDataGiven ) {
         $Selected = $Self->{ConfigObject}->Get('DefaultValid');
     }
-    elsif (($Name eq 'LanguageID' || $Name eq 'Language') && $NoSelectedDataGiven) {
+    elsif ( ( $Name eq 'LanguageID' || $Name eq 'Language' ) && $NoSelectedDataGiven ) {
         $Selected = $Self->{ConfigObject}->Get('DefaultLanguage');
     }
-    elsif (($Name eq 'ThemeID' || $Name eq 'Theme') && $NoSelectedDataGiven) {
+    elsif ( ( $Name eq 'ThemeID' || $Name eq 'Theme' ) && $NoSelectedDataGiven ) {
         $Selected = $Self->{ConfigObject}->Get('DefaultTheme');
     }
-    elsif (($Name eq 'LanguageID' || $Name eq 'Language') && $NoSelectedDataGiven) {
+    elsif ( ( $Name eq 'LanguageID' || $Name eq 'Language' ) && $NoSelectedDataGiven ) {
         $Selected = $Self->{ConfigObject}->Get('DefaultLanguage');
     }
-#    elsif ($NoSelectedDataGiven) {
-#        # else set 1?
-#        $SelectedID = 1;
-#    }
+
+    #    elsif ($NoSelectedDataGiven) {
+    #        # else set 1?
+    #        $SelectedID = 1;
+    #    }
     # build select string
     $Output .= "<select name=\"$Name\" $Multiple $OnStuff $Size>\n";
     if ($PossibleNone) {
         $Output .= '<option VALUE="">-$Text{"none"}-</option>';
     }
+
     # hash cleanup
-    foreach (keys %Data) {
-        if (!defined($Data{$_})) {
+    for ( keys %Data ) {
+        if ( !defined( $Data{$_} ) ) {
             delete $Data{$_};
         }
     }
 
     my @Order = ();
-    if ($SortBy eq 'Key') {
-        foreach (sort keys %Data) {
-            push (@Order, $_);
+    if ( $SortBy eq 'Key' ) {
+        for ( sort keys %Data ) {
+            push( @Order, $_ );
         }
     }
     else {
-        foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
-            push (@Order, $_);
+        for ( sort { $Data{$a} cmp $Data{$b} } keys %Data ) {
+            push( @Order, $_ );
         }
     }
-    foreach (@Order) {
-        if (defined($_) && defined($Data{$_})) {
+    for (@Order) {
+        if ( defined($_) && defined( $Data{$_} ) ) {
+
             # check if SelectedIDRefArray exists
-            if ($SelectedIDRefArray && ref($SelectedIDRefArray) eq 'ARRAY') {
-                foreach my $ID (@{$SelectedIDRefArray}) {
-                    if ($ID eq $_) {
+            if ( $SelectedIDRefArray && ref($SelectedIDRefArray) eq 'ARRAY' ) {
+                for my $ID ( @{$SelectedIDRefArray} ) {
+                    if ( $ID eq $_ ) {
                         $Param{SelectedIDRefArrayOK}->{$_} = 1;
                     }
                 }
             }
+
             # build select string
-            if ($_ eq $SelectedID || $Data{$_} eq $Selected || $Param{SelectedIDRefArrayOK}->{$_}) {
-                $Output .= '  <option selected value="'.$Self->Ascii2Html(Text => $_).'">';
+            if ( $_ eq $SelectedID || $Data{$_} eq $Selected || $Param{SelectedIDRefArrayOK}->{$_} )
+            {
+                $Output .= '  <option selected value="' . $Self->Ascii2Html( Text => $_ ) . '">';
             }
             else {
-                $Output .= '  <option value="'.$Self->Ascii2Html(Text => $_).'">';
+                $Output .= '  <option value="' . $Self->Ascii2Html( Text => $_ ) . '">';
             }
             if ($LT) {
-                $Data{$_} = $Self->{LanguageObject}->Get($Data{$_});
+                $Data{$_} = $Self->{LanguageObject}->Get( $Data{$_} );
             }
             if ($HTMLQuote) {
-                $Output .= $Self->Ascii2Html(Text => $Data{$_}, Max => $Max);
+                $Output .= $Self->Ascii2Html( Text => $Data{$_}, Max => $Max );
             }
             else {
                 $Output .= $Data{$_};
@@ -1788,38 +1920,39 @@ sub OptionStrgHashRef {
 #    );
 
 sub OptionElement {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output = '';
-    my $Name = $Param{Name} || '';
-    my $Max = $Param{Max} || 80;
-    my $Multiple = $Param{Multiple} ? 'multiple' : '';
-    my $HTMLQuote = defined($Param{HTMLQuote}) ? $Param{HTMLQuote} : 1;
-    my $Translation = defined($Param{Translation}) ? $Param{Translation} : 1;
+    my $Self         = shift;
+    my %Param        = @_;
+    my $Output       = '';
+    my $Name         = $Param{Name} || '';
+    my $Max          = $Param{Max} || 80;
+    my $Multiple     = $Param{Multiple} ? 'multiple' : '';
+    my $HTMLQuote    = defined( $Param{HTMLQuote} ) ? $Param{HTMLQuote} : 1;
+    my $Translation  = defined( $Param{Translation} ) ? $Param{Translation} : 1;
     my $PossibleNone = $Param{PossibleNone} || '';
-    my $Size = $Param{Size} || '';
+    my $Size         = $Param{Size} || '';
     $Size = "size=\"$Size\"" if ($Size);
+
     # check needed stuff
-    foreach (qw(Name Data)) {
-        if (!$Param{$_}) {
+    for (qw(Name Data)) {
+        if ( !$Param{$_} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Got no Data Param ref in OptionStrgHashRef()!",
+                Message  => "Got no Data Param ref in OptionStrgHashRef()!",
             );
             $Self->FatalError();
         }
     }
-    if (!$Param{Data}) {
+    if ( !$Param{Data} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Got no Data Param ref in OptionStrgHashRef()!",
+            Message  => "Got no Data Param ref in OptionStrgHashRef()!",
         );
         $Self->FatalError();
     }
-    elsif (ref($Param{Data}) ne 'HASH') {
+    elsif ( ref( $Param{Data} ) ne 'HASH' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need HashRef in Param Data! Got: '".ref($Param{Data})."'!",
+            Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
         );
         $Self->FatalError();
     }
@@ -1827,39 +1960,42 @@ sub OptionElement {
     # detect
     # $Param{Data}{Key}{Value}
     my $Hash2 = 0;
-    foreach my $Key (%{$Param{Data}}) {
-        if (ref($Param{Data}->{$Key}) eq 'HASH') {
+    for my $Key ( %{ $Param{Data} } ) {
+        if ( ref( $Param{Data}->{$Key} ) eq 'HASH' ) {
             $Hash2 = 1;
             last;
         }
     }
     if ($Hash2) {
+
         # get sort prio
         my %DataSort = ();
-        foreach my $Key (keys %{$Param{Data}}) {
-            if ($Param{Data}->{$Key}->{Position}) {
+        for my $Key ( keys %{ $Param{Data} } ) {
+            if ( $Param{Data}->{$Key}->{Position} ) {
                 $DataSort{$Key} = $Param{Data}->{$Key}->{Position};
             }
             else {
                 $DataSort{$Key} = 0;
             }
         }
+
         # build option element
         $Output .= "<select name=\"$Name\" $Multiple $Size>\n";
         if ($PossibleNone) {
             $Output .= '<option VALUE="">-$Text{"none"}-</option>';
         }
-        foreach my $Key (sort {$DataSort{$a} <=> $DataSort{$b}} keys %DataSort) {
-            $Output .= '  <option value="'.$Self->Ascii2Html(Text => $Key).'"';
-            if ($Param{Data}->{$Key}->{Selected}) {
+        for my $Key ( sort { $DataSort{$a} <=> $DataSort{$b} } keys %DataSort ) {
+            $Output .= '  <option value="' . $Self->Ascii2Html( Text => $Key ) . '"';
+            if ( $Param{Data}->{$Key}->{Selected} ) {
                 $Output .= ' selected';
             }
             $Output .= '>';
             if ($Translation) {
-                $Param{Data}->{$Key}->{Value} = $Self->{LanguageObject}->Get($Param{Data}->{$Key}->{Value});
+                $Param{Data}->{$Key}->{Value}
+                    = $Self->{LanguageObject}->Get( $Param{Data}->{$Key}->{Value} );
             }
             if ($HTMLQuote) {
-                $Output .= $Self->Ascii2Html(Text => $Param{Data}->{$Key}->{Value}, Max => $Max);
+                $Output .= $Self->Ascii2Html( Text => $Param{Data}->{$Key}->{Value}, Max => $Max );
             }
             else {
                 $Output .= $Param{Data}->{$Key}->{Value};
@@ -1871,7 +2007,7 @@ sub OptionElement {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Got corrupt Data param! Got: '".ref($Param{Data})."'!",
+            Message  => "Got corrupt Data param! Got: '" . ref( $Param{Data} ) . "'!",
         );
         $Self->FatalError();
     }
@@ -1941,30 +2077,34 @@ build a html option element based on given data
 =cut
 
 sub BuildSelection {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(Data)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Data)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # create OptionRef
     my $OptionRef = $Self->_BuildSelectionOptionRefCreate(%Param);
+
     # create AttributeRef
     my $AttributeRef = $Self->_BuildSelectionAttributeRefCreate(%Param);
+
     # create DataRef
     my $DataRef = $Self->_BuildSelectionDataRefCreate(
-        Data => $Param{Data},
+        Data         => $Param{Data},
         AttributeRef => $AttributeRef,
-        OptionRef => $OptionRef,
+        OptionRef    => $OptionRef,
     );
 
     # generate output
     my $String = $Self->_BuildSelectionOutput(
         AttributeRef => $AttributeRef,
-        DataRef => $DataRef,
+        DataRef      => $DataRef,
     );
 
     return $String;
@@ -1987,74 +2127,83 @@ create the option hash
 =cut
 
 sub _BuildSelectionOptionRefCreate {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self      = shift;
+    my %Param     = @_;
     my $OptionRef = {};
 
     # set SelectedID option
-    if (defined($Param{SelectedID})) {
-        if (ref($Param{SelectedID}) eq 'ARRAY') {
-            foreach my $Key (@{$Param{SelectedID}}) {
+    if ( defined( $Param{SelectedID} ) ) {
+        if ( ref( $Param{SelectedID} ) eq 'ARRAY' ) {
+            for my $Key ( @{ $Param{SelectedID} } ) {
                 $OptionRef->{SelectedID}->{$Key} = 1;
             }
         }
         else {
-            $OptionRef->{SelectedID}->{$Param{SelectedID}} = 1;
+            $OptionRef->{SelectedID}->{ $Param{SelectedID} } = 1;
         }
     }
+
     # set SelectedValue option
-    if (defined($Param{SelectedValue})) {
-        if (ref($Param{SelectedValue}) eq 'ARRAY') {
-            foreach my $Value (@{$Param{SelectedValue}}) {
+    if ( defined( $Param{SelectedValue} ) ) {
+        if ( ref( $Param{SelectedValue} ) eq 'ARRAY' ) {
+            for my $Value ( @{ $Param{SelectedValue} } ) {
                 $OptionRef->{SelectedValue}->{$Value} = 1;
             }
         }
         else {
-            $OptionRef->{SelectedValue}->{$Param{SelectedValue}} = 1;
+            $OptionRef->{SelectedValue}->{ $Param{SelectedValue} } = 1;
         }
     }
+
     # set Sort option
     $OptionRef->{Sort} = 0;
-    if ($Param{Sort}) {
+    if ( $Param{Sort} ) {
         $OptionRef->{Sort} = $Param{Sort};
     }
+
     # set SortReverse option
     $OptionRef->{SortReverse} = 0;
-    if ($Param{SortReverse}) {
+    if ( $Param{SortReverse} ) {
         $OptionRef->{SortReverse} = 1;
     }
+
     # set Translation option
     $OptionRef->{Translation} = 1;
-    if (defined($Param{Translation}) && $Param{Translation} eq 0) {
+    if ( defined( $Param{Translation} ) && $Param{Translation} eq 0 ) {
         $OptionRef->{Translation} = 0;
     }
+
     # set PossibleNone option
     $OptionRef->{PossibleNone} = 0;
-    if ($Param{PossibleNone}) {
+    if ( $Param{PossibleNone} ) {
         $OptionRef->{PossibleNone} = 1;
     }
+
     # set TreeView option
     $OptionRef->{TreeView} = 0;
-    if ($Param{TreeView}) {
+    if ( $Param{TreeView} ) {
         $OptionRef->{TreeView} = 1;
-        $OptionRef->{Sort} = 'TreeView';
+        $OptionRef->{Sort}     = 'TreeView';
     }
+
     # set DisabledBranch option
-    if ($Param{DisabledBranch}) {
-        if (ref($Param{DisabledBranch}) eq 'ARRAY') {
-            foreach my $Branch (@{$Param{DisabledBranch}}) {
+    if ( $Param{DisabledBranch} ) {
+        if ( ref( $Param{DisabledBranch} ) eq 'ARRAY' ) {
+            for my $Branch ( @{ $Param{DisabledBranch} } ) {
                 $OptionRef->{DisabledBranch}->{$Branch} = 1;
             }
         }
         else {
-            $OptionRef->{DisabledBranch}->{$Param{DisabledBranch}} = 1;
+            $OptionRef->{DisabledBranch}->{ $Param{DisabledBranch} } = 1;
         }
     }
+
     # set Max option
     $OptionRef->{Max} = $Param{Max} || 100;
+
     # set HTMLQuote option
     $OptionRef->{HTMLQuote} = 1;
-    if ($Param{HTMLQuote}) {
+    if ( $Param{HTMLQuote} ) {
         $OptionRef->{HTMLQuote} = 0;
     }
 
@@ -2078,20 +2227,21 @@ create the attribute hash
 =cut
 
 sub _BuildSelectionAttributeRefCreate {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self         = shift;
+    my %Param        = @_;
     my $AttributeRef = {};
 
     # check params with key and value
-    foreach (qw(Name Size Class OnChange)) {
-        if ($Param{$_}) {
-            $AttributeRef->{lc($_)} = $Param{$_};
+    for (qw(Name Size Class OnChange)) {
+        if ( $Param{$_} ) {
+            $AttributeRef->{ lc($_) } = $Param{$_};
         }
     }
+
     # check key only params
-    foreach (qw(Multiple Disabled)) {
-        if ($Param{$_}) {
-            $AttributeRef->{lc($_)} = undef;
+    for (qw(Multiple Disabled)) {
+        if ( $Param{$_} ) {
+            $AttributeRef->{ lc($_) } = undef;
         }
     }
 
@@ -2123,178 +2273,204 @@ create the data hash
 =cut
 
 sub _BuildSelectionDataRefCreate {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self         = shift;
+    my %Param        = @_;
     my $AttributeRef = $Param{AttributeRef};
-    my $OptionRef = $Param{OptionRef};
-    my $DataRef = [];
+    my $OptionRef    = $Param{OptionRef};
+    my $DataRef      = [];
 
     my $Counter = 0;
+
     # if HashRef was given
-    if (ref($Param{Data}) eq 'HASH') {
+    if ( ref( $Param{Data} ) eq 'HASH' ) {
+
         # translate value
-        if ($OptionRef->{Translation}) {
-            foreach my $Row (keys %{$Param{Data}}) {
-                $Param{Data}->{$Row} = $Self->{LanguageObject}->Get($Param{Data}->{$Row});
+        if ( $OptionRef->{Translation} ) {
+            for my $Row ( keys %{ $Param{Data} } ) {
+                $Param{Data}->{$Row} = $Self->{LanguageObject}->Get( $Param{Data}->{$Row} );
             }
         }
+
         # sort hash
         my @SortKeys;
-        if ($OptionRef->{Sort} eq 'NumericKey') {
-            @SortKeys = sort {$a <=> $b} (keys %{$Param{Data}});
+        if ( $OptionRef->{Sort} eq 'NumericKey' ) {
+            @SortKeys = sort { $a <=> $b } ( keys %{ $Param{Data} } );
         }
-        elsif ($OptionRef->{Sort} eq 'NumericValue') {
-            @SortKeys = sort {$Param{Data}->{$a} <=> $Param{Data}->{$b}} (keys %{$Param{Data}});
+        elsif ( $OptionRef->{Sort} eq 'NumericValue' ) {
+            @SortKeys
+                = sort { $Param{Data}->{$a} <=> $Param{Data}->{$b} } ( keys %{ $Param{Data} } );
         }
-        elsif ($OptionRef->{Sort} eq 'AlphanumericKey') {
-            @SortKeys = sort(keys %{$Param{Data}});
+        elsif ( $OptionRef->{Sort} eq 'AlphanumericKey' ) {
+            @SortKeys = sort( keys %{ $Param{Data} } );
         }
-        elsif ($OptionRef->{Sort} eq 'TreeView') {
+        elsif ( $OptionRef->{Sort} eq 'TreeView' ) {
+
             # add suffix for correct sorting
             my %SortHash;
-            foreach (keys %{$Param{Data}}) {
+            for ( keys %{ $Param{Data} } ) {
                 $SortHash{$_} = $Param{Data}->{$_} . '::';
             }
-            @SortKeys = sort {$SortHash{$a} cmp $SortHash{$b}} (keys %SortHash);
+            @SortKeys = sort { $SortHash{$a} cmp $SortHash{$b} } ( keys %SortHash );
         }
         else {
-            @SortKeys = sort {$Param{Data}->{$a} cmp $Param{Data}->{$b}} (keys %{$Param{Data}});
+            @SortKeys
+                = sort { $Param{Data}->{$a} cmp $Param{Data}->{$b} } ( keys %{ $Param{Data} } );
             $OptionRef->{Sort} = 'AlphanumericValue';
         }
+
         # create DataRef
-        foreach my $Row (@SortKeys) {
-            $DataRef->[$Counter]->{Key} = $Row;
+        for my $Row (@SortKeys) {
+            $DataRef->[$Counter]->{Key}   = $Row;
             $DataRef->[$Counter]->{Value} = $Param{Data}->{$Row};
             $Counter++;
         }
     }
+
     # if ArrayHashRef was given
-    elsif (ref($Param{Data}) eq 'ARRAY' && ref($Param{Data}->[0]) eq 'HASH') {
+    elsif ( ref( $Param{Data} ) eq 'ARRAY' && ref( $Param{Data}->[0] ) eq 'HASH' ) {
+
         # create DataRef
-        foreach my $Row (@{$Param{Data}}) {
-            if (ref($Row) eq 'HASH' && $Row->{Key}) {
-                $DataRef->[$Counter]->{Key} = $Row->{Key};
+        for my $Row ( @{ $Param{Data} } ) {
+            if ( ref($Row) eq 'HASH' && $Row->{Key} ) {
+                $DataRef->[$Counter]->{Key}   = $Row->{Key};
                 $DataRef->[$Counter]->{Value} = $Row->{Value};
+
                 # translate value
-                if ($OptionRef->{Translation}) {
-                    $DataRef->[$Counter]->{Value} = $Self->{LanguageObject}->Get($DataRef->[$Counter]->{Value});
+                if ( $OptionRef->{Translation} ) {
+                    $DataRef->[$Counter]->{Value}
+                        = $Self->{LanguageObject}->Get( $DataRef->[$Counter]->{Value} );
                 }
+
                 # set Selected and Disabled options
-                if ($Row->{Selected}) {
+                if ( $Row->{Selected} ) {
                     $DataRef->[$Counter]->{Selected} = 1;
                 }
-                elsif ($Row->{Disabled}) {
+                elsif ( $Row->{Disabled} ) {
                     $DataRef->[$Counter]->{Disabled} = 1;
                 }
                 $Counter++;
             }
         }
     }
+
     # if ArrayRef was given
-    elsif (ref($Param{Data}) eq 'ARRAY') {
+    elsif ( ref( $Param{Data} ) eq 'ARRAY' ) {
         my %ReverseHash;
+
         # translate value
-        if ($OptionRef->{Translation}) {
+        if ( $OptionRef->{Translation} ) {
             my @TranslateArray;
-            foreach my $Row (@{$Param{Data}}) {
+            for my $Row ( @{ $Param{Data} } ) {
                 my $TranslateString = $Self->{LanguageObject}->Get($Row);
-                push (@TranslateArray, $TranslateString);
+                push( @TranslateArray, $TranslateString );
                 $ReverseHash{$TranslateString} = $Row;
             }
             $Param{Data} = \@TranslateArray;
         }
         else {
-            foreach my $Row (@{$Param{Data}}) {
+            for my $Row ( @{ $Param{Data} } ) {
                 $ReverseHash{$Row} = $Row;
             }
         }
+
         # sort array
-        if ($OptionRef->{Sort} eq 'AlphanumericKey' || $OptionRef->{Sort} eq 'AlphanumericValue') {
-            my @SortArray = sort(@{$Param{Data}});
+        if ( $OptionRef->{Sort} eq 'AlphanumericKey' || $OptionRef->{Sort} eq 'AlphanumericValue' )
+        {
+            my @SortArray = sort( @{ $Param{Data} } );
             $Param{Data} = \@SortArray;
         }
-        elsif ($OptionRef->{Sort} eq 'NumericKey' || $OptionRef->{Sort} eq 'NumericValue') {
-            my @SortArray = sort {$a <=> $b} (@{$Param{Data}});
+        elsif ( $OptionRef->{Sort} eq 'NumericKey' || $OptionRef->{Sort} eq 'NumericValue' ) {
+            my @SortArray = sort { $a <=> $b } ( @{ $Param{Data} } );
             $Param{Data} = \@SortArray;
         }
-        elsif ($OptionRef->{Sort} eq 'TreeView') {
+        elsif ( $OptionRef->{Sort} eq 'TreeView' ) {
+
             # add suffix for correct sorting
             my @SortArray;
-            foreach my $Row (@{$Param{Data}}) {
-                push (@SortArray, ($Row . '::'));
+            for my $Row ( @{ $Param{Data} } ) {
+                push( @SortArray, ( $Row . '::' ) );
             }
+
             # sort array
             @SortArray = sort(@SortArray);
+
             # remove suffix
             my @SortArray2;
-            foreach my $Row (@SortArray) {
+            for my $Row (@SortArray) {
                 $/ = '::';
                 chomp($Row);
-                push (@SortArray2, $Row);
+                push( @SortArray2, $Row );
             }
             $Param{Data} = \@SortArray;
         }
+
         # create DataRef
-        foreach my $Row (@{$Param{Data}}) {
-            $DataRef->[$Counter]->{Key} = $ReverseHash{$Row};
+        for my $Row ( @{ $Param{Data} } ) {
+            $DataRef->[$Counter]->{Key}   = $ReverseHash{$Row};
             $DataRef->[$Counter]->{Value} = $Row;
             $Counter++;
         }
     }
 
     # SelectedID and SelectedValue option
-    if ($OptionRef->{SelectedID} || $OptionRef->{SelectedValue}) {
-        foreach my $Row (@{$DataRef}) {
-            if ($OptionRef->{SelectedID}->{$Row->{Key}} ||
-                $OptionRef->{SelectedValue}->{$Row->{Value}}
-            ) {
+    if ( $OptionRef->{SelectedID} || $OptionRef->{SelectedValue} ) {
+        for my $Row ( @{$DataRef} ) {
+            if (   $OptionRef->{SelectedID}->{ $Row->{Key} }
+                || $OptionRef->{SelectedValue}->{ $Row->{Value} } )
+            {
                 $Row->{Selected} = 1;
             }
         }
     }
+
     # DisabledBranch option
-    if ($OptionRef->{DisabledBranch}) {
-        foreach my $Row (@{$DataRef}) {
-            foreach my $Branch (keys %{$OptionRef->{DisabledBranch}}) {
-                if ($Row->{Value} =~ /^($Branch)$/ || $Row->{Value} =~ /^($Branch)::/) {
+    if ( $OptionRef->{DisabledBranch} ) {
+        for my $Row ( @{$DataRef} ) {
+            for my $Branch ( keys %{ $OptionRef->{DisabledBranch} } ) {
+                if ( $Row->{Value} =~ /^($Branch)$/ || $Row->{Value} =~ /^($Branch)::/ ) {
                     $Row->{Disabled} = 1;
                 }
             }
         }
     }
+
     # HTMLQuote option
-    if ($OptionRef->{HTMLQuote}) {
-        foreach my $Row (@{$DataRef}) {
-            $Row->{Key} = $Self->Ascii2Html(Text => $Row->{Key});
-            $Row->{Value} = $Self->Ascii2Html(Text => $Row->{Value});
+    if ( $OptionRef->{HTMLQuote} ) {
+        for my $Row ( @{$DataRef} ) {
+            $Row->{Key}   = $Self->Ascii2Html( Text => $Row->{Key} );
+            $Row->{Value} = $Self->Ascii2Html( Text => $Row->{Value} );
         }
     }
+
     # SortReverse option
-    if ($OptionRef->{SortReverse}) {
-        @{$DataRef} = reverse(@{$DataRef});
+    if ( $OptionRef->{SortReverse} ) {
+        @{$DataRef} = reverse( @{$DataRef} );
     }
+
     # PossibleNone option
-    if ($OptionRef->{PossibleNone}) {
+    if ( $OptionRef->{PossibleNone} ) {
         my %None;
-        $None{Key} = '';
+        $None{Key}   = '';
         $None{Value} = '-';
 
-        unshift(@{$DataRef}, \%None);
+        unshift( @{$DataRef}, \%None );
     }
+
     # Max option
-    if ($OptionRef->{Max}) {
-        foreach my $Row (@{$DataRef}) {
-            $Row->{Value} = substr($Row->{Value}, 0, $OptionRef->{Max});
+    if ( $OptionRef->{Max} ) {
+        for my $Row ( @{$DataRef} ) {
+            $Row->{Value} = substr( $Row->{Value}, 0, $OptionRef->{Max} );
         }
     }
+
     # TreeView option
-    if ($OptionRef->{TreeView}) {
-        foreach my $Row (@{$DataRef}) {
-            if ($Row->{Value}) {
-                my @Fragment = split('::', $Row->{Value});
+    if ( $OptionRef->{TreeView} ) {
+        for my $Row ( @{$DataRef} ) {
+            if ( $Row->{Value} ) {
+                my @Fragment = split( '::', $Row->{Value} );
                 $Row->{Value} = pop(@Fragment);
                 my $Space = '';
-                foreach (@Fragment) {
+                for (@Fragment) {
                     $Space .= '&nbsp;&nbsp;';
                 }
                 $Row->{Value} = $Space . $Row->{Value};
@@ -2336,16 +2512,17 @@ create the html string
 =cut
 
 sub _BuildSelectionOutput {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my $String;
 
     # start generation, if AttributeRef and DataRef was found
-    if ($Param{AttributeRef} && $Param{DataRef}) {
+    if ( $Param{AttributeRef} && $Param{DataRef} ) {
+
         # generate <select> row
         $String = "<select";
-        foreach my $Key (keys %{$Param{AttributeRef}}) {
-            if ($Key && defined($Param{AttributeRef}->{$Key})) {
+        for my $Key ( keys %{ $Param{AttributeRef} } ) {
+            if ( $Key && defined( $Param{AttributeRef}->{$Key} ) ) {
                 $String .= " $Key=\"$Param{AttributeRef}->{$Key}\"";
             }
             elsif ($Key) {
@@ -2353,21 +2530,22 @@ sub _BuildSelectionOutput {
             }
         }
         $String .= ">\n";
+
         # generate <option> rows
-        foreach my $Row (@{$Param{DataRef}}) {
+        for my $Row ( @{ $Param{DataRef} } ) {
             my $Key = '';
-            if (defined($Row->{Key})) {
+            if ( defined( $Row->{Key} ) ) {
                 $Key = $Row->{Key};
             }
             my $Value = '';
-            if (defined($Row->{Value})) {
+            if ( defined( $Row->{Value} ) ) {
                 $Value = $Row->{Value};
             }
             my $SelectedDisabled = '';
-            if ($Row->{Selected}) {
+            if ( $Row->{Selected} ) {
                 $SelectedDisabled = " selected";
             }
-            elsif ($Row->{Disabled}) {
+            elsif ( $Row->{Disabled} ) {
                 $SelectedDisabled = " disabled";
             }
             $String .= "  <option value=\"$Key\"$SelectedDisabled>$Value</option>\n";
@@ -2378,77 +2556,98 @@ sub _BuildSelectionOutput {
 }
 
 sub NoPermission {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self       = shift;
+    my %Param      = @_;
     my $WithHeader = $Param{WithHeader} || 'yes';
-    my $Output = '';
-    $Param{Message} = 'No Permission!' if (!$Param{Message});
+    my $Output     = '';
+    $Param{Message} = 'No Permission!' if ( !$Param{Message} );
+
     # create output
-    $Output = $Self->Header(Title => 'No Permission') if ($WithHeader eq 'yes');
-    $Output .= $Self->Output(TemplateFile => 'NoPermission', Data => \%Param);
-    $Output .= $Self->Footer() if ($WithHeader eq 'yes');
+    $Output = $Self->Header( Title => 'No Permission' ) if ( $WithHeader eq 'yes' );
+    $Output .= $Self->Output( TemplateFile => 'NoPermission', Data => \%Param );
+    $Output .= $Self->Footer() if ( $WithHeader eq 'yes' );
+
     # return output
     return $Output;
 }
 
 sub CheckCharset {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
-    if (!$Param{Action}) {
+    if ( !$Param{Action} ) {
         $Param{Action} = '$Env{"Action"}';
     }
+
     # with utf-8 can everything be shown
-    if ($Self->{UserCharset} !~ /^utf-8$/i) {
+    if ( $Self->{UserCharset} !~ /^utf-8$/i ) {
+
         # replace ' or "
         $Param{ContentCharset} && $Param{ContentCharset} =~ s/'|"//gi;
+
         # if the content charset is different to the user charset
-        if ($Param{ContentCharset} && $Self->{UserCharset} !~ /^$Param{ContentCharset}$/i) {
+        if ( $Param{ContentCharset} && $Self->{UserCharset} !~ /^$Param{ContentCharset}$/i ) {
+
             # if the content charset is us-ascii it is always shown correctly
-            if ($Param{ContentCharset} !~ /us-ascii/i) {
-                $Output = '<p><i class="small">'.
-                    '$Text{"This message was written in a character set other than your own."}'.
-                    '$Text{"If it is not displayed correctly,"} '.
-                    '<a href="'.$Self->{Baselink}."Action=$Param{Action}&TicketID=$Param{TicketID}".
-                    "&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" target=\"HTMLeMail\" ".
-                    'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'.
-                    '$Text{"click here"}</a> $Text{"to open it in a new window."}</i></p>';
+            if ( $Param{ContentCharset} !~ /us-ascii/i ) {
+                $Output
+                    = '<p><i class="small">'
+                    . '$Text{"This message was written in a character set other than your own."}'
+                    . '$Text{"If it is not displayed correctly,"} '
+                    . '<a href="'
+                    . $Self->{Baselink}
+                    . "Action=$Param{Action}&TicketID=$Param{TicketID}"
+                    . "&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" target=\"HTMLeMail\" "
+                    . 'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'
+                    . '$Text{"click here"}</a> $Text{"to open it in a new window."}</i></p>';
             }
         }
     }
+
     # return note string
     return $Output;
 }
 
 sub CheckMimeType {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
-    if (!$Param{Action}) {
+    if ( !$Param{Action} ) {
         $Param{Action} = '$Env{"Action"}';
     }
+
     # check if it is a text/plain email
-    if ($Param{MimeType} && $Param{MimeType} !~ /text\/plain/i) {
-        $Output = '<p><i class="small">$Text{"This is a"} '.$Param{MimeType}.
-            ' $Text{"email"}, '.
-            '<a href="'.$Self->{Baselink}."Action=$Param{Action}&TicketID=".
-            "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
-            'target="HTMLeMail" '.
-            'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'.
-            '$Text{"click here"}</a> '.
-            '$Text{"to open it in a new window."}</i></p>';
+    if ( $Param{MimeType} && $Param{MimeType} !~ /text\/plain/i ) {
+        $Output
+            = '<p><i class="small">$Text{"This is a"} '
+            . $Param{MimeType}
+            . ' $Text{"email"}, '
+            . '<a href="'
+            . $Self->{Baselink}
+            . "Action=$Param{Action}&TicketID="
+            . "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" "
+            . 'target="HTMLeMail" '
+            . 'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'
+            . '$Text{"click here"}</a> '
+            . '$Text{"to open it in a new window."}</i></p>';
     }
+
     # just to be compat
-    elsif ($Param{Body} =~ /^<.DOCTYPE html PUBLIC|^<HTML>/i) {
-        $Output = '<p><i class="small">$Text{"This is a"} '.$Param{MimeType}.
-            ' $Text{"email"}, '.
-            '<a href="'.$Self->{Baselink}.'Action=$Env{"Action"}&TicketID='.
-            "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
-            'target="HTMLeMail" '.
-            'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'.
-            '$Text{"click here"}</a> '.
-            '$Text{"to open it in a new window."}</i></p>';
+    elsif ( $Param{Body} =~ /^<.DOCTYPE html PUBLIC|^<HTML>/i ) {
+        $Output
+            = '<p><i class="small">$Text{"This is a"} '
+            . $Param{MimeType}
+            . ' $Text{"email"}, '
+            . '<a href="'
+            . $Self->{Baselink}
+            . 'Action=$Env{"Action"}&TicketID='
+            . "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" "
+            . 'target="HTMLeMail" '
+            . 'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'
+            . '$Text{"click here"}</a> '
+            . '$Text{"to open it in a new window."}</i></p>';
     }
+
     # return note string
     return $Output;
 }
@@ -2473,247 +2672,285 @@ returns browser output to display/download a attachment
 =cut
 
 sub Attachment {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # reset binmode, don't use utf8
     binmode(STDOUT);
-    if ($Self->{EncodeObject}->EncodeFrontendUsed() =~ /utf\-8/i) {
-        Encode::_utf8_on($Param{Content});
+    if ( $Self->{EncodeObject}->EncodeFrontendUsed() =~ /utf\-8/i ) {
+        Encode::_utf8_on( $Param{Content} );
     }
+
     # return attachment
     my $Output = "Content-Disposition: ";
-    if ($Param{Type}) {
-        $Output .= $Param{Type}.'; ';
+    if ( $Param{Type} ) {
+        $Output .= $Param{Type} . '; ';
     }
     else {
         $Output .= $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
         $Output .= '; ';
     }
     $Output .= "filename=\"$Param{Filename}\"\n";
+
     # get attachment size
     {
         use bytes;
-        $Param{Size} = length($Param{Content});
+        $Param{Size} = length( $Param{Content} );
         no bytes;
     }
     $Output .= "Content-Length: $Param{Size}\n";
     $Output .= "Content-Type: $Param{ContentType}\n\n";
+
     # fix for firefox HEAD problem
-    if (!$ENV{REQUEST_METHOD} || $ENV{REQUEST_METHOD} ne 'HEAD') {
+    if ( !$ENV{REQUEST_METHOD} || $ENV{REQUEST_METHOD} ne 'HEAD' ) {
         $Output .= $Param{Content};
     }
+
     # encode output string
-    $Self->{EncodeObject}->EncodeOutput(\$Output);
+    $Self->{EncodeObject}->EncodeOutput( \$Output );
 
     return $Output;
 }
 
 sub PageNavBar {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
     my $Limit = $Param{Limit} || 0;
-    $Param{AllHits} = 0 if (!$Param{AllHits});
-    $Param{StartHit} = 0 if (!$Param{AllHits});
-    my $Pages = int(($Param{AllHits} / $Param{PageShown}) + 0.99999);
-    my $Page = int(($Param{StartHit} / $Param{PageShown}) + 0.99999);
+    $Param{AllHits}  = 0 if ( !$Param{AllHits} );
+    $Param{StartHit} = 0 if ( !$Param{AllHits} );
+    my $Pages = int( ( $Param{AllHits} / $Param{PageShown} ) + 0.99999 );
+    my $Page  = int( ( $Param{StartHit} / $Param{PageShown} ) + 0.99999 );
     my $WindowSize = $Param{WindowSize} || 15;
+
     # build Results (1-5 or 16-30)
-    if ($Param{AllHits} >= ($Param{StartHit}+$Param{PageShown})) {
-        $Param{Results} = $Param{StartHit}."-".($Param{StartHit}+$Param{PageShown}-1);
+    if ( $Param{AllHits} >= ( $Param{StartHit} + $Param{PageShown} ) ) {
+        $Param{Results} = $Param{StartHit} . "-" . ( $Param{StartHit} + $Param{PageShown} - 1 );
     }
     else {
         $Param{Results} = "$Param{StartHit}-$Param{AllHits}";
     }
+
     # check total hits
-    if ($Limit == $Param{AllHits}) {
+    if ( $Limit == $Param{AllHits} ) {
         $Param{TotalHits} = "<font color=red>$Param{AllHits}</font>";
     }
     else {
         $Param{TotalHits} = $Param{AllHits};
     }
+
     # build page nav bar
-    my $WindowStart = sprintf ("%.0f",($Param{StartHit} / $Param{PageShown}));
-    $WindowStart = int(($WindowStart/$WindowSize))+1;
-    $WindowStart = ($WindowStart*$WindowSize)-($WindowSize);
+    my $WindowStart = sprintf( "%.0f", ( $Param{StartHit} / $Param{PageShown} ) );
+    $WindowStart = int( ( $WindowStart / $WindowSize ) ) + 1;
+    $WindowStart = ( $WindowStart * $WindowSize ) - ($WindowSize);
     my $i = 0;
-    while ($i <= ($Pages-1)) {
+    while ( $i <= ( $Pages - 1 ) ) {
         $i++;
-        if ($i <= ($WindowStart+$WindowSize) && $i > $WindowStart) {
-            $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
-                "StartWindow=$WindowStart&StartHit=". ((($i-1)*$Param{PageShown})+1);
+        if ( $i <= ( $WindowStart + $WindowSize ) && $i > $WindowStart ) {
+            $Param{SearchNavBar}
+                .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
+                . "StartWindow=$WindowStart&StartHit="
+                . ( ( ( $i - 1 ) * $Param{PageShown} ) + 1 );
             $Param{SearchNavBar} .= '">';
-            if ($Page == $i) {
-                $Param{SearchNavBar} .= '<b>'.($i).'</b>';
+            if ( $Page == $i ) {
+                $Param{SearchNavBar} .= '<b>' . ($i) . '</b>';
             }
             else {
                 $Param{SearchNavBar} .= ($i);
             }
             $Param{SearchNavBar} .= '</a> ';
         }
+
         # over window
-        elsif ($i > ($WindowStart+$WindowSize)) {
-            my $StartWindow = $WindowStart+$WindowSize+1;
-            my $LastStartWindow = int($Pages/$WindowSize);
-            $Param{SearchNavBar} .= "&nbsp;<a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
-                "StartHit=".$i*$Param{PageShown};
-            $Param{SearchNavBar} .= '">'."&gt;&gt;</a>&nbsp;";
-            $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
-                "StartHit=".(($Param{PageShown}*($Pages-1))+1);
-            $Param{SearchNavBar} .= '">'."&gt;|</a> ";
+        elsif ( $i > ( $WindowStart + $WindowSize ) ) {
+            my $StartWindow     = $WindowStart + $WindowSize + 1;
+            my $LastStartWindow = int( $Pages / $WindowSize );
+            $Param{SearchNavBar}
+                .= "&nbsp;<a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
+                . "StartHit="
+                . $i * $Param{PageShown};
+            $Param{SearchNavBar} .= '">' . "&gt;&gt;</a>&nbsp;";
+            $Param{SearchNavBar}
+                .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
+                . "StartHit="
+                . ( ( $Param{PageShown} * ( $Pages - 1 ) ) + 1 );
+            $Param{SearchNavBar} .= '">' . "&gt;|</a> ";
             $i = 99999999;
         }
-        elsif ($i < $WindowStart && ($i-1) < $Pages) {
-            my $StartWindow = $WindowStart-$WindowSize-1;
-            $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
-                "StartHit=1&StartWindow=1";
-            $Param{SearchNavBar} .= '">'."|&lt;</a>&nbsp;";
-            $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
-                "StartHit=".(($WindowStart-1)*($Param{PageShown})+1);
-            $Param{SearchNavBar} .= '">'."&lt;&lt;</a>&nbsp;";
-            $i = $WindowStart-1;
+        elsif ( $i < $WindowStart && ( $i - 1 ) < $Pages ) {
+            my $StartWindow = $WindowStart - $WindowSize - 1;
+            $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
+                . "StartHit=1&StartWindow=1";
+            $Param{SearchNavBar} .= '">' . "|&lt;</a>&nbsp;";
+            $Param{SearchNavBar}
+                .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
+                . "StartHit="
+                . ( ( $WindowStart - 1 ) * ( $Param{PageShown} ) + 1 );
+            $Param{SearchNavBar} .= '">' . "&lt;&lt;</a>&nbsp;";
+            $i = $WindowStart - 1;
         }
     }
+
     # return data
     return (
-        TotalHits => $Param{TotalHits},
-        Result => $Param{Results},
+        TotalHits  => $Param{TotalHits},
+        Result     => $Param{Results},
         SiteNavBar => $Param{SearchNavBar},
-        Link => $Param{Link},
+        Link       => $Param{Link},
     );
 }
 
 sub NavigationBar {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
-    if (!$Param{Type}) {
-#        if (!$Self->{ModuleReg}->{NavBarName}) {
-#            $Self->{LogObject}->Log(
-#                Priority => 'error',
-#                Message => "Need NavBarName in Module registry!",
-#            );
-#            $Self->FatalError();
-#        }
+    if ( !$Param{Type} ) {
+
+        #        if (!$Self->{ModuleReg}->{NavBarName}) {
+        #            $Self->{LogObject}->Log(
+        #                Priority => 'error',
+        #                Message => "Need NavBarName in Module registry!",
+        #            );
+        #            $Self->FatalError();
+        #        }
         $Param{Type} = $Self->{ModuleReg}->{NavBarName} || $Self->{LastNavBarName} || 'Ticket';
     }
     $Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
-        Key => 'LastNavBarName',
-        Value => $Param{Type},
+        Key       => 'LastNavBarName',
+        Value     => $Param{Type},
     );
 
     # run notification modules
-    if (ref($Self->{ConfigObject}->Get('Frontend::NotifyModule')) eq 'HASH') {
-        my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::NotifyModule')};
-        foreach my $Job (sort keys %Jobs) {
+    if ( ref( $Self->{ConfigObject}->Get('Frontend::NotifyModule') ) eq 'HASH' ) {
+        my %Jobs = %{ $Self->{ConfigObject}->Get('Frontend::NotifyModule') };
+        for my $Job ( sort keys %Jobs ) {
+
             # load module
-            if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
+            if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 my $Object = $Jobs{$Job}->{Module}->new(
                     %{$Self},
                     ConfigObject => $Self->{ConfigObject},
-                    LogObject => $Self->{LogObject},
-                    DBObject => $Self->{DBObject},
+                    LogObject    => $Self->{LogObject},
+                    DBObject     => $Self->{DBObject},
                     LayoutObject => $Self,
-                    UserID => $Self->{UserID},
-                    Debug => $Self->{Debug},
+                    UserID       => $Self->{UserID},
+                    Debug        => $Self->{Debug},
                 );
+
                 # run module
-                $Output .= $Object->Run(%Param, Config => $Jobs{$Job});
+                $Output .= $Object->Run( %Param, Config => $Jobs{$Job} );
             }
             else {
                 $Self->FatalError();
             }
         }
     }
+
     # create menu items
-    my %NavBarModule = ();
+    my %NavBarModule         = ();
     my $FrontendModuleConfig = $Self->{ConfigObject}->Get('Frontend::Module');
-    foreach my $Module (sort keys %{$FrontendModuleConfig}) {
-        my %Hash = %{$FrontendModuleConfig->{$Module}};
-        if ($Hash{NavBar} && ref($Hash{NavBar}) eq 'ARRAY') {
-            my @Items = @{$Hash{NavBar}};
-            foreach my $Item (@Items) {
-                if (($Item->{NavBar} && $Item->{NavBar} eq $Param{Type}) || ($Item->{Type}&& $Item->{Type} eq 'Menu') || !$Item->{NavBar}) {
+    for my $Module ( sort keys %{$FrontendModuleConfig} ) {
+        my %Hash = %{ $FrontendModuleConfig->{$Module} };
+        if ( $Hash{NavBar} && ref( $Hash{NavBar} ) eq 'ARRAY' ) {
+            my @Items = @{ $Hash{NavBar} };
+            for my $Item (@Items) {
+                if (   ( $Item->{NavBar} && $Item->{NavBar} eq $Param{Type} )
+                    || ( $Item->{Type} && $Item->{Type} eq 'Menu' )
+                    || !$Item->{NavBar} )
+                {
+
                     # highligt avtive area link
-                    if (($Item->{Type} && $Item->{Type} eq 'Menu') && ($Item->{NavBar} && $Item->{NavBar} eq $Param{Type})) {
-                        if (!$Self->{ConfigObject}->Get('Frontend::NavBarStyle::ShowSelectedArea')) {
+                    if (   ( $Item->{Type} && $Item->{Type} eq 'Menu' )
+                        && ( $Item->{NavBar} && $Item->{NavBar} eq $Param{Type} ) )
+                    {
+                        if (!$Self->{ConfigObject}->Get('Frontend::NavBarStyle::ShowSelectedArea') )
+                        {
                             next;
                         }
                         else {
                             $Item->{ItemAreaCSSSuffix} = 'active';
                         }
                     }
+
                     # get permissions from module if no permissions are defined for the icon
-                    if (!$Item->{GroupRo} && !$Item->{Group}) {
-                        if ($Hash{GroupRo}) {
+                    if ( !$Item->{GroupRo} && !$Item->{Group} ) {
+                        if ( $Hash{GroupRo} ) {
                             $Item->{GroupRo} = $Hash{GroupRo};
                         }
-                        if ($Hash{Group}) {
+                        if ( $Hash{Group} ) {
                             $Item->{Group} = $Hash{Group};
                         }
                     }
+
                     # check shown permission
                     my $Shown = 0;
-                    foreach my $Permission (qw(GroupRo Group)) {
-#                        if ($Item->{Group} && !$Item->{GroupRo} && $Permission eq 'Group') {
-#                            $Shown = 0;
-#                        }
-                        # array access restriction
-                        if ($Item->{$Permission} && ref($Item->{$Permission}) eq 'ARRAY') {
-                            foreach (@{$Item->{$Permission}}) {
-                                my $Key = "UserIs".$Permission."[".$_."]";
-                                if ($Self->{$Key} && $Self->{$Key} eq 'Yes') {
+                    for my $Permission (qw(GroupRo Group)) {
+
+       #                        if ($Item->{Group} && !$Item->{GroupRo} && $Permission eq 'Group') {
+       #                            $Shown = 0;
+       #                        }
+       # array access restriction
+                        if ( $Item->{$Permission} && ref( $Item->{$Permission} ) eq 'ARRAY' ) {
+                            for ( @{ $Item->{$Permission} } ) {
+                                my $Key = "UserIs" . $Permission . "[" . $_ . "]";
+                                if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
                                     $Shown = 1;
                                 }
                             }
                         }
+
                         # scalar access restriction
-                        elsif ($Item->{$Permission}) {
-                            my $Key = "UserIs".$Permission."[".$Item->{$Permission}."]";
-                            if ($Self->{$Key} && $Self->{"$Key"} eq 'Yes') {
+                        elsif ( $Item->{$Permission} ) {
+                            my $Key = "UserIs" . $Permission . "[" . $Item->{$Permission} . "]";
+                            if ( $Self->{$Key} && $Self->{"$Key"} eq 'Yes' ) {
                                 $Shown = 1;
                             }
                         }
+
                         # no access restriction
-                        elsif (!$Item->{GroupRo} && !$Item->{Group}) {
+                        elsif ( !$Item->{GroupRo} && !$Item->{Group} ) {
                             $Shown = 1;
                         }
                     }
                     if ($Shown) {
-                        my $Key = ($Item->{Block}||'').sprintf("%07d", $Item->{Prio});
-                        foreach (1..51) {
-                            if ($NavBarModule{$Key}) {
+                        my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
+                        for ( 1 .. 51 ) {
+                            if ( $NavBarModule{$Key} ) {
                                 $Item->{Prio}++;
-                                $Key = ($Item->{Block}||'').sprintf("%07d", $Item->{Prio});
+                                $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
                             }
-                            if (!$NavBarModule{$Key}) {
+                            if ( !$NavBarModule{$Key} ) {
                                 last;
                             }
                         }
                         $NavBarModule{$Key} = $Item;
-#print STDERR "$Item->{Block}-$Item->{Prio}\n";
+
+                        #print STDERR "$Item->{Block}-$Item->{Prio}\n";
                     }
                 }
             }
         }
     }
+
     # run menu item modules
-    if (ref($Self->{ConfigObject}->Get('Frontend::NavBarModule')) eq 'HASH') {
-        my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::NavBarModule')};
-        foreach my $Job (sort keys %Jobs) {
+    if ( ref( $Self->{ConfigObject}->Get('Frontend::NavBarModule') ) eq 'HASH' ) {
+        my %Jobs = %{ $Self->{ConfigObject}->Get('Frontend::NavBarModule') };
+        for my $Job ( sort keys %Jobs ) {
+
             # load module
-            if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
+            if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 my $Object = $Jobs{$Job}->{Module}->new(
                     %{$Self},
                     ConfigObject => $Self->{ConfigObject},
-                    LogObject => $Self->{LogObject},
-                    DBObject => $Self->{DBObject},
+                    LogObject    => $Self->{LogObject},
+                    DBObject     => $Self->{DBObject},
                     LayoutObject => $Self,
-                    UserID => $Self->{UserID},
-                    Debug => $Self->{Debug},
+                    UserID       => $Self->{UserID},
+                    Debug        => $Self->{Debug},
                 );
+
                 # run module
-                %NavBarModule = (%NavBarModule, $Object->Run(%Param, Config => $Jobs{$Job}));
+                %NavBarModule = ( %NavBarModule, $Object->Run( %Param, Config => $Jobs{$Job} ) );
             }
             else {
                 $Self->FatalError();
@@ -2726,8 +2963,7 @@ sub NavigationBar {
         Name => $NavBarType,
         Data => \%Param,
     );
-
-    foreach (sort keys %NavBarModule) {
+    for ( sort keys %NavBarModule ) {
         $Self->Block(
             Name => $NavBarModule{$_}->{Block} || 'Item',
             Data => $NavBarModule{$_},
@@ -2735,39 +2971,42 @@ sub NavigationBar {
     }
 
     # create & return output
-    $Output = $Self->Output(TemplateFile => 'AgentNavigationBar', Data => \%Param).$Output;
-    if ($Self->{ModuleReg}->{NavBarModule}) {
+    $Output = $Self->Output( TemplateFile => 'AgentNavigationBar', Data => \%Param ) . $Output;
+    if ( $Self->{ModuleReg}->{NavBarModule} ) {
+
         # run navbar modules
-        my %Jobs = %{$Self->{ModuleReg}->{NavBarModule}};
-            # load module
-            if ($Self->{MainObject}->Require($Jobs{Module})) {
-                my $Object = $Jobs{Module}->new(
-                    %{$Self},
-                    ConfigObject => $Self->{ConfigObject},
-                    LogObject => $Self->{LogObject},
-                    DBObject => $Self->{DBObject},
-                    LayoutObject => $Self,
-                    UserID => $Self->{UserID},
-                    Debug => $Self->{Debug},
-                );
-                # run module
-                $Output .= $Object->Run(%Param, Config => \%Jobs);
-            }
-            else {
-                $Self->FatalError();
-            }
+        my %Jobs = %{ $Self->{ModuleReg}->{NavBarModule} };
+
+        # load module
+        if ( $Self->{MainObject}->Require( $Jobs{Module} ) ) {
+            my $Object = $Jobs{Module}->new(
+                %{$Self},
+                ConfigObject => $Self->{ConfigObject},
+                LogObject    => $Self->{LogObject},
+                DBObject     => $Self->{DBObject},
+                LayoutObject => $Self,
+                UserID       => $Self->{UserID},
+                Debug        => $Self->{Debug},
+            );
+
+            # run module
+            $Output .= $Object->Run( %Param, Config => \%Jobs );
+        }
+        else {
+            $Self->FatalError();
+        }
     }
     return $Output;
 }
 
 sub WindowTabStart {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
-    if (!$Param{Tab} || ($Param{Tab} && ref($Param{Tab}) ne 'ARRAY')) {
+    if ( !$Param{Tab} || ( $Param{Tab} && ref( $Param{Tab} ) ne 'ARRAY' ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need Tab as ARRAY ref in WindowTabStart()!",
+            Message  => "Need Tab as ARRAY ref in WindowTabStart()!",
         );
         $Self->FatalError();
     }
@@ -2777,11 +3016,11 @@ sub WindowTabStart {
         Data => \%Param,
     );
 
-    my @Tabs = @{$Param{Tab}};
-    my $Size = int(100/($#Tabs+1));
-    foreach my $Hash (@Tabs) {
+    my @Tabs = @{ $Param{Tab} };
+    my $Size = int( 100 / ( $#Tabs + 1 ) );
+    for my $Hash (@Tabs) {
         $Hash->{Size} = $Size;
-        if ($Hash->{Ready}) {
+        if ( $Hash->{Ready} ) {
             $Hash->{Image} = 'ready.png';
         }
         else {
@@ -2789,18 +3028,16 @@ sub WindowTabStart {
         }
         $Self->Block(
             Name => 'Tab',
-            Data => {
-                %{$Hash},
-            },
+            Data => { %{$Hash}, },
         );
     }
-    $Output .= $Self->Output(TemplateFile => 'AgentWindowTab', Data => \%Param);
+    $Output .= $Self->Output( TemplateFile => 'AgentWindowTab', Data => \%Param );
     return $Output;
 }
 
 sub WindowTabStop {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
 
     $Self->Block(
@@ -2808,215 +3045,274 @@ sub WindowTabStop {
         Data => \%Param,
     );
 
-    if ($Param{"Layer0Footer"}) {
-        foreach my $Hash (@{$Param{"Layer0Footer"}}) {
+    if ( $Param{"Layer0Footer"} ) {
+        for my $Hash ( @{ $Param{"Layer0Footer"} } ) {
             $Self->Block(
                 Name => 'Layer0Footer',
-                Data => {
-                    %{$Hash},
-                },
+                Data => { %{$Hash}, },
             );
         }
     }
-    if ($Param{"Layer1Footer"}) {
-        foreach my $Hash (@{$Param{"Layer1Footer"}}) {
+    if ( $Param{"Layer1Footer"} ) {
+        for my $Hash ( @{ $Param{"Layer1Footer"} } ) {
             $Self->Block(
                 Name => 'Layer1Footer',
-                Data => {
-                    %{$Hash},
-                },
+                Data => { %{$Hash}, },
             );
         }
     }
-    $Output .= $Self->Output(TemplateFile => 'AgentWindowTab', Data => \%Param);
+    $Output .= $Self->Output( TemplateFile => 'AgentWindowTab', Data => \%Param );
     return $Output;
 }
 
 sub TransfromDateSelection {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self           = shift;
+    my %Param          = @_;
     my $DateInputStyle = $Self->{ConfigObject}->Get('TimeInputFormat');
-    my $Prefix = $Param{'Prefix'} || '';
-    my $Format = defined($Param{Format}) ? $Param{Format} : 'DateInputFormatLong';
+    my $Prefix         = $Param{'Prefix'} || '';
+    my $Format         = defined( $Param{Format} ) ? $Param{Format} : 'DateInputFormatLong';
+
     # time zone translation
-    if ($Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone}) {
-        my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
-            String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".
-                ($Param{$Prefix."Hour"}||0).":".($Param{$Prefix."Minute"}||0).":00",
-        );
-        $TimeStamp = $TimeStamp - ($Self->{UserTimeZone}*60*60);
-        ($Param{$Prefix."Secunde"}, $Param{$Prefix."Minute"}, $Param{$Prefix."Hour"}, $Param{$Prefix."Day"}, $Param{$Prefix."Month"}, $Param{$Prefix."Year"}) = $Self->{UserTimeObject}->SystemTime2Date(
-            SystemTime => $TimeStamp,
-        );
+    if ( $Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone} ) {
+        my $TimeStamp
+            = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Param{ $Prefix . "Year" } . "-"
+                . $Param{ $Prefix . "Month" } . "-"
+                . $Param{ $Prefix . "Day" } . " "
+                . ( $Param{ $Prefix . "Hour" }   || 0 ) . ":"
+                . ( $Param{ $Prefix . "Minute" } || 0 )
+                . ":00", );
+        $TimeStamp = $TimeStamp - ( $Self->{UserTimeZone} * 60 * 60 );
+        (   $Param{ $Prefix . "Secunde" },
+            $Param{ $Prefix . "Minute" },
+            $Param{ $Prefix . "Hour" },
+            $Param{ $Prefix . "Day" },
+            $Param{ $Prefix . "Month" },
+            $Param{ $Prefix . "Year" }
+        ) = $Self->{UserTimeObject}->SystemTime2Date( SystemTime => $TimeStamp, );
     }
     return %Param;
 }
 
 sub BuildDateSelection {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self           = shift;
+    my %Param          = @_;
     my $DateInputStyle = $Self->{ConfigObject}->Get('TimeInputFormat');
-    my $Prefix = $Param{'Prefix'} || '';
-    my $DiffTime = $Param{'DiffTime'} || 0;
-    my $Format = defined($Param{Format}) ? $Param{Format} : 'DateInputFormatLong';
-    my $Area = $Param{Area} || 'Agent';
-    my $Optional = $Param{$Prefix.'Optional'} || 0;
-    my $Used = $Param{$Prefix.'Used'} || 0;
-    my ($s,$m,$h, $D,$M,$Y) = $Self->{UserTimeObject}->SystemTime2Date(
-        SystemTime => $Self->{UserTimeObject}->SystemTime() + $DiffTime,
-    );
+    my $Prefix         = $Param{'Prefix'} || '';
+    my $DiffTime       = $Param{'DiffTime'} || 0;
+    my $Format         = defined( $Param{Format} ) ? $Param{Format} : 'DateInputFormatLong';
+    my $Area           = $Param{Area} || 'Agent';
+    my $Optional       = $Param{ $Prefix . 'Optional' } || 0;
+    my $Used           = $Param{ $Prefix . 'Used' } || 0;
+    my ( $s, $m, $h, $D, $M, $Y )
+        = $Self->{UserTimeObject}
+        ->SystemTime2Date( SystemTime => $Self->{UserTimeObject}->SystemTime() + $DiffTime, );
+
     # time zone translation
-    if ($Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone} &&
-        $Param{$Prefix."Year"} && $Param{$Prefix."Month"} && $Param{$Prefix."Day"}) {
-        my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
-            String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".
-                ($Param{$Prefix."Hour"}||0).":".($Param{$Prefix."Minute"}||0).":00",
-        );
-        $TimeStamp = $TimeStamp + ($Self->{UserTimeZone}*60*60);
-        ($Param{$Prefix."Secunde"}, $Param{$Prefix."Minute"}, $Param{$Prefix."Hour"}, $Param{$Prefix."Day"}, $Param{$Prefix."Month"}, $Param{$Prefix."Year"}) = $Self->{UserTimeObject}->SystemTime2Date(
-            SystemTime => $TimeStamp,
-        );
+    if (   $Self->{ConfigObject}->Get('TimeZoneUser')
+        && $Self->{UserTimeZone}
+        && $Param{ $Prefix . "Year" }
+        && $Param{ $Prefix . "Month" }
+        && $Param{ $Prefix . "Day" } )
+    {
+        my $TimeStamp
+            = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Param{ $Prefix . "Year" } . "-"
+                . $Param{ $Prefix . "Month" } . "-"
+                . $Param{ $Prefix . "Day" } . " "
+                . ( $Param{ $Prefix . "Hour" }   || 0 ) . ":"
+                . ( $Param{ $Prefix . "Minute" } || 0 )
+                . ":00", );
+        $TimeStamp = $TimeStamp + ( $Self->{UserTimeZone} * 60 * 60 );
+        (   $Param{ $Prefix . "Secunde" },
+            $Param{ $Prefix . "Minute" },
+            $Param{ $Prefix . "Hour" },
+            $Param{ $Prefix . "Day" },
+            $Param{ $Prefix . "Month" },
+            $Param{ $Prefix . "Year" }
+        ) = $Self->{UserTimeObject}->SystemTime2Date( SystemTime => $TimeStamp, );
     }
+
     # year
-    if ($DateInputStyle eq 'Option') {
+    if ( $DateInputStyle eq 'Option' ) {
         my %Year = ();
-        if (defined($Param{YearPeriodPast}) && defined($Param{YearPeriodFuture})) {
-            foreach ($Y-$Param{YearPeriodPast}..$Y+$Param{YearPeriodFuture}) {
+        if ( defined( $Param{YearPeriodPast} ) && defined( $Param{YearPeriodFuture} ) ) {
+            for ( $Y - $Param{YearPeriodPast} .. $Y + $Param{YearPeriodFuture} ) {
                 $Year{$_} = $_;
             }
         }
         else {
-            foreach ($Y-10..$Y+1+($Param{YearDiff}||0)) {
+            for ( $Y - 10 .. $Y + 1 + ( $Param{YearDiff} || 0 ) ) {
                 $Year{$_} = $_;
             }
         }
         $Param{Year} = $Self->OptionStrgHashRef(
-            Name => $Prefix.'Year',
-            Data => \%Year,
-            SelectedID => int($Param{$Prefix.'Year'} || $Y),
+            Name                => $Prefix . 'Year',
+            Data                => \%Year,
+            SelectedID          => int( $Param{ $Prefix . 'Year' } || $Y ),
             LanguageTranslation => 0,
         );
     }
     else {
-        $Param{Year} = "<input type=\"text\" name=\"".$Prefix."Year\" size=\"4\" maxlength=\"4\" ".
-            "value=\"".sprintf("%02d", ($Param{$Prefix.'Year'} || $Y))."\">";
+        $Param{Year}
+            = "<input type=\"text\" name=\""
+            . $Prefix
+            . "Year\" size=\"4\" maxlength=\"4\" "
+            . "value=\""
+            . sprintf( "%02d", ( $Param{ $Prefix . 'Year' } || $Y ) ) . "\">";
     }
+
     # month
-    if ($DateInputStyle eq 'Option') {
+    if ( $DateInputStyle eq 'Option' ) {
         my %Month = ();
-        foreach (1..12) {
-            my $Tmp = sprintf("%02d", $_);
+        for ( 1 .. 12 ) {
+            my $Tmp = sprintf( "%02d", $_ );
             $Month{$_} = $Tmp;
         }
         $Param{Month} = $Self->OptionStrgHashRef(
-            Name => $Prefix.'Month',
-            Data => \%Month,
-            SelectedID => int($Param{$Prefix.'Month'} || $M),
+            Name                => $Prefix . 'Month',
+            Data                => \%Month,
+            SelectedID          => int( $Param{ $Prefix . 'Month' } || $M ),
             LanguageTranslation => 0,
         );
     }
     else {
-        $Param{Month} = "<input type=\"text\" name=\"".$Prefix."Month\" size=\"2\" maxlength=\"2\" ".
-            "value=\"".sprintf("%02d", ($Param{$Prefix.'Month'} || $M))."\">";
+        $Param{Month}
+            = "<input type=\"text\" name=\""
+            . $Prefix
+            . "Month\" size=\"2\" maxlength=\"2\" "
+            . "value=\""
+            . sprintf( "%02d", ( $Param{ $Prefix . 'Month' } || $M ) ) . "\">";
     }
+
     # day
-    if ($DateInputStyle eq 'Option') {
+    if ( $DateInputStyle eq 'Option' ) {
         my %Day = ();
-        foreach (1..31) {
-            my $Tmp = sprintf("%02d", $_);
+        for ( 1 .. 31 ) {
+            my $Tmp = sprintf( "%02d", $_ );
             $Day{$_} = $Tmp;
         }
         $Param{Day} = $Self->OptionStrgHashRef(
-            Name => $Prefix.'Day',
-            Data => \%Day,
-            SelectedID => int($Param{$Prefix.'Day'} || $D),
+            Name                => $Prefix . 'Day',
+            Data                => \%Day,
+            SelectedID          => int( $Param{ $Prefix . 'Day' } || $D ),
             LanguageTranslation => 0,
         );
     }
     else {
-        $Param{Day} = "<input type=\"text\" name=\"".$Prefix."Day\" size=\"2\" maxlength=\"2\" ".
-            "value=\"".($Param{$Prefix.'Day'} || $D)."\">";
+        $Param{Day}
+            = "<input type=\"text\" name=\""
+            . $Prefix
+            . "Day\" size=\"2\" maxlength=\"2\" "
+            . "value=\""
+            . ( $Param{ $Prefix . 'Day' } || $D ) . "\">";
     }
-    if ($Format eq 'DateInputFormatLong') {
+    if ( $Format eq 'DateInputFormatLong' ) {
+
         # hour
-        if ($DateInputStyle eq 'Option') {
+        if ( $DateInputStyle eq 'Option' ) {
             my %Hour = ();
-            foreach (0..23) {
-                my $Tmp = sprintf("%02d", $_);
+            for ( 0 .. 23 ) {
+                my $Tmp = sprintf( "%02d", $_ );
                 $Hour{$_} = $Tmp;
             }
             $Param{Hour} = $Self->OptionStrgHashRef(
-                Name => $Prefix.'Hour',
-                Data => \%Hour,
-                SelectedID => defined($Param{$Prefix.'Hour'}) ? int($Param{$Prefix.'Hour'}) : int($h),
+                Name       => $Prefix . 'Hour',
+                Data       => \%Hour,
+                SelectedID => defined( $Param{ $Prefix . 'Hour' } )
+                ? int( $Param{ $Prefix . 'Hour' } )
+                : int($h),
                 LanguageTranslation => 0,
             );
         }
         else {
-            $Param{Hour} = "<input type=\"text\" name=\"".$Prefix."Hour\" size=\"2\" maxlength=\"2\" ".
-                "value=\"".sprintf("%02d", (defined($Param{$Prefix.'Hour'}) ? int($Param{$Prefix.'Hour'}) : $h))."\">";
+            $Param{Hour}
+                = "<input type=\"text\" name=\""
+                . $Prefix
+                . "Hour\" size=\"2\" maxlength=\"2\" "
+                . "value=\""
+                . sprintf( "%02d",
+                ( defined( $Param{ $Prefix . 'Hour' } ) ? int( $Param{ $Prefix . 'Hour' } ) : $h ) )
+                . "\">";
         }
+
         # minute
-        if ($DateInputStyle eq 'Option') {
+        if ( $DateInputStyle eq 'Option' ) {
             my %Minute = ();
-            foreach (0..59) {
-                my $Tmp = sprintf("%02d", $_);
+            for ( 0 .. 59 ) {
+                my $Tmp = sprintf( "%02d", $_ );
                 $Minute{$_} = $Tmp;
             }
             $Param{Minute} = $Self->OptionStrgHashRef(
-                Name => $Prefix.'Minute',
-                Data => \%Minute,
-                SelectedID => defined($Param{$Prefix.'Minute'}) ? int($Param{$Prefix.'Minute'}) : int($m),
+                Name       => $Prefix . 'Minute',
+                Data       => \%Minute,
+                SelectedID => defined( $Param{ $Prefix . 'Minute' } )
+                ? int( $Param{ $Prefix . 'Minute' } )
+                : int($m),
                 LanguageTranslation => 0,
             );
         }
         else {
-            $Param{Minute} = "<input type=\"text\" name=\"".$Prefix."Minute\" size=\"2\" maxlength=\"2\" ".
-                "value=\"".sprintf("%02d", (defined($Param{$Prefix.'Minute'}) ? int($Param{$Prefix.'Minute'}) : $m))."\">";
+            $Param{Minute}
+                = "<input type=\"text\" name=\""
+                . $Prefix
+                . "Minute\" size=\"2\" maxlength=\"2\" "
+                . "value=\""
+                . sprintf(
+                "%02d",
+                (   defined( $Param{ $Prefix . 'Minute' } )
+                    ? int( $Param{ $Prefix . 'Minute' } )
+                    : $m
+                )
+                ) . "\">";
         }
     }
     my $Output;
+
     # optional checkbox
     if ($Optional) {
         my $Checked = '';
         if ($Used) {
             $Checked = ' checked';
         }
-        $Output .= "<input type=\"checkbox\" name=\"".$Prefix."Used\" value=\"1\"".$Checked.">&nbsp;";
+        $Output
+            .= "<input type=\"checkbox\" name=\""
+            . $Prefix
+            . "Used\" value=\"1\""
+            . $Checked
+            . ">&nbsp;";
     }
+
     # date format
     $Output .= $Self->{LanguageObject}->Time(
         Action => 'Return',
         Format => 'DateInputFormat',
-        Mode => 'NotNumeric',
+        Mode   => 'NotNumeric',
         %Param,
     );
+
     # show calendar lookup
-    if ($Self->{BrowserJavaScriptSupport}) {
-        if ($Area eq 'Agent' && $Self->{ConfigObject}->Get('TimeCalendarLookup')) {
+    if ( $Self->{BrowserJavaScriptSupport} ) {
+        if ( $Area eq 'Agent' && $Self->{ConfigObject}->Get('TimeCalendarLookup') ) {
+
             # loas site preferences
             $Self->Output(
                 TemplateFile => 'HeaderSmall',
-                Data => { },
+                Data         => {},
             );
             $Output .= $Self->Output(
                 TemplateFile => 'AgentCalendarSmallIcon',
-                Data => {
-                    Prefix => $Prefix,
-                }
+                Data         => { Prefix => $Prefix, }
             );
         }
-        elsif ($Area eq 'Customer' && $Self->{ConfigObject}->Get('TimeCalendarLookup')) {
+        elsif ( $Area eq 'Customer' && $Self->{ConfigObject}->Get('TimeCalendarLookup') ) {
+
             # loas site preferences
             $Self->Output(
                 TemplateFile => 'CustomerHeaderSmall',
-                Data => { },
+                Data         => {},
             );
             $Output .= $Self->Output(
                 TemplateFile => 'CustomerCalendarSmallIcon',
-                Data => {
-                    Prefix => $Prefix,
-                }
+                Data         => { Prefix => $Prefix, }
             );
         }
     }
@@ -3040,31 +3336,31 @@ returns a csv based on a array
 =cut
 
 sub OutputCSV {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
-    my @Head = ('##No Head Data##');
-    if ($Param{Head}) {
-        @Head = @{$Param{Head}};
+    my @Head   = ('##No Head Data##');
+    if ( $Param{Head} ) {
+        @Head = @{ $Param{Head} };
     }
-    my @Data = (['##No Data##']);
-    if ($Param{Data}) {
-        @Data = @{$Param{Data}};
+    my @Data = ( ['##No Data##'] );
+    if ( $Param{Data} ) {
+        @Data = @{ $Param{Data} };
     }
+    for my $Entry (@Head) {
 
-    foreach my $Entry (@Head) {
         # csv quote
         $Entry =~ s/"/""/g if ($Entry);
-        $Entry = '' if (!defined($Entry));
+        $Entry = '' if ( !defined($Entry) );
         $Output .= "\"$Entry\";";
     }
     $Output .= "\n";
+    for my $EntryRow (@Data) {
+        for my $Entry ( @{$EntryRow} ) {
 
-    foreach my $EntryRow (@Data) {
-        foreach my $Entry (@{$EntryRow}) {
             # csv quote
             $Entry =~ s/"/""/g if ($Entry);
-            $Entry = '' if (!defined($Entry));
+            $Entry = '' if ( !defined($Entry) );
             $Output .= "\"$Entry\";";
         }
         $Output .= "\n";
@@ -3089,28 +3385,27 @@ returns a html table based on a array
 =cut
 
 sub OutputHTMLTable {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
-    my @Head = ('##No Head Data##');
-    if ($Param{Head}) {
-        @Head = @{$Param{Head}};
+    my @Head   = ('##No Head Data##');
+    if ( $Param{Head} ) {
+        @Head = @{ $Param{Head} };
     }
-    my @Data = (['##No Data##']);
-    if ($Param{Data}) {
-        @Data = @{$Param{Data}};
+    my @Data = ( ['##No Data##'] );
+    if ( $Param{Data} ) {
+        @Data = @{ $Param{Data} };
     }
 
     $Output .= '<table border="0" width="100%" cellspacing="0" cellpadding="3">';
     $Output .= "<tr>\n";
-    foreach my $Entry (@Head) {
+    for my $Entry (@Head) {
         $Output .= "<td class=\"contentvalue\">$Entry</td>\n";
     }
     $Output .= "</tr>\n";
-
-    foreach my $EntryRow (@Data) {
+    for my $EntryRow (@Data) {
         $Output .= "<tr>\n";
-        foreach my $Entry (@{$EntryRow}) {
+        for my $Entry ( @{$EntryRow} ) {
             $Output .= "<td class=\"small\">$Entry</td>\n";
         }
         $Output .= "</tr>\n";
@@ -3120,265 +3415,305 @@ sub OutputHTMLTable {
 }
 
 sub CustomerLogin {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
-        $Param{TitleArea} = " :: ".$Self->{LanguageObject}->Get('Login');
+    $Param{TitleArea} = " :: " . $Self->{LanguageObject}->Get('Login');
+
     # add cookies if exists
-    if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
-        foreach (keys %{$Self->{SetCookies}}) {
+    if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
+        for ( keys %{ $Self->{SetCookies} } ) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
+
     # get language options
     $Param{Language} = $Self->OptionStrgHashRef(
-        Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
-        Name => 'Lang',
-        SelectedID => $Self->{UserLanguage},
-        OnChange => 'submit()',
-        HTMLQuote => 0,
+        Data                => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
+        Name                => 'Lang',
+        SelectedID          => $Self->{UserLanguage},
+        OnChange            => 'submit()',
+        HTMLQuote           => 0,
         LanguageTranslation => 0,
     );
+
     # get lost password output
-    if ($Self->{ConfigObject}->Get('CustomerPanelLostPassword')
-        && $Self->{ConfigObject}->Get('Customer::AuthModule') eq 'Kernel::System::CustomerAuth::DB') {
+    if (   $Self->{ConfigObject}->Get('CustomerPanelLostPassword')
+        && $Self->{ConfigObject}->Get('Customer::AuthModule') eq
+        'Kernel::System::CustomerAuth::DB' )
+    {
         $Self->Block(
             Name => 'LostPassword',
             Data => \%Param,
         );
     }
+
     # get lost password output
-    if ($Self->{ConfigObject}->Get('CustomerPanelCreateAccount')
-        && $Self->{ConfigObject}->Get('Customer::AuthModule') eq 'Kernel::System::CustomerAuth::DB') {
+    if (   $Self->{ConfigObject}->Get('CustomerPanelCreateAccount')
+        && $Self->{ConfigObject}->Get('Customer::AuthModule') eq
+        'Kernel::System::CustomerAuth::DB' )
+    {
         $Self->Block(
             Name => 'CreateAccount',
             Data => \%Param,
         );
     }
+
     # create & return output
-    $Output .= $Self->Output(TemplateFile => 'CustomerLogin', Data => \%Param);
+    $Output .= $Self->Output( TemplateFile => 'CustomerLogin', Data => \%Param );
     return $Output;
 }
 
 sub CustomerHeader {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self   = shift;
+    my %Param  = @_;
     my $Output = '';
-    my $Type = $Param{Type} || '';
+    my $Type   = $Param{Type} || '';
+
     # add cookies if exists
-    if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
-        foreach (keys %{$Self->{SetCookies}}) {
+    if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
+        for ( keys %{ $Self->{SetCookies} } ) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
+
     # area and title
-    if (!$Param{Area} && $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Self->{Action}}) {
-        $Param{Area} = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Self->{Action}}->{NavBarName} || '';
+    if ( !$Param{Area}
+        && $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} } )
+    {
+        $Param{Area} = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} }
+            ->{NavBarName} || '';
     }
-    if (!$Param{Title} && $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Self->{Action}}) {
-        $Param{Title} = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Self->{Action}}->{Title} || '';
+    if ( !$Param{Title}
+        && $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} } )
+    {
+        $Param{Title}
+            = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} }->{Title}
+            || '';
     }
-    if (!$Param{Area} && $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$Self->{Action}}) {
-        $Param{Area} = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$Self->{Action}}->{NavBarName} || '';
+    if ( !$Param{Area}
+        && $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} } )
+    {
+        $Param{Area}
+            = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} }
+            ->{NavBarName}
+            || '';
     }
-    if (!$Param{Title} && $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$Self->{Action}}) {
-        $Param{Title} = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$Self->{Action}}->{Title} || '';
+    if ( !$Param{Title}
+        && $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} } )
+    {
+        $Param{Title}
+            = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} }->{Title}
+            || '';
     }
-    foreach (qw(Area Title Value)) {
-        if ($Param{$_}) {
-            $Param{TitleArea} .= " :: ".$Self->{LanguageObject}->Get($Param{$_});
+    for (qw(Area Title Value)) {
+        if ( $Param{$_} ) {
+            $Param{TitleArea} .= " :: " . $Self->{LanguageObject}->Get( $Param{$_} );
         }
     }
+
     # check if refresh block should be used
-    if ($Param{Refresh}) {
+    if ( $Param{Refresh} ) {
         $Self->Block(
             Name => 'MetaHttpEquivRefresh',
             Data => \%Param,
         );
     }
+
     # create & return output
-    $Output .= $Self->Output(TemplateFile => "CustomerHeader$Type", Data => \%Param);
+    $Output .= $Self->Output( TemplateFile => "CustomerHeader$Type", Data => \%Param );
     return $Output;
 }
 
 sub CustomerFooter {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    my $Type = $Param{Type} || '';
+    my $Type  = $Param{Type} || '';
+
     # create & return output
-    return $Self->Output(TemplateFile => "CustomerFooter$Type", Data => \%Param);
+    return $Self->Output( TemplateFile => "CustomerFooter$Type", Data => \%Param );
 }
 
 sub CustomerFatalError {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
-    if ($Param{Message}) {
+    if ( $Param{Message} ) {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'error',
-            Message => "$Param{Message}",
+            Message  => "$Param{Message}",
         );
     }
-    my $Output = $Self->CustomerHeader(Area => 'Frontend', Title => 'Fatal Error');
+    my $Output = $Self->CustomerHeader( Area => 'Frontend', Title => 'Fatal Error' );
     $Output .= $Self->Error(%Param);
     $Output .= $Self->CustomerFooter();
-    $Self->Print(Output => \$Output);
+    $Self->Print( Output => \$Output );
     exit;
 }
 
 sub CustomerNavigationBar {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # create menu items
     my %NavBarModule = ();
-    foreach my $Module (sort keys %{$Self->{ConfigObject}->Get('CustomerFrontend::Module')}) {
-        my %Hash = %{$Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Module}};
-        if ($Hash{NavBar} && ref($Hash{NavBar}) eq 'ARRAY') {
-            my @Items = @{$Hash{NavBar}};
-            foreach my $Item (@Items) {
-                foreach (1..51) {
-                    if ($NavBarModule{sprintf("%07d", $Item->{Prio})}) {
+    for my $Module ( sort keys %{ $Self->{ConfigObject}->Get('CustomerFrontend::Module') } ) {
+        my %Hash = %{ $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Module} };
+        if ( $Hash{NavBar} && ref( $Hash{NavBar} ) eq 'ARRAY' ) {
+            my @Items = @{ $Hash{NavBar} };
+            for my $Item (@Items) {
+                for ( 1 .. 51 ) {
+                    if ( $NavBarModule{ sprintf( "%07d", $Item->{Prio} ) } ) {
                         $Item->{Prio}++;
                     }
-                    if (!$NavBarModule{sprintf("%07d", $Item->{Prio})}) {
+                    if ( !$NavBarModule{ sprintf( "%07d", $Item->{Prio} ) } ) {
                         last;
                     }
                 }
-                $NavBarModule{sprintf("%07d", $Item->{Prio})} = $Item;
+                $NavBarModule{ sprintf( "%07d", $Item->{Prio} ) } = $Item;
             }
         }
     }
-    foreach (sort keys %NavBarModule) {
+    for ( sort keys %NavBarModule ) {
         $Self->Block(
             Name => $NavBarModule{$_}->{Block} || 'Item',
             Data => $NavBarModule{$_},
         );
     }
+
     # run notification modules
-    if (ref($Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule')) eq 'HASH') {
-        my %Jobs = %{$Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule')};
-        foreach my $Job (sort keys %Jobs) {
+    if ( ref( $Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule') ) eq 'HASH' ) {
+        my %Jobs = %{ $Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule') };
+        for my $Job ( sort keys %Jobs ) {
+
             # log try of load module
-            if ($Self->{Debug} > 1) {
+            if ( $Self->{Debug} > 1 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                    Message  => "Try to load module: $Jobs{$Job}->{Module}!",
                 );
             }
-            if (eval "require $Jobs{$Job}->{Module}") {
+            if ( eval "require $Jobs{$Job}->{Module}" ) {
                 my $Object = $Jobs{$Job}->{Module}->new(
-                    ConfigObject => $Self->{ConfigObject},
-                    LogObject => $Self->{LogObject},
-                    DBObject => $Self->{DBObject},
-                    TimeObject => $Self->{TimeObject},
+                    ConfigObject   => $Self->{ConfigObject},
+                    LogObject      => $Self->{LogObject},
+                    DBObject       => $Self->{DBObject},
+                    TimeObject     => $Self->{TimeObject},
                     UserTimeObject => $Self->{UserTimeObject},
-                    LayoutObject => $Self,
-                    UserID => $Self->{UserID},
-                    Debug => $Self->{Debug},
+                    LayoutObject   => $Self,
+                    UserID         => $Self->{UserID},
+                    Debug          => $Self->{Debug},
                 );
+
                 # log loaded module
-                if ($Self->{Debug} > 1) {
+                if ( $Self->{Debug} > 1 ) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
-                        Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                        Message  => "Module: $Jobs{$Job}->{Module} loaded!",
                     );
                 }
+
                 # run module
-                $Param{Notification} .= $Object->Run(%Param, Config => $Jobs{$Job});
+                $Param{Notification} .= $Object->Run( %Param, Config => $Jobs{$Job} );
             }
             else {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message => "Can't load module $Jobs{$Job}->{Module}!",
+                    Message  => "Can't load module $Jobs{$Job}->{Module}!",
                 );
             }
         }
     }
-    if ($Self->{UserEmail} ne $Self->{UserCustomerID}) {
+    if ( $Self->{UserEmail} ne $Self->{UserCustomerID} ) {
         $Param{UserLoginTop} = "$Self->{UserEmail}/$Self->{UserCustomerID}";
     }
     else {
         $Param{UserLoginTop} = $Self->{UserEmail};
     }
+
     # create & return output
-    return $Self->Output(TemplateFile => 'CustomerNavigationBar', Data => \%Param);
+    return $Self->Output( TemplateFile => 'CustomerNavigationBar', Data => \%Param );
 }
 
 sub CustomerError {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
 
     # get backend error messages
-    foreach (qw(Message Traceback)) {
-        $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+    for (qw(Message Traceback)) {
+        $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
             Type => 'Error',
             What => $_
         ) || '';
-        $Param{'Backend'.$_} = $Self->Ascii2Html(
-            Text => $Param{'Backend'.$_},
+        $Param{ 'Backend' . $_ } = $Self->Ascii2Html(
+            Text           => $Param{ 'Backend' . $_ },
             HTMLResultMode => 1,
         );
     }
-    if (!$Param{'BackendMessage'} && !$Param{'BackendTraceback'}) {
+    if ( !$Param{'BackendMessage'} && !$Param{'BackendTraceback'} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => $Param{Message} || '?',
+            Message  => $Param{Message} || '?',
         );
-        foreach (qw(Message Traceback)) {
-            $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+        for (qw(Message Traceback)) {
+            $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
                 Type => 'Error',
                 What => $_
             ) || '';
-            $Param{'Backend'.$_} = $Self->Ascii2Html(
-                Text => $Param{'Backend'.$_},
+            $Param{ 'Backend' . $_ } = $Self->Ascii2Html(
+                Text           => $Param{ 'Backend' . $_ },
                 HTMLResultMode => 1,
             );
         }
     }
 
-    if (!$Param{Message}) {
+    if ( !$Param{Message} ) {
         $Param{Message} = $Param{BackendMessage};
     }
 
     # create & return output
-    return $Self->Output(TemplateFile => 'CustomerError', Data => \%Param);
+    return $Self->Output( TemplateFile => 'CustomerError', Data => \%Param );
 }
 
 sub CustomerWarning {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
 
     # get backend error messages
-    foreach (qw(Message)) {
-        $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+    for (qw(Message)) {
+        $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
             Type => 'Notice',
             What => $_
-        ) || $Self->{LogObject}->GetLogEntry(
+            )
+            || $Self->{LogObject}->GetLogEntry(
             Type => 'Error',
             What => $_
-        ) || '';
-        $Param{'Backend'.$_} = $Self->Ascii2Html(
-            Text => $Param{'Backend'.$_},
+            ) || '';
+        $Param{ 'Backend' . $_ } = $Self->Ascii2Html(
+            Text           => $Param{ 'Backend' . $_ },
             HTMLResultMode => 1,
         );
     }
-    if (!$Param{Message}) {
+    if ( !$Param{Message} ) {
         $Param{Message} = $Param{BackendMessage};
     }
+
     # create & return output
-    return $Self->Output(TemplateFile => 'CustomerWarning', Data => \%Param);
+    return $Self->Output( TemplateFile => 'CustomerWarning', Data => \%Param );
 }
 
 sub CustomerNoPermission {
-    my $Self = shift;
-    my %Param = @_;
+    my $Self       = shift;
+    my %Param      = @_;
     my $WithHeader = $Param{WithHeader} || 'yes';
-    my $Output = '';
-    $Param{Message} = 'No Permission!' if (!$Param{Message});
+    my $Output     = '';
+    $Param{Message} = 'No Permission!' if ( !$Param{Message} );
+
     # create output
-    $Output = $Self->CustomerHeader(Title => 'No Permission') if ($WithHeader eq 'yes');
-    $Output .= $Self->Output(TemplateFile => 'NoPermission', Data => \%Param);
-    $Output .= $Self->CustomerFooter() if ($WithHeader eq 'yes');
+    $Output = $Self->CustomerHeader( Title => 'No Permission' ) if ( $WithHeader eq 'yes' );
+    $Output .= $Self->Output( TemplateFile => 'NoPermission', Data => \%Param );
+    $Output .= $Self->CustomerFooter() if ( $WithHeader eq 'yes' );
+
     # return output
     return $Output;
 }
@@ -3399,6 +3734,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2007-09-27 18:53:17 $
+$Revision: 1.55 $ $Date: 2007-09-29 10:50:34 $
 
 =cut

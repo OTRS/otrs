@@ -3,7 +3,7 @@
 # bin/CheckDB.pl - to check the db access
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckDB.pl,v 1.17 2007-03-12 11:28:46 martin Exp $
+# $Id: CheckDB.pl,v 1.18 2007-09-29 11:06:20 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,8 +30,7 @@ use strict;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.18 $)[1];
 
 use Kernel::Config;
 use Kernel::System::Log;

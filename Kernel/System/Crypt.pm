@@ -2,7 +2,7 @@
 # Kernel/System/Crypt.pm - the main crypt module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Crypt.pm,v 1.9 2007-08-21 19:55:45 martin Exp $
+# $Id: Crypt.pm,v 1.10 2007-09-29 11:00:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,12 +12,13 @@
 package Kernel::System::Crypt;
 
 use strict;
+use warnings;
+
 use Kernel::System::FileTemp;
 use Kernel::System::Encode;
 
 use vars qw($VERSION @ISA);
-$VERSION = '$Revision: 1.9 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -69,32 +70,32 @@ create new object
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed opbjects
-    foreach (qw(ConfigObject LogObject DBObject CryptType MainObject)) {
+    for (qw(ConfigObject LogObject DBObject CryptType MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     # check if module is enabled
-    if (!$Self->{ConfigObject}->Get($Param{CryptType})) {
+    if ( !$Self->{ConfigObject}->Get( $Param{CryptType} ) ) {
         return;
     }
 
     # create file template object
     $Self->{FileTempObject} = Kernel::System::FileTemp->new(%Param);
-    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+    $Self->{EncodeObject}   = Kernel::System::Encode->new(%Param);
 
     # load generator crypt module
     $Self->{GenericModule} = "Kernel::System::Crypt::$Param{CryptType}";
-    if (!$Self->{MainObject}->Require($Self->{GenericModule})) {
+    if ( !$Self->{MainObject}->Require( $Self->{GenericModule} ) ) {
         return;
     }
 
@@ -105,7 +106,7 @@ sub new {
     $Self->_Init();
 
     # check working env
-    if ($Self->Check()) {
+    if ( $Self->Check() ) {
         return;
     }
 
@@ -128,6 +129,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2007-08-21 19:55:45 $
+$Revision: 1.10 $ $Date: 2007-09-29 11:00:47 $
 
 =cut

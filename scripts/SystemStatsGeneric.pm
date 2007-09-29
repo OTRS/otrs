@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStatsGeneric.pm - generic pure SQL stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SystemStatsGeneric.pm,v 1.10 2007-02-07 11:37:26 tr Exp $
+# $Id: SystemStatsGeneric.pm,v 1.11 2007-09-29 11:10:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,55 +24,60 @@
 package Kernel::Modules::SystemStatsGeneric;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
+
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
+
     # get common opjects
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
+
     # check all needed objects
-    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject TimeObject)) {
-        die "Got no $_" if (!$Self->{$_});
+    for (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject TimeObject)) {
+        die "Got no $_" if ( !$Self->{$_} );
     }
-    $Self->{CSV} = $Self->{ParamObject}->GetParam(Param => 'CSV') || 0;
+    $Self->{CSV} = $Self->{ParamObject}->GetParam( Param => 'CSV' ) || 0;
     return $Self;
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # ------------------------------------------------------------------------------ #
     # Config options!
     # ------------------------------------------------------------------------------ #
     my $Title = 'Name of Stats';
-    my $DetailText = 'Some text about the content! $Data{"Records"} database records - ($Text{"Stand"}: $Env{"Time"})';
-    my $CSVFile = 'csv-file';
+    my $DetailText
+        = 'Some text about the content! $Data{"Records"} database records - ($Text{"Stand"}: $Env{"Time"})';
+    my $CSVFile  = 'csv-file';
     my $SQLLimit = 5000;
-    my $SQL = qq|SELECT * FROM system_user|;
-    my $Group = 'stats';
+    my $SQL      = qq|SELECT * FROM system_user|;
+    my $Group    = 'stats';
+
     # ------------------------------------------------------------------------------ #
 
     # permission check (user need to be rw in group stats)
-    if (!$Self->{"UserIsGroup[$Group]"} || $Self->{"UserIsGroup[$Group]"} ne 'Yes') {
-        return $Self->{LayoutObject}->NoPermission(
-            Message => "You have to be in the $Group group!"
-        );
+    if ( !$Self->{"UserIsGroup[$Group]"} || $Self->{"UserIsGroup[$Group]"} ne 'Yes' ) {
+        return $Self->{LayoutObject}
+            ->NoPermission( Message => "You have to be in the $Group group!" );
     }
 
     # starting with page ...
-    my $CSVBody = '';
+    my $CSVBody    = '';
     my $OutputBody = '';
-    my $Records = 0;
-    my @HeadData = ();
+    my $Records    = 0;
+    my @HeadData   = ();
     my @GlobalData = ();
 
     # get table columns names
@@ -82,25 +87,25 @@ sub Run {
     @HeadData = @{$names};
 
     # get table columns data
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $SQLLimit);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        push (@GlobalData, \@Row);
+    $Self->{DBObject}->Prepare( SQL => $SQL, Limit => $SQLLimit );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        push( @GlobalData, \@Row );
     }
 
     # fillup colomn names
-    if (!$Self->{CSV}) {
+    if ( !$Self->{CSV} ) {
         $OutputBody .= '<table border="0" width="100%" cellspacing="0" cellpadding="3">';
         $OutputBody .= "<tr>\n";
     }
-    foreach my $col (@HeadData) {
-        if ($Self->{CSV}) {
+    for my $col (@HeadData) {
+        if ( $Self->{CSV} ) {
             $CSVBody .= "$col;";
         }
         else {
             $OutputBody .= "<th class=\"item\">$col</th>\n";
         }
     }
-    if ($Self->{CSV}) {
+    if ( $Self->{CSV} ) {
         $CSVBody .= "\n";
     }
     else {
@@ -108,21 +113,21 @@ sub Run {
     }
 
     # fillup columns data
-    foreach my $RowTmp (@GlobalData) {
+    for my $RowTmp (@GlobalData) {
         $Records++;
         my @Row = @{$RowTmp};
-        if (!$Self->{CSV}) {
+        if ( !$Self->{CSV} ) {
             $OutputBody .= "<tr>\n";
         }
-        foreach (@Row) {
-            if ($Self->{CSV}) {
+        for (@Row) {
+            if ( $Self->{CSV} ) {
                 $CSVBody .= "$_;";
             }
             else {
                 $OutputBody .= "<td class=\"small\">$_</td>\n";
             }
         }
-        if ($Self->{CSV}) {
+        if ( $Self->{CSV} ) {
             $CSVBody .= "\n";
         }
         else {
@@ -131,28 +136,31 @@ sub Run {
     }
 
     # return HTML or CSV page
-    if ($Self->{CSV}) {
+    if ( $Self->{CSV} ) {
         my $CSV = $Self->{LayoutObject}->Output(
-            Data => { Title => $Title, DetailText => $DetailText, Records => $Records},
-            Template => '$Data{"Title"};$Text{"generated by"} $Env{"UserFirstname"} $Env{"UserLastname"} ($Env{"UserEmail"}) - $Env{"Time"}').";\n";
+            Data => { Title => $Title, DetailText => $DetailText, Records => $Records },
+            Template =>
+                '$Data{"Title"};$Text{"generated by"} $Env{"UserFirstname"} $Env{"UserLastname"} ($Env{"UserEmail"}) - $Env{"Time"}'
+        ) . ";\n";
         $CSV .= $Self->{LayoutObject}->Output(
-            Data => { Title => $Title, DetailText => $DetailText, Records => $Records},
+            Data     => { Title => $Title, DetailText => $DetailText, Records => $Records },
             Template => $DetailText,
-        ).";\n";
+        ) . ";\n";
+
         # return csv to download
-        my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
-            SystemTime => $Self->{TimeObject}->SystemTime(),
-        );
+        my ( $s, $m, $h, $D, $M, $Y )
+            = $Self->{TimeObject}
+            ->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
         return $Self->{LayoutObject}->Attachment(
-            Filename => "$CSVFile"."_"."$Y-$M-$D"."_"."$h-$m.csv",
+            Filename    => "$CSVFile" . "_" . "$Y-$M-$D" . "_" . "$h-$m.csv",
             ContentType => "text/csv",
-            Content => "\n".$CSV.$CSVBody,
+            Content     => "\n" . $CSV . $CSVBody,
         );
     }
     else {
-        my $Output = $Self->{LayoutObject}->PrintHeader(Title => $Title, Width => 900);
+        my $Output = $Self->{LayoutObject}->PrintHeader( Title => $Title, Width => 900 );
         $Output .= $Self->{LayoutObject}->Output(
-            Data => { Title => $Title, DetailText => $DetailText, Records => $Records},
+            Data     => { Title => $Title, DetailText => $DetailText, Records => $Records },
             Template => '
         <table border="0" cellspacing="1" cellpadding="0" width="100%">
             <tr>
@@ -163,9 +171,11 @@ sub Run {
         <p>
             $Data{"DetailText"}
         </p>
-        ');
+        '
+        );
+
         # return html
-        $Output .= $OutputBody.$Self->{LayoutObject}->Output(Template => '</table><br>');
+        $Output .= $OutputBody . $Self->{LayoutObject}->Output( Template => '</table><br>' );
         $Output .= $Self->{LayoutObject}->PrintFooter();
         return $Output;
     }

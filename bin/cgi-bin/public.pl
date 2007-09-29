@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/cgi-bin/public.pl - the global CGI handle file for OTRS
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: public.pl,v 1.3 2006-11-02 12:20:59 tr Exp $
+# $Id: public.pl,v 1.4 2007-09-29 11:07:04 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,8 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.3 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.4 $)[1];
 
 # 0=off;1=on;
 my $Debug = 0;

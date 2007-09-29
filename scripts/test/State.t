@@ -2,7 +2,7 @@
 # State.t - State tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: State.t,v 1.1 2007-01-29 15:42:45 martin Exp $
+# $Id: State.t,v 1.2 2007-09-29 11:09:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -49,7 +49,7 @@ my %StateList = $Self->{StateObject}->StateList(
     UserID => 1,
 );
 my $Hit = 0;
-foreach (sort keys %StateList) {
+for (sort keys %StateList) {
     if ($_ eq $StateID) {
         $Hit = 1;
     }
@@ -93,7 +93,7 @@ my %StateTypeList = $Self->{StateObject}->StateTypeList(
 );
 my $New = 0;
 my $Open = 0;
-foreach (sort keys %StateTypeList) {
+for (sort keys %StateTypeList) {
     if ($StateTypeList{$_} eq 'new') {
         $New = 1;
     }

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/DeleteSessionIDs.pl - to delete all existing, idle or expired session ids
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DeleteSessionIDs.pl,v 1.18 2006-11-02 12:20:59 tr Exp $
+# $Id: DeleteSessionIDs.pl,v 1.19 2007-09-29 11:08:29 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,8 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.19 $)[1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -63,7 +62,7 @@ print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
 if (($Command eq '--all') || ($Command eq '--showall')) {
     print " Working on all session ids:\n";
     my @List = $CommonObject{SessionObject}->GetAllSessionIDs();
-    foreach my $SessionID (@List) {
+   for my $SessionID (@List) {
         if ($Command eq '--showall') {
             print " SessionID $SessionID!\n";
         }
@@ -83,7 +82,7 @@ elsif (($Command eq '--expired') || ($Command eq '--showexpired')) {
     # get expired session ids
     my @Expired = $CommonObject{SessionObject}->GetExpiredSessionIDs();
     # expired session
-    foreach my $SessionID (@{$Expired[0]}) {
+   for my $SessionID (@{$Expired[0]}) {
         if ($Command eq '--showexpired') {
             print " SessionID $SessionID expired!\n";
         }
@@ -95,7 +94,7 @@ elsif (($Command eq '--expired') || ($Command eq '--showexpired')) {
         }
     }
     # idle session
-    foreach my $SessionID (@{$Expired[1]}) {
+   for my $SessionID (@{$Expired[1]}) {
         if ($Command eq '--showexpired') {
             print " SessionID $SessionID idle timeout!\n";
         }

@@ -3,7 +3,7 @@
 # module of the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerIDCheck.pm,v 1.8 2007-01-21 01:26:10 mh Exp $
+# $Id: CustomerIDCheck.pm,v 1.9 2007-09-29 10:53:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,21 +13,21 @@
 package Kernel::System::Ticket::CustomerPermission::CustomerIDCheck;
 
 use strict;
+use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get needed objects
-    foreach (qw(ConfigObject LogObject DBObject TicketObject CustomerUserObject)) {
+    for (qw(ConfigObject LogObject DBObject TicketObject CustomerUserObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -35,28 +35,34 @@ sub new {
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # check needed stuff
-    foreach (qw(TicketID UserID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(TicketID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # get ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Param{TicketID});
+    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+
     # check customer id
-    my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $Param{UserID});
+    my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Param{UserID} );
+
     # get customer ids
-    my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $Param{UserID});
+    my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs( User => $Param{UserID} );
+
     # add own customer id
-    if ($CustomerData{UserCustomerID}) {
-        push (@CustomerIDs, $CustomerData{UserCustomerID});
+    if ( $CustomerData{UserCustomerID} ) {
+        push( @CustomerIDs, $CustomerData{UserCustomerID} );
     }
+
     # check customer id s
-    foreach my $CustomerID (@CustomerIDs) {
-        if ($Ticket{CustomerID} && $Ticket{CustomerID} =~ /^\Q$CustomerID\E$/i) {
+    for my $CustomerID (@CustomerIDs) {
+        if ( $Ticket{CustomerID} && $Ticket{CustomerID} =~ /^\Q$CustomerID\E$/i ) {
             return 1;
         }
     }

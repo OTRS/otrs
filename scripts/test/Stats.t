@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.5 2007-04-13 06:11:50 tr Exp $
+# $Id: Stats.t,v 1.6 2007-09-29 11:09:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -96,7 +96,7 @@ my $ArrayRef = $Self->{StatsObject}->GetStatsList(
 );
 
 my $Counter = 0;
-foreach (@{$ArrayRef}) {
+for (@{$ArrayRef}) {
     if ($_ eq $StatID1 || $_ eq $StatID2) {
         $Counter++;
     }

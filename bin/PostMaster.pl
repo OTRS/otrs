@@ -3,7 +3,7 @@
 # bin/PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.pl,v 1.26 2007-09-03 10:24:48 martin Exp $
+# $Id: PostMaster.pl,v 1.27 2007-09-29 11:08:29 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,8 +34,7 @@ use strict;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.27 $)[1];
 
 use Getopt::Std;
 use Kernel::Config;

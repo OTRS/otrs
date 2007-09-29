@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/Match.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Match.pm,v 1.6 2007-03-27 14:58:55 martin Exp $
+# $Id: Match.pm,v 1.7 2007-09-29 10:54:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,23 +12,23 @@
 package Kernel::System::PostMaster::Filter::Match;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed opbjects
-    foreach (qw(ConfigObject LogObject DBObject)) {
+    for (qw(ConfigObject LogObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -36,52 +36,56 @@ sub new {
 }
 
 sub Run {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+
     # get config options
     my %Config = ();
-    my %Match = ();
-    my %Set = ();
-    if ($Param{JobConfig} && ref($Param{JobConfig}) eq 'HASH') {
-        %Config = %{$Param{JobConfig}};
-        if ($Config{Match}) {
-            %Match = %{$Config{Match}};
+    my %Match  = ();
+    my %Set    = ();
+    if ( $Param{JobConfig} && ref( $Param{JobConfig} ) eq 'HASH' ) {
+        %Config = %{ $Param{JobConfig} };
+        if ( $Config{Match} ) {
+            %Match = %{ $Config{Match} };
         }
-        if ($Config{Set}) {
-            %Set = %{$Config{Set}};
+        if ( $Config{Set} ) {
+            %Set = %{ $Config{Set} };
         }
     }
+
     # match 'Match => ???' stuff
-    my $Matched = '';
+    my $Matched    = '';
     my $MatchedNot = 0;
-    foreach (sort keys %Match) {
-        if ($Param{GetParam}->{$_} && $Param{GetParam}->{$_} =~ /$Match{$_}/i) {
+    for ( sort keys %Match ) {
+        if ( $Param{GetParam}->{$_} && $Param{GetParam}->{$_} =~ /$Match{$_}/i ) {
             $Matched = $1 || '1';
-            if ($Self->{Debug} > 1) {
+            if ( $Self->{Debug} > 1 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message => "'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched!",
+                    Message  => "'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched!",
                 );
             }
         }
         else {
             $MatchedNot = 1;
-            if ($Self->{Debug} > 1) {
+            if ( $Self->{Debug} > 1 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message => "'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched NOT!",
+                    Message  => "'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched NOT!",
                 );
             }
         }
     }
+
     # should I ignore the incoming mail?
-    if ($Matched && !$MatchedNot) {
-        foreach (keys %Set) {
+    if ( $Matched && !$MatchedNot ) {
+        for ( keys %Set ) {
             $Set{$_} =~ s/\[\*\*\*\]/$Matched/;
             $Param{GetParam}->{$_} = $Set{$_};
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message => "Set param '$_' to '$Set{$_}' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
+                Message =>
+                    "Set param '$_' to '$Set{$_}' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
             );
         }
     }

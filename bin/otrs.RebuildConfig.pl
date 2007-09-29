@@ -3,7 +3,7 @@
 # bin/otrs.RebuildConfig.pl - rebuild config
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.RebuildConfig.pl,v 1.1 2007-05-07 15:38:13 martin Exp $
+# $Id: otrs.RebuildConfig.pl,v 1.2 2007-09-29 11:06:38 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,8 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.2 $)[1];
 
 use Kernel::Config;
 use Kernel::System::Time;

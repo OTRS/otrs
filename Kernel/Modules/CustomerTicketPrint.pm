@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.13 2007-09-29 10:39:11 mh Exp $
+# $Id: CustomerTicketPrint.pm,v 1.14 2007-09-29 10:44:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my $Type  = shift;

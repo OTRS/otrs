@@ -3,7 +3,7 @@
 # StatsExportToOPM.pl - export all stats of a system and create a package for the package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StatsExportToOPM.pl,v 1.4 2007-02-14 07:55:32 tr Exp $
+# $Id: StatsExportToOPM.pl,v 1.5 2007-09-29 11:08:29 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -46,8 +46,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.4 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.5 $)[1];
 
 # common objects
 my %CommonObject = ();
@@ -135,8 +134,7 @@ if (!$OPMFlag) {
 my $StatsListRef = $CommonObject{StatsObject}->GetStatsList();
 my %FileListcheck = ();
 my @Filelist = ();
-
-foreach my $StatID (@{$StatsListRef}) {
+for my $StatID (@{$StatsListRef}) {
     # use Stats export function
     my $File = $CommonObject{StatsObject}->Export(
         StatID           => $StatID,
@@ -191,7 +189,7 @@ $OPMS{Description}[1]{Lang}    = 'en';
 
 # build file list
 my $FileListString = '';
-foreach (@Filelist) {
+for (@Filelist) {
     my %Hash = ();
     $Hash{Location} = "var/Stats/" . $_;
     $Hash{Permission} = '644';
@@ -216,12 +214,11 @@ my $Delete = ' . $DeleteStats . ';
 
 if ($Delete) {
     my $StatsListRef = $Self-&gt;{StatsObject}-&gt;GetStatsList();
-    foreach my $StatID (@{$StatsListRef}) {
+   for my $StatID (@{$StatsListRef}) {
         $Self-&gt;{StatsObject}-&gt;StatsDelete(StatID => $StatID);
     }
-}
 
-foreach my $FileString (qw(' . $FileListString . ')) {
+for my $FileString (qw(' . $FileListString . ')) {
     my $File = $Self-&gt;{ConfigObject}-&gt;Get(\'Home\')."/var/Stats/$FileString";
     my $Content = \'\';
     if (open(IN, "&lt; $File")) {
