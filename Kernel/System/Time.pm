@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.30 2007-09-29 11:01:39 mh Exp $
+# $Id: Time.pm,v 1.31 2007-10-01 10:17:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -420,19 +420,14 @@ sub WorkingTime {
             return;
         }
     }
-    my %TimeWorkingHours        = %{ $Self->{ConfigObject}->Get('TimeWorkingHours') };
-    my %TimeVacationDays        = %{ $Self->{ConfigObject}->Get('TimeVacationDays') };
-    my %TimeVacationDaysOneTime = %{ $Self->{ConfigObject}->Get('TimeVacationDaysOneTime') };
-    if ( $Param{Calendar} ) {
-        if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            %TimeWorkingHours
-                = %{ $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} )
-                };
-            %TimeVacationDays
-                = %{ $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} )
-                };
-            %TimeVacationDaysOneTime = %{ $Self->{ConfigObject}
-                    ->Get( "TimeVacationDaysOneTime::Calendar" . $Param{Calendar} ) };
+    my $TimeWorkingHours = $Self->{ConfigObject}->Get('TimeWorkingHours');
+    my $TimeVacationDays = $Self->{ConfigObject}->Get('TimeVacationDays');
+    my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
+    if ($Param{Calendar}) {
+        if ($Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar}."Name")) {
+            $TimeWorkingHours = $Self->{ConfigObject}->Get("TimeWorkingHours::Calendar".$Param{Calendar});
+            $TimeVacationDays = $Self->{ConfigObject}->Get("TimeVacationDays::Calendar".$Param{Calendar});
+            $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get("TimeVacationDaysOneTime::Calendar".$Param{Calendar});
             my $Zone = $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} );
             if ($Zone) {
                 if ( $Zone > 0 ) {
@@ -473,16 +468,12 @@ sub WorkingTime {
         );
 
         # count noting because of vacation
-        if (   $TimeVacationDays{$Month}->{$Day}
-            || $TimeVacationDaysOneTime{$Year}->{$Month}->{$Day} )
-        {
-
+        if ($TimeVacationDays->{$Month}->{$Day} || $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day}) {
             # do noting
         }
         else {
-            if ( $TimeWorkingHours{ $LDay{$WDay} } ) {
-                for ( @{ $TimeWorkingHours{ $LDay{$WDay} } } ) {
-
+            if ($TimeWorkingHours->{$LDay{$WDay}}) {
+                for (@{$TimeWorkingHours->{$LDay{$WDay}}}) {
                     # count minutes on same date and same hour of start/end date
                     # within service hour => start counting and finish immediatly
                     if ( $ADate eq $BDate && $AHour == $BHour && $AHour == $_ ) {
@@ -551,19 +542,14 @@ sub DestinationTime {
             return;
         }
     }
-    my %TimeWorkingHours        = %{ $Self->{ConfigObject}->Get('TimeWorkingHours') };
-    my %TimeVacationDays        = %{ $Self->{ConfigObject}->Get('TimeVacationDays') };
-    my %TimeVacationDaysOneTime = %{ $Self->{ConfigObject}->Get('TimeVacationDaysOneTime') };
-    if ( $Param{Calendar} ) {
-        if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            %TimeWorkingHours
-                = %{ $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} )
-                };
-            %TimeVacationDays
-                = %{ $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} )
-                };
-            %TimeVacationDaysOneTime = %{ $Self->{ConfigObject}
-                    ->Get( "TimeVacationDaysOneTime::Calendar" . $Param{Calendar} ) };
+    my $TimeWorkingHours = $Self->{ConfigObject}->Get('TimeWorkingHours');
+    my $TimeVacationDays = $Self->{ConfigObject}->Get('TimeVacationDays');
+    my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
+    if ($Param{Calendar}) {
+        if ($Self->{ConfigObject}->Get("TimeZone::Calendar".$Param{Calendar}."Name")) {
+            $TimeWorkingHours = $Self->{ConfigObject}->Get("TimeWorkingHours::Calendar".$Param{Calendar});
+            $TimeVacationDays = $Self->{ConfigObject}->Get("TimeVacationDays::Calendar".$Param{Calendar});
+            $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get("TimeVacationDaysOneTime::Calendar".$Param{Calendar});
             $Zone = $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} );
             if ( $Zone > 0 ) {
                 $Zone = '+' . ( $Zone * 60 * 60 );
@@ -589,8 +575,6 @@ sub DestinationTime {
     while ( $Param{Time} > 1 ) {
         $Count++;
         if ( $Count > 100 ) {
-
-            #print STDERR "LAST        !!!!!!!!!!!!!!!!!\n";
             last;
         }
         my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime($CTime);
@@ -608,10 +592,7 @@ sub DestinationTime {
         );
 
         # count noting becouse of vacation
-        if (   $TimeVacationDays{$Month}->{$Day}
-            || $TimeVacationDaysOneTime{$Year}->{$Month}->{$Day} )
-        {
-
+        if ($TimeVacationDays->{$Month}->{$Day} || $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day}) {
             # do noting
             if ($FirstTurn) {
                 $First           = 1;
@@ -628,13 +609,11 @@ sub DestinationTime {
             $FirstTurn       = 0;
         }
         else {
-            if ( $TimeWorkingHours{ $LDay{$WDay} } ) {
+            if ($TimeWorkingHours->{$LDay{$WDay}}) {
                 for my $H ( $Hour .. 23 ) {
                     my $Hit = 0;
-                    for ( @{ $TimeWorkingHours{ $LDay{$WDay} } } ) {
+                    for (@{$TimeWorkingHours->{$LDay{$WDay}}}) {
                         if ( $H == $_ ) {
-
-                            #print STDERR "aaaaaa $_ \n";
                             $Hit = 1;
                         }
                     }
@@ -642,17 +621,13 @@ sub DestinationTime {
                         if ( $Param{Time} > 60 * 60 ) {
                             if ( $Min != 0 && $FirstTurn ) {
                                 my $Max = 60 - $Min;
-                                $Param{Time} = $Param{Time} - ( $Max * 60 );
-                                $DestinationTime = $DestinationTime + ( $Max * 60 );
-
-#print STDERR "DD Time > $Max*60 DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
+                                $Param{Time} = $Param{Time} - ($Max*60);
+                                $DestinationTime = $DestinationTime + ($Max*60);
                                 $FirstTurn = 0;
                             }
                             else {
-                                $Param{Time} = $Param{Time} - ( 60 * 60 );
-                                $DestinationTime = $DestinationTime + ( 60 * 60 );
-
-#print STDERR "DD Time > 60*60 DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
+                                $Param{Time} = $Param{Time} - (60*60);
+                                $DestinationTime = $DestinationTime + (60*60);
                                 $FirstTurn = 0;
                             }
                         }
@@ -661,15 +636,11 @@ sub DestinationTime {
                                 if ( $Param{Time} > 1 ) {
                                     $Param{Time} = $Param{Time} - 60;
                                     $DestinationTime = $DestinationTime + 60;
-
-#print STDERR "DD Time > 1*60 DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
                                     $FirstTurn = 0;
                                 }
                             }
                         }
                         else {
-
-#print STDERR "DD Time else DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
                             last;
                         }
                     }
@@ -685,13 +656,9 @@ sub DestinationTime {
                                 Second => 0,
                             );
                         }
-
-                        #                        $Param{Time} = $Param{Time} - (60*60);
-                        if ( $Param{Time} > 59 ) {
-                            $DestinationTime = $DestinationTime + ( 60 * 60 );
+                        if ($Param{Time} > 59) {
+                            $DestinationTime = $DestinationTime + (60*60);
                         }
-
-#print STDERR "DD NOHIT DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
                     }
                 }
             }
@@ -782,6 +749,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2007-09-29 11:01:39 $
+$Revision: 1.31 $ $Date: 2007-10-01 10:17:48 $
 
 =cut
