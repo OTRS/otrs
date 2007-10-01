@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/OutputFilterActiveElement.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: OutputFilterActiveElement.pm,v 1.3 2007-09-29 10:50:34 mh Exp $
+# $Id: OutputFilterActiveElement.pm,v 1.4 2007-10-01 09:43:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use HTML::Safe;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my $Type  = shift;
@@ -41,7 +41,7 @@ sub Run {
 
     # use filter
     my $HTMLSafe = HTML::Safe->new( NoIntSrcLoad => 0, %Param );
-    $HTMLSafe->Filter( Data => $Param{Data} );
+    return $HTMLSafe->Filter( Data => $Param{Data} );
 }
 
 1;
