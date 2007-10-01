@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.150 2007-10-01 06:50:22 martin Exp $
+# $Id: Article.pm,v 1.151 2007-10-01 07:05:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.150 $) [1];
+$VERSION = qw($Revision: 1.151 $) [1];
 
 =head1 NAME
 
@@ -439,29 +439,28 @@ sub ArticleCreate {
     }
     elsif ( $Param{HistoryType} =~ /^FollowUp$/i ) {
 
-        # send agent notification to one or to all agents
+        # send agent notification to all agents
         if ( $Ticket{OwnerID} == 1 || $Ticket{Lock} eq 'unlock' ) {
-            my @NotifyIDs = ();
+            my @OwnerIDs = ();
             if ( $Self->{ConfigObject}->Get('PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner') ) {
-                if ( $Ticket{OwnerID} ne 1 ) {
-                    @NotifyIDs = ( $Ticket{OwnerID} );
-                }
+                @OwnerIDs = ( $Ticket{OwnerID} );
             }
             else {
-                @NotifyIDs = $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} );
-                for (qw(OwnerID ResponsibleID)) {
+                @OwnerIDs = $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} );
+                for my $Type (qw(OwnerID ResponsibleID)) {
 
                     # do not notify the admin
-                    if ( $Ticket{$_} && $Ticket{$_} ne 1 ) {
-                        push( @NotifyIDs, $Ticket{$_} );
+                    if ( $Ticket{$Type} ) {
+                        push( @OwnerIDs, $Ticket{$Type} );
                     }
                 }
             }
-            for (@NotifyIDs) {
-                if ( !$AlreadySent{$_} ) {
-                    $AlreadySent{$_} = 1;
+            for my $UserID (@OwnerIDs) {
+                if ( $UserID ne 1 && !$AlreadySent{$UserID} ) {
+                    # remember already sent info
+                    $AlreadySent{$UserID} = 1;
                     my %UserData = $Self->{UserObject}->GetUserData(
-                        UserID => $_,
+                        UserID => $UserID,
                         Cached => 1,
                         Valid  => 1,
                     );
@@ -483,11 +482,15 @@ sub ArticleCreate {
 
         # send owner/responsible notification the agents who locked the ticket
         else {
-            for (qw(OwnerID ResponsibleID)) {
-                if ( $Ticket{$_} && $Ticket{$_} ne 1 ) {
-                    if ( !$AlreadySent{ $Ticket{$_} } ) {
-                        $AlreadySent{ $Ticket{$_} } = 1;
-                        my %UserData = $Self->{UserObject}->GetUserData( UserID => $Ticket{$_}, );
+            for my $Type (qw(OwnerID ResponsibleID)) {
+                if ( $Ticket{$Type} && $Ticket{$Type} ne 1 ) {
+                    if ( !$AlreadySent{ $Ticket{$Type} } ) {
+                        $AlreadySent{ $Ticket{$Type} } = 1;
+                        my %UserData = $Self->{UserObject}->GetUserData(
+                            UserID => $Ticket{$Type},
+                            Cached => 1,
+                            Valid  => 1,
+                        );
                         if ( $UserData{UserSendFollowUpNotification} ) {
 
                             # send notification
@@ -505,10 +508,10 @@ sub ArticleCreate {
             }
 
             # send the rest of agents follow ups
-            for ( $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} ) ) {
-                if ( !$AlreadySent{$_} && $_ ne 1 ) {
+            for my $UserID ( $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} ) ) {
+                if ( !$AlreadySent{$UserID} && $UserID ne 1 ) {
                     my %UserData = $Self->{UserObject}->GetUserData(
-                        UserID => $_,
+                        UserID => $UserID,
                         Cached => 1,
                         Valid  => 1,
                     );
@@ -518,7 +521,8 @@ sub ArticleCreate {
                         && $Ticket{OwnerID} ne $Param{UserID}
                         && $Ticket{OwnerID} ne $UserData{UserID} )
                     {
-                        $AlreadySent{$_} = 1;
+                        # remember already sent info
+                        $AlreadySent{$UserID} = 1;
 
                         # send notification
                         $Self->SendAgentNotification(
@@ -538,10 +542,15 @@ sub ArticleCreate {
     # send forced notifications
     if ( $Param{ForceNotificationToUserID} && ref( $Param{ForceNotificationToUserID} ) eq 'ARRAY' )
     {
-        for ( @{ $Param{ForceNotificationToUserID} } ) {
-            if ( !$AlreadySent{$_} ) {
-                $AlreadySent{$_} = 1;
-                my %Preferences = $Self->{UserObject}->GetUserData( UserID => $_ );
+        for my $UserID ( @{ $Param{ForceNotificationToUserID} } ) {
+            if ( !$AlreadySent{$UserID} ) {
+                # remember already sent info
+                $AlreadySent{$UserID} = 1;
+                my %Preferences = $Self->{UserObject}->GetUserData(
+                    UserID => $UserID,
+                    Cached => 1,
+                    Valid  => 1,
+                 );
 
                 # send notification
                 $Self->SendAgentNotification(
