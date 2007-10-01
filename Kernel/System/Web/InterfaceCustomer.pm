@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.22 2007-09-29 10:51:40 mh Exp $
+# $Id: InterfaceCustomer.pm,v 1.23 2007-10-01 09:58:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -807,6 +807,7 @@ sub Run {
     # db disconnect && undef %Param
     $Self->{DBObject}->Disconnect();
     undef %Param;
+    return 1;
 }
 
 1;
@@ -825,6 +826,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2007-09-29 10:51:40 $
+$Revision: 1.23 $ $Date: 2007-10-01 09:58:20 $
 
 =cut
