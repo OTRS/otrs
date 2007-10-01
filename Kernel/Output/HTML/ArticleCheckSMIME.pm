@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.12 2007-09-29 10:49:44 mh Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.13 2007-10-01 10:14:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my $Type  = shift;
@@ -218,6 +218,7 @@ sub Filter {
         # remove pgp inline sign
         $Param{Article}->{Body} =~ s/^-----END\sPKCS7-----//sm;
     }
+    return 1;
 }
 
 1;
