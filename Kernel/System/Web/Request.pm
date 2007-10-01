@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.15 2007-09-29 10:51:40 mh Exp $
+# $Id: Request.pm,v 1.16 2007-10-01 06:13:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.15 $ ';
+$VERSION = '$Revision: 1.16 $ ';
 
 =head1 NAME
 
@@ -215,7 +215,7 @@ sub GetUploadAll {
             File::Path::mkpath( [$Path], 0, '0700' );
 
             $Param{UploadFilename} = "$Path/$NewFileName";
-            open( my $Out, "> $Param{UploadFilename}" ) || die $!;
+            open (my $Out,'>', $Param{UploadFilename}) || die $!;
             while (<$Upload>) {
                 print $Out $_;
             }
@@ -297,6 +297,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2007-09-29 10:51:40 $
+$Revision: 1.16 $ $Date: 2007-10-01 06:13:13 $
 
 =cut
