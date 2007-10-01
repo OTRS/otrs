@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.17 2007-09-29 10:39:11 mh Exp $
+# $Id: AgentTicketMailbox.pm,v 1.18 2007-10-01 06:39:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my $Type  = shift;
@@ -139,7 +139,7 @@ sub Run {
         for my $TicketID (@ViewableTicketsTmp) {
             my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $TicketID );
             if (@Index) {
-                my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[$#Index] );
+                my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[-1] );
                 if ( $Article{UntilTime} < 1 ) {
                     push( @ViewableTickets, $TicketID );
                 }
@@ -166,7 +166,7 @@ sub Run {
             if ( $Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen' ) {
                 my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $TicketID );
                 if (@Index) {
-                    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[$#Index] );
+                    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[-1] );
                     my %Flag = $Self->{TicketObject}->ArticleFlagGet(
                         ArticleID => $Article{ArticleID},
                         UserID    => $Self->{UserID},
@@ -179,7 +179,7 @@ sub Run {
             else {
                 my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $TicketID );
                 if (@Index) {
-                    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[$#Index] );
+                    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[-1] );
                     if (   $Article{SenderType} eq 'customer'
                         || $Article{SenderType} eq 'system'
                         || $Article{CreatedBy} ne $Self->{UserID} )
@@ -246,7 +246,7 @@ sub Run {
             if ( !@ArticleBody ) {
                 next;
             }
-            %Article = %{ $ArticleBody[$#ArticleBody] };
+            %Article = %{ $ArticleBody[-1] };
 
             # return latest non internal article
             for my $Content ( reverse @ArticleBody ) {
@@ -262,7 +262,7 @@ sub Run {
             # put all tickets to ToDo where last sender type is customer / system or ! UserID
             # show just unseen tickets as new
             if ( $Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen' ) {
-                my %Article = %{ $ArticleBody[$#ArticleBody] };
+                my %Article = %{ $ArticleBody[-1] };
                 my %Flag    = $Self->{TicketObject}->ArticleFlagGet(
                     ArticleID => $Article{ArticleID},
                     UserID    => $Self->{UserID},
@@ -272,7 +272,7 @@ sub Run {
                 }
             }
             else {
-                my %Article = %{ $ArticleBody[$#ArticleBody] };
+                my %Article = %{ $ArticleBody[-1] };
                 if (   $Article{SenderType} eq 'customer'
                     || $Article{SenderType} eq 'system'
                     || $Article{CreatedBy} ne $Self->{UserID} )
