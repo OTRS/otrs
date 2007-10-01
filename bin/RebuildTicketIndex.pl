@@ -3,7 +3,7 @@
 # bin/RebuildTicketIndex.pl - rebuild ticket index for queue view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: RebuildTicketIndex.pl,v 1.14 2007-09-29 11:41:28 mh Exp $
+# $Id: RebuildTicketIndex.pl,v 1.15 2007-10-01 09:46:18 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,16 +20,17 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
+use strict;
+use warnings;
+
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
-use strict;
-
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Time;

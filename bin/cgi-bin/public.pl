@@ -3,7 +3,7 @@
 # bin/cgi-bin/public.pl - the global CGI handle file for OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: public.pl,v 1.5 2007-09-29 11:41:48 mh Exp $
+# $Id: public.pl,v 1.6 2007-10-01 09:46:18 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,15 +20,16 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
+use strict;
+use warnings;
+
 # use ../../ as lib location
 use FindBin qw($Bin);
 use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 
-use strict;
-
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 # 0=off;1=on;
 my $Debug = 0;

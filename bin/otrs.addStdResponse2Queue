@@ -2,11 +2,14 @@
 # --
 # otrs.addStdResponse2Queue - Add Resposes to Queue from CLI
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.addStdResponse2Queue,v 1.10 2007-09-29 11:40:37 mh Exp $
+# $Id: otrs.addStdResponse2Queue,v 1.11 2007-10-01 09:45:36 mh Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+use strict;
+use warnings;
 
 use File::Basename;
 use FindBin qw($RealBin);
@@ -19,7 +22,6 @@ unless ( $ARGV[1] ) {
     exit;
 }
 
-use strict;
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::DB;

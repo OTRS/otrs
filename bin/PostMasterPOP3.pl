@@ -3,7 +3,7 @@
 # bin/PostMasterPOP3.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMasterPOP3.pl,v 1.27 2007-09-29 11:41:10 mh Exp $
+# $Id: PostMasterPOP3.pl,v 1.28 2007-10-01 09:45:50 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,6 +20,9 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
+use strict;
+use warnings;
+
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
@@ -27,9 +30,8 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
-use strict;
 use Net::POP3;
 use Getopt::Std;
 use Kernel::Config;
@@ -250,4 +252,5 @@ sub FetchMail {
     if ($Reconnect) {
         FetchMail(%Param);
     }
+    return 1;
 }

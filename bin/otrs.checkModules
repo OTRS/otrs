@@ -3,7 +3,7 @@
 # bin/otrs.checkModules - to check needed cpan framework modules
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.checkModules,v 1.16 2007-09-29 11:40:37 mh Exp $
+# $Id: otrs.checkModules,v 1.17 2007-10-01 09:45:36 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,6 +19,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
+
+use strict;
+use warnings;
 
 # use ../ as lib location
 use File::Basename;

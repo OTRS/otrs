@@ -3,7 +3,7 @@
 # bin/PostMasterClient.pl - the PostMasterDaemon.pl client
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMasterClient.pl,v 1.7 2007-09-29 11:41:10 mh Exp $
+# $Id: PostMasterClient.pl,v 1.8 2007-10-01 09:45:50 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 # --
 
 use strict;
+use warnings;
 
 use IO::Socket;
 

@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.51 2007-09-29 11:41:28 mh Exp $
+# $Id: mkStats.pl,v 1.52 2007-10-01 09:46:18 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,8 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -379,7 +378,7 @@ elsif (
         Subject    => "[Stats - $CountStatArray Records] $Title; Created: $Time",
         Body       => $CommonObject{LanguageObject}->Get( $Opts{'m'} ),
         Charset    => $CommonObject{ConfigObject}->{DefaultCharset},
-        Attachment => [ { %Attachment }, ],
+        Attachment => [ {%Attachment}, ],
     )
     )
 {

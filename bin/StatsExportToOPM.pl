@@ -3,7 +3,7 @@
 # StatsExportToOPM.pl - export all stats of a system and create a package for the package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StatsExportToOPM.pl,v 1.6 2007-09-29 11:41:28 mh Exp $
+# $Id: StatsExportToOPM.pl,v 1.7 2007-10-01 09:46:18 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,12 +27,14 @@
 # get needed objects and settings
 # ---------------------------------------------------------- #
 
+use strict;
+use warnings;
+
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
-use strict;
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Log;
@@ -46,7 +48,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 # common objects
 my %CommonObject = ();

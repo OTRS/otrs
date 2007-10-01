@@ -3,7 +3,7 @@
 # bin/PostMasterDaemon.pl - the daemon for the PostMasterClient.pl client
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMasterDaemon.pl,v 1.13 2007-09-29 11:41:10 mh Exp $
+# $Id: PostMasterDaemon.pl,v 1.14 2007-10-01 09:45:50 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,6 +20,9 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
+use strict;
+use warnings;
+
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
@@ -35,7 +38,6 @@ use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::PostMaster;
 
-use strict;
 use IO::Socket;
 
 my $PreForkedServer = 1;
@@ -118,6 +120,7 @@ sub MakeNewChild {
             }
         }
     }
+    return 1;
 }
 
 sub StopChild {
@@ -125,6 +128,8 @@ sub StopChild {
     print STDERR "($$)StopChild ($PID) (Current Children $Children)\n";
     $Children--;
     delete $Children{$$};
+
+    return 1;
 }
 
 sub PipeEmail {
@@ -167,4 +172,5 @@ sub PipeEmail {
             Message  => 'Email handle (PostMasterDaemon.pl) stoped.',
         );
     }
+    return 1;
 }
