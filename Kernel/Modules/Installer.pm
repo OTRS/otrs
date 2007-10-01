@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.49 2007-09-29 10:42:21 mh Exp $
+# $Id: Installer.pm,v 1.50 2007-10-01 06:27:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use warnings;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my $Type  = shift;
@@ -673,9 +673,9 @@ sub ReConfigure {
     }
 
     # read config file
-    open( IN, "< $Self->{Path}/Kernel/Config.pm" )
+    open( $In, "< $Self->{Path}/Kernel/Config.pm" )
         || return "Can't open $Self->{Path}/Kernel/Config.pm: $!";
-    while (<IN>) {
+    while (<$in>) {
         if ( $_ =~ /^#/ ) {
             $Config .= $_;
         }
@@ -694,7 +694,7 @@ sub ReConfigure {
             $Config .= $NewConfig;
         }
     }
-    close(IN);
+    close($In);
 
     # add new config settings
     for ( sort keys %Param ) {
@@ -709,10 +709,10 @@ sub ReConfigure {
     }
 
     # write new config file
-    open( OUT, "> $Self->{Path}/Kernel/Config.pm" )
+    open( $Out, "> $Self->{Path}/Kernel/Config.pm" )
         || return "Can't open $Self->{Path}/Kernel/Config.pm: $!";
-    print OUT $Config;
-    close(OUT);
+    print $Out $Config;
+    close($Out);
 
     return;
 }
@@ -721,10 +721,10 @@ sub ParseSQLFile {
     my $Self = shift;
     my $File = shift;
     my @SQL  = ();
-    if ( open( IN, "< $File" ) ) {
+    if ( open( $In, "< $File" ) ) {
         my $SQLEnd    = 0;
         my $SQLSingel = '';
-        while (<IN>) {
+        while (<$In>) {
             if ( $_ !~ /^(#|--)/ ) {
                 if ( $_ =~ /^(.*)(;|;\s)$/ || $_ =~ /^(\));/ ) {
                     $SQLSingel .= $1;
@@ -740,7 +740,7 @@ sub ParseSQLFile {
                 $SQLSingel = '';
             }
         }
-        close(IN);
+        close($In);
     }
     else {
         if ( !$Self->{$_} ) {
