@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.18 2007-09-29 10:58:37 mh Exp $
+# $Id: PGP.pm,v 1.19 2007-10-01 07:08:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -761,7 +761,7 @@ sub _CryptedWithKey {
         if ( $Line =~ /encrypted with.+?\sID\s(........)/i ) {
             my @Result = $Self->PrivateKeySearch( Search => $1 );
             if (@Result) {
-                push( @Keys, ( $Result[$#Result]->{Key} || $1 ) );
+                push( @Keys, ( $Result[-1]->{Key} || $1 ) );
             }
         }
     }
@@ -784,6 +784,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2007-09-29 10:58:37 $
+$Revision: 1.19 $ $Date: 2007-10-01 07:08:02 $
 
 =cut
