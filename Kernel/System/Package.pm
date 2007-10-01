@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.69 2007-09-29 11:00:19 mh Exp $
+# $Id: Package.pm,v 1.70 2007-10-01 16:27:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 =head1 NAME
 
@@ -99,6 +99,7 @@ sub new {
         Framework          => 'ARRAY',
         OS                 => 'ARRAY',
         PackageRequired    => 'ARRAY',
+        ModuleRequired     => 'ARRAY',
         IntroInstallPre    => 'ARRAY',
         IntroInstallPost   => 'ARRAY',
         IntroUninstallPre  => 'ARRAY',
@@ -368,8 +369,6 @@ sub _CheckVersion {
         }
         $Param{$Type} = int( $Param{$Type} );
     }
-
-    #print STDERR "$Param{Version2} >= $Param{Version1}\n";
     if ( $Param{Type} eq 'Min' ) {
         if ( $Param{Version2} >= $Param{Version1} ) {
             return 1;
@@ -392,8 +391,8 @@ sub _CheckVersion {
     }
 }
 
-sub _CheckRequired {
-    my $Self  = shift;
+sub _CheckPackageRequired {
+    my $Self = shift;
     my %Param = @_;
 
     # check needed stuff
@@ -406,11 +405,11 @@ sub _CheckRequired {
 
     # check required packages
     if ( $Param{PackageRequired} && ref( $Param{PackageRequired} ) eq 'ARRAY' ) {
-        for my $Module ( @{ $Param{PackageRequired} } ) {
+        for my $Package ( @{ $Param{PackageRequired} } ) {
             my $Installed        = 0;
             my $InstalledVersion = 0;
             for my $Local ( $Self->RepositoryList() ) {
-                if (   $Local->{Name}->{Content} eq $Module->{Content}
+                if (   $Local->{Name}->{Content} eq $Package->{Content}
                     && $Local->{Status} eq 'installed' )
                 {
                     $Installed        = 1;
@@ -421,23 +420,17 @@ sub _CheckRequired {
             if ( !$Installed && !$Param{Force} ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message =>
-                        "Sorry, can't install package, because package $Module->{Content} v$Module->{Version} is required!",
+                    Message => "Sorry, can't install package, because package ".
+                        "$Package->{Content} v$Package->{Version} is required!",
                 );
                 return;
             }
-            elsif ( $Installed && !$Param{Force} ) {
-                if (!$Self->_CheckVersion(
-                        Version1 => $Module->{Version},
-                        Version2 => $InstalledVersion,
-                        Type     => 'Min'
-                    )
-                    )
-                {
+            elsif ($Installed && !$Param{Force}) {
+                if (!$Self->_CheckVersion(Version1 => $Package->{Version}, Version2 => $InstalledVersion, Type => 'Min')) {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
-                        Message =>
-                            "Sorry, can't install package, because package $Module->{Content} v$Module->{Version} is required!",
+                        Message => "Sorry, can't install package, because ".
+                            "package $Package->{Content} v$Package->{Version} is required!",
                     );
                     return;
                 }
@@ -447,8 +440,67 @@ sub _CheckRequired {
     return 1;
 }
 
-sub _CheckDepends {
-    my $Self  = shift;
+sub _CheckModuleRequired {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(ModuleRequired)) {
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
+    }
+    # check required perl modules
+    if ($Param{ModuleRequired} && ref($Param{ModuleRequired}) eq 'ARRAY') {
+        foreach my $Module (@{$Param{ModuleRequired}}) {
+            my $Installed = 0;
+            my $InstalledVersion = 0;
+            # check if module is installed
+            if ($Self->{MainObject}->Require($Module->{Content})) {
+                $Installed = 1;
+                # check version if installed module
+                $InstalledVersion = $Module->{Content}->VERSION;
+            }
+            if (!$Installed) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Sorry, can't install package, because module ".
+                        "$Module->{Content} v$Module->{Version} is required ".
+                        "and not installed!",
+                );
+                if (!$Param{Force}) {
+                    return;
+                }
+                else {
+                    return 1;
+                }
+            }
+            else {
+                if ($InstalledVersion &&
+                    !$Self->_CheckVersion(Version1 => $Module->{Version}, Version2 => $InstalledVersion, Type => 'Min')
+                ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Sorry, can't install package, because module ".
+                            "$Module->{Content} v$Module->{Version} is required and ".
+                            "$InstalledVersion is installed! You need to upgrade ".
+                            "$Module->{Content} to $Module->{Version} or higher first!",
+                    );
+                    if (!$Param{Force}) {
+                        return;
+                    }
+                    else {
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    return 1;
+}
+
+sub _CheckPackageDepends {
+    my $Self = shift;
     my %Param = @_;
 
     # check needed stuff
@@ -565,10 +617,14 @@ sub PackageInstall {
     }
 
     # check required packages
-    if ( $Structure{PackageRequired} && ref( $Structure{PackageRequired} ) eq 'ARRAY' ) {
-        if (   !$Self->_CheckRequired( %Param, PackageRequired => $Structure{PackageRequired} )
-            && !$Param{Force} )
-        {
+    if ($Structure{PackageRequired} && ref($Structure{PackageRequired}) eq 'ARRAY') {
+        if (!$Self->_CheckPackageRequired(%Param, PackageRequired => $Structure{PackageRequired}) && !$Param{Force}) {
+            return;
+        }
+    }
+    # check required modules
+    if ($Structure{ModuleRequired} && ref($Structure{ModuleRequired}) eq 'ARRAY') {
+        if (!$Self->_CheckModuleRequired(%Param, ModuleRequired => $Structure{ModuleRequired}) && !$Param{Force}) {
             return;
         }
     }
@@ -854,10 +910,14 @@ sub PackageUpgrade {
     }
 
     # check required packages
-    if ( $Structure{PackageRequired} && ref( $Structure{PackageRequired} ) eq 'ARRAY' ) {
-        if (   !$Self->_CheckRequired( %Param, PackageRequired => $Structure{PackageRequired} )
-            && !$Param{Force} )
-        {
+    if ($Structure{PackageRequired} && ref($Structure{PackageRequired}) eq 'ARRAY') {
+        if (!$Self->_CheckPackageRequired(%Param, PackageRequired => $Structure{PackageRequired}) && !$Param{Force}) {
+            return;
+        }
+    }
+    # check required modules
+    if ($Structure{ModuleRequired} && ref($Structure{ModuleRequired}) eq 'ARRAY') {
+        if (!$Self->_CheckModuleRequired(%Param, ModuleRequired => $Structure{ModuleRequired}) && !$Param{Force}) {
             return;
         }
     }
@@ -976,7 +1036,7 @@ sub PackageUninstall {
     my %Structure = $Self->PackageParse(%Param);
 
     # check depends
-    if ( !$Self->_CheckDepends( Name => $Structure{Name}->{Content} ) && !$Param{Force} ) {
+    if (!$Self->_CheckPackageDepends(Name => $Structure{Name}->{Content}) && !$Param{Force}) {
         return;
     }
 
@@ -2006,6 +2066,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.69 $ $Date: 2007-09-29 11:00:19 $
+$Revision: 1.70 $ $Date: 2007-10-01 16:27:28 $
 
 =cut
