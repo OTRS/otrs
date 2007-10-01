@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.50 2007-10-01 06:27:53 martin Exp $
+# $Id: Installer.pm,v 1.51 2007-10-01 06:31:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use warnings;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my $Type  = shift;
@@ -675,7 +675,7 @@ sub ReConfigure {
     # read config file
     open( $In, "< $Self->{Path}/Kernel/Config.pm" )
         || return "Can't open $Self->{Path}/Kernel/Config.pm: $!";
-    while (<$in>) {
+    while (<$In>) {
         if ( $_ =~ /^#/ ) {
             $Config .= $_;
         }
