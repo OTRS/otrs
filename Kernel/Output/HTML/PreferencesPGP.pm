@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPGP.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesPGP.pm,v 1.8 2007-09-29 10:49:57 mh Exp $
+# $Id: PreferencesPGP.pm,v 1.9 2007-10-01 10:21:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my $Type  = shift;
@@ -160,6 +160,7 @@ sub Download {
             Priority => 'Error',
             Message  => 'Couldn\'t get ASCII exported pubKey for KeyID ' . $Preferences{'PGPKeyID'},
         );
+        return;
     }
     else {
         return (
