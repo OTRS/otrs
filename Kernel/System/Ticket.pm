@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.279 2007-09-29 11:01:39 mh Exp $
+# $Id: Ticket.pm,v 1.280 2007-10-01 10:13:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,13 +32,12 @@ use Kernel::System::Email;
 use Kernel::System::AutoResponse;
 use Kernel::System::StdAttachment;
 use Kernel::System::PostMaster::LoopProtection;
-use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.279 $) [1];
+$VERSION = qw($Revision: 1.280 $) [1];
 
 =head1 NAME
 
@@ -6814,6 +6813,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.279 $ $Date: 2007-09-29 11:01:39 $
+$Revision: 1.280 $ $Date: 2007-10-01 10:13:29 $
 
 =cut
