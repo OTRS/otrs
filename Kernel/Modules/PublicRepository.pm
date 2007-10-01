@@ -2,7 +2,7 @@
 # Kernel/Modules/PublicRepository.pm - provides a local repository
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PublicRepository.pm,v 1.5 2007-09-29 10:42:21 mh Exp $
+# $Id: PublicRepository.pm,v 1.6 2007-10-01 10:24:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my $Type  = shift;
@@ -31,7 +31,7 @@ sub new {
     }
 
     # check needed Opjects
-    for (qw(ParamObject LayoutObject LogObject ConfigObject)) {
+    for (qw(ParamObject LayoutObject LogObject ConfigObject MainObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
