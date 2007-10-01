@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarModuleAdmin.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NavBarModuleAdmin.pm,v 1.4 2007-09-29 10:49:27 mh Exp $
+# $Id: NavBarModuleAdmin.pm,v 1.5 2007-10-01 10:23:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my $Type  = shift;
@@ -47,14 +47,13 @@ sub Run {
 
     # get all Frontend::Module
     my %NavBarModule = ();
-    for my $Module ( sort keys %{ $Self->{ConfigObject}->Get('Frontend::Module') } ) {
-        my %Hash = %{ $Self->{ConfigObject}->Get('Frontend::Module')->{$Module} };
-        if (   $Hash{NavBarModule}
-            && $Hash{NavBarModule}->{Module} eq 'Kernel::Output::HTML::NavBarModuleAdmin' )
-        {
-            my $Key = sprintf( "%07d", $Hash{NavBarModule}->{Prio} || 0 );
-            for ( 1 .. 51 ) {
-                if ( $NavBarModule{$Key} ) {
+    my $FrontendModuleConfig = $Self->{ConfigObject}->Get('Frontend::Module');
+    for my $Module ( sort keys %{$FrontendModuleConfig} ) {
+        my %Hash = %{$FrontendModuleConfig->{$Module}};
+        if ($Hash{NavBarModule} && $Hash{NavBarModule}->{Module} eq 'Kernel::Output::HTML::NavBarModuleAdmin') {
+            my $Key = sprintf("%07d", $Hash{NavBarModule}->{Prio}||0);
+            foreach (1..51) {
+                if ($NavBarModule{$Key}) {
                     $Hash{NavBarModule}->{Prio}++;
                     $Key = sprintf( "%07d", $Hash{NavBarModule}->{Prio} );
                 }
