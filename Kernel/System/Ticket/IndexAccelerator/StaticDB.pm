@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.47 2007-09-29 10:53:34 mh Exp $
+# $Id: StaticDB.pm,v 1.48 2007-10-01 06:47:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub TicketAcceleratorUpdate {
     my $Self           = shift;
@@ -579,7 +579,7 @@ sub GetLockedCount {
         for my $TicketID ( keys %TicketIDs ) {
             my @Index = $Self->ArticleIndex( TicketID => $TicketID );
             my %Flag = $Self->ArticleFlagGet(
-                ArticleID => $Index[$#Index],
+                ArticleID => $Index[-1],
                 UserID    => $Param{UserID},
             );
             if ( !$Flag{seen} ) {

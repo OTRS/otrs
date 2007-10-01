@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.16 2007-09-29 10:50:34 mh Exp $
+# $Id: LayoutTicket.pm,v 1.17 2007-10-01 06:46:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub TicketStdResponseString {
     my $Self  = shift;
@@ -198,8 +198,8 @@ sub AgentQueueListOption {
         $UsedData{ $Param{Data}->{$_} } = 1;
         my $UpQueue = $Param{Data}->{$_};
         $UpQueue =~ s/^(.*)::.+?$/$1/g;
-        if ( !$Queue[$MaxLevel] && $Queue[$#Queue] ne '' ) {
-            $Queue[$#Queue] = $Self->Ascii2Html( Text => $Queue[$#Queue], Max => 50 - $#Queue );
+        if ( !$Queue[$MaxLevel] && $Queue[-1] ne '' ) {
+            $Queue[-1] = $Self->Ascii2Html( Text => $Queue[-1], Max => 50 - $#Queue );
             my $Space = '';
             for ( my $i = 0; $i < $#Queue; $i++ ) {
                 $Space .= '&nbsp;&nbsp;';
@@ -224,12 +224,12 @@ sub AgentQueueListOption {
                         .= '<option selected value="'
                         . $_ . '">'
                         . $Space
-                        . $Queue[$#Queue]
+                        . $Queue[-1]
                         . "</option>\n";
                 }
                 else {
                     $Param{MoveQueuesStrg}
-                        .= '<option value="' . $_ . '">' . $Space . $Queue[$#Queue] . "</option>\n";
+                        .= '<option value="' . $_ . '">' . $Space . $Queue[-1] . "</option>\n";
                 }
             }
         }
