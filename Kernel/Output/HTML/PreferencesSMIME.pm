@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesSMIME.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesSMIME.pm,v 1.6 2007-09-29 10:49:57 mh Exp $
+# $Id: PreferencesSMIME.pm,v 1.7 2007-10-01 10:22:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my $Type  = shift;
@@ -157,7 +157,7 @@ sub Download {
             Priority => 'Error',
             Message  => 'Couldn\'t get cert of hash ' . $Preferences{'SMIMEHash'},
         );
-        return ();
+        return;
     }
     else {
         return (
