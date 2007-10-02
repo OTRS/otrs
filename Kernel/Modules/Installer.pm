@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.52 2007-10-02 10:33:54 mh Exp $
+# $Id: Installer.pm,v 1.53 2007-10-02 13:30:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use warnings;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -672,7 +672,7 @@ sub ReConfigure {
     }
 
     # read config file
-    open( $In, "< $Self->{Path}/Kernel/Config.pm" )
+    open( my $In, "< $Self->{Path}/Kernel/Config.pm" )
         || return "Can't open $Self->{Path}/Kernel/Config.pm: $!";
     while (<$In>) {
         if ( $_ =~ /^#/ ) {
@@ -708,7 +708,7 @@ sub ReConfigure {
     }
 
     # write new config file
-    open( $Out, "> $Self->{Path}/Kernel/Config.pm" )
+    open( my $Out, "> $Self->{Path}/Kernel/Config.pm" )
         || return "Can't open $Self->{Path}/Kernel/Config.pm: $!";
     print $Out $Config;
     close($Out);
@@ -720,7 +720,7 @@ sub ParseSQLFile {
     my ( $Self, $File ) = @_;
 
     my @SQL = ();
-    if ( open( $In, "< $File" ) ) {
+    if ( open( my $In, "< $File" ) ) {
         my $SQLEnd    = 0;
         my $SQLSingel = '';
         while (<$In>) {
