@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.42.2.1 2007-09-17 14:43:41 tr Exp $
+# $Id: AgentTicketSearch.pm,v 1.42.2.2 2007-10-02 12:07:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::State;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42.2.1 $';
+$VERSION = '$Revision: 1.42.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -809,7 +809,9 @@ sub MaskForm {
             Type => 'ro',
         );
         foreach (@Involved) {
-            $ShownUsers{$_} = $AllGroupsMembers{$_};
+            if ($AllGroupsMembers{$_}) {
+                $ShownUsers{$_} = $AllGroupsMembers{$_};
+            }
         }
     }
     $Param{'UserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
