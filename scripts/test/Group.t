@@ -2,7 +2,7 @@
 # Group.t - Group tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Group.t,v 1.7 2007-09-29 11:09:57 mh Exp $
+# $Id: Group.t,v 1.8 2007-10-02 14:04:17 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -426,12 +426,12 @@ $Self->True(
 );
 
 # check involved users of User1
-my @InvolvedList1 = $Self->{GroupObject}->GroupMemberInvolvedList(
+my %InvolvedList1 = $Self->{GroupObject}->GroupMemberInvolvedList(
     UserID => $UserID1,
     Type => 'ro',
 );
 my $GroupMemberInvolvedList1 = 1;
-for (@InvolvedList1) {
+for (keys %InvolvedList1) {
     if ($_ ne $UserID1 && $_ ne $UserID2) {
         $GroupMemberInvolvedList1 = 0;
     }
@@ -442,12 +442,12 @@ $Self->True(
 );
 
 # check involved users of User2
-my @InvolvedList2 = $Self->{GroupObject}->GroupMemberInvolvedList(
+my %InvolvedList2 = $Self->{GroupObject}->GroupMemberInvolvedList(
     UserID => $UserID2,
     Type => 'ro',
 );
 my $GroupMemberInvolvedList2 = 1;
-for (@InvolvedList2) {
+for (keys %InvolvedList2) {
     if ($_ ne $UserID1 && $_ ne $UserID2 && $_ ne $UserID3) {
         $GroupMemberInvolvedList2 = 0;
     }
@@ -458,12 +458,12 @@ $Self->True(
 );
 
 # check involved users of User3
-my @InvolvedList3 = $Self->{GroupObject}->GroupMemberInvolvedList(
+my %InvolvedList3 = $Self->{GroupObject}->GroupMemberInvolvedList(
     UserID => $UserID3,
     Type => 'ro',
 );
 my $GroupMemberInvolvedList3 = 1;
-for (@InvolvedList3) {
+for (keys %InvolvedList3) {
     if ($_ ne $UserID2 && $_ ne $UserID3) {
         $GroupMemberInvolvedList3 = 0;
     }
