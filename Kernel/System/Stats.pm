@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.26 2007-09-29 11:25:51 mh Exp $
+# $Id: Stats.pm,v 1.27 2007-10-02 10:37:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,12 @@ use strict;
 use warnings;
 
 use MIME::Base64;
+use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 use Kernel::System::Encode;
 
-use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
-
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 SYNOPSIS
 
@@ -58,8 +57,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -89,8 +87,8 @@ add a new stat
 =cut
 
 sub StatsAdd {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Hash   = ();
     my $StatID = 1;
 
@@ -140,8 +138,8 @@ get a hashref with the stat you need
 =cut
 
 sub StatsGet {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my @XMLHash = ();
 
     if ( !$Param{StatID} ) {
@@ -295,8 +293,8 @@ update a stat
 =cut
 
 sub StatsUpdate {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my %StatXML = ();
 
     if ( !$Param{StatID} ) {
@@ -416,8 +414,7 @@ delete a stat
 =cut
 
 sub StatsDelete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     if ( !$Param{StatID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "StatsDelete: Need StatID!" );
@@ -450,8 +447,8 @@ list all id's from stats
 =cut
 
 sub GetStatsList {
-    my $Self         = shift;
-    my %Param        = @_;
+    my ( $Self, %Param ) = @_;
+
     my @SearchResult = ();
     if ( !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) ) ) {
         $Self->_AutomaticSampleImport();
@@ -544,9 +541,9 @@ build sum in x or/and y axis
 =cut
 
 sub SumBuild {
-    my $Self  = shift;
-    my %Param = @_;
-    my @Data  = @{ $Param{Array} };
+    my ( $Self, %Param ) = @_;
+
+    my @Data = @{ $Param{Array} };
 
     # add sum y
     if ( $Param{SumRow} ) {
@@ -598,8 +595,8 @@ sub SumBuild {
 # search for a better way to cache stats (see lines before StatID and Cache)
 
 sub GenerateDynamicStats {
-    my $Self           = shift;
-    my %Param          = @_;
+    my ( $Self, %Param ) = @_;
+
     my @StatArray      = ();
     my @HeaderLine     = ();
     my $TitleTimeStart = '';
@@ -1414,8 +1411,7 @@ make graph from result array
 =cut
 
 sub GenerateGraph {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check if need params are available
     for (qw(Array GraphSize HeadArrayRef Title Format)) {
@@ -1534,8 +1530,8 @@ sub GenerateGraph {
 =cut
 
 sub CompletenessCheck {
-    my $Self           = shift;
-    my %Param          = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Notify         = ();
     my @NotifySelected = ();
     my @IndexArray     = ();
@@ -1872,8 +1868,8 @@ Get all attributes from the object in dependence of the use
 =cut
 
 sub GetStatsObjectAttributes {
-    my $Self             = shift;
-    my %Param            = @_;
+    my ( $Self, %Param ) = @_;
+
     my @ObjectAttributes = ();
 
     # check needed params
@@ -1916,8 +1912,8 @@ Get all static files
 =cut
 
 sub GetStaticFiles {
-    my $Self     = shift;
-    my %Param    = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Filelist = ();
 
     my $Directory = $Self->{ConfigObject}->Get('Home');
@@ -1972,8 +1968,8 @@ Get all static objects
 =cut
 
 sub GetDynamicFiles {
-    my $Self     = shift;
-    my %Param    = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Filelist = %{ $Self->{ConfigObject}->Get('Stats::DynamicObjectRegistration') };
     for ( keys %Filelist ) {
         if ( $Filelist{$_} ) {
@@ -2005,8 +2001,8 @@ check readable object file
 =cut
 
 sub ObjectFileCheck {
-    my $Self      = shift;
-    my %Param     = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Directory = $Self->{ConfigObject}->Get('Home');
     if ( $Directory !~ /^.*\/$/ ) {
         $Directory .= '/';
@@ -2027,8 +2023,8 @@ sub ObjectFileCheck {
 }
 
 sub _WriteResultCache {
-    my $Self     = shift;
-    my %Param    = @_;
+    my ( $Self, %Param ) = @_;
+
     my %GetParam = %{ $Param{GetParam} };
     my @Data     = @{ $Param{Data} };
     my $Cache    = 0;
@@ -2101,8 +2097,8 @@ sub _WriteResultCache {
 }
 
 sub _ReadResultCache {
-    my $Self     = shift;
-    my %Param    = @_;
+    my ( $Self, %Param ) = @_;
+
     my %GetParam = %{ $Param{GetParam} };
     my @Data     = ();
 
@@ -2160,9 +2156,9 @@ sub _ReadResultCache {
 }
 
 sub _DeleteCache {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Path  = $Self->{ConfigObject}->Get('TempDir');
+    my ( $Self, %Param ) = @_;
+
+    my $Path = $Self->{ConfigObject}->Get('TempDir');
 
     if ( $Path !~ /^.*\/$/ ) {
         $Path .= '/';
@@ -2187,9 +2183,9 @@ get content from stats for export
 =cut
 
 sub Export {
-    my $Self  = shift;
-    my %Param = @_;
-    my %File  = ();
+    my ( $Self, %Param ) = @_;
+
+    my %File = ();
 
     if ( !$Param{StatID} ) {
         return $Self->{LogObject}->Log(
@@ -2288,8 +2284,8 @@ import a stats from xml file
 =cut
 
 sub Import {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $StatID = 1;
     my @Keys   = ();
 
@@ -2463,8 +2459,8 @@ sub Import {
 =cut
 
 sub GetParams {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Params = ();
 
     if ( !$Param{StatID} ) {
@@ -2502,8 +2498,8 @@ run a stats...
 =cut
 
 sub StatsRun {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Result = ();
     for (qw(StatID GetParam)) {
         if ( !$Param{$_} ) {
@@ -2606,8 +2602,7 @@ builds a filename with a string and a timestamp.
 =cut
 
 sub StringAndTimestamp2Filename {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     if ( !$Param{String} ) {
         return $Self->{LogObject}->Log(
@@ -2662,8 +2657,7 @@ insert the stat number get the stat id
 =cut
 
 sub StatNumber2StatID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     if ( !$Param{StatNumber} ) {
         return $Self->{LogObject}->Log(
@@ -2689,8 +2683,8 @@ sub StatNumber2StatID {
 }
 
 sub _AutomaticSampleImport {
-    my $Self      = shift;
-    my %Param     = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Language  = $Self->{ConfigObject}->Get('DefaultLanguage');
     my $Directory = $Self->{ConfigObject}->Get('Home');
     if ( $Directory !~ /^.*\/$/ ) {
@@ -2770,6 +2764,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2007-09-29 11:25:51 $
+$Revision: 1.27 $ $Date: 2007-10-02 10:37:06 $
 
 =cut

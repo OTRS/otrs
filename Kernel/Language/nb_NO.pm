@@ -5,7 +5,7 @@
 #               2006 Knut Haugen <knuthaug at linpro.no>
 #               2007 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.47 2007-09-29 10:36:40 mh Exp $
+# $Id: nb_NO.pm,v 1.48 2007-10-02 10:45:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,11 +18,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.47 $;
+$VERSION = q$Revision: 1.48 $;
 
 sub Data {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # $$START$$
     # Last translation file sync: Mon Jul 16 12:05:41 2007

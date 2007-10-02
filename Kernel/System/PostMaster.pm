@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.66 2007-09-29 11:00:19 mh Exp $
+# $Id: PostMaster.pm,v 1.67 2007-10-02 10:38:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 NAME
 
@@ -81,8 +81,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -166,8 +165,8 @@ return params
 =cut
 
 sub Run {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Return = ();
 
     # ConfigObject section / get params
@@ -404,8 +403,8 @@ to detect the ticket number in processing email
 =cut
 
 sub CheckFollowUp {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Subject = $Param{Subject} || '';
     if ( my $Tn = $Self->{TicketObject}->GetTNByString($Subject) ) {
         my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
@@ -511,8 +510,8 @@ to get all configured PostmasterX-Header email headers
 =cut
 
 sub GetEmailParams {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my %GetParam;
 
     # parse section
@@ -615,6 +614,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2007-09-29 11:00:19 $
+$Revision: 1.67 $ $Date: 2007-10-02 10:38:20 $
 
 =cut

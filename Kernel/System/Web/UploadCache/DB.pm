@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.11 2007-09-29 10:51:59 mh Exp $
+# $Id: DB.pm,v 1.12 2007-10-02 10:35:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,12 +16,10 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-
-$VERSION = '$Revision: 1.11 $ ';
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -36,8 +34,7 @@ sub new {
 }
 
 sub FormIDCreate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # cleanup temp form ids
     $Self->FormIDCleanUp();
@@ -47,8 +44,8 @@ sub FormIDCreate {
 }
 
 sub FormIDRemove {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(FormID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -60,8 +57,8 @@ sub FormIDRemove {
 }
 
 sub FormIDAddFile {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(FormID Filename Content ContentType)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -100,8 +97,8 @@ sub FormIDAddFile {
 }
 
 sub FormIDRemoveFile {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(FormID FileID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -122,8 +119,8 @@ sub FormIDRemoveFile {
 }
 
 sub FormIDGetAllFilesData {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Counter = 0;
     my @Data    = ();
     for (qw(FormID)) {
@@ -175,8 +172,8 @@ sub FormIDGetAllFilesData {
 }
 
 sub FormIDGetAllFilesMeta {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Counter = 0;
     my @Data    = ();
     for (qw(FormID)) {
@@ -222,8 +219,8 @@ sub FormIDGetAllFilesMeta {
 }
 
 sub FormIDCleanUp {
-    my $Self        = shift;
-    my %Param       = @_;
+    my ( $Self, %Param ) = @_;
+
     my $CurrentTile = time() - ( 60 * 60 * 24 * 1 );
     return $Self->{DBObject}
         ->Do( SQL => "DELETE FROM web_upload_cache WHERE create_time_unix < $CurrentTile", );

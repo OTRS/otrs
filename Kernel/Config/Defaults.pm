@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.274 2007-09-29 10:34:53 mh Exp $
+# $Id: Defaults.pm,v 1.275 2007-10-02 10:49:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,10 +24,10 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.274 $) [1];
+$VERSION = qw($Revision: 1.275 $) [1];
 
 sub LoadDefaults {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # --------------------------------------------------- #
     # system data                                         #
@@ -2065,8 +2065,7 @@ Your OTRS Notification Master
 }
 
 sub Get {
-    my $Self = shift;
-    my $What = shift;
+    my ( $Self, $What ) = @_;
 
     # debug
     if ( $Self->{Debug} > 1 ) {
@@ -2081,8 +2080,8 @@ sub Get {
 }
 
 sub Set {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(Key Value)) {
         if ( !defined $Param{$_} ) {
             $Param{$_} = '';
@@ -2098,8 +2097,7 @@ sub Set {
 }
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -2232,6 +2230,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.274 $ $Date: 2007-09-29 10:34:53 $
+$Revision: 1.275 $ $Date: 2007-10-02 10:49:43 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/SearchProfile.pm - module to manage search profiles
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SearchProfile.pm,v 1.7 2007-09-29 11:03:39 mh Exp $
+# $Id: SearchProfile.pm,v 1.8 2007-10-02 10:37:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -57,8 +57,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -87,9 +86,9 @@ to add a search profile item
 =cut
 
 sub SearchProfileAdd {
-    my $Self  = shift;
-    my %Param = @_;
-    my @Data  = ();
+    my ( $Self, %Param ) = @_;
+
+    my @Data = ();
 
     # check needed stuff
     for (qw(Base Name Key UserLogin)) {
@@ -144,8 +143,7 @@ returns a hash with search profile
 =cut
 
 sub SearchProfileGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Base Name UserLogin)) {
@@ -198,8 +196,7 @@ deletes an profile
 =cut
 
 sub SearchProfileDelete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Base Name UserLogin)) {
@@ -239,8 +236,7 @@ returns a hash of all proviles
 =cut
 
 sub SearchProfileList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Base UserLogin)) {
@@ -290,6 +286,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2007-09-29 11:03:39 $
+$Revision: 1.8 $ $Date: 2007-10-02 10:37:06 $
 
 =cut

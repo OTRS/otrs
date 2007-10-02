@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.66 2007-09-29 11:01:12 mh Exp $
+# $Id: User.pm,v 1.67 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,13 +13,14 @@ package Kernel::System::User;
 
 use strict;
 use warnings;
+
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 use Digest::MD5;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 NAME
 
@@ -74,8 +75,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -125,8 +125,7 @@ get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
 =cut
 
 sub GetUserData {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{User} && !$Param{UserID} ) {
@@ -242,8 +241,7 @@ to add new users
 =cut
 
 sub UserAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(UserFirstname UserLastname UserLogin UserEmail ValidID ChangeUserID)) {
@@ -348,8 +346,7 @@ to update users
 =cut
 
 sub UserUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(UserID UserFirstname UserLastname UserLogin ValidID UserID ChangeUserID)) {
@@ -443,8 +440,8 @@ to search users
 =cut
 
 sub UserSearch {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Users = ();
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
 
@@ -545,9 +542,8 @@ to set users passwords
 =cut
 
 sub SetPassword {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Pw    = $Param{PW} || '';
+    my ( $Self, %Param ) = @_;
+    my $Pw = $Param{PW} || '';
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
@@ -651,8 +647,7 @@ user login or id lookup
 =cut
 
 sub UserLookup {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{UserLogin} && !$Param{UserID} ) {
@@ -746,9 +741,9 @@ get user name
 =cut
 
 sub UserName {
-    my $Self  = shift;
-    my %Param = @_;
-    my %User  = $Self->GetUserData(%Param);
+    my ( $Self, %Param ) = @_;
+
+    my %User = $Self->GetUserData(%Param);
     if (%User) {
         return "$User{UserFirstname} $User{UserLastname}";
     }
@@ -769,10 +764,10 @@ return a hash with all users
 =cut
 
 sub UserList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Valid = $Param{Valid} || 0;
-    my $Type  = $Param{Type} || 'Short';
+    my $Type  = $Param{Type}  || 'Short';
     if ( $Type eq 'Short' ) {
         $Param{What} = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
             . " $Self->{ConfigObject}->{DatabaseUserTableUser}";
@@ -807,8 +802,7 @@ generate a random password
 =cut
 
 sub GenerateRandomPassword {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Generated passwords are eight characters long by default.
     my $Size = $Param{Size} || 8;
@@ -819,7 +813,7 @@ sub GenerateRandomPassword {
         = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
 
     # The number of characters in the list.
-    my $PwCharsLen = scalar(@PwChars);
+    my $PwCharsLen = scalar @PwChars;
 
     # Generate the password.
     my $Password = '';
@@ -895,6 +889,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2007-09-29 11:01:12 $
+$Revision: 1.67 $ $Date: 2007-10-02 10:38:58 $
 
 =cut

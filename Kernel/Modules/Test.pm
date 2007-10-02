@@ -2,7 +2,7 @@
 # Kernel/Modules/Test.pm - a simple test module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.13 2007-09-29 10:42:21 mh Exp $
+# $Id: Test.pm,v 1.14 2007-10-02 10:33:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,17 +15,16 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
-    # get common opjects
+    # get common objects
     for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
@@ -34,8 +33,7 @@ sub new {
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # get test page header
     my $Output = $Self->{LayoutObject}->Header( Title => 'OTRS Test Page' );

@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Log.pm,v 1.39 2007-09-29 11:01:00 mh Exp $
+# $Id: Log.pm,v 1.40 2007-10-02 10:38:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $ ';
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -48,8 +48,7 @@ create a log object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -104,11 +103,11 @@ log something, log priorities are 'debug', 'info', 'notice' and 'error'.
 =cut
 
 sub Log {
-    my $Self     = shift;
-    my %Param    = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Priority = $Param{Priority} || 'debug';
-    my $Message  = $Param{MSG} || $Param{Message} || '???';
-    my $Caller   = $Param{Caller} || 0;
+    my $Message  = $Param{MSG}      || $Param{Message} || '???';
+    my $Caller   = $Param{Caller}   || 0;
 
     # returns the context of the current subroutine and sub-subroutine!
     my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller( $Caller + 0 );
@@ -188,8 +187,8 @@ to get the last log info back
 =cut
 
 sub GetLogEntry {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{ lc( $Param{Type} ) }->{ $Param{What} } || '';
 }
 
@@ -202,12 +201,14 @@ to get the tmp log data (from shared memory - ipc) in csv form
 =cut
 
 sub GetLog {
-    my $Self   = shift;
+    my ( $Self, %Param ) = @_;
+
     my $String = '';
     if ( $Self->{IPC} ) {
         shmread( $Self->{Key}, $String, 0, $Self->{IPCSize} ) || die "$!";
     }
     $Self->{EncodeObject}->Encode( \$String );
+
     return $String;
 }
 
@@ -220,7 +221,8 @@ to clean up tmp log data from shared memory (ipc)
 =cut
 
 sub CleanUp {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
+
     if ( $Self->{IPC} ) {
         if ( !shmctl( $Self->{Key}, 0, 0 ) ) {
             $Self->Log(
@@ -284,6 +286,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2007-09-29 11:01:00 $
+$Revision: 1.40 $ $Date: 2007-10-02 10:38:08 $
 
 =cut

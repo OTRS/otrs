@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerZoom.pm,v 1.35 2007-09-29 10:41:48 mh Exp $
+# $Id: CustomerZoom.pm,v 1.36 2007-10-02 10:31:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,11 +17,10 @@ use warnings;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -32,7 +31,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    # check needed Opjects
+    # check needed objects
     for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject )) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
@@ -43,8 +42,7 @@ sub new {
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # compat link
     my $Redirect = $ENV{REQUEST_URI};

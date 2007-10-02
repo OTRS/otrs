@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminEmail.pm,v 1.26 2007-09-29 10:39:11 mh Exp $
+# $Id: AdminEmail.pm,v 1.27 2007-10-02 10:33:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,11 +17,10 @@ use warnings;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -30,7 +29,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    # check needed Opjects
+    # check needed objects
     for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
@@ -43,8 +42,8 @@ sub new {
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(From Subject Body Bcc GroupPermission)) {
         $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || $Param{$_} || '';
     }

@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.15 2007-10-01 09:58:20 martin Exp $
+# $Id: InterfacePublic.pm,v 1.16 2007-10-02 10:35:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -54,8 +54,7 @@ create public web interface object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -99,7 +98,7 @@ execute the object
 =cut
 
 sub Run {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # get common framework params
     my %Param = ();
@@ -284,6 +283,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2007-10-01 09:58:20 $
+$Revision: 1.16 $ $Date: 2007-10-02 10:35:04 $
 
 =cut

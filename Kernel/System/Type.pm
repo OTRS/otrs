@@ -2,7 +2,7 @@
 # Kernel/System/Type.pm - All type related function should be here eventually
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.2 2007-09-29 11:01:39 mh Exp $
+# $Id: Type.pm,v 1.3 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -64,8 +64,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -93,8 +92,7 @@ add new types
 =cut
 
 sub TypeAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name ValidID UserID)) {
@@ -144,8 +142,7 @@ get types attributes
 =cut
 
 sub TypeGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{ID} ) {
@@ -207,8 +204,7 @@ update type attributes
 =cut
 
 sub TypeUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ID Name ValidID UserID)) {
@@ -253,8 +249,8 @@ get type list
 =cut
 
 sub TypeList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Valid = 1;
 
     # check needed stuff
@@ -282,8 +278,7 @@ get id or name for queue
 =cut
 
 sub TypeLookup {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Type} && !$Param{TypeID} ) {
@@ -350,6 +345,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2007-09-29 11:01:39 $
+$Revision: 1.3 $ $Date: 2007-10-02 10:38:58 $
 
 =cut

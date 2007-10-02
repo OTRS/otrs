@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.19 2007-09-29 11:03:39 mh Exp $
+# $Id: StdAttachment.pm,v 1.20 2007-10-02 10:37:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -61,8 +61,7 @@ create std. attachment object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -99,8 +98,7 @@ create a new std. attachment
 =cut
 
 sub StdAttachmentAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name ValidID Content ContentType Filename UserID)) {
@@ -158,9 +156,9 @@ get a std. attachment
 =cut
 
 sub StdAttachmentGet {
-    my $Self  = shift;
-    my %Param = @_;
-    my %Data  = ();
+    my ( $Self, %Param ) = @_;
+
+    my %Data = ();
 
     # check needed stuff
     if ( !$Param{ID} ) {
@@ -219,8 +217,7 @@ update a new std. attachment
 =cut
 
 sub StdAttachmentUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ID Name ValidID Content ContentType Filename UserID)) {
@@ -276,8 +273,7 @@ delete a std. attachment
 =cut
 
 sub StdAttachmentDelete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ID)) {
@@ -314,8 +310,7 @@ lookup for a std. attachment
 =cut
 
 sub StdAttachmentLookup {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{StdAttachment} && !$Param{StdAttachmentID} ) {
@@ -372,8 +367,7 @@ return a hash (ID => Name) of std. attachment by response id
 =cut
 
 sub StdAttachmentsByResponseID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{ID} ) {
@@ -416,8 +410,8 @@ return a hash (ID => Name) of std. attachment
 =cut
 
 sub GetAllStdAttachments {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( !defined $Param{Valid} ) {
         $Param{Valid} = 1;
     }
@@ -444,8 +438,7 @@ set std responses of response id
 =cut
 
 sub SetStdAttachmentsOfResponseID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ID AttachmentIDsRef UserID)) {
@@ -491,6 +484,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2007-09-29 11:03:39 $
+$Revision: 1.20 $ $Date: 2007-10-02 10:37:06 $
 
 =cut

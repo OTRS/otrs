@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeSign.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleComposeSign.pm,v 1.10 2007-09-29 10:49:44 mh Exp $
+# $Id: ArticleComposeSign.pm,v 1.11 2007-10-02 10:42:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,11 +19,10 @@ use Kernel::System::Crypt;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -42,14 +41,14 @@ sub new {
 }
 
 sub Option {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return ('SignKeyID');
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( !$Param{From} ) {
         return;
     }
@@ -103,8 +102,8 @@ sub Run {
 }
 
 sub ArticleOption {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( $Param{SignKeyID} ) {
         my ( $Type, $SubType, $Key ) = split( /::/, $Param{SignKeyID} );
         return (
@@ -119,8 +118,8 @@ sub ArticleOption {
 }
 
 sub Error {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( $Self->{Error} ) {
         return %{ $Self->{Error} };
     }

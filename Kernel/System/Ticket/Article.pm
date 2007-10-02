@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.151 2007-10-01 07:05:50 martin Exp $
+# $Id: Article.pm,v 1.152 2007-10-02 10:34:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.151 $) [1];
+$VERSION = qw($Revision: 1.152 $) [1];
 
 =head1 NAME
 
@@ -62,9 +62,9 @@ create an article
 =cut
 
 sub ArticleCreate {
-    my $Self         = shift;
-    my %Param        = @_;
-    my $ValidID      = $Param{ValidID} || 1;
+    my ( $Self, %Param ) = @_;
+
+    my $ValidID = $Param{ValidID} || 1;
     my $IncomingTime = $Self->{TimeObject}->SystemTime();
 
     # create ArticleContentPath
@@ -457,6 +457,7 @@ sub ArticleCreate {
             }
             for my $UserID (@OwnerIDs) {
                 if ( $UserID ne 1 && !$AlreadySent{$UserID} ) {
+
                     # remember already sent info
                     $AlreadySent{$UserID} = 1;
                     my %UserData = $Self->{UserObject}->GetUserData(
@@ -521,6 +522,7 @@ sub ArticleCreate {
                         && $Ticket{OwnerID} ne $Param{UserID}
                         && $Ticket{OwnerID} ne $UserData{UserID} )
                     {
+
                         # remember already sent info
                         $AlreadySent{$UserID} = 1;
 
@@ -544,13 +546,14 @@ sub ArticleCreate {
     {
         for my $UserID ( @{ $Param{ForceNotificationToUserID} } ) {
             if ( !$AlreadySent{$UserID} ) {
+
                 # remember already sent info
                 $AlreadySent{$UserID} = 1;
                 my %Preferences = $Self->{UserObject}->GetUserData(
                     UserID => $UserID,
                     Cached => 1,
                     Valid  => 1,
-                 );
+                );
 
                 # send notification
                 $Self->SendAgentNotification(
@@ -597,8 +600,7 @@ sub ArticleCreate {
 
 # just for internal use
 sub _ArticleGetId {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID MessageID From Subject IncomingTime)) {
@@ -651,8 +653,8 @@ get ticket id of given message id
 =cut
 
 sub ArticleGetTicketIDOfMessageID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $TicketID;
     my $Count = 0;
 
@@ -709,8 +711,7 @@ get article content path
 =cut
 
 sub ArticleGetContentPath {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
@@ -756,8 +757,7 @@ article sender lookup
 =cut
 
 sub ArticleSenderTypeLookup {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{SenderType} && !$Param{SenderTypeID} ) {
@@ -832,8 +832,7 @@ article type lookup
 =cut
 
 sub ArticleTypeLookup {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{ArticleType} && !$Param{ArticleTypeID} ) {
@@ -908,9 +907,9 @@ get a article type list
 =cut
 
 sub ArticleTypeList {
-    my $Self  = shift;
-    my %Param = @_;
-    my @List  = ();
+    my ( $Self, %Param ) = @_;
+
+    my @List = ();
 
     # check needed stuff
     for (qw()) {
@@ -963,10 +962,10 @@ Note: the current value is accessible over ArticleGet()
 =cut
 
 sub ArticleFreeTextGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Value = $Param{Value} || '';
-    my $Key   = $Param{Key} || '';
+    my $Key   = $Param{Key}   || '';
 
     # check needed stuff
     for (qw(Type)) {
@@ -1046,8 +1045,7 @@ set article free text
 =cut
 
 sub ArticleFreeTextSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID ArticleID UserID Counter)) {
@@ -1098,8 +1096,7 @@ get last customer article
 =cut
 
 sub ArticleLastCustomerArticle {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
@@ -1150,8 +1147,7 @@ get first article
 =cut
 
 sub ArticleFirstArticle {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
@@ -1191,8 +1187,8 @@ returns an array with article id's
 =cut
 
 sub ArticleIndex {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Index = ();
 
     # check needed stuff
@@ -1250,8 +1246,7 @@ returns an array with hash ref
 =cut
 
 sub ArticleContentIndex {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
@@ -1286,8 +1281,7 @@ returns article data
 =cut
 
 sub ArticleGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{ArticleID} && !$Param{TicketID} ) {
@@ -1586,8 +1580,7 @@ Note: Key "Body", "Subject", "From", "To" and "Cc" is implemented.
 =cut
 
 sub ArticleUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ArticleID UserID Key TicketID)) {
@@ -1694,8 +1687,8 @@ send article via email and create article with attachments
 =cut
 
 sub ArticleSend {
-    my $Self        = shift;
-    my %Param       = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Time        = $Self->{TimeObject}->SystemTime();
     my $Random      = rand(999999);
     my $ToOrig      = $Param{To} || '';
@@ -1838,8 +1831,8 @@ bounce an article
 =cut
 
 sub ArticleBounce {
-    my $Self        = shift;
-    my %Param       = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Time        = $Self->{TimeObject}->SystemTime();
     my $Random      = rand(999999);
     my $HistoryType = $Param{HistoryType} || 'Bounce';
@@ -1902,8 +1895,7 @@ send an agent notification via email
 =cut
 
 sub SendAgentNotification {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(CustomerMessageParams TicketID UserID Type UserData)) {
@@ -2162,8 +2154,7 @@ send a customer notification via email
 =cut
 
 sub SendCustomerNotification {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(CustomerMessageParams TicketID UserID Type)) {
@@ -2447,8 +2438,7 @@ send an auto response to a customer via email
 =cut
 
 sub SendAutoResponse {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Text Realname Address CustomerMessageParams TicketID UserID HistoryType)) {
@@ -2720,8 +2710,7 @@ set article flags
 =cut
 
 sub ArticleFlagSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ArticleID Flag UserID)) {
@@ -2773,9 +2762,9 @@ get article flags
 =cut
 
 sub ArticleFlagGet {
-    my $Self  = shift;
-    my %Param = @_;
-    my %Flag  = ();
+    my ( $Self, %Param ) = @_;
+
+    my %Flag = ();
 
     # check needed stuff
     for (qw(ArticleID UserID)) {
@@ -2813,8 +2802,8 @@ returns the accounted time of a article.
 =cut
 
 sub ArticleAccountedTimeGet {
-    my $Self          = shift;
-    my %Param         = @_;
+    my ( $Self, %Param ) = @_;
+
     my $AccountedTime = 0;
 
     # check needed stuff
@@ -2854,8 +2843,7 @@ delete accounted time of article
 =cut
 
 sub ArticleAccountedTimeDelete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {

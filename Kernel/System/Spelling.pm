@@ -2,7 +2,7 @@
 # Kernel/System/Spelling.pm - the global spelling module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Spelling.pm,v 1.18 2007-09-29 11:03:39 mh Exp $
+# $Id: Spelling.pm,v 1.19 2007-10-02 10:37:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -55,8 +55,7 @@ create a spelling object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -101,8 +100,7 @@ spelling check for some text
 =cut
 
 sub Check {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Text)) {
@@ -245,8 +243,8 @@ check if spelling check returns a system error (read log backend for error messa
 =cut
 
 sub Error {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{Error};
 }
 
@@ -264,6 +262,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2007-09-29 11:03:39 $
+$Revision: 1.19 $ $Date: 2007-10-02 10:37:06 $
 
 =cut

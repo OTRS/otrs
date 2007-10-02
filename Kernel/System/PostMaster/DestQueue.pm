@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/DestQueue.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DestQueue.pm,v 1.20 2007-09-29 10:54:31 mh Exp $
+# $Id: DestQueue.pm,v 1.21 2007-10-02 10:34:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -37,8 +36,8 @@ sub new {
 
 # GetQueueID
 sub GetQueueID {
-    my $Self     = shift;
-    my %Param    = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Queue    = $Self->{ConfigObject}->Get('PostmasterDefaultQueue');
     my %GetParam = %{ $Param{Params} };
     my $QueueID;
@@ -99,8 +98,8 @@ sub GetQueueID {
 
 # GetTrustedQueueID
 sub GetTrustedQueueID {
-    my $Self     = shift;
-    my %Param    = @_;
+    my ( $Self, %Param ) = @_;
+
     my %GetParam = %{ $Param{Params} };
     my $QueueID;
     my $Queue;

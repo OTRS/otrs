@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.51 2007-09-29 10:36:40 mh Exp $
+# $Id: it.pm,v 1.52 2007-10-02 10:45:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,11 +17,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub Data {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # $$START$$
     # Last translation file sync: Tue May 29 15:16:44 2007

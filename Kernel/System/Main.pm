@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.14 2007-09-29 11:03:51 mh Exp $
+# $Id: Main.pm,v 1.15 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -54,8 +54,7 @@ create new object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -88,8 +87,8 @@ require/load a module
 =cut
 
 sub Require {
-    my $Self   = shift;
-    my $Module = shift;
+    my ( $Self, $Module ) = @_;
+
     my $Result = 0;
     if ( !$Module ) {
         $Self->{LogObject}->Log(
@@ -174,8 +173,8 @@ to die
 =cut
 
 sub Die {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( $Param{Message} ) {
         $Self->{LogObject}->Log(
             Caller   => 1,
@@ -210,8 +209,7 @@ to clean up filenames which can be used in any case (also quoting is done)
 =cut
 
 sub FilenameCleanUp {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     if ( !$Param{Filename} ) {
         $Self->{LogObject}->Log(
@@ -294,8 +292,8 @@ to read files from file system
 =cut
 
 sub FileRead {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $FH;
     if ( $Param{Filename} && $Param{Directory} ) {
 
@@ -395,8 +393,8 @@ to write data to file system
 =cut
 
 sub FileWrite {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $FH;
     if ( $Param{Filename} && $Param{Directory} ) {
 
@@ -471,8 +469,8 @@ to delete a file from file system
 =cut
 
 sub FileDelete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( $Param{Filename} && $Param{Directory} ) {
 
         # filename clean up
@@ -532,8 +530,8 @@ get a md5 sum of a file or an string
 =cut
 
 sub MD5sum {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $FH;
     if ( !$Param{Filename} && !$Param{String} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need Filename or String!" );
@@ -599,8 +597,8 @@ dump variable to an string
 =cut
 
 sub Dump {
-    my $Self = shift;
-    my $Data = shift;
+    my ( $Self, $Data ) = @_;
+
     my $String;
     if ( !defined($Data) ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need \$String in Dump()!" );
@@ -643,8 +641,8 @@ sub Dump {
 }
 
 sub _Dump {
-    my $Self = shift;
-    my $Data = shift;
+    my ( $Self, $Data ) = @_;
+
     if ( !ref( ${$Data} ) ) {
         Encode::_utf8_off( ${$Data} );
     }
@@ -690,6 +688,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2007-09-29 11:03:51 $
+$Revision: 1.15 $ $Date: 2007-10-02 10:38:58 $
 
 =cut

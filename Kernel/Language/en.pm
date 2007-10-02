@@ -2,7 +2,7 @@
 # Kernel/Language/en.pm - provides en languag translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: en.pm,v 1.21 2007-09-29 10:36:40 mh Exp $
+# $Id: en.pm,v 1.22 2007-10-02 10:45:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,12 +15,12 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub Data {
-    my $Self  = shift;
-    my %Param = @_;
-    my %Hash  = ();
+    my ( $Self, %Param ) = @_;
+
+    my %Hash = ();
 
     # $$START$$
 

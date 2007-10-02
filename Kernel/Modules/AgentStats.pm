@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.35 2007-09-29 10:39:11 mh Exp $
+# $Id: AgentStats.pm,v 1.36 2007-10-02 10:32:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,11 +17,10 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -32,7 +31,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    # check needed Opjects
+    # check needed objects
     for (
         qw(GroupObject ParamObject DBObject ModuleReg LogObject ConfigObject UserObject MainObject))
     {
@@ -50,8 +49,8 @@ sub new {
 }
 
 sub Run {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
 
     # ---------------------------------------------------------- #
@@ -2263,8 +2262,8 @@ sub Run {
 }
 
 sub _Notify {
-    my $Self         = shift;
-    my %Param        = @_;
+    my ( $Self, %Param ) = @_;
+
     my $NotifyOutput = '';
 
     # check if need params are available
@@ -2286,8 +2285,8 @@ sub _Notify {
 }
 
 sub _Timeoutput {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Timeoutput = ();
 
     # check if need params are available

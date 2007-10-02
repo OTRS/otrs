@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.15 2007-09-29 11:00:37 mh Exp $
+# $Id: AutoResponse.pm,v 1.16 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,11 +17,10 @@ use warnings;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -45,8 +44,7 @@ sub new {
 }
 
 sub AutoResponseAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name ValidID Response AddressID TypeID Charset UserID Subject)) {
@@ -82,8 +80,7 @@ sub AutoResponseAdd {
 }
 
 sub AutoResponseGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{ID} ) {
@@ -127,8 +124,7 @@ sub AutoResponseGet {
 }
 
 sub AutoResponseUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ID Name ValidID Response AddressID Charset UserID Subject)) {
@@ -170,8 +166,8 @@ sub AutoResponseUpdate {
 }
 
 sub AutoResponseGetByTypeQueueID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Data;
 
     # check needed stuff

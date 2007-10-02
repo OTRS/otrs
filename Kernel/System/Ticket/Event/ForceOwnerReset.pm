@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/ForceOwnerReset.pm - reset owner on move
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ForceOwnerReset.pm,v 1.6 2007-09-29 10:52:46 mh Exp $
+# $Id: ForceOwnerReset.pm,v 1.7 2007-10-02 10:34:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -37,8 +36,7 @@ sub new {
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID Event Config)) {

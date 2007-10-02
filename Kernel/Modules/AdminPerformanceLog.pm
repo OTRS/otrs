@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPerformanceLog.pm - provides a log view for admins
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.pm,v 1.9 2007-09-29 10:39:11 mh Exp $
+# $Id: AdminPerformanceLog.pm,v 1.10 2007-10-02 10:33:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -28,7 +27,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    # check needed Opjects
+    # check needed objects
     for (qw(ParamObject LayoutObject LogObject ConfigObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
@@ -39,8 +38,7 @@ sub new {
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # performance log is enabled
     if ( $Self->{ConfigObject}->Get('PerformanceLog') ) {
@@ -377,9 +375,9 @@ sub Run {
 }
 
 sub _DatabaseCheck {
-    my $Self  = shift;
-    my %Param = @_;
-    my $File  = $Self->{ConfigObject}->Get('PerformanceLog::File');
+    my ( $Self, %Param ) = @_;
+
+    my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
 
     # check file size
     my $FileSize = -s $File;
@@ -392,9 +390,9 @@ sub _DatabaseCheck {
 }
 
 sub _DatabaseReset {
-    my $Self  = shift;
-    my %Param = @_;
-    my $File  = $Self->{ConfigObject}->Get('PerformanceLog::File');
+    my ( $Self, %Param ) = @_;
+
+    my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
     if ( !$Self->{MainObject}->FileDelete( Location => $File ) ) {
         return;
     }
@@ -404,8 +402,8 @@ sub _DatabaseReset {
 }
 
 sub _DatabaseRead {
-    my $Self     = shift;
-    my %Param    = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Data     = ();
     my $File     = $Self->{ConfigObject}->Get('PerformanceLog::File');
     my $ArrayRef = $Self->{MainObject}->FileRead(

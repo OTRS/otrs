@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.9 2007-09-29 10:39:11 mh Exp $
+# $Id: AdminNotification.pm,v 1.10 2007-10-02 10:33:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,17 +17,16 @@ use warnings;
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
-    # get common opjects
+    # get common objects
     for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
@@ -46,8 +45,8 @@ sub new {
 }
 
 sub Run {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
 
     my @Params = (qw(Name Type Charset Language Subject Body UserID));
@@ -117,8 +116,7 @@ sub Run {
 }
 
 sub _MaskNotificationForm {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # build NotificationOption string
     $Param{'NotificationOption'} = $Self->{LayoutObject}->OptionStrgHashRef(

@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache.pm - a fs upload cache
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UploadCache.pm,v 1.9 2007-09-29 10:51:40 mh Exp $
+# $Id: UploadCache.pm,v 1.10 2007-10-02 10:35:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,8 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-
-$VERSION = '$Revision: 1.9 $ ';
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -69,8 +68,7 @@ create param object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -222,6 +220,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2007-09-29 10:51:40 $
+$Revision: 1.10 $ $Date: 2007-10-02 10:35:04 $
 
 =cut

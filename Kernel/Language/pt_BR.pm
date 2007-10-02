@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.57 2007-09-29 10:36:40 mh Exp $
+# $Id: pt_BR.pm,v 1.58 2007-10-02 10:45:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,11 +17,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub Data {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # $$START$$
     # Last translation file sync: Tue May 29 15:21:38 2007

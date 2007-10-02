@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AuthSession.pm,v 1.31 2007-09-29 11:00:37 mh Exp $
+# $Id: AuthSession.pm,v 1.32 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -59,8 +59,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -91,8 +90,8 @@ checks a session, returns true (session ok) or false (session invalid)
 =cut
 
 sub CheckSessionID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{Backend}->CheckSessionID(%Param);
 }
 
@@ -106,8 +105,8 @@ different remote ip, ...)
 =cut
 
 sub CheckSessionIDMessage {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{Backend}->CheckSessionIDMessage(%Param);
 }
 
@@ -120,8 +119,8 @@ get session data in a hash
 =cut
 
 sub GetSessionIDData {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{Backend}->GetSessionIDData(%Param);
 }
 
@@ -137,8 +136,7 @@ create a new session with given data
 =cut
 
 sub CreateSessionID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # delete old session ids
     my @Expired = $Self->GetExpiredSessionIDs();
@@ -162,8 +160,8 @@ session can't get deleted)
 =cut
 
 sub RemoveSessionID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{Backend}->RemoveSessionID(%Param);
 }
 
@@ -181,8 +179,8 @@ false (if can't update)
 =cut
 
 sub UpdateSessionID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( $Param{Key} && $Param{Key} =~ /:/ ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -205,8 +203,8 @@ returns a array with expired session ids
 =cut
 
 sub GetExpiredSessionIDs {
-    my $Self           = shift;
-    my %Param          = @_;
+    my ( $Self, %Param ) = @_;
+
     my @ExpiredSession = ();
     my @ExpiredIdle    = ();
     my @List           = $Self->{Backend}->GetAllSessionIDs();
@@ -241,8 +239,8 @@ returns a array with all session ids
 =cut
 
 sub GetAllSessionIDs {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{Backend}->GetAllSessionIDs(%Param);
 }
 
@@ -255,8 +253,8 @@ clean up of sessions in your system
 =cut
 
 sub CleanUp {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{Backend}->CleanUp(%Param);
 }
 1;
@@ -273,6 +271,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2007-09-29 11:00:37 $
+$Revision: 1.32 $ $Date: 2007-10-02 10:38:58 $
 
 =cut

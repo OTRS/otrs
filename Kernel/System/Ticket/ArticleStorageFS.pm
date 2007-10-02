@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.41 2007-09-29 10:53:34 mh Exp $
+# $Id: ArticleStorageFS.pm,v 1.42 2007-10-02 10:34:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,11 +22,10 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub ArticleStorageInit {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # ArticleDataDir
     $Self->{ArticleDataDir} = $Self->{ConfigObject}->Get('ArticleDir')
@@ -64,8 +63,7 @@ sub ArticleStorageInit {
 }
 
 sub ArticleDelete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID UserID)) {
@@ -125,8 +123,7 @@ sub ArticleDelete {
 }
 
 sub _ArticleDeleteDirectory {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ArticleID UserID)) {
@@ -152,8 +149,7 @@ sub _ArticleDeleteDirectory {
 }
 
 sub ArticleDeletePlain {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ArticleID UserID)) {
@@ -186,8 +182,7 @@ sub ArticleDeletePlain {
 }
 
 sub ArticleDeleteAttachment {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ArticleID UserID)) {
@@ -224,8 +219,7 @@ sub ArticleDeleteAttachment {
 }
 
 sub ArticleWritePlain {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ArticleID Email UserID)) {
@@ -268,8 +262,7 @@ sub ArticleWritePlain {
 }
 
 sub ArticleWriteAttachment {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Content Filename ContentType ArticleID UserID)) {
@@ -350,8 +343,7 @@ sub ArticleWriteAttachment {
 }
 
 sub ArticlePlain {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
@@ -405,8 +397,7 @@ sub ArticlePlain {
 }
 
 sub ArticleAttachmentIndex {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check ArticleContentPath
     if ( !$Self->{ArticleContentPath} ) {
@@ -537,8 +528,7 @@ sub ArticleAttachmentIndex {
 }
 
 sub ArticleAttachment {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ArticleID FileID)) {

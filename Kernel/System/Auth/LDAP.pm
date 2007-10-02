@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.40 2007-09-29 10:59:38 mh Exp $
+# $Id: LDAP.pm,v 1.41 2007-10-02 10:35:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,11 +17,10 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -105,8 +104,7 @@ sub new {
 }
 
 sub GetOption {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{What} ) {
@@ -122,8 +120,7 @@ sub GetOption {
 }
 
 sub Auth {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(User Pw)) {
@@ -932,9 +929,8 @@ sub Auth {
 }
 
 sub _ConvertTo {
-    my $Self    = shift;
-    my $Text    = shift;
-    my $Charset = shift;
+    my ( $Self, $Text, $Charset ) = @_;
+
     if ( !$Charset || !$Self->{DestCharset} ) {
         $Self->{EncodeObject}->Encode( \$Text );
         return $Text;
@@ -952,9 +948,8 @@ sub _ConvertTo {
 }
 
 sub _ConvertFrom {
-    my $Self    = shift;
-    my $Text    = shift;
-    my $Charset = shift;
+    my ( $Self, $Text, $Charset ) = @_;
+
     if ( !$Charset || !$Self->{DestCharset} ) {
         $Self->{EncodeObject}->Encode( \$Text );
         return $Text;

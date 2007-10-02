@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.17 2007-10-01 06:46:09 martin Exp $
+# $Id: LayoutTicket.pm,v 1.18 2007-10-02 10:43:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,10 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub TicketStdResponseString {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(StdResponsesRef TicketID ArticleID)) {
@@ -67,8 +66,8 @@ sub TicketStdResponseString {
 }
 
 sub AgentCustomerView {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     $Param{Table} = $Self->AgentCustomerViewTable(%Param);
 
     # create & return output
@@ -76,8 +75,8 @@ sub AgentCustomerView {
 }
 
 sub AgentCustomerViewTable {
-    my $Self      = shift;
-    my %Param     = @_;
+    my ( $Self, %Param ) = @_;
+
     my $ShownType = 1;
     my @MapNew    = ();
     if ( ref( $Param{Data} ) ne 'HASH' ) {
@@ -123,8 +122,10 @@ sub AgentCustomerViewTable {
                 $Record{LinkStop}  = "</a>";
             }
             if ( $Field->[0] ) {
-                $Record{ValueShort} = $Self->Ascii2Html( Text => $Param{Data}->{ $Field->[0] },
-                    Max => $Param{Max} );
+                $Record{ValueShort} = $Self->Ascii2Html(
+                    Text => $Param{Data}->{ $Field->[0] },
+                    Max  => $Param{Max}
+                );
             }
             $Self->Block(
                 Name => 'CustomerRow',
@@ -150,15 +151,15 @@ sub AgentCustomerViewTable {
 # in a further release.
 
 sub AgentQueueListOption {
-    my $Self               = shift;
-    my %Param              = @_;
-    my $Size               = $Param{Size} ? "size='$Param{Size}'" : '';
-    my $MaxLevel           = defined( $Param{MaxLevel} ) ? $Param{MaxLevel} : 10;
-    my $SelectedID         = defined( $Param{SelectedID} ) ? $Param{SelectedID} : '';
-    my $Selected           = defined( $Param{Selected} ) ? $Param{Selected} : '';
+    my ( $Self, %Param ) = @_;
+
+    my $Size       = $Param{Size}                  ? "size='$Param{Size}'" : '';
+    my $MaxLevel   = defined( $Param{MaxLevel} )   ? $Param{MaxLevel}      : 10;
+    my $SelectedID = defined( $Param{SelectedID} ) ? $Param{SelectedID}    : '';
+    my $Selected   = defined( $Param{Selected} )   ? $Param{Selected}      : '';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
-    my $Multiple           = $Param{Multiple} ? 'multiple' : '';
-    my $OnChangeSubmit     = defined( $Param{OnChangeSubmit} ) ? $Param{OnChangeSubmit} : '';
+    my $Multiple = $Param{Multiple} ? 'multiple' : '';
+    my $OnChangeSubmit = defined( $Param{OnChangeSubmit} ) ? $Param{OnChangeSubmit} : '';
     if ($OnChangeSubmit) {
         $OnChangeSubmit = " onchange=\"submit()\"";
     }
@@ -240,8 +241,8 @@ sub AgentQueueListOption {
 }
 
 sub AgentFreeText {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my %NullOption = ();
     my %SelectData = ();
     my %Ticket     = ();
@@ -362,8 +363,8 @@ sub AgentFreeText {
 }
 
 sub AgentFreeDate {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my %NullOption = ();
     my %SelectData = ();
     my %Ticket     = ();
@@ -398,8 +399,8 @@ sub AgentFreeDate {
 }
 
 sub TicketArticleFreeText {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my %NullOption = ();
     my %SelectData = ();
     my %Article    = ();
@@ -514,8 +515,8 @@ sub TicketArticleFreeText {
 }
 
 sub CustomerFreeDate {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my %NullOption = ();
     my %SelectData = ();
     my %Ticket     = ();

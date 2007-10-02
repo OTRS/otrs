@@ -2,7 +2,7 @@
 # Ticket/Number/Random.pm - a ticket number random generator
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Random.pm,v 1.16 2007-09-29 10:52:58 mh Exp $
+# $Id: Random.pm,v 1.17 2007-10-02 10:34:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,10 +20,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub TicketCreateNumber {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # get needed config options
     my $SystemID = $Self->{ConfigObject}->Get('SystemID');
@@ -66,8 +66,10 @@ sub TicketCreateNumber {
 }
 
 sub GetTNByString {
-    my $Self = shift;
-    my $String = shift || return;
+    my ( $Self, $String ) = @_;
+    if ( !$String ) {
+        return;
+    }
 
     # get needed config options
     my $CheckSystemID = $Self->{ConfigObject}->Get('Ticket::NumberGenerator::CheckSystemID');

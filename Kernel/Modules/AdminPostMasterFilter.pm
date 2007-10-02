@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.13 2007-09-29 10:39:11 mh Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.14 2007-10-02 10:33:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,17 +17,16 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
-    # get common opjects
+    # get common objects
     for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
@@ -45,8 +44,8 @@ sub new {
 }
 
 sub Run {
-    my $Self     = shift;
-    my %Param    = @_;
+    my ( $Self, %Param ) = @_;
+
     my %GetParam = ();
     my $Name     = $Self->{ParamObject}->GetParam( Param => "Name" ) || '';
     my $OldName  = $Self->{ParamObject}->GetParam( Param => "OldName" ) || '';
@@ -185,8 +184,8 @@ sub Run {
 }
 
 sub _MaskUpdate {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Data    = %{ $Param{Data} };
     my $Counter = 0;
     if ( $Data{Match} ) {

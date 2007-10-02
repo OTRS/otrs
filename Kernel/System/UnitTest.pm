@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.13 2007-09-29 11:01:12 mh Exp $
+# $Id: UnitTest.pm,v 1.14 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -69,8 +69,7 @@ create test object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -117,8 +116,8 @@ Run all tests located in scripts/test/*.t and print result to stdout.
 =cut
 
 sub Run {
-    my $Self          = shift;
-    my %Param         = @_;
+    my ( $Self, %Param ) = @_;
+
     my %ResultSummary = ();
     my $Home          = $Self->{ConfigObject}->Get('Home');
     my @Files         = glob("$Home/scripts/test/*.t");
@@ -263,9 +262,8 @@ A true test.
 =cut
 
 sub True {
-    my $Self = shift;
-    my $True = shift;
-    my $Name = shift;
+    my ( $Self, $True, $Name ) = @_;
+
     if ($True) {
         $Self->_Print( $True, $Name );
         return 1;
@@ -287,9 +285,8 @@ A false test.
 =cut
 
 sub False {
-    my $Self  = shift;
-    my $False = shift;
-    my $Name  = shift;
+    my ( $Self, $False, $Name ) = @_;
+
     if ( !$False ) {
         $Self->_Print( 1, $Name );
         return 1;
@@ -309,10 +306,8 @@ A Is $A (is) eq $B (should be) test.
 =cut
 
 sub Is {
-    my $Self     = shift;
-    my $Test     = shift;
-    my $ShouldBe = shift;
-    my $Name     = shift;
+    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
+
     if ( $Test eq $ShouldBe ) {
         $Self->_Print( 1, "$Name (is '$ShouldBe')" );
         return 1;
@@ -332,10 +327,8 @@ A Is $A (is) nq $B (should not be) test.
 =cut
 
 sub IsNot {
-    my $Self     = shift;
-    my $Test     = shift;
-    my $ShouldBe = shift;
-    my $Name     = shift;
+    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
+
     if ( $Test ne $ShouldBe ) {
         $Self->_Print( 1, "$Name (is '$Test')" );
         return 1;
@@ -347,8 +340,7 @@ sub IsNot {
 }
 
 sub _PrintSummary {
-    my $Self          = shift;
-    my %ResultSummary = @_;
+    my ( $Self, %ResultSummary ) = @_;
 
     # show result
     if ( $Self->{Output} eq 'HTML' ) {
@@ -389,8 +381,11 @@ sub _PrintSummary {
 }
 
 sub _PrintHeadlineStart {
-    my $Self = shift;
-    my $Name = shift || '->>No Name!<<-';
+    my ( $Self, $Name ) = @_;
+    if ( !$Name ) {
+        $Name = '->>No Name!<<-';
+    }
+
     if ( $Self->{Output} eq 'HTML' ) {
         $Self->{Content} .= "<table width='600' border='1'>\n";
         $Self->{Content} .= "<tr><td colspan='2'>$Name</td></tr>\n";
@@ -405,8 +400,11 @@ sub _PrintHeadlineStart {
 }
 
 sub _PrintHeadlineEnd {
-    my $Self = shift;
-    my $Name = shift || '->>No Name!<<-';
+    my ( $Self, $Name ) = @_;
+    if ( !$Name ) {
+        $Name = '->>No Name!<<-';
+    }
+
     if ( $Self->{Output} eq 'HTML' ) {
         $Self->{Content} .= "</table><br>\n";
     }
@@ -416,9 +414,11 @@ sub _PrintHeadlineEnd {
 }
 
 sub _Print {
-    my $Self = shift;
-    my $Test = shift;
-    my $Name = shift || '->>No Name!<<-';
+    my ( $Self, $Test, $Name ) = @_;
+    if ( !$Name ) {
+        $Name = '->>No Name!<<-';
+    }
+
     $Self->{TestCount}++;
     if ($Test) {
         $Self->{TestCountOk}++;
@@ -449,7 +449,8 @@ sub _Print {
 }
 
 sub DESTROY {
-    my $Self = shift;
+    my ($Self) = @_;
+
     if ( $Self->{Output} eq 'HTML' ) {
         print "</body>\n";
         print "</html>\n";
@@ -473,6 +474,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2007-09-29 11:01:12 $
+$Revision: 1.14 $ $Date: 2007-10-02 10:38:58 $
 
 =cut

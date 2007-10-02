@@ -2,7 +2,7 @@
 # Kernel/System/Salutation.pm - All salutation related function should be here eventually
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Salutation.pm,v 1.2 2007-09-29 11:03:39 mh Exp $
+# $Id: Salutation.pm,v 1.3 2007-10-02 10:37:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -64,8 +64,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -95,8 +94,7 @@ add new salutations
 =cut
 
 sub SalutationAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name Text ValidID UserID)) {
@@ -146,8 +144,7 @@ get salutations attributes
 =cut
 
 sub SalutationGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{ID} ) {
@@ -213,8 +210,7 @@ update salutation attributes
 =cut
 
 sub SalutationUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ID Name Text ValidID UserID)) {
@@ -261,8 +257,8 @@ get salutation list
 =cut
 
 sub SalutationList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Valid = 1;
 
     # check needed stuff
@@ -295,6 +291,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2007-09-29 11:03:39 $
+$Revision: 1.3 $ $Date: 2007-10-02 10:37:06 $
 
 =cut

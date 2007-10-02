@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.70 2007-10-01 16:27:28 martin Exp $
+# $Id: Package.pm,v 1.71 2007-10-02 10:38:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 =head1 NAME
 
@@ -68,8 +68,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -135,9 +134,9 @@ returns a list of repository packages
 =cut
 
 sub RepositoryList {
-    my $Self  = shift;
-    my %Param = @_;
-    my @Data  = ();
+    my ( $Self, %Param ) = @_;
+
+    my @Data = ();
 
     # check needed stuff
     for (qw()) {
@@ -178,8 +177,8 @@ get a package from local repository
 =cut
 
 sub RepositoryGet {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Package = '';
 
     # check needed stuff
@@ -221,8 +220,7 @@ add a package to local repository
 =cut
 
 sub RepositoryAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(String)) {
@@ -298,8 +296,7 @@ remove a package from local repository
 =cut
 
 sub RepositoryRemove {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name)) {
@@ -328,8 +325,7 @@ sub RepositoryRemove {
 }
 
 sub _CheckFramework {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Framework)) {
@@ -351,8 +347,7 @@ sub _CheckFramework {
 }
 
 sub _CheckVersion {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Version1 Version2 Type)) {
@@ -392,8 +387,7 @@ sub _CheckVersion {
 }
 
 sub _CheckPackageRequired {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(PackageRequired)) {
@@ -420,17 +414,23 @@ sub _CheckPackageRequired {
             if ( !$Installed && !$Param{Force} ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message => "Sorry, can't install package, because package ".
-                        "$Package->{Content} v$Package->{Version} is required!",
+                    Message  => "Sorry, can't install package, because package "
+                        . "$Package->{Content} v$Package->{Version} is required!",
                 );
                 return;
             }
-            elsif ($Installed && !$Param{Force}) {
-                if (!$Self->_CheckVersion(Version1 => $Package->{Version}, Version2 => $InstalledVersion, Type => 'Min')) {
+            elsif ( $Installed && !$Param{Force} ) {
+                if (!$Self->_CheckVersion(
+                        Version1 => $Package->{Version},
+                        Version2 => $InstalledVersion,
+                        Type     => 'Min'
+                    )
+                    )
+                {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
-                        Message => "Sorry, can't install package, because ".
-                            "package $Package->{Content} v$Package->{Version} is required!",
+                        Message  => "Sorry, can't install package, because "
+                            . "package $Package->{Content} v$Package->{Version} is required!",
                     );
                     return;
                 }
@@ -441,34 +441,37 @@ sub _CheckPackageRequired {
 }
 
 sub _CheckModuleRequired {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     # check needed stuff
-    foreach (qw(ModuleRequired)) {
-        if (!defined $Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+    for (qw(ModuleRequired)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
             return;
         }
     }
+
     # check required perl modules
-    if ($Param{ModuleRequired} && ref($Param{ModuleRequired}) eq 'ARRAY') {
-        foreach my $Module (@{$Param{ModuleRequired}}) {
-            my $Installed = 0;
+    if ( $Param{ModuleRequired} && ref( $Param{ModuleRequired} ) eq 'ARRAY' ) {
+        for my $Module ( @{ $Param{ModuleRequired} } ) {
+            my $Installed        = 0;
             my $InstalledVersion = 0;
+
             # check if module is installed
-            if ($Self->{MainObject}->Require($Module->{Content})) {
+            if ( $Self->{MainObject}->Require( $Module->{Content} ) ) {
                 $Installed = 1;
+
                 # check version if installed module
                 $InstalledVersion = $Module->{Content}->VERSION;
             }
-            if (!$Installed) {
+            if ( !$Installed ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message => "Sorry, can't install package, because module ".
-                        "$Module->{Content} v$Module->{Version} is required ".
-                        "and not installed!",
+                    Message  => "Sorry, can't install package, because module "
+                        . "$Module->{Content} v$Module->{Version} is required "
+                        . "and not installed!",
                 );
-                if (!$Param{Force}) {
+                if ( !$Param{Force} ) {
                     return;
                 }
                 else {
@@ -476,17 +479,22 @@ sub _CheckModuleRequired {
                 }
             }
             else {
-                if ($InstalledVersion &&
-                    !$Self->_CheckVersion(Version1 => $Module->{Version}, Version2 => $InstalledVersion, Type => 'Min')
-                ) {
+                if ($InstalledVersion
+                    && !$Self->_CheckVersion(
+                        Version1 => $Module->{Version},
+                        Version2 => $InstalledVersion,
+                        Type     => 'Min'
+                    )
+                    )
+                {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
-                        Message => "Sorry, can't install package, because module ".
-                            "$Module->{Content} v$Module->{Version} is required and ".
-                            "$InstalledVersion is installed! You need to upgrade ".
-                            "$Module->{Content} to $Module->{Version} or higher first!",
+                        Message  => "Sorry, can't install package, because module "
+                            . "$Module->{Content} v$Module->{Version} is required and "
+                            . "$InstalledVersion is installed! You need to upgrade "
+                            . "$Module->{Content} to $Module->{Version} or higher first!",
                     );
-                    if (!$Param{Force}) {
+                    if ( !$Param{Force} ) {
                         return;
                     }
                     else {
@@ -500,8 +508,7 @@ sub _CheckModuleRequired {
 }
 
 sub _CheckPackageDepends {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name)) {
@@ -540,8 +547,7 @@ install a package
 =cut
 
 sub PackageInstall {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(String)) {
@@ -617,14 +623,19 @@ sub PackageInstall {
     }
 
     # check required packages
-    if ($Structure{PackageRequired} && ref($Structure{PackageRequired}) eq 'ARRAY') {
-        if (!$Self->_CheckPackageRequired(%Param, PackageRequired => $Structure{PackageRequired}) && !$Param{Force}) {
+    if ( $Structure{PackageRequired} && ref( $Structure{PackageRequired} ) eq 'ARRAY' ) {
+        if ( !$Self->_CheckPackageRequired( %Param, PackageRequired => $Structure{PackageRequired} )
+            && !$Param{Force} )
+        {
             return;
         }
     }
+
     # check required modules
-    if ($Structure{ModuleRequired} && ref($Structure{ModuleRequired}) eq 'ARRAY') {
-        if (!$Self->_CheckModuleRequired(%Param, ModuleRequired => $Structure{ModuleRequired}) && !$Param{Force}) {
+    if ( $Structure{ModuleRequired} && ref( $Structure{ModuleRequired} ) eq 'ARRAY' ) {
+        if (   !$Self->_CheckModuleRequired( %Param, ModuleRequired => $Structure{ModuleRequired} )
+            && !$Param{Force} )
+        {
             return;
         }
     }
@@ -736,8 +747,7 @@ reinstall files of a package
 =cut
 
 sub PackageReinstall {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(String)) {
@@ -788,8 +798,8 @@ upgrade a package
 =cut
 
 sub PackageUpgrade {
-    my $Self               = shift;
-    my %Param              = @_;
+    my ( $Self, %Param ) = @_;
+
     my %InstalledStructure = ();
 
     # check needed stuff
@@ -910,14 +920,19 @@ sub PackageUpgrade {
     }
 
     # check required packages
-    if ($Structure{PackageRequired} && ref($Structure{PackageRequired}) eq 'ARRAY') {
-        if (!$Self->_CheckPackageRequired(%Param, PackageRequired => $Structure{PackageRequired}) && !$Param{Force}) {
+    if ( $Structure{PackageRequired} && ref( $Structure{PackageRequired} ) eq 'ARRAY' ) {
+        if ( !$Self->_CheckPackageRequired( %Param, PackageRequired => $Structure{PackageRequired} )
+            && !$Param{Force} )
+        {
             return;
         }
     }
+
     # check required modules
-    if ($Structure{ModuleRequired} && ref($Structure{ModuleRequired}) eq 'ARRAY') {
-        if (!$Self->_CheckModuleRequired(%Param, ModuleRequired => $Structure{ModuleRequired}) && !$Param{Force}) {
+    if ( $Structure{ModuleRequired} && ref( $Structure{ModuleRequired} ) eq 'ARRAY' ) {
+        if (   !$Self->_CheckModuleRequired( %Param, ModuleRequired => $Structure{ModuleRequired} )
+            && !$Param{Force} )
+        {
             return;
         }
     }
@@ -1021,8 +1036,7 @@ uninstall a package
 =cut
 
 sub PackageUninstall {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(String)) {
@@ -1036,7 +1050,7 @@ sub PackageUninstall {
     my %Structure = $Self->PackageParse(%Param);
 
     # check depends
-    if (!$Self->_CheckPackageDepends(Name => $Structure{Name}->{Content}) && !$Param{Force}) {
+    if ( !$Self->_CheckPackageDepends( Name => $Structure{Name}->{Content} ) && !$Param{Force} ) {
         return;
     }
 
@@ -1099,8 +1113,7 @@ returns a list of available online repositories
 =cut
 
 sub PackageOnlineRepositories {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -1161,8 +1174,7 @@ returns a list of available online packages
 =cut
 
 sub PackageOnlineList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(URL Lang)) {
@@ -1324,8 +1336,7 @@ donwload of an online package and put it int to the local reposetory
 =cut
 
 sub PackageOnlineGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(File Source)) {
@@ -1349,8 +1360,7 @@ check if package (files) is deployed, returns true if it's ok
 =cut
 
 sub DeployCheck {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name Version)) {
@@ -1412,8 +1422,7 @@ returns the info of the latest DeployCheck(), what's not deployed correctly
 =cut
 
 sub DeployCheckInfo {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -1477,10 +1486,10 @@ build a opm package
 =cut
 
 sub PackageBuild {
-    my $Self  = shift;
-    my %Param = @_;
-    my $XML   = '';
-    my $Home  = $Param{Home} || $Self->{ConfigObject}->Get('Home');
+    my ( $Self, %Param ) = @_;
+
+    my $XML = '';
+    my $Home = $Param{Home} || $Self->{ConfigObject}->Get('Home');
 
     # check needed stuff
     for (qw(Name Version Vendor License Description)) {
@@ -1652,8 +1661,7 @@ parse a package
 =cut
 
 sub PackageParse {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(String)) {
@@ -1740,8 +1748,7 @@ export files of an package
 =cut
 
 sub PackageExport {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(String Home)) {
@@ -1766,8 +1773,8 @@ sub PackageExport {
 }
 
 sub _Download {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Content = '';
 
     # check needed stuff
@@ -1808,9 +1815,9 @@ sub _Download {
 }
 
 sub _FileInstall {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Home  = $Param{Home} || $Self->{Home};
+    my ( $Self, %Param ) = @_;
+
+    my $Home = $Param{Home} || $Self->{Home};
 
     # check needed stuff
     for (qw(Location Content Permission)) {
@@ -1900,9 +1907,9 @@ sub _FileInstall {
 }
 
 sub _FileRemove {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Home  = $Param{Home} || $Self->{Home};
+    my ( $Self, %Param ) = @_;
+
+    my $Home = $Param{Home} || $Self->{Home};
 
     # check needed stuff
     for (qw(Location)) {
@@ -1972,10 +1979,10 @@ sub _FileRemove {
 }
 
 sub _ReadDistArchive {
-    my $Self  = shift;
-    my %Param = @_;
-    my %File  = ();
-    my $Home  = $Param{Home} || $Self->{Home};
+    my ( $Self, %Param ) = @_;
+
+    my %File = ();
+    my $Home = $Param{Home} || $Self->{Home};
     if ( -e "$Home/ARCHIVE" ) {
         my $Content = $Self->{MainObject}->FileRead(
             Directory => $Home,
@@ -2000,9 +2007,9 @@ sub _ReadDistArchive {
 }
 
 sub _FileSystemCheck {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Home  = $Param{Home} || $Self->{Home};
+    my ( $Self, %Param ) = @_;
+
+    my $Home = $Param{Home} || $Self->{Home};
 
     # check needed stuff
     for (qw()) {
@@ -2041,8 +2048,8 @@ sub _FileSystemCheck {
 }
 
 sub _Encode {
-    my $Self = shift;
-    my $Text = shift;
+    my ( $Self, $Text ) = @_;
+
     $Text =~ s/&/&amp;/g;
     $Text =~ s/</&lt;/g;
     $Text =~ s/>/&gt;/g;
@@ -2066,6 +2073,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2007-10-01 16:27:28 $
+$Revision: 1.71 $ $Date: 2007-10-02 10:38:20 $
 
 =cut

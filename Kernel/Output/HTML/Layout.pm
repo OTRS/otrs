@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.56 2007-10-02 08:53:16 martin Exp $
+# $Id: Layout.pm,v 1.57 2007-10-02 10:43:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 =head1 NAME
 
@@ -36,8 +36,7 @@ All generic html finctions. E. g. to get options fields, template processing, ..
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -115,20 +114,23 @@ sub new {
 
     # check browser (defaut is IE because I don't have IE)
     $Self->{BrowserWrap} = 'physical';
-    $Self->{Browser} = 'Unknown';
+    $Self->{Browser}     = 'Unknown';
+
     # check Frontend::Output::FilterElementPre
     $Self->{FilterElementPre} = $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre');
+
     # check Frontend::Output::FilterElementPost
     $Self->{FilterElementPost} = $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost');
+
     # check Frontend::Output::FilterContent
     $Self->{FilterContent} = $Self->{ConfigObject}->Get('Frontend::Output::FilterContent');
-    if ($Self->{FilterElementPre} && $Self->{FilterElementPre}->{ActiveElementFilter}) {
+    if ( $Self->{FilterElementPre} && $Self->{FilterElementPre}->{ActiveElementFilter} ) {
         $Self->{BrowserJavaScriptSupport} = 0;
     }
-    elsif ($Self->{FilterElementPost} && $Self->{FilterElementPost}->{ActiveElementFilter}) {
+    elsif ( $Self->{FilterElementPost} && $Self->{FilterElementPost}->{ActiveElementFilter} ) {
         $Self->{BrowserJavaScriptSupport} = 0;
     }
-    elsif ($Self->{FilterContent} && $Self->{FilterContent}->{ActiveElementFilter}) {
+    elsif ( $Self->{FilterContent} && $Self->{FilterContent}->{ActiveElementFilter} ) {
         $Self->{BrowserJavaScriptSupport} = 0;
     }
     else {
@@ -247,8 +249,8 @@ sub new {
 }
 
 sub SetEnv {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(Key Value)) {
         if ( !defined( $Param{$_} ) ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -276,8 +278,8 @@ use a dtl block
 =cut
 
 sub Block {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( !$Param{Name} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need Name!" );
         return;
@@ -286,8 +288,8 @@ sub Block {
 }
 
 sub _BlockTemplatePreferences {
-    my $Self           = shift;
-    my %Param          = @_;
+    my ( $Self, %Param ) = @_;
+
     my %TagsOpen       = ();
     my @Preferences    = ();
     my $LastLayerCount = 0;
@@ -366,8 +368,8 @@ sub _BlockTemplatePreferences {
 }
 
 sub _BlockTemplatesReplace {
-    my $Self           = shift;
-    my %Param          = @_;
+    my ( $Self, %Param ) = @_;
+
     my %BlockLayer     = ();
     my %BlockTemplates = ();
     my @BR             = ();
@@ -436,8 +438,7 @@ use a dtl template and get html back
 =cut
 
 sub Output {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # deep recursion protection
     $Self->{OutputCount}++;
@@ -540,10 +541,10 @@ sub Output {
     }
 
     # custom pre filters
-    if ($Self->{FilterElementPre}) {
-        my %Filters = %{$Self->{FilterElementPre}};
-        for my $Filter (sort keys %Filters) {
-            if ($Self->{MainObject}->Require($Filters{$Filter}->{Module})) {
+    if ( $Self->{FilterElementPre} ) {
+        my %Filters = %{ $Self->{FilterElementPre} };
+        for my $Filter ( sort keys %Filters ) {
+            if ( $Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
                 my $Object = $Filters{$Filter}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
                     MainObject   => $Self->{MainObject},
@@ -1005,10 +1006,10 @@ sub Output {
     $Self->{EnvRef} = $EnvRef;
 
     # custom post filters
-    if ($Self->{FilterElementPost}) {
-        my %Filters = %{$Self->{FilterElementPost}};
-        for my $Filter (sort keys %Filters) {
-            if ($Self->{MainObject}->Require($Filters{$Filter}->{Module})) {
+    if ( $Self->{FilterElementPost} ) {
+        my %Filters = %{ $Self->{FilterElementPost} };
+        for my $Filter ( sort keys %Filters ) {
+            if ( $Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
                 my $Object = $Filters{$Filter}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
                     MainObject   => $Self->{MainObject},
@@ -1045,8 +1046,8 @@ return html for browser to redirect
 =cut
 
 sub Redirect {
-    my $Self            = shift;
-    my %Param           = @_;
+    my ( $Self, %Param ) = @_;
+
     my $SessionIDCookie = '';
     my $Cookies         = '';
 
@@ -1118,8 +1119,8 @@ sub Redirect {
 }
 
 sub Login {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
 
     # add cookies if exists
@@ -1159,8 +1160,8 @@ sub Login {
 }
 
 sub FatalError {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( $Param{Message} ) {
         $Self->{LogObject}->Log(
             Caller   => 1,
@@ -1176,8 +1177,8 @@ sub FatalError {
 }
 
 sub FatalDie {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( $Param{Message} ) {
         $Self->{LogObject}->Log(
             Caller   => 1,
@@ -1205,8 +1206,8 @@ sub FatalDie {
 }
 
 sub ErrorScreen {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = $Self->Header( Title => 'Error' );
     $Output .= $Self->Error(%Param);
     $Output .= $Self->Footer();
@@ -1214,8 +1215,7 @@ sub ErrorScreen {
 }
 
 sub Error {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # get backend error messages
     for (qw(Message Traceback)) {
@@ -1254,8 +1254,7 @@ sub Error {
 }
 
 sub Warning {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # get backend error messages
     for (qw(Message)) {
@@ -1315,8 +1314,7 @@ create notify lines
 =cut
 
 sub Notify {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # create & return output
     if ( !$Param{Info} && !$Param{Data} ) {
@@ -1380,10 +1378,10 @@ sub Notify {
 }
 
 sub Header {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
-    my $Type   = $Param{Type} || '';
+    my $Type = $Param{Type} || '';
 
     # add cookies if exists
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
@@ -1431,23 +1429,22 @@ sub Header {
 }
 
 sub Footer {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Type  = $Param{Type} || '';
+    my ( $Self, %Param ) = @_;
+
+    my $Type = $Param{Type} || '';
 
     # create & return output
     return $Self->Output( TemplateFile => "Footer$Type", Data => \%Param );
 }
 
 sub Print {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # custom post filters
-    if ($Self->{FilterContent}) {
-        my %Filters = %{$Self->{FilterContent}};
-        for my $Filter (sort keys %Filters) {
-            if ($Self->{MainObject}->Require($Filters{$Filter}->{Module})) {
+    if ( $Self->{FilterContent} ) {
+        my %Filters = %{ $Self->{FilterContent} };
+        for my $Filter ( sort keys %Filters ) {
+            if ( $Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
                 my $Object = $Filters{$Filter}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
                     MainObject   => $Self->{MainObject},
@@ -1468,8 +1465,8 @@ sub Print {
 }
 
 sub PrintHeader {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
     if ( !$Param{Width} ) {
         $Param{Width} = 640;
@@ -1506,8 +1503,8 @@ sub PrintHeader {
 }
 
 sub PrintFooter {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     $Param{Host} = $Self->Ascii2Html( Text => $ENV{SERVER_NAME} . $ENV{REQUEST_URI}, );
     $Param{Host} =~ s/&amp;/&/ig;
 
@@ -1516,15 +1513,15 @@ sub PrintFooter {
 }
 
 sub Ascii2Html {
-    my $Self            = shift;
-    my %Param           = @_;
-    my $Text            = defined $Param{Text} ? $Param{Text} : return;
-    my $Max             = $Param{Max} || '';
-    my $VMax            = $Param{VMax} || '';
-    my $NewLine         = $Param{NewLine} || '';
-    my $HTMLMode        = $Param{HTMLResultMode} || '';
+    my ( $Self, %Param ) = @_;
+
+    my $Text = defined $Param{Text} ? $Param{Text} : return;
+    my $Max             = $Param{Max}             || '';
+    my $VMax            = $Param{VMax}            || '';
+    my $NewLine         = $Param{NewLine}         || '';
+    my $HTMLMode        = $Param{HTMLResultMode}  || '';
     my $StripEmptyLines = $Param{StripEmptyLines} || '';
-    my $Type            = $Param{Type} || '';
+    my $Type            = $Param{Type}            || '';
 
     my %LinkHash = ();
     if ( $Param{LinkFeature} ) {
@@ -1623,9 +1620,9 @@ sub Ascii2Html {
 }
 
 sub LinkQuote {
-    my $Self   = shift;
-    my %Param  = @_;
-    my $Text   = $Param{Text} || '';
+    my ( $Self, %Param ) = @_;
+
+    my $Text   = $Param{Text}   || '';
     my $Target = $Param{Target} || 'NewPage' . int( rand(199) );
 
     # do link quote
@@ -1651,8 +1648,8 @@ sub LinkQuote {
 }
 
 sub LinkEncode {
-    my $Self = shift;
-    my $Link = shift;
+    my ( $Self, $Link ) = @_;
+
     if ( !defined($Link) ) {
         return;
     }
@@ -1672,10 +1669,10 @@ sub LinkEncode {
 }
 
 sub CustomerAgeInHours {
-    my $Self    = shift;
-    my %Param   = @_;
-    my $Age     = defined( $Param{Age} ) ? $Param{Age} : return;
-    my $Space   = $Param{Space} || '<BR>';
+    my ( $Self, %Param ) = @_;
+
+    my $Age = defined( $Param{Age} ) ? $Param{Age} : return;
+    my $Space = $Param{Space} || '<BR>';
     my $AgeStrg = '';
     if ( $Age =~ /^-(.*)/ ) {
         $Age     = $1;
@@ -1708,10 +1705,10 @@ sub CustomerAgeInHours {
 }
 
 sub CustomerAge {
-    my $Self    = shift;
-    my %Param   = @_;
-    my $Age     = defined( $Param{Age} ) ? $Param{Age} : return;
-    my $Space   = $Param{Space} || '<BR>';
+    my ( $Self, %Param ) = @_;
+
+    my $Age = defined( $Param{Age} ) ? $Param{Age} : return;
+    my $Space = $Param{Space} || '<BR>';
     my $AgeStrg = '';
     if ( $Age =~ /^-(.*)/ ) {
         $Age     = $1;
@@ -1763,8 +1760,8 @@ sub CustomerAge {
 # in a further release.
 
 sub OptionStrgHashRef {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output     = '';
     my $Name       = $Param{Name} || '';
     my $Max        = $Param{Max} || 80;
@@ -1920,8 +1917,8 @@ sub OptionStrgHashRef {
 #    );
 
 sub OptionElement {
-    my $Self         = shift;
-    my %Param        = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output       = '';
     my $Name         = $Param{Name} || '';
     my $Max          = $Param{Max} || 80;
@@ -2079,8 +2076,7 @@ build a html option element based on given data
 =cut
 
 sub BuildSelection {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name Data)) {
@@ -2128,8 +2124,8 @@ create the option hash
 =cut
 
 sub _BuildSelectionOptionRefCreate {
-    my $Self      = shift;
-    my %Param     = @_;
+    my ( $Self, %Param ) = @_;
+
     my $OptionRef = {};
 
     # set SelectedID option
@@ -2228,8 +2224,8 @@ create the attribute hash
 =cut
 
 sub _BuildSelectionAttributeRefCreate {
-    my $Self         = shift;
-    my %Param        = @_;
+    my ( $Self, %Param ) = @_;
+
     my $AttributeRef = {};
 
     # check params with key and value
@@ -2274,8 +2270,8 @@ create the data hash
 =cut
 
 sub _BuildSelectionDataRefCreate {
-    my $Self         = shift;
-    my %Param        = @_;
+    my ( $Self, %Param ) = @_;
+
     my $AttributeRef = $Param{AttributeRef};
     my $OptionRef    = $Param{OptionRef};
     my $DataRef      = [];
@@ -2513,8 +2509,8 @@ create the html string
 =cut
 
 sub _BuildSelectionOutput {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $String;
 
     # start generation, if AttributeRef and DataRef was found
@@ -2557,10 +2553,10 @@ sub _BuildSelectionOutput {
 }
 
 sub NoPermission {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my $WithHeader = $Param{WithHeader} || 'yes';
-    my $Output     = '';
+    my $Output = '';
     $Param{Message} = 'No Permission!' if ( !$Param{Message} );
 
     # create output
@@ -2573,8 +2569,8 @@ sub NoPermission {
 }
 
 sub CheckCharset {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
     if ( !$Param{Action} ) {
         $Param{Action} = '$Env{"Action"}';
@@ -2610,8 +2606,8 @@ sub CheckCharset {
 }
 
 sub CheckMimeType {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
     if ( !$Param{Action} ) {
         $Param{Action} = '$Env{"Action"}';
@@ -2654,8 +2650,8 @@ sub CheckMimeType {
 }
 
 sub ReturnValue {
-    my $Self = shift;
-    my $What = shift;
+    my ( $Self, $What ) = @_;
+
     return $Self->{$What};
 }
 
@@ -2673,8 +2669,7 @@ returns browser output to display/download a attachment
 =cut
 
 sub Attachment {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # reset binmode, don't use utf8
     binmode(STDOUT);
@@ -2714,8 +2709,8 @@ sub Attachment {
 }
 
 sub PageNavBar {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Limit = $Param{Limit} || 0;
     $Param{AllHits}  = 0 if ( !$Param{AllHits} );
     $Param{StartHit} = 0 if ( !$Param{AllHits} );
@@ -2801,8 +2796,8 @@ sub PageNavBar {
 }
 
 sub NavigationBar {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
     if ( !$Param{Type} ) {
 
@@ -2823,9 +2818,10 @@ sub NavigationBar {
 
     # run notification modules
     my $FrontendNotifyModuleConfig = $Self->{ConfigObject}->Get('Frontend::NotifyModule');
-    if (ref($FrontendNotifyModuleConfig) eq 'HASH') {
+    if ( ref($FrontendNotifyModuleConfig) eq 'HASH' ) {
         my %Jobs = %{$FrontendNotifyModuleConfig};
-        for my $Job (sort keys %Jobs) {
+        for my $Job ( sort keys %Jobs ) {
+
             # load module
             if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 my $Object = $Jobs{$Job}->{Module}->new(
@@ -3001,8 +2997,8 @@ sub NavigationBar {
 }
 
 sub WindowTabStart {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
     if ( !$Param{Tab} || ( $Param{Tab} && ref( $Param{Tab} ) ne 'ARRAY' ) ) {
         $Self->{LogObject}->Log(
@@ -3037,8 +3033,8 @@ sub WindowTabStart {
 }
 
 sub WindowTabStop {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
 
     $Self->Block(
@@ -3067,8 +3063,8 @@ sub WindowTabStop {
 }
 
 sub TransfromDateSelection {
-    my $Self           = shift;
-    my %Param          = @_;
+    my ( $Self, %Param ) = @_;
+
     my $DateInputStyle = $Self->{ConfigObject}->Get('TimeInputFormat');
     my $Prefix         = $Param{'Prefix'} || '';
     my $Format         = defined( $Param{Format} ) ? $Param{Format} : 'DateInputFormatLong';
@@ -3095,8 +3091,8 @@ sub TransfromDateSelection {
 }
 
 sub BuildDateSelection {
-    my $Self           = shift;
-    my %Param          = @_;
+    my ( $Self, %Param ) = @_;
+
     my $DateInputStyle = $Self->{ConfigObject}->Get('TimeInputFormat');
     my $Prefix         = $Param{'Prefix'} || '';
     my $DiffTime       = $Param{'DiffTime'} || 0;
@@ -3337,8 +3333,8 @@ returns a csv based on a array
 =cut
 
 sub OutputCSV {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
     my @Head   = ('##No Head Data##');
     if ( $Param{Head} ) {
@@ -3386,8 +3382,8 @@ returns a html table based on a array
 =cut
 
 sub OutputHTMLTable {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
     my @Head   = ('##No Head Data##');
     if ( $Param{Head} ) {
@@ -3416,8 +3412,8 @@ sub OutputHTMLTable {
 }
 
 sub CustomerLogin {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
     $Param{TitleArea} = " :: " . $Self->{LanguageObject}->Get('Login');
 
@@ -3466,10 +3462,10 @@ sub CustomerLogin {
 }
 
 sub CustomerHeader {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
-    my $Type   = $Param{Type} || '';
+    my $Type = $Param{Type} || '';
 
     # add cookies if exists
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
@@ -3527,17 +3523,17 @@ sub CustomerHeader {
 }
 
 sub CustomerFooter {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Type  = $Param{Type} || '';
+    my ( $Self, %Param ) = @_;
+
+    my $Type = $Param{Type} || '';
 
     # create & return output
     return $Self->Output( TemplateFile => "CustomerFooter$Type", Data => \%Param );
 }
 
 sub CustomerFatalError {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( $Param{Message} ) {
         $Self->{LogObject}->Log(
             Caller   => 1,
@@ -3553,18 +3549,17 @@ sub CustomerFatalError {
 }
 
 sub CustomerNavigationBar {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # create menu items
-    my %NavBarModule = ();
+    my %NavBarModule         = ();
     my $FrontendModuleConfig = $Self->{ConfigObject}->Get('CustomerFrontend::Module');
-    for my $Module (sort keys %{$FrontendModuleConfig}) {
-        my %Hash = %{$FrontendModuleConfig->{$Module}};
-        if ($Hash{NavBar} && ref($Hash{NavBar}) eq 'ARRAY') {
-            my @Items = @{$Hash{NavBar}};
+    for my $Module ( sort keys %{$FrontendModuleConfig} ) {
+        my %Hash = %{ $FrontendModuleConfig->{$Module} };
+        if ( $Hash{NavBar} && ref( $Hash{NavBar} ) eq 'ARRAY' ) {
+            my @Items = @{ $Hash{NavBar} };
             for my $Item (@Items) {
-                for (1..51) {
+                for ( 1 .. 51 ) {
                     if ( $NavBarModule{ sprintf( "%07d", $Item->{Prio} ) } ) {
                         $Item->{Prio}++;
                     }
@@ -3585,9 +3580,10 @@ sub CustomerNavigationBar {
 
     # run notification modules
     my $FrontendNotifyModuleConfig = $Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule');
-    if (ref($FrontendNotifyModuleConfig) eq 'HASH') {
+    if ( ref($FrontendNotifyModuleConfig) eq 'HASH' ) {
         my %Jobs = %{$FrontendNotifyModuleConfig};
-        for my $Job (sort keys %Jobs) {
+        for my $Job ( sort keys %Jobs ) {
+
             # log try of load module
             if ( $Self->{Debug} > 1 ) {
                 $Self->{LogObject}->Log(
@@ -3595,7 +3591,7 @@ sub CustomerNavigationBar {
                     Message  => "Try to load module: $Jobs{$Job}->{Module}!",
                 );
             }
-            if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
+            if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 my $Object = $Jobs{$Job}->{Module}->new(
                     ConfigObject   => $Self->{ConfigObject},
                     LogObject      => $Self->{LogObject},
@@ -3638,8 +3634,7 @@ sub CustomerNavigationBar {
 }
 
 sub CustomerError {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # get backend error messages
     for (qw(Message Traceback)) {
@@ -3678,8 +3673,7 @@ sub CustomerError {
 }
 
 sub CustomerWarning {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # get backend error messages
     for (qw(Message)) {
@@ -3705,10 +3699,10 @@ sub CustomerWarning {
 }
 
 sub CustomerNoPermission {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my $WithHeader = $Param{WithHeader} || 'yes';
-    my $Output     = '';
+    my $Output = '';
     $Param{Message} = 'No Permission!' if ( !$Param{Message} );
 
     # create output
@@ -3736,6 +3730,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2007-10-02 08:53:16 $
+$Revision: 1.57 $ $Date: 2007-10-02 10:43:31 $
 
 =cut

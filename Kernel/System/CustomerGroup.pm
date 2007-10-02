@@ -2,7 +2,7 @@
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerGroup.pm,v 1.13 2007-09-29 11:00:47 mh Exp $
+# $Id: CustomerGroup.pm,v 1.14 2007-10-02 10:37:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Group;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -66,8 +66,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -106,8 +105,8 @@ to add a member to a group
 =cut
 
 sub GroupMemberAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $count;
 
     # check needed stuff
@@ -177,8 +176,7 @@ returns a list of users of a group with ro/move_into/create/owner/priority/rw pe
 =cut
 
 sub GroupMemberList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Result Type)) {
@@ -286,6 +284,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2007-09-29 11:00:47 $
+$Revision: 1.14 $ $Date: 2007-10-02 10:37:19 $
 
 =cut

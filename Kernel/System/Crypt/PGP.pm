@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.19 2007-10-01 07:08:02 martin Exp $
+# $Id: PGP.pm,v 1.20 2007-10-02 10:37:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -33,8 +33,7 @@ This is a sub module of Kernel::System::Crypt and contains all pgp functions.
 
 # just for internal
 sub _Init {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     $Self->{GPGBin}  = $Self->{ConfigObject}->Get('PGP::Bin')     || '/usr/bin/gpg';
     $Self->{Options} = $Self->{ConfigObject}->Get('PGP::Options') || '--batch --no-tty --yes';
@@ -53,8 +52,7 @@ check if environment is working
 =cut
 
 sub Check {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $GPGBin = $Self->{ConfigObject}->Get('PGP::Bin') || '/usr/bin/gpg';
     if ( !-e $GPGBin ) {
@@ -86,8 +84,8 @@ crypt a message
 =cut
 
 sub Crypt {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my $LogMessage = '';
     my $UsedKey    = '';
 
@@ -138,8 +136,8 @@ decrypt a message and returns a hash (Successful, Message, Data)
 =cut
 
 sub Decrypt {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Return = ();
 
     # check needed stuff
@@ -188,8 +186,8 @@ sub Decrypt {
 }
 
 sub _DecryptPart {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my $LogMessage = '';
     my $Decrypt    = '';
 
@@ -245,8 +243,8 @@ sign a message
 =cut
 
 sub Sign {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my $LogMessage = '';
     my $UsedKey    = '';
     my $AddParams  = '';
@@ -336,8 +334,8 @@ Attached sign:
 =cut
 
 sub Verify {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Return  = ();
     my $Message = '';
     my $UsedKey = '';
@@ -392,8 +390,8 @@ returns a array with serach result (private and public keys)
 =cut
 
 sub KeySearch {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Result = ();
     push( @Result, $Self->PublicKeySearch(%Param) );
     push( @Result, $Self->PrivateKeySearch(%Param) );
@@ -411,8 +409,8 @@ returns a array with serach result (private keys)
 =cut
 
 sub PrivateKeySearch {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Search = $Param{Search} || '';
     my @Result = ();
     my $InKey  = 0;
@@ -474,8 +472,8 @@ returns a array with serach result (public keys)
 =cut
 
 sub PublicKeySearch {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Search = $Param{Search} || '';
     my @Result = ();
     my $InKey  = 0;
@@ -536,8 +534,8 @@ returns public key in ascii
 =cut
 
 sub PublicKeyGet {
-    my $Self      = shift;
-    my %Param     = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Key       = $Param{Key} || '';
     my $KeyString = '';
     my %Result    = ();
@@ -570,8 +568,8 @@ returns secret key in ascii
 =cut
 
 sub SecretKeyGet {
-    my $Self      = shift;
-    my %Param     = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Key       = $Param{Key} || '';
     my $KeyString = '';
     my %Result    = ();
@@ -604,8 +602,8 @@ remove public key from key ring
 =cut
 
 sub PublicKeyDelete {
-    my $Self      = shift;
-    my %Param     = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Key       = $Param{Key} || '';
     my $KeyString = '';
     my %Result    = ();
@@ -647,8 +645,8 @@ remove secret key from key ring
 =cut
 
 sub SecretKeyDelete {
-    my $Self      = shift;
-    my %Param     = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Key       = $Param{Key} || '';
     my $KeyString = '';
     my %Result    = ();
@@ -708,8 +706,8 @@ add key to key ring
 =cut
 
 sub KeyAdd {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Key     = $Param{Key} || '';
     my $Message = '';
     my %Result  = ();
@@ -741,8 +739,8 @@ sub KeyAdd {
 }
 
 sub _CryptedWithKey {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Message = '';
     my @Keys    = ();
 
@@ -784,6 +782,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2007-10-01 07:08:02 $
+$Revision: 1.20 $ $Date: 2007-10-02 10:37:19 $
 
 =cut

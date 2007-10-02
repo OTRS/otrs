@@ -2,7 +2,7 @@
 # Kernel/System/XMLMaster.pm - the global XMLMaster module for OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XMLMaster.pm,v 1.8 2007-09-29 11:01:25 mh Exp $
+# $Id: XMLMaster.pm,v 1.9 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -77,8 +77,7 @@ create a xml master object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -116,8 +115,7 @@ to execute the run process
 =cut
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(XML)) {
@@ -175,6 +173,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2007-09-29 11:01:25 $
+$Revision: 1.9 $ $Date: 2007-10-02 10:38:58 $
 
 =cut

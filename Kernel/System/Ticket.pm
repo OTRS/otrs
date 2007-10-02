@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.280 2007-10-01 10:13:29 martin Exp $
+# $Id: Ticket.pm,v 1.281 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.280 $) [1];
+$VERSION = qw($Revision: 1.281 $) [1];
 
 =head1 NAME
 
@@ -91,8 +91,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -239,9 +238,9 @@ checks if the ticket number exists, returns ticket id if exists
 =cut
 
 sub TicketCheckNumber {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Id    = '';
+    my ( $Self, %Param ) = @_;
+
+    my $Id = '';
 
     # check needed stuff
     if ( !$Param{Tn} ) {
@@ -316,10 +315,10 @@ creates a new ticket
 =cut
 
 sub TicketCreate {
-    my $Self                = shift;
-    my %Param               = @_;
-    my $GroupID             = $Param{GroupID} || 1;
-    my $ValidID             = $Param{ValidID} || 1;
+    my ( $Self, %Param ) = @_;
+
+    my $GroupID = $Param{GroupID} || 1;
+    my $ValidID = $Param{ValidID} || 1;
     my $Age                 = $Self->{TimeObject}->SystemTime();
     my $EscalationStartTime = $Self->{TimeObject}->SystemTime();
 
@@ -520,8 +519,7 @@ deletes a ticket from storage
 =cut
 
 sub TicketDelete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID UserID)) {
@@ -579,8 +577,8 @@ ticket id lookup by ticket number
 =cut
 
 sub TicketIDLookup {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Id;
 
     # check needed stuff
@@ -615,9 +613,9 @@ ticket number lookup by ticket id
 =cut
 
 sub TicketNumberLookup {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Tn    = '';
+    my ( $Self, %Param ) = @_;
+
+    my $Tn = '';
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
@@ -658,8 +656,8 @@ rebuild a new ticket subject
 =cut
 
 sub TicketSubjectBuild {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Subject = $Param{Subject} || '';
 
     # check needed stuff
@@ -695,8 +693,8 @@ strip/clean up a ticket subject
 =cut
 
 sub TicketSubjectClean {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Subject = $Param{Subject} || '';
 
     # check needed stuff
@@ -746,8 +744,8 @@ TicketFreeKey1-16, TicketFreeText1-16, ...)
 =cut
 
 sub TicketGet {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Ticket = ();
 
     # check needed stuff
@@ -924,8 +922,7 @@ update ticket title
 =cut
 
 sub TicketTitleUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Title TicketID UserID)) {
@@ -982,8 +979,7 @@ update ticket unlock time to now
 =cut
 
 sub TicketUnlockTimeoutUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(UnlockTimeout TicketID UserID)) {
@@ -1045,8 +1041,7 @@ update ticket escalation start time to now
 =cut
 
 sub TicketEscalationStartUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(EscalationStartTime TicketID UserID)) {
@@ -1098,8 +1093,7 @@ update ticket response time
 =cut
 
 sub TicketEscalationResponseTimeUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(EscalationResponseTime TicketID UserID)) {
@@ -1167,8 +1161,7 @@ update ticket solution time
 =cut
 
 sub TicketEscalationSolutionTimeUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(EscalationSolutionTime TicketID UserID)) {
@@ -1234,8 +1227,7 @@ get ticket queue id
 =cut
 
 sub TicketQueueID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
@@ -1273,8 +1265,7 @@ to get the move queue list for a ticket (depends on workflow, if configured)
 =cut
 
 sub MoveList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
@@ -1339,8 +1330,7 @@ to move a ticket (send notification to agents of selected my queues, it ticket i
 =cut
 
 sub MoveTicket {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # queue lookup
     if ( $Param{Queue} && !$Param{QueueID} ) {
@@ -1473,8 +1463,8 @@ returns a list of used queue ids / names
 =cut
 
 sub MoveQueueList {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my @QueueID = ();
 
     # check needed stuff
@@ -1554,8 +1544,7 @@ to get all possible types for a ticket (depends on workflow, if configured)
 =cut
 
 sub TicketTypeList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
@@ -1603,8 +1592,7 @@ to set a ticket type
 =cut
 
 sub TicketTypeSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # queue lookup
     if ( $Param{Type} && !$Param{TypeID} ) {
@@ -1701,8 +1689,7 @@ to get all possible services for a ticket (depends on workflow, if configured)
 =cut
 
 sub TicketServiceList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{UserID} || !$Param{CustomerUserID} ) {
@@ -1761,8 +1748,7 @@ to set a ticket service
 =cut
 
 sub TicketServiceSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # queue lookup
     if ( $Param{Service} && !$Param{ServiceID} ) {
@@ -1845,9 +1831,9 @@ sub TicketServiceSet {
 }
 
 sub TicketEscalationState {
-    my $Self  = shift;
-    my %Param = @_;
-    my %Data  = ();
+    my ( $Self, %Param ) = @_;
+
+    my %Data = ();
 
     # check needed stuff
     for (qw(Ticket UserID)) {
@@ -2105,8 +2091,7 @@ to get all possible SLAs for a ticket (depends on workflow, if configured)
 =cut
 
 sub TicketSLAList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
@@ -2169,8 +2154,7 @@ to set a ticket service
 =cut
 
 sub TicketSLASet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # queue lookup
     if ( $Param{SLA} && !$Param{SLAID} ) {
@@ -2265,8 +2249,7 @@ Set customer data of ticket.
 =cut
 
 sub SetCustomerData {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID UserID)) {
@@ -2362,10 +2345,10 @@ Note: the current value is accessible over TicketGet()
 =cut
 
 sub TicketFreeTextGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Value = $Param{Value} || '';
-    my $Key   = $Param{Key} || '';
+    my $Key   = $Param{Key}   || '';
 
     # check needed stuff
     for (qw(Type)) {
@@ -2442,8 +2425,8 @@ Set ticket free text.
 =cut
 
 sub TicketFreeTextSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Value = '';
     my $Key   = '';
 
@@ -2537,8 +2520,8 @@ Set ticket free text.
 =cut
 
 sub TicketFreeTimeSet {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Prefix = $Param{'Prefix'} || 'TicketFreeTime';
 
     # check needed stuff
@@ -2636,8 +2619,7 @@ or without logging, for example for to check if a link/action should be shown
 =cut
 
 sub Permission {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Type TicketID UserID)) {
@@ -2764,8 +2746,7 @@ or without logging, for example for to check if a link/action should be shown
 =cut
 
 sub CustomerPermission {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Type TicketID UserID)) {
@@ -2875,8 +2856,7 @@ Get locked ticket ids for an agent.
 =cut
 
 sub GetLockedTicketIDs {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{UserID} ) {
@@ -2941,8 +2921,7 @@ custom queue.
 =cut
 
 sub GetSubscribedUserIDsByQueueID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
@@ -3012,8 +2991,8 @@ or use a time stamp
 =cut
 
 sub TicketPendingTimeSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Time;
 
     # check needed stuff
@@ -3226,12 +3205,12 @@ To find tickets in your system.
 =cut
 
 sub TicketSearch {
-    my $Self          = shift;
-    my %Param         = @_;
-    my $Result        = $Param{Result} || 'HASH';
-    my $OrderBy       = $Param{OrderBy} || 'Down';
-    my $SortBy        = $Param{SortBy} || 'Age';
-    my $Limit         = $Param{Limit} || 10000;
+    my ( $Self, %Param ) = @_;
+
+    my $Result        = $Param{Result}        || 'HASH';
+    my $OrderBy       = $Param{OrderBy}       || 'Down';
+    my $SortBy        = $Param{SortBy}        || 'Age';
+    my $Limit         = $Param{Limit}         || 10000;
     my $ContentSearch = $Param{ContentSearch} || 'AND';
     my %SortOptions   = (
         Owner            => 'st.user_id',
@@ -4183,10 +4162,10 @@ sub TicketSearch {
 }
 
 sub _TicketSearchCondition {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Key   = $Param{Key} || return;
-    my $Word  = $Param{Value} || return;
+    my ( $Self, %Param ) = @_;
+
+    my $Key  = $Param{Key}   || return;
+    my $Word = $Param{Value} || return;
 
     # clean up
     $Word =~ s/^\s+//g;
@@ -4299,8 +4278,7 @@ check if a ticket is locked or not
 =cut
 
 sub LockIsTicketLocked {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
@@ -4340,8 +4318,7 @@ to set a ticket lock or unlock
 =cut
 
 sub LockSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # lookup!
     if ( ( !$Param{LockID} ) && ( $Param{Lock} ) ) {
@@ -4486,9 +4463,9 @@ to set a ticket state
 =cut
 
 sub StateSet {
-    my $Self      = shift;
-    my %Param     = @_;
-    my %State     = ();
+    my ( $Self, %Param ) = @_;
+
+    my %State = ();
     my $ArticleID = $Param{ArticleID} || '';
 
     # check needed stuff
@@ -4641,8 +4618,8 @@ to get the state list for a ticket (depends on workflow, if configured)
 =cut
 
 sub StateList {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my %States = ();
 
     # check needed stuff
@@ -4719,9 +4696,9 @@ or for access control
 =cut
 
 sub OwnerCheck {
-    my $Self  = shift;
-    my %Param = @_;
-    my $SQL   = '';
+    my ( $Self, %Param ) = @_;
+
+    my $SQL = '';
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
@@ -4799,8 +4776,7 @@ to set the ticket owner (notification to the new owner will be sent)
 =cut
 
 sub OwnerSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID UserID)) {
@@ -4932,8 +4908,7 @@ returns the owner in the past as array with hash ref of the owner data
 =cut
 
 sub OwnerList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID)) {
@@ -5003,8 +4978,7 @@ to set the ticket responsible (notification to the new responsible will be sent)
 =cut
 
 sub ResponsibleSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID UserID)) {
@@ -5117,8 +5091,7 @@ returns the responsible in the past as array with hash ref of the owner data
 =cut
 
 sub ResponsibleList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID)) {
@@ -5181,8 +5154,7 @@ returns array with hash ref of involved agents of a ticket
 =cut
 
 sub InvolvedAgents {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID)) {
@@ -5250,8 +5222,7 @@ to set the ticket priority
 =cut
 
 sub PrioritySet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # lookup!
     if ( !$Param{PriorityID} && $Param{Priority} ) {
@@ -5344,8 +5315,7 @@ to get the priority list for a ticket (depends on workflow, if configured)
 =cut
 
 sub PriorityList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
@@ -5392,8 +5362,8 @@ to get the priority list for a ticket (depends on workflow, if configured)
 =cut
 
 sub HistoryTicketStatusGet {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Ticket = ();
 
     # check needed stuff
@@ -5505,8 +5475,8 @@ returns
 =cut
 
 sub HistoryTicketGet {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Ticket = ();
 
     # check needed stuff
@@ -5722,8 +5692,7 @@ returns the id of the requested history type.
 =cut
 
 sub HistoryTypeLookup {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Type} ) {
@@ -5778,8 +5747,7 @@ add a history entry to an ticket
 =cut
 
 sub HistoryAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Name} ) {
@@ -5892,8 +5860,8 @@ get ticket history as array with hashes
 =cut
 
 sub HistoryGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Lines;
 
     # check needed stuff
@@ -5952,8 +5920,7 @@ delete a ticket history (from storage)
 =cut
 
 sub HistoryDelete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID UserID)) {
@@ -5995,8 +5962,8 @@ returns the accounted time of a ticket.
 =cut
 
 sub TicketAccountedTimeGet {
-    my $Self          = shift;
-    my %Param         = @_;
+    my ( $Self, %Param ) = @_;
+
     my $AccountedTime = 0;
 
     # check needed stuff
@@ -6039,8 +6006,7 @@ account time to a ticket.
 =cut
 
 sub TicketAccountTime {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID ArticleID TimeUnit UserID)) {
@@ -6112,8 +6078,7 @@ merge two tickets
 =cut
 
 sub TicketMerge {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(MainTicketID MergeTicketID UserID)) {
@@ -6222,8 +6187,7 @@ to get all additional attributes of an watched ticket
 =cut
 
 sub TicketWatchGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID UserID)) {
@@ -6266,8 +6230,7 @@ to subscribe a ticket to watch it
 =cut
 
 sub TicketWatchSubscribe {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID UserID)) {
@@ -6326,8 +6289,7 @@ to remove a subscribtion of a ticket
 =cut
 
 sub TicketWatchUnsubscribe {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID UserID)) {
@@ -6388,8 +6350,7 @@ prepare ACL execution of current state
 =cut
 
 sub TicketAcl {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
@@ -6664,8 +6625,8 @@ return the current ACL data hash after TicketAcl()
 =cut
 
 sub TicketAclData {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return %{ $Self->{TicketAclData} };
 }
 
@@ -6678,8 +6639,8 @@ return the current ACL action data hash after TicketAcl()
 =cut
 
 sub TicketAclActionData {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( $Self->{TicketAclActionData} ) {
         return %{ $Self->{TicketAclActionData} };
     }
@@ -6712,8 +6673,7 @@ ArticleCustomerNotification, ArticleAutoResponse, ArticleFlagSet;
 =cut
 
 sub TicketEventHandlerPost {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID Event UserID)) {
@@ -6813,6 +6773,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.280 $ $Date: 2007-10-01 10:13:29 $
+$Revision: 1.281 $ $Date: 2007-10-02 10:38:58 $
 
 =cut

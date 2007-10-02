@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.23 2007-10-01 09:58:20 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.24 2007-10-02 10:35:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -57,8 +57,7 @@ create customer web interface object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -101,7 +100,7 @@ execute the object
 =cut
 
 sub Run {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # get common framework params
     my %Param = ();
@@ -826,6 +825,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2007-10-01 09:58:20 $
+$Revision: 1.24 $ $Date: 2007-10-02 10:35:04 $
 
 =cut

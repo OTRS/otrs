@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: IPC.pm,v 1.28 2007-09-29 10:59:15 mh Exp $
+# $Id: IPC.pm,v 1.29 2007-10-02 10:35:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,11 +19,10 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -57,7 +56,7 @@ sub new {
 }
 
 sub _InitSHM {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # init meta data mem
     $Self->{KeyMeta} = shmget( $Self->{IPCKeyMeta}, $Self->{IPCSizeMeta}, 777 | 1000 ) || die $!;
@@ -68,8 +67,7 @@ sub _InitSHM {
 }
 
 sub _WriteSHM {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # get size of data
     my $DataSize        = ( length( $Param{Data} ) + 1 );
@@ -110,7 +108,7 @@ sub _WriteSHM {
 }
 
 sub _ReadSHM {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # read session data from mem
     my $String = '';
@@ -126,8 +124,10 @@ sub _ReadSHM {
 }
 
 sub _SetSHMDataSize {
-    my $Self = shift;
-    my $Size = shift || return;
+    my ( $Self, $Size ) = @_;
+    if ( !$Size ) {
+        return;
+    }
 
     # read meta data from mem
     shmwrite( $Self->{KeyMeta}, $Size . ";", 0, $Self->{IPCSizeMeta} ) || die $!;
@@ -135,7 +135,7 @@ sub _SetSHMDataSize {
 }
 
 sub _GetSHMDataSize {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # read meta data from mem
     my $MetaString = '';
@@ -148,8 +148,7 @@ sub _GetSHMDataSize {
 }
 
 sub CheckSessionID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check session id
     if ( !$Param{SessionID} ) {
@@ -232,14 +231,14 @@ sub CheckSessionID {
 }
 
 sub CheckSessionIDMessage {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{CheckSessionIDMessage} || '';
 }
 
 sub GetSessionIDData {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Data;
 
     # check session id
@@ -290,8 +289,7 @@ sub GetSessionIDData {
 }
 
 sub CreateSessionID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # get REMOTE_ADDR
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
@@ -337,8 +335,7 @@ sub CreateSessionID {
 }
 
 sub RemoveSessionID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check session id
     if ( !$Param{SessionID} ) {
@@ -376,8 +373,7 @@ sub RemoveSessionID {
 }
 
 sub UpdateSessionID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check session id
     if ( !$Param{SessionID} ) {
@@ -444,8 +440,8 @@ sub UpdateSessionID {
 }
 
 sub GetAllSessionIDs {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my @SessionIDs = ();
 
     # read data
@@ -470,7 +466,7 @@ sub GetAllSessionIDs {
 }
 
 sub CleanUp {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # remove ipc meta data mem
     if ( !shmctl( $Self->{KeyMeta}, IPC_RMID, 0 ) ) {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.31 2007-09-29 10:39:11 mh Exp $
+# $Id: AgentTicketCompose.pm,v 1.32 2007-10-02 10:32:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,11 +22,10 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -34,7 +33,7 @@ sub new {
 
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # get common opjects
+    # get common objects
     for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
@@ -78,8 +77,7 @@ $Data{"Signature"}
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
@@ -856,8 +854,7 @@ sub Run {
 }
 
 sub _GetNextStates {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # get next states
     my %NextStates = $Self->{TicketObject}->StateList(
@@ -869,8 +866,7 @@ sub _GetNextStates {
 }
 
 sub _Mask {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # build next states string
     if ( !$Self->{Config}->{StateDefault} ) {

@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.9 2007-09-29 10:51:59 mh Exp $
+# $Id: FS.pm,v 1.10 2007-10-02 10:35:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,12 +15,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-
-$VERSION = '$Revision: 1.9 $ ';
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -40,8 +38,7 @@ sub new {
 }
 
 sub FormIDCreate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # cleanup temp form ids
     $Self->FormIDCleanUp();
@@ -51,8 +48,8 @@ sub FormIDCreate {
 }
 
 sub FormIDRemove {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(FormID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -69,8 +66,8 @@ sub FormIDRemove {
 }
 
 sub FormIDAddFile {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(FormID Filename Content ContentType)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -105,8 +102,8 @@ sub FormIDAddFile {
 }
 
 sub FormIDRemoveFile {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(FormID FileID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -128,8 +125,8 @@ sub FormIDRemoveFile {
 }
 
 sub FormIDGetAllFilesData {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(FormID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -198,8 +195,8 @@ sub FormIDGetAllFilesData {
 }
 
 sub FormIDGetAllFilesMeta {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(FormID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -251,8 +248,8 @@ sub FormIDGetAllFilesMeta {
 }
 
 sub FormIDCleanUp {
-    my $Self          = shift;
-    my %Param         = @_;
+    my ( $Self, %Param ) = @_;
+
     my $CurrentTile   = time() - ( 60 * 60 * 24 * 1 );
     my @List          = glob("$Self->{TempDir}/*");
     my %RemoveFormIDs = ();

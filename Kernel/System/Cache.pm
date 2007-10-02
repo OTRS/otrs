@@ -2,7 +2,7 @@
 # Kernel/System/Cache.pm - all cache functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Cache.pm,v 1.4 2007-09-29 11:00:47 mh Exp $
+# $Id: Cache.pm,v 1.5 2007-10-02 10:37:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -57,8 +57,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -97,8 +96,8 @@ set a new cache
 =cut
 
 sub Set {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(Key Value)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -127,8 +126,7 @@ return a cache
 =cut
 
 sub Get {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Key)) {
@@ -168,8 +166,7 @@ delete a cache
 =cut
 
 sub Delete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Key)) {
@@ -205,6 +202,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2007-09-29 11:00:47 $
+$Revision: 1.5 $ $Date: 2007-10-02 10:37:19 $
 
 =cut

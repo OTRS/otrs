@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesTimeZone.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesTimeZone.pm,v 1.6 2007-09-29 10:49:57 mh Exp $
+# $Id: PreferencesTimeZone.pm,v 1.7 2007-10-02 10:40:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -39,8 +38,8 @@ sub new {
 }
 
 sub Param {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Params = ();
     if ($Self->{ConfigObject}->Get('TimeZoneUser')
         && (( !$Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset') )
@@ -91,8 +90,8 @@ sub Param {
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for my $Key ( keys %{ $Param{GetParam} } ) {
         my @Array = @{ $Param{GetParam}->{$Key} };
         for (@Array) {
@@ -122,14 +121,14 @@ sub Run {
 }
 
 sub Error {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{Error} || '';
 }
 
 sub Message {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{Message} || '';
 }
 

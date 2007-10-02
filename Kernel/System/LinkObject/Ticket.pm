@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.12 2007-09-29 10:55:02 mh Exp $
+# $Id: Ticket.pm,v 1.13 2007-10-02 10:38:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,11 +17,10 @@ use warnings;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub Init {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
 
@@ -29,8 +28,8 @@ sub Init {
 }
 
 sub FillDataMap {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(ID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -49,8 +48,8 @@ sub FillDataMap {
 }
 
 sub BackendLinkObject {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( $Param{LinkObject1} eq 'Ticket' && $Param{LinkObject2} eq 'Ticket' ) {
 
         # add ticket hostory
@@ -95,8 +94,8 @@ sub BackendLinkObject {
 }
 
 sub BackendUnlinkObject {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( $Param{LinkObject1} eq 'Ticket' && $Param{LinkObject2} eq 'Ticket' ) {
 
         # add ticket hostory
@@ -141,8 +140,8 @@ sub BackendUnlinkObject {
 }
 
 sub LinkSearchParams {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return (
         { Name => 'TicketNumber',   Text => 'Ticket#' },
         { Name => 'TicketFulltext', Text => 'Fulltext' },
@@ -150,8 +149,8 @@ sub LinkSearchParams {
 }
 
 sub LinkSearch {
-    my $Self           = shift;
-    my %Param          = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Search         = ();
     my @ResultWithData = ();
     if ( $Param{TicketFulltext} ) {
@@ -188,8 +187,8 @@ sub LinkSearch {
 }
 
 sub LinkItemData {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Body       = '';
     my %Ticket     = $Self->{TicketObject}->TicketGet( TicketID => $Param{ID} );
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex( TicketID => $Param{ID} );

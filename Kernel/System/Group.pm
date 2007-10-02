@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: Group.pm,v 1.45 2007-09-29 11:02:27 mh Exp $
+# $Id: Group.pm,v 1.46 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -66,8 +66,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -84,8 +83,8 @@ sub new {
 
 # just for compat!
 sub GetGroupIdByName {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $ID;
 
     # check needed stuff
@@ -109,8 +108,8 @@ sub GetGroupIdByName {
 
 # just for compat!
 sub GetRoleIdByName {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $ID;
 
     # check needed stuff
@@ -155,8 +154,8 @@ to add a member to a group
 =cut
 
 sub GroupMemberAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $count;
 
     # check needed stuff
@@ -254,8 +253,7 @@ to add a group
 =cut
 
 sub GroupAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name ValidID UserID)) {
@@ -312,8 +310,7 @@ returns a hash with group data
 =cut
 
 sub GroupGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{ID} ) {
@@ -366,8 +363,7 @@ update of a group
 =cut
 
 sub GroupUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ID Name ValidID UserID)) {
@@ -409,9 +405,9 @@ returns a hash of all groups
 =cut
 
 sub GroupList {
-    my $Self   = shift;
-    my %Param  = @_;
-    my $Valid  = $Param{Valid} || 0;
+    my ( $Self, %Param ) = @_;
+
+    my $Valid = $Param{Valid} || 0;
     my %Groups = $Self->{DBObject}->GetTableData(
         What  => 'id, name',
         Table => 'groups',
@@ -453,8 +449,7 @@ based on GroupGroupMemberList() and GroupRoleMemberList().
 =cut
 
 sub GroupMemberList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Result Type)) {
@@ -583,8 +578,7 @@ returns a list of users/groups with ro/move_into/create/owner/priority/rw permis
 =cut
 
 sub GroupMemberInvolvedList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(UserID Type)) {
@@ -726,8 +720,8 @@ returns a list of users/groups with ro/move_into/create/owner/priority/rw permis
 =cut
 
 sub GroupGroupMemberList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my @UserIDs;
     my @GroupIDs;
 
@@ -906,8 +900,8 @@ returns a list of role/groups with ro/move_into/create/owner/priority/rw permiss
 =cut
 
 sub GroupRoleMemberList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my @RoleIDs;
     my @GroupIDs;
 
@@ -1075,8 +1069,8 @@ to add a role to a group
 =cut
 
 sub GroupRoleMemberAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $count;
 
     # check needed stuff
@@ -1190,8 +1184,8 @@ returns a list of role/user members
 =cut
 
 sub GroupUserRoleMemberList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my @RoleIDs;
     my @UserIDs;
 
@@ -1348,8 +1342,8 @@ to add a member to a role
 =cut
 
 sub GroupUserRoleMemberAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $count;
 
     # check needed stuff
@@ -1414,8 +1408,7 @@ to add a new role
 =cut
 
 sub RoleAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name ValidID UserID)) {
@@ -1471,8 +1464,7 @@ returns a hash with role data
 =cut
 
 sub RoleGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{ID} ) {
@@ -1525,8 +1517,7 @@ update of a role
 =cut
 
 sub RoleUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ID Name ValidID UserID)) {
@@ -1568,8 +1559,8 @@ returns a hash of all roles
 =cut
 
 sub RoleList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Valid = $Param{Valid} || 0;
     my %Roles = $Self->{DBObject}->GetTableData(
         What  => 'id, name',
@@ -1595,6 +1586,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2007-09-29 11:02:27 $
+$Revision: 1.46 $ $Date: 2007-10-02 10:38:58 $
 
 =cut

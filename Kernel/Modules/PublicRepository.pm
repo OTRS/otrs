@@ -2,7 +2,7 @@
 # Kernel/Modules/PublicRepository.pm - provides a local repository
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PublicRepository.pm,v 1.6 2007-10-01 10:24:22 martin Exp $
+# $Id: PublicRepository.pm,v 1.7 2007-10-02 10:33:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,11 +17,10 @@ use warnings;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -30,7 +29,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    # check needed Opjects
+    # check needed objects
     for (qw(ParamObject LayoutObject LogObject ConfigObject MainObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
@@ -43,9 +42,9 @@ sub new {
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
-    my $File  = $Self->{ParamObject}->GetParam( Param => 'File' ) || '';
+    my ( $Self, %Param ) = @_;
+
+    my $File = $Self->{ParamObject}->GetParam( Param => 'File' ) || '';
     $File =~ s/^\///g;
     my $AccessControlRexExp = $Self->{ConfigObject}->Get('Package::RepositoryAccessRegExp');
     if ( !$AccessControlRexExp ) {

@@ -2,7 +2,7 @@
 # Kernel/System/Log/File.pm - file log backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: File.pm,v 1.14 2007-09-29 10:54:48 mh Exp $
+# $Id: File.pm,v 1.15 2007-10-02 10:38:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,12 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $ ';
+$VERSION = qw($Revision: 1.15 $) [1];
 
 umask "002";
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -51,8 +50,8 @@ sub new {
 }
 
 sub Log {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $FH;
 
     # open logfile

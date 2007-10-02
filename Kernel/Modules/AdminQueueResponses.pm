@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - queue <-> responses
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.20 2007-09-29 10:39:11 mh Exp $
+# $Id: AdminQueueResponses.pm,v 1.21 2007-10-02 10:33:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,17 +15,16 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
-    # get common opjects
+    # get common objects
     for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
@@ -41,8 +40,8 @@ sub new {
 }
 
 sub Run {
-    my $Self      = shift;
-    my %Param     = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output    = '';
     my $Subaction = $Self->{Subaction};
     my $UserID    = $Self->{UserID};
@@ -180,8 +179,8 @@ sub Run {
 }
 
 sub _Mask {
-    my $Self          = shift;
-    my %Param         = @_;
+    my ( $Self, %Param ) = @_;
+
     my $FirstData     = $Param{FirstData};
     my %FirstDataTmp  = %$FirstData;
     my $SecondData    = $Param{SecondData};
@@ -225,8 +224,8 @@ sub _Mask {
 }
 
 sub _MaskFrom {
-    my $Self         = shift;
-    my %Param        = @_;
+    my ( $Self, %Param ) = @_;
+
     my $UserData     = $Param{FirstData};
     my %UserDataTmp  = %$UserData;
     my $GroupData    = $Param{SecondData};

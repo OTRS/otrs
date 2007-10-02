@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.34 2007-09-29 11:00:47 mh Exp $
+# $Id: CustomerUser.pm,v 1.35 2007-10-02 10:37:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -58,8 +58,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -107,9 +106,9 @@ return customer source list
 =cut
 
 sub CustomerSourceList {
-    my $Self  = shift;
-    my %Param = @_;
-    my %Data  = ();
+    my ( $Self, %Param ) = @_;
+
+    my %Data = ();
     for ( '', 1 .. 10 ) {
         if ( $Self->{ConfigObject}->Get("CustomerUser$_") ) {
             $Data{"CustomerUser$_"} = $Self->{ConfigObject}->Get("CustomerUser$_")->{Name}
@@ -141,15 +140,15 @@ to search users
 =cut
 
 sub CustomerSearch {
-    my $Self  = shift;
-    my %Param = @_;
-    my %Data  = ();
+    my ( $Self, %Param ) = @_;
 
     # remove leading and ending spaces
     if ( $Param{Search} ) {
         $Param{Search} =~ s/^\s+//;
         $Param{Search} =~ s/\s+$//;
     }
+
+    my %Data = ();
     for ( '', 1 .. 10 ) {
         if ( $Self->{"CustomerUser$_"} ) {
             my %SubData = $Self->{"CustomerUser$_"}->CustomerSearch(%Param);
@@ -170,9 +169,9 @@ return a hash with all users (depreciated)
 =cut
 
 sub CustomerUserList {
-    my $Self  = shift;
-    my %Param = @_;
-    my %Data  = ();
+    my ( $Self, %Param ) = @_;
+
+    my %Data = ();
     for ( '', 1 .. 10 ) {
         if ( $Self->{"CustomerUser$_"} ) {
             my %SubData = $Self->{"CustomerUser$_"}->CustomerUserList(%Param);
@@ -193,8 +192,8 @@ get customer user name
 =cut
 
 sub CustomerName {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for ( '', 1 .. 10 ) {
         if ( $Self->{"CustomerUser$_"} ) {
             my $Name = $Self->{"CustomerUser$_"}->CustomerName(%Param);
@@ -217,8 +216,8 @@ get customer user customer ids
 =cut
 
 sub CustomerIDs {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for ( '', 1 .. 10 ) {
         if ( $Self->{"CustomerUser$_"} ) {
             my @CustomerIDs = $Self->{"CustomerUser$_"}->CustomerIDs(%Param);
@@ -241,8 +240,8 @@ get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
 =cut
 
 sub CustomerUserDataGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for ( '', 1 .. 10 ) {
         if ( $Self->{"CustomerUser$_"} ) {
             my %Customer = $Self->{"CustomerUser$_"}->CustomerUserDataGet( %Param, );
@@ -326,8 +325,7 @@ to update customer users
 =cut
 
 sub CustomerUserUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
@@ -356,8 +354,7 @@ to set customer users passwords
 =cut
 
 sub SetPassword {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
@@ -442,6 +439,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2007-09-29 11:00:47 $
+$Revision: 1.35 $ $Date: 2007-10-02 10:37:19 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.15 2007-09-29 11:01:00 mh Exp $
+# $Id: LinkObject.pm,v 1.16 2007-10-02 10:38:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -58,8 +58,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -82,8 +81,8 @@ get a all linkable objects
 =cut
 
 sub LinkObjects {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my %ObjectList = ();
 
     # check needed object
@@ -141,8 +140,8 @@ is loaded) and returns false (if module load is failed)
 =cut
 
 sub LoadBackend {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( !$Param{Module} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need Module!" );
         return;
@@ -160,8 +159,8 @@ sub LoadBackend {
 }
 
 sub LinkObject {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(LinkType LinkID1 LinkObject1 LinkID2 LinkObject2)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -187,8 +186,8 @@ sub LinkObject {
 }
 
 sub UnlinkObject {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(LinkType LinkID1 LinkObject1 LinkID2 LinkObject2)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -218,8 +217,8 @@ sub UnlinkObject {
 }
 
 sub RemoveLinkObject {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     for (qw(Object ID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -242,8 +241,8 @@ sub RemoveLinkObject {
 }
 
 sub LinkedObjects {
-    my $Self      = shift;
-    my %Param     = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Linked    = ();
     my @LinkedIDs = ();
     my $SQLA      = '';
@@ -359,8 +358,8 @@ sub LinkedObjects {
 }
 
 sub AllLinkedObjects {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Links = ();
     for (qw(Object ObjectID)) {
         if ( !$Param{$_} ) {
@@ -415,6 +414,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2007-09-29 11:01:00 $
+$Revision: 1.16 $ $Date: 2007-10-02 10:38:08 $
 
 =cut

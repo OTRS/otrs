@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.44 2007-09-29 10:39:11 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.45 2007-10-02 10:32:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,11 +22,10 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -37,7 +36,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    # check needed Opjects
+    # check needed objects
     for (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
@@ -65,8 +64,8 @@ sub new {
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output;
 
     # store last queue screen
@@ -948,8 +947,8 @@ sub Run {
 }
 
 sub _GetNextStates {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my %NextStates = ();
     if ( $Param{QueueID} || $Param{TicketID} ) {
         %NextStates = $Self->{TicketObject}->StateList(
@@ -962,8 +961,7 @@ sub _GetNextStates {
 }
 
 sub _GetUsers {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # get users
     my %ShownUsers       = ();
@@ -1010,8 +1008,8 @@ sub _GetUsers {
 }
 
 sub _GetPriorities {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Priorities = ();
 
     # get priority
@@ -1026,9 +1024,9 @@ sub _GetPriorities {
 }
 
 sub _GetTypes {
-    my $Self  = shift;
-    my %Param = @_;
-    my %Type  = ();
+    my ( $Self, %Param ) = @_;
+
+    my %Type = ();
 
     # get priority
     if ( $Param{QueueID} || $Param{TicketID} ) {
@@ -1042,8 +1040,8 @@ sub _GetTypes {
 }
 
 sub _GetServices {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Service = ();
 
     # get priority
@@ -1058,9 +1056,9 @@ sub _GetServices {
 }
 
 sub _GetSLAs {
-    my $Self  = shift;
-    my %Param = @_;
-    my %SLA   = ();
+    my ( $Self, %Param ) = @_;
+
+    my %SLA = ();
 
     # get priority
     if ( $Param{ServiceID} ) {
@@ -1074,8 +1072,7 @@ sub _GetSLAs {
 }
 
 sub _GetTos {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check own selection
     my %NewTos = ();
@@ -1139,8 +1136,8 @@ sub _GetTos {
 }
 
 sub _MaskEmailNew {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     $Param{FormID} = $Self->{FormID};
 
     # get list type

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/Preferences/DB.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.11 2007-09-29 10:57:17 mh Exp $
+# $Id: DB.pm,v 1.12 2007-10-02 10:37:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,10 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -47,11 +46,11 @@ sub new {
 }
 
 sub SetPreferences {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $UserID = $Param{UserID} || return;
-    my $Key    = $Param{Key} || return;
-    my $Value  = defined( $Param{Value} ) ? $Param{Value} : '';
+    my $Key    = $Param{Key}    || return;
+    my $Value = defined( $Param{Value} ) ? $Param{Value} : '';
 
     # delete old data
     if (!$Self->{DBObject}->Do(
@@ -84,8 +83,8 @@ sub SetPreferences {
 }
 
 sub GetPreferences {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $UserID = $Param{UserID} || return;
     my %Data;
 

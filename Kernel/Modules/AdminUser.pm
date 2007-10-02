@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.43 2007-09-29 10:39:11 mh Exp $
+# $Id: AdminUser.pm,v 1.44 2007-10-02 10:33:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,11 +17,10 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $ ';
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -44,8 +43,8 @@ sub new {
 }
 
 sub Run {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' );
 
     # ------------------------------------------------------------ #
@@ -339,8 +338,7 @@ sub Run {
 }
 
 sub _Edit {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
@@ -433,8 +431,8 @@ sub _Edit {
 }
 
 sub _Overview {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
 
     $Self->{LayoutObject}->Block(

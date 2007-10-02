@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.55 2007-10-01 09:40:27 martin Exp $
+# $Id: DB.pm,v 1.56 2007-10-02 10:37:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,11 +20,10 @@ use Kernel::System::Cache;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -99,9 +98,9 @@ sub new {
 }
 
 sub CustomerName {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Name  = '';
+    my ( $Self, %Param ) = @_;
+
+    my $Name = '';
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
@@ -159,8 +158,8 @@ sub CustomerName {
 }
 
 sub CustomerSearch {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Users = ();
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
 
@@ -274,8 +273,8 @@ sub CustomerSearch {
 }
 
 sub CustomerUserList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
 
     # check cache
@@ -307,8 +306,8 @@ sub CustomerUserList {
 }
 
 sub CustomerIDs {
-    my $Self        = shift;
-    my %Param       = @_;
+    my ( $Self, %Param ) = @_;
+
     my @CustomerIDs = ();
 
     # check needed stuff
@@ -365,8 +364,8 @@ sub CustomerIDs {
 }
 
 sub CustomerUserDataGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Data;
 
     # check needed stuff
@@ -475,8 +474,7 @@ sub CustomerUserDataGet {
 }
 
 sub CustomerUserAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
@@ -604,8 +602,7 @@ sub CustomerUserAdd {
 }
 
 sub CustomerUserUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
@@ -697,9 +694,9 @@ sub CustomerUserUpdate {
 }
 
 sub SetPassword {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Pw    = $Param{PW} || '';
+    my ( $Self, %Param ) = @_;
+
+    my $Pw = $Param{PW} || '';
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
@@ -800,8 +797,7 @@ sub SetPassword {
 }
 
 sub GenerateRandomPassword {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Generated passwords are eight characters long by default.
     my $Size = $Param{Size} || 8;
@@ -825,7 +821,7 @@ sub GenerateRandomPassword {
 }
 
 sub DESTROY {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # disconnect if it's not a parent DBObject
     if ( $Self->{NotParentDBObject} ) {

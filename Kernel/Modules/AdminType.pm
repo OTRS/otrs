@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminType.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminType.pm,v 1.2 2007-09-29 10:39:11 mh Exp $
+# $Id: AdminType.pm,v 1.3 2007-10-02 10:33:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,11 +18,10 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -46,8 +45,7 @@ sub new {
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # ------------------------------------------------------------ #
     # change
@@ -190,8 +188,7 @@ sub Run {
 }
 
 sub _Edit {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
@@ -223,8 +220,8 @@ sub _Edit {
 }
 
 sub _Overview {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
 
     $Self->{LayoutObject}->Block(

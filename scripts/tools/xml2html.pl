@@ -3,7 +3,7 @@
 # xml2html.pl - a "_simple_" xml2html viewer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xml2html.pl,v 1.10 2007-09-29 11:10:33 mh Exp $
+# $Id: xml2html.pl,v 1.11 2007-10-02 10:50:03 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -117,7 +117,8 @@ for my $Tag (@XMLARRAY) {
 }
 
 sub Content {
-    my $C = shift;
+    my ($C) = @_;
+
     return "<span style=\"font-size:10pt;font-family:monospace,fixed;margin:"
         . ( ( $Layer * 20 ) + 5 )
         . "px;\">$C<br>\n</span>";

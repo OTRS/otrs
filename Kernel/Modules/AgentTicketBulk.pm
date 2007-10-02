@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.11 2007-09-29 10:39:11 mh Exp $
+# $Id: AgentTicketBulk.pm,v 1.12 2007-10-02 10:32:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,11 +17,10 @@ use warnings;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -43,8 +42,8 @@ sub new {
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output;
 
     # get involved tickets
@@ -208,8 +207,7 @@ sub Run {
 }
 
 sub _Mask {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # build ArticleTypeID string
     my %DefaultNoteTypes

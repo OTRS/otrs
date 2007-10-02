@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.53 2007-10-01 09:56:29 martin Exp $
+# $Id: EmailParser.pm,v 1.54 2007-10-02 10:38:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 NAME
 
@@ -60,8 +60,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -121,7 +120,8 @@ To get a email as a string back (plain email).
 =cut
 
 sub GetPlainEmail {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{Email}->as_string();
 }
 
@@ -135,9 +135,9 @@ To get a header (e. g. Subject, To, ContentType, ...) of an email
 =cut
 
 sub GetParam {
-    my $Self  = shift;
-    my %Param = @_;
-    my $What  = $Param{WHAT} || return;
+    my ( $Self, %Param ) = @_;
+
+    my $What = $Param{WHAT} || return;
 
     $Self->{HeaderObject}->unfold();
     $Self->{HeaderObject}->combine($What);
@@ -196,8 +196,8 @@ To get the senders email address back.
 =cut
 
 sub GetEmailAddress {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Email = '';
     for my $EmailSplit ( Mail::Address->parse( $Param{Email} ) ) {
         $Email = $EmailSplit->address();
@@ -216,8 +216,8 @@ This returns an array with ('Juergen Weber <juergen.qeber@air.com>', 'me@example
 =cut
 
 sub SplitAddressLine {
-    my $Self     = shift;
-    my %Param    = @_;
+    my ( $Self, %Param ) = @_;
+
     my @GetParam = ();
     for my $Line ( Mail::Address->parse( $Param{Line} ) ) {
         push( @GetParam, $Line->format() );
@@ -236,8 +236,11 @@ Returns the message body (or from the first attachment) "ContentType" header.
 =cut
 
 sub GetContentType {
-    my $Self = shift;
-    my $ContentType = shift || '';
+    my ( $Self, $ContentType ) = @_;
+    if ( !$ContentType ) {
+        $ContentType = '';
+    }
+
     if ( $Self->{ContentType} ) {
         return $Self->{ContentType};
     }
@@ -257,8 +260,11 @@ Returns the message body (or from the first attachment) "charset".
 =cut
 
 sub GetCharset {
-    my $Self = shift;
-    my $ContentType = shift || '';
+    my ( $Self, $ContentType ) = @_;
+    if ( !$ContentType ) {
+        $ContentType = '';
+    }
+
     if ( $Self->{Charset} ) {
 
         # debug
@@ -323,7 +329,8 @@ Returns the new message body (or from the first attachment) "ContentType" header
 =cut
 
 sub GetReturnContentType {
-    my $Self        = shift;
+    my ($Self) = @_;
+
     my $ContentType = $Self->GetContentType();
     if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
         my $InternalCharset = $Self->{EncodeObject}->EncodeInternalUsed();
@@ -365,7 +372,8 @@ Returns the charset of the new message body "Charset"
 =cut
 
 sub GetReturnCharset {
-    my $Self        = shift;
+    my ($Self) = @_;
+
     my $ContentType = $Self->GetContentType();
     if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
         return $Self->{EncodeObject}->EncodeInternalUsed();
@@ -384,8 +392,7 @@ Returns the message body (or from the first attachment) from the email.
 =cut
 
 sub GetMessageBody {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check if message body is already there
     if ( $Self->{MessageBody} ) {
@@ -491,8 +498,8 @@ Returns an array of the email attachments.
 =cut
 
 sub GetAttachments {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( !$Self->{MimeEmail} ) {
         return;
     }
@@ -512,10 +519,10 @@ sub GetAttachments {
 
 # just for internal
 sub PartsAttachments {
-    my $Self           = shift;
-    my %Param          = @_;
-    my $Part           = $Param{Part} || $Self->{ParserParts};
-    my $PartCounter    = $Param{PartCounter} || 0;
+    my ( $Self, %Param ) = @_;
+
+    my $Part           = $Param{Part}           || $Self->{ParserParts};
+    my $PartCounter    = $Param{PartCounter}    || 0;
     my $SubPartCounter = $Param{SubPartCounter} || 0;
     $Self->{PartCounter}++;
     if ( $Part->parts() > 0 ) {
@@ -633,8 +640,8 @@ This returns an array with ('fasfda@host.de', '4124.2313.1231@host.com').
 =cut
 
 sub GetReferences {
-    my $Self          = shift;
-    my %Param         = @_;
+    my ( $Self, %Param ) = @_;
+
     my @ReferencesAll = ();
     my @References    = ();
 
@@ -665,8 +672,8 @@ sub GetReferences {
 
 # just for internal
 sub GetContentTypeParams {
-    my $Self        = shift;
-    my %Param       = @_;
+    my ( $Self, %Param ) = @_;
+
     my $ContentType = $Param{ContentType} || return;
     if ( $Param{ContentType} =~ /charset=.+?/i ) {
         $Param{Charset} = $Param{ContentType};
@@ -694,8 +701,7 @@ sub GetContentTypeParams {
 
 # just for internal
 sub CheckMessageBody {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # if already checked, just return
     if (   $Self->{MessageChecked}
@@ -1061,6 +1067,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2007-10-01 09:56:29 $
+$Revision: 1.54 $ $Date: 2007-10-02 10:38:37 $
 
 =cut

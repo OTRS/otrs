@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.48 2007-10-01 06:47:12 martin Exp $
+# $Id: StaticDB.pm,v 1.49 2007-10-02 10:34:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,11 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub TicketAcceleratorUpdate {
-    my $Self           = shift;
-    my %Param          = @_;
+    my ( $Self, %Param ) = @_;
+
     my @ViewableLocks  = @{ $Self->{ViewableLocks} };
     my @ViewableStates = @{ $Self->{ViewableStates} };
 
@@ -119,8 +119,7 @@ sub TicketAcceleratorUpdate {
 }
 
 sub TicketAcceleratorDelete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID)) {
@@ -140,8 +139,8 @@ sub TicketAcceleratorDelete {
 }
 
 sub TicketAcceleratorAdd {
-    my $Self           = shift;
-    my %Param          = @_;
+    my ( $Self, %Param ) = @_;
+
     my @ViewableLocks  = @{ $Self->{ViewableLocks} };
     my @ViewableStates = @{ $Self->{ViewableStates} };
 
@@ -198,8 +197,7 @@ sub TicketAcceleratorAdd {
 }
 
 sub TicketLockAcceleratorDelete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID)) {
@@ -221,8 +219,7 @@ sub TicketLockAcceleratorDelete {
 }
 
 sub TicketLockAcceleratorAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID)) {
@@ -250,8 +247,7 @@ sub TicketLockAcceleratorAdd {
 }
 
 sub TicketAcceleratorIndex {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(UserID QueueID ShownQueueIDs)) {
@@ -376,8 +372,7 @@ sub TicketAcceleratorIndex {
 }
 
 sub TicketAcceleratorRebuild {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # get all viewable tickets
     my $SQL
@@ -443,8 +438,7 @@ sub TicketAcceleratorRebuild {
 }
 
 sub GetIndexTicket {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID)) {
@@ -479,8 +473,7 @@ sub GetIndexTicket {
 }
 
 sub GetIndexTicketLock {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID)) {
@@ -507,8 +500,7 @@ sub GetIndexTicketLock {
 }
 
 sub GetLockedCount {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(UserID)) {
@@ -594,8 +586,7 @@ sub GetLockedCount {
 }
 
 sub GetOverTimeTickets {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # get all open rw ticket
     my @TicketIDs         = ();

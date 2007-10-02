@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.11 2007-09-29 11:00:47 mh Exp $
+# $Id: CSV.pm,v 1.12 2007-10-02 10:37:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -47,8 +47,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -79,8 +78,8 @@ Returns a csv formatted string based on a array with head data.
 =cut
 
 sub Array2CSV {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
     my @Head   = ();
     my @Data   = ( ['##No Data##'] );
@@ -139,8 +138,8 @@ Returns an array with parsed csv data.
 =cut
 
 sub CSV2Array {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Array = ();
 
     # get separator
@@ -185,6 +184,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2007-09-29 11:00:47 $
+$Revision: 1.12 $ $Date: 2007-10-02 10:37:19 $
 
 =cut

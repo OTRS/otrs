@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.30 2007-09-29 10:59:15 mh Exp $
+# $Id: DB.pm,v 1.31 2007-10-02 10:35:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,11 +18,10 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -56,8 +55,8 @@ sub new {
 }
 
 sub CheckSessionID {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
 
     # check session id
@@ -140,15 +139,15 @@ sub CheckSessionID {
 }
 
 sub CheckSessionIDMessage {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{CheckSessionIDMessage} || '';
 }
 
 sub GetSessionIDData {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Strg  = '';
+    my ( $Self, %Param ) = @_;
+
+    my $Strg = '';
     my %Data;
 
     # check session id
@@ -208,8 +207,7 @@ sub GetSessionIDData {
 }
 
 sub CreateSessionID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # get REMOTE_ADDR
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
@@ -248,8 +246,7 @@ sub CreateSessionID {
 }
 
 sub RemoveSessionID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check session id
     if ( !$Param{SessionID} ) {
@@ -288,9 +285,9 @@ sub RemoveSessionID {
 }
 
 sub UpdateSessionID {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Key   = defined( $Param{Key} ) ? $Param{Key} : '';
+    my ( $Self, %Param ) = @_;
+
+    my $Key   = defined( $Param{Key} )   ? $Param{Key}   : '';
     my $Value = defined( $Param{Value} ) ? $Param{Value} : '';
 
     # check session id
@@ -346,8 +343,8 @@ sub UpdateSessionID {
 }
 
 sub GetAllSessionIDs {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my @SessionIDs = ();
 
     # read data
@@ -360,8 +357,7 @@ sub GetAllSessionIDs {
 }
 
 sub CleanUp {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # delete db recodes
     if ( $Self->{DBObject}->Do( SQL => "DELETE FROM $Self->{SQLSessionTable}" ) ) {

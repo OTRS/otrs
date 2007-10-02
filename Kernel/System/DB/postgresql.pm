@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.23 2007-10-01 09:38:05 martin Exp $
+# $Id: postgresql.pm,v 1.24 2007-10-02 10:36:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -33,8 +32,7 @@ sub new {
 }
 
 sub LoadPreferences {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # db settings
     $Self->{'DB::Limit'}          = 'limit';
@@ -60,8 +58,8 @@ sub LoadPreferences {
 }
 
 sub Quote {
-    my $Self = shift;
-    my $Text = shift;
+    my ( $Self, $Text ) = @_;
+
     if ( defined( ${$Text} ) ) {
         if ( $Self->{'DB::QuoteBack'} ) {
             ${$Text} =~ s/\\/$Self->{'DB::QuoteBack'}\\/g;
@@ -77,8 +75,7 @@ sub Quote {
 }
 
 sub DatabaseCreate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Name} ) {
@@ -91,8 +88,7 @@ sub DatabaseCreate {
 }
 
 sub DatabaseDrop {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Name} ) {
@@ -105,8 +101,8 @@ sub DatabaseDrop {
 }
 
 sub TableCreate {
-    my $Self         = shift;
-    my @Param        = @_;
+    my ( $Self, @Param ) = @_;
+
     my $SQLStart     = '';
     my $SQLEnd       = '';
     my $SQL          = '';
@@ -258,9 +254,9 @@ sub TableCreate {
 }
 
 sub TableDrop {
-    my $Self  = shift;
-    my @Param = @_;
-    my $SQL   = '';
+    my ( $Self, @Param ) = @_;
+
+    my $SQL = '';
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'Table' && $Tag->{TagType} eq 'Start' ) {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
@@ -278,8 +274,8 @@ sub TableDrop {
 }
 
 sub TableAlter {
-    my $Self     = shift;
-    my @Param    = @_;
+    my ( $Self, @Param ) = @_;
+
     my $SQLStart = '';
     my @SQL      = ();
     my $Table    = '';
@@ -354,8 +350,7 @@ sub TableAlter {
 }
 
 sub IndexCreate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TableName Name Data)) {
@@ -384,8 +379,7 @@ sub IndexCreate {
 }
 
 sub IndexDrop {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TableName Name)) {
@@ -399,8 +393,7 @@ sub IndexDrop {
 }
 
 sub ForeignKeyCreate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(LocalTableName Local ForeignTableName Foreign)) {
@@ -418,8 +411,7 @@ sub ForeignKeyCreate {
 }
 
 sub ForeignKeyDrop {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TableName Name)) {
@@ -435,8 +427,7 @@ sub ForeignKeyDrop {
 }
 
 sub UniqueCreate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TableName Name Data)) {
@@ -461,8 +452,7 @@ sub UniqueCreate {
 }
 
 sub UniqueDrop {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TableName Name)) {
@@ -476,8 +466,8 @@ sub UniqueDrop {
 }
 
 sub Insert {
-    my $Self   = shift;
-    my @Param  = @_;
+    my ( $Self, @Param ) = @_;
+
     my $SQL    = '';
     my @Keys   = ();
     my @Values = ();
@@ -552,8 +542,7 @@ sub Insert {
 }
 
 sub _TypeTranslation {
-    my $Self = shift;
-    my $Tag  = shift;
+    my ( $Self, $Tag ) = @_;
 
     # type translation
     if ( $Tag->{Type} =~ /^DATE$/i ) {

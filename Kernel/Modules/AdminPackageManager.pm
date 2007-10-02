@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.48 2007-09-29 10:39:11 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.49 2007-10-02 10:33:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,11 +18,10 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -31,7 +30,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    # check needed Opjects
+    # check needed objects
     for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject MainObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
@@ -45,8 +44,8 @@ sub new {
 }
 
 sub Run {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Source = $Self->{UserRepository} || '';
 
     # ------------------------------------------------------------ #
@@ -1398,8 +1397,8 @@ sub Run {
 }
 
 sub _MessageGet {
-    my $Self        = shift;
-    my %Param       = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Title       = '';
     my $Description = '';
     if ( $Param{Info} ) {

@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.65 2007-09-29 11:00:47 mh Exp $
+# $Id: Config.pm,v 1.66 2007-10-02 10:37:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Digest::MD5 qw(md5_hex);
 use Data::Dumper;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 =head1 NAME
 
@@ -68,8 +68,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -104,8 +103,8 @@ sub new {
 }
 
 sub _Init {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Counter = 0;
 
     # check needed stuff
@@ -224,8 +223,8 @@ sub _Init {
 }
 
 sub WriteDefault {
-    my $Self     = shift;
-    my %Param    = @_;
+    my ( $Self, %Param ) = @_;
+
     my $File     = '';
     my %UsedKeys = ();
 
@@ -290,10 +289,10 @@ or if you want to check if it exists (returns true or false)
 =cut
 
 sub Download {
-    my $Self  = shift;
-    my %Param = @_;
-    my $File  = '';
-    my $Home  = $Self->{'Home'};
+    my ( $Self, %Param ) = @_;
+
+    my $File = '';
+    my $Home = $Self->{'Home'};
 
     # check needed stuff
     for (qw()) {
@@ -348,10 +347,10 @@ upload of config changes
 =cut
 
 sub Upload {
-    my $Self  = shift;
-    my %Param = @_;
-    my $File  = '';
-    my $Home  = $Self->{'Home'};
+    my ( $Self, %Param ) = @_;
+
+    my $File = '';
+    my $Home = $Self->{'Home'};
 
     # check needed stuff
     for (qw(Content)) {
@@ -383,8 +382,8 @@ submit config settings to application
 =cut
 
 sub CreateConfig {
-    my $Self     = shift;
-    my %Param    = @_;
+    my ( $Self, %Param ) = @_;
+
     my $File     = '';
     my %UsedKeys = ();
     my $Home     = $Self->{'Home'};
@@ -473,9 +472,9 @@ submit config settings and save it
 =cut
 
 sub ConfigItemUpdate {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Home  = $Self->{'Home'};
+    my ( $Self, %Param ) = @_;
+
+    my $Home = $Self->{'Home'};
 
     # remember to update defaults
     $Self->{Update} = 1;
@@ -533,9 +532,9 @@ ZZZAuto.pm
 =cut
 
 sub ConfigItemUpdateFinish {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Home  = $Self->{'Home'};
+    my ( $Self, %Param ) = @_;
+
+    my $Home = $Self->{'Home'};
 
     if ( !open( OUT, ">> $Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         $Self->{LogObject}->Log(
@@ -569,8 +568,8 @@ get the default config setting
 =cut
 
 sub ConfigItemGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $XMLConfig;
 
     # check needed stuff
@@ -920,8 +919,7 @@ sub ConfigItemGet {
 }
 
 sub ConfigItemReset {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name)) {
@@ -950,8 +948,7 @@ get a list of config groups
 =cut
 
 sub ConfigGroupList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -984,8 +981,7 @@ get a list of config sub groups
 =cut
 
 sub ConfigSubGroupList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name)) {
@@ -1033,8 +1029,7 @@ get a list of config items of a sub group
 =cut
 
 sub ConfigSubGroupConfigItemList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Group SubGroup)) {
@@ -1095,10 +1090,10 @@ search sub groups of config items
 =cut
 
 sub ConfigItemSearch {
-    my $Self  = shift;
-    my %Param = @_;
-    my @List  = ();
-    my %Used  = ();
+    my ( $Self, %Param ) = @_;
+
+    my @List = ();
+    my %Used = ();
 
     # check needed stuff
     for (qw(Search)) {
@@ -1201,8 +1196,8 @@ sub ConfigItemSearch {
 }
 
 sub _ModGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Content;
     my $ConfigObject;
 
@@ -1235,8 +1230,7 @@ sub _ModGet {
 }
 
 sub DataDiff {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Data1 Data2)) {
@@ -1379,8 +1373,7 @@ sub DataDiff {
 }
 
 sub _XML2Perl {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Data)) {
@@ -1612,8 +1605,8 @@ sub _XML2Perl {
 }
 
 sub DESTROY {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( $Self->{Update} ) {
 
         # write default file
@@ -1638,6 +1631,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.65 $ $Date: 2007-09-29 11:00:47 $
+$Revision: 1.66 $ $Date: 2007-10-02 10:37:19 $
 
 =cut

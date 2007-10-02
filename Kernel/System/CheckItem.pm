@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spelling module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.20 2007-09-29 11:00:47 mh Exp $
+# $Id: CheckItem.pm,v 1.21 2007-10-02 10:37:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -51,8 +51,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -77,7 +76,8 @@ get the error of check item back
 =cut
 
 sub CheckError {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{Error};
 }
 
@@ -93,8 +93,7 @@ from CheckError()
 =cut
 
 sub CheckEmail {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Address)) {
@@ -215,6 +214,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2007-09-29 11:00:47 $
+$Revision: 1.21 $ $Date: 2007-10-02 10:37:19 $
 
 =cut

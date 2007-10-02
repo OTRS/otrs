@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.19 2007-09-29 11:03:39 mh Exp $
+# $Id: Service.pm,v 1.20 2007-10-02 10:37:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -59,8 +59,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -87,8 +86,8 @@ return a hash list of services
 =cut
 
 sub ServiceList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my %ServiceList;
     my %ServiceValidList;
 
@@ -184,8 +183,7 @@ Return
 =cut
 
 sub ServiceGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ServiceID UserID)) {
@@ -257,8 +255,7 @@ return a service name and id
 =cut
 
 sub ServiceLookup {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{ServiceID} && !$Param{Name} ) {
@@ -330,8 +327,7 @@ add a service
 =cut
 
 sub ServiceAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name ValidID UserID)) {
@@ -436,8 +432,7 @@ update a existing service
 =cut
 
 sub ServiceUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ServiceID Name ValidID UserID)) {
@@ -563,8 +558,7 @@ return service ids as an array
 =cut
 
 sub ServiceSearch {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(UserID)) {
@@ -628,8 +622,7 @@ returns a list of customeruser/service members
 =cut
 
 sub CustomerUserServiceMemberList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Result)) {
@@ -773,8 +766,8 @@ to add a member to a service
 =cut
 
 sub CustomerUserServiceMemberAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $count;
 
     # check needed stuff
@@ -832,6 +825,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2007-09-29 11:03:39 $
+$Revision: 1.20 $ $Date: 2007-10-02 10:37:06 $
 
 =cut

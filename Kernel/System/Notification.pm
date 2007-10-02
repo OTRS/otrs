@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.13 2007-09-29 11:03:51 mh Exp $
+# $Id: Notification.pm,v 1.14 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -55,14 +55,13 @@ create a notification object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
-    # get common opjects
+    # get common objects
     for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
@@ -88,8 +87,7 @@ get notification attributes
 =cut
 
 sub NotificationGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Name} ) {
@@ -185,8 +183,7 @@ get notification list
 =cut
 
 sub NotificationList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # sql
     my $SQL
@@ -244,8 +241,7 @@ update notification attributes
 =cut
 
 sub NotificationUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Type Charset Language Subject Body UserID)) {
@@ -303,6 +299,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2007-09-29 11:03:51 $
+$Revision: 1.14 $ $Date: 2007-10-02 10:38:58 $
 
 =cut

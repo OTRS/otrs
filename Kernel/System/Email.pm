@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.32 2007-09-29 11:02:09 mh Exp $
+# $Id: Email.pm,v 1.33 2007-10-02 10:38:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -74,8 +74,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -164,8 +163,7 @@ To send an email without already created header:
 =cut
 
 sub Send {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Body Charset)) {
@@ -575,8 +573,7 @@ Bounce an email
 =cut
 
 sub Bounce {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(From To Email)) {
@@ -639,8 +636,8 @@ sub Bounce {
 }
 
 sub _MessageIDCreate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return "Message-ID: <" . time() . "." . rand(999999) . "\@$Self->{FQDN}>";
 }
 1;
@@ -659,6 +656,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2007-09-29 11:02:09 $
+$Revision: 1.33 $ $Date: 2007-10-02 10:38:37 $
 
 =cut

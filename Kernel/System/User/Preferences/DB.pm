@@ -2,7 +2,7 @@
 # Kernel/System/User/Preferences/DB.pm - some user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.12 2007-09-29 10:52:18 mh Exp $
+# $Id: DB.pm,v 1.13 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,10 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -44,8 +43,7 @@ sub new {
 }
 
 sub SetPreferences {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(UserID Key)) {
@@ -98,8 +96,8 @@ sub SetPreferences {
 }
 
 sub GetPreferences {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Data;
 
     # check needed stuff
@@ -133,8 +131,8 @@ sub GetPreferences {
 }
 
 sub SearchPreferences {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my %UserID = ();
     my $Key    = $Param{Key} || '';
     my $Value  = $Param{Value} || '';

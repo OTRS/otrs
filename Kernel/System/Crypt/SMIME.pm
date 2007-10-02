@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.12 2007-09-29 10:58:37 mh Exp $
+# $Id: SMIME.pm,v 1.13 2007-10-02 10:37:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -32,8 +32,7 @@ This is a sub module of Kernel::System::Crypt and contains all smime functions.
 =cut
 
 sub _Init {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     $Self->{Bin}         = $Self->{ConfigObject}->Get('SMIME::Bin') || '/usr/bin/openssl';
     $Self->{CertPath}    = $Self->{ConfigObject}->Get('SMIME::CertPath');
@@ -58,8 +57,7 @@ check if environment is working
 =cut
 
 sub Check {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     if ( !-e $Self->{Bin} ) {
         $Self->{LogObject}->Log(
@@ -132,8 +130,8 @@ crypt a message
 =cut
 
 sub Crypt {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my $LogMessage = '';
     my $UsedKey    = '';
 
@@ -183,8 +181,8 @@ decrypt a message and returns a hash (Successful, Message, Data)
 =cut
 
 sub Decrypt {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my $LogMessage = '';
     my $UsedKey    = '';
 
@@ -247,8 +245,8 @@ sign a message
 =cut
 
 sub Sign {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my $LogMessage = '';
     my $UsedKey    = '';
 
@@ -303,8 +301,8 @@ verify a message with signature and returns a hash (Successful, Message, SignerC
 =cut
 
 sub Verify {
-    my $Self        = shift;
-    my %Param       = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Return      = ();
     my $Message     = '';
     my $MessageLong = '';
@@ -392,8 +390,8 @@ search a certifcate or an private key
 =cut
 
 sub Search {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Result = $Self->CertificateSearch(%Param);
     @Result = ( @Result, $Self->PrivateSearch(%Param) );
     return @Result;
@@ -410,8 +408,8 @@ search a local certifcate
 =cut
 
 sub CertificateSearch {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Search = $Param{Search} || '';
     my @Result = ();
     my @Hash   = $Self->CertificateList();
@@ -447,8 +445,7 @@ add a certificate to local certificates
 =cut
 
 sub CertificateAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Certificate} ) {
@@ -485,8 +482,7 @@ get a local certificate
 =cut
 
 sub CertificateGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Hash} ) {
@@ -519,8 +515,7 @@ remove a local certificate
 =cut
 
 sub CertificateRemove {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Hash} ) {
@@ -540,10 +535,10 @@ get list of local certificates
 =cut
 
 sub CertificateList {
-    my $Self  = shift;
-    my %Param = @_;
-    my @Hash  = ();
-    my @List  = glob("$Self->{CertPath}/*.0");
+    my ( $Self, %Param ) = @_;
+
+    my @Hash = ();
+    my @List = glob("$Self->{CertPath}/*.0");
     for my $File (@List) {
         $File =~ s!^.*/!!;
         $File =~ s/(.*)\.0/$1/;
@@ -563,8 +558,8 @@ get certificate attributes
 =cut
 
 sub CertificateAttributes {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Attributes = ();
     my %Option     = (
         Hash        => '-hash',
@@ -685,8 +680,8 @@ returns private keys
 =cut
 
 sub PrivateSearch {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Search = $Param{Search} || '';
     my @Result = ();
     my @Hash   = $Self->CertificateList();
@@ -725,8 +720,7 @@ add private key
 =cut
 
 sub PrivateAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Private} ) {
@@ -792,8 +786,7 @@ get private key
 =cut
 
 sub PrivateGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Hash} ) {
@@ -842,8 +835,7 @@ remove private key
 =cut
 
 sub PrivateRemove {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Hash} ) {
@@ -864,10 +856,10 @@ returns a list of private key hashs
 =cut
 
 sub PrivateList {
-    my $Self  = shift;
-    my %Param = @_;
-    my @Hash  = ();
-    my @List  = glob("$Self->{PrivatePath}/*.0");
+    my ( $Self, %Param ) = @_;
+
+    my @Hash = ();
+    my @List = glob("$Self->{PrivatePath}/*.0");
     for my $File (@List) {
         $File =~ s!^.*/!!;
         $File =~ s/(.*)\.0/$1/;
@@ -889,10 +881,10 @@ returns attributes of private key
 =cut
 
 sub PrivateAttributes {
-    my $Self       = shift;
-    my %Param      = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Attributes = ();
-    my %Option     = ( Modulus => '-modulus', );
+    my %Option = ( Modulus => '-modulus', );
     if ( !$Param{Private} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need Private!" );
         return;
@@ -936,6 +928,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2007-09-29 10:58:37 $
+$Revision: 1.13 $ $Date: 2007-10-02 10:37:19 $
 
 =cut

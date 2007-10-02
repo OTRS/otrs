@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.62 2007-09-29 11:01:25 mh Exp $
+# $Id: XML.pm,v 1.63 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 =head1 NAME
 
@@ -64,14 +64,13 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
-    # get common opjects
+    # get common objects
     for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
@@ -109,8 +108,7 @@ add a XMLHash to storage
 =cut
 
 sub XMLHashAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Type XMLHash)) {
@@ -168,8 +166,8 @@ sub XMLHashAdd {
 }
 
 sub _XMLHashAddAutoIncrement {
-    my $Self             = shift;
-    my %Param            = @_;
+    my ( $Self, %Param ) = @_;
+
     my $KeyAutoIncrement = 0;
     my @KeysExists;
 
@@ -227,8 +225,7 @@ update an XMLHash part to storage
 =cut
 
 sub XMLHashUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Type Key XMLHash)) {
@@ -258,8 +255,8 @@ get a XMLHash from database
 =cut
 
 sub XMLHashGet {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Content = '';
     my @XMLHash = ();
 
@@ -335,8 +332,7 @@ delete a XMLHash from database
 =cut
 
 sub XMLHashDelete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Type Key)) {
@@ -372,8 +368,7 @@ move a XMLHash from one type or/and key to another
 =cut
 
 sub XMLHashMove {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(OldType OldKey NewType NewKey)) {
@@ -431,8 +426,8 @@ search a xml hash from database
 =cut
 
 sub XMLHashSearch {
-    my $Self    = shift;
-    my %Param   = @_;
+    my ( $Self, %Param ) = @_;
+
     my $SQL     = '';
     my @Keys    = ();
     my %Hash    = ();
@@ -508,10 +503,10 @@ a list of xml hash's in database
 =cut
 
 sub XMLHashList {
-    my $Self  = shift;
-    my %Param = @_;
-    my $SQL   = '';
-    my @Keys  = ();
+    my ( $Self, %Param ) = @_;
+
+    my $SQL  = '';
+    my @Keys = ();
 
     # check needed stuff
     for (qw(Type)) {
@@ -541,8 +536,8 @@ generate a xml string from a XMLHash
 =cut
 
 sub XMLHash2XML {
-    my $Self    = shift;
-    my @XMLHash = @_;
+    my ( $Self, @XMLHash ) = @_;
+
     my $Output
         = "<?xml version=\"1.0\" encoding=\""
         . $Self->{ConfigObject}->Get('DefaultCharset')
@@ -556,8 +551,8 @@ sub XMLHash2XML {
 }
 
 sub _ElementBuild {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Tag    = ();
     my @Sub    = ();
     my $Output = '';
@@ -698,8 +693,8 @@ parse a xml file and return a XMLHash structur
 =cut
 
 sub XMLParse2XMLHash {
-    my $Self         = shift;
-    my %Param        = @_;
+    my ( $Self, %Param ) = @_;
+
     my @XMLStructure = $Self->XMLParse(%Param);
     if ( !@XMLStructure ) {
         return ();
@@ -723,8 +718,8 @@ return a hash with long hash key and content
 =cut
 
 sub XMLHash2D {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my @NewXMLStructure;
 
     # check needed stuff
@@ -755,8 +750,7 @@ sub XMLHash2D {
 }
 
 sub _XMLHash2D {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     if ( !defined( $Param{Item} ) ) {
         return '';
@@ -805,8 +799,8 @@ get a @XMLHash from a @XMLStructure with current TagKey param
 =cut
 
 sub XMLStructure2XMLHash {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my @NewXMLStructure;
 
     # check needed stuff
@@ -834,8 +828,8 @@ sub XMLStructure2XMLHash {
 }
 
 sub _XMLStructure2XMLHash {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
 
     if ( !defined( $Param{Item} ) ) {
@@ -1260,8 +1254,7 @@ parse a xml file
 =cut
 
 sub XMLParse {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(String)) {
@@ -1317,8 +1310,8 @@ sub XMLParse {
 }
 
 sub _Decode {
-    my $Self = shift;
-    my $A    = shift;
+    my ( $Self, $A ) = @_;
+
     for ( keys %{$A} ) {
         if ( ref( $A->{$_} ) eq 'ARRAY' ) {
             for my $B ( @{ $A->{$_} } ) {
@@ -1438,6 +1431,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.62 $ $Date: 2007-09-29 11:01:25 $
+$Revision: 1.63 $ $Date: 2007-10-02 10:38:58 $
 
 =cut

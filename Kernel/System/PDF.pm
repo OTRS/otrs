@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.28 2007-09-29 11:00:19 mh Exp $
+# $Id: PDF.pm,v 1.29 2007-10-02 10:38:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -32,8 +32,7 @@ All pdf functions.
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -92,8 +91,7 @@ Create a new PDF Document
 =cut
 
 sub DocumentNew {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -192,8 +190,7 @@ Create a new, blank Page
 =cut
 
 sub PageBlankNew {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -285,8 +282,7 @@ Create a new Page
 =cut
 
 sub PageNew {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -537,8 +533,7 @@ Return the PDF as string
 =cut
 
 sub DocumentOutput {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -646,8 +641,7 @@ Add a table
 =cut
 
 sub Table {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(CellData)) {
@@ -1022,8 +1016,7 @@ Output a textline
 =cut
 
 sub Text {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Text)) {
@@ -1172,8 +1165,7 @@ Output a image
 =cut
 
 sub Image {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(File Width Height)) {
@@ -1291,8 +1283,7 @@ Output a horizontal line
 =cut
 
 sub HLine {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -1416,8 +1407,7 @@ Set new position on current page
 =cut
 
 sub PositionSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -1543,8 +1533,7 @@ Get position on current page
 =cut
 
 sub PositionGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -1578,8 +1567,7 @@ Set active dimension
 =cut
 
 sub DimSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -1616,8 +1604,7 @@ Get active dimension (printable or content)
 =cut
 
 sub DimGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -1719,8 +1706,7 @@ sub DimGet {
 #
 
 sub _TableCalculate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (
@@ -2059,8 +2045,8 @@ sub _TableCalculate {
 #
 
 sub _TableBlockNextCalculate {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Return = (
         State             => 0,
         ReturnBlock       => 0,
@@ -2167,8 +2153,7 @@ sub _TableBlockNextCalculate {
 #
 
 sub _TableRowCalculate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(CellData RowData ColumnData Row)) {
@@ -2270,8 +2255,8 @@ sub _TableRowCalculate {
 #
 
 sub _TableCellOutput {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Return = (
         State          => 0,
         RequiredWidth  => 0,
@@ -2398,8 +2383,8 @@ sub _TableCellOutput {
 #
 
 sub _TableCellOnCount {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Return = 0;
 
     # check needed stuff
@@ -2457,8 +2442,8 @@ sub _TableCellOnCount {
 #
 
 sub _TextCalculate {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Return = (
         State          => 0,
         RequiredWidth  => 0,
@@ -2692,8 +2677,8 @@ sub _TextCalculate {
 #
 
 sub _StringWidth {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $StringWidth;
 
     # check needed stuff
@@ -2752,8 +2737,7 @@ sub _StringWidth {
 #
 
 sub _PrepareText {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Text)) {
@@ -2795,8 +2779,7 @@ sub _PrepareText {
 #
 
 sub _CurPageNumberSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -2853,8 +2836,7 @@ sub _CurPageNumberSet {
 #
 
 sub _CurPageDimSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -2951,8 +2933,7 @@ sub _CurPageDimSet {
 #
 
 sub _CurPageDimGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -2995,8 +2976,7 @@ sub _CurPageDimGet {
 #
 
 sub _CurPageDimCheck {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -3046,8 +3026,7 @@ sub _CurPageDimCheck {
 #
 
 sub _CurPrintableDimSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -3151,8 +3130,7 @@ sub _CurPrintableDimSet {
 #
 
 sub _CurPrintableDimGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -3195,8 +3173,7 @@ sub _CurPrintableDimGet {
 #
 
 sub _CurPrintableDimCheck {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -3250,8 +3227,7 @@ sub _CurPrintableDimCheck {
 #
 
 sub _CurContentDimSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -3347,8 +3323,7 @@ sub _CurContentDimSet {
 #
 
 sub _CurContentDimGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -3391,8 +3366,7 @@ sub _CurContentDimGet {
 #
 
 sub _CurContentDimCheck {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -3441,8 +3415,7 @@ sub _CurContentDimCheck {
 #
 
 sub _CurPositionSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -3507,8 +3480,7 @@ sub _CurPositionSet {
 #
 
 sub _CurPositionGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -3549,6 +3521,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2007-09-29 11:00:19 $
+$Revision: 1.29 $ $Date: 2007-10-02 10:38:20 $
 
 =cut

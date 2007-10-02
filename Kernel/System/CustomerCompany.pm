@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.4 2007-10-01 09:56:29 martin Exp $
+# $Id: CustomerCompany.pm,v 1.5 2007-10-02 10:37:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -64,8 +64,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -125,8 +124,7 @@ add new projects
 =cut
 
 sub CustomerCompanyAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(CustomerID UserID)) {
@@ -178,9 +176,9 @@ get projects attributes
 =cut
 
 sub CustomerCompanyGet {
-    my $Self  = shift;
-    my %Param = @_;
-    my %Data  = ();
+    my ( $Self, %Param ) = @_;
+
+    my %Data = ();
 
     # check needed stuff
     if ( !$Param{CustomerID} ) {
@@ -241,8 +239,7 @@ update project attributes
 =cut
 
 sub CustomerCompanyUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
@@ -295,8 +292,8 @@ get project list
 =cut
 
 sub CustomerCompanyList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Valid = 1;
 
     # check needed stuff
@@ -321,7 +318,7 @@ sub CustomerCompanyList {
 }
 
 sub DESTROY {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # disconnect if it's not a parent DBObject
     if ( $Self->{NotParentDBObject} ) {
@@ -348,6 +345,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2007-10-01 09:56:29 $
+$Revision: 1.5 $ $Date: 2007-10-02 10:37:19 $
 
 =cut

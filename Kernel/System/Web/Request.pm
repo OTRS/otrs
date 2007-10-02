@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.16 2007-10-01 06:13:13 martin Exp $
+# $Id: Request.pm,v 1.17 2007-10-02 10:35:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,8 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-
-$VERSION = '$Revision: 1.16 $ ';
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -47,8 +46,7 @@ create param object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -90,7 +88,8 @@ to get the error back
 =cut
 
 sub Error {
-    my $Self = shift;
+    my ($Self) = @_;
+
     if ( cgi_error() ) {
         return cgi_error() . " - POST_MAX=" . ( $CGI::POST_MAX / 1024 ) . "KB";
     }
@@ -110,8 +109,8 @@ to get params
 =cut
 
 sub GetParam {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Value = $Self->{Query}->param( $Param{Param} );
     $Self->{EncodeObject}->Encode( \$Value );
     return $Value;
@@ -126,8 +125,8 @@ to get array params
 =cut
 
 sub GetArray {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Value = $Self->{Query}->param( $Param{Param} );
     $Self->{EncodeObject}->Encode( \@Value );
     return @Value;
@@ -140,9 +139,9 @@ internal function for GetUploadAll()
 =cut
 
 sub GetUpload {
-    my $Self  = shift;
-    my %Param = @_;
-    my $File  = $Self->{Query}->upload( $Param{Filename} );
+    my ( $Self, %Param ) = @_;
+
+    my $File = $Self->{Query}->upload( $Param{Filename} );
     return $File;
 }
 
@@ -153,9 +152,9 @@ internal function for GetUploadAll()
 =cut
 
 sub GetUploadInfo {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Info  = $Self->{Query}->uploadInfo( $Param{Filename} )->{ $Param{Header} };
+    my ( $Self, %Param ) = @_;
+
+    my $Info = $Self->{Query}->uploadInfo( $Param{Filename} )->{ $Param{Header} };
     return $Info;
 }
 
@@ -181,8 +180,8 @@ to get file upload
 =cut
 
 sub GetUploadAll {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Upload = $Self->GetUpload( Filename => $Param{Param} );
     if ($Upload) {
         $Param{UploadFilenameOrig} = $Self->GetParam( Param => $Param{Param} ) || 'unkown';
@@ -215,7 +214,7 @@ sub GetUploadAll {
             File::Path::mkpath( [$Path], 0, '0700' );
 
             $Param{UploadFilename} = "$Path/$NewFileName";
-            open (my $Out,'>', $Param{UploadFilename}) || die $!;
+            open( my $Out, '>', $Param{UploadFilename} ) || die $!;
             while (<$Upload>) {
                 print $Out $_;
             }
@@ -256,8 +255,8 @@ set a cookie
 =cut
 
 sub SetCookie {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{Query}->cookie(
         -name    => $Param{Key},
         -value   => $Param{Value},
@@ -276,8 +275,8 @@ get a cookie
 =cut
 
 sub GetCookie {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{Query}->cookie( $Param{Key} ) || '';
 }
 
@@ -297,6 +296,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2007-10-01 06:13:13 $
+$Revision: 1.17 $ $Date: 2007-10-02 10:35:04 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.21 2007-10-01 09:43:45 martin Exp $
+# $Id: Encode.pm,v 1.22 2007-10-02 10:38:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -50,8 +50,7 @@ create a language object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -106,7 +105,8 @@ Returns true or false if charset encoding is possible (depends on Perl version =
 =cut
 
 sub EncodeSupported {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{CharsetEncodeSupported};
 }
 
@@ -122,7 +122,8 @@ used.
 =cut
 
 sub EncodeInternalUsed {
-    my $Self = shift;
+    my ($Self) = @_;
+
     if ( $Self->{UTF8Support} ) {
         return 'utf-8';
     }
@@ -143,7 +144,8 @@ used (then the translation charset (from translation file) will be used).
 =cut
 
 sub EncodeFrontendUsed {
-    my $Self = shift;
+    my ($Self) = @_;
+
     if ( $Self->{UTF8Support} ) {
         return 'utf-8';
     }
@@ -174,8 +176,8 @@ already converted string.
 =cut
 
 sub Convert {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( !defined( $Param{Text} ) || $Param{Text} eq '' ) {
         return;
     }
@@ -235,8 +237,8 @@ Set array of file handles to utf-8 output.
 =cut
 
 sub SetIO {
-    my $Self  = shift;
-    my @Array = @_;
+    my ( $Self, @Array ) = @_;
+
     if (   $Self->{CharsetEncodeSupported}
         && $Self->EncodeFrontendUsed()
         && $Self->EncodeFrontendUsed() =~ /utf(-8|8)/i )
@@ -261,8 +263,7 @@ if data is already utf-8.
 =cut
 
 sub Encode {
-    my $Self = shift;
-    my $What = shift;
+    my ( $Self, $What ) = @_;
 
     # internel charset
     if (   $Self->{CharsetEncodeSupported}
@@ -304,8 +305,8 @@ Convert given charset into the internal used charset (utf-8), if
 =cut
 
 sub Decode {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( !defined $Param{Text} ) {
         return;
     }
@@ -339,8 +340,7 @@ This should be used in for output of utf8 chars.
 =cut
 
 sub EncodeOutput {
-    my $Self = shift;
-    my $What = shift;
+    my ( $Self, $What ) = @_;
 
     # internel charset
     if (   $Self->{CharsetEncodeSupported}
@@ -370,6 +370,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2007-10-01 09:43:45 $
+$Revision: 1.22 $ $Date: 2007-10-02 10:38:37 $
 
 =cut

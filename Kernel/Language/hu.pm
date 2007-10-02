@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.42 2007-09-29 10:36:40 mh Exp $
+# $Id: hu.pm,v 1.43 2007-10-02 10:45:42 mh Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -21,11 +21,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub Data {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # $$START$$
     # Last translation file sync: Tue May 29 15:15:50 2007

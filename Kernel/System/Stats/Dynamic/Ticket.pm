@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.13 2007-09-29 10:54:07 mh Exp $
+# $Id: Ticket.pm,v 1.14 2007-10-02 10:37:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,17 +21,16 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
-    # get common opjects
+    # get common objects
     for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
@@ -55,15 +54,14 @@ sub new {
 }
 
 sub GetObjectName {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Name  = 'Ticket';
+    my ( $Self, %Param ) = @_;
+
+    my $Name = 'Ticket';
     return $Name;
 }
 
 sub GetObjectAttributes {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my %User = $Self->{UserObject}->UserList( Type => 'Long', Valid => 0 );
     my %State        = $Self->{StateObject}->StateList( UserID       => 1 );
@@ -395,8 +393,8 @@ sub GetObjectAttributes {
 }
 
 sub GetStatElement {
-    my $Self      = shift;
-    my %Param     = @_;
+    my ( $Self, %Param ) = @_;
+
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
         UserID     => 1,
         Result     => 'ARRAY',
@@ -408,8 +406,7 @@ sub GetStatElement {
 }
 
 sub ExportWrapper {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # wrap ids to used spelling
     for my $Use (qw(UseAsValueSeries UseAsRestriction UseAsXvalue)) {
@@ -464,8 +461,7 @@ sub ExportWrapper {
 }
 
 sub ImportWrapper {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # wrap used spelling to ids
     for my $Use (qw(UseAsValueSeries UseAsRestriction UseAsXvalue)) {

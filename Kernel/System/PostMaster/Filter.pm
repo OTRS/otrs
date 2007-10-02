@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter.pm - all functions to add/delete/list pm db filters
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Filter.pm,v 1.10 2007-09-29 10:54:31 mh Exp $
+# $Id: Filter.pm,v 1.11 2007-10-02 10:34:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -57,8 +57,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -81,10 +80,10 @@ get all filter
 =cut
 
 sub FilterList {
-    my $Self  = shift;
-    my %Param = @_;
-    my %Data  = ();
-    my $SQL   = "SELECT f_name FROM postmaster_filter ";
+    my ( $Self, %Param ) = @_;
+
+    my %Data = ();
+    my $SQL  = "SELECT f_name FROM postmaster_filter ";
     $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[0];
@@ -110,8 +109,7 @@ add a filter
 =cut
 
 sub FilterAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name Match Set)) {
@@ -150,8 +148,7 @@ delete a filter
 =cut
 
 sub FilterDelete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name)) {
@@ -182,8 +179,7 @@ get filter properties, returns HASH ref Match and Set
 =cut
 
 sub FilterGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name)) {
@@ -224,6 +220,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2007-09-29 10:54:31 $
+$Revision: 1.11 $ $Date: 2007-10-02 10:34:46 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Priority.pm - all ticket priority function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.10 2007-09-29 11:00:19 mh Exp $
+# $Id: Priority.pm,v 1.11 2007-10-02 10:38:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -59,8 +59,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -86,8 +85,7 @@ return a priority list as hash
 =cut
 
 sub PriorityList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check valid param
     if ( !defined( $Param{Valid} ) ) {
@@ -122,8 +120,7 @@ get a priority
 =cut
 
 sub PriorityGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(PriorityID UserID)) {
@@ -171,8 +168,7 @@ add a ticket priority
 =cut
 
 sub PriorityAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name ValidID UserID)) {
@@ -212,8 +208,7 @@ update a existing ticket priority
 =cut
 
 sub PriorityUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(PriorityID Name ValidID UserID)) {
@@ -249,8 +244,7 @@ returns the id or the name of a priority
 =cut
 
 sub PriorityLookup {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Priority} && !$Param{PriorityID} ) {
@@ -335,6 +329,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2007-09-29 11:00:19 $
+$Revision: 1.11 $ $Date: 2007-10-02 10:38:20 $
 
 =cut

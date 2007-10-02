@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.30 2007-09-29 11:02:27 mh Exp $
+# $Id: GenericAgent.pm,v 1.31 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $ ';
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -76,8 +76,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -198,8 +197,7 @@ run an generic agent job
 =cut
 
 sub JobRun {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Job UserID)) {
@@ -429,8 +427,7 @@ sub JobRun {
 # =cut
 
 sub _JobRunTicket {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID TicketNumber Config UserID)) {
@@ -707,8 +704,7 @@ returns a hash of jobs
 =cut
 
 sub JobList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw()) {
@@ -735,8 +731,7 @@ returns a hash of the job data
 =cut
 
 sub JobGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name)) {
@@ -969,8 +964,7 @@ adds a new job to the database
 =cut
 
 sub JobAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name Data UserID)) {
@@ -1035,8 +1029,7 @@ deletes an job from the database
 =cut
 
 sub JobDelete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name UserID)) {
@@ -1076,6 +1069,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2007-09-29 11:02:27 $
+$Revision: 1.31 $ $Date: 2007-10-02 10:38:58 $
 
 =cut

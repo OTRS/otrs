@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.14 2007-09-29 10:44:28 mh Exp $
+# $Id: CustomerTicketPrint.pm,v 1.15 2007-10-02 10:31:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,11 +20,10 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -33,7 +32,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    # check needed Opjects
+    # check needed objects
     for (
         qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject MainObject)
         )
@@ -55,8 +54,8 @@ sub new {
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output;
     my $QueueID;
 
@@ -305,8 +304,7 @@ sub Run {
 }
 
 sub _PDFOutputTicketInfos {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(PageData TicketData UserData)) {
@@ -490,8 +488,7 @@ sub _PDFOutputTicketInfos {
 }
 
 sub _PDFOutputLinkedObjects {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(PageData LinkData)) {
@@ -605,8 +602,7 @@ sub _PDFOutputLinkedObjects {
 }
 
 sub _PDFOutputTicketFreeText {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(PageData TicketData)) {
@@ -691,8 +687,7 @@ sub _PDFOutputTicketFreeText {
 }
 
 sub _PDFOutputTicketFreeTime {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(PageData TicketData)) {
@@ -783,8 +778,7 @@ sub _PDFOutputTicketFreeTime {
 }
 
 sub _PDFOutputCustomerInfos {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(PageData CustomerData)) {
@@ -875,8 +869,7 @@ sub _PDFOutputCustomerInfos {
 }
 
 sub _PDFOutputArticles {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(PageData ArticleData)) {
@@ -1037,8 +1030,7 @@ sub _PDFOutputArticles {
 }
 
 sub _HTMLMask {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # output responible, if feature is enabled
     if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {

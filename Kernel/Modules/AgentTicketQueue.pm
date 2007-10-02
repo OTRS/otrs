@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.39 2007-10-01 09:56:29 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.40 2007-10-02 10:32:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,17 +19,16 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
-    # get common opjects
+    # get common objects
     for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
@@ -89,8 +88,7 @@ sub new {
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # store last queue screen
     $Self->{SessionObject}->UpdateSessionID(
@@ -321,10 +319,10 @@ sub Run {
 }
 
 sub ShowTicket {
-    my $Self     = shift;
-    my %Param    = @_;
+    my ( $Self, %Param ) = @_;
+
     my $TicketID = $Param{TicketID} || return;
-    my $Output   = '';
+    my $Output = '';
     $Param{QueueViewQueueID} = $Self->{QueueID};
     my %MoveQueues = $Self->{TicketObject}->MoveList(
         TicketID => $TicketID,
@@ -687,9 +685,9 @@ sub ShowTicket {
 }
 
 sub BuildQueueView {
-    my $Self  = shift;
-    my %Param = @_;
-    my %Data  = $Self->{TicketObject}->TicketAcceleratorIndex(
+    my ( $Self, %Param ) = @_;
+
+    my %Data = $Self->{TicketObject}->TicketAcceleratorIndex(
         UserID        => $Self->{UserID},
         QueueID       => $Self->{QueueID},
         ShownQueueIDs => $Param{QueueIDs},
@@ -731,8 +729,8 @@ sub BuildQueueView {
 }
 
 sub _MaskQueueView {
-    my $Self            = shift;
-    my %Param           = @_;
+    my ( $Self, %Param ) = @_;
+
     my $QueueID         = $Param{QueueID} || 0;
     my @QueuesNew       = @{ $Param{Queues} };
     my $QueueIDOfMaxAge = $Param{QueueIDOfMaxAge} || -1;

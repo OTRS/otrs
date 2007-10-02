@@ -4,7 +4,7 @@
 # X-OTRS-Queue header for an OTRS system (x-headers for dispatching!).
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: webform.pl,v 1.9 2007-09-29 11:10:47 mh Exp $
+# $Id: webform.pl,v 1.10 2007-10-02 10:50:02 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use CGI::Carp qw(fatalsToBrowser);
 # Simple Common Gateway Interface Class
 use CGI;
 
-my $VERSION = qw($Revision: 1.9 $) [1];
+my $VERSION = qw($Revision: 1.10 $) [1];
 
 # --------------------------
 # web form options
@@ -60,7 +60,8 @@ my %Topics = (
 # --------------------------
 
 sub Header {
-    my %Param = @_;
+    my (%Param) = @_;
+
     ( my $Output = <<EOF);
 Content-Type: text/html
 
@@ -95,7 +96,8 @@ EOF
 # -------------------------
 
 sub Thanks {
-    my %Param = @_;
+    my (%Param) = @_;
+
     ( my $Output = <<EOF);
 Thanks <b>$Param{From}</b>! Your request is forwarded to us. <br>
 We will answer ASAP.<br>
@@ -108,7 +110,8 @@ EOF
 # ----------------------
 
 sub Error {
-    my %Param = @_;
+    my (%Param) = @_;
+
     ( my $Output = <<EOF);
 <font color="red">$Param{Message}</font><br>
 EOF
@@ -182,7 +185,8 @@ sub WebForm {
 # --------------------------
 
 sub SendMail {
-    my %Param  = @_;
+    my (%Param) = @_;
+
     my $Output = '';
 
     # check needed params

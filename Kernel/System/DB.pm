@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.76 2007-09-29 11:03:51 mh Exp $
+# $Id: DB.pm,v 1.77 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 =head1 NAME
 
@@ -65,8 +65,7 @@ create database object with database connect
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -192,7 +191,7 @@ to connect to a database
 =cut
 
 sub Connect {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # debug
     if ( $Self->{Debug} > 2 ) {
@@ -231,7 +230,7 @@ to disconnect to a database
 =cut
 
 sub Disconnect {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # debug
     if ( $Self->{Debug} > 2 ) {
@@ -268,9 +267,8 @@ to quote sql params
 =cut
 
 sub Quote {
-    my $Self = shift;
-    my $Text = shift;
-    my $Type = shift;
+    my ( $Self, $Text, $Type ) = @_;
+
     if ( !defined $Text ) {
         return;
     }
@@ -324,7 +322,8 @@ to get database errors back
 =cut
 
 sub Error {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $DBI::errstr;
 }
 
@@ -349,8 +348,8 @@ to insert, update or delete something
 =cut
 
 sub Do {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Array = ();
 
     # check needed stuff
@@ -451,8 +450,8 @@ not encode content column
 =cut
 
 sub Prepare {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $SQL   = $Param{SQL};
     my $Limit = $Param{Limit} || '';
     my $Start = $Param{Start} || '';
@@ -553,7 +552,7 @@ to get a select return
 =cut
 
 sub FetchrowArray {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # work with cursers if database don't support limit
     if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
@@ -594,7 +593,7 @@ sub FetchrowArray {
 
 # _should_ not used because of database incompat.
 sub FetchrowHashref {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # work with cursers if database don't support limit
     if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
@@ -627,8 +626,8 @@ to get database functions like Limit, DirectBlob, ...
 =cut
 
 sub GetDatabaseFunction {
-    my $Self = shift;
-    my $What = shift;
+    my ( $Self, $What ) = @_;
+
     return $Self->{Backend}->{ 'DB::' . $What };
 }
 
@@ -661,9 +660,9 @@ generate database based sql syntax (e. g. CREATE TABLE ...)
 =cut
 
 sub SQLProcessor {
-    my $Self  = shift;
-    my %Param = @_;
-    my @SQL   = ();
+    my ( $Self, %Param ) = @_;
+
+    my @SQL = ();
     if ( $Param{Database} && ref( $Param{Database} ) eq 'ARRAY' ) {
         my @Table = ();
         for my $Tag ( @{ $Param{Database} } ) {
@@ -762,9 +761,9 @@ e. g. foreign keys
 =cut
 
 sub SQLProcessorPost {
-    my $Self  = shift;
-    my %Param = @_;
-    my @SQL   = ();
+    my ( $Self, %Param ) = @_;
+
+    my @SQL = ();
     if ( $Self->{Backend}->{Post} ) {
         my @Return = @{ $Self->{Backend}->{Post} };
         undef $Self->{Backend}->{Post};
@@ -783,8 +782,8 @@ sub SQLProcessorPost {
 # in a further release.
 
 sub GetTableData {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Table = $Param{Table};
     my $What  = $Param{What};
     my $Where = $Param{Where} || '';
@@ -831,8 +830,8 @@ sub GetTableData {
 }
 
 sub _TypeCheck {
-    my $Self = shift;
-    my $Tag  = shift;
+    my ( $Self, $Tag ) = @_;
+
     if (   $Tag->{Type}
         && $Tag->{Type} !~ /^(DATE|SMALLINT|BIGINT|INTEGER|DECIMAL|VARCHAR|LONGBLOB)$/i )
     {
@@ -845,7 +844,8 @@ sub _TypeCheck {
 }
 
 sub DESTROY {
-    my $Self = shift;
+    my ($Self) = @_;
+
     $Self->Disconnect();
     return 1;
 }
@@ -865,6 +865,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.76 $ $Date: 2007-09-29 11:03:51 $
+$Revision: 1.77 $ $Date: 2007-10-02 10:38:58 $
 
 =cut

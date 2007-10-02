@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.75 2007-09-29 11:03:51 mh Exp $
+# $Id: Queue.pm,v 1.76 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 =head1 NAME
 
@@ -67,8 +67,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -131,8 +130,8 @@ get a queue system email address as hash (Email, RealName)
 =cut
 
 sub GetSystemAddress {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Address;
     my $QueueID = $Param{QueueID} || $Self->{QueueID};
     my $SQL
@@ -164,8 +163,7 @@ get a queue salutation
 =cut
 
 sub GetSalutation {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
@@ -201,8 +199,7 @@ get a queue signature
 =cut
 
 sub GetSignature {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
@@ -238,8 +235,8 @@ get std response of a queue
 =cut
 
 sub GetStdResponse {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $String = '';
 
     # check needed stuff
@@ -264,8 +261,8 @@ sub GetStdResponse {
 
 # for comapt!
 sub SetQueueStdResponse {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     unless ( $Param{ResponseID} && $Param{QueueID} && $Param{UserID} ) {
         $Self->{LogObject}
             ->Log( Priority => 'error', Message => "Need ResponseID, QueueID and UserID!" );
@@ -297,8 +294,8 @@ sub SetQueueStdResponse {
 
 # for comapt!
 sub QueueHasStdResponse {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     unless ( $Param{ResponseID} && $Param{QueueID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need ResponseID and QueueID!" );
         return;
@@ -333,8 +330,8 @@ get std responses of a queue
 =cut
 
 sub GetStdResponses {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my %StdResponses;
 
     # check needed stuff
@@ -384,10 +381,10 @@ get all system queues of a user with permission type (e. g. ro, move_into, rw, .
 =cut
 
 sub GetAllQueues {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $UserID = $Param{UserID} || '';
-    my $Type   = $Param{Type} || 'ro';
+    my $Type   = $Param{Type}   || 'ro';
 
     # fetch all queues
     my %MoveQueues;
@@ -468,8 +465,7 @@ get all custom queues of one user
 =cut
 
 sub GetAllCustomQueues {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{UserID} ) {
@@ -503,8 +499,7 @@ get id or name for queue
 =cut
 
 sub QueueLookup {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Queue} && !$Param{QueueID} ) {
@@ -564,8 +559,7 @@ sub QueueLookup {
 =cut
 
 sub GetFollowUpOption {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
@@ -603,8 +597,7 @@ sub GetFollowUpOption {
 =cut
 
 sub GetFollowUpLockOption {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
@@ -641,8 +634,7 @@ sub GetFollowUpLockOption {
 =cut
 
 sub GetQueueGroupID {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
@@ -690,8 +682,7 @@ add queue with attributes
 =cut
 
 sub QueueAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Add Queue to the Database
 
@@ -891,8 +882,7 @@ get queue attributes
 =cut
 
 sub QueueGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
@@ -996,8 +986,7 @@ update queue attributes
 =cut
 
 sub QueueUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (
@@ -1142,6 +1131,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.75 $ $Date: 2007-09-29 11:03:51 $
+$Revision: 1.76 $ $Date: 2007-10-02 10:38:58 $
 
 =cut

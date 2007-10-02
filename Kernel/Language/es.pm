@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2006 Jorge Becerra <jorge at hab.desoft.cu>
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # --
-# $Id: es.pm,v 1.62 2007-09-29 10:36:40 mh Exp $
+# $Id: es.pm,v 1.63 2007-10-02 10:45:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,11 +16,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub Data {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # $$START$$
     # Last translation file sync: Tue May 29 15:12:29 2007

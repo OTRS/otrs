@@ -2,7 +2,7 @@
 # Kernel/System/PID.pm - all system pid functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PID.pm,v 1.7 2007-09-29 11:00:19 mh Exp $
+# $Id: PID.pm,v 1.8 2007-10-02 10:38:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -57,8 +57,7 @@ create a object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -87,8 +86,7 @@ create a new process id lock
 =cut
 
 sub PIDCreate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name)) {
@@ -153,8 +151,7 @@ get process id lock info
 =cut
 
 sub PIDGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name)) {
@@ -202,8 +199,7 @@ delete the process id lock
 =cut
 
 sub PIDDelete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name)) {
@@ -246,6 +242,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2007-09-29 11:00:19 $
+$Revision: 1.8 $ $Date: 2007-10-02 10:38:20 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.28 2007-09-29 10:41:48 mh Exp $
+# $Id: CustomerTicketSearch.pm,v 1.29 2007-10-02 10:31:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,11 +21,10 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -34,7 +33,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    # check needed Opjects
+    # check needed objects
     for (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
@@ -52,8 +51,8 @@ sub new {
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output;
 
     # get confid data
@@ -555,8 +554,7 @@ sub Run {
 }
 
 sub MaskForm {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     $Param{'ResultFormStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
@@ -755,8 +753,8 @@ sub MaskForm {
 }
 
 sub MaskCSVResult {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     $Param{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Param{Age}, Space => ' ' );
 
     # customer info string
@@ -770,8 +768,8 @@ sub MaskCSVResult {
 }
 
 sub MaskPrintResult {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     $Param{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Param{Age}, Space => ' ' );
 
     # customer info string

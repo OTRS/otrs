@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.63 2007-09-29 10:36:40 mh Exp $
+# $Id: bg.pm,v 1.64 2007-10-02 10:45:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,11 +16,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub Data {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # $$START$$
     # Last translation file sync: Tue May 29 15:07:15 2007

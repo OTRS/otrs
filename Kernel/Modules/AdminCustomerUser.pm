@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.49 2007-09-29 10:39:11 mh Exp $
+# $Id: AdminCustomerUser.pm,v 1.50 2007-10-02 10:32:52 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,11 +19,10 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49 $ ';
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -48,8 +47,8 @@ sub new {
 }
 
 sub Run {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $NavBar = '';
     my $Nav    = $Self->{ParamObject}->GetParam( Param => 'Nav' ) || 0;
     my $Source = $Self->{ParamObject}->GetParam( Param => 'Source' ) || 'CustomerUser';
@@ -404,8 +403,8 @@ sub Run {
 }
 
 sub _Overview {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
 
     # build source string
@@ -477,8 +476,8 @@ sub _Overview {
 }
 
 sub _Edit {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
 
     # build source string

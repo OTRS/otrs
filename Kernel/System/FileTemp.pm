@@ -2,7 +2,7 @@
 # Kernel/System/FileTemp.pm - tmp files
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FileTemp.pm,v 1.7 2007-09-29 11:03:51 mh Exp $
+# $Id: FileTemp.pm,v 1.8 2007-10-02 10:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use File::Temp qw/ tempfile tempdir /;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -50,8 +50,7 @@ create a tmp file object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -82,8 +81,7 @@ returns a file handle and the file name
 =cut
 
 sub TempFile {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     #    my $FH = new File::Temp(
     #        DIR => $Self->{ConfigObject}->Get('TempDir'),
@@ -105,8 +103,7 @@ sub TempFile {
 }
 
 sub DESTROY {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # remove all existing tmp files
     if ( $Self->{FileList} ) {
@@ -135,6 +132,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2007-09-29 11:03:51 $
+$Revision: 1.8 $ $Date: 2007-10-02 10:38:58 $
 
 =cut

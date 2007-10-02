@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.24 2007-09-29 10:39:11 mh Exp $
+# $Id: AgentTicketForward.pm,v 1.25 2007-10-02 10:32:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,11 +22,10 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -34,7 +33,7 @@ sub new {
 
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # get common opjects
+    # get common objects
     for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
@@ -81,8 +80,8 @@ sub new {
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output;
 
     if ( $Self->{Subaction} eq 'SendEmail' ) {
@@ -95,8 +94,8 @@ sub Run {
 }
 
 sub Form {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output;
     my %Error    = ();
     my %GetParam = %{ $Self->{GetParam} };
@@ -452,8 +451,8 @@ sub Form {
 }
 
 sub SendEmail {
-    my $Self     = shift;
-    my %Param    = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Error    = ();
     my %GetParam = %{ $Self->{GetParam} };
     my $Output   = '';
@@ -784,8 +783,7 @@ sub SendEmail {
 }
 
 sub _GetNextStates {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # get next states
     my %NextStates = $Self->{TicketObject}->StateList(
@@ -797,8 +795,7 @@ sub _GetNextStates {
 }
 
 sub _Mask {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # build next states string
     my %State = ();

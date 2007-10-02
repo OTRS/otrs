@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.50 2007-10-01 06:24:04 martin Exp $
+# $Id: Language.pm,v 1.51 2007-10-02 10:49:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 =head1 NAME
 
@@ -64,8 +64,7 @@ create a language object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -197,10 +196,12 @@ Translate a string.
 =cut
 
 sub Get {
-    my $Self = shift;
-    my $What = shift;
-    my $File = shift || '';
-    my @Dyn  = ();
+    my ( $Self, $What, $File ) = @_;
+    if ( !$File ) {
+        $File = '';
+    }
+
+    my @Dyn = ();
 
     # check
     if ( !defined $What ) {
@@ -294,10 +295,17 @@ Get date format in used language formate (based on translation file).
 =cut
 
 sub FormatTimeString {
-    my $Self         = shift;
-    my $String       = shift || return;
-    my $Config       = shift || 'DateFormat';
-    my $Short        = shift || 0;
+    my ( $Self, $String, $Config, $Short ) = @_;
+    if ( !$String ) {
+        return;
+    }
+    if ( !$Config ) {
+        $Config = 'DateFormat';
+    }
+    if ( !$Short ) {
+        $Short = 0;
+    }
+
     my $ReturnString = $Self->{$Config} || "$Config needs to be translated!";
     if ( $String =~ /(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d:\d\d:\d\d)/ ) {
         my ( $Y, $M, $D, $T ) = ( $1, $2, $3, $4 );
@@ -347,7 +355,7 @@ file or from DefaultCharset (from Kernel/Config.pm) is utf-8).
 =cut
 
 sub GetRecommendedCharset {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # should I use default frontend charset (e. g. utf-8)?
     if ( $Self->{EncodeObject}->EncodeFrontendUsed() ) {
@@ -373,7 +381,8 @@ Returns an array of possible charsets (based on translation file).
 =cut
 
 sub GetPossibleCharsets {
-    my $Self = shift;
+    my ($Self) = @_;
+
     if ( $Self->{Charset} ) {
         return @{ $Self->{Charset} };
     }
@@ -409,8 +418,7 @@ Returns a time string in language formate (based on translation file).
 =cut
 
 sub Time {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Action Format)) {
@@ -484,11 +492,11 @@ GetRecommendedCharset() will be used).
 =cut
 
 sub CharsetConvert {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Text  = defined $Param{Text} ? $Param{Text} : return;
-    my $From  = $Param{From} || return $Text;
-    my $To    = $Param{To} || $Self->{ReturnCharset} || return $Text;
+    my ( $Self, %Param ) = @_;
+
+    my $Text = defined $Param{Text} ? $Param{Text} : return;
+    my $From = $Param{From} || return $Text;
+    my $To = $Param{To} || $Self->{ReturnCharset} || return $Text;
     $From =~ s/'|"//g;
 
     # encode
@@ -515,6 +523,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2007-10-01 06:24:04 $
+$Revision: 1.51 $ $Date: 2007-10-02 10:49:43 $
 
 =cut

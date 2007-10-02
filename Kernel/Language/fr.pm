@@ -7,7 +7,7 @@
 # Copyright (C) 2007 Remi Seguy <remi.seguy at laposte.net>
 # Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
 # --
-# $Id: fr.pm,v 1.79 2007-09-29 10:36:40 mh Exp $
+# $Id: fr.pm,v 1.80 2007-10-02 10:45:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,11 +20,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub Data {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # $$START$$
     # Last translation file sync: Tue May 29 15:15:04 2007

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/LoopProtection/DB.pm - backend module of LoopProtection
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.9 2007-09-29 10:54:31 mh Exp $
+# $Id: DB.pm,v 1.10 2007-10-02 10:34:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -43,9 +42,9 @@ sub new {
 }
 
 sub SendEmail {
-    my $Self  = shift;
-    my %Param = @_;
-    my $To    = $Param{To} || return;
+    my ( $Self, %Param ) = @_;
+
+    my $To = $Param{To} || return;
 
     # insert log
     if ($Self->{DBObject}->Do(
@@ -68,9 +67,9 @@ sub SendEmail {
 }
 
 sub Check {
-    my $Self  = shift;
-    my %Param = @_;
-    my $To    = $Param{To} || return;
+    my ( $Self, %Param ) = @_;
+
+    my $To = $Param{To} || return;
     my $Count = 0;
 
     # check existing logfile

@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.51 2007-10-01 06:31:28 martin Exp $
+# $Id: Installer.pm,v 1.52 2007-10-02 10:33:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,11 +20,10 @@ use warnings;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -33,7 +32,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    # check needed Opjects
+    # check needed objects
     for (qw(ParamObject LayoutObject LogObject ConfigObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
@@ -44,8 +43,8 @@ sub new {
 }
 
 sub Run {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Output = '';
 
     # check env directories
@@ -661,8 +660,8 @@ sub Run {
 }
 
 sub ReConfigure {
-    my $Self   = shift;
-    my %Param  = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Config = '';
 
     # perl quote
@@ -718,9 +717,9 @@ sub ReConfigure {
 }
 
 sub ParseSQLFile {
-    my $Self = shift;
-    my $File = shift;
-    my @SQL  = ();
+    my ( $Self, $File ) = @_;
+
+    my @SQL = ();
     if ( open( $In, "< $File" ) ) {
         my $SQLEnd    = 0;
         my $SQLSingel = '';

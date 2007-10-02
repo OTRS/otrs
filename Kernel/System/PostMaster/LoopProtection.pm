@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/LoopProtection.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LoopProtection.pm,v 1.14 2007-09-29 10:54:31 mh Exp $
+# $Id: LoopProtection.pm,v 1.15 2007-10-02 10:34:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -43,14 +42,14 @@ sub new {
 }
 
 sub SendEmail {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{Backend}->SendEmail(%Param);
 }
 
 sub Check {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{Backend}->Check(%Param);
 }
 

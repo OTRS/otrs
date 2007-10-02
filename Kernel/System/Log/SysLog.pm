@@ -2,7 +2,7 @@
 # Kernel/System/Log/SysLog.pm - a wrapper for Sys::Syslog or xyz::Syslog
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SysLog.pm,v 1.13 2007-09-29 10:54:48 mh Exp $
+# $Id: SysLog.pm,v 1.14 2007-10-02 10:38:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,11 +18,10 @@ use Sys::Syslog qw(:DEFAULT setlogsock);
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $ ';
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -46,8 +45,7 @@ sub new {
 }
 
 sub Log {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # convert Message because syslog can't work with utf-8
     if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i ) {

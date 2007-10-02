@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.35 2007-09-29 10:57:17 mh Exp $
+# $Id: LDAP.pm,v 1.36 2007-10-02 10:37:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,11 +19,10 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -187,9 +186,9 @@ sub new {
 }
 
 sub CustomerName {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Name  = '';
+    my ( $Self, %Param ) = @_;
+
+    my $Name = '';
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
@@ -253,8 +252,7 @@ sub CustomerName {
 }
 
 sub CustomerSearch {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} ) {
@@ -367,8 +365,8 @@ sub CustomerSearch {
 }
 
 sub CustomerUserList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
 
     # prepare filter
@@ -428,8 +426,8 @@ sub CustomerUserList {
 }
 
 sub CustomerIDs {
-    my $Self        = shift;
-    my %Param       = @_;
+    my ( $Self, %Param ) = @_;
+
     my @CustomerIDs = ();
 
     # check needed stuff
@@ -486,8 +484,8 @@ sub CustomerIDs {
 }
 
 sub CustomerUserDataGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my %Data;
 
     # check needed stuff
@@ -584,8 +582,7 @@ sub CustomerUserDataGet {
 }
 
 sub CustomerUserAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
@@ -597,8 +594,7 @@ sub CustomerUserAdd {
 }
 
 sub CustomerUserUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
@@ -610,9 +606,9 @@ sub CustomerUserUpdate {
 }
 
 sub SetPassword {
-    my $Self  = shift;
-    my %Param = @_;
-    my $Pw    = $Param{PW} || '';
+    my ( $Self, %Param ) = @_;
+
+    my $Pw = $Param{PW} || '';
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
@@ -624,8 +620,7 @@ sub SetPassword {
 }
 
 sub GenerateRandomPassword {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Generated passwords are eight characters long by default.
     my $Size = $Param{Size} || 8;
@@ -649,8 +644,8 @@ sub GenerateRandomPassword {
 }
 
 sub _Convert {
-    my $Self = shift;
-    my $Text = shift;
+    my ( $Self, $Text ) = @_;
+
     if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
         return $Text;
     }
@@ -667,8 +662,8 @@ sub _Convert {
 }
 
 sub _ConvertTo {
-    my $Self = shift;
-    my $Text = shift;
+    my ( $Self, $Text ) = @_;
+
     if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
         $Self->{EncodeObject}->Encode( \$Text );
         return $Text;
@@ -686,8 +681,7 @@ sub _ConvertTo {
 }
 
 sub Destroy {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # take down session
     if ( $Self->{LDAP} ) {

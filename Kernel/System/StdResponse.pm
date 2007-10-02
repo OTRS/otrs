@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.17 2007-09-29 11:03:39 mh Exp $
+# $Id: StdResponse.pm,v 1.18 2007-10-02 10:37:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -39,8 +38,7 @@ sub new {
 }
 
 sub StdResponseAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Name ValidID Response UserID)) {
@@ -81,8 +79,7 @@ sub StdResponseAdd {
 }
 
 sub StdResponseGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{ID} ) {
@@ -121,8 +118,7 @@ sub StdResponseGet {
 }
 
 sub StdResponseDelete {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{ID} ) {
@@ -146,8 +142,7 @@ sub StdResponseDelete {
 }
 
 sub StdResponseUpdate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(ID Name ValidID Response UserID)) {
@@ -185,8 +180,7 @@ sub StdResponseUpdate {
 }
 
 sub StdResponseLookup {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{StdResponse} && !$Param{StdResponseID} ) {
@@ -233,8 +227,8 @@ sub StdResponseLookup {
 }
 
 sub GetAllStdResponses {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     if ( !defined $Param{Valid} ) {
         $Param{Valid} = 1;
     }
