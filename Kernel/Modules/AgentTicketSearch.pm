@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.45 2007-10-02 10:32:23 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.46 2007-10-02 12:24:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::State;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -870,21 +870,19 @@ sub MaskForm {
     my ( $Self, %Param ) = @_;
 
     # get user of own groups
-    my %ShownUsers       = ();
-    my %AllGroupsMembers = $Self->{UserObject}->UserList(
+    my %ShownUsers = $Self->{UserObject}->UserList(
         Type  => 'Long',
         Valid => 1,
     );
-    if ( $Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
-        %ShownUsers = %AllGroupsMembers;
-    }
-    else {
-        my @Involved = $Self->{GroupObject}->GroupMemberInvolvedList(
+    if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
+        my %Involved = $Self->{GroupObject}->GroupMemberInvolvedList(
             UserID => $Self->{UserID},
             Type   => 'ro',
         );
-        for (@Involved) {
-            $ShownUsers{$_} = $AllGroupsMembers{$_};
+        for my $UserID (keys %ShownUsers) {
+            if ( !$Involved{$UserID} ) {
+                delete $ShownUsers{$UserID};
+            }
         }
     }
     $Param{'UserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(

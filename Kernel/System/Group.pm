@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: Group.pm,v 1.46 2007-10-02 10:38:58 mh Exp $
+# $Id: Group.pm,v 1.47 2007-10-02 12:24:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -570,7 +570,7 @@ sub GroupMemberList {
 
 returns a list of users/groups with ro/move_into/create/owner/priority/rw permissions
 
-    @Users = $GroupObject->GroupMemberInvolvedList(
+    %Users = $GroupObject->GroupMemberInvolvedList(
         UserID => $ID,
         Type => 'move_into',
     );
@@ -581,26 +581,21 @@ sub GroupMemberInvolvedList {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(UserID Type)) {
-        if ( !$Param{$_} ) {
+    for my $Attribute (qw(UserID Type)) {
+        if ( !$Param{$Attribute} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
     # quote
-    for (qw(Type)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    for (qw(UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
+    $Param{Type} = $Self->{DBObject}->Quote( $Param{Type} );
+    $Param{UserID} = $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
 
     # get valid ids
-    my $ValidID = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
+    my $ValidID = join ', ', $Self->{ValidObject}->ValidIDsGet();
 
     # get all groups of the given user
-    my %Groups;
     my $SQL
         = "SELECT DISTINCT(g.id) FROM groups g, group_user gu "
         . "WHERE g.valid_id IN ($ValidID) AND g.id = gu.group_id AND "
@@ -608,6 +603,9 @@ sub GroupMemberInvolvedList {
         . "gu.user_id = "
         . $Param{UserID};
     $Self->{DBObject}->Prepare( SQL => $SQL );
+
+    # fetch the result
+    my %Groups;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Groups{ $Row[0] } = 1;
     }
@@ -618,6 +616,8 @@ sub GroupMemberInvolvedList {
         . "WHERE r.valid_id in ($ValidID) AND r.id = ru.role_id AND ru.user_id = "
         . $Param{UserID};
     $Self->{DBObject}->Prepare( SQL => $SQL );
+
+    # fetch the result
     my @Roles;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push( @Roles, $Row[0] );
@@ -626,64 +626,65 @@ sub GroupMemberInvolvedList {
     if (@Roles) {
 
         # get all groups of the roles of the given user
-        my $StringRoles = join( ',', @Roles );
+        my $StringRoles = join ',', @Roles;
         $SQL
             = "SELECT DISTINCT(g.id) FROM groups g, group_role gu "
             . "WHERE g.valid_id in ($ValidID) AND g.id = gu.group_id AND gu.permission_value = 1 AND "
             . "gu.permission_key IN ('$Param{Type}', 'rw') AND gu.role_id IN ($StringRoles)";
         $Self->{DBObject}->Prepare( SQL => $SQL );
+
+        # fetch the result
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Groups{ $Row[0] } = 1;
         }
     }
 
-    my @ArrayGroups;
-    for ( keys %Groups ) {
-        push( @ArrayGroups, $_ );
-    }
+    my @ArrayGroups = keys %Groups;
+
     my %AllUsers;
     if (@ArrayGroups) {
 
         # get all users of the groups
-        my $StringGroups = join( ',', @ArrayGroups );
+        my $StringGroups = join ',', @ArrayGroups;
         $SQL
             = "SELECT DISTINCT(gu.user_id) FROM groups g, group_user gu WHERE "
             . "g.valid_id in ($ValidID) AND g.id = gu.group_id AND gu.permission_value = 1 AND "
             . "gu.permission_key IN ('$Param{Type}', 'rw') AND gu.group_id IN ($StringGroups)";
         $Self->{DBObject}->Prepare( SQL => $SQL );
+
+        # fetch the result
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $AllUsers{ $Row[0] } = 1;
         }
 
         # get all roles of the groups
-        my @AllRoles;
         $SQL
             = "SELECT DISTINCT(gu.role_id) FROM groups g, group_role gu WHERE "
             . "g.valid_id in ($ValidID) AND g.id = gu.group_id AND gu.permission_value = 1 AND "
             . "gu.permission_key IN ('$Param{Type}', 'rw') AND gu.group_id IN ($StringGroups)";
         $Self->{DBObject}->Prepare( SQL => $SQL );
+
+        # fetch the result
+        my @AllRoles;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             push( @AllRoles, $Row[0] );
         }
         if (@AllRoles) {
 
             # get all users of the roles
-            my $StringAllRoles = join( ',', @AllRoles );
+            my $StringAllRoles = join ',', @AllRoles;
             $SQL = "SELECT DISTINCT(ru.user_id) FROM role_user ru, roles r WHERE "
                 . "r.valid_id in ($ValidID) AND r.id = ru.role_id AND ru.role_id IN ($StringAllRoles)";
             $Self->{DBObject}->Prepare( SQL => $SQL );
+
+            # fetch the result
             while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
                 $AllUsers{ $Row[0] } = 1;
             }
         }
     }
 
-    my @Return;
-    for ( keys %AllUsers ) {
-        push( @Return, $_ );
-    }
-
-    return @Return;
+    return %AllUsers;
 }
 
 =item GroupGroupMemberList()
@@ -1586,6 +1587,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2007-10-02 10:38:58 $
+$Revision: 1.47 $ $Date: 2007-10-02 12:24:06 $
 
 =cut
