@@ -2,13 +2,14 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.28 2007-09-29 11:09:57 mh Exp $
+# $Id: Ticket.t,v 1.29 2007-10-04 23:58:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
+use utf8;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
 
@@ -2929,46 +2930,69 @@ $Self->True(
 );
 
 # article attachment checks
-for my $File (qw(Ticket-Article-Test1.xls Ticket-Article-Test1.txt Ticket-Article-Test1.doc
-    Ticket-Article-Test1.png Ticket-Article-Test1.pdf Ticket-Article-Test-utf8-1.txt Ticket-Article-Test-utf8-1.bin)) {
-    my $Content = '';
-    open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/$File") || die $!;
-    binmode(IN);
-    while (<IN>) {
-        $Content .= $_;
+for my $Backend (qw(DB FS)) {
+    $Self->{ConfigObject}->Set(
+        Key => 'Ticket::StorageModule',
+        Value => 'Kernel::System::Ticket::ArticleStorage'.$Backend,
+    );
+    my $TicketObject = Kernel::System::Ticket->new(%{$Self});
+    for my $File (qw(Ticket-Article-Test1.xls Ticket-Article-Test1.txt Ticket-Article-Test1.doc
+        Ticket-Article-Test1.png Ticket-Article-Test1.pdf Ticket-Article-Test-utf8-1.txt Ticket-Article-Test-utf8-1.bin)) {
+        my $Content = '';
+        open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/$File") || die $!;
+        binmode(IN);
+        while (<IN>) {
+            $Content .= $_;
+        }
+        close(IN);
+        my $FileNew = "ÄÖÜ ? カスタマ-".$File;
+        my $MD5Orig = $Self->{MainObject}->MD5sum(String => $Content);
+        my $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
+            Content => $Content,
+            Filename => $FileNew,
+            ContentType => 'image/png',
+            ArticleID => $ArticleID,
+            UserID => 1,
+        );
+        $Self->True(
+            $ArticleWriteAttachment,
+            "$Backend ArticleWriteAttachment() - $FileNew",
+        );
+        my %Data = $TicketObject->ArticleAttachment(
+            ArticleID => $ArticleID,
+            FileID => 1,
+        );
+        $Self->True(
+            $Data{Content},
+            "$Backend ArticleAttachment() Content - $FileNew",
+        );
+        $Self->True(
+            $Data{ContentType},
+            "$Backend ArticleAttachment() ContentType - $FileNew",
+        );
+        $Self->True(
+            $Data{Content} eq $Content,
+            "$Backend ArticleWriteAttachment() / ArticleAttachment() - $FileNew",
+        );
+        $Self->True(
+            $Data{ContentType} eq 'image/png',
+            "$Backend ArticleWriteAttachment() / ArticleAttachment() - $File",
+        );
+        my $MD5New = $Self->{MainObject}->MD5sum(String => $Data{Content});
+        $Self->Is(
+            $MD5Orig || '1',
+            $MD5New || '2',
+            "$Backend MD5 - $FileNew",
+        );
+        my $Delete = $TicketObject->ArticleDeleteAttachment(
+            ArticleID => $ArticleID,
+            UserID => 1,
+        );
+        $Self->True(
+            $Delete,
+            "$Backend ArticleDeleteAttachment() - $FileNew",
+        );
     }
-    close(IN);
-    my $ArticleWriteAttachment = $Self->{TicketObject}->ArticleWriteAttachment(
-        Content => $Content,
-        Filename => $File,
-        ContentType => 'image/png',
-        ArticleID => $ArticleID,
-        UserID => 1,
-    );
-    $Self->True(
-        $ArticleWriteAttachment,
-        'ArticleWriteAttachment() - '.$File,
-    );
-    my %Data = $Self->{TicketObject}->ArticleAttachment(
-        ArticleID => $ArticleID,
-        FileID => 1,
-    );
-    $Self->True(
-        $Data{Content},
-        'ArticleAttachment() - '.$File,
-    );
-    $Self->True(
-        $Data{Content} eq $Content,
-        "ArticleWriteAttachment() / ArticleAttachment() - ".$File,
-    );
-    my $Delete = $Self->{TicketObject}->ArticleDeleteAttachment(
-        ArticleID => $ArticleID,
-        UserID => 1,
-    );
-    $Self->True(
-        $Delete,
-        "ArticleDeleteAttachment() - ".$File,
-    );
 }
 
 my %TicketIDs = $Self->{TicketObject}->TicketSearch(
