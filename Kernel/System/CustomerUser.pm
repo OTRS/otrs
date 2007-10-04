@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.35 2007-10-02 10:37:19 mh Exp $
+# $Id: CustomerUser.pm,v 1.36 2007-10-04 23:46:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -387,7 +387,6 @@ generate a random password
 
 sub GenerateRandomPassword {
     my $Self  = shift;
-    my %Param = @_;
     return $Self->{CustomerUser}->GenerateRandomPassword(@_);
 }
 
@@ -439,6 +438,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2007-10-02 10:37:19 $
+$Revision: 1.36 $ $Date: 2007-10-04 23:46:17 $
 
 =cut
