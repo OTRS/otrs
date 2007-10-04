@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.15 2007-10-02 10:38:58 mh Exp $
+# $Id: Main.pm,v 1.16 2007-10-04 22:40:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -173,13 +173,13 @@ to die
 =cut
 
 sub Die {
-    my ( $Self, %Param ) = @_;
+    my ( $Self, $Message) = @_;
 
-    if ( $Param{Message} ) {
+    if ( $Message ) {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'error',
-            Message  => "$Param{Message}",
+            Message  => $Message,
         );
     }
     else {
@@ -198,12 +198,12 @@ to clean up filenames which can be used in any case (also quoting is done)
 
     my $Filename = $MainObject->FilenameCleanUp(
         Filename => 'me_to/alal.xml',
-        Type => 'Local', # Local|Attachment|MD5
+        Type     => 'Local', # Local|Attachment|MD5
     );
 
     my $Filename = $MainObject->FilenameCleanUp(
         Filename => 'some:file.xml',
-        Type => 'MD5', # Local|Attachment|MD5
+        Type     => 'MD5', # Local|Attachment|MD5
     );
 
 =cut
@@ -263,30 +263,30 @@ to read files from file system
 
     my $ContentSCALARRef = $MainObject->FileRead(
         Directory => 'c:\some\location',
-        Filename => 'me_to/alal.xml',
+        Filename  => 'me_to/alal.xml',
         # or Location
-        Location => 'c:\some\location\me_to\alal.xml'
+        Location  => 'c:\some\location\me_to\alal.xml'
     );
 
     my $ContentARRAYRef = $MainObject->FileRead(
         Directory => 'c:\some\location',
-        Filename => 'me_to/alal.xml',
+        Filename  => 'me_to/alal.xml',
         # or Location
-        Location => 'c:\some\location\me_to\alal.xml'
+        Location  => 'c:\some\location\me_to\alal.xml'
 
-        Result => 'ARRAY', # optional - SCALAR|ARRAY
+        Result    => 'ARRAY', # optional - SCALAR|ARRAY
     );
 
     my $ContentSCALARRef = $MainObject->FileRead(
-        Directory => 'c:\some\location',
-        Filename => 'me_to/alal.xml',
+        Directory       => 'c:\some\location',
+        Filename        => 'me_to/alal.xml',
         # or Location
-        Location => 'c:\some\location\me_to\alal.xml'
+        Location        => 'c:\some\location\me_to\alal.xml'
 
-        Mode => 'binmode', # optional - binmode|utf8
-        Type => 'Local', # optional - Local|Attachment|MD5
-        Result => 'SCALAR', # optional - SCALAR|ARRAY
-        DisableWarnings => 1, # optional
+        Mode            => 'binmode', # optional - binmode|utf8
+        Type            => 'Local',   # optional - Local|Attachment|MD5
+        Result          => 'SCALAR',  # optional - SCALAR|ARRAY
+        DisableWarnings => 1,         # optional
     );
 
 =cut
@@ -333,6 +333,14 @@ sub FileRead {
     }
     if ( open( $FH, $Mode, $Param{Location} ) ) {
 
+        # lock file (Shared Lock)
+        if ( !flock( $FH, 1 ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't lock '$Param{Location}': $!",
+            );
+        }
+
         # read whole file
         my @Array;
         my $String;
@@ -371,23 +379,23 @@ to write data to file system
 
     my $FileLocation = $MainObject->FileWrite(
         Directory => 'c:\some\location',
-        Filename => 'me_to/alal.xml',
+        Filename  => 'me_to/alal.xml',
         # or Location
-        Location => 'c:\some\location\me_to\alal.xml'
+        Location  => 'c:\some\location\me_to\alal.xml'
 
-        Content => \$Content,
+        Content   => \$Content,
     );
 
     my $FileLocation = $MainObject->FileWrite(
-        Directory => 'c:\some\location',
-        Filename => 'me_to/alal.xml',
+        Directory  => 'c:\some\location',
+        Filename   => 'me_to/alal.xml',
         # or Location
-        Location => 'c:\some\location\me_to\alal.xml'
+        Location   => 'c:\some\location\me_to\alal.xml'
 
-        Content => \$Content,
-        Mode => 'binmode', # binmode|utf8
-        Type => 'Local', # optional - Local|Attachment|MD5
-        Permission => '644', # unix file permissions
+        Content    => \$Content,
+        Mode       => 'binmode', # binmode|utf8
+        Type       => 'Local',   # optional - Local|Attachment|MD5
+        Permission => '644',     # unix file permissions
     );
 
 =cut
@@ -401,7 +409,7 @@ sub FileWrite {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local', # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -429,6 +437,14 @@ sub FileWrite {
         return;
     }
     else {
+
+        # lock file (Exclusive Lock)
+        if ( !flock( $FH, 2 ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't lock '$Param{Location}': $!",
+            );
+        }
 
         # read whole file
         if ( !$Param{Mode} || $Param{Mode} =~ /^binmode/i ) {
@@ -458,10 +474,10 @@ sub FileWrite {
 to delete a file from file system
 
     my $Success = $MainObject->FileDelete(
-        Directory => 'c:\some\location',
-        Filename => 'me_to/alal.xml',
+        Directory       => 'c:\some\location',
+        Filename        => 'me_to/alal.xml',
         # or Location
-        Location => 'c:\some\location\me_to\alal.xml'
+        Location        => 'c:\some\location\me_to\alal.xml'
 
         DisableWarnings => 1, # optional
     );
@@ -688,6 +704,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2007-10-02 10:38:58 $
+$Revision: 1.16 $ $Date: 2007-10-04 22:40:08 $
 
 =cut
