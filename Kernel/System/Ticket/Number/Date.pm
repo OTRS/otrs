@@ -2,7 +2,7 @@
 # Ticket/Number/Date.pm - a date ticket number generator
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.22 2007-10-02 10:34:25 mh Exp $
+# $Id: Date.pm,v 1.23 2007-10-04 22:39:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
@@ -39,17 +39,18 @@ sub TicketCreateNumber {
     # read count
     my $Count = 0;
     if ( -f $CounterLog ) {
-        open( DATA, "< $CounterLog" ) || die "Can't open $CounterLog: $!";
-        my $Line = <DATA>;
-        ($Count) = split( /;/, $Line );
-        close(DATA);
-
-        # just debug
-        if ( $Self->{Debug} > 0 ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message  => "Read counter from $CounterLog: $Count",
-            );
+        my $ContentSCALARRef = $Self->{MainObject}->FileRead(
+            Location  => $CounterLog,
+        );
+        if ($ContentSCALARRef) {
+            ( $Count ) = split( /;/, ${ $ContentSCALARRef });
+            # just debug
+            if ( $Self->{Debug} > 0 ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message  => "Read counter from $CounterLog: $Count",
+                );
+            }
         }
     }
 
@@ -58,10 +59,10 @@ sub TicketCreateNumber {
     $Count = $Count + $JumpCounter;
 
     # write new count
-    if ( open( DATA, "> $CounterLog" ) ) {
-        flock( DATA, 2 ) || warn "Can't set file lock ($CounterLog): $!";
-        print DATA $Count . "\n";
-        close(DATA);
+    if ( $Self->{MainObject}->FileWrite(
+        Location  => $CounterLog,
+        Content   => \$Count,
+    )) {
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
@@ -70,11 +71,7 @@ sub TicketCreateNumber {
         }
     }
     else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't write $CounterLog: $!",
-        );
-        die "Can't write $CounterLog: $!";
+        $Self->{MainObject}->Die("Can't write $CounterLog: $!");
     }
 
     # create new ticket number

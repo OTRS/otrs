@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
 # --
-# $Id: DateChecksum.pm,v 1.23 2007-10-02 10:34:25 mh Exp $
+# $Id: DateChecksum.pm,v 1.24 2007-10-04 22:39:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
@@ -50,17 +50,18 @@ sub TicketCreateNumber {
     my $Count      = 0;
     my $LastModify = '';
     if ( -f $CounterLog ) {
-        open( DATA, "< $CounterLog" ) || die "Can't open $CounterLog: $!";
-        my $Line = <DATA>;
-        ( $Count, $LastModify ) = split( /;/, $Line );
-        close(DATA);
-
-        # just debug
-        if ( $Self->{Debug} > 0 ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message  => "Read counter from $CounterLog: $Count",
-            );
+        my $ContentSCALARRef = $Self->{MainObject}->FileRead(
+            Location  => $CounterLog,
+        );
+        if ($ContentSCALARRef) {
+            ( $Count, $LastModify ) = split( /;/, ${ $ContentSCALARRef });
+            # just debug
+            if ( $Self->{Debug} > 0 ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message  => "Read counter from $CounterLog: $Count",
+                );
+            }
         }
     }
 
@@ -72,14 +73,13 @@ sub TicketCreateNumber {
     # count auto increment ($Count++)
     $Count++;
     $Count = $Count + $JumpCounter;
+    my $Content = $Count . ";$Year-$Month-$Day;";
 
     # write new count
-    if ( open( DATA, "> $CounterLog" ) ) {
-        flock( DATA, 2 ) || warn "Can't set file lock ($CounterLog): $!";
-        print DATA $Count . ";$Year-$Month-$Day;\n";
-        close(DATA);
-
-        # just debug
+    if ( $Self->{MainObject}->FileWrite(
+        Location  => $CounterLog,
+        Content   => \$Content,
+    )) {
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
@@ -88,13 +88,7 @@ sub TicketCreateNumber {
         }
     }
     else {
-
-        # just debug
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't write $CounterLog: $!",
-        );
-        die "Can't write $CounterLog: $!";
+        $Self->{MainObject}->Die("Can't write $CounterLog: $!");
     }
 
     # pad ticket number with leading '0' to length 5
