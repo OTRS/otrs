@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/Test.pm - test event module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.6 2007-10-02 10:34:25 mh Exp $
+# $Id: Test.pm,v 1.7 2007-10-04 22:11:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,6 +68,7 @@ sub Run {
             );
         }
     }
+    return 1;
 }
 
 1;
