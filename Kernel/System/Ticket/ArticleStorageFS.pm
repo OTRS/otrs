@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.42 2007-10-02 10:34:25 mh Exp $
+# $Id: ArticleStorageFS.pm,v 1.43 2007-10-04 23:57:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -246,17 +246,14 @@ sub ArticleWritePlain {
     File::Path::mkpath( [$Path], 0, 0775 );
 
     # write article to fs
-    if ( open( DATA, "> $Path/plain.txt" ) ) {
-        binmode(DATA);
-        print DATA $Param{Email};
-        close(DATA);
+    if ($Self->{MainObject}->FileWrite(
+        Location  => "$Path/plain.txt",
+        Mode       => 'binmode',
+        Content   => \$Param{Email},
+    )) {
         return 1;
     }
     else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't write: $Path/plain.txt: $!",
-        );
         return;
     }
 }
@@ -313,33 +310,26 @@ sub ArticleWriteAttachment {
     }
 
     # write attachment content type to fs
-    if ( open( DATA, "> $Param{Path}/$Param{Filename}.content_type" ) ) {
-        binmode(DATA);
-        print DATA $Param{ContentType};
-        close(DATA);
-    }
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't write: $Param{Path}/$Param{Filename}: $!",
-        );
+    if (!$Self->{MainObject}->FileWrite(
+        Directory => $Param{Path},
+        Filename  => "$Param{Filename}.content_type",
+        Mode       => 'binmode',
+        Content   => \$Param{ContentType},
+    )) {
         return;
     }
 
     # write attachment content to fs
-    if ( open( DATA, "> $Param{Path}/$Param{Filename}" ) ) {
-        binmode(DATA);
-        print DATA $Param{Content};
-        close(DATA);
-        return 1;
-    }
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't write: $Param{Path}/$Param{Filename}: $!",
-        );
+    if (!$Self->{MainObject}->FileWrite(
+        Directory => $Param{Path},
+        Filename  => $Param{Filename},
+        Mode       => 'binmode',
+        Content   => \$Param{Content},
+    )) {
         return;
     }
+
+    return 1;
 }
 
 sub ArticlePlain {
@@ -360,14 +350,13 @@ sub ArticlePlain {
 
     # open plain article
     my $Data = '';
-    if ( !open( DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt" ) ) {
+    if ( ! -f "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt" ) {
 
-        # can't open article
-        # try database
+        # can't open article, try database
         for (qw(ArticleID)) {
             $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
         }
-        my $SQL = "SELECT body FROM article_plain " . " WHERE " . " article_id = $Param{ArticleID}";
+        my $SQL = "SELECT body FROM article_plain WHERE article_id = $Param{ArticleID}";
         $Self->{DBObject}->Prepare( SQL => $SQL );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Data = $Row[0];
@@ -387,12 +376,17 @@ sub ArticlePlain {
     else {
 
         # read whole article
-        binmode(DATA);
-        while (<DATA>) {
-            $Data .= $_;
+        my $Data = $Self->{MainObject}->FileRead(
+            Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/",
+            Filename  => 'plain.txt',
+            Mode      => 'binmode',
+        );
+        if ($Data) {
+            return ${ $Data };
         }
-        close(DATA);
-        return $Data;
+        else {
+            return;
+        }
     }
 }
 
@@ -445,33 +439,28 @@ sub ArticleAttachmentIndex {
             # read content type
             my $ContentType = '';
             if ( -e "$Filename.content_type" ) {
-                if ( open( DATA, "$Filename.content_type" ) ) {
-                    while (<DATA>) {
-                        $ContentType .= $_;
-                    }
-                    close(DATA);
+                my $Content = $Self->{MainObject}->FileRead(
+                    Location => "$Filename.content_type",
+                );
+                if ($Content) {
+                    $ContentType = ${ $Content };
                 }
                 else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message  => "$!: $Filename.content_type!",
-                    );
                     return;
                 }
             }
 
             # read content type (old style)
             else {
-                if ( open( IN, "< $Filename" ) ) {
-                    while (<IN>) {
-                        if ($ContentType) {
-                            last;
-                        }
-                        else {
-                            $ContentType = $_;
-                        }
-                    }
-                    close(IN);
+                my $Content = $Self->{MainObject}->FileRead(
+                    Location => $Filename,
+                    Result   => 'ARRAY',
+                );
+                if ($Content) {
+                    $ContentType = $Content->[0];
+                }
+                else {
+                    return;
                 }
             }
 
@@ -564,50 +553,49 @@ sub ArticleAttachment {
                         From => 'utf-8',
                     );
                     if ( -e "$Filename.content_type" ) {
-                        if ( open( DATA, "$Filename.content_type" ) ) {
-                            while (<DATA>) {
-                                $Data{ContentType} = $_;
-                            }
-                            close(DATA);
-                            if ( open( DATA, $Filename ) ) {
-                                my $Counter = 0;
-                                binmode(DATA);
-                                while (<DATA>) {
-                                    $Data{Content} .= $_;
-                                }
-                                close(DATA);
-                            }
-                            else {
-                                $Self->{LogObject}->Log(
-                                    Priority => 'error',
-                                    Message  => "$!: $Filename!",
-                                );
-                                return;
-
-                            }
+                        # read content type
+                        my $Content = $Self->{MainObject}->FileRead(
+                            Location => "$Filename.content_type",
+                        );
+                        if ($Content) {
+                            $Data{ContentType} = ${ $Content };
                         }
                         else {
-                            $Self->{LogObject}->Log(
-                                Priority => 'error',
-                                Message  => "$!: $Filename.content_type!",
-                            );
+                            return;
+                        }
+
+                        # read content
+                        $Content = $Self->{MainObject}->FileRead(
+                            Location => $Filename,
+                            Mode     => 'binmode',
+                        );
+                        if ($Content) {
+                            $Data{Content} = ${ $Content };
+                        }
+                        else {
                             return;
                         }
                     }
                     else {
-                        if ( open( DATA, $Filename ) ) {
+
+                        # read content
+                        my $Content = $Self->{MainObject}->FileRead(
+                            Location => $Filename,
+                            Mode     => 'binmode',
+                            Result   => 'ARRAY',
+                        );
+                        if ($Content) {
+                            $Data{ContentType} = $Content->[0];
                             my $Counter = 0;
-                            binmode(DATA);
-                            while (<DATA>) {
-                                if ( $Counter == 0 ) {
-                                    $Data{ContentType} = $_;
-                                }
-                                else {
-                                    $Data{Content} .= $_;
+                            for my $Line (@{$Content}) {
+                                if ($Counter) {
+                                    $Data{Content} .= $Line;
                                 }
                                 $Counter++;
                             }
-                            close(DATA);
+                        }
+                        else {
+                            return;
                         }
                     }
                     if (   $Data{ContentType} =~ /plain\/text/i
