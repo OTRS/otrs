@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.16 2007-10-04 22:40:08 martin Exp $
+# $Id: Main.pm,v 1.17 2007-10-04 23:28:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -543,6 +543,11 @@ get a md5 sum of a file or an string
         String => \$SomeString,
     );
 
+    # note: needs more memory!
+    my $MD5Sum = $MainObject->MD5sum(
+        String => $SomeString,
+    );
+
 =cut
 
 sub MD5sum {
@@ -582,16 +587,20 @@ sub MD5sum {
 
     # md5sum string
     if ( $Param{String} ) {
-        if ( ref( $Param{String} ) ne 'SCALAR' ) {
+        if ( ! ref( $Param{String} ) ) {
+            $Self->{EncodeObject}->EncodeOutput( \$Param{String} );
+            return md5_hex( $Param{String} );
+        }
+        elsif ( ref( $Param{String} ) eq 'SCALAR' ) {
+            $Self->{EncodeObject}->EncodeOutput( $Param{String} );
+            return md5_hex( ${ $Param{String} } );
+        }
+        else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Need a SCALAR reference like 'String => \$Content' in String param.",
             );
             return;
-        }
-        else {
-            $Self->{EncodeObject}->EncodeOutput( $Param{String} );
-            return md5_hex( ${ $Param{String} } );
         }
     }
 }
@@ -704,6 +713,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2007-10-04 22:40:08 $
+$Revision: 1.17 $ $Date: 2007-10-04 23:28:41 $
 
 =cut
