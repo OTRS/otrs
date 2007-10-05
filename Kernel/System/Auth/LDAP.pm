@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.41 2007-10-02 10:35:33 mh Exp $
+# $Id: LDAP.pm,v 1.42 2007-10-05 00:03:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -513,7 +513,7 @@ sub Auth {
                 $Self->{GroupObject}->GroupMemberAdd(
                     GID        => $GID,
                     UID        => $UserData{UserID},
-                    Permission => { %PermissionsEmpty, },
+                    Permission => { %PermissionsEmpty },
                     UserID     => 1,
                 );
             }
@@ -595,7 +595,7 @@ sub Auth {
                             $Self->{GroupObject}->GroupMemberAdd(
                                 GID        => $GroupID,
                                 UID        => $UserData{UserID},
-                                Permission => { %PermissionsEmpty, %Permissions, },
+                                Permission => { %PermissionsEmpty, %Permissions },
                                 UserID     => 1,
                             );
                         }
@@ -763,7 +763,7 @@ sub Auth {
                 $Self->{GroupObject}->GroupMemberAdd(
                     GID        => $GID,
                     UID        => $UserData{UserID},
-                    Permission => { %PermissionsEmpty, },
+                    Permission => { %PermissionsEmpty },
                     UserID     => 1,
                 );
             }
@@ -816,7 +816,7 @@ sub Auth {
                                     $Self->{GroupObject}->GroupMemberAdd(
                                         GID        => $GroupID,
                                         UID        => $UserData{UserID},
-                                        Permission => { %PermissionsEmpty, %{ $Groups{$Group} }, },
+                                        Permission => { %PermissionsEmpty, %{ $Groups{$Group} } },
                                         UserID     => 1,
                                     );
                                 }
