@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.18 2007-10-02 10:43:31 mh Exp $
+# $Id: LayoutTicket.pm,v 1.19 2007-10-05 10:49:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -166,6 +166,28 @@ sub AgentQueueListOption {
     else {
         $OnChangeSubmit = '';
     }
+
+    # set OnChange if AJAX is used
+    if ($Param{Ajax}) {
+        if (!$Param{Ajax}->{Depend}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Need Depend Param Ajax option!",
+            );
+            $Self->FatalError();
+        }
+        if (!$Param{Ajax}->{Update}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Need Update Param Ajax option()!",
+            );
+            $Self->FatalError();
+        }
+        $Param{OnChange} = "AJAXUpdate('".$Param{Ajax}->{Subaction}."', ['"
+            .join("', '", @{$Param{Ajax}->{Depend}})."'], ['"
+            .join("', '", @{$Param{Ajax}->{Update}})."']);";
+    }
+
     if ( $Param{OnChange} ) {
         $OnChangeSubmit = " onchange=\"$Param{OnChange}\"";
     }
@@ -236,6 +258,7 @@ sub AgentQueueListOption {
         }
     }
     $Param{MoveQueuesStrg} .= "</select>\n";
+    $Param{MoveQueuesStrg} .= "<a id=\"AJAXImage$Param{Name}\" disabled href=\"\"></a>\n";
 
     return $Param{MoveQueuesStrg};
 }
