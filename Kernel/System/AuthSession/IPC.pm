@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: IPC.pm,v 1.29 2007-10-02 10:35:44 mh Exp $
+# $Id: IPC.pm,v 1.30 2007-10-05 11:22:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,13 +13,14 @@ package Kernel::System::AuthSession::IPC;
 
 use strict;
 use warnings;
+
 use IPC::SysV qw(IPC_PRIVATE IPC_RMID S_IRWXU);
 use Digest::MD5;
 use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,10 +60,10 @@ sub _InitSHM {
     my ($Self) = @_;
 
     # init meta data mem
-    $Self->{KeyMeta} = shmget( $Self->{IPCKeyMeta}, $Self->{IPCSizeMeta}, 777 | 1000 ) || die $!;
+    $Self->{KeyMeta} = shmget( $Self->{IPCKeyMeta}, $Self->{IPCSizeMeta}, oct(1777) ) || die $!;
 
     # init session data mem
-    $Self->{Key} = shmget( $Self->{IPCKey}, $Self->_GetSHMDataSize(), 777 | 1000 ) || die $!;
+    $Self->{Key} = shmget( $Self->{IPCKey}, $Self->_GetSHMDataSize(), oct(1777) ) || die $!;
     return 1;
 }
 
@@ -96,7 +97,7 @@ sub _WriteSHM {
         shmctl( $Self->{Key}, IPC_RMID, 0 ) || die "$!";
 
         # init new mem
-        $Self->{Key} = shmget( $Self->{IPCKey}, $NewIPCSize, 777 | 1000 ) || die $!;
+        $Self->{Key} = shmget( $Self->{IPCKey}, $NewIPCSize, oct(1777) ) || die $!;
 
         # write session data to mem
         shmwrite( $Self->{Key}, $Param{Data}, 0, $NewIPCSize ) || die $!;
