@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.152 2007-10-02 10:34:25 mh Exp $
+# $Id: Article.pm,v 1.153 2007-10-05 00:14:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152 $) [1];
+$VERSION = qw($Revision: 1.153 $) [1];
 
 =head1 NAME
 
@@ -862,7 +862,7 @@ sub ArticleTypeLookup {
         for (qw(ArticleType)) {
             $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
         }
-        $SQL = "SELECT id FROM article_type WHERE name = '$Param{ArticleType}'",;
+        $SQL = "SELECT id FROM article_type WHERE name = '$Param{ArticleType}'";
     }
     else {
 
@@ -870,7 +870,7 @@ sub ArticleTypeLookup {
         for (qw(ArticleTypeID)) {
             $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
         }
-        $SQL = "SELECT name FROM article_type WHERE id = $Param{ArticleTypeID}",;
+        $SQL = "SELECT name FROM article_type WHERE id = $Param{ArticleTypeID}";
     }
     $Self->{DBObject}->Prepare( SQL => $SQL );
 
