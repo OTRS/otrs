@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.15 2007-10-02 10:31:59 mh Exp $
+# $Id: CustomerTicketZoom.pm,v 1.16 2007-10-05 08:26:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -212,7 +212,7 @@ sub Run {
             {
 
                 # set state
-                my %NextStateData = $Self->{StateObject}->StateGet( ID => $GetParam{StateID}, );
+                my %NextStateData = $Self->{StateObject}->StateGet( ID => $GetParam{StateID} );
                 my $NextState = $NextStateData{Name}
                     || $Self->{Config}->{StateDefault}
                     || 'open';
@@ -233,9 +233,10 @@ sub Run {
                 }
 
                 # get pre loaded attachment
-                my @AttachmentData = $Self->{UploadCachObject}
-                    ->FormIDGetAllFilesData( FormID => $Self->{FormID}, );
-                for my $Ref (@AttachmentData) {
+                my @Attachment = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+                    FormID => $Self->{FormID}
+                );
+                for my $Ref (@Attachment) {
                     $Self->{TicketObject}->ArticleWriteAttachment(
                         %{$Ref},
                         ArticleID => $ArticleID,
@@ -261,7 +262,7 @@ sub Run {
 
                 # redirect to zoom view
                 return $Self->{LayoutObject}
-                    ->Redirect( OP => "Action=$NextScreen&TicketID=$Self->{TicketID}", );
+                    ->Redirect( OP => "Action=$NextScreen&TicketID=$Self->{TicketID}" );
             }
             else {
                 my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
@@ -274,7 +275,7 @@ sub Run {
 
     $Ticket{TmpCounter} = 0;
     $Ticket{TicketTimeUnits}
-        = $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $Ticket{TicketID}, );
+        = $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $Ticket{TicketID} );
 
     # get all atricle of this ticket
     #    my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList(Type => 'Customer');
@@ -349,7 +350,7 @@ sub _Mask {
         my %Article = %$ArticleTmp;
 
         # if it is a customer article
-        if ( $Article{SenderType} eq 'customer' ) {
+        if ( $Article{SenderType} eq 'customer' && $Article{ArticleType} !~ /int/) {
             $LastCustomerArticleID = $Article{'ArticleID'};
             $LastCustomerArticle   = $CounterArray;
         }
