@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.476 2007-10-02 12:25:20 mh Exp $
+# $Id: CHANGES,v 1.477 2007-10-05 08:26:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,6 +23,9 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.4 (????/??/??)
+ - (2007/10/05) Fixed bug# 2360 - No Permission in customer panel after
+    selecting ticket. Reason is, sender type is customer and article
+    type is email-internal which is set via a postmaster filter.
  - (2007/10/02) Fixed bug# 2346 - Emty entries are shown in the responsible
     option list in TicketSearch mask.
  - (2007/09/24) Fixed bug# 2321 - It's not possible to use ñ or ü in
