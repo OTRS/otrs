@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesPassword.pm,v 1.13 2007-10-02 10:40:12 mh Exp $
+# $Id: PreferencesPassword.pm,v 1.14 2007-10-05 08:31:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,8 @@ package Kernel::Output::HTML::PreferencesPassword;
 use strict;
 use warnings;
 
-use Digest::MD5;
-
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -32,7 +30,7 @@ sub new {
     }
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem)) {
+    for (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem MainObject)) {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
@@ -127,9 +125,9 @@ sub Run {
     }
 
     # md5 sum for new pw, needed for password history
-    my $MD5 = Digest::MD5->new();
-    $MD5->add($Pw);
-    my $MD5Pw = $MD5->hexdigest;
+    my $MD5Pw = $Self->{MainObject}->MD5sum(
+        String => $Pw,
+    );
 
     if (   $Self->{ConfigItem}->{PasswordHistory}
         && $Param{UserData}->{UserLastPw}
