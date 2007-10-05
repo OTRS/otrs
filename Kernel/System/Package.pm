@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.71 2007-10-02 10:38:20 mh Exp $
+# $Id: Package.pm,v 1.72 2007-10-05 09:25:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 =head1 NAME
 
@@ -1584,7 +1584,7 @@ sub PackageBuild {
                 Mode     => 'binmode',
             );
             if ( !$FileContent ) {
-                $Self->{MainObject}->Die("Can't open: $File: $!");
+                $Self->{MainObject}->Die("Can't open: $File->{Location}: $!");
             }
             $XML .= encode_base64( ${$FileContent}, '' );
             $XML .= "</File>\n";
@@ -2073,6 +2073,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.71 $ $Date: 2007-10-02 10:38:20 $
+$Revision: 1.72 $ $Date: 2007-10-05 09:25:07 $
 
 =cut
