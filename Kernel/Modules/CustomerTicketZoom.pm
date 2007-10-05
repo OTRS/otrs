@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.13 2007-03-15 08:20:30 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.13.2.1 2007-10-05 08:25:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.13.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -307,7 +307,7 @@ sub _Mask {
     foreach my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;
         # if it is a customer article
-        if ($Article{SenderType} eq 'customer') {
+        if ($Article{SenderType} eq 'customer' && $Article{ArticleType} !~ /int/) {
             $LastCustomerArticleID = $Article{'ArticleID'};
             $LastCustomerArticle = $CounterArray;
         }
