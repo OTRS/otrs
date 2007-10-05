@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spelling module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.21 2007-10-02 10:37:19 mh Exp $
+# $Id: CheckItem.pm,v 1.22 2007-10-05 00:31:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -37,15 +37,21 @@ create a object
 
     use Kernel::Config;
     use Kernel::System::Log;
+    use Kernel::System::Main;
     use Kernel::System::CheckItem;
 
     my $ConfigObject = Kernel::Config->new();
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
     my $CheckItemObject = Kernel::System::CheckItem->new(
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
+        MainObject => $MainObject,
     );
 
 =cut
@@ -60,7 +66,7 @@ sub new {
     $Self->{Debug} = 0;
 
     # get needed objects
-    for (qw(ConfigObject LogObject)) {
+    for (qw(ConfigObject LogObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -124,7 +130,8 @@ sub CheckEmail {
     }
 
     # mx check
-    elsif ( $Self->{ConfigObject}->Get('CheckMXRecord') && eval { require Net::DNS } ) {
+    elsif ( $Self->{ConfigObject}->Get('CheckMXRecord')
+        && $Self->{MainObject}->Require('Net::DNS') ) {
 
         # get host
         my $Host = $Param{Address};
@@ -148,7 +155,7 @@ sub CheckEmail {
             elsif ( $packet->header->ancount() ) {
 
                 # OK
-                #                print STDERR "OK A $Host ".$packet->header->ancount()."\n";
+                # print STDERR "OK A $Host ".$packet->header->ancount()."\n";
             }
 
             # mx recorde lookup
@@ -164,7 +171,7 @@ sub CheckEmail {
                 elsif ( $packet->header->ancount() ) {
 
                    # OK
-                   #                    print STDERR "OK MX $Host ".$packet->header->ancount()."\n";
+                   # print STDERR "OK MX $Host ".$packet->header->ancount()."\n";
                 }
                 else {
                     $Error = "no mail exchanger (mx) found!";
@@ -214,6 +221,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2007-10-02 10:37:19 $
+$Revision: 1.22 $ $Date: 2007-10-05 00:31:25 $
 
 =cut
