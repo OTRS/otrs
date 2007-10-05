@@ -2,12 +2,15 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.25 2007-05-04 11:47:59 martin Exp $
+# $Id: AgentTicketPhone.dtl,v 1.26 2007-10-05 08:49:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+# include AJAX lib
+$Include{"AJAX"}
 
 <!-- start form -->
 <script language="JavaScript" type="text/javascript">
@@ -193,7 +196,8 @@ function clear_field() {
             <td class="contentkey">$Text{"Owner"}:</td>
             <td class="contentvalue">$Data{"OptionStrg"}
 <!-- dtl:block:OwnerSelectionAllJS -->
-              $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.OwnerAll.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+#              $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.OwnerAll.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+              $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.OwnerAll.value='1'; AJAXUpdate('AJAXUpdate', ['OwnerAll', 'Dest'], ['NewUserID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
 <!-- dtl:block:OwnerSelectionAllJS -->
 <!-- dtl:block:OwnerSelectionAllSubmit -->
               <input class="button" type="submit" value="$Text{"All"}" name="OwnerAllRefresh">
@@ -206,7 +210,8 @@ function clear_field() {
             <td class="contentkey">$Text{"Responsible"}:</td>
             <td class="contentvalue">$Data{"ResponsibleOptionStrg"}
 <!-- dtl:block:ResponsibleSelectionAllJS -->
-              $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.ResponsibleAll.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+#              $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.ResponsibleAll.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+              $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.ResponsibleAll.value='1'; AJAXUpdate('AJAXUpdate', ['ResponsibleAll', 'Dest'], ['NewResponsibleID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
 <!-- dtl:block:ResponsibleSelectionAllJS -->
 <!-- dtl:block:ResponsibleSelectionAllSubmit -->
               <input class="button" type="submit" value="$Text{"All"}" name="ResponsibleAllRefresh">

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.48 2007-10-02 10:32:23 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.49 2007-10-05 08:49:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -257,6 +257,7 @@ sub Run {
             ),
             SLAs => $Self->_GetSLAs( QueueID => $Self->{QueueID} || 1, %GetParam ),
             Users   => $Self->_GetUsers( QueueID => $Self->{QueueID} ),
+            ResponsibleUsers => $Self->_GetUsers(QueueID => $Self->{QueueID}),
             To      => $Self->_GetTos( QueueID   => $Self->{QueueID} ),
             From    => $Article{From},
             Subject => $Article{Subject}
@@ -382,7 +383,7 @@ sub Run {
             );
 
             # check required FreeTextField (if configured)
-            if (   $Self->{Config}{'TicketFreeText'}{$_} == 2
+            if (   $Self->{Config}{'TicketFreeText'}->{$_} == 2
                 && $GetParam{"TicketFreeText$_"} eq ''
                 && $ExpandCustomerName == 0 )
             {
@@ -868,6 +869,94 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen();
         }
     }
+    elsif ($Self->{Subaction} eq 'AJAXUpdate') {
+        my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest');
+        my $QueueID = '';
+        if ($Dest =~ /^(\d{1,100})\|\|.+?$/) {
+            $QueueID = $1;
+        }
+        my $Users = $Self->_GetUsers(QueueID => $QueueID, AllUsers => $GetParam{OwnerAll});
+        my $ResponsibleUsers = $Self->_GetUsers(QueueID => $QueueID, AllUsers => $GetParam{ResponsibleAll});
+        my $NextStates = $Self->_GetNextStates(QueueID => $QueueID);
+        my $Priorities = $Self->_GetPriorities(QueueID => $QueueID);
+        # get free text config options
+        my @TicketFreeTextConfig = ();
+        foreach (1..16) {
+            my $ConfigKey = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "TicketFreeKey$_",
+                Action => $Self->{Action},
+                QueueID => $QueueID || 0,
+                UserID => $Self->{UserID},
+            );
+            if ($ConfigKey) {
+                push(@TicketFreeTextConfig, {
+                    Name => "TicketFreeKey$_",
+                    Data => $ConfigKey,
+                    SelectedID => [],
+                    Translation => 0,
+                    Max => 100,
+                });
+            }
+            my $ConfigValue = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "TicketFreeText$_",
+                Action => $Self->{Action},
+                QueueID => $QueueID || 0,
+                UserID => $Self->{UserID},
+           );
+            if ($ConfigValue) {
+                push(@TicketFreeTextConfig, {
+                    Name => "TicketFreeText$_",
+                    Data => $ConfigValue,
+                    SelectedID => [],
+                    Translation => 0,
+                    Max => 100,
+                });
+            }
+        }
+        my $JSON = $Self->{LayoutObject}->BuildJSON(
+            [
+                {
+                    Name => 'NewUserID',
+                    Data => $Users,
+                    SelectedID => [],
+                    Translation => 1,
+                    PossibleNone => 1,
+                    Max => 100,
+                },
+                {
+                    Name => 'NewResponsibleID',
+                    Data => $ResponsibleUsers,
+                    SelectedID => [],
+                    Translation => 1,
+                    PossibleNone => 1,
+                    Max => 100,
+                },
+                {
+                    Name => 'NextStateID',
+                    Data => $NextStates,
+                    SelectedID => [],
+                    Translation => 1,
+                    Max => 100,
+                },
+                {
+                    Name => 'PriorityID',
+                    Data => $Priorities,
+                    SelectedID => [],
+                    Translation => 1,
+                    Max => 100,
+                },
+                @TicketFreeTextConfig,
+            ],
+        );
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/plain',
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
     else {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => 'No Subaction!!',
@@ -931,7 +1020,9 @@ sub _GetUsers {
             Cached  => 1,
         );
         for ( keys %MemberList ) {
-            $ShownUsers{$_} = $AllGroupsMembers{$_};
+            if ($AllGroupsMembers{$_}) {
+                $ShownUsers{$_} = $AllGroupsMembers{$_};
+            }
         }
     }
     return \%ShownUsers;
@@ -1078,25 +1169,28 @@ sub _MaskPhoneNew {
     }
 
     # build string
-    $Param{Users}->{''} = '-';
-    $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data       => $Param{Users},
+    $Param{'OptionStrg'} = $Self->{LayoutObject}->BuildSelection(
+        Data => $Param{Users},
         SelectedID => $Param{UserSelected},
-        Name       => 'NewUserID',
+        Translation => 0,
+        Name => 'NewUserID',
+        PossibleNone => 1,
     );
 
     # build next states string
-    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data     => $Param{NextStates},
-        Name     => 'NextStateID',
-        Selected => $Param{NextState} || $Self->{Config}->{StateDefault},
+    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->BuildSelection(
+        Data => $Param{NextStates},
+        Name => 'NextStateID',
+        Translation => 1,
+        SelectedValue => $Param{NextState} || $Self->{Config}->{StateDefault},
     );
 
     # build from string
     if ( $Param{FromOptions} && %{ $Param{FromOptions} } ) {
-        $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->BuildSelection(
             Data => $Param{FromOptions},
             Name => 'CustomerUser',
+            Translation => 0,
             Max  => 70,
         );
     }
@@ -1116,17 +1210,64 @@ sub _MaskPhoneNew {
             Name           => 'Dest',
             SelectedID     => $Param{ToSelected},
             OnChangeSubmit => 0,
-            OnChange =>
-                "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            Ajax => {
+                Update => [
+                    'NewUserID',
+                    'NewResponsibleID',
+                    'NextStateID',
+                    'PriorityID',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Depend => [
+                    'Dest',
+                    'NextStateID',
+                    'PriorityID',
+                    'OwnerAll',
+                    'ResponsibleAll',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Subaction => 'AJAXUpdate',
+            }
         );
     }
     else {
-        $Param{'ToStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data       => \%NewTo,
-            Name       => 'Dest',
+        $Param{'ToStrg'} = $Self->{LayoutObject}->BuildSelection(
+            Data => \%NewTo,
+            Name => 'Dest',
             SelectedID => $Param{ToSelected},
-            OnChange =>
-                "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            Translation => 0,
+            OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
         );
     }
 
@@ -1156,10 +1297,57 @@ sub _MaskPhoneNew {
             Name         => 'TypeID',
             SelectedID   => $Param{TypeID},
             PossibleNone => 1,
-            Sort         => 'AlphanumericValue',
-            Translation  => 0,
-            OnChange =>
-                "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            Sort => 'AlphanumericValue',
+            Translation => 0,
+            OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            Ajax => {
+                Update => [
+                    'NewUserID',
+                    'NewResponsibleID',
+                    'NextStateID',
+                    'PriorityID',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Depend => [
+                    'Dest',
+                    'NextStateID',
+                    'PriorityID',
+                    'OwnerAll',
+                    'ResponsibleAll',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Subaction => 'AJAXUpdate',
+            }
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketType',
@@ -1204,11 +1392,12 @@ sub _MaskPhoneNew {
     if ( !$Param{PriorityID} ) {
         $Param{Priority} = $Self->{Config}->{Priority};
     }
-    $Param{'PriorityStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data       => $Param{Priorities},
-        Name       => 'PriorityID',
-        SelectedID => $Param{PriorityID},
-        Selected   => $Param{Priority},
+    $Param{'PriorityStrg'} = $Self->{LayoutObject}->BuildSelection(
+        Data          => $Param{Priorities},
+        Name          => 'PriorityID',
+        SelectedID    => $Param{PriorityID},
+        SelectedValue => $Param{Priority},
+        Translation   => 1,
     );
 
     # pending data string
@@ -1247,14 +1436,14 @@ sub _MaskPhoneNew {
     }
 
     # show responsible selection
-    if (   $Self->{ConfigObject}->Get('Ticket::Responsible')
-        && $Self->{ConfigObject}->Get('Ticket::Frontend::NewResponsibleSelection') )
-    {
-        $Param{ResponsibleUsers}->{''} = '-';
-        $Param{'ResponsibleOptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data       => $Param{ResponsibleUsers},
-            SelectedID => $Param{ResponsibleUserSelected},
-            Name       => 'NewResponsibleID',
+    if ($Self->{ConfigObject}->Get('Ticket::Responsible') &&
+        $Self->{ConfigObject}->Get('Ticket::Frontend::NewResponsibleSelection')) {
+        $Param{'ResponsibleOptionStrg'} = $Self->{LayoutObject}->BuildSelection(
+            Data         => $Param{ResponsibleUsers},
+            SelectedID   => $Param{ResponsibleUserSelected},
+            Name         => 'NewResponsibleID',
+            Translation  => 0,
+            PossibleNone => 1,
         );
         $Self->{LayoutObject}->Block(
             Name => 'ResponsibleSelection',

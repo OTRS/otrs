@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.57 2007-10-02 10:43:31 mh Exp $
+# $Id: Layout.pm,v 1.58 2007-10-05 08:49:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 =head1 NAME
 
@@ -1776,6 +1776,26 @@ sub OptionStrgHashRef {
     my $Size               = $Param{Size} || '';
     $Size = "size=$Size" if ($Size);
 
+    # set OnChange if AJAX is used
+    if ($Param{Ajax}) {
+        if (!$Param{Ajax}->{Depend}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Need Depend Param Ajax option!",
+            );
+            $Self->FatalError();
+        }
+        if (!$Param{Ajax}->{Update}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Need Update Param Ajax option()!",
+            );
+            $Self->FatalError();
+        }
+        $Param{OnChange} = "AJAXUpdate('".$Param{Ajax}->{Subaction}."', ['"
+            .join("', '", @{$Param{Ajax}->{Depend}})."'], ['"
+            .join("', '", @{$Param{Ajax}->{Update}})."']);";
+    }
     # check data
     if ( !$Param{Data} ) {
         $Self->{LogObject}->Log(
@@ -1881,7 +1901,7 @@ sub OptionStrgHashRef {
             $Output .= "</option>\n";
         }
     }
-    $Output .= "</select>\n";
+    $Output .= "</select><a id=\"AJAXImage$Name\" disabled href=\"\"></a>\n";
     return $Output;
 }
 
@@ -2085,6 +2105,26 @@ sub BuildSelection {
             return;
         }
     }
+    # set OnChange if AJAX is used
+    if ($Param{Ajax}) {
+        if (!$Param{Ajax}->{Depend}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Need Depend Param Ajax option!",
+            );
+            $Self->FatalError();
+        }
+        if (!$Param{Ajax}->{Update}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Need Update Param Ajax option()!",
+            );
+            $Self->FatalError();
+        }
+        $Param{OnChange} = "AJAXUpdate('".$Param{Ajax}->{Subaction}."', ['"
+            .join("', '", @{$Param{Ajax}->{Depend}})."'], ['"
+            .join("', '", @{$Param{Ajax}->{Update}})."']);";
+    }
 
     # create OptionRef
     my $OptionRef = $Self->_BuildSelectionOptionRefCreate(%Param);
@@ -2104,6 +2144,7 @@ sub BuildSelection {
         AttributeRef => $AttributeRef,
         DataRef      => $DataRef,
     );
+    $String .= "<a id=\"AJAXImage$Param{Name}\" disabled href=\"\"></a>\n";
     return $String;
 }
 
@@ -2666,6 +2707,14 @@ returns browser output to display/download a attachment
         Content => $Content,
     );
 
+    $HTML = $LayoutObject->Attachment(
+        Type => 'inline', # inline|attached
+        Filename => 'FileName.png',
+        ContentType => 'image/png',
+        Content => $Content,
+        NoCache => 1,
+    );
+
 =cut
 
 sub Attachment {
@@ -2693,6 +2742,12 @@ sub Attachment {
         use bytes;
         $Param{Size} = length( $Param{Content} );
         no bytes;
+    }
+
+    # add no cache headers
+    if ($Param{NoCache}) {
+        $Output .= "Cache-Control: no-cache\n";
+        $Output .= "Pragma: no-cache\n";
     }
     $Output .= "Content-Length: $Param{Size}\n";
     $Output .= "Content-Type: $Param{ContentType}\n\n";
@@ -3730,6 +3785,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2007-10-02 10:43:31 $
+$Revision: 1.58 $ $Date: 2007-10-05 08:49:33 $
 
 =cut
