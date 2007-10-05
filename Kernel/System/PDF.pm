@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.29 2007-10-02 10:38:20 mh Exp $
+# $Id: PDF.pm,v 1.30 2007-10-05 14:09:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -2597,7 +2597,7 @@ sub _TextCalculate {
 
     # cut text if type is Cut
     if ( $Param{Type} eq 'Cut' && $Return{LeftOver} ) {
-        my $LastRow = $PossibleRows[$#PossibleRows];
+        my $LastRow = $PossibleRows[-1];
         if ($LastRow) {
 
             # calculate width [..]
@@ -2626,7 +2626,7 @@ sub _TextCalculate {
                         FontSize => $Param{FontSize},
                     );
                 }
-                $PossibleRows[$#PossibleRows] = $LastRow . '[..]';
+                $PossibleRows[-1] = $LastRow . '[..]';
 
             }
             $Return{LeftOver} = '';
@@ -3521,6 +3521,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2007-10-02 10:38:20 $
+$Revision: 1.30 $ $Date: 2007-10-05 14:09:32 $
 
 =cut

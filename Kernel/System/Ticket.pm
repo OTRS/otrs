@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.281 2007-10-02 10:38:58 mh Exp $
+# $Id: Ticket.pm,v 1.282 2007-10-05 14:11:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.281 $) [1];
+$VERSION = qw($Revision: 1.282 $) [1];
 
 =head1 NAME
 
@@ -1426,7 +1426,7 @@ sub MoveTicket {
             my %Preferences = $Self->{UserObject}->GetUserData( UserID => $Param{UserID} );
             $Self->SendCustomerNotification(
                 Type                  => 'QueueUpdate',
-                CustomerMessageParams => { %Preferences, Queue => $Queue, },
+                CustomerMessageParams => { %Preferences, Queue => $Queue },
                 TicketID              => $Param{TicketID},
                 UserID                => $Param{UserID},
             );
@@ -4191,7 +4191,6 @@ sub _TicketSearchCondition {
         }
         if ( $Not && $Array[$Position] eq '!' ) {
             next;
-            $Not = 0;
         }
         if ( $Array[$Position] eq '(' && $Array[ $Position + 1 ] && $Array[ $Position + 1 ] ne '(' )
         {
@@ -6773,6 +6772,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.281 $ $Date: 2007-10-02 10:38:58 $
+$Revision: 1.282 $ $Date: 2007-10-05 14:11:22 $
 
 =cut

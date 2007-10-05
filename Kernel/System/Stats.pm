@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.27 2007-10-02 10:37:06 mh Exp $
+# $Id: Stats.pm,v 1.28 2007-10-05 14:11:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 SYNOPSIS
 
@@ -96,7 +96,7 @@ sub StatsAdd {
     my @Keys = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats', );
     if (@Keys) {
         my @SortKeys = sort { $a <=> $b } @Keys;
-        $StatID = $SortKeys[$#SortKeys] + 1;
+        $StatID = $SortKeys[-1] + 1;
     }
 
     my $TimeStamp = $Self->{TimeObject}
@@ -490,7 +490,6 @@ sub GetStatsList {
                         if ( $GroupID == $UserGroup ) {
                             $UserPermission = 1;
                             last MARKE;
-                            last;
                         }
                     }
                 }
@@ -1426,10 +1425,10 @@ sub GenerateGraph {
     my $GDBackend    = $Param{Format};
 
     # delete SumCol and SumRow if present
-    if ( $StatArray[$#StatArray][0] eq 'Sum' ) {
+    if ( $StatArray[-1][0] eq 'Sum' ) {
         pop(@StatArray);
     }
-    if ( $HeadArrayRef->[ $#{$HeadArrayRef} ] eq 'Sum' ) {
+    if ( $HeadArrayRef->[-1] eq 'Sum' ) {
         pop( @{$HeadArrayRef} );
         for my $Row (@StatArray) {
             pop( @{$Row} );
@@ -2764,6 +2763,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2007-10-02 10:37:06 $
+$Revision: 1.28 $ $Date: 2007-10-05 14:11:22 $
 
 =cut

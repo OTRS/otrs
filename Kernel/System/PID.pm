@@ -2,7 +2,7 @@
 # Kernel/System/PID.pm - all system pid functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PID.pm,v 1.8 2007-10-02 10:38:20 mh Exp $
+# $Id: PID.pm,v 1.9 2007-10-05 14:11:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -97,20 +97,20 @@ sub PIDCreate {
     }
 
     # check if already exists
-    my %PID = $Self->PIDGet(%Param);
-    if (%PID) {
-        if ( $PID{Created} > ( time() - ( 60 * 60 ) ) ) {
+    my %ProcessID = $Self->PIDGet(%Param);
+    if (%ProcessID) {
+        if ( $ProcessID{Created} > ( time() - ( 60 * 60 ) ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
                 Message =>
-                    "Can't create PID $PID{Name}, because it's already running ($PID{Host}/$PID{PID})!",
+                    "Can't create PID $ProcessID{Name}, because it's already running ($ProcessID{Host}/$ProcessID{PID})!",
             );
             return;
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Removed PID ($PID{Name}/$PID{Host}/$PID{PID}, because 1 hour old!",
+                Message  => "Removed PID ($ProcessID{Name}/$ProcessID{Host}/$ProcessID{PID}, because 1 hour old!",
             );
             $Self->PIDDelete(%Param);
         }
@@ -135,9 +135,8 @@ sub PIDCreate {
     if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         return 1;
     }
-    else {
-        return;
-    }
+
+    return;
 }
 
 =item PIDGet()
@@ -242,6 +241,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2007-10-02 10:38:20 $
+$Revision: 1.9 $ $Date: 2007-10-05 14:11:22 $
 
 =cut

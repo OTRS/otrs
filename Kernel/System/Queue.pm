@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.76 2007-10-02 10:38:58 mh Exp $
+# $Id: Queue.pm,v 1.77 2007-10-05 14:11:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,13 +13,14 @@ package Kernel::System::Queue;
 
 use strict;
 use warnings;
+
 use Kernel::System::StdResponse;
 use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 =head1 NAME
 
@@ -641,6 +642,8 @@ sub GetQueueGroupID {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need QueueID!" );
         return;
     }
+
+    # check, if value is cached
     if ( $Self->{"QG::GetQueueGroupID::$Param{QueueID}"} ) {
         return $Self->{"QG::GetQueueGroupID::$Param{QueueID}"};
     }
@@ -650,15 +653,22 @@ sub GetQueueGroupID {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
 
-    # sql
-    my $GID = '';
-    my $SQL = "SELECT group_id " . " FROM " . " queue " . " WHERE " . " id = $Param{QueueID}";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    # get group id from database
+    my $GroupID = '';
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT group_id FROM queue WHERE id = $Param{QueueID}",
+        Limit => 1
+    );
+
+    # fetch the result
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $GID = $Row[0];
+        $GroupID = $Row[0];
     }
-    $Self->{"QG::GetQueueGroupID::$Param{QueueID}"} = $GID;
-    return $GID;
+
+    # write cache
+    $Self->{"QG::GetQueueGroupID::$Param{QueueID}"} = $GroupID;
+
+    return $GroupID;
 }
 
 =item QueueAdd()
@@ -1131,6 +1141,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.76 $ $Date: 2007-10-02 10:38:58 $
+$Revision: 1.77 $ $Date: 2007-10-05 14:11:22 $
 
 =cut

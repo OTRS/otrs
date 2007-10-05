@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.48 2007-10-04 23:57:19 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.49 2007-10-05 14:11:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,11 +13,12 @@ package Kernel::System::Ticket::ArticleStorageDB;
 
 use strict;
 use warnings;
+
 use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -624,6 +625,8 @@ sub ArticleAttachment {
             return;
         }
     }
+
+    return 1;
 }
 
 1;

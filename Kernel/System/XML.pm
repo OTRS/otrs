@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.63 2007-10-02 10:38:58 mh Exp $
+# $Id: XML.pm,v 1.64 2007-10-05 14:11:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 =head1 NAME
 
@@ -788,6 +788,8 @@ sub _XMLHash2D {
             $Self->_XMLHash2D( Key => $Param{Key}, Item => $_, Counter => $Param{Counter} );
         }
     }
+
+    return 1;
 }
 
 =item XMLStructure2XMLHash()
@@ -1399,7 +1401,7 @@ sub _ES {
     #    print "e:'$Element'\n";
     $S->{XMLTagCount}++;
     if ( $S->{LastTag} ) {
-        push( @{ $S->{XMLARRAY} }, { %{ $S->{LastTag} }, Content => $S->{C}, } );
+        push( @{ $S->{XMLARRAY} }, { %{ $S->{LastTag} }, Content => $S->{C} } );
     }
     undef $S->{LastTag};
     undef $S->{C};
@@ -1431,6 +1433,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2007-10-02 10:38:58 $
+$Revision: 1.64 $ $Date: 2007-10-05 14:11:22 $
 
 =cut
