@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.39 2007-10-02 10:32:23 mh Exp $
+# $Id: AgentTicketZoom.pm,v 1.40 2007-10-08 20:54:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -508,6 +508,75 @@ sub MaskAgentZoom {
                             Data => $Data{$Item},
                         );
                     }
+                }
+            }
+
+            # ticket free text
+            for my $Count (1..16) {
+                if ( $Param{'TicketFreeText'.$Count} ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'TicketFreeText'.$Count,
+                        Data => { %Param, %AclAction },
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'TicketFreeText',
+                        Data => {
+                            %Param, %AclAction,
+                            TicketFreeKey => $Param{'TicketFreeKey'.$Count},
+                            TicketFreeText => $Param{'TicketFreeText'.$Count},
+                            Count => $Count,
+                        },
+                    );
+                    if ( !$Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Link' )) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'TicketFreeTextPlain'.$Count,
+                            Data => { %Param, %AclAction },
+                        );
+                        $Self->{LayoutObject}->Block(
+                            Name => 'TicketFreeTextPlain',
+                            Data => {
+                                %Param, %AclAction,
+                                TicketFreeKey => $Param{'TicketFreeKey'.$Count},
+                                TicketFreeText => $Param{'TicketFreeText'.$Count},
+                                Count => $Count,
+                             },
+                        );
+                    }
+                    else {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'TicketFreeTextLink'.$Count,
+                            Data => { %Param, %AclAction },
+                        );
+                        $Self->{LayoutObject}->Block(
+                            Name => 'TicketFreeTextLink',
+                            Data => {
+                                %Param, %AclAction,
+                                TicketFreeTextLink => $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Link'),
+                                TicketFreeKey => $Param{'TicketFreeKey'.$Count},
+                                TicketFreeText => $Param{'TicketFreeText'.$Count},
+                                Count => $Count,
+                             },
+                        );
+                    }
+                }
+            }
+
+            # ticket free time
+            for my $Count (1..6) {
+                if ( $Param{'TicketFreeTime'.$Count} ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'TicketFreeTime'.$Count,
+                        Data => { %Param, %AclAction },
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'TicketFreeTime',
+                        Data => {
+                            %Param, %AclAction,
+                            TicketFreeTimeKey  => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
+                            TicketFreeTime => $Param{'TicketFreeTime'.$Count},
+                            Count => $Count,
+                        },
+                    );
                 }
             }
 

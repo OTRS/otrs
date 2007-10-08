@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.148 2007-10-05 11:35:21 bb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.149 2007-10-08 20:54:48 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -325,6 +325,15 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="TicketFreeText1::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 1 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 1 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText1"}</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey2" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 2 for tickets. With this setting you can define a new ticket attribute.</Description>
         <Description Lang="de">Definition des Freier-Key-Feldes 2 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
@@ -367,6 +376,15 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText2::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 2 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 2 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText2"}</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey3" Required="0" Valid="0">
@@ -413,6 +431,15 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="TicketFreeText3::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 3 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 3 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText3"}</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey4" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 4 for tickets. With this setting you can define a new ticket attribute.</Description>
         <Description Lang="de">Definition des FreiSchlüsselFeldes 4 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
@@ -454,6 +481,15 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText4::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 4 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 4 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText4"}</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey5" Required="0" Valid="0">
@@ -499,6 +535,15 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="TicketFreeText5::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 5 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 5 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText5"}</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey6" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 6 for tickets. With this setting you can define a new ticket attribute.</Description>
         <Description Lang="de">Definition des FreiSchlüsselFeldes 6 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
@@ -540,6 +585,15 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText6::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 6 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 6 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText6"}</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey7" Required="0" Valid="0">
@@ -585,6 +639,15 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="TicketFreeText7::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 7 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 7 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText7"}</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey8" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 8 for tickets. With this setting you can define a new ticket attribute.</Description>
         <Description Lang="de">Definition des FreiSchlüsselFeldes 8 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
@@ -626,6 +689,24 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText8::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 8 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 8 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText8"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText8::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 8 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 8 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText8"}</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey9" Required="0" Valid="0">
@@ -671,6 +752,15 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="TicketFreeText9::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 9 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 9 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText9"}</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey10" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 10 for tickets. With this setting you can define a new ticket attribute.</Description>
         <Description Lang="de">Definition des FreiSchlüsselFeldes 10 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
@@ -712,6 +802,15 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText10::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 10 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 10 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText10"}</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey11" Required="0" Valid="0">
@@ -757,6 +856,15 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="TicketFreeText11::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 11 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 11 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText11"}</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey12" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 12 for tickets. With this setting you can define a new ticket attribute.</Description>
         <Description Lang="de">Definition des FreiSchlüsselFeldes 12 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
@@ -798,6 +906,15 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText12::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 12 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 12 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText12"}</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey13" Required="0" Valid="0">
@@ -843,6 +960,15 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="TicketFreeText13::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 13 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 13 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText13"}</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey14" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 14 for tickets. With this setting you can define a new ticket attribute.</Description>
         <Description Lang="de">Definition des FreiSchlüsselFeldes 14 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
@@ -884,6 +1010,15 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText14::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 14 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 14 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText14"}</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey15" Required="0" Valid="0">
@@ -929,6 +1064,15 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="TicketFreeText15::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 15 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 15 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText15"}</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey16" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 16 for tickets. With this setting you can define a new ticket attribute.</Description>
         <Description Lang="de">Definition des FreiSchlüsselFeldes 16 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
@@ -970,6 +1114,15 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText16::Link" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 16 link for tickets. So this http link will be used in any ticket view.</Description>
+        <Description Lang="de">Definition des Freien-Text-Feldes 16 Link fÃ¼r Tickets. Dieser http-Link wird in jeder Ticket-Ansicht erscheinen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText16"}</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey1" Required="1" Valid="1">

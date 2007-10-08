@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.40 2007-10-02 10:32:23 mh Exp $
+# $Id: AgentTicketQueue.pm,v 1.41 2007-10-08 20:54:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -494,6 +494,75 @@ sub ShowTicket {
             else {
                 return $Self->{LayoutObject}->FatalError();
             }
+        }
+    }
+
+    # ticket free text
+    for my $Count (1..16) {
+        if ( $Article{'TicketFreeText'.$Count} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeText'.$Count,
+                Data => { %Param, %Article, %AclAction },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeText',
+                Data => {
+                    %Param, %Article, %AclAction,
+                    TicketFreeKey => $Article{'TicketFreeKey'.$Count},
+                    TicketFreeText => $Article{'TicketFreeText'.$Count},
+                    Count => $Count,
+                },
+            );
+            if ( !$Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Link' )) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketFreeTextPlain'.$Count,
+                    Data => { %Param, %Article, %AclAction },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketFreeTextPlain',
+                    Data => {
+                        %Param, %Article, %AclAction,
+                        TicketFreeKey => $Article{'TicketFreeKey'.$Count},
+                        TicketFreeText => $Article{'TicketFreeText'.$Count},
+                        Count => $Count,
+                     },
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketFreeTextLink'.$Count,
+                    Data => { %Param, %Article, %AclAction },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketFreeTextLink',
+                    Data => {
+                        %Param, %Article, %AclAction,
+                        TicketFreeTextLink => $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Link'),
+                        TicketFreeKey => $Article{'TicketFreeKey'.$Count},
+                        TicketFreeText => $Article{'TicketFreeText'.$Count},
+                        Count => $Count,
+                     },
+                );
+            }
+        }
+    }
+
+    # ticket free time
+    for my $Count (1..6) {
+        if ( $Article{'TicketFreeTime'.$Count} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTime'.$Count,
+                Data => { %Param, %Article, %AclAction },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTime',
+                Data => {
+                    %Param, %Article, %AclAction,
+                    TicketFreeTimeKey  => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
+                    TicketFreeTime => $Article{'TicketFreeTime'.$Count},
+                    Count => $Count,
+                },
+            );
         }
     }
 
