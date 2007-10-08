@@ -2,7 +2,7 @@
 # CustomerUser.t - CustomerUser tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.4 2007-10-08 19:49:20 martin Exp $
+# $Id: CustomerUser.t,v 1.5 2007-10-08 19:51:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -209,6 +209,15 @@ $Self->True(
 $Self->True(
     $List{$UserID} || '',
     "CustomerSearch() - Search '\$UserID+firstname'",
+);
+
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    Search => "$UserID+firstname_with_not_match",
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    !$List{$UserID} || '',
+    "CustomerSearch() - Search '\$UserID+firstname_with_not_match'",
 );
 
 %List = $Self->{CustomerUserObject}->CustomerSearch(
