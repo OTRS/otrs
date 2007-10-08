@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.15 2007-10-02 10:31:59 mh Exp $
+# $Id: CustomerTicketPrint.pm,v 1.16 2007-10-08 23:39:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1070,7 +1070,7 @@ sub _HTMLMask {
     if ( defined( $Param{FirstResponseTime} ) ) {
         $Self->{LayoutObject}->Block(
             Name => 'FirstResponseTime',
-            Data => { %Param, },
+            Data => { %Param },
         );
     }
 
@@ -1078,7 +1078,7 @@ sub _HTMLMask {
     if ( defined( $Param{UpdateTime} ) ) {
         $Self->{LayoutObject}->Block(
             Name => 'UpdateTime',
-            Data => { %Param, },
+            Data => { %Param },
         );
     }
 
@@ -1086,8 +1086,46 @@ sub _HTMLMask {
     if ( defined( $Param{SolutionTime} ) ) {
         $Self->{LayoutObject}->Block(
             Name => 'SolutionTime',
-            Data => { %Param, },
+            Data => { %Param },
         );
+    }
+
+    # ticket free text
+    for my $Count (1..16) {
+        if ( $Param{'TicketFreeText'.$Count} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeText'.$Count,
+                Data => { %Param },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeText',
+                Data => {
+                    %Param,
+                    TicketFreeKey => $Param{'TicketFreeKey'.$Count},
+                    TicketFreeText => $Param{'TicketFreeText'.$Count},
+                    Count => $Count,
+                },
+            );
+        }
+    }
+
+    # ticket free time
+    for my $Count (1..6) {
+        if ( $Param{'TicketFreeTime'.$Count} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTime'.$Count,
+                Data => { %Param },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTime',
+                Data => {
+                    %Param,,
+                    TicketFreeTimeKey  => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
+                    TicketFreeTime => $Param{'TicketFreeTime'.$Count},
+                    Count => $Count,
+                },
+            );
+        }
     }
 
     # build article stuff

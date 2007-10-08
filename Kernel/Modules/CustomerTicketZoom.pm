@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.16 2007-10-05 08:26:08 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.17 2007-10-08 23:39:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -682,6 +682,44 @@ sub _Mask {
             $Self->{LayoutObject}->Block(
                 Name => 'SLA',
                 Data => { %Param, %Article },
+            );
+        }
+    }
+
+    # ticket free text
+    for my $Count (1..16) {
+        if ( $Article{'TicketFreeText'.$Count} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeText'.$Count,
+                Data => { %Param, %Article },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeText',
+                Data => {
+                    %Param, %Article,
+                    TicketFreeKey => $Article{'TicketFreeKey'.$Count},
+                    TicketFreeText => $Article{'TicketFreeText'.$Count},
+                    Count => $Count,
+                },
+            );
+        }
+    }
+
+    # ticket free time
+    for my $Count (1..6) {
+        if ( $Article{'TicketFreeTime'.$Count} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTime'.$Count,
+                Data => { %Param, %Article },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTime',
+                Data => {
+                    %Param, %Article,
+                    TicketFreeTimeKey  => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
+                    TicketFreeTime => $Article{'TicketFreeTime'.$Count},
+                    Count => $Count,
+                },
             );
         }
     }
