@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.478 2007-10-05 08:53:24 martin Exp $
+# $Id: CHANGES,v 1.479 2007-10-09 22:35:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2007/10/08) Added support of ticket free text links in ticket view,
+    configurable via SysConfig.
  - (2007/10/05) Added fist version of AJAX framework support in phone ticket.
  - (2007/10/01) Added <ModuleRequired Version="0.01">SomeModule</ModuleRequired>
     feature to .opm format for enforcing installed CPAN modules.
@@ -24,6 +26,11 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.4 (????/??/??)
+ - (2007/10/09) Fixed bug# 2375 - Possible race condition in generic agent
+    jobs (during processing jobs). Generic agent job attributes can get
+    lost.
+ - (2007/10/09) Fixed bug# 2276 - GenericAgent with SLA-Search fails, Service
+    and SLA options are missing.
  - (2007/10/05) Fixed bug# 2360 - No Permission in customer panel after
     selecting ticket. Reason is, sender type is customer and article
     type is email-internal which is set via a postmaster filter.
