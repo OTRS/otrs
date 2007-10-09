@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.42 2007-10-02 10:33:42 mh Exp $
+# $Id: AdminGenericAgent.pm,v 1.43 2007-10-09 22:27:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,12 +15,15 @@ use strict;
 use warnings;
 
 use Kernel::System::Priority;
-use Kernel::System::State;
 use Kernel::System::Lock;
+use Kernel::System::Service;
+use Kernel::System::SLA;
+use Kernel::System::State;
+use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,6 +45,9 @@ sub new {
     $Self->{PriorityObject}     = Kernel::System::Priority->new(%Param);
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
     $Self->{LockObject}         = Kernel::System::Lock->new(%Param);
+    $Self->{ServiceObject}      = Kernel::System::Service->new(%Param);
+    $Self->{SLAObject}          = Kernel::System::SLA->new(%Param);
+    $Self->{TypeObject}         = Kernel::System::Type->new(%Param);
     $Self->{GenericAgentObject} = Kernel::System::GenericAgent->new(%Param);
 
     return $Self;
@@ -127,6 +133,7 @@ sub Run {
             TicketPendingTimeStopYear
             NewCustomerID NewCustomerUserLogin
             NewStateID NewQueueID NewPriorityID NewOwnerID
+            NewTypeID NewServiceID NewSLAID
             NewNoteFrom NewNoteSubject NewNoteBody NewModule
             NewParamKey1 NewParamKey2 NewParamKey3 NewParamKey4
             NewParamValue1 NewParamValue2 NewParamValue3 NewParamValue4
@@ -181,6 +188,7 @@ sub Run {
         # get array params
         for (
             qw(LockIDs StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
+            TypeIDs ServiceIDs SLAIDs
             ScheduleDays ScheduleMinutes ScheduleHours
             )
             )
@@ -455,6 +463,7 @@ sub Run {
         # get db job data
         my %Param = $Self->{GenericAgentObject}->JobGet( Name => $Self->{Profile} );
         $Param{Profile} = $Self->{Profile};
+
         my %ShownUsers = $Self->{UserObject}->UserList(
             Type  => 'Long',
             Valid => 1,
@@ -728,14 +737,103 @@ sub Run {
             Data => \%Param,
         );
 
+        # build type string
+        if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
+            my %Type = $Self->{TypeObject}->TypeList( UserID => $Self->{UserID}, );
+            $Param{'TypesStrg'} = $Self->{LayoutObject}->BuildSelection(
+                Data        => \%Type,
+                Name        => 'TypeIDs',
+                SelectedID  => $Param{TypeIDs},
+                Sort        => 'AlphanumericValue',
+                Size        => 3,
+                Multiple    => 1,
+                Translation => 0,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketType',
+                Data => {%Param},
+            );
+            $Param{'NewTypesStrg'} = $Self->{LayoutObject}->BuildSelection(
+                Data        => \%Type,
+                Name        => 'NewTypeID',
+                SelectedID  => $Param{NewTypeID},
+                Sort        => 'AlphanumericValue',
+                Size        => 3,
+                Multiple    => 1,
+                Translation => 0,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'NewTicketType',
+                Data => {%Param},
+            );
+        }
+
+        # build service string
+        if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
+
+            # get list type
+            my $TreeView = 0;
+            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+                $TreeView = 1;
+            }
+            my %Service = $Self->{ServiceObject}->ServiceList( UserID => $Self->{UserID}, );
+            $Param{'ServicesStrg'} = $Self->{LayoutObject}->BuildSelection(
+                Data        => \%Service,
+                Name        => 'ServiceIDs',
+                SelectedID  => $Param{ServiceIDs},
+                TreeView    => $TreeView,
+                Sort        => 'TreeView',
+                Size        => 5,
+                Multiple    => 1,
+                Translation => 0,
+            );
+            $Param{'NewServicesStrg'} = $Self->{LayoutObject}->BuildSelection(
+                Data        => \%Service,
+                Name        => 'NewServiceID',
+                SelectedID  => $Param{NewServiceID},
+                TreeView    => $TreeView,
+                Sort        => 'TreeView',
+                Size        => 5,
+                Multiple    => 1,
+                Translation => 0,
+            );
+            my %SLA = $Self->{SLAObject}->SLAList( UserID => $Self->{UserID}, );
+            $Param{'SLAsStrg'} = $Self->{LayoutObject}->BuildSelection(
+                Data        => \%SLA,
+                Name        => 'SLAIDs',
+                SelectedID  => $Param{SLAIDs},
+                Sort        => 'AlphanumericValue',
+                Size        => 5,
+                Multiple    => 1,
+                Translation => 0,
+            );
+            $Param{'NewSLAsStrg'} = $Self->{LayoutObject}->BuildSelection(
+                Data       => \%SLA,
+                Name       => 'NewSLAID',
+                SelectedID => $Param{NewSLAID},
+                Sort        => 'AlphanumericValue',
+                Size        => 5,
+                Multiple    => 1,
+                Translation => 0,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketService',
+                Data => {%Param},
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'NewTicketService',
+                Data => {%Param},
+            );
+        }
+
         # Free field settings
         my $Flag = 1;
         for my $ID ( 1 .. 16 ) {
             if ( ref( $Self->{ConfigObject}->Get( 'TicketFreeKey' . $ID ) ) eq 'HASH' ) {
 
-                # $Flag to shcw the hole freefield block
+                # $Flag to show the whole freefield block
                 if ($Flag) {
-                    $Self->{LayoutObject}->Block( Name => 'TicketFreeField', );
+                    $Self->{LayoutObject}->Block( Name => 'TicketFreeField' );
                     $Flag = 0;
                 }
 

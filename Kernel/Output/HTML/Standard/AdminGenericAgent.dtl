@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.32 2007-06-28 23:55:33 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.33 2007-10-09 22:25:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -142,54 +142,80 @@
           <tr>
             <td class="contentbody">
               <table width="100%" border="0" cellspacing="1" cellpadding="1">
-                <tr align="left">
-                  <td width="50%">$Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}</td>
+                <tr>
+                  <td width="50%">
+                    $Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}
+                  </td>
                   <td width="50%">
                     <input type="text" name="TicketNumber" size="20" value="$QData{"TicketNumber"}">
                   </td>
                 </tr>
-                <tr align="left">
-                  <td>$Text{"CustomerID"} $Text{"(e. g. 234321)"}</td>
+                <tr>
+                  <td>
+                    $Text{"CustomerID"} $Text{"(e. g. 234321)"}
+                  </td>
                   <td>
                     <input type="text" name="CustomerID" size="20" value="$QData{"CustomerID"}">
                   </td>
                 </tr>
-                <tr align="left">
-                  <td>$Text{"Customer User Login"} $Text{"(e. g. U5150)"}</td>
+                <tr>
+                  <td>
+                    $Text{"Customer User Login"} $Text{"(e. g. U5150)"}
+                  </td>
                   <td>
                     <input type="text" name="CustomerUserLogin" size="20" value="$QData{"CustomerUserLogin"}">
                   </td>
                 </tr>
+<!-- dtl:block:TicketType -->
+                <tr>
+                  <td>
+                    $Text{"Type"}
+                  </td>
+                  <td>
+                    $Data{"TypesStrg"}
+                  </td>
+                </tr>
+<!-- dtl:block:TicketType -->
               </table>
             </td>
             <td class="contentbody">
               <table width="100%" border="0" cellspacing="1" cellpadding="1">
-                <tr align="left">
-                  <td>$Text{"From"}</td>
+                <tr>
+                  <td>
+                    $Text{"From"}
+                  </td>
                   <td>
                     <input type="text" name="From" size="30" value="$QData{"From"}">
                   </td>
                 </tr>
-                <tr align="left">
-                  <td>$Text{"To"}</td>
+                <tr>
+                  <td>
+                    $Text{"To"}
+                  </td>
                   <td>
                     <input type="text" name="To" size="30" value="$QData{"To"}">
                   </td>
                 </tr>
                 <tr align="left">
-                  <td>$Text{"Cc"}</td>
+                  <td>
+                    $Text{"Cc"}
+                  </td>
                   <td>
                     <input type="text" name="Cc" size="30" value="$QData{"Cc"}">
                   </td>
                 </tr>
-                <tr align="left">
-                  <td>$Text{"Subject"}</td>
+                <tr>
+                  <td>
+                    $Text{"Subject"}
+                  </td>
                   <td>
                     <input type="text" name="Subject" size="30" value="$QData{"Subject"}">
                   </td>
                 </tr>
-                <tr align="left">
-                  <td>$Text{"Text"}</td>
+                <tr>
+                  <td>
+                    $Text{"Text"}
+                  </td>
                   <td>
                     <input type="text" name="Body" size="30" value="$QData{"Body"}">
                   </td>
@@ -197,6 +223,16 @@
               </table>
             </td>
           </tr>
+<!-- dtl:block:TicketService -->
+          <tr>
+            <td class="contenthead">$Text{"Service"}</td>
+            <td class="contenthead">$Text{"SLA"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">$Data{"ServicesStrg"}</td>
+            <td class="contentbody">$Data{"SLAsStrg"}</td>
+          </tr>
+<!-- dtl:block:TicketService -->
           <tr>
             <td class="contenthead" width="50%">$Text{"Priority"}</td>
             <td class="contenthead" width="50%">$Text{"Queue"}</td>
@@ -273,6 +309,16 @@
             </td>
           </tr>
 <!-- new options -->
+<!-- dtl:block:NewTicketService -->
+          <tr>
+            <td class="mainhead">$Text{"New Service"}</td>
+            <td class="mainhead">$Text{"New SLA"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">$Data{"NewServicesStrg"}</td>
+            <td class="contentbody">$Data{"NewSLAsStrg"}</td>
+          </tr>
+<!-- dtl:block:NewTicketService -->
           <tr>
             <td class="mainhead" width="50%">$Text{"New Priority"}</td>
             <td class="mainhead" width="50%">$Text{"New Queue"}</td>
@@ -291,26 +337,51 @@
           </tr>
           <tr>
             <td class="mainhead" width="50%">$Text{"New Customer"}</td>
-            <td class="mainhead" width="50%">$Text{"New Ticket Lock"}</td>
+            <td class="mainhead" width="50%">$Text{"New Ticket Lock"} & $Text{"New Type"}</td>
           </tr>
           <tr>
             <td class="contentbody">
               <table>
                 <tr>
-                  <td>$Text{"CustomerUser"}:</td>
+                  <td>
+                    $Text{"CustomerUser"}:
+                  </td>
                   <td>
                     <input type="text" name="NewCustomerUserLogin" value="$QData{"NewCustomerUserLogin"}" size="30">
                   </td>
                 </tr>
                 <tr>
-                  <td>$Text{"CustomerID"}:</td>
+                  <td>
+                    $Text{"CustomerID"}:
+                  </td>
                   <td>
                     <input type="text" name="NewCustomerID" value="$QData{"NewCustomerID"}" size="30">
                   </td>
                 </tr>
               </table>
             </td>
-            <td class="contentbody">$Data{"NewLockOption"}</td>
+            <td class="contentbody">
+              <table>
+                <tr>
+                  <td>
+                    $Text{"New Ticket Lock"}:
+                  </td>
+                  <td>
+                    $Data{"NewLockOption"}
+                  </td>
+                </tr>
+<!-- dtl:block:NewTicketType -->
+                <tr>
+                  <td>
+                    $Text{"New Type"}:
+                  </td>
+                  <td>
+                    $Data{"NewTypesStrg"}
+                  </td>
+                </tr>
+<!-- dtl:block:NewTicketType -->
+              </table>
+            </td>
           </tr>
 <!-- dtl:block:NewTicketFreeField -->
           <tr>
@@ -330,19 +401,25 @@
             <td colspan="2" class="contentbody">
               <table>
                 <tr>
-                  <td valign="top">$Text{"From"}:</td>
+                  <td valign="top">
+                    $Text{"From"}:
+                  </td>
                   <td>
                     <input type="text" name="NewNoteFrom" value="$QData{"NewNoteFrom"}" size="60">
                   </td>
                 </tr>
                 <tr>
-                  <td valign="top">$Text{"Subject"}:</td>
+                  <td valign="top">
+                    $Text{"Subject"}:
+                  </td>
                   <td>
                     <input type="text" name="NewNoteSubject" value="$QData{"NewNoteSubject"}" size="60">
                   </td>
                 </tr>
                 <tr>
-                  <td valign="top">$Text{"Text"}:</td>
+                  <td valign="top">
+                    $Text{"Text"}:
+                  </td>
                   <td>
                     <textarea name="NewNoteBody" rows="7" cols="60" wrap="hard">$QData{"NewNoteBody"}</textarea>
                   </td>
