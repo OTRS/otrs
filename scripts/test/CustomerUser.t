@@ -2,7 +2,7 @@
 # CustomerUser.t - CustomerUser tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.2 2007-08-10 11:36:03 martin Exp $
+# $Id: CustomerUser.t,v 1.2.2.1 2007-10-09 22:26:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ $Self->{ConfigObject}->Set(
     Value => 0,
 );
 my $UserID = '';
-foreach my $Key (1..3) {
+for my $Key (1..3) {
     my $UserRand = 'Example-Customer-User'.int(rand(1000000));
     $UserID = $UserRand;
     my $UserID = $Self->{CustomerUserObject}->CustomerUserAdd(
@@ -199,7 +199,25 @@ $Self->True(
 );
 $Self->True(
     $List{$UserID} || '',
-    "CustomerSearch() - Search ''",
+    "CustomerSearch() - Search '\$UserID'",
+);
+
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    Search => "$UserID+firstname",
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    $List{$UserID} || '',
+    "CustomerSearch() - Search '\$UserID+firstname'",
+);
+
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    Search => "$UserID+firstname_with_not_match",
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    !$List{$UserID} || '',
+    "CustomerSearch() - Search '\$UserID+firstname_with_not_match'",
 );
 
 %List = $Self->{CustomerUserObject}->CustomerSearch(
