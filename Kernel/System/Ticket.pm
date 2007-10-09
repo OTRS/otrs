@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.282 2007-10-05 14:11:22 mh Exp $
+# $Id: Ticket.pm,v 1.283 2007-10-09 22:24:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.282 $) [1];
+$VERSION = qw($Revision: 1.283 $) [1];
 
 =head1 NAME
 
@@ -1692,7 +1692,7 @@ sub TicketServiceList {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{UserID} || !$Param{CustomerUserID} ) {
+    if ( !$Param{UserID} || ($Param{UserID} != 1 && !$Param{CustomerUserID}) ) {
         $Self->{LogObject}
             ->Log( Priority => 'error', Message => "Need UserID and CustomerUserID!" );
         return;
@@ -1704,7 +1704,7 @@ sub TicketServiceList {
         return;
     }
     my %Services = ();
-    if (0) {
+    if ( !$Param{CustomerUserID} ) {
         %Services = $Self->{ServiceObject}->ServiceList( UserID => 1, );
     }
     else {
@@ -2171,7 +2171,6 @@ sub TicketSLASet {
 
     # get current ticket
     my %Ticket = $Self->TicketGet(%Param);
-
     # move needed?
     if ( $Param{SLAID} eq $Ticket{SLAID} ) {
 
@@ -2181,7 +2180,7 @@ sub TicketSLASet {
 
     # permission check
     my %SLAList = $Self->TicketSLAList( %Param, ServiceID => $Ticket{ServiceID} );
-    if ( $Param{SLAID} ne '' && !$SLAList{ $Param{SLAID} } ) {
+    if ( $Param{UserID} != 1 && $Param{SLAID} ne '' && !$SLAList{ $Param{SLAID} } ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "Permission denied on TicketID: $Param{TicketID}!",
@@ -2201,7 +2200,8 @@ sub TicketSLASet {
             $Param{SLAID} = 'NULL';
         }
     }
-    my $SQL = "UPDATE ticket SET sla_id = $Param{SLAID} " . " WHERE id = $Param{TicketID}";
+
+    my $SQL = "UPDATE ticket SET sla_id = $Param{SLAID} WHERE id = $Param{TicketID}";
     if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
 
         # clear ticket cache
@@ -3751,7 +3751,7 @@ sub TicketSearch {
     # current sla lookup
     if ( $Param{SLAs} && ref( $Param{SLAs} ) eq 'ARRAY' ) {
         for ( @{ $Param{SLAs} } ) {
-            my $ID = $Self->{SLAObject}->SLALookup( SLA => $_ );
+            my $ID = $Self->{SLAObject}->SLALookup( Name => $_ );
             if ($ID) {
                 push( @{ $Param{SLAIDs} }, $ID );
             }
@@ -6772,6 +6772,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.282 $ $Date: 2007-10-05 14:11:22 $
+$Revision: 1.283 $ $Date: 2007-10-09 22:24:42 $
 
 =cut
