@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.31 2007-10-02 10:38:58 mh Exp $
+# $Id: GenericAgent.pm,v 1.32 2007-10-09 22:23:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -127,19 +127,25 @@ sub new {
         TicketPendingTimeStopDay     => 'SCALAR',
         TicketPendingTimeStopMonth   => 'SCALAR',
         TicketPendingTimeStopYear    => 'SCALAR',
-        NewCustomerID                => 'SCALAR',
-        NewCustomerUserLogin         => 'SCALAR',
         StateIDs                     => 'ARRAY',
         StateTypeIDs                 => 'ARRAY',
         QueueIDs                     => 'ARRAY',
         PriorityIDs                  => 'ARRAY',
         OwnerIDs                     => 'ARRAY',
         LockIDs                      => 'ARRAY',
+        TypeIDs                      => 'ARRAY',
+        ServiceIDs                   => 'ARRAY',
+        SLAIDs                       => 'ARRAY',
+        NewCustomerID                => 'SCALAR',
+        NewCustomerUserLogin         => 'SCALAR',
         NewStateID                   => 'SCALAR',
         NewQueueID                   => 'SCALAR',
         NewPriorityID                => 'SCALAR',
         NewOwnerID                   => 'SCALAR',
         NewLockID                    => 'SCALAR',
+        NewTypeID                    => 'SCALAR',
+        NewServiceID                 => 'SCALAR',
+        NewSLAID                     => 'SCALAR',
         TicketFreeKey1               => 'ARRAY',
         TicketFreeText1              => 'ARRAY',
         TicketFreeKey2               => 'ARRAY',
@@ -230,25 +236,12 @@ sub JobRun {
             Priority => 'notice',
             Message  => "Run GenericAgent Job '$Param{Job}' from db.",
         );
+
+        # get job data
         my %DBJobRaw = $Self->JobGet( Name => $Param{Job} );
 
         # updated last run time
-        $Self->JobDelete(
-            Name   => $Param{Job},
-            NoLog  => 1,
-            UserID => $Param{UserID},
-        );
-        $Self->JobAdd(
-            Name => $Param{Job},
-            Data => {
-                %DBJobRaw,
-                ScheduleLastRun => $Self->{TimeObject}
-                    ->SystemTime2TimeStamp( SystemTime => $Self->{TimeObject}->SystemTime() ),
-                ScheduleLastRunUnixTime => $Self->{TimeObject}->SystemTime(),
-            },
-            NoLog  => 1,
-            UserID => $Param{UserID},
-        );
+        $Self->_JobUpdateRunTime( Name => $Param{Job}, UserID => $Param{UserID});
 
         # rework
         for my $Key ( keys %DBJobRaw ) {
@@ -262,6 +255,7 @@ sub JobRun {
             }
         }
     }
+
     my %Tickets = ();
 
     # escalation tickets
@@ -529,6 +523,75 @@ sub _JobRunTicket {
             No       => $Param{Config}->{New}->{CustomerID} || '',
             User     => $Param{Config}->{New}->{CustomerUserLogin} || '',
             UserID   => $Param{UserID},
+        );
+    }
+
+    # set new type
+    if ( $Param{Config}->{New}->{Type} ) {
+        if ( $Self->{NoticeSTDOUT} ) {
+            print "  - set type of Ticket $Ticket to '$Param{Config}->{New}->{Type}'\n";
+        }
+        $Self->{TicketObject}->TicketTypeSet(
+            TicketID => $Param{TicketID},
+            UserID   => $Param{UserID},
+            Type     => $Param{Config}->{New}->{Type},
+        );
+    }
+    if ( $Param{Config}->{New}->{TypeID} ) {
+        if ( $Self->{NoticeSTDOUT} ) {
+            print
+                "  - set type id of Ticket $Ticket to '$Param{Config}->{New}->{TypeID}'\n";
+        }
+        $Self->{TicketObject}->TicketTypeSet(
+            TicketID => $Param{TicketID},
+            UserID   => $Param{UserID},
+            TypeID   => $Param{Config}->{New}->{TypeID},
+        );
+    }
+
+    # set new service
+    if ( $Param{Config}->{New}->{Service} ) {
+        if ( $Self->{NoticeSTDOUT} ) {
+            print "  - set service of Ticket $Ticket to '$Param{Config}->{New}->{Service}'\n";
+        }
+        $Self->{TicketObject}->TicketServiceSet(
+            TicketID => $Param{TicketID},
+            UserID   => $Param{UserID},
+            Service  => $Param{Config}->{New}->{Service},
+        );
+    }
+    if ( $Param{Config}->{New}->{ServiceID} ) {
+        if ( $Self->{NoticeSTDOUT} ) {
+            print
+                "  - set service id of Ticket $Ticket to '$Param{Config}->{New}->{ServiceID}'\n";
+        }
+        $Self->{TicketObject}->TicketServiceSet(
+            TicketID  => $Param{TicketID},
+            UserID    => $Param{UserID},
+            ServiceID => $Param{Config}->{New}->{ServiceID},
+        );
+    }
+
+    # set new sla
+    if ( $Param{Config}->{New}->{SLA} ) {
+        if ( $Self->{NoticeSTDOUT} ) {
+            print "  - set sla of Ticket $Ticket to '$Param{Config}->{New}->{SLA}'\n";
+        }
+        $Self->{TicketObject}->TicketSLASet(
+            TicketID => $Param{TicketID},
+            UserID   => $Param{UserID},
+            SLA => $Param{Config}->{New}->{SLA},
+        );
+    }
+    if ( $Param{Config}->{New}->{SLAID} ) {
+        if ( $Self->{NoticeSTDOUT} ) {
+            print
+                "  - set sla id of Ticket $Ticket to '$Param{Config}->{New}->{SLAID}'\n";
+        }
+        $Self->{TicketObject}->TicketSLASet(
+            TicketID   => $Param{TicketID},
+            UserID     => $Param{UserID},
+            SLAID => $Param{Config}->{New}->{SLAID},
         );
     }
 
@@ -1011,12 +1074,10 @@ sub JobAdd {
             }
         }
     }
-    if ( !$Param{NoLog} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "New GenericAgent job '$Param{Name}' added (UserID=$Param{UserID}).",
-        );
-    }
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "New GenericAgent job '$Param{Name}' added (UserID=$Param{UserID}).",
+    );
     return 1;
 }
 
@@ -1044,11 +1105,56 @@ sub JobDelete {
             . "job_name = '"
             . $Self->{DBObject}->Quote( $Param{Name} )
             . "'", );
-    if ( !$Param{NoLog} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "GenericAgent job '$Param{Name}' deleted (UserID=$Param{UserID}).",
-        );
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "GenericAgent job '$Param{Name}' deleted (UserID=$Param{UserID}).",
+    );
+    return 1;
+}
+
+sub _JobUpdateRunTime {
+    my ( $Self, %Param ) = @_;
+
+    my @Data = ();
+    # check needed stuff
+    for (qw(Name UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # check if job name already exists
+    my $SQL = "SELECT job_key, job_value FROM generic_agent_jobs"
+        . " WHERE job_name = '". $Self->{DBObject}->Quote( $Param{Name} ) . "'";
+    $Self->{DBObject}->Prepare( SQL => $SQL );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        if ($Row[0] =~ /^(ScheduleLastRun|ScheduleLastRunUnixTime)/) {
+            push( @Data, { Key => $Row[0], Value => $Row[1] } );
+        }
+    }
+
+    # update new run time
+    my %Insert = (
+        ScheduleLastRun => $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $Self->{TimeObject}->SystemTime()
+        ),
+        ScheduleLastRunUnixTime => $Self->{TimeObject}->SystemTime(),
+    );
+    for my $Key (keys %Insert) {
+        my $SQL = "INSERT INTO generic_agent_jobs (job_name,job_key, job_value)"
+            . " VALUES ('". $Self->{DBObject}->Quote( $Param{Name} ). "', '$Key', '"
+            . $Self->{DBObject}->Quote($Insert{$Key}) . "')";
+        $Self->{DBObject}->Do( SQL => $SQL );
+    }
+
+    # remove old times
+    for my $Time (@Data) {
+        my $SQL = "DELETE FROM generic_agent_jobs WHERE "
+            . "job_name = '".$Self->{DBObject}->Quote( $Param{Name} ). "' AND "
+            . "job_key = '$Time->{Key}' AND "
+            . "job_value = '".$Self->{DBObject}->Quote( $Time->{Value} ). "'";
+        $Self->{DBObject}->Do( SQL => $SQL );
     }
     return 1;
 }
@@ -1069,6 +1175,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2007-10-02 10:38:58 $
+$Revision: 1.32 $ $Date: 2007-10-09 22:23:21 $
 
 =cut
