@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.56 2007-10-02 10:37:19 mh Exp $
+# $Id: DB.pm,v 1.57 2007-10-09 22:37:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,7 +76,7 @@ sub new {
         );
         $Param{Count} = '';
     }
-    $Self->{CacheKey} = "CustomerUser" . $Param{Count};
+    $Self->{CacheKey} = 'CustomerUser' . $Param{Count};
 
     # create new db connect if DSN is given
     if ( $Self->{CustomerUserMap}->{Params}->{DSN} ) {
@@ -125,7 +125,7 @@ sub CustomerName {
 
     # check cache
     if ( $Self->{CacheObject} ) {
-        my $Name = $Self->{CacheObject}->Get( Key => $Self->{CacheKey} . "::CustomerName::$SQL", );
+        my $Name = $Self->{CacheObject}->Get( Key => $Self->{CacheKey} . "::CustomerName::$SQL" );
         if ( defined($Name) ) {
             return $Name;
         }
@@ -134,13 +134,13 @@ sub CustomerName {
     # get data
     $Self->{DBObject}->Prepare( SQL => $SQL, Limit => 1 );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        for ( 1 .. 8 ) {
-            if ( $Row[$_] ) {
+        for my $Position ( 1 .. 8 ) {
+            if ( $Row[$Position] ) {
                 if ( !$Name ) {
-                    $Name = $Row[$_];
+                    $Name = $Row[$Position];
                 }
                 else {
-                    $Name .= ' ' . $Row[$_];
+                    $Name .= ' ' . $Row[$Position];
                 }
             }
         }
@@ -182,7 +182,7 @@ sub CustomerSearch {
     }
 
     # build SQL string 2/2
-    $SQL .= " FROM " . " $Self->{CustomerTable} " . " WHERE ";
+    $SQL .= " FROM $Self->{CustomerTable} WHERE ";
     if ( $Param{Search} ) {
         my $Count = 0;
         my @Parts = split( /\+/, $Param{Search}, 6 );
@@ -196,11 +196,11 @@ sub CustomerSearch {
             $Count++;
             if ( $Self->{CustomerUserMap}->{CustomerUserSearchFields} ) {
                 my $SQLExt = '';
-                for ( @{ $Self->{CustomerUserMap}->{CustomerUserSearchFields} } ) {
+                for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserSearchFields} } ) {
                     if ($SQLExt) {
                         $SQLExt .= ' OR ';
                     }
-                    $SQLExt .= " LOWER($_) LIKE LOWER('" . $Self->{DBObject}->Quote($Part) . "') ";
+                    $SQLExt .= " LOWER($Field) LIKE LOWER('" . $Self->{DBObject}->Quote($Part) . "') ";
                 }
                 if ($SQLExt) {
                     $SQL .= "($SQLExt)";
@@ -215,11 +215,11 @@ sub CustomerSearch {
     elsif ( $Param{PostMasterSearch} ) {
         if ( $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} ) {
             my $SQLExt = '';
-            for ( @{ $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} } ) {
+            for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} } ) {
                 if ($SQLExt) {
                     $SQLExt .= ' OR ';
                 }
-                $SQLExt .= " LOWER($_) LIKE LOWER('"
+                $SQLExt .= " LOWER($Field) LIKE LOWER('"
                     . $Self->{DBObject}->Quote( $Param{PostMasterSearch} ) . "') ";
             }
             $SQL .= $SQLExt;
@@ -236,7 +236,7 @@ sub CustomerSearch {
         $SQL
             .= "AND "
             . $Self->{CustomerUserMap}->{CustomerValid}
-            . " IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) ";
+            . " IN (".join(', ', $Self->{ValidObject}->ValidIDsGet() ).") ";
     }
 
     # check cache
@@ -252,9 +252,9 @@ sub CustomerSearch {
     $Self->{DBObject}->Prepare( SQL => $SQL, Limit => $Self->{UserSearchListLimit} );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         if ( !$Users{ $Row[0] } ) {
-            for ( 1 .. 8 ) {
-                if ( $Row[$_] ) {
-                    $Users{ $Row[0] } .= $Row[$_] . ' ';
+            for my $Position ( 1 .. 8 ) {
+                if ( $Row[$Position] ) {
+                    $Users{ $Row[0] } .= $Row[$Position] . ' ';
                 }
             }
             $Users{ $Row[0] } =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
@@ -326,7 +326,7 @@ sub CustomerIDs {
     }
 
     # get customer data
-    my %Data = $Self->CustomerUserDataGet( User => $Param{User}, );
+    my %Data = $Self->CustomerUserDataGet( User => $Param{User} );
 
     # there are multi customer ids
     if ( $Data{UserCustomerIDs} ) {
@@ -762,7 +762,7 @@ sub SetPassword {
     # check if needed pw col. exists (else there is no pw col.)
     if ( $Param{PasswordCol} && $Param{LoginCol} ) {
         if ($Self->{DBObject}->Do(
-                      SQL => "UPDATE $Self->{CustomerTable} " . " SET "
+                      SQL => "UPDATE $Self->{CustomerTable} SET "
                     . " $Param{PasswordCol} = '"
                     . $Self->{DBObject}->Quote($CryptedPw) . "' "
                     . " WHERE "
@@ -781,7 +781,7 @@ sub SetPassword {
             # cache resete
             if ( $Self->{CacheObject} ) {
                 $Self->{CacheObject}->Delete(
-                    Key => $Self->{CacheKey} . "::CustomerUserDataGet::User::$Param{UserLogin}", );
+                    Key => $Self->{CacheKey} . "::CustomerUserDataGet::User::$Param{UserLogin}" );
             }
             return 1;
         }

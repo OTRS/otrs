@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.36 2007-10-02 10:37:19 mh Exp $
+# $Id: LDAP.pm,v 1.37 2007-10-09 22:37:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -177,7 +177,7 @@ sub new {
         );
         $Param{Count} = '';
     }
-    $Self->{CacheKey} = "CustomerUser" . $Param{Count};
+    $Self->{CacheKey} = 'CustomerUser' . $Param{Count};
 
     # get valid filter if used
     $Self->{ValidFilter} = $Self->{CustomerUserMap}->{'CustomerUserValidFilter'} || '';
@@ -207,7 +207,7 @@ sub CustomerName {
     # check cache
     if ( $Self->{CacheObject} ) {
         my $Name
-            = $Self->{CacheObject}->Get( Key => $Self->{CacheKey} . "::CustomerName::$Filter", );
+            = $Self->{CacheObject}->Get( Key => $Self->{CacheKey} . "::CustomerName::$Filter" );
         if ( defined($Name) ) {
             return $Name;
         }
@@ -227,14 +227,14 @@ sub CustomerName {
         );
         return;
     }
-    for my $entry ( $Result->all_entries ) {
-        for ( @{ $Self->{CustomerUserMap}->{CustomerUserNameFields} } ) {
-            if ( defined( $entry->get_value($_) ) ) {
+    for my $Entry ( $Result->all_entries ) {
+        for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserNameFields} } ) {
+            if ( defined( $Entry->get_value($Field) ) ) {
                 if ( !$Name ) {
-                    $Name = $Self->_Convert( $entry->get_value($_) );
+                    $Name = $Self->_Convert( $Entry->get_value($Field) );
                 }
                 else {
-                    $Name .= ' ' . $Self->_Convert( $entry->get_value($_) );
+                    $Name .= ' ' . $Self->_Convert( $Entry->get_value($Field) );
                 }
             }
         }
@@ -274,8 +274,8 @@ sub CustomerSearch {
 
             if ( $Self->{CustomerUserMap}->{CustomerUserSearchFields} ) {
                 $Filter .= '(|';
-                for ( @{ $Self->{CustomerUserMap}->{CustomerUserSearchFields} } ) {
-                    $Filter .= "($_=" . $Self->_ConvertTo($Part) . ")";
+                for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserSearchFields} } ) {
+                    $Filter .= "($Field=" . $Self->_ConvertTo($Part) . ")";
                 }
                 $Filter .= ')';
             }
@@ -290,8 +290,8 @@ sub CustomerSearch {
     elsif ( $Param{PostMasterSearch} ) {
         if ( $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} ) {
             $Filter = '(|';
-            for ( @{ $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} } ) {
-                $Filter .= "($_=$Param{PostMasterSearch})";
+            for my $Field( @{ $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} } ) {
+                $Filter .= "($Field=$Param{PostMasterSearch})";
             }
             $Filter .= ')';
         }
@@ -337,8 +337,8 @@ sub CustomerSearch {
     my %Users = ();
     for my $entry ( $Result->all_entries ) {
         my $CustomerString = '';
-        for ( @{ $Self->{CustomerUserMap}->{CustomerUserListFields} } ) {
-            my $Value = $Self->_Convert( $entry->get_value($_) );
+        for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserListFields} } ) {
+            my $Value = $Self->_Convert( $entry->get_value($Field) );
             if ($Value) {
                 if ( $_ =~ /^targetaddress$/i ) {
                     $Value =~ s/SMTP:(.*)/$1/;
@@ -407,9 +407,9 @@ sub CustomerUserList {
     my %Users = ();
     for my $entry ( $Result->all_entries ) {
         my $CustomerString = '';
-        for (qw(CustomerKey CustomerID)) {
+        for my $Field (qw(CustomerKey CustomerID)) {
             $CustomerString
-                .= $Self->_Convert( $entry->get_value( $Self->{CustomerUserMap}->{$_} ) ) . ' ';
+                .= $Self->_Convert( $entry->get_value( $Self->{CustomerUserMap}->{$Field} ) ) . ' ';
         }
         $Users{ $Self->_Convert( $entry->get_value( $Self->{CustomerKey} ) ) } = $CustomerString;
     }
