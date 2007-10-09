@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.275.2.1 2007-09-13 16:02:16 martin Exp $
+# $Id: Ticket.pm,v 1.275.2.2 2007-10-09 22:24:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.275.2.1 $';
+$VERSION = '$Revision: 1.275.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1592,7 +1592,7 @@ sub TicketServiceList {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    if (!$Param{UserID} || !$Param{CustomerUserID}) {
+    if ( !$Param{UserID} || ($Param{UserID} != 1 && !$Param{CustomerUserID}) ) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID and CustomerUserID!");
         return;
     }
@@ -1602,7 +1602,7 @@ sub TicketServiceList {
         return;
     }
     my %Services = ();
-    if (0) {
+    if (!$Param{CustomerUserID}) {
         %Services = $Self->{ServiceObject}->ServiceList(
             UserID => 1,
         );
@@ -2033,7 +2033,7 @@ sub TicketSLASet {
     }
     # permission check
     my %SLAList = $Self->TicketSLAList(%Param, ServiceID => $Ticket{ServiceID});
-    if ($Param{SLAID} ne '' && !$SLAList{$Param{SLAID}}) {
+    if ($Param{UserID} != 1 && $Param{SLAID} ne '' && !$SLAList{$Param{SLAID}}) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message => "Permission denied on TicketID: $Param{TicketID}!",
@@ -3491,7 +3491,7 @@ sub TicketSearch {
     # current sla lookup
     if ($Param{SLAs} && ref($Param{SLAs}) eq 'ARRAY') {
         foreach (@{$Param{SLAs}}) {
-            my $ID = $Self->{SLAObject}->SLALookup(SLA => $_);
+            my $ID = $Self->{SLAObject}->SLALookup(Name => $_);
             if ($ID) {
                 push (@{$Param{SLAIDs}}, $ID);
             }
@@ -6187,6 +6187,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.275.2.1 $ $Date: 2007-09-13 16:02:16 $
+$Revision: 1.275.2.2 $ $Date: 2007-10-09 22:24:48 $
 
 =cut
