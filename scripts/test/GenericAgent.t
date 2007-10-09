@@ -1,8 +1,8 @@
 # --
 # GenericAgent.t - GenericAgent tests
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.t,v 1.4 2006-12-13 17:23:27 martin Exp $
+# $Id: GenericAgent.t,v 1.5 2007-10-09 22:21:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,7 +34,7 @@ my $Name = 'UnitTest' . int(rand(1000000));
 my %NewJob = (
     Name => $Name,
     Data => {
-        ScheduleLastRun => '',
+        #ScheduleLastRun => '',
         #ScheduleMinutes => [1,2],
         #ScheduleDays => [],
         #ScheduleHours => [],
@@ -68,14 +68,16 @@ my %NewJob = (
         NewCustomerUserLogin => '',
         NewOwnerID => 1,
         NewModule => '',
-        NewTicketFreeText1 => 'Phone',
+        NewTicketFreeKey1 => 'Phone',
+        NewTicketFreeText1 => 'Test 1',
         NewSendNoNotification => 0,
         NewDelete => 0,
         NewCustomerID => '',
         NewNoteSubject => '',
         NewLockID => 2,
         NewNoteFrom => '',
-        NewTicketFreeText2 => 'test',
+        NewTicketFreeKey2 => 'Test',
+        NewTicketFreeText2 => 'Value 2',
         NewCMD => '',
         NewParamKey1 => '',
         NewParamValue1 => '',
@@ -93,12 +95,13 @@ my %NewJob = (
     },
 );
 
+my $JobAdd = $Self->{GenericAgentObject}->JobAdd(
+    %NewJob,
+    UserID => 1,
+);
 $Self->True(
-    $Self->{GenericAgentObject}->JobAdd(
-        %NewJob,
-        UserID => 1,
-    ),
-    'JobAdd() check return value',
+    $JobAdd || '',
+    'JobAdd()',
 );
 
 # Get the new JobList
@@ -118,6 +121,50 @@ $Self->Is(
     "JobAdd() check if a job is lost or too much added",
 );
 
+# check job attributes
+my %GetParam = $Self->{GenericAgentObject}->JobGet(Name => $Name);
+$Self->Is(
+    $GetParam{CustomerUserLogin} || '',
+    'customerUnitTest@example.com',
+    "JobGet() - CustomerUserLogin",
+);
+$Self->Is(
+    $GetParam{NewTicketFreeKey1} || '',
+    'Phone',
+    "JobGet() - NewTicketFreeKey1",
+);
+$Self->Is(
+    $GetParam{NewTicketFreeText1} || '',
+    'Test 1',
+    "JobGet() - NewTicketFreeText1",
+);
+$Self->Is(
+    $GetParam{NewTicketFreeKey2} || '',
+    'Test',
+    "JobGet() - NewTicketFreeKey2",
+);
+$Self->Is(
+    $GetParam{NewTicketFreeText2} || '',
+    'Value 2',
+    "JobGet() - NewTicketFreeText2",
+);
+$Self->True(
+    !$GetParam{From},
+    "JobGet() - From",
+);
+$Self->True(
+    !$GetParam{Body} || '',
+    "JobGet() - Body",
+);
+$Self->True(
+    !$GetParam{ScheduleLastRun} || '',
+    "JobGet() - ScheduleLastRun",
+);
+$Self->True(
+    !$GetParam{ScheduleLastRunUnixTime} || '',
+    "JobGet() - ScheduleLastRunUnixTime",
+);
+
 # Try to add the same JobName double
 my $Return = $Self->{GenericAgentObject}->JobAdd(
     Name => $Name,
@@ -126,15 +173,9 @@ my $Return = $Self->{GenericAgentObject}->JobAdd(
     },
     UserID => 1,
 );
-if ($Return) {
-    $Return = 0;
-}
-else {
-    $Return = 1;
-}
 
 $Self->True(
-     $Return,
+     !$Return || '',
      'JobAdd() check return value - douple check',
 );
 
@@ -175,7 +216,6 @@ $Self->True(
     'TicketCreate() - uses for GenericAgenttest',
 );
 
-my %GetParam = ();
 %GetParam = $Self->{GenericAgentObject}->JobGet(Name => $Name);
 
 my @ViewableIDs = $Self->{TicketObject}->TicketSearch(
@@ -206,13 +246,37 @@ my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
 $Self->Is(
     $Ticket{StateID},
     2,
-    "TicketGet() check if generic agent job changed the ticket settings (State)",
+    "TicketGet() - State",
 );
 
 $Self->Is(
     $Ticket{PriorityID},
     3,
-    "TicketGet() check if generic agent job changed the ticket settings (Priority)",
+    "TicketGet() - Priority",
+);
+
+$Self->Is(
+    $Ticket{TicketFreeKey1} || '',
+    'Phone',
+    "TicketGet() - TicketFreeKey1",
+);
+
+$Self->Is(
+    $Ticket{TicketFreeText1} || '',
+    'Test 1',
+    "TicketGet() - TicketFreeText1",
+);
+
+$Self->Is(
+    $Ticket{TicketFreeKey2} || '',
+    'Test',
+    "TicketGet() - TicketFreeKey2",
+);
+
+$Self->Is(
+    $Ticket{TicketFreeText2} || '',
+    'Value 2',
+    "TicketGet() - TicketFreeText2",
 );
 
 $Self->True(
@@ -223,13 +287,127 @@ $Self->True(
     'TicketDelete()',
 );
 
-# delete the test job
+# check job attributes
+%GetParam = $Self->{GenericAgentObject}->JobGet(Name => $Name);
+$Self->Is(
+    $GetParam{CustomerUserLogin} || '',
+    'customerUnitTest@example.com',
+    "JobGet() - CustomerUserLogin",
+);
+$Self->Is(
+    $GetParam{NewTicketFreeKey1} || '',
+    'Phone',
+    "JobGet() - NewTicketFreeKey1",
+);
+$Self->Is(
+    $GetParam{NewTicketFreeText1} || '',
+    'Test 1',
+    "JobGet() - NewTicketFreeText1",
+);
+$Self->Is(
+    $GetParam{NewTicketFreeKey2} || '',
+    'Test',
+    "JobGet() - NewTicketFreeKey2",
+);
+$Self->Is(
+    $GetParam{NewTicketFreeText2} || '',
+    'Value 2',
+    "JobGet() - NewTicketFreeText2",
+);
 $Self->True(
-    $Self->{GenericAgentObject}->JobDelete(
-        Name => $Name,
-        UserID => 1,
-    ),
-    'JobDelete() check the return of the delete function',
+    !$GetParam{From},
+    "JobGet() - From",
+);
+$Self->True(
+    !$GetParam{Body} || '',
+    "JobGet() - Body",
+);
+$Self->True(
+    $GetParam{ScheduleLastRun} || '',
+    "JobGet() - ScheduleLastRun",
+);
+$Self->True(
+    $GetParam{ScheduleLastRunUnixTime} || '',
+    "JobGet() - ScheduleLastRunUnixTime",
+);
+
+# delete job
+my $JobDelete = $Self->{GenericAgentObject}->JobDelete(
+    Name => $Name,
+    UserID => 1,
+);
+$Self->True(
+    $JobDelete || '',
+    'JobDelete()',
+);
+
+# add
+$GetParam{From} = 'Some From';
+$GetParam{Body} = 'Some Body';
+$JobAdd = $Self->{GenericAgentObject}->JobAdd(
+    Name => $Name,
+    Data => \%GetParam,
+    UserID => 1,
+);
+$Self->True(
+    $JobAdd || '',
+    'JobAdd()',
+);
+
+# check job attributes
+%GetParam = $Self->{GenericAgentObject}->JobGet(Name => $Name);
+$Self->Is(
+    $GetParam{CustomerUserLogin} || '',
+    'customerUnitTest@example.com',
+    "JobGet() - CustomerUserLogin",
+);
+$Self->Is(
+    $GetParam{NewTicketFreeKey1} || '',
+    'Phone',
+    "JobGet() - NewTicketFreeKey1",
+);
+$Self->Is(
+    $GetParam{NewTicketFreeText1} || '',
+    'Test 1',
+    "JobGet() - NewTicketFreeText1",
+);
+$Self->Is(
+    $GetParam{NewTicketFreeKey2} || '',
+    'Test',
+    "JobGet() - NewTicketFreeKey2",
+);
+$Self->Is(
+    $GetParam{NewTicketFreeText2} || '',
+    'Value 2',
+    "JobGet() - NewTicketFreeText2",
+);
+$Self->Is(
+    $GetParam{From} || '',
+    'Some From',
+    "JobGet() - From",
+);
+$Self->Is(
+    $GetParam{Body} || '',
+    'Some Body',
+    "JobGet() - Body",
+);
+$Self->True(
+    $GetParam{ScheduleLastRun} || '',
+    "JobGet() - ScheduleLastRun",
+);
+$Self->True(
+    $GetParam{ScheduleLastRunUnixTime} || '',
+    "JobGet() - ScheduleLastRunUnixTime",
+);
+
+# delete job
+$JobDelete = $Self->{GenericAgentObject}->JobDelete(
+    Name => $Name,
+    UserID => 1,
+);
+$Self->True(
+    $JobDelete || '',
+    'JobDelete()',
 );
 
 # Get the new JobList
