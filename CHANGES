@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.479 2007-10-09 22:35:08 martin Exp $
+# $Id: CHANGES,v 1.480 2007-10-10 14:58:46 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2007/10/10) Fixed bug# 2380 - Ignore HTMLQuote param in Layout object
+    function _BuildSelectionOptionRefCreate.
  - (2007/10/08) Added support of ticket free text links in ticket view,
     configurable via SysConfig.
  - (2007/10/05) Added fist version of AJAX framework support in phone ticket.
