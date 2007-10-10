@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.39 2007-06-28 23:55:33 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.40 2007-10-10 18:15:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -184,6 +184,8 @@
                     <input type="hidden" name="Action" value="$Env{"Action"}">
                     <input type="hidden" name="Subaction" value="$QData{"Subaction"}">
                     <input type="hidden" name="FormID" value="$QData{"FormID"}">
+                    <input type="hidden" name="Source" value="$QData{"Source"}">
+                    <input type="hidden" name="File" value="$QData{"File"}">
                     <input type="hidden" name="$QData{"Type"}" value="1">
                     <input type="hidden" name="Name" value="$QData{"Name"}">
                     <input type="hidden" name="Version" value="$QData{"Version"}">

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.481 2007-10-10 15:00:57 rk Exp $
+# $Id: CHANGES,v 1.482 2007-10-10 18:15:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,6 +26,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.4 (????/??/??)
+ - (2007/10/10) Fixed bug# 2383 - IntroInstallPre in .opm files is not working
+    on installing via online repository.
  - (2007/10/10) Fixed bug# 2380 - Ignore HTMLQuote param in Layout object
     function _BuildSelectionOptionRefCreate.
  - (2007/10/09) Fixed bug# 2375 - Possible race condition in generic agent
