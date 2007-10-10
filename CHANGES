@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.8 2007-10-09 22:34:52 martin Exp $
+# $Id: CHANGES,v 1.465.2.9 2007-10-10 14:59:13 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.4 (????/??/??)
+ - (2007/10/10) Fixed bug# 2380 - Ignore HTMLQuote param in Layout object
+    function _BuildSelectionOptionRefCreate.
  - (2007/10/09) Fixed bug# 2375 - Possible race condition in generic agent
     jobs (during processing jobs). Generic agent job attributes can get
     lost.
