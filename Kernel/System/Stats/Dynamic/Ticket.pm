@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.14 2007-10-02 10:37:06 mh Exp $
+# $Id: Ticket.pm,v 1.15 2007-10-11 11:23:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -402,7 +402,7 @@ sub GetStatElement {
         Limit      => 100000000,
         %Param,
     );
-    return ( $#TicketIDs + 1 );
+    return scalar @TicketIDs;
 }
 
 sub ExportWrapper {
