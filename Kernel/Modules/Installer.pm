@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.53 2007-10-02 13:30:58 mh Exp $
+# $Id: Installer.pm,v 1.54 2007-10-12 12:00:49 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use warnings;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -166,7 +166,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => "Kernel/Config.pm isn't writable!",
                 Comment => 'If you want to use the installer, set the '
-                    . 'Kernel/Config.pm writable for the werserver user! '
+                    . 'Kernel/Config.pm writable for the webserver user! '
                     . $Self->ReConfigure(),
             );
             $Output .= $Self->{LayoutObject}->Footer();
