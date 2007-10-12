@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.33.2.1 2007-09-18 15:09:36 tr Exp $
+# $Id: AgentStats.pm,v 1.33.2.2 2007-10-12 08:41:36 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33.2.1 $';
+$VERSION = '$Revision: 1.33.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1157,7 +1157,7 @@ sub Run {
                     Name => 'Selection',
                 );
                 # need a radiobutton if dynamic and static stats available
-                if ($#DynamicFilesArray > 0) {
+                if ($DynamicFilesArray[0]) {
                     $Self->{LayoutObject}->Block(
                         Name => 'RadioButton',
                         Data => {
