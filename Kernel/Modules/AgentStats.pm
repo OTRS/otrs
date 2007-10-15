@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.38 2007-10-15 13:30:50 tr Exp $
+# $Id: AgentStats.pm,v 1.39 2007-10-15 14:34:15 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2022,7 +2022,7 @@ sub Run {
 
                 # integrate this functionality in the completenesscheck
                 if ( $TimePeriod / ( $ScalePeriod * $GetParam{UseAsXvalue}[0]{TimeScaleCount} )
-                    > ( $Self->{ConfigObject}->Get('Stats::MaxXaxisAttributes') || 100 ) )
+                    > ( $Self->{ConfigObject}->Get('Stats::MaxXaxisAttributes') || 1000 ) )
                 {
                     return $Self->{LayoutObject}->Redirect(
                         OP => "Action=AgentStats&Subaction=View&StatID=$Param{StatID}&Message=4", );

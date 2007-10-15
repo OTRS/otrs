@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.149 2007-09-03 13:23:53 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.150 2007-10-15 14:34:15 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -4926,7 +4926,7 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>Core::Stats</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,5}$">100</String>
+            <String Regex="^[0-9]{1,5}$">1000</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Core::MirrorDB::DSN" Required="0" Valid="0">
