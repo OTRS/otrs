@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.10 2007-09-29 11:10:47 mh Exp $
+# $Id: backup.pl,v 1.11 2007-10-15 14:55:34 bb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -69,7 +69,7 @@ elsif ( !-d $Opts{'d'} ) {
 # check compress mode
 if ( $Opts{'c'} && $Opts{'c'} =~ /bzip2/i ) {
     $Compress    = 'j';
-    $CompressCMD = 'bzip';
+    $CompressCMD = 'bzip2';
 }
 else {
     $Compress    = 'z';
