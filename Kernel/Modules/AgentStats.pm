@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.33.2.2 2007-10-12 08:41:36 tr Exp $
+# $Id: AgentStats.pm,v 1.33.2.3 2007-10-15 13:30:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33.2.2 $';
+$VERSION = '$Revision: 1.33.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1934,6 +1934,12 @@ sub Run {
             String => $Stat->{Title} . " Created",
         );
 
+        # Translate the column and row description
+        $Self->_ColumnAndRowTranslation(
+            StatArrayRef => \@StatArray,
+            HeadArrayRef => $HeadArrayRef,
+        );
+
         # csv output
         if ($Param{Format} eq 'CSV') {
             my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
@@ -2285,6 +2291,38 @@ sub _TimeScale {
     );
 
     return \%TimeScale;
+}
+
+sub _ColumnAndRowTranslation {
+    my ( $Self, %Param ) = @_;
+
+    # check if need params are available
+    for my $NeededParam (qw(StatArrayRef HeadArrayRef)) {
+        if ( !$Param{$NeededParam} ) {
+            return $Self->{LayoutObject}->ErrorScreen( Message => "_ColumnAndRowTranslation: Need $NeededParam!" );
+        }
+    }
+
+    # create the needed language object
+    use Kernel::Language;
+    $Self->{LanguageObject} = Kernel::Language->new(
+        MainObject   => $Self->{MainObject},
+        ConfigObject => $Self->{ConfigObject},
+        LogObject    => $Self->{LogObject},
+        UserLanguage => $Self->{UserLanguage} || 'en',
+    );
+
+    # translate the headline
+    for my $Word (@{$Param{HeadArrayRef}}) {
+        $Word = $Self->{LanguageObject}->Get($Word);
+    }
+
+    # translate the row description
+    for my $Word (@{$Param{StatArrayRef}}) {
+        $Word->[0] = $Self->{LanguageObject}->Get($Word->[0]);
+    }
+
+    return 1;
 }
 
 1;
