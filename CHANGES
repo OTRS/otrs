@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.482 2007-10-10 18:15:37 martin Exp $
+# $Id: CHANGES,v 1.483 2007-10-15 13:47:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,6 +26,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.4 (????/??/??)
+ - (2007/10/15) Fixed bug# 2398 - Translate the stats output.
+ - (2007/10/12) Fixed bug# 2388 - Show the radio button of static stats files.
  - (2007/10/10) Fixed bug# 2383 - IntroInstallPre in .opm files is not working
     on installing via online repository.
  - (2007/10/10) Fixed bug# 2380 - Ignore HTMLQuote param in Layout object
