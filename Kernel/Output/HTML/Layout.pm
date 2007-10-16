@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.51.2.1 2007-10-10 14:59:13 rk Exp $
+# $Id: Layout.pm,v 1.51.2.2 2007-10-16 15:22:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.51.2.1 $';
+$VERSION = '$Revision: 1.51.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -105,16 +105,19 @@ sub new {
     # check browser (defaut is IE because I don't have IE)
     $Self->{BrowserWrap} = 'physical';
     $Self->{Browser} = 'Unknown';
-    if ($Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre') &&
-        $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre')->{ActiveElementFilter}) {
+    # check Frontend::Output::FilterElementPre
+    $Self->{FilterElementPre} = $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre');
+    # check Frontend::Output::FilterElementPost
+    $Self->{FilterElementPost} = $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost');
+    # check Frontend::Output::FilterContent
+    $Self->{FilterContent} = $Self->{ConfigObject}->Get('Frontend::Output::FilterContent');
+    if ($Self->{FilterElementPre} && $Self->{FilterElementPre}->{ActiveElementFilter}) {
         $Self->{BrowserJavaScriptSupport} = 0;
     }
-    elsif ($Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost') &&
-        $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost')->{ActiveElementFilter}) {
+    elsif ($Self->{FilterElementPost} && $Self->{FilterElementPost}->{ActiveElementFilter}) {
         $Self->{BrowserJavaScriptSupport} = 0;
     }
-    elsif ($Self->{ConfigObject}->Get('Frontend::Output::FilterContent') &&
-        $Self->{ConfigObject}->Get('Frontend::Output::FilterContent')->{ActiveElementFilter}) {
+    elsif ($Self->{FilterContent} && $Self->{FilterContent}->{ActiveElementFilter}) {
         $Self->{BrowserJavaScriptSupport} = 0;
     }
     else {
@@ -492,8 +495,8 @@ sub Output {
         $Self->FatalError();
     }
     # custom pre filters
-    if ($Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre')) {
-        my %Filters = %{$Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre')};
+    if ($Self->{FilterElementPre}) {
+        my %Filters = %{$Self->{FilterElementPre}};
         foreach my $Filter (sort keys %Filters) {
             if ($Self->{MainObject}->Require($Filters{$Filter}->{Module})) {
                 my $Object = $Filters{$Filter}->{Module}->new(
@@ -931,8 +934,8 @@ sub Output {
     # save %Env
     $Self->{EnvRef} = $EnvRef;
     # custom post filters
-    if ($Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost')) {
-        my %Filters = %{$Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost')};
+    if ($Self->{FilterElementPost}) {
+        my %Filters = %{$Self->{FilterElementPost}};
         foreach my $Filter (sort keys %Filters) {
             if ($Self->{MainObject}->Require($Filters{$Filter}->{Module})) {
                 my $Object = $Filters{$Filter}->{Module}->new(
@@ -1341,8 +1344,8 @@ sub Print {
     my $Self = shift;
     my %Param = @_;
     # custom post filters
-    if ($Self->{ConfigObject}->Get('Frontend::Output::FilterContent')) {
-        my %Filters = %{$Self->{ConfigObject}->Get('Frontend::Output::FilterContent')};
+    if ($Self->{FilterContent}) {
+        my %Filters = %{$Self->{FilterContent}};
         foreach my $Filter (sort keys %Filters) {
             if ($Self->{MainObject}->Require($Filters{$Filter}->{Module})) {
                 my $Object = $Filters{$Filter}->{Module}->new(
@@ -2600,8 +2603,9 @@ sub NavigationBar {
     );
 
     # run notification modules
-    if (ref($Self->{ConfigObject}->Get('Frontend::NotifyModule')) eq 'HASH') {
-        my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::NotifyModule')};
+    my $FrontendNotifyModuleConfig = $Self->{ConfigObject}->Get('Frontend::NotifyModule');
+    if (ref($FrontendNotifyModuleConfig) eq 'HASH') {
+        my %Jobs = %{$FrontendNotifyModuleConfig};
         foreach my $Job (sort keys %Jobs) {
             # load module
             if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
@@ -2624,8 +2628,9 @@ sub NavigationBar {
     }
     # create menu items
     my %NavBarModule = ();
-    foreach my $Module (sort keys %{$Self->{ConfigObject}->Get('Frontend::Module')}) {
-        my %Hash = %{$Self->{ConfigObject}->Get('Frontend::Module')->{$Module}};
+    my $FrontendModuleConfig = $Self->{ConfigObject}->Get('Frontend::Module');
+    foreach my $Module (sort keys %{$FrontendModuleConfig}) {
+        my %Hash = %{$FrontendModuleConfig->{$Module}};
         if ($Hash{NavBar} && ref($Hash{NavBar}) eq 'ARRAY') {
             my @Items = @{$Hash{NavBar}};
             foreach my $Item (@Items) {
@@ -3227,8 +3232,9 @@ sub CustomerNavigationBar {
     my %Param = @_;
     # create menu items
     my %NavBarModule = ();
-    foreach my $Module (sort keys %{$Self->{ConfigObject}->Get('CustomerFrontend::Module')}) {
-        my %Hash = %{$Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Module}};
+    my $FrontendModuleConfig = $Self->{ConfigObject}->Get('CustomerFrontend::Module');
+    foreach my $Module (sort keys %{$FrontendModuleConfig}) {
+        my %Hash = %{$FrontendModuleConfig->{$Module}};
         if ($Hash{NavBar} && ref($Hash{NavBar}) eq 'ARRAY') {
             my @Items = @{$Hash{NavBar}};
             foreach my $Item (@Items) {
@@ -3251,8 +3257,9 @@ sub CustomerNavigationBar {
         );
     }
     # run notification modules
-    if (ref($Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule')) eq 'HASH') {
-        my %Jobs = %{$Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule')};
+    my $FrontendNotifyModuleConfig = $Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule');
+    if (ref($FrontendNotifyModuleConfig) eq 'HASH') {
+        my %Jobs = %{$FrontendNotifyModuleConfig};
         foreach my $Job (sort keys %Jobs) {
             # log try of load module
             if ($Self->{Debug} > 1) {
@@ -3395,6 +3402,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.51.2.1 $ $Date: 2007-10-10 14:59:13 $
+$Revision: 1.51.2.2 $ $Date: 2007-10-16 15:22:04 $
 
 =cut
