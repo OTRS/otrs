@@ -2,7 +2,7 @@
 # Group.t - Group tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Group.t,v 1.8 2007-10-02 14:04:17 mh Exp $
+# $Id: Group.t,v 1.9 2007-10-16 11:23:04 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use Kernel::System::User;
 $Self->{GroupObject} = Kernel::System::Group->new(%{$Self});
 $Self->{UserObject} = Kernel::System::User->new(%{$Self});
 
-# add tree users
+# add three users
 my $UserRand1 = 'example-user'.int(rand(1000000));
 my $UserRand2 = 'example-user'.int(rand(1000000));
 my $UserRand3 = 'example-user'.int(rand(1000000));
@@ -67,7 +67,7 @@ $Self->True(
     'UserAdd3()',
 );
 
-# add tree groups
+# add three groups
 my $GroupRand1 = 'example-group1'.int(rand(1000000));
 my $GroupRand2 = 'example-group1'.int(rand(1000000));
 my $GroupRand3 = 'example-group1'.int(rand(1000000));
@@ -103,6 +103,62 @@ my $GroupID3 = $Self->{GroupObject}->GroupAdd(
 $Self->True(
     $GroupID3,
     'GroupAdd3()',
+);
+
+# lookup Group1 by name
+my $LookupGroupID1 = $Self->{GroupObject}->GroupLookup(Group => $GroupRand1);
+$Self->True(
+    $LookupGroupID1 == $GroupID1,
+    "GroupLookup(Group => '$GroupRand1')",
+);
+
+# lookup Group2 by name
+my $LookupGroupID2 = $Self->{GroupObject}->GroupLookup(Group => $GroupRand2);
+$Self->True(
+    $LookupGroupID2 == $GroupID2,
+    "GroupLookup(Group => '$GroupRand2')",
+);
+
+# lookup Group3 by name
+my $LookupGroupID3 = $Self->{GroupObject}->GroupLookup(Group => $GroupRand3);
+$Self->True(
+    $LookupGroupID3 == $GroupID3,
+    "GroupLookup(Group => '$GroupRand3')",
+);
+
+# lookup non-existing group by name
+my $UnknownGroupID = $Self->{GroupObject}->GroupLookup(Group => 'agroupthatdoesnotexistatall');
+$Self->True(
+    !defined $UnknownGroupID,
+    "GroupLookup(Group => 'agroupthatdoesnotexistatall')",
+);
+
+# lookup Group1 by ID
+my $LookupGroupName1 = $Self->{GroupObject}->GroupLookup(GroupID => $GroupID1);
+$Self->True(
+    $LookupGroupName1 eq $GroupRand1,
+    "GroupLookup(GroupID => $GroupID1)",
+);
+
+# lookup Group2 by ID
+my $LookupGroupName2 = $Self->{GroupObject}->GroupLookup(GroupID => $GroupID2);
+$Self->True(
+    $LookupGroupName2 eq $GroupRand2,
+    "GroupLookup(GroupID => $GroupID2)",
+);
+
+# lookup Group3 by ID
+my $LookupGroupName3 = $Self->{GroupObject}->GroupLookup(GroupID => $GroupID3);
+$Self->True(
+    $LookupGroupName3 eq $GroupRand3,
+    "GroupLookup(GroupID => $GroupID3)",
+);
+
+# lookup non-existing group by ID
+my $UnknownGroupName = $Self->{GroupObject}->GroupLookup(GroupID => '9876543210');
+$Self->True(
+    !defined $UnknownGroupName,
+    "GroupLookup(GroupID => 9876543210)",
 );
 
 # get data of Group1
@@ -142,7 +198,7 @@ $Self->True(
     'GroupList()',
 );
 
-# add tree roles
+# add three roles
 my $RoleRand1 = 'example-role1'.int(rand(1000000));
 my $RoleRand2 = 'example-role2'.int(rand(1000000));
 my $RoleRand3 = 'example-role3'.int(rand(1000000));
@@ -178,6 +234,62 @@ my $RoleID3 = $Self->{GroupObject}->RoleAdd(
 $Self->True(
     $RoleID3,
     'RoleAdd3()',
+);
+
+# lookup Role1 by name
+my $LookupRoleID1 = $Self->{GroupObject}->RoleLookup(Role => $RoleRand1);
+$Self->True(
+    $LookupRoleID1 == $RoleID1,
+    "RoleLookup(Role => '$RoleRand1')",
+);
+
+# lookup Role2 by name
+my $LookupRoleID2 = $Self->{GroupObject}->RoleLookup(Role => $RoleRand2);
+$Self->True(
+    $LookupRoleID2 == $RoleID2,
+    "RoleLookup(Role => '$RoleRand2')",
+);
+
+# lookup Role3 by name
+my $LookupRoleID3 = $Self->{GroupObject}->RoleLookup(Role => $RoleRand3);
+$Self->True(
+    $LookupRoleID3 == $RoleID3,
+    "RoleLookup(Role => '$RoleRand3')",
+);
+
+# lookup non-existing role by name
+my $UnknownRoleID = $Self->{GroupObject}->RoleLookup(Role => 'arolethatdoesnotexistatall');
+$Self->True(
+    !defined $UnknownRoleID,
+    "RoleLookup(Role => 'arolethatdoesnotexistatall')",
+);
+
+# lookup Role1 by ID
+my $LookupRoleName1 = $Self->{GroupObject}->RoleLookup(RoleID => $RoleID1);
+$Self->True(
+    $LookupRoleName1 eq $RoleRand1,
+    "RoleLookup(RoleID => $RoleID1)",
+);
+
+# lookup Role2 by ID
+my $LookupRoleName2 = $Self->{GroupObject}->RoleLookup(RoleID => $RoleID2);
+$Self->True(
+    $LookupRoleName2 eq $RoleRand2,
+    "RoleLookup(RoleID => $RoleID2)",
+);
+
+# lookup Role3 by ID
+my $LookupRoleName3 = $Self->{GroupObject}->RoleLookup(RoleID => $RoleID3);
+$Self->True(
+    $LookupRoleName3 eq $RoleRand3,
+    "RoleLookup(RoleID => $RoleID3)",
+);
+
+# lookup non-existing role by ID
+my $UnknownRoleName = $Self->{GroupObject}->RoleLookup(RoleID => '9876543210');
+$Self->True(
+    !defined $UnknownRoleName,
+    "RoleLookup(RoleID => 9876543210)",
 );
 
 # get data of Role1

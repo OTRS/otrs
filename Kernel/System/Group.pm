@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: Group.pm,v 1.47 2007-10-02 12:24:06 mh Exp $
+# $Id: Group.pm,v 1.48 2007-10-16 11:23:04 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -79,6 +79,130 @@ sub new {
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
+}
+
+=item GroupLookup()
+
+get id or name for group
+
+    my $Group = $GroupObject->GroupLookup(GroupID => $GroupID);
+
+    my $GroupID = $GroupObject->GroupLookup(Group => $Group);
+
+=cut
+
+sub GroupLookup {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Group} && !$Param{GroupID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no Group or GroupID!" );
+        return;
+    }
+
+    # check if we can answer from our cache
+    if ( $Param{GroupID} && $Self->{"GL::Group$Param{GroupID}"} ) {
+        return $Self->{"GL::Group$Param{GroupID}"};
+    }
+    if ( $Param{Group} && $Self->{"GL::GroupID$Param{Group}"} ) {
+        return $Self->{"GL::GroupID$Param{Group}"};
+    }
+
+    # get data
+    my $SQL    = '';
+    my $Suffix = '';
+    if ( $Param{Group} ) {
+        $Param{What} = $Param{Group};
+        $Suffix      = 'GroupID';
+        $SQL         = "SELECT id FROM groups WHERE name = '"
+            . $Self->{DBObject}->Quote( $Param{Group} ) . "'";
+    }
+    else {
+        $Param{What} = $Param{GroupID};
+        $Suffix      = 'Group';
+        $SQL         = "SELECT name FROM groups WHERE id = "
+            . $Self->{DBObject}->Quote( $Param{GroupID}, 'Integer' ) . "";
+    }
+    $Self->{DBObject}->Prepare( SQL => $SQL );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+        # store result
+        $Self->{"GL::$Suffix$Param{What}"} = $Row[0];
+    }
+
+    # check if data exists
+    if ( !exists $Self->{"GL::$Suffix$Param{What}"} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Found no \$$Suffix for $Param{What}!",
+        );
+        return;
+    }
+
+    # return result
+    return $Self->{"GL::$Suffix$Param{What}"};
+}
+
+=item RoleLookup()
+
+get id or name for role
+
+    my $Role = $RoleObject->RoleLookup(RoleID => $RoleID);
+
+    my $RoleID = $RoleObject->RoleLookup(Role => $Role);
+
+=cut
+
+sub RoleLookup {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Role} && !$Param{RoleID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no Role or RoleID!" );
+        return;
+    }
+
+    # check if we can answer from our cache
+    if ( $Param{RoleID} && $Self->{"RL::Role$Param{RoleID}"} ) {
+        return $Self->{"RL::Role$Param{RoleID}"};
+    }
+    if ( $Param{Role} && $Self->{"RL::RoleID$Param{Role}"} ) {
+        return $Self->{"RL::RoleID$Param{Role}"};
+    }
+
+    # get data
+    my $SQL    = '';
+    my $Suffix = '';
+    if ( $Param{Role} ) {
+        $Param{What} = $Param{Role};
+        $Suffix      = 'RoleID';
+        $SQL         = "SELECT id FROM roles WHERE name = '"
+            . $Self->{DBObject}->Quote( $Param{Role} ) . "'";
+    }
+    else {
+        $Param{What} = $Param{RoleID};
+        $Suffix      = 'Role';
+        $SQL         = "SELECT name FROM roles WHERE id = "
+            . $Self->{DBObject}->Quote( $Param{RoleID}, 'Integer' ) . "";
+    }
+    $Self->{DBObject}->Prepare( SQL => $SQL );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+        # store result
+        $Self->{"RL::$Suffix$Param{What}"} = $Row[0];
+    }
+
+    # check if data exists
+    if ( !exists $Self->{"RL::$Suffix$Param{What}"} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Found no \$$Suffix for $Param{What}!",
+        );
+        return;
+    }
+
+    # return result
+    return $Self->{"RL::$Suffix$Param{What}"};
 }
 
 # just for compat!
@@ -1587,6 +1711,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2007-10-02 12:24:06 $
+$Revision: 1.48 $ $Date: 2007-10-16 11:23:04 $
 
 =cut
