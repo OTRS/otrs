@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.20 2007-10-02 10:37:06 mh Exp $
+# $Id: Service.pm,v 1.21 2007-10-16 17:43:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -641,7 +641,7 @@ sub CustomerUserServiceMemberList {
 
     # set default
     if ( !defined( $Param{DefaultServices} ) ) {
-        $Param{DefaultServices} = 1,;
+        $Param{DefaultServices} = 1;
     }
 
     # db quote
@@ -825,6 +825,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2007-10-02 10:37:06 $
+$Revision: 1.21 $ $Date: 2007-10-16 17:43:30 $
 
 =cut

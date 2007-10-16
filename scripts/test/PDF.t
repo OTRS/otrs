@@ -2,7 +2,7 @@
 # PDF.t - PDF tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.t,v 1.10 2007-09-29 11:09:57 mh Exp $
+# $Id: PDF.t,v 1.11 2007-10-16 17:43:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -122,8 +122,8 @@ $TextCalculateData{1}{PossibleRows}{4} = 'pace Center.';
 # test2 - test LeftOver function
 $TextCalculateData{2}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{2}{Type} = 'ReturnLeftOverHard';
-$TextCalculateData{2}{Width} = 30,
-$TextCalculateData{2}{Height} = 105,
+$TextCalculateData{2}{Width} = 30;
+$TextCalculateData{2}{Height} = 105;
 $TextCalculateData{2}{State} = 0;
 $TextCalculateData{2}{RequiredWidth} = 29.45;
 $TextCalculateData{2}{RequiredHeight} = 100;
@@ -142,8 +142,8 @@ $TextCalculateData{2}{PossibleRows}{9} = 'lande';
 # test3 - test Width and Height
 $TextCalculateData{3}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{3}{Type} = 'ReturnLeftOverHard';
-$TextCalculateData{3}{Width} = 1,
-$TextCalculateData{3}{Height} = 1,
+$TextCalculateData{3}{Width} = 1;
+$TextCalculateData{3}{Height} = 1;
 $TextCalculateData{3}{State} = 0;
 $TextCalculateData{3}{RequiredWidth} = 0;
 $TextCalculateData{3}{RequiredHeight} = 0;
@@ -152,8 +152,8 @@ $TextCalculateData{3}{LeftOver} = 'US Space Shuttle Atlantis and her STS-115 cre
 # test4 - test Width and Height
 $TextCalculateData{4}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{4}{Type} = 'ReturnLeftOverHard';
-$TextCalculateData{4}{Width} = 0,
-$TextCalculateData{4}{Height} = 0,
+$TextCalculateData{4}{Width} = 0;
+$TextCalculateData{4}{Height} = 0;
 $TextCalculateData{4}{State} = 0;
 $TextCalculateData{4}{RequiredWidth} = 0;
 $TextCalculateData{4}{RequiredHeight} = 0;
@@ -176,8 +176,8 @@ $TextCalculateData{5}{PossibleRows}{5} = 'Center.';
 # test6 - test new line and LeftOver calculation
 $TextCalculateData{6}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{6}{Type} = 'ReturnLeftOver';
-$TextCalculateData{6}{Width} = 30,
-$TextCalculateData{6}{Height} = 53,
+$TextCalculateData{6}{Width} = 30;
+$TextCalculateData{6}{Height} = 53;
 $TextCalculateData{6}{State} = 0;
 $TextCalculateData{6}{RequiredWidth} = 28.35;
 $TextCalculateData{6}{RequiredHeight} = 50;
@@ -191,8 +191,8 @@ $TextCalculateData{6}{PossibleRows}{4} = 'Atlanti';
 # test7 - test Width and Height
 $TextCalculateData{7}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{7}{Type} = 'ReturnLeftOver';
-$TextCalculateData{7}{Width} = 1,
-$TextCalculateData{7}{Height} = 1,
+$TextCalculateData{7}{Width} = 1;
+$TextCalculateData{7}{Height} = 1;
 $TextCalculateData{7}{State} = 0;
 $TextCalculateData{7}{RequiredWidth} = 0;
 $TextCalculateData{7}{RequiredHeight} = 0;
@@ -201,8 +201,8 @@ $TextCalculateData{7}{LeftOver} = 'US Space Shuttle Atlantis and her STS-115 cre
 # test8 - test Width and Height
 $TextCalculateData{8}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{8}{Type} = 'ReturnLeftOver';
-$TextCalculateData{8}{Width} = 0,
-$TextCalculateData{8}{Height} = 0,
+$TextCalculateData{8}{Width} = 0;
+$TextCalculateData{8}{Height} = 0;
 $TextCalculateData{8}{State} = 0;
 $TextCalculateData{8}{RequiredWidth} = 0;
 $TextCalculateData{8}{RequiredHeight} = 0;
@@ -225,8 +225,8 @@ $TextCalculateData{9}{PossibleRows}{5} = 'Center.';
 # test10 - test new line and [..]
 $TextCalculateData{10}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{10}{Type} = 'Cut';
-$TextCalculateData{10}{Width} = 20,
-$TextCalculateData{10}{Height} = 49,
+$TextCalculateData{10}{Width} = 20;
+$TextCalculateData{10}{Height} = 49;
 $TextCalculateData{10}{State} = 1;
 $TextCalculateData{10}{RequiredWidth} = 17.79;
 $TextCalculateData{10}{RequiredHeight} = 40;
@@ -239,8 +239,8 @@ $TextCalculateData{10}{PossibleRows}{3} = 'S[..]';
 # test11 - test Width and Height
 $TextCalculateData{11}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{11}{Type} = 'Cut';
-$TextCalculateData{11}{Width} = 1,
-$TextCalculateData{11}{Height} = 1,
+$TextCalculateData{11}{Width} = 1;
+$TextCalculateData{11}{Height} = 1;
 $TextCalculateData{11}{State} = 0;
 $TextCalculateData{11}{RequiredWidth} = 0;
 $TextCalculateData{11}{RequiredHeight} = 0;
@@ -249,8 +249,8 @@ $TextCalculateData{11}{LeftOver} = 'US Space Shuttle Atlantis and her STS-115 cr
 # test12 - test Width and Height
 $TextCalculateData{12}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{12}{Type} = 'Cut';
-$TextCalculateData{12}{Width} = 0,
-$TextCalculateData{12}{Height} = 0,
+$TextCalculateData{12}{Width} = 0;
+$TextCalculateData{12}{Height} = 0;
 $TextCalculateData{12}{State} = 0;
 $TextCalculateData{12}{RequiredWidth} = 0;
 $TextCalculateData{12}{RequiredHeight} = 0;
@@ -259,8 +259,8 @@ $TextCalculateData{12}{LeftOver} = 'US Space Shuttle Atlantis and her STS-115 cr
 # test13 - test new line calculation
 $TextCalculateData{13}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{13}{Type} = 'Cut';
-$TextCalculateData{13}{Width} = 10,
-$TextCalculateData{13}{Height} = 40,
+$TextCalculateData{13}{Width} = 10;
+$TextCalculateData{13}{Height} = 40;
 $TextCalculateData{13}{State} = 1;
 $TextCalculateData{13}{RequiredWidth} = 7.22;
 $TextCalculateData{13}{RequiredHeight} = 40;
@@ -273,8 +273,8 @@ $TextCalculateData{13}{PossibleRows}{3} = 'p';
 # test14 - test Width
 $TextCalculateData{14}{Text} = 'ISS - International Space Station';
 $TextCalculateData{14}{Type} = 'ReturnLeftOver';
-$TextCalculateData{14}{Width} = 1,
-$TextCalculateData{14}{Height} = 10000,
+$TextCalculateData{14}{Width} = 1;
+$TextCalculateData{14}{Height} = 10000;
 $TextCalculateData{14}{State} = 0;
 $TextCalculateData{14}{RequiredWidth} = 0;
 $TextCalculateData{14}{RequiredHeight} = 0;

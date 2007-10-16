@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.17 2007-10-08 23:39:33 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.18 2007-10-16 17:43:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -615,7 +615,7 @@ sub _Mask {
                 $StateSelected{SelectedID} = $Param{StateID};
             }
             else {
-                $StateSelected{Selected} = $Self->{Config}->{StateDefault},;
+                $StateSelected{Selected} = $Self->{Config}->{StateDefault};
             }
             $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
                 Data => \%NextStates,
@@ -639,7 +639,7 @@ sub _Mask {
                 $PrioritySelected{SelectedID} = $Param{PriorityID};
             }
             else {
-                $PrioritySelected{Selected} = $Self->{Config}->{PriorityDefault} || '3 normal',;
+                $PrioritySelected{Selected} = $Self->{Config}->{PriorityDefault} || '3 normal';
             }
             $Param{'PriorityStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
                 Data => \%Priorities,
