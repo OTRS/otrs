@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.29 2007-10-04 23:58:07 martin Exp $
+# $Id: Ticket.t,v 1.30 2007-10-16 12:04:11 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -4026,5 +4026,106 @@ for my $Module ('RuntimeDB', 'StaticDB') {
         );
     }
 }
+
+# ---
+# avoid StateType and StateTypeID problems in TicketSearch()
+# ---
+
+# Get an error warning, if the result is different if use a StateType or its ID (StateTypeID)
+use Kernel::System::State;
+
+$Self->{StateObject}  = Kernel::System::State->new(%{$Self});
+
+my %StateTypeList = $Self->{StateObject}->StateTypeList(
+    UserID => 1,
+);
+
+# you need a Hash with the state as key and the related StateType and StateTypeID as
+# reference
+my %StateAsKeyAndStateTypeAsValue;
+for my $StateTypeID (keys %StateTypeList) {
+    my @List = $Self->{StateObject}->StateGetStatesByType(
+        StateType => [$StateTypeList{$StateTypeID}],
+        Result => 'Name', # HASH|ID|Name
+    );
+    for my $Index (@List) {
+        $StateAsKeyAndStateTypeAsValue{$Index}{Name} = $StateTypeList{$StateTypeID};
+        $StateAsKeyAndStateTypeAsValue{$Index}{ID} = $StateTypeID;
+    }
+}
+
+# to be sure that you have a result ticket create one
+$TicketID = $Self->{TicketObject}->TicketCreate(
+    Title => 'StateTypeTest',
+    Queue => 'Raw',                 # or QueueID => 123,
+    Lock => 'unlock',
+    Priority => '3 normal',         # or PriorityID => 2,
+    State => 'new',                 # or StateID => 5,
+    CustomerID => '123465',
+    CustomerUser => 'customer@example.com',
+    OwnerID => 2,
+    UserID => 2,
+);
+
+my %StateList = $Self->{StateObject}->StateList(
+    UserID => 1,
+);
+
+# now check every possible state
+for my $State (values %StateList) {
+    $Self->{TicketObject}->StateSet(
+        State => $State,
+        TicketID => $TicketID,
+        SendNoNotification => 1,
+        UserID => 1,
+    );
+
+    my @TicketIDs = $Self->{TicketObject}->TicketSearch(
+        Result => 'ARRAY',
+        Title => '%StateTypeTest%',
+        Queues => ['Raw'],
+        #States => [$State],
+        #StateType => [$StateType],
+        StateTypeIDs => [$StateAsKeyAndStateTypeAsValue{$State}{ID}],
+        UserID => 1,
+    );
+
+    my @TicketIDsType = $Self->{TicketObject}->TicketSearch(
+        Result => 'ARRAY',
+        Title => '%StateTypeTest%',
+        Queues => ['Raw'],
+        #States => [$State],
+        #StateType => [$StateType],
+        StateType => [$StateAsKeyAndStateTypeAsValue{$State}{Name}],
+        UserID => 1,
+    );
+
+    if ($TicketIDs[0]) {
+        my %Ticket = $Self->{TicketObject}->TicketGet(
+            TicketID => $TicketIDs[0],
+            UserID => 1,
+        );
+    }
+
+    # if there is no result the StateTypeID hasn't worked
+    $Self->True(
+        $TicketIDs[0],
+        "TicketSearch() Test if there is a result, if I use StateTypeID $StateAsKeyAndStateTypeAsValue{$State}{ID}",
+    );
+
+    # if it is not equal then there is in the using of StateType or StateTypeID an error
+    $Self->Is(
+        scalar @TicketIDs,
+        scalar @TicketIDsType,
+        "TicketSearch() check if you get the same result if you use the StateType attribute or the StateTypeIDs attribute.\n"
+       ."State($State) StateType($StateAsKeyAndStateTypeAsValue{$State}{Name}) and StateTypeIDs($StateAsKeyAndStateTypeAsValue{$State}{ID})",
+    );
+}
+
+# the ticket is no longer needed
+$Self->{TicketObject}->TicketDelete(
+        TicketID => $TicketID,
+        UserID => 1,
+);
 
 1;
