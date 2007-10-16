@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.33.2.3 2007-10-15 13:30:17 tr Exp $
+# $Id: AgentStats.pm,v 1.33.2.4 2007-10-16 13:55:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33.2.3 $';
+$VERSION = '$Revision: 1.33.2.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1832,13 +1832,16 @@ sub Run {
                                         $TimePeriodAgent = $Time{TimeRelativeCount};
                                     }
                                     # integrate this functionality in the completenesscheck
-                                    if ($TimePeriodAgent < $TimePeriodAdmin) {
+                                    if ($TimePeriodAgent > $TimePeriodAdmin) {
                                         return $Self->{LayoutObject}->Redirect(
                                             OP => "Action=AgentStats&Subaction=View&StatID=$Param{StatID}&Message=3",
                                         );
                                     }
 
                                     $TimePeriod = $TimePeriodAgent;
+                                    $Element->{TimeRelativeCount} = $Time{TimeRelativeCount};
+                                    $Element->{TimeRelativeUnit}  = $Time{TimeRelativeUnit};
+
                                 }
                                 if ($Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . 'TimeScaleCount')) {
                                     $Element->{TimeScaleCount} = $Self->{ParamObject}->GetParam(Param => $Use . $Element->{Element} . 'TimeScaleCount');
