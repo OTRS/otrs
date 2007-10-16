@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.484 2007-10-16 13:59:25 tr Exp $
+# $Id: CHANGES,v 1.485 2007-10-16 15:25:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,6 +26,9 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.4 (????/??/??)
+ - (2007/10/16) Improved performance of module by reduce calls of
+    $Self->{ConfigObject}->Get() in Kernel/Output/HTML/Layout.pm and
+    Kernel/System/Encode.pm.
  - (2007/10/16) Fixed bug# 2404 - Fixed bug# 2404 - Problems with the time
     extended feature in stats module.
  - (2007/10/15) Fixed bug# 2398 - Translate the stats output.
