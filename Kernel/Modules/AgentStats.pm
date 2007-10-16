@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.39 2007-10-15 14:34:15 tr Exp $
+# $Id: AgentStats.pm,v 1.40 2007-10-16 13:55:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1746,7 +1746,7 @@ sub Run {
                 Result => 'ID',
             );
             if ( $Stat->{Valid} ) {
-            MARKE:
+                MARKE:
                 for my $GroupID ( @{ $Stat->{Permission} } ) {
                     for my $UserGroup (@Groups) {
                         if ( $GroupID == $UserGroup ) {
@@ -1889,8 +1889,6 @@ sub Run {
                                 }
                                 else {
                                     my %Time            = ();
-                                    my $TimePeriodAdmin = 0;
-                                    my $TimePeriodAgent = 0;
                                     my ( $s, $m, $h, $D, $M, $Y )
                                         = $Self->{TimeObject}->SystemTime2Date(
                                         SystemTime => $Self->{TimeObject}->SystemTime(), );
@@ -1908,57 +1906,20 @@ sub Run {
                                                 . $Element->{Element}
                                                 . 'TimeRelativeCount' );
                                     }
-                                    if ( $Element->{TimeRelativeUnit} eq 'Year' ) {
-                                        $TimePeriodAdmin
-                                            = $Element->{TimeRelativeCount} * 60 * 60 * 24 * 365;
-                                    }
-                                    elsif ( $Element->{TimeRelativeUnit} eq 'Month' ) {
-                                        $TimePeriodAdmin
-                                            = $Element->{TimeRelativeCount} * 60 * 60 * 24 * 30;
-                                    }
-                                    elsif ( $Element->{TimeRelativeUnit} eq 'Day' ) {
-                                        $TimePeriodAdmin
-                                            = $Element->{TimeRelativeCount} * 60 * 60 * 24;
-                                    }
-                                    elsif ( $Element->{TimeRelativeUnit} eq 'Hour' ) {
-                                        $TimePeriodAdmin = $Element->{TimeRelativeCount} * 60 * 60;
-                                    }
-                                    elsif ( $Element->{TimeRelativeUnit} eq 'Minute' ) {
-                                        $TimePeriodAdmin = $Element->{TimeRelativeCount} * 60;
-                                    }
-                                    elsif ( $Element->{TimeRelativeUnit} eq 'Second' ) {
-                                        $TimePeriodAdmin = $Element->{TimeRelativeCount};
-                                    }
 
-                                    if ( $Time{TimeRelativeUnit} eq 'Year' ) {
-                                        $TimePeriodAgent
-                                            = $Time{TimeRelativeCount} * 60 * 60 * 24 * 365;
-                                    }
-                                    elsif ( $Time{TimeRelativeUnit} eq 'Month' ) {
-                                        $TimePeriodAgent
-                                            = $Time{TimeRelativeCount} * 60 * 60 * 24 * 30;
-                                    }
-                                    elsif ( $Time{TimeRelativeUnit} eq 'Day' ) {
-                                        $TimePeriodAgent = $Time{TimeRelativeCount} * 60 * 60 * 24;
-                                    }
-                                    elsif ( $Time{TimeRelativeUnit} eq 'Hour' ) {
-                                        $TimePeriodAgent = $Time{TimeRelativeCount} * 60 * 60;
-                                    }
-                                    elsif ( $Time{TimeRelativeUnit} eq 'Minute' ) {
-                                        $TimePeriodAgent = $Time{TimeRelativeCount} * 60;
-                                    }
-                                    elsif ( $Time{TimeRelativeUnit} eq 'Second' ) {
-                                        $TimePeriodAgent = $Time{TimeRelativeCount};
-                                    }
+                                    my $TimePeriodAdmin = $Element->{TimeRelativeCount} * $Self->_TimeInSeconds(TimeUnit => $Element->{TimeRelativeUnit});
+                                    my $TimePeriodAgent = $Time{TimeRelativeCount} * $Self->_TimeInSeconds(TimeUnit => $Time{TimeRelativeUnit});
 
                                     # integrate this functionality in the completenesscheck
-                                    if ( $TimePeriodAgent < $TimePeriodAdmin ) {
+                                    if ( $TimePeriodAgent > $TimePeriodAdmin ) {
                                         return $Self->{LayoutObject}->Redirect( OP =>
                                                 "Action=AgentStats&Subaction=View&StatID=$Param{StatID}&Message=3",
                                         );
                                     }
 
                                     $TimePeriod = $TimePeriodAgent;
+                                    $Element->{TimeRelativeCount} = $Time{TimeRelativeCount};
+                                    $Element->{TimeRelativeUnit}  = $Time{TimeRelativeUnit};
                                 }
                                 if ($Self->{ParamObject}->GetParam(
                                         Param => $Use . $Element->{Element} . 'TimeScaleCount'
@@ -2000,25 +1961,10 @@ sub Run {
                 )
                 )
             {
-                my $ScalePeriod = 0;
-                if ( $GetParam{UseAsXvalue}[0]{SelectedValues}[0] eq 'Second' ) {
-                    $ScalePeriod = 1;
-                }
-                elsif ( $GetParam{UseAsXvalue}[0]{SelectedValues}[0] eq 'Minute' ) {
-                    $ScalePeriod = 60;
-                }
-                elsif ( $GetParam{UseAsXvalue}[0]{SelectedValues}[0] eq 'Hour' ) {
-                    $ScalePeriod = 60 * 60;
-                }
-                elsif ( $GetParam{UseAsXvalue}[0]{SelectedValues}[0] eq 'Day' ) {
-                    $ScalePeriod = 60 * 60 * 24;
-                }
-                elsif ( $GetParam{UseAsXvalue}[0]{SelectedValues}[0] eq 'Month' ) {
-                    $ScalePeriod = 60 * 60 * 24 * 30;
-                }
-                elsif ( $GetParam{UseAsXvalue}[0]{SelectedValues}[0] eq 'Year' ) {
-                    $ScalePeriod = 60 * 60 * 24 * 365;
-                }
+
+                my $ScalePeriod = $Self->_TimeInSeconds(
+                    TimeUnit => $GetParam{UseAsXvalue}[0]{SelectedValues}[0]
+                );
 
                 # integrate this functionality in the completenesscheck
                 if ( $TimePeriod / ( $ScalePeriod * $GetParam{UseAsXvalue}[0]{TimeScaleCount} )
@@ -2031,6 +1977,7 @@ sub Run {
         }
 
         # run stat...
+$Self->{LogObject}->Dumper(%GetParam);
         my @StatArray = @{
             $Self->{StatsObject}->StatsRun(
                 StatID   => $Param{StatID},
@@ -2468,6 +2415,29 @@ sub _ColumnAndRowTranslation {
     }
 
     return 1;
+}
+
+# ATTENTION: this function delivers only approximations!!!
+sub _TimeInSeconds {
+    my ( $Self, %Param ) = @_;
+
+    # check if need params are available
+    for my $NeededParam (qw(TimeUnit)) {
+        if ( !$Param{$NeededParam} ) {
+            return $Self->{LayoutObject}->ErrorScreen( Message => "_TimeInSeconds: Need $NeededParam!" );
+        }
+    }
+
+    my %TimeInSeconds = (
+        Year   => 31536000, # 60 * 60 * 60 * 365
+        Month  => 2592000,  # 60 * 60 * 24 * 30
+        Day    => 86400,    # 60 * 60 * 24
+        Hour   => 3600,     # 60 * 60
+        Minute => 60,
+        Second => 1,
+    );
+
+    return $TimeInSeconds{$Param{TimeUnit}};
 }
 
 1;
