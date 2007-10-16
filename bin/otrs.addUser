@@ -3,7 +3,7 @@
 # otrs.addUser - Add User from CLI
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: otrs.addUser,v 1.12 2007-10-01 09:45:36 mh Exp $
+# $Id: otrs.addUser,v 1.13 2007-10-16 11:30:42 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -73,7 +73,7 @@ if ( $opts{'g'} ) {
 
     $Param{Group} = $opts{'g'};
 
-    if ( $Param{GID} = $CommonObject{GroupObject}->GetGroupIdByName(%Param) ) {
+    if ( $Param{GID} = $CommonObject{GroupObject}->GroupLookup(%Param) ) {
         print "Found Group.. GID is $Param{GID}", "\n";
     }
     else {

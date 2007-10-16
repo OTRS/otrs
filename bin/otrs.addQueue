@@ -4,7 +4,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.addQueue,v 1.14 2007-10-01 09:45:36 mh Exp $
+# $Id: otrs.addQueue,v 1.15 2007-10-16 11:30:42 ot Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -72,7 +72,8 @@ $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
 $CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 
 # check group
-if ( !$CommonObject{GroupObject}->GetGroupIdByName( Group => $Opts{'g'} ) ) {
+my $GroupID = $CommonObject{GroupObject}->GroupLookup( Group => $Opts{'g'} );
+if ( !$GroupID ) {
     print STDERR "ERROR: Found no GroupID for $Opts{'g'}\n";
     exit 1;
 }
@@ -80,7 +81,7 @@ if ( !$CommonObject{GroupObject}->GetGroupIdByName( Group => $Opts{'g'} ) ) {
 # add queue
 if (!$CommonObject{QueueObject}->QueueAdd(
         Name            => $Opts{'n'},
-        GroupID         => $CommonObject{GroupObject}->GetGroupIdByName( Group => $Opts{'g'} ),
+        GroupID         => $GroupID,
         SystemAddressID => $Opts{'s'} || undef,
         Comment         => $Opts{'c'} || undef,
         ValidID         => 1,

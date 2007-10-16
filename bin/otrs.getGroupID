@@ -2,7 +2,7 @@
 # --
 # otrs.getGroupID - return numeric group id
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.getGroupID,v 1.9 2007-10-01 09:45:36 mh Exp $
+# $Id: otrs.getGroupID,v 1.10 2007-10-16 11:30:42 ot Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
@@ -23,15 +23,17 @@ unless ( $ARGV[0] ) {
 }
 
 use Kernel::Config;
-use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::Group;
+use Kernel::System::Log;
+use Kernel::System::Main;
 
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{LogObject}
     = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.getGroupID' );
+$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
 $CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 
@@ -42,7 +44,7 @@ undef %Param;
 $Param{UserID} = '1';
 $Param{Group}  = $ARGV[0];
 
-if ( my $gid = $CommonObject{GroupObject}->GetGroupIdByName(%Param) ) {
+if ( my $gid = $CommonObject{GroupObject}->GroupLookup(%Param) ) {
     print $gid , "\n";
 }
 else {

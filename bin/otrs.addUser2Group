@@ -4,7 +4,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.addUser2Group,v 1.14 2007-10-01 09:45:36 mh Exp $
+# $Id: otrs.addUser2Group,v 1.15 2007-10-16 11:30:42 ot Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::DB;
+use Kernel::System::Main;
 use Kernel::System::User;
 use Kernel::System::Group;
 
@@ -64,6 +65,7 @@ if ( !$Opts{p} ) {
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{LogObject}
     = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addUser2Group' );
+$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
 $CommonObject{UserObject}  = Kernel::System::User->new(%CommonObject);
 $CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
@@ -83,7 +85,7 @@ unless ( $Param{UID} = $CommonObject{UserObject}->UserLookup( UserLogin => $Para
     exit 1;
 }
 
-unless ( $Param{GID} = $CommonObject{GroupObject}->GetGroupIdByName(%Param) ) {
+unless ( $Param{GID} = $CommonObject{GroupObject}->GroupLookup(%Param) ) {
     print STDERR "ERROR: Failed to get Group ID. Perhaps non-existent group..\n";
     exit;
 }
