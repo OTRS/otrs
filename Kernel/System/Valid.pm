@@ -2,7 +2,7 @@
 # Kernel/System/Valid.pm - all valid functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Valid.pm,v 1.4 2007-10-02 10:38:58 mh Exp $
+# $Id: Valid.pm,v 1.5 2007-10-16 18:10:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -64,8 +64,8 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    for my $Object (qw(DBObject ConfigObject LogObject)) {
+        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
     return $Self;
@@ -82,21 +82,19 @@ return a valid list as hash
 sub ValidList {
     my ( $Self, %Param ) = @_;
 
-    my %Data = ();
+    # read cache
+    return %{ $Self->{'Cache::ValidList'} } if $Self->{'Cache::ValidList'};
 
-    # check cache
-    if ( $Self->{'Cache::ValidList'} ) {
-        return %{ $Self->{'Cache::ValidList'} };
+    # get list from database
+    $Self->{DBObject}->Prepare( SQL => 'SELECT id, name FROM valid' );
+
+    # fetch the result
+    my %Data;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data{ $Row[0] } = $Row[1];
     }
 
-    # sql
-    if ( $Self->{DBObject}->Prepare( SQL => 'SELECT id, name FROM valid' ) ) {
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $Data{ $Row[0] } = $Row[1];
-        }
-    }
-
-    # cache
+    # write cache
     $Self->{'Cache::ValidList'} = \%Data;
 
     return %Data;
@@ -113,21 +111,19 @@ return all valid ids as array
 sub ValidIDsGet {
     my ( $Self, %Param ) = @_;
 
+    # read cache
+    return @{ $Self->{'Cache::ValidIDsGet'} } if $Self->{'Cache::ValidIDsGet'};
+
+    # get valid ids
+    $Self->{DBObject}->Prepare( SQL => "SELECT id FROM valid WHERE name = 'valid'" );
+
+    # fetch the results
     my @ValidIDs;
-
-    # check cache
-    if ( $Self->{'Cache::ValidIDsGet'} ) {
-        return @{ $Self->{'Cache::ValidIDsGet'} };
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        push @ValidIDs, $Row[0];
     }
 
-    # sql
-    if ( $Self->{DBObject}->Prepare( SQL => "SELECT id FROM valid WHERE name = 'valid'" ) ) {
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            push( @ValidIDs, $Row[0] );
-        }
-    }
-
-    # cache
+    # write cache
     $Self->{'Cache::ValidIDsGet'} = \@ValidIDs;
 
     return @ValidIDs;
@@ -149,6 +145,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2007-10-02 10:38:58 $
+$Revision: 1.5 $ $Date: 2007-10-16 18:10:30 $
 
 =cut
