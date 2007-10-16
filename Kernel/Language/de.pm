@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.147.2.1 2007-09-13 14:01:40 mh Exp $
+# $Id: de.pm,v 1.147.2.2 2007-10-16 13:28:59 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.147.2.1 $';
+$VERSION = '$Revision: 1.147.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -346,7 +346,7 @@ sub Data {
         'Your reporting time interval is too small, please use a larger time scale!' => 'Die Zeitskalierung ist zu klein gewählt, bitte wählen Sie eine größere Zeitskalierung!',
         'The selected start time is before the allowed start time!' => 'Die gewählte Startzeit ist außerhalb des erlaubten Bereichs!',
         'The selected end time is after the allowed end time!' => 'Die gewählte Endzeit ist außerhalb des erlaubten Bereichs!',
-        'The selected time period is larger than the allowed time period!' => 'Der gewählt Zeitraum ist größer als der erlaubte Zeitraum!',
+        'The selected time period is larger than the allowed time period!' => 'Der gewählte Zeitraum ist größer als der erlaubte Zeitraum!',
         'Common Specification' => 'Allgemeine Angaben',
         'Xaxis' => 'X-Achse',
         'Value Series'           => 'Wertereihen',
