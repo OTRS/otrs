@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: Group.pm,v 1.48 2007-10-16 11:23:04 ot Exp $
+# $Id: Group.pm,v 1.49 2007-10-16 11:31:48 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 =head1 NAME
 
@@ -203,56 +203,6 @@ sub RoleLookup {
 
     # return result
     return $Self->{"RL::$Suffix$Param{What}"};
-}
-
-# just for compat!
-sub GetGroupIdByName {
-    my ( $Self, %Param ) = @_;
-
-    my $ID;
-
-    # check needed stuff
-    if ( !$Param{Group} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Group!" );
-        return;
-    }
-
-    # db quote
-    for ( keys %Param ) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-
-    # sql
-    $Self->{DBObject}->Prepare( SQL => "SELECT id from groups where name = '$Param{Group}'" );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $ID = $Row[0];
-    }
-    return $ID;
-}
-
-# just for compat!
-sub GetRoleIdByName {
-    my ( $Self, %Param ) = @_;
-
-    my $ID;
-
-    # check needed stuff
-    if ( !$Param{Role} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Role!" );
-        return;
-    }
-
-    # db quote
-    for ( keys %Param ) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-
-    # sql
-    $Self->{DBObject}->Prepare( SQL => "SELECT id from roles where name = '$Param{Role}'" );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $ID = $Row[0];
-    }
-    return $ID;
 }
 
 =item GroupMemberAdd()
@@ -1711,6 +1661,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2007-10-16 11:23:04 $
+$Revision: 1.49 $ $Date: 2007-10-16 11:31:48 $
 
 =cut
