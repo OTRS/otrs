@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.150 2007-10-02 10:45:42 mh Exp $
+# $Id: de.pm,v 1.151 2007-10-16 13:28:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.150 $) [1];
+$VERSION = qw($Revision: 1.151 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -384,7 +384,7 @@ sub Data {
         'The selected end time is after the allowed end time!' =>
             'Die gewählte Endzeit ist außerhalb des erlaubten Bereichs!',
         'The selected time period is larger than the allowed time period!' =>
-            'Der gewählt Zeitraum ist größer als der erlaubte Zeitraum!',
+            'Der gewählte Zeitraum ist größer als der erlaubte Zeitraum!',
         'Common Specification'   => 'Allgemeine Angaben',
         'Xaxis'                  => 'X-Achse',
         'Value Series'           => 'Wertereihen',
