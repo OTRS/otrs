@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.485 2007-10-16 15:25:51 martin Exp $
+# $Id: CHANGES,v 1.486 2007-10-17 12:38:51 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,6 +26,10 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.4 (????/??/??)
+-  (2007/10/17) Fixed bug# 2404 - Wrong results if you use StatsTypeID as
+    TicketSearch attribute.
+-  (2007/10/17) Fixed bug# 2407 - Performance handicap because of a missing
+    'if'-attribute.
  - (2007/10/16) Improved performance of module by reduce calls of
     $Self->{ConfigObject}->Get() in Kernel/Output/HTML/Layout.pm and
     Kernel/System/Encode.pm.
