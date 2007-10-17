@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.15 2007-10-17 06:55:45 tr Exp $
+# $Id: CHANGES,v 1.465.2.16 2007-10-17 12:37:46 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.4 (????/??/??)
+-  (2007/10/17) Fixed bug# 2404 - Wrong results if you use StatsTypeID as
+    TicketSearch attribute.
 -  (2007/10/17) Fixed bug# 2407 - Performance handicap because of a missing
     'if'-attribute.
  - (2007/10/16) Improved performance of module by reduce calls of

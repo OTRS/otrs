@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.275.2.2 2007-10-09 22:24:48 martin Exp $
+# $Id: Ticket.pm,v 1.275.2.3 2007-10-17 12:37:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.275.2.2 $';
+$VERSION = '$Revision: 1.275.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -3194,39 +3194,42 @@ sub TicketSearch {
         }
     }
     # current ticket state type
-    if ($Param{StateType} && $Param{StateType} eq 'Open') {
+    if ( $Param{StateType} && $Param{StateType} eq 'Open' ) {
         my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
-            Type => 'Viewable',
+            Type   => 'Viewable',
             Result => 'ID',
         );
-        push (@{$Param{StateTypeIDs}}, @ViewableStateIDs);
+        $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) ";
     }
-    elsif ($Param{StateType} && $Param{StateType} eq 'Closed') {
+    elsif ( $Param{StateType} && $Param{StateType} eq 'Closed' ) {
         my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
-            Type => 'Viewable',
+            Type   => 'Viewable',
             Result => 'ID',
         );
-        $SQLExt .= " AND ";
-        $SQLExt .= " st.ticket_state_id NOT IN ( ${\(join ', ', @ViewableStateIDs)} ) ";
+        $SQLExt .= " AND st.ticket_state_id NOT IN ( ${\(join ', ', @ViewableStateIDs)} ) ";
     }
-    elsif ($Param{StateType}) {
+    elsif ( $Param{StateType} ) {
         my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
             StateType => $Param{StateType},
-            Result => 'ID',
+            Result    => 'ID',
         );
-        push (@{$Param{StateTypeIDs}}, @StateIDs);
+        my $StateIDsString = join ', ',  @StateIDs;
+        $SQLExt .= " AND st.ticket_state_id IN ( $StateIDsString ) ";
     }
-    if ($Param{StateTypeIDs} && ref($Param{StateTypeIDs}) eq 'ARRAY') {
-        $SQLExt .= " AND st.ticket_state_id IN (";
-        my $Exists = 0;
-        foreach (@{$Param{StateTypeIDs}}) {
-            if ($Exists) {
-                $SQLExt .= ",";
-            }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
-            $Exists = 1;
-        }
-        $SQLExt .= ")";
+
+    if ( $Param{StateTypeIDs} && ref( $Param{StateTypeIDs} ) eq 'ARRAY' ) {
+        my %StateTypeList = $Self->{StateObject}->StateTypeList(
+            UserID => $Param{UserID} || 1,
+        );
+
+        my @StateTypes = map {$StateTypeList{$_}} @{$Param{StateTypeIDs}};
+
+        my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
+            StateType => \@StateTypes,
+            Result    => 'ID',
+        );
+        my $StateIDsString = join ', ',  @StateIDs;
+        $SQLExt .= " AND st.ticket_state_id IN ( $StateIDsString ) ";
     }
     # current lock lookup
     if ($Param{Locks} && ref($Param{Locks}) eq 'ARRAY') {
@@ -6187,6 +6190,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.275.2.2 $ $Date: 2007-10-09 22:24:48 $
+$Revision: 1.275.2.3 $ $Date: 2007-10-17 12:37:47 $
 
 =cut
