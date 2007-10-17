@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.29 2007-10-15 14:34:15 tr Exp $
+# $Id: Stats.pm,v 1.30 2007-10-17 05:54:36 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1267,12 +1267,12 @@ sub GenerateDynamicStats {
         );
         my $File = 'Stats' . $Param{StatID} . "-" . $MD5Key . ".cache";
 
-        if ( open( DATA, "< $Path/$File" ) ) {
-            binmode DATA;
-            while (<DATA>) {
+        if ( open my $Filehandle, '<', "$Path/$File"  ) {
+            binmode $Filehandle;
+            while (<$Filehandle>) {
                 $CSVString .= $_;
             }
-            close(DATA);
+            close $Filehandle;
             $Self->{EncodeObject}->Encode( \$CSVString );
         }
 
@@ -1364,10 +1364,10 @@ sub GenerateDynamicStats {
 
                 $Self->{EncodeObject}->EncodeOutput( \$CSVString );
 
-                if ( open( DATA, "> $Path/$File" ) ) {
-                    binmode DATA;
-                    print DATA $CSVString;
-                    close(DATA);
+                if ( open my $Filehandle, '>', "$Path/$File"  ) {
+                    binmode $Filehandle;
+                    print $Filehandle $CSVString;
+                    close $Filehandle;
                 }
                 else {
                     $Self->{LogObject}->Log(
@@ -2080,10 +2080,10 @@ sub _WriteResultCache {
         my $CSVString = $Self->{CSVObject}->Array2CSV( Data => \@Data, );
         $Self->{EncodeObject}->EncodeOutput( \$CSVString );
 
-        if ( open( DATA, "> $Path/$File" ) ) {
-            binmode DATA;
-            print DATA $CSVString;
-            close(DATA);
+        if ( open my $Filehandle, '>', "$Path/$File"  ) {
+            binmode $Filehandle;
+            print $Filehandle $CSVString;
+            close $Filehandle;
         }
         else {
             $Self->{LogObject}->Log(
@@ -2127,12 +2127,12 @@ sub _ReadResultCache {
     my $File = "Stats" . $Param{StatID} . "-" . $MD5Key . ".cache";
 
     my $CSVString = '';
-    if ( open( DATA, "< $Path/$File" ) ) {
-        binmode DATA;
-        while (<DATA>) {
+    if ( open my $Filehandle, '<', "$Path/$File" ) {
+        binmode $Filehandle;
+        while (<$Filehandle>) {
             $CSVString .= $_;
         }
-        close(DATA);
+        close $Filehandle;
         $Self->{EncodeObject}->Encode( \$CSVString );
     }
 
@@ -2162,12 +2162,13 @@ sub _DeleteCache {
     if ( $Path !~ /^.*\/$/ ) {
         $Path .= '/';
     }
-    $Path .= 'Stats' . $Param{StatID};
 
-    if ( unlink(<$Path-*cache>) ) {
-        return 1;
+    my @Files = glob $Path . 'Stats' . $Param{StatID} . '-*.cache';
+
+    for my $File (@Files) {
+        unlink $File;
     }
-    return 0;
+    return 1;
 }
 
 =item Export()
@@ -2213,14 +2214,14 @@ sub Export {
         $FileLocation .= '.pm';
         my $File        = $Self->{ConfigObject}->Get('Home') . "/$FileLocation";
         my $FileContent = '';
-        if ( open( IN, "< $File" ) ) {
+        if ( open my $Filehandle, '<', $File  ) {
 
             # set bin mode
-            binmode IN;
-            while (<IN>) {
+            binmode $Filehandle;
+            while (<$Filehandle>) {
                 $FileContent .= $_;
             }
-            close(IN);
+            close $Filehandle;
         }
         else {
             die "Can't open: $File: $!";
@@ -2367,7 +2368,7 @@ sub Import {
         $FileLocation = $Self->{ConfigObject}->Get('Home') . '/' . $FileLocation . '.pm';
 
         # write file
-        if ( open( OUT, "> $FileLocation" ) ) {
+        if ( open my $Filehandle, '>', $FileLocation  ) {
             print STDERR
                 "Notice: Install $FileLocation ($XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission})!\n";
             if (   $XMLHash[0]->{otrs_stats}[1]{File}[1]{Encode}
@@ -2380,9 +2381,9 @@ sub Import {
             }
 
             # set bin mode
-            binmode OUT;
-            print OUT $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content};
-            close(OUT);
+            binmode $Filehandle;
+            print $Filehandle $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content};
+            close $Filehandle;
 
             # set permission
             if ( length( $XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission} ) == 3 ) {
@@ -2727,7 +2728,8 @@ sub _AutomaticSampleImport {
             #                next;
             #            }
             # read file
-            if ( !open( FH, "<" . $Directory . $Filename ) ) {
+            my $Filehandle;
+            if ( !open $Filehandle, '<', $Directory . $Filename ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message  => "Can not open File: " . $Directory . $Filename,
@@ -2737,10 +2739,10 @@ sub _AutomaticSampleImport {
             }
 
             my $Content = '';
-            while (<FH>) {
+            while (<$Filehandle>) {
                 $Content .= $_;
             }
-            close(FH);
+            close $Filehandle;
 
             my $StatID = $Self->Import( Content => $Content, );
         }
@@ -2763,6 +2765,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2007-10-15 14:34:15 $
+$Revision: 1.30 $ $Date: 2007-10-17 05:54:36 $
 
 =cut

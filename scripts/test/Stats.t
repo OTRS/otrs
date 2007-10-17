@@ -2,12 +2,15 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.6 2007-09-29 11:09:31 mh Exp $
+# $Id: Stats.t,v 1.7 2007-10-17 05:54:36 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+use strict;
+use warnings;
 
 use Kernel::System::Stats;
 use Kernel::System::Group;
@@ -128,8 +131,8 @@ my @StatArray = @{$Self->{StatsObject}->SumBuild(
     SumCol => 1,
 )};
 
-my @SubStatArray = @{$StatArray[$#StatArray]};
-$Counter = $SubStatArray[$#SubStatArray];
+my @SubStatArray = @{$StatArray[-1]};
+$Counter = $SubStatArray[-1];
 $Self->Is(
     $Counter,
     '30',
@@ -184,8 +187,8 @@ my $Path  = $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Stats.Tic
 my $ImportContent = '';
 my $StatID = 0;
 my $ExportContent = {};
-
-if (!open(FH, "<".$Path)) {
+my $Filehandle;
+if (!open $Filehandle, '<' ,$Path) {
     $Self->True(
         0,
         'Get the file which should be imported',
@@ -193,10 +196,10 @@ if (!open(FH, "<".$Path)) {
 
 }
 else {
-    while (<FH>) {
+    while (<$Filehandle>) {
         $ImportContent .= $_;
     }
-    close(FH);
+    close $Filehandle;
 
     $StatID = $Self->{StatsObject}->Import(
         Content  => $ImportContent,
