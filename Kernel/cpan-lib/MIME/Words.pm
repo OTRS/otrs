@@ -3,7 +3,7 @@ package MIME::Words;
 
 =head1 NAME
 
-MIME::Words - deal with RFC-1522 encoded words
+MIME::Words - deal with RFC 2047 encoded words
 
 
 =head1 SYNOPSIS
@@ -94,7 +94,7 @@ use MIME::QuotedPrint;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.420";
+$VERSION = "5.423";
 
 ### Nonprintables (controls + x7F + 8bit):
 my $NONPRINT = "\\x00-\\x1F\\x7F-\\xFF"; 
@@ -142,7 +142,7 @@ sub _encode_B {
 =item decode_mimewords ENCODED, [OPTS...]
 
 I<Function.>
-Go through the string looking for RFC-1522-style "Q"
+Go through the string looking for RFC 2047-style "Q"
 (quoted-printable, sort of) or "B" (base64) encoding, and decode them.
 
 B<In an array context,> splits the ENCODED string into a list of decoded 
@@ -293,7 +293,7 @@ Name of the mail field this string will be used in.  I<Currently ignored.>
 =back
 
 B<Warning:> this is a quick-and-dirty solution, intended for character
-sets which overlap ASCII.  B<It does not comply with the RFC-1522
+sets which overlap ASCII.  B<It does not comply with the RFC 2047
 rules regarding the use of encoded words in message headers>.
 You may want to roll your own variant,
 using C<encoded_mimeword()>, for your application.
@@ -346,62 +346,4 @@ Thanks also to...
       KJJ at PrimeNet    For requesting that this be split into
                          its own module.
       Stephane Barizien  For reporting a nasty bug.
-
-
-=head1 VERSION
-
-$Revision: 1.4 $ $Date: 2006-07-26 21:49:11 $
-
-=cut
-
-
-#------------------------------
-# Execute simple test if run as a script.
-#------------------------------
-{ 
-  package main; no strict;
-  eval join('',<main::DATA>) || die "$@ $main::DATA" unless caller();
-}
-1;           # end the module
-__END__
-
-
-### Pick up other MIME stuff, just in case...
-BEGIN { unshift @INC, ".", "./etc", "./lib" };
-import MIME::Words;
-
-my @encs = (
-	    '=?US-ASCII?Q?Keith_Moore?= <moore@cs.utk.edu>',
-	    '=?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld@dkuug.dk>',
-	    '=?ISO-8859-1?Q?Andr=E9_?= Pirard <PIRARD@vm1.ulg.ac.be>',
-	    ('=?ISO-8859-1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?='.
-	     '=?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?='.
-	     '=?US-ASCII?Q?.._cool!?='));
-foreach $enc (@encs) {
-    $x = decode_mimewords($enc);
-    print "DEC: ", $x, "\n";
-}
-
-### Encode a single unsafe word:
-$encoded = encode_mimeword("\xABFran\xE7ois\xBB");
-print "ENC1: ", $encoded, "\n";
-    
-### Encode a string, trying to find the unsafe words inside it: 
-$encoded = encode_mimewords("Me and \xABFran\xE7ois\xBB at the beach");
-print "ENC2: ", $encoded, "\n";
-
-### Encode "<<Franc,ois>>":
-my $unsafe = <<EOF;
-Me and \xABFran\xE7ois\xBB, down at the beach
-with Dave <dave\@ether.net>
-EOF
-$encoded = encode_mimewords($unsafe);
-print "ENC3: ", $encoded, "\n";
-print "DEC3: ", scalar(decode_mimewords($encoded)), "\n";
-
-### So we know everything went well...
-exit 0;
-
-#------------------------------
-
 

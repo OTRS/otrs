@@ -95,9 +95,10 @@ Ready?  Ok...
 
 =head1 DESCRIPTION
 
-A class for parsing in and manipulating RFC-822 message headers, with some 
-methods geared towards standard (and not so standard) MIME fields as 
-specified in RFC-1521, I<Multipurpose Internet Mail Extensions>.
+A class for parsing in and manipulating RFC-822 message headers, with
+some methods geared towards standard (and not so standard) MIME fields
+as specified in the various I<Multipurpose Internet Mail Extensions>
+RFCs (starting with RFC 2045)
 
 
 =head1 PUBLIC INTERFACE
@@ -113,7 +114,6 @@ use strict;
 use vars qw($VERSION @ISA @EXPORT_OK);
 
 ### System modules:
-use IO::Wrap;
 
 ### Other modules:
 use Mail::Header 1.09 ();
@@ -137,7 +137,7 @@ use MIME::Field::ContType;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.420";
+$VERSION = "5.423";
 
 ### Sanity (we put this test after our own version, for CPAN::):
 use Mail::Header 1.06 ();
@@ -203,10 +203,10 @@ sub from_file {
     my $class = ref($self) ? ref($self) : $self;
 
     ### Parse:
-    open(HDR, $file) or return error("open $file: $!");
-    binmode(HDR) or return error("binmode $file: $!");  # we expect to have \r\n at line ends, and want to keep 'em.
-    $self = $class->new(\*HDR, @opts);      ### now, $self is instance or undef
-    close(HDR) or return error("close $file: $!");
+    my $fh = IO::File->new($file, '<') or return error("open $file: $!");
+    $fh->binmode() or return error("binmode $file: $!");  # we expect to have \r\n at line ends, and want to keep 'em.
+    $self = $class->new($fh, @opts);      ### now, $self is instance or undef
+    $fh->close or return error("close $file: $!");
     $self;
 }
 
@@ -324,10 +324,11 @@ and some true value if it does.
 =item decode [FORCE]
 
 I<Instance method, DEPRECATED.>
-Go through all the header fields, looking for RFC-1522-style "Q"
-(quoted-printable, sort of) or "B" (base64) encoding, and decode them
-in-place.  Fellow Americans, you probably don't know what the hell I'm
-talking about.  Europeans, Russians, et al, you probably do.  C<:-)>. 
+Go through all the header fields, looking for RFC 1522 / RFC 2047 style
+"Q" (quoted-printable, sort of) or "B" (base64) encoding, and decode
+them in-place.  Fellow Americans, you probably don't know what the hell
+I'm talking about.  Europeans, Russians, et al, you probably do.
+C<:-)>.
 
 B<This method has been deprecated.>
 See L<MIME::Parser/decode_headers> for the full reasons.
@@ -526,7 +527,7 @@ Also, it defaults to the I<currently-selected> filehandle if none is given
 
 sub print {
     my ($self, $fh) = @_;
-    $fh = wraphandle($fh || select);   ### get output handle, as a print()able
+    $fh ||= select;
     $fh->print($self->as_string);
 }
 
@@ -679,10 +680,10 @@ I<Instance method.>
 Try I<real hard> to determine the content transfer encoding
 (e.g., C<"base64">, C<"binary">), which is returned in all-lowercase.
 
-If no encoding could be found, the default of C<"7bit"> is returned.  
-I quote from RFC-1521 section 5:
+If no encoding could be found, the default of C<"7bit"> is returned
+I quote from RFC 2045 section 6.1:
 
-    This is the default value -- that is, "Content-Transfer-Encoding: 7BIT" 
+    This is the default value -- that is, "Content-Transfer-Encoding: 7BIT"
     is assumed if the Content-Transfer-Encoding header field is not present.
 
 I do one other form of fixup: "7_bit", "7-bit", and "7 bit" are
@@ -703,16 +704,21 @@ sub mime_encoding {
 
 I<Instance method.>
 Try C<real hard> to determine the content type (e.g., C<"text/plain">,
-C<"image/gif">, C<"x-weird-type">, which is returned in all-lowercase.  
-"Real hard" means that if no content type could be found, the default 
-(usually C<"text/plain">) is returned.  From RFC-1521 section 7.1:
+C<"image/gif">, C<"x-weird-type">, which is returned in all-lowercase.
+"Real hard" means that if no content type could be found, the default
+(usually C<"text/plain">) is returned.  From RFC 2045 section 5.2:
 
-    The default Content-Type for Internet mail is 
-    "text/plain; charset=us-ascii".
+   Default RFC 822 messages without a MIME Content-Type header are
+   taken by this protocol to be plain text in the US-ASCII character
+   set, which can be explicitly specified as:
 
-Unless this is a part of a "multipart/digest", in which case 
-"message/rfc822" is the default.  Note that you can also I<set> the 
-default, but you shouldn't: normally only the MIME parser uses this 
+      Content-type: text/plain; charset=us-ascii
+
+   This default is assumed if no Content-Type header field is specified.
+
+Unless this is a part of a "multipart/digest", in which case
+"message/rfc822" is the default.  Note that you can also I<set> the
+default, but you shouldn't: normally only the MIME parser uses this
 feature.
 
 =cut
@@ -730,15 +736,15 @@ sub mime_type {
 =item multipart_boundary
 
 I<Instance method.>
-If this is a header for a multipart message, return the 
+If this is a header for a multipart message, return the
 "encapsulation boundary" used to separate the parts.  The boundary
 is returned exactly as given in the C<Content-type:> field; that
 is, the leading double-hyphen (C<-->) is I<not> prepended.
 
-Well, I<almost> exactly... this passage from RFC-1521 dictates
+Well, I<almost> exactly... this passage from RFC 2046 dictates
 that we remove any trailing spaces:
 
-   If a boundary appears to end with white space, the white space 
+   If a boundary appears to end with white space, the white space
    must be presumed to have been added by a gateway, and must be deleted.
 
 Returns undef (B<not> the empty string) if either the message is not
@@ -764,20 +770,22 @@ Returns undef if no filename could be suggested.
 
 =cut
 
-sub recommended_filename {
-    my $self = shift;
-    my $value;
+sub recommended_filename 
+{
+	my $self = shift;
 
-    ### Start by trying to get 'filename' from the 'content-disposition':
-    $value = $self->mime_attr('content-disposition.filename');
-    return $value if (defined($value) and $value ne '');
+	# Try these headers in order, taking the first defined,
+	# non-blank one we find.
+	foreach my $attr_name ( qw( content-disposition.filename content-type.name ) ) {
+		my $value = $self->mime_attr( $attr_name );
+		if ( defined $value 
+		    && $value ne ''
+		    && $value =~ /\S/ ) {
+			return $value;
+		}
+	}
 
-    ### No?  Okay, try to get 'name' from the 'content-type':
-    $value = $self->mime_attr('content-type.name');
-    return $value if (defined($value) and $value ne '');
-
-    ### Sorry:
-    undef;
+	return undef;
 }
 
 #------------------------------
@@ -821,18 +829,16 @@ I quote from Achim Bohnet, who gave feedback on v.1.9 (I think
 he's using the word "header" where I would use "field"; e.g.,
 to refer to "Subject:", "Content-type:", etc.):
 
-    There is also IMHO no requirement [for] MIME::Heads to look 
-    like [email] headers; so to speak, the MIME::Head [simply stores] 
+    There is also IMHO no requirement [for] MIME::Heads to look
+    like [email] headers; so to speak, the MIME::Head [simply stores]
     the attributes of a complex object, e.g.:
 
         new MIME::Head type => "text/plain",
                        charset => ...,
                        disposition => ..., ... ;
 
-I agree in principle, but (alas and dammit) RFC-1521 says otherwise.
-RFC-1521 [MIME] headers are a syntactic subset of RFC-822 [email] headers.
-Perhaps a better name for these modules would be RFC1521:: instead of
-MIME::, but we're a little beyond that stage now.
+I agree in principle, but (alas and dammit) RFC 2045 says otherwise.
+RFC 2045 [MIME] headers are a syntactic subset of RFC-822 [email] headers.
 
 In my mind's eye, I see an abstract class, call it MIME::Attrs, which does
 what Achim suggests... so you could say:
@@ -845,9 +851,9 @@ We could even make it a superclass of MIME::Head: that way, MIME::Head
 would have to implement its interface, I<and> allow itself to be
 initiallized from a MIME::Attrs object.
 
-However, when you read RFC-1521, you begin to see how much MIME information
+However, when you read RFC 2045, you begin to see how much MIME information
 is organized by its presence in particular fields.  I imagine that we'd
-begin to mirror the structure of RFC-1521 fields and subfields to such 
+begin to mirror the structure of RFC 2045 fields and subfields to such
 a degree that this might not give us a tremendous gain over just
 having MIME::Head.
 
@@ -900,11 +906,6 @@ it and/or modify it under the same terms as Perl itself.
 
 The more-comprehensive filename extraction is courtesy of 
 Lee E. Brotzman, Advanced Data Solutions.
-
-
-=head1 VERSION
-
-$Revision: 1.3 $ $Date: 2006-07-26 21:49:11 $
 
 =cut
 

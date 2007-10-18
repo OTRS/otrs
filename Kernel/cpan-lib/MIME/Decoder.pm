@@ -85,12 +85,11 @@ use strict;
 use vars qw($VERSION %DecoderFor);
 
 ### System modules:
-use FileHandle;
 use IPC::Open2;
+use FileHandle;
 
 ### Kit modules:
 use MIME::Tools qw(:config :msgs);
-use IO::Wrap;
 use Carp;
 
 #------------------------------
@@ -126,7 +125,7 @@ use Carp;
 );
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.420";
+$VERSION = "5.423";
 
 ### Me:
 my $ME = 'MIME::Decoder';
@@ -161,18 +160,22 @@ Returns the undefined value if no known decoders are appropriate.
 sub new {
     my ($class, @args) = @_;
     my ($encoding) = @args;
-    my ($concrete_name, $concrete_path);
 
     ### Coerce the type to be legit:
     $encoding = lc($encoding || '');
 
     ### Get the class:
-    ($concrete_name = $DecoderFor{$encoding}) or return undef;
-    ($concrete_path = $concrete_name.'.pm') =~ s{::}{/}g;
+    my $concrete_name = $DecoderFor{$encoding};
+
+    if( ! $concrete_name ) {
+	carp "no decoder for $encoding";
+	return undef;
+    }
 
     ### Create the new object (if we can):
     my $self = { MD_Encoding => lc($encoding) };
-    unless (eval "require '$concrete_path';") {
+    unless (eval "require $concrete_name;") {
+	carp $@;
 	return undef;
     }
     bless $self, $concrete_name;
@@ -226,10 +229,6 @@ sub decode {
     ### Set up the default input record separator to be CRLF:
     ### $in->input_record_separator("\012\015");
 
-    ### Coerce old-style filehandles to legit objects, and do it!
-    $in  = wraphandle($in);
-    $out = wraphandle($out);
-
     ### Invoke back-end method to do the work:
     $self->decode_it($in, $out) ||
 	die "$ME: ".$self->encoding." decoding failed\n";
@@ -254,10 +253,6 @@ Returns true on success, throws exception on failure.
 
 sub encode {
     my ($self, $in, $out, $textual_type) = @_;
-
-    ### Coerce old-style filehandles to legit objects, and do it!
-    $in  = wraphandle($in);
-    $out = wraphandle($out);
 
     ### Invoke back-end method to do the work:
     $self->encode_it($in, $out, $self->encoding eq 'quoted-printable' ? ($textual_type) : ()) ||
@@ -426,10 +421,6 @@ sub filter {
     my ($self, $in, $out, @cmd) = @_;
     my $buf = '';
 
-    ### Make sure we've got MIME::IO-compliant objects:
-    $in  = wraphandle($in);
-    $out = wraphandle($out);
-
     ### Open pipe:
     STDOUT->flush;       ### very important, or else we get duplicate output!
     my $kidpid = open2(\*CHILDOUT, \*CHILDIN, @cmd) || die "open2 failed: $!";
@@ -546,11 +537,6 @@ interface; minimally:
       getline
       read(BUF,NBYTES)
 
-For backwards compatibilty, if you supply a scalar filehandle name
-(like C<"STDOUT">) or an unblessed glob reference (like C<\*STDOUT>)
-where an INSTREAM or OUTSTREAM is expected, this package will
-automatically wrap it in an object that fits these criteria, via IO::Wrap.
-
 I<Thanks to Achim Bohnet for suggesting this more-generic I/O model.>
 
 
@@ -635,12 +621,5 @@ Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
 
 All rights reserved.  This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
-
-
-=head1 VERSION
-
-$Revision: 1.3 $ $Date: 2006-07-26 21:49:11 $
-
-=cut
 
 1;
