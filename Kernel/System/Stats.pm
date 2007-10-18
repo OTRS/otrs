@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.30 2007-10-17 05:54:36 tr Exp $
+# $Id: Stats.pm,v 1.31 2007-10-18 05:16:13 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 SYNOPSIS
 
@@ -63,14 +63,13 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get common objects
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
-
     # check needed objects
-    for (qw(ConfigObject LogObject UserID GroupObject UserObject TimeObject MainObject CSVObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    for my $Object (qw(
+        ConfigObject LogObject UserID GroupObject
+        UserObject TimeObject MainObject CSVObject
+        DBObject
+    )) {
+        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
     $Self->{XMLObject}    = Kernel::System::XML->new(%Param);
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
@@ -88,10 +87,7 @@ add a new stat
 
 sub StatsAdd {
     my ( $Self, %Param ) = @_;
-
-    my @Hash   = ();
-    my $StatID = 1;
-
+    my $StatID   = 1;
     # Get new StatID
     my @Keys = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats', );
     if (@Keys) {
@@ -103,27 +99,29 @@ sub StatsAdd {
         ->SystemTime2TimeStamp( SystemTime => $Self->{TimeObject}->SystemTime(), );
 
     # meta tags
-    $Hash[0]{otrs_stats}[0]{Created}[0]{Content}   = $TimeStamp;
-    $Hash[0]{otrs_stats}[0]{CreatedBy}[0]{Content} = $Self->{UserID};
-    $Hash[0]{otrs_stats}[0]{Changed}[0]{Content}   = $TimeStamp;
-    $Hash[0]{otrs_stats}[0]{ChangedBy}[0]{Content} = $Self->{UserID};
-    $Hash[0]{otrs_stats}[0]{StatNumber}[0]{Content}
+    my %MetaData = ();
+    $MetaData{Created}[0]{Content}   = $TimeStamp;
+    $MetaData{CreatedBy}[0]{Content} = $Self->{UserID};
+    $MetaData{Changed}[0]{Content}   = $TimeStamp;
+    $MetaData{ChangedBy}[0]{Content} = $Self->{UserID};
+    $MetaData{Valid}[0]{Content} = 1;
+    $MetaData{StatNumber}[0]{Content}
         = $StatID + $Self->{ConfigObject}->Get("Stats::StatsStartNumber");
-    $Hash[0]{otrs_stats}[0]{Valid}[0]{Content} = 1;
 
     # new
-    if ($Self->{XMLObject}->XMLHashAdd(
+    my @XMLHash; # it's a array but the wording is hash
+    $XMLHash[0]{otrs_stats}[0] = \%MetaData;
+    if (!$Self->{XMLObject}->XMLHashAdd(
             Type    => 'Stats',
             Key     => $StatID,
-            XMLHash => \@Hash
+            XMLHash => \@XMLHash,
         )
         )
     {
-        return $StatID;
-
+        $Self->{LogObject}->Log( Priority => 'error', Message => "StatsAdd: Can not add a new Stat!" );
+        return 0;
     }
-    $Self->{LogObject}->Log( Priority => 'error', Message => "StatsAdd: Can not add a new Stat!" );
-    return 0;
+    return $StatID;
 }
 
 =item StatsGet()
@@ -2765,6 +2763,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2007-10-17 05:54:36 $
+$Revision: 1.31 $ $Date: 2007-10-18 05:16:13 $
 
 =cut
