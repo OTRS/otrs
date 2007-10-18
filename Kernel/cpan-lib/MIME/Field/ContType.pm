@@ -24,7 +24,7 @@ Instead, ask Mail::Field for new instances based on the field name!
                               'text/HTML; charset="US-ASCII"');
     
     # Get the MIME type, like 'text/plain' or 'x-foobar'.
-    # Returns 'text/plain' as default, as per RFC-1521:
+    # Returns 'text/plain' as default, as per RFC 2045:
     my ($type, $subtype) = split('/', $field->type);
 
     # Get generic information:
@@ -63,27 +63,17 @@ use vars qw($VERSION @ISA);
 @ISA = qw(MIME::Field::ParamVal);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.420";
+$VERSION = "5.423";
 
 # Install it: 
 bless([])->register('Content-type');
-
-# Pattern to match an RFC-1521 token.
-# NOTE: should just use the REs in MIME::Field::ParamVal!
-#
-#      token      =  1*<any  (ASCII) CHAR except SPACE, CTLs, or tspecials>
-#
-my $TSPECIAL = '()<>@,;:\</[]?="';
-my $TOKEN    = '[^ \x00-\x1f\x80-\xff' . "\Q$TSPECIAL\E" . ']+';
-
-
 
 #------------------------------
 #
 # Basic access/storage methods...
 #
 sub charset {
-    lc(shift->paramstr('charset', @_)) || 'us-ascii';   # RFC-1521
+    lc(shift->paramstr('charset', @_)) || 'us-ascii';   # RFC 2045
 }
 sub id {
     shift->paramstr('id', @_);
@@ -103,14 +93,14 @@ sub total {
 
 =item boundary
 
-Return the boundary field.  The boundary is returned exactly 
-as given in the C<Content-type:> field; that is, the leading 
+Return the boundary field.  The boundary is returned exactly
+as given in the C<Content-type:> field; that is, the leading
 double-hyphen (C<-->) is I<not> prepended.
 
-(Well, I<almost> exactly... from RFC-1521:
+(Well, I<almost> exactly... from RFC 2046:
 
-   (If a boundary appears to end with white space, the white space 
-   must be presumed to have been added by a gateway, and must be deleted.)  
+   (If a boundary appears to end with white space, the white space
+   must be presumed to have been added by a gateway, and must be deleted.)
 
 so we oblige and remove any trailing spaces.)
 
@@ -121,9 +111,9 @@ removed).
 =cut
 
 sub boundary {
-    my $value = shift->param('boundary', @_);    
+    my $value = shift->param('boundary', @_);
     defined($value) || return '';
-    $value =~ s/\s+$//;                  # kill trailing white, per RFC-1521
+    $value =~ s/\s+$//;                  # kill trailing white, per RFC 2046
     $value;
 }
 
@@ -159,9 +149,9 @@ the $subtype would simply be the empty string:
     ($type, $subtype) = split('/', $head->mime_type);
 
 If the content-type information is missing, it defaults to C<"text/plain">, 
-as per RFC-1521:
+as per RFC 2045:
 
-    Default RFC-822 messages are typed by this protocol as plain text in
+    Default RFC 2822 messages are typed by this protocol as plain text in
     the US-ASCII character set, which can be explicitly specified as
     "Content-type: text/plain; charset=us-ascii".  If no Content-Type is
     specified, this default is assumed.  
@@ -173,7 +163,7 @@ just downcase and return it.
 =cut
 
 sub type {
-    lc(shift->paramstr('_', @_)) || 'text/plain';  # RFC-1521
+    lc(shift->paramstr('_', @_)) || 'text/plain';  # RFC 2045
 }
 
 #------------------------------

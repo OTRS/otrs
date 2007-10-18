@@ -43,26 +43,22 @@ All rights reserved.  This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
 
 
-=head1 VERSION
-
-$Revision: 1.3 $ $Date: 2006-07-26 21:49:11 $
-
 =cut
 
 
 require 5.002;
-use vars qw(@ISA $VERSION $ZIP $UNZIP);
+use strict;
+use vars qw(@ISA $VERSION $GZIP $GUNZIP);
 use MIME::Decoder;
 use MIME::Base64;
 use MIME::Decoder::Base64;
 use MIME::Tools qw(tmpopen whine);
-use IO::Wrap;
 
 # Inheritance:
 @ISA = qw(MIME::Decoder::Base64);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.420";
+$VERSION = "5.423";
 
 # How to compress stdin to stdout:
 $GZIP   = "gzip -c";
@@ -79,7 +75,7 @@ sub decode_it {
     my ($self, $in, $out) = @_;
 
     # Open a temp file (assume the worst, that this is a big stream):
-    my $tmp = wraphandle(tmpopen() || die "can't get temp file");
+    my $tmp = tmpopen() || die "can't get temp file";
 
     # Stage 1: decode the base64'd stream into zipped data:
     $self->SUPER::decode_it($in, $tmp)    or die "base64 decoding failed!";
@@ -98,7 +94,7 @@ sub encode_it {
     whine "Encoding ", $self->encoding, " is not standard MIME!"; 
     
     # Open a temp file (assume the worst, that this is a big stream):
-    my $tmp = wraphandle(tmpopen() || die "can't get temp file");
+    my $tmp = tmpopen() || die "can't get temp file";
   
     # Stage 1: zip the raw data:
     $self->filter($in, $tmp, $GZIP)       or die "gzip encoding failed!";

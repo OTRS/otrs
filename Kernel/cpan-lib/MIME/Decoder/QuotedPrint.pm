@@ -44,12 +44,6 @@ Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
 All rights reserved.  This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
 
-
-=head1 VERSION
-
-$Revision: 1.3 $ $Date: 2006-07-26 21:49:11 $
-
-
 =cut
 
 use vars qw(@ISA $VERSION);
@@ -59,7 +53,7 @@ use MIME::QuotedPrint;
 @ISA = qw(MIME::Decoder);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.420";
+$VERSION = "5.423";
 
 #------------------------------
 # If we have MIME::QuotedPrint 3.03 or later, use the three-argument

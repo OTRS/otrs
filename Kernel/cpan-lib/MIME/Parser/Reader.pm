@@ -184,8 +184,8 @@ sub eos_type {
 #
 sub native_handle {
     my $fh = shift;
-    return $fh  if $fh->isa('IO::File');
-    return $$fh if ($fh->isa('IO::Wrap') && (ref($$fh) eq 'GLOB'));
+    return $fh if $fh->isa('IO::File');
+    return $fh if (ref $fh eq 'GLOB'); 
     undef;
 }
 
@@ -203,7 +203,7 @@ sub native_handle {
 #    EOF         end of file
 
 # Parse up to (and including) the boundary, and dump output.
-# Follows the RFC-1521 specification, that the CRLF immediately preceding 
+# Follows the RFC 2046 specification, that the CRLF immediately preceding 
 # the boundary is part of the boundary, NOT part of the input!
 #
 # NOTE: while parsing, we take care to remember the EXACT end-of-line
@@ -296,6 +296,7 @@ sub read_chunk {
 # 
 sub read_lines {
     my ($self, $in, $outlines) = @_;
+    # TODO: we are also stuck keeping this one for now
     $self->read_chunk($in, IO::ScalarArray->new($outlines));
     shift @$outlines if ($outlines->[0] eq '');   ### leading empty line
     1;

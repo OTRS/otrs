@@ -3,7 +3,7 @@ package MIME::WordDecoder;
 
 =head1 NAME
 
-MIME::WordDecoder - decode RFC-1522 encoded words to a local representation
+MIME::WordDecoder - decode RFC 2047 encoded words to a local representation
 
 
 =head1 SYNOPSIS
@@ -574,11 +574,6 @@ for (1..15) {
     $DecoderFor{"ISO-8859-$_"} = MIME::WordDecoder::ISO_8859->new($_);
 }
 
-{ 
-  package main; no strict; local $^W = 0;
-  my @x = <::DATA>;
-  eval join('',<::DATA>) || die $@ unless caller();
-}
 1;           # end the module
 __END__
 
@@ -587,11 +582,6 @@ __END__
 
 Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
 David F. Skoll (dfs@roaringpenguin.com) http://www.roaringpenguin.com
-
-
-=head1 VERSION
-
-$Revision: 1.3 $ $Date: 2006-07-26 21:49:11 $
 
 =cut
 
