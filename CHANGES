@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.18 2007-10-19 06:14:31 tr Exp $
+# $Id: CHANGES,v 1.465.2.19 2007-10-19 10:26:08 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.4 (????/??/??)
+ - (2007/10/19) Fixed bug# 1203 - Changed Redhat shm workaround to use a fixed
+    IPCKey per instance, but prevent clash with IPCKey of other instances.
  - (2007/10/19) Fixed bug# 2263 - Problems with array refs and escaping
  - (2007/10/18) Fixed bug# 2410 - $/ as given is currently unsupported at
     Kernel/cpan-lib/MIME/Decoder/NBit.pm line 140
