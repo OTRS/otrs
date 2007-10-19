@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.489 2007-10-19 06:15:44 tr Exp $
+# $Id: CHANGES,v 1.490 2007-10-19 10:14:32 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,8 +11,8 @@
 
 CVS HEAD (????/??/??)
  - (2007/10/17) Added GroupLookup() and RoleLookup() to Group.pm and removed the
-   two methods GetGroupIdByName() and GetRoleIdByName() which were already marked
-   as deprecated.
+    two methods GetGroupIdByName() and GetRoleIdByName() which were already marked
+    as deprecated.
  - (2007/10/08) Added support of ticket free text links in ticket view,
     configurable via SysConfig.
  - (2007/10/05) Added fist version of AJAX framework support in phone ticket.
