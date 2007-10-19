@@ -2,7 +2,7 @@
 # CSV.t - CSV tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.t,v 1.6 2007-01-30 17:33:25 tr Exp $
+# $Id: CSV.t,v 1.6.2.1 2007-10-19 06:14:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -71,4 +71,49 @@ $Self->True(
     'CSV2Array() - with included \n',
 );
 
+# -------------------------------------------------
+# tests because of the douple "" problem bug# 2263
+# -------------------------------------------------
+my $TextWithNewLine = "Hallo guys,\nhere was a newline. And again.\n";
+my @TableData = (
+        ['<a href="/sirios-cvs-utf8/index.pl?Action=AgentStats&Subaction=Overview" class="navitem">Übersicht</a>' , '"'],
+        ['4""4', 'asdf"SDF'],
+        ['"a"', "xxx"],
+        [34,$TextWithNewLine],
+);
+
+$CSV = $Self->{CSVObject}->Array2CSV(
+    Head => ['RowA', 'RowB', ],
+    Data => \@TableData,
+);
+
+$Self->True(
+    $CSV eq
+'"RowA";"RowB";
+"<a href=""/sirios-cvs-utf8/index.pl?Action=AgentStats&Subaction=Overview"" class=""navitem"">Übersicht</a>";"""";
+"4""""4";"asdf""SDF";
+"""a""";"xxx";
+"34";"' . $TextWithNewLine . '";
+',
+    'GenerateCSV() with ""',
+);
+
+my $ArrayRef = $Self->{CSVObject}->CSV2Array(
+    String => $CSV,
+    Separator => ';',
+    Quote => '"',
+);
+
+shift @{$ArrayRef};
+
+for my $Row (0..$#TableData) {
+    for my $Column (0..$#{$TableData[0]}) {
+        print $TableData[$Row][$Column] . " <-> " . $ArrayRef->[$Row][$Column] . "\n";
+        $Self->Is(
+            $TableData[$Row][$Column],
+            $ArrayRef->[$Row][$Column],
+            'CSV2Array() with " in content',
+        );
+    }
+}
 1;

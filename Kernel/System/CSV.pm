@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.10 2007-01-20 23:11:33 mh Exp $
+# $Id: CSV.pm,v 1.10.2.1 2007-10-19 06:14:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CSV;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.10.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -111,10 +111,14 @@ sub Array2CSV {
     # fill in data
     foreach my $EntryRow (@Data) {
         foreach my $Entry (@{$EntryRow}) {
+            # Copy $Entry because otherwise you maniplate the content
+            # of the original $Param{Data}!!!! Array in Array Referenc
+            my $Content = $Entry;
+
             # csv quote
-            $Entry =~ s/"/""/g if ($Entry);
-            $Entry = '' if (!defined($Entry));
-            $Output .= "\"$Entry\";";
+            $Content =~ s/"/""/g if ($Content);
+            $Content = '' if ( !defined($Content) );
+            $Output .= "\"$Content\";";
         }
         $Output .= "\n";
     }
@@ -154,14 +158,16 @@ sub CSV2Array {
     }
 
     # if you change the split options, remember that each value can include \n
-    my @Lines = split(/$Param{Quote}$Param{Separator}\n/, $Param{String});
-
-    foreach (@Lines) {
-        my @Fields = split(/$Param{Quote}$Param{Separator}$Param{Quote}/, $_);
+    my @Lines = split( /$Param{Quote}$Param{Separator}\n/, $Param{String} );
+    for my $Line (@Lines) {
+        my @Fields = split( /$Param{Quote}$Param{Separator}$Param{Quote}/, $Line );
         $Fields[0] =~ s/^$Param{Quote}//mgs;
-        #$Fields[$#Fields] =~ s/$Param{Quote}$//mgs;
 
-        push(@Array, \@Fields);
+        for my $Field (@Fields) {
+            $Field =~ s/$Param{Quote}$Param{Quote}/$Param{Quote}/g;
+        }
+
+        push( @Array, \@Fields );
     }
 
     return \@Array;
@@ -181,6 +187,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2007-01-20 23:11:33 $
+$Revision: 1.10.2.1 $ $Date: 2007-10-19 06:14:31 $
 
 =cut
