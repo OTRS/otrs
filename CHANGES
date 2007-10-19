@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.490 2007-10-19 10:14:32 sb Exp $
+# $Id: CHANGES,v 1.491 2007-10-19 10:15:48 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2007/10/19) Fixed bug# 1203 - Changed Redhat shm workaround to use a fixed
+    IPCKey per instance, but prevent clash with IPCKey of other instances.
  - (2007/10/17) Added GroupLookup() and RoleLookup() to Group.pm and removed the
     two methods GetGroupIdByName() and GetRoleIdByName() which were already marked
     as deprecated.
