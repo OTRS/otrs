@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Log.pm,v 1.44 2007-10-19 10:15:48 sb Exp $
+# $Id: Log.pm,v 1.45 2007-10-19 10:48:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -56,15 +56,18 @@ sub new {
 
     # get config object
     if ( !$Param{ConfigObject} ) {
-        die "Got no ConfigObject!";
+        die 'Got no ConfigObject!';
     }
+
+    # get system id
+    my $SystemID = $Param{ConfigObject}->Get('SystemID');
 
     # create encode object
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     # check log prefix
     $Self->{LogPrefix} = $Param{LogPrefix} || '?LogPrefix?';
-    $Self->{LogPrefix} .= '-' . $Param{ConfigObject}->Get('SystemID');
+    $Self->{LogPrefix} .= '-' . $SystemID;
 
     # load log backend
     my $GenericModule = $Param{ConfigObject}->Get('LogModule') || 'Kernel::System::Log::SysLog';
@@ -75,19 +78,19 @@ sub new {
     # create backend handle
     $Self->{Backend} = $GenericModule->new(%Param);
 
-    # check/load ipc stuff
-    if ( eval "require IPC::SysV" ) {
-        $Self->{IPC}     = 1;
-        $Self->{IPCKey}  = "444423" . $Param{ConfigObject}->Get('SystemID');
-        $Self->{IPCSize} = $Param{ConfigObject}->Get('LogSystemCacheSize') || 4 * 1024;
+    return $Self if !eval "require IPC::SysV";
 
-        # init session data mem (at first a dummy for RH8 workaround)
-        my $DummyIPCKey = "444424" . $Param{ConfigObject}->Get('SystemID');
-        shmget( $DummyIPCKey, 1, oct(1777) );
+    # create the IPC options
+    $Self->{IPC}     = 1;
+    $Self->{IPCKey}  = '444423' . $SystemID;
+    $Self->{IPCSize} = $Param{ConfigObject}->Get('LogSystemCacheSize') || 4 * 1024;
 
-        # init session data mem (the real one)
-        $Self->{Key} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) ) || die $!;
-    }
+    # init session data mem (at first a dummy for RH8 workaround)
+    my $DummyIPCKey = '444424' . $SystemID;
+    shmget( $DummyIPCKey, 1, oct(1777) );
+
+    # init session data mem (the real one)
+    $Self->{Key} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) ) || die $!;
 
     return $Self;
 }
@@ -173,6 +176,7 @@ sub Log {
         my $String = $Self->GetLog();
         shmwrite( $Self->{Key}, $Data . $String, 0, $Self->{IPCSize} ) || die $!;
     }
+
     return 1;
 }
 
@@ -208,6 +212,8 @@ sub GetLog {
     if ( $Self->{IPC} ) {
         shmread( $Self->{Key}, $String, 0, $Self->{IPCSize} ) || die "$!";
     }
+
+    # encode the string
     $Self->{EncodeObject}->Encode( \$String );
 
     return $String;
@@ -224,15 +230,17 @@ to clean up tmp log data from shared memory (ipc)
 sub CleanUp {
     my ( $Self, %Param ) = @_;
 
-    if ( $Self->{IPC} ) {
-        if ( !shmctl( $Self->{Key}, 0, 0 ) ) {
-            $Self->Log(
-                Priority => 'error',
-                Message  => "Can't remove shm for log: $!",
-            );
-            return;
-        }
+    return 1 if !$Self->{IPC};
+
+    # remove the shm
+    if ( !shmctl( $Self->{Key}, 0, 0 ) ) {
+        $Self->Log(
+            Priority => 'error',
+            Message  => "Can't remove shm for log: $!",
+        );
+        return;
     }
+
     return 1;
 }
 
@@ -249,15 +257,13 @@ dump a perl variable to log
 =cut
 
 sub Dumper {
-    my $Self = shift;
+    my ( $Self, @Data ) = @_;
 
     require Data::Dumper;
 
-    my $Caller = 0;
-
     # returns the context of the current subroutine and sub-subroutine!
-    my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller( $Caller + 0 );
-    my ( $Package2, $Filename2, $Line2, $Subroutine2 ) = caller( $Caller + 1 );
+    my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller( 0 );
+    my ( $Package2, $Filename2, $Line2, $Subroutine2 ) = caller( 1 );
     if ( !$Subroutine2 ) {
         $Subroutine2 = $0;
     }
@@ -265,11 +271,12 @@ sub Dumper {
     # log backend
     $Self->{Backend}->Log(
         Priority  => 'debug',
-        Message   => substr( Data::Dumper::Dumper(@_), 0, 600600600 ),
+        Message   => substr( Data::Dumper::Dumper( @Data ), 0, 600600600 ),
         LogPrefix => $Self->{LogPrefix},
         Module    => $Subroutine2,
         Line      => $Line1,
     );
+
     return 1;
 }
 
@@ -287,6 +294,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2007-10-19 10:15:48 $
+$Revision: 1.45 $ $Date: 2007-10-19 10:48:06 $
 
 =cut
