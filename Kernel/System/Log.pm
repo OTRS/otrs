@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Log.pm,v 1.38.2.1 2007-10-19 10:26:08 sb Exp $
+# $Id: Log.pm,v 1.38.2.2 2007-10-19 10:42:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38.2.1 $ ';
+$VERSION = '$Revision: 1.38.2.2 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -72,11 +72,12 @@ sub new {
     $Self->{Backend} = $GenericModule->new(%Param);
     # check/load ipc stuff
     if (eval "require IPC::SysV") {
+        my $SystemID = $Param{ConfigObject}->Get('SystemID');
         $Self->{IPC} = 1;
-        $Self->{IPCKey} = "444423".$Param{ConfigObject}->Get('SystemID');
-        $Self->{IPCSize} = $Param{ConfigObject}->Get('LogSystemCacheSize') || 4*1024;
+        $Self->{IPCKey} = '444423' . $SystemID;
+        $Self->{IPCSize} = $Param{ConfigObject}->Get('LogSystemCacheSize') || 4 * 1024;
         # init session data mem (at first a dummy for RH8 workaround)
-        my $DummyIPCKey = "444424".$Param{ConfigObject}->Get('SystemID');
+        my $DummyIPCKey = '444424' . $SystemID;
         shmget($DummyIPCKey, 1, 0777 | 0001000);
         # init session data mem (the real one)
         $Self->{Key} = shmget($Self->{IPCKey}, $Self->{IPCSize}, 0777 | 0001000) || die $!;
@@ -265,6 +266,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.38.2.1 $ $Date: 2007-10-19 10:26:08 $
+$Revision: 1.38.2.2 $ $Date: 2007-10-19 10:42:24 $
 
 =cut
