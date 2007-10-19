@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.488 2007-10-18 11:45:12 mh Exp $
+# $Id: CHANGES,v 1.489 2007-10-19 06:15:44 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,6 +29,7 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.4 (????/??/??)
+ - (2007/10/19) Fixed bug# 2263 - Problems with array refs and escaping
  - (2007/10/18) Fixed bug# 2410 - $/ as given is currently unsupported at
     Kernel/cpan-lib/MIME/Decoder/NBit.pm line 140
  - (2007/10/17) Fixed bug# 2404 - Wrong results if you use StatsTypeID as
