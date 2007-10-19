@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.12 2007-10-02 10:37:19 mh Exp $
+# $Id: CSV.pm,v 1.13 2007-10-19 06:07:06 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -113,11 +113,14 @@ sub Array2CSV {
     # fill in data
     for my $EntryRow (@Data) {
         for my $Entry ( @{$EntryRow} ) {
+            # Copy $Entry because otherwise you maniplate the content
+            # of the original $Param{Data}!!!! Array in Array Referenc
+            my $Content = $Entry;
 
             # csv quote
-            $Entry =~ s/"/""/g if ($Entry);
-            $Entry = '' if ( !defined($Entry) );
-            $Output .= "\"$Entry\";";
+            $Content =~ s/"/""/g if ($Content);
+            $Content = '' if ( !defined($Content) );
+            $Output .= "\"$Content\";";
         }
         $Output .= "\n";
     }
@@ -158,11 +161,13 @@ sub CSV2Array {
 
     # if you change the split options, remember that each value can include \n
     my @Lines = split( /$Param{Quote}$Param{Separator}\n/, $Param{String} );
-    for (@Lines) {
-        my @Fields = split( /$Param{Quote}$Param{Separator}$Param{Quote}/, $_ );
+    for my $Line (@Lines) {
+        my @Fields = split( /$Param{Quote}$Param{Separator}$Param{Quote}/, $Line );
         $Fields[0] =~ s/^$Param{Quote}//mgs;
 
-        #$Fields[$#Fields] =~ s/$Param{Quote}$//mgs;
+        for my $Field (@Fields) {
+            $Field =~ s/$Param{Quote}$Param{Quote}/$Param{Quote}/g;
+        }
 
         push( @Array, \@Fields );
     }
@@ -184,6 +189,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2007-10-02 10:37:19 $
+$Revision: 1.13 $ $Date: 2007-10-19 06:07:06 $
 
 =cut
