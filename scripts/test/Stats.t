@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.7 2007-10-17 05:54:36 tr Exp $
+# $Id: Stats.t,v 1.8 2007-10-19 09:38:40 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -184,7 +184,6 @@ $Self->True(
 
 # load example file
 my $Path  = $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Stats.TicketOverview.de.xml';
-my $ImportContent = '';
 my $StatID = 0;
 my $ExportContent = {};
 my $Filehandle;
@@ -193,30 +192,48 @@ if (!open $Filehandle, '<' ,$Path) {
         0,
         'Get the file which should be imported',
     );
-
 }
-else {
-    while (<$Filehandle>) {
-        $ImportContent .= $_;
-    }
+
+my @Lines = <$Filehandle>;
+my $ImportContent = join '', @Lines;
+
+close $Filehandle;
+
+$StatID = $Self->{StatsObject}->Import(
+    Content  => $ImportContent,
+);
+
+$ExportContent =  $Self->{StatsObject}->Export(StatID => $StatID);
+
+# the following line are because of different spelling 'ISO-8859' or 'iso-8859'
+# but this is no solution for the problem if one string is iso and the other utf!
+$ImportContent =~ s/^<\?xml.*?>.*?<otrs_stats/<otrs_stats/ms;
+$ExportContent->{Content} =~ s/^<\?xml.*?>.*?<otrs_stats/<otrs_stats/ms;
+$Self->Is(
+    $ImportContent,
+    $ExportContent->{Content},
+    "Export-Importcheck - check if import file content equal export file content.\n Be careful, if it gives errors if you run OTRS with default charset uft-8,\n because the examplefile is iso-8859-1, but at my test there a no problems to compare a utf-8 string with an iso string?!\n"
+);
+
+# ---
+# try to use the mkStats.pl
+# ---
+
+# check the imported stat
+my $Stat4 = $Self->{StatsObject}->StatsGet(
+    StatID => $StatID,
+);
+
+if (open my $Filehandle, "perl mkStats.pl -n $Stat4->{StatNumber} -o ./ |") {
+    @Lines = <$Filehandle> ;
     close $Filehandle;
-
-    $StatID = $Self->{StatsObject}->Import(
-        Content  => $ImportContent,
-    );
-
-    $ExportContent =  $Self->{StatsObject}->Export(StatID => $StatID);
-
-    # the following line are because of different spelling 'ISO-8859' or 'iso-8859'
-    # but this is no solution for the problem if one string is iso and the other utf!
-    $ImportContent =~ s/^<\?xml.*?>.*?<otrs_stats/<otrs_stats/ms;
-    $ExportContent->{Content} =~ s/^<\?xml.*?>.*?<otrs_stats/<otrs_stats/ms;
-    $Self->Is(
-        $ImportContent,
-        $ExportContent->{Content},
-        "Export-Importcheck - check if import file content equal export file content.\n Be careful, if it gives errors if you run OTRS with default charset uft-8,\n because the examplefile is iso-8859-1, but at my test there a no problems to compare a utf-8 string with an iso string?!\n"
-    );
 }
+
+$Self->True(
+    ($Lines[0] && !$Lines[1] && $Lines[0] =~ /^NOTICE:/),
+    "mkStats.pl - Simple mkStats.pl check.\n"
+);
+
 $Self->True(
     $Self->{StatsObject}->StatsDelete(StatID => $StatID),
     'StatsDelete() delete import stat',
