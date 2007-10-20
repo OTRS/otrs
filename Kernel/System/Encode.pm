@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.22 2007-10-02 10:38:37 mh Exp $
+# $Id: Encode.pm,v 1.23 2007-10-20 11:45:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -56,15 +56,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get common objects
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
-
-    # check needed objects
-    for (qw(ConfigObject)) {
-        die "Got no $_!" if ( !$Self->{$_} );
-    }
+    # check needed object
+    $Self->{ConfigObject} = $Param{ConfigObject} || die 'Got no ConfigObject!';
 
     # 0=off; 1=on;
     $Self->{Debug} = 0;
@@ -73,10 +66,8 @@ sub new {
     if ( eval "require Encode" ) {
         $Self->{CharsetEncodeSupported} = 1;
     }
-    else {
-        if ( $Self->{Debug} ) {
-            print STDERR "Charset encode not supported withyour perl version!\n";
-        }
+    elsif ( $Self->{Debug} ) {
+        print STDERR "Charset encode not supported with your perl version!\n";
     }
 
     # get internal charset
@@ -88,6 +79,7 @@ sub new {
 
     # encode STDOUT and STDERR
     $Self->SetIO( \*STDOUT, \*STDERR );
+
     return $Self;
 }
 
@@ -124,12 +116,8 @@ used.
 sub EncodeInternalUsed {
     my ($Self) = @_;
 
-    if ( $Self->{UTF8Support} ) {
-        return 'utf-8';
-    }
-    else {
-        return;
-    }
+    return 'utf-8' if $Self->{UTF8Support};
+    return;
 }
 
 =item EncodeFrontendUsed()
@@ -146,12 +134,7 @@ used (then the translation charset (from translation file) will be used).
 sub EncodeFrontendUsed {
     my ($Self) = @_;
 
-    if ( $Self->{UTF8Support} ) {
-        return 'utf-8';
-    }
-    else {
-        return;
-    }
+    return 'utf-8' if $Self->{UTF8Support};
 }
 
 =item Convert()
@@ -178,9 +161,8 @@ already converted string.
 sub Convert {
     my ( $Self, %Param ) = @_;
 
-    if ( !defined( $Param{Text} ) || $Param{Text} eq '' ) {
-        return;
-    }
+    return if !defined $Param{Text};
+    return if $Param{Text} eq '';
 
     # check needed stuff
     for (qw(From To)) {
@@ -191,9 +173,7 @@ sub Convert {
     }
 
     # if there is no charset encode supported (min. Perl 5.8.0)
-    if ( !$Self->{CharsetEncodeSupported} ) {
-        return $Param{Text};
-    }
+    return $Param{Text} if !$Self->{CharsetEncodeSupported};
 
     # if no encode is needed
     if ( $Param{From} =~ /^$Param{To}$/i ) {
@@ -204,28 +184,27 @@ sub Convert {
     }
 
     # encode is needed
-    else {
-        if ( $Param{Force} ) {
-            Encode::_utf8_off( $Param{Text} );
-        }
-        if ( !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To} ) } ) {
-            print STDERR
-                "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text}) not supported!\n";
-        }
-        else {
+    if ( $Param{Force} ) {
+        Encode::_utf8_off( $Param{Text} );
+    }
 
-            # set utf-8 flag
-            if ( $Param{To} =~ /^utf(8|-8)$/i ) {
-
-                #                Encode::encode_utf8($Param{Text});
-                Encode::_utf8_on( $Param{Text} );
-            }
-            if ( $Self->{Debug} ) {
-                print STDERR "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text})!\n";
-            }
-        }
+    if ( !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To} ) } ) {
+        print STDERR
+            "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text}) not supported!\n";
         return $Param{Text};
     }
+
+    # set utf-8 flag
+    if ( $Param{To} =~ /^utf(8|-8)$/i ) {
+        Encode::_utf8_on( $Param{Text} );
+    }
+
+    # output debug message
+    if ( $Self->{Debug} ) {
+        print STDERR "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text})!\n";
+    }
+
+    return $Param{Text};
 }
 
 =item SetIO()
@@ -239,16 +218,19 @@ Set array of file handles to utf-8 output.
 sub SetIO {
     my ( $Self, @Array ) = @_;
 
-    if (   $Self->{CharsetEncodeSupported}
-        && $Self->EncodeFrontendUsed()
-        && $Self->EncodeFrontendUsed() =~ /utf(-8|8)/i )
-    {
-        for (@Array) {
-            if ( defined($_) && ref($_) eq 'GLOB' ) {
-                binmode( $_, ":utf8" );
-            }
-        }
+    return if !$Self->{CharsetEncodeSupported};
+    return if !$Self->EncodeFrontendUsed();
+    return if !$Self->EncodeFrontendUsed() =~ /utf(-8|8)/i;
+
+    ROW:
+    for my $Row (@Array) {
+        next ROW if !defined $Row;
+        next ROW if ref $Row ne 'GLOB';
+
+        # set binmode
+        binmode( $Row, ':utf8' );
     }
+
     return;
 }
 
@@ -265,30 +247,34 @@ if data is already utf-8.
 sub Encode {
     my ( $Self, $What ) = @_;
 
-    # internel charset
-    if (   $Self->{CharsetEncodeSupported}
-        && $Self->EncodeFrontendUsed()
-        && $Self->EncodeFrontendUsed() =~ /utf(-8|8)/i )
-    {
-        if ( defined($What) && ref($What) eq 'ARRAY' ) {
-            for my $I ( @{$What} ) {
-                if ( defined($I) ) {
-                    $I = Encode::decode_utf8($I);
-                    Encode::_utf8_on($I);
-                }
-            }
+    return if !defined $What;
+    return if !$Self->{CharsetEncodeSupported};
+    return if !$Self->EncodeFrontendUsed();
+    return if !$Self->EncodeFrontendUsed() =~ /utf(-8|8)/i;
+
+    if ( ref $What eq 'ARRAY' ) {
+        ROW:
+        for my $Row ( @{$What} ) {
+            next ROW if ! defined $Row;
+
+            $Row = Encode::decode_utf8($Row);
+            Encode::_utf8_on($Row);
         }
-        elsif ( defined($What) && ref($What) eq 'SCALAR' ) {
-            if ( defined( ${$What} ) ) {
-                ${$What} = Encode::decode_utf8( ${$What} );
-                Encode::_utf8_on( ${$What} );
-            }
-        }
-        elsif ( defined($What) ) {
-            $What = Encode::decode_utf8($What);
-            Encode::_utf8_on($What);
-        }
+        return $What;
     }
+
+    if ( ref $What eq 'SCALAR' ) {
+        return $What if !defined ${$What};
+
+        ${$What} = Encode::decode_utf8( ${$What} );
+        Encode::_utf8_on( ${$What} );
+
+        return $What;
+    }
+
+    $What = Encode::decode_utf8($What);
+    Encode::_utf8_on($What);
+
     return $What;
 }
 
@@ -307,25 +293,16 @@ Convert given charset into the internal used charset (utf-8), if
 sub Decode {
     my ( $Self, %Param ) = @_;
 
-    if ( !defined $Param{Text} ) {
+    return if !defined $Param{Text};
+
+    # check needed stuff
+    if ( !defined( $Param{From} ) ) {
+        print STDERR "Need From!\n";
         return;
     }
 
-    # check needed stuff
-    for (qw(From)) {
-        if ( !defined( $Param{$_} ) ) {
-            print STDERR "Need $_!\n";
-            return;
-        }
-    }
-
-    # internel charset
-    if ( $Self->EncodeInternalUsed() ) {
-        return $Self->Convert( %Param, To => $Self->EncodeInternalUsed() );
-    }
-    else {
-        return $Param{Text};
-    }
+    return $Param{Text} if !$Self->EncodeInternalUsed();
+    return $Self->Convert( %Param, To => $Self->EncodeInternalUsed() );
 }
 
 =item EncodeOutput()
@@ -342,15 +319,13 @@ This should be used in for output of utf8 chars.
 sub EncodeOutput {
     my ( $Self, $What ) = @_;
 
-    # internel charset
-    if (   $Self->{CharsetEncodeSupported}
-        && $Self->EncodeFrontendUsed()
-        && $Self->EncodeFrontendUsed() =~ /utf(-8|8)/i )
-    {
-        if ( Encode::is_utf8( ${$What} ) ) {
-            ${$What} = Encode::encode_utf8( ${$What} );
-        }
-    }
+    return 1 if !$Self->{CharsetEncodeSupported};
+    return 1 if !$Self->EncodeFrontendUsed();
+    return 1 if !$Self->EncodeFrontendUsed() =~ /utf(-8|8)/i;
+
+    return 1 if !Encode::is_utf8( ${$What} );
+
+    ${$What} = Encode::encode_utf8( ${$What} );
     return 1;
 }
 
@@ -370,6 +345,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2007-10-02 10:38:37 $
+$Revision: 1.23 $ $Date: 2007-10-20 11:45:39 $
 
 =cut
