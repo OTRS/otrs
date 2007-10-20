@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.17 2007-10-04 23:28:41 martin Exp $
+# $Id: Main.pm,v 1.18 2007-10-20 10:24:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,12 +13,13 @@ package Kernel::System::Main;
 
 use strict;
 use warnings;
+
 use Digest::MD5 qw(md5_hex);
 use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -60,20 +61,14 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{Debug} = $Param{Debug} || 0;
-
-    # get common objects
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
+    # check needed objects
+    for my $Object (qw(ConfigObject LogObject)) {
+        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
-
-    # check all needed objects
-    for (qw(ConfigObject LogObject)) {
-        die "Got no $_" if ( !$Self->{$_} );
-    }
-
-    # encode object
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+
+    # set debug mode
+    $Self->{Debug} = $Param{Debug} || 0;
 
     return $Self;
 }
@@ -89,79 +84,74 @@ require/load a module
 sub Require {
     my ( $Self, $Module ) = @_;
 
-    my $Result = 0;
     if ( !$Module ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => 'Need module!',
         );
+        return;
     }
+
+    # prepare module
     $Module =~ s/::/\//g;
     $Module .= '.pm';
 
-    # check if module is already loaded
-    if ( exists $INC{$Module} ) {
+    # just return if it's already loaded
+    return 1 if $INC{$Module};
 
-        # just return if it's already loaded
-        if ( $INC{$Module} ) {
-            return 1;
-        }
-
-        # if was not possible to load, log it
-        else {
-            $Self->{LogObject}->Log(
-                Caller   => 1,
-                Priority => 'error',
-                Message  => "Compilation failed in require!",
-            );
-            return;
-        }
-    }
+    my $Result;
+    my $File;
 
     # find full path of module
+    PREFIX:
     for my $Prefix (@INC) {
-        my $File = $Prefix . '/' . $Module;
-        if ( -f $File ) {
-            $INC{$Module} = $File;
-            $Result = do $File;
-            last;
-        }
+        $File = $Prefix . '/' . $Module;
+
+        next PREFIX if !-f $File;
+
+        $Result = do $File;
+
+        last PREFIX;
     }
 
     # if there was an error
     if ($@) {
-        $INC{$Module} = undef;
+
+        # log error
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'error',
             Message  => "$@",
         );
+
         return;
     }
 
     # return true if module is loaded
-    elsif ($Result) {
+    if (!$Result) {
 
-        # log loaded module
-        if ( $Self->{Debug} > 1 ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message  => "Module: $Module loaded!",
-            );
-        }
-        return 1;
-    }
-
-    # if there is no file, show not found error
-    else {
-        delete $INC{$Module};
+        # if there is no file, show not found error
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'error',
             Message  => "Module $Module not found!",
         );
+
         return;
     }
+
+    # add module
+    $INC{$Module} = $File;
+
+    # log debug message
+    if ( $Self->{Debug} > 1 ) {
+        $Self->{LogObject}->Log(
+            Priority => 'debug',
+            Message  => "Module: $Module loaded!",
+        );
+    }
+
+    return 1;
 }
 
 =item Die()
@@ -175,20 +165,15 @@ to die
 sub Die {
     my ( $Self, $Message) = @_;
 
-    if ( $Message ) {
-        $Self->{LogObject}->Log(
-            Caller   => 1,
-            Priority => 'error',
-            Message  => $Message,
-        );
-    }
-    else {
-        $Self->{LogObject}->Log(
-            Caller   => 1,
-            Priority => 'error',
-            Message  => "Died!",
-        );
-    }
+    $Message = $Message || 'Died!';
+
+    # log message
+    $Self->{LogObject}->Log(
+        Caller   => 1,
+        Priority => 'error',
+        Message  => $Message,
+    );
+
     exit;
 }
 
@@ -214,7 +199,7 @@ sub FilenameCleanUp {
     if ( !$Param{Filename} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need Filename!"
+            Message  => 'Need Filename!',
         );
         return;
     }
@@ -311,7 +296,7 @@ sub FileRead {
     }
     else {
         $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Need Filename and Directory or Location!" );
+            ->Log( Priority => 'error', Message => 'Need Filename and Directory or Location!' );
 
     }
 
@@ -326,51 +311,54 @@ sub FileRead {
         return;
     }
 
-    # open file
+    # set open mode
     my $Mode = '<';
     if ( $Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i ) {
         $Mode = '<:utf8';
     }
-    if ( open( $FH, $Mode, $Param{Location} ) ) {
 
-        # lock file (Shared Lock)
-        if ( !flock( $FH, 1 ) ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Can't lock '$Param{Location}': $!",
-            );
-        }
-
-        # read whole file
-        my @Array;
-        my $String;
-        if ( !$Param{Mode} || $Param{Mode} =~ /^binmode/i ) {
-            binmode($FH);
-        }
-        while ( my $Line = <$FH> ) {
-            if ( $Param{Result} && $Param{Result} eq 'ARRAY' ) {
-                push( @Array, $Line );
-            }
-            else {
-                $String .= $Line;
-
-            }
-        }
-        close($FH);
-        if ( $Param{Result} && $Param{Result} eq 'ARRAY' ) {
-            return \@Array;
-        }
-        else {
-            return \$String;
-        }
-    }
-    else {
+    # return if file can not open
+    if ( !open( $FH, $Mode, $Param{Location} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't open '$Param{Location}': $!",
         );
         return;
     }
+
+    # lock file (Shared Lock)
+    if ( !flock( $FH, 1 ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't lock '$Param{Location}': $!",
+        );
+    }
+
+    # enable binmode
+    if ( !$Param{Mode} || $Param{Mode} =~ /^binmode/i ) {
+        binmode($FH);
+    }
+
+    # read file as array
+    if ( $Param{Result} && $Param{Result} eq 'ARRAY' ) {
+
+        my @Array;
+        while ( my $Line = <$FH> ) {
+            push( @Array, $Line );
+        }
+        close($FH);
+
+        return \@Array;
+    }
+
+    # read file as string
+    my $String;
+    while ( my $Line = <$FH> ) {
+        $String .= $Line;
+    }
+    close($FH);
+
+    return \$String;
 }
 
 =item FileWrite()
@@ -403,7 +391,6 @@ to write data to file system
 sub FileWrite {
     my ( $Self, %Param ) = @_;
 
-    my $FH;
     if ( $Param{Filename} && $Param{Directory} ) {
 
         # filename clean up
@@ -420,15 +407,17 @@ sub FileWrite {
     }
     else {
         $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Need Filename and Directory or Location!" );
-
+            ->Log( Priority => 'error', Message => 'Need Filename and Directory or Location!' );
     }
 
-    # open file
+    # set open mode
     my $Mode = '>';
     if ( $Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i ) {
         $Mode = '>:utf8';
     }
+
+    # return if file can not open
+    my $FH;
     if ( !open( $FH, $Mode, $Param{Location} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -436,37 +425,34 @@ sub FileWrite {
         );
         return;
     }
-    else {
 
-        # lock file (Exclusive Lock)
-        if ( !flock( $FH, 2 ) ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Can't lock '$Param{Location}': $!",
-            );
-        }
-
-        # read whole file
-        if ( !$Param{Mode} || $Param{Mode} =~ /^binmode/i ) {
-            binmode($FH);
-        }
-        print $FH ${ $Param{Content} };
-        close($FH);
-
-        # set permission
-        if ( $Param{Permission} ) {
-            if ( length( $Param{Permission} ) == 3 ) {
-                $Param{Permission} = "0$Param{Permission}";
-            }
-            chmod( oct( $Param{Permission} ), $Param{Location} );
-        }
-        if ( $Param{Filename} ) {
-            return $Param{Filename};
-        }
-        else {
-            return $Param{Location};
-        }
+    # lock file (Exclusive Lock)
+    if ( !flock( $FH, 2 ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't lock '$Param{Location}': $!",
+        );
     }
+
+    # enable binmode
+    if ( !$Param{Mode} || $Param{Mode} =~ /^binmode/i ) {
+        binmode($FH);
+    }
+
+    # write file and close it
+    print $FH ${ $Param{Content} };
+    close($FH);
+
+    # set permission
+    if ( $Param{Permission} ) {
+        if ( length( $Param{Permission} ) == 3 ) {
+            $Param{Permission} = "0$Param{Permission}";
+        }
+        chmod( oct( $Param{Permission} ), $Param{Location} );
+    }
+
+    return $Param{Filename} if $Param{Filename};
+    return $Param{Location};
 }
 
 =item FileDelete()
@@ -503,8 +489,7 @@ sub FileDelete {
     }
     else {
         $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Need Filename and Directory or Location!" );
-
+            ->Log( Priority => 'error', Message => 'Need Filename and Directory or Location!' );
     }
 
     # check if file exists
@@ -512,7 +497,7 @@ sub FileDelete {
         if ( !$Param{DisableWarnings} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "File '$Param{Location}' dosn't exists!"
+                Message  => "File '$Param{Location}' doesn't exists!"
             );
         }
         return;
@@ -526,9 +511,8 @@ sub FileDelete {
         );
         return;
     }
-    else {
-        return 1;
-    }
+
+    return 1;
 }
 
 =item MD5sum()
@@ -553,9 +537,8 @@ get a md5 sum of a file or an string
 sub MD5sum {
     my ( $Self, %Param ) = @_;
 
-    my $FH;
     if ( !$Param{Filename} && !$Param{String} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Filename or String!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Filename or String!' );
         return;
     }
 
@@ -563,46 +546,49 @@ sub MD5sum {
     if ( $Param{Filename} && !-e $Param{Filename} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "File '$Param{Filename}' doesn't exists!"
+            Message  => "File '$Param{Filename}' doesn't exists!",
         );
         return;
     }
 
     # md5sum file
     if ( $Param{Filename} ) {
-        if ( open( $FH, '<', $Param{Filename} ) ) {
-            binmode($FH);
-            my $MD5sum = Digest::MD5->new()->addfile($FH)->hexdigest();
-            close($FH);
-            return $MD5sum;
-        }
-        else {
+
+        # open file
+        my $FH;
+        if ( !open( $FH, '<', $Param{Filename} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Can't write '$Param{Filename}': $!",
             );
             return;
         }
+
+        binmode($FH);
+        my $MD5sum = Digest::MD5->new()->addfile($FH)->hexdigest();
+        close($FH);
+
+        return $MD5sum;
     }
 
     # md5sum string
-    if ( $Param{String} ) {
-        if ( ! ref( $Param{String} ) ) {
-            $Self->{EncodeObject}->EncodeOutput( \$Param{String} );
-            return md5_hex( $Param{String} );
-        }
-        elsif ( ref( $Param{String} ) eq 'SCALAR' ) {
-            $Self->{EncodeObject}->EncodeOutput( $Param{String} );
-            return md5_hex( ${ $Param{String} } );
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need a SCALAR reference like 'String => \$Content' in String param.",
-            );
-            return;
-        }
+    if ( ! ref( $Param{String} ) ) {
+        $Self->{EncodeObject}->EncodeOutput( \$Param{String} );
+        return md5_hex( $Param{String} );
     }
+
+    # md5sum scalar reference
+    if ( ref( $Param{String} ) eq 'SCALAR' ) {
+        $Self->{EncodeObject}->EncodeOutput( $Param{String} );
+        return md5_hex( ${ $Param{String} } );
+    }
+
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => "Need a SCALAR reference like 'String => \$Content' in String param.",
+    );
+
+    return;
 }
 
 =item Dump()
@@ -668,32 +654,53 @@ sub Dump {
 sub _Dump {
     my ( $Self, $Data ) = @_;
 
+    # data is not a reference
     if ( !ref( ${$Data} ) ) {
         Encode::_utf8_off( ${$Data} );
+
+        return;
     }
-    elsif ( ref( ${$Data} ) eq 'SCALAR' ) {
+
+    # data is a scalar reference
+    if ( ref( ${$Data} ) eq 'SCALAR' ) {
+
+        # start recursion
         $Self->_Dump( ${$Data} );
+
+        return;
     }
-    elsif ( ref( ${$Data} ) eq 'HASH' ) {
+
+    # data is a hash reference
+    if ( ref( ${$Data} ) eq 'HASH' ) {
+        KEY:
         for my $Key ( keys %{ ${$Data} } ) {
-            if ( defined( ${$Data}->{$Key} ) ) {
-                $Self->_Dump( \${$Data}->{$Key} );
-            }
+            next KEY if !defined ${$Data}->{$Key};
+
+            # start recursion
+            $Self->_Dump( \${$Data}->{$Key} );
         }
+
+        return;
     }
-    elsif ( ref( ${$Data} ) eq 'ARRAY' ) {
+
+    # data is a array reference
+    if ( ref( ${$Data} ) eq 'ARRAY' ) {
+        KEY:
         for my $Key ( 0 .. $#{ ${$Data} } ) {
-            if ( defined( ${$Data}->[$Key] ) ) {
-                $Self->_Dump( \${$Data}->[$Key] );
-            }
+            next KEY if !defined ${$Data}->[$Key];
+
+            # start recursion
+            $Self->_Dump( \${$Data}->[$Key] );
         }
+
+        return;
     }
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Unknown ref '" . ref( ${$Data} ) . "'!",
-        );
-    }
+
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => "Unknown ref '" . ref( ${$Data} ) . "'!",
+    );
+
     return;
 }
 
@@ -713,6 +720,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2007-10-04 23:28:41 $
+$Revision: 1.18 $ $Date: 2007-10-20 10:24:12 $
 
 =cut
