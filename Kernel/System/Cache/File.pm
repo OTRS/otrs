@@ -2,7 +2,7 @@
 # Kernel/System/Cache/File.pm - all cache functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: File.pm,v 1.3 2007-08-28 21:42:01 martin Exp $
+# $Id: File.pm,v 1.3.2.1 2007-10-22 16:09:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.3.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -38,7 +38,7 @@ sub Set {
     my $Self = shift;
     my %Param = @_;
     foreach (qw(Key Value TTL)) {
-        if (!$Param{$_}) {
+        if (!defined($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
