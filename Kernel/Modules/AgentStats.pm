@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.42 2007-10-17 05:54:36 tr Exp $
+# $Id: AgentStats.pm,v 1.43 2007-10-23 11:20:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -26,24 +26,22 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get common objects
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
-
     # check needed objects
-    for (
-        qw(GroupObject ParamObject DBObject ModuleReg LogObject ConfigObject UserObject MainObject))
-    {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $NeededData (qw(
+        GroupObject ParamObject  DBObject   ModuleReg  LayoutObject
+        LogObject   ConfigObject UserObject MainObject TimeObject   SessionObject
+        UserID      Subaction    AccessRo   AccessRw
+
+    )) {
+        if ( !$Param{$NeededData} ) {
+            $Param{LayoutObject}->FatalError( Message => "Got no $NeededData!" );
         }
+        $Self->{$NeededData} = $Param{$NeededData};
     }
 
     # create needed objects
-    $Self->{CSVObject}   = Kernel::System::CSV->new(%Param);
-    $Param{CSVObject}    = $Self->{CSVObject};
-    $Self->{StatsObject} = Kernel::System::Stats->new(%Param);
+    $Self->{CSVObject}   = Kernel::System::CSV->new(%{$Self});
+    $Self->{StatsObject} = Kernel::System::Stats->new(%{$Self});
 
     return $Self;
 }
