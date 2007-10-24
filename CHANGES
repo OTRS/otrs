@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.20 2007-10-22 16:09:42 martin Exp $
+# $Id: CHANGES,v 1.465.2.21 2007-10-24 16:22:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.2.4 (????/??/??)
+ - (2007/10/24) Fixed bug# 2289 - compress with bzip2 dont works in backup.pl.
  - (2007/10/22) Fixed bug# 2421 - If customer cache backend is used, sometimes
     "Need Value" appears in the log file.
  - (2007/10/19) Fixed bug# 1203 - Changed Redhat shm workaround to use a fixed
