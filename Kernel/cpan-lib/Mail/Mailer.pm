@@ -1,5 +1,3 @@
-#
-
 package Mail::Mailer;
 
 use POSIX qw/_exit/;
@@ -129,7 +127,7 @@ use vars qw(@ISA $VERSION $MailerBinary $MailerType %Mailers @Mailers);
 use Config;
 use strict;
 
-$VERSION = "1.74";
+$VERSION = "1.77";
 
 sub Version { $VERSION }
 
@@ -263,7 +261,8 @@ sub open {
 # removed MO 20050331: destroyed the folding
 #   _cleanup_hdrs($hdrs);
 
-    my @to = $self->who_to($hdrs);
+    my @to     = $self->who_to($hdrs);
+    my $sender = $self->who_sender($hdrs);
     
     $self->close;	# just in case;
 
@@ -275,14 +274,14 @@ sub open {
         if($child==0)
         {   # Child process will handle sending, but this is not real exec()
             # this is a setup!!!
-            unless($self->exec($exe, $args, \@to))
+            unless($self->exec($exe, $args, \@to, $sender))
             {   warn $!;     # setup failed
                 _exit(1);    # no DESTROY(), keep it for parent
             }
         }
     }
     else
-    {   $self->exec($exe, $args, \@to)
+    {   $self->exec($exe, $args, \@to, $sender)
             or die $!;
     }
 
@@ -324,6 +323,11 @@ sub who_to {
 	push(@to, $self->to_array($hdrs->{Bcc})) if $hdrs->{Bcc};
     }
     @to;
+}
+
+sub who_sender {
+    my($self, $hdrs) = @_;
+    ($self->to_array($hdrs->{Sender} || $hdrs->{From}))[0];
 }
 
 sub epilogue {

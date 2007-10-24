@@ -17,7 +17,7 @@ use Mail::Header;
 use vars qw($VERSION);
 
 BEGIN {
-    $VERSION = "1.74";
+    $VERSION = "1.77";
     *AUTOLOAD = \&AutoLoader::AUTOLOAD;
 
     unless(defined &UNIVERSAL::isa) {
@@ -60,18 +60,19 @@ sub new
  $me->head->modify(exists $arg{Modify} ? $arg{Modify} : 1);
 
  if(defined $arg)
-  {
+ {
    if(ref($arg) eq 'ARRAY')
-    {
-     $me->header($arg) unless exists $arg{Header};
-     $me->body($arg) unless exists $arg{Body};
-    }
+   {  $me->header($arg) unless exists $arg{Header};
+      $me->body($arg) unless exists $arg{Body};
+   }
    elsif(defined fileno($arg))
-    {
-     $me->read_header($arg) unless exists $arg{Header};
-     $me->read_body($arg) unless exists $arg{Body};
-    }
-  }
+   {  $me->read_header($arg) unless exists $arg{Header};
+      $me->read_body($arg) unless exists $arg{Body};
+   }
+   else
+   {  croak "couldn't understand $arg to Mail::Internet constructor";
+   }
+ }
 
  return $me;
 }

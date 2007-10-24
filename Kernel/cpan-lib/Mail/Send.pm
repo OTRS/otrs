@@ -1,14 +1,14 @@
 
 package Mail::Send;
 
-# $Id: Send.pm,v 1.3 2006-12-14 19:58:52 mh Exp $
+# $Id: Send.pm,v 1.4 2007-10-24 15:49:10 mh Exp $
 
 use strict;
 use Carp;
 use vars qw($VERSION);
 require Mail::Mailer;
 
-$VERSION = "1.74";
+$VERSION = "1.77";
 
 sub Version { $VERSION }
 

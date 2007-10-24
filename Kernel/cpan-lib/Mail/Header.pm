@@ -20,7 +20,7 @@ use strict;
 use Carp;
 use vars qw($VERSION $FIELD_NAME);
 
-$VERSION = "1.74";
+$VERSION = "1.77";
 
 my $MAIL_FROM = 'KEEP';
 my %HDR_LENGTHS = ();
@@ -106,7 +106,7 @@ sub _fold_line
  my $min = int($maxlen * 4 / 5) - 4;
  my $ml = $maxlen;
 
- $_[0] =~ s/[\r\n]+/ /og;       # Remove new-lines
+ $_[0] =~ s/[\r\n]+//og;        # Remove new-lines
  $_[0] =~ s/\s*\Z/\n/so;        # End line with a EOLN
 
  return if $_[0] =~ /^From\s/io;
@@ -136,7 +136,7 @@ sub _fold_line
     }
    else
     {
-      $_[0] =~ s/(.{$min,$max})\s+/$+\n /g;
+      $_[0] =~ s/(.{$min,$max})(\s)/$1\n$2/g;
       $_[0] =~ s/\s*$/\n/s;
     }
   }
@@ -144,10 +144,13 @@ sub _fold_line
  $_[0] =~ s/\A(\S+)\n\s*(?=\S)/$1 /so; 
 }
 
-# attempt to change the case of a tag to that required by RFC822. That
+# Tags are case-insensitive, but there is a (slightly) prefered construction
 # being all characters are lowercase except the first of each word. Also
 # if the word is an `acronym' then all characters are uppercase. We decide
 # a word is an acronym if it does not contain a vowel.
+# In general, this change of capitization is a bad idea, but it is in
+# the code for ages, and therefore probably crucial for existing
+# applications.
 
 sub _tag_case
 {
@@ -942,11 +945,13 @@ other instances of <TAG> will be removed.
 
 =item get ( TAG [, INDEX ] )
 
-Get the text form a line. If C<INDEX> is given then the text of the Nth
+Get the text from a line. If C<INDEX> is given then the text of the Nth
 instance will be returned. If it is not given the return value depends on the
 context in which C<get> was called. In an array context a list of all the
 text from all the instances of C<TAG> will be returned. In a scalar context
 the text for the first instance will be returned.
+
+The lines are unfolded, but still terminated with a new-line (see C<chomp>)
 
 =item delete ( TAG [, INDEX ] )
 
@@ -996,6 +1001,10 @@ Remove any header line that, other than the tag, only contains whitespace
 
 Unfold all instances of the given tag so that they do not spread across
 multiple lines. IF C<TAG> is not given then all lines are unfolded.
+
+The unfolding process is wrong but (for compatibility reasons) will
+not be repaired: only one blank at the start of the line should be
+removed, not all of them.
 
 =back
 

@@ -7,13 +7,13 @@
 
 package Mail::Field;
 
-# $Id: Field.pm,v 1.3 2006-12-14 19:58:52 mh Exp $
+# $Id: Field.pm,v 1.4 2007-10-24 15:49:10 mh Exp $
 
 use Carp;
 use strict;
 use vars qw($AUTOLOAD $VERSION);
 
-$VERSION = "1.74";
+$VERSION = "1.77";
 
 unless(defined &UNIVERSAL::can) {
     *UNIVERSAL::can = sub {
