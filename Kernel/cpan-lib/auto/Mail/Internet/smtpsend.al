@@ -1,9 +1,9 @@
 # NOTE: Derived from blib/lib/Mail/Internet.pm.
-# Changes made here will be lost when autosplit again.
+# Changes made here will be lost when autosplit is run again.
 # See AutoSplit.pm.
 package Mail::Internet;
 
-#line 559 "blib/lib/Mail/Internet.pm (autosplit into blib/lib/auto/Mail/Internet/smtpsend.al)"
+#line 561 "blib/lib/Mail/Internet.pm (autosplit into blib/lib/auto/Mail/Internet/smtpsend.al)"
 sub smtpsend;
 
 use Carp;
@@ -18,6 +18,7 @@ use strict;
     my $src  = shift;
     my %opt = @_;
     my $host = $opt{Host};
+    my $envelope = $opt{MailFrom} || mailaddress();
     my $noquit = 0;
     my $smtp;
     my @hello = defined $opt{Hello} ? (Hello => $opt{Hello}) : ();
@@ -68,7 +69,7 @@ use strict;
 
     # Send it
 
-    my $ok = $smtp->mail( mailaddress() ) &&
+    my $ok = $smtp->mail( $envelope ) &&
 		$smtp->to(@addr) &&
 		$smtp->data(join("", @{$hdr->header},"\n",@{$src->body}));
 

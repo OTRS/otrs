@@ -1,9 +1,9 @@
 # NOTE: Derived from blib/lib/Mail/Util.pm.
-# Changes made here will be lost when autosplit again.
+# Changes made here will be lost when autosplit is run again.
 # See AutoSplit.pm.
 package Mail::Util;
 
-#line 88 "blib/lib/Mail/Util.pm (autosplit into blib/lib/auto/Mail/Util/read_mbox.al)"
+#line 97 "blib/lib/Mail/Util.pm (autosplit into blib/lib/auto/Mail/Util/read_mbox.al)"
 sub read_mbox {
     my $file  = shift;
     my @mail  = ();

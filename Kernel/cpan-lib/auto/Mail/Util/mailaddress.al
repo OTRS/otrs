@@ -1,9 +1,9 @@
 # NOTE: Derived from blib/lib/Mail/Util.pm.
-# Changes made here will be lost when autosplit again.
+# Changes made here will be lost when autosplit is run again.
 # See AutoSplit.pm.
 package Mail::Util;
 
-#line 226 "blib/lib/Mail/Util.pm (autosplit into blib/lib/auto/Mail/Util/mailaddress.al)"
+#line 235 "blib/lib/Mail/Util.pm (autosplit into blib/lib/auto/Mail/Util/mailaddress.al)"
 sub mailaddress {
 
     ##

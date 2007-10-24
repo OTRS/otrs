@@ -1,9 +1,9 @@
 # NOTE: Derived from blib/lib/Mail/Util.pm.
-# Changes made here will be lost when autosplit again.
+# Changes made here will be lost when autosplit is run again.
 # See AutoSplit.pm.
 package Mail::Util;
 
-#line 122 "blib/lib/Mail/Util.pm (autosplit into blib/lib/auto/Mail/Util/maildomain.al)"
+#line 131 "blib/lib/Mail/Util.pm (autosplit into blib/lib/auto/Mail/Util/maildomain.al)"
 sub maildomain {
 
     ##
@@ -53,7 +53,7 @@ sub maildomain {
             if($domain && $domain =~ m/([A-Za-z0-9](?:[\.\-A-Za-z0-9]+))/ );
 
 	return $domain
-	    if(defined $domain);
+	    if(defined $domain && $domain !~ /\$/);
     }
 
     ##

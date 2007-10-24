@@ -1,9 +1,9 @@
 # NOTE: Derived from blib/lib/Mail/Internet.pm.
-# Changes made here will be lost when autosplit again.
+# Changes made here will be lost when autosplit is run again.
 # See AutoSplit.pm.
 package Mail::Internet;
 
-#line 722 "blib/lib/Mail/Internet.pm (autosplit into blib/lib/auto/Mail/Internet/unescape_from.al)"
+#line 725 "blib/lib/Mail/Internet.pm (autosplit into blib/lib/auto/Mail/Internet/unescape_from.al)"
 sub unescape_from
 {
  my $me = shift;

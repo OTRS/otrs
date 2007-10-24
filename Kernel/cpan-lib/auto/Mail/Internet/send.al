@@ -1,9 +1,9 @@
 # NOTE: Derived from blib/lib/Mail/Internet.pm.
-# Changes made here will be lost when autosplit again.
+# Changes made here will be lost when autosplit is run again.
 # See AutoSplit.pm.
 package Mail::Internet;
 
-#line 633 "blib/lib/Mail/Internet.pm (autosplit into blib/lib/auto/Mail/Internet/send.al)"
+#line 636 "blib/lib/Mail/Internet.pm (autosplit into blib/lib/auto/Mail/Internet/send.al)"
 sub send;
 
 use Mail::Mailer;
