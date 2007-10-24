@@ -18,8 +18,8 @@ use Carp 'croak';
 # The most recent version and complete docs are available at:
 #   http://stein.cshl.org/WWW/software/CGI/
 
-$CGI::revision = '$Id: CGI.pm,v 1.10 2007-03-21 13:20:11 mh Exp $';
-$CGI::VERSION='3.27';
+$CGI::revision = '$Id: CGI.pm,v 1.11 2007-10-24 15:41:27 mh Exp $';
+$CGI::VERSION='3.29';
 
 # HARD-CODED LOCATION FOR FILE UPLOAD TEMPORARY FILES.
 # UNCOMMENT THIS ONLY IF YOU KNOW WHAT YOU'RE DOING.
@@ -119,6 +119,7 @@ sub initialize_globals {
     undef %EXPORT;
     undef $QUERY_CHARSET;
     undef %QUERY_FIELDNAMES;
+    undef %QUERY_TMPFILES;
 
     # prevent complaints by mod_perl
     1;
@@ -506,12 +507,20 @@ sub init {
     # ourselves from the original query (which may be gone
     # if it was read from STDIN originally.)
     if (defined(@QUERY_PARAM) && !defined($initializer)) {
-	foreach (@QUERY_PARAM) {
-	    $self->param('-name'=>$_,'-value'=>$QUERY_PARAM{$_});
-	}
-	$self->charset($QUERY_CHARSET);
-	$self->{'.fieldnames'} = {%QUERY_FIELDNAMES};
-	return;
+        for my $name (@QUERY_PARAM) {
+            my $val = $QUERY_PARAM{$name}; # always an arrayref;
+            $self->param('-name'=>$name,'-value'=> $val);
+            if (defined $val and ref $val eq 'ARRAY') {
+                for my $fh (grep {defined(fileno($_))} @$val) {
+                   seek($fh,0,0); # reset the filehandle.  
+                }
+
+            }
+        }
+        $self->charset($QUERY_CHARSET);
+        $self->{'.fieldnames'} = {%QUERY_FIELDNAMES};
+        $self->{'.tmpfiles'}   = {%QUERY_TMPFILES};
+        return;
     }
 
     $meth=$ENV{'REQUEST_METHOD'} if defined($ENV{'REQUEST_METHOD'});
@@ -594,21 +603,6 @@ sub init {
 	  if (ref($initializer) && ref($initializer) eq 'HASH') {
 	      foreach (keys %$initializer) {
 		  $self->param('-name'=>$_,'-value'=>$initializer->{$_});
-	      }
-	      last METHOD;
-	  }
-	  
-	  if (defined($fh) && ($fh ne '')) {
-	      while (<$fh>) {
-		  chomp;
-		  last if /^=/;
-		  push(@lines,$_);
-	      }
-	      # massage back into standard format
-	      if ("@lines" =~ /=/) {
-		  $query_string=join("&",@lines);
-	      } else {
-		  $query_string=join("+",@lines);
 	      }
 	      last METHOD;
 	  }
@@ -762,6 +756,7 @@ sub save_request {
     }
     $QUERY_CHARSET = $self->charset;
     %QUERY_FIELDNAMES = %{$self->{'.fieldnames'}};
+    %QUERY_TMPFILES   = %{ $self->{'.tmpfiles'} || {} };
 }
 
 sub parse_params {
@@ -2707,7 +2702,8 @@ sub url {
     if ($full) {
 	my $protocol = $self->protocol();
 	$url = "$protocol://";
-	my $vh = http('x_forwarded_host') || http('host');
+	my $vh = http('x_forwarded_host') || http('host') || '';
+        $vh =~ s/\:\d+$//;  # some clients add the port number (incorrectly). Get rid of it.
 	if ($vh) {
 	    $url .= $vh;
 	} else {
@@ -3052,7 +3048,7 @@ END_OF_FUNC
 sub script_name {
     my ($self,@p) = self_or_default(@_);
     if (@p) {
-        $self->{'.script_name'} = shift;
+        $self->{'.script_name'} = shift @p;
     } elsif (!exists $self->{'.script_name'}) {
         my ($script_name,$path_info) = $self->_name_and_path_from_env();
         $self->{'.script_name'} = $script_name;
@@ -4297,7 +4293,10 @@ HTML "standards".
      $query = new CGI;
 
 This will parse the input (from both POST and GET methods) and store
-it into a perl5 object called $query.  
+it into a perl5 object called $query. 
+
+Any filehandles from file uploads will have their position reset to 
+the beginning of the file. 
 
 =head2 CREATING A NEW QUERY OBJECT FROM AN INPUT FILE
 
@@ -6000,6 +5999,12 @@ This makes it possible to create forms that use the same name for
 multiple upload fields.
 
 This is the recommended idiom.
+
+For robust code, consider reseting the file handle position to beginning of the
+file. Inside of larger frameworks, other code may have already used the query
+object and changed the filehandle postion:
+
+  seek($fh,0,0); # reset postion to beginning of file.
 
 When a file is uploaded the browser usually sends along some
 information along with it in the format of headers.  The information
