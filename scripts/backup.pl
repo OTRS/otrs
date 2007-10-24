@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.9 2007-03-12 00:08:30 martin Exp $
+# $Id: backup.pl,v 1.9.2.1 2007-10-24 16:08:45 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.9.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -66,7 +66,7 @@ elsif (! -d $Opts{'d'}) {
 # check compress mode
 if ($Opts{'c'} && $Opts{'c'} =~ /bzip2/i) {
     $Compress = 'j';
-    $CompressCMD = 'bzip';
+    $CompressCMD = 'bzip2';
 }
 else {
     $Compress = 'z';
