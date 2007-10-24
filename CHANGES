@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.21 2007-10-24 16:22:59 mh Exp $
+# $Id: CHANGES,v 1.465.2.22 2007-10-24 16:23:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,8 +25,8 @@
  - (2007/10/16) Improved performance of module by reduce calls of
     $Self->{ConfigObject}->Get() in Kernel/Output/HTML/Layout.pm and
     Kernel/System/Encode.pm.
- - (2007/10/16) Fixed bug# 2404 - Problems with the time extended feature
-    in stats module.
+ - (2007/10/16) Fixed bug# 2404 - Problems with the time extended feature in
+    stats module.
  - (2007/10/15) Fixed bug# 2398 - Translate the stats output.
  - (2007/10/12) Fixed bug# 2388 - Show the radio button of static stats files.
  - (2007/10/10) Fixed bug# 2383 - IntroInstallPre in .opm files is not working
