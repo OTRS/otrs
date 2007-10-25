@@ -1,7 +1,0 @@
-# Index created by AutoSplit for blib/lib/Mail/Util.pm
-#    (file acts as timestamp)
-package Mail::Util;
-sub read_mbox  ;
-sub maildomain  ;
-sub mailaddress  ;
-1;
