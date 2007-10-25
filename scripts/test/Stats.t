@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.9 2007-10-20 10:23:32 mh Exp $
+# $Id: Stats.t,v 1.10 2007-10-25 13:23:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -227,9 +227,15 @@ my $Stat4 = $Self->{StatsObject}->StatsGet(
 # get OTRS home
 my $Home = $Self->{ConfigObject}->Get('Home');
 
-if (open my $Filehandle, '-|', "perl $Home/bin/mkStats.pl -n $Stat4->{StatNumber} -o ./") {
+if (open my $Filehandle, '-|', "perl $Home/bin/mkStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/") {
     @Lines = <$Filehandle> ;
     close $Filehandle;
+}
+
+for my $Line (@Lines) {
+    if ($Line =~ /\/\/(.+?csv)\./) {
+        unlink "$Home/var/tmp/$1";
+    }
 }
 
 $Self->True(
