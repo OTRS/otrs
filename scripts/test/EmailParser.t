@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.5 2007-04-12 23:55:21 martin Exp $
+# $Id: EmailParser.t,v 1.6 2007-10-25 08:05:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -148,7 +148,7 @@ if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i) {
     );
     $Self->Is(
         $Self->{EmailParserObject}->GetParam(WHAT => 'Subject'),
-        'utf8: 使って / ISO-8859-1:  Priorität"  / cp-1251: Сергей Углицких',
+        'utf8: 使って / ISO-8859-1: Priorität"  / cp-1251: Сергей Углицких',
         "#4 Subject()",
     );
 }
