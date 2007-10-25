@@ -2,7 +2,7 @@
 # Crypt.t - Crypt tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.5 2007-09-29 11:09:40 mh Exp $
+# $Id: Crypt.t,v 1.6 2007-10-25 11:25:12 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -134,6 +134,11 @@ for my $Count (1..2) {
         'hello1234567890öäüß',
         "#$Count Decrypt() - Data",
     );
+    $Self->Is(
+        $Decrypt{KeyID} || '',
+        $Check{$Count}->{KeyPrivate},
+        "#$Count Decrypt() - KeyID",
+    );
     # sign inline
     my $Sign = $Self->{CryptObject}->Sign(
         Message => 'hello1234567890äöß',
@@ -151,6 +156,16 @@ for my $Count (1..2) {
     $Self->True(
         $Verify{Successful} || '',
         "#$Count Verify() - inline",
+    );
+    $Self->Is(
+        $Verify{KeyID} || '',
+        $Check{$Count}->{Key},
+        "#$Count Verify() - inline - KeyID",
+    );
+    $Self->Is(
+        $Verify{KeyUserID} || '',
+        $Check{$Count}->{Identifier},
+        "#$Count Verify() - inline - KeyUserID",
     );
     # sign detached
     $Sign = $Self->{CryptObject}->Sign(
@@ -170,6 +185,16 @@ for my $Count (1..2) {
     $Self->True(
         $Verify{Successful} || '',
         "#$Count Verify() - detached",
+    );
+    $Self->Is(
+        $Verify{KeyID} || '',
+        $Check{$Count}->{Key},
+        "#$Count Verify() - detached - KeyID",
+    );
+    $Self->Is(
+        $Verify{KeyUserID} || '',
+        $Check{$Count}->{Identifier},
+        "#$Count Verify() - detached - KeyUserID",
     );
 
     # file checks
@@ -201,6 +226,11 @@ for my $Count (1..2) {
             $Decrypt{Data} eq ${$Content},
             "#$Count Decrypt() - Data",
         );
+        $Self->Is(
+            $Decrypt{KeyID} || '',
+            $Check{$Count}->{KeyPrivate},
+            "#$Count Decrypt - KeyID",
+        );
         # sign inline
         my $Sign = $Self->{CryptObject}->Sign(
             Message => $Reference,
@@ -218,6 +248,16 @@ for my $Count (1..2) {
         $Self->True(
             $Verify{Successful} || '',
             "#$Count Verify() - inline .$File",
+        );
+        $Self->Is(
+            $Verify{KeyID} || '',
+            $Check{$Count}->{Key},
+            "#$Count Verify() - inline .$File - KeyID",
+        );
+        $Self->Is(
+            $Verify{KeyUserID} || '',
+            $Check{$Count}->{Identifier},
+            "#$Count Verify() - inline .$File - KeyUserID",
         );
         # sign detached
         $Sign = $Self->{CryptObject}->Sign(
@@ -237,6 +277,16 @@ for my $Count (1..2) {
         $Self->True(
             $Verify{Successful} || '',
             "#$Count Verify() - detached .$File",
+        );
+        $Self->Is(
+            $Verify{KeyID} || '',
+            $Check{$Count}->{Key},
+            "#$Count Verify() - detached .$File - KeyID",
+        );
+        $Self->Is(
+            $Verify{KeyUserID} || '',
+            $Check{$Count}->{Identifier},
+            "#$Count Verify() - detached .$File - KeyUserID",
         );
 
     }

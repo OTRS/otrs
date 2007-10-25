@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.20 2007-10-02 10:37:19 mh Exp $
+# $Id: PGP.pm,v 1.21 2007-10-25 11:25:12 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -127,11 +127,18 @@ sub Crypt {
 
 =item Decrypt()
 
-decrypt a message and returns a hash (Successful, Message, Data)
+Decrypt a message and returns a hash (Successful, Message, Data)
 
-    my %Message = $CryptObject->Decrypt(
+    my %Result = $CryptObject->Decrypt(
         Message => $CryptedMessage,
     );
+
+The returned hash %Result has the following keys:
+
+    'Successful' => '1',        # could the given data be decrypted at all (0 or 1)
+    'Data'       => '...',      # the decrypted data
+    'KeyID'      => 'FA23FB24'  # hex ID of PGP-(secret-)key that was used for decryption
+    'Message'    => '...'       # descriptive text containing the result status
 
 =cut
 
@@ -226,6 +233,7 @@ sub _DecryptPart {
             Successful => 1,
             Message    => $LogMessage,
             Data       => $Decrypt,
+            KeyID      => $Param{Key},
         );
     }
 }
@@ -320,16 +328,25 @@ verify a message signature and returns a hash (Successful, Message, Data)
 
 Inline sign:
 
-    my %Data = $CryptObject->Verify(
+    my %Result = $CryptObject->Verify(
         Message => $Message,
     );
 
 Attached sign:
 
-    my %Data = $CryptObject->Verify(
+    my %Result = $CryptObject->Verify(
         Message => $Message,
         Sign => $Sign,
     );
+
+The returned hash %Result has the following keys:
+
+    'SignatureFound' => '1',        # was a signature found at all (0 or 1)
+    'Successful'     => '1',        # could the signature be verified (0 or 1)
+    'KeyID'          => 'FA23FB24'  # hex ID of PGP-key that was used for signing
+    'KeyUserID'      => 'username <user@test.org>'  # PGP-User-ID (e-mail adress) used for signing
+    'Message'        => '...'       # descriptive text containing the result status
+    'MessageLong'    => '...'       # full output of GPG binary
 
 =cut
 
@@ -361,12 +378,35 @@ sub Verify {
         $Message .= $_;
     }
     close(VERIFY);
-    if ( $Message =~ /(Good signature from ".+?")/i ) {
+    if ( $Message =~ m{(Good signature from ".+?")}i ) {
+        my $GPGMessage = $1;
+        my $KeyID = '';
+        if ( $Message =~ m{using\s+\w+\s+key\s+ID\s+(\w+)}i ) {
+            $KeyID = $1;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Unable to fetch key-ID from gpg output!"
+            );
+        }
+        my $KeyUserID = '';
+        if ( $Message =~ m{Good signature from "(.+?)"}i ) {
+            $KeyUserID = $1;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Unable to fetch key-user-ID from gpg output!"
+            );
+        }
         %Return = (
             SignatureFound => 1,
             Successful     => 1,
-            Message        => "gpg: $1",
+            Message        => "gpg: $GPGMessage",
             MessageLong    => $Message,
+            KeyID          => $KeyID,
+            KeyUserID      => $KeyUserID,
         );
     }
     else {
@@ -782,6 +822,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2007-10-02 10:37:19 $
+$Revision: 1.21 $ $Date: 2007-10-25 11:25:12 $
 
 =cut
