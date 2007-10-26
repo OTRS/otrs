@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.496 2007-10-25 11:25:12 ot Exp $
+# $Id: CHANGES,v 1.497 2007-10-26 10:07:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,6 +32,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.4 (????/??/??)
+ - (2007/10/26) Fixed bug# 2436 - Translation bug in the frontend function
+    BuildSelection ().
  - (2007/10/24) Fixed bug# 2289 - compress with bzip2 dont works in backup.pl.
  - (2007/10/22) Fixed bug# 2421 - If customer cache backend is used, sometimes
     "Need Value" appears in the log file.
