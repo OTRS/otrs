@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPriority.pm - set ticket priority
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPriority.pm,v 1.29 2007-10-02 10:32:23 mh Exp $
+# $Id: AgentTicketPriority.pm,v 1.30 2007-10-26 14:47:48 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,8 +58,6 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
-
-    my $Output;
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
@@ -115,7 +113,7 @@ sub Run {
                 # show lock state
                 $Self->{LayoutObject}->Block(
                     Name => 'PropertiesLock',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                    Data => { %Param, TicketID => $Self->{TicketID} },
                 );
             }
         }
@@ -136,7 +134,7 @@ sub Run {
             else {
                 $Self->{LayoutObject}->Block(
                     Name => 'TicketBack',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                    Data => { %Param, TicketID => $Self->{TicketID} },
                 );
             }
         }
@@ -144,7 +142,7 @@ sub Run {
     else {
         $Self->{LayoutObject}->Block(
             Name => 'TicketBack',
-            Data => { %Param, %Ticket, },
+            Data => { %Param, %Ticket },
         );
     }
 
@@ -174,14 +172,59 @@ sub Run {
     }
 
     # get ticket free time params
-    for ( 1 .. 6 ) {
+    FREETIMENUMBER:
+    for my $FreeTimeNumber ( 1 .. 6 ) {
+
+        # create freetime prefix
+        my $FreeTimePrefix = 'TicketFreeTime' . $FreeTimeNumber;
+
+        # get form params
         for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{ "TicketFreeTime" . $_ . $Type }
-                = $Self->{ParamObject}->GetParam( Param => "TicketFreeTime" . $_ . $Type );
+            $GetParam{ $FreeTimePrefix . $Type }
+                = $Self->{ParamObject}->GetParam( Param => $FreeTimePrefix . $Type );
         }
-        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
-            $GetParam{ 'TicketFreeTime' . $_ . 'Used' } = 1;
+
+        # set additional params
+        $GetParam{ $FreeTimePrefix . 'Optional' } = 1;
+        $GetParam{ $FreeTimePrefix . 'Used' } = $GetParam{ $FreeTimePrefix . 'Used' } || 0;
+        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $FreeTimeNumber ) ) {
+            $GetParam{ $FreeTimePrefix . 'Optional' } = 0;
+            $GetParam{ $FreeTimePrefix . 'Used' }     = 1;
         }
+
+        # check the timedata
+        my $TimeDataComplete = 1;
+        TYPE:
+        for my $Type (qw(Used Year Month Day Hour Minute)) {
+            next TYPE if defined $GetParam{ $FreeTimePrefix . $Type };
+
+            $TimeDataComplete = 0;
+            last TYPE;
+        }
+
+        next FREETIMENUMBER if $TimeDataComplete;
+
+        if ( !$Ticket{$FreeTimePrefix} ) {
+
+            for my $Type (qw(Optional Used Year Month Day Hour Minute)) {
+                delete $GetParam{ $FreeTimePrefix . $Type };
+            }
+
+            next FREETIMENUMBER;
+        }
+
+        # get freetime data from ticket
+        my $TicketFreeTimeString
+            = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Ticket{$FreeTimePrefix} );
+        my ( $Second, $Minute, $Hour, $Day, $Month, $Year )
+            = $Self->{TimeObject}->SystemTime2Date( SystemTime => $TicketFreeTimeString );
+
+        $GetParam{ $FreeTimePrefix . 'Used' }   = 1;
+        $GetParam{ $FreeTimePrefix . 'Minute' } = $Minute;
+        $GetParam{ $FreeTimePrefix . 'Hour' }   = $Hour;
+        $GetParam{ $FreeTimePrefix . 'Day' }    = $Day;
+        $GetParam{ $FreeTimePrefix . 'Month' }  = $Month;
+        $GetParam{ $FreeTimePrefix . 'Year' }   = $Year;
     }
 
     # get article free text params
@@ -206,7 +249,7 @@ sub Run {
         # check pending time
         if ( $GetParam{NewStateID} ) {
             my %StateData
-                = $Self->{TicketObject}->{StateObject}->StateGet( ID => $GetParam{NewStateID}, );
+                = $Self->{TicketObject}->{StateObject}->StateGet( ID => $GetParam{NewStateID} );
 
             # check state type
             if ( $StateData{TypeName} =~ /^pending/i ) {
@@ -285,7 +328,7 @@ sub Run {
 
         # get all attachments meta data
         my @Attachments
-            = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID}, );
+            = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
 
         # check expand
         if ( $GetParam{Expand} ) {
@@ -318,8 +361,7 @@ sub Run {
             );
 
             # ticket free time
-            my %TicketFreeTimeHTML
-                = $Self->{LayoutObject}->AgentFreeDate( %Param, Ticket => \%GetParam, );
+            my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam );
 
             # article free text
             my %ArticleFreeText = ();
@@ -464,7 +506,7 @@ sub Run {
 
             # get pre loaded attachment
             my @AttachmentData
-                = $Self->{UploadCachObject}->FormIDGetAllFilesData( FormID => $Self->{FormID}, );
+                = $Self->{UploadCachObject}->FormIDGetAllFilesData( FormID => $Self->{FormID} );
             for my $Ref (@AttachmentData) {
                 $Self->{TicketObject}->ArticleWriteAttachment(
                     %{$Ref},
@@ -521,7 +563,7 @@ sub Run {
 
                 if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
                     %Time = $Self->{LayoutObject}
-                        ->TransfromDateSelection( %GetParam, Prefix => "TicketFreeTime" . $_, );
+                        ->TransfromDateSelection( %GetParam, Prefix => "TicketFreeTime" . $_ );
                 }
                 $Self->{TicketObject}->TicketFreeTimeSet(
                     %Time,
@@ -566,7 +608,7 @@ sub Run {
 
             # unlock the ticket after close
             my %StateData
-                = $Self->{TicketObject}->{StateObject}->StateGet( ID => $GetParam{NewStateID}, );
+                = $Self->{TicketObject}->{StateObject}->StateGet( ID => $GetParam{NewStateID} );
 
             # set unlock on close
             if ( $StateData{TypeName} =~ /^close/i ) {
@@ -590,7 +632,7 @@ sub Run {
 
         # redirect
         return $Self->{LayoutObject}->Redirect(
-            OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID", );
+            OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID" );
     }
     else {
 
@@ -624,29 +666,8 @@ sub Run {
             Config => \%TicketFreeText,
         );
 
-        # free time
-        my %TicketFreeTime = ();
-        for ( 1 .. 6 ) {
-            $TicketFreeTime{ "TicketFreeTime" . $_ . 'Optional' }
-                = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
-            $TicketFreeTime{ "TicketFreeTime" . $_ . 'Used' }
-                = $GetParam{ 'TicketFreeTime' . $_ . 'Used' };
-
-            if ( $Ticket{ "TicketFreeTime" . $_ } ) {
-                (   $TicketFreeTime{ "TicketFreeTime" . $_ . 'Secunde' },
-                    $TicketFreeTime{ "TicketFreeTime" . $_ . 'Minute' },
-                    $TicketFreeTime{ "TicketFreeTime" . $_ . 'Hour' },
-                    $TicketFreeTime{ "TicketFreeTime" . $_ . 'Day' },
-                    $TicketFreeTime{ "TicketFreeTime" . $_ . 'Month' },
-                    $TicketFreeTime{ "TicketFreeTime" . $_ . 'Year' }
-                    )
-                    = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Self->{TimeObject}
-                        ->TimeStamp2SystemTime( String => $Ticket{ "TicketFreeTime" . $_ }, ), );
-                $TicketFreeTime{ "TicketFreeTime" . $_ . 'Used' } = 1;
-            }
-        }
-        my %TicketFreeTimeHTML
-            = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%TicketFreeTime, );
+        # ticket free time
+        my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam );
 
         # get article free text config options
         my %ArticleFreeText = ();
@@ -673,7 +694,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask( %GetParam, %Ticket, %TicketFreeTextHTML, %TicketFreeTimeHTML,
-            %ArticleFreeTextHTML, );
+            %ArticleFreeTextHTML );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -914,7 +935,7 @@ sub _Mask {
         );
         for ( sort keys %StateList ) {
             if ($_) {
-                my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $_, );
+                my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $_ );
                 if ( $StateData{TypeName} =~ /pending/i ) {
                     $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
                         Format   => 'DateInputFormatLong',
@@ -1103,7 +1124,7 @@ sub _Mask {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeText' . $Count,
-                Data => { %Param, Count => $Count, },
+                Data => { %Param, Count => $Count },
             );
         }
     }
@@ -1121,7 +1142,7 @@ sub _Mask {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeTime' . $Count,
-                Data => { %Param, Count => $Count, },
+                Data => { %Param, Count => $Count },
             );
         }
     }
@@ -1141,7 +1162,7 @@ sub _Mask {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleFreeText' . $Count,
-                Data => { %Param, Count => $Count, },
+                Data => { %Param, Count => $Count },
             );
         }
     }

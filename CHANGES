@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.499 2007-10-26 14:40:59 rk Exp $
+# $Id: CHANGES,v 1.500 2007-10-26 14:52:18 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,6 @@
 # --
 
 CVS HEAD (????/??/??)
- - (2007/10/26) Fixed bug# 2446 - Subject is not quoted.
  - (2007/10/25) Improved Kernel::System::Crypt::PGP to return information about
     the PGP-keys that were actually used in Decrypt() and Verify().
  - (2007/10/25) Updated all cpan modules and removed useless files.
@@ -34,6 +33,8 @@ CVS HEAD (????/??/??)
 
 2.2.4 (????/??/??)
  - (2007/10/26) Fixed bug# 2446 - Subject is not quoted.
+ - (2007/10/26) Fixed bug# 2442 - disappearing ticketfreetime checkboxes in
+    some ticket masks.
  - (2007/10/26) Fixed bug# 2436 - Translation bug in the frontend function
     BuildSelection ().
  - (2007/10/24) Fixed bug# 2289 - compress with bzip2 dont works in backup.pl.
