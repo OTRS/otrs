@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.51.2.3 2007-10-17 06:53:07 tr Exp $
+# $Id: Layout.pm,v 1.51.2.4 2007-10-26 10:03:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.51.2.3 $';
+$VERSION = '$Revision: 1.51.2.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2028,6 +2028,15 @@ sub _BuildSelectionOptionRefCreate {
     if (defined($Param{Translation}) && $Param{Translation} eq 0) {
         $OptionRef->{Translation} = 0;
     }
+    # correcting selected value hash if translation is on
+    if ($OptionRef->{Translation} && $OptionRef->{SelectedValue} && ref $OptionRef->{SelectedValue} eq 'HASH') {
+        my %SelectedValueNew;
+        for my $OriginalKey ( keys %{ $OptionRef->{SelectedValue} } ) {
+            my $TranslatedKey = $Self->{LanguageObject}->Get( $OriginalKey );
+            $SelectedValueNew{$TranslatedKey} = 1;
+        }
+        $OptionRef->{SelectedValue} = \%SelectedValueNew;
+    }
     # set PossibleNone option
     $OptionRef->{PossibleNone} = 0;
     if ($Param{PossibleNone}) {
@@ -3402,6 +3411,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.51.2.3 $ $Date: 2007-10-17 06:53:07 $
+$Revision: 1.51.2.4 $ $Date: 2007-10-26 10:03:46 $
 
 =cut
