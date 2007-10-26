@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketClose.pm,v 1.33 2007-09-06 10:28:21 mh Exp $
+# $Id: AgentTicketClose.pm,v 1.33.2.1 2007-10-26 14:20:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.33.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -167,13 +167,56 @@ sub Run {
         $GetParam{"TicketFreeText$_"} = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
     }
     # get ticket free time params
-    foreach (1..6) {
-        foreach my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{"TicketFreeTime".$_.$Type} = $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+    FREETIMENUMBER:
+    for my $FreeTimeNumber ( 1 .. 6 ) {
+
+        # create freetime prefix
+        my $FreeTimePrefix = 'TicketFreeTime' . $FreeTimeNumber;
+
+        # get form params
+        for my $Type (qw(Used Year Month Day Hour Minute)) {
+            $GetParam{ $FreeTimePrefix . $Type } = $Self->{ParamObject}->GetParam( Param => $FreeTimePrefix . $Type );
         }
-        if (!$Self->{ConfigObject}->Get('TicketFreeTimeOptional'.$_)) {
-            $GetParam{'TicketFreeTime'.$_.'Used'} = 1;
+
+        # set additional params
+        $GetParam{ $FreeTimePrefix . 'Optional' } = 1;
+        $GetParam{ $FreeTimePrefix . 'Used' } = $GetParam{ $FreeTimePrefix . 'Used' } || 0;
+        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $FreeTimeNumber ) ) {
+            $GetParam{ $FreeTimePrefix . 'Optional' } = 0;
+            $GetParam{ $FreeTimePrefix . 'Used' } = 1;
         }
+
+        # check the timedata
+        my $TimeDataComplete = 1;
+        TYPE:
+        for my $Type (qw(Used Year Month Day Hour Minute)) {
+            next TYPE if defined $GetParam{ $FreeTimePrefix . $Type };
+
+            $TimeDataComplete = 0;
+            last TYPE;
+        }
+
+        next FREETIMENUMBER if $TimeDataComplete;
+
+        if (!$Ticket{ $FreeTimePrefix }) {
+
+            for my $Type (qw(Optional Used Year Month Day Hour Minute)) {
+                delete $GetParam{ $FreeTimePrefix . $Type };
+            }
+
+            next FREETIMENUMBER;
+        }
+
+        # get freetime data from ticket
+        my $TicketFreeTimeString = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Ticket{ $FreeTimePrefix } );
+        my ( $Second, $Minute, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date( SystemTime => $TicketFreeTimeString );
+
+        $GetParam{ $FreeTimePrefix . 'Used' } = 1;
+        $GetParam{ $FreeTimePrefix . 'Minute' } = $Minute;
+        $GetParam{ $FreeTimePrefix . 'Hour' } = $Hour;
+        $GetParam{ $FreeTimePrefix . 'Day' } = $Day;
+        $GetParam{ $FreeTimePrefix . 'Month' } = $Month;
+        $GetParam{ $FreeTimePrefix . 'Year' } = $Year;
     }
     # get article free text params
     foreach (1..3) {
@@ -286,8 +329,7 @@ sub Run {
             );
             # ticket free time
             my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
-                %Param,
-                Ticket => \%GetParam,
+                Ticket => \%GetParam
             );
             # article free text
             my %ArticleFreeText = ();
@@ -578,30 +620,9 @@ sub Run {
             Ticket => \%Ticket,
             Config => \%TicketFreeText,
         );
-        # free time
-        my %TicketFreeTime = ();
-        foreach (1..6) {
-            $TicketFreeTime{"TicketFreeTime".$_.'Optional'} = $Self->{ConfigObject}->Get('TicketFreeTimeOptional'.$_) || 0;
-            $TicketFreeTime{"TicketFreeTime".$_.'Used'} = $GetParam{'TicketFreeTime'.$_.'Used'};
-
-            if ($Ticket{"TicketFreeTime".$_}) {
-                (
-                    $TicketFreeTime{"TicketFreeTime".$_.'Secunde'},
-                    $TicketFreeTime{"TicketFreeTime".$_.'Minute'},
-                    $TicketFreeTime{"TicketFreeTime".$_.'Hour'},
-                    $TicketFreeTime{"TicketFreeTime".$_.'Day'},
-                    $TicketFreeTime{"TicketFreeTime".$_.'Month'},
-                    $TicketFreeTime{"TicketFreeTime".$_.'Year'}
-                ) = $Self->{TimeObject}->SystemTime2Date(
-                    SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
-                        String => $Ticket{"TicketFreeTime".$_},
-                    ),
-                );
-                $TicketFreeTime{"TicketFreeTime".$_.'Used'} = 1;
-            }
-        }
+        # ticket free time
         my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
-            Ticket => \%TicketFreeTime,
+            Ticket => \%GetParam
         );
         # get article free text config options
         my %ArticleFreeText = ();
