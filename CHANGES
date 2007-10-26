@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.24 2007-10-26 14:21:56 mh Exp $
+# $Id: CHANGES,v 1.465.2.25 2007-10-26 14:40:33 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.2.4 (????/??/??)
+ - (2007/10/26) Fixed bug# 2446 - Subject is not quoted.
  - (2007/10/26) Fixed bug# 2442 - disappearing ticketfreetime checkboxes in
     some ticket masks.
  - (2007/10/26) Fixed bug# 2436 - Translation bug in the frontend function

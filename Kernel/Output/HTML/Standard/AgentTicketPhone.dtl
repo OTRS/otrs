@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.25 2007-05-04 11:47:59 martin Exp $
+# $Id: AgentTicketPhone.dtl,v 1.25.2.1 2007-10-26 14:40:33 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -166,7 +166,7 @@ function clear_field() {
           <tr>
             <td class="contentkey">$Text{"Subject"}:</td>
             <td class="contentvalue">
-              <input type="text" name="Subject" value="$Data{"Subject"}" size="80">
+              <input type="text" name="Subject" value="$QData{"Subject"}" size="80">
               <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
             </td>
           </tr>
