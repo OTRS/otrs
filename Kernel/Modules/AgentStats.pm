@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.43 2007-10-23 11:20:54 tr Exp $
+# $Id: AgentStats.pm,v 1.44 2007-10-30 08:43:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -275,7 +275,6 @@ sub Run {
 
         # get static attributes
         if ( $Stat->{StatType} eq 'static' ) {
-
             # load static modul
             my $Params = $Self->{StatsObject}->GetParams( StatID => $StatID );
             $Self->{LayoutObject}->Block( Name => 'Static', );
@@ -304,6 +303,7 @@ sub Run {
                 UseAsValueSeries => 'Value Series',
                 UseAsRestriction => 'Restrictions',
             );
+
             for my $Use (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
                 my $Flag = 0;
                 $Self->{LayoutObject}->Block(
@@ -311,224 +311,220 @@ sub Run {
                     Data => { Name => $Name{$Use} },
                 );
                 for my $ObjectAttribute ( @{ $Stat->{$Use} } ) {
-                    if ( $ObjectAttribute->{Selected} ) {
-                        my %ValueHash = ();
-                        $Flag = 1;
+                    next if !$ObjectAttribute->{Selected} ;
 
-                        # Select All function
-                        if ( !$ObjectAttribute->{SelectedValues}[0] ) {
-                            my @Values = keys( %{ $ObjectAttribute->{Values} } );
-                            $ObjectAttribute->{SelectedValues} = \@Values;
+                    my %ValueHash = ();
+                    $Flag = 1;
+
+                    # Select All function
+                    if ( !$ObjectAttribute->{SelectedValues}[0] ) {
+                        my @Values = keys( %{ $ObjectAttribute->{Values} } );
+                        $ObjectAttribute->{SelectedValues} = \@Values;
+                    }
+                    for ( @{ $ObjectAttribute->{SelectedValues} } ) {
+                        if ( $ObjectAttribute->{Values} ) {
+                            $ValueHash{$_} = $ObjectAttribute->{Values}{$_};
                         }
-                        for ( @{ $ObjectAttribute->{SelectedValues} } ) {
-                            if ( $ObjectAttribute->{Values} ) {
-                                $ValueHash{$_} = $ObjectAttribute->{Values}{$_};
-                            }
-                            else {
-                                $ValueHash{Value} = $_;
-                            }
-                        }
-
-                        $Self->{LayoutObject}->Block(
-                            Name => 'Element',
-                            Data => { Name => $ObjectAttribute->{Name} },
-                        );
-
-                        # show fixed elements
-                        if ( $ObjectAttribute->{Fixed} ) {
-                            if ( $ObjectAttribute->{Block} eq 'Time' ) {
-                                if ( $Use eq 'UseAsRestriction' ) {
-                                    delete( $ObjectAttribute->{SelectedValues} );
-                                }
-                                my $TimeScale = _TimeScale();
-                                if ( $ObjectAttribute->{TimeStart} ) {
-                                    $Self->{LayoutObject}->Block(
-                                        Name => 'TimePeriodFixed',
-                                        Data => {
-                                            TimeStart => $ObjectAttribute->{TimeStart},
-                                            TimeStop  => $ObjectAttribute->{TimeStop},
-                                        },
-                                    );
-                                }
-                                elsif ( $ObjectAttribute->{TimeRelativeUnit} ) {
-                                    $Self->{LayoutObject}->Block(
-                                        Name => 'TimeRelativeFixed',
-                                        Data => {
-                                            TimeRelativeUnit =>
-                                                $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }
-                                                {Value},
-                                            TimeRelativeCount =>
-                                                $ObjectAttribute->{TimeRelativeCount},
-                                        },
-                                    );
-                                }
-                                if ( $ObjectAttribute->{SelectedValues}[0] ) {
-                                    $Self->{LayoutObject}->Block(
-                                        Name => 'TimeScaleFixed',
-                                        Data => {
-                                            Scale =>
-                                                $TimeScale->{ $ObjectAttribute->{SelectedValues}[0]
-                                                }{Value},
-                                            Count => $ObjectAttribute->{TimeScaleCount},
-                                        },
-                                    );
-                                }
-                            }
-                            else {
-                                for ( sort { $ValueHash{$a} cmp $ValueHash{$b} } keys %ValueHash ) {
-                                    my $Value = $ValueHash{$_};
-                                    if ( $ObjectAttribute->{LanguageTranslation} ) {
-                                        $Value = "\$Text{\"$ValueHash{$_}\"}";
-                                    }
-                                    $Self->{LayoutObject}->Block(
-                                        Name => 'Fixed',
-                                        Data => {
-                                            Value   => $Value,
-                                            Key     => $_,
-                                            Use     => $Use,
-                                            Element => $ObjectAttribute->{Element},
-                                        },
-                                    );
-                                }
-                            }
-                        }
-
-                        # show  unfixed elements
                         else {
-                            my %BlockData = ();
-                            $BlockData{Name}    = $ObjectAttribute->{Name};
-                            $BlockData{Element} = $ObjectAttribute->{Element};
-                            $BlockData{Value}   = $ObjectAttribute->{SelectedValues}->[0];
+                            $ValueHash{Value} = $_;
+                        }
+                    }
 
-                            if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
-                                $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                                    Data                => \%ValueHash,
-                                    Name                => $Use . $ObjectAttribute->{Element},
-                                    Multiple            => 1,
-                                    Size                => 5,
-                                    SelectedIDRefArray  => $ObjectAttribute->{SelectedValues},
-                                    LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
-                                );
-                                $Self->{LayoutObject}->Block(
-                                    Name => 'MultiSelectField',
-                                    Data => \%BlockData,
-                                );
-                            }
-                            elsif ( $ObjectAttribute->{Block} eq 'SelectField' ) {
-                                $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                                    Data                => \%ValueHash,
-                                    Name                => $Use . $ObjectAttribute->{Element},
-                                    LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
-                                );
-                                $Self->{LayoutObject}->Block(
-                                    Name => 'SelectField',
-                                    Data => \%BlockData,
-                                );
-                            }
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Element',
+                        Data => { Name => $ObjectAttribute->{Name} },
+                    );
 
-                            elsif ( $ObjectAttribute->{Block} eq 'InputField' ) {
+                    # show fixed elements
+                    if ( $ObjectAttribute->{Fixed} ) {
+                        if ( $ObjectAttribute->{Block} eq 'Time' ) {
+                            if ( $Use eq 'UseAsRestriction' ) {
+                                delete( $ObjectAttribute->{SelectedValues} );
+                            }
+                            my $TimeScale = _TimeScale();
+                            if ( $ObjectAttribute->{TimeStart} ) {
                                 $Self->{LayoutObject}->Block(
-                                    Name => 'InputField',
+                                    Name => 'TimePeriodFixed',
                                     Data => {
-                                        Key   => $Use . $ObjectAttribute->{Element},
-                                        Value => $ObjectAttribute->{SelectedValues}[0],
+                                        TimeStart => $ObjectAttribute->{TimeStart},
+                                        TimeStop  => $ObjectAttribute->{TimeStop},
                                     },
                                 );
                             }
-                            elsif ( $ObjectAttribute->{Block} eq 'Time' ) {
-                                $ObjectAttribute->{Element} = $Use . $ObjectAttribute->{Element};
-                                my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType")
-                                    || 'Normal';
-                                my %TimeData = _Timeoutput( $Self, %{$ObjectAttribute},
-                                    OnlySelectedAttributs => 1 );
-                                %BlockData = ( %BlockData, %TimeData );
-                                if ( $ObjectAttribute->{TimeStart} ) {
-                                    $BlockData{TimeStartMax} = $ObjectAttribute->{TimeStart};
-                                    $BlockData{TimeStopMax}  = $ObjectAttribute->{TimeStop};
+                            elsif ( $ObjectAttribute->{TimeRelativeUnit} ) {
+                                $Self->{LayoutObject}->Block(
+                                    Name => 'TimeRelativeFixed',
+                                    Data => {
+                                        TimeRelativeUnit =>
+                                            $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }
+                                            {Value},
+                                        TimeRelativeCount =>
+                                            $ObjectAttribute->{TimeRelativeCount},
+                                    },
+                                );
+                            }
+                            if ( $ObjectAttribute->{SelectedValues}[0] ) {
+                                $Self->{LayoutObject}->Block(
+                                    Name => 'TimeScaleFixed',
+                                    Data => {
+                                        Scale =>
+                                            $TimeScale->{ $ObjectAttribute->{SelectedValues}[0]
+                                            }{Value},
+                                        Count => $ObjectAttribute->{TimeScaleCount},
+                                    },
+                                );
+                            }
+                        }
+                        else {
+                            for ( sort { $ValueHash{$a} cmp $ValueHash{$b} } keys %ValueHash ) {
+                                my $Value = $ValueHash{$_};
+                                if ( $ObjectAttribute->{LanguageTranslation} ) {
+                                    $Value = "\$Text{\"$ValueHash{$_}\"}";
+                                }
+                                $Self->{LayoutObject}->Block(
+                                    Name => 'Fixed',
+                                    Data => {
+                                        Value   => $Value,
+                                        Key     => $_,
+                                        Use     => $Use,
+                                        Element => $ObjectAttribute->{Element},
+                                    },
+                                );
+                            }
+                        }
+                    }
+
+                    # show  unfixed elements
+                    else {
+                        my %BlockData = ();
+                        $BlockData{Name}    = $ObjectAttribute->{Name};
+                        $BlockData{Element} = $ObjectAttribute->{Element};
+                        $BlockData{Value}   = $ObjectAttribute->{SelectedValues}->[0];
+
+                        if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
+                            $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
+                                Data                => \%ValueHash,
+                                Name                => $Use . $ObjectAttribute->{Element},
+                                Multiple            => 1,
+                                Size                => 5,
+                                SelectedIDRefArray  => $ObjectAttribute->{SelectedValues},
+                                LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
+                            );
+                            $Self->{LayoutObject}->Block(
+                                Name => 'MultiSelectField',
+                                Data => \%BlockData,
+                            );
+                        }
+                        elsif ( $ObjectAttribute->{Block} eq 'SelectField' ) {
+                            $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
+                                Data                => \%ValueHash,
+                                Name                => $Use . $ObjectAttribute->{Element},
+                                LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
+                            );
+                            $Self->{LayoutObject}->Block(
+                                Name => 'SelectField',
+                                Data => \%BlockData,
+                            );
+                        }
+
+                        elsif ( $ObjectAttribute->{Block} eq 'InputField' ) {
+                            $Self->{LayoutObject}->Block(
+                                Name => 'InputField',
+                                Data => {
+                                    Key   => $Use . $ObjectAttribute->{Element},
+                                    Value => $ObjectAttribute->{SelectedValues}[0],
+                                },
+                            );
+                        }
+                        elsif ( $ObjectAttribute->{Block} eq 'Time' ) {
+                            $ObjectAttribute->{Element} = $Use . $ObjectAttribute->{Element};
+                            my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType")
+                                || 'Normal';
+                            my %TimeData = _Timeoutput( $Self, %{$ObjectAttribute},
+                                OnlySelectedAttributs => 1 );
+                            %BlockData = ( %BlockData, %TimeData );
+                            if ( $ObjectAttribute->{TimeStart} ) {
+                                $BlockData{TimeStartMax} = $ObjectAttribute->{TimeStart};
+                                $BlockData{TimeStopMax}  = $ObjectAttribute->{TimeStop};
+                                $Self->{LayoutObject}->Block(
+                                    Name => 'TimePeriod',
+                                    Data => \%BlockData,
+                                );
+                            }
+
+                            elsif ( $ObjectAttribute->{TimeRelativeUnit} ) {
+                                my $TimeScale = _TimeScale();
+                                if ( $TimeType eq 'Extended' ) {
+                                    my @TimeScaleArray  = reverse( keys( %{$TimeScale} ) );
+                                    my %TimeScaleOption = ();
+                                    for (@TimeScaleArray) {
+                                        $TimeScaleOption{$_} = $TimeScale->{$_}{Value};
+                                        if ( $ObjectAttribute->{TimeRelativeUnit} eq $_ ) {
+                                            last;
+                                        }
+                                    }
+                                    $BlockData{TimeRelativeUnit}
+                                        = $Self->{LayoutObject}->OptionStrgHashRef(
+                                        Data => \%TimeScaleOption,
+                                        Name => $ObjectAttribute->{Element}
+                                            . 'TimeRelativeUnit',
+                                        );
+                                }
+                                $BlockData{TimeRelativeCountMax}
+                                    = $ObjectAttribute->{TimeRelativeCount};
+                                $BlockData{TimeRelativeUnitMax}
+                                    = $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }
+                                    {Value};
+
+                                $Self->{LayoutObject}->Block(
+                                    Name => 'TimePeriodRelative',
+                                    Data => \%BlockData,
+                                );
+                            }
+
+                            # build the Timescale output
+                            if ( $Use ne 'UseAsRestriction' ) {
+                                if ( $TimeType eq 'Normal' ) {
+                                    $BlockData{TimeScaleCount} = 1;
+                                    $BlockData{TimeScaleUnit}  = $BlockData{TimeSelectField};
+                                }
+                                elsif ( $TimeType eq 'Extended' ) {
+                                    my $TimeScale       = _TimeScale();
+                                    my %TimeScaleOption = ();
+                                    for ( keys %{$TimeScale} ) {
+                                        $TimeScaleOption{$_} = $TimeScale->{$_}->{Value};
+                                        last if $ObjectAttribute->{SelectedValues}[0] eq $_ ;
+                                    }
+                                    $BlockData{TimeScaleUnitMax}
+                                        = $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }{Value};
+                                    $BlockData{TimeScaleCountMax} = $ObjectAttribute->{TimeScaleCount};
+                                    $BlockData{TimeScaleUnit}
+                                        = $Self->{LayoutObject}->OptionStrgHashRef(
+                                        Data => \%TimeScaleOption,
+                                        Name => $ObjectAttribute->{Element},
+                                        );
                                     $Self->{LayoutObject}->Block(
-                                        Name => 'TimePeriod',
+                                        Name => 'TimeScaleInfo',
                                         Data => \%BlockData,
                                     );
                                 }
-
-                                elsif ( $ObjectAttribute->{TimeRelativeUnit} ) {
-                                    my $TimeScale = _TimeScale();
-                                    if ( $TimeType eq 'Extended' ) {
-                                        my @TimeScaleArray  = reverse( keys( %{$TimeScale} ) );
-                                        my %TimeScaleOption = ();
-                                        for (@TimeScaleArray) {
-                                            $TimeScaleOption{$_} = $TimeScale->{$_}{Value};
-                                            if ( $ObjectAttribute->{TimeRelativeUnit} eq $_ ) {
-                                                last;
-                                            }
-                                        }
-                                        $BlockData{TimeRelativeUnit}
-                                            = $Self->{LayoutObject}->OptionStrgHashRef(
-                                            Data => \%TimeScaleOption,
-                                            Name => $ObjectAttribute->{Element}
-                                                . 'TimeRelativeUnit',
-                                            );
-                                    }
-                                    $BlockData{TimeRelativeCountMax}
-                                        = $ObjectAttribute->{TimeRelativeCount};
-                                    $BlockData{TimeRelativeUnitMax}
-                                        = $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }
-                                        {Value};
-
+                                if ( $ObjectAttribute->{SelectedValues} ) {
                                     $Self->{LayoutObject}->Block(
-                                        Name => 'TimePeriodRelative',
+                                        Name => 'TimeScale',
                                         Data => \%BlockData,
                                     );
-                                }
-
-                                # build the Timescale output
-                                if ( $Use ne 'UseAsRestriction' ) {
-                                    if ( $TimeType eq 'Normal' ) {
-                                        $BlockData{TimeScaleCount} = 1;
-                                        $BlockData{TimeScaleUnit}  = $BlockData{TimeSelectField};
-                                    }
-                                    elsif ( $TimeType eq 'Extended' ) {
-                                        my $TimeScale       = _TimeScale();
-                                        my %TimeScaleOption = ();
-                                        for ( keys %{$TimeScale} ) {
-                                            $TimeScaleOption{$_} = $TimeScale->{$_}->{Value};
-                                            if ( $ObjectAttribute->{SelectedValues}[0] eq $_ ) {
-                                                last;
-                                            }
-                                        }
-                                        $BlockData{TimeScaleUnitMax}
-                                            = $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }{Value};
-                                        $BlockData{TimeScaleCountMax} = $ObjectAttribute->{TimeScaleCount};
-                                        $BlockData{TimeScaleUnit}
-                                            = $Self->{LayoutObject}->OptionStrgHashRef(
-                                            Data => \%TimeScaleOption,
-                                            Name => $ObjectAttribute->{Element},
-                                            );
+                                    if ( $BlockData{TimeScaleUnitMax} ) {
                                         $Self->{LayoutObject}->Block(
                                             Name => 'TimeScaleInfo',
                                             Data => \%BlockData,
                                         );
                                     }
-                                    if ( $ObjectAttribute->{SelectedValues} ) {
-                                        $Self->{LayoutObject}->Block(
-                                            Name => 'TimeScale',
-                                            Data => \%BlockData,
-                                        );
-                                        if ( $BlockData{TimeScaleUnitMax} ) {
-                                            $Self->{LayoutObject}->Block(
-                                                Name => 'TimeScaleInfo',
-                                                Data => \%BlockData,
-                                            );
-                                        }
-                                    }
                                 }
-
-                                # ent of build timescale output
                             }
+                            # end of build timescale output
                         }
                     }
                 }
-
                 # Show this Block if no valueseries or restrictions are selected
                 if ( !$Flag ) {
                     $Self->{LayoutObject}->Block( Name => 'NoElement', );
@@ -581,21 +577,15 @@ sub Run {
         # Errorwaring if some have done wrong setting in the view mask
         # search for better solution
         if ($Message) {
-            if ( $Message == 1 ) {
-                $Message = 'The selected start time is before the allowed start time!';
-            }
-            elsif ( $Message == 2 ) {
-                $Message = 'The selected end time is after the allowed end time!';
-            }
-            elsif ( $Message == 3 ) {
-                $Message = 'The selected time period is larger than the allowed time period!';
-            }
-            elsif ( $Message == 4 ) {
-                $Message
-                    = 'Your reporting time interval is too small, please use a larger time scale!';
-            }
+            my %ErrorMessages = (
+               1 => 'The selected start time is before the allowed start time!',
+               2 => 'The selected end time is after the allowed end time!',
+               3 => 'The selected time period is larger than the allowed time period!',
+               4 => 'Your reporting time interval is too small, please use a larger time scale!',
+            );
+
             $Output .= $Self->{LayoutObject}->Notify(
-                Info     => $Message,
+                Info     => $ErrorMessages{$Message},
                 Priority => 'Error',
             );
         }
@@ -617,8 +607,8 @@ sub Run {
         $Self->{AccessRw} || return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
 
         # get params
-        for (qw(Status Yes No)) {
-            $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+        for my $Key (qw(Status Yes No)) {
+            $Param{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
         }
 
         my $StatID = $Self->{ParamObject}->GetParam( Param => 'StatID' );
@@ -635,19 +625,18 @@ sub Run {
             # redirect to edit
             return $Self->{LayoutObject}->Redirect( OP => "Action=AgentStats&Subaction=Overview" );
         }
-        else {
-            my $Stat = $Self->{StatsObject}->StatsGet( StatID => $StatID );
 
-            # build output
-            $Output .= $Self->{LayoutObject}->Header( Title => "Delete" );
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentStatsDelete',
-                Data         => $Stat,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
+        my $Stat = $Self->{StatsObject}->StatsGet( StatID => $StatID );
+
+        # build output
+        $Output .= $Self->{LayoutObject}->Header( Title => "Delete" );
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentStatsDelete',
+            Data         => $Stat,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     # ---------------------------------------------------------- #
@@ -775,25 +764,14 @@ sub Run {
         if ( $Param{Home} eq 'EditSpecification' ) {
 
             # save string
-            for (qw(Title Description)) {
-                if ( defined( $Self->{ParamObject}->GetParam( Param => $_ ) ) ) {
-                    my $Param = $Self->{ParamObject}->GetParam( Param => $_ );
-                    $Data{$_} = $Param;
-                    $Data{$_} =~ s/^\s+//;
-                    $Data{$_} =~ s/\s+$//;
+            KEY:
+            for my $Key (qw(Title Description Object File SumRow SumCol Cache StatType Valid)) {
+                if ( defined( $Self->{ParamObject}->GetParam( Param => $Key ) ) ) {
+                    $Data{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
+                    $Data{$Key} =~ s/(^\s+|\s+$)//g;
+                    next KEY;
                 }
-                else {
-                    $Data{$_} = '';
-                }
-            }
-            for (qw(Object File SumRow SumCol Cache StatType Valid)) {
-                if ( defined( $Self->{ParamObject}->GetParam( Param => $_ ) ) ) {
-                    my $Param = $Self->{ParamObject}->GetParam( Param => $_ );
-                    $Data{$_} = $Param;
-                }
-                else {
-                    $Data{$_} = '';
-                }
+                $Data{$Key} = '';
             }
 
             if ( $Data{StatType} eq '' ) {
@@ -814,9 +792,7 @@ sub Run {
             for my $Key (qw(Permission Format GraphSize)) {
                 if ( $Self->{ParamObject}->GetArray( Param => $Key ) ) {
                     my @Array = $Self->{ParamObject}->GetArray( Param => $Key );
-                    for my $Index ( 0 .. $#Array ) {
-                        $Data{$Key}[$Index] = $Array[$Index];
-                    }
+                    $Data{$Key} = \@Array;
                 }
                 else {
                     $Data{$Key} = '';
@@ -844,95 +820,87 @@ sub Run {
             my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
             $Param{Select} = $Self->{ParamObject}->GetParam( Param => 'Select' );
             $Data{StatType} = $Stat->{StatType};
+
             for my $ObjectAttribute ( @{ $Stat->{UseAsXvalue} } ) {
-                if ( $Param{Select} eq $ObjectAttribute->{Element} ) {
-                    my @Array = $Self->{ParamObject}->GetArray( Param => $Param{Select} );
-                    $Data{UseAsXvalue}[0]{SelectedValues} = \@Array;
-                    $Data{UseAsXvalue}[0]{Element}        = $Param{Select};
-                    $Data{UseAsXvalue}[0]{Block}          = $ObjectAttribute->{Block};
-                    $Data{UseAsXvalue}[0]{Selected}       = 1;
+                next if $Param{Select} ne $ObjectAttribute->{Element};
 
-                    if ( $Self->{ParamObject}->GetParam( Param => 'Fixed' . $Param{Select} ) ) {
-                        $Data{UseAsXvalue}[0]{Fixed} = 1;
-                    }
-                    else {
-                        $Data{UseAsXvalue}[0]{Fixed} = 0;
-                    }
+                my @Array = $Self->{ParamObject}->GetArray( Param => $Param{Select} );
+                $Data{UseAsXvalue}[0]{SelectedValues} = \@Array;
+                $Data{UseAsXvalue}[0]{Element}        = $Param{Select};
+                $Data{UseAsXvalue}[0]{Block}          = $ObjectAttribute->{Block};
+                $Data{UseAsXvalue}[0]{Selected}       = 1;
 
-                    # Check if Time was selected
-                    if ( $ObjectAttribute->{Block} eq 'Time' ) {
-                        my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType") || 'Normal';
+                if ( $Self->{ParamObject}->GetParam( Param => 'Fixed' . $Param{Select} ) ) {
+                    $Data{UseAsXvalue}[0]{Fixed} = 1;
+                }
+                else {
+                    $Data{UseAsXvalue}[0]{Fixed} = 0;
+                }
 
-#                        # perhaps not useful because the period should unfixed
-#                        if ($TimeType eq 'Normal') {
-#                            # if the admin has only one unit selected, unfixed is useless
-#                            if (!$Data{UseAsXvalue}[0]{SelectedValues}[1] && $Data{UseAsXvalue}[0]{SelectedValues}[0]) {
-#                                $Data{UseAsXvalue}[0]{Fixed} = 1;
-#                            }
-#                        }
-#                        elsif ($TimeType eq 'TimeExtended') {
-#
-#                        }
-                        my %Time    = ();
-                        my $Element = $Data{UseAsXvalue}[0]{Element};
-                        $Data{UseAsXvalue}[0]{TimeScaleCount}
-                            = $Self->{ParamObject}->GetParam( Param => $Element . 'TimeScaleCount' )
-                            || 1;
-                        my $TimeSelect
-                            = $Self->{ParamObject}->GetParam( Param => $Element . 'TimeSelect' )
-                            || 'Absolut';
-                        if ( $TimeSelect eq 'Absolut' ) {
-                            for my $Limit (qw(Start Stop)) {
-                                for my $Unit (qw(Year Month Day Hour Minute Second)) {
-                                    if (defined(
-                                            $Self->{ParamObject}
-                                                ->GetParam( Param => "$Element$Limit$Unit" )
-                                        )
-                                        )
-                                    {
-                                        $Time{ $Limit . $Unit } = $Self->{ParamObject}
-                                            ->GetParam( Param => "$Element$Limit$Unit", );
-                                    }
-                                }
-                                if ( !defined( $Time{ $Limit . "Hour" } ) ) {
-                                    if ( $Limit eq 'Start' ) {
-                                        $Time{"StartHour"}   = 0;
-                                        $Time{"StartMinute"} = 0;
-                                        $Time{"StartSecond"} = 0;
-                                    }
-                                    elsif ( $Limit eq 'Stop' ) {
-                                        $Time{"StopHour"}   = 23;
-                                        $Time{"StopMinute"} = 59;
-                                        $Time{"StopSecond"} = 59;
-                                    }
-                                }
-                                elsif ( !defined( $Time{ $Limit . "Second" } ) ) {
-                                    if ( $Limit eq 'Start' ) {
-                                        $Time{"StartSecond"} = 0;
-                                    }
-                                    elsif ( $Limit eq 'Stop' ) {
-                                        $Time{"StopSecond"} = 59;
-                                    }
-                                }
+                # Check if Time was selected
+                next if $ObjectAttribute->{Block} ne 'Time';
 
-                                $Data{UseAsXvalue}[0]{"Time$Limit"} = sprintf(
-                                    "%04d-%02d-%02d %02d:%02d:%02d",
-                                    $Time{ $Limit . "Year" },
-                                    $Time{ $Limit . "Month" },
-                                    $Time{ $Limit . "Day" },
-                                    $Time{ $Limit . "Hour" },
-                                    $Time{ $Limit . "Minute" },
-                                    $Time{ $Limit . "Second" },
-                                );    # Second for later functions
+                # This part is only needed if the block time is selected
+                # perhaps a separate function is better
+                my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType") || 'Normal';
+                my %Time    = ();
+                my $Element = $Data{UseAsXvalue}[0]{Element};
+                $Data{UseAsXvalue}[0]{TimeScaleCount}
+                    = $Self->{ParamObject}->GetParam( Param => $Element . 'TimeScaleCount' )
+                    || 1;
+                my $TimeSelect
+                    = $Self->{ParamObject}->GetParam( Param => $Element . 'TimeSelect' )
+                    || 'Absolut';
+                if ( $TimeSelect eq 'Absolut' ) {
+                    for my $Limit (qw(Start Stop)) {
+                        for my $Unit (qw(Year Month Day Hour Minute Second)) {
+                            if (defined(
+                                    $Self->{ParamObject}
+                                        ->GetParam( Param => "$Element$Limit$Unit" )
+                                )
+                                )
+                            {
+                                $Time{ $Limit . $Unit } = $Self->{ParamObject}
+                                    ->GetParam( Param => "$Element$Limit$Unit", );
                             }
                         }
-                        else {
-                            $Data{UseAsXvalue}[0]{TimeRelativeUnit} = $Self->{ParamObject}
-                                ->GetParam( Param => $Element . 'TimeRelativeUnit' );
-                            $Data{UseAsXvalue}[0]{TimeRelativeCount} = $Self->{ParamObject}
-                                ->GetParam( Param => $Element . 'TimeRelativeCount' );
+                        if ( !defined( $Time{ $Limit . "Hour" } ) ) {
+                            if ( $Limit eq 'Start' ) {
+                                $Time{"StartHour"}   = 0;
+                                $Time{"StartMinute"} = 0;
+                                $Time{"StartSecond"} = 0;
+                            }
+                            elsif ( $Limit eq 'Stop' ) {
+                                $Time{"StopHour"}   = 23;
+                                $Time{"StopMinute"} = 59;
+                                $Time{"StopSecond"} = 59;
+                            }
                         }
+                        elsif ( !defined( $Time{ $Limit . "Second" } ) ) {
+                            if ( $Limit eq 'Start' ) {
+                                $Time{"StartSecond"} = 0;
+                            }
+                            elsif ( $Limit eq 'Stop' ) {
+                                $Time{"StopSecond"} = 59;
+                            }
+                        }
+
+                        $Data{UseAsXvalue}[0]{"Time$Limit"} = sprintf(
+                            "%04d-%02d-%02d %02d:%02d:%02d",
+                            $Time{ $Limit . "Year" },
+                            $Time{ $Limit . "Month" },
+                            $Time{ $Limit . "Day" },
+                            $Time{ $Limit . "Hour" },
+                            $Time{ $Limit . "Minute" },
+                            $Time{ $Limit . "Second" },
+                        );    # Second for later functions
                     }
+                }
+                else {
+                    $Data{UseAsXvalue}[0]{TimeRelativeUnit} = $Self->{ParamObject}
+                        ->GetParam( Param => $Element . 'TimeRelativeUnit' );
+                    $Data{UseAsXvalue}[0]{TimeRelativeCount} = $Self->{ParamObject}
+                        ->GetParam( Param => $Element . 'TimeRelativeCount' );
                 }
             }
 
