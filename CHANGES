@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.500 2007-10-26 14:52:18 mh Exp $
+# $Id: CHANGES,v 1.501 2007-10-31 09:58:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 CVS HEAD (????/??/??)
  - (2007/10/25) Improved Kernel::System::Crypt::PGP to return information about
     the PGP-keys that were actually used in Decrypt() and Verify().
- - (2007/10/25) Updated all cpan modules and removed useless files.
+ - (2007/10/25) Updated all cpan modules.
  - (2007/10/17) Added GroupLookup() and RoleLookup() to Group.pm and removed the
     two methods GetGroupIdByName() and GetRoleIdByName() which were already marked
     as deprecated.
