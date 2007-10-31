@@ -1,0 +1,17 @@
+# Index created by AutoSplit for blib/lib/Mail/Internet.pm
+#    (file acts as timestamp)
+package Mail::Internet;
+sub reply ;
+sub add_signature 
+;
+sub sign 
+;
+sub _prephdr  ;
+sub smtpsend ;
+sub send ;
+sub nntppost ;
+sub escape_from 
+;
+sub unescape_from 
+;
+1;
