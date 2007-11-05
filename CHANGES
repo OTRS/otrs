@@ -2,14 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.25 2007-10-26 14:40:33 rk Exp $
+# $Id: CHANGES,v 1.465.2.26 2007-11-05 13:18:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-2.2.4 (????/??/??)
+2.2.4 (2007/11/05)
+ - (2007/11/05) Fixed bug# 2472 - Emails in utf8 are not sent correctly (problem
+    after upgrading Kernel/cpan-lib/MIME/*.pm).
  - (2007/10/26) Fixed bug# 2446 - Subject is not quoted.
  - (2007/10/26) Fixed bug# 2442 - disappearing ticketfreetime checkboxes in
     some ticket masks.
