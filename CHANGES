@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.27 2007-11-05 13:27:54 martin Exp $
+# $Id: CHANGES,v 1.465.2.28 2007-11-05 13:45:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.2.4 (2007/11/05)
+ - (2007/11/05) Fixed small typo in the escalation notification.
  - (2007/11/05) Fixed bug# 2473 - Not able to update existing cache files of
     customer user backend because of file permission problems (cache files are
     created with 644). From now on cache files are created with 664 permissions.
@@ -27,7 +28,8 @@
     IPCKey per instance, but prevent clash with IPCKey of other instances.
  - (2007/10/19) Fixed bug# 2263 - Problems with array refs and escaping
  - (2007/10/18) Fixed bug# 2410 - $/ as given is currently unsupported at
-    Kernel/cpan-lib/MIME/Decoder/NBit.pm line 140
+    Kernel/cpan-lib/MIME/Decoder/NBit.pm line 140. We updated the CPAN module
+    MIME-tools to version 5.423 to solve the problem.
  - (2007/10/17) Fixed bug# 2404 - Wrong results if you use StatsTypeID as
     TicketSearch attribute.
  - (2007/10/17) Fixed bug# 2407 - Performance handicap because of a missing
