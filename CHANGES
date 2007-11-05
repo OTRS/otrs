@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.501 2007-10-31 09:58:06 mh Exp $
+# $Id: CHANGES,v 1.502 2007-11-05 13:16:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,9 @@ CVS HEAD (????/??/??)
     HTML to text convertion to email parser.
  - (2007/09/13) Improved report overview of perfornance log.
 
-2.2.4 (????/??/??)
+2.2.4 (2007/11/05)
+ - (2007/11/05) Fixed bug# 2472 - Emails in utf8 are not sent correctly (problem
+    after upgrading Kernel/cpan-lib/MIME/*.pm).
  - (2007/10/26) Fixed bug# 2446 - Subject is not quoted.
  - (2007/10/26) Fixed bug# 2442 - disappearing ticketfreetime checkboxes in
     some ticket masks.
