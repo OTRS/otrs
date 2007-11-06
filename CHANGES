@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.28 2007-11-05 13:45:19 mh Exp $
+# $Id: CHANGES,v 1.465.2.29 2007-11-06 06:53:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,10 @@
 # --
 
 2.2.4 (2007/11/05)
- - (2007/11/05) Fixed small typo in the escalation notification.
+ - (2007/11/05) Fixed bug# 2474 - Config option UserSyncLDAPAttibuteGroupsDefination
+    and UserSyncLDAPAttibuteRolesDefination is not working.
+ - (2007/11/05) Fixed small typo in scripts/database/otrs-initial_insert.xml, for
+    escalation notification text.
  - (2007/11/05) Fixed bug# 2473 - Not able to update existing cache files of
     customer user backend because of file permission problems (cache files are
     created with 644). From now on cache files are created with 664 permissions.
