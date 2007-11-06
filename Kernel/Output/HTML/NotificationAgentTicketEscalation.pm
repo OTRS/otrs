@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.10 2007-10-02 10:41:39 mh Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.11 2007-11-06 10:04:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,7 +49,7 @@ sub Run {
 
     # get all open rw ticket
     my @TicketIDs = ();
-    my $Cache = $Self->{CacheObject}->Get( Key => "Ticket::EscalationIndex::$Self->{UserID}", );
+    my $Cache = $Self->{CacheObject}->Get( Key => "Ticket::EscalationIndex::$Self->{UserID}");
     if ( $Cache && ref($Cache) eq 'ARRAY' ) {
         @TicketIDs = @{$Cache};
     }
@@ -108,12 +108,27 @@ sub Run {
             $TicketData->{Lock}
                 = $Self->{LockObject}->LockLookup( LockID => $TicketData->{LockID} );
         }
-        my $TTL = 2.5 * 60;
+        my $TTL = 0.2 * 60;
         if ( $#TicketIDs > 2000 ) {
-            $TTL = 10.5 * 60;
+            $TTL = 5.5 * 60;
+        }
+        elsif ( $#TicketIDs > 1500 ) {
+            $TTL = 3.5 * 60;
+        }
+        elsif ( $#TicketIDs > 1000 ) {
+            $TTL = 2.5 * 60;
         }
         elsif ( $#TicketIDs > 500 ) {
-            $TTL = 5.5 * 60;
+            $TTL = 2.0 * 60;
+        }
+        elsif ( $#TicketIDs > 200 ) {
+            $TTL = 1.5 * 60;
+        }
+        elsif ( $#TicketIDs > 100 ) {
+            $TTL = 1.0 * 60;
+        }
+        elsif ( $#TicketIDs > 50 ) {
+            $TTL = 0.5 * 60;
         }
         $Self->{CacheObject}->Set(
             Key   => "Ticket::EscalationIndex::$Self->{UserID}",
