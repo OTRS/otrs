@@ -2,7 +2,7 @@
 # Time.t - Time tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.t,v 1.11 2007-03-16 10:05:42 martin Exp $
+# $Id: Time.t,v 1.12 2007-11-06 10:37:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -413,6 +413,37 @@ $Self->Is(
     "$Year-$Month-$Day $Hour:$Min:$Sec",
     '2007-03-15 20:21:27',
     'DestinationTime()',
+);
+
+# Summertime test - switch back to winter time (+- 60 minutes)
+$SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2007-10-26 18:12:23',
+);
+$Self->Is(
+    $SystemTime,
+    1193415143,
+    'TimeStamp2SystemTime() - summertime -> wintertime',
+);
+
+$DestinationTime = $Self->{TimeObject}->DestinationTime(
+    StartTime => $SystemTime,
+    Time => 60*60*4.5,
+);
+
+$Self->Is(
+    $DestinationTime,
+    1193650943,
+    'DestinationTime() - summertime -> wintertime',
+);
+
+($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+    SystemTime => $DestinationTime,
+);
+
+$Self->Is(
+    "$Year-$Month-$Day $Hour:$Min:$Sec",
+    '2007-10-29 10:42:23',
+    'SystemTime2Date() - summertime -> wintertime',
 );
 
 # check the vacations

@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.32 2007-10-02 10:38:58 mh Exp $
+# $Id: Time.pm,v 1.33 2007-11-06 10:37:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -671,7 +671,9 @@ sub DestinationTime {
                 }
             }
         }
-        $CTime = $Self->Date2SystemTime(
+        # Find the unix time stamp for the next day at 00:00:00 to
+        # start for calculation.
+        my $NewCTime = $Self->Date2SystemTime(
             Year   => $Year,
             Month  => $Month,
             Day    => $Day,
@@ -679,6 +681,15 @@ sub DestinationTime {
             Minute => 0,
             Second => 0,
         ) + ( 60 * 60 * 24 );
+        # Protect local time zone problems on your machine
+        # (e. g. sommer zeit / winter zeit) and not geting
+        # over to the next day.
+        if ($NewCTime == $CTime) {
+            $CTime = $CTime + ( 60 * 60 * 24 );
+        }
+        else {
+            $CTime = $NewCTime;
+        }
     }
     $DestinationTime = $DestinationTime - $Zone;
     return $DestinationTime;
@@ -757,6 +768,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2007-10-02 10:38:58 $
+$Revision: 1.33 $ $Date: 2007-11-06 10:37:54 $
 
 =cut

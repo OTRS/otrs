@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.506 2007-11-06 10:06:30 martin Exp $
+# $Id: CHANGES,v 1.507 2007-11-06 10:37:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,6 +32,9 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.4 (2007/11/06)
+ - (2007/11/06) Fixed bug# 2477 - Escalation time calculation (destination time of
+    escalation) is not working if host system is running in summertime/wintertime
+    mode (loops because system is changinf system time from 3:00 am to 2:00 am).
  - (2007/11/05) Fixed bug# 2474 - Config option UserSyncLDAPAttibuteGroupsDefination
     and UserSyncLDAPAttibuteRolesDefination is not working.
  - (2007/11/05) Fixed small typo in scripts/database/otrs-initial_insert.xml, for
@@ -45,7 +48,7 @@ CVS HEAD (????/??/??)
  - (2007/10/26) Fixed bug# 2442 - Disappearing ticket free time checkboxes in
     some ticket masks after mask reloads.
  - (2007/10/26) Fixed bug# 2436 - Translation bug in the frontend function
-    BuildSelection ().
+    BuildSelection().
  - (2007/10/24) Fixed bug# 2289 - Compress with bzip2 dont works in backup.pl.
  - (2007/10/22) Fixed bug# 2421 - If customer cache backend is used, sometimes
     "Need Value" appears in the log file.
