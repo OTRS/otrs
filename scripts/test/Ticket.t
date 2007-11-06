@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.30 2007-10-16 12:04:11 tr Exp $
+# $Id: Ticket.t,v 1.31 2007-11-06 10:24:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -4040,7 +4040,7 @@ my %StateTypeList = $Self->{StateObject}->StateTypeList(
     UserID => 1,
 );
 
-# you need a Hash with the state as key and the related StateType and StateTypeID as
+# you need a hash with the state as key and the related StateType and StateTypeID as
 # reference
 my %StateAsKeyAndStateTypeAsValue;
 for my $StateTypeID (keys %StateTypeList) {
@@ -4049,22 +4049,22 @@ for my $StateTypeID (keys %StateTypeList) {
         Result => 'Name', # HASH|ID|Name
     );
     for my $Index (@List) {
-        $StateAsKeyAndStateTypeAsValue{$Index}{Name} = $StateTypeList{$StateTypeID};
-        $StateAsKeyAndStateTypeAsValue{$Index}{ID} = $StateTypeID;
+        $StateAsKeyAndStateTypeAsValue{$Index}->{Name} = $StateTypeList{$StateTypeID};
+        $StateAsKeyAndStateTypeAsValue{$Index}->{ID} = $StateTypeID;
     }
 }
 
 # to be sure that you have a result ticket create one
 $TicketID = $Self->{TicketObject}->TicketCreate(
     Title => 'StateTypeTest',
-    Queue => 'Raw',                 # or QueueID => 123,
+    Queue => 'Raw',
     Lock => 'unlock',
-    Priority => '3 normal',         # or PriorityID => 2,
-    State => 'new',                 # or StateID => 5,
+    Priority => '3 normal',
+    State => 'new',
     CustomerID => '123465',
     CustomerUser => 'customer@example.com',
-    OwnerID => 2,
-    UserID => 2,
+    OwnerID => 1,
+    UserID => 1,
 );
 
 my %StateList = $Self->{StateObject}->StateList(
@@ -4084,9 +4084,7 @@ for my $State (values %StateList) {
         Result => 'ARRAY',
         Title => '%StateTypeTest%',
         Queues => ['Raw'],
-        #States => [$State],
-        #StateType => [$StateType],
-        StateTypeIDs => [$StateAsKeyAndStateTypeAsValue{$State}{ID}],
+        StateTypeIDs => [$StateAsKeyAndStateTypeAsValue{$State}->{ID}],
         UserID => 1,
     );
 
@@ -4094,9 +4092,7 @@ for my $State (values %StateList) {
         Result => 'ARRAY',
         Title => '%StateTypeTest%',
         Queues => ['Raw'],
-        #States => [$State],
-        #StateType => [$StateType],
-        StateType => [$StateAsKeyAndStateTypeAsValue{$State}{Name}],
+        StateType => [$StateAsKeyAndStateTypeAsValue{$State}->{Name}],
         UserID => 1,
     );
 
@@ -4108,17 +4104,19 @@ for my $State (values %StateList) {
     }
 
     # if there is no result the StateTypeID hasn't worked
+    # Test if there is a result, if I use StateTypeID $StateAsKeyAndStateTypeAsValue{$State}->{ID}
     $Self->True(
         $TicketIDs[0],
-        "TicketSearch() Test if there is a result, if I use StateTypeID $StateAsKeyAndStateTypeAsValue{$State}{ID}",
+        "TicketSearch() - StateTypeID",
     );
 
     # if it is not equal then there is in the using of StateType or StateTypeID an error
+    # check if you get the same result if you use the StateType attribute or the StateTypeIDs attribute.
+    # State($State) StateType($StateAsKeyAndStateTypeAsValue{$State}->{Name}) and StateTypeIDs($StateAsKeyAndStateTypeAsValue{$State}->{ID})
     $Self->Is(
         scalar @TicketIDs,
         scalar @TicketIDsType,
-        "TicketSearch() check if you get the same result if you use the StateType attribute or the StateTypeIDs attribute.\n"
-       ."State($State) StateType($StateAsKeyAndStateTypeAsValue{$State}{Name}) and StateTypeIDs($StateAsKeyAndStateTypeAsValue{$State}{ID})",
+        "TicketSearch() - StateType",
     );
 }
 
