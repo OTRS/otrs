@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.275.2.4 2007-11-06 10:39:12 martin Exp $
+# $Id: Ticket.pm,v 1.275.2.5 2007-11-06 12:01:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.275.2.4 $';
+$VERSION = '$Revision: 1.275.2.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -3869,7 +3869,7 @@ sub _TicketSearchCondition {
             }
         }
         elsif ($Array[$Position] eq ')' && $Array[$Position-1] && $Array[$Position-1] ne ')') {
-             $WordNew .= "%')) ";
+            $WordNew .= "%')) ";
         }
         elsif ($Array[$Position] eq ')' && $Array[$Position+1] && $Array[$Position+1] ne ')') {
             $WordNew .= ") ";
@@ -3880,13 +3880,13 @@ sub _TicketSearchCondition {
             }
             $WordNew .= " AND ";
             if ($Array[$Position+2] ne '(') {
-            if ($Array[$Position+2] eq '!') {
-                $Not = 1;
-                $WordNew .= " LOWER($Key) NOT LIKE LOWER('%";
-            }
-            else {
-                $WordNew .= " LOWER($Key) LIKE LOWER('%";
-            }
+                if ($Array[$Position+2] eq '!') {
+                    $Not = 1;
+                    $WordNew .= " LOWER($Key) NOT LIKE LOWER('%";
+                }
+                else {
+                    $WordNew .= " LOWER($Key) LIKE LOWER('%";
+                }
             }
         }
         elsif ($Array[$Position] eq '&' && $Array[$Position-1] eq '&') {
@@ -3897,13 +3897,13 @@ sub _TicketSearchCondition {
             }
             $WordNew .= " OR ";
             if ($Array[$Position+2] ne '(') {
-            if ($Array[$Position+2] eq '!') {
-                $Not = 1;
-                $WordNew .= " LOWER($Key) NOT LIKE LOWER('%";
-            }
-            else {
-                $WordNew .= " LOWER($Key) LIKE LOWER('%";
-            }
+                if ($Array[$Position+2] eq '!') {
+                    $Not = 1;
+                    $WordNew .= " LOWER($Key) NOT LIKE LOWER('%";
+                }
+                else {
+                    $WordNew .= " LOWER($Key) LIKE LOWER('%";
+                }
             }
         }
         elsif ($Array[$Position] eq '|' && $Array[$Position-1] eq '|') {
@@ -6188,6 +6188,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.275.2.4 $ $Date: 2007-11-06 10:39:12 $
+$Revision: 1.275.2.5 $ $Date: 2007-11-06 12:01:07 $
 
 =cut
