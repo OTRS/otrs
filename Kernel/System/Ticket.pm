@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.275.2.3 2007-10-17 12:37:47 tr Exp $
+# $Id: Ticket.pm,v 1.275.2.4 2007-11-06 10:39:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.275.2.3 $';
+$VERSION = '$Revision: 1.275.2.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -3213,8 +3213,7 @@ sub TicketSearch {
             StateType => $Param{StateType},
             Result    => 'ID',
         );
-        my $StateIDsString = join ', ',  @StateIDs;
-        $SQLExt .= " AND st.ticket_state_id IN ( $StateIDsString ) ";
+        $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', @StateIDs)} ) ";
     }
 
     if ( $Param{StateTypeIDs} && ref( $Param{StateTypeIDs} ) eq 'ARRAY' ) {
@@ -3228,8 +3227,7 @@ sub TicketSearch {
             StateType => \@StateTypes,
             Result    => 'ID',
         );
-        my $StateIDsString = join ', ',  @StateIDs;
-        $SQLExt .= " AND st.ticket_state_id IN ( $StateIDsString ) ";
+        $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', @StateIDs)} ) ";
     }
     # current lock lookup
     if ($Param{Locks} && ref($Param{Locks}) eq 'ARRAY') {
@@ -6190,6 +6188,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.275.2.3 $ $Date: 2007-10-17 12:37:47 $
+$Revision: 1.275.2.4 $ $Date: 2007-11-06 10:39:12 $
 
 =cut
