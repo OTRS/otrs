@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.42 2007-10-05 00:03:36 martin Exp $
+# $Id: LDAP.pm,v 1.43 2007-11-06 06:53:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -791,9 +791,17 @@ sub Auth {
                 my %AttributeValues = %{ $SyncConfig{$Attribute} };
                 for my $AttributeValue ( keys %AttributeValues ) {
                     for my $Entry ( $Result->all_entries ) {
-                        if (   $Entry->get_value($Attribute)
-                            && $Entry->get_value($Attribute) eq $AttributeValue )
-                        {
+                        # Check all values of group attribute if needed value exists.
+                        # If yes, add all groups to the user.
+                        my $Sync = 0;
+                        my @Attributes = $Entry->get_value($Attribute);
+                        for my $Attribute (@Attributes) {
+                            if ($Attribute =~ /^\Q$AttributeValue\E$/i) {
+                                $Sync = 1;
+                                last;
+                            }
+                        }
+                        if ( $Sync ) {
                             my %Groups = %{ $AttributeValues{$AttributeValue} };
                             for my $Group ( keys %Groups ) {
 
@@ -886,9 +894,17 @@ sub Auth {
                 my %AttributeValues = %{ $SyncConfig{$Attribute} };
                 for my $AttributeValue ( keys %AttributeValues ) {
                     for my $Entry ( $Result->all_entries ) {
-                        if (   $Entry->get_value($Attribute)
-                            && $Entry->get_value($Attribute) eq $AttributeValue )
-                        {
+                        # Check all values of rolle attribute if needed value exists.
+                        # If yes, add all roles to the user.
+                        my $Sync = 0;
+                        my @Attributes = $Entry->get_value($Attribute);
+                        for my $Attribute (@Attributes) {
+                            if ($Attribute =~ /^\Q$AttributeValue\E$/i) {
+                                $Sync = 1;
+                                last;
+                            }
+                        }
+                        if ( $Sync ) {
                             my %Roles = %{ $AttributeValues{$AttributeValue} };
                             for my $Role ( keys %Roles ) {
 
