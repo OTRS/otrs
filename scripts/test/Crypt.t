@@ -2,15 +2,19 @@
 # Crypt.t - Crypt tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.6 2007-10-25 11:25:12 ot Exp $
+# $Id: Crypt.t,v 1.7 2007-11-07 19:28:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-use utf8;
+use strict;
+use warnings;
+
 use Kernel::System::Crypt;
+
+use vars qw($Self);
 
 # set config
 $Self->{ConfigObject}->Set(Key => 'PGP', Value => 1);
@@ -57,6 +61,8 @@ my %Check = (
         FingerprintShort => '36E99F7FAD766405CBE1BB42F5331A46F0974D10',
     },
 );
+
+my $TestText = 'hello1234567890����';
 
 for my $Count (1..2) {
     my @Keys = $Self->{CryptObject}->KeySearch(
@@ -114,7 +120,7 @@ for my $Count (1..2) {
 
     # crypt
     my $Crypted = $Self->{CryptObject}->Crypt(
-        Message => 'hello1234567890öäüß',
+        Message => $TestText,
         Key => $Keys[0]->{Key},
     );
     $Self->True(
@@ -131,7 +137,7 @@ for my $Count (1..2) {
     );
     $Self->Is(
         $Decrypt{Data} || '',
-        'hello1234567890öäüß',
+        $TestText,
         "#$Count Decrypt() - Data",
     );
     $Self->Is(
@@ -141,7 +147,7 @@ for my $Count (1..2) {
     );
     # sign inline
     my $Sign = $Self->{CryptObject}->Sign(
-        Message => 'hello1234567890äöß',
+        Message => $TestText,
         Key => $Keys[0]->{KeyPrivate},
         Type => 'Inline'  # Detached|Inline
     );
@@ -167,9 +173,19 @@ for my $Count (1..2) {
         $Check{$Count}->{Identifier},
         "#$Count Verify() - inline - KeyUserID",
     );
+    # verify failure on manipulated text
+    my $ManipulatedSign = $Sign;
+    $ManipulatedSign =~ s{$TestText}{garble-$TestText-garble};
+    %Verify = $Self->{CryptObject}->Verify(
+        Message => $ManipulatedSign,
+    );
+    $Self->True(
+        !$Verify{Successful},
+        "#$Count Verify() - on manipulated text",
+    );
     # sign detached
     $Sign = $Self->{CryptObject}->Sign(
-        Message => 'hello1234567890äöß',
+        Message => $TestText,
         Key => $Keys[0]->{KeyPrivate},
         Type => 'Detached'  # Detached|Inline
     );
@@ -179,7 +195,7 @@ for my $Count (1..2) {
     );
     # verify
     %Verify = $Self->{CryptObject}->Verify(
-        Message => 'hello1234567890äöß',
+        Message => $TestText,
         Sign => $Sign,
     );
     $Self->True(
@@ -195,6 +211,15 @@ for my $Count (1..2) {
         $Verify{KeyUserID} || '',
         $Check{$Count}->{Identifier},
         "#$Count Verify() - detached - KeyUserID",
+    );
+    # verify failure
+    %Verify = $Self->{CryptObject}->Verify(
+        Message => " $TestText ",
+        Sign => $Sign,
+    );
+    $Self->True(
+        !$Verify{Successful},
+        "#$Count Verify() - detached on manipulated text",
     );
 
     # file checks
@@ -288,7 +313,6 @@ for my $Count (1..2) {
             $Check{$Count}->{Identifier},
             "#$Count Verify() - detached .$File - KeyUserID",
         );
-
     }
 }
 
