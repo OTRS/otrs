@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.44 2007-10-02 10:33:42 mh Exp $
+# $Id: AdminUser.pm,v 1.45 2007-11-07 09:40:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -115,7 +115,7 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Change' ) {
-        my $UserID = $Self->{ParamObject}->GetParam( Param => 'UserID' ) || '';
+        my $UserID = $Self->{ParamObject}->GetParam( Param => 'UserID' ) || $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
         my %UserData = $Self->{UserObject}->GetUserData( UserID => $UserID, );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
