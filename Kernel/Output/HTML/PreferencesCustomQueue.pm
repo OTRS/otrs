@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesCustomQueue.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesCustomQueue.pm,v 1.9 2007-10-02 10:40:12 mh Exp $
+# $Id: PreferencesCustomQueue.pm,v 1.10 2007-11-07 09:07:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,9 +45,8 @@ sub Param {
     my %QueueData = ();
     my @CustomQueueIDs;
 
-    # check needed param
+    # check needed param, if no user id is given, do not show this box
     if ( !$Param{UserData}->{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID!" );
         return ();
     }
     if ( $Param{UserData}->{UserID} ) {
