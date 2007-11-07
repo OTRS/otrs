@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.507 2007-11-06 10:37:54 martin Exp $
+# $Id: CHANGES,v 1.508 2007-11-07 16:31:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,6 +30,10 @@ CVS HEAD (????/??/??)
     if html encoded chars like &Egrave; or &eacute; is used. Added full
     HTML to text convertion to email parser.
  - (2007/09/13) Improved report overview of perfornance log.
+
+2.2.5 (2007/??/??)
+ - (2007/11/07) Fixed bug# 2482 - IntroUpgradePre in .opm files is not working
+    on upgradinging via online repository.
 
 2.2.4 (2007/11/06)
  - (2007/11/06) Fixed bug# 2477 - Escalation time calculation (destination time of
