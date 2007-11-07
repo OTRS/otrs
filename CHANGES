@@ -2,12 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.31 2007-11-06 10:38:19 martin Exp $
+# $Id: CHANGES,v 1.465.2.32 2007-11-07 16:32:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+2.2.5 (2007/??/??)
+ - (2007/11/07) Fixed bug# 2482 - IntroUpgradePre in .opm files is not working
+    on upgradinging via online repository.
 
 2.2.4 (2007/11/06)
  - (2007/11/05) Fixed bug# 2474 - Config option UserSyncLDAPAttibuteGroupsDefination
