@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.15 2007-09-29 11:09:57 mh Exp $
+# $Id: DB.t,v 1.16 2007-11-07 23:46:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -304,10 +304,11 @@ $Self->True(
 );
 # xml
 my $String = '';
-for (1..6) {
-    $String .= $String.$_."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz";
+for my $Count (1..6) {
+    $String .= $String.$Count."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz ";
     my $Length = length($String);
     my $Size = $Length;
+    my $Key = 'Some'.$Count;
     if ($Size > (1024*1024)) {
          $Size = sprintf "%.1f MBytes", ($Size/(1024*1024));
     }
@@ -319,30 +320,45 @@ for (1..6) {
     }
     $XML = '
         <Insert Table="test_a">
-            <Data Key="name_a" Type="Quote">Some'.$_.'</Data>
-            <Data Key="name_b" Type="Quote">Lalala '.$String.'</Data>
+            <Data Key="name_a" Type="Quote">'.$Key.'</Data>
+            <Data Key="name_b" Type="Quote">'.$String.'</Data>
         </Insert>
     ';
     @XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
     @SQL = $Self->{DBObject}->SQLProcessor(Database => \@XMLARRAY);
     $Self->True(
         $SQL[0],
-        "#2 SQLProcessorPost() INSERT 2 - $_",
+        "#2 SQLProcessorPost() INSERT 2 - $Count",
     );
 
     for my $SQL (@SQL) {
+        # insert
         $Self->True(
             $Self->{DBObject}->Do(SQL => $SQL) || 0,
-            "#2 Do() XML INSERT 2 - $_ (length:$Length/$Size)",
+            "#2 Do() XML INSERT 2 - $Count (length:$Length/$Size)",
+        );
+        # select
+        $Self->{DBObject}->Prepare(
+            SQL => 'SELECT name_b FROM test_a WHERE name_a = \''.$Key.'\'',
+        );
+        my $LengthBack = 0;
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $LengthBack = length($Row[0]);
+        }
+        $Self->Is(
+            $Length,
+            $LengthBack,
+            "#2 Do() SQL SELECT 2 - $Count",
         );
     }
 }
 # sql
 $String = '';
-for (1..6) {
-    $String .= $String.$_."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz";
+for my $Count (1..6) {
+    $String .= $String.$Count."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz";
     my $Length = length($String);
     my $Size = $Length;
+    my $Key = 'Some'.$Count;
     if ($Size > (1024*1024)) {
          $Size = sprintf "%.1f MBytes", ($Size/(1024*1024));
     }
@@ -352,19 +368,34 @@ for (1..6) {
     else {
          $Size = $Size.' Bytes';
     }
+    # insert
     $Self->True(
         $Self->{DBObject}->Do(
-            SQL => "INSERT INTO test_a (name_a, name_b) VALUES ('Some".$_."', '$String')",
+            SQL => "INSERT INTO test_a (name_a, name_b) VALUES ('$Key', '$String')",
         ) || 0,
-        "#2 Do() SQL INSERT 2 - $_ (length:$Length/$Size)",
+        "#2 Do() SQL INSERT 2 - $Count (length:$Length/$Size)",
+    );
+    # select
+    $Self->{DBObject}->Prepare(
+        SQL => 'SELECT name_b FROM test_a WHERE name_a = \''.$Key.'\'',
+    );
+    my $LengthBack = 0;
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $LengthBack = length($Row[0]);
+    }
+    $Self->Is(
+        $Length,
+        $LengthBack,
+        "#2 Do() SQL SELECT 2 - $Count",
     );
 }
 # sql bind
 $String = '';
-for (1..19) {
-    $String .= $String." $_ abcdefghijklmno1234567890";
+for my $Count (1..19) {
+    $String .= $String." $Count abcdefghijklmno1234567890";
     my $Length = length($String);
     my $Size = $Length;
+    my $Key = 'Some'.$Count;
     if ($Size > (1024*1024)) {
          $Size = sprintf "%.1f MBytes", ($Size/(1024*1024));
     }
@@ -374,13 +405,26 @@ for (1..19) {
     else {
          $Size = $Size.' Bytes';
     }
+    # insert
     $Self->True(
         $Self->{DBObject}->Do(
-            SQL => "INSERT INTO test_a (name_a, name_b) VALUES ('Some".$_."', ?)",
+            SQL => "INSERT INTO test_a (name_a, name_b) VALUES ('$Key', ?)",
             Bind => [\$String],
         ) || 0,
-        "#2 Do() SQL INSERT (bind) 2 - $_ (length:$Length/$Size)",
-
+        "#2 Do() SQL INSERT (bind) 2 - $Count (length:$Length/$Size)",
+    );
+    # select
+    $Self->{DBObject}->Prepare(
+        SQL => 'SELECT name_b FROM test_a WHERE name_a = \''.$Key.'\'',
+    );
+    my $LengthBack = 0;
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $LengthBack = length($Row[0]);
+    }
+    $Self->Is(
+        $Length,
+        $LengthBack,
+        "#2 Do() SQL SELECT 2 - $Count",
     );
 }
 
@@ -475,24 +519,40 @@ for my $SQL (@SQL) {
 }
 
 # xml
-for (1..40) {
+for my $Count (1..40) {
+    my $Value = 'Some'.$Count;
+    my $Length = length($Value);
     $XML = '
         <Insert Table="test_b">
-            <Data Key="name_a" Type="Quote">Some</Data>
-            <Data Key="name_b" Type="Quote">'.$_.'</Data>
+            <Data Key="name_a" Type="Quote">'.$Value.'</Data>
+            <Data Key="name_b" Type="Quote">'.$Count.'</Data>
         </Insert>
     ';
     @XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
     @SQL = $Self->{DBObject}->SQLProcessor(Database => \@XMLARRAY);
     $Self->True(
         $SQL[0],
-        "#3 SQLProcessorPost() INSERT - $_",
+        "#3 SQLProcessorPost() INSERT - $Count",
     );
 
     for my $SQL (@SQL) {
+        # insert
         $Self->True(
             $Self->{DBObject}->Do(SQL => $SQL) || 0,
-            "#3 Do() XML INSERT - $_ ",
+            "#3 Do() XML INSERT - $Count ",
+        );
+        # select
+        $Self->{DBObject}->Prepare(
+            SQL => 'SELECT name_a FROM test_b WHERE name_b = \''.$Count.'\'',
+        );
+        my $LengthBack = 0;
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $LengthBack = length($Row[0]);
+        }
+        $Self->Is(
+            $Length,
+            $LengthBack,
+            "#3 Do() SQL SELECT - $Count",
         );
     }
 }
