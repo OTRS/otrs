@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.508 2007-11-07 16:31:59 martin Exp $
+# $Id: CHANGES,v 1.509 2007-11-07 19:35:09 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,9 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2007/11/07) Changed Kernel::System::Crypt::PGP to reject any UTF8-strings,
+    as these would get autoconverted into ISO - thus garbling the result.
+    Currently, only binary octets and ISO-strings are supported as input.
  - (2007/10/25) Improved Kernel::System::Crypt::PGP to return information about
     the PGP-keys that were actually used in Decrypt() and Verify().
  - (2007/10/25) Updated all cpan modules.
