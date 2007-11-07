@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.44 2007-10-30 08:43:04 tr Exp $
+# $Id: AgentStats.pm,v 1.45 2007-11-07 08:54:39 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,12 +27,15 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $NeededData (qw(
+    for my $NeededData (
+        qw(
         GroupObject ParamObject  DBObject   ModuleReg  LayoutObject
         LogObject   ConfigObject UserObject MainObject TimeObject   SessionObject
         UserID      Subaction    AccessRo   AccessRw
 
-    )) {
+        )
+        )
+    {
         if ( !$Param{$NeededData} ) {
             $Param{LayoutObject}->FatalError( Message => "Got no $NeededData!" );
         }
@@ -40,8 +43,8 @@ sub new {
     }
 
     # create needed objects
-    $Self->{CSVObject}   = Kernel::System::CSV->new(%{$Self});
-    $Self->{StatsObject} = Kernel::System::Stats->new(%{$Self});
+    $Self->{CSVObject}   = Kernel::System::CSV->new( %{$Self} );
+    $Self->{StatsObject} = Kernel::System::Stats->new( %{$Self} );
 
     return $Self;
 }
@@ -202,7 +205,7 @@ sub Run {
                 $SelectFormat{$Value} = $Format->{$Value};
                 $CounterII++;
             }
-            if ( $Value =~ /^GD::Graph\.*/ ) {
+            if ( $Value =~ m{^GD::Graph\.*}x ) {
                 $Flag = 1;
             }
         }
@@ -275,6 +278,7 @@ sub Run {
 
         # get static attributes
         if ( $Stat->{StatType} eq 'static' ) {
+
             # load static modul
             my $Params = $Self->{StatsObject}->GetParams( StatID => $StatID );
             $Self->{LayoutObject}->Block( Name => 'Static', );
@@ -311,7 +315,7 @@ sub Run {
                     Data => { Name => $Name{$Use} },
                 );
                 for my $ObjectAttribute ( @{ $Stat->{$Use} } ) {
-                    next if !$ObjectAttribute->{Selected} ;
+                    next if !$ObjectAttribute->{Selected};
 
                     my %ValueHash = ();
                     $Flag = 1;
@@ -358,8 +362,7 @@ sub Run {
                                         TimeRelativeUnit =>
                                             $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }
                                             {Value},
-                                        TimeRelativeCount =>
-                                            $ObjectAttribute->{TimeRelativeCount},
+                                        TimeRelativeCount => $ObjectAttribute->{TimeRelativeCount},
                                     },
                                 );
                             }
@@ -368,8 +371,8 @@ sub Run {
                                     Name => 'TimeScaleFixed',
                                     Data => {
                                         Scale =>
-                                            $TimeScale->{ $ObjectAttribute->{SelectedValues}[0]
-                                            }{Value},
+                                            $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }
+                                            {Value},
                                         Count => $ObjectAttribute->{TimeScaleCount},
                                     },
                                 );
@@ -466,15 +469,13 @@ sub Run {
                                     $BlockData{TimeRelativeUnit}
                                         = $Self->{LayoutObject}->OptionStrgHashRef(
                                         Data => \%TimeScaleOption,
-                                        Name => $ObjectAttribute->{Element}
-                                            . 'TimeRelativeUnit',
+                                        Name => $ObjectAttribute->{Element} . 'TimeRelativeUnit',
                                         );
                                 }
                                 $BlockData{TimeRelativeCountMax}
                                     = $ObjectAttribute->{TimeRelativeCount};
                                 $BlockData{TimeRelativeUnitMax}
-                                    = $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }
-                                    {Value};
+                                    = $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }{Value};
 
                                 $Self->{LayoutObject}->Block(
                                     Name => 'TimePeriodRelative',
@@ -493,11 +494,13 @@ sub Run {
                                     my %TimeScaleOption = ();
                                     for ( keys %{$TimeScale} ) {
                                         $TimeScaleOption{$_} = $TimeScale->{$_}->{Value};
-                                        last if $ObjectAttribute->{SelectedValues}[0] eq $_ ;
+                                        last if $ObjectAttribute->{SelectedValues}[0] eq $_;
                                     }
                                     $BlockData{TimeScaleUnitMax}
-                                        = $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }{Value};
-                                    $BlockData{TimeScaleCountMax} = $ObjectAttribute->{TimeScaleCount};
+                                        = $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }
+                                        {Value};
+                                    $BlockData{TimeScaleCountMax}
+                                        = $ObjectAttribute->{TimeScaleCount};
                                     $BlockData{TimeScaleUnit}
                                         = $Self->{LayoutObject}->OptionStrgHashRef(
                                         Data => \%TimeScaleOption,
@@ -521,10 +524,12 @@ sub Run {
                                     }
                                 }
                             }
+
                             # end of build timescale output
                         }
                     }
                 }
+
                 # Show this Block if no valueseries or restrictions are selected
                 if ( !$Flag ) {
                     $Self->{LayoutObject}->Block( Name => 'NoElement', );
@@ -578,10 +583,10 @@ sub Run {
         # search for better solution
         if ($Message) {
             my %ErrorMessages = (
-               1 => 'The selected start time is before the allowed start time!',
-               2 => 'The selected end time is after the allowed end time!',
-               3 => 'The selected time period is larger than the allowed time period!',
-               4 => 'Your reporting time interval is too small, please use a larger time scale!',
+                1 => 'The selected start time is before the allowed start time!',
+                2 => 'The selected end time is after the allowed end time!',
+                3 => 'The selected time period is larger than the allowed time period!',
+                4 => 'Your reporting time interval is too small, please use a larger time scale!',
             );
 
             $Output .= $Self->{LayoutObject}->Notify(
@@ -686,7 +691,7 @@ sub Run {
                     Source   => 'string',
                     Encoding => 'Raw'
                 );
-                if ( $UploadStuff{Content} =~ /<otrs_stats>/ ) {
+                if ( $UploadStuff{Content} =~ m{<otrs_stats>}x ) {
                     my $StatID = $Self->{StatsObject}->Import( Content => $UploadStuff{Content}, );
 
                     if ( !$StatID ) {
@@ -768,7 +773,7 @@ sub Run {
             for my $Key (qw(Title Description Object File SumRow SumCol Cache StatType Valid)) {
                 if ( defined( $Self->{ParamObject}->GetParam( Param => $Key ) ) ) {
                     $Data{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
-                    $Data{$Key} =~ s/(^\s+|\s+$)//g;
+                    $Data{$Key} =~ s{(^\s+|\s+$)}{}xg;
                     next KEY;
                 }
                 $Data{$Key} = '';
@@ -804,15 +809,12 @@ sub Run {
                 StatData => \%Data,
                 Section  => 'Specification'
             );
-            if (@Notify) {
-                $Subaction = 'EditSpecification';
-            }
-            elsif ( $Data{StatType} eq 'static' ) {
-                $Subaction = 'View';
-            }
-            else {
-                $Subaction = 'EditXaxis';
-            }
+
+            $Subaction
+                = @Notify                     ? 'EditSpecification'
+                : $Data{StatType} eq 'static' ? 'View'
+                :                               'EditXaxis';
+
         }
 
         # save EditXaxis
@@ -843,20 +845,18 @@ sub Run {
                 # This part is only needed if the block time is selected
                 # perhaps a separate function is better
                 my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType") || 'Normal';
-                my %Time    = ();
-                my $Element = $Data{UseAsXvalue}[0]{Element};
+                my %Time     = ();
+                my $Element  = $Data{UseAsXvalue}[0]{Element};
                 $Data{UseAsXvalue}[0]{TimeScaleCount}
                     = $Self->{ParamObject}->GetParam( Param => $Element . 'TimeScaleCount' )
                     || 1;
-                my $TimeSelect
-                    = $Self->{ParamObject}->GetParam( Param => $Element . 'TimeSelect' )
+                my $TimeSelect = $Self->{ParamObject}->GetParam( Param => $Element . 'TimeSelect' )
                     || 'Absolut';
                 if ( $TimeSelect eq 'Absolut' ) {
                     for my $Limit (qw(Start Stop)) {
                         for my $Unit (qw(Year Month Day Hour Minute Second)) {
                             if (defined(
-                                    $Self->{ParamObject}
-                                        ->GetParam( Param => "$Element$Limit$Unit" )
+                                    $Self->{ParamObject}->GetParam( Param => "$Element$Limit$Unit" )
                                 )
                                 )
                             {
@@ -897,10 +897,10 @@ sub Run {
                     }
                 }
                 else {
-                    $Data{UseAsXvalue}[0]{TimeRelativeUnit} = $Self->{ParamObject}
-                        ->GetParam( Param => $Element . 'TimeRelativeUnit' );
-                    $Data{UseAsXvalue}[0]{TimeRelativeCount} = $Self->{ParamObject}
-                        ->GetParam( Param => $Element . 'TimeRelativeCount' );
+                    $Data{UseAsXvalue}[0]{TimeRelativeUnit}
+                        = $Self->{ParamObject}->GetParam( Param => $Element . 'TimeRelativeUnit' );
+                    $Data{UseAsXvalue}[0]{TimeRelativeCount}
+                        = $Self->{ParamObject}->GetParam( Param => $Element . 'TimeRelativeCount' );
                 }
             }
 
@@ -909,15 +909,11 @@ sub Run {
                 StatData => \%Data,
                 Section  => 'Xaxis'
             );
-            if (@Notify) {
-                $Subaction = 'EditXaxis';
-            }
-            elsif ( $Param{Back} ) {
-                $Subaction = 'EditSpecification';
-            }
-            else {
-                $Subaction = 'EditValueSeries';
-            }
+
+            $Subaction
+                = @Notify      ? 'EditXaxis'
+                : $Param{Back} ? 'EditSpecification'
+                :                'EditValueSeries';
         }
 
         # save EditValueSeries
@@ -926,46 +922,46 @@ sub Run {
             my $Index = 0;
             $Data{StatType} = $Stat->{StatType};
             for my $ObjectAttribute ( @{ $Stat->{UseAsValueSeries} } ) {
-                if ( $Self->{ParamObject}
-                    ->GetParam( Param => "Select" . $ObjectAttribute->{Element} ) )
+                next
+                    if !$Self->{ParamObject}
+                        ->GetParam( Param => "Select$ObjectAttribute->{Element}" );
+
+                my @Array = $Self->{ParamObject}->GetArray( Param => $ObjectAttribute->{Element} );
+                $Data{UseAsValueSeries}[$Index]{SelectedValues} = \@Array;
+                $Data{UseAsValueSeries}[$Index]{Element}        = $ObjectAttribute->{Element};
+                $Data{UseAsValueSeries}[$Index]{Block}          = $ObjectAttribute->{Block};
+                $Data{UseAsValueSeries}[$Index]{Selected}       = 1;
+
+                if ($Self->{ParamObject}->GetParam( Param => 'Fixed' . $ObjectAttribute->{Element} )
+                    )
                 {
-                    my @Array
-                        = $Self->{ParamObject}->GetArray( Param => $ObjectAttribute->{Element} );
-                    $Data{UseAsValueSeries}[$Index]{SelectedValues} = \@Array;
-                    $Data{UseAsValueSeries}[$Index]{Element}        = $ObjectAttribute->{Element};
-                    $Data{UseAsValueSeries}[$Index]{Block}          = $ObjectAttribute->{Block};
-                    $Data{UseAsValueSeries}[$Index]{Selected}       = 1;
-
-                    if ( $Self->{ParamObject}
-                        ->GetParam( Param => 'Fixed' . $ObjectAttribute->{Element} ) )
-                    {
-                        $Data{UseAsValueSeries}[$Index]{Fixed} = 1;
-                    }
-                    else {
-                        $Data{UseAsValueSeries}[$Index]{Fixed} = 0;
-                    }
-
-                    # Check if Time was selected
-                    if ( $ObjectAttribute->{Block} eq 'Time' ) {
-                        my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType") || 'Normal';
-                        if ( $TimeType eq 'Normal' ) {
-
-                            # if the admin has only one unit selected, unfixed is useless
-                            if ( !$Data{UseAsValueSeries}[0]{SelectedValues}[1]
-                                && $Data{UseAsValueSeries}[0]{SelectedValues}[0] )
-                            {
-                                $Data{UseAsValueSeries}[0]{Fixed} = 1;
-                            }
-                        }
-
-                        # for working with extended time
-                        $Data{UseAsValueSeries}[$Index]{TimeScaleCount}
-                            = $Self->{ParamObject}
-                            ->GetParam( Param => $ObjectAttribute->{Element} . 'TimeScaleCount' )
-                            || 1;
-                    }
-                    $Index++;
+                    $Data{UseAsValueSeries}[$Index]{Fixed} = 1;
                 }
+                else {
+                    $Data{UseAsValueSeries}[$Index]{Fixed} = 0;
+                }
+
+                # Check if Time was selected
+                if ( $ObjectAttribute->{Block} eq 'Time' ) {
+                    my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType") || 'Normal';
+                    if ( $TimeType eq 'Normal' ) {
+
+                        # if the admin has only one unit selected, unfixed is useless
+                        if ( !$Data{UseAsValueSeries}[0]{SelectedValues}[1]
+                            && $Data{UseAsValueSeries}[0]{SelectedValues}[0] )
+                        {
+                            $Data{UseAsValueSeries}[0]{Fixed} = 1;
+                        }
+                    }
+
+                    # for working with extended time
+                    $Data{UseAsValueSeries}[$Index]{TimeScaleCount}
+                        = $Self->{ParamObject}
+                        ->GetParam( Param => $ObjectAttribute->{Element} . 'TimeScaleCount' )
+                        || 1;
+                }
+                $Index++;
+
             }
             if ( !$Data{UseAsValueSeries} ) {
                 $Data{UseAsValueSeries} = [];
@@ -976,15 +972,10 @@ sub Run {
                 StatData => \%Data,
                 Section  => 'ValueSeries'
             );
-            if (@Notify) {
-                $Subaction = 'EditValueSeries';
-            }
-            elsif ( $Param{Back} ) {
-                $Subaction = 'EditXaxis';
-            }
-            else {
-                $Subaction = 'EditRestrictions';
-            }
+            $Subaction
+                = @Notify      ? 'EditValueSeries'
+                : $Param{Back} ? 'EditXaxis'
+                :                'EditRestrictions';
         }
 
         # save EditRestrictions
@@ -994,83 +985,81 @@ sub Run {
             my $SelectFieldError = 0;
             $Data{StatType} = $Stat->{StatType};
             for my $ObjectAttribute ( @{ $Stat->{UseAsRestriction} } ) {
-                if ( $Self->{ParamObject}
-                    ->GetParam( Param => "Select" . $ObjectAttribute->{Element} ) )
-                {
-                    my $Element = $ObjectAttribute->{Element};
-                    my @Array = $Self->{ParamObject}->GetArray( Param => $Element );
-                    $Data{UseAsRestriction}[$Index]{SelectedValues} = \@Array;
-                    $Data{UseAsRestriction}[$Index]{Element}        = $Element;
-                    $Data{UseAsRestriction}[$Index]{Block}          = $ObjectAttribute->{Block};
-                    $Data{UseAsRestriction}[$Index]{Selected}       = 1;
+                my $Element = $ObjectAttribute->{Element};
+                next if !$Self->{ParamObject}->GetParam( Param => "Select$Element" );
 
-                    if ( $Self->{ParamObject}->GetParam( Param => 'Fixed' . $Element ) ) {
-                        $Data{UseAsRestriction}[$Index]{Fixed} = 1;
+                my @Array = $Self->{ParamObject}->GetArray( Param => $Element );
+                $Data{UseAsRestriction}[$Index]{SelectedValues} = \@Array;
+                $Data{UseAsRestriction}[$Index]{Element}        = $Element;
+                $Data{UseAsRestriction}[$Index]{Block}          = $ObjectAttribute->{Block};
+                $Data{UseAsRestriction}[$Index]{Selected}       = 1;
+
+                if ( $Self->{ParamObject}->GetParam( Param => 'Fixed' . $Element ) ) {
+                    $Data{UseAsRestriction}[$Index]{Fixed} = 1;
+                }
+                else {
+                    $Data{UseAsRestriction}[$Index]{Fixed} = 0;
+                }
+
+                if ( $ObjectAttribute->{Block} eq 'Time' ) {
+                    my %Time = ();
+                    my $TimeSelect
+                        = $Self->{ParamObject}->GetParam( Param => $Element . 'TimeSelect' )
+                        || 'Absolut';
+                    if ( $TimeSelect eq 'Absolut' ) {
+                        for my $Limit (qw(Start Stop)) {
+                            for my $Unit (qw(Year Month Day Hour Minute Second)) {
+                                if (defined(
+                                        $Self->{ParamObject}
+                                            ->GetParam( Param => "$Element$Limit$Unit" )
+                                    )
+                                    )
+                                {
+                                    $Time{ $Limit . $Unit } = $Self->{ParamObject}
+                                        ->GetParam( Param => "$Element$Limit$Unit", );
+                                }
+                            }
+                            if ( !defined( $Time{ $Limit . "Hour" } ) ) {
+                                if ( $Limit eq 'Start' ) {
+                                    $Time{"StartHour"}   = 0;
+                                    $Time{"StartMinute"} = 0;
+                                    $Time{"StartSecond"} = 0;
+                                }
+                                elsif ( $Limit eq 'Stop' ) {
+                                    $Time{"StopHour"}   = 23;
+                                    $Time{"StopMinute"} = 59;
+                                    $Time{"StopSecond"} = 59;
+                                }
+                            }
+                            elsif ( !defined( $Time{ $Limit . "Second" } ) ) {
+                                if ( $Limit eq 'Start' ) {
+                                    $Time{"StartSecond"} = 0;
+                                }
+                                elsif ( $Limit eq 'Stop' ) {
+                                    $Time{"StopSecond"} = 59;
+                                }
+                            }
+
+                            $Data{UseAsRestriction}[$Index]{"Time$Limit"} = sprintf(
+                                "%04d-%02d-%02d %02d:%02d:%02d",
+                                $Time{ $Limit . "Year" },
+                                $Time{ $Limit . "Month" },
+                                $Time{ $Limit . "Day" },
+                                $Time{ $Limit . "Hour" },
+                                $Time{ $Limit . "Minute" },
+                                $Time{ $Limit . "Second" },
+                            );
+                        }
                     }
                     else {
-                        $Data{UseAsRestriction}[$Index]{Fixed} = 0;
+                        $Data{UseAsRestriction}[$Index]{TimeRelativeUnit} = $Self->{ParamObject}
+                            ->GetParam( Param => $Element . 'TimeRelativeUnit' );
+                        $Data{UseAsRestriction}[$Index]{TimeRelativeCount} = $Self->{ParamObject}
+                            ->GetParam( Param => $Element . 'TimeRelativeCount' );
                     }
-
-                    if ( $ObjectAttribute->{Block} eq 'Time' ) {
-                        my %Time = ();
-                        my $TimeSelect
-                            = $Self->{ParamObject}->GetParam( Param => $Element . 'TimeSelect' )
-                            || 'Absolut';
-                        if ( $TimeSelect eq 'Absolut' ) {
-                            for my $Limit (qw(Start Stop)) {
-                                for my $Unit (qw(Year Month Day Hour Minute Second)) {
-                                    if (defined(
-                                            $Self->{ParamObject}
-                                                ->GetParam( Param => "$Element$Limit$Unit" )
-                                        )
-                                        )
-                                    {
-                                        $Time{ $Limit . $Unit } = $Self->{ParamObject}
-                                            ->GetParam( Param => "$Element$Limit$Unit", );
-                                    }
-                                }
-                                if ( !defined( $Time{ $Limit . "Hour" } ) ) {
-                                    if ( $Limit eq 'Start' ) {
-                                        $Time{"StartHour"}   = 0;
-                                        $Time{"StartMinute"} = 0;
-                                        $Time{"StartSecond"} = 0;
-                                    }
-                                    elsif ( $Limit eq 'Stop' ) {
-                                        $Time{"StopHour"}   = 23;
-                                        $Time{"StopMinute"} = 59;
-                                        $Time{"StopSecond"} = 59;
-                                    }
-                                }
-                                elsif ( !defined( $Time{ $Limit . "Second" } ) ) {
-                                    if ( $Limit eq 'Start' ) {
-                                        $Time{"StartSecond"} = 0;
-                                    }
-                                    elsif ( $Limit eq 'Stop' ) {
-                                        $Time{"StopSecond"} = 59;
-                                    }
-                                }
-
-                                $Data{UseAsRestriction}[$Index]{"Time$Limit"} = sprintf(
-                                    "%04d-%02d-%02d %02d:%02d:%02d",
-                                    $Time{ $Limit . "Year" },
-                                    $Time{ $Limit . "Month" },
-                                    $Time{ $Limit . "Day" },
-                                    $Time{ $Limit . "Hour" },
-                                    $Time{ $Limit . "Minute" },
-                                    $Time{ $Limit . "Second" },
-                                );
-                            }
-                        }
-                        else {
-                            $Data{UseAsRestriction}[$Index]{TimeRelativeUnit} = $Self->{ParamObject}
-                                ->GetParam( Param => $Element . 'TimeRelativeUnit' );
-                            $Data{UseAsRestriction}[$Index]{TimeRelativeCount}
-                                = $Self->{ParamObject}
-                                ->GetParam( Param => $Element . 'TimeRelativeCount' );
-                        }
-                    }
-                    $Index++;
                 }
+                $Index++;
+
             }
             if ( !$Data{UseAsRestriction} ) {
                 $Data{UseAsRestriction} = [];
@@ -1081,15 +1070,11 @@ sub Run {
                 StatData => \%Data,
                 Section  => 'Restrictions'
             );
-            if ( @Notify || $SelectFieldError ) {
-                $Subaction = 'EditRestrictions';
-            }
-            elsif ( $Param{Back} ) {
-                $Subaction = 'EditValueSeries';
-            }
-            else {
-                $Subaction = 'View';
-            }
+
+            $Subaction
+                = ( @Notify || $SelectFieldError ) ? 'EditRestrictions'
+                : $Param{Back} ? 'EditValueSeries'
+                :                'View';
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen(
@@ -1117,12 +1102,10 @@ sub Run {
         # permission check
         $Self->{AccessRw} || return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
 
-        # get params
-        for (qw(StatID)) {
-            if ( !( $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) ) ) {
-                return $Self->{LayoutObject}
-                    ->ErrorScreen( Message => "EditSpecification: Need $_!", );
-            }
+        # get param
+        if ( !( $Param{StatID} = $Self->{ParamObject}->GetParam( Param => 'StatID' ) ) ) {
+            return $Self->{LayoutObject}
+                ->ErrorScreen( Message => "EditSpecification: Need StatID!", );
         }
 
         # get Stat data
@@ -1360,10 +1343,8 @@ sub Run {
         $Self->{AccessRw} || return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
 
         # get params
-        for (qw(StatID)) {
-            if ( !( $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) ) ) {
-                return $Self->{LayoutObject}->ErrorScreen( Message => "EditXaxis: Need $_!", );
-            }
+        if ( !( $Param{StatID} = $Self->{ParamObject}->GetParam( Param => 'StatID' ) ) ) {
+            return $Self->{LayoutObject}->ErrorScreen( Message => 'EditXaxis: Need StatID!' );
         }
 
         my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
@@ -1450,11 +1431,9 @@ sub Run {
         $Self->{AccessRw} || return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
 
         # get params
-        for (qw(StatID)) {
-            if ( !( $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) ) ) {
-                return $Self->{LayoutObject}
-                    ->ErrorScreen( Message => "EditValueSeries: Need $_!", );
-            }
+        if ( !( $Param{StatID} = $Self->{ParamObject}->GetParam( Param => 'StatID' ) ) ) {
+            return $Self->{LayoutObject}
+                ->ErrorScreen( Message => 'EditValueSeries: Need StatID!', );
         }
 
         my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
@@ -1522,35 +1501,9 @@ sub Run {
                             $ObjectAttribute->{SelectedValues} = ['Year'];
                         }
                     }
-
-#                    #needs an emprovement of the OnlySelectedAttributs function or a new Attribute!
-#                    #be careful of an clean code!
-#                    elsif ($_->{Selected} && !$_->{Fixed}  && $_->{Block} eq 'Time') {
-#                        $ObjectAttribute->{OnlySelectedAttributs} = 1;
-#                        if ($_->{SelectedValues}[0] eq 'Second') {
-#                            $ObjectAttribute->{SelectedValues} = ['Minute','Hour','Day','Month','Year'];
-#                        }
-#                        elsif ($_->{SelectedValues}[0] eq 'Minute') {
-#                            $ObjectAttribute->{SelectedValues} = ['Hour','Day','Month','Year'];
-#                        }
-#                        elsif ($_->{SelectedValues}[0] eq 'Hour') {
-#                            $ObjectAttribute->{SelectedValues} = ['Day','Month','Year'];
-#                        }
-#                        elsif ($_->{SelectedValues}[0] eq 'Day') {
-#                            $ObjectAttribute->{SelectedValues} = ['Month','Year'];
-#                        }
-#                        elsif ($_->{SelectedValues}[0] eq 'Month') {
-#                            $ObjectAttribute->{SelectedValues} = ['Year'];
-#                        }
-#                    }
                 }
 
-                if ( $TimeType eq 'Normal' ) {
-                    $ObjectAttribute->{Block} = 'Time';
-                }
-                elsif ( $TimeType eq 'Extended' ) {
-                    $ObjectAttribute->{Block} = 'TimeExtended';
-                }
+                $ObjectAttribute->{Block} = $TimeType eq 'Normal' ? 'Time' : 'TimeExtended';
 
                 my %TimeData = _Timeoutput( $Self, %{$ObjectAttribute} );
                 %BlockData = ( %BlockData, %TimeData );
@@ -1587,11 +1540,9 @@ sub Run {
         $Self->{AccessRw} || return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
 
         # get params
-        for (qw(StatID)) {
-            if ( !( $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) ) ) {
-                return $Self->{LayoutObject}
-                    ->ErrorScreen( Message => "EditRestrictions: Need $_!", );
-            }
+        if ( !( $Param{StatID} = $Self->{ParamObject}->GetParam( Param => 'StatID' ) ) ) {
+            $Self->{LayoutObject}->ErrorScreen( Message => 'EditRestrictions: Need StatID!' );
+            return;
         }
 
         my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
@@ -1636,12 +1587,7 @@ sub Run {
             $Self->{LayoutObject}->Block( Name => 'Attribute', );
             if ( $ObjectAttribute->{Block} eq 'Time' ) {
                 my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType") || 'Normal';
-                if ( $TimeType eq 'Normal' ) {
-                    $ObjectAttribute->{Block} = 'Time';
-                }
-                elsif ( $TimeType eq 'Extended' ) {
-                    $ObjectAttribute->{Block} = 'TimeExtended';
-                }
+                $ObjectAttribute->{Block} = $TimeType eq 'Normal' ? 'Time' : 'TimeExtended';
 
                 my %TimeData = _Timeoutput( $Self, %{$ObjectAttribute} );
                 %BlockData = ( %BlockData, %TimeData );
@@ -1693,7 +1639,7 @@ sub Run {
             }
         }
 
-        if ( $Param{Format} =~ /^GD::Graph\.*/ && !$Param{GraphSize} ) {
+        if ( $Param{Format} =~ m{^GD::Graph\.*}x && !$Param{GraphSize} ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => "Run: Need GraphSize!" );
         }
 
@@ -1731,19 +1677,19 @@ sub Run {
         # not sure, if this is the right way
         if ( $Stat->{StatType} eq 'static' ) {
             my $Params = $Self->{StatsObject}->GetParams( StatID => $Param{StatID} );
+            PARAMITEM:
             for my $ParamItem ( @{$Params} ) {
 
                 # param is array
                 if ( $ParamItem->{Multiple} ) {
                     my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
                     $GetParam{ $ParamItem->{Name} } = \@Array;
+                    next PARAMITEM;
                 }
 
                 # param is string
-                else {
-                    $GetParam{ $ParamItem->{Name} }
-                        = $Self->{ParamObject}->GetParam( Param => $ParamItem->{Name} );
-                }
+                $GetParam{ $ParamItem->{Name} }
+                    = $Self->{ParamObject}->GetParam( Param => $ParamItem->{Name} );
             }
         }
         else {
@@ -1751,166 +1697,153 @@ sub Run {
             for my $Use (qw(UseAsRestriction UseAsXvalue UseAsValueSeries)) {
                 my @Array   = @{ $Stat->{$Use} };
                 my $Counter = 0;
+                ELEMENT:
                 for my $Element (@Array) {
-                    if ( $Element->{Selected} ) {
-                        if ( !$Element->{Fixed} ) {
+                    next ELEMENT if !$Element->{Selected};
+
+                    if ( !$Element->{Fixed} ) {
+                        if ( $Self->{ParamObject}->GetArray( Param => $Use . $Element->{Element} ) )
+                        {
+                            my @SelectedValues = $Self->{ParamObject}
+                                ->GetArray( Param => $Use . $Element->{Element} );
+
+                            $Element->{SelectedValues} = \@SelectedValues;
+                        }
+                        if ( $Element->{Block} eq 'Time' ) {
                             if ( $Self->{ParamObject}
-                                ->GetArray( Param => $Use . $Element->{Element} ) )
+                                ->GetParam( Param => $Use . $Element->{Element} . "StartYear" ) )
                             {
-                                my @SelectedValues = $Self->{ParamObject}
-                                    ->GetArray( Param => $Use . $Element->{Element} );
-
-                                $Element->{SelectedValues} = \@SelectedValues;
-                            }
-                            if ( $Element->{Block} eq 'Time' ) {
-                                if ( $Self->{ParamObject}
-                                    ->GetParam( Param => $Use . $Element->{Element} . "StartYear" )
-                                    )
-                                {
-                                    my %Time = ();
-                                    for my $Limit (qw(Start Stop)) {
-                                        for my $Unit (qw(Year Month Day Hour Minute Second)) {
-                                            if (defined(
-                                                    $Self->{ParamObject}->GetParam(
-                                                              Param => $Use
-                                                            . $Element->{Element}
-                                                            . "$Limit$Unit"
-                                                    )
-                                                )
-                                                )
-                                            {
-                                                $Time{ $Limit . $Unit }
-                                                    = $Self->{ParamObject}->GetParam( Param => $Use
+                                my %Time = ();
+                                for my $Limit (qw(Start Stop)) {
+                                    for my $Unit (qw(Year Month Day Hour Minute Second)) {
+                                        if (defined(
+                                                $Self->{ParamObject}->GetParam(
+                                                          Param => $Use
                                                         . $Element->{Element}
-                                                        . "$Limit$Unit", );
-                                            }
+                                                        . "$Limit$Unit"
+                                                )
+                                            )
+                                            )
+                                        {
+                                            $Time{ $Limit . $Unit }
+                                                = $Self->{ParamObject}->GetParam(
+                                                Param => $Use . $Element->{Element} . "$Limit$Unit",
+                                                );
                                         }
-                                        if ( !defined( $Time{ $Limit . "Hour" } ) ) {
-                                            if ( $Limit eq 'Start' ) {
-                                                $Time{"StartHour"}   = 0;
-                                                $Time{"StartMinute"} = 0;
-                                                $Time{"StartSecond"} = 0;
-                                            }
-                                            elsif ( $Limit eq 'Stop' ) {
-                                                $Time{"StopHour"}   = 23;
-                                                $Time{"StopMinute"} = 59;
-                                                $Time{"StopSecond"} = 59;
-                                            }
-                                        }
-                                        elsif ( !defined( $Time{ $Limit . "Second" } ) ) {
-                                            if ( $Limit eq 'Start' ) {
-                                                $Time{"StartSecond"} = 0;
-                                            }
-                                            elsif ( $Limit eq 'Stop' ) {
-                                                $Time{"StopSecond"} = 59;
-                                            }
-                                        }
-                                        $Time{"Time$Limit"} = sprintf(
-                                            "%04d-%02d-%02d %02d:%02d:%02d",
-                                            $Time{ $Limit . "Year" },
-                                            $Time{ $Limit . "Month" },
-                                            $Time{ $Limit . "Day" },
-                                            $Time{ $Limit . "Hour" },
-                                            $Time{ $Limit . "Minute" },
-                                            $Time{ $Limit . "Second" },
-                                        );
                                     }
-
-                                    # integrate this functionality in the completenesscheck
-                                    if ( $Self->{TimeObject}
-                                        ->TimeStamp2SystemTime( String => $Time{TimeStart} )
-                                        < $Self->{TimeObject}
-                                        ->TimeStamp2SystemTime( String => $Element->{TimeStart} ) )
-                                    {
-
-                                        # redirect to edit
-                                        return $Self->{LayoutObject}->Redirect( OP =>
-                                                "Action=AgentStats&Subaction=View&StatID=$Param{StatID}&Message=1",
-                                        );
+                                    if ( !defined( $Time{ $Limit . "Hour" } ) ) {
+                                        if ( $Limit eq 'Start' ) {
+                                            $Time{"StartHour"}   = 0;
+                                            $Time{"StartMinute"} = 0;
+                                            $Time{"StartSecond"} = 0;
+                                        }
+                                        elsif ( $Limit eq 'Stop' ) {
+                                            $Time{"StopHour"}   = 23;
+                                            $Time{"StopMinute"} = 59;
+                                            $Time{"StopSecond"} = 59;
+                                        }
                                     }
+                                    elsif ( !defined( $Time{ $Limit . "Second" } ) ) {
+                                        if ( $Limit eq 'Start' ) {
+                                            $Time{"StartSecond"} = 0;
+                                        }
+                                        elsif ( $Limit eq 'Stop' ) {
+                                            $Time{"StopSecond"} = 59;
+                                        }
+                                    }
+                                    $Time{"Time$Limit"} = sprintf(
+                                        "%04d-%02d-%02d %02d:%02d:%02d",
+                                        $Time{ $Limit . "Year" },
+                                        $Time{ $Limit . "Month" },
+                                        $Time{ $Limit . "Day" },
+                                        $Time{ $Limit . "Hour" },
+                                        $Time{ $Limit . "Minute" },
+                                        $Time{ $Limit . "Second" },
+                                    );
+                                }
 
-                                    # integrate this functionality in the completenesscheck
-                                    if ( $Self->{TimeObject}
-                                        ->TimeStamp2SystemTime( String => $Time{TimeStop} )
-                                        > $Self->{TimeObject}
+                                # integrate this functionality in the completenesscheck
+                                if ( $Self->{TimeObject}
+                                    ->TimeStamp2SystemTime( String => $Time{TimeStart} )
+                                    < $Self->{TimeObject}
+                                    ->TimeStamp2SystemTime( String => $Element->{TimeStart} ) )
+                                {
+
+                                    # redirect to edit
+                                    return $Self->{LayoutObject}->Redirect( OP =>
+                                            "Action=AgentStats&Subaction=View&StatID=$Param{StatID}&Message=1",
+                                    );
+                                }
+
+                                # integrate this functionality in the completenesscheck
+                                if ( $Self->{TimeObject}
+                                    ->TimeStamp2SystemTime( String => $Time{TimeStop} )
+                                    > $Self->{TimeObject}
+                                    ->TimeStamp2SystemTime( String => $Element->{TimeStop} ) )
+                                {
+                                    return $Self->{LayoutObject}->Redirect( OP =>
+                                            "Action=AgentStats&Subaction=View&StatID=$Param{StatID}&Message=2",
+                                    );
+                                }
+                                $Element->{TimeStart} = $Time{TimeStart};
+                                $Element->{TimeStop}  = $Time{TimeStop};
+                                $TimePeriod
+                                    = ( $Self->{TimeObject}
                                         ->TimeStamp2SystemTime( String => $Element->{TimeStop} ) )
-                                    {
-                                        return $Self->{LayoutObject}->Redirect( OP =>
-                                                "Action=AgentStats&Subaction=View&StatID=$Param{StatID}&Message=2",
-                                        );
-                                    }
-                                    $Element->{TimeStart} = $Time{TimeStart};
-                                    $Element->{TimeStop}  = $Time{TimeStop};
-                                    $TimePeriod           = (
-                                        $Self->{TimeObject}->TimeStamp2SystemTime(
-                                            String => $Element->{TimeStop}
-                                        )
-                                        ) - (
-                                        $Self->{TimeObject}->TimeStamp2SystemTime(
-                                            String => $Element->{TimeStart}
-                                        )
-                                        );
-                                }
-                                else {
-                                    my %Time            = ();
-                                    my ( $s, $m, $h, $D, $M, $Y )
-                                        = $Self->{TimeObject}->SystemTime2Date(
-                                        SystemTime => $Self->{TimeObject}->SystemTime(), );
-                                    $Time{TimeRelativeUnit} = $Self->{ParamObject}->GetParam(
-                                        Param => $Use . $Element->{Element} . 'TimeRelativeUnit' );
-                                    if ($Self->{ParamObject}->GetParam(
-                                                  Param => $Use
-                                                . $Element->{Element}
-                                                . 'TimeRelativeCount'
-                                        )
-                                        )
-                                    {
-                                        $Time{TimeRelativeCount}
-                                            = $Self->{ParamObject}->GetParam( Param => $Use
-                                                . $Element->{Element}
-                                                . 'TimeRelativeCount' );
-                                    }
-
-                                    my $TimePeriodAdmin = $Element->{TimeRelativeCount} * $Self->_TimeInSeconds(TimeUnit => $Element->{TimeRelativeUnit});
-                                    my $TimePeriodAgent = $Time{TimeRelativeCount} * $Self->_TimeInSeconds(TimeUnit => $Time{TimeRelativeUnit});
-
-                                    # integrate this functionality in the completenesscheck
-                                    if ( $TimePeriodAgent > $TimePeriodAdmin ) {
-                                        return $Self->{LayoutObject}->Redirect( OP =>
-                                                "Action=AgentStats&Subaction=View&StatID=$Param{StatID}&Message=3",
-                                        );
-                                    }
-
-                                    $TimePeriod = $TimePeriodAgent;
-                                    $Element->{TimeRelativeCount} = $Time{TimeRelativeCount};
-                                    $Element->{TimeRelativeUnit}  = $Time{TimeRelativeUnit};
-                                }
+                                    - ( $Self->{TimeObject}
+                                        ->TimeStamp2SystemTime( String => $Element->{TimeStart} ) );
+                            }
+                            else {
+                                my %Time = ();
+                                my ( $s, $m, $h, $D, $M, $Y )
+                                    = $Self->{TimeObject}->SystemTime2Date(
+                                    SystemTime => $Self->{TimeObject}->SystemTime(), );
+                                $Time{TimeRelativeUnit} = $Self->{ParamObject}->GetParam(
+                                    Param => $Use . $Element->{Element} . 'TimeRelativeUnit' );
                                 if ($Self->{ParamObject}->GetParam(
-                                        Param => $Use . $Element->{Element} . 'TimeScaleCount'
+                                        Param => $Use . $Element->{Element} . 'TimeRelativeCount'
                                     )
                                     )
                                 {
-                                    $Element->{TimeScaleCount} = $Self->{ParamObject}->GetParam(
-                                        Param => $Use . $Element->{Element} . 'TimeScaleCount' );
+                                    $Time{TimeRelativeCount} = $Self->{ParamObject}->GetParam(
+                                        Param => $Use . $Element->{Element} . 'TimeRelativeCount' );
                                 }
-                                else {
-                                    $Element->{TimeScaleCount} = 1;
+
+                                my $TimePeriodAdmin
+                                    = $Element->{TimeRelativeCount}
+                                    * $Self->_TimeInSeconds(
+                                    TimeUnit => $Element->{TimeRelativeUnit} );
+                                my $TimePeriodAgent = $Time{TimeRelativeCount}
+                                    * $Self->_TimeInSeconds( TimeUnit => $Time{TimeRelativeUnit} );
+
+                                # integrate this functionality in the completenesscheck
+                                if ( $TimePeriodAgent > $TimePeriodAdmin ) {
+                                    return $Self->{LayoutObject}->Redirect( OP =>
+                                            "Action=AgentStats&Subaction=View&StatID=$Param{StatID}&Message=3",
+                                    );
                                 }
+
+                                $TimePeriod                   = $TimePeriodAgent;
+                                $Element->{TimeRelativeCount} = $Time{TimeRelativeCount};
+                                $Element->{TimeRelativeUnit}  = $Time{TimeRelativeUnit};
+                            }
+                            if ($Self->{ParamObject}->GetParam(
+                                    Param => $Use . $Element->{Element} . 'TimeScaleCount'
+                                )
+                                )
+                            {
+                                $Element->{TimeScaleCount} = $Self->{ParamObject}->GetParam(
+                                    Param => $Use . $Element->{Element} . 'TimeScaleCount' );
+                            }
+                            else {
+                                $Element->{TimeScaleCount} = 1;
                             }
                         }
-
-#                        # not realy needed because the GenerateStats function can do the same
-#                        else {
-#                            if (!$Element->{SelectedValues}) {
-#                                if (!$Element->{SelectedValues}[0] && $Element->{Block} ne 'Time') {
-#                                    my @Values = keys (%{$Element->{Values}});
-#                                    $Element->{SelectedValues} = \@Values;
-#                                }
-#                            }
-#                        }
-                        $GetParam{$Use}[$Counter] = $Element;
-                        $Counter++;
                     }
+
+                    $GetParam{$Use}[$Counter] = $Element;
+                    $Counter++;
+
                 }
                 if ( ref( $GetParam{$Use} ) ne 'ARRAY' ) {
                     $GetParam{$Use} = [];
@@ -1927,8 +1860,7 @@ sub Run {
             {
 
                 my $ScalePeriod = $Self->_TimeInSeconds(
-                    TimeUnit => $GetParam{UseAsXvalue}[0]{SelectedValues}[0]
-                );
+                    TimeUnit => $GetParam{UseAsXvalue}[0]{SelectedValues}[0] );
 
                 # integrate this functionality in the completenesscheck
                 if ( $TimePeriod / ( $ScalePeriod * $GetParam{UseAsXvalue}[0]{TimeScaleCount} )
@@ -1971,7 +1903,7 @@ sub Run {
 
         # if array = empty
         if ( !@StatArray ) {
-            push( @StatArray, [ ' ', 0 ] );
+            push @StatArray, [ ' ', 0 ];
         }
 
         # Gernerate Filename
@@ -2100,12 +2032,9 @@ sub Run {
                     %TableParam = $Self->{PDFObject}->Table( %TableParam, );
 
                     # stop output or output next page
-                    if ( $TableParam{State} ) {
-                        last;
-                    }
-                    else {
-                        $Self->{PDFObject}->PageNew( %PageParam, FooterRight => $Page . ' ' . $_, );
-                    }
+                    last if $TableParam{State};
+
+                    $Self->{PDFObject}->PageNew( %PageParam, FooterRight => $Page . ' ' . $_, );
                 }
 
                 # return the pdf document
@@ -2139,7 +2068,7 @@ sub Run {
         }
 
         # graph
-        elsif ( $Param{Format} =~ /^GD::Graph\.*/ ) {
+        elsif ( $Param{Format} =~ m{^GD::Graph\.*}x ) {
 
             # make graph
             my $Ext   = 'png';
@@ -2151,7 +2080,7 @@ sub Run {
                 GraphSize    => $Param{GraphSize},
             );
             if ( !$Graph ) {
-                if ( $Param{Format} =~ /^GD::Graph::pie/ ) {
+                if ( $Param{Format} =~ m{^GD::Graph::pie}x ) {
                     return $Self->{LayoutObject}->ErrorScreen(
                         Message => "You use invalid data! Perhaps there are no results.", );
                 }
@@ -2206,10 +2135,9 @@ sub _Timeoutput {
     my %Timeoutput = ();
 
     # check if need params are available
-    for (qw(TimePeriodFormat)) {
-        if ( !$Param{$_} ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "_Timeoutput: Need !" );
-        }
+    if ( !$Param{TimePeriodFormat} ) {
+        return $Self->{LayoutObject}
+            ->ErrorScreen( Message => "_Timeoutput: Need TimePeriodFormat!" );
     }
 
     # get time
@@ -2237,7 +2165,7 @@ sub _Timeoutput {
 
         # time setting if avialable
         if (   $Param{ 'Time' . $_ }
-            && $Param{ 'Time' . $_ } =~ /^(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)$/i )
+            && $Param{ 'Time' . $_ } =~ m{^(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)$}xi )
         {
             $TimeConfig{ $Element . $_ . 'Year' }   = $1;
             $TimeConfig{ $Element . $_ . 'Month' }  = $2;
@@ -2354,7 +2282,8 @@ sub _ColumnAndRowTranslation {
     # check if need params are available
     for my $NeededParam (qw(StatArrayRef HeadArrayRef)) {
         if ( !$Param{$NeededParam} ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "_ColumnAndRowTranslation: Need $NeededParam!" );
+            return $Self->{LayoutObject}
+                ->ErrorScreen( Message => "_ColumnAndRowTranslation: Need $NeededParam!" );
         }
     }
 
@@ -2368,13 +2297,13 @@ sub _ColumnAndRowTranslation {
     );
 
     # translate the headline
-    for my $Word (@{$Param{HeadArrayRef}}) {
+    for my $Word ( @{ $Param{HeadArrayRef} } ) {
         $Word = $Self->{LanguageObject}->Get($Word);
     }
 
     # translate the row description
-    for my $Word (@{$Param{StatArrayRef}}) {
-        $Word->[0] = $Self->{LanguageObject}->Get($Word->[0]);
+    for my $Word ( @{ $Param{StatArrayRef} } ) {
+        $Word->[0] = $Self->{LanguageObject}->Get( $Word->[0] );
     }
 
     return 1;
@@ -2385,22 +2314,20 @@ sub _TimeInSeconds {
     my ( $Self, %Param ) = @_;
 
     # check if need params are available
-    for my $NeededParam (qw(TimeUnit)) {
-        if ( !$Param{$NeededParam} ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "_TimeInSeconds: Need $NeededParam!" );
-        }
+    if ( !$Param{TimeUnit} ) {
+        return $Self->{LayoutObject}->ErrorScreen( Message => '_TimeInSeconds: Need TimeUnit!' );
     }
 
     my %TimeInSeconds = (
-        Year   => 31536000, # 60 * 60 * 60 * 365
-        Month  => 2592000,  # 60 * 60 * 24 * 30
-        Day    => 86400,    # 60 * 60 * 24
-        Hour   => 3600,     # 60 * 60
+        Year   => 31536000,    # 60 * 60 * 60 * 365
+        Month  => 2592000,     # 60 * 60 * 24 * 30
+        Day    => 86400,       # 60 * 60 * 24
+        Hour   => 3600,        # 60 * 60
         Minute => 60,
         Second => 1,
     );
 
-    return $TimeInSeconds{$Param{TimeUnit}};
+    return $TimeInSeconds{ $Param{TimeUnit} };
 }
 
 1;

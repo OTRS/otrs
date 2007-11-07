@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.31 2007-10-18 05:16:13 tr Exp $
+# $Id: Stats.pm,v 1.32 2007-11-07 08:54:39 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 SYNOPSIS
 
@@ -64,11 +64,14 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Object (qw(
+    for my $Object (
+        qw(
         ConfigObject LogObject UserID GroupObject
         UserObject TimeObject MainObject CSVObject
         DBObject
-    )) {
+        )
+        )
+    {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
     $Self->{XMLObject}    = Kernel::System::XML->new(%Param);
@@ -87,7 +90,8 @@ add a new stat
 
 sub StatsAdd {
     my ( $Self, %Param ) = @_;
-    my $StatID   = 1;
+    my $StatID = 1;
+
     # Get new StatID
     my @Keys = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats', );
     if (@Keys) {
@@ -104,12 +108,12 @@ sub StatsAdd {
     $MetaData{CreatedBy}[0]{Content} = $Self->{UserID};
     $MetaData{Changed}[0]{Content}   = $TimeStamp;
     $MetaData{ChangedBy}[0]{Content} = $Self->{UserID};
-    $MetaData{Valid}[0]{Content} = 1;
+    $MetaData{Valid}[0]{Content}     = 1;
     $MetaData{StatNumber}[0]{Content}
         = $StatID + $Self->{ConfigObject}->Get("Stats::StatsStartNumber");
 
     # new
-    my @XMLHash; # it's a array but the wording is hash
+    my @XMLHash;    # it's a array but the wording is hash
     $XMLHash[0]{otrs_stats}[0] = \%MetaData;
     if (!$Self->{XMLObject}->XMLHashAdd(
             Type    => 'Stats',
@@ -118,7 +122,8 @@ sub StatsAdd {
         )
         )
     {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "StatsAdd: Can not add a new Stat!" );
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => "StatsAdd: Can not add a new Stat!" );
         return 0;
     }
     return $StatID;
@@ -145,138 +150,144 @@ sub StatsGet {
     }
 
     # get hash from storage
-    if (@XMLHash = $Self->{XMLObject}->XMLHashGet(
-            Type => 'Stats',
+    @XMLHash = $Self->{XMLObject}->XMLHashGet(
+        Type => 'Stats',
+        Key  => $Param{StatID},
+    );
 
-            #Cache => 0,
-            Key => $Param{StatID}
+    if ( !@XMLHash ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "StatsGet: Can\'t get Stat!" );
+        return 0;
+    }
+
+    my %Stat    = ();
+    my $StatXML = $XMLHash[0]{otrs_stats}[1];
+
+    # string
+    $Stat{StatID} = $Param{StatID};
+    for my $Key (
+        qw(Title Object File Description SumRow SumCol StatNumber
+        Cache StatType Valid ObjectModule CreatedBy ChangedBy Created Changed
         )
         )
     {
-
-        my %Stat    = ();
-        my $StatXML = $XMLHash[0]{otrs_stats}[1];
-
-        # string
-        $Stat{StatID} = $Param{StatID};
-        for my $Key (
-            qw(Title Object File Description SumRow SumCol StatNumber
-            Cache StatType Valid ObjectModule CreatedBy ChangedBy Created Changed
-            )
-            )
-        {
-            if ( defined( $StatXML->{$Key}[1]{Content} ) ) {
-                $Stat{$Key} = $StatXML->{$Key}[1]{Content};
-            }
+        if ( defined( $StatXML->{$Key}[1]{Content} ) ) {
+            $Stat{$Key} = $StatXML->{$Key}[1]{Content};
         }
+    }
 
-        # array
-        for my $Key (qw(Permission Format GraphSize)) {
-            if ( $StatXML->{$Key}[1]{Content} ) {
-                $Stat{$Key} = ();
-                for my $Index ( 1 .. $#{ $StatXML->{$Key} } ) {
-                    push( @{ $Stat{$Key} }, $StatXML->{$Key}[$Index]->{Content} );
+    # array
+    KEY:
+    for my $Key (qw(Permission Format GraphSize)) {
+        next KEY if !$StatXML->{$Key}[1]{Content};
+
+        $Stat{$Key} = ();
+        for my $Index ( 1 .. $#{ $StatXML->{$Key} } ) {
+            push( @{ $Stat{$Key} }, $StatXML->{$Key}[$Index]->{Content} );
+        }
+    }
+
+    # get the configuration elements of the dynamic stats
+    # %Allowed is used to inhibit douple selction in the different forms
+    my %Allowed     = ();
+    my %TimeAllowed = ();
+    my $TimeElement = $Self->{ConfigObject}->Get("Stats::TimeElement") || 'Time';
+
+    return \%Stat if $Param{NoObjectAttributes};
+
+    #if ( $Stat{Object} && !$Param{NoObjectAttributes} ) {
+
+    KEY:
+    for my $Key (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
+
+        # @StatAttributesSimplified give you Arrays without undef Arrayelements
+        my @StatAttributesSimplified = ();
+
+        # get the Attributes of the Object
+        my @ObjectAttributes = $Self->GetStatsObjectAttributes(
+            ObjectModule => $Stat{ObjectModule},
+            Use          => $Key,
+        );
+
+        next KEY if !@ObjectAttributes;
+
+        ATTRIBUTE:
+        for my $Attribute (@ObjectAttributes) {
+            if ( $Attribute->{Block} eq 'Time' ) {
+                if ( $Key eq 'UseAsValueSeries' ) {
+                    if (   $Allowed{ $Attribute->{Element} }
+                        && $Allowed{ $Attribute->{Element} } == 1 )
+                    {
+                        $Allowed{ $Attribute->{Element} }     = 0;
+                        $TimeAllowed{ $Attribute->{Element} } = 1;
+                    }
+                    else {
+                        $Allowed{ $Attribute->{Element} } = 1;
+                    }
+                }
+                elsif ( $Key eq 'UseAsRestriction' ) {
+                    if (   $TimeAllowed{ $Attribute->{Element} }
+                        && $TimeAllowed{ $Attribute->{Element} } == 1 )
+                    {
+                        $Allowed{ $Attribute->{Element} } = 1;
+                    }
+                    else {
+                        $Allowed{ $Attribute->{Element} } = 0;
+                    }
                 }
             }
-        }
+            next ATTRIBUTE if $Allowed{ $Attribute->{Element} };
 
-        # get the configuration elements of the dynamic stats
-        # %Allowed is used to inhibit douple selction in the different forms
-        my %Allowed     = ();
-        my %TimeAllowed = ();
-        my $TimeElement = $Self->{ConfigObject}->Get("Stats::TimeElement") || 'Time';
+            if ( $StatXML->{$Key} ) {
+                my @StatAttributes = @{ $StatXML->{$Key} };
+                if ( !$StatAttributes[0] ) {
+                    shift(@StatAttributes);
+                }
+                REF:
+                for my $Ref (@StatAttributes) {
+                    if ( !defined( $Attribute->{LanguageTranslation} ) ) {
+                        $Attribute->{LanguageTranslation} = 1;
+                    }
 
-        if ( $Stat{Object} && !$Param{NoObjectAttributes} ) {
-            for my $Key (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
+                    next REF
+                        if !(      $Attribute->{Element}
+                                && $Ref->{Element}
+                                && $Attribute->{Element} eq $Ref->{Element}
+                        );
 
-                # @StatAttributesSimplified give you Arrays without undef Arrayelements
-                my @StatAttributesSimplified = ();
+                    # if selected elements exits add the information to the StatAttributes
+                    $Attribute->{Selected} = 1;
+                    if ( $Ref->{Fixed} ) {
+                        $Attribute->{Fixed} = 1;
+                    }
+                    for my $Index ( 1 .. $#{ $Ref->{SelectedValues} } ) {
+                        push(
+                            @{ $Attribute->{SelectedValues} },
+                            $Ref->{SelectedValues}[$Index]->{Content}
+                        );
+                    }
 
-                # get the Attributes of the Object
-                my @ObjectAttributes = $Self->GetStatsObjectAttributes(
-                    ObjectModule => $Stat{ObjectModule},
-                    Use          => $Key,
-                );
-
-                if (@ObjectAttributes) {
-                    for my $Attribute (@ObjectAttributes) {
-                        if ( $Attribute->{Block} eq 'Time' ) {
-                            if ( $Key eq 'UseAsValueSeries' ) {
-                                if (   $Allowed{ $Attribute->{Element} }
-                                    && $Allowed{ $Attribute->{Element} } == 1 )
-                                {
-                                    $Allowed{ $Attribute->{Element} }     = 0;
-                                    $TimeAllowed{ $Attribute->{Element} } = 1;
-                                }
-                                else {
-                                    $Allowed{ $Attribute->{Element} } = 1;
-                                }
-                            }
-                            elsif ( $Key eq 'UseAsRestriction' ) {
-                                if (   $TimeAllowed{ $Attribute->{Element} }
-                                    && $TimeAllowed{ $Attribute->{Element} } == 1 )
-                                {
-                                    $Allowed{ $Attribute->{Element} } = 1;
-                                }
-                                else {
-                                    $Allowed{ $Attribute->{Element} } = 0;
-                                }
-                            }
-                        }
-                        if ( !$Allowed{ $Attribute->{Element} } ) {
-                            if ( $StatXML->{$Key} ) {
-                                my @StatAttributes = @{ $StatXML->{$Key} };
-                                if ( !$StatAttributes[0] ) {
-                                    shift(@StatAttributes);
-                                }
-                                for my $Ref (@StatAttributes) {
-
-                              # if selected elements exits add the information to the StatAttributes
-                                    if (   $Attribute->{Element}
-                                        && $Ref->{Element}
-                                        && $Attribute->{Element} eq $Ref->{Element} )
-                                    {
-                                        $Attribute->{Selected} = 1;
-                                        if ( $Ref->{Fixed} ) {
-                                            $Attribute->{Fixed} = 1;
-                                        }
-                                        for my $Index ( 1 .. $#{ $Ref->{SelectedValues} } ) {
-                                            push(
-                                                @{ $Attribute->{SelectedValues} },
-                                                $Ref->{SelectedValues}[$Index]->{Content}
-                                            );
-                                        }
-
-                                        # stettings for working with time elements
-                                        for (
-                                            qw(TimeStop TimeStart TimeRelativeUnit
-                                            TimeRelativeCount TimeScaleCount
-                                            )
-                                            )
-                                        {
-                                            if ( $Ref->{$_} ) {
-                                                $Attribute->{$_} = $Ref->{$_};
-                                            }
-                                        }
-                                        $Allowed{ $Attribute->{Element} } = 1;
-                                    }
-                                    if ( !defined( $Attribute->{LanguageTranslation} ) ) {
-                                        $Attribute->{LanguageTranslation} = 1;
-                                    }
-                                }
-                            }
-                            push( @StatAttributesSimplified, $Attribute );
+                    # stettings for working with time elements
+                    for (
+                        qw(TimeStop TimeStart TimeRelativeUnit
+                        TimeRelativeCount TimeScaleCount
+                        )
+                        )
+                    {
+                        if ( $Ref->{$_} ) {
+                            $Attribute->{$_} = $Ref->{$_};
                         }
                     }
-                    $Stat{$Key} = \@StatAttributesSimplified;
+                    $Allowed{ $Attribute->{Element} } = 1;
                 }
             }
-        }
+            push @StatAttributesSimplified, $Attribute;
 
-        return \%Stat;
+        }
+        $Stat{$Key} = \@StatAttributesSimplified;
     }
-    $Self->{LogObject}->Log( Priority => 'error', Message => "StatsGet: Can\'t get Stat!" );
-    return 0;
+
+    return \%Stat;
 }
 
 =item StatsUpdate()
@@ -326,22 +337,23 @@ sub StatsUpdate {
     for my $Key ( keys %{$StatOld} ) {
         if ( $Key eq 'UseAsXvalue' || $Key eq 'UseAsValueSeries' || $Key eq 'UseAsRestriction' ) {
             my $Index = 0;
+            REF:
             for my $Ref ( @{ $StatOld->{$Key} } ) {
-                if ($Ref) {
-                    $Index++;
-                    $StatXML{$Key}[$Index]{Element} = $Ref->{Element};
-                    $StatXML{$Key}[$Index]{Fixed}   = $Ref->{Fixed};
-                    my $SubIndex = 0;
-                    for my $Value ( @{ $Ref->{SelectedValues} } ) {
-                        $SubIndex++;
-                        $StatXML{$Key}[$Index]{SelectedValues}[$SubIndex]{Content} = $Value;
-                    }
+                next REF if !$Ref;
 
-                    # stettings for working with time elements
-                    for (qw(TimeStop TimeStart TimeRelativeUnit TimeRelativeCount TimeScaleCount)) {
-                        if ( $Ref->{$_} ) {
-                            $StatXML{$Key}[$Index]{$_} = $Ref->{$_};
-                        }
+                $Index++;
+                $StatXML{$Key}[$Index]{Element} = $Ref->{Element};
+                $StatXML{$Key}[$Index]{Fixed}   = $Ref->{Fixed};
+                my $SubIndex = 0;
+                for my $Value ( @{ $Ref->{SelectedValues} } ) {
+                    $SubIndex++;
+                    $StatXML{$Key}[$Index]{SelectedValues}[$SubIndex]{Content} = $Value;
+                }
+
+                # stettings for working with time elements
+                for (qw(TimeStop TimeStart TimeRelativeUnit TimeRelativeCount TimeScaleCount)) {
+                    if ( $Ref->{$_} ) {
+                        $StatXML{$Key}[$Index]{$_} = $Ref->{$_};
                     }
                 }
             }
@@ -476,19 +488,16 @@ sub GetStatsList {
         if ( $Self->{AccessRw} || $Self->{UserID} == 1 ) {
             $UserPermission = 1;
         }
-        else {
-
-            # these function is simular like other function in the code perhaps we should
-            # merge them
-            # permission check
-            if ( $Stat->{Valid} ) {
+        # these function is simular like other function in the code perhaps we should
+        # merge them
+        # permission check
+        elsif ( $Stat->{Valid} ) {
             MARKE:
-                for my $GroupID ( @{ $Stat->{Permission} } ) {
-                    for my $UserGroup (@Groups) {
-                        if ( $GroupID == $UserGroup ) {
-                            $UserPermission = 1;
-                            last MARKE;
-                        }
+            for my $GroupID ( @{ $Stat->{Permission} } ) {
+                for my $UserGroup (@Groups) {
+                    if ( $GroupID == $UserGroup ) {
+                        $UserPermission = 1;
+                        last MARKE;
                     }
                 }
             }
@@ -548,7 +557,7 @@ sub SumBuild {
         for my $Index1 ( 2 .. $#Data ) {
             my $Sum = 0;
             for my $Index2 ( 1 .. $#{ $Data[$Index1] } ) {
-                if ( $Data[$Index1][$Index2] =~ /^[0-9]{1,7}$/ ) {
+                if ( $Data[$Index1][$Index2] =~ m{^[0-9]{1,7}$}x ) {
                     $Sum += $Data[$Index1][$Index2];
                 }
             }
@@ -562,7 +571,7 @@ sub SumBuild {
         $SumRow[0] = 'Sum';
         for my $Index1 ( 2 .. $#Data ) {
             for my $Index2 ( 1 .. $#{ $Data[$Index1] } ) {
-                if ( $Data[$Index1][$Index2] =~ /^[0-9]{1,7}$/ ) {
+                if ( $Data[$Index1][$Index2] =~ m{^[0-9]{1,7}$}x ) {
                     $SumRow[$Index2] += $Data[$Index1][$Index2];
                 }
             }
@@ -625,105 +634,100 @@ sub GenerateDynamicStats {
     $NewParam{Cache}  = $Param{Cache};
     for my $Use (qw(UseAsRestriction UseAsXvalue UseAsValueSeries)) {
         my @Array = @{ $Param{$Use} };
+        ELEMENT:
         for my $Element (@Array) {
-            if ( $Element->{Selected} ) {
-                delete( $Element->{Selected} );
-                delete( $Element->{Fixed} );
-                if ( $Element->{Block} eq 'Time' ) {
-                    delete( $Element->{TimePeriodFormat} );
-                    if ( $Element->{TimeRelativeUnit} ) {
-                        my ( $s, $m, $h, $D, $M, $Y )
-                            = $Self->{TimeObject}
-                            ->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
-                        my $Count = 0;
+            next ELEMENT if !$Element->{Selected};
 
-                        if ( $Element->{TimeRelativeCount} ) {
-                            $Count = $Element->{TimeRelativeCount};
-                        }
-                        else {
-                            $Count = 1;
-                        }
+            delete( $Element->{Selected} );
+            delete( $Element->{Fixed} );
+            if ( $Element->{Block} eq 'Time' ) {
+                delete( $Element->{TimePeriodFormat} );
+                if ( $Element->{TimeRelativeUnit} ) {
+                    my ( $s, $m, $h, $D, $M, $Y )
+                        = $Self->{TimeObject}
+                        ->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+                    my $Count = 0;
 
-                        # -1 because the current time will be not counted
-                        $Count = $Count - 1;
-
-                        if ( $Element->{TimeRelativeUnit} eq 'Year' ) {
-                            ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, -1, 0, 0 );
-                            $Element->{TimeStop}
-                                = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, 12, 31, 23, 59,
-                                59 );
-                            ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, -$Count, 0, 0 );
-                            $Element->{TimeStart}
-                                = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, 1, 1, 0, 0, 0 );
-                        }
-                        elsif ( $Element->{TimeRelativeUnit} eq 'Month' ) {
-                            ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -1, 0 );
-                            $Element->{TimeStop} = sprintf(
-                                "%04d-%02d-%02d %02d:%02d:%02d",
-                                $Y, $M, Days_in_Month( $Y, $M ),
-                                23, 59, 59
-                            );
-                            ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -$Count, 0 );
-                            $Element->{TimeStart}
-                                = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, 1, 0, 0, 0 );
-                        }
-                        elsif ( $Element->{TimeRelativeUnit} eq 'Day' ) {
-                            ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, 0, -1 );
-                            $Element->{TimeStop}
-                                = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, 23, 59,
-                                59 );
-                            ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, 0, -$Count );
-                            $Element->{TimeStart}
-                                = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, 0, 0, 0 );
-                        }
-                        elsif ( $Element->{TimeRelativeUnit} eq 'Hour' ) {
-                            ( $Y, $M, $D, $h, $m, $s )
-                                = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, -1, 0, 0 );
-                            $Element->{TimeStop}
-                                = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, 59,
-                                59 );
-                            ( $Y, $M, $D, $h, $m, $s )
-                                = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, -$Count, 0, 0 );
-                            $Element->{TimeStart}
-                                = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, 0, 0 );
-                        }
-                        elsif ( $Element->{TimeRelativeUnit} eq 'Minute' ) {
-                            ( $Y, $M, $D, $h, $m, $s )
-                                = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, -1, 0 );
-                            $Element->{TimeStop}
-                                = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m,
-                                59 );
-                            ( $Y, $M, $D, $h, $m, $s )
-                                = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, -$Count, 0 );
-                            $Element->{TimeStart}
-                                = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $h, $m, 0, 0 );
-                        }
-                        elsif ( $Element->{TimeRelativeUnit} eq 'Second' ) {
-                            ( $Y, $M, $D, $h, $m, $s )
-                                = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, -1 );
-                            $Element->{TimeStop}
-                                = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m,
-                                $s );
-                            ( $Y, $M, $D, $h, $m, $s )
-                                = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, -$Count );
-                            $Element->{TimeStart}
-                                = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m,
-                                $s );
-                        }
-                        delete( $Element->{TimeRelativeUnit} );
-                        delete( $Element->{TimeRelativeCount} );
+                    if ( $Element->{TimeRelativeCount} ) {
+                        $Count = $Element->{TimeRelativeCount};
                     }
-                    $TitleTimeStart = $Element->{TimeStart};
-                    $TitleTimeStop  = $Element->{TimeStop};
-                }
+                    else {
+                        $Count = 1;
+                    }
 
-                # Select All function needed from mkStats.pl and fixed values of the frontend
-                elsif ( !$Element->{SelectedValues}[0] ) {
-                    my @Values = keys( %{ $Element->{Values} } );
-                    $Element->{SelectedValues} = \@Values;
+                    # -1 because the current time will be not counted
+                    $Count = $Count - 1;
+
+                    if ( $Element->{TimeRelativeUnit} eq 'Year' ) {
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, -1, 0, 0 );
+                        $Element->{TimeStop}
+                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, 12, 31, 23, 59, 59 );
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, -$Count, 0, 0 );
+                        $Element->{TimeStart}
+                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, 1, 1, 0, 0, 0 );
+                    }
+                    elsif ( $Element->{TimeRelativeUnit} eq 'Month' ) {
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -1, 0 );
+                        $Element->{TimeStop} = sprintf(
+                            "%04d-%02d-%02d %02d:%02d:%02d",
+                            $Y, $M, Days_in_Month( $Y, $M ),
+                            23, 59, 59
+                        );
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -$Count, 0 );
+                        $Element->{TimeStart}
+                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, 1, 0, 0, 0 );
+                    }
+                    elsif ( $Element->{TimeRelativeUnit} eq 'Day' ) {
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, 0, -1 );
+                        $Element->{TimeStop}
+                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, 23, 59, 59 );
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, 0, -$Count );
+                        $Element->{TimeStart}
+                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, 0, 0, 0 );
+                    }
+                    elsif ( $Element->{TimeRelativeUnit} eq 'Hour' ) {
+                        ( $Y, $M, $D, $h, $m, $s )
+                            = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, -1, 0, 0 );
+                        $Element->{TimeStop}
+                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, 59, 59 );
+                        ( $Y, $M, $D, $h, $m, $s )
+                            = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, -$Count, 0, 0 );
+                        $Element->{TimeStart}
+                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, 0, 0 );
+                    }
+                    elsif ( $Element->{TimeRelativeUnit} eq 'Minute' ) {
+                        ( $Y, $M, $D, $h, $m, $s )
+                            = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, -1, 0 );
+                        $Element->{TimeStop}
+                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, 59 );
+                        ( $Y, $M, $D, $h, $m, $s )
+                            = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, -$Count, 0 );
+                        $Element->{TimeStart}
+                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $h, $m, 0, 0 );
+                    }
+                    elsif ( $Element->{TimeRelativeUnit} eq 'Second' ) {
+                        ( $Y, $M, $D, $h, $m, $s )
+                            = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, -1 );
+                        $Element->{TimeStop}
+                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s );
+                        ( $Y, $M, $D, $h, $m, $s )
+                            = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, -$Count );
+                        $Element->{TimeStart}
+                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s );
+                    }
+                    delete( $Element->{TimeRelativeUnit} );
+                    delete( $Element->{TimeRelativeCount} );
                 }
-                push( @{ $NewParam{$Use} }, $Element );
+                $TitleTimeStart = $Element->{TimeStart};
+                $TitleTimeStop  = $Element->{TimeStop};
             }
+
+            # Select All function needed from mkStats.pl and fixed values of the frontend
+            elsif ( !$Element->{SelectedValues}[0] ) {
+                my @Values = keys( %{ $Element->{Values} } );
+                $Element->{SelectedValues} = \@Values;
+            }
+            push @{ $NewParam{$Use} }, $Element;
         }
     }
 
@@ -766,7 +770,7 @@ sub GenerateDynamicStats {
         my ($Year,   $Month,   $Day,   $Hour,   $Minute,   $Second,
             $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond
         );
-        if ( $Element->{'TimeStart'} =~ /^(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)$/i ) {
+        if ( $Element->{'TimeStart'} =~ m{^(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)$}ix ) {
             $Year   = $VSYear   = $1;
             $Month  = $VSMonth  = int($2);
             $Day    = $VSDay    = int($3);
@@ -780,12 +784,7 @@ sub GenerateDynamicStats {
         my $TimeStart = 0;
         my $TimeStop  = 0;
 
-        if ( $Element->{TimeScaleCount} ) {
-            $Count = $Element->{TimeScaleCount};
-        }
-        else {
-            $Count = 1;
-        }
+        $Count = $Element->{TimeScaleCount} ? $Element->{TimeScaleCount} : 1;
 
         # in these constellation $Count > 1 is not useful!!
         if (   $Param{UseAsValueSeries}[0]{Block}
@@ -938,7 +937,7 @@ sub GenerateDynamicStats {
 
         # build the headerline
         for my $Valuename ( @{ $Xvalue->{SelectedValues} } ) {
-            push( @HeaderLine, $Xvalue->{Values}{$Valuename} );
+            push @HeaderLine, $Xvalue->{Values}{$Valuename};
         }
     }
 
@@ -948,244 +947,11 @@ sub GenerateDynamicStats {
     my $ColumnName    = '';
 
     # give me all possilbe elements for Value Series
+    REF1:
     for my $Ref1 ( @{ $Param{UseAsValueSeries} } ) {
 
-        # timescale elements need a special handling
-        if ( $Ref1->{Block} && $Ref1->{Block} eq 'Time' ) {
-
-            # Create a new Headerline
-            @HeaderLine = ();
-
-            # these all makes only sense, if the count of xaxis is 1
-            if ( $Ref1->{SelectedValues}[0] eq 'Year' ) {
-                if ( $Count == 1 ) {
-                    for ( 1 .. 12 ) {
-                        push( @HeaderLine, "$MonthArrayRef->[$_] $_" );
-                    }
-                }
-                else {
-                    for ( my $Month = 1; $Month < 12; $Month = $Month + $Count ) {
-                        push( @HeaderLine,
-                            "$MonthArrayRef->[$Month] - $MonthArrayRef->[$Month + $Count - 1]" );
-                    }
-                }
-                $VSSecond   = 0;
-                $VSMinute   = 0;
-                $VSHour     = 0;
-                $VSDay      = 1;
-                $VSMonth    = 1;
-                $ColumnName = 'Year';
-            }
-            elsif ( $Ref1->{SelectedValues}[0] eq 'Month' ) {
-                if ( $Count == 1 ) {
-                    for ( 1 .. 31 ) {
-                        push( @HeaderLine, $_ );
-                    }
-                }
-                else {
-                    $Count = 1;
-                    for ( 1 .. 31 ) {
-                        push( @HeaderLine, $_ );
-                    }
-
-                    #                    # not useable because of 28.02 and 31.01
-                    #                    for (my $Day = 0; $Day < 32; $Day = $Day + $Count) {
-                    #                        my $String = $Day . '-' . ($Day + $Count);
-                    #                        push(@HeaderLine, $String);
-                    #                    }
-                }
-
-                $VSSecond   = 0;
-                $VSMinute   = 0;
-                $VSHour     = 0;
-                $VSDay      = 1;
-                $ColumnName = 'Month';
-            }
-            elsif ( $Ref1->{SelectedValues}[0] eq 'Day' ) {
-                for ( my $Hour = 0; $Hour < 24; $Hour = $Hour + $Count ) {
-                    push( @HeaderLine,
-                        sprintf( "%02d:00:00-%02d:59:59", $Hour, $Hour + $Count - 1 ) );
-                }
-                $VSSecond   = 0;
-                $VSMinute   = 0;
-                $VSHour     = 0;
-                $ColumnName = 'Day';
-            }
-            elsif ( $Ref1->{SelectedValues}[0] eq 'Hour' ) {
-                for ( my $Minute = 0; $Minute < 60; $Minute = $Minute + $Count ) {
-                    my $Time = 'min ' . $Minute . ' - ' . ( $Minute + $Count );
-                    push( @HeaderLine, $Time );
-                }
-                $VSSecond   = 0;
-                $VSMinute   = 0;
-                $ColumnName = 'Hour';
-            }
-            elsif ( $Ref1->{SelectedValues}[0] eq 'Minute' ) {
-                if ( $Count == 1 ) {
-                    for ( 0 .. 59 ) {
-                        my $Time = 'sec ' . $_;
-                        push( @HeaderLine, $Time );
-                    }
-                }
-                else {
-                    for ( my $Second = 0; $Second < 60; $Second = $Second + $Count ) {
-                        my $Time = 'sec ' . $Second . '-' . ( $Second + $Count );
-                        push( @HeaderLine, $Time );
-                    }
-                }
-                $VSSecond   = 0;
-                $ColumnName = 'Minute';
-            }
-
-            my $TimeStart     = 0;
-            my $TimeStop      = 0;
-            my $MonthArrayRef = _MonthArray();
-
-            $Count = 1;
-
-            # Generate the time value series
-            my ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond );
-
-            if ( $Ref1->{SelectedValues}[0] eq 'Year' ) {
-                while ( $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
-                    < $TimeAbsolutStopUnixTime )
-                {
-                    $TimeStart = sprintf( "%04d-01-01 00:00:00", $VSYear );
-                    ( $ToYear, $ToMonth, $ToDay )
-                        = Add_Delta_YMD( $VSYear, $VSMonth, $VSDay, $Count, 0, 0 );
-                    ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond )
-                        = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $VSHour, $VSMinute, $VSSecond,
-                        0, 0, 0, -1 );
-                    $TimeStop = sprintf( "%04d-12-31 23:59:59", $ToYear );
-
-                    #if ($Count == 1) {
-                    $ValueSeries{$VSYear} = {
-                        $Ref1->{Values}{TimeStop}  => $TimeStop,
-                        $Ref1->{Values}{TimeStart} => $TimeStart
-                    };
-
-#}
-#else {
-#    $ValueSeries{$VSYear . '-' . $ToYear} = {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
-#}
-                    ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond )
-                        = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond,
-                        0, 0, 0, 1 );
-                }
-            }
-            elsif ( $Ref1->{SelectedValues}[0] eq 'Month' ) {
-                while ( $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
-                    < $TimeAbsolutStopUnixTime )
-                {
-                    $TimeStart = sprintf( "%04d-%02d-01 00:00:00", $VSYear, $VSMonth );
-                    ( $ToYear, $ToMonth, $ToDay )
-                        = Add_Delta_YMD( $VSYear, $VSMonth, $VSDay, 0, $Count, 0 );
-                    ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond )
-                        = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $VSHour, $VSMinute, $VSSecond,
-                        0, 0, 0, -1 );
-                    $TimeStop = sprintf( "%04d-%02d-%02d 23:59:59", $ToYear, $ToMonth, $ToDay );
-
-                    #                    if ($Count == 1) {
-                    $ValueSeries{ $VSYear . '-'
-                            . sprintf( "%02d", $VSMonth ) . ' '
-                            . $MonthArrayRef->[$VSMonth] } = {
-                        $Ref1->{Values}{TimeStop}  => $TimeStop,
-                        $Ref1->{Values}{TimeStart} => $TimeStart
-                            };
-
-#                    }
-#                    else {
-#                        $ValueSeries{$VSYear . ' ' . $MonthArrayRef->[$VSMonth] . '-' . $MonthArrayRef->[$ToMonth]} =
-#                            {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
-#                    }
-                    ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond )
-                        = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond,
-                        0, 0, 0, 1 );
-                }
-
-            }
-            elsif ( $Ref1->{SelectedValues}[0] eq 'Day' ) {
-                while ( $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
-                    < $TimeAbsolutStopUnixTime )
-                {
-                    $TimeStart = sprintf( "%04d-%02d-%02d 00:00:00", $VSYear, $VSMonth, $VSDay );
-                    ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond ) = Add_Delta_DHMS(
-                        $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond,
-                        $Count,  0,        0,      -1
-                    );
-                    $TimeStop = sprintf( "%04d-%02d-%02d 23:59:59", $ToYear, $ToMonth, $ToDay );
-
-                    #                    if ($Count == 1) {
-                    $ValueSeries{ sprintf( "%04d-%02d-%02d", $VSYear, $VSMonth, $VSDay ) } = {
-                        $Ref1->{Values}{TimeStop}  => $TimeStop,
-                        $Ref1->{Values}{TimeStart} => $TimeStart
-                    };
-
-#                    }
-#                    else {
-#                        $ValueSeries{sprintf("%04d-%02d-%02d - %04d-%02d-%02d",$VSYear,$VSMonth,$VSDay,$ToYear,$ToMonth,$ToDay)} =
-#                            {$Ref1->{Values}{TimeStop} => $TimeStop, $Ref1->{Values}{TimeStart} => $TimeStart};
-#                    }
-                    ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond )
-                        = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond,
-                        0, 0, 0, 1 );
-                }
-            }
-            elsif ( $Ref1->{SelectedValues}[0] eq 'Hour' ) {
-                while ( $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
-                    < $TimeAbsolutStopUnixTime )
-                {
-                    $TimeStart = sprintf( "%04d-%02d-%02d %02d:00:00", $VSYear, $VSMonth, $VSDay,
-                        $VSHour );
-                    ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond ) = Add_Delta_DHMS(
-                        $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond,
-                        0,       $Count,   0,      -1
-                    );
-                    $TimeStop = sprintf( "%04d-%02d-%02d %02d:59:59", $ToYear, $ToMonth, $ToDay,
-                        $ToHour );
-                    $ValueSeries{
-                        sprintf( "%04d-%02d-%02d %02d:00:00 - %02d:59:59",
-                            $VSYear, $VSMonth, $VSDay, $VSHour, $ToHour )
-                        }
-                        = {
-                        $Ref1->{Values}{TimeStop}  => $TimeStop,
-                        $Ref1->{Values}{TimeStart} => $TimeStart
-                        };
-                    ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond )
-                        = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond,
-                        0, 0, 0, 1 );
-                }
-            }
-
-            elsif ( $Ref1->{SelectedValues}[0] eq 'Minute' ) {
-                while ( $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
-                    < $TimeAbsolutStopUnixTime )
-                {
-                    $TimeStart = sprintf( "%04d-%02d-%02d %02d:%02d:00",
-                        $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute );
-                    ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond ) = Add_Delta_DHMS(
-                        $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond,
-                        0,       0,        $Count, -1
-                    );
-                    $TimeStop = sprintf( "%04d-%02d-%02d %02d:%02d:59",
-                        $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute );
-                    $ValueSeries{
-                        sprintf( "%04d-%02d-%02d %02d:%02d:00 - %02d:%02d:59",
-                            $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $ToHour, $ToMinute )
-                        }
-                        = {
-                        $Ref1->{Values}{TimeStop}  => $TimeStop,
-                        $Ref1->{Values}{TimeStart} => $TimeStart
-                        };
-                    ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond )
-                        = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond,
-                        0, 0, 0, 1 );
-                }
-            }
-        }
-
         # all elements which are shown with multiselectfields
-        else {
+        if ( $Ref1->{Block} ne 'Time' ) {
             my %SelectedValues = ();
             for my $Ref2 ( @{ $Ref1->{SelectedValues} } ) {
                 $SelectedValues{$Ref2} = $Ref1->{Values}{$Ref2};
@@ -1198,10 +964,219 @@ sub GenerateDynamicStats {
                     Block   => $Ref1->{Block},
                 }
             );
+            next REF1;
+        }
+
+        # timescale elements need a special handling
+        @HeaderLine = ();
+
+        # these all makes only sense, if the count of xaxis is 1
+        if ( $Ref1->{SelectedValues}[0] eq 'Year' ) {
+            if ( $Count == 1 ) {
+                for ( 1 .. 12 ) {
+                    push( @HeaderLine, "$MonthArrayRef->[$_] $_" );
+                }
+            }
+            else {
+                for ( my $Month = 1; $Month < 12; $Month = $Month + $Count ) {
+                    push( @HeaderLine,
+                        "$MonthArrayRef->[$Month] - $MonthArrayRef->[$Month + $Count - 1]" );
+                }
+            }
+            $VSSecond   = 0;
+            $VSMinute   = 0;
+            $VSHour     = 0;
+            $VSDay      = 1;
+            $VSMonth    = 1;
+            $ColumnName = 'Year';
+        }
+        elsif ( $Ref1->{SelectedValues}[0] eq 'Month' ) {
+
+            #if ( $Count == 1 ) {
+            #    for ( 1 .. 31 ) {
+            #        push @HeaderLine, $_;
+            #    }
+            #}
+            #else {
+            $Count = 1;
+            for ( 1 .. 31 ) {
+                push @HeaderLine, $_;
+            }
+
+            #}
+
+            $VSSecond   = 0;
+            $VSMinute   = 0;
+            $VSHour     = 0;
+            $VSDay      = 1;
+            $ColumnName = 'Month';
+        }
+        elsif ( $Ref1->{SelectedValues}[0] eq 'Day' ) {
+            for ( my $Hour = 0; $Hour < 24; $Hour = $Hour + $Count ) {
+                push( @HeaderLine, sprintf( "%02d:00:00-%02d:59:59", $Hour, $Hour + $Count - 1 ) );
+            }
+            $VSSecond   = 0;
+            $VSMinute   = 0;
+            $VSHour     = 0;
+            $ColumnName = 'Day';
+        }
+        elsif ( $Ref1->{SelectedValues}[0] eq 'Hour' ) {
+            for ( my $Minute = 0; $Minute < 60; $Minute = $Minute + $Count ) {
+                my $Time = 'min ' . $Minute . ' - ' . ( $Minute + $Count );
+                push( @HeaderLine, $Time );
+            }
+            $VSSecond   = 0;
+            $VSMinute   = 0;
+            $ColumnName = 'Hour';
+        }
+        elsif ( $Ref1->{SelectedValues}[0] eq 'Minute' ) {
+            if ( $Count == 1 ) {
+                for ( 0 .. 59 ) {
+                    my $Time = 'sec ' . $_;
+                    push( @HeaderLine, $Time );
+                }
+            }
+            else {
+                for ( my $Second = 0; $Second < 60; $Second = $Second + $Count ) {
+                    my $Time = 'sec ' . $Second . '-' . ( $Second + $Count );
+                    push( @HeaderLine, $Time );
+                }
+            }
+            $VSSecond   = 0;
+            $ColumnName = 'Minute';
+        }
+
+        my $TimeStart     = 0;
+        my $TimeStop      = 0;
+        my $MonthArrayRef = _MonthArray();
+
+        $Count = 1;
+
+        # Generate the time value series
+        my ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond );
+
+        if ( $Ref1->{SelectedValues}[0] eq 'Year' ) {
+            while ( $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
+                < $TimeAbsolutStopUnixTime )
+            {
+                $TimeStart = sprintf( "%04d-01-01 00:00:00", $VSYear );
+                ( $ToYear, $ToMonth, $ToDay )
+                    = Add_Delta_YMD( $VSYear, $VSMonth, $VSDay, $Count, 0, 0 );
+                ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond )
+                    = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $VSHour, $VSMinute, $VSSecond, 0,
+                    0, 0, -1 );
+                $TimeStop = sprintf( "%04d-12-31 23:59:59", $ToYear );
+
+                $ValueSeries{$VSYear} = {
+                    $Ref1->{Values}{TimeStop}  => $TimeStop,
+                    $Ref1->{Values}{TimeStart} => $TimeStart
+                };
+
+                ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond )
+                    = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0,
+                    0, 0, 1 );
+            }
+        }
+        elsif ( $Ref1->{SelectedValues}[0] eq 'Month' ) {
+            while ( $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
+                < $TimeAbsolutStopUnixTime )
+            {
+                $TimeStart = sprintf( "%04d-%02d-01 00:00:00", $VSYear, $VSMonth );
+                ( $ToYear, $ToMonth, $ToDay )
+                    = Add_Delta_YMD( $VSYear, $VSMonth, $VSDay, 0, $Count, 0 );
+                ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond )
+                    = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $VSHour, $VSMinute, $VSSecond, 0,
+                    0, 0, -1 );
+                $TimeStop = sprintf( "%04d-%02d-%02d 23:59:59", $ToYear, $ToMonth, $ToDay );
+
+                #                    if ($Count == 1) {
+                $ValueSeries{ $VSYear . '-'
+                        . sprintf( "%02d", $VSMonth ) . ' '
+                        . $MonthArrayRef->[$VSMonth] } = {
+                    $Ref1->{Values}{TimeStop}  => $TimeStop,
+                    $Ref1->{Values}{TimeStart} => $TimeStart
+                        };
+
+                ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond )
+                    = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0,
+                    0, 0, 1 );
+            }
+        }
+        elsif ( $Ref1->{SelectedValues}[0] eq 'Day' ) {
+            while ( $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
+                < $TimeAbsolutStopUnixTime )
+            {
+                $TimeStart = sprintf( "%04d-%02d-%02d 00:00:00", $VSYear, $VSMonth, $VSDay );
+                ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond )
+                    = Add_Delta_DHMS( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond,
+                    $Count, 0, 0, -1 );
+                $TimeStop = sprintf( "%04d-%02d-%02d 23:59:59", $ToYear, $ToMonth, $ToDay );
+
+                #                    if ($Count == 1) {
+                $ValueSeries{ sprintf( "%04d-%02d-%02d", $VSYear, $VSMonth, $VSDay ) } = {
+                    $Ref1->{Values}{TimeStop}  => $TimeStop,
+                    $Ref1->{Values}{TimeStart} => $TimeStart
+                };
+
+                ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond )
+                    = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0,
+                    0, 0, 1 );
+            }
+        }
+        elsif ( $Ref1->{SelectedValues}[0] eq 'Hour' ) {
+            while ( $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
+                < $TimeAbsolutStopUnixTime )
+            {
+                $TimeStart
+                    = sprintf( "%04d-%02d-%02d %02d:00:00", $VSYear, $VSMonth, $VSDay, $VSHour );
+                ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond )
+                    = Add_Delta_DHMS( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond, 0,
+                    $Count, 0, -1 );
+                $TimeStop
+                    = sprintf( "%04d-%02d-%02d %02d:59:59", $ToYear, $ToMonth, $ToDay, $ToHour );
+                $ValueSeries{
+                    sprintf( "%04d-%02d-%02d %02d:00:00 - %02d:59:59",
+                        $VSYear, $VSMonth, $VSDay, $VSHour, $ToHour )
+                    }
+                    = {
+                    $Ref1->{Values}{TimeStop}  => $TimeStop,
+                    $Ref1->{Values}{TimeStart} => $TimeStart
+                    };
+                ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond )
+                    = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0,
+                    0, 0, 1 );
+            }
+        }
+
+        elsif ( $Ref1->{SelectedValues}[0] eq 'Minute' ) {
+            while ( $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
+                < $TimeAbsolutStopUnixTime )
+            {
+                $TimeStart = sprintf( "%04d-%02d-%02d %02d:%02d:00",
+                    $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute );
+                ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond )
+                    = Add_Delta_DHMS( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond, 0,
+                    0, $Count, -1 );
+                $TimeStop = sprintf( "%04d-%02d-%02d %02d:%02d:59",
+                    $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute );
+                $ValueSeries{
+                    sprintf( "%04d-%02d-%02d %02d:%02d:00 - %02d:%02d:59",
+                        $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $ToHour, $ToMinute )
+                    }
+                    = {
+                    $Ref1->{Values}{TimeStop}  => $TimeStop,
+                    $Ref1->{Values}{TimeStart} => $TimeStart
+                    };
+                ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond )
+                    = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0,
+                    0, 0, 1 );
+            }
+
         }
     }
 
     # merge the array if two elements for the valueseries are avialable
+    KEY:
     for my $Key ( keys %{ $ArraySelected[0]{Values} } ) {
         my $Value0;
         if ( $ArraySelected[0]{Block} eq 'SelectField' ) {
@@ -1214,22 +1189,22 @@ sub GenerateDynamicStats {
         if ( !$ArraySelected[1] ) {
             $ValueSeries{ $ArraySelected[0]{Values}{$Key} }
                 = { $ArraySelected[0]{Element} => $Value0 };
+            next KEY;
         }
-        else {
-            for my $SubKey ( keys %{ $ArraySelected[1]{Values} } ) {
-                my $Value1;
-                if ( $ArraySelected[1]{Block} eq 'SelectField' ) {
-                    $Value1 = $SubKey;
-                }
-                elsif ( $ArraySelected[1]{Block} eq 'MultiSelectField' ) {
-                    $Value1 = [$SubKey];
-                }
-                $ValueSeries{ $ArraySelected[0]{Values}{$Key} . ' - '
-                        . $ArraySelected[1]{Values}{$SubKey} } = {
-                    $ArraySelected[0]{Element} => $Value0,
-                    $ArraySelected[1]{Element} => $Value1
-                        };
+
+        for my $SubKey ( keys %{ $ArraySelected[1]{Values} } ) {
+            my $Value1;
+            if ( $ArraySelected[1]{Block} eq 'SelectField' ) {
+                $Value1 = $SubKey;
             }
+            elsif ( $ArraySelected[1]{Block} eq 'MultiSelectField' ) {
+                $Value1 = [$SubKey];
+            }
+            $ValueSeries{ $ArraySelected[0]{Values}{$Key} . ' - '
+                    . $ArraySelected[1]{Values}{$SubKey} } = {
+                $ArraySelected[0]{Element} => $Value0,
+                $ArraySelected[1]{Element} => $Value1
+                    };
         }
     }
 
@@ -1265,7 +1240,7 @@ sub GenerateDynamicStats {
         );
         my $File = 'Stats' . $Param{StatID} . "-" . $MD5Key . ".cache";
 
-        if ( open my $Filehandle, '<', "$Path/$File"  ) {
+        if ( open my $Filehandle, '<', "$Path/$File" ) {
             binmode $Filehandle;
             while (<$Filehandle>) {
                 $CSVString .= $_;
@@ -1282,13 +1257,11 @@ sub GenerateDynamicStats {
             )
             };
 
-        if (@StatArray) {
-            return @StatArray;
-        }
+        return @StatArray if @StatArray;
     }
 
-    push( @StatArray, [$Title] );
-    push( @StatArray, \@HeaderLine );
+    push @StatArray, [$Title];
+    push @StatArray, \@HeaderLine;
 
     #Get the stat elements
     for my $Row ( sort keys %ValueSeries ) {    # get each row
@@ -1328,9 +1301,9 @@ sub GenerateDynamicStats {
                 $SearchAttribut{ $Xvalue->{Element} } = [$Cell];
             }
             my $Quantity = $StatObject->GetStatElement( %SearchAttribut, %RestrictionAttribute );
-            push( @ResultRow, $Quantity );
+            push @ResultRow, $Quantity;
         }
-        push( @StatArray, \@ResultRow );
+        push @StatArray, \@ResultRow;
     }
 
     # fill up empty array elements, e.g month as value series (February has 28 day and Januar 31)
@@ -1362,7 +1335,7 @@ sub GenerateDynamicStats {
 
                 $Self->{EncodeObject}->EncodeOutput( \$CSVString );
 
-                if ( open my $Filehandle, '>', "$Path/$File"  ) {
+                if ( open my $Filehandle, '>', "$Path/$File" ) {
                     binmode $Filehandle;
                     print $Filehandle $CSVString;
                     close $Filehandle;
@@ -1424,12 +1397,12 @@ sub GenerateGraph {
 
     # delete SumCol and SumRow if present
     if ( $StatArray[-1][0] eq 'Sum' ) {
-        pop(@StatArray);
+        pop @StatArray;
     }
     if ( $HeadArrayRef->[-1] eq 'Sum' ) {
         pop( @{$HeadArrayRef} );
         for my $Row (@StatArray) {
-            pop( @{$Row} );
+            pop @{$Row};
         }
     }
 
@@ -1454,7 +1427,7 @@ sub GenerateGraph {
 
     # build plot data
     my @PData = ( $HeadArrayRef, @StatArray );
-    my ( $XSize, $YSize ) = split( /x/, $Param{GraphSize} );
+    my ( $XSize, $YSize ) = split( m{x}x, $Param{GraphSize} );
     my $graph = $GDBackend->new( $XSize || 550, $YSize || 350 );
     $graph->set(
         x_label => $XLable,
@@ -1625,8 +1598,8 @@ sub CompletenessCheck {
         }
         if ( !$Param{StatData}{GraphSize} && $Param{StatData}{Format} ) {
             for ( @{ $StatData{Format} } ) {
-                if ( $_ =~ /^GD::Graph\.*/ ) {
-                    push( @IndexArray, 3 );
+                if ( $_ =~ m{^GD::Graph\.*}x ) {
+                    push @IndexArray, 3;
                     last;
                 }
             }
@@ -1639,47 +1612,48 @@ sub CompletenessCheck {
             && $StatData{StatType} eq 'dynamic' )
         {
             my $Flag = 0;
+            XVALUE:
             for my $Xvalue ( @{ $StatData{UseAsXvalue} } ) {
-                if ( $Xvalue->{Selected} ) {
-                    if (   $Xvalue->{Block} ne 'Time'
-                        && $#{ $Xvalue->{SelectedValues} } < 1
-                        && $Xvalue->{SelectedValues}[0] )
-                    {
-                        push( @IndexArray, 5 );
-                    }
-                    if ( $Xvalue->{Block} eq 'Time' ) {
-                        if ( $Xvalue->{TimeStart} && $Xvalue->{TimeStop} ) {
-                            my $TimeStart = $Self->{TimeObject}
-                                ->TimeStamp2SystemTime( String => $Xvalue->{TimeStart} );
-                            my $TimeStop = $Self->{TimeObject}
-                                ->TimeStamp2SystemTime( String => $Xvalue->{TimeStop} );
-                            if ( !$TimeStart || !$TimeStop ) {
-                                push( @IndexArray, 11 );
-                                last;
-                            }
-                            elsif ( $TimeStart > $TimeStop ) {
-                                push( @IndexArray, 9 );
-                                last;
-                            }
-                        }
-                        elsif ( !$Xvalue->{TimeRelativeUnit} || !$Xvalue->{TimeRelativeCount} ) {
-                            push( @IndexArray, 9 );
-                            last;
-                        }
+                next XVALUE if !$Xvalue->{Selected};
 
-                        if ( !$Xvalue->{SelectedValues}[0] ) {
-                            push( @IndexArray, 10 );
+                if (   $Xvalue->{Block} ne 'Time'
+                    && $#{ $Xvalue->{SelectedValues} } < 1
+                    && $Xvalue->{SelectedValues}[0] )
+                {
+                    push @IndexArray, 5;
+                }
+                if ( $Xvalue->{Block} eq 'Time' ) {
+                    if ( $Xvalue->{TimeStart} && $Xvalue->{TimeStop} ) {
+                        my $TimeStart = $Self->{TimeObject}
+                            ->TimeStamp2SystemTime( String => $Xvalue->{TimeStart} );
+                        my $TimeStop = $Self->{TimeObject}
+                            ->TimeStamp2SystemTime( String => $Xvalue->{TimeStop} );
+                        if ( !$TimeStart || !$TimeStop ) {
+                            push @IndexArray, 11;
+                            last XVALUE;
                         }
-                        elsif ( $Xvalue->{Fixed} && $#{ $Xvalue->{SelectedValues} } > 0 ) {
-                            push( @IndexArray, 6 );
+                        elsif ( $TimeStart > $TimeStop ) {
+                            push @IndexArray, 9;
+                            last XVALUE;
                         }
                     }
-                    $Flag = 1;
-                    last;
+                    elsif ( !$Xvalue->{TimeRelativeUnit} || !$Xvalue->{TimeRelativeCount} ) {
+                        push( @IndexArray, 9 );
+                        last XVALUE;
+                    }
+
+                    if ( !$Xvalue->{SelectedValues}[0] ) {
+                        push @IndexArray, 10 ;
+                    }
+                    elsif ( $Xvalue->{Fixed} && $#{ $Xvalue->{SelectedValues} } > 0 ) {
+                        push @IndexArray, 6 ;
+                    }
                 }
+                $Flag = 1;
+                last XVALUE;
             }
             if ( !$Flag ) {
-                push( @IndexArray, 4 );
+                push @IndexArray, 4;
             }
         }
         if ( ( $Param{Section} eq 'ValueSeries' || $Param{Section} eq 'All' )
@@ -1687,26 +1661,27 @@ sub CompletenessCheck {
         {
             my $Counter = 0;
             my $Flag    = 0;
+            VALUESERIES:
             for my $ValueSeries ( @{ $StatData{UseAsValueSeries} } ) {
-                if ( $ValueSeries->{Selected} ) {
-                    if (   $ValueSeries->{Block} eq 'Time'
-                        || $ValueSeries->{Block} eq 'TimeExtended' )
-                    {
-                        if ( $ValueSeries->{Fixed} && $#{ $ValueSeries->{SelectedValues} } > 0 ) {
-                            push( @IndexArray, 6 );
-                        }
-                        elsif ( !$ValueSeries->{SelectedValues}[0] ) {
-                            push( @IndexArray, 7 );
-                        }
-                        $Flag = 1;
+                next VALUESERIES if !$ValueSeries->{Selected};
+
+                if (   $ValueSeries->{Block} eq 'Time'
+                    || $ValueSeries->{Block} eq 'TimeExtended' )
+                {
+                    if ( $ValueSeries->{Fixed} && $#{ $ValueSeries->{SelectedValues} } > 0 ) {
+                        push @IndexArray, 6;
                     }
-                    elsif ($ValueSeries->{SelectedValues}[0]
-                        && $#{ $ValueSeries->{SelectedValues} } < 1 )
-                    {
-                        push( @IndexArray, 5 );
+                    elsif ( !$ValueSeries->{SelectedValues}[0] ) {
+                        push @IndexArray, 7;
                     }
-                    $Counter++;
+                    $Flag = 1;
                 }
+                elsif ($ValueSeries->{SelectedValues}[0]
+                    && $#{ $ValueSeries->{SelectedValues} } < 1 )
+                {
+                    push @IndexArray, 5;
+                }
+                $Counter++;
             }
             if ( $Counter > 1 && $Flag ) {
                 push( @IndexArray, 13 );
@@ -1718,48 +1693,49 @@ sub CompletenessCheck {
         if ( ( $Param{Section} eq 'Restrictions' || $Param{Section} eq 'All' )
             && $StatData{StatType} eq 'dynamic' )
         {
+            RESTRICTION:
             for my $Restriction ( @{ $StatData{UseAsRestriction} } ) {
-                if ( $Restriction->{Selected} ) {
-                    if ( $Restriction->{Block} eq 'SelectField' ) {
-                        if ( $Restriction->{Fixed} && $#{ $Restriction->{SelectedValues} } > 0 ) {
-                            push( @IndexArray, 6 );
-                            last;
+                next RESTRICTION if !$Restriction->{Selected};
+
+                if ( $Restriction->{Block} eq 'SelectField' ) {
+                    if ( $Restriction->{Fixed} && $#{ $Restriction->{SelectedValues} } > 0 ) {
+                        push( @IndexArray, 6 );
+                        last RESTRICTION;
+                    }
+                    elsif ( !$Restriction->{SelectedValues}[0] ) {
+                        push( @IndexArray, 7 );
+                        last RESTRICTION;
+                    }
+                }
+                elsif ($Restriction->{Block} eq 'InputField'
+                    && !$Restriction->{SelectedValues}[0]
+                    && $Restriction->{Fixed} )
+                {
+                    push( @IndexArray, 8 );
+                    last RESTRICTION;
+                }
+                elsif ($Restriction->{Block} eq 'Time'
+                    || $Restriction->{Block} eq 'TimeExtended' )
+                {
+                    if ( $Restriction->{TimeStart} && $Restriction->{TimeStop} ) {
+                        my $TimeStart = $Self->{TimeObject}
+                            ->TimeStamp2SystemTime( String => $Restriction->{TimeStart} );
+                        my $TimeStop = $Self->{TimeObject}
+                            ->TimeStamp2SystemTime( String => $Restriction->{TimeStop} );
+                        if ( !$TimeStart || !$TimeStop ) {
+                            push @IndexArray, 11;
+                            last RESTRICTION;
                         }
-                        elsif ( !$Restriction->{SelectedValues}[0] ) {
-                            push( @IndexArray, 7 );
-                            last;
+                        elsif ( $TimeStart > $TimeStop ) {
+                            push @IndexArray, 9;
+                            last RESTRICTION;
                         }
                     }
-                    elsif ($Restriction->{Block} eq 'InputField'
-                        && !$Restriction->{SelectedValues}[0]
-                        && $Restriction->{Fixed} )
+                    elsif (!$Restriction->{TimeRelativeUnit}
+                        || !$Restriction->{TimeRelativeCount} )
                     {
-                        push( @IndexArray, 8 );
-                        last;
-                    }
-                    elsif ($Restriction->{Block} eq 'Time'
-                        || $Restriction->{Block} eq 'TimeExtended' )
-                    {
-                        if ( $Restriction->{TimeStart} && $Restriction->{TimeStop} ) {
-                            my $TimeStart = $Self->{TimeObject}
-                                ->TimeStamp2SystemTime( String => $Restriction->{TimeStart} );
-                            my $TimeStop = $Self->{TimeObject}
-                                ->TimeStamp2SystemTime( String => $Restriction->{TimeStop} );
-                            if ( !$TimeStart || !$TimeStop ) {
-                                push( @IndexArray, 11 );
-                                last;
-                            }
-                            elsif ( $TimeStart > $TimeStop ) {
-                                push( @IndexArray, 9 );
-                                last;
-                            }
-                        }
-                        elsif (!$Restriction->{TimeRelativeUnit}
-                            || !$Restriction->{TimeRelativeCount} )
-                        {
-                            push( @IndexArray, 9 );
-                            last;
-                        }
+                        push @IndexArray, 9;
+                        last RESTRICTION;
                     }
                 }
             }
@@ -1770,78 +1746,60 @@ sub CompletenessCheck {
         # remark time functions should be exportet in external functions (tr)
         if ( $Param{Section} eq 'All' && $StatData{StatType} eq 'dynamic' ) {
             my $Stat = $Self->StatsGet( StatID => $StatData{StatID} );
+
+            XVALUE:
             for my $Xvalue ( @{ $Stat->{UseAsXvalue} } ) {
-                if ( $Xvalue->{Selected} && $Xvalue->{Fixed} && $Xvalue->{Block} eq 'Time' ) {
-                    my $Flag = 1;
-                    for my $ValueSeries ( @{ $Stat->{UseAsValueSeries} } ) {
-                        if ( $ValueSeries->{Selected} && $ValueSeries->{Block} eq 'Time' ) {
-                            $Flag = 0;
-                            last;
-                        }
+                next XVALUE
+                    if !( $Xvalue->{Selected} && $Xvalue->{Fixed} && $Xvalue->{Block} eq 'Time' );
+
+                my $Flag = 1;
+                VALUESERIES:
+                for my $ValueSeries ( @{ $Stat->{UseAsValueSeries} } ) {
+                    if ( $ValueSeries->{Selected} && $ValueSeries->{Block} eq 'Time' ) {
+                        $Flag = 0;
+                        last VALUESERIES;
                     }
-                    if ($Flag) {
-                        my $ScalePeriod = 0;
-                        my $TimePeriod  = 0;
-                        my $Count       = 1;
-
-                        if ( $Xvalue->{TimeScaleCount} ) {
-                            $Count = $Xvalue->{TimeScaleCount};
-                        }
-
-                        if ( $Xvalue->{SelectedValues}[0] eq 'Second' ) {
-                            $ScalePeriod = 1;
-                        }
-                        elsif ( $Xvalue->{SelectedValues}[0] eq 'Minute' ) {
-                            $ScalePeriod = 60;
-                        }
-                        elsif ( $Xvalue->{SelectedValues}[0] eq 'Hour' ) {
-                            $ScalePeriod = 60 * 60;
-                        }
-                        elsif ( $Xvalue->{SelectedValues}[0] eq 'Day' ) {
-                            $ScalePeriod = 60 * 60 * 24;
-                        }
-                        elsif ( $Xvalue->{SelectedValues}[0] eq 'Month' ) {
-                            $ScalePeriod = 60 * 60 * 24 * 30;
-                        }
-                        elsif ( $Xvalue->{SelectedValues}[0] eq 'Year' ) {
-                            $ScalePeriod = 60 * 60 * 24 * 365;
-                        }
-
-                        if ( $Xvalue->{TimeStop} && $Xvalue->{TimeStart} ) {
-                            $TimePeriod
-                                = ( $Self->{TimeObject}
-                                    ->TimeStamp2SystemTime( String => $Xvalue->{TimeStop} ) )
-                                - ( $Self->{TimeObject}
-                                    ->TimeStamp2SystemTime( String => $Xvalue->{TimeStart} ) );
-                        }
-                        else {
-                            if ( $Xvalue->{TimeRelativeUnit} eq 'Year' ) {
-                                $TimePeriod = $Xvalue->{TimeRelativeCount} * 60 * 60 * 24 * 365;
-                            }
-                            elsif ( $Xvalue->{TimeRelativeUnit} eq 'Month' ) {
-                                $TimePeriod = $Xvalue->{TimeRelativeCount} * 60 * 60 * 24 * 30;
-                            }
-                            elsif ( $Xvalue->{TimeRelativeUnit} eq 'Day' ) {
-                                $TimePeriod = $Xvalue->{TimeRelativeCount} * 60 * 60 * 24;
-                            }
-                            elsif ( $Xvalue->{TimeRelativeUnit} eq 'Hour' ) {
-                                $TimePeriod = $Xvalue->{TimeRelativeCount} * 60 * 60;
-                            }
-                            elsif ( $Xvalue->{TimeRelativeUnit} eq 'Minute' ) {
-                                $TimePeriod = $Xvalue->{TimeRelativeCount} * 60;
-                            }
-                            elsif ( $Xvalue->{TimeRelativeUnit} eq 'Second' ) {
-                                $TimePeriod = $Xvalue->{TimeRelativeCount};
-                            }
-                        }
-                        if ( $TimePeriod / ( $ScalePeriod * $Count )
-                            > ( $Self->{ConfigObject}->Get('Stats::MaxXaxisAttributes') || 1000 ) )
-                        {
-                            push( @IndexArray, 15 );
-                        }
-                    }
-                    last;
                 }
+
+                last XVALUE if !$Flag;
+
+                my $ScalePeriod = 0;
+                my $TimePeriod  = 0;
+                my $Count       = 1;
+
+                if ( $Xvalue->{TimeScaleCount} ) {
+                    $Count = $Xvalue->{TimeScaleCount};
+                }
+
+                my %TimeInSeconds = (
+                    Year   => 31536000,    # 60 * 60 * 60 * 365
+                    Month  => 2592000,     # 60 * 60 * 24 * 30
+                    Day    => 86400,       # 60 * 60 * 24
+                    Hour   => 3600,        # 60 * 60
+                    Minute => 60,
+                    Second => 1,
+                );
+
+                $ScalePeriod = $TimeInSeconds{$Xvalue->{SelectedValues}[0]};
+
+                if ( $Xvalue->{TimeStop} && $Xvalue->{TimeStart} ) {
+                    $TimePeriod
+                        = (
+                        $Self->{TimeObject}->TimeStamp2SystemTime( String => $Xvalue->{TimeStop} ) )
+                        - (
+                        $Self->{TimeObject}->TimeStamp2SystemTime( String => $Xvalue->{TimeStart} )
+                        );
+                }
+                else {
+                    $TimePeriod = $TimeInSeconds{$Xvalue->{TimeRelativeUnit}} * $Xvalue->{TimeRelativeCount};
+                }
+                if ( $TimePeriod / ( $ScalePeriod * $Count )
+                    > ( $Self->{ConfigObject}->Get('Stats::MaxXaxisAttributes') || 1000 ) )
+                {
+                    push @IndexArray, 15;
+                }
+
+                last XVALUE;
             }
         }
     }
@@ -1914,7 +1872,7 @@ sub GetStaticFiles {
     my %Filelist = ();
 
     my $Directory = $Self->{ConfigObject}->Get('Home');
-    if ( $Directory !~ /^.*\/$/ ) {
+    if ( $Directory !~ m{^.*\/$}x ) {
         $Directory .= '/';
     }
     $Directory .= 'Kernel/System/Stats/Static/';
@@ -1946,7 +1904,7 @@ sub GetStaticFiles {
     while ( defined( my $Filename = readdir DIR ) ) {
         next if $Filename eq '.';
         next if $Filename eq '..';
-        if ( $Filename =~ /^(.*)\.pm$/ ) {
+        if ( $Filename =~ m{^(.*)\.pm$}x ) {
             if ( !defined( $StaticFiles{$1} ) ) {
                 $Filelist{$1} = $1;
             }
@@ -2001,7 +1959,7 @@ sub ObjectFileCheck {
     my ( $Self, %Param ) = @_;
 
     my $Directory = $Self->{ConfigObject}->Get('Home');
-    if ( $Directory !~ /^.*\/$/ ) {
+    if ( $Directory !~ m{^.*\/$}x ) {
         $Directory .= '/';
     }
     if ( $Param{Type} eq 'static' ) {
@@ -2078,7 +2036,7 @@ sub _WriteResultCache {
         my $CSVString = $Self->{CSVObject}->Array2CSV( Data => \@Data, );
         $Self->{EncodeObject}->EncodeOutput( \$CSVString );
 
-        if ( open my $Filehandle, '>', "$Path/$File"  ) {
+        if ( open my $Filehandle, '>', "$Path/$File" ) {
             binmode $Filehandle;
             print $Filehandle $CSVString;
             close $Filehandle;
@@ -2142,13 +2100,6 @@ sub _ReadResultCache {
         )
         };
 
-    #    # otherwise you get error waring in the shell
-    #    else {
-    #        $Self->{LogObject}->Log(
-    #            Priority => 'error',
-    #            Message => "Can't open: $Path/$File: $!",
-    #        );
-    #    }
     return @Data;
 }
 
@@ -2157,7 +2108,7 @@ sub _DeleteCache {
 
     my $Path = $Self->{ConfigObject}->Get('TempDir');
 
-    if ( $Path !~ /^.*\/$/ ) {
+    if ( $Path !~ m{^.*\/$}x ) {
         $Path .= '/';
     }
 
@@ -2208,11 +2159,11 @@ sub Export {
         && $XMLHash[0]->{otrs_stats}[1]{StatType}[1]{Content} eq 'static' )
     {
         my $FileLocation = $XMLHash[0]->{otrs_stats}[1]{ObjectModule}[1]{Content};
-        $FileLocation =~ s/::/\//g;
+        $FileLocation =~ s{::}{\/}xg;
         $FileLocation .= '.pm';
         my $File        = $Self->{ConfigObject}->Get('Home') . "/$FileLocation";
         my $FileContent = '';
-        if ( open my $Filehandle, '<', $File  ) {
+        if ( open my $Filehandle, '<', $File ) {
 
             # set bin mode
             binmode $Filehandle;
@@ -2345,7 +2296,7 @@ sub Import {
 
     # Because some xml-parser insert \n instead of <example><example>
     if ( $XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content} ) {
-        $XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content} =~ s/\n//;
+        $XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content} =~ s{\n}{}x;
     }
 
     if ( $XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content}
@@ -2362,11 +2313,11 @@ sub Import {
         && $XMLHash[0]->{otrs_stats}[1]{StatType}[1]{Content} eq 'static' )
     {
         my $FileLocation = $XMLHash[0]->{otrs_stats}[1]{ObjectModule}[1]{Content};
-        $FileLocation =~ s/::/\//g;
+        $FileLocation =~ s{::}{\/}gx;
         $FileLocation = $Self->{ConfigObject}->Get('Home') . '/' . $FileLocation . '.pm';
 
         # write file
-        if ( open my $Filehandle, '>', $FileLocation  ) {
+        if ( open my $Filehandle, '>', $FileLocation ) {
             print STDERR
                 "Notice: Install $FileLocation ($XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission})!\n";
             if (   $XMLHash[0]->{otrs_stats}[1]{File}[1]{Encode}
@@ -2401,23 +2352,26 @@ sub Import {
     # wrapper to change used spelling in ids
     # wrap permissions
     my %Groups = $Self->{GroupObject}->GroupList( Valid => 1 );
+
+    NAME:
     for my $Name ( @{ $XMLHash[0]->{otrs_stats}[1]{Permission} } ) {
-        if ($Name) {
-            my $Flag = 1;
-            for my $ID ( keys %Groups ) {
-                if ( $Groups{$ID} eq $Name->{Content} ) {
-                    $Name->{Content} = $ID;
-                    $Flag = 0;
-                    last;
-                }
+        next NAME if !$Name;
+
+        my $Flag = 1;
+        ID:
+        for my $ID ( keys %Groups ) {
+            if ( $Groups{$ID} eq $Name->{Content} ) {
+                $Name->{Content} = $ID;
+                $Flag = 0;
+                last ID;
             }
-            if ($Flag) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Import: Can' find the permission (group) $Name->{Content}!"
-                );
-                $Name = undef;
-            }
+        }
+        if ($Flag) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Import: Can' find the permission (group) $Name->{Content}!"
+            );
+            $Name = undef;
         }
     }
 
@@ -2580,7 +2534,7 @@ sub StatsRun {
     }
 
     # build sum in row or col
-    if ( ( $Stat->{SumRow} || $Stat->{SumCol} ) && $Stat->{Format} !~ /^GD::Graph\.*/ ) {
+    if ( ( $Stat->{SumRow} || $Stat->{SumCol} ) && $Stat->{Format} !~ m{^GD::Graph\.*}x ) {
         return $Self->SumBuild(
             Array  => \@Result,
             SumRow => $Stat->{SumRow},
@@ -2617,15 +2571,15 @@ sub StringAndTimestamp2Filename {
     $m = sprintf( "%02d", $m );
 
     # replace invalid token like < > ? " : | \ or *
-    $Param{String} =~ s/[ <>\?":\\\*\|\/]/-/g;
-    $Param{String} =~ s/ä/ae/g;
-    $Param{String} =~ s/ö/oe/g;
-    $Param{String} =~ s/ü/ue/g;
-    $Param{String} =~ s/Ä/Ae/g;
-    $Param{String} =~ s/Ö/Oe/g;
-    $Param{String} =~ s/Ü/Ue/g;
-    $Param{String} =~ s/ß/ss/g;
-    $Param{String} =~ s/-+/-/g;
+    $Param{String} =~ s{[\s <>\?":\\\*\|\/]} {-}xg;
+    $Param{String} =~ s{ä} {ae}xg;
+    $Param{String} =~ s{ö} {oe}xg;
+    $Param{String} =~ s{ü} {ue}xg;
+    $Param{String} =~ s{Ä} {Ae}xg;
+    $Param{String} =~ s{Ö} {Oe}xg;
+    $Param{String} =~ s{Ü} {Ue}xg;
+    $Param{String} =~ s{ß} {ss}xg;
+    $Param{String} =~ s{-+} {-}xg;
 
     # Cut the String if to long
     if ( length( $Param{String} ) > 100 ) {
@@ -2685,7 +2639,7 @@ sub _AutomaticSampleImport {
 
     my $Language  = $Self->{ConfigObject}->Get('DefaultLanguage');
     my $Directory = $Self->{ConfigObject}->Get('Home');
-    if ( $Directory !~ /^.*\/$/ ) {
+    if ( $Directory !~ m{^.*\/$}x ) {
         $Directory .= '/';
     }
     $Directory .= 'scripts/test/sample/';
@@ -2701,7 +2655,7 @@ sub _AutomaticSampleImport {
     # check if stats in the default language available, if not use en
     my $Flag = 0;
     while ( defined( my $Filename = readdir DIRE ) ) {
-        if ( $Filename =~ /^Stats.*\.$Language\.xml$/ ) {
+        if ( $Filename =~ m{^Stats.*\.$Language\.xml$}x ) {
             $Flag = 1;
 
         }
@@ -2713,7 +2667,7 @@ sub _AutomaticSampleImport {
     }
 
     while ( defined( my $Filename = readdir DIRE ) ) {
-        if ( $Filename =~ /^Stats.*\.$Language\.xml$/ ) {
+        if ( $Filename =~ m{^Stats.*\.$Language\.xml$}x ) {
 
             # check filesize
             #            my $Filesize = -s $Directory.$Filename;
@@ -2763,6 +2717,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2007-10-18 05:16:13 $
+$Revision: 1.32 $ $Date: 2007-11-07 08:54:39 $
 
 =cut
