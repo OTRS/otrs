@@ -2,7 +2,7 @@
 # Crypt.t - Crypt tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.7 2007-11-07 19:28:22 ot Exp $
+# $Id: Crypt.t,v 1.8 2007-11-07 19:31:54 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -314,6 +314,25 @@ for my $Count (1..2) {
             "#$Count Verify() - detached .$File - KeyUserID",
         );
     }
+
+    # Crypt() should fail if asked to crypt a UTF8-string (instead of ISO-string or binary octets)
+    my $UTF8Text = $TestText;
+    utf8::upgrade($UTF8Text);
+    $Self->True(
+        utf8::is_utf8($UTF8Text),
+        "Should now have a UTF8-string",
+    );
+    my $EvalResult = eval {
+        $Self->{CryptObject}->Crypt(
+            Message => $UTF8Text,
+            Key => $Keys[0]->{Key},
+        );
+        0;
+    };
+    $Self->False(
+        $EvalResult,
+        "Crypt() should fail if given a UTF8-string",
+    );
 }
 
 # delete keys
