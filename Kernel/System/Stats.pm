@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.25 2007-08-02 14:45:40 tr Exp $
+# $Id: Stats.pm,v 1.25.2.1 2007-11-08 09:29:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.25.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -1601,8 +1601,8 @@ sub CompletenessCheck {
 Get all attributes from the object in dependence of the use
 
     my %ObjectAttributes => $StatsObject->GetStatsObjectAttributes(
-        Object => 'Ticket',
-        Use => 'UseAsXvalue' || 'UseAsValueSeries' || 'UseAsRestriction',
+        ObjectModule => 'Ticket',
+        Use          => 'UseAsXvalue' || 'UseAsValueSeries' || 'UseAsRestriction',
     );
 
 =cut
@@ -2482,6 +2482,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2007-08-02 14:45:40 $
+$Revision: 1.25.2.1 $ $Date: 2007-11-08 09:29:18 $
 
 =cut
