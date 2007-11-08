@@ -1,12 +1,13 @@
-Return-Path: <"#FAX#*49521783135#"@otrs.fax>
-Received: from otrs.fax (bitopw01.biel.otrs.de [10.103.240.64]) 	by gwrouter.biel.otrs.de with ESMTP; Wed, 07 Nov 2007 12:56:57 +0100
+Return-Path: <"#FAX#*49000783135#"@otrs.fax>
+Received: from otrs.fax (bitopw01.biel.otrs.com [10.103.240.64]) 	by gwrouter.biel.otrs.com with ESMTP; Wed, 07 Nov 2007 12:56:57 +0100
 Received: by otrs.fax with SMTP; Wed, 07 Nov 2007 13:01:32 +0100
 Date: 7 Nov 2007 13:01:32 +0100
-From: <"#FAX#*49521783135#"@otrs.fax>
-To: <hotline@otrs.com>
-Subject: Erhalten von *49521783135
+From: <"#FAX#*49000783135#"@otrs.fax>
+To: <hotline_lulu@otrs.com>
+Subject: Erhalten von *49000783135
 Message-ID: <20071107_130132_C1_0087a41b_C2_0000028e_Name_ATF9589@otrs.fax>
 MIME-Version: 1.0
+X-CVS: $Id: PostMaster-Test8.box,v 1.2 2007-11-08 23:21:19 martin Exp $
 Content-Type: APPLICATION/OCTET-STREAM; name="IMAGE000.PDF"
 Content-Transfer-Encoding: BASE64
 Content-Description: IMAGE000.PDF
