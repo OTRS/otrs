@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.16 2007-11-07 23:46:01 martin Exp $
+# $Id: DB.t,v 1.17 2007-11-08 08:52:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -308,7 +308,7 @@ for my $Count (1..6) {
     $String .= $String.$Count."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz ";
     my $Length = length($String);
     my $Size = $Length;
-    my $Key = 'Some'.$Count;
+    my $Key = 'Some116'.$Count;
     if ($Size > (1024*1024)) {
          $Size = sprintf "%.1f MBytes", ($Size/(1024*1024));
     }
@@ -346,8 +346,8 @@ for my $Count (1..6) {
             $LengthBack = length($Row[0]);
         }
         $Self->Is(
-            $Length,
             $LengthBack,
+            $Length,
             "#2 Do() SQL SELECT 2 - $Count",
         );
     }
@@ -358,7 +358,7 @@ for my $Count (1..6) {
     $String .= $String.$Count."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz";
     my $Length = length($String);
     my $Size = $Length;
-    my $Key = 'Some'.$Count;
+    my $Key = 'Some216'.$Count;
     if ($Size > (1024*1024)) {
          $Size = sprintf "%.1f MBytes", ($Size/(1024*1024));
     }
@@ -384,8 +384,8 @@ for my $Count (1..6) {
             $LengthBack = length($Row[0]);
     }
     $Self->Is(
-        $Length,
         $LengthBack,
+        $Length,
         "#2 Do() SQL SELECT 2 - $Count",
     );
 }
@@ -395,7 +395,7 @@ for my $Count (1..19) {
     $String .= $String." $Count abcdefghijklmno1234567890";
     my $Length = length($String);
     my $Size = $Length;
-    my $Key = 'Some'.$Count;
+    my $Key = 'Some119'.$Count;
     if ($Size > (1024*1024)) {
          $Size = sprintf "%.1f MBytes", ($Size/(1024*1024));
     }
@@ -422,8 +422,8 @@ for my $Count (1..19) {
             $LengthBack = length($Row[0]);
     }
     $Self->Is(
-        $Length,
         $LengthBack,
+        $Length,
         "#2 Do() SQL SELECT 2 - $Count",
     );
 }
@@ -520,7 +520,7 @@ for my $SQL (@SQL) {
 
 # xml
 for my $Count (1..40) {
-    my $Value = 'Some'.$Count;
+    my $Value = 'Some140'.$Count;
     my $Length = length($Value);
     $XML = '
         <Insert Table="test_b">
@@ -550,8 +550,8 @@ for my $Count (1..40) {
             $LengthBack = length($Row[0]);
         }
         $Self->Is(
-            $Length,
             $LengthBack,
+            $Length,
             "#3 Do() SQL SELECT - $Count",
         );
     }
