@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.32 2007-11-07 08:54:39 tr Exp $
+# $Id: Stats.pm,v 1.33 2007-11-08 09:28:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 SYNOPSIS
 
@@ -193,9 +193,7 @@ sub StatsGet {
     my %TimeAllowed = ();
     my $TimeElement = $Self->{ConfigObject}->Get("Stats::TimeElement") || 'Time';
 
-    return \%Stat if $Param{NoObjectAttributes};
-
-    #if ( $Stat{Object} && !$Param{NoObjectAttributes} ) {
+    return \%Stat if !( $Stat{Object} && !$Param{NoObjectAttributes});
 
     KEY:
     for my $Key (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
@@ -319,6 +317,7 @@ sub StatsUpdate {
         );
         return 0;
     }
+
     my $StatNew = $Param{Hash};
 
     # a delete function can be the better solution
@@ -1816,8 +1815,8 @@ sub CompletenessCheck {
 Get all attributes from the object in dependence of the use
 
     my %ObjectAttributes => $StatsObject->GetStatsObjectAttributes(
-        Object => 'Ticket',
-        Use => 'UseAsXvalue' || 'UseAsValueSeries' || 'UseAsRestriction',
+        ObjectModule => 'Ticket',
+        Use          => 'UseAsXvalue' || 'UseAsValueSeries' || 'UseAsRestriction',
     );
 
 =cut
@@ -2717,6 +2716,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2007-11-07 08:54:39 $
+$Revision: 1.33 $ $Date: 2007-11-08 09:28:04 $
 
 =cut
