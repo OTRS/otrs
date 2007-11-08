@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.50 2007-04-12 23:58:08 martin Exp $
+# $Id: EmailParser.pm,v 1.50.2.1 2007-11-08 23:18:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.50.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -249,7 +249,7 @@ Returns the message body (or from the first attachment) "charset".
 sub GetCharset {
     my $Self = shift;
     my $ContentType = shift || '';
-    if ($Self->{Charset}) {
+    if ( defined( $Self->{Charset} ) ) {
         # debug
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
@@ -265,6 +265,8 @@ sub GetCharset {
         my $Line = $Self->{HeaderObject}->get('Content-Type') || '';
         chomp ($Line);
         my %Data = $Self->GetContentTypeParams(ContentType => $Line);
+
+        # return charset if it can be detected
         if ($Data{Charset}) {
             # debug
             if ($Self->{Debug} > 0) {
@@ -278,6 +280,25 @@ sub GetCharset {
             # return charset
             return $Data{Charset};
         }
+
+        # if it's not a text content type, return no charset
+        elsif ( $Data{ContentType} !~ /text/i) {
+
+            # debug
+            if ( $Self->{Debug} > 0 ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message  => "Got no charset from email body because of ContentType ($Data{ContentType})!",
+                );
+            }
+
+            # remember to charset
+            $Self->{Charset} = '';
+
+            # return charset
+            return '';
+        }
+
         else {
             # debug
             if ($Self->{Debug} > 0) {
@@ -388,10 +409,15 @@ sub GetMessageBody {
             $BodyStrg = decode_base64($BodyStrg);
         }
         # charset decode
-        $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
-            Text => $BodyStrg,
-            From => $Self->GetCharset(),
-        );
+        if ( $Self->GetCharset() ) {
+            $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
+                Text => $BodyStrg,
+                From => $Self->GetCharset(),
+            );
+        }
+        else {
+            $Self->{MessageBody} = $BodyStrg;
+        }
         # check it it's juat a html email (store it as attachment and add text/plain)
         $Self->CheckMessageBody();
         # return message body
@@ -729,6 +755,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2007-04-12 23:58:08 $
+$Revision: 1.50.2.1 $ $Date: 2007-11-08 23:18:42 $
 
 =cut
