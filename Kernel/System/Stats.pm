@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.33 2007-11-08 09:28:04 tr Exp $
+# $Id: Stats.pm,v 1.34 2007-11-08 13:03:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 SYNOPSIS
 
@@ -193,7 +193,8 @@ sub StatsGet {
     my %TimeAllowed = ();
     my $TimeElement = $Self->{ConfigObject}->Get("Stats::TimeElement") || 'Time';
 
-    return \%Stat if !( $Stat{Object} && !$Param{NoObjectAttributes});
+    return \%Stat if !$Stat{Object};
+    return \%Stat if $Param{NoObjectAttributes};
 
     KEY:
     for my $Key (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
@@ -585,14 +586,14 @@ sub SumBuild {
     take the stat configuration and get the stat table
 
     my @StatArray = $StatsObject->GenerateDynamicStats(
-        ObjectModule => 'Kernel::System::Stats::Dynamic::Ticket',
-        Object => 'Ticket',
-        UseAsXvalue => \UseAsXvalueElements,
+        ObjectModule     => 'Kernel::System::Stats::Dynamic::Ticket',
+        Object           => 'Ticket',
+        UseAsXvalue      => \UseAsXvalueElements,
         UseAsValueSeries => \UseAsValueSeriesElements,
         UseAsRestriction => \UseAsRestrictionElements,
-        Title => 'TicketStat',
-        StatID => 123,
-        Cache => 1,      # optional
+        Title            => 'TicketStat',
+        StatID           => 123,
+        Cache            => 1,      # optional
     );
 
 =cut
@@ -2716,6 +2717,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2007-11-08 09:28:04 $
+$Revision: 1.34 $ $Date: 2007-11-08 13:03:17 $
 
 =cut
