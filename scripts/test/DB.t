@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.17 2007-11-08 08:52:37 martin Exp $
+# $Id: DB.t,v 1.18 2007-11-10 12:21:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -305,7 +305,7 @@ $Self->True(
 # xml
 my $String = '';
 for my $Count (1..6) {
-    $String .= $String.$Count."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz ";
+    $String .= $String.$Count."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxy ";
     my $Length = length($String);
     my $Size = $Length;
     my $Key = 'Some116'.$Count;
