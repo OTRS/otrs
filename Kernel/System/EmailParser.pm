@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.50.2.1 2007-11-08 23:18:42 martin Exp $
+# $Id: EmailParser.pm,v 1.50.2.2 2007-11-13 17:01:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50.2.1 $';
+$VERSION = '$Revision: 1.50.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -436,20 +436,29 @@ sub GetMessageBody {
         # first attachment (normally text/plain) as message body
         if (@Attachments > 0) {
             my %Attachment = %{$Attachments[0]};
-            $Self->{Charset} = $Attachment{Charset};
-            $Self->{ContentType} = $Attachment{ContentType};
-            if ($Self->{Debug} > 0) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "First atm ContentType: $Self->{ContentType}",
+            if ($Attachment{ContentType} =~ /text/i) {
+               $Self->{Charset} = $Attachment{Charset};
+                $Self->{ContentType} = $Attachment{ContentType};
+                if ($Self->{Debug} > 0) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "First atm ContentType: $Self->{ContentType}",
+                    );
+                }
+                $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
+                    Text => $Attachment{Content},
+                    From => $Self->GetCharset(),
                 );
             }
-            $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
-                Text => $Attachment{Content},
-                From => $Self->GetCharset(),
-            );
+            else {
+                $Self->{Charset}     = 'us-ascii';
+                $Self->{ContentType} = 'text/plain';
+                $Self->{MessageBody} = '- no text message -';
+            }
+
             # check it it's juat a html email (store it as attachment and add text/plain)
             $Self->CheckMessageBody();
+
             # return message body
             return $Self->{MessageBody};
         }
@@ -755,6 +764,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.50.2.1 $ $Date: 2007-11-08 23:18:42 $
+$Revision: 1.50.2.2 $ $Date: 2007-11-13 17:01:47 $
 
 =cut
