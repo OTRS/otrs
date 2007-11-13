@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.55 2007-11-08 23:15:11 martin Exp $
+# $Id: EmailParser.pm,v 1.56 2007-11-13 16:58:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 =head1 NAME
 
@@ -466,24 +466,32 @@ sub GetMessageBody {
                 Message  => "It's a mime email!",
             );
         }
-        my @Attachments = $Self->GetAttachments();
 
         # check if there is an valid attachment there, if yes, return
         # first attachment (normally text/plain) as message body
+        my @Attachments = $Self->GetAttachments();
         if ( @Attachments > 0 ) {
-            my %Attachment = %{ $Attachments[0] };
-            $Self->{Charset}     = $Attachment{Charset};
-            $Self->{ContentType} = $Attachment{ContentType};
+            $Self->{Charset}     = $Attachments[0]->{Charset};
+            $Self->{ContentType} = $Attachments[0]->{ContentType};
             if ( $Self->{Debug} > 0 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message  => "First atm ContentType: $Self->{ContentType}",
+                    Message  => "First attachment ContentType: $Self->{ContentType}",
                 );
             }
-            $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
-                Text => $Attachment{Content},
-                From => $Self->GetCharset(),
-            );
+
+            # check if charset exists
+            if ( $Self->GetCharset() ) {
+                $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
+                    Text => $Attachments[0]->{Content},
+                    From => $Self->GetCharset(),
+                );
+            }
+            else {
+                $Self->{Charset}     = 'us-ascii';
+                $Self->{ContentType} = 'text/plain';
+                $Self->{MessageBody} = '- no text message => see attachment -';
+            }
 
             # check it it's juat a html email (store it as attachment and add text/plain)
             $Self->CheckMessageBody();
@@ -585,7 +593,7 @@ sub PartsAttachments {
             $PartData{Charset} = $Data{Charset};
         }
         else {
-            $PartData{Charset} = 'ISO-8859-1';
+            $PartData{Charset} = '';
         }
 
         # get content (if possible)
@@ -1094,6 +1102,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2007-11-08 23:15:11 $
+$Revision: 1.56 $ $Date: 2007-11-13 16:58:56 $
 
 =cut
