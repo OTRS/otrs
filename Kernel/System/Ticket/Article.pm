@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.153 2007-10-05 00:14:15 martin Exp $
+# $Id: Article.pm,v 1.154 2007-11-13 17:00:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.153 $) [1];
+$VERSION = qw($Revision: 1.154 $) [1];
 
 =head1 NAME
 
@@ -99,7 +99,7 @@ sub ArticleCreate {
         $Param{AttachContentType} = $Param{ContentType};
         $Param{AttachBody}        = $Param{Body};
         $Param{ContentType}       = 'text/plain';
-        $Param{Body} = "## no text/plain body => see attachment ($Param{ContentType}) ##";
+        $Param{Body} = "- no text message => see attachment -";
     }
     else {
 
