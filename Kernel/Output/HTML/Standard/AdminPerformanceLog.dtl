@@ -2,7 +2,7 @@
 # AdminPerformanceLog.dtl - provides HTML form for AdminPerformanceLog
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.dtl,v 1.8 2007-06-28 23:55:33 martin Exp $
+# $Id: AdminPerformanceLog.dtl,v 1.8.2.1 2007-11-13 10:21:45 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -122,7 +122,7 @@
 <!-- dtl:block:Interface -->
               <tr>
                 <td class="$QData{"CssClass"}">$QData{"Interface"}</td>
-                <td class="$QData{"CssClass"}">$QData{"Sum"}</td>
+                <td class="$QData{"CssClass"}">$QData{"Count"}</td>
                 <td class="$QData{"CssClass"}">$QData{"Min"}s</td>
                 <td class="$QData{"CssClass"}">$QData{"Max"}s</td>
                 <td class="$QData{"CssClass"}">$QData{"Average"}s</td>
@@ -130,7 +130,7 @@
 <!-- dtl:block:Row -->
               <tr>
                 <td class="$QData{"CssClass"}"><i> o $QData{"Interface"}</i></td>
-                <td class="$QData{"CssClass"}"><i>$QData{"Sum"}</i></td>
+                <td class="$QData{"CssClass"}"><i>$QData{"Count"}</i></td>
                 <td class="$QData{"CssClass"}"><i>$QData{"Min"}s</i></td>
                 <td class="$QData{"CssClass"}"><i>$QData{"Max"}s</i></td>
                 <td class="$QData{"CssClass"}"><i>$QData{"Average"}s</i></td>
