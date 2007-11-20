@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.13 2007-10-19 06:07:06 tr Exp $
+# $Id: CSV.pm,v 1.14 2007-11-20 22:40:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::System::CSV;
 
 use strict;
 use warnings;
+use Text::CSV;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -80,7 +81,6 @@ Returns a csv formatted string based on a array with head data.
 sub Array2CSV {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
     my @Head   = ();
     my @Data   = ( ['##No Data##'] );
 
@@ -98,33 +98,43 @@ sub Array2CSV {
         @Data = @{ $Param{Data} };
     }
 
-    # if we have head param fill in header
-    for my $Entry (@Head) {
+    # create new csv backen object
+    my $CSV = Text::CSV->new(
+        {
+            quote_char          => '"',
+            escape_char         => '"',
+            sep_char            => ';',
+            eol                 => '',
+            always_quote        => 1,
+            binary              => 1,
+            keep_meta_info      => 0,
+            allow_loose_quotes  => 0,
+            allow_loose_escapes => 0,
+            allow_whitespace    => 0,
+            verbatim            => 0,
+        }
+    );
 
-        # csv quote
-        $Entry =~ s/"/""/g if ($Entry);
-        $Entry = '' if ( !defined($Entry) );
-        $Output .= "\"$Entry\";";
-    }
-    if ($Output) {
-        $Output .= "\n";
+    my $Output = '';
+    # if we have head param fill in header
+    if (@Head) {
+        my $status = $CSV->combine(@Head);
+        $Output   .= $CSV->string()."\n";
     }
 
     # fill in data
-    for my $EntryRow (@Data) {
-        for my $Entry ( @{$EntryRow} ) {
-            # Copy $Entry because otherwise you maniplate the content
-            # of the original $Param{Data}!!!! Array in Array Referenc
-            my $Content = $Entry;
-
-            # csv quote
-            $Content =~ s/"/""/g if ($Content);
-            $Content = '' if ( !defined($Content) );
-            $Output .= "\"$Content\";";
+    for my $Row (@Data) {
+        my $status = $CSV->combine(@{$Row});
+        if ($status) {
+            $Output .= $CSV->string()."\n";
         }
-        $Output .= "\n";
+        else {
+            $Self->{LogObject}->Log(
+                Priority => "error",
+                Message => "Failed to build line: ".$CSV->error_input(),
+            );
+        }
     }
-
     return $Output;
 }
 
@@ -150,26 +160,40 @@ sub CSV2Array {
         $Param{Separator} = ';';
     }
 
-    # a better solution can be the use of
-    # use Text::ParseWords;
-    # for more information read "PerlKochbuch" page 32
-
     # get separator
     if ( !defined( $Param{Quote} ) ) {
         $Param{Quote} = '"';
     }
 
-    # if you change the split options, remember that each value can include \n
-    my @Lines = split( /$Param{Quote}$Param{Separator}\n/, $Param{String} );
-    for my $Line (@Lines) {
-        my @Fields = split( /$Param{Quote}$Param{Separator}$Param{Quote}/, $Line );
-        $Fields[0] =~ s/^$Param{Quote}//mgs;
-
-        for my $Field (@Fields) {
-            $Field =~ s/$Param{Quote}$Param{Quote}/$Param{Quote}/g;
+    # create new csv backend object
+    my $CSV = Text::CSV->new(
+        {
+#            quote_char          => $Param{Quote},
+#            escape_char         => $Param{Quote},
+            sep_char            => $Param{Separator},
+            eol                 => '',
+            always_quote        => 0,
+            binary              => 1,
+            keep_meta_info      => 0,
+            allow_loose_quotes  => 0,
+            allow_loose_escapes => 0,
+            allow_whitespace    => 0,
+            verbatim            => 0,
         }
-
-        push( @Array, \@Fields );
+    );
+    # if you change the split options, remember that each value can include \n
+    my @Lines = split( /$Param{Quote}\n/, $Param{String} );
+    for my $Line (@Lines) {
+        if ($CSV->parse($Line.$Param{Quote})) {
+            my @Fields = $CSV->fields();
+            push( @Array, \@Fields );
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => "error",
+                Message => "Failed to parse line: ".$CSV->error_input(),
+            );
+        }
     }
 
     return \@Array;
@@ -189,6 +213,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2007-10-19 06:07:06 $
+$Revision: 1.14 $ $Date: 2007-11-20 22:40:24 $
 
 =cut

@@ -2,7 +2,7 @@
 # CSV.t - CSV tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.t,v 1.7 2007-10-19 06:07:06 tr Exp $
+# $Id: CSV.t,v 1.8 2007-11-20 22:40:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,52 +23,113 @@ my $CSV = $Self->{CSVObject}->Array2CSV(
     ],
 );
 
-$Self->True(
-    $CSV eq
-'"RowA";"RowB";
-"1";"4";
-"7";"3";
-"1";"9";
-"34";"4";
+$Self->Is(
+    $CSV || '',
+'"RowA";"RowB"
+"1";"4"
+"7";"3"
+"1";"9"
+"34";"4"
 ',
-    'GenerateCSV()',
+    '#0 Array2CSV()',
 );
 
 my $Array = $Self->{CSVObject}->CSV2Array(
-    String => '"field1";"field2";"field3";'."\n".'"2";"3";"4";'."\n",
+    String => '"field1";"field2";"field3"'."\n".'"2";"3";"4"'."\n",
     Separator => ';',
     Quote => '"',
 );
 
-$Self->True(
-    ($Array->[0][0] eq 'field1' && $Array->[0][2] eq 'field3' &&
-     $Array->[1][1] eq '3' && $#{$Array} eq 1 && $#{$Array->[1]} eq 2),
-    'CSV2Array() - with quote "',
+$Self->Is(
+    $Array->[0]->[0] || '',
+    'field1',
+    '#1 CSV2Array() - with quote "',
+);
+$Self->Is(
+    $Array->[0]->[2] || '',
+    'field3',
+    '#1 CSV2Array() - with quote "',
+);
+$Self->Is(
+    $Array->[1]->[1] || '',
+    '3',
+    '#1 CSV2Array() - with quote "',
+);
+$Self->Is(
+    $#{$Array} || '',
+    1,
+    '#1 CSV2Array() - with quote "',
+);
+$Self->Is(
+    $#{$Array->[1]} || '',
+    2,
+    '#1 CSV2Array() - with quote "',
 );
 
 $Array = $Self->{CSVObject}->CSV2Array(
-    String => 'field1;field2;field3;'."\n".'2;3;4;'."\n",
+    String => "field1;field2;field3\n2;3;4\n",
     Separator => ';',
     Quote => '',
 );
 
-$Self->True(
-    ($Array->[0][0] eq 'field1' && $Array->[0][2] eq 'field3' &&
-     $Array->[1][1] eq '3' && $#{$Array} eq 1 && $#{$Array->[1]} eq 2),
-    'CSV2Array() without quote "',
+$Self->Is(
+    $Array->[0]->[0] || '',
+    'field1',
+    '#2 CSV2Array()',
+);
+$Self->Is(
+    $Array->[0]->[2] || '',
+    'field3',
+    '#2 CSV2Array()',
+);
+$Self->Is(
+    $Array->[1]->[1] || '',
+    '3',
+    '#2 CSV2Array()',
+);
+$Self->Is(
+    $#{$Array} || '',
+    1,
+    '#2 CSV2Array()',
+);
+$Self->Is(
+    $#{$Array->[1]} || '',
+    2,
+    '#2 CSV2Array()',
 );
 
 # Working with CSVString with \n
-my $String = '"field1";"field2";"field3";'."\n".'"a'."\n" .'b";"FirstLine'."\n" .'SecondLine";"4";'."\n";
+my $String = '"field1";"field2";"field3"'."\n".'"a'."\n" .'b";"FirstLine'."\n" .'SecondLine";"4"'."\n";
 $Array = $Self->{CSVObject}->CSV2Array(
     String => $String,
     Separator => ';',
     Quote => '"',
 );
-$Self->True(
-    ($Array->[0][0] eq 'field1' && $Array->[0][2] eq 'field3' &&
-     $Array->[1][0] eq "a\nb" && $#{$Array} eq 1 && $#{$Array->[1]} eq 2),
-    'CSV2Array() - with included \n',
+
+$Self->Is(
+    $Array->[0]->[0] || '',
+    'field1',
+    '#3 CSV2Array() - with  new line in content',
+);
+$Self->Is(
+    $Array->[0]->[2] || '',
+    'field3',
+    '#3 CSV2Array() - with  new line in content',
+);
+$Self->Is(
+    $Array->[1]->[0] || '',
+    "a\nb",
+    '#3 CSV2Array() - with  new line in content',
+);
+$Self->Is(
+    $#{$Array} || '',
+    1,
+    '#3 CSV2Array() - with  new line in content',
+);
+$Self->Is(
+    $#{$Array->[1]} || '',
+    2,
+    '#3 CSV2Array() - with  new line in content',
 );
 
 # -------------------------------------------------
@@ -87,15 +148,15 @@ $CSV = $Self->{CSVObject}->Array2CSV(
     Data => \@TableData,
 );
 
-$Self->True(
-    $CSV eq
-'"RowA";"RowB";
-"<a href=""/sirios-cvs-utf8/index.pl?Action=AgentStats&Subaction=Overview"" class=""navitem"">Übersicht</a>";"""";
-"4""""4";"asdf""SDF";
-"""a""";"xxx";
-"34";"' . $TextWithNewLine . '";
+$Self->Is(
+    $CSV || '',
+'"RowA";"RowB"
+"<a href=""/sirios-cvs-utf8/index.pl?Action=AgentStats&Subaction=Overview"" class=""navitem"">Übersicht</a>";""""
+"4""""4";"asdf""SDF"
+"""a""";"xxx"
+"34";"' . $TextWithNewLine . '"
 ',
-    'GenerateCSV() with ""',
+    'Array2CSV() with ""',
 );
 
 my $ArrayRef = $Self->{CSVObject}->CSV2Array(
@@ -108,7 +169,6 @@ shift @{$ArrayRef};
 
 for my $Row (0..$#TableData) {
     for my $Column (0..$#{$TableData[0]}) {
-        print $TableData[$Row][$Column] . " <-> " . $ArrayRef->[$Row][$Column] . "\n";
         $Self->Is(
             $TableData[$Row][$Column],
             $ArrayRef->[$Row][$Column],
