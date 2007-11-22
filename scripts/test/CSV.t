@@ -2,7 +2,7 @@
 # CSV.t - CSV tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.t,v 1.8 2007-11-20 22:40:24 martin Exp $
+# $Id: CSV.t,v 1.9 2007-11-22 08:47:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -130,6 +130,40 @@ $Self->Is(
     $#{$Array->[1]} || '',
     2,
     '#3 CSV2Array() - with  new line in content',
+);
+
+# Working with CSVString with \r
+$String = '"field1";"field2";"field3"'."\r".'"a'."\r" .'b";"FirstLine'."\r" .'SecondLine";"4"'."\r";
+$Array = $Self->{CSVObject}->CSV2Array(
+    String => $String,
+    Separator => ';',
+    Quote => '"',
+);
+
+$Self->Is(
+    $Array->[0]->[0] || '',
+    'field1',
+    '#4 CSV2Array() - with dos file',
+);
+$Self->Is(
+    $Array->[0]->[2] || '',
+    'field3',
+    '#4 CSV2Array() - with dos file',
+);
+$Self->Is(
+    $Array->[1]->[0] || '',
+    "a\nb",
+    '#4 CSV2Array() - with dos file',
+);
+$Self->Is(
+    $#{$Array} || '',
+    1,
+    '#4 CSV2Array() - with dos file',
+);
+$Self->Is(
+    $#{$Array->[1]} || '',
+    2,
+    '#4 CSV2Array() - with dos file',
 );
 
 # -------------------------------------------------
