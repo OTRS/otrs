@@ -2,7 +2,7 @@
 # Kernel/System/FileTemp.pm - tmp files
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FileTemp.pm,v 1.8 2007-10-02 10:38:58 mh Exp $
+# $Id: FileTemp.pm,v 1.9 2007-11-22 11:58:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,11 +14,11 @@ package Kernel::System::FileTemp;
 use strict;
 use warnings;
 
-use File::Temp qw/ tempfile tempdir /;
+use File::Temp qw( tempfile tempdir );
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -65,9 +65,6 @@ sub new {
     for (qw(ConfigObject)) {
         die "Got no $_!" if ( !$Self->{$_} );
     }
-
-    # 0=off; 1=on;
-    $Self->{Debug} = $Param{Debug} || 0;
 
     return $Self;
 }
@@ -132,6 +129,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2007-10-02 10:38:58 $
+$Revision: 1.9 $ $Date: 2007-11-22 11:58:09 $
 
 =cut

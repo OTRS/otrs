@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.67 2007-10-02 10:38:58 mh Exp $
+# $Id: User.pm,v 1.68 2007-11-22 11:59:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,11 +16,10 @@ use warnings;
 
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
-use Digest::MD5;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 =head1 NAME
 
@@ -297,7 +296,7 @@ sub UserAdd {
     if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
 
         # get new user id
-        $SQL
+        my $SQL
             = "SELECT $Self->{UserTableUserID} "
             . " FROM "
             . " $Self->{UserTable} "
@@ -513,7 +512,7 @@ sub UserSearch {
 
     # add valid option
     if ($Valid) {
-        $SQL .= "AND valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) ";
+        $SQL .= "AND valid_id IN (".join(', ', $Self->{ValidObject}->ValidIDsGet() ).")";
     }
 
     # get data
@@ -598,21 +597,20 @@ sub SetPassword {
     }
 
     # md5 sum of pw, needed for password history
-    my $MD5 = Digest::MD5->new();
-    $MD5->add($Pw);
-    my $MD5Pw = $MD5->hexdigest;
-
+    my $MD5Pw = $Self->{MainObject}->MD5sum(
+        String => \$Pw,
+    );
     $Self->SetPreferences( UserID => $User{UserID}, Key => 'UserLastPw', Value => $MD5Pw );
 
     # db quote
-    for ( keys %Param ) {
+    for (qw(UserLogin)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
     }
     my $NewPw = $Self->{DBObject}->Quote($CryptedPw);
 
     # update db
     if ($Self->{DBObject}->Do(
-                  SQL => "UPDATE $Self->{UserTable} " . " SET "
+                  SQL => "UPDATE $Self->{UserTable} SET "
                 . " $Self->{UserTableUserPW} = '$NewPw' "
                 . " WHERE "
                 . " LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')",
@@ -889,6 +887,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2007-10-02 10:38:58 $
+$Revision: 1.68 $ $Date: 2007-11-22 11:59:26 $
 
 =cut
