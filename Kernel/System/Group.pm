@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: Group.pm,v 1.49 2007-10-16 11:31:48 ot Exp $
+# $Id: Group.pm,v 1.50 2007-11-22 11:55:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 NAME
 
@@ -230,7 +230,7 @@ to add a member to a group
 sub GroupMemberAdd {
     my ( $Self, %Param ) = @_;
 
-    my $count;
+    my $Count;
 
     # check needed stuff
     for (qw(UID GID UserID Permission)) {
@@ -251,8 +251,7 @@ sub GroupMemberAdd {
     # check if update is needed
     my %Value = ();
     if ( !$Self->{"GroupMemberAdd::GID::$Param{GID}"} ) {
-        my $SQL
-            = "SELECT group_id, user_id, permission_key, permission_value FROM group_user "
+        my $SQL = "SELECT group_id, user_id, permission_key, permission_value FROM group_user "
             . " WHERE "
             . " group_id = $Param{GID} ";
         $Self->{DBObject}->Prepare( SQL => $SQL );
@@ -280,13 +279,11 @@ sub GroupMemberAdd {
 
 #            print STDERR "Updated needed! UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!\n";
 # delete existing permission
-            my $SQL
-                = "DELETE FROM group_user "
+            my $SQL = "DELETE FROM group_user "
                 . " WHERE "
-                . " group_id = $Param{GID} " . " AND "
-                . " user_id = $Param{UID} " . " AND "
-                . " permission_key = '"
-                . $Self->{DBObject}->Quote($_) . "'";
+                . " group_id = $Param{GID} AND "
+                . " user_id = $Param{UID} AND "
+                . " permission_key = '" . $Self->{DBObject}->Quote($_) . "'";
             $Self->{DBObject}->Do( SQL => $SQL );
 
             # debug
@@ -299,13 +296,12 @@ sub GroupMemberAdd {
             }
 
             # insert new permission
-            $SQL
-                = "INSERT INTO group_user "
+            $SQL = "INSERT INTO group_user "
                 . " (user_id, group_id, permission_key, permission_value, "
                 . " create_time, create_by, change_time, change_by) "
                 . " VALUES "
                 . " ($Param{UID}, $Param{GID}, '"
-                . $Self->{DBObject}->Quote($_) . "', " . " "
+                . $Self->{DBObject}->Quote($_) . "', "
                 . $Self->{DBObject}->Quote( $Param{Permission}->{$_} ) . ", "
                 . " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
             $Self->{DBObject}->Do( SQL => $SQL );
@@ -344,8 +340,7 @@ sub GroupAdd {
     for (qw(ValidID UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
-    my $SQL
-        = "INSERT INTO groups (name, comments, valid_id, "
+    my $SQL = "INSERT INTO groups (name, comments, valid_id, "
         . " create_time, create_by, change_time, change_by)"
         . " VALUES "
         . " ('$Param{Name}', '$Param{Comment}', "
@@ -355,7 +350,7 @@ sub GroupAdd {
     if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
 
         # get new group id
-        $SQL = "SELECT id " . " FROM " . " groups " . " WHERE " . " name = '$Param{Name}'";
+        my $SQL = "SELECT id FROM groups WHERE name = '$Param{Name}'";
         my $GroupID = '';
         $Self->{DBObject}->Prepare( SQL => $SQL );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -398,8 +393,7 @@ sub GroupGet {
     }
 
     # sql
-    my $SQL
-        = "SELECT name, valid_id, comments, change_time, create_time "
+    my $SQL = "SELECT name, valid_id, comments, change_time, create_time "
         . " FROM "
         . " groups "
         . " WHERE "
@@ -456,8 +450,7 @@ sub GroupUpdate {
     }
 
     # sql
-    my $SQL
-        = "UPDATE groups SET name = '$Param{Name}', "
+    my $SQL = "UPDATE groups SET name = '$Param{Name}', "
         . " comments = '$Param{Comment}', "
         . " valid_id = $Param{ValidID}, "
         . " change_time = current_timestamp, change_by = $Param{UserID} "
@@ -546,23 +539,16 @@ sub GroupMemberList {
         $CacheKey .= 'GroupID::' . $Param{GroupID};
     }
 
-    #print STDERR "$CacheKey -------------------------\n";
     # check cache
-    #$Param{Cached} = 1;
     if ( $Self->{ForceCache} ) {
         $Param{Cached} = $Self->{ForceCache};
     }
     if ( $Param{Cached} && exists( $Self->{$CacheKey} ) ) {
 
-        #print STDERR "Cached: $CacheKey-------------------------\n";
         if ( ref( $Self->{$CacheKey} ) eq 'ARRAY' ) {
             return @{ $Self->{$CacheKey} };
         }
         elsif ( ref( $Self->{$CacheKey} ) eq 'HASH' ) {
-
-            #for (keys %{$Self->{$CacheKey}}) {
-            #print STDERR "asdasd $CacheKey - $_ : $Self->{$CacheKey}->{$_}\n";
-            #}
             return %{ $Self->{$CacheKey} };
         }
     }
@@ -594,7 +580,7 @@ sub GroupMemberList {
             );
             if (@Roles) {
                 my @ResultGroupUserRole
-                    = $Self->GroupUserRoleMemberList( %Param, RoleIDs => \@Roles, );
+                    = $Self->GroupUserRoleMemberList( %Param, RoleIDs => \@Roles );
                 for (@ResultGroupUserRole) {
                     push( @Result, $_ );
                 }
@@ -616,7 +602,7 @@ sub GroupMemberList {
             );
 
             if (@Member) {
-                my %ResultGroupRole = $Self->GroupRoleMemberList( %Param, RoleIDs => \@Member, );
+                my %ResultGroupRole = $Self->GroupRoleMemberList( %Param, RoleIDs => \@Member );
                 %Result = ( %Result, %ResultGroupRole );
             }
         }
@@ -663,95 +649,89 @@ sub GroupMemberInvolvedList {
     }
 
     # quote
-    $Param{Type} = $Self->{DBObject}->Quote( $Param{Type} );
-    $Param{UserID} = $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
+    for (qw(Type)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
+    }
+    for (qw(UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
+    }
 
     # get valid ids
-    my $ValidID = join ', ', $Self->{ValidObject}->ValidIDsGet();
+    my $ValidID = join(', ', $Self->{ValidObject}->ValidIDsGet());
 
     # get all groups of the given user
-    my $SQL
-        = "SELECT DISTINCT(g.id) FROM groups g, group_user gu "
-        . "WHERE g.valid_id IN ($ValidID) AND g.id = gu.group_id AND "
-        . "gu.permission_value = 1 AND gu.permission_key IN ('$Param{Type}', 'rw') AND "
-        . "gu.user_id = "
-        . $Param{UserID};
-    $Self->{DBObject}->Prepare( SQL => $SQL );
-
-    # fetch the result
     my %Groups;
+    my $SQL = "SELECT DISTINCT(g.id) FROM groups g, group_user gu "
+        . "WHERE g.valid_id IN ($ValidID) AND "
+        . "g.id = gu.group_id AND "
+        . "gu.permission_value = 1 AND "
+        . "gu.permission_key IN ('$Param{Type}', 'rw') AND "
+        . "gu.user_id = $Param{UserID}";
+    $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Groups{ $Row[0] } = 1;
     }
 
     # get all roles of the given user
-    $SQL
-        = "SELECT DISTINCT(ru.role_id) FROM role_user ru, roles r "
-        . "WHERE r.valid_id in ($ValidID) AND r.id = ru.role_id AND ru.user_id = "
-        . $Param{UserID};
+    $SQL = "SELECT DISTINCT(ru.role_id) FROM role_user ru, roles r "
+        . "WHERE r.valid_id in ($ValidID) AND "
+        . "r.id = ru.role_id AND "
+        . "ru.user_id = $Param{UserID}";
     $Self->{DBObject}->Prepare( SQL => $SQL );
-
-    # fetch the result
     my @Roles;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push( @Roles, $Row[0] );
     }
 
+    # get groups of roles of given user
     if (@Roles) {
-
-        # get all groups of the roles of the given user
-        my $StringRoles = join ',', @Roles;
-        $SQL
-            = "SELECT DISTINCT(g.id) FROM groups g, group_role gu "
-            . "WHERE g.valid_id in ($ValidID) AND g.id = gu.group_id AND gu.permission_value = 1 AND "
-            . "gu.permission_key IN ('$Param{Type}', 'rw') AND gu.role_id IN ($StringRoles)";
+        my $SQL = "SELECT DISTINCT(g.id) FROM groups g, group_role gu "
+            . "WHERE g.valid_id in ($ValidID) AND "
+            . " g.id = gu.group_id AND "
+            . " gu.permission_value = 1 AND "
+            . "gu.permission_key IN ('$Param{Type}', 'rw') AND "
+            . "gu.role_id IN (".join(',', @Roles).")";
         $Self->{DBObject}->Prepare( SQL => $SQL );
-
-        # fetch the result
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Groups{ $Row[0] } = 1;
         }
     }
 
+    # get all users of the groups which are found
     my @ArrayGroups = keys %Groups;
-
     my %AllUsers;
     if (@ArrayGroups) {
-
-        # get all users of the groups
-        my $StringGroups = join ',', @ArrayGroups;
-        $SQL
-            = "SELECT DISTINCT(gu.user_id) FROM groups g, group_user gu WHERE "
-            . "g.valid_id in ($ValidID) AND g.id = gu.group_id AND gu.permission_value = 1 AND "
-            . "gu.permission_key IN ('$Param{Type}', 'rw') AND gu.group_id IN ($StringGroups)";
+        my $SQL = "SELECT DISTINCT(gu.user_id) FROM groups g, group_user gu WHERE "
+            . "g.valid_id in ($ValidID) AND "
+            . "g.id = gu.group_id AND "
+            . "gu.permission_value = 1 AND "
+            . "gu.permission_key IN ('$Param{Type}', 'rw') AND "
+            . "gu.group_id IN (".join(',', @ArrayGroups).")";
         $Self->{DBObject}->Prepare( SQL => $SQL );
-
-        # fetch the result
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $AllUsers{ $Row[0] } = 1;
         }
 
         # get all roles of the groups
-        $SQL
-            = "SELECT DISTINCT(gu.role_id) FROM groups g, group_role gu WHERE "
-            . "g.valid_id in ($ValidID) AND g.id = gu.group_id AND gu.permission_value = 1 AND "
-            . "gu.permission_key IN ('$Param{Type}', 'rw') AND gu.group_id IN ($StringGroups)";
+        $SQL = "SELECT DISTINCT(gu.role_id) FROM groups g, group_role gu WHERE "
+            . "g.valid_id in ($ValidID) AND "
+            . "g.id = gu.group_id AND "
+            . "gu.permission_value = 1 AND "
+            . "gu.permission_key IN ('$Param{Type}', 'rw') AND "
+            . "gu.group_id IN (".join(',', @ArrayGroups).")";
         $Self->{DBObject}->Prepare( SQL => $SQL );
-
-        # fetch the result
         my @AllRoles;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             push( @AllRoles, $Row[0] );
         }
+
+        # get all users of the roles
         if (@AllRoles) {
-
-            # get all users of the roles
-            my $StringAllRoles = join ',', @AllRoles;
             $SQL = "SELECT DISTINCT(ru.user_id) FROM role_user ru, roles r WHERE "
-                . "r.valid_id in ($ValidID) AND r.id = ru.role_id AND ru.role_id IN ($StringAllRoles)";
+                . "r.valid_id in ($ValidID) AND "
+                . "r.id = ru.role_id AND "
+                . " ru.role_id IN (".join(',', @AllRoles).")";
             $Self->{DBObject}->Prepare( SQL => $SQL );
-
-            # fetch the result
             while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
                 $AllUsers{ $Row[0] } = 1;
             }
@@ -830,9 +810,7 @@ sub GroupGroupMemberList {
         @GroupIDs = sort( @{ $Param{GroupIDs} } );
     }
 
-    #print STDERR "$CacheKey -\n";
     # check cache
-    #$Param{Cached} = 1;
     if ( $Param{UserID} || $Param{GroupID} ) {
         if ( $Self->{ForceCache} ) {
             $Param{Cached} = $Self->{ForceCache};
@@ -847,7 +825,6 @@ sub GroupGroupMemberList {
         }
     }
 
-    #print STDERR "not cached $CacheKey\n";
     # db quote
     for (qw(Type)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
@@ -857,16 +834,15 @@ sub GroupGroupMemberList {
     my %Data = ();
     my @Name = ();
     my @ID   = ();
-    my $SQL
-        = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
+    my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
         . " gu.user_id "
         . " FROM "
         . " groups g, group_user gu"
         . " WHERE "
-        . " g.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) " . " AND "
-        . " g.id = gu.group_id " . " AND "
-        . " gu.permission_value = 1 " . " AND "
-        . " gu.permission_key IN ('$Param{Type}', 'rw') " . " AND ";
+        . " g.valid_id IN (".join(', ', $Self->{ValidObject}->ValidIDsGet()).") AND "
+        . " g.id = gu.group_id AND "
+        . " gu.permission_value = 1 AND "
+        . " gu.permission_key IN ('$Param{Type}', 'rw') AND ";
     if ( $Param{UserID} ) {
         $SQL .= " gu.user_id = " . $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
     }
@@ -874,23 +850,18 @@ sub GroupGroupMemberList {
         $SQL .= " gu.group_id = " . $Self->{DBObject}->Quote( $Param{GroupID}, 'Integer' );
     }
     elsif ( $Param{UserIDs} ) {
-        my @UserIDsQuote;
-        for (@UserIDs) {
-            push( @UserIDsQuote, $Self->{DBObject}->Quote( $_, 'Integer' ) );
+        for my $UserID (@UserIDs) {
+            $UserID = $Self->{DBObject}->Quote( $UserID, 'Integer' );
         }
-        my $UserString = join( ',', @UserIDsQuote );
-        $SQL .= " ru.user_id IN ($UserString)";
+        $SQL .= " ru.user_id IN (".join( ',', @UserIDs ).")";
     }
     elsif ( $Param{GroupIDs} ) {
-        my @GroupIDsQuote;
-        for (@GroupIDs) {
-            push( @GroupIDsQuote, $Self->{DBObject}->Quote( $_, 'Integer' ) );
+        for my $GroupID (@GroupIDs) {
+            $GroupID = $Self->{DBObject}->Quote( $GroupID, 'Integer' );
         }
-        my $GroupString = join( ',', @GroupIDsQuote );
-        $SQL .= " gu.group_id IN ($GroupString)";
+        $SQL .= " gu.group_id IN (".join( ',', @GroupIDs ).")";
     }
 
-    #print STDERR "SQL: $Param{Type}::$Param{Result} $SQL\n";
     $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my $Key   = '';
@@ -1010,9 +981,7 @@ sub GroupRoleMemberList {
         @GroupIDs = sort( @{ $Param{GroupIDs} } );
     }
 
-    #print STDERR "$CacheKey -\n";
     # check cache
-    #$Param{Cached} = 1;
     if ( $Param{RoleID} || $Param{GroupID} ) {
         if ( $Self->{ForceCache} ) {
             $Param{Cached} = $Self->{ForceCache};
@@ -1027,7 +996,6 @@ sub GroupRoleMemberList {
         }
     }
 
-    #print STDERR "not cached $CacheKey\n";
     # db quote
     for (qw(Type)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
@@ -1037,16 +1005,15 @@ sub GroupRoleMemberList {
     my %Data = ();
     my @Name = ();
     my @ID   = ();
-    my $SQL
-        = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
+    my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
         . " gu.role_id "
         . " FROM "
         . " groups g, group_role gu"
         . " WHERE "
-        . " g.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) " . " AND "
-        . " g.id = gu.group_id " . " AND "
-        . " gu.permission_value = 1 " . " AND "
-        . " gu.permission_key IN ('$Param{Type}', 'rw') " . " AND ";
+        . " g.valid_id IN (".join(', ', $Self->{ValidObject}->ValidIDsGet()). ") AND "
+        . " g.id = gu.group_id AND "
+        . " gu.permission_value = 1 AND "
+        . " gu.permission_key IN ('$Param{Type}', 'rw') AND ";
     if ( $Param{RoleID} ) {
         $SQL .= " gu.role_id = " . $Self->{DBObject}->Quote( $Param{RoleID}, 'Integer' );
     }
@@ -1054,23 +1021,18 @@ sub GroupRoleMemberList {
         $SQL .= " gu.group_id = " . $Self->{DBObject}->Quote( $Param{GroupID}, 'Integer' );
     }
     elsif ( $Param{RoleIDs} ) {
-        my @RoleIDsQuote;
-        for (@RoleIDs) {
-            push( @RoleIDsQuote, $Self->{DBObject}->Quote( $_, 'Integer' ) );
+        for my $RoleID (@RoleIDs) {
+            $RoleID = $Self->{DBObject}->Quote( $RoleID, 'Integer' );
         }
-        my $RoleString = join( ',', @RoleIDsQuote );
-        $SQL .= " gu.role_id IN ($RoleString)";
+        $SQL .= " gu.role_id IN (".join( ',', @RoleIDs ).")";
     }
     elsif ( $Param{GroupIDs} ) {
-        my @GroupIDsQuote;
-        for (@GroupIDs) {
-            push( @GroupIDsQuote, $Self->{DBObject}->Quote( $_, 'Integer' ) );
+        for my $GroupID (@GroupIDs) {
+            $GroupID = $Self->{DBObject}->Quote( $GroupID, 'Integer' );
         }
-        my $GroupString = join( ',', @GroupIDsQuote );
-        $SQL .= " gu.group_id IN ($GroupString)";
+        $SQL .= " gu.group_id IN (".join( ',', @GroupIDs ).")";
     }
 
-    #print STDERR "SQL: $Param{Type}::$Param{Result} $SQL\n";
     $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my $Key   = '';
@@ -1146,8 +1108,6 @@ to add a role to a group
 sub GroupRoleMemberAdd {
     my ( $Self, %Param ) = @_;
 
-    my $count;
-
     # check needed stuff
     for (qw(RID GID UserID Permission)) {
         if ( !$Param{$_} ) {
@@ -1198,10 +1158,9 @@ sub GroupRoleMemberAdd {
             my $SQL
                 = "DELETE FROM group_role "
                 . " WHERE "
-                . " group_id = $Param{GID} " . " AND "
-                . " role_id = $Param{RID} " . " AND "
-                . " permission_key = '"
-                . $Self->{DBObject}->Quote($_) . "'";
+                . " group_id = $Param{GID} AND "
+                . " role_id = $Param{RID} AND "
+                . " permission_key = '" . $Self->{DBObject}->Quote($_) . "'";
             $Self->{DBObject}->Do( SQL => $SQL );
 
             # debug
@@ -1220,7 +1179,7 @@ sub GroupRoleMemberAdd {
                 . " create_time, create_by, change_time, change_by) "
                 . " VALUES "
                 . " ($Param{RID}, $Param{GID}, '"
-                . $Self->{DBObject}->Quote($_) . "', " . " "
+                . $Self->{DBObject}->Quote($_) . "', "
                 . $Self->{DBObject}->Quote( $Param{Permission}->{$_} ) . ", "
                 . " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
             $Self->{DBObject}->Do( SQL => $SQL );
@@ -1278,9 +1237,6 @@ sub GroupUserRoleMemberList {
     }
 
     # db quote
-    for ( keys %Param ) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
     for (qw(RoleID UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
@@ -1300,9 +1256,7 @@ sub GroupUserRoleMemberList {
         @UserIDs = sort( @{ $Param{UserIDs} } );
     }
 
-    #print STDERR "$CacheKey -\n";
     # check cache
-    #$Param{Cached} = 1;
     if ( $Param{RoleID} || $Param{UserID} ) {
         if ( $Self->{ForceCache} ) {
             $Param{Cached} = $Self->{ForceCache};
@@ -1317,18 +1271,16 @@ sub GroupUserRoleMemberList {
         }
     }
 
-    #print STDERR "not cached $CacheKey\n";
     # sql
     my %Data = ();
     my @Name = ();
     my @ID   = ();
-    my $SQL
-        = "SELECT ru.role_id, ru.user_id, r.name "
+    my $SQL = "SELECT ru.role_id, ru.user_id, r.name "
         . " FROM "
         . " role_user ru, roles r"
         . " WHERE "
-        . " r.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) " . " AND "
-        . " r.id = ru.role_id " . " AND ";
+        . " r.valid_id IN (".join(', ', $Self->{ValidObject}->ValidIDsGet()). ") AND "
+        . " r.id = ru.role_id AND ";
     if ( $Param{RoleID} ) {
         $SQL .= " ru.role_id = $Param{RoleID}";
     }
@@ -1336,23 +1288,18 @@ sub GroupUserRoleMemberList {
         $SQL .= " ru.user_id = $Param{UserID}";
     }
     elsif ( $Param{RoleIDs} ) {
-        my @RoleIDsQuote;
-        for (@RoleIDs) {
-            push( @RoleIDsQuote, $Self->{DBObject}->Quote( $_, 'Integer' ) );
+        for my $RoleID (@RoleIDs) {
+            $RoleID = $Self->{DBObject}->Quote( $RoleID, 'Integer' );
         }
-        my $RoleString = join( ',', @RoleIDsQuote );
-        $SQL .= " ru.role_id IN ($RoleString)";
+        $SQL .= " ru.role_id IN (".join( ',', @RoleIDs ).")";
     }
     elsif ( $Param{UserIDs} ) {
-        my @UserIDsQuote;
-        for (@UserIDs) {
-            push( @UserIDsQuote, $Self->{DBObject}->Quote( $_, 'Integer' ) );
+        for my $UserID (@UserIDs) {
+            $UserID = $Self->{DBObject}->Quote( $UserID, 'Integer' );
         }
-        my $UserString = join( ',', @UserIDsQuote );
-        $SQL .= " ru.user_id IN ($UserString)";
+        $SQL .= " ru.user_id IN (".join( ',', @UserIDs ).")";
     }
 
-    #print STDERR "SQL: $Param{Result} $SQL\n";
     $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my $Key   = '';
@@ -1419,8 +1366,6 @@ to add a member to a role
 sub GroupUserRoleMemberAdd {
     my ( $Self, %Param ) = @_;
 
-    my $count;
-
     # check needed stuff
     for (qw(RID UID UserID)) {
         if ( !$Param{$_} ) {
@@ -1435,10 +1380,9 @@ sub GroupUserRoleMemberAdd {
     }
 
     # delete existing relation
-    my $SQL
-        = "DELETE FROM role_user "
+    my $SQL = "DELETE FROM role_user "
         . " WHERE "
-        . " user_id = $Param{UID} " . " AND "
+        . " user_id = $Param{UID} AND "
         . " role_id = $Param{RID} ";
     $Self->{DBObject}->Do( SQL => $SQL );
     if ( $Param{Active} ) {
@@ -1500,8 +1444,7 @@ sub RoleAdd {
     for (qw(ValidID UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
-    my $SQL
-        = "INSERT INTO roles (name, comments, valid_id, "
+    my $SQL = "INSERT INTO roles (name, comments, valid_id, "
         . " create_time, create_by, change_time, change_by)"
         . " VALUES "
         . " ('$Param{Name}', '$Param{Comment}', "
@@ -1511,7 +1454,7 @@ sub RoleAdd {
     if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
 
         # get new group id
-        $SQL = "SELECT id " . " FROM " . " roles " . " WHERE " . " name = '$Param{Name}'";
+        $SQL = "SELECT id FROM roles WHERE name = '$Param{Name}'";
         my $RoleID = '';
         $Self->{DBObject}->Prepare( SQL => $SQL );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -1553,8 +1496,7 @@ sub RoleGet {
     }
 
     # sql
-    my $SQL
-        = "SELECT name, valid_id, comments, change_time, create_time "
+    my $SQL = "SELECT name, valid_id, comments, change_time, create_time "
         . " FROM "
         . " roles "
         . " WHERE "
@@ -1611,8 +1553,7 @@ sub RoleUpdate {
     }
 
     # sql
-    my $SQL
-        = "UPDATE roles SET name = '$Param{Name}', "
+    my $SQL = "UPDATE roles SET name = '$Param{Name}', "
         . " comments = '$Param{Comment}', "
         . " valid_id = $Param{ValidID}, "
         . " change_time = current_timestamp, change_by = $Param{UserID} "
@@ -1661,6 +1602,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2007-10-16 11:31:48 $
+$Revision: 1.50 $ $Date: 2007-11-22 11:55:39 $
 
 =cut
