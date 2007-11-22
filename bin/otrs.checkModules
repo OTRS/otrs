@@ -3,7 +3,7 @@
 # bin/otrs.checkModules - to check needed cpan framework modules
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.checkModules,v 1.17 2007-10-01 09:45:36 mh Exp $
+# $Id: otrs.checkModules,v 1.18 2007-11-22 08:45:36 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 my @NeededModules = (
     qw(
         CGI
+        Text::CSV
         Date::Pcalc
         Date::Format
         DBI DBD::mysql
