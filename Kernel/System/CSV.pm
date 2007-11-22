@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.14 2007-11-20 22:40:24 martin Exp $
+# $Id: CSV.pm,v 1.15 2007-11-22 08:43:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Text::CSV;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -118,20 +118,20 @@ sub Array2CSV {
     my $Output = '';
     # if we have head param fill in header
     if (@Head) {
-        my $status = $CSV->combine(@Head);
-        $Output   .= $CSV->string()."\n";
+        my $status = $CSV->combine( @Head );
+        $Output   .= $CSV->string() . "\n";
     }
 
     # fill in data
     for my $Row (@Data) {
-        my $status = $CSV->combine(@{$Row});
-        if ($status) {
-            $Output .= $CSV->string()."\n";
+        my $Status = $CSV->combine( @{$Row} );
+        if ( $Status ) {
+            $Output .= $CSV->string() . "\n";
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => "error",
-                Message => "Failed to build line: ".$CSV->error_input(),
+                Message => "Failed to build line: " . $CSV->error_input(),
             );
         }
     }
@@ -181,17 +181,21 @@ sub CSV2Array {
             verbatim            => 0,
         }
     );
+
+    # do some dos/unix file convertations
+    $Param{String} =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
+
     # if you change the split options, remember that each value can include \n
     my @Lines = split( /$Param{Quote}\n/, $Param{String} );
-    for my $Line (@Lines) {
-        if ($CSV->parse($Line.$Param{Quote})) {
+    for my $Line ( @Lines ) {
+        if ( $CSV->parse( $Line . $Param{Quote} ) ) {
             my @Fields = $CSV->fields();
             push( @Array, \@Fields );
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => "error",
-                Message => "Failed to parse line: ".$CSV->error_input(),
+                Message => "Failed to parse line: " . $CSV->error_input(),
             );
         }
     }
@@ -213,6 +217,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2007-11-20 22:40:24 $
+$Revision: 1.15 $ $Date: 2007-11-22 08:43:54 $
 
 =cut
