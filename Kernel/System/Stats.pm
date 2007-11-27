@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.34 2007-11-08 13:03:17 tr Exp $
+# $Id: Stats.pm,v 1.35 2007-11-27 09:25:39 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1232,30 +1232,14 @@ sub GenerateDynamicStats {
 
     # search for a better way to cache stats (StatID and Cache)
     if ( $Param{Cache} ) {
-        my $Path      = $Self->{ConfigObject}->Get('TempDir');
-        my $CSVString = '';
         my $MD5Key    = $Self->{MainObject}->FilenameCleanUp(
             Filename => $TitleTimeStart . "-" . $TitleTimeStop,
             Type     => 'md5',
         );
-        my $File = 'Stats' . $Param{StatID} . "-" . $MD5Key . ".cache";
 
-        if ( open my $Filehandle, '<', "$Path/$File" ) {
-            binmode $Filehandle;
-            while (<$Filehandle>) {
-                $CSVString .= $_;
-            }
-            close $Filehandle;
-            $Self->{EncodeObject}->Encode( \$CSVString );
-        }
-
-        @StatArray = @{
-            $Self->{CSVObject}->CSV2Array(
-                String    => $CSVString,
-                Separator => ';',
-                Quote     => '"',
-            )
-            };
+        my @StatArray = $Self->_GetResultCache(
+            Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
+        );
 
         return @StatArray if @StatArray;
     }
@@ -1324,28 +1308,16 @@ sub GenerateDynamicStats {
             if ( $Self->{TimeObject}->TimeStamp2SystemTime( String => $TitleTimeStop )
                 < $Self->{TimeObject}->SystemTime() )
             {
-                my $Path   = $Self->{ConfigObject}->Get('TempDir');
                 my $MD5Key = $Self->{MainObject}->FilenameCleanUp(
                     Filename => $TitleTimeStart . "-" . $TitleTimeStop,
                     Type     => 'md5',
                 );
-                my $File = 'Stats' . $Param{StatID} . "-" . $MD5Key . ".cache";
 
-                my $CSVString = $Self->{CSVObject}->Array2CSV( Data => \@StatArray, );
-
-                $Self->{EncodeObject}->EncodeOutput( \$CSVString );
-
-                if ( open my $Filehandle, '>', "$Path/$File" ) {
-                    binmode $Filehandle;
-                    print $Filehandle $CSVString;
-                    close $Filehandle;
-                }
-                else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message  => "Can't write: $Path/$File!",
-                    );
-                }
+                # write the stats cache
+                $Self->_SetResultCache(
+                    Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
+                    Result   => \@StatArray,
+                );
             }
             else {
                 $Self->{LogObject}->Log(
@@ -1981,7 +1953,6 @@ sub _WriteResultCache {
     my ( $Self, %Param ) = @_;
 
     my %GetParam = %{ $Param{GetParam} };
-    my @Data     = @{ $Param{Data} };
     my $Cache    = 0;
 
     # check if we should cache this result
@@ -2004,75 +1975,63 @@ sub _WriteResultCache {
         }
     }
 
-    # format month and day params
-    for (qw(Month Day)) {
-        if ( $GetParam{$_} ) {
-            $GetParam{$_} = sprintf( "%02d", $GetParam{$_} );
-        }
-    }
-
     # write cache file
     if ($Cache) {
-        my $Path = $Self->{ConfigObject}->Get('TempDir');
-        my $Key  = '';
-        if ( $GetParam{Year} ) {
-            $Key .= "$GetParam{Year}";
-        }
-        if ( $GetParam{Month} ) {
-            $Key .= "-$GetParam{Month}";
-        }
-        if ( $GetParam{Day} ) {
-            $Key .= "-$GetParam{Day}";
-        }
-
-        my $MD5Key = $Self->{MainObject}->FilenameCleanUp(
-            Filename => $Key,
-            Type     => 'md5',
+        my $Filename = $Self->_CreateStaticResultCacheFilename(
+            GetParam => $Param{GetParam},
+            StatID   => $Param{StatID},
         );
 
-        my $File = "Stats" . $Param{StatID} . "-" . $MD5Key . ".cache";
-
-        # write cache file
-        my $CSVString = $Self->{CSVObject}->Array2CSV( Data => \@Data, );
-        $Self->{EncodeObject}->EncodeOutput( \$CSVString );
-
-        if ( open my $Filehandle, '>', "$Path/$File" ) {
-            binmode $Filehandle;
-            print $Filehandle $CSVString;
-            close $Filehandle;
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Can't write: $Path/$File!",
-            );
-        }
+        $Self->_SetResultCache(
+            Filename => $Filename,
+            Result   => $Param{Data},
+        );
     }
     return $Cache;
 }
 
-sub _ReadResultCache {
+#=item _CreateStaticResultCacheFilename()
+#
+#create a filename out of the GetParam information and the stat id
+#
+#    my $Filename = $Self->_CreateStaticResultCacheFilename(
+#        GetParam => $Param{GetParam},
+#        StatID   => $Param{StatID},
+#    );
+#
+#=cut
+
+sub _CreateStaticResultCacheFilename {
     my ( $Self, %Param ) = @_;
 
-    my %GetParam = %{ $Param{GetParam} };
-    my @Data     = ();
+    # check needed params
+    for my $NeededParam (qw( StatID GetParam )) {
+        if (!$Param{$NeededParam}) {
+            return $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "_CreateStaticResultCacheFilename: Need $NeededParam!"
+            );
+        }
+    }
+
+    my $GetParamRef = $Param{GetParam};
 
     # format month and day params
     for (qw(Month Day)) {
-        $GetParam{$_} = sprintf( "%02d", $GetParam{$_} ) if ( $GetParam{$_} );
+        if ( $GetParamRef->{$_} ) {
+            $GetParamRef->{$_} = sprintf( "%02d", $GetParamRef->{$_} );
+        }
     }
 
-    # read cache file
-    my $Path = $Self->{ConfigObject}->Get('TempDir');
     my $Key  = '';
-    if ( $GetParam{Year} ) {
-        $Key = "$GetParam{Year}";
+    if ( $GetParamRef->{Year} ) {
+        $Key .= $GetParamRef->{Year};
     }
-    if ( $GetParam{Month} ) {
-        $Key .= "-$GetParam{Month}";
+    if ( $GetParamRef->{Month} ) {
+        $Key .= "-$GetParamRef->{Month}";
     }
-    if ( $GetParam{Day} ) {
-        $Key .= "-$GetParam{Day}";
+    if ( $GetParamRef->{Day} ) {
+        $Key .= "-$GetParamRef->{Day}";
     }
 
     my $MD5Key = $Self->{MainObject}->FilenameCleanUp(
@@ -2080,10 +2039,79 @@ sub _ReadResultCache {
         Type     => 'md5',
     );
 
-    my $File = "Stats" . $Param{StatID} . "-" . $MD5Key . ".cache";
+    return 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache';
+}
 
+#=item _SetResultCache()
+#
+#write the result array as cache in the filesystem
+#
+#    $Self->_SetResultCache(
+#        Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
+#        Result   => $Param{Data},
+#    );
+#
+#=cut
+
+sub _SetResultCache {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $NeededParam (qw( Filename Result)) {
+        if (!$Param{$NeededParam}) {
+            return $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "_SetResultCache: Need $NeededParam!"
+            );
+        }
+    }
+
+    # convert the result array into a csv string
+    my $CSVString = $Self->{CSVObject}->Array2CSV( Data => $Param{Result}, );
+    $Self->{EncodeObject}->EncodeOutput( \$CSVString );
+
+    # write the csv string into the filesystem
+    my $Filehandle;
+    my $Path = $Self->{ConfigObject}->Get('TempDir');
+    if ( !open $Filehandle, '>', "$Path/$Param{Filename}" ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't write: $Path/$Param{Filename}!",
+        );
+        return;
+    }
+
+    binmode $Filehandle;
+    print   $Filehandle $CSVString;
+    close   $Filehandle;
+
+    return 1;
+}
+
+#=item _GetResultCache()
+#
+#get the result array cache out of the filesystem
+#
+#    my @Result = $Self->_GetResultCache(
+#        Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
+#    );
+#
+#=cut
+
+sub _GetResultCache {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    if (!$Param{Filename}) {
+        return $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => '_GetResultCache: Need Filename!',
+        );
+    }
+
+    my $Path = $Self->{ConfigObject}->Get('TempDir');
     my $CSVString = '';
-    if ( open my $Filehandle, '<', "$Path/$File" ) {
+    if ( open my $Filehandle, '<', "$Path/$Param{Filename}" ) {
         binmode $Filehandle;
         while (<$Filehandle>) {
             $CSVString .= $_;
@@ -2092,15 +2120,13 @@ sub _ReadResultCache {
         $Self->{EncodeObject}->Encode( \$CSVString );
     }
 
-    @Data = @{
-        $Self->{CSVObject}->CSV2Array(
-            String    => $CSVString,
-            Separator => ';',
-            Quote     => '"',
-        )
-        };
+    my $ResultRef = $Self->{CSVObject}->CSV2Array(
+        String    => $CSVString,
+        Separator => ';',
+        Quote     => '"',
+    );
 
-    return @Data;
+    return @{$ResultRef};
 }
 
 sub _DeleteCache {
@@ -2490,9 +2516,13 @@ sub StatsRun {
 
         # use result cache if configured
         if ( $Stat->{Cache} ) {
-            @Result = $Self->_ReadResultCache(
+            my $Filename = $Self->_CreateStaticResultCacheFilename(
                 GetParam => \%GetParam,
                 StatID   => $Param{StatID},
+            );
+
+            @Result = $Self->_GetResultCache(
+                 Filename => $Filename,
             );
         }
 
@@ -2502,8 +2532,8 @@ sub StatsRun {
             # run stats function
             @Result = $StatObject->Run(
                 %GetParam,
-
-# these two lines are requirements of me, perhaps this information is needed for former static stats
+                # these two lines are requirements of me, perhaps this
+                # information is needed for former static stats
                 Format => $Stat->{Format}[0],
                 Module => $Stat->{ObjectModule},
             );
@@ -2717,6 +2747,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2007-11-08 13:03:17 $
+$Revision: 1.35 $ $Date: 2007-11-27 09:25:39 $
 
 =cut
