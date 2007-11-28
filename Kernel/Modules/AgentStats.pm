@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.33.2.4 2007-10-16 13:55:04 tr Exp $
+# $Id: AgentStats.pm,v 1.33.2.5 2007-11-28 06:58:51 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33.2.4 $';
+$VERSION = '$Revision: 1.33.2.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -156,15 +156,15 @@ sub Run {
         elsif ($Stat->{StatType} eq 'dynamic') {
             $Stat->{ObjectName} = $Stat->{Object};
         }
-        # check object file
-        my $ObjectFileCheck = $Self->{StatsObject}->ObjectFileCheck(
-            Type => $Stat->{StatType},
-            Name => $Stat->{ObjectName},
-        );
+        ## check object file
+        #my $ObjectFileCheck = $Self->{StatsObject}->ObjectFileCheck(
+        #    Type => $Stat->{StatType},
+        #    Name => $Stat->{ObjectName},
+        #);
 
-        if (!$ObjectFileCheck) {
-            return $Self->{LayoutObject}->ErrorScreen(Message => "View: Can't find the file $Stat->{ObjectName}!");
-        }
+        #if (!$ObjectFileCheck) {
+        #    return $Self->{LayoutObject}->ErrorScreen(Message => "View: Can't find the file $Stat->{ObjectName}!");
+        #}
 
         $Stat->{Description} = $Self->{LayoutObject}->Ascii2Html(
             Text => $Stat->{Description},
