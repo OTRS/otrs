@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.45 2007-11-07 08:54:39 tr Exp $
+# $Id: AgentStats.pm,v 1.46 2007-11-28 06:54:09 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -170,17 +170,6 @@ sub Run {
         }
         elsif ( $Stat->{StatType} eq 'dynamic' ) {
             $Stat->{ObjectName} = $Stat->{Object};
-        }
-
-        # check object file
-        my $ObjectFileCheck = $Self->{StatsObject}->ObjectFileCheck(
-            Type => $Stat->{StatType},
-            Name => $Stat->{ObjectName},
-        );
-
-        if ( !$ObjectFileCheck ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => "View: Can't find the file $Stat->{ObjectName}!" );
         }
 
         $Stat->{Description} = $Self->{LayoutObject}->Ascii2Html(
@@ -666,6 +655,7 @@ sub Run {
             Content     => $ExportFile->{Content},
             ContentType => 'text/xml',
         );
+
     }
 
     # ---------------------------------------------------------- #
@@ -1118,7 +1108,7 @@ sub Run {
         }
 
         # build the dynamic or/and static stats selection if nothing is selected
-        if ( !$Stat->{StatType} ) {
+        if ( !$Stat->{StatType} | !$Stat->{Object}) {
             my $DynamicFiles      = $Self->{StatsObject}->GetDynamicFiles();
             my $StaticFiles       = $Self->{StatsObject}->GetStaticFiles();
             my @DynamicFilesArray = keys %{$DynamicFiles};

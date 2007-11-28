@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.10 2007-10-25 13:23:53 tr Exp $
+# $Id: Stats.t,v 1.11 2007-11-28 06:54:09 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,6 +24,28 @@ $Self->{UserObject} = Kernel::System::User->new(%{$Self});
 $Self->{MainObject} = Kernel::System::Main->new(%{$Self});
 $Self->{CSVObject} = Kernel::System::CSV->new(%{$Self});
 $Self->{StatsObject} = Kernel::System::Stats->new(%{$Self});
+
+# try to get an invalid stat
+# check the imported stat
+my $StatInvalid = $Self->{StatsObject}->StatsGet(
+    StatID => 1111,
+);
+
+$Self->False(
+    $StatInvalid,
+    'StatsGet() try to get a not exitsting stat',
+);
+
+$Self->False(
+    $Self->{StatsObject}->StatsUpdate(
+        StatID => '1111',
+        Hash   => {
+            Title => 'TestTitle from UnitTest.pl',
+            Description=> 'some Description'
+        }
+    ),
+    "StatsUpdate() try to update a invalid stat id (Ignore the Tracebacks on the top)",
+);
 
 # check the StatsAddfunction
 my $StatID1 = $Self->{StatsObject}->StatsAdd();
@@ -52,8 +74,16 @@ $Self->True(
     $Self->{StatsObject}->StatsUpdate(
         StatID => $StatID1,
         Hash   => {
-            Title => 'TestTitle from UnitTest.pl',
-            Description=> 'some Description'
+            Title        => 'TestTitle from UnitTest.pl',
+            Description  => 'some Description',
+            Object       => 'Ticket',
+            Format       => 'CSV',
+            ObjectModule => 'Kernel::System::Stats::Dynamic::Ticket',
+            Permission   => '1',
+            StatType     => 'dynamic',
+            SumCol       => '1',
+            SumRow       => '1',
+            Valid        => '1',
         }
     ),
     "StatsUpdate() Update StatID1",
@@ -61,7 +91,7 @@ $Self->True(
 
 $Self->False(
     $Self->{StatsObject}->StatsUpdate(
-        StatID => ($StatID2+1),
+        StatID => ($StatID2+2),
         Hash   => {
             Title => 'TestTitle from UnitTest.pl',
             Description=> 'some Description'

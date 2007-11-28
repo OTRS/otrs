@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.35 2007-11-27 09:25:39 tr Exp $
+# $Id: Stats.pm,v 1.36 2007-11-28 06:54:09 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 SYNOPSIS
 
@@ -143,19 +143,17 @@ get a hashref with the stat you need
 sub StatsGet {
     my ( $Self, %Param ) = @_;
 
-    my @XMLHash = ();
-
     if ( !$Param{StatID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "StatsGet: Need StatID!" );
     }
 
     # get hash from storage
-    @XMLHash = $Self->{XMLObject}->XMLHashGet(
+    my @XMLHash = $Self->{XMLObject}->XMLHashGet(
         Type => 'Stats',
         Key  => $Param{StatID},
     );
 
-    if ( !@XMLHash ) {
+    if ( !$XMLHash[0] ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "StatsGet: Can\'t get Stat!" );
         return 0;
     }
@@ -2279,6 +2277,18 @@ sub Import {
     # Get new StatID
     @Keys = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats', );
 
+    # check if the required elements are available
+    for my $Element (qw( Description Format Object ObjectModule Permission StatType SumCol SumRow Title Valid)) {
+        if (!defined($XMLHash[0]{otrs_stats}[1]{$Element}[1]{Content})) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                        "Import: Can't import Stat, becauce the required element $Element is not available!"
+            );
+            return;
+        }
+    }
+
     # if-clause if a stat-xml includes a StatNumber
     if ( $XMLHash[0]{otrs_stats}[1]{StatNumber} ) {
         my $XMLStatsID = $XMLHash[0]{otrs_stats}[1]{StatNumber}[1]{Content}
@@ -2315,8 +2325,6 @@ sub Import {
     $XMLHash[0]{otrs_stats}[1]{ChangedBy}[1]{Content} = $Self->{UserID};
     $XMLHash[0]{otrs_stats}[1]{StatNumber}[1]{Content}
         = $StatID + $Self->{ConfigObject}->Get("Stats::StatsStartNumber");
-
-    #my $DynamicFiles = {};
 
     my $DynamicFiles = $Self->GetDynamicFiles();
 
@@ -2747,6 +2755,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2007-11-27 09:25:39 $
+$Revision: 1.36 $ $Date: 2007-11-28 06:54:09 $
 
 =cut
