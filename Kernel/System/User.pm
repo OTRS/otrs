@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.68 2007-11-22 11:59:26 martin Exp $
+# $Id: User.pm,v 1.69 2007-11-28 15:50:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Valid;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 =head1 NAME
 
@@ -111,14 +111,16 @@ get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
 
     my %User = $UserObject->GetUserData(
         UserID => 123,
-        Cached => 1, # not required -> 0|1
+        Cached => 1, # not required -> 0|1 (default 0)
     );
 
     or
 
     my %User = $UserObject->GetUserData(
         User => 'franz',
-        Cached => 1, # not required -> 0|1
+        Cached => 1, # not required -> 0|1 (default 0)
+        Valid => 1, # not required -> 0|1 (default 0)
+                    # returns only data if user is valid
     );
 
 =cut
@@ -887,6 +889,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.68 $ $Date: 2007-11-22 11:59:26 $
+$Revision: 1.69 $ $Date: 2007-11-28 15:50:22 $
 
 =cut
