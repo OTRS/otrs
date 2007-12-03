@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketOwner.pm - set ticket owner
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.pm,v 1.34 2007-10-26 14:47:48 mh Exp $
+# $Id: AgentTicketOwner.pm,v 1.35 2007-12-03 14:28:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -206,7 +206,7 @@ sub Run {
 
         if ( !$Ticket{$FreeTimePrefix} ) {
 
-            for my $Type (qw(Optional Used Year Month Day Hour Minute)) {
+            for my $Type (qw(Used Year Month Day Hour Minute)) {
                 delete $GetParam{ $FreeTimePrefix . $Type };
             }
 
