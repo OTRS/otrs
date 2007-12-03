@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketNote.pm,v 1.34.2.1 2007-10-26 14:20:36 mh Exp $
+# $Id: AgentTicketNote.pm,v 1.34.2.2 2007-12-03 14:13:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34.2.1 $';
+$VERSION = '$Revision: 1.34.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -200,7 +200,7 @@ sub Run {
 
         if (!$Ticket{ $FreeTimePrefix }) {
 
-            for my $Type (qw(Optional Used Year Month Day Hour Minute)) {
+            for my $Type (qw(Used Year Month Day Hour Minute)) {
                 delete $GetParam{ $FreeTimePrefix . $Type };
             }
 

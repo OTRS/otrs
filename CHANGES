@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.33 2007-11-13 10:24:37 tr Exp $
+# $Id: CHANGES,v 1.465.2.34 2007-12-03 14:14:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.2.5 (2007/??/??)
+ - (2007/12/03) Fixed bug# 2537 - Unable to set free time fields.
  - (2007/11/13) Fixed bug# 2498 - A false sum of requests was shown in the
     performance log.
  - (2007/11/07) Fixed bug# 2482 - IntroUpgradePre in .opm files is not working
