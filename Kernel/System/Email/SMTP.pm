@@ -2,7 +2,7 @@
 # Kernel/System/Email/SMTP.pm - the global email send module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SMTP.pm,v 1.16 2007-10-02 10:38:37 mh Exp $
+# $Id: SMTP.pm,v 1.17 2007-12-04 13:12:27 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Net::SMTP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -73,78 +73,76 @@ sub Send {
     }
 
     # send mail
-    if ($Self->{SMTPObject} = Net::SMTP->new(
-            $Self->{MailHost},
-            Hello   => $Self->{FQDN},
-            Port    => $Self->{SMTPPort},
-            Timeout => $Self->{SMTPTimeout},
-            Debug   => $Self->{SMTPDebug}
-        )
-        )
-    {
-        if ( $Self->{User} && $Self->{Password} ) {
-            if ( !$Self->{SMTPObject}->auth( $Self->{User}, $Self->{Password} ) ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "SMTP authentication failed! Enable debug for more info!",
-                );
-                $Self->{SMTPObject}->quit();
-                return;
-            }
-        }
-        if ( !$Self->{SMTPObject}->mail( $Param{From} ) ) {
-
-            # log error
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Can't use from: $Param{From}! Enable debug for more info!",
-            );
-            $Self->{SMTPObject}->quit;
-            return;
-        }
-        for ( @{ $Param{ToArray} } ) {
-            $ToString .= "$_,";
-            if ( !$Self->{SMTPObject}->to($_) ) {
-
-                # log error
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Can't send to: $_! Enable debug for more info!",
-                );
-                $Self->{SMTPObject}->quit;
-                return;
-            }
-        }
-
-        # encode utf8 header strings (of course, there should only be 7 bit in there!)
-        $Self->{EncodeObject}->EncodeOutput( $Param{Header} );
-
-        # encode utf8 body strings
-        $Self->{EncodeObject}->EncodeOutput( $Param{Body} );
-
-        # send data
-        $Self->{SMTPObject}->data();
-        $Self->{SMTPObject}->datasend( ${ $Param{Header} } );
-        $Self->{SMTPObject}->datasend("\n");
-        $Self->{SMTPObject}->datasend( ${ $Param{Body} } );
-        $Self->{SMTPObject}->dataend();
-        $Self->{SMTPObject}->quit;
-
-        # debug
-        if ( $Self->{Debug} > 2 ) {
-            $Self->{LogObject}->Log( Message => "Sent email to '$ToString' from '$Param{From}'.", );
-        }
-        return 1;
-    }
-    else {
-
-        # log error
+    my $SMTP = Net::SMTP->new(
+        $Self->{MailHost},
+        Hello   => $Self->{FQDN},
+        Port    => $Self->{SMTPPort},
+        Timeout => $Self->{SMTPTimeout},
+        Debug   => $Self->{SMTPDebug}
+    );
+    if (!$SMTP) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't connect to $Self->{MailHost}: $!!",
         );
         return;
     }
+
+    if ( $Self->{User} && $Self->{Password} ) {
+        if ( !$SMTP->auth( $Self->{User}, $Self->{Password} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "SMTP authentication failed! Enable debug for more info!",
+            );
+            $SMTP->quit();
+            return;
+        }
+    }
+    if ( !$SMTP->mail( $Param{From} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't use from: $Param{From}! Enable debug for more info!",
+        );
+        $SMTP->quit;
+        return;
+    }
+    for ( @{ $Param{ToArray} } ) {
+        $ToString .= "$_,";
+        if ( !$SMTP->to($_) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't send to: $_! Enable debug for more info!",
+            );
+            $SMTP->quit;
+            return;
+        }
+    }
+
+    # encode utf8 header strings (of course, there should only be 7 bit in there!)
+    $Self->{EncodeObject}->EncodeOutput( $Param{Header} );
+
+    # encode utf8 body strings
+    $Self->{EncodeObject}->EncodeOutput( $Param{Body} );
+
+    # send data
+    if ( !$SMTP->data( ${ $Param{Header} }, "\n", ${ $Param{Body} } ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't send message. Server code "
+                        . $Self->{SMTPObject}->code() . ", '" . $Self->{SMTPObject}->message()
+                        . "' Enable debug for more info!"
+        );
+        $SMTP->quit;
+        return;
+    }
+    $SMTP->quit;
+
+    # debug
+    if ( $Self->{Debug} > 2 ) {
+        $Self->{LogObject}->Log( Message => "Sent email to '$ToString' from '$Param{From}'.", );
+    }
+    return 1;
+
 }
 
 1;

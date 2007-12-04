@@ -2,7 +2,7 @@
 # Kernel/System/Email/Sendmail.pm - the global email send module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Sendmail.pm,v 1.21 2007-10-02 10:38:37 mh Exp $
+# $Id: Sendmail.pm,v 1.22 2007-12-04 13:12:27 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,9 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
+
+use Kernel::System::FileTemp;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -39,6 +41,8 @@ sub new {
 
     # get config data
     $Self->{Sendmail} = $Self->{ConfigObject}->Get('SendmailModule::CMD');
+
+    $Self->{FileTempObject} = Kernel::System::FileTemp->new(%Param);
 
     return $Self;
 }
@@ -69,36 +73,41 @@ sub Send {
         $Arg      .= ' ' . quotemeta($_);
     }
 
-    # send mail
-    if ( open( $FH, "| $Self->{Sendmail} $Arg" ) ) {
+    # invoke sendmail in order to send off mail, catching errors in a temporary file
+    my ( $ErrFH, $ErrFilename ) = $Self->{FileTempObject}->TempFile();
+    open( $FH, '|-', "$Self->{Sendmail} $Arg 2>$ErrFilename" ) or goto ERROR;
 
-        # set handle to binmode if utf-8 is used
-        if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i ) {
-            binmode $FH, ":utf8";
-        }
-        print $FH ${ $Param{Header} };
-        print $FH "\n";
-        print $FH ${ $Param{Body} };
-        close($FH);
-
-        # debug
-        if ( $Self->{Debug} > 2 ) {
-            $Self->{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "Sent email to '$ToString' from '$Param{From}'.",
-            );
-        }
-        return 1;
+    # switch filehandle to utf8 mode if utf-8 is used
+    if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ m{^utf-?8$}i ) {
+        binmode $FH, ":utf8";
     }
-    else {
+    print $FH ${ $Param{Header} };
+    print $FH "\n";
+    print $FH ${ $Param{Body} };
+    close($FH) or goto ERROR;
 
-        # log error
+    # debug
+    if ( $Self->{Debug} > 2 ) {
         $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't use $Self->{Sendmail}: $!!",
+            Priority => 'notice',
+            Message  => "Sent email to '$ToString' from '$Param{From}'.",
         );
-        return;
     }
+
+    return 1;
+
+ERROR:
+    # fetch error text from temporary file and log it
+    my $ErrorText;
+    {
+        local $/;
+        $ErrorText = <$ErrFH>;
+    }
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => "Can't send message!\nError: $ErrorText",
+    );
+    return;
 }
 
 1;
