@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.512 2007-12-04 13:12:27 ot Exp $
+# $Id: CHANGES,v 1.513 2007-12-05 16:59:34 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2007/12/05) Fixed bug# 1399 - Missing Translation. Added some translation to
+    customer interface.
  - (2007/12/04) Fixed bug# 2257 - Silent ignorance of SMTP / Sendmail errors,
     now we collect the error and log it (which in turn displays it to the user).
  - (2007/11/20) Rewrite of Kernel::System::CSV by using cpan module Text::CSV

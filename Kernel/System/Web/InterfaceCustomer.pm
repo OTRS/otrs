@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.24 2007-10-02 10:35:04 mh Exp $
+# $Id: InterfaceCustomer.pm,v 1.25 2007-12-05 16:59:34 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -439,7 +439,8 @@ sub Run {
                 $Self->{LayoutObject}->Print(
                     Output => \$Self->{LayoutObject}->CustomerLogin(
                         Title   => 'Login',
-                        Message => "Sent new password to: " . $UserData{"UserEmail"},
+                        Message => $Self->{LayoutObject}->{LanguageObject}->Get(
+                            'Sent new password to: ' ) . $UserData{"UserEmail"},
                         User    => $User,
                     ),
                 );
@@ -825,6 +826,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2007-10-02 10:35:04 $
+$Revision: 1.25 $ $Date: 2007-12-05 16:59:34 $
 
 =cut
