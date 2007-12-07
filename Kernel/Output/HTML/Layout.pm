@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.60 2007-10-26 10:02:53 mh Exp $
+# $Id: Layout.pm,v 1.61 2007-12-07 12:50:08 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 =head1 NAME
 
@@ -2770,6 +2770,9 @@ sub Attachment {
     # encode output string
     $Self->{EncodeObject}->EncodeOutput( \$Output );
 
+    # don't use the active element filter for attachements, perhaps you destroy a xml
+    delete $Self->{ConfigObject}->{'Frontend::Output::FilterContent'}->{ActiveElementFilter};
+
     return $Output;
 }
 
@@ -3795,6 +3798,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.60 $ $Date: 2007-10-26 10:02:53 $
+$Revision: 1.61 $ $Date: 2007-12-07 12:50:08 $
 
 =cut

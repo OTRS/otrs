@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.152 2007-11-29 12:49:10 ho Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.153 2007-12-07 12:50:07 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -2436,7 +2436,7 @@ TimeWorkingHours
             <String Regex="">OTRS-CGI</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Output::FilterElementPost###ActiveElementFilter" Required="0" Valid="0">
+    <ConfigItem Name="Frontend::Output::FilterContent###ActiveElementFilter" Required="0" Valid="0">
         <Description Lang="en">A filter for html output of the application. With this filter you can for example filter out javascript or suppress java applets.</Description>
         <Description Lang="de">Ein Filter für den HTML-Inhalt innerhalb der Applikation. Mit Hilfe des Filters kann z. B. die Anzeige von Javaapplets oder Javascript unterdrückt werden.</Description>
         <Group>Framework</Group>
