@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2006 Jorge Becerra <jorge at hab.desoft.cu>
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # --
-# $Id: es.pm,v 1.61 2007-07-16 09:20:41 martin Exp $
+# $Id: es.pm,v 1.61.2.1 2007-12-10 08:44:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.61.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -608,6 +608,15 @@ sub Data {
         'Full read and write access to the tickets in this group/queue.' => 'Acceso completo de lectura y escritura a los tickets en este grupo/cola.',
 
         # Template: AdminCustomerUserGroupForm
+
+        # Template: AdminCustomerUserServiceChangeForm
+        'Customer Users <-> Services Management' => '',
+        'Select the customeruser:service relations.' => '',
+        'Allocate services to CustomerUser' => '',
+        'Allocate CustomerUser to service' => '',
+
+        # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => '',
 
         # Template: AdminEmail
         'Message sent to' => 'Mensaje enviado a',

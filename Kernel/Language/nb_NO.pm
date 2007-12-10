@@ -5,7 +5,7 @@
 #               2006 Knut Haugen <knuthaug at linpro.no>
 #               2007 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.46 2007-07-26 17:08:14 martin Exp $
+# $Id: nb_NO.pm,v 1.46.2.1 2007-12-10 08:44:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.46 $;
+$VERSION = q$Revision: 1.46.2.1 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -623,6 +623,19 @@ sub Data {
         'Allocate services to CustomerUser' => 'Tilordne tjenester til kunde-bruker',
         'Active' => 'Aktiv',
         'Allocate CustomerUser to service' => 'Tilordne kunde-bruker til tjeneste',
+
+        # Template: AdminCustomerUserServiceChangeForm
+        'Customer Users <-> Services Management' => 'Kunde <-> Tjenesteadministrasjon',
+        'Select the customeruser:service relations.' => '',
+        'Allocate services to CustomerUser' => 'Tilordne tjenester til kunde-bruker',
+        'Allocate CustomerUser to service' => 'Tilordne kunde-bruker til tjeneste',
+        'CustomerUser' => 'Kunde-bruker',
+        'Service' => 'Tjeneste',
+        'Search Result' => 'Søkeresultat',
+        'Active' => 'Aktiv',
+
+        # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => '',
 
         # Template: AdminEmail
         'Message sent to' => 'Melding sendt til',

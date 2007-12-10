@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.49 2007-07-16 10:31:43 martin Exp $
+# $Id: pt.pm,v 1.49.2.1 2007-12-10 08:44:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pt;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.49.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -608,6 +608,15 @@ sub Data {
         'Full read and write access to the tickets in this group/queue.' => 'Acesso total de leitura e escrita para os tickets neste grupo/queue.',
 
         # Template: AdminCustomerUserGroupForm
+
+        # Template: AdminCustomerUserServiceChangeForm
+        'Customer Users <-> Services Management' => '',
+        'Select the customeruser:service relations.' => '',
+        'Allocate services to CustomerUser' => '',
+        'Allocate CustomerUser to service' => '',
+
+        # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => '',
 
         # Template: AdminEmail
         'Message sent to' => 'Mensagem enviada para',

@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.62 2007-06-28 23:58:32 martin Exp $
+# $Id: bg.pm,v 1.62.2.1 2007-12-10 08:44:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.62.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -608,6 +608,15 @@ sub Data {
         'Full read and write access to the tickets in this group/queue.' => 'Пълен достъп за билетите в тази група/опашка',
 
         # Template: AdminCustomerUserGroupForm
+
+        # Template: AdminCustomerUserServiceChangeForm
+        'Customer Users <-> Services Management' => '',
+        'Select the customeruser:service relations.' => '',
+        'Allocate services to CustomerUser' => '',
+        'Allocate CustomerUser to service' => '',
+
+        # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => '',
 
         # Template: AdminEmail
         'Message sent to' => 'Съобщението е изпратено до',

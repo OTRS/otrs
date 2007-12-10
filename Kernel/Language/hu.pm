@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.41 2007-07-16 09:30:10 martin Exp $
+# $Id: hu.pm,v 1.41.2.1 2007-12-10 08:44:44 mh Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -20,7 +20,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.41.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -628,6 +628,15 @@ sub Data {
         'Select the customeruser:service relations.' => 'Válassza ki az ügyfél felhasználó:szolgáltatás relációt.',
 
         # Template: AdminCustomerUserServiceForm
+
+        # Template: AdminCustomerUserServiceChangeForm
+        'Customer Users <-> Services Management' => '',
+        'Select the customeruser:service relations.' => '',
+        'Allocate services to CustomerUser' => '',
+        'Allocate CustomerUser to service' => '',
+
+        # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => '',
 
         # Template: AdminEmail
         'Message sent to' => 'Üzenet elküldve',

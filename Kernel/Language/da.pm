@@ -5,7 +5,7 @@
 # Original created by Thorsten Rossner
 # Maintained by Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.25 2007-06-28 23:58:32 martin Exp $
+# $Id: da.pm,v 1.25.2.1 2007-12-10 08:44:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.25.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -609,6 +609,15 @@ sub Data {
         'Full read and write access to the tickets in this group/queue.' => 'Komplet læse- og skriveadgang til sagerne i denne gruppe/kø.',
 
         # Template: AdminCustomerUserGroupForm
+
+        # Template: AdminCustomerUserServiceChangeForm
+        'Customer Users <-> Services Management' => '',
+        'Select the customeruser:service relations.' => '',
+        'Allocate services to CustomerUser' => '',
+        'Allocate CustomerUser to service' => '',
+
+        # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => '',
 
         # Template: AdminEmail
         'Message sent to' => 'Meddelelse sendt til',

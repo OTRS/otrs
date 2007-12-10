@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: bb.pm,v 1.25.2.1 2007-09-13 14:01:40 mh Exp $
+# $Id: bb.pm,v 1.25.2.2 2007-12-10 08:44:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25.2.1 $';
+$VERSION = '$Revision: 1.25.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -611,8 +611,11 @@ sub Data {
         # Template: AdminCustomerUserServiceChangeForm
         'Customer Users <-> Services Management' => 'Kundanbenutzer <-> Services Verwaltung',
         'Select the customeruser:service relations.' => 'Auswahl der Kundanbenutzer:Service Beziehungen.',
+        'Allocate services to CustomerUser' => '',
+        'Allocate CustomerUser to service' => '',
 
         # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => '',
 
         # Template: AdminEmail
         'Message sent to' => 'Nachricht gesendet an',

@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.147.2.2 2007-10-16 13:28:59 tr Exp $
+# $Id: de.pm,v 1.147.2.3 2007-12-10 08:44:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.147.2.2 $';
+$VERSION = '$Revision: 1.147.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -612,8 +612,11 @@ sub Data {
         # Template: AdminCustomerUserServiceChangeForm
         'Customer Users <-> Services Management' => 'Kundenbenutzer <-> Services Verwaltung',
         'Select the customeruser:service relations.' => 'Auswahl der Kundenbenutzer:Service Beziehungen.',
+        'Allocate services to CustomerUser' => 'Services zuordnen zum Kundenbenutzer',
+        'Allocate CustomerUser to service' => 'Kundenbenutzer zuordnen zum Service',
 
         # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => 'Standard-Services bearbeiten.',
 
         # Template: AdminEmail
         'Message sent to' => 'Nachricht gesendet an',
