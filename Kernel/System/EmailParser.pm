@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.56 2007-11-13 16:58:56 martin Exp $
+# $Id: EmailParser.pm,v 1.57 2007-12-10 19:31:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 =head1 NAME
 
@@ -777,6 +777,8 @@ sub CheckMessageBody {
         # html2text filter for message body
         my $LinkList = '';
         my $Counter  = 0;
+
+        # find <a href=....> and replace it with [x]
         $Self->{MessageBody} =~ s{
             <a\Whref=("|')(.+?)("|')(|.+?)>
         }
@@ -789,15 +791,33 @@ sub CheckMessageBody {
             $LinkList .= "[$Counter] $Link\n";
             "[$Counter]";
         }egxi;
+
+        # remove empty lines
         $Self->{MessageBody} =~ s/^\s*//mg;
         $Self->{MessageBody} =~ s/\n//gs;
+
+        # remove style tags
         $Self->{MessageBody} =~ s/\<style.+?\>.*\<\/style\>//gsi;
+
+        # remove br tags and replace it with \n
         $Self->{MessageBody} =~ s/\<br(\/|)\>/\n/gsi;
+
+        # remove hr tags and replace it with \n
         $Self->{MessageBody} =~ s/\<(hr|hr.+?)\>/\n\n/gsi;
+
+        # remove pre, p, table, code tags and replace it with \n
         $Self->{MessageBody} =~ s/\<(\/|)(pre|pre.+?|p|p.+?|table|table.+?|code|code.+?)\>/\n\n/gsi;
+
+        # remove tr, th tags and replace it with \n
         $Self->{MessageBody} =~ s/\<(tr|tr.+?|th|th.+?)\>/\n\n/gsi;
+
+        # remove td tags and replace it with \n
         $Self->{MessageBody} =~ s/\.+?<\/(td|td.+?)\>/ /gsi;
+
+        # strip all other tags
         $Self->{MessageBody} =~ s/\<.+?\>//gs;
+
+        # replace "  " with " " space
         $Self->{MessageBody} =~ s/  / /mg;
 
         # html encode based from cpan's HTML::Entities v1.35
@@ -1069,13 +1089,64 @@ sub CheckMessageBody {
                 : ()
             )
         );
-        $Self->{MessageBody} =~ s/(&\#(\d+);?)/$2 < 256 ? chr($2) : $1/eg;
-        $Self->{MessageBody}
-            =~ s/(&\#[xX]([0-9a-fA-F]+);?)/my $c = hex($2); $c < 256 ? chr($c) : $1/eg;
-        $Self->{MessageBody} =~ s/(&(\w+);?)/$Entity{$2} || $1/eg;
+
+        # encode html entities like "&#8211;"
+        $Self->{MessageBody} =~ s{
+            (&\#(\d+);?)
+        }
+        {
+            my $Chr = chr( $2 );
+            if ( $Chr ) {
+                $Chr;
+            }
+            else {
+                $1;
+            };
+        }egx;
+
+        # encode html entities like "&#3d;"
+        $Self->{MessageBody} =~ s{
+            (&\#[xX]([0-9a-fA-F]+);?)
+        }
+        {
+            my $ChrOrig = $1;
+            my $Hex = hex( $2 );
+            if ( $Hex ) {
+                my $Chr = chr( $Hex );
+                if ( $Chr ) {
+                    $Chr;
+                }
+                else {
+                    $ChrOrig;
+                }
+            }
+            else {
+                $ChrOrig;
+            }
+        }egx;
+
+        # encode html entities like "&amp;"
+        $Self->{MessageBody} =~ s{
+            (&(\w+);?)
+        }
+        {
+            if ( $Entity{$2} ) {
+                $Entity{$2};
+            }
+            else {
+                $1;
+            }
+        }egx;
+
+        # remove empty lines
         $Self->{MessageBody} =~ s/^\s*\n\s*\n/\n/mg;
+
+        # force line bracking
         $Self->{MessageBody} =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
+
+        # add extracted links
         $Self->{MessageBody} .= "\n\n" . $LinkList;
+
         $Self->{ContentType} = 'text/plain';
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
@@ -1102,6 +1173,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2007-11-13 16:58:56 $
+$Revision: 1.57 $ $Date: 2007-12-10 19:31:09 $
 
 =cut

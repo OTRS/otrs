@@ -13,6 +13,21 @@ MIME-Version: 1.0
 Content-Type: text/html; charset="iso-8859-15"; format=flowed
 Message-Id: <Law10-F30dRmhKuTqtA00018823@coolair.example>
 X-Originalarrivaltime: 13 Sep 2003 14:37:26.0630 (UTC) FILETIME=[8D57B860:01C37A04]
-X-CVS: $Id: PostMaster-Test4.box,v 1.1 2007-04-12 16:34:06 martin Exp $
+X-CVS: $Id: PostMaster-Test4.box,v 1.2 2007-12-10 19:31:09 martin Exp $
 
-<html><div style='background-color:'><P>this is a test</P></div><br clear=all><hr> <a href="http://localhost/8HMZENUS/2737??PS=">Compare Cable, DSL or Satellite plans: As low as $2.95. </a> </html>
+<html><div style='background-color:'><P>this is a test</P></div><br clear=all><hr> <a href="http://localhost/8HMZENUS/2737??PS=">Compare Cable, DSL or Satellite plans: As low as $2.95. </a>
+
+<br>
+
+<br>
+Test1:&#8211;
+<br>
+Test2:&amp;
+<br>
+Test3:&ni;
+<br>
+Test4:&amp;
+<br>
+Test5:&#x3d;
+
+</html>

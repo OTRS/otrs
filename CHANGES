@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.515 2007-12-10 08:59:29 mh Exp $
+# $Id: CHANGES,v 1.516 2007-12-10 19:31:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,8 @@ CVS HEAD (????/??/??)
  - (2007/12/04) Fixed bug# 2257 - Silent ignorance of SMTP / Sendmail errors,
     now we collect the error and log it (which in turn displays it to the user).
  - (2007/11/20) Rewrite of Kernel::System::CSV by using cpan module Text::CSV
-    for parsing and generating CSV files.
+    for parsing and generating CSV files (added Text::CSV to
+    bin/otrs.checkModules to check it).
  - (2007/11/07) Changed default config of WebMaxFileUpload from 10 MB to
     16 MB.
  - (2007/11/07) Changed Kernel::System::Crypt::PGP to reject any UTF8-strings,
@@ -45,10 +46,12 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.5 (2007/??/??)
+ - (2007/12/10) Fixed bug# 2166 - Probem with HTML-mails sent by MS Outlook
+    2003 - "&#8211;" / long dash gets not decoded.
  - (2007/12/10) Fixed bug# 2377 - Missing translation in
     AdminCustomerUserService mask.
  - (2007/12/03) Fixed bug# 2537 - Unable to set free time fields.
- - (2007/11/13) Fixed bug# 2498 - A false sum of requests was shown in the
+ - (2007/11/13) Fixed bug# 2498 - A wrong sum of requests was shown in the
     performance log.
  - (2007/11/07) Fixed bug# 2482 - IntroUpgradePre in .opm files is not working
     on upgradinging via online repository.
@@ -56,7 +59,7 @@ CVS HEAD (????/??/??)
 2.2.4 (2007/11/06)
  - (2007/11/06) Fixed bug# 2477 - Escalation time calculation (destination time of
     escalation) is not working if host system is running in summertime/wintertime
-    mode (loops because system is changinf system time from 3:00 am to 2:00 am).
+    mode (loops because system is changing system time from 3:00 am to 2:00 am).
  - (2007/11/05) Fixed bug# 2474 - Config option UserSyncLDAPAttibuteGroupsDefination
     and UserSyncLDAPAttibuteRolesDefination is not working.
  - (2007/11/05) Fixed small typo in scripts/database/otrs-initial_insert.xml, for
