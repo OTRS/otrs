@@ -6,7 +6,7 @@
 #              Vadim Buzek
 #              Petr Ocasek
 # --
-# $Id: cz.pm,v 1.49 2007-10-02 10:45:42 mh Exp $
+# $Id: cz.pm,v 1.50 2007-12-10 08:59:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -637,6 +637,15 @@ sub Data {
             'Plný pøístup pro ètení a psaní do tiketù v této skupinì/frontì.',
 
         # Template: AdminCustomerUserGroupForm
+
+        # Template: AdminCustomerUserServiceChangeForm
+        'Customer Users <-> Services Management'     => '',
+        'Select the customeruser:service relations.' => '',
+        'Allocate services to CustomerUser'          => '',
+        'Allocate CustomerUser to service'           => '',
+
+        # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => '',
 
         # Template: AdminEmail
         'Message sent to' => 'Zpráva odeslána',

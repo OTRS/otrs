@@ -2,7 +2,7 @@
 # Kernel/Language/fa.pm - provides fa language translation
 # Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
 # --
-# $Id: fa.pm,v 1.29 2007-10-02 10:45:42 mh Exp $
+# $Id: fa.pm,v 1.30 2007-12-10 08:59:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -665,6 +665,15 @@ sub Data {
             'دسترسی کامل به تیکت ها در این لیست / گروه.',
 
         # Template: AdminCustomerUserGroupForm
+
+        # Template: AdminCustomerUserServiceChangeForm
+        'Customer Users <-> Services Management'     => '',
+        'Select the customeruser:service relations.' => '',
+        'Allocate services to CustomerUser'          => '',
+        'Allocate CustomerUser to service'           => '',
+
+        # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => '',
 
         # Template: AdminEmail
         'Message sent to' => 'ارسال پیام به',

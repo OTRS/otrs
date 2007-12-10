@@ -2,7 +2,7 @@
 # Kernel/Language/zh_CN.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.33 2007-10-02 10:45:42 mh Exp $
+# $Id: zh_CN.pm,v 1.34 2007-12-10 08:59:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -633,6 +633,15 @@ sub Data {
             '队列中的 Ticket 读/写.',
 
         # Template: AdminCustomerUserGroupForm
+
+        # Template: AdminCustomerUserServiceChangeForm
+        'Customer Users <-> Services Management'     => '',
+        'Select the customeruser:service relations.' => '',
+        'Allocate services to CustomerUser'          => '',
+        'Allocate CustomerUser to service'           => '',
+
+        # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => '',
 
         # Template: AdminEmail
         'Message sent to' => '消息发送给',

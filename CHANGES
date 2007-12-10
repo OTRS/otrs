@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.514 2007-12-07 12:50:07 tr Exp $
+# $Id: CHANGES,v 1.515 2007-12-10 08:59:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -45,6 +45,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.5 (2007/??/??)
+ - (2007/12/10) Fixed bug# 2377 - Missing translation in
+    AdminCustomerUserService mask.
  - (2007/12/03) Fixed bug# 2537 - Unable to set free time fields.
  - (2007/11/13) Fixed bug# 2498 - A false sum of requests was shown in the
     performance log.

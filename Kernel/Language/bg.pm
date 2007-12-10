@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.64 2007-10-02 10:45:42 mh Exp $
+# $Id: bg.pm,v 1.65 2007-12-10 08:59:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -676,6 +676,15 @@ sub Data {
             'Пълен достъп за билетите в тази група/опашка',
 
         # Template: AdminCustomerUserGroupForm
+
+        # Template: AdminCustomerUserServiceChangeForm
+        'Customer Users <-> Services Management'     => '',
+        'Select the customeruser:service relations.' => '',
+        'Allocate services to CustomerUser'          => '',
+        'Allocate CustomerUser to service'           => '',
+
+        # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => '',
 
         # Template: AdminEmail
         'Message sent to' => 'Съобщението е изпратено до',

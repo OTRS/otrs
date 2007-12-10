@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.152 2007-12-05 16:59:33 sb Exp $
+# $Id: de.pm,v 1.153 2007-12-10 08:59:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152 $) [1];
+$VERSION = qw($Revision: 1.153 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -680,8 +680,11 @@ sub Data {
         'Customer Users <-> Services Management' => 'Kundenbenutzer <-> Services Verwaltung',
         'Select the customeruser:service relations.' =>
             'Auswahl der Kundenbenutzer:Service Beziehungen.',
+        'Allocate services to CustomerUser' => 'Services zuordnen zum Kundenbenutzer',
+        'Allocate CustomerUser to service'  => 'Kundenbenutzer zuordnen zum Service',
 
         # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => 'Standard-Services bearbeiten.',
 
         # Template: AdminEmail
         'Message sent to' => 'Nachricht gesendet an',
@@ -1384,10 +1387,10 @@ sub Data {
         # Template: CustomerHeaderSmall
 
         # Template: CustomerLogin
-        'Login'                => 'Login',
-        'Lost your password?'  => 'Passwort verloren?',
-        'Request new password' => 'Neues Passwort beantragen',
-        'Create Account'       => 'Zugang erstellen',
+        'Login'                  => 'Login',
+        'Lost your password?'    => 'Passwort verloren?',
+        'Request new password'   => 'Neues Passwort beantragen',
+        'Create Account'         => 'Zugang erstellen',
         'Sent new password to: ' => 'Das neue Passwort wurde gesendet an: ',
 
         # Template: CustomerNavigationBar
@@ -1414,7 +1417,7 @@ sub Data {
         # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
-        'This account exists.' => 'Dieser Benutzer ist bereits vorhanden.',
+        'This account exists.'             => 'Dieser Benutzer ist bereits vorhanden.',
         'Please press Back and try again.' => 'Bitte auf Zurück klicken und erneut versuchen.',
 
         # Template: Error

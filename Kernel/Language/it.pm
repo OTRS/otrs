@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.52 2007-10-02 10:45:42 mh Exp $
+# $Id: it.pm,v 1.53 2007-12-10 08:59:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -650,6 +650,15 @@ sub Data {
             'Accesso completo in lettura e scrittura alle richieste in questo gruppo/coda',
 
         # Template: AdminCustomerUserGroupForm
+
+        # Template: AdminCustomerUserServiceChangeForm
+        'Customer Users <-> Services Management'     => '',
+        'Select the customeruser:service relations.' => '',
+        'Allocate services to CustomerUser'          => '',
+        'Allocate CustomerUser to service'           => '',
+
+        # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => '',
 
         # Template: AdminEmail
         'Message sent to' => 'Messaggio inviato a',

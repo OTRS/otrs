@@ -5,7 +5,7 @@
 #               2006 Knut Haugen <knuthaug at linpro.no>
 #               2007 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.48 2007-10-02 10:45:42 mh Exp $
+# $Id: nb_NO.pm,v 1.49 2007-12-10 08:59:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.48 $;
+$VERSION = q$Revision: 1.49 $;
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -680,14 +680,14 @@ sub Data {
 
         # Template: AdminCustomerUserGroupForm
 
-        # Template: AdminCustomerUserService
-        'Customer Users <-> Services Management' => 'Kunde <-> Tjenesteadministrasjon',
-        'CustomerUser'                           => 'Kunde-bruker',
-        'Service'                                => 'Tjeneste',
-        'Search Result'                          => 'Søkeresultat',
-        'Allocate services to CustomerUser'      => 'Tilordne tjenester til kunde-bruker',
-        'Active'                                 => 'Aktiv',
-        'Allocate CustomerUser to service'       => 'Tilordne kunde-bruker til tjeneste',
+        # Template: AdminCustomerUserServiceChangeForm
+        'Customer Users <-> Services Management'     => 'Kunde <-> Tjenesteadministrasjon',
+        'Select the customeruser:service relations.' => '',
+        'Allocate services to CustomerUser'          => 'Tilordne tjenester til kunde-bruker',
+        'Allocate CustomerUser to service'           => 'Tilordne kunde-bruker til tjeneste',
+
+        # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => '',
 
         # Template: AdminEmail
         'Message sent to' => 'Melding sendt til',

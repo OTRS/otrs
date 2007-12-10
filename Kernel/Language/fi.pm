@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Update (C) 2007 Mikko Hynninen <first.last at cence.fi>
 # --
-# $Id: fi.pm,v 1.64 2007-10-02 10:45:42 mh Exp $
+# $Id: fi.pm,v 1.65 2007-12-10 08:59:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -664,6 +664,15 @@ sub Data {
             'Täysi luku ja kirjoitusoikeus tiketteihin tässä ryhmässä/jonossa.',
 
         # Template: AdminCustomerUserGroupForm
+
+        # Template: AdminCustomerUserServiceChangeForm
+        'Customer Users <-> Services Management'     => '',
+        'Select the customeruser:service relations.' => '',
+        'Allocate services to CustomerUser'          => '',
+        'Allocate CustomerUser to service'           => '',
+
+        # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => '',
 
         # Template: AdminEmail
         'Message sent to' => 'Viesti lähetetty, vastaanottaja: ',

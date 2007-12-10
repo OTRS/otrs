@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: bb.pm,v 1.28 2007-10-02 10:45:42 mh Exp $
+# $Id: bb.pm,v 1.29 2007-12-10 08:59:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -675,11 +675,14 @@ sub Data {
         # Template: AdminCustomerUserGroupForm
 
         # Template: AdminCustomerUserServiceChangeForm
-        'Customer Users <-> Services Management' => 'Kundanbenutzer <-> Services Verwaltung',
+        'Customer Users <-> Services Management' => 'Kundenbenutzer <-> Services Verwaltung',
         'Select the customeruser:service relations.' =>
-            'Auswahl der Kundanbenutzer:Service Beziehungen.',
+            'Auswahl der Kundenbenutzer:Service Beziehungen.',
+        'Allocate services to CustomerUser' => 'Services zuordnen zum Kundenbenutzer',
+        'Allocate CustomerUser to service'  => 'Kundenbenutzer zuordnen zum Service',
 
         # Template: AdminCustomerUserServiceForm
+        'Edit default services.' => 'Standard-Services bearbeiten.',
 
         # Template: AdminEmail
         'Message sent to' => 'Nachricht gesendet an',
