@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.5.2.3 2007-12-10 19:29:50 martin Exp $
+# $Id: EmailParser.t,v 1.5.2.4 2007-12-10 19:36:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -180,7 +180,6 @@ my %MatchNot = (
     "div" => 0,
     "html" => 0,
 );
-print $Self->{EmailParserObject}->GetMessageBody()."-----\n";
 for my $Key (sort keys %MatchNot) {
     if ( $Self->{EmailParserObject}->GetMessageBody() !~ /$Key/ ) {
         $MatchNot{$Key} = 1;
