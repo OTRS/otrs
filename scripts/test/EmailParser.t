@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.5.2.2 2007-11-13 17:01:47 martin Exp $
+# $Id: EmailParser.t,v 1.5.2.3 2007-12-10 19:29:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -150,6 +150,44 @@ if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i) {
         $Self->{EmailParserObject}->GetParam(WHAT => 'Subject'),
         'utf8: 使って / ISO-8859-1:  Priorität"  / cp-1251: Сергей Углицких',
         "#4 Subject()",
+    );
+}
+
+# match values
+my %Match = (
+    "Test1:".chr(8211) => 0,
+    "Test2:&" => 0,
+    "Test3:".chr(8715) => 0,
+    "Test4:&" => 0,
+    "Test5:".chr(hex("3d")) => 0,
+    "Compare Cable, DSL or Satellite" => 0,
+);
+for my $Key (sort keys %Match) {
+    if ( $Self->{EmailParserObject}->GetMessageBody() =~ /$Key/ ) {
+        $Match{$Key} = 1;
+    }
+    $Self->True(
+        $Match{$Key},
+        "#4 html2ascii - Body match - $Key",
+    );
+}
+
+# match values not
+my %MatchNot = (
+    "style" => 0,
+    "background" => 0,
+    "br" => 0,
+    "div" => 0,
+    "html" => 0,
+);
+print $Self->{EmailParserObject}->GetMessageBody()."-----\n";
+for my $Key (sort keys %MatchNot) {
+    if ( $Self->{EmailParserObject}->GetMessageBody() !~ /$Key/ ) {
+        $MatchNot{$Key} = 1;
+    }
+    $Self->True(
+        $MatchNot{$Key},
+        "#4 html2ascii - Body match not - $Key",
     );
 }
 
