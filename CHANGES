@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.516 2007-12-10 19:31:09 martin Exp $
+# $Id: CHANGES,v 1.517 2007-12-11 00:25:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,8 +10,9 @@
 # --
 
 CVS HEAD (????/??/??)
- - (2007/12/06) Fixed bug# 2568 - Problems with attachement downloads and the
-    active element filter
+ - (2007/12/10) Updated MIME::Tools to current CPAN version 5.425.
+ - (2007/12/06) Fixed bug# 2568 - Problems with attachement downloads if the
+    active element filter is enabled.
  - (2007/12/05) Fixed bug# 1399 - Missing Translation. Added some translation to
     customer interface.
  - (2007/12/04) Fixed bug# 2257 - Silent ignorance of SMTP / Sendmail errors,
@@ -46,6 +47,13 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.5 (2007/??/??)
+ - (2007/12/10) Fixed bug# 1428 - whitespaces remove from email subject
+    (notification and new tickets creation) if utf-8 is used.
+    The problem is a bug in MIME::Tools/MIME::Words, for more info see
+    CPAN-Bug# 5462: http://rt.cpan.org/Public/Bug/Display.html?id=5462
+    As solution Kernel/cpan-lib/MIME/Words.pm got patched. Note: anybody
+    who is not using Kernel/cpan-lib/ need to wait till this bug is fixed
+    in official MIME::Tools/MIME::Words releases.
  - (2007/12/10) Fixed bug# 2166 - Probem with HTML-mails sent by MS Outlook
     2003 - "&#8211;" / long dash gets not decoded.
  - (2007/12/10) Fixed bug# 2377 - Missing translation in
