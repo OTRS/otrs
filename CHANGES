@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.517 2007-12-11 00:25:41 martin Exp $
+# $Id: CHANGES,v 1.518 2007-12-11 14:26:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,15 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2007/12/11) Fixed bug# 2479 - Unable to retrieve attachments bigger than
+    3Mb (on Oracle DB). Changed default read size from 4 MB to 40 MB in
+    Kernel/System/DB/oracle.pm:
+
+    $Self->{'DB::Attribute'}      = {
+        LongTruncOk => 1,
+        LongReadLen => 40 * 1024 * 1024,
+    };
+
  - (2007/12/10) Updated MIME::Tools to current CPAN version 5.425.
  - (2007/12/06) Fixed bug# 2568 - Problems with attachement downloads if the
     active element filter is enabled.
@@ -47,11 +56,20 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.5 (2007/??/??)
+ - (2007/12/11) Fixed bug# 2479 - Unable to retrieve attachments bigger than
+    3Mb (on Oracle DB). Changed default read size from 4 MB to 12 MB in
+    Kernel/System/DB/oracle.pm:
+
+    $Self->{'DB::Attribute'}      = {
+        LongTruncOk => 1,
+        LongReadLen => 12 * 1024 * 1024,
+    };
+
  - (2007/12/10) Fixed bug# 1428 - whitespaces remove from email subject
     (notification and new tickets creation) if utf-8 is used.
     The problem is a bug in MIME::Tools/MIME::Words, for more info see
     CPAN-Bug# 5462: http://rt.cpan.org/Public/Bug/Display.html?id=5462
-    As solution Kernel/cpan-lib/MIME/Words.pm got patched. Note: anybody
+    As solution Kernel/cpan-lib/MIME/Words.pm got patched. Note: Everybody
     who is not using Kernel/cpan-lib/ need to wait till this bug is fixed
     in official MIME::Tools/MIME::Words releases.
  - (2007/12/10) Fixed bug# 2166 - Probem with HTML-mails sent by MS Outlook
