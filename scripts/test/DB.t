@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.19 2007-12-11 14:01:39 martin Exp $
+# $Id: DB.t,v 1.20 2007-12-11 14:22:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,9 @@ use Kernel::System::XML;
 
 $Self->{XMLObject} = Kernel::System::XML->new(%{$Self});
 
-# tests
+# ---
+# quoting tests
+# ---
 $Self->Is(
     $Self->{DBObject}->Quote(0, 'Integer'),
     0,
@@ -162,7 +164,9 @@ else {
     );
 }
 
-# XML test 1
+# ---
+# XML test 1 (XML:TableCreate, SQL:Insert, SQL:Select, SQL:Delete,  XML:TableDrop)
+# ---
 my $XML = '
 <TableCreate Name="test_a">
     <Column Name="name_a" Required="true" Size="60" Type="VARCHAR"/>
@@ -229,7 +233,10 @@ for my $SQL (@SQL) {
     );
 }
 
-# XML test 2
+# ---
+# XML test 2 (XML:TableCreate, XML:TableAlter, XML:Insert (size check),
+# SQL:Insert (size check), SQL:Delete,  XML:TableDrop)
+# ---
 $XML = '
 <TableCreate Name="test_a">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
@@ -493,7 +500,9 @@ for my $SQL (@SQL) {
     );
 }
 
-# XML test 3
+# ---
+# XML test 3 (XML:TableCreate, XML:Insert, SQL:Select (Start/Limit checks) XML:TableDrop)
+# ---
 $XML = '
 <TableCreate Name="test_b">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
@@ -641,7 +650,7 @@ $Self->True(
         Start => 200,
         Limit => 10,
     ) || 0,
-    '#4 Prepare() SELECT - Prepare - Start 10 - Limit 200 - like',
+    '#3 Prepare() SELECT - Prepare - Start 10 - Limit 200 - like',
 );
 while (my @Row = $Self->{DBObject}->FetchrowArray()) {
     if (!$Start) {
@@ -654,19 +663,19 @@ while (my @Row = $Self->{DBObject}->FetchrowArray()) {
 $Self->Is(
     $Count,
     0,
-    '#4 FetchrowArray () SELECT - Start 10 - Limit 200 - like - count',
+    '#3 FetchrowArray () SELECT - Start 10 - Limit 200 - like - count',
 );
 
 $Self->Is(
     $Start,
     0,
-    '#4 FetchrowArray () SELECT - Start 10 - Limit 200 - like - start',
+    '#3 FetchrowArray () SELECT - Start 10 - Limit 200 - like - start',
 );
 
 $Self->Is(
     $End,
     0,
-    '#4 FetchrowArray () SELECT - Start 10 - Limit 200 - like - end',
+    '#3 FetchrowArray () SELECT - Start 10 - Limit 200 - like - end',
 );
 
 $XML = '<TableDrop Name="test_b"/>';
@@ -683,5 +692,9 @@ for my $SQL (@SQL) {
         "#3 Do() DROP TABLE ($SQL)",
     );
 }
+
+# ---
+# XML test 4 (...)
+# ---
 
 1;
