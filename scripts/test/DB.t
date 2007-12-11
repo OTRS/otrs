@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.21 2007-12-11 15:30:54 mh Exp $
+# $Id: DB.t,v 1.22 2007-12-11 15:32:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -816,27 +816,6 @@ for my $TestRef ( @{$LikeTests} ) {
         delete $Result->{$Test};
     }
 }
-
-#$Self->True(
-#    $Self->{DBObject}->Prepare(
-#        SQL => 'SELECT * FROM test_c WHERE name_a = \'Some\'',
-#        Limit => 1,
-#    ),
-#    '#4 Prepare() SELECT - Prepare',
-#);
-#
-#$Self->True(
-#    ref($Self->{DBObject}->FetchrowArray()) eq '' &&
-#        ref($Self->{DBObject}->FetchrowArray()) eq '',
-#    '#4 FetchrowArray () SELECT',
-#);
-#
-#$Self->True(
-#    $Self->{DBObject}->Do(
-#        SQL => 'DELETE FROM valid WHERE name = \'Some\'',
-#    ) || 0,
-#    '#4 Do() DELETE',
-#);
 
 $XML = '<TableDrop Name="test_c"/>';
 @XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
