@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.27 2007-07-23 08:57:50 martin Exp $
+# $Id: oracle.pm,v 1.27.2.1 2007-12-11 14:29:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.27.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -45,7 +45,7 @@ sub LoadPreferences {
     $Self->{'DB::QuoteSemicolon'} = '';
     $Self->{'DB::Attribute'} = {
         LongTruncOk => 1,
-        LongReadLen => 4*1024*1024,
+        LongReadLen => 12*1024*1024,
     };
     # set current time stamp if different to "current_timestamp"
     $Self->{'DB::CurrentTimestamp'} = '';
