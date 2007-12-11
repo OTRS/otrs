@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.14.2.1 2007-12-11 14:28:15 martin Exp $
+# $Id: DB.t,v 1.14.2.2 2007-12-11 15:33:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -694,7 +694,142 @@ for my $SQL (@SQL) {
 }
 
 # ---
-# XML test 4 (...)
+# XML test 4 - SELECT * ... LIKE ...
 # ---
+$XML = '
+<TableCreate Name="test_c">
+    <Column Name="name_a" Required="true" Size="60" Type="VARCHAR"/>
+    <Column Name="name_b" Required="true" Size="60" Type="VARCHAR"/>
+</TableCreate>
+';
+@XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
+@SQL = $Self->{DBObject}->SQLProcessor(Database => \@XMLARRAY);
+$Self->True(
+    $SQL[0],
+    '#4 SQLProcessorPost() CREATE TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do(SQL => $SQL) || 0,
+        "#4 Do() CREATE TABLE ($SQL)",
+    );
+}
+
+my $Inserts = [
+    "INSERT INTO test_c (name_a, name_b) VALUES ( 'Block[1]Block[1]', 'Test1' )",
+    "INSERT INTO test_c (name_a, name_b) VALUES ( 'Block[1]Block[2]', 'Test2' )",
+    "INSERT INTO test_c (name_a, name_b) VALUES ( 'Block[2]Block[1]', 'Test3' )",
+    "INSERT INTO test_c (name_a, name_b) VALUES ( 'Block[2]Block[2]', 'Test4' )",
+    "INSERT INTO test_c (name_a, name_b) VALUES ( 'Block[11]Block[22]', 'Test5' )",
+    "INSERT INTO test_c (name_a, name_b) VALUES ( 'Block[22]Block[11]', 'Test6' )",
+    "INSERT INTO test_c (name_a, name_b) VALUES ( 'Block[12]Block[12]', 'Test7' )",
+];
+
+for my $Insert (@{$Inserts}) {
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $Insert ) || 0,
+        '#4 Do() INSERT',
+    );
+}
+
+my $LikeTests = [
+    {
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[%]Block[%]'",
+        Result => {
+            Test1 => 1,
+            Test2 => 1,
+            Test3 => 1,
+            Test4 => 1,
+            Test5 => 1,
+            Test6 => 1,
+            Test7 => 1,
+        },
+    },
+    {
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[1]Block[%]'",
+        Result => {
+            Test1 => 1,
+            Test2 => 1,
+        },
+    },
+    {
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[2]Block[%]'",
+        Result => {
+            Test3 => 1,
+            Test4 => 1,
+        },
+    },
+    {
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[2]Block[1]'",
+        Result => {
+            Test3 => 1,
+        },
+    },
+    {
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[%]Block[1]'",
+        Result => {
+            Test1 => 1,
+            Test3 => 1,
+        },
+    },
+    {
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[11]Block[%]'",
+        Result => {
+            Test5 => 1,
+        },
+    },
+    {
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[22]Block[%]'",
+        Result => {
+            Test6 => 1,
+        },
+    },
+    {
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[%]Block[%1]'",
+        Result => {
+            Test1 => 1,
+            Test3 => 1,
+            Test6 => 1,
+        },
+    },
+    {
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[12]Block[12]'",
+        Result => {
+            Test7 => 1,
+        },
+    },
+];
+
+for my $TestRef ( @{$LikeTests} ) {
+    my $SQLSelect = $TestRef->{Select};
+    my $Result = $TestRef->{Result};
+
+    $Self->{DBObject}->Prepare( SQL => $SQLSelect );
+
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Self->True( $Result->{ $Row[0] }, "#4 SELECT ... LIKE ... - $Row[0]" );
+        delete $Result->{ $Row[0] };
+    }
+    for my $Test (keys %{$Result}) {
+        $Self->False( $Test, "#4 SELECT ... LIKE ... - $Test" );
+        delete $Result->{$Test};
+    }
+}
+
+$XML = '<TableDrop Name="test_c"/>';
+@XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
+@SQL = $Self->{DBObject}->SQLProcessor(Database => \@XMLARRAY);
+$Self->True(
+    $SQL[0],
+    '#4 SQLProcessorPost() DROP TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do(SQL => $SQL) || 0,
+        "#4 Do() DROP TABLE ($SQL)",
+    );
+}
 
 1;
