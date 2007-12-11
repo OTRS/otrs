@@ -117,7 +117,13 @@ sub _decode_Q {
 #     almost, but not exactly, quoted-printable.  :-P
 sub _encode_Q {
     my $str = shift;
-    $str =~ s{([_\?\=$NONPRINT])}{sprintf("=%02X", ord($1))}eog;
+# ---
+# 2007-12-10 added patch/workaround for bug in MIME::Words
+# bug #5462: MIME::Words::encode_mimewords strips spaces
+# see: http://rt.cpan.org/Public/Bug/Display.html?id=5462
+#    $str =~ s{([_\?\=$NONPRINT])}{sprintf("=%02X", ord($1))}eog;
+    $str =~ s{([ _\?\=$NONPRINT])}{sprintf("=%02X", ord($1))}eog;
+# ---
     $str;
 }
 
@@ -310,7 +316,13 @@ sub encode_mimewords {
     ###    We limit such words to 18 characters, to guarantee that the 
     ###    worst-case encoding give us no more than 54 + ~10 < 75 characters
     my $word;
-    $rawstr =~ s{([a-zA-Z0-9\x7F-\xFF]{1,18})}{     ### get next "word"
+# ---
+# 2007-12-10 added patch/workaround for bug in MIME::Words
+# bug #5462: MIME::Words::encode_mimewords strips spaces
+# see: http://rt.cpan.org/Public/Bug/Display.html?id=5462
+#    $rawstr =~ s{([a-zA-Z0-9\x7F-\xFF]{1,18})}{     ### get next "word"
+# ---
+    $rawstr =~ s{([a-zA-Z0-9\x7F-\xFF]+\s*)}{     ### get next "word"
 	$word = $1;
 	(($word !~ /[$NONPRINT]/o) 
 	 ? $word                                          ### no unsafe chars
