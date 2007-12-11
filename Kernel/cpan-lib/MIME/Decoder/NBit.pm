@@ -92,7 +92,7 @@ use MIME::Tools qw(:msgs);
 @ISA = qw(MIME::Decoder);
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.423";
+$VERSION = "5.425";
 
 ### How many bytes to decode at a time?
 my $DecodeChunkLength = 8 * 1024;

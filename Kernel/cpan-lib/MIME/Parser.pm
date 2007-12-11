@@ -180,7 +180,7 @@ package MIME::Parser;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.423";
+$VERSION = "5.425";
 
 ### How to catenate:
 $CAT = '/bin/cat';
@@ -1475,6 +1475,25 @@ sub output_to_core {
     }
     $self->{MP5_FilerToCore};
 }
+
+
+=item tmp_recycling
+
+I<Instance method, DEPRECATED.>
+
+This method is a no-op to preserve the pre-5.421 API.
+
+The tmp_recycling() feature was removed in 5.421 because it had never actually
+worked.  Please update your code to stop using it.
+
+=cut
+
+sub tmp_recycling 
+{
+	return;
+}
+
+
 
 #------------------------------
 

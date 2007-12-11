@@ -246,7 +246,7 @@ use IO::Lines;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.423";
+$VERSION = "5.425";
 
 ### Boundary counter:
 my $BCount = 0;
@@ -738,7 +738,9 @@ sub dup {
 
 I<Instance method.>
 Get the I<encoded> (transport-ready) body, as an array of lines.
-Returns an array reference.
+Returns an array reference.  Each array entry is a newline-terminated
+line.
+
 This is a read-only data structure: changing its contents will have
 no effect.  Its contents are identical to what is printed by
 L<print_body()|/print_body>.
@@ -765,6 +767,9 @@ sub body {
 		$self->print_body($fh);
 		close($fh);
 		my @ary = split(/\n/, $output);
+		# Each line needs the terminating newline
+		@ary = map { "$_\n" } @ary;
+
 		return \@ary;
 	}
 }
