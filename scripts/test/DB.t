@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.14 2007-05-07 08:24:25 martin Exp $
+# $Id: DB.t,v 1.14.2.1 2007-12-11 14:28:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,9 @@ use Kernel::System::XML;
 
 $Self->{XMLObject} = Kernel::System::XML->new(%{$Self});
 
-# tests
+# ---
+# quoting tests
+# ---
 $Self->Is(
     $Self->{DBObject}->Quote(0, 'Integer'),
     0,
@@ -162,7 +164,9 @@ else {
     );
 }
 
-# XML test 1
+# ---
+# XML test 1 (XML:TableCreate, SQL:Insert, SQL:Select, SQL:Delete,  XML:TableDrop)
+# ---
 my $XML = '
 <TableCreate Name="test_a">
     <Column Name="name_a" Required="true" Size="60" Type="VARCHAR"/>
@@ -179,7 +183,7 @@ $Self->True(
     '#1 SQLProcessorPost() CREATE TABLE',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#1 Do() CREATE TABLE ($SQL)",
@@ -222,14 +226,17 @@ $Self->True(
     '#1 SQLProcessorPost() DROP TABLE',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#1 Do() DROP TABLE ($SQL)",
     );
 }
 
-# XML test 2
+# ---
+# XML test 2 (XML:TableCreate, XML:TableAlter, XML:Insert (size check),
+# SQL:Insert (size check), SQL:Delete,  XML:TableDrop)
+# ---
 $XML = '
 <TableCreate Name="test_a">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
@@ -247,7 +254,7 @@ $Self->True(
     '#2 SQLProcessorPost() CREATE TABLE',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#2 Do() CREATE TABLE ($SQL)",
@@ -269,7 +276,7 @@ $Self->True(
     '#2 SQLProcessorPost() ALTER TABLE',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#2 Do() CREATE TABLE ($SQL)",
@@ -289,7 +296,7 @@ $Self->True(
     '#2 SQLProcessorPost() INSERT 1',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#2 Do() XML INSERT 1 ($SQL)",
@@ -304,10 +311,11 @@ $Self->True(
 );
 # xml
 my $String = '';
-foreach (1..6) {
-    $String .= $String.$_."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz";
+for my $Count (1..6) {
+    $String .= $String.$Count."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxy ";
     my $Length = length($String);
     my $Size = $Length;
+    my $Key = 'Some116'.$Count;
     if ($Size > (1024*1024)) {
          $Size = sprintf "%.1f MBytes", ($Size/(1024*1024));
     }
@@ -319,30 +327,45 @@ foreach (1..6) {
     }
     $XML = '
         <Insert Table="test_a">
-            <Data Key="name_a" Type="Quote">Some'.$_.'</Data>
-            <Data Key="name_b" Type="Quote">Lalala '.$String.'</Data>
+            <Data Key="name_a" Type="Quote">'.$Key.'</Data>
+            <Data Key="name_b" Type="Quote">'.$String.'</Data>
         </Insert>
     ';
     @XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
     @SQL = $Self->{DBObject}->SQLProcessor(Database => \@XMLARRAY);
     $Self->True(
         $SQL[0],
-        "#2 SQLProcessorPost() INSERT 2 - $_",
+        "#2 SQLProcessorPost() INSERT 2 - $Count",
     );
 
-    foreach my $SQL (@SQL) {
+    for my $SQL (@SQL) {
+        # insert
         $Self->True(
             $Self->{DBObject}->Do(SQL => $SQL) || 0,
-            "#2 Do() XML INSERT 2 - $_ (length:$Length/$Size)",
+            "#2 Do() XML INSERT 2 - $Count (length:$Length/$Size)",
+        );
+        # select
+        $Self->{DBObject}->Prepare(
+            SQL => 'SELECT name_b FROM test_a WHERE name_a = \''.$Key.'\'',
+        );
+        my $LengthBack = 0;
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $LengthBack = length($Row[0]);
+        }
+        $Self->Is(
+            $LengthBack,
+            $Length,
+            "#2 Do() SQL SELECT 2 - $Count",
         );
     }
 }
 # sql
 $String = '';
-foreach (1..6) {
-    $String .= $String.$_."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz";
+for my $Count (1..6) {
+    $String .= $String.$Count."abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz";
     my $Length = length($String);
     my $Size = $Length;
+    my $Key = 'Some216'.$Count;
     if ($Size > (1024*1024)) {
          $Size = sprintf "%.1f MBytes", ($Size/(1024*1024));
     }
@@ -352,19 +375,34 @@ foreach (1..6) {
     else {
          $Size = $Size.' Bytes';
     }
+    # insert
     $Self->True(
         $Self->{DBObject}->Do(
-            SQL => "INSERT INTO test_a (name_a, name_b) VALUES ('Some".$_."', '$String')",
+            SQL => "INSERT INTO test_a (name_a, name_b) VALUES ('$Key', '$String')",
         ) || 0,
-        "#2 Do() SQL INSERT 2 - $_ (length:$Length/$Size)",
+        "#2 Do() SQL INSERT 2 - $Count (length:$Length/$Size)",
+    );
+    # select
+    $Self->{DBObject}->Prepare(
+        SQL => 'SELECT name_b FROM test_a WHERE name_a = \''.$Key.'\'',
+    );
+    my $LengthBack = 0;
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $LengthBack = length($Row[0]);
+    }
+    $Self->Is(
+        $LengthBack,
+        $Length,
+        "#2 Do() SQL SELECT 2 - $Count",
     );
 }
 # sql bind
 $String = '';
-foreach (1..19) {
-    $String .= $String." $_ abcdefghijklmno1234567890";
+for my $Count (1..19) {
+    $String .= $String." $Count abcdefghijklmno1234567890";
     my $Length = length($String);
     my $Size = $Length;
+    my $Key = 'Some119'.$Count;
     if ($Size > (1024*1024)) {
          $Size = sprintf "%.1f MBytes", ($Size/(1024*1024));
     }
@@ -374,13 +412,26 @@ foreach (1..19) {
     else {
          $Size = $Size.' Bytes';
     }
+    # insert
     $Self->True(
         $Self->{DBObject}->Do(
-            SQL => "INSERT INTO test_a (name_a, name_b) VALUES ('Some".$_."', ?)",
+            SQL => "INSERT INTO test_a (name_a, name_b) VALUES ('$Key', ?)",
             Bind => [\$String],
         ) || 0,
-        "#2 Do() SQL INSERT (bind) 2 - $_ (length:$Length/$Size)",
-
+        "#2 Do() SQL INSERT (bind) 2 - $Count (length:$Length/$Size)",
+    );
+    # select
+    $Self->{DBObject}->Prepare(
+        SQL => 'SELECT name_b FROM test_a WHERE name_a = \''.$Key.'\'',
+    );
+    my $LengthBack = 0;
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $LengthBack = length($Row[0]);
+    }
+    $Self->Is(
+        $LengthBack,
+        $Length,
+        "#2 Do() SQL SELECT 2 - $Count",
     );
 }
 
@@ -442,19 +493,21 @@ $Self->True(
     '#2 SQLProcessorPost() DROP TABLE',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#2 Do() DROP TABLE ($SQL)",
     );
 }
 
-# XML test 3
+# ---
+# XML test 3 (XML:TableCreate, XML:Insert, SQL:Select (Start/Limit checks) XML:TableDrop)
+# ---
 $XML = '
 <TableCreate Name="test_b">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
     <Column Name="name_a" Required="true" Size="60" Type="VARCHAR"/>
-    <Column Name="name_b" Required="true" Size="500000" Type="VARCHAR"/>
+    <Column Name="name_b" Required="true" Size="500" Type="VARCHAR"/>
     <Index Name="index_test_name_a">
         <IndexColumn Name="name_a"/>
     </Index>
@@ -467,7 +520,7 @@ $Self->True(
     '#3 SQLProcessorPost() CREATE TABLE',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#3 Do() CREATE TABLE ($SQL)",
@@ -475,24 +528,40 @@ foreach my $SQL (@SQL) {
 }
 
 # xml
-foreach (1..40) {
+for my $Count (1..40) {
+    my $Value = 'Some140'.$Count;
+    my $Length = length($Value);
     $XML = '
         <Insert Table="test_b">
-            <Data Key="name_a" Type="Quote">Some</Data>
-            <Data Key="name_b" Type="Quote">'.$_.'</Data>
+            <Data Key="name_a" Type="Quote">'.$Value.'</Data>
+            <Data Key="name_b" Type="Quote">'.$Count.'</Data>
         </Insert>
     ';
     @XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
     @SQL = $Self->{DBObject}->SQLProcessor(Database => \@XMLARRAY);
     $Self->True(
         $SQL[0],
-        "#3 SQLProcessorPost() INSERT - $_",
+        "#3 SQLProcessorPost() INSERT - $Count",
     );
 
-    foreach my $SQL (@SQL) {
+    for my $SQL (@SQL) {
+        # insert
         $Self->True(
             $Self->{DBObject}->Do(SQL => $SQL) || 0,
-            "#3 Do() XML INSERT - $_ ",
+            "#3 Do() XML INSERT - $Count ",
+        );
+        # select
+        $Self->{DBObject}->Prepare(
+            SQL => 'SELECT name_a FROM test_b WHERE name_b = \''.$Count.'\'',
+        );
+        my $LengthBack = 0;
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $LengthBack = length($Row[0]);
+        }
+        $Self->Is(
+            $LengthBack,
+            $Length,
+            "#3 Do() SQL SELECT - $Count",
         );
     }
 }
@@ -581,7 +650,7 @@ $Self->True(
         Start => 200,
         Limit => 10,
     ) || 0,
-    '#4 Prepare() SELECT - Prepare - Start 10 - Limit 200 - like',
+    '#3 Prepare() SELECT - Prepare - Start 10 - Limit 200 - like',
 );
 while (my @Row = $Self->{DBObject}->FetchrowArray()) {
     if (!$Start) {
@@ -594,19 +663,19 @@ while (my @Row = $Self->{DBObject}->FetchrowArray()) {
 $Self->Is(
     $Count,
     0,
-    '#4 FetchrowArray () SELECT - Start 10 - Limit 200 - like - count',
+    '#3 FetchrowArray () SELECT - Start 10 - Limit 200 - like - count',
 );
 
 $Self->Is(
     $Start,
     0,
-    '#4 FetchrowArray () SELECT - Start 10 - Limit 200 - like - start',
+    '#3 FetchrowArray () SELECT - Start 10 - Limit 200 - like - start',
 );
 
 $Self->Is(
     $End,
     0,
-    '#4 FetchrowArray () SELECT - Start 10 - Limit 200 - like - end',
+    '#3 FetchrowArray () SELECT - Start 10 - Limit 200 - like - end',
 );
 
 $XML = '<TableDrop Name="test_b"/>';
@@ -617,11 +686,15 @@ $Self->True(
     '#3 SQLProcessorPost() DROP TABLE',
 );
 
-foreach my $SQL (@SQL) {
+for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#3 Do() DROP TABLE ($SQL)",
     );
 }
+
+# ---
+# XML test 4 (...)
+# ---
 
 1;
