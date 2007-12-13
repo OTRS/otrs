@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
 # --
-# $Id: DateChecksum.pm,v 1.21 2007-01-29 16:18:46 martin Exp $
+# $Id: DateChecksum.pm,v 1.21.2.1 2007-12-13 01:57:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,7 +29,7 @@ package Kernel::System::Ticket::Number::DateChecksum;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.21.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketCreateNumber {
@@ -149,7 +149,7 @@ sub GetTNByString {
     }
     else {
         # check default setting
-        if ($String =~ /\Q$TicketHook\E:+.{0,2}(\d{4,10}$SystemID\d{4,40})/i) {
+        if ($String =~ /\Q$TicketHook\E:\s{0,2}(\d{4,10}$SystemID\d{4,40})/i) {
             return $1;
         }
         else {
