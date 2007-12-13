@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.5 2007-09-29 11:09:57 mh Exp $
+# $Id: PostMaster.t,v 1.6 2007-12-13 01:36:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -54,8 +54,7 @@ for my $Module (qw(DB FS)) {
     );
 }
 
-#for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
-for my $NumberModule (qw(Random)) {
+for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
     $Self->{ConfigObject}->Set(
         Key => 'Ticket::NumberGenerator',
         Value => "Kernel::System::Ticket::Number::$NumberModule",
@@ -65,9 +64,12 @@ for my $NumberModule (qw(Random)) {
             Key => 'Ticket::StorageModule',
             Value => "Kernel::System::Ticket::$StorageModule",
         );
+
         # get rand sender address
         my $UserRand1 = 'example-user'.int(rand(1000000)).'@example.com';
+
         for my $File (qw(1 2 3 6)) {
+
             # new ticket check
             my @Content = ();
             open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/PostMaster-Test$File.box") || die $!;
@@ -101,12 +103,14 @@ for my $NumberModule (qw(Random)) {
                 $Return[1] || 0,
                 "#$NumberModule $StorageModule $File Run() - NewTicket/TicketID",
             );
+
             # new/clear ticket object
             $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
             my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Return[1]);
             my @ArticleIDs = $Self->{TicketObject}->ArticleIndex(
                 TicketID => $Return[1],
             );
+
             if ($File == 3) {
                 # check body
                 my %Article = $Self->{TicketObject}->ArticleGet(
@@ -140,6 +144,7 @@ for my $NumberModule (qw(Random)) {
 
             }
             if ($File == 6) {
+
                 # check body
                 my %Article = $Self->{TicketObject}->ArticleGet(
                     ArticleID => $ArticleIDs[0],
@@ -151,6 +156,7 @@ for my $NumberModule (qw(Random)) {
                     '2ac290235a8cad953a1837c77701c5dc',
                     "#$NumberModule $StorageModule $File md5 body check",
                 );
+
                 # check attachments
                 my %Index = $Self->{TicketObject}->ArticleAttachmentIndex(
                     ArticleID => $ArticleIDs[0],
@@ -200,6 +206,7 @@ for my $NumberModule (qw(Random)) {
                 $Return[1] || 0,
                 "#$NumberModule $StorageModule $File Run() - FollowUp/TicketID",
             );
+
             # new/clear ticket object
             $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
             %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Return[1]);
@@ -243,6 +250,76 @@ for my $NumberModule (qw(Random)) {
                 $Return[1] || 0,
                 "#$NumberModule $StorageModule $File Run() - FollowUp/TicketID",
             );
+
+            # send follow up #3
+            @Content = ();
+            for my $Line (@ContentNew) {
+                if ($Line =~ /^Subject:/) {
+                    $Line = 'Subject: '.$Self->{ConfigObject}->Get('Ticket::Hook').": $Ticket{TicketNumber}";
+                }
+                push (@Content, $Line);
+            }
+            $Self->{PostMasterObject} = Kernel::System::PostMaster->new(
+                %{$Self},
+                Email => \@Content,
+            );
+            @Return = $Self->{PostMasterObject}->Run();
+            $Self->Is(
+                $Return[0] || 0,
+                2,
+                "#$NumberModule $StorageModule $File Run() - FollowUp (Ticket::Hook#: xxxxxxxxxx)",
+            );
+            $Self->True(
+                $Return[1] || 0,
+                "#$NumberModule $StorageModule $File Run() - FollowUp/TicketID",
+            );
+
+            # send follow up #4
+            @Content = ();
+            for my $Line (@ContentNew) {
+                if ($Line =~ /^Subject:/) {
+                    $Line = 'Subject: '.$Self->{ConfigObject}->Get('Ticket::Hook').":$Ticket{TicketNumber}";
+                }
+                push (@Content, $Line);
+            }
+            $Self->{PostMasterObject} = Kernel::System::PostMaster->new(
+                %{$Self},
+                Email => \@Content,
+            );
+            @Return = $Self->{PostMasterObject}->Run();
+            $Self->Is(
+                $Return[0] || 0,
+                2,
+                "#$NumberModule $StorageModule $File Run() - FollowUp (Ticket::Hook#:xxxxxxxxxx)",
+            );
+            $Self->True(
+                $Return[1] || 0,
+                "#$NumberModule $StorageModule $File Run() - FollowUp/TicketID",
+            );
+
+            # send follow up #5
+            @Content = ();
+            for my $Line (@ContentNew) {
+                if ($Line =~ /^Subject:/) {
+                    $Line = 'Subject: '.$Self->{ConfigObject}->Get('Ticket::Hook')."$Ticket{TicketNumber}";
+                }
+                push (@Content, $Line);
+            }
+            $Self->{PostMasterObject} = Kernel::System::PostMaster->new(
+                %{$Self},
+                Email => \@Content,
+            );
+            @Return = $Self->{PostMasterObject}->Run();
+            $Self->Is(
+                $Return[0] || 0,
+                2,
+                "#$NumberModule $StorageModule $File Run() - FollowUp (Ticket::Hook#xxxxxxxxxx)",
+            );
+            $Self->True(
+                $Return[1] || 0,
+                "#$NumberModule $StorageModule $File Run() - FollowUp/TicketID",
+            );
+
             # new/clear ticket object
             $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
             %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Return[1]);
@@ -288,6 +365,7 @@ for my $NumberModule (qw(Random)) {
                 $Return[1] || 0,
                 "#$NumberModule $StorageModule $File Run() - FollowUp/TicketID",
             );
+
             # new/clear ticket object
             $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
             %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Return[1]);
@@ -309,4 +387,5 @@ for my $NumberModule (qw(Random)) {
         }
     }
 }
+
 1;

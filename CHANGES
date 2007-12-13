@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.518 2007-12-11 14:26:51 martin Exp $
+# $Id: CHANGES,v 1.519 2007-12-13 01:36:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -56,6 +56,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.5 (2007/??/??)
+ - (2007/12/12) Fixed bug# 2581 - Follow up not possible if "ticket#: xxxxxxx"
+    is copied from webinterface into new email subject.
  - (2007/12/11) Fixed bug# 2479 - Unable to retrieve attachments bigger than
     3Mb (on Oracle DB). Changed default read size from 4 MB to 12 MB in
     Kernel/System/DB/oracle.pm:
