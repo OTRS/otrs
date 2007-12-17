@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.22 2007-12-11 15:32:58 mh Exp $
+# $Id: DB.t,v 1.23 2007-12-17 15:45:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -829,6 +829,95 @@ for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#4 Do() DROP TABLE ($SQL)",
+    );
+}
+
+# ---
+# XML test 5 - INSERT special characters test
+# ---
+$XML = '
+<TableCreate Name="test_d">
+    <Column Name="name_a" Required="true" Size="60" Type="VARCHAR"/>
+    <Column Name="name_b" Required="true" Size="60" Type="VARCHAR"/>
+</TableCreate>
+';
+@XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
+@SQL = $Self->{DBObject}->SQLProcessor(Database => \@XMLARRAY);
+$Self->True(
+    $SQL[0],
+    '#5 SQLProcessorPost() CREATE TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do(SQL => $SQL) || 0,
+        "#5 Do() CREATE TABLE ($SQL)",
+    );
+}
+
+my $InsertTest = [
+    {
+        name_a => 'Test1',
+        name_b => '-',
+    },
+    {
+        name_a => 'Test2',
+        name_b => ';',
+    },
+    {
+        name_a => 'Test3',
+        name_b => '\'',
+    },
+    {
+        name_a => 'Test4',
+        name_b => '\"',
+    },
+    {
+        name_a => 'Test5',
+        name_b => '\\',
+    },
+];
+
+for my $Test (@{$InsertTest}) {
+    my $name_a = $Self->{DBObject}->Quote("$Test->{name_a}");
+    my $name_b = $Self->{DBObject}->Quote("$Test->{name_b}");
+
+    my $SQLInsert = "INSERT INTO test_d (name_a, name_b) VALUES ( '$name_a', '$name_b' )";
+
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQLInsert ) || 0,
+        '#5 Do() INSERT',
+    );
+}
+
+for my $Test (@{$InsertTest}) {
+    my $name_a = $Test->{name_a};
+    my $name_b = $Test->{name_b};
+
+    my $SQLSelect = "SELECT name_b FROM test_d WHERE name_a = '$name_a'";
+
+    $Self->{DBObject}->Prepare( SQL => $SQLSelect, Limit => 1);
+
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Self->True(
+            $Row[0] eq $Test->{name_b},
+            '#5 Value check',
+        );
+    }
+}
+
+$XML = '<TableDrop Name="test_d"/>';
+@XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
+@SQL = $Self->{DBObject}->SQLProcessor(Database => \@XMLARRAY);
+$Self->True(
+    $SQL[0],
+    '#5 SQLProcessorPost() DROP TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do(SQL => $SQL) || 0,
+        "#5 Do() DROP TABLE ($SQL)",
     );
 }
 
