@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.51 2007-11-07 16:31:59 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.52 2007-12-17 10:56:40 ak Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -167,7 +167,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'View' ) {
         my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
-        my $Loaction = $Self->{ParamObject}->GetParam( Param => 'Location' );
+        my $Location = $Self->{ParamObject}->GetParam( Param => 'Location' );
         my %Frontend = ();
         my $Package  = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
@@ -196,12 +196,15 @@ sub Run {
         my %Structure = $Self->{PackageObject}->PackageParse( String => $Package );
 
         # check if file is requested
-        if ($Loaction) {
+        if ($Location) {
             if ( ref( $Structure{Filelist} ) eq 'ARRAY' ) {
                 for my $Hash ( @{ $Structure{Filelist} } ) {
-                    if ( $Hash->{Location} eq $Loaction ) {
+                    if ( $Hash->{Location} eq $Location ) {
+                        my @FilePath = split('/', $Location);
+                        my $FileName = $FilePath[$#FilePath];
+                        $FileName = $FileName ? $FileName : $Location;
                         return $Self->{LayoutObject}->Attachment(
-                            Filename    => $Loaction,
+                            Filename    => $FileName,
                             ContentType => 'application/octet-stream',
                             Content     => $Hash->{Content},
                         );
@@ -381,7 +384,7 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'ViewRemote' ) {
         my $File     = $Self->{ParamObject}->GetParam( Param => 'File' ) || '';
-        my $Loaction = $Self->{ParamObject}->GetParam( Param => 'Location' );
+        my $Location = $Self->{ParamObject}->GetParam( Param => 'Location' );
         my %Frontend = ();
 
         # download package
@@ -401,14 +404,16 @@ sub Run {
             Name => 'PackageDownloadRemote',
             Data => { %Param, %Frontend, File => $File, },
         );
-
         # check if file is requested
-        if ($Loaction) {
+        if ($Location) {
             if ( ref( $Structure{Filelist} ) eq 'ARRAY' ) {
                 for my $Hash ( @{ $Structure{Filelist} } ) {
-                    if ( $Hash->{Location} eq $Loaction ) {
+                    if ( $Hash->{Location} eq $Location ) {
+                        my @FilePath = split('/', $Location);
+                        my $FileName = $FilePath[$#FilePath];
+                        $FileName = $FileName ? $FileName : $Location;
                         return $Self->{LayoutObject}->Attachment(
-                            Filename    => $Loaction,
+                            Filename    => $FileName,
                             ContentType => 'application/octet-stream',
                             Content     => $Hash->{Content},
                         );
