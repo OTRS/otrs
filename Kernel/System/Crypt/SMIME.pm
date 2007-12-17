@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.11 2007-08-21 19:55:45 martin Exp $
+# $Id: SMIME.pm,v 1.11.2.1 2007-12-17 09:27:41 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::SMIME;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.11.2.1 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -45,6 +45,9 @@ sub _Init {
     else {
         $Self->{CertPathArg} = '';
     }
+
+    # ensure that there is a random state file that we can write to (otherwise openssl will bail
+    $ENV{RANDFILE} ||= $Self->{ConfigObject}->Get('TempDir') . '/.rnd';
 
     return $Self;
 }
@@ -638,7 +641,7 @@ sub CertificateAttributes {
         $Attributes{$Key} = $Line;
     }
     if ($Attributes{Hash}) {
-        my $Private = $Self->PrivateGet(Hash => $Attributes{Hash});
+        my ($Private) = $Self->PrivateGet(Hash => $Attributes{Hash});
         if ($Private) {
             $Attributes{Private} = 'Yes';
         }
@@ -908,6 +911,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2007-08-21 19:55:45 $
+$Revision: 1.11.2.1 $ $Date: 2007-12-17 09:27:41 $
 
 =cut
