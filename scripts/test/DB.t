@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.23 2007-12-17 15:45:28 mh Exp $
+# $Id: DB.t,v 1.24 2007-12-17 15:52:26 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -901,7 +901,7 @@ for my $Test (@{$InsertTest}) {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Self->True(
             $Row[0] eq $Test->{name_b},
-            '#5 Value check',
+            "#5 Check special character $Test->{name_b}",
         );
     }
 }
