@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.24 2007-12-17 15:52:26 mh Exp $
+# $Id: DB.t,v 1.25 2007-12-17 16:09:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -133,7 +133,7 @@ elsif ($Self->{DBObject}->{'DB::Type'} =~ /mssql/i) {
 
     $Self->Is(
         $Self->{DBObject}->Quote("Test'l;"),
-        'Test\'\'l\\;',
+        'Test\'\'l;',
         'Quote() String - Test\'l;',
     );
 }

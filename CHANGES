@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.520 2007-12-17 09:27:34 ot Exp $
+# $Id: CHANGES,v 1.521 2007-12-17 16:12:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -58,6 +58,7 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.5 (2007/??/??)
+ - (2007/12/17) Fixed bug# 2580 - Wrong quoating of semicolon if mssql is used.
  - (2007/12/12) Fixed bug# 2581 - Follow up not possible if "ticket#: xxxxxxx"
     is copied from webinterface into new email subject.
  - (2007/12/11) Fixed bug# 2479 - Unable to retrieve attachments bigger than
