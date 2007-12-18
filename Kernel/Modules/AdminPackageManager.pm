@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.53 2007-12-17 23:38:22 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.54 2007-12-18 08:59:43 ak Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -200,6 +200,9 @@ sub Run {
             if ( ref( $Structure{Filelist} ) eq 'ARRAY' ) {
                 for my $Hash ( @{ $Structure{Filelist} } ) {
                     if ( $Hash->{Location} eq $Location ) {
+                        my @FilePath = split('/', $Location);
+                        my $FileName = $FilePath[$#FilePath];
+                        $FileName = $FileName ? $FileName : $Location;
                         return $Self->{LayoutObject}->Attachment(
                             Filename    => $Location,
                             ContentType => 'application/octet-stream',
@@ -406,6 +409,9 @@ sub Run {
             if ( ref( $Structure{Filelist} ) eq 'ARRAY' ) {
                 for my $Hash ( @{ $Structure{Filelist} } ) {
                     if ( $Hash->{Location} eq $Location ) {
+                        my @FilePath = split('/', $Location);
+                        my $FileName = $FilePath[$#FilePath];
+                        $FileName = $FileName ? $FileName : $Location;
                         return $Self->{LayoutObject}->Attachment(
                             Filename    => $Location,
                             ContentType => 'application/octet-stream',
