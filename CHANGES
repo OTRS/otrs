@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.43 2007-12-17 16:13:35 mh Exp $
+# $Id: CHANGES,v 1.465.2.44 2007-12-18 11:07:50 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.5 (2007/??/??)
+ - (2007/12/18) Fixed bug# 2295 - IE7 tries to download [ Attachments ] or
+    [ Attachments <-> Responses ].
  - (2007/12/17) Fixed bug# 2580 - Wrong quoating of semicolon if mssql is used.
  - (2007/12/17) Fixed bug# 2539 - SMIME signing was broken for private keys that
    have no passphrase and when openssl is unable to write to random state file.
