@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.54 2007-12-18 08:59:43 ak Exp $
+# $Id: AdminPackageManager.pm,v 1.55 2007-12-18 09:03:22 ak Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -204,7 +204,7 @@ sub Run {
                         my $FileName = $FilePath[$#FilePath];
                         $FileName = $FileName ? $FileName : $Location;
                         return $Self->{LayoutObject}->Attachment(
-                            Filename    => $Location,
+                            Filename    => $FileName,
                             ContentType => 'application/octet-stream',
                             Content     => $Hash->{Content},
                         );
@@ -413,7 +413,7 @@ sub Run {
                         my $FileName = $FilePath[$#FilePath];
                         $FileName = $FileName ? $FileName : $Location;
                         return $Self->{LayoutObject}->Attachment(
-                            Filename    => $Location,
+                            Filename    => $FileName,
                             ContentType => 'application/octet-stream',
                             Content     => $Hash->{Content},
                         );
