@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.51.2.4 2007-10-26 10:03:46 mh Exp $
+# $Id: Layout.pm,v 1.51.2.5 2007-12-18 10:28:30 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.51.2.4 $';
+$VERSION = '$Revision: 1.51.2.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -137,7 +137,7 @@ sub new {
             if ($1 =~ /(\d)\.(\d)/) {
                 $Self->{BrowserMajorVersion} = $1;
                 $Self->{BrowserMinorVersion} = $2;
-                if ($1 == 5 && $2 == 5 || $1 == 6 && $2 == 0) {
+                if ($1 == 5 && $2 == 5 || $1 == 6 && $2 == 0 || $1 == 7 && $2 == 0 ) {
                     $Self->{BrowserBreakDispositionHeader} = 1;
                 }
             }
@@ -1353,6 +1353,9 @@ sub Print {
                     MainObject => $Self->{MainObject},
                     LogObject => $Self->{LogObject},
                     Debug => $Self->{Debug},
+# FRED - manipulated
+                    LayoutObject => $Self,
+# FRED - manipulated
                 );
                 # run module
                 $Object->Run(%{$Filters{$Filter}}, Data => $Param{Output});
@@ -3411,6 +3414,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.51.2.4 $ $Date: 2007-10-26 10:03:46 $
+$Revision: 1.51.2.5 $ $Date: 2007-12-18 10:28:30 $
 
 =cut
