@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.61 2007-12-07 12:50:08 tr Exp $
+# $Id: Layout.pm,v 1.62 2007-12-18 07:44:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 =head1 NAME
 
@@ -153,7 +153,7 @@ sub new {
             if ( $1 =~ /(\d)\.(\d)/ ) {
                 $Self->{BrowserMajorVersion} = $1;
                 $Self->{BrowserMinorVersion} = $2;
-                if ( $1 == 5 && $2 == 5 || $1 == 6 && $2 == 0 ) {
+                if ( $1 == 5 && $2 == 5 || $1 == 6 && $2 == 0 || $1 == 7 && $2 == 0 ) {
                     $Self->{BrowserBreakDispositionHeader} = 1;
                 }
             }
@@ -3798,6 +3798,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2007-12-07 12:50:08 $
+$Revision: 1.62 $ $Date: 2007-12-18 07:44:32 $
 
 =cut
