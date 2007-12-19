@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: Group.pm,v 1.50 2007-11-22 11:55:39 martin Exp $
+# $Id: Group.pm,v 1.51 2007-12-19 05:34:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 =head1 NAME
 
@@ -495,11 +495,11 @@ based on GroupGroupMemberList() and GroupRoleMemberList().
 
     Result: HASH -> returns a hash of key => group id, value => group name
             Name -> returns an array of user names
-            ID   -> returns an array of user names
+            ID   -> returns an array of user ids
 
     Example (get groups of user):
 
-    $GroupObject->GroupMemberList(
+    my %Groups = $GroupObject->GroupMemberList(
         UserID => $ID,
         Type => 'move_into',
         Result => 'HASH',
@@ -507,11 +507,16 @@ based on GroupGroupMemberList() and GroupRoleMemberList().
 
     Example (get users of group):
 
-    $GroupObject->GroupMemberList(
+    my %Users = $GroupObject->GroupMemberList(
         GroupID => $ID,
         Type => 'move_into',
         Result => 'HASH',
     );
+
+    Attention: The user ids (keys) in the hash returned from this function
+               are correct, however the values are not correspond to the user ids.
+               This does not affect the correct operation of otrs, this is just a
+               note to inform you not to use the values in this hash.
 
 =cut
 
@@ -593,7 +598,6 @@ sub GroupMemberList {
     }
     else {
         my %Result = $Self->GroupGroupMemberList(%Param);
-
         # get roles of user
         if ( $Param{UserID} ) {
             my @Member = $Self->GroupUserRoleMemberList(
@@ -615,6 +619,7 @@ sub GroupMemberList {
                 Result  => 'ID',
             );
             if (@Roles) {
+
                 my %ResultGroupUserRole
                     = $Self->GroupUserRoleMemberList( %Param, RoleIDs => \@Roles, );
                 %Result = ( %Result, %ResultGroupUserRole );
@@ -754,7 +759,7 @@ returns a list of users/groups with ro/move_into/create/owner/priority/rw permis
 
     Result: HASH -> returns a hash of key => group id, value => group name
             Name -> returns an array of user names
-            ID   -> returns an array of user names
+            ID   -> returns an array of user ids
 
     Example (get groups of user):
 
@@ -925,7 +930,7 @@ returns a list of role/groups with ro/move_into/create/owner/priority/rw permiss
 
     Result: HASH -> returns a hash of key => group id, value => group name
             Name -> returns an array of user names
-            ID   -> returns an array of user names
+            ID   -> returns an array of user ids
 
     Example (get groups of role):
 
@@ -1199,7 +1204,7 @@ returns a list of role/user members
 
     Result: HASH -> returns a hash of key => group id, value => group name
             Name -> returns an array of user names
-            ID   -> returns an array of user names
+            ID   -> returns an array of user ids
 
     Example (get roles of user):
 
@@ -1602,6 +1607,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2007-11-22 11:55:39 $
+$Revision: 1.51 $ $Date: 2007-12-19 05:34:17 $
 
 =cut
