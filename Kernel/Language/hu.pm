@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.44 2007-12-10 08:59:10 mh Exp $
+# $Id: hu.pm,v 1.45 2007-12-19 15:40:58 mh Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1449,8 +1449,7 @@ sub Data {
         'Don\'t accept license' => 'Licensz elutasítása',
         'Admin-User'            => 'Adminisztrátor felhasználó',
         'Admin-Password'        => 'Adminisztrátor jelszó',
-        'your MySQL DB should have a root password! Default is empty!' =>
-            'Az ön MySQL adatbázisának kell legyen root jelszava! Az alapértelmezett üres!',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => '',
         'Database-User'   => 'Adatbázis felhasználó',
         'default \'hot\'' => 'alapértelmezett',
         'DB connect host' => 'Adatbázis kiszolgáló',

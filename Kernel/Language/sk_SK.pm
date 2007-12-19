@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.25 2007-12-10 08:59:10 mh Exp $
+# $Id: sk_SK.pm,v 1.26 2007-12-19 15:40:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1354,7 +1354,7 @@ sub Data {
         'Don\'t accept license'                                        => '',
         'Admin-User'                                                   => '',
         'Admin-Password'                                               => '',
-        'your MySQL DB should have a root password! Default is empty!' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => '',
         'Database-User'                                                => '',
         'default \'hot\''                                              => '',
         'DB connect host'                                              => '',
@@ -1444,7 +1444,6 @@ sub Data {
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' =>
             'Týmto spôsobom mô¾ete priamo upravova» kµúèové nastavenie v Kenel/Config.',
         'Create new Phone Ticket' => 'Vytvor novú telefonickú po¾iadavku',
-        'Admin-heslo'             => 'your MySQL DB should have a root password! Default is empty!',
         'riadenie relácie'        => 'Sessions',
         'A message should have a To: recipient!' => '',
         'Po¾iadavky vybrané pre hromadnú akciu!' => 'You need min. one selected Ticket!',

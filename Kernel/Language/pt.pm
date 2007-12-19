@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.52 2007-12-10 08:59:10 mh Exp $
+# $Id: pt.pm,v 1.53 2007-12-19 15:40:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1434,8 +1434,7 @@ sub Data {
         'Don\'t accept license' => 'Nao aceitar licença',
         'Admin-User'            => 'Utilizador de Admin',
         'Admin-Password'        => 'Password de admnistrador',
-        'your MySQL DB should have a root password! Default is empty!' =>
-            'a sua Base de Dados MySQL deve ter uma palavra-passe de administração! Por omissão ela está vazia!',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => '',
         'Database-User'   => 'Utilizador da Base de Dados',
         'default \'hot\'' => 'por omissão \'hot\'',
         'DB connect host' => 'Anfitrião para ligações à Base de Dados',

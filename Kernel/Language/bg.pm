@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.65 2007-12-10 08:59:10 mh Exp $
+# $Id: bg.pm,v 1.66 2007-12-19 15:40:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1437,8 +1437,7 @@ sub Data {
         'Don\'t accept license' => 'Отказване на лиценза',
         'Admin-User'            => 'Администратор',
         'Admin-Password'        => 'Парола на администратор',
-        'your MySQL DB should have a root password! Default is empty!' =>
-            'Вашата MySQL база данни трябва да има парола за root потребителя. По подразбиране е празна!',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => '',
         'Database-User'   => 'Потребител на СУБД',
         'default \'hot\'' => 'по подразбиране',
         'DB connect host' => 'Хост за връзка със СУБД',

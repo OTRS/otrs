@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.9 2007-12-10 08:59:10 mh Exp $
+# $Id: ar_SA.pm,v 1.10 2007-12-19 15:40:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1514,7 +1514,7 @@ sub Data {
         'Don\'t accept license'                                        => '',
         'Admin-User'                                                   => '',
         'Admin-Password'                                               => '',
-        'your MySQL DB should have a root password! Default is empty!' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => '',
         'Database-User'                                                => '',
         'default \'hot\''                                              => '',
         'DB connect host'                                              => '',

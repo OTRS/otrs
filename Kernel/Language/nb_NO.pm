@@ -5,7 +5,7 @@
 #               2006 Knut Haugen <knuthaug at linpro.no>
 #               2007 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.49 2007-12-10 08:59:10 mh Exp $
+# $Id: nb_NO.pm,v 1.50 2007-12-19 15:40:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.49 $;
+$VERSION = q$Revision: 1.50 $;
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1442,8 +1442,7 @@ sub Data {
         'Don\'t accept license' => 'Ikke aksepter lisens',
         'Admin-User'            => 'Admin-bruker',
         'Admin-Password'        => 'Administrator-passord',
-        'your MySQL DB should have a root password! Default is empty!' =>
-            'Din MySQL-database bør ha et root-passord satt!  Default er intet passord!',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => '',
         'Database-User'   => 'Database-bruker',
         'default \'hot\'' => 'Standard \'hot\'',
         'DB connect host' => 'Tilkoblingsmaskin for database',

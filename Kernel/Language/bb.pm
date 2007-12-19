@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: bb.pm,v 1.29 2007-12-10 08:59:10 mh Exp $
+# $Id: bb.pm,v 1.30 2007-12-19 15:40:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1433,8 +1433,7 @@ sub Data {
         'Don\'t accept license' => 'Lizenz _nicht_ akzeptieren',
         'Admin-User'            => 'Admin-Leid',
         'Admin-Password'        => 'Admin-Passwort',
-        'your MySQL DB should have a root password! Default is empty!' =>
-            'Deine MySQL DB sollte ein Root Passwort haben! Voreingestellt ist keines!',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => '',
         'Database-User'   => 'Datenbank-Leid',
         'default \'hot\'' => 'voreingestellt \'hot\'',
         'DB connect host' => 'DB Verbindungs-Host',

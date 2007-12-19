@@ -6,7 +6,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 #                         Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.67 2007-12-10 08:59:10 mh Exp $
+# $Id: nl.pm,v 1.68 2007-12-19 15:40:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1419,7 +1419,7 @@ sub Data {
         'Don\'t accept license' => 'Licentie niet accepteren',
         'Admin-User'            => 'Admin gebruiker',
         'Admin-Password'        => 'Admin wachtwoord',
-        'your MySQL DB should have a root password! Default is empty!' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => '',
         'Database-User'                                                => 'Database gebruiker',
         'default \'hot\''                                              => '',
         'DB connect host'                                              => '',

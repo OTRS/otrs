@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.14 2007-08-09 21:45:45 martin Exp $
+# $Id: Installer.dtl,v 1.15 2007-12-19 15:41:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -462,17 +462,19 @@ Public License instead of this License.
                 <tr>
                   <td class="contentkey" width="25%">$Text{"Admin-User"}:</td>
                   <td class="contentvalue" width="35%"><input type="text" name="DBUser" value="root" size="25"></td>
-                  <td class="contentvalue"></td>
+                  <td class="contentvalue" rowspan="4">
+                    <font color="red" size="-2">
+                    $Text{"If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation."}
+                    </font>
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Admin-Password"}:</td>
                   <td class="contentvalue"><input type="password" name="DBPassword" value="" size="25"></td>
-                  <td class="contentvalue"><font color="red" size="-2"> (* $Text{"your MySQL DB should have a root password! Default is empty!"})</font></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Host"}:</td>
                   <td class="contentvalue"><input type="text" name="DBHost" value="$Config{"DatabaseHost"}" size="25"></td>
-                  <td class="contentvalue"></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Type"}:</td>
@@ -481,7 +483,6 @@ Public License instead of this License.
                       <option value="MySQL" selected="selected">MySQL</option>
                     </select>
                   </td>
-                  <td class="contentvalue"></td>
                 </tr>
                 <tr>
                   <td colspan="3" class="contenthead">$Text{"Database-User"} ($Text{"New"})</td>
@@ -494,7 +495,7 @@ Public License instead of this License.
                 <tr>
                   <td class="contentkey">$Text{"Password"}:</td>
                   <td class="contentvalue"><input type="password" name="OTRSDBPassword" value="hot" size="25"></td>
-                  <td class="contentvalue"><font color="red" size="-2">($Text{"default 'hot'"})</font></td>
+                  <td class="contentvalue"><font color="red" size="-2">$Text{"default 'hot'"}</font></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"DB connect host"}:</td>

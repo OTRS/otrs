@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2006 Jorge Becerra <jorge at hab.desoft.cu>
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # --
-# $Id: es.pm,v 1.64 2007-12-10 08:59:10 mh Exp $
+# $Id: es.pm,v 1.65 2007-12-19 15:40:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1436,8 +1436,7 @@ sub Data {
         'Don\'t accept license' => '',
         'Admin-User'            => 'Usuario-Admin',
         'Admin-Password'        => 'Contraseña-Administrador',
-        'your MySQL DB should have a root password! Default is empty!' =>
-            'Su BD MySQL debe tener una contraseña de root! Por defecto es vacía!',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => '',
         'Database-User'   => '',
         'default \'hot\'' => 'por defecto \'hot\'',
         'DB connect host' => '',
