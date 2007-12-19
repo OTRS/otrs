@@ -1,8 +1,8 @@
 # --
 # Ticket/Number/AutoIncrement.pm - a ticket number auto increment generator
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AutoIncrement.pm,v 1.18 2006-12-21 11:17:05 martin Exp $
+# $Id: AutoIncrement.pm,v 1.18.2.1 2007-12-19 08:11:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ package Kernel::System::Ticket::Number::AutoIncrement;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.18.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketCreateNumber {
@@ -76,7 +76,7 @@ sub TicketCreateNumber {
     # Check ticket number. If exists generate new one!
     if ($Self->TicketCheckNumber(Tn=>$Tn)) {
         $Self->{LoopProtectionCounter}++;
-        if ($Self->{LoopProtectionCounter} >= 6000) {
+        if ($Self->{LoopProtectionCounter} >= 12000) {
             # loop protection
             $Self->{LogObject}->Log(
                 Priority => 'error',
