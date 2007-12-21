@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spelling module
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.22 2007-10-05 00:31:25 martin Exp $
+# $Id: CheckItem.pm,v 1.23 2007-12-21 13:02:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -63,11 +63,9 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{Debug} = 0;
-
-    # get needed objects
-    for (qw(ConfigObject LogObject MainObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    # check needed objects
+    for my $Object (qw(ConfigObject LogObject MainObject)) {
+        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
     return $Self;
@@ -102,17 +100,13 @@ sub CheckEmail {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Address)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{Address} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Address!' );
+        return;
     }
 
     # check if it's to do
-    if ( !$Self->{ConfigObject}->Get('CheckEmailAddresses') ) {
-        return 1;
-    }
+    return 1 if !$Self->{ConfigObject}->Get('CheckEmailAddresses');
 
     # check valid email addresses
     my $RegExp = $Self->{ConfigObject}->Get('CheckEmailValidAddress');
@@ -130,8 +124,9 @@ sub CheckEmail {
     }
 
     # mx check
-    elsif ( $Self->{ConfigObject}->Get('CheckMXRecord')
-        && $Self->{MainObject}->Require('Net::DNS') ) {
+    elsif ($Self->{ConfigObject}->Get('CheckMXRecord')
+        && $Self->{MainObject}->Require('Net::DNS') )
+    {
 
         # get host
         my $Host = $Param{Address};
@@ -170,8 +165,8 @@ sub CheckEmail {
                 }
                 elsif ( $packet->header->ancount() ) {
 
-                   # OK
-                   # print STDERR "OK MX $Host ".$packet->header->ancount()."\n";
+                    # OK
+                    # print STDERR "OK MX $Host ".$packet->header->ancount()."\n";
                 }
                 else {
                     $Error = "no mail exchanger (mx) found!";
@@ -205,6 +200,57 @@ sub CheckEmail {
     }
 }
 
+=item StringClean()
+
+clean a given string
+
+    my $Error = $CheckItemObject->StringClean(
+        StringRef         => \'String',
+        TrimLeft          => 0,  # (optional) default 1
+        TrimRight         => 0,  # (optional) default 1
+        RemoveAllNewlines => 1,  # (optional) default 0
+        RemoveAllTabs     => 1,  # (optional) default 0
+        RemoveAllSpaces   => 1,  # (optional) default 0
+    );
+
+=cut
+
+sub StringClean {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if (
+        !( $Param{StringRef} && ref $Param{StringRef} eq 'SCALAR' && defined ${ $Param{StringRef} } )
+    ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need StringRef as string reference!'
+        );
+        return;
+    }
+
+    # set default values
+    $Param{TrimLeft}  = defined $Param{TrimLeft}  ? $Param{TrimLeft}  : 1;
+    $Param{TrimRight} = defined $Param{TrimRight} ? $Param{TrimRight} : 1;
+
+    my %TrimAction = (
+        TrimLeft          => qr{ \A \s+   }xms,
+        TrimRight         => qr{ \s+ \z   }xms,
+        RemoveAllNewlines => qr{ [\n\r\f] }xms,
+        RemoveAllTabs     => qr{ \t       }xms,
+        RemoveAllSpaces   => qr{ [ ]      }xms,
+    );
+
+    ACTION:
+    for my $Action ( keys %TrimAction ) {
+        next ACTION if !$Param{$Action};
+
+        ${ $Param{StringRef} } =~ s{ $TrimAction{$Action} }{}xmsg;
+    }
+
+    return 1;
+}
+
 1;
 
 =back
@@ -221,6 +267,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2007-10-05 00:31:25 $
+$Revision: 1.23 $ $Date: 2007-12-21 13:02:39 $
 
 =cut
