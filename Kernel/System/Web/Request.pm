@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.17 2007-10-02 10:35:04 mh Exp $
+# $Id: Request.pm,v 1.18 2007-12-21 13:42:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,8 +14,10 @@ package Kernel::System::Web::Request;
 use strict;
 use warnings;
 
+use Kernel::System::CheckItem;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -52,15 +54,10 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(ConfigObject LogObject EncodeObject)) {
-        if ( $Param{$_} ) {
-            $Self->{$_} = $Param{$_};
-        }
-        else {
-            die "Gor no $_";
-        }
+    for my $Object (qw(ConfigObject LogObject EncodeObject MainObject)) {
+        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
+    $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%{$Self});
 
     # Simple Common Gateway Interface Class
     use CGI qw(:cgi);
@@ -88,14 +85,9 @@ to get the error back
 =cut
 
 sub Error {
-    my ($Self) = @_;
 
-    if ( cgi_error() ) {
-        return cgi_error() . " - POST_MAX=" . ( $CGI::POST_MAX / 1024 ) . "KB";
-    }
-    else {
-        return;
-    }
+    return if !cgi_error();
+    return cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB';
 }
 
 =item GetParam()
@@ -113,6 +105,19 @@ sub GetParam {
 
     my $Value = $Self->{Query}->param( $Param{Param} );
     $Self->{EncodeObject}->Encode( \$Value );
+
+    if ($Param{TrimLeft}
+        || $Param{TrimRight}
+        || $Param{RemoveAllNewlines}
+        || $Param{RemoveAllTabs}
+        || $Param{RemoveAllSpaces}
+    ) {
+        $Self->{CheckItemObject}->StringClean(
+            StringRef => \$Value,
+            %Param,
+        );
+    }
+
     return $Value;
 }
 
@@ -127,9 +132,24 @@ to get array params
 sub GetArray {
     my ( $Self, %Param ) = @_;
 
-    my @Value = $Self->{Query}->param( $Param{Param} );
-    $Self->{EncodeObject}->Encode( \@Value );
-    return @Value;
+    my @Values = $Self->{Query}->param( $Param{Param} );
+    $Self->{EncodeObject}->Encode( \@Values );
+
+    if ($Param{TrimLeft}
+        || $Param{TrimRight}
+        || $Param{RemoveAllNewlines}
+        || $Param{RemoveAllTabs}
+        || $Param{RemoveAllSpaces}
+    ) {
+        for my $Value (@Values) {
+            $Self->{CheckItemObject}->StringClean(
+                StringRef => \$Value,
+                %Param,
+            );
+        }
+    }
+
+    return @Values;
 }
 
 =item GetUpload()
@@ -141,8 +161,7 @@ internal function for GetUploadAll()
 sub GetUpload {
     my ( $Self, %Param ) = @_;
 
-    my $File = $Self->{Query}->upload( $Param{Filename} );
-    return $File;
+    return $Self->{Query}->upload( $Param{Filename} );
 }
 
 =item GetUploadInfo()
@@ -154,8 +173,7 @@ internal function for GetUploadAll()
 sub GetUploadInfo {
     my ( $Self, %Param ) = @_;
 
-    my $Info = $Self->{Query}->uploadInfo( $Param{Filename} )->{ $Param{Header} };
-    return $Info;
+    return $Self->{Query}->uploadInfo( $Param{Filename} )->{ $Param{Header} };
 }
 
 =item GetUploadAll()
@@ -182,65 +200,64 @@ to get file upload
 sub GetUploadAll {
     my ( $Self, %Param ) = @_;
 
+    # get upload
     my $Upload = $Self->GetUpload( Filename => $Param{Param} );
-    if ($Upload) {
-        $Param{UploadFilenameOrig} = $Self->GetParam( Param => $Param{Param} ) || 'unkown';
-        my $Filename = $Param{UploadFilenameOrig} . '';
-        $Self->{EncodeObject}->Encode( \$Filename );
 
-        # replace all devices like c: or d: and dirs for IE!
-        my $NewFileName = $Filename;
-        $NewFileName =~ s/.:\\(.*)/$1/g;
-        $NewFileName =~ s/.*\\(.+?)/$1/g;
+    return if !$Upload;
 
-        # return a string
-        if ( $Param{Source} && $Param{Source} =~ /^string$/i ) {
-            $Param{UploadFilename} = '';
-            while (<$Upload>) {
-                $Param{UploadFilename} .= $_;
-            }
+    $Param{UploadFilenameOrig} = $Self->GetParam( Param => $Param{Param} ) || 'unkown';
+    my $Filename = $Param{UploadFilenameOrig} || '';
+    $Self->{EncodeObject}->Encode( \$Filename );
+
+    # replace all devices like c: or d: and dirs for IE!
+    my $NewFileName = $Filename;
+    $NewFileName =~ s/.:\\(.*)/$1/g;
+    $NewFileName =~ s/.*\\(.+?)/$1/g;
+
+    # return a string
+    if ( $Param{Source} && lc $Param{Source} eq 'string' ) {
+        $Param{UploadFilename} = '';
+
+        while (<$Upload>) {
+            $Param{UploadFilename} .= $_;
         }
-
-        # return file location in FS
-        else {
-
-            # delete upload dir if exists
-            my $Path = "/tmp/$$";
-            if ( -d $Path ) {
-                File::Path::rmtree( [$Path] );
-            }
-
-            # create upload dir
-            File::Path::mkpath( [$Path], 0, '0700' );
-
-            $Param{UploadFilename} = "$Path/$NewFileName";
-            open( my $Out, '>', $Param{UploadFilename} ) || die $!;
-            while (<$Upload>) {
-                print $Out $_;
-            }
-            close($Out);
-        }
-
-        # check if content is there, IE is always sending file uploades
-        # without content
-        if ( !$Param{UploadFilename} ) {
-            return;
-        }
-        if ( $Param{UploadFilename} ) {
-            $Param{UploadContentType} = $Self->GetUploadInfo(
-                Filename => $Param{UploadFilenameOrig},
-                Header   => 'Content-Type',
-            ) || '';
-        }
-        return (
-            Filename    => $NewFileName,
-            Content     => $Param{UploadFilename},
-            ContentType => $Param{UploadContentType},
-        );
     }
+
+    # return file location in FS
     else {
-        return;
+
+        # delete upload dir if exists
+        my $Path = "/tmp/$$";
+        if ( -d $Path ) {
+            File::Path::rmtree( [$Path] );
+        }
+
+        # create upload dir
+        File::Path::mkpath( [$Path], 0, '0700' );
+
+        $Param{UploadFilename} = "$Path/$NewFileName";
+
+        open( my $Out, '>', $Param{UploadFilename} ) || die $!;
+        while (<$Upload>) {
+            print $Out $_;
+        }
+        close($Out);
     }
+
+    # check if content is there, IE is always sending file uploades
+    # without content
+    return if !$Param{UploadFilename};
+
+    $Param{UploadContentType} = $Self->GetUploadInfo(
+        Filename => $Param{UploadFilenameOrig},
+        Header   => 'Content-Type',
+    ) || '';
+
+    return (
+        Filename    => $NewFileName,
+        Content     => $Param{UploadFilename},
+        ContentType => $Param{UploadContentType},
+    );
 }
 
 =item SetCookie()
@@ -296,6 +313,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2007-10-02 10:35:04 $
+$Revision: 1.18 $ $Date: 2007-12-21 13:42:47 $
 
 =cut
