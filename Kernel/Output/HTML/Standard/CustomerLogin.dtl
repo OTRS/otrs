@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.22 2007-02-28 14:28:29 martin Exp $
+# $Id: CustomerLogin.dtl,v 1.23 2007-12-27 16:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -71,7 +71,7 @@ function submit_form() {
     </tr>
     <tr>
       <td class="singleboxbody">
-        <form action="$Env{"CGIHandle"}" method="get" enctype="application/x-www-form-urlencoded">
+        <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
           <input type="hidden" name="Action" value="CustomerLostPassword">
           <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
           <table cellspacing="8" cellpadding="2">

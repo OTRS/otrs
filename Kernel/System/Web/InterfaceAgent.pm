@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.27 2007-10-02 10:35:04 mh Exp $
+# $Id: InterfaceAgent.pm,v 1.28 2007-12-27 16:18:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -296,7 +296,7 @@ sub Run {
 
             # redirect with new session id and old params
             # prepare old redirect URL -- do not redirect to Login or Logout (loop)!
-            if ( $Param{RequestedURL} =~ /Action=(Logout|Login)/ ) {
+            if ( $Param{RequestedURL} =~ /Action=(Logout|Login|LostPassword)/ ) {
                 $Param{RequestedURL} = '';
             }
 
@@ -422,6 +422,25 @@ sub Run {
 
         # get params
         my $User = $Self->{ParamObject}->GetParam( Param => 'User' ) || '';
+        my $Token = $Self->{ParamObject}->GetParam( Param => 'Token' ) || '';
+
+        # get user login by token
+        if ( !$User && $Token ) {
+            my %UserList = $Self->{UserObject}->SearchPreferences(
+                Key => 'UserToken',
+                Value => $Token,
+            );
+            foreach my $UserID ( keys %UserList ) {
+                my %UserData = $Self->{UserObject}->GetUserData(
+                    UserID => $UserID,
+                    Valid => 1,
+                );
+                if ( %UserData ) {
+                    $User = $UserData{UserLogin};
+                    last;
+                }
+            }
+        }
 
         # get user data
         my %UserData = $Self->{UserObject}->GetUserData( User => $User, Valid => 1 );
@@ -439,42 +458,106 @@ sub Run {
         }
         else {
 
-            # get new password
-            $UserData{NewPW} = $Self->{UserObject}->GenerateRandomPassword();
-
-            # update new password
-            $Self->{UserObject}->SetPassword( UserLogin => $User, PW => $UserData{NewPW} );
-
-            # send notify email
+            # create email object
             my $EmailObject = Kernel::System::Email->new( %{$Self} );
-            my $Body        = $Self->{ConfigObject}->Get('NotificationBodyLostPassword')
-                || "New Password is: <OTRS_NEWPW>";
-            my $Subject = $Self->{ConfigObject}->Get('NotificationSubjectLostPassword')
-                || 'New Password!';
-            for ( keys %UserData ) {
-                $Body =~ s/<OTRS_$_>/$UserData{$_}/gi;
-            }
-            if ($EmailObject->Send(
+
+            # send password reset token
+            if ( !$Token ) {
+
+                # generate token
+                $UserData{Token} = $Self->{UserObject}->TokenGenerate(
+                    UserID => $UserData{UserID},
+                );
+
+                # send token notify email with link
+                my $Body    = $Self->{ConfigObject}->Get('NotificationBodyLostPasswordToken')
+                    || 'ERROR: NotificationBodyLostPasswordToken is missing!';
+                my $Subject = $Self->{ConfigObject}->Get('NotificationSubjectLostPasswordToken')
+                    || 'ERROR: NotificationSubjectLostPasswordToken is missing!';
+                for ( keys %UserData ) {
+                    $Body =~ s/<OTRS_$_>/$UserData{$_}/gi;
+                }
+                my $Sent = $EmailObject->Send(
                     To      => $UserData{UserEmail},
                     Subject => $Subject,
                     Charset => 'iso-8859-15',
                     Type    => 'text/plain',
                     Body    => $Body
-                )
-                )
-            {
-                $Self->{LayoutObject}->Print(
-                    Output => \$Self->{LayoutObject}->Login(
-                        Title   => 'Login',
-                        Message => "Sent new password to: " . $UserData{"UserEmail"},
-                        User    => $User,
-                        %Param,
-                    ),
                 );
-                exit 0;
+                if ( $Sent ) {
+                    $Self->{LayoutObject}->Print(
+                        Output => \$Self->{LayoutObject}->Login(
+                            Title   => 'Login',
+                            Message => "Sent password token to: \%s\", \"$UserData{UserEmail}",
+                            %Param,
+                        ),
+                    );
+                    exit 0;
+                }
+                else {
+                    $Self->{LayoutObject}->FatalError(
+                        Comment => 'Please contact your admin'
+                    );
+                }
             }
+
+            # reset password
             else {
-                $Self->{LayoutObject}->FatalError( Comment => 'Please contact your admin' );
+
+                # check if token is valid
+                my $TokenValid = $Self->{UserObject}->TokenCheck(
+                    Token => $Token,
+                    UserID => $UserData{UserID},
+                );
+                if ( !$TokenValid ) {
+                    $Self->{LayoutObject}->Print(
+                        Output => \$Self->{LayoutObject}->Login(
+                            Title   => 'Login',
+                            Message => "Invalid Token!",
+                            %Param,
+                        ),
+                    );
+                    exit 0;
+                }
+
+                # get new password
+                $UserData{NewPW} = $Self->{UserObject}->GenerateRandomPassword();
+
+                # update new password
+                $Self->{UserObject}->SetPassword( UserLogin => $User, PW => $UserData{NewPW} );
+
+                # send notify email
+                my $Body    = $Self->{ConfigObject}->Get('NotificationBodyLostPassword')
+                    || "New Password is: <OTRS_NEWPW>";
+                my $Subject = $Self->{ConfigObject}->Get('NotificationSubjectLostPassword')
+                    || 'New Password!';
+                for ( keys %UserData ) {
+                    $Body =~ s/<OTRS_$_>/$UserData{$_}/gi;
+                }
+                my $Sent = $EmailObject->Send(
+                    To      => $UserData{UserEmail},
+                    Subject => $Subject,
+                    Charset => 'iso-8859-15',
+                    Type    => 'text/plain',
+                    Body    => $Body
+                );
+
+                if ( $Sent ) {
+                    $Self->{LayoutObject}->Print(
+                        Output => \$Self->{LayoutObject}->Login(
+                            Title   => 'Login',
+                            Message => "Sent new password to: \%s\", \"$UserData{UserEmail}",
+                            User    => $User,
+                            %Param,
+                        ),
+                    );
+                    exit 0;
+                }
+                else {
+                    $Self->{LayoutObject}->FatalError(
+                        Comment => 'Please contact your admin'
+                    );
+                }
             }
         }
     }
@@ -780,6 +863,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2007-10-02 10:35:04 $
+$Revision: 1.28 $ $Date: 2007-12-27 16:18:36 $
 
 =cut

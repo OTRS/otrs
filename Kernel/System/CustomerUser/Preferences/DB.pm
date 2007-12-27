@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/Preferences/DB.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.12 2007-10-02 10:37:19 mh Exp $
+# $Id: DB.pm,v 1.13 2007-12-27 16:18:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -98,12 +98,39 @@ sub GetPreferences {
         . $Self->{DBObject}->Quote($UserID) . "'";
 
     $Self->{DBObject}->Prepare( SQL => $SQL );
-    while ( my @RowTmp = $Self->{DBObject}->FetchrowArray() ) {
-        $Data{ $RowTmp[0] } = $RowTmp[1];
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data{ $Row[0] } = $Row[1];
     }
 
     # return data
     return %Data;
+}
+
+sub SearchPreferences {
+    my ( $Self, %Param ) = @_;
+
+    my %UserID = ();
+    my $Key    = $Param{Key} || '';
+    my $Value  = $Param{Value} || '';
+
+    # get preferences
+    my $SQL
+        = "SELECT $Self->{PreferencesTableUserID}, $Self->{PreferencesTableValue} "
+        . " FROM "
+        . " $Self->{PreferencesTable} "
+        . " WHERE "
+        . " $Self->{PreferencesTableKey} = '"
+        . $Self->{DBObject}->Quote($Key) . "'" . " AND "
+        . " LOWER($Self->{PreferencesTableValue}) LIKE LOWER('"
+        . $Self->{DBObject}->Quote($Value) . "')";
+
+    $Self->{DBObject}->Prepare( SQL => $SQL );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $UserID{ $Row[0] } = $Row[1];
+    }
+
+    # return data
+    return %UserID;
 }
 
 1;

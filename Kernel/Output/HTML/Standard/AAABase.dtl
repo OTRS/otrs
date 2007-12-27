@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.58 2007-12-05 16:59:33 sb Exp $
+# $Id: AAABase.dtl,v 1.59 2007-12-27 16:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -255,5 +255,8 @@ $Text{"No Packages or no new Packages in selected Online Repository!"}
 $Text{"printed at"}
 
 $Text{"This account exists."}
+$Text{"New account created. Sent Login-Account to %s."}
 $Text{"Please press Back and try again."}
-$Text{"Sent new password to: "}
+$Text{"Sent password token to: %s"}
+$Text{"Sent new password to: %s"}
+$Text{"Invalid Token!"}

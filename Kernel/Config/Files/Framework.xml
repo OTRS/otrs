@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.153 2007-12-07 12:50:07 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.154 2007-12-27 16:18:37 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -2892,6 +2892,34 @@ TimeWorkingHours
             <String Regex="">otrs@&lt;OTRS_CONFIG_FQDN&gt;</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="NotificationSubjectLostPasswordToken" Required="1" Valid="1">
+        <Description Lang="en">Subject for notification mail to agents with token about new requested password (after using this link the new password will be sent).</Description>
+        <Description Lang="de">Betreff der Benachrichtigungsmail an die Agents mit Reset-Token um das neu angefragte Kennwort den Agenten zu senden.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <String Regex="">New OTRS Password request!</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="NotificationBodyLostPasswordToken" Required="1" Valid="1">
+        <Description Lang="en">Body for notification mail to agents with token about new requested password (after using this link the new password will be sent).</Description>
+        <Description Lang="de">Body der Benachrichtigungsmail an die Agents mit Reset-Token um das neu angefragte Kennwort den Agenten zu senden.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <TextArea>Hi &lt;OTRS_USERFIRSTNAME&gt;,
+
+you or someone impersonating you has requested to change your OTRS
+password.
+
+If you want to do this, click on this link to get a new password.
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=LostPassword&amp;Token=&lt;OTRS_TOKEN&gt;
+
+Your OTRS Notification Master
+            </TextArea>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="NotificationSubjectLostPassword" Required="1" Valid="1">
         <Description Lang="en">Subject for the notification email to agents about new password.</Description>
         <Description Lang="de">Betreff für die Benachrichtigungsmail an die Agents für ein neues Kennwort.</Description>
@@ -3309,6 +3337,34 @@ Your OTRS Notification Master
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerPanelSubjectLostPasswordToken" Required="1" Valid="1">
+        <Description Lang="en">Subject for notification mail to cutomers with token about new requested password (after using this link the new password will be sent).</Description>
+        <Description Lang="de">Betreff der Benachrichtigungsmail an die Kunden mit Reset-Token um das neu angefragte Kennwort den Agenten zu senden.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+        <Setting>
+            <String Regex="">New OTRS Password request!</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerPanelBodyLostPasswordToken" Required="1" Valid="1">
+        <Description Lang="en">Body for notification mail to customers with token about new requested password (after using this link the new password will be sent).</Description>
+        <Description Lang="de">Body der Benachrichtigungsmail an die Kunden mit Reset-Token um das neu angefragte Kennwort den Agenten zu senden.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+        <Setting>
+            <TextArea>Hi &lt;OTRS_USERFIRSTNAME&gt;,
+
+you or someone impersonating you has requested to change your OTRS
+password.
+
+If you want to do this, click on this link to get a new password.
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;customer.pl?Action=CustomerLostPassword&amp;Token=&lt;OTRS_TOKEN&gt;
+
+Your OTRS Notification Master
+            </TextArea>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelSubjectLostPassword" Required="1" Valid="1">

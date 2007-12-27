@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.36 2007-10-04 23:46:17 martin Exp $
+# $Id: CustomerUser.pm,v 1.37 2007-12-27 16:18:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -422,6 +422,109 @@ sub GetPreferences {
     return $Self->{PreferencesObject}->GetPreferences(@_);
 }
 
+=item SearchPreferences()
+
+search in user preferences
+
+    my %UserList = $CustomerUserObject->SearchPreferences(
+        Key => 'UserSomeKey',
+        Value => 'SomeValue',
+    );
+
+=cut
+
+sub SearchPreferences {
+    my $Self = shift;
+    return $Self->{PreferencesObject}->SearchPreferences(@_);
+}
+
+=item TokenGenerate()
+
+generate a random token
+
+    my $Token = $UserObject->TokenGenerate(
+        UserID => 123,
+    );
+
+=cut
+
+sub TokenGenerate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID!" );
+        return;
+    }
+
+    # The list of characters that can appear in a randomly generated token.
+    my @Chars = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
+
+    # The number of characters in the list.
+    my $CharsLen = scalar @Chars;
+
+    # Generate the token.
+    my $Token = 'C';
+    for ( my $i = 0; $i < 14; $i++ ) {
+        $Token .= $Chars[ rand($CharsLen) ];
+    }
+
+    # save token in preferences
+    $Self->SetPreferences(
+        Key => 'UserToken',
+        Value => $Token,
+        UserID => $Param{UserID},
+    );
+
+    # Return the Token.
+    return $Token;
+}
+
+=item TokenCheck()
+
+check password token
+
+    my $Valid = $UserObject->TokenCheck(
+        Token => $Token,
+        UserID => 123,
+    );
+
+=cut
+
+sub TokenCheck {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Token} || !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Token and UserID!" );
+        return;
+    }
+
+    # get preferences token
+    my %Preferences = $Self->GetPreferences(
+        UserID => $Param{UserID},
+    );
+
+    # check requested vs. stored token
+    if ( $Preferences{UserToken} && $Preferences{UserToken} eq $Param{Token}) {
+
+        # reset password token
+        $Self->SetPreferences(
+            Key => 'UserToken',
+            Value => '',
+            UserID => $Param{UserID},
+        );
+
+        # return true if token is valid
+        return 1;
+    }
+    else {
+
+        # return false if token is invalid
+        return;
+    }
+}
+
 1;
 
 =back
@@ -438,6 +541,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2007-10-04 23:46:17 $
+$Revision: 1.37 $ $Date: 2007-12-27 16:18:36 $
 
 =cut

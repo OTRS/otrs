@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.525 2007-12-21 13:44:15 mh Exp $
+# $Id: CHANGES,v 1.526 2007-12-27 16:18:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,10 +10,15 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2007/12/27) Improved way how to reset a password. Added password reset
+    via token (email which needs to be accepted by new password requester
+    first).
  - (2007/12/21) Added possiblity to use options of StringClean() in GetParam()
     and GetArray() functions.
  - (2007/12/21) Add StringClean() function to improve quality of strings.
  - (2007/12/19) Improved installer description to prevent bugs like bug# 2492.
+ - (2007/12/17) Fixed bug# 2586 - File download of package in
+    AdminPackageManager is not delivering the whole file name anymore.
  - (2007/12/17) Fixed bug# 2539 - SMIME signing was broken for private keys that
     have no passphrase and when openssl is unable to write to random state file.
  - (2007/12/11) Fixed bug# 2479 - Unable to retrieve attachments bigger than

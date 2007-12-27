@@ -2,7 +2,7 @@
 # CustomerUser.t - CustomerUser tests
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.5 2007-10-08 19:51:43 martin Exp $
+# $Id: CustomerUser.t,v 1.6 2007-12-27 16:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -319,6 +319,45 @@ $Self->True(
 $Self->True(
     $List{$UserID} || '',
     "CustomerSearch() - Search uc('*\$User*')",
+);
+
+# check token support
+my $Token = $Self->{CustomerUserObject}->TokenGenerate(
+    UserID => 1,
+);
+$Self->True(
+    $Token || 0,
+    "TokenGenerate() - $Token",
+);
+
+my $TokenValid =  $Self->{CustomerUserObject}->TokenCheck(
+    Token => $Token,
+    UserID => 1,
+);
+
+$Self->True(
+    $TokenValid || 0,
+    "TokenCheck() - $Token",
+);
+
+$TokenValid =  $Self->{CustomerUserObject}->TokenCheck(
+    Token => $Token,
+    UserID => 1,
+);
+
+$Self->True(
+    !$TokenValid || 0,
+    "TokenCheck() - $Token",
+);
+
+$TokenValid =  $Self->{CustomerUserObject}->TokenCheck(
+    Token => $Token.'123',
+    UserID => 1,
+);
+
+$Self->True(
+    !$TokenValid || 0,
+    "TokenCheck() - $Token"."123",
 );
 
 1;
