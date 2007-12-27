@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.62 2007-12-18 07:44:32 tr Exp $
+# $Id: Layout.pm,v 1.63 2007-12-27 16:52:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 =head1 NAME
 
@@ -2730,6 +2730,17 @@ returns browser output to display/download a attachment
 sub Attachment {
     my ( $Self, %Param ) = @_;
 
+    # check needed objects
+    for (qw(Content ContentType Filename)) {
+        if ( !defined($Param{$_}) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Got no $_!",
+            );
+            $Self->FatalError();
+        }
+    }
+
     # reset binmode, don't use utf8
     binmode(STDOUT);
     if ( $Self->{EncodeObject}->EncodeFrontendUsed() =~ /utf\-8/i ) {
@@ -2745,6 +2756,12 @@ sub Attachment {
         $Output .= $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
         $Output .= '; ';
     }
+
+    # clean filename to get no problems with some browsers
+    $Param{Filename} = $Self->{MainObject}->FilenameCleanUp(
+        Filename => $Param{Filename},
+        Type     => 'Attachment',
+    );
     $Output .= "filename=\"$Param{Filename}\"\n";
 
     # get attachment size
@@ -3798,6 +3815,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.62 $ $Date: 2007-12-18 07:44:32 $
+$Revision: 1.63 $ $Date: 2007-12-27 16:52:33 $
 
 =cut

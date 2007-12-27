@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.526 2007-12-27 16:18:36 martin Exp $
+# $Id: CHANGES,v 1.527 2007-12-27 16:52:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2007/12/27) Fixed bug# 2596 - Problems to download file from
+    Action=AdminPackageManager with IE and Safari.
  - (2007/12/27) Improved way how to reset a password. Added password reset
     via token (email which needs to be accepted by new password requester
     first).

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.55 2007-12-18 09:03:22 ak Exp $
+# $Id: AdminPackageManager.pm,v 1.56 2007-12-27 16:52:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -200,11 +200,8 @@ sub Run {
             if ( ref( $Structure{Filelist} ) eq 'ARRAY' ) {
                 for my $Hash ( @{ $Structure{Filelist} } ) {
                     if ( $Hash->{Location} eq $Location ) {
-                        my @FilePath = split('/', $Location);
-                        my $FileName = $FilePath[$#FilePath];
-                        $FileName = $FileName ? $FileName : $Location;
                         return $Self->{LayoutObject}->Attachment(
-                            Filename    => $FileName,
+                            Filename    => $Location,
                             ContentType => 'application/octet-stream',
                             Content     => $Hash->{Content},
                         );
@@ -409,11 +406,8 @@ sub Run {
             if ( ref( $Structure{Filelist} ) eq 'ARRAY' ) {
                 for my $Hash ( @{ $Structure{Filelist} } ) {
                     if ( $Hash->{Location} eq $Location ) {
-                        my @FilePath = split('/', $Location);
-                        my $FileName = $FilePath[$#FilePath];
-                        $FileName = $FileName ? $FileName : $Location;
                         return $Self->{LayoutObject}->Attachment(
-                            Filename    => $FileName,
+                            Filename    => $Location,
                             ContentType => 'application/octet-stream',
                             Content     => $Hash->{Content},
                         );
