@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.50 2007-10-05 13:18:46 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.51 2007-12-27 17:30:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -145,6 +145,23 @@ sub Run {
                 Subject      => $Article{Subject} || '',
             );
 
+            # get attachments
+            my %ArticleIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
+                ArticleID => $GetParam{ArticleID},
+                UserID => $Self->{UserID},
+            );
+            for my $Index ( keys %ArticleIndex ) {
+                my %Attachment = $Self->{TicketObject}->ArticleAttachment(
+                    ArticleID => $GetParam{ArticleID},
+                    FileID => $Index,
+                    UserID => $Self->{UserID},
+                );
+                $Self->{UploadCachObject}->FormIDAddFile(
+                    FormID => $Self->{FormID},
+                    %Attachment,
+                );
+            }
+
             # check if original content isn't text/plain or text/html, don't use it
             if ( $Article{'ContentType'} ) {
                 if ( $Article{'ContentType'} =~ /text\/html/i ) {
@@ -245,6 +262,9 @@ sub Run {
             Article => { %GetParam, %ArticleFreeDefault, },
         );
 
+        # get all attachments meta data
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
+
         # html output
         $Output .= $Self->_MaskPhoneNew(
             QueueID    => $Self->{QueueID},
@@ -267,6 +287,7 @@ sub Run {
             CustomerID   => $Article{CustomerID},
             CustomerUser => $Article{CustomerUserID},
             CustomerData => \%CustomerData,
+            Attachments => \@Attachments,
             %TicketFreeTextHTML,
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,
@@ -361,8 +382,7 @@ sub Run {
         }
 
         # get all attachments meta data
-        my @Attachments
-            = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID}, );
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
 
         # get free text config options
         my %TicketFreeText = ();
