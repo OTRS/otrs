@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.31 2007-11-06 10:24:42 martin Exp $
+# $Id: Ticket.t,v 1.32 2007-12-28 16:01:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -3169,6 +3169,36 @@ $Self->True(
 $Self->False(
     $TicketIDs{$TicketID},
     'TicketSearch() (HASH:TicketNumber,StateType:Open)',
+);
+
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      Body => '*write perl modules*',
+      StateType => 'Closed',
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:Body,StateType:Closed)',
+);
+
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      Body => '*write perl modules*',
+      StateType => 'Open',
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    !$TicketIDs{$TicketID},
+    'TicketSearch() (HASH:Body,StateType:Open)',
 );
 
 my $TicketMove = $Self->{TicketObject}->MoveTicket(
