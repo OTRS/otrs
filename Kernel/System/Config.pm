@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.66 2007-10-02 10:37:19 mh Exp $
+# $Id: Config.pm,v 1.67 2007-12-29 00:44:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Digest::MD5 qw(md5_hex);
 use Data::Dumper;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 NAME
 
@@ -121,11 +121,12 @@ sub _Init {
         my @Files = glob("$Self->{Home}/Kernel/Config/Files/*.xml");
         for my $File (@Files) {
             my $ConfigFile = '';
-            if ( open( IN, "< $File" ) ) {
-                while (<IN>) {
+            my $In;
+            if ( open( $In, '<', $File ) ) {
+                while (<$In>) {
                     $ConfigFile .= $_;
                 }
-                close(IN);
+                close( $In );
             }
             else {
                 $Self->{LogObject}->Log(
@@ -143,11 +144,12 @@ sub _Init {
                 my $FileCache = "$Self->{Home}/var/tmp/SysConfig-Cache$FileCachePart-$Digest.pm";
                 if ( -e $FileCache ) {
                     my $ConfigFileCache = '';
-                    if ( open( IN, "< $FileCache" ) ) {
-                        while (<IN>) {
+                    my $In;
+                    if ( open( $In , '<', $FileCache ) ) {
+                        while (<$In>) {
                             $ConfigFileCache .= $_;
                         }
-                        close(IN);
+                        close( $In );
                         my $XMLHashRef;
                         if ( eval $ConfigFileCache ) {
                             $Data{$File} = $XMLHashRef;
@@ -176,9 +178,10 @@ sub _Init {
                     $Data{$File} = \@XMLHash;
                     my $Dump = Data::Dumper::Dumper( \@XMLHash );
                     $Dump =~ s/\$VAR1/\$XMLHashRef/;
-                    if ( open( OUT, "> $FileCache" ) ) {
-                        print OUT $Dump . "\n1;";
-                        close(OUT);
+                    my $Out;
+                    if ( open( $Out, '>', $FileCache ) ) {
+                        print $Out $Dump . "\n1;";
+                        close( $Out );
                     }
                     else {
                         $Self->{LogObject}->Log(
@@ -261,7 +264,8 @@ sub WriteDefault {
     }
 
     # write default config file
-    if ( !open( OUT, "> $Self->{Home}/Kernel/Config/Files/ZZZAAuto.pm" ) ) {
+    my $Out;
+    if ( !open( $Out, '>', "$Self->{Home}/Kernel/Config/Files/ZZZAAuto.pm" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write $Self->{Home}/Kernel/Config/Files/ZZZAAuto.pm: $!!",
@@ -269,9 +273,15 @@ sub WriteDefault {
         return;
     }
     else {
-        print OUT $File;
-        print OUT "\$Self->{'1'} = 1;\n";
-        close(OUT);
+        print $Out "# OTRS config file (automaticaly generated!)\n";
+        print $Out "# VERSION:1.1\n";
+        print $Out "package Kernel::Config::Files::ZZZAAuto;\n";
+        print $Out "sub Load {\n";
+        print $Out "    my (\$File, \$Self) = \@_;\n";
+        print $Out $File;
+        print $Out "}\n";
+        print $Out "1;\n";
+        close( $Out );
         return 1;
     }
 }
@@ -301,10 +311,11 @@ sub Download {
             return;
         }
     }
+    my $In;
     if ( !-e "$Home/Kernel/Config/Files/ZZZAuto.pm" ) {
         return $File;
     }
-    elsif ( !open( IN, "< $Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+    elsif ( !open( $In, '<', "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         if ( $Param{Type} ) {
             return;
         }
@@ -317,10 +328,10 @@ sub Download {
         }
     }
     else {
-        while (<IN>) {
+        while (<$In>) {
             $File .= $_;
         }
-        close(IN);
+        close( $In );
         if ( $Param{Type} ) {
             my $Length = length($File);
             if ( $Length > 25 ) {
@@ -359,18 +370,18 @@ sub Upload {
             return;
         }
     }
-    if ( !open( OUT, "> $Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+    my $Out;
+    if ( !open( $Out, '>', "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm!"
         );
         return;
     }
-    else {
-        print OUT $Param{Content};
-        close(OUT);
-        return 1;
-    }
+
+    print $Out $Param{Content};
+    close( $Out );
+    return 1;
 }
 
 =item CreateConfig()
@@ -399,10 +410,10 @@ sub CreateConfig {
         }
     }
 
-    # read all config files
+    # read all config files and only save the change config options
     for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
         if ( $ConfigItem->{Name} && !$UsedKeys{ $ConfigItem->{Name} } ) {
-            my %Config = $Self->ConfigItemGet( Name => $ConfigItem->{Name}, );
+            my %Config = $Self->ConfigItemGet( Name => $ConfigItem->{Name} );
             my %ConfigDefault = $Self->ConfigItemGet(
                 Name    => $ConfigItem->{Name},
                 Default => 1,
@@ -444,19 +455,27 @@ sub CreateConfig {
             }
         }
     }
-    if ( !open( OUT, "> $Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+
+    # write new config file
+    my $Out;
+    if ( !open( $Out, '>', "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm!"
         );
         return;
     }
-    else {
-        print OUT $File;
-        print OUT "\$Self->{'1'} = 1;\n";
-        close(OUT);
-        return 1;
-    }
+
+    print $Out "# OTRS config file (automaticaly generated!)\n";
+    print $Out "# VERSION:1.1\n";
+    print $Out "package Kernel::Config::Files::ZZZAuto;\n";
+    print $Out "sub Load {\n";
+    print $Out "    my (\$File, \$Self) = \@_;\n";
+    print $Out $File;
+    print $Out "}\n";
+    print $Out "1;\n";
+    close( $Out );
+    return 1;
 }
 
 =item ConfigItemUpdate()
@@ -486,68 +505,83 @@ sub ConfigItemUpdate {
             return;
         }
     }
-    if ( !open( OUT, ">> $Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+
+    # check if we need to create config file
+    if ( !-e "$Home/Kernel/Config/Files/ZZZAuto.pm" && !$Self->CreateConfig() ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't create empty $Home/Kernel/Config/Files/ZZZAuto.pm!"
+        );
+        return;
+    }
+
+    # check if config file is writable
+    my $Out;
+    if ( !open( $Out, '>>', "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm: $!"
         );
         return;
     }
-    else {
+    close( $Out );
 
-        # diff
-        my %ConfigDefault = $Self->ConfigItemGet(
-            Name    => $Param{Key},
-            Default => 1,
-        );
-        my %Config = $Self->ConfigItemGet( Name => $Param{Key}, );
-        $Param{Key} =~ s/\\/\\\\/g;
-        $Param{Key} =~ s/'/\'/g;
-        $Param{Key} =~ s/###/'}->{'/g;
+    # diff
+    my %ConfigDefault = $Self->ConfigItemGet(
+        Name    => $Param{Key},
+        Default => 1,
+    );
+    my %Config = $Self->ConfigItemGet( Name => $Param{Key} );
+    $Param{Key} =~ s/\\/\\\\/g;
+    $Param{Key} =~ s/'/\'/g;
+    $Param{Key} =~ s/###/'}->{'/g;
 
-        # store in config
-        if ( !$Param{Valid} ) {
-            my $Dump = "delete \$Self->{'$Param{Key}'};\n";
-            print OUT $Dump;
-            close(OUT);
-            return 1;
-        }
-        else {
-            my $Dump = Data::Dumper::Dumper( $Param{Value} );
-            $Dump =~ s/\$VAR1/\$Self->{'$Param{Key}'}/;
-            print OUT $Dump;
-            close(OUT);
-            return 1;
-        }
+    # get option to store it
+    my $Option = '';
+    if ( !$Param{Valid} ) {
+        $Option = "delete \$Self->{'$Param{Key}'};\n";
     }
-}
+    else {
+        $Option = Data::Dumper::Dumper( $Param{Value} );
+        $Option =~ s/\$VAR1/\$Self->{'$Param{Key}'}/;
+    }
 
-=item ConfigItemUpdateFinish()
-
-insert the final line "$Self->{'1'} = 1;" after building the file
-ZZZAuto.pm
-
-    $ConfigToolObject->ConfigItemUpdateFinish();
-
-=cut
-
-sub ConfigItemUpdateFinish {
-    my ( $Self, %Param ) = @_;
-
-    my $Home = $Self->{'Home'};
-
-    if ( !open( OUT, ">> $Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+    # get config file and insert it
+    my $In;
+    if ( !open( $In, '<', "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't write finish tag $Home/Kernel/Config/Files/ZZZAuto.pm: $!"
+            Message  => "Can't read $Home/Kernel/Config/Files/ZZZAuto.pm: $!"
         );
         return;
     }
-    else {
-        print OUT "\$Self->{'1'} = 1;\n";
-        close(OUT);
-        return 1;
+    # update content
+    my @FileOld = <$In>;
+    my @FileNew = ();
+    my $Insert = 0;
+    for my $Line ( reverse @FileOld ) {
+        push ( @FileNew, $Line );
+        if ( !$Insert && $Line =~ /^}/ ) {
+            push ( @FileNew, $Option );
+            $Insert = 1;
+        }
     }
+    close ( $In );
+
+    # write it to file
+    if ( !open( $Out, '>', "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm: $!"
+        );
+        return;
+    }
+
+    for my $Line ( reverse @FileNew ) {
+        print $Out $Line;
+    }
+    close( $Out );
+    return 1;
 }
 
 =item ConfigItemGet()
@@ -1631,6 +1665,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2007-10-02 10:37:19 $
+$Revision: 1.67 $ $Date: 2007-12-29 00:44:13 $
 
 =cut

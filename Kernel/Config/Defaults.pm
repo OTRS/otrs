@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.276 2007-11-20 22:41:49 martin Exp $
+# $Id: Defaults.pm,v 1.277 2007-12-29 00:44:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.276 $) [1];
+$VERSION = qw($Revision: 1.277 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -2142,24 +2142,82 @@ sub new {
             if ( $Param{Level} && $Param{Level} eq 'Default' && $File =~ /ZZZ/ ) {
                 next;
             }
+            # check config file format
+            my $FileFormat = 1;
             my $ConfigFile = '';
             if ( open( my $In, '<', $File ) ) {
-                while (<$In>) {
-                    $ConfigFile .= $_;
+                while ( my $Line = <$In> ) {
+                    if ($Line =~ /^\Q# VERSION:1.1\E/) {
+                        $FileFormat = 1.1;
+                        last;
+                    }
+                    $ConfigFile .= $Line;
                 }
                 close($In);
             }
             else {
                 print STDERR "ERROR: $!: $File\n";
             }
-            if ($ConfigFile) {
-                if ( !eval $ConfigFile ) {
-                    print STDERR "ERROR: Syntax error in $File: $@\n";
+
+            # use file format of config file
+            if ( $FileFormat == 1.1 ) {
+
+                # check if mod_perl is used
+                my $Require = 1;
+                if ( exists $ENV{MOD_PERL} ) {
+
+                    # if mod_perl 2.x is used, check if Apache::Reload is use
+                    if ( $mod_perl::VERSION >= 1.99 ) {
+                        my $ApacheReload = 0;
+                        for my $Module ( keys %INC ) {
+                            $Module =~ s/\//::/g;
+                            $Module =~ s/\.pm$//g;
+                            if ( $Module eq 'Apache::Reload' || $Module eq 'Apache2::Reload' ) {
+                                $ApacheReload = 1;
+                                last;
+                            }
+                        }
+                        if ( !$ApacheReload ) {
+                            $Require = 0;
+                        }
+                    }
+
+                    # if mod_perl 1.x is used, do not use require
+                    else {
+                        $Require = 0;
+                    }
+                }
+
+                # if require is usable, use it (because of better performance,
+                # if not, use do to do it on runtime)
+                if ( $Require ) {
+                    if (! require $File ) {
+                        die "ERROR: $!\n";
+                    }
                 }
                 else {
+                    if (! do $File ) {
+                        die "ERROR: $!\n";
+                    }
+                }
 
-                    # file loaded
-                    #                    print STDERR "Notice: Loaded: $File\n";
+                # prepare file
+                $File =~ s/$Self->{Home}//g;
+                $File =~ s/^\///g;
+                $File =~ s/\/\//\//g;
+                $File =~ s/\//::/g;
+                $File =~ s/.pm//g;
+                $File->Load($Self);
+            }
+            else {
+
+                # use eval for old file format
+                if ($ConfigFile) {
+                    if ( !eval $ConfigFile ) {
+                        print STDERR "ERROR: Syntax error in $File: $@\n";
+                    }
+
+                    # print STDERR "Notice: Loaded: $File\n";
                 }
             }
         }
@@ -2230,6 +2288,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.276 $ $Date: 2007-11-20 22:41:49 $
+$Revision: 1.277 $ $Date: 2007-12-29 00:44:14 $
 
 =cut
