@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.30 2007-03-14 12:55:00 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.30.2.1 2008-01-01 23:15:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,10 +17,11 @@ use Kernel::System::StdAttachment;
 use Kernel::System::State;
 use Kernel::System::CustomerUser;
 use Kernel::System::Web::UploadCache;
+use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.30.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -50,6 +51,7 @@ sub new {
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
     # get response format
     $Self->{ResponseFormat} = $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseFormat') ||
         '$Data{"Salutation"}
@@ -573,6 +575,15 @@ sub Run {
             TicketNumber => $Ticket{TicketNumber},
             Subject => $Data{Subject} || '',
         );
+        # add not local To addresses to Cc
+        for my $Email ( Mail::Address->parse( $Data{To} ) ) {
+            if ( !$Self->{SystemAddress}->SystemAddressIsLocalAddress(Address => $Email->address() ) ) {
+                if ( $Data{Cc} ) {
+                    $Data{Cc} .= ', ';
+                }
+                $Data{Cc} .= $Email->format();
+            }
+        }
         # check ReplyTo
         if ($Data{ReplyTo}) {
             $Data{To} = $Data{ReplyTo};
@@ -614,6 +625,26 @@ sub Run {
             }
         }
         $Data{OrigFrom} = $Data{From};
+
+        # find duplicate addresses
+        my %Recipient = ();
+        for my $Type ( qw(To Cc Bcc) ) {
+            if ( $Data{$Type} ) {
+                my $NewLine = '';
+                for my $Email ( Mail::Address->parse( $Data{$Type} ) ) {
+                    my $Address = $Email->address();
+                    if ( !$Recipient{$Address} ) {
+                        $Recipient{$Address} = 1;
+                        if ( $NewLine ) {
+                            $NewLine .= ', ';
+                        }
+                        $NewLine .= $Email->format();
+                    }
+                }
+                $Data{$Type} = $NewLine;
+            }
+        }
+
         my %Address = $Self->{QueueObject}->GetSystemAddress(%Ticket);
         $Data{From} = "$Address{RealName} <$Address{Email}>";
         $Data{Email} = $Address{Email};

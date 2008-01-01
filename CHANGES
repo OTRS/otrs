@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.45 2008-01-01 22:07:27 martin Exp $
+# $Id: CHANGES,v 1.465.2.46 2008-01-01 23:15:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.5 (2008/??/??)
+ - (2008/01/01) Fixed bug# 1120 - TO recipients are dropped when replying to a
+    ticket.
  - (2008/01/01) Fixed bug# 2589 - Ticket-title not shown in ticket list of
     change customer, phone- and email ticket.
  - (2007/12/27) Fixed bug# 1148 - Lost of attachments when spliting ticket.
