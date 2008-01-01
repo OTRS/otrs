@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.45 2007-10-02 10:32:22 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.46 2008-01-01 22:05:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -677,6 +677,14 @@ sub Run {
                     UserID        => $Self->{UserID},
                 );
                 my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+
+                # ticket title
+                if ( $Self->{ConfigObject}->Get('Ticket::Frontend::Title') ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Title',
+                        Data => { %Param, %Article },
+                    );
+                }
 
                 # run ticket menu modules
                 if (ref( $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') ) eq 'HASH' )
