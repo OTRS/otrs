@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.11 2007-08-20 14:49:10 mh Exp $
+# $Id: AgentTicketCustomer.pm,v 1.11.2.1 2008-01-01 22:07:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.11.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -249,6 +249,15 @@ sub Form {
         );
         my %AclAction = $Self->{TicketObject}->TicketAclActionData();
         my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
+
+        # ticket title
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::Title') ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'Title',
+                Data => { %Param, %Article },
+            );
+        }
+
         # run ticket menu modules
         if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')) eq 'HASH') {
             my %Menus = %{$Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')};

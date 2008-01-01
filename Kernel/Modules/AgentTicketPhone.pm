@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.46 2007-08-20 14:49:10 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.46.2.1 2008-01-01 22:07:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.46.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -129,6 +129,24 @@ sub Run {
                 TicketNumber => $Article{TicketNumber},
                 Subject => $Article{Subject} || '',
             );
+
+            # get attachments
+            my %ArticleIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
+                ArticleID => $GetParam{ArticleID},
+                UserID => $Self->{UserID},
+            );
+            for my $Index ( keys %ArticleIndex ) {
+                my %Attachment = $Self->{TicketObject}->ArticleAttachment(
+                    ArticleID => $GetParam{ArticleID},
+                    FileID => $Index,
+                    UserID => $Self->{UserID},
+                );
+                $Self->{UploadCachObject}->FormIDAddFile(
+                    FormID => $Self->{FormID},
+                    %Attachment,
+                );
+            }
+
             # check if original content isn't text/plain or text/html, don't use it
             if ($Article{'ContentType'}) {
                 if ($Article{'ContentType'} =~ /text\/html/i) {
@@ -225,6 +243,10 @@ sub Run {
                 %ArticleFreeDefault,
             },
         );
+
+        # get all attachments meta data
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
+
         # html output
         $Output .= $Self->_MaskPhoneNew(
             QueueID => $Self->{QueueID},
@@ -244,6 +266,7 @@ sub Run {
             CustomerID => $Article{CustomerID},
             CustomerUser => $Article{CustomerUserID},
             CustomerData => \%CustomerData,
+            Attachments => \@Attachments,
             %TicketFreeTextHTML,
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,
@@ -551,6 +574,15 @@ sub Run {
                     UserID => $Self->{UserID},
                 );
                 my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+
+                # ticket title
+                if ( $Self->{ConfigObject}->Get('Ticket::Frontend::Title') ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Title',
+                        Data => { %Param, %Article },
+                    );
+                }
+
                 # run ticket menu modules
                 if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')) eq 'HASH') {
                     my %Menus = %{$Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')};

@@ -1,15 +1,18 @@
 # --
 # CHANGES - change log of OTRS
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.44 2007-12-18 11:07:50 tr Exp $
+# $Id: CHANGES,v 1.465.2.45 2008-01-01 22:07:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-2.2.5 (2007/??/??)
+2.2.5 (2008/??/??)
+ - (2008/01/01) Fixed bug# 2589 - Ticket-title not shown in ticket list of
+    change customer, phone- and email ticket.
+ - (2007/12/27) Fixed bug# 1148 - Lost of attachments when spliting ticket.
  - (2007/12/18) Fixed bug# 2295 - IE7 tries to download [ Attachments ] or
     [ Attachments <-> Responses ].
  - (2007/12/17) Fixed bug# 2580 - Wrong quoating of semicolon if mssql is used.
@@ -18,12 +21,12 @@
  - (2007/12/12) Fixed bug# 2581 - Follow up not possible if "ticket#: xxxxxxx"
     is copied from webinterface into new email subject.
  - (2007/12/11) Fixed bug# 2479 - Unable to retrieve attachments bigger than
-    3Mb (on Oracle DB). Changed default read size from 4 MB to 12 MB in
+    3Mb (on Oracle DB). Changed default read size from 4 MB to 15 MB in
     Kernel/System/DB/oracle.pm:
 
     $Self->{'DB::Attribute'}      = {
         LongTruncOk => 1,
-        LongReadLen => 12 * 1024 * 1024,
+        LongReadLen => 15 * 1024 * 1024,
     };
 
  - (2007/12/10) Fixed bug# 1428 - whitespaces remove from email subject
