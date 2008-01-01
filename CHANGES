@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.530 2008-01-01 22:05:09 martin Exp $
+# $Id: CHANGES,v 1.531 2008-01-01 23:13:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -76,6 +76,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.5 (2008/??/??)
+ - (2008/01/01) Fixed bug# 1120 - TO recipients are dropped when replying to a
+    ticket.
  - (2008/01/01) Fixed bug# 2589 - Ticket-title not shown in ticket list of
     change customer, phone- and email ticket.
  - (2007/12/27) Fixed bug# 1148 - Lost of attachments when spliting ticket.

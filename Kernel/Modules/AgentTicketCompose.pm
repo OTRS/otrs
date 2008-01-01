@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.32 2007-10-02 10:32:22 mh Exp $
+# $Id: AgentTicketCompose.pm,v 1.33 2008-01-01 23:13:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,10 +19,11 @@ use Kernel::System::StdAttachment;
 use Kernel::System::State;
 use Kernel::System::CustomerUser;
 use Kernel::System::Web::UploadCache;
+use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,6 +52,7 @@ sub new {
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     $Self->{StateObject}         = Kernel::System::State->new(%Param);
     $Self->{UploadCachObject}    = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{SystemAddress}      = Kernel::System::SystemAddress->new(%Param);
 
     # get response format
     $Self->{ResponseFormat} = $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseFormat')
@@ -246,8 +248,7 @@ sub Run {
         }
 
         # get all attachments meta data
-        my @Attachments
-            = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID}, );
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
 
         # check some values
         for (qw(From To Cc Bcc)) {
@@ -282,7 +283,7 @@ sub Run {
 
                 # load module
                 if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                    my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+                    my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug} );
 
                     # get params
                     for ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
@@ -535,7 +536,7 @@ sub Run {
         # add std. attachments to email
         if ( $GetParam{ResponseID} ) {
             my %AllStdAttachments = $Self->{StdAttachmentObject}
-                ->StdAttachmentsByResponseID( ID => $GetParam{ResponseID}, );
+                ->StdAttachmentsByResponseID( ID => $GetParam{ResponseID} );
             for ( sort keys %AllStdAttachments ) {
                 my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $_ );
                 $Self->{UploadCachObject}->FormIDAddFile(
@@ -546,17 +547,15 @@ sub Run {
         }
 
         # get all attachments meta data
-        my @Attachments
-            = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID}, );
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
 
         # get last customer article or selecte article ...
         my %Data = ();
         if ( $GetParam{ArticleID} ) {
-            %Data = $Self->{TicketObject}->ArticleGet( ArticleID => $GetParam{ArticleID}, );
+            %Data = $Self->{TicketObject}->ArticleGet( ArticleID => $GetParam{ArticleID} );
         }
         else {
-            %Data = $Self->{TicketObject}
-                ->ArticleLastCustomerArticle( TicketID => $Self->{TicketID}, );
+            %Data = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $Self->{TicketID} );
         }
 
         # check article type and replace To with From (in case)
@@ -571,8 +570,7 @@ sub Run {
         # get customer data
         my %Customer = ();
         if ( $Ticket{CustomerUserID} ) {
-            %Customer = $Self->{CustomerUserObject}
-                ->CustomerUserDataGet( User => $Ticket{CustomerUserID}, );
+            %Customer = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Ticket{CustomerUserID} );
         }
 
         # check if original content isn't text/plain or text/html, don't use it
@@ -615,6 +613,16 @@ sub Run {
             Subject      => $Data{Subject} || '',
         );
 
+        # add not local To addresses to Cc
+        for my $Email ( Mail::Address->parse( $Data{To} ) ) {
+            if ( !$Self->{SystemAddress}->SystemAddressIsLocalAddress(Address => $Email->address() ) ) {
+                if ( $Data{Cc} ) {
+                    $Data{Cc} .= ', ';
+                }
+                $Data{Cc} .= $Email->format();
+            }
+        }
+
         # check ReplyTo
         if ( $Data{ReplyTo} ) {
             $Data{To} = $Data{ReplyTo};
@@ -637,7 +645,7 @@ sub Run {
             if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeReplaceSenderAddress') ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'PropertiesRecipientTo',
-                    Data => { To => $Data{To}, },
+                    Data => { To => $Data{To} },
                 );
                 $Data{To} = $Customer{UserEmail};
             }
@@ -655,6 +663,27 @@ sub Run {
             }
         }
         $Data{OrigFrom} = $Data{From};
+
+        # find duplicate addresses
+        my %Recipient = ();
+        for my $Type ( qw(To Cc Bcc) ) {
+            if ( $Data{$Type} ) {
+                my $NewLine = '';
+                for my $Email ( Mail::Address->parse( $Data{$Type} ) ) {
+                    my $Address = $Email->address();
+                    if ( !$Recipient{$Address} ) {
+                        $Recipient{$Address} = 1;
+                        if ( $NewLine ) {
+                            $NewLine .= ', ';
+                        }
+                        $NewLine .= $Email->format();
+                    }
+                }
+                $Data{$Type} = $NewLine;
+            }
+        }
+
+        # find queue address
         my %Address = $Self->{QueueObject}->GetSystemAddress(%Ticket);
         $Data{From}        = "$Address{RealName} <$Address{Email}>";
         $Data{Email}       = $Address{Email};
