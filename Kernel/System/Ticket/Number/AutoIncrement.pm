@@ -1,8 +1,8 @@
 # --
 # Ticket/Number/AutoIncrement.pm - a ticket number auto increment generator
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AutoIncrement.pm,v 1.22 2007-12-19 08:06:28 martin Exp $
+# $Id: AutoIncrement.pm,v 1.23 2008-01-02 11:22:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
@@ -130,7 +130,7 @@ sub GetTNByString {
         return $1;
     }
     else {
-        if ( $String =~ /$TicketHook+.{0,2}($SystemID\d{$MinSize,$MaxSize})/i ) {
+        if ( $String =~ /\Q$TicketHook\E:\s{0,2}($SystemID\d{$MinSize,$MaxSize})/i ) {
             return $1;
         }
         else {

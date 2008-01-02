@@ -1,8 +1,8 @@
 # --
 # Ticket/Number/Random.pm - a ticket number random generator
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Random.pm,v 1.18 2007-12-19 08:06:28 martin Exp $
+# $Id: Random.pm,v 1.19 2008-01-02 11:22:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub TicketCreateNumber {
     my ($Self) = @_;
@@ -87,7 +87,7 @@ sub GetTNByString {
     else {
 
         # check default setting
-        if ( $String =~ /\Q$TicketHook\E:+.{0,2}($SystemID\d{2,20})/i ) {
+        if ( $String =~ /\Q$TicketHook\E:\s{0,2}($SystemID\d{2,20})/i ) {
             return $1;
         }
         else {
