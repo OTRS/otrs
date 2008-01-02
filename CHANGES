@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.46 2008-01-01 23:15:18 martin Exp $
+# $Id: CHANGES,v 1.465.2.47 2008-01-02 15:07:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.5 (2008/??/??)
+ - (2008/01/02) Fixed bug# 2600 - MS SQL: Fulltext search in ticket body with
+    mssql backend not possible (workaround, improved API for 2.3.x).
  - (2008/01/01) Fixed bug# 1120 - TO recipients are dropped when replying to a
     ticket.
  - (2008/01/01) Fixed bug# 2589 - Ticket-title not shown in ticket list of

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - the global ticket handle
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.275.2.6 2007-11-23 10:03:11 martin Exp $
+# $Id: Ticket.pm,v 1.275.2.7 2008-01-02 15:07:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.275.2.6 $';
+$VERSION = '$Revision: 1.275.2.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -3580,7 +3580,17 @@ sub TicketSearch {
                 $FullTextSQL .= $Self->_TicketSearchCondition(Key => $FieldSQLMapFullText{$Key}, Value => $Param{$Key});
             }
             else {
-                $FullTextSQL .= " LOWER($FieldSQLMapFullText{$Key}) LIKE LOWER('".$Self->{DBObject}->Quote($Param{$Key})."')";
+                # check if database supports LIKE in large text types (in this case for body)
+                # it's a workaround to not change the Kernel::System::DB API, the API
+                # is has changed in OTRS 2.3.x
+                if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'mssql' ) {
+                    $FullTextSQL .= " $FieldSQLMapFullText{$Key} LIKE '"
+                        . $Self->{DBObject}->Quote( $Param{$Key} ) . "'";
+                }
+                else {
+                    $FullTextSQL .= " LOWER($FieldSQLMapFullText{$Key}) LIKE LOWER('"
+                        . $Self->{DBObject}->Quote( $Param{$Key} ) . "')";
+                }
             }
         }
     }
@@ -6189,6 +6199,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.275.2.6 $ $Date: 2007-11-23 10:03:11 $
+$Revision: 1.275.2.7 $ $Date: 2008-01-02 15:07:58 $
 
 =cut
