@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.287 2008-01-02 14:56:06 martin Exp $
+# $Id: Ticket.pm,v 1.288 2008-01-02 15:01:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.287 $) [1];
+$VERSION = qw($Revision: 1.288 $) [1];
 
 =head1 NAME
 
@@ -3860,7 +3860,7 @@ sub TicketSearch {
             else {
 
                 # check if database supports LIKE in large text types (in this case for body)
-                if ($Self->{DBObject}->{'DB::NoLikeInLargeText'}) {
+                if ( $Self->{DBObject}->GetDatabaseFunction('NoLikeInLargeText') ) {
                     $FullTextSQL .= " $FieldSQLMapFullText{$Key} LIKE "
                         . $Self->{DBObject}->Quote( $Param{$Key} );
                 }
@@ -6786,6 +6786,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.287 $ $Date: 2008-01-02 14:56:06 $
+$Revision: 1.288 $ $Date: 2008-01-02 15:01:14 $
 
 =cut
