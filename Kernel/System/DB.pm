@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.78 2008-01-02 14:56:06 martin Exp $
+# $Id: DB.pm,v 1.79 2008-01-02 15:13:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 =head1 NAME
 
@@ -619,7 +619,19 @@ sub FetchrowHashref {
 
 =item GetDatabaseFunction()
 
-to get database functions like Limit, DirectBlob, ...
+to get database functions like
+    o Limit
+    o DirectBlob
+    o QuoteSingle
+    o QuoteBack
+    o QuoteSemicolon
+    o NoLikeInLargeText
+    o CurrentTimestamp
+    o Encode
+    o Comment
+    o ShellCommit
+    o ShellConnect
+    o Connect
 
     my $What = $DBObject->GetDatabaseFunction('DirectBlob');
 
@@ -865,6 +877,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.78 $ $Date: 2008-01-02 14:56:06 $
+$Revision: 1.79 $ $Date: 2008-01-02 15:13:23 $
 
 =cut
