@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB/oracle.pm - oracle database backend
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.31 2007-12-11 14:26:51 martin Exp $
+# $Id: oracle.pm,v 1.32 2008-01-02 14:56:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,12 +35,15 @@ sub LoadPreferences {
     my ( $Self, %Param ) = @_;
 
     # db settings
-    $Self->{'DB::Limit'}          = 0;
-    $Self->{'DB::DirectBlob'}     = 0;
-    $Self->{'DB::QuoteSingle'}    = '\'';
-    $Self->{'DB::QuoteBack'}      = 0;
-    $Self->{'DB::QuoteSemicolon'} = '';
-    $Self->{'DB::Attribute'}      = {
+    $Self->{'DB::Limit'}             = 0;
+    $Self->{'DB::DirectBlob'}        = 0;
+    $Self->{'DB::QuoteSingle'}       = '\'';
+    $Self->{'DB::QuoteBack'}         = 0;
+    $Self->{'DB::QuoteSemicolon'}    = '';
+    $Self->{'DB::NoLikeInLargeText'} = 0;
+
+    # dbi attributes
+    $Self->{'DB::Attribute'} = {
         LongTruncOk => 1,
         LongReadLen => 40 * 1024 * 1024,
     };
@@ -55,6 +58,9 @@ sub LoadPreferences {
     $Self->{'DB::Comment'}      = '-- ';
     $Self->{'DB::ShellCommit'}  = ';';
     $Self->{'DB::ShellConnect'} = 'SET DEFINE OFF';
+
+    # init sql setting on db connect
+    #$Self->{'DB::Connect'} = '';
 
     return 1;
 }

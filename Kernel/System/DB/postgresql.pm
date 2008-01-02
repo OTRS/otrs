@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB/postgresql.pm - postgresql database backend
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.24 2007-10-02 10:36:03 mh Exp $
+# $Id: postgresql.pm,v 1.25 2008-01-02 14:56:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,12 +35,15 @@ sub LoadPreferences {
     my ( $Self, %Param ) = @_;
 
     # db settings
-    $Self->{'DB::Limit'}          = 'limit';
-    $Self->{'DB::DirectBlob'}     = 0;
-    $Self->{'DB::QuoteSingle'}    = '\'';
-    $Self->{'DB::QuoteBack'}      = '\\';
-    $Self->{'DB::QuoteSemicolon'} = '\\';
-    $Self->{'DB::Attribute'}      = {};
+    $Self->{'DB::Limit'}             = 'limit';
+    $Self->{'DB::DirectBlob'}        = 0;
+    $Self->{'DB::QuoteSingle'}       = '\'';
+    $Self->{'DB::QuoteBack'}         = '\\';
+    $Self->{'DB::QuoteSemicolon'}    = '\\';
+    $Self->{'DB::NoLikeInLargeText'} = 0;
+
+    # dbi attributes
+    $Self->{'DB::Attribute'} = {};
 
     # set current time stamp if different to "current_timestamp"
     $Self->{'DB::CurrentTimestamp'} = '';
@@ -52,7 +55,10 @@ sub LoadPreferences {
     $Self->{'DB::Comment'}     = '-- ';
     $Self->{'DB::ShellCommit'} = ';';
 
-    #    $Self->{'DB::ShellConnect'} = '';
+    #$Self->{'DB::ShellConnect'} = '';
+
+    # init sql setting on db connect
+    #$Self->{'DB::Connect'} = '';
 
     return 1;
 }

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - the global ticket handle
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.286 2007-11-23 10:02:34 martin Exp $
+# $Id: Ticket.pm,v 1.287 2008-01-02 14:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.286 $) [1];
+$VERSION = qw($Revision: 1.287 $) [1];
 
 =head1 NAME
 
@@ -3816,6 +3816,8 @@ sub TicketSearch {
         }
         elsif ( $Param{$Key} ) {
             $Param{$Key} =~ s/\*/%/gi;
+
+            # check if search condition extention is used
             if ( $Param{ConditionInline} && ( $Param{$Key} =~ /(&&|\|\|)/ || $Param{$Key} =~ / / ) )
             {
                 $SQLExt .= " AND "
@@ -3846,6 +3848,8 @@ sub TicketSearch {
             if ($FullTextSQL) {
                 $FullTextSQL .= " $ContentSearch ";
             }
+
+            # check if search condition extention is used
             if ( $Param{ConditionInline} && ( $Param{$Key} =~ /(&&|\|\|)/ || $Param{$Key} =~ / / ) )
             {
                 $FullTextSQL .= $Self->_TicketSearchCondition(
@@ -3854,8 +3858,16 @@ sub TicketSearch {
                 );
             }
             else {
-                $FullTextSQL .= " LOWER($FieldSQLMapFullText{$Key}) LIKE LOWER('"
-                    . $Self->{DBObject}->Quote( $Param{$Key} ) . "')";
+
+                # check if database supports LIKE in large text types (in this case for body)
+                if ($Self->{DBObject}->{'DB::NoLikeInLargeText'}) {
+                    $FullTextSQL .= " $FieldSQLMapFullText{$Key} LIKE "
+                        . $Self->{DBObject}->Quote( $Param{$Key} );
+                }
+                else {
+                    $FullTextSQL .= " LOWER($FieldSQLMapFullText{$Key}) LIKE LOWER('"
+                        . $Self->{DBObject}->Quote( $Param{$Key} ) . "')";
+                }
             }
         }
     }
@@ -6774,6 +6786,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.286 $ $Date: 2007-11-23 10:02:34 $
+$Revision: 1.287 $ $Date: 2008-01-02 14:56:06 $
 
 =cut
