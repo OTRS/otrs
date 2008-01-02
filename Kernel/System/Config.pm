@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Config.pm - all system config tool functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.67 2007-12-29 00:44:13 martin Exp $
+# $Id: Config.pm,v 1.68 2008-01-02 13:59:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Digest::MD5 qw(md5_hex);
 use Data::Dumper;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 =head1 NAME
 
@@ -399,7 +399,7 @@ sub CreateConfig {
     my %UsedKeys = ();
     my $Home     = $Self->{'Home'};
 
-    # remember to update defaults
+    # remember to update ZZZAAuto.pm and ZZZAuto.pm
     $Self->{Update} = 1;
 
     # check needed stuff
@@ -495,7 +495,7 @@ sub ConfigItemUpdate {
 
     my $Home = $Self->{'Home'};
 
-    # remember to update defaults
+    # remember to update ZZZAAuto.pm and ZZZAuto.pm
     $Self->{Update} = 1;
 
     # check needed stuff
@@ -546,6 +546,11 @@ sub ConfigItemUpdate {
         $Option =~ s/\$VAR1/\$Self->{'$Param{Key}'}/;
     }
 
+    # set option in runtime
+    my $OptionRuntime = $Option;
+    $OptionRuntime =~ s/Self->/Self->\{ConfigObject\}->/;
+    eval $OptionRuntime;
+
     # get config file and insert it
     my $In;
     if ( !open( $In, '<', "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
@@ -561,7 +566,7 @@ sub ConfigItemUpdate {
     my $Insert = 0;
     for my $Line ( reverse @FileOld ) {
         push ( @FileNew, $Line );
-        if ( !$Insert && $Line =~ /^}/ ) {
+        if ( !$Insert && ( $Line =~ /^}/ || $Line =~ /^\$Self->\{'1'\} = 1;/ ) ) {
             push ( @FileNew, $Option );
             $Insert = 1;
         }
@@ -1665,6 +1670,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2007-12-29 00:44:13 $
+$Revision: 1.68 $ $Date: 2008-01-02 13:59:25 $
 
 =cut
