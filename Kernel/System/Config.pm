@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.68 2008-01-02 13:59:25 martin Exp $
+# $Id: Config.pm,v 1.69 2008-01-03 23:28:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Digest::MD5 qw(md5_hex);
 use Data::Dumper;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 =head1 NAME
 
@@ -718,7 +718,7 @@ sub ConfigItemGet {
                     }
                     else {
                         my $Option = 0;
-                        for my $Index ( 1 ... $#Array ) {
+                        for my $Index ( 1 .. $#Array ) {
                             if (   defined( $Array[$Index]{Key} )
                                 && $Array[$Index]{Key} eq $Key
                                 && defined( $Array[$Index]{Option} ) )
@@ -1212,7 +1212,7 @@ sub ConfigItemSearch {
                 }
                 else {
                     my %ItemHash = $Self->ConfigItemGet( Name => $Item );
-                    for my $Index ( 1 ... $#{ $ItemHash{Description} } ) {
+                    for my $Index ( 1 .. $#{ $ItemHash{Description} } ) {
                         if ( !$Used{ $Group . '::' . $SubGroup } ) {
                             my $Description = $ItemHash{Description}[$Index]{Content};
                             if ( $Description =~ /\Q$Param{Search}\E/i ) {
@@ -1463,7 +1463,7 @@ sub _XML2Perl {
             if ( defined( $Array[$Item]->{Hash} ) ) {
                 my %SubHash = ();
                 for my $Index (
-                    1 ... $#{
+                    1 .. $#{
                         $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]
                             ->{Item}
                     }
@@ -1479,7 +1479,7 @@ sub _XML2Perl {
             elsif ( defined( $Array[$Item]->{Array} ) ) {
                 my @SubArray = ();
                 for my $Index (
-                    1 ... $#{
+                    1 .. $#{
                         $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]
                             ->{Item}
                     }
@@ -1522,7 +1522,7 @@ sub _XML2Perl {
             if ( $Key eq 'Group' || $Key eq 'GroupRo' ) {
                 my @Array = ();
                 for my $Index (
-                    1 ... $#{ $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} } )
+                    1 .. $#{ $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} } )
                 {
                     push( @Array,
                         $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[$Index]
@@ -1535,15 +1535,15 @@ sub _XML2Perl {
                     'ARRAY' )
                 {
                     for my $Index (
-                        1 ... $#{ $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} } )
+                        1 .. $#{ $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} } )
                     {
                         my $Content = $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}
                             ->[$Index];
                         my %NavBar = ();
-                        for $Key ( sort keys %{$Content} ) {
+                        for my $Key ( sort keys %{$Content} ) {
                             if ( $Key eq 'Group' || $Key eq 'GroupRo' ) {
                                 my @Array = ();
-                                for my $Index ( 1 ... $#{ $Content->{$Key} } ) {
+                                for my $Index ( 1 .. $#{ $Content->{$Key} } ) {
                                     push( @Array, $Content->{$Key}->[$Index]->{Content} );
                                 }
                                 $NavBar{$Key} = \@Array;
@@ -1565,10 +1565,10 @@ sub _XML2Perl {
                 else {
                     my $Content = $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key};
                     my %NavBar  = ();
-                    for $Key ( sort keys %{$Content} ) {
+                    for my $Key ( sort keys %{$Content} ) {
                         if ( $Key eq 'Group' || $Key eq 'GroupRo' ) {
                             my @Array = ();
-                            for my $Index ( 1 ... $#{ $Content->{$Key} } ) {
+                            for my $Index ( 1 .. $#{ $Content->{$Key} } ) {
                                 push( @Array, $Content->{$Key}->[1]->{Content} );
                             }
                             $NavBar{$Key} = \@Array;
@@ -1670,6 +1670,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.68 $ $Date: 2008-01-02 13:59:25 $
+$Revision: 1.69 $ $Date: 2008-01-03 23:28:30 $
 
 =cut

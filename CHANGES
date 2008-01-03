@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.532 2008-01-02 14:56:06 martin Exp $
+# $Id: CHANGES,v 1.533 2008-01-03 23:28:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/01/02) Improved ticket zoom view, removed plain-text attachments
+    of html with plain attachment emails.
  - (2008/01/02) Fixed bug# 2600 - MS SQL: Fulltext search in ticket body with
     mssql backend not possible (improved Kernel::System::DB API with database
     preferences option "NoLikeInLargeText").
@@ -79,6 +81,11 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.5 (2008/??/??)
+ - (2008/01/03) Fixed bug# 2491 - OTRS crash's after initial login on fresh
+    installation on fedora 7, fedora 8, altlinux and ActiveState Perl on win32.
+ - (2008/01/02) Fixed bug# 2601 - Only agents with rw permissions are shown in
+    inform agent selections of note screens, all agents with note permissions
+    should be shown.
  - (2008/01/02) Fixed bug# 2600 - MS SQL: Fulltext search in ticket body with
     mssql backend not possible (workaround, improved API for 2.3.x).
  - (2008/01/01) Fixed bug# 1120 - TO recipients are dropped when replying to a
