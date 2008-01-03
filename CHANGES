@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.47 2008-01-02 15:07:58 martin Exp $
+# $Id: CHANGES,v 1.465.2.48 2008-01-03 01:06:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.2.5 (2008/??/??)
+ - (2008/01/02) Fixed bug# 2601 - Only agents with rw permissions are shown in
+    inform agent selections of note screens, all agents with note permissions
+    should be shown.
  - (2008/01/02) Fixed bug# 2600 - MS SQL: Fulltext search in ticket body with
     mssql backend not possible (workaround, improved API for 2.3.x).
  - (2008/01/01) Fixed bug# 1120 - TO recipients are dropped when replying to a

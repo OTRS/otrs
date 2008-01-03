@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketFreeText.pm - free text for ticket
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketFreeText.pm,v 1.26.2.2 2007-12-03 14:13:29 mh Exp $
+# $Id: AgentTicketFreeText.pm,v 1.26.2.3 2008-01-03 01:06:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26.2.2 $';
+$VERSION = '$Revision: 1.26.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -948,7 +948,7 @@ sub _Mask {
             my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $Ticket{QueueID});
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
-                Type => 'rw',
+                Type => 'note',
                 Result => 'HASH',
                 Cached => 1,
             );
