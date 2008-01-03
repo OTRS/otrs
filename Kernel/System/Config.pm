@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Config.pm - all system config tool functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.64 2007-03-27 10:12:02 martin Exp $
+# $Id: Config.pm,v 1.64.2.1 2008-01-03 23:26:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Digest::MD5 qw(md5_hex);
 use Data::Dumper;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.64.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -616,7 +616,7 @@ sub ConfigItemGet {
                     }
                     else {
                         my $Option = 0;
-                        foreach my $Index (1...$#Array) {
+                        foreach my $Index (1..$#Array) {
                             if (defined ($Array[$Index]{Key}) && $Array[$Index]{Key} eq $Key && defined ($Array[$Index]{Option})) {
                                 $Option = 1;
                                 $Array[$Index]{Option}[1]{SelectedID} = $Hash{$Key};
@@ -1063,7 +1063,7 @@ sub ConfigItemSearch {
                 }
                 else {
                     my %ItemHash = $Self->ConfigItemGet(Name => $Item);
-                    foreach my $Index (1...$#{$ItemHash{Description}}) {
+                    foreach my $Index (1..$#{$ItemHash{Description}}) {
                         if (!$Used{$Group.'::'.$SubGroup}) {
                             my $Description = $ItemHash{Description}[$Index]{Content};
                             if ($Description =~ /\Q$Param{Search}\E/i) {
@@ -1287,14 +1287,14 @@ sub _XML2Perl {
         foreach my $Item (1..$#Array) {
             if (defined($Array[$Item]->{Hash})) {
                 my %SubHash = ();
-                foreach my $Index (1...$#{$Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}}) {
+                foreach my $Index (1..$#{$Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}}) {
                     $SubHash{$Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]->{Key}} = $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]->{Content};
                 }
                 $Hash{$Array[$Item]->{Key}} = \%SubHash;
             }
             elsif (defined($Array[$Item]->{Array})) {
                 my @SubArray = ();
-                foreach my $Index (1...$#{$Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item}}) {
+                foreach my $Index (1..$#{$Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item}}) {
                     push (@SubArray, $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item}->[$Index]->{Content});
                 }
                 $Hash{$Array[$Item]->{Key}} = \@SubArray;
@@ -1327,20 +1327,20 @@ sub _XML2Perl {
         foreach my $Key (sort keys %{$Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]}) {
             if ($Key eq 'Group' || $Key eq 'GroupRo') {
                 my @Array = ();
-                foreach my $Index (1...$#{$Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
+                foreach my $Index (1..$#{$Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
                     push(@Array, $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[$Index]->{Content});
                 }
                 $Hash{$Key} = \@Array;
             }
             elsif ($Key eq 'NavBar' || $Key eq 'NavBarModule') {
                 if (ref($Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}) eq 'ARRAY') {
-                    foreach my $Index (1...$#{$Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
+                    foreach my $Index (1..$#{$Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
                         my $Content = $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[$Index];
                         my %NavBar = ();
-                        foreach $Key (sort keys %{$Content}) {
+                        foreach my $Key (sort keys %{$Content}) {
                             if ($Key eq 'Group' || $Key eq 'GroupRo') {
                                 my @Array = ();
-                                foreach my $Index (1...$#{$Content->{$Key}}) {
+                                foreach my $Index (1..$#{$Content->{$Key}}) {
                                     push(@Array, $Content->{$Key}->[$Index]->{Content});
                                 }
                                 $NavBar{$Key} = \@Array;
@@ -1362,10 +1362,10 @@ sub _XML2Perl {
                 else {
                     my $Content = $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key};
                     my %NavBar = ();
-                    foreach $Key (sort keys %{$Content}) {
+                    foreach my $Key (sort keys %{$Content}) {
                         if ($Key eq 'Group' || $Key eq 'GroupRo') {
                             my @Array = ();
-                            foreach my $Index (1...$#{$Content->{$Key}}) {
+                            foreach my $Index (1..$#{$Content->{$Key}}) {
                                 push(@Array, $Content->{$Key}->[1]->{Content});
                             }
                             $NavBar{$Key} = \@Array;
@@ -1459,6 +1459,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2007-03-27 10:12:02 $
+$Revision: 1.64.2.1 $ $Date: 2008-01-03 23:26:45 $
 
 =cut
