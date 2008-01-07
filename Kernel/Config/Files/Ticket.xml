@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.147 2007-08-23 23:22:22 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.147.2.1 2008-01-07 12:55:32 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2433,8 +2433,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###InvolvedAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of involved agents?</Description>
-        <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
+        <Description Lang="en">Show selection of involved agents.</Description>
+        <Description Lang="de">Auswahl der involvierten Agents anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
         <Setting>
@@ -2445,8 +2445,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###InformAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of agents to inform?</Description>
-        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
+        <Description Lang="en">Show selection of agents to inform (all agents with note permissions on the queue/ticket).</Description>
+        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen (alle Agenten mit "notiz" Rechten am Ticket/Queue).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
         <Setting>
@@ -3231,8 +3231,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###InvolvedAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of involved agents?</Description>
-        <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
+        <Description Lang="en">Show selection of involved agents.</Description>
+        <Description Lang="de">Auswahl der involvierten Agents anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
@@ -3243,8 +3243,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###InformAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of agents to inform?</Description>
-        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
+        <Description Lang="en">Show selection of agents to inform (all agents with note permissions on the queue/ticket).</Description>
+        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen (alle Agenten mit "notiz" Rechten am Ticket/Queue).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
@@ -3518,8 +3518,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###InvolvedAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of involved agents?</Description>
-        <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
+        <Description Lang="en">Show selection of involved agents.</Description>
+        <Description Lang="de">Auswahl der involvierten Agents anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
@@ -3530,8 +3530,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###InformAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of agents to inform?</Description>
-        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
+        <Description Lang="en">Show selection of agents to inform (all agents with note permissions on the queue/ticket).</Description>
+        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen (alle Agenten mit "notiz" Rechten am Ticket/Queue).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
@@ -3804,8 +3804,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###InvolvedAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of involved agents?</Description>
-        <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
+        <Description Lang="en">Show selection of involved agents.</Description>
+        <Description Lang="de">Auswahl der involvierten Agents anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
         <Setting>
@@ -3816,8 +3816,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###InformAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of agents to inform?</Description>
-        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
+        <Description Lang="en">Show selection of agents to inform (all agents with note permissions on the queue/ticket).</Description>
+        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen (alle Agenten mit "notiz" Rechten am Ticket/Queue).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
         <Setting>
@@ -4089,8 +4089,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPending###InvolvedAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of involved agents?</Description>
-        <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
+        <Description Lang="en">Show selection of involved agents.</Description>
+        <Description Lang="de">Auswahl der involvierten Agents anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
@@ -4101,8 +4101,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPending###InformAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of agents to inform?</Description>
-        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
+        <Description Lang="en">Show selection of agents to inform (all agents with note permissions on the queue/ticket).</Description>
+        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen (alle Agenten mit "notiz" Rechten am Ticket/Queue).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
@@ -4375,8 +4375,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###InvolvedAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of involved agents?</Description>
-        <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
+        <Description Lang="en">Show selection of involved agents.</Description>
+        <Description Lang="de">Auswahl der involvierten Agents anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
         <Setting>
@@ -4387,8 +4387,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###InformAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of agents to inform?</Description>
-        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
+        <Description Lang="en">Show selection of agents to inform (all agents with note permissions on the queue/ticket).</Description>
+        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen (alle Agenten mit "notiz" Rechten am Ticket/Queue).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
         <Setting>
@@ -4661,8 +4661,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###InvolvedAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of involved agents?</Description>
-        <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
+        <Description Lang="en">Show selection of involved agents.</Description>
+        <Description Lang="de">Auswahl der involvierten Agents anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
         <Setting>
@@ -4673,8 +4673,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###InformAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of agents to inform?</Description>
-        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
+        <Description Lang="en">Show selection of agents to inform (all agents with note permissions on the queue/ticket).</Description>
+        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen (alle Agenten mit "notiz" Rechten am Ticket/Queue).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
         <Setting>
