@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.63 2007-12-27 16:52:33 martin Exp $
+# $Id: Layout.pm,v 1.64 2008-01-07 20:07:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 =head1 NAME
 
@@ -2731,7 +2731,7 @@ sub Attachment {
     my ( $Self, %Param ) = @_;
 
     # check needed objects
-    for (qw(Content ContentType Filename)) {
+    for (qw(Content ContentType)) {
         if ( !defined($Param{$_}) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -2758,11 +2758,13 @@ sub Attachment {
     }
 
     # clean filename to get no problems with some browsers
-    $Param{Filename} = $Self->{MainObject}->FilenameCleanUp(
-        Filename => $Param{Filename},
-        Type     => 'Attachment',
-    );
-    $Output .= "filename=\"$Param{Filename}\"\n";
+    if ( $Param{Filename} ) {
+        $Param{Filename} = $Self->{MainObject}->FilenameCleanUp(
+            Filename => $Param{Filename},
+            Type     => 'Attachment',
+        );
+        $Output .= "filename=\"$Param{Filename}\"\n";
+    }
 
     # get attachment size
     {
@@ -3815,6 +3817,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2007-12-27 16:52:33 $
+$Revision: 1.64 $ $Date: 2008-01-07 20:07:53 $
 
 =cut
