@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.154 2007-12-27 16:18:37 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.155 2008-01-07 13:06:43 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -710,7 +710,7 @@ TimeWorkingHours
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
-            <String Regex="">50400</String>
+            <String Regex="^[0-9]{1,8}$">57600</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionMaxIdleTime" Required="1" Valid="1">
@@ -719,7 +719,7 @@ TimeWorkingHours
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,6}$">18000</String>
+            <String Regex="^[0-9]{1,8}$">21600</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionDeleteIfTimeToOld" Required="1" Valid="1">
