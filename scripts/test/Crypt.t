@@ -1,8 +1,8 @@
 # --
 # Crypt.t - Crypt tests
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.4 2007-08-28 09:24:13 martin Exp $
+# $Id: Crypt.t,v 1.4.2.1 2008-01-07 13:02:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,6 +16,13 @@ use Kernel::System::Crypt;
 $Self->{ConfigObject}->Set(Key => 'PGP', Value => 1);
 $Self->{ConfigObject}->Set(Key => 'PGP::Options', Value => '--batch --no-tty --yes');
 $Self->{ConfigObject}->Set(Key => 'PGP::Key::Password', Value => { '04A17B7A' => 'somepass'} );
+# check if gpg is located there
+if (! -e $Self->{ConfigObject}->Get('PGP::Bin')) {
+    # maybe it's a mac with macport
+    if (-e '/opt/local/bin/gpg') {
+        $Self->{ConfigObject}->Set(Key => 'PGP::Bin', Value => '/opt/local/bin/gpg');
+    }
+}
 
 # create crypt object
 $Self->{CryptObject} = Kernel::System::Crypt->new(
