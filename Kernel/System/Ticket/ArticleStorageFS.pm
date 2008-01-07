@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.40 2007-07-23 09:35:09 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.40.2.1 2008-01-07 13:00:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.40.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub ArticleStorageInit {
@@ -261,6 +261,9 @@ sub ArticleWriteAttachment {
     $Param{Filename} =~ s/ /_/g;
     # strip dots from filenames
     $Param{Filename} =~ s/^\.//g;
+    # replace invalid token like [ ] * : ? " < > ; | \ /
+    # in 2.3.x and hiher it's done by FileWrite()
+    $Param{Filename} =~ s/[<>\?":\\\*\|\/;\[\]]/_/g;
     my $NewFileName = $Param{Filename};
     my %UsedFile = ();
     my %Index = $Self->ArticleAttachmentIndex(
