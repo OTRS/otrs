@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.46 2008-01-01 22:05:09 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.47 2008-01-07 22:26:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -82,7 +82,7 @@ sub Run {
     for (
         qw(AttachmentUpload
         Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
-        TypeID ServiceID SLAID AllUsers ResponsibleAll
+        TypeID ServiceID SLAID OwnerAll ResponsibleAll
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
         AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
@@ -282,7 +282,7 @@ sub Run {
         my $Dest             = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
         my ( $NewQueueID, $From ) = split( /\|\|/, $Dest );
         if ( !$NewQueueID ) {
-            $GetParam{AllUsers} = 1;
+            $GetParam{OwnerAll} = 1;
         }
 
         # get sender queue from
@@ -333,8 +333,8 @@ sub Run {
         $GetParam{QueueID}            = $NewQueueID;
         $GetParam{ExpandCustomerName} = $ExpandCustomerName;
 
-        if ( $Self->{ParamObject}->GetParam( Param => 'AllUsersRefresh' ) ) {
-            $GetParam{AllUsers} = 1;
+        if ( $Self->{ParamObject}->GetParam( Param => 'OwnerAllRefresh' ) ) {
+            $GetParam{OwnerAll} = 1;
             $ExpandCustomerName = 3;
         }
         if ( $Self->{ParamObject}->GetParam( Param => 'ResponsibleAllRefresh' ) ) {
@@ -608,8 +608,10 @@ sub Run {
             # html output
             $Output .= $Self->_MaskEmailNew(
                 QueueID => $Self->{QueueID},
-                Users =>
-                    $Self->_GetUsers( QueueID => $NewQueueID, AllUsers => $GetParam{AllUsers} ),
+                Users => $Self->_GetUsers(
+                    QueueID => $NewQueueID,
+                    AllUsers => $GetParam{OwnerAll}
+                ),
                 UserSelected     => $NewUserID,
                 ResponsibleUsers => $Self->_GetUsers(
                     QueueID  => $NewQueueID,
@@ -946,6 +948,94 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen();
         }
     }
+    elsif ($Self->{Subaction} eq 'AJAXUpdate') {
+        my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest');
+        my $QueueID = '';
+        if ($Dest =~ /^(\d{1,100})\|\|.+?$/) {
+            $QueueID = $1;
+        }
+        my $Users = $Self->_GetUsers(QueueID => $QueueID, AllUsers => $GetParam{OwnerAll});
+        my $ResponsibleUsers = $Self->_GetUsers(QueueID => $QueueID, AllUsers => $GetParam{ResponsibleAll});
+        my $NextStates = $Self->_GetNextStates(QueueID => $QueueID);
+        my $Priorities = $Self->_GetPriorities(QueueID => $QueueID);
+        # get free text config options
+        my @TicketFreeTextConfig = ();
+        for (1..16) {
+            my $ConfigKey = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "TicketFreeKey$_",
+                Action => $Self->{Action},
+                QueueID => $QueueID || 0,
+                UserID => $Self->{UserID},
+            );
+            if ($ConfigKey) {
+                push(@TicketFreeTextConfig, {
+                    Name => "TicketFreeKey$_",
+                    Data => $ConfigKey,
+                    SelectedID => [],
+                    Translation => 0,
+                    Max => 100,
+                });
+            }
+            my $ConfigValue = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "TicketFreeText$_",
+                Action => $Self->{Action},
+                QueueID => $QueueID || 0,
+                UserID => $Self->{UserID},
+           );
+            if ($ConfigValue) {
+                push(@TicketFreeTextConfig, {
+                    Name => "TicketFreeText$_",
+                    Data => $ConfigValue,
+                    SelectedID => [],
+                    Translation => 0,
+                    Max => 100,
+                });
+            }
+        }
+        my $JSON = $Self->{LayoutObject}->BuildJSON(
+            [
+                {
+                    Name => 'NewUserID',
+                    Data => $Users,
+                    SelectedID => [],
+                    Translation => 1,
+                    PossibleNone => 1,
+                    Max => 100,
+                },
+                {
+                    Name => 'NewResponsibleID',
+                    Data => $ResponsibleUsers,
+                    SelectedID => [],
+                    Translation => 1,
+                    PossibleNone => 1,
+                    Max => 100,
+                },
+                {
+                    Name => 'NextStateID',
+                    Data => $NextStates,
+                    SelectedID => [],
+                    Translation => 1,
+                    Max => 100,
+                },
+                {
+                    Name => 'PriorityID',
+                    Data => $Priorities,
+                    SelectedID => [],
+                    Translation => 1,
+                    Max => 100,
+                },
+                @TicketFreeTextConfig,
+            ],
+        );
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/plain',
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
     else {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => 'No Subaction!!',
@@ -1195,6 +1285,54 @@ sub _MaskEmailNew {
             OnChangeSubmit => 0,
             OnChange =>
                 "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            Ajax => {
+                Update => [
+                    'NewUserID',
+                    'NewResponsibleID',
+                    'NextStateID',
+                    'PriorityID',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Depend => [
+                    'Dest',
+                    'NextStateID',
+                    'PriorityID',
+                    'OwnerAll',
+                    'ResponsibleAll',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Subaction => 'AJAXUpdate',
+            }
         );
     }
     else {
@@ -1237,6 +1375,54 @@ sub _MaskEmailNew {
             Translation  => 0,
             OnChange =>
                 "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            Ajax => {
+                Update => [
+                    'NewUserID',
+                    'NewResponsibleID',
+                    'NextStateID',
+                    'PriorityID',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Depend => [
+                    'Dest',
+                    'NextStateID',
+                    'PriorityID',
+                    'OwnerAll',
+                    'ResponsibleAll',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Subaction => 'AJAXUpdate',
+            }
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketType',
