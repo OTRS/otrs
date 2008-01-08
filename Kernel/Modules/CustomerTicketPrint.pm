@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.16 2007-10-08 23:39:33 martin Exp $
+# $Id: CustomerTicketPrint.pm,v 1.17 2008-01-08 13:10:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,21 +91,13 @@ sub Run {
     # get content
     my %Ticket               = $Self->{TicketObject}->TicketGet( TicketID   => $Self->{TicketID} );
     my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' );
-    my @ArticleBox           = $Self->{TicketObject}->ArticleGet(
+    my @ArticleBox           = $Self->{TicketObject}->ArticleContentIndex(
         TicketID    => $Self->{TicketID},
         ArticleType => \@CustomerArticleTypes,
+        StripPlainBodyAsAttachment => 1,
     );
     $Ticket{TicketTimeUnits}
         = $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $Ticket{TicketID} );
-
-    # article attachments
-    for my $Article (@ArticleBox) {
-        my %AtmIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
-            ContentPath => $Article->{ContentPath},
-            ArticleID   => $Article->{ArticleID},
-        );
-        $Article->{Atms} = \%AtmIndex;
-    }
 
     # user info
     my %UserInfo = $Self->{UserObject}->GetUserData(

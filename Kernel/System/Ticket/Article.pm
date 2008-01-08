@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.154 2007-11-13 17:00:14 martin Exp $
+# $Id: Article.pm,v 1.155 2008-01-08 13:10:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.154 $) [1];
+$VERSION = qw($Revision: 1.155 $) [1];
 
 =head1 NAME
 
@@ -101,9 +101,8 @@ sub ArticleCreate {
         $Param{ContentType}       = 'text/plain';
         $Param{Body} = "- no text message => see attachment -";
     }
+    # fix some bad stuff from some browsers (Opera)!
     else {
-
-        # fix some bad stuff from some browsers (Opera)!
         $Param{Body} =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
     }
 
@@ -1243,6 +1242,21 @@ returns an array with hash ref
         TicketID => 123,
     );
 
+or with StripPlainBodyAsAttachment feature to not include
+first attachment / body as attachment
+
+    my @ArticleIDs = $TicketObject->ArticleContentIndex(
+        TicketID => 123,
+        StripPlainBodyAsAttachment => 1,
+    );
+
+returns an array with hash ref only with given article types
+
+    my @ArticleIDs = $TicketObject->ArticleContentIndex(
+        TicketID => 123,
+        ArticleType => [ $ArticleType1, $ArticleType2 ],
+    );
+
 =cut
 
 sub ArticleContentIndex {
@@ -1253,7 +1267,10 @@ sub ArticleContentIndex {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
         return;
     }
-    my @ArticleBox = $Self->ArticleGet( TicketID => $Param{TicketID} );
+    my @ArticleBox = $Self->ArticleGet(
+        TicketID => $Param{TicketID},
+        ArticleType => $Param{ArticleType} || '',
+    );
 
     # article attachments
     for my $Article (@ArticleBox) {
@@ -1261,6 +1278,25 @@ sub ArticleContentIndex {
             ContentPath => $Article->{ContentPath},
             ArticleID   => $Article->{ArticleID},
         );
+        if ( $Param{StripPlainBodyAsAttachment} ) {
+            my $EmailPlain = 0;
+            my $EmailHTML = 0;
+            for my $Count ( keys %AtmIndex ) {
+                my %File = %{ $AtmIndex{$Count} };
+                if ( $File{Filename} eq 'file-1'
+                    && $File{ContentType} =~ /text\/plain/i ) {
+                    $EmailPlain = $Count;
+                }
+                if ( $File{Filename} eq 'file-2'
+                    && $File{ContentType} =~ /text\/html/i ) {
+                    $EmailHTML = $Count;
+                }
+            }
+            if ( $EmailPlain && $EmailHTML ) {
+                delete $AtmIndex{$EmailPlain};
+                $AtmIndex{$EmailHTML}->{Filename} = 'HTML-Email';
+            }
+        }
         $Article->{Atms} = \%AtmIndex;
     }
     return @ArticleBox;
@@ -1274,8 +1310,18 @@ returns article data
         ArticleID => 123,
     );
 
+returns articles in array / hash by given ticket id
+
     my @ArticleIndex = $TicketObject->ArticleGet(
         TicketID => 123,
+    );
+
+returns articles in array / hash by given ticket id but
+only requestet article types
+
+    my @ArticleIndex = $TicketObject->ArticleGet(
+        TicketID => 123,
+        ArticleType => [ $ArticleType1, $ArticleType2 ],
     );
 
 =cut

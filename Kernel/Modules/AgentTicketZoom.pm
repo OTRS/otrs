@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.40 2007-10-08 20:54:48 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.41 2008-01-08 13:10:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -109,8 +109,11 @@ sub Run {
     }
 
     # get content
-    my %Ticket     = $Self->{TicketObject}->TicketGet( TicketID           => $Self->{TicketID} );
-    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex( TicketID => $Self->{TicketID} );
+    my %Ticket     = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
+        TicketID                   => $Self->{TicketID},
+        StripPlainBodyAsAttachment => 1,
+    );
 
     # return if HTML email
     if ( $Self->{Subaction} eq 'ShowHTMLeMail' ) {
@@ -633,7 +636,8 @@ sub MaskAgentZoom {
                     }
 
                     # add attachment icon
-                    if (   $Article{Atms}->{1}
+                    if (   $Article{Atms}
+                        && %{ $Article{Atms} }
                         && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay') )
                     {
                         my $Title = '';
@@ -766,6 +770,7 @@ sub MaskAgentZoom {
         # get attacment string
         my %AtmIndex = ();
         if ( $Article{Atms} ) {
+
             %AtmIndex = %{ $Article{Atms} };
         }
 

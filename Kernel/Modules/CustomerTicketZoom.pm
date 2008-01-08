@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.18 2007-10-16 17:43:29 mh Exp $
+# $Id: CustomerTicketZoom.pm,v 1.19 2008-01-08 13:10:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -278,21 +278,12 @@ sub Run {
         = $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $Ticket{TicketID} );
 
     # get all atricle of this ticket
-    #    my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList(Type => 'Customer');
-    #    my @ArticleBox = $Self->{TicketObject}->ArticleGet(
-    #        TicketID => $Self->{TicketID},
-    #        ArticleType => \@CustomerArticleTypes,
-    #    );
-    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex( TicketID => $Self->{TicketID} );
-
-    # get article attachments
-    for my $Article (@ArticleBox) {
-        my %AtmIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
-            ContentPath => $Article->{ContentPath},
-            ArticleID   => $Article->{ArticleID},
-        );
-        $Article->{Atms} = \%AtmIndex;
-    }
+    my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList(Type => 'Customer');
+    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
+        TicketID => $Self->{TicketID},
+        ArticleType => \@CustomerArticleTypes,
+        StripPlainBodyAsAttachment => 1,
+    );
 
     # genterate output
     my $Output = $Self->{LayoutObject}->CustomerHeader( Value => $Ticket{TicketNumber} );
@@ -388,81 +379,76 @@ sub _Mask {
         my %Article = %$ArticleTmp;
         my $Start   = '';
         my $Stop    = '';
-        if ( $Article{ArticleType} !~ /int/ ) {
-            $CounterTree++;
-            my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
-                TicketNumber => $Article{TicketNumber},
-                Subject      => $Article{Subject} || '',
-            );
-            if ( $LastSenderType ne $Article{SenderType} ) {
-                $Counter .= "&nbsp;";
-                $Space = "$Counter&nbsp;|--&gt;";
+
+        $CounterTree++;
+        my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
+            TicketNumber => $Article{TicketNumber},
+            Subject      => $Article{Subject} || '',
+        );
+        if ( $LastSenderType ne $Article{SenderType} ) {
+            $Counter .= "&nbsp;";
+            $Space = "$Counter&nbsp;|--&gt;";
+        }
+        $LastSenderType = $Article{SenderType};
+
+        # if this is the shown article -=> add <b>
+        if ( $ArticleID eq $Article{ArticleID} ) {
+            $Start = '&gt;&gt;<i><b><u>';
+        }
+
+        # if this is the shown article -=> add </b>
+        if ( $ArticleID eq $Article{ArticleID} ) {
+            $Stop = '</u></b></i>';
+        }
+        $Self->{LayoutObject}->Block(
+            Name => 'TreeItem',
+            Data => {
+                %Article,
+                Subject => $TmpSubject,
+                Space   => $Space,
+                Start   => $Start,
+                Stop    => $Stop,
+                Count   => $CounterTree,
+            },
+        );
+
+        # add attachment icon
+        if (   $Article{Atms}
+            && %{ $Article{Atms} }
+            && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay') ) {
+            my $Title = '';
+
+            # download type
+            my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
+
+            # if attachment will be forced to download, don't open a new download window!
+            my $Target = '';
+            if ( $Type =~ /inline/i ) {
+                $Target = 'target="attachment" ';
             }
-            $LastSenderType = $Article{SenderType};
-
-            # if this is the shown article -=> add <b>
-            if ( $ArticleID eq $Article{ArticleID} ) {
-                $Start = '&gt;&gt;<i><b><u>';
-            }
-
-            # if this is the shown article -=> add </b>
-            if ( $ArticleID eq $Article{ArticleID} ) {
-                $Stop = '</u></b></i>';
-            }
-            $Self->{LayoutObject}->Block(
-                Name => 'TreeItem',
-                Data => {
-                    %Article,
-                    Subject => $TmpSubject,
-                    Space   => $Space,
-                    Start   => $Start,
-                    Stop    => $Stop,
-                    Count   => $CounterTree,
-                },
-            );
-
-            # add attachment icon
-            if (   $Article{Atms}->{1}
-                && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay') )
-            {
-                my $Title = '';
-
-                # download type
-                my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
-
-                # if attachment will be forced to download, don't open a new download window!
-                my $Target = '';
-                if ( $Type =~ /inline/i ) {
-                    $Target = 'target="attachment" ';
-                }
-                for my $Count (
-                    1 .. ( $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount') + 1 ) )
-                {
-                    if ( $Article{Atms}->{$Count} ) {
-                        if ( $Count
-                            > $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount') )
-                        {
-                            $Self->{LayoutObject}->Block(
-                                Name => 'TreeItemAttachmentMore',
-                                Data => {
-                                    %Article,
-                                    %{ $Article{Atms}->{$Count} },
-                                    FileID => $Count,
-                                    Target => $Target,
-                                },
-                            );
-                        }
-                        elsif ( $Article{Atms}->{$Count} ) {
-                            $Self->{LayoutObject}->Block(
-                                Name => 'TreeItemAttachment',
-                                Data => {
-                                    %Article,
-                                    %{ $Article{Atms}->{$Count} },
-                                    FileID => $Count,
-                                    Target => $Target,
-                                },
-                            );
-                        }
+            for my $Count ( 1 .. ( $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount') + 1 ) ) {
+                if ( $Article{Atms}->{$Count} ) {
+                    if ( $Count > $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount') ) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'TreeItemAttachmentMore',
+                            Data => {
+                                %Article,
+                                %{ $Article{Atms}->{$Count} },
+                                FileID => $Count,
+                                Target => $Target,
+                            },
+                        );
+                    }
+                    elsif ( $Article{Atms}->{$Count} ) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'TreeItemAttachment',
+                            Data => {
+                                %Article,
+                                %{ $Article{Atms}->{$Count} },
+                                FileID => $Count,
+                                Target => $Target,
+                            },
+                        );
                     }
                 }
             }
@@ -478,11 +464,6 @@ sub _Mask {
         if ( $ArticleID eq $ArticleTmp1{ArticleID} ) {
             %Article = %ArticleTmp1;
         }
-    }
-
-    # check show article type
-    if ( $Article{StateType} ne 'merged' && $Article{ArticleType} =~ /int/ ) {
-        return $Self->{LayoutObject}->CustomerError( Message => 'No permission!' );
     }
 
     # get attacment string
