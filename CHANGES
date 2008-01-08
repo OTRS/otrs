@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.535 2008-01-07 22:26:12 martin Exp $
+# $Id: CHANGES,v 1.536 2008-01-08 00:48:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/01/08) Added multi attachment support to ticket move screen.
  - (2008/01/08) Added AJAX support in email ticket.
  - (2008/01/03) Changed default session settings SessionMaxTime from 14h to
     16h and SessionMaxIdleTime from 5h to 6h.

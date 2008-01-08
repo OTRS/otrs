@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.16 2007-10-02 10:32:23 mh Exp $
+# $Id: AgentTicketMove.pm,v 1.17 2008-01-08 00:48:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::State;
+use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,21 +38,18 @@ sub new {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
-    $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{StateObject}      = Kernel::System::State->new(%Param);
+    $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
 
     # get params
-    $Self->{DestQueueID}      = $Self->{ParamObject}->GetParam( Param => 'DestQueueID' );
-    $Self->{DestQueue}        = $Self->{ParamObject}->GetParam( Param => 'DestQueue' );
     $Self->{TicketUnlock}     = $Self->{ParamObject}->GetParam( Param => 'TicketUnlock' );
-    $Self->{ExpandQueueUsers} = $Self->{ParamObject}->GetParam( Param => 'ExpandQueueUsers' ) || 0;
-    $Self->{AllUsers}         = $Self->{ParamObject}->GetParam( Param => 'AllUsers' ) || 0;
-    $Self->{TimeUnits}        = $Self->{ParamObject}->GetParam( Param => 'TimeUnits' );
-    $Self->{Comment}          = $Self->{ParamObject}->GetParam( Param => 'Comment' ) || '';
-    $Self->{NewStateID}       = $Self->{ParamObject}->GetParam( Param => 'NewStateID' ) || '';
 
-    # DestQueueID lookup
-    if ( !$Self->{DestQueueID} && $Self->{DestQueue} ) {
-        $Self->{DestQueueID} = $Self->{QueueObject}->QueueLookup( Queue => $Self->{DestQueue} );
+    # get form id
+    $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
+
+    # create form id
+    if ( !$Self->{FormID} ) {
+        $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
     }
 
     return $Self;
@@ -59,8 +57,6 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
-
-    my $Output;
 
     # check needed stuff
     for (qw(TicketID)) {
@@ -107,21 +103,62 @@ sub Run {
         }
     }
 
-    # new owner!
-    my $UserSelection = $Self->{ParamObject}->GetParam( Param => 'UserSelection' ) || '';
-    my $NewUserID     = $Self->{ParamObject}->GetParam( Param => 'NewUserID' );
-    my $OldUserID     = $Self->{ParamObject}->GetParam( Param => 'OldUserID' );
+    # get params
+    my %GetParam = ();
+    for (
+        qw(Subject Body TimeUnits
+        NewUserID OldUserID NewStateID
+        UserSelection ExpandQueueUsers NoSubmit DestQueueID DestQueue
+        AttachmentUpload
+        AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
+        AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
+        AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
+        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
+        )
+        )
+    {
+        $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+    }
+    my %Error = ();
+    if ( $GetParam{AttachmentUpload} ) {
+        $Error{AttachmentUpload} = 1;
+    }
+
+    # check subject if body exists
+    if ( $GetParam{Body} && !$GetParam{Subject} ) {
+        $Error{'Subject invalid'} = 'invalid';
+    }
+
+    # DestQueueID lookup
+    if ( !$GetParam{DestQueueID} && $GetParam{DestQueue} ) {
+        $GetParam{DestQueueID} = $Self->{QueueObject}->QueueLookup( Queue => $GetParam{DestQueue} );
+    }
+    if ( !$GetParam{DestQueueID} ) {
+        $Error{DestQueue} = 1;
+    }
+
+    # do not submit
+    if ( $GetParam{NoSubmit} ) {
+        $Error{NoSubmit} = 1;
+    }
+
+    # ticket attributes
+    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # check new/old user selection
-    if ( $UserSelection eq 'Old' ) {
-        if ($OldUserID) {
-            $NewUserID = $OldUserID;
+    if ( $GetParam{UserSelection} && $GetParam{UserSelection} eq 'Old' ) {
+        $GetParam{'UserSelection::Old'} = 'checked';
+        if ( $GetParam{OldUserID} ) {
+            $GetParam{NewUserID} = $GetParam{OldUserID};
         }
+    }
+    else {
+        $GetParam{'UserSelection::New'} = 'checked';
     }
 
     # move queue
-    if ( !$Self->{DestQueueID} || $Self->{ExpandQueueUsers} ) {
-        $Output .= $Self->{LayoutObject}->Header();
+    if ( %Error) {
+        my $Output = $Self->{LayoutObject}->Header();
 
         # get lock state && write (lock) permissions
         if ( !$Self->{TicketObject}->LockIsTicketLocked( TicketID => $Self->{TicketID} ) ) {
@@ -144,15 +181,14 @@ sub Run {
 
                 # show lock state
                 $Self->{LayoutObject}->Block(
-                    Name => 'TicketLocked',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                    Name => 'PropertiesLock',
+                    Data => { %Param, TicketID => $Self->{TicketID} },
                 );
                 $Self->{TicketUnlock} = 1;
             }
         }
         else {
-            my ( $OwnerID, $OwnerLogin )
-                = $Self->{TicketObject}->OwnerCheck( TicketID => $Self->{TicketID}, );
+            my ( $OwnerID, $OwnerLogin ) = $Self->{TicketObject}->OwnerCheck( TicketID => $Self->{TicketID} );
             if ( $OwnerID != $Self->{UserID} ) {
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Sorry, the current owner is $OwnerLogin!",
@@ -171,9 +207,6 @@ sub Run {
             Type     => 'move_into',
         );
 
-        # build header
-        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
-
         # get next states
         my %NextStates = $Self->{TicketObject}->StateList(
             Type     => 'DefaultNextMove',
@@ -189,16 +222,46 @@ sub Run {
         # get lod queues
         my @OldQueue = $Self->{TicketObject}->MoveQueueList( TicketID => $Self->{TicketID} );
 
+        # attachment delete
+        for ( 1 .. 16 ) {
+            if ( $GetParam{"AttachmentDelete$_"} ) {
+                $Error{AttachmentDelete} = 1;
+                $Self->{UploadCachObject}->FormIDRemoveFile(
+                    FormID => $Self->{FormID},
+                    FileID => $_,
+                );
+            }
+        }
+
+        # attachment upload
+        if ( $GetParam{AttachmentUpload} ) {
+            $Error{AttachmentUpload} = 1;
+            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                Param  => "file_upload",
+                Source => 'string',
+            );
+            $Self->{UploadCachObject}->FormIDAddFile(
+                FormID => $Self->{FormID},
+                %UploadStuff,
+            );
+        }
+
+        # get all attachments meta data
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
+
         # print change form
         $Output .= $Self->AgentMove(
             OldQueue     => \@OldQueue,
             OldUser      => \@OldUserInfo,
+            Attachments  => \@Attachments,
             MoveQueues   => \%MoveQueues,
             TicketID     => $Self->{TicketID},
             NextStates   => \%NextStates,
             TicketUnlock => $Self->{TicketUnlock},
-            TimeUnits    => $Self->{TimeUnits},
-            Comment      => $Self->{Comment},
+            TimeUnits    => $GetParam{TimeUnits},
+            FormID       => $Self->{FormID},
+            %Error,
+            %GetParam,
             %Ticket,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -206,26 +269,27 @@ sub Run {
     }
     elsif (
         $Self->{TicketObject}->MoveTicket(
-            QueueID            => $Self->{DestQueueID},
+            QueueID            => $GetParam{DestQueueID},
             UserID             => $Self->{UserID},
             TicketID           => $Self->{TicketID},
-            SendNoNotification => $NewUserID,
-            Comment            => $Self->{Comment},
+            SendNoNotification => $GetParam{NewUserID},
+            Comment            => $GetParam{Body} || '',
         )
         )
     {
 
         # set state
-        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveSetState') && $Self->{NewStateID} ) {
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveSetState') && $GetParam{NewStateID} ) {
             $Self->{TicketObject}->StateSet(
                 TicketID => $Self->{TicketID},
-                StateID  => $Self->{NewStateID},
+                StateID  => $GetParam{NewStateID},
                 UserID   => $Self->{UserID},
             );
 
             # unlock the ticket after close
-            my %StateData
-                = $Self->{TicketObject}->{StateObject}->StateGet( ID => $Self->{NewStateID}, );
+            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                ID => $GetParam{NewStateID},
+            );
 
             # set unlock on close
             if ( $StateData{TypeName} =~ /^close/i ) {
@@ -238,7 +302,7 @@ sub Run {
         }
 
         # check if new user is given
-        if ($NewUserID) {
+        if ( $GetParam{NewUserID} ) {
 
             # lock
             $Self->{TicketObject}->LockSet(
@@ -251,8 +315,8 @@ sub Run {
             $Self->{TicketObject}->OwnerSet(
                 TicketID  => $Self->{TicketID},
                 UserID    => $Self->{UserID},
-                NewUserID => $NewUserID,
-                Comment   => $Self->{Comment},
+                NewUserID => $GetParam{NewUserID},
+                Comment   => $GetParam{Comment} || '',
             );
         }
         else {
@@ -270,14 +334,14 @@ sub Run {
         # add note
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
         my $ArticleID;
-        if ( $Self->{Comment} ) {
+        if ( $GetParam{Body} ) {
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID    => $Self->{TicketID},
                 ArticleType => 'note-internal',
                 SenderType  => 'agent',
                 From        => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                Subject     => 'Move Note',
-                Body        => $Self->{Comment},
+                Subject     => $GetParam{Subject},
+                Body        => $GetParam{Body},
                 ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
                 UserID      => $Self->{UserID},
                 HistoryType => 'AddNote',
@@ -287,11 +351,11 @@ sub Run {
         }
 
         # time accounting
-        if ( $Self->{TimeUnits} ) {
+        if ( $GetParam{TimeUnits} ) {
             $Self->{TicketObject}->TicketAccountTime(
                 TicketID  => $Self->{TicketID},
                 ArticleID => $ArticleID || '',
-                TimeUnit  => $Self->{TimeUnits},
+                TimeUnit  => $GetParam{TimeUnits},
                 UserID    => $Self->{UserID},
             );
         }
@@ -302,9 +366,8 @@ sub Run {
     else {
 
         # error?!
-        $Output = $Self->{LayoutObject}->Header( Title => 'Warning' );
+        my $Output = $Self->{LayoutObject}->Header( Title => 'Warning' );
         $Output .= $Self->{LayoutObject}->Warning(
-            Message => "",
             Comment => 'Please contact your admin',
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -339,8 +402,8 @@ sub AgentMove {
     if ( !%UserHash ) {
         $UserHash{''} = '-';
     }
-    my $OldUserSelectedID = '';
-    if ( $Param{OldUser}->[0]->{UserID} ) {
+    my $OldUserSelectedID = $Param{OldUserID};
+    if ( ! $OldUserSelectedID && $Param{OldUser}->[0]->{UserID} ) {
         $OldUserSelectedID = $Param{OldUser}->[0]->{UserID} . '1';
     }
 
@@ -356,17 +419,14 @@ sub AgentMove {
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Param{NextStates},
         Name       => 'NewStateID',
-        SelectedID => $Self->{NewStateID},
+        SelectedID => $Param{NewStateID},
     );
 
     # build owner string
     $Param{'OwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => $Self->_GetUsers( QueueID => $Self->{DestQueueID}, AllUsers => $Self->{AllUsers} ),
-
-        #        Selected => $Param{OwnerID},
+        Data => $Self->_GetUsers( QueueID => $Param{DestQueueID}, AllUsers => $Param{ExpandQueueUsers} ),
         Name => 'NewUserID',
-
-        #       Size => 5,
+        SelectedID => $Param{NewUserID},
         OnClick => "change_selected(0)",
     );
     if ( $LatestQueueID && $MoveQueues{$LatestQueueID} ) {
@@ -385,10 +445,10 @@ sub AgentMove {
         Multiple       => 0,
         Size           => 0,
         Name           => 'DestQueueID',
-        SelectedID     => $Self->{DestQueueID},
+        SelectedID     => $Param{DestQueueID},
         OnChangeSubmit => 0,
         OnChange =>
-            "document.compose.ExpandQueueUsers.value='3'; document.compose.submit(); return false;",
+            "document.compose.NoSubmit.value='1'; document.compose.submit(); return false;",
     );
 
     # show time accounting box
@@ -400,6 +460,24 @@ sub AgentMove {
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
             Data => \%Param,
+        );
+    }
+
+    # show spell check
+    if (   $Self->{ConfigObject}->Get('SpellChecker')
+        && $Self->{LayoutObject}->{BrowserJavaScriptSupport} )
+    {
+        $Self->{LayoutObject}->Block(
+            Name => 'SpellCheck',
+            Data => {},
+        );
+    }
+
+    # show attachments
+    for my $DataRef ( @{ $Param{Attachments} } ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Attachment',
+            Data => $DataRef,
         );
     }
 

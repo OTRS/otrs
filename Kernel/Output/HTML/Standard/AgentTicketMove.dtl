@@ -1,8 +1,8 @@
 # --
 # AgentTicketMove.dtl - provides HTML form for move mask
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.9 2007-01-09 03:24:16 martin Exp $
+# $Id: AgentTicketMove.dtl,v 1.10 2008-01-08 00:48:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@
 <!--
 
 function change_selected(sel) {
-   start_elements = (sel + 5);
+   start_elements = (sel + 7);
    if (document.compose.elements[0].name == "$Config{"SessionName"}") {
        start_elements = start_elements + 1;
    }
@@ -25,8 +25,18 @@ function change_selected(sel) {
 
 function submit_compose() {
     if (document.compose.DestQueueID.value == "") {
-        alert('$JSText{"Queue"}');
+        alert('$JSText{"New Queue"}!');
         document.compose.DestQueueID.focus();
+        return false;
+    }
+    else if (document.compose.Subject.value == "" && document.compose.AttachmentDelete1) {
+        alert('$JSText{"A message should have a subject!"}');
+        document.compose.Subject.focus();
+        return false;
+    }
+    else if (document.compose.Body.value != "" && document.compose.Subject.value == "") {
+        alert('$JSText{"A message should have a subject!"}');
+        document.compose.Subject.focus();
         return false;
     }
 <!-- dtl:block:TimeUnitsJs -->
@@ -45,8 +55,15 @@ function submit_compose() {
     }
 <!-- dtl:block:TimeUnitsJs -->
 }
+
+function SpellCheckSubmit() {
+    document.spelling.Body.value = document.compose.Body.value;
+    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
+    document.spelling.submit()
+}
 //-->
 </script>
+
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
@@ -74,13 +91,13 @@ function submit_compose() {
         <tr>
           <td class="contentbody">
 #$Data{"TicketUnlock"}
-            <form action="$Env{"CGIHandle"}" method="post" name="compose">
+            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
               <input type="hidden" name="Action" value="$Env{"Action"}">
+              <input type="hidden" name="FormID" value="$QData{"FormID"}">
               <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
               <input type="hidden" name="TicketUnlock" value="$Data{"TicketUnlock"}">
-#              <input type="hidden" name="DestQueueID" value="">
-              <input type="hidden" name="ExpandQueueUsers" value="">
-              <input type="hidden" name="AllUsers" value="0">
+              <input type="hidden" name="ExpandQueueUsers" value="$QData{"ExpandQueueUsers"}">
+              <input type="hidden" name="NoSubmit" value="">
               <table border="0" width="100%">
                 <tr>
                   <td class="contentkey">$Text{"New Queue"}:</td>
@@ -90,22 +107,64 @@ function submit_compose() {
                 <tr>
                   <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
                   <td width="2%" class="contentvalue">
-                    <input type="radio" name="UserSelection" value="New" checked="checked">
+                    <input type="radio" name="UserSelection" value="New" $QData{"UserSelection::New"}>
                   </td>
                   <td width="80%" class="contentvalue">
-                    $Data{"OwnerStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandQueueUsers.value='3'; document.compose.AllUsers.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+                    $Data{"OwnerStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandQueueUsers.value='3'; document.compose.NoSubmit.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
                   </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Previous Owner"}:</td>
-                  <td class="contentvalue"><input type="radio" name="UserSelection" value="Old"></td>
+                  <td class="contentvalue"><input type="radio" name="UserSelection" value="Old" $QData{"UserSelection::Old"}></td>
                   <td class="contentvalue">$Data{"OldUserStrg"}</td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Note"}:</td>
+                  <td colspan="2" class="contentkey">$Text{"Subject"}:</td>
+                  <td class="contentvalue">
+                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70">
+                    <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"Options"}:</td>
+                  <td class="contentvalue">
+<!-- dtl:block:SpellCheck -->
+                    $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+<!-- dtl:block:SpellCheck -->
+                    $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$JSText{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue"></td>
                   <td class="contentvalue">
-                    <textarea name="Comment" rows="8" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Data{"Comment"}</textarea>
+                    <textarea name="Body" rows="14" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Data{"Body"}</textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Attachment"}:</td>
+                  <td class="contentvalue"></td>
+                  <td class="contentvalue">
+                    <table cellspacing="0" cellpadding="0" width="400">
+<!-- dtl:block:Attachment -->
+                      <tr>
+                        <td>$QData{"Filename"}</td>
+                        <td>$QData{"Filesize"}</td>
+                        <td align="right">
+                            <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">
+                        </td>
+                      </tr>
+<!-- dtl:block:Attachment -->
+                      <tr>
+                        <td colspan="2">
+                          <input name="file_upload" type="file" size="40" class="fixed">
+                        </td>
+                        <td align="right">
+                          <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">
+                          <a name="attachment"></a>
+                        </td>
+                      </tr>
+                    </table>
                   </td>
                 </tr>
 # --
@@ -135,6 +194,11 @@ function submit_compose() {
           </td>
         </tr>
       </table>
+      <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
+        <input type="hidden" name="Action" value="AgentSpelling">
+        <input type="hidden" name="Body" value="">
+        <input type="hidden" name="spell_lang" value="">
+      </form>
       <br>
     </td>
   </tr>
