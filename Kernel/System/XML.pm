@@ -1,8 +1,8 @@
 # --
 # Kernel/System/XML.pm - lib xml
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.64 2007-10-05 14:11:22 mh Exp $
+# $Id: XML.pm,v 1.65 2008-01-08 13:39:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 =head1 NAME
 
@@ -1289,24 +1289,31 @@ sub XMLParse {
     }
 
     # load parse package and parse
-    my $Parser;
+    my $UseFallback = 1;
+
     if ( eval "require XML::Parser" ) {
-        $Parser = XML::Parser->new( Handlers => { Start => \&_HS, End => \&_ES, Char => \&_CS } );
-        if ( !eval { $Parser->parse( $Param{String} ) } ) {
+        my $Parser = XML::Parser->new( Handlers => { Start => \&_HS, End => \&_ES, Char => \&_CS } );
+
+        if ( eval { $Parser->parse( $Param{String} ) } ) {
+            $UseFallback = 0;
+        }
+        else {
             $Self->{LogObject}->Log( Priority => 'error', Message => "C-Parser: $@!" );
-            return ();
+            $Self->{LogObject}->Log( Priority => 'error', Message => "XML::Parser produced errors. I use XML::Parser::Lite as fallback!" );
         }
     }
-    else {
-        eval "require XML::Parser::Lite";
-        $Parser
+
+    if ($UseFallback) {
+        require XML::Parser::Lite;
+
+        my $Parser
             = XML::Parser::Lite->new( Handlers => { Start => \&_HS, End => \&_ES, Char => \&_CS } );
         $Parser->parse( $Param{String} );
     }
 
     # quote
-    for ( @{ $Self->{XMLARRAY} } ) {
-        $Self->_Decode($_);
+    for my $XMLElement ( @{ $Self->{XMLARRAY} } ) {
+        $Self->_Decode($XMLElement);
     }
     return @{ $Self->{XMLARRAY} };
 }
@@ -1433,6 +1440,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2007-10-05 14:11:22 $
+$Revision: 1.65 $ $Date: 2008-01-08 13:39:11 $
 
 =cut

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.537 2008-01-08 07:55:13 mh Exp $
+# $Id: CHANGES,v 1.538 2008-01-08 13:42:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -85,6 +85,7 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.5 (2008/??/??)
+ - (2008/01/08) Improved XMLParse() to prevent bugs like# 2612.
  - (2008/01/08) Fixed bug# 2609 - Temp files are not removed after process was
     finished under windows.
  - (2008/01/07) Fixed bug# 1893 - Attachement Storage fails with
