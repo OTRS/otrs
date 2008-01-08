@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.538 2008-01-08 13:42:31 mh Exp $
+# $Id: CHANGES,v 1.539 2008-01-08 23:13:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/01/08) Added expand/collapse option to ticket zoom.
  - (2008/01/08) Added multi attachment support to ticket move screen.
  - (2008/01/08) Added AJAX support in email ticket.
  - (2008/01/03) Changed default session settings SessionMaxTime from 14h to
@@ -110,7 +111,7 @@ CVS HEAD (????/??/??)
  - (2007/12/12) Fixed bug# 2581 - Follow up not possible if "ticket#: xxxxxxx"
     is copied from webinterface into new email subject.
  - (2007/12/11) Fixed bug# 2479 - Unable to retrieve attachments bigger than
-    3Mb (on Oracle DB). Changed default read size from 4 MB to 15 MB in
+    3 MB (on Oracle DB). Changed default read size from 4 MB to 15 MB in
     Kernel/System/DB/oracle.pm:
 
     $Self->{'DB::Attribute'}      = {
@@ -118,7 +119,7 @@ CVS HEAD (????/??/??)
         LongReadLen => 15 * 1024 * 1024,
     };
 
- - (2007/12/10) Fixed bug# 1428 - whitespaces remove from email subject
+ - (2007/12/10) Fixed bug# 1428 - Whitespaces remove from email subject
     (notification and new tickets creation) if utf-8 is used.
     The problem is a bug in MIME::Tools/MIME::Words, for more info see
     CPAN-Bug# 5462: http://rt.cpan.org/Public/Bug/Display.html?id=5462

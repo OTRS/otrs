@@ -1,8 +1,8 @@
 # --
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.30 2007-12-13 15:55:40 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.31 2008-01-08 23:13:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -55,10 +55,10 @@
       <table border="0" width="100%" cellspacing="0" cellpadding="0">
 <!-- dtl:block:TreeItem -->
         <tr class="$QData{"SenderType"}-$QData{"ArticleType"}">
-          <td class="small">
+          <td colspan="$QData{"ColSpan"}" class="small">
             <div title="$QData{"From","60"}: $QData{"Subject","200"} - $TimeLong{"$QData{"Created"}"}">
             $Data{"Space"}$Data{"Start"} $QData{"Count"}.
-            <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})</a>
+            <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=$LQData{"ZoomExpand"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})</a>
 <!-- dtl:block:TreeItemEmail -->
             (<a href="$Env{"Baselink"}Action=AgentTicketPlain&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}" onmouseover="window.status='$JSText{"plain"}'; return true;" onmouseout="window.status='';">$Text{"plain"}</a>)
 <!-- dtl:block:TreeItemEmail -->
@@ -71,6 +71,22 @@
 <!-- dtl:block:TreeItemAttachmentMore -->
             </div>
           </td>
+<!-- dtl:block:TreeItemExpand -->
+          <td>
+            <div title="$Text{"Expand View"}">
+            <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=1" onmouseover="window.status='$JSText{"Expand"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}expand.png"></a>
+            </div>
+          </td>
+<!-- dtl:block:TreeItemExpand -->
+<!-- dtl:block:TreeItemCollapse -->
+          <td>
+            <div title="$Text{"Collapse View"}">
+            <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=0" onmouseover="window.status='$JSText{"Collapse View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}collapse.png"></a>
+            </div>
+          </td>
+<!-- dtl:block:TreeItemCollapse -->
+        </tr>
+        <tr>
         </tr>
 <!-- dtl:block:TreeItem -->
       </table>

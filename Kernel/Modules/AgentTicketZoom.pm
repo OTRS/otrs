@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.41 2008-01-08 13:10:53 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.42 2008-01-08 23:13:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -617,17 +617,54 @@ sub MaskAgentZoom {
                     if ( $ArticleID eq $Article{ArticleID} ) {
                         $Stop = '</u></b></i>';
                     }
+
+                    # check if we need to show also expand/collapse icon
+                    my $ColSpan = 2;
+                    if ( $CounterTree == 1 ) {
+                        $ColSpan = 1;
+                    }
                     $Self->{LayoutObject}->Block(
                         Name => 'TreeItem',
                         Data => {
                             %Article,
-                            Subject => $TmpSubject,
-                            Space   => $Space,
-                            Start   => $Start,
-                            Stop    => $Stop,
-                            Count   => $CounterTree,
+                            ColSpan        => $ColSpan,
+                            Subject        => $TmpSubject,
+                            Space          => $Space,
+                            Start          => $Start,
+                            Stop           => $Stop,
+                            Count          => $CounterTree,
+                            ZoomExpand     => $Self->{ZoomExpand},
+                            ZoomExpandSort => $Self->{ZoomExpandSort},
                         },
                     );
+
+                    # check if expand or collapse need to be shown
+                    if ( $CounterTree == 1 ) {
+                        if ( $Count == 1 && $Self->{ZoomExpand} ) {
+                            $Self->{LayoutObject}->Block(
+                                Name => 'TreeItemCollapse',
+                                Data => {
+                                    %Article,
+                                    ArticleID      => $ArticleID,
+                                    ZoomExpand     => $Self->{ZoomExpand},
+                                    ZoomExpandSort => $Self->{ZoomExpandSort},
+                                },
+                            );
+                        }
+                        else {
+                            $Self->{LayoutObject}->Block(
+                                Name => 'TreeItemExpand',
+                                Data => {
+                                    %Article,
+                                    ArticleID      => $ArticleID,
+                                    ZoomExpand     => $Self->{ZoomExpand},
+                                    ZoomExpandSort => $Self->{ZoomExpandSort},
+                                },
+                            );
+                        }
+                    }
+
+                    # show plain link
                     if ( $Article{ArticleType} =~ /^email/ ) {
                         $Self->{LayoutObject}->Block(
                             Name => 'TreeItemEmail',
@@ -635,7 +672,7 @@ sub MaskAgentZoom {
                         );
                     }
 
-                    # add attachment icon
+                    # add attachment icons
                     if (   $Article{Atms}
                         && %{ $Article{Atms} }
                         && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay') )
