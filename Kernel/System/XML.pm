@@ -1,8 +1,8 @@
 # --
 # Kernel/System/XML.pm - lib xml
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.61 2007-08-02 11:39:59 martin Exp $
+# $Id: XML.pm,v 1.61.2.1 2008-01-08 13:40:56 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.61.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1021,24 +1021,33 @@ sub XMLParse {
         }
     }
     # load parse package and parse
-    my $Parser;
-    if (eval "require XML::Parser") {
-        $Parser = XML::Parser->new(Handlers => {Start => \&_HS, End => \&_ES, Char => \&_CS});
-        if (!eval { $Parser->parse($Param{String}) }) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "C-Parser: $@!");
-            return ();
+    my $UseFallback = 1;
+
+    if ( eval "require XML::Parser" ) {
+        my $Parser = XML::Parser->new( Handlers => { Start => \&_HS, End => \&_ES, Char => \&_CS } );
+
+        if ( eval { $Parser->parse( $Param{String} ) } ) {
+            $UseFallback = 0;
+        }
+        else {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "C-Parser: $@!" );
+            $Self->{LogObject}->Log( Priority => 'error', Message => "XML::Parser produced errors. I use XML::Parser::Lite as fallback!" );
         }
     }
-    else {
-        eval "require XML::Parser::Lite";
-        $Parser = XML::Parser::Lite->new(Handlers => {Start => \&_HS, End => \&_ES, Char => \&_CS});
-        $Parser->parse($Param{String});
+
+    if ($UseFallback) {
+        require XML::Parser::Lite;
+
+        my $Parser
+            = XML::Parser::Lite->new( Handlers => { Start => \&_HS, End => \&_ES, Char => \&_CS } );
+        $Parser->parse( $Param{String} );
     }
+
     # quote
-    foreach (@{$Self->{XMLARRAY}}) {
-        $Self->_Decode($_);
+    for my $XMLElement ( @{ $Self->{XMLARRAY} } ) {
+        $Self->_Decode($XMLElement);
     }
-    return @{$Self->{XMLARRAY}};
+    return @{ $Self->{XMLARRAY} };
 }
 
 sub _Decode {
@@ -1153,6 +1162,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2007-08-02 11:39:59 $
+$Revision: 1.61.2.1 $ $Date: 2008-01-08 13:40:56 $
 
 =cut
