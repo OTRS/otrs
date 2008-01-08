@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.17 2008-01-08 00:48:47 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.18 2008-01-08 00:59:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -348,6 +348,33 @@ sub Run {
                 HistoryComment => '%%Move',
                 NoAgentNotify  => 1,
             );
+            # get pre loaded attachment
+            my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+                FormID => $Self->{FormID},
+            );
+            for my $Ref (@AttachmentData) {
+                $Self->{TicketObject}->ArticleWriteAttachment(
+                    %{$Ref},
+                    ArticleID => $ArticleID,
+                    UserID    => $Self->{UserID},
+                );
+            }
+
+            # get submit attachment
+            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                Param  => 'file_upload',
+                Source => 'String',
+            );
+            if (%UploadStuff) {
+                $Self->{TicketObject}->ArticleWriteAttachment(
+                    %UploadStuff,
+                    ArticleID => $ArticleID,
+                    UserID    => $Self->{UserID},
+                );
+            }
+
+            # remove pre submited attachments
+            $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
         }
 
         # time accounting
