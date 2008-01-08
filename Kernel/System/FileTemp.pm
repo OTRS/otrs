@@ -2,7 +2,7 @@
 # Kernel/System/FileTemp.pm - tmp files
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FileTemp.pm,v 1.10 2008-01-08 07:51:33 mh Exp $
+# $Id: FileTemp.pm,v 1.11 2008-01-08 08:42:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use File::Temp qw( tempfile tempdir );
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -83,6 +83,7 @@ sub TempFile {
     my ( $FH, $Filename ) = tempfile(
         DIR    => $Self->{TempDir},
         SUFFIX => '.tmp',
+        UNLINK => 1,
     );
 
     # remember created tmp files and handles
@@ -126,6 +127,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2008-01-08 07:51:33 $
+$Revision: 1.11 $ $Date: 2008-01-08 08:42:19 $
 
 =cut
