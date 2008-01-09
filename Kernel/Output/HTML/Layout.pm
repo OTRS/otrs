@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.64 2008-01-07 20:07:53 martin Exp $
+# $Id: Layout.pm,v 1.65 2008-01-09 14:56:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 =head1 NAME
 
@@ -430,7 +430,7 @@ sub _BlockTemplatesReplace {
 
 use a dtl template and get html back
 
-    my $HTMP = $LayoutObject->Output(
+    my $HTML = $LayoutObject->Output(
         TemplateFile => 'AdminLog',
         Data => \%Param,
     );
@@ -3817,6 +3817,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2008-01-07 20:07:53 $
+$Revision: 1.65 $ $Date: 2008-01-09 14:56:22 $
 
 =cut
