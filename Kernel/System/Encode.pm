@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Encode.pm - character encodings
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.23 2007-10-20 11:45:39 mh Exp $
+# $Id: Encode.pm,v 1.24 2008-01-09 14:47:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -76,6 +76,9 @@ sub new {
     {
         $Self->{UTF8Support} = 1;
     }
+
+    # get frontend charset
+    $Self->{CharsetEncodeFrontendUsed} = $Self->EncodeFrontendUsed();
 
     # encode STDOUT and STDERR
     $Self->SetIO( \*STDOUT, \*STDERR );
@@ -219,8 +222,8 @@ sub SetIO {
     my ( $Self, @Array ) = @_;
 
     return if !$Self->{CharsetEncodeSupported};
-    return if !$Self->EncodeFrontendUsed();
-    return if !$Self->EncodeFrontendUsed() =~ /utf(-8|8)/i;
+    return if !$Self->{CharsetEncodeFrontendUsed};
+    return if !$Self->{CharsetEncodeFrontendUsed} =~ /utf(-8|8)/i;
 
     ROW:
     for my $Row (@Array) {
@@ -249,8 +252,8 @@ sub Encode {
 
     return if !defined $What;
     return if !$Self->{CharsetEncodeSupported};
-    return if !$Self->EncodeFrontendUsed();
-    return if !$Self->EncodeFrontendUsed() =~ /utf(-8|8)/i;
+    return if !$Self->{CharsetEncodeFrontendUsed};
+    return if !$Self->{CharsetEncodeFrontendUsed} =~ /utf(-8|8)/i;
 
     if ( ref $What eq 'ARRAY' ) {
         ROW:
@@ -345,6 +348,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2007-10-20 11:45:39 $
+$Revision: 1.24 $ $Date: 2008-01-09 14:47:24 $
 
 =cut
