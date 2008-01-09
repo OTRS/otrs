@@ -2,7 +2,7 @@
 # AJAX.dtl - provides AJAX functions
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AJAX.dtl,v 1.2 2008-01-09 14:41:42 martin Exp $
+# $Id: AJAX.dtl,v 1.3 2008-01-09 17:05:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@
 <script language="JavaScript" type="text/javascript">
 <!--
 function AJAXUpdate(Subaction, Depend, Update) {
-    var url = AJAXURLGet(Subaction, Depend);
+    var url = AJAXURLGet(Subaction, Depend, Update);
     new Ajax.Request(url,
         {
             method:'get',
@@ -45,8 +45,21 @@ function AJAXUpdate(Subaction, Depend, Update) {
     );
 }
 
-function AJAXURLGet (Subaction, FieldName) {
+function AJAXURLGet (Subaction, FieldName, FieldName2) {
     var ParamPart = '';
+    // check if we need to fill some not used fields fro Update
+    for (F2=0;F2<FieldName2.length;F2++) {
+        var Hit = 0;
+        for (F=0;F<FieldName.length;F++) {
+            if ( FieldName[F] == FieldName2[F2] ) {
+                Hit = 1;
+            }
+        }
+        if ( Hit == 0 ) {
+            FieldName.push(FieldName2[F2]);
+        }
+    }
+    // build url
     for (F=0;F<FieldName.length;F++) {
         if (document.compose[FieldName[F]]) {
             var Param = document.compose[FieldName[F]].value;
@@ -64,7 +77,6 @@ function AJAXUpdateItems (ObjectRef, FieldName) {
             var T = 'Option';
             if (T == 'Option') {
                 var Length = document.compose[FieldName[F]].length;
-                var Selected = document.compose[FieldName[F]].value;
                 for(i=0; i<=Length; i++) {
                     document.compose[FieldName[F]].options[0] = null;
                 }
@@ -72,11 +84,7 @@ function AJAXUpdateItems (ObjectRef, FieldName) {
                     var List = ObjectRef[FieldName[F]];
                     if (List) {
                         for (var i = 0; i < List.length; i++) {
-                            var SelectedOption = null;
-                            if (Selected == List[i][0]) {
-                                SelectedOption = true;
-                            }
-                            document.compose[FieldName[F]].options[i] = new Option(List[i][1],List[i][0],SelectedOption,SelectedOption);
+                            document.compose[FieldName[F]].options[i] = new Option(List[i][1],List[i][0],List[i][2],List[i][3]);
                         }
                     }
                 }
@@ -93,7 +101,7 @@ function AJAXUpdateItems (ObjectRef, FieldName) {
 
 function AJAXLoadingImage (Type, FieldName) {
     for (F=0;F<FieldName.length;F++) {
-        if (document.compose[FieldName[F]] && document.getElementById('AJAXImage' + FieldName[F]) ) {
+        if (document.compose[FieldName[F]]) {
             if (Type == 'Load') {
                 document.getElementById('AJAXImage' + FieldName[F]).innerHTML="<img src=\"$Env{"Images"}loading.gif\" border=\"0\">";
             }
