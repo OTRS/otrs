@@ -1,8 +1,8 @@
 # --
 # Header.dtl - provides global HTML header
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.27 2007-02-15 12:16:01 martin Exp $
+# $Id: Header.dtl,v 1.27.2.1 2008-01-09 09:05:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,6 @@ $Include{"Copyright"}
 # --
 <dtl set $Env{"Box0"} = " ">
 <dtl set $Env{"Box1"} = " ">
-<dtl set $Env{"Images"} = "/otrs-web/images/Lite/">
 # --
 # create $Data{"UserLoginTop"} if user is loged in
 # --
