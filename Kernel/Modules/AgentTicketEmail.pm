@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.47 2008-01-07 22:26:12 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.48 2008-01-09 17:09:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -83,6 +83,8 @@ sub Run {
         qw(AttachmentUpload
         Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
         TypeID ServiceID SLAID OwnerAll ResponsibleAll
+        NewResponsibleID NewUserID
+        NextStateID
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
         AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
@@ -956,8 +958,8 @@ sub Run {
         }
         my $Users = $Self->_GetUsers(QueueID => $QueueID, AllUsers => $GetParam{OwnerAll});
         my $ResponsibleUsers = $Self->_GetUsers(QueueID => $QueueID, AllUsers => $GetParam{ResponsibleAll});
-        my $NextStates = $Self->_GetNextStates(QueueID => $QueueID);
-        my $Priorities = $Self->_GetPriorities(QueueID => $QueueID);
+        my $NextStates = $Self->_GetNextStates(QueueID => $QueueID || 1);
+        my $Priorities = $Self->_GetPriorities(QueueID => $QueueID || 1);
         # get free text config options
         my @TicketFreeTextConfig = ();
         for (1..16) {
@@ -972,7 +974,7 @@ sub Run {
                 push(@TicketFreeTextConfig, {
                     Name => "TicketFreeKey$_",
                     Data => $ConfigKey,
-                    SelectedID => [],
+                    SelectedID => $GetParam{"TicketFreeKey$_"},
                     Translation => 0,
                     Max => 100,
                 });
@@ -988,7 +990,7 @@ sub Run {
                 push(@TicketFreeTextConfig, {
                     Name => "TicketFreeText$_",
                     Data => $ConfigValue,
-                    SelectedID => [],
+                    SelectedID => $GetParam{"TicketFreeText$_"},
                     Translation => 0,
                     Max => 100,
                 });
@@ -999,7 +1001,7 @@ sub Run {
                 {
                     Name => 'NewUserID',
                     Data => $Users,
-                    SelectedID => [],
+                    SelectedID => $GetParam{NewUserID},
                     Translation => 1,
                     PossibleNone => 1,
                     Max => 100,
@@ -1007,7 +1009,7 @@ sub Run {
                 {
                     Name => 'NewResponsibleID',
                     Data => $ResponsibleUsers,
-                    SelectedID => [],
+                    SelectedID => $GetParam{NewResponsibleID},
                     Translation => 1,
                     PossibleNone => 1,
                     Max => 100,
@@ -1015,14 +1017,14 @@ sub Run {
                 {
                     Name => 'NextStateID',
                     Data => $NextStates,
-                    SelectedID => [],
+                    SelectedID => $GetParam{NextStateID},
                     Translation => 1,
                     Max => 100,
                 },
                 {
                     Name => 'PriorityID',
                     Data => $Priorities,
-                    SelectedID => [],
+                    SelectedID => $GetParam{PriorityID},
                     Translation => 1,
                     Max => 100,
                 },
@@ -1099,7 +1101,9 @@ sub _GetUsers {
             Cached  => 1,
         );
         for ( keys %MemberList ) {
-            $ShownUsers{$_} = $AllGroupsMembers{$_};
+            if ($AllGroupsMembers{$_}) {
+                $ShownUsers{$_} = $AllGroupsMembers{$_};
+            }
         }
     }
     return \%ShownUsers;

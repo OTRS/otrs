@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.52 2008-01-01 22:05:09 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.53 2008-01-09 17:09:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -905,8 +905,8 @@ sub Run {
         }
         my $Users = $Self->_GetUsers(QueueID => $QueueID, AllUsers => $GetParam{OwnerAll});
         my $ResponsibleUsers = $Self->_GetUsers(QueueID => $QueueID, AllUsers => $GetParam{ResponsibleAll});
-        my $NextStates = $Self->_GetNextStates(QueueID => $QueueID);
-        my $Priorities = $Self->_GetPriorities(QueueID => $QueueID);
+        my $NextStates = $Self->_GetNextStates(QueueID => $QueueID || 1);
+        my $Priorities = $Self->_GetPriorities(QueueID => $QueueID || 1);
         # get free text config options
         my @TicketFreeTextConfig = ();
         for (1..16) {
@@ -921,7 +921,7 @@ sub Run {
                 push(@TicketFreeTextConfig, {
                     Name => "TicketFreeKey$_",
                     Data => $ConfigKey,
-                    SelectedID => [],
+                    SelectedID => $GetParam{"TicketFreeKey$_"},
                     Translation => 0,
                     Max => 100,
                 });
@@ -937,7 +937,7 @@ sub Run {
                 push(@TicketFreeTextConfig, {
                     Name => "TicketFreeText$_",
                     Data => $ConfigValue,
-                    SelectedID => [],
+                    SelectedID => $GetParam{"TicketFreeText$_"},
                     Translation => 0,
                     Max => 100,
                 });
@@ -948,7 +948,7 @@ sub Run {
                 {
                     Name => 'NewUserID',
                     Data => $Users,
-                    SelectedID => [],
+                    SelectedID => $GetParam{NewUserID},
                     Translation => 1,
                     PossibleNone => 1,
                     Max => 100,
@@ -956,7 +956,7 @@ sub Run {
                 {
                     Name => 'NewResponsibleID',
                     Data => $ResponsibleUsers,
-                    SelectedID => [],
+                    SelectedID => $GetParam{NewResponsibleID},
                     Translation => 1,
                     PossibleNone => 1,
                     Max => 100,
@@ -964,14 +964,14 @@ sub Run {
                 {
                     Name => 'NextStateID',
                     Data => $NextStates,
-                    SelectedID => [],
+                    SelectedID => $GetParam{NextStateID},
                     Translation => 1,
                     Max => 100,
                 },
                 {
                     Name => 'PriorityID',
                     Data => $Priorities,
-                    SelectedID => [],
+                    SelectedID => $GetParam{PriorityID},
                     Translation => 1,
                     Max => 100,
                 },
