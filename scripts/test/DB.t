@@ -1,8 +1,8 @@
 # --
 # DB.t - database tests
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.25 2007-12-17 16:09:14 mh Exp $
+# $Id: DB.t,v 1.26 2008-01-10 15:56:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -855,55 +855,32 @@ for my $SQL (@SQL) {
     );
 }
 
-my $InsertTest = [
-    {
-        name_a => 'Test1',
-        name_b => '-',
-    },
-    {
-        name_a => 'Test2',
-        name_b => ';',
-    },
-    {
-        name_a => 'Test3',
-        name_b => '\'',
-    },
-    {
-        name_a => 'Test4',
-        name_b => '\"',
-    },
-    {
-        name_a => 'Test5',
-        name_b => '\\',
-    },
-];
+my @SpecialCharacters = qw( - _ . : ; ' " \ [ ] { } ( ) < > ? ! $ % & / + * = ' ^ | );
+push @SpecialCharacters, (',', '#');
+my $Counter = 0;
 
-for my $Test (@{$InsertTest}) {
-    my $name_a = $Self->{DBObject}->Quote("$Test->{name_a}");
-    my $name_b = $Self->{DBObject}->Quote("$Test->{name_b}");
+for my $Character (@SpecialCharacters) {
+    my $name_b = $Self->{DBObject}->Quote($Character);
 
-    my $SQLInsert = "INSERT INTO test_d (name_a, name_b) VALUES ( '$name_a', '$name_b' )";
+    my $SQLInsert = "INSERT INTO test_d (name_a, name_b) VALUES ( '$Counter', '$name_b' )";
 
     $Self->True(
         $Self->{DBObject}->Do( SQL => $SQLInsert ) || 0,
-        '#5 Do() INSERT',
+        "#$Counter Do() INSERT",
     );
-}
 
-for my $Test (@{$InsertTest}) {
-    my $name_a = $Test->{name_a};
-    my $name_b = $Test->{name_b};
-
-    my $SQLSelect = "SELECT name_b FROM test_d WHERE name_a = '$name_a'";
+    my $SQLSelect = "SELECT name_b FROM test_d WHERE name_a = '$Counter'";
 
     $Self->{DBObject}->Prepare( SQL => $SQLSelect, Limit => 1);
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Self->True(
-            $Row[0] eq $Test->{name_b},
-            "#5 Check special character $Test->{name_b}",
+            $Row[0] eq $Character,
+            "#$Counter Check special character $Character (db returned $Row[0])",
         );
     }
+
+    $Counter++;
 }
 
 $XML = '<TableDrop Name="test_d"/>';
