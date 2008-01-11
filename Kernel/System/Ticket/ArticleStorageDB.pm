@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.49 2007-10-05 14:11:22 mh Exp $
+# $Id: ArticleStorageDB.pm,v 1.50 2008-01-11 23:53:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -403,6 +403,7 @@ sub ArticleAttachmentIndex {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # human readable file size
+        my $FileSizeRaw = $Row[2];
         if ( $Row[2] ) {
             if ( $Row[2] > ( 1024 * 1024 ) ) {
                 $Row[2] = sprintf "%.1f MBytes", ( $Row[2] / ( 1024 * 1024 ) );
@@ -421,6 +422,7 @@ sub ArticleAttachmentIndex {
             Filename    => $Row[0],
             ContentType => $Row[1],
             Filesize    => $Row[2] || '',
+            FilesizeRaw => $FileSizeRaw || 0,
         };
     }
 
@@ -429,6 +431,7 @@ sub ArticleAttachmentIndex {
         my @List = glob("$Self->{ArticleDataDir}/$Param{ContentPath}/$Param{ArticleID}/*");
         for my $Filename (@List) {
             my $FileSize = -s $Filename;
+            my $FileSizeRaw = $FileSize;
 
             # convert the file name in utf-8 if utf-8 is used
             $Filename = $Self->{EncodeObject}->Decode(
@@ -489,6 +492,7 @@ sub ArticleAttachmentIndex {
                 $Index{$Counter} = {
                     Filename    => $Filename,
                     Filesize    => $FileSize,
+                    FilesizeRaw => $FileSizeRaw,
                     ContentType => $ContentType,
                 };
             }
@@ -591,9 +595,10 @@ sub ArticleAttachment {
             }
         }
     }
+
+    # try database, if no content is found
     else {
 
-        # try database
         for (qw(ArticleID)) {
             $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
         }

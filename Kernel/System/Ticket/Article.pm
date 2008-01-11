@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.155 2008-01-08 13:10:53 martin Exp $
+# $Id: Article.pm,v 1.156 2008-01-11 23:53:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.155 $) [1];
+$VERSION = qw($Revision: 1.156 $) [1];
 
 =head1 NAME
 
@@ -1279,23 +1279,46 @@ sub ArticleContentIndex {
             ArticleID   => $Article->{ArticleID},
         );
         if ( $Param{StripPlainBodyAsAttachment} ) {
-            my $EmailPlain = 0;
-            my $EmailHTML = 0;
+
+            # plain attachment mime type vs. html attachment mime type check
+            # remove plain body, rename html attachment
+            my $AttachmentPlain = 0;
+            my $AttachmentHTML = 0;
             for my $Count ( keys %AtmIndex ) {
                 my %File = %{ $AtmIndex{$Count} };
                 if ( $File{Filename} eq 'file-1'
                     && $File{ContentType} =~ /text\/plain/i ) {
-                    $EmailPlain = $Count;
+                    $AttachmentPlain = $Count;
                 }
                 if ( $File{Filename} eq 'file-2'
                     && $File{ContentType} =~ /text\/html/i ) {
-                    $EmailHTML = $Count;
+                    $AttachmentHTML = $Count;
                 }
             }
-            if ( $EmailPlain && $EmailHTML ) {
-                delete $AtmIndex{$EmailPlain};
-                $AtmIndex{$EmailHTML}->{Filename} = 'HTML-Email';
+            if ( $AttachmentPlain && $AttachmentHTML ) {
+                delete $AtmIndex{$AttachmentPlain};
+                $AtmIndex{$AttachmentHTML}->{Filename} = 'HTML-Attachment';
             }
+
+            # plain body size vs. attched body size check
+            # and remove attachment if it's email body
+            if ( !$AttachmentHTML ) {
+                my $AttachmentCount = 0;
+                my %AttachmentFile = ();
+                for my $Count ( keys %AtmIndex ) {
+                    my %File = %{ $AtmIndex{$Count} };
+                    if ( $File{Filename} eq 'file-1'
+                        && $File{ContentType} =~ /text\/plain/i ) {
+                        $AttachmentCount = $Count;
+                        %AttachmentFile = %File;
+                        last;
+                    }
+                }
+                if ( %AttachmentFile && length($Article->{Body}) == $AttachmentFile{FilesizeRaw} ) {
+                    delete $AtmIndex{$AttachmentCount};
+                }
+            }
+
         }
         $Article->{Atms} = \%AtmIndex;
     }
