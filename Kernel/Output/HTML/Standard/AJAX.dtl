@@ -2,7 +2,7 @@
 # AJAX.dtl - provides AJAX functions
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AJAX.dtl,v 1.3 2008-01-09 17:05:48 martin Exp $
+# $Id: AJAX.dtl,v 1.4 2008-01-12 13:38:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -101,7 +101,7 @@ function AJAXUpdateItems (ObjectRef, FieldName) {
 
 function AJAXLoadingImage (Type, FieldName) {
     for (F=0;F<FieldName.length;F++) {
-        if (document.compose[FieldName[F]]) {
+        if (document.compose[FieldName[F]] && document.getElementById('AJAXImage' + FieldName[F])) {
             if (Type == 'Load') {
                 document.getElementById('AJAXImage' + FieldName[F]).innerHTML="<img src=\"$Env{"Images"}loading.gif\" border=\"0\">";
             }
