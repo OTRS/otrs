@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.16 2007-02-27 10:49:46 martin Exp $
+# $Id: AgentTicketMailbox.pm,v 1.16.2.1 2008-01-12 14:01:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.16.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -152,36 +152,14 @@ sub Run {
             Permission => 'ro',
         );
         foreach my $TicketID (@ViewableTicketsTmp) {
-            my $Message = '';
 
-            # put all tickets to ToDo where last sender type is customer / system or ! UserID
-            # show just unseen tickets as new
-            if ($Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen') {
-                my @Index = $Self->{TicketObject}->ArticleIndex(TicketID => $TicketID);
-                if (@Index) {
-                    my %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $Index[$#Index]);
-                    my %Flag = $Self->{TicketObject}->ArticleFlagGet(
-                        ArticleID => $Article{ArticleID},
-                        UserID => $Self->{UserID},
-                    );
-                    if (!$Flag{seen}) {
-                        $Message = 'New message!';
-                    }
-                }
-            }
-            else {
-                my @Index = $Self->{TicketObject}->ArticleIndex(TicketID => $TicketID);
-                if (@Index) {
-                    my %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $Index[$#Index]);
-                    if ($Article{SenderType} eq 'customer' ||
-                        $Article{SenderType} eq 'system' ||
-                        $Article{CreatedBy} ne $Self->{UserID}) {
-                        $Message = 'New message!';
-                    }
-                }
+            # check what tickets are new
+            my $Message = '';
+            if ( $LockedData{NewTicketIDs}->{$TicketID} ) {
+                $Message = 'New message!';
             }
             if ($Message) {
-                push (@ViewableTickets, $TicketID);
+                push( @ViewableTickets, $TicketID );
             }
         }
     }
@@ -246,27 +224,12 @@ sub Run {
                 }
             }
 
+            # check what tickets are new
             my $Message = '';
-            # put all tickets to ToDo where last sender type is customer / system or ! UserID
-            # show just unseen tickets as new
-            if ($Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen') {
-                my %Article = %{$ArticleBody[$#ArticleBody]};
-                my %Flag = $Self->{TicketObject}->ArticleFlagGet(
-                    ArticleID => $Article{ArticleID},
-                    UserID => $Self->{UserID},
-                );
-                if (!$Flag{seen}) {
-                    $Message = 'New message!';
-                }
+            if ( $LockedData{NewTicketIDs}->{$TicketID} ) {
+                $Message = 'New message!';
             }
-            else {
-                my %Article = %{$ArticleBody[$#ArticleBody]};
-                if ($Article{SenderType} eq 'customer' ||
-                    $Article{SenderType} eq 'system' ||
-                    $Article{CreatedBy} ne $Self->{UserID}) {
-                    $Message = 'New message!';
-                }
-            }
+
             $CounterShown++;
             $Self->MaskMailboxTicket(
                 %Article,
