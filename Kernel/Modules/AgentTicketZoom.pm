@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.42 2008-01-08 23:13:52 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.43 2008-01-12 14:02:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -300,6 +300,13 @@ sub MaskAgentZoom {
     my $Space          = '';
     my $LastSenderType = '';
 
+    # check if expand view is usable (only for less then 300 articles)
+    # if you have more articles is going to be slow and not usable
+    my $ArticleMaxLimit = 300;
+    if ( $Self->{ZoomExpand} && $#ArticleBox > $ArticleMaxLimit) {
+        $Self->{ZoomExpand} = 0;
+    }
+
     # get shown article(s)
     my @NewArticleBox = ();
     if ( !$Self->{ZoomExpand} ) {
@@ -316,14 +323,10 @@ sub MaskAgentZoom {
             @ArticleBox = reverse(@ArticleBox);
         }
 
-        # show no email-notification* article
-        for my $ArticleTmp (@ArticleBox) {
-            my %Article = %$ArticleTmp;
-            if ( $Article{ArticleType} !~ /^email-notification/i ) {
-                push( @NewArticleBox, $ArticleTmp );
-            }
-        }
+        @NewArticleBox = @ArticleBox;
     }
+
+    #
 
     # build shown article(s)
     my $Count      = 0;
@@ -596,129 +599,121 @@ sub MaskAgentZoom {
                 my %Article = %$ArticleTmp;
                 my $Start   = '';
                 my $Stop    = '';
-                if ( $Article{ArticleType} !~ /^email-notification/i ) {
-                    $CounterTree++;
-                    my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
-                        TicketNumber => $Article{TicketNumber},
-                        Subject      => $Article{Subject} || '',
-                    );
-                    if ( $LastSenderType ne $Article{SenderType} ) {
-                        $Counter .= "&nbsp;";
-                        $Space = "$Counter&nbsp;|--&gt;";
-                    }
-                    $LastSenderType = $Article{SenderType};
+                $CounterTree++;
+                my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
+                    TicketNumber => $Article{TicketNumber},
+                    Subject      => $Article{Subject} || '',
+                );
+                if ( $LastSenderType ne $Article{SenderType} ) {
+                    $Counter .= "&nbsp;";
+                    $Space = "$Counter&nbsp;|--&gt;";
+                }
+                $LastSenderType = $Article{SenderType};
 
-                    # if this is the shown article -=> add <b>
-                    if ( $ArticleID eq $Article{ArticleID} ) {
-                        $Start = '&gt;&gt;<i><b><u>';
-                    }
+                # if this is the shown article -=> add <b>
+                if ( $ArticleID eq $Article{ArticleID} ) {
+                    $Start = '&gt;&gt;<i><b><u>';
+                }
 
-                    # if this is the shown article -=> add </b>
-                    if ( $ArticleID eq $Article{ArticleID} ) {
-                        $Stop = '</u></b></i>';
-                    }
+                # if this is the shown article -=> add </b>
+                if ( $ArticleID eq $Article{ArticleID} ) {
+                    $Stop = '</u></b></i>';
+                }
 
-                    # check if we need to show also expand/collapse icon
-                    my $ColSpan = 2;
-                    if ( $CounterTree == 1 ) {
-                        $ColSpan = 1;
-                    }
-                    $Self->{LayoutObject}->Block(
-                        Name => 'TreeItem',
-                        Data => {
-                            %Article,
-                            ColSpan        => $ColSpan,
-                            Subject        => $TmpSubject,
-                            Space          => $Space,
-                            Start          => $Start,
-                            Stop           => $Stop,
-                            Count          => $CounterTree,
-                            ZoomExpand     => $Self->{ZoomExpand},
-                            ZoomExpandSort => $Self->{ZoomExpandSort},
-                        },
-                    );
+                # check if we need to show also expand/collapse icon
+                my $ColSpan = 2;
+                if ( $CounterTree == 1 ) {
+                    $ColSpan = 1;
+                }
+                $Self->{LayoutObject}->Block(
+                    Name => 'TreeItem',
+                    Data => {
+                        %Article,
+                        ColSpan        => $ColSpan,
+                        Subject        => $TmpSubject,
+                        Space          => $Space,
+                        Start          => $Start,
+                        Stop           => $Stop,
+                        Count          => $CounterTree,
+                        ZoomExpand     => $Self->{ZoomExpand},
+                        ZoomExpandSort => $Self->{ZoomExpandSort},
+                    },
+                );
 
-                    # check if expand or collapse need to be shown
-                    if ( $CounterTree == 1 ) {
-                        if ( $Count == 1 && $Self->{ZoomExpand} ) {
-                            $Self->{LayoutObject}->Block(
-                                Name => 'TreeItemCollapse',
-                                Data => {
-                                    %Article,
-                                    ArticleID      => $ArticleID,
-                                    ZoomExpand     => $Self->{ZoomExpand},
-                                    ZoomExpandSort => $Self->{ZoomExpandSort},
-                                },
-                            );
-                        }
-                        else {
-                            $Self->{LayoutObject}->Block(
-                                Name => 'TreeItemExpand',
-                                Data => {
-                                    %Article,
-                                    ArticleID      => $ArticleID,
-                                    ZoomExpand     => $Self->{ZoomExpand},
-                                    ZoomExpandSort => $Self->{ZoomExpandSort},
-                                },
-                            );
-                        }
-                    }
-
-                    # show plain link
-                    if ( $Article{ArticleType} =~ /^email/ ) {
+                # check if expand/cpllapse view is usable (only for less then 300 articles)
+                if ( $CounterTree == 1 && $#ArticleBox < $ArticleMaxLimit ) {
+                    if ( $Count == 1 && $Self->{ZoomExpand} ) {
                         $Self->{LayoutObject}->Block(
-                            Name => 'TreeItemEmail',
-                            Data => { %Article, },
+                            Name => 'TreeItemCollapse',
+                            Data => {
+                                %Article,
+                                ArticleID      => $ArticleID,
+                                ZoomExpand     => $Self->{ZoomExpand},
+                                ZoomExpandSort => $Self->{ZoomExpandSort},
+                            },
                         );
                     }
+                    else {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'TreeItemExpand',
+                            Data => {
+                                %Article,
+                                ArticleID      => $ArticleID,
+                                ZoomExpand     => $Self->{ZoomExpand},
+                                ZoomExpandSort => $Self->{ZoomExpandSort},
+                            },
+                        );
+                    }
+                }
 
-                    # add attachment icons
-                    if (   $Article{Atms}
-                        && %{ $Article{Atms} }
-                        && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay') )
-                    {
-                        my $Title = '';
+                # show plain link
+                if ( $Article{ArticleType} =~ /^email/ ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'TreeItemEmail',
+                        Data => { %Article, },
+                    );
+                }
 
-                        # download type
-                        my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType')
-                            || 'attachment';
+                # add attachment icons
+                if (   $Article{Atms}
+                    && %{ $Article{Atms} }
+                    && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay') )
+                {
+                    my $Title = '';
 
-                       # if attachment will be forced to download, don't open a new download window!
-                        my $Target = '';
-                        if ( $Type =~ /inline/i ) {
-                            $Target = 'target="attachment" ';
-                        }
-                        for my $Count (
-                            1 .. (
-                                $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount') + 1
-                            )
-                            )
-                        {
-                            if ( $Article{Atms}->{$Count} ) {
-                                if ( $Count > $Self->{ConfigObject}
-                                    ->Get('Ticket::ZoomAttachmentDisplayCount') )
-                                {
-                                    $Self->{LayoutObject}->Block(
-                                        Name => 'TreeItemAttachmentMore',
-                                        Data => {
-                                            %Article,
-                                            %{ $Article{Atms}->{$Count} },
-                                            FileID => $Count,
-                                            Target => $Target,
-                                        },
-                                    );
-                                }
-                                elsif ( $Article{Atms}->{$Count} ) {
-                                    $Self->{LayoutObject}->Block(
-                                        Name => 'TreeItemAttachment',
-                                        Data => {
-                                            %Article,
-                                            %{ $Article{Atms}->{$Count} },
-                                            FileID => $Count,
-                                            Target => $Target,
-                                        },
-                                    );
-                                }
+                    # download type
+                    my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType')
+                        || 'attachment';
+
+                    # if attachment will be forced to download, don't open a new download window!
+                    my $Target = '';
+                    if ( $Type =~ /inline/i ) {
+                        $Target = 'target="attachment" ';
+                    }
+                    my $ZoomAttachmentDisplayCount = $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount');
+                    for my $Count ( 1 .. ( $ZoomAttachmentDisplayCount + 1) ) {
+                        if ( $Article{Atms}->{$Count} ) {
+                            if ( $Count > $ZoomAttachmentDisplayCount ) {
+                                $Self->{LayoutObject}->Block(
+                                    Name => 'TreeItemAttachmentMore',
+                                    Data => {
+                                        %Article,
+                                        %{ $Article{Atms}->{$Count} },
+                                        FileID => $Count,
+                                        Target => $Target,
+                                    },
+                                );
+                            }
+                            elsif ( $Article{Atms}->{$Count} ) {
+                                $Self->{LayoutObject}->Block(
+                                    Name => 'TreeItemAttachment',
+                                    Data => {
+                                        %Article,
+                                        %{ $Article{Atms}->{$Count} },
+                                        FileID => $Count,
+                                        Target => $Target,
+                                    },
+                                );
                             }
                         }
                     }
@@ -741,8 +736,7 @@ sub MaskAgentZoom {
 
         # show accounted article time
         if ( $Self->{ConfigObject}->Get('Ticket::ZoomTimeDisplay') ) {
-            my $ArticleTime = $Self->{TicketObject}
-                ->ArticleAccountedTimeGet( ArticleID => $Article{ArticleID}, );
+            my $ArticleTime = $Self->{TicketObject}->ArticleAccountedTimeGet( ArticleID => $Article{ArticleID} );
             $Self->{LayoutObject}->Block(
                 Name => "Row",
                 Data => {

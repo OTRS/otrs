@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.540 2008-01-09 09:09:14 mh Exp $
+# $Id: CHANGES,v 1.541 2008-01-12 14:00:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -86,9 +86,12 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.5 (2008/??/??)
+ - (2008/01/12) Fixed bug# 1687 - Wrong "New message!" hint on queue with
+    "Customer State Notify" activated.
  - (2008/01/09) Fixed bug# 2613 - Images are broken in Lite-Theme if OTRS do
     not use the default Alias /otrs-web/.
- - (2008/01/08) Improved XMLParse() to prevent bugs like# 2612.
+ - (2008/01/08) Improved Kernel::System::XML::XMLParse() to prevent bugs
+    like# 2612.
  - (2008/01/08) Fixed bug# 2609 - Temp files are not removed after process was
     finished under windows.
  - (2008/01/07) Fixed bug# 1893 - Attachement Storage fails with

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.20 2007-10-02 10:32:23 mh Exp $
+# $Id: AgentTicketMailbox.pm,v 1.21 2008-01-12 14:00:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -94,6 +94,7 @@ sub Run {
     if ( !$Self->{Subaction} ) {
         $Self->{Subaction} = 'All';
     }
+
     if ( $Self->{Subaction} eq 'Pending' ) {
         my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
             Type   => 'PendingReminder',
@@ -158,34 +159,11 @@ sub Run {
             Permission => 'ro',
         );
         for my $TicketID (@ViewableTicketsTmp) {
-            my $Message = '';
 
-            # put all tickets to ToDo where last sender type is customer / system or ! UserID
-            # show just unseen tickets as new
-            if ( $Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen' ) {
-                my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $TicketID );
-                if (@Index) {
-                    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[-1] );
-                    my %Flag = $Self->{TicketObject}->ArticleFlagGet(
-                        ArticleID => $Article{ArticleID},
-                        UserID    => $Self->{UserID},
-                    );
-                    if ( !$Flag{seen} ) {
-                        $Message = 'New message!';
-                    }
-                }
-            }
-            else {
-                my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $TicketID );
-                if (@Index) {
-                    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[-1] );
-                    if (   $Article{SenderType} eq 'customer'
-                        || $Article{SenderType} eq 'system'
-                        || $Article{CreatedBy} ne $Self->{UserID} )
-                    {
-                        $Message = 'New message!';
-                    }
-                }
+            # check what tickets are new
+            my $Message = '';
+            if ( $LockedData{NewTicketIDs}->{$TicketID} ) {
+                $Message = 'New message!';
             }
             if ($Message) {
                 push( @ViewableTickets, $TicketID );
@@ -256,29 +234,13 @@ sub Run {
                 }
             }
 
+            # check what tickets are new
             my $Message = '';
+            if ( $LockedData{NewTicketIDs}->{$TicketID} ) {
+                $Message = 'New message!';
+            }
 
-            # put all tickets to ToDo where last sender type is customer / system or ! UserID
-            # show just unseen tickets as new
-            if ( $Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen' ) {
-                my %Article = %{ $ArticleBody[-1] };
-                my %Flag    = $Self->{TicketObject}->ArticleFlagGet(
-                    ArticleID => $Article{ArticleID},
-                    UserID    => $Self->{UserID},
-                );
-                if ( !$Flag{seen} ) {
-                    $Message = 'New message!';
-                }
-            }
-            else {
-                my %Article = %{ $ArticleBody[-1] };
-                if (   $Article{SenderType} eq 'customer'
-                    || $Article{SenderType} eq 'system'
-                    || $Article{CreatedBy} ne $Self->{UserID} )
-                {
-                    $Message = 'New message!';
-                }
-            }
+            # show ticket
             $CounterShown++;
             $Self->MaskMailboxTicket(
                 %Article,

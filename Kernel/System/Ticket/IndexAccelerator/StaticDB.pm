@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.49 2007-10-02 10:34:25 mh Exp $
+# $Id: StaticDB.pm,v 1.50 2008-01-12 14:00:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -522,45 +522,72 @@ sub GetLockedCount {
 
     # db query
     $Self->{DBObject}
-        ->Prepare( SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by, ti.create_time_unix, "
-            . " ti.until_time, ts.name, tst.name "
+        ->Prepare( SQL => "SELECT ar.id, ar.article_sender_type_id, ti.id, "
+            . " ar.create_by, ti.create_time_unix, ti.until_time, "
+            . " tst.name, ar.article_type_id "
             . " FROM "
-            . " ticket ti, article ar, article_sender_type st, "
-            . " ticket_state ts, ticket_lock_index tli, ticket_state_type tst "
+            . " ticket ti, article ar, "
+            . " ticket_state ts, ticket_state_type tst "
             . " WHERE "
-            . " tli.ticket_id = ti.id" . " AND "
-            . " tli.ticket_id = ar.ticket_id" . " AND "
-            . " st.id = ar.article_sender_type_id " . " AND "
-            . " ts.id = ti.ticket_state_id " . " AND "
-            . " ts.type_id = tst.id " . " AND "
-            . " ti.user_id = $Param{UserID} "
-            . " ORDER BY ar.create_time DESC", );
-    my %TicketIDs = ();
-    my %Data      = ();
-    $Data{'Reminder'} = 0;
-    $Data{'Pending'}  = 0;
-    $Data{'All'}      = 0;
-    $Data{'New'}      = 0;
-
+            . " ti.ticket_lock_id NOT IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) "
+            . " AND "
+            . " ti.user_id = $Param{UserID} AND "
+            . " ar.ticket_id = ti.id AND "
+            . " ts.id = ti.ticket_state_id AND "
+            . " ts.type_id = tst.id "
+            . " ORDER BY ar.create_time DESC" );
+    my @ArticleLocked = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        if ( !$Param{"ID$Row[2]"} ) {
-            $Data{'All'}++;
+        push (@ArticleLocked, \@Row);
+    }
+    my %TicketIDs = ();
+    my %Data      = (
+        Reminder => 0,
+        Pending => 0,
+        All => 0,
+        New => 0,
+    );
 
-            # put all tickets to ToDo where last sender type is customer /system or ! UserID
-            if ( $Row[3] ne $Param{UserID} || $Row[1] eq 'customer' || $Row[1] eq 'system' ) {
+    # find only new messages
+    # put all tickets to ToDo where last sender type is customer / system or ! UserID
+    # and article type is not a email-notification
+    foreach my $Article (@ArticleLocked) {
+        my $SenderType = $Self->ArticleSenderTypeLookup( SenderTypeID => $Article->[1]);
+        my $ArticleType = $Self->ArticleTypeLookup( ArticleTypeID => $Article->[7]);
+        if ( ! $TicketIDs{ $Article->[2] } ) {
+            if ( $SenderType eq 'system' &&  $ArticleType =~ /^email-extern/i ) {
+                next;
+            }
+            if ( ( $Article->[3] ne $Param{UserID}
+                || $SenderType eq 'customer' )
+                && $ArticleType !~ /^email-notification/i ) {
                 $Data{'New'}++;
+                $Data{'NewTicketIDs'}->{$Article->[2]} = 1;
             }
 
-            if ( $Row[5] && $Row[7] =~ /^pending/i ) {
+        }
+        $TicketIDs{ $Article->[2] } = 1;
+    }
+
+    # find all and reminder tickets
+    %TicketIDs = ();
+    foreach my $Article (@ArticleLocked) {
+        my $SenderType = $Self->ArticleSenderTypeLookup( SenderTypeID => $Article->[1]);
+        my $ArticleType = $Self->ArticleTypeLookup( ArticleTypeID => $Article->[7]);
+        if ( ! $TicketIDs{ $Article->[2] } ) {
+            $Data{'All'}++;
+
+            if ( $Article->[5] && $Article->[6] =~ /^pending/i ) {
                 $Data{'Pending'}++;
-                if ( $Row[7] !~ /^pending auto/i && $Row[5] <= $Self->{TimeObject}->SystemTime() ) {
+                $Data{'PendingTicketIDs'}->{$Article->[2]} = 1;
+                if ( $Article->[6] !~ /^pending auto/i && $Article->[5] <= $Self->{TimeObject}->SystemTime() ) {
+                    $Data{'ReminderTicketIDs'}->{$Article->[2]} = 1;
                     $Data{'Reminder'}++;
                 }
             }
         }
-        $Param{"ID$Row[2]"}   = 1;
-        $Data{"MaxAge"}       = $Row[4];
-        $TicketIDs{ $Row[2] } = 1;
+        $Data{"MaxAge"}             = $Article->[4];
+        $TicketIDs{ $Article->[2] } = 1;
     }
 
     # show just unseen tickets as new
@@ -568,6 +595,7 @@ sub GetLockedCount {
 
         # reset new message count
         $Data{'New'} = 0;
+        $Data{'NewTicketIDs'} = undef;
         for my $TicketID ( keys %TicketIDs ) {
             my @Index = $Self->ArticleIndex( TicketID => $TicketID );
             my %Flag = $Self->ArticleFlagGet(
@@ -575,6 +603,7 @@ sub GetLockedCount {
                 UserID    => $Param{UserID},
             );
             if ( !$Flag{seen} ) {
+                $Data{'NewTicketIDs'}->{$TicketID} = 1;
                 $Data{'New'}++;
             }
         }
@@ -582,6 +611,7 @@ sub GetLockedCount {
 
     # cache result
     $Self->{ 'Cache::GetLockCount' . $Param{UserID} } = \%Data;
+
     return %Data;
 }
 
