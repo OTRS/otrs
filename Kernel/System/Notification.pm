@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Notification.pm - lib for notifications
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.14 2007-10-02 10:38:58 mh Exp $
+# $Id: Notification.pm,v 1.15 2008-01-12 16:23:18 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -264,8 +264,8 @@ sub NotificationUpdate {
 
     # sql
     $Self->{DBObject}
-        ->Prepare( SQL => "DELETE FROM notifications WHERE notification_type = '$Param{Type}' "
-            . "AND notification_language = '$Param{Language}'", );
+        ->Do( SQL => "DELETE FROM notifications WHERE notification_type = '$Param{Type}' "
+            . "AND notification_language = '$Param{Language}'" );
 
     # sql
     my $SQL
@@ -299,6 +299,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2007-10-02 10:38:58 $
+$Revision: 1.15 $ $Date: 2008-01-12 16:23:18 $
 
 =cut
