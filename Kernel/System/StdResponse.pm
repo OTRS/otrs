@@ -1,8 +1,8 @@
 # --
 # Kernel/System/StdResponse.pm - lib for std responses
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.18 2007-10-02 10:37:06 mh Exp $
+# $Id: StdResponse.pm,v 1.19 2008-01-12 22:30:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -132,8 +132,7 @@ sub StdResponseDelete {
     }
 
     # sql
-    if ($Self->{DBObject}->Prepare( SQL => "DELETE FROM standard_response WHERE ID = $Param{ID}" ) )
-    {
+    if ($Self->{DBObject}->Do( SQL => "DELETE FROM standard_response WHERE ID = $Param{ID}" ) ) {
         return 1;
     }
     else {

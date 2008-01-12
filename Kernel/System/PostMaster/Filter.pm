@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter.pm - all functions to add/delete/list pm db filters
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Filter.pm,v 1.11 2007-10-02 10:34:46 mh Exp $
+# $Id: Filter.pm,v 1.12 2008-01-12 22:30:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -159,7 +159,7 @@ sub FilterDelete {
     }
     $Param{Name} = $Self->{DBObject}->Quote( $Param{Name} ) || '';
     if ( $Self->{DBObject}
-        ->Prepare( SQL => "DELETE FROM postmaster_filter WHERE f_name = '$Param{Name}'" ) )
+        ->Do( SQL => "DELETE FROM postmaster_filter WHERE f_name = '$Param{Name}'" ) )
     {
         return 1;
     }
@@ -220,6 +220,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2007-10-02 10:34:46 $
+$Revision: 1.12 $ $Date: 2008-01-12 22:30:28 $
 
 =cut
