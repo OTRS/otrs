@@ -1,9 +1,9 @@
 #!/bin/sh
 # --
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.46 2007-06-29 00:08:28 martin Exp $
+# $Id: auto_build.sh,v 1.46.2.1 2008-01-13 23:17:04 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.46 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.46.2.1 $>"
 echo "Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/"
 
 PATH_TO_CVS_SRC=$1
@@ -194,6 +194,14 @@ cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
 cd $PACKAGE_BUILD_DIR/ || exit 1;
 SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION.tar.bz2
 tar -cjf $SOURCE_LOCATION $ARCHIVE_DIR/ || exit 1;
+cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
+
+# --
+# create zip
+# --
+cd $PACKAGE_BUILD_DIR/ || exit 1;
+SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION.zip
+zip -r $SOURCE_LOCATION $ARCHIVE_DIR/ || exit 1;
 cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
 
 # --
