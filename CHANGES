@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.541 2008-01-12 14:00:54 martin Exp $
+# $Id: CHANGES,v 1.542 2008-01-13 20:30:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -86,6 +86,9 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.5 (2008/??/??)
+ - (2008/01/13) Fixed bug# 2621 - Wrong order of items (Subject,Service,SLA,Body
+    -> Service,SLA,Subject,Body) in Frontend AgentTicketPhone, AgentTicketEmail
+    and CustomerTicketMessage.
  - (2008/01/12) Fixed bug# 1687 - Wrong "New message!" hint on queue with
     "Customer State Notify" activated.
  - (2008/01/09) Fixed bug# 2613 - Images are broken in Lite-Theme if OTRS do

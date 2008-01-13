@@ -1,8 +1,8 @@
 # --
 # CustomerTicketMessage.dtl - provides HTML form for customer message
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.10 2007-06-18 09:33:57 martin Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.11 2008-01-13 20:30:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -71,13 +71,6 @@ function submit_compose() {
                     <font color="red" size="-2">$Text{"$Data{"Queue invalid"}"}</font>
                   </td>
                 </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Subject"}:</td>
-                  <td class="contentvalue">
-                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70">
-                    <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
-                  </td>
-                </tr>
 <!-- dtl:block:TicketService -->
                 <tr>
                   <td class="contentkey">$Text{"Service"}:</td>
@@ -90,6 +83,13 @@ function submit_compose() {
                   <td class="contentvalue"> $Data{"SLAStrg"}</td>
                 </tr>
 <!-- dtl:block:TicketSLA -->
+                <tr>
+                  <td class="contentkey">$Text{"Subject"}:</td>
+                  <td class="contentvalue">
+                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70">
+                    <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
+                  </td>
+                </tr>
                 <tr>
                   <td class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue">

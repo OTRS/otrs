@@ -1,8 +1,8 @@
 # --
 # AgentTicketPhone.dtl - provides HTML form for phone
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.27 2007-10-26 14:40:59 rk Exp $
+# $Id: AgentTicketPhone.dtl,v 1.28 2008-01-13 20:30:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -166,13 +166,6 @@ function clear_field() {
 <!-- dtl:block:ToUpdateSubmit -->
             </td>
           </tr>
-          <tr>
-            <td class="contentkey">$Text{"Subject"}:</td>
-            <td class="contentvalue">
-              <input type="text" name="Subject" value="$QData{"Subject"}" size="80">
-              <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
-            </td>
-          </tr>
 <!-- dtl:block:TicketService -->
           <tr>
             <td class="contentkey">$Text{"Service"}:</td>
@@ -219,6 +212,13 @@ function clear_field() {
             </td>
           </tr>
 <!-- dtl:block:ResponsibleSelection -->
+          <tr>
+            <td class="contentkey">$Text{"Subject"}:</td>
+            <td class="contentvalue">
+              <input type="text" name="Subject" value="$QData{"Subject"}" size="80">
+              <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
+            </td>
+          </tr>
           <tr>
             <td class="contentkey">$Text{"Options"}:</td>
             <td class="contentvalue">
