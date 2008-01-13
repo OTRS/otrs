@@ -1,8 +1,8 @@
 # --
-# Kernel/Language/de.pm - provides de language translation
+# Kernel/Language/vi_VN.pm - provides de language translation
 # Copyright (C) 2008 Nguyen Nguyet. Phuong <phuongnn at iwayvietnam dot com>
 # --
-# $Id: vi_VN.pm,v 1.1.2.1 2008-01-13 22:01:25 martin Exp $
+# $Id: vi_VN.pm,v 1.1.2.2 2008-01-13 22:02:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1.2.1 $) [1];
+$VERSION = qw($Revision: 1.1.2.2 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
