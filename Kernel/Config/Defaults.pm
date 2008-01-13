@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.278 2008-01-07 13:06:43 martin Exp $
+# $Id: Defaults.pm,v 1.279 2008-01-13 22:04:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.278 $) [1];
+$VERSION = qw($Revision: 1.279 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -144,8 +144,7 @@ sub LoadDefaults {
 
         #            bb => 'Bavarian',
         ar_SA => 'Arabic (Saudi Arabia)',
-        bg =>
-            'Bulgarian (&#x0411;&#x044a;&#x043b;&#x0433;&#x0430;&#x0440;&#x0441;&#x043a;&#x0438;)',
+        bg    => 'Bulgarian (&#x0411;&#x044a;&#x043b;&#x0433;&#x0430;&#x0440;&#x0441;&#x043a;&#x0438;)',
         cz    => 'Czech (&#x010c;esky)',
         da    => 'Dansk',
         de    => 'Deutsch',
@@ -165,6 +164,7 @@ sub LoadDefaults {
         ru    => 'Russian (&#x0420;&#x0443;&#x0441;&#x0441;&#x043a;&#x0438;&#x0439;)',
         sk_SK => 'Slovak (Sloven&#x010d;ina)',
         sv    => 'Svenska',
+        vi_VN => 'Vietnam (Vi&#x0246;t Nam)',
         zh_CN => 'Chinese (Sim.) (&#x7b80;&#x4f53;&#x4e2d;&#x6587;)',
 
 #            th => 'Thai (&#x0e44;&#x0e17;&#x0e22;)',
@@ -2288,6 +2288,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.278 $ $Date: 2008-01-07 13:06:43 $
+$Revision: 1.279 $ $Date: 2008-01-13 22:04:48 $
 
 =cut
