@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.544 2008-01-14 12:14:28 martin Exp $
+# $Id: CHANGES,v 1.545 2008-01-14 16:04:33 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -86,6 +86,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.5 (2008/??/??)
+ - (2008/01/14) Fixed bug# 2330 - Cron.sh start <OTRS_USER> does not work.
+    Thanks to Felix J. Ogris.
  - (2008/01/14) Fixed bug# 977 - No agent notification for new ticket from
     webinterface if CustomerGroupSupport is enabled.
  - (2008/01/13) Added new vietnam translation, thanks to Nguyen Nguyet. Phuong!
