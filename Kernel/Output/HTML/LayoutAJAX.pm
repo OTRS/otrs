@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutAJAX.pm,v 1.1 2007-10-05 08:49:33 martin Exp $
+# $Id: LayoutAJAX.pm,v 1.2 2008-01-14 14:25:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =item BuildJSON()
 
@@ -55,7 +55,10 @@ sub BuildJSON {
             }
         }
         # create OptionRef
-        my $OptionRef = $Self->_BuildSelectionOptionRefCreate(%Param);
+        my $OptionRef = $Self->_BuildSelectionOptionRefCreate(
+            %Param,
+            HTMLQuote => 0,
+        );
         # create AttributeRef
         my $AttributeRef = $Self->_BuildSelectionAttributeRefCreate(%Param);
         # create DataRef
@@ -142,6 +145,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2007-10-05 08:49:33 $
+$Revision: 1.2 $ $Date: 2008-01-14 14:25:12 $
 
 =cut
