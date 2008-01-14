@@ -2,7 +2,7 @@
 # AJAX.dtl - provides AJAX functions
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AJAX.dtl,v 1.4 2008-01-12 13:38:29 martin Exp $
+# $Id: AJAX.dtl,v 1.5 2008-01-14 14:38:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,8 +14,8 @@
 
 <script language="JavaScript" type="text/javascript">
 <!--
-function AJAXUpdate(Subaction, Depend, Update) {
-    var url = AJAXURLGet(Subaction, Depend, Update);
+function AJAXUpdate(Subaction, Changed, Depend, Update) {
+    var url = AJAXURLGet(Subaction, Changed, Depend, Update);
     new Ajax.Request(url,
         {
             method:'get',
@@ -45,9 +45,9 @@ function AJAXUpdate(Subaction, Depend, Update) {
     );
 }
 
-function AJAXURLGet (Subaction, FieldName, FieldName2) {
+function AJAXURLGet (Subaction, Changed, FieldName, FieldName2) {
     var ParamPart = '';
-    // check if we need to fill some not used fields fro Update
+    // check if we need to fill some not used fields for Update
     for (F2=0;F2<FieldName2.length;F2++) {
         var Hit = 0;
         for (F=0;F<FieldName.length;F++) {
@@ -59,7 +59,7 @@ function AJAXURLGet (Subaction, FieldName, FieldName2) {
             FieldName.push(FieldName2[F2]);
         }
     }
-    // build url
+    // build url based on depends
     for (F=0;F<FieldName.length;F++) {
         if (document.compose[FieldName[F]]) {
             var Param = document.compose[FieldName[F]].value;
@@ -67,7 +67,7 @@ function AJAXURLGet (Subaction, FieldName, FieldName2) {
             ParamPart = ParamPart + '&' + FieldName[F] + '=' + ParamEncode;
         }
     }
-    var url = '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=' + Subaction + ParamPart;
+    var url = '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=' + Subaction + '&ElementChanged=' + Changed + ParamPart;
     return url;
 }
 

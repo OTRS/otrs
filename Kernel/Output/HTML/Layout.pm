@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.65 2008-01-09 14:56:22 martin Exp $
+# $Id: Layout.pm,v 1.66 2008-01-14 14:38:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 =head1 NAME
 
@@ -1792,7 +1792,9 @@ sub OptionStrgHashRef {
             );
             $Self->FatalError();
         }
-        $Param{OnChange} = "AJAXUpdate('".$Param{Ajax}->{Subaction}."', ['"
+        $Param{OnChange} = "AJAXUpdate('".$Param{Ajax}->{Subaction}."', "
+            ." '$Name',"
+            ."['"
             .join("', '", @{$Param{Ajax}->{Depend}})."'], ['"
             .join("', '", @{$Param{Ajax}->{Update}})."']);";
     }
@@ -2121,7 +2123,9 @@ sub BuildSelection {
             );
             $Self->FatalError();
         }
-        $Param{OnChange} = "AJAXUpdate('".$Param{Ajax}->{Subaction}."', ['"
+        $Param{OnChange} = "AJAXUpdate('".$Param{Ajax}->{Subaction}."',"
+            ." '$Param{Name}',"
+            ." ['"
             .join("', '", @{$Param{Ajax}->{Depend}})."'], ['"
             .join("', '", @{$Param{Ajax}->{Update}})."']);";
     }
@@ -3817,6 +3821,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.65 $ $Date: 2008-01-09 14:56:22 $
+$Revision: 1.66 $ $Date: 2008-01-14 14:38:59 $
 
 =cut
