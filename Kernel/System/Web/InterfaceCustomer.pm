@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.26 2007-12-27 16:18:36 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.27 2008-01-14 12:14:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -135,7 +135,7 @@ sub Run {
     }
 
     # create common framework objects 2/3
-    $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
+    $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang} );
 
     # check common objects
     $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
@@ -158,7 +158,9 @@ sub Run {
     my %CommonObject = %{ $Self->{ConfigObject}->Get('CustomerFrontend::CommonObject') };
     for my $Key ( keys %CommonObject ) {
         if ( $Self->{MainObject}->Require( $CommonObject{$Key} ) ) {
-            $Self->{$Key} = $CommonObject{$Key}->new( %{$Self} );
+
+            # workaround for bug# 977 - do not use GroupObject in Kernel::System::Ticket
+            $Self->{$Key} = $CommonObject{$Key}->new( %{$Self}, GroupObject => undef );
         }
         else {
 
@@ -905,6 +907,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2007-12-27 16:18:36 $
+$Revision: 1.27 $ $Date: 2008-01-14 12:14:28 $
 
 =cut
