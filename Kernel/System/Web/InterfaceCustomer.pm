@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.20 2007-03-05 01:44:21 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.20.2.1 2008-01-14 12:15:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.20.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed modules
@@ -163,7 +163,8 @@ sub Run {
     my %CommonObject = %{$Self->{ConfigObject}->Get('CustomerFrontend::CommonObject')};
     foreach my $Key (keys %CommonObject) {
         if ($Self->{MainObject}->Require($CommonObject{$Key})) {
-            $Self->{$Key} = $CommonObject{$Key}->new(%{$Self});
+            # workaround for bug# 977 - do not use GroupObject in Kernel::System::Ticket
+            $Self->{$Key} = $CommonObject{$Key}->new( %{$Self}, GroupObject => undef );
         }
         else {
             # print error
@@ -769,6 +770,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2007-03-05 01:44:21 $
+$Revision: 1.20.2.1 $ $Date: 2008-01-14 12:15:07 $
 
 =cut
