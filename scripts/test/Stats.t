@@ -1,8 +1,8 @@
 # --
 # scripts/test/Stats.t - stats module testscript
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.11 2007-11-28 06:54:09 tr Exp $
+# $Id: Stats.t,v 1.12 2008-01-14 14:53:50 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,7 +26,6 @@ $Self->{CSVObject} = Kernel::System::CSV->new(%{$Self});
 $Self->{StatsObject} = Kernel::System::Stats->new(%{$Self});
 
 # try to get an invalid stat
-# check the imported stat
 my $StatInvalid = $Self->{StatsObject}->StatsGet(
     StatID => 1111,
 );
@@ -260,18 +259,24 @@ my $Home = $Self->{ConfigObject}->Get('Home');
 if (open my $Filehandle, '-|', "perl $Home/bin/mkStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/") {
     @Lines = <$Filehandle> ;
     close $Filehandle;
-}
 
-for my $Line (@Lines) {
-    if ($Line =~ /\/\/(.+?csv)\./) {
-        unlink "$Home/var/tmp/$1";
+    for my $Line (@Lines) {
+        if ($Line =~ /\/\/(.+?csv)\./) {
+            unlink "$Home/var/tmp/$1";
+        }
     }
-}
 
-$Self->True(
-    ($Lines[0] && !$Lines[1] && $Lines[0] =~ /^NOTICE:/),
-    "mkStats.pl - Simple mkStats.pl check.\n"
-);
+    $Self->True(
+        ($Lines[0] && !$Lines[1] && $Lines[0] =~ /^NOTICE:/),
+        "mkStats.pl - Simple mkStats.pl check (check the program message)\n"
+    );
+}
+else {
+    $Self->True(
+        0,
+        "mkStats.pl - Simple mkStats.pl check (open the file).\n"
+    );
+}
 
 $Self->True(
     $Self->{StatsObject}->StatsDelete(StatID => $StatID),
