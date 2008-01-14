@@ -1,9 +1,9 @@
 #!/bin/sh
 # --
 # Cron.sh - start|stop OTRS Cronjobs
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Cron.sh,v 1.13 2006-10-03 14:36:02 mh Exp $
+# $Id: Cron.sh,v 1.13.4.1 2008-01-14 15:59:42 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,16 +21,34 @@
 # --
 
 CURRENTUSER=`whoami`
-OTRS_HOME=$HOME
-#CRON_USER=" -u $RUNASUSER ";
-CRON_USER=""
+CRON_USER="$2"
 
-if test $CURRENTUSER = root; then
-    echo "Run this script just as OTRS user! Or use 'Cron.sh {start|stop|restart} OTRS_USER'!"
-    exit 5
+# check if a common user try to use -u
+if test -n "$CRON_USER"; then
+    if test $CURRENTUSER != root; then
+        echo "Run this script just as OTRS user! Or use 'Cron.sh {start|stop|restart} OTRS_USER' as root!"
+        exit 5
+    fi
+fi
+
+# check if the cron user is specified
+if test -z "$CRON_USER"; then
+    if test $CURRENTUSER = root; then
+        echo "Run this script just as OTRS user! Or use 'Cron.sh {start|stop|restart} OTRS_USER' as root!"
+        exit 5
+    fi
+fi
+
+# add -u to cron user if exits
+if test -n "$CRON_USER"; then
+    CRON_USER=" -u $CRON_USER"
 fi
 
 # find otrs root
+cd "`dirname $0`/../"
+OTRS_HOME="`pwd`"
+cd -
+
 #OTRS_ROOT=/opt/OpenTRS
 if test -e $OTRS_HOME/var/cron; then
     OTRS_ROOT=$OTRS_HOME
@@ -43,8 +61,8 @@ fi
 CRON_DIR=$OTRS_ROOT/var/cron
 CRON_TMP_FILE=$OTRS_ROOT/var/tmp/otrs-cron-tmp.$$
 
-echo "Cron.sh - start/stop OTRS cronjobs - <\$Revision: 1.13 $> "
-echo "Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/"
+echo "Cron.sh - start/stop OTRS cronjobs - <\$Revision: 1.13.4.1 $> "
+echo "Copyright (C) 2001-2008 OTRS AG, http://otrs.org/"
 
 #
 # main part
@@ -55,6 +73,7 @@ case "$1" in
     # ------------------------------------------------------
     start)
         if mkdir -p $CRON_DIR; cd $CRON_DIR && ls * |grep -v '.dist'|grep -v '.rpm'| grep -v CVS | grep -v Entries | grep -v Repository | grep -v Root | xargs cat > $CRON_TMP_FILE && crontab $CRON_USER $CRON_TMP_FILE; then
+
             rm -rf $CRON_TMP_FILE
             echo "(using $OTRS_ROOT) done";
             exit 0;
@@ -79,8 +98,8 @@ case "$1" in
     # restart
     # ------------------------------------------------------
     restart)
-        $0 stop
-        $0 start
+        $0 stop "$CRON_USER"
+        $0 start "$CRON_USER"
     ;;
     # ------------------------------------------------------
     # Usage
