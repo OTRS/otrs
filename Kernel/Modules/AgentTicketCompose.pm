@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.30.2.1 2008-01-01 23:15:18 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.30.2.2 2008-01-15 17:00:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30.2.1 $';
+$VERSION = '$Revision: 1.30.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -633,7 +633,8 @@ sub Run {
                 my $NewLine = '';
                 for my $Email ( Mail::Address->parse( $Data{$Type} ) ) {
                     my $Address = $Email->address();
-                    if ( !$Recipient{$Address} ) {
+                    # only use email addresses with @ inside
+                    if ( $Address && $Address =~ /@/ && !$Recipient{$Address} ) {
                         $Recipient{$Address} = 1;
                         if ( $NewLine ) {
                             $NewLine .= ', ';
