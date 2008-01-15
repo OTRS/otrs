@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.279 2008-01-13 22:04:48 martin Exp $
+# $Id: Defaults.pm,v 1.280 2008-01-15 15:43:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.279 $) [1];
+$VERSION = qw($Revision: 1.280 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -344,6 +344,10 @@ sub LoadDefaults {
     # (Oracle, postgresql). User might be synched twice, if this option
     # is not in use.
     #    $Self->{'AuthModule::LDAP::UserLowerCase'} = 0;
+
+    # In case you need to use OTRS in iso-charset, you can define this
+    # by using this option (converts utf-8 data from LDAP to iso).
+    #    $Self->{'AuthModule::LDAP::Charset'} = 'iso-8859-1';
 
     # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
     #    $Self->{'AuthModule::LDAP::Params'} = {
@@ -2288,6 +2292,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.279 $ $Date: 2008-01-13 22:04:48 $
+$Revision: 1.280 $ $Date: 2008-01-15 15:43:14 $
 
 =cut
