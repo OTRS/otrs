@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.26 2008-01-02 14:56:05 martin Exp $
+# $Id: mysql.pm,v 1.27 2008-01-15 18:39:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,7 +68,7 @@ sub LoadPreferences {
 }
 
 sub Quote {
-    my ( $Self, $Text ) = @_;
+    my ( $Self, $Text, $Type ) = @_;
 
     if ( defined( ${$Text} ) ) {
         if ( $Self->{'DB::QuoteBack'} ) {

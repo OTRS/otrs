@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Service.pm - all service function
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.21 2007-10-16 17:43:30 mh Exp $
+# $Id: Service.pm,v 1.22 2008-01-15 18:39:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -517,7 +517,7 @@ sub ServiceUpdate {
 
         # find all childs
         $Self->{DBObject}->Prepare( SQL => "SELECT id, name FROM service WHERE name LIKE '"
-                . $Self->{DBObject}->Quote($OldServiceName)
+                . $Self->{DBObject}->Quote( $OldServiceName, 'Like' )
                 . "::%'", );
         my @Childs;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -571,24 +571,28 @@ sub ServiceSearch {
     $Param{Name} =~ s/^\s+//;
     $Param{Name} =~ s/\s+$//;
 
-    # quote
-    for (qw(UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-    my $SQL = "SELECT id FROM service WHERE valid_id = 1 ";
+    my $SQL = 'SELECT id FROM service WHERE valid_id = 1 ';
+
     if ( $Param{Name} ) {
         $Param{Name} =~ s/\*/%/g;
         $Param{Name} =~ s/%%/%/g;
+
+        # quote
+        $Param{Name} = $Self->{DBObject}->Quote( $Param{Name}, 'Like' );
+
         $SQL .= "AND name LIKE '$Param{Name}' ";
     }
-    $SQL .= "ORDER BY name";
+
+    $SQL .= 'ORDER BY name';
 
     # search service in db
     $Self->{DBObject}->Prepare( SQL => $SQL );
+
     my @ServiceList;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push( @ServiceList, $Row[0] );
     }
+
     return @ServiceList;
 }
 
@@ -825,6 +829,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2007-10-16 17:43:30 $
+$Revision: 1.22 $ $Date: 2008-01-15 18:39:49 $
 
 =cut

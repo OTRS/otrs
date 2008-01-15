@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.289 2008-01-02 15:05:18 martin Exp $
+# $Id: Ticket.pm,v 1.290 2008-01-15 18:39:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.289 $) [1];
+$VERSION = qw($Revision: 1.290 $) [1];
 
 =head1 NAME
 
@@ -3828,7 +3828,7 @@ sub TicketSearch {
             }
             else {
                 $SQLExt .= " AND LOWER($FieldSQLMap{$Key}) LIKE LOWER('"
-                    . $Self->{DBObject}->Quote( $Param{$Key} ) . "')";
+                    . $Self->{DBObject}->Quote( $Param{$Key}, 'Like' ) . "')";
             }
         }
     }
@@ -3862,11 +3862,11 @@ sub TicketSearch {
                 # check if database supports LIKE in large text types (in this case for body)
                 if ( $Self->{DBObject}->GetDatabaseFunction('NoLikeInLargeText') ) {
                     $FullTextSQL .= " $FieldSQLMapFullText{$Key} LIKE '"
-                        . $Self->{DBObject}->Quote( $Param{$Key} ) . "'";
+                        . $Self->{DBObject}->Quote( $Param{$Key}, 'Like' ) . "'";
                 }
                 else {
                     $FullTextSQL .= " LOWER($FieldSQLMapFullText{$Key}) LIKE LOWER('"
-                        . $Self->{DBObject}->Quote( $Param{$Key} ) . "')";
+                        . $Self->{DBObject}->Quote( $Param{$Key}, 'Like' ) . "')";
                 }
             }
         }
@@ -3880,7 +3880,7 @@ sub TicketSearch {
         if ( $Param{"TicketFreeKey$_"} && ref( $Param{"TicketFreeKey$_"} ) eq '' ) {
             $Param{"TicketFreeKey$_"} =~ s/\*/%/gi;
             $SQLExt .= " AND LOWER(st.freekey$_) LIKE LOWER('"
-                . $Self->{DBObject}->Quote( $Param{"TicketFreeKey$_"} ) . "')";
+                . $Self->{DBObject}->Quote( $Param{"TicketFreeKey$_"}, 'Like' ) . "')";
         }
         elsif ( $Param{"TicketFreeKey$_"} && ref( $Param{"TicketFreeKey$_"} ) eq 'ARRAY' ) {
             my $SQLExtSub = ' AND (';
@@ -3890,7 +3890,7 @@ sub TicketSearch {
                     $Key =~ s/\*/%/gi;
                     $SQLExtSub .= ' OR ' if ($Counter);
                     $SQLExtSub .= " LOWER(st.freekey$_) LIKE LOWER('"
-                        . $Self->{DBObject}->Quote($Key) . "')";
+                        . $Self->{DBObject}->Quote( $Key, 'Like' ) . "')";
                     $Counter++;
                 }
             }
@@ -3904,7 +3904,7 @@ sub TicketSearch {
         if ( $Param{"TicketFreeText$_"} && ref( $Param{"TicketFreeText$_"} ) eq '' ) {
             $Param{"TicketFreeText$_"} =~ s/\*/%/gi;
             $SQLExt .= " AND LOWER(st.freetext$_) LIKE LOWER('"
-                . $Self->{DBObject}->Quote( $Param{"TicketFreeText$_"} ) . "')";
+                . $Self->{DBObject}->Quote( $Param{"TicketFreeText$_"}, 'Like' ) . "')";
         }
         elsif ( $Param{"TicketFreeText$_"} && ref( $Param{"TicketFreeText$_"} ) eq 'ARRAY' ) {
             my $SQLExtSub = ' AND (';
@@ -3914,7 +3914,7 @@ sub TicketSearch {
                     $Text =~ s/\*/%/gi;
                     $SQLExtSub .= ' OR ' if ($Counter);
                     $SQLExtSub .= " LOWER(st.freetext$_) LIKE LOWER('"
-                        . $Self->{DBObject}->Quote($Text) . "')";
+                        . $Self->{DBObject}->Quote( $Text, 'Like' ) . "')";
                     $Counter++;
                 }
             }
@@ -6786,6 +6786,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.289 $ $Date: 2008-01-02 15:05:18 $
+$Revision: 1.290 $ $Date: 2008-01-15 18:39:49 $
 
 =cut

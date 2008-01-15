@@ -1,8 +1,8 @@
 # --
 # Kernel/System/User.pm - some user functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.70 2007-12-27 16:18:36 martin Exp $
+# $Id: User.pm,v 1.71 2008-01-15 18:39:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Valid;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 =head1 NAME
 
@@ -482,7 +482,7 @@ sub UserSearch {
                     if ($SQLExt) {
                         $SQLExt .= ' OR ';
                     }
-                    $SQLExt .= " LOWER($_) LIKE LOWER('" . $Self->{DBObject}->Quote($Part) . "') ";
+                    $SQLExt .= " LOWER($_) LIKE LOWER('" . $Self->{DBObject}->Quote( $Part, 'Like' ) . "') ";
                 }
                 if ($SQLExt) {
                     $SQL .= "($SQLExt)";
@@ -509,7 +509,7 @@ sub UserSearch {
     elsif ( $Param{UserLogin} ) {
         $Param{UserLogin} =~ s/\*/%/g;
         $SQL .= " LOWER($Self->{UserTableUser}) LIKE LOWER('"
-            . $Self->{DBObject}->Quote( $Param{UserLogin} ) . "')";
+            . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Like' ) . "')";
     }
 
     # add valid option
@@ -976,6 +976,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2007-12-27 16:18:36 $
+$Revision: 1.71 $ $Date: 2008-01-15 18:39:49 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.65 2008-01-08 13:39:11 mh Exp $
+# $Id: XML.pm,v 1.66 2008-01-15 18:39:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 =head1 NAME
 
@@ -456,9 +456,10 @@ sub XMLHashSearch {
             my $SQL     = '';
             for my $Key ( sort keys %{$And} ) {
                 my $Value = $Self->{DBObject}->Quote( $And->{$Key} );
-                $Key = $Self->{DBObject}->Quote($Key);
+                $Key = $Self->{DBObject}->Quote($Key, 'Like');
                 if ( $Value && ref($Value) eq 'ARRAY' ) {
                     for my $Element ( @{$Value} ) {
+                        $Element = $Self->{DBObject}->Quote($Element, 'Like');
                         if ($SQL) {
                             $SQL .= " OR ";
                         }
@@ -467,6 +468,7 @@ sub XMLHashSearch {
                     }
                 }
                 else {
+                    $Value = $Self->{DBObject}->Quote($Value, 'Like');
                     if ($SQL) {
                         $SQL .= " OR ";
                     }
@@ -1440,6 +1442,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.65 $ $Date: 2008-01-08 13:39:11 $
+$Revision: 1.66 $ $Date: 2008-01-15 18:39:49 $
 
 =cut

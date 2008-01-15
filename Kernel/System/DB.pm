@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.79 2008-01-02 15:13:23 martin Exp $
+# $Id: DB.pm,v 1.80 2008-01-15 18:39:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 =head1 NAME
 
@@ -273,6 +273,11 @@ sub Quote {
         return;
     }
 
+    # do quote string
+    if ( !defined($Type) ) {
+        return ${ $Self->{Backend}->Quote( \$Text ) };
+    }
+
     # do quote integer
     if ( $Type && $Type eq 'Integer' ) {
         if ( $Text !~ /^(\+|\-|)\d{1,16}$/ ) {
@@ -287,7 +292,7 @@ sub Quote {
     }
 
     # numbers
-    elsif ( $Type && $Type eq 'Number' ) {
+    if ( $Type && $Type eq 'Number' ) {
         if ( $Text !~ /^(\+|\-|)(\d{1,20}|\d{1,20}\.\d{1,20})$/ ) {
             $Self->{LogObject}->Log(
                 Caller   => 1,
@@ -299,18 +304,17 @@ sub Quote {
         return $Text;
     }
 
-    # do quote string
-    elsif ( !defined($Type) ) {
-        return ${ $Self->{Backend}->Quote( \$Text ) };
+    # do quote like string
+    if ( $Type && $Type eq 'Like' ) {
+        return ${ $Self->{Backend}->Quote( \$Text, $Type ) };
     }
-    else {
-        $Self->{LogObject}->Log(
-            Caller   => 1,
-            Priority => 'error',
-            Message  => "Invalid quote type '$Type'!",
-        );
-        return '';
-    }
+
+    $Self->{LogObject}->Log(
+        Caller   => 1,
+        Priority => 'error',
+        Message  => "Invalid quote type '$Type'!",
+    );
+    return '';
 }
 
 =item Error()
@@ -578,16 +582,26 @@ sub FetchrowArray {
     # return
     my @Row = $Self->{Curser}->fetchrow_array();
 
-    # e. g. set utf-8 flag
-    my $Count = 0;
-    for (@Row) {
-        if ( $Self->{Backend}->{"DB::Encode"} ) {
-            if ( !defined( $Self->{Encode} ) || ( $Self->{Encode} && $Self->{Encode}->[$Count] ) ) {
-                $Self->{EncodeObject}->Encode( \$_ );
-            }
-        }
-        $Count++;
+    if ( !$Self->{Backend}->{"DB::Encode"} ) {
+        return @Row;
     }
+
+    # e. g. set utf-8 flag
+    my $Counter = 0;
+    ELEMENT:
+    for my $Element (@Row) {
+        if (!$Element) {
+            next ELEMENT;
+        }
+
+        if ( !defined( $Self->{Encode} ) || ( $Self->{Encode} && $Self->{Encode}->[$Counter] ) ) {
+            $Self->{EncodeObject}->Encode( \$Element );
+        }
+    }
+    continue {
+        $Counter++;
+    }
+
     return @Row;
 }
 
@@ -877,6 +891,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.79 $ $Date: 2008-01-02 15:13:23 $
+$Revision: 1.80 $ $Date: 2008-01-15 18:39:49 $
 
 =cut

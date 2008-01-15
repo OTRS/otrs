@@ -1,8 +1,8 @@
 # --
 # Kernel/System/User/Preferences/DB.pm - some user functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.13 2007-10-02 10:38:58 mh Exp $
+# $Id: DB.pm,v 1.14 2008-01-15 18:39:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -146,7 +146,7 @@ sub SearchPreferences {
         . " $Self->{PreferencesTableKey} = '"
         . $Self->{DBObject}->Quote($Key) . "'" . " AND "
         . " LOWER($Self->{PreferencesTableValue}) LIKE LOWER('"
-        . $Self->{DBObject}->Quote($Value) . "')";
+        . $Self->{DBObject}->Quote( $Value, 'Like' ) . "')";
 
     $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {

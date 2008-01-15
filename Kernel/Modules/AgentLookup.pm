@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentLookup.pm - a generic lookup module
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentLookup.pm,v 1.14 2007-10-02 10:32:38 mh Exp $
+# $Id: AgentLookup.pm,v 1.15 2008-01-15 18:39:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -125,7 +125,7 @@ sub Run {
             if ($Where) {
                 $Where .= ' OR ';
             }
-            $Where .= " $Entry LIKE '" . $Self->{DBObject}->Quote($SearchDB) . "'";
+            $Where .= " $Entry LIKE '" . $Self->{DBObject}->Quote( $SearchDB, 'Like' ) . "'";
         }
         $SQL .= $Where;
         $Self->{DBObject}->Prepare( SQL => $SQL, Limit => 100 );

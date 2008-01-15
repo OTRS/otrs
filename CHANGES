@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.546 2008-01-15 16:10:18 tr Exp $
+# $Id: CHANGES,v 1.547 2008-01-15 18:43:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/01/15) Fixed bug# 2227 - XMLHashSearch returns no values on MS SQL in
+    certain cases.
  - (2008/01/08) Added expand/collapse option to ticket zoom.
  - (2008/01/08) Added multi attachment support to ticket move screen.
  - (2008/01/08) Added AJAX support in email ticket.
@@ -88,6 +90,8 @@ CVS HEAD (????/??/??)
 2.2.5 (2008/??/??)
  - (2008/01/15) Fixed bug# 2392 - Charset problems with iso8859 and the
     xml-caching mechanism.
+ - (2008/01/15) Implemented hotfix for bug# 2227 - XMLHashSearch returns no
+    values on MS SQL in certain cases.
  - (2008/01/14) Fixed bug# 2330 - Cron.sh start <OTRS_USER> does not work.
     Thanks to Felix J. Ogris.
  - (2008/01/14) Fixed bug# 977 - No agent notification for new ticket from

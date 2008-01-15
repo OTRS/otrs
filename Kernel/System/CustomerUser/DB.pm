@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.57 2007-10-09 22:37:30 martin Exp $
+# $Id: DB.pm,v 1.58 2008-01-15 18:39:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -200,7 +200,7 @@ sub CustomerSearch {
                     if ($SQLExt) {
                         $SQLExt .= ' OR ';
                     }
-                    $SQLExt .= " LOWER($Field) LIKE LOWER('" . $Self->{DBObject}->Quote($Part) . "') ";
+                    $SQLExt .= " LOWER($Field) LIKE LOWER('" . $Self->{DBObject}->Quote( $Part, 'Like' ) . "') ";
                 }
                 if ($SQLExt) {
                     $SQL .= "($SQLExt)";
@@ -208,7 +208,7 @@ sub CustomerSearch {
             }
             else {
                 $SQL .= " LOWER($Self->{CustomerKey}) LIKE LOWER('"
-                    . $Self->{DBObject}->Quote($Part) . "') ";
+                    . $Self->{DBObject}->Quote( $Part, 'Like' ) . "') ";
             }
         }
     }
@@ -220,7 +220,7 @@ sub CustomerSearch {
                     $SQLExt .= ' OR ';
                 }
                 $SQLExt .= " LOWER($Field) LIKE LOWER('"
-                    . $Self->{DBObject}->Quote( $Param{PostMasterSearch} ) . "') ";
+                    . $Self->{DBObject}->Quote( $Param{PostMasterSearch}, 'Like' ) . "') ";
             }
             $SQL .= $SQLExt;
         }
@@ -228,7 +228,7 @@ sub CustomerSearch {
     elsif ( $Param{UserLogin} ) {
         $Param{UserLogin} =~ s/\*/%/g;
         $SQL .= " LOWER($Self->{CustomerKey}) LIKE LOWER('"
-            . $Self->{DBObject}->Quote( $Param{UserLogin} ) . "')";
+            . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Like' ) . "')";
     }
 
     # add valid option
