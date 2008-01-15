@@ -1,8 +1,8 @@
 # --
 # Main.t - Main tests
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Main.t,v 1.5 2007-09-29 11:09:57 mh Exp $
+# $Id: Main.t,v 1.6 2008-01-15 15:00:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -102,54 +102,52 @@ $Self->Is(
     '57041f8f7dff9b67e3f97d7facbaf8d3',
     "#9 MD5sum() - String - abc1234567890",
 );
-$String = 'abc1234567890äöüß-カスタマ';
-$MD5Sum = $Self->{MainObject}->MD5sum(
-   String => \$String,
+
+# test charset specific situations
+my $Charset = $Self->{ConfigObject}->Get('DefaultCharset');
+if ($Charset eq 'utf-8') {
+    $String = 'abc1234567890äöüß-カスタマ';
+    $MD5Sum = $Self->{MainObject}->MD5sum(
+        String => \$String,
+    );
+
+    $Self->Is(
+        $MD5Sum || '',
+        '56a681e0c46b1f156020182cdf62e825',
+        "#9 MD5sum() - String - abc1234567890äöüß-カスタマ",
+    );
+}
+elsif ($Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15') {
+    no utf8;
+    $String = 'bc1234567890������';
+    $MD5Sum = $Self->{MainObject}->MD5sum(
+        String => \$String,
+    );
+
+    $Self->Is(
+        $MD5Sum || '',
+        'f528f84187c4ca0e6fc9c4a937dbf9bb',
+        "#9 MD5sum() - String - $String",
+    );
+}
+
+my %MD5SumOf = (
+    doc => '2e520036a0cda6a806a8838b1000d9d7',
+    pdf => '5ee767f3b68f24a9213e0bef82dc53e5',
+    png => 'e908214e672ed20c9c3f417b82e4e637',
+    txt => '0596f2939525c6bd50fc2b649e40fbb6',
+    xls => '39fae660239f62bb0e4a29fe14ff5663',
 );
-$Self->Is(
-    $MD5Sum || '',
-    '56a681e0c46b1f156020182cdf62e825',
-    "#9 MD5sum() - String - abc1234567890äöüß-カスタマ",
-);
+
 for my $Extention (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
         Filename => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/Main-Test1.$Extention",
     );
-    if ($Extention eq 'doc') {
-        $Self->Is(
-            $MD5Sum || '',
-            '2e520036a0cda6a806a8838b1000d9d7',
-            "#10 MD5sum() - Filename - Main-Test1.$Extention",
-        );
-    }
-    elsif ($Extention eq 'pdf') {
-        $Self->Is(
-            $MD5Sum || '',
-            '5ee767f3b68f24a9213e0bef82dc53e5',
-            "#10 MD5sum() - Filename - Main-Test1.$Extention",
-        );
-    }
-    elsif ($Extention eq 'png') {
-        $Self->Is(
-            $MD5Sum || '',
-            'e908214e672ed20c9c3f417b82e4e637',
-            "#10 MD5sum() - Filename - Main-Test1.$Extention",
-        );
-    }
-    elsif ($Extention eq 'txt') {
-        $Self->Is(
-            $MD5Sum || '',
-            '0596f2939525c6bd50fc2b649e40fbb6',
-            "#10 MD5sum() - Filename - Main-Test1.$Extention",
-        );
-    }
-    elsif ($Extention eq 'xls') {
-        $Self->Is(
-            $MD5Sum || '',
-            '39fae660239f62bb0e4a29fe14ff5663',
-            "#10 MD5sum() - Filename - Main-Test1.$Extention",
-        );
-    }
+    $Self->Is(
+        $MD5Sum || '',
+        $MD5SumOf{$Extention},
+        "#10 MD5sum() - Filename - Main-Test1.$Extention",
+    );
 }
 
 # write & read some files via Directory/Filename
