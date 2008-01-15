@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.61.2.1 2008-01-08 13:40:56 mh Exp $
+# $Id: XML.pm,v 1.61.2.2 2008-01-15 10:39:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.61.2.1 $';
+$VERSION = '$Revision: 1.61.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -431,6 +431,12 @@ sub XMLHashSearch {
         }
     }
 
+    # Hotfix for MSSQL bug# 2227
+    my $MSSQLQuote;
+    if ( $Self->{DBObject}->{'DB::Type'} eq 'mssql') {
+        $MSSQLQuote = 1;
+    }
+
     $SQL = "SELECT DISTINCT(xml_key) FROM xml_storage WHERE xml_type = '$Param{Type}' GROUP BY xml_key";
     if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
         return;
@@ -446,8 +452,19 @@ sub XMLHashSearch {
             foreach my $Key (sort keys %{$And}) {
                 my $Value = $Self->{DBObject}->Quote($And->{$Key});
                 $Key = $Self->{DBObject}->Quote($Key);
+
+                # Hotfix for MSSQL bug# 2227
+                if ($MSSQLQuote) {
+                    $Self->_MSSQLQuote(\$Key);
+                }
+
                 if ($Value && ref($Value) eq 'ARRAY') {
                     foreach my $Element (@{$Value}) {
+                        # Hotfix for MSSQL bug# 2227
+                        if ($MSSQLQuote) {
+                            $Self->_MSSQLQuote(\$Element);
+                        }
+
                         if ($SQL) {
                             $SQL .= " OR ";
                         }
@@ -455,6 +472,11 @@ sub XMLHashSearch {
                     }
                 }
                 else {
+                    # Hotfix for MSSQL bug# 2227
+                    if ($MSSQLQuote) {
+                        $Self->_MSSQLQuote(\$Value);
+                    }
+
                     if ($SQL) {
                         $SQL .= " OR ";
                     }
@@ -477,6 +499,18 @@ sub XMLHashSearch {
         push(@Keys, $Key);
     }
     return @Keys;
+}
+
+# Hotfix function for MSSQL bug# 2227
+sub _MSSQLQuote {
+    my ( $Self, $Value ) = @_;
+
+    return if !$Value;
+    return if ref $Value ne 'SCALAR';
+
+    ${$Value} =~ s{ \[ }{[[]}xmsg;
+
+    return;
 }
 
 =item XMLHashList()
@@ -1162,6 +1196,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.61.2.1 $ $Date: 2008-01-08 13:40:56 $
+$Revision: 1.61.2.2 $ $Date: 2008-01-15 10:39:06 $
 
 =cut
