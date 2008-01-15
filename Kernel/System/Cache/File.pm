@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Cache/File.pm - all cache functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: File.pm,v 1.7 2007-11-05 13:28:05 martin Exp $
+# $Id: File.pm,v 1.8 2008-01-15 16:01:37 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,6 +43,7 @@ sub Set {
             return;
         }
     }
+
     my $Now  = time();
     my $TTL  = $Now + $Param{TTL};
     my $Dump = "\$TTL=$TTL; #$Now:$Param{TTL}\n";
@@ -52,14 +53,20 @@ sub Set {
     $Param{KeyNice} =~ s/(\n\r)/_/g;
     $Dump .= "#$Param{KeyNice}\n";
     $Dump .= $Self->{MainObject}->Dump( $Param{Value} ) . "\n1;";
-    my $FileLocation = $Self->{MainObject}->FileWrite(
-        Directory => $Self->{CacheDirectory},
-        Filename  => $Param{Key},
-        Content   => \$Dump,
-        Mode      => 'utf8',
-        Type      => 'MD5',
+
+    my %FileData = (
+        Directory  => $Self->{CacheDirectory},
+        Filename   => $Param{Key},
+        Content    => \$Dump,
+        Type       => 'MD5',
         Permission => '664',
     );
+
+    if ($Self->{ConfigObject}->Get('DefaultCharset') eq 'utf-8') {
+        $FileData{Mode} = 'utf8';
+    }
+
+    my $FileLocation = $Self->{MainObject}->FileWrite(%FileData);
 
     return 1;
 }
@@ -68,24 +75,27 @@ sub Get {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Key)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{Key} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Key!" );
+        return;
     }
-    my $Content = $Self->{MainObject}->FileRead(
+
+    my %FileData = (
         Directory       => $Self->{CacheDirectory},
         Filename        => $Param{Key},
         Type            => 'MD5',
-        Mode            => 'utf8',
         DisableWarnings => 1,
     );
 
-    # check if cache exists
-    if ( !$Content ) {
-        return;
+    if ($Self->{ConfigObject}->Get('DefaultCharset') eq 'utf-8') {
+        $FileData{Mode} = 'utf8';
     }
+
+    my $Content = $Self->{MainObject}->FileRead(%FileData);
+
+    # check if cache exists
+    return if !$Content;
+
     my $TTL;
     my $VAR1;
     eval ${$Content};
@@ -103,12 +113,12 @@ sub Delete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Key)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+
+    if ( !$Param{Key} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Key!" );
+        return;
     }
+
     return $Self->{MainObject}->FileDelete(
         Directory       => $Self->{CacheDirectory},
         Filename        => $Param{Key},
