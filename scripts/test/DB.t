@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.t,v 1.26 2008-01-10 15:56:33 mh Exp $
+# $Id: DB.t,v 1.27 2008-01-15 18:44:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -110,6 +110,12 @@ if ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /pg/i) {
         'Test\'\'l\\;',
         'Quote() String - Test\'l;',
     );
+
+    $Self->Is(
+        $Self->{DBObject}->Quote("Block[12]Block[12]", 'Like'),
+        'Block[12]Block[12]',
+        'Quote() Like-String - Block[12]Block[12]',
+    );
 }
 elsif ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /oracle/i) {
     $Self->Is(
@@ -122,6 +128,12 @@ elsif ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /oracle/i) {
         $Self->{DBObject}->Quote("Test'l;"),
         'Test\'\'l;',
         'Quote() String - Test\'l;',
+    );
+
+    $Self->Is(
+        $Self->{DBObject}->Quote("Block[12]Block[12]", 'Like'),
+        'Block[12]Block[12]',
+        'Quote() Like-String - Block[12]Block[12]',
     );
 }
 elsif ($Self->{DBObject}->{'DB::Type'} =~ /mssql/i) {
@@ -136,6 +148,12 @@ elsif ($Self->{DBObject}->{'DB::Type'} =~ /mssql/i) {
         'Test\'\'l;',
         'Quote() String - Test\'l;',
     );
+
+    $Self->Is(
+        $Self->{DBObject}->Quote("Block[12]Block[12]", 'Like'),
+        'Block[[]12]Block[[]12]',
+        'Quote() Like-String - Block[12]Block[12]',
+    );
 }
 elsif ($Self->{DBObject}->{'DB::Type'} =~ /maxdb/i) {
     $Self->Is(
@@ -149,6 +167,12 @@ elsif ($Self->{DBObject}->{'DB::Type'} =~ /maxdb/i) {
         'Test\'\'l\\\;',
         'Quote() String - Test\'l;',
     );
+
+    $Self->Is(
+        $Self->{DBObject}->Quote("Block[12]Block[12]", 'Like'),
+        'Block[12]Block[12]',
+        'Quote() Like-String - Block[12]Block[12]',
+    );
 }
 else {
     $Self->Is(
@@ -161,6 +185,12 @@ else {
         $Self->{DBObject}->Quote("Test'l;"),
         'Test\\\'l\\;',
         'Quote() String - Test\'l;',
+    );
+
+    $Self->Is(
+        $Self->{DBObject}->Quote("Block[12]Block[12]", 'Like'),
+        'Block[12]Block[12]',
+        'Quote() Like-String - Block[12]Block[12]',
     );
 }
 
@@ -735,7 +765,9 @@ for my $Insert (@{$Inserts}) {
 
 my $LikeTests = [
     {
-        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[%]Block[%]'",
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
+            . $Self->{DBObject}->Quote("Block[%]Block[%]", 'Like')
+            . "'",
         Result => {
             Test1 => 1,
             Test2 => 1,
@@ -747,46 +779,60 @@ my $LikeTests = [
         },
     },
     {
-        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[1]Block[%]'",
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
+            . $Self->{DBObject}->Quote("Block[1]Block[%]", 'Like')
+            . "'",
         Result => {
             Test1 => 1,
             Test2 => 1,
         },
     },
     {
-        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[2]Block[%]'",
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
+            . $Self->{DBObject}->Quote("Block[2]Block[%]", 'Like')
+            . "'",
         Result => {
             Test3 => 1,
             Test4 => 1,
         },
     },
     {
-        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[2]Block[1]'",
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
+            . $Self->{DBObject}->Quote("Block[2]Block[1]", 'Like')
+            . "'",
         Result => {
             Test3 => 1,
         },
     },
     {
-        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[%]Block[1]'",
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
+            . $Self->{DBObject}->Quote("Block[%]Block[1]", 'Like')
+            . "'",
         Result => {
             Test1 => 1,
             Test3 => 1,
         },
     },
     {
-        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[11]Block[%]'",
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
+            . $Self->{DBObject}->Quote("Block[11]Block[%]", 'Like')
+            . "'",
         Result => {
             Test5 => 1,
         },
     },
     {
-        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[22]Block[%]'",
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
+            . $Self->{DBObject}->Quote("Block[22]Block[%]", 'Like')
+            . "'",
         Result => {
             Test6 => 1,
         },
     },
     {
-        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[%]Block[%1]'",
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
+            . $Self->{DBObject}->Quote("Block[%]Block[%1]", 'Like')
+            . "'",
         Result => {
             Test1 => 1,
             Test3 => 1,
@@ -794,7 +840,9 @@ my $LikeTests = [
         },
     },
     {
-        Select => "SELECT name_b FROM test_c WHERE name_a LIKE 'Block[12]Block[12]'",
+        Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
+            . $Self->{DBObject}->Quote("Block[12]Block[12]", 'Like')
+            . "'",
         Result => {
             Test7 => 1,
         },
