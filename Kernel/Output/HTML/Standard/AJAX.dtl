@@ -2,7 +2,7 @@
 # AJAX.dtl - provides AJAX functions
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AJAX.dtl,v 1.5 2008-01-14 14:38:59 martin Exp $
+# $Id: AJAX.dtl,v 1.6 2008-01-15 14:53:35 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -85,6 +85,8 @@ function AJAXUpdateItems (ObjectRef, FieldName) {
                     if (List) {
                         for (var i = 0; i < List.length; i++) {
                             document.compose[FieldName[F]].options[i] = new Option(List[i][1],List[i][0],List[i][2],List[i][3]);
+                            // overwrite option text, because of wrong html quoting of text content
+                            document.compose[FieldName[F]].options[i].innerHTML = List[i][1];
                         }
                     }
                 }
