@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.59 2008-01-15 10:41:57 mh Exp $
+# $Id: CHANGES,v 1.465.2.60 2008-01-15 10:43:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,8 +10,8 @@
 # --
 
 2.2.5 (2008/??/??)
- - (2008/01/15) Implement hotfix of bug# 2227 - XMLHashSearch returns no values
-    on MS SQL in certain cases.
+ - (2008/01/15) Implemented hotfix for bug# 2227 - XMLHashSearch returns no
+    values on MS SQL in certain cases.
  - (2008/01/14) Fixed bug# 2330 - Cron.sh start <OTRS_USER> does not work.
     Thanks to Felix J. Ogris.
  - (2008/01/14) Fixed bug# 977 - No agent notification for new ticket from
