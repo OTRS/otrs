@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.66 2008-01-14 14:38:59 martin Exp $
+# $Id: Layout.pm,v 1.67 2008-01-15 17:21:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 NAME
 
@@ -2767,8 +2767,9 @@ sub Attachment {
             Filename => $Param{Filename},
             Type     => 'Attachment',
         );
-        $Output .= "filename=\"$Param{Filename}\"\n";
+        $Output .= "filename=\"$Param{Filename}\"";
     }
+    $Output .= "\n";
 
     # get attachment size
     {
@@ -3821,6 +3822,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2008-01-14 14:38:59 $
+$Revision: 1.67 $ $Date: 2008-01-15 17:21:15 $
 
 =cut
