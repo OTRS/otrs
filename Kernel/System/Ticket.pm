@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.290 2008-01-15 18:39:49 mh Exp $
+# $Id: Ticket.pm,v 1.291 2008-01-16 12:46:35 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.290 $) [1];
+$VERSION = qw($Revision: 1.291 $) [1];
 
 =head1 NAME
 
@@ -6116,6 +6116,10 @@ sub TicketMerge {
         my %MainTicket  = $Self->TicketGet( TicketID => $Param{MainTicketID} );
         my %MergeTicket = $Self->TicketGet( TicketID => $Param{MergeTicketID} );
 
+        my $Body = $Self->{ConfigObject}->Get('Ticket::Frontend::AutomaticMergeText');
+        $Body =~ s{<OTRS_TICKET>}{$MergeTicket{TicketNumber}}xms;
+        $Body =~ s{<OTRS_MERGE_TO_TICKET>}{$MainTicket{TicketNumber}}xms;
+
         # add merge article to merge ticket
         $Self->ArticleCreate(
             TicketID       => $Param{MergeTicketID},
@@ -6126,8 +6130,8 @@ sub TicketMerge {
             HistoryType    => 'AddNote',
             HistoryComment => '%%Note',
             Subject        => 'Ticket Merged',
-            Body => "Merged Ticket $MergeTicket{TicketNumber} to $MainTicket{TicketNumber}.",
-            NoAgentNotify => 1,
+            Body           => $Body,
+            NoAgentNotify  => 1,
         );
 
         # add merge history to merge ticket
@@ -6786,6 +6790,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.290 $ $Date: 2008-01-15 18:39:49 $
+$Revision: 1.291 $ $Date: 2008-01-16 12:46:35 $
 
 =cut
