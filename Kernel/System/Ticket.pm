@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.275.2.7 2008-01-02 15:07:58 martin Exp $
+# $Id: Ticket.pm,v 1.275.2.8 2008-01-16 12:47:07 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.275.2.7 $';
+$VERSION = '$Revision: 1.275.2.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -5586,6 +5586,9 @@ sub TicketMerge {
     if ($Self->{DBObject}->Do(SQL => "UPDATE article SET ticket_id = $Param{MainTicketID} WHERE ticket_id = $Param{MergeTicketID}")) {
         my %MainTicket = $Self->TicketGet(TicketID => $Param{MainTicketID});
         my %MergeTicket = $Self->TicketGet(TicketID => $Param{MergeTicketID});
+        my $Body = $Self->{ConfigObject}->Get('Ticket::Frontend::AutomaticMergeText');
+        $Body =~ s{<OTRS_TICKET>}{$MergeTicket{TicketNumber}}xms;
+        $Body =~ s{<OTRS_MERGE_TO_TICKET>}{$MainTicket{TicketNumber}}xms;
         # add merge article to merge ticket
         $Self->ArticleCreate(
             TicketID => $Param{MergeTicketID},
@@ -5596,7 +5599,7 @@ sub TicketMerge {
             HistoryType => 'AddNote',
             HistoryComment => '%%Note',
             Subject => 'Ticket Merged',
-            Body => "Merged Ticket $MergeTicket{TicketNumber} to $MainTicket{TicketNumber}.",
+            Body => $Body,
             NoAgentNotify => 1,
         );
         # add merge history to merge ticket
@@ -6199,6 +6202,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.275.2.7 $ $Date: 2008-01-02 15:07:58 $
+$Revision: 1.275.2.8 $ $Date: 2008-01-16 12:47:07 $
 
 =cut
