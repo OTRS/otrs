@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CheckItem.pm - the global spelling module
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.23 2007-12-21 13:02:39 mh Exp $
+# $Id: CheckItem.pm,v 1.24 2008-01-23 12:16:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -234,15 +234,15 @@ sub StringClean {
     $Param{TrimRight} = defined $Param{TrimRight} ? $Param{TrimRight} : 1;
 
     my %TrimAction = (
-        TrimLeft          => qr{ \A \s+   }xms,
-        TrimRight         => qr{ \s+ \z   }xms,
         RemoveAllNewlines => qr{ [\n\r\f] }xms,
         RemoveAllTabs     => qr{ \t       }xms,
         RemoveAllSpaces   => qr{ [ ]      }xms,
+        TrimLeft          => qr{ \A \s+   }xms,
+        TrimRight         => qr{ \s+ \z   }xms,
     );
 
     ACTION:
-    for my $Action ( keys %TrimAction ) {
+    for my $Action ( sort keys %TrimAction ) {
         next ACTION if !$Param{$Action};
 
         ${ $Param{StringRef} } =~ s{ $TrimAction{$Action} }{}xmsg;
@@ -267,6 +267,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2007-12-21 13:02:39 $
+$Revision: 1.24 $ $Date: 2008-01-23 12:16:43 $
 
 =cut
