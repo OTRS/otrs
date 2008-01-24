@@ -1,15 +1,16 @@
 # --
 # CHANGES - change log of OTRS
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.548 2008-01-16 12:46:35 tr Exp $
+# $Id: CHANGES,v 1.549 2008-01-24 12:06:57 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/01/24) Fixed bug# 2611 - PGP module not working on Windows platform.
  - (2008/01/15) Fixed bug# 2227 - XMLHashSearch returns no values on MS SQL in
     certain cases.
  - (2008/01/08) Added expand/collapse option to ticket zoom.

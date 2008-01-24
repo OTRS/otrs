@@ -1,12 +1,12 @@
 # --
 # Crypt.t - Crypt tests
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.9 2008-01-01 22:13:58 martin Exp $
+# $Id: Crypt.t,v 1.10 2008-01-24 12:06:57 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use strict;
@@ -18,7 +18,9 @@ use vars qw($Self);
 
 # set config
 $Self->{ConfigObject}->Set(Key => 'PGP', Value => 1);
-$Self->{ConfigObject}->Set(Key => 'PGP::Options', Value => '--batch --no-tty --yes');
+$Self->{ConfigObject}->Set(
+    Key => 'PGP::Options', Value => '--homedir=/opt/otrs/.gnupg --batch --no-tty --yes'
+);
 $Self->{ConfigObject}->Set(Key => 'PGP::Key::Password', Value => { '04A17B7A' => 'somepass'} );
 # check if gpg is located there
 if (! -e $Self->{ConfigObject}->Get('PGP::Bin')) {
@@ -48,7 +50,7 @@ my %Check = (
     1 => {
         Type => 'pub',
         Identifier => 'UnitTest <unittest@example.com>',
-        Bit => '1024D',
+        Bit => '1024',
         Key => '38677C3B',
         KeyPrivate => '04A17B7A',
         Created => '2007-08-21',
@@ -59,7 +61,7 @@ my %Check = (
     2 => {
         Type => 'pub',
         Identifier => 'UnitTest2 <unittest2@example.com>',
-        Bit => '1024D',
+        Bit => '1024',
         Key => 'F0974D10',
         KeyPrivate => '8593EAE2',
         Created => '2007-08-21',
@@ -134,6 +136,11 @@ for my $Count (1..2) {
         $Crypted || '',
         "#$Count Crypt()",
     );
+    $Self->True(
+        $Crypted =~ m{-----BEGIN PGP MESSAGE-----} && $Crypted =~ m{-----END PGP MESSAGE-----},
+        "#$Count Crypt() - Data seems ok (crypted)",
+    );
+
     # decrypt
     my %Decrypt = $Self->{CryptObject}->Decrypt(
         Message => $Crypted,
@@ -245,6 +252,10 @@ for my $Count (1..2) {
         $Self->True(
             $Crypted || '',
             "#$Count Crypt()",
+        );
+        $Self->True(
+            $Crypted =~ m{-----BEGIN PGP MESSAGE-----} && $Crypted =~ m{-----END PGP MESSAGE-----},
+            "#$Count Crypt() - Data seems ok (crypted)",
         );
         # decrypt
         my %Decrypt = $Self->{CryptObject}->Decrypt(
