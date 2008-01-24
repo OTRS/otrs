@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Stats.pm - all advice functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.36 2007-11-28 06:54:09 tr Exp $
+# $Id: Stats.pm,v 1.37 2008-01-24 08:42:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Stats;
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 SYNOPSIS
 
@@ -45,7 +45,8 @@ create a object
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
     my $StatsObject = Kernel::System::Stats->new(
         ConfigObject => $ConfigObject,
@@ -2751,10 +2752,10 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2007-11-28 06:54:09 $
+$Revision: 1.37 $ $Date: 2008-01-24 08:42:04 $
 
 =cut
