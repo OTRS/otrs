@@ -1,12 +1,12 @@
 # --
 # Kernel/System/DB.pm - the global database wrapper to support different databases
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.80 2008-01-15 18:39:49 mh Exp $
+# $Id: DB.pm,v 1.81 2008-01-24 13:37:00 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::DB;
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 =head1 NAME
 
@@ -182,6 +182,24 @@ sub new {
         return;
     }
     return $Self;
+}
+
+=item DESTROY()
+
+cleanup the DB conncection
+
+=cut
+
+sub DESTROY {
+    my ($Self) = @_;
+
+    # cleanup open statement handle if there is any and then disconnect from DB
+    if ($Self->{Cursor}) {
+        $Self->{Cursor}->finish();
+    }
+    $Self->Disconnect();
+
+    return 1;
 }
 
 =item Connect()
@@ -509,7 +527,7 @@ sub Prepare {
     }
 
     # do
-    if ( !( $Self->{Curser} = $Self->{dbh}->prepare($SQL) ) ) {
+    if ( !( $Self->{Cursor} = $Self->{dbh}->prepare($SQL) ) ) {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'Error',
@@ -517,7 +535,7 @@ sub Prepare {
         );
         return;
     }
-    if ( !$Self->{Curser}->execute() ) {
+    if ( !$Self->{Cursor}->execute() ) {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'Error',
@@ -558,10 +576,10 @@ to get a select return
 sub FetchrowArray {
     my ($Self) = @_;
 
-    # work with cursers if database don't support limit
+    # work with cursors if database don't support limit
     if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
         if ( $Self->{Limit} <= $Self->{LimitCounter} ) {
-            $Self->{Curser}->finish();
+            $Self->{Cursor}->finish();
             return;
         }
         $Self->{LimitCounter}++;
@@ -570,7 +588,7 @@ sub FetchrowArray {
     # fetch first not used rows
     if ( $Self->{LimitStart} ) {
         for ( 1 .. $Self->{LimitStart} ) {
-            if ( !$Self->{Curser}->fetchrow_array() ) {
+            if ( !$Self->{Cursor}->fetchrow_array() ) {
                 $Self->{LimitStart} = 0;
                 return ();
             }
@@ -580,7 +598,7 @@ sub FetchrowArray {
     }
 
     # return
-    my @Row = $Self->{Curser}->fetchrow_array();
+    my @Row = $Self->{Cursor}->fetchrow_array();
 
     if ( !$Self->{Backend}->{"DB::Encode"} ) {
         return @Row;
@@ -609,10 +627,10 @@ sub FetchrowArray {
 sub FetchrowHashref {
     my ($Self) = @_;
 
-    # work with cursers if database don't support limit
+    # work with cursors if database don't support limit
     if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
         if ( $Self->{Limit} <= $Self->{LimitCounter} ) {
-            $Self->{Curser}->finish();
+            $Self->{Cursor}->finish();
             $Self->{LimitCounter}++;
             return;
         }
@@ -622,13 +640,13 @@ sub FetchrowHashref {
     # fetch first not used rows
     if ( $Self->{LimitStart} ) {
         for ( 1 .. $Self->{LimitStart} ) {
-            $Self->{Curser}->fetchrow_array();
+            $Self->{Cursor}->fetchrow_array();
         }
         $Self->{LimitStart} = 0;
     }
 
     # return
-    return $Self->{Curser}->fetchrow_hashref();
+    return $Self->{Cursor}->fetchrow_hashref();
 }
 
 =item GetDatabaseFunction()
@@ -869,12 +887,6 @@ sub _TypeCheck {
     return 1;
 }
 
-sub DESTROY {
-    my ($Self) = @_;
-
-    $Self->Disconnect();
-    return 1;
-}
 1;
 
 =back
@@ -885,12 +897,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.80 $ $Date: 2008-01-15 18:39:49 $
+$Revision: 1.81 $ $Date: 2008-01-24 13:37:00 $
 
 =cut
