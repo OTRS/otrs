@@ -2,7 +2,7 @@
 # Crypt.t - Crypt tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.10 2008-01-24 12:06:57 ot Exp $
+# $Id: Crypt.t,v 1.11 2008-01-25 12:07:35 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use vars qw($Self);
 # set config
 $Self->{ConfigObject}->Set(Key => 'PGP', Value => 1);
 $Self->{ConfigObject}->Set(
-    Key => 'PGP::Options', Value => '--homedir=/opt/otrs/.gnupg --batch --no-tty --yes'
+    Key => 'PGP::Options', Value => '--batch --no-tty --yes'
 );
 $Self->{ConfigObject}->Set(Key => 'PGP::Key::Password', Value => { '04A17B7A' => 'somepass'} );
 # check if gpg is located there

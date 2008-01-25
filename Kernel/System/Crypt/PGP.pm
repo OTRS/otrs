@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.23 2008-01-24 12:06:57 ot Exp $
+# $Id: PGP.pm,v 1.24 2008-01-25 12:07:34 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -38,11 +38,13 @@ sub _Init {
     $Self->{GPGBin}  = $Self->{ConfigObject}->Get('PGP::Bin')     || '/usr/bin/gpg';
     $Self->{Options} = $Self->{ConfigObject}->Get('PGP::Options') || '--batch --no-tty --yes';
 
-    $Self->{GPGBin} = "$Self->{GPGBin} $Self->{Options}";
-
-    # make sure that we are getting POSIX (i.e. english) messages from gpg
-    if ($^O !~ m{Win}i) {
-        $Self->{GPGBin} = "LC_MESSAGES=POSIX $Self->{GPGBin}";
+    if ($^O =~ m{Win}i) {
+        # take care to deal properly with paths containing whitespace
+        $Self->{GPGBin} = qq{"$Self->{GPGBin}" $Self->{Options}};
+    }
+    else {
+        # make sure that we are getting POSIX (i.e. english) messages from gpg
+        $Self->{GPGBin} = "LC_MESSAGES=POSIX $Self->{GPGBin} $Self->{Options}";
     }
 
     return $Self;
@@ -92,9 +94,9 @@ sub Crypt {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Message Key)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $ParamName ( qw( Message Key ) ) {
+        if ( !$Param{$ParamName} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $ParamName!" );
             return;
         }
     }
@@ -195,10 +197,12 @@ sub _DecryptPart {
 
     my ( $FHDecrypt, $FileDecrypt ) = $Self->{FileTempObject}->TempFile();
 	close $FHDecrypt;
-    my $Phrase = quotemeta( $Param{Password} );
+    my ( $FHPhrase, $FilePhrase ) = $Self->{FileTempObject}->TempFile();
+    print $FHPhrase $Param{Password};
+    close $FHPhrase;
     my $GPGOptions
-        = qq{--batch --passphrase "$Phrase" --always-trust --yes --decrypt -o $FileDecrypt $Param{Filename}};
-    my $LogMessage = qx{$Self->{GPGBin} $GPGOptions 2>&1};
+        = qq{--batch --passphrase-fd 0 --always-trust --yes --decrypt -o $FileDecrypt $Param{Filename}};
+    my $LogMessage = qx{$Self->{GPGBin} $GPGOptions <$FilePhrase 2>&1};
     if ( $LogMessage =~ /failed/i ) {
         $Self->{LogObject}->Log( Priority => 'notice', Message => "$LogMessage!" );
         return (
@@ -257,10 +261,12 @@ sub Sign {
         Mode       => $Param{Charset} && $Param{Charset} =~ /utf(8|\-8)/i ? 'utf8' : 'binmode',
     );
 
-    my $Phrase = quotemeta( $Pw );
+    my ( $FHPhrase, $FilePhrase ) = $Self->{FileTempObject}->TempFile();
+    print $FHPhrase $Pw;
+    close $FHPhrase;
     my $GPGOptions
-        = qq{--passphrase "$Phrase" --default-key $Param{Key} -o $FileSign $SigType $Filename};
-    my $LogMessage = qx{$Self->{GPGBin} $GPGOptions 2>&1};
+        = qq{--passphrase-fd 0 --default-key $Param{Key} -o $FileSign $SigType $Filename};
+    my $LogMessage = qx{$Self->{GPGBin} $GPGOptions <$FilePhrase 2>&1};
 
     # error
     if ($LogMessage) {
@@ -705,10 +711,12 @@ sub _CryptedWithKey {
     # So we simply try to decrypt with an incorrect passphrase, which of course fails, but still
     # gives us the listing of the keys that we want ...
     # N.B.: if anyone knows how to get that info without resorting to such tricks - please tell!
-    my $Phrase = quotemeta( '_no_this_is_not_the_@correct@_passphrase_' );
+    my ( $FHPhrase, $FilePhrase ) = $Self->{FileTempObject}->TempFile();
+    print $FHPhrase '_no_this_is_not_the_@correct@_passphrase_';
+    close $FHPhrase;
     my $GPGOptions
-        = qq{--batch --passphrase "$Phrase" --always-trust --yes --decrypt $Param{File}};
-    my @GPGOutputLines = qx{$Self->{GPGBin} $GPGOptions 2>&1};
+        = qq{--batch --passphrase-fd 0 --always-trust --yes --decrypt $Param{File}};
+    my @GPGOutputLines = qx{$Self->{GPGBin} $GPGOptions <$FilePhrase 2>&1};
 
     my @Keys;
     for my $Line (@GPGOutputLines) {
@@ -739,6 +747,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2008-01-24 12:06:57 $
+$Revision: 1.24 $ $Date: 2008-01-25 12:07:34 $
 
 =cut
