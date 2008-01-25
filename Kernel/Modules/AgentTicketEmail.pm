@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.48 2008-01-09 17:09:16 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.49 2008-01-25 15:45:19 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AgentTicketEmail;
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -603,6 +603,16 @@ sub Run {
 
         if (%Error) {
 
+            # get services
+            my $Services = $Self->_GetServices(
+                CustomerUserID => $CustomerUser || '',
+                QueueID        => $NewQueueID || 1,
+            );
+            # reset previous ServiceID to reset SLA-List if no service is selected
+            if ( !$Services->{$GetParam{ServiceID}} ) {
+                $GetParam{ServiceID} = '';
+            }
+
             # header
             $Output .= $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -624,10 +634,7 @@ sub Run {
                 NextState                => $NextState,
                 Priorities               => $Self->_GetPriorities( QueueID => $NewQueueID || 1 ),
                 Types                    => $Self->_GetTypes( QueueID => $NewQueueID || 1 ),
-                Services                 => $Self->_GetServices(
-                    CustomerUserID => $CustomerUser || '',
-                    QueueID        => $NewQueueID   || 1,
-                ),
+                Services                 => $Services,
                 SLAs => $Self->_GetSLAs( QueueID => $NewQueueID || 1, %GetParam ),
                 CustomerID   => $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID ),
                 CustomerUser => $CustomerUser,
