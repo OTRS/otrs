@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.550 2008-01-25 15:45:19 ub Exp $
+# $Id: CHANGES,v 1.551 2008-01-25 16:21:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -89,7 +89,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.5 (2008/??/??)
- - (2008/01/25) Fixed bug# 2645 - SLA selection doesn't change when customer is changed.
+ - (2008/01/25) Fixed bug# 2645 - SLA selection doesn't change when customer is
+    changed.
  - (2008/01/16) Fixed bug# 2157 - Ticket merged note not translated.
  - (2008/01/15) Fixed bug# 2392 - Charset problems with iso8859 and the
     xml-caching mechanism.
