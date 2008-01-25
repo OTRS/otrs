@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.46.2.1 2008-01-01 22:07:26 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.46.2.2 2008-01-25 15:55:13 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AgentTicketPhone;
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46.2.1 $';
+$VERSION = '$Revision: 1.46.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -509,6 +509,17 @@ sub Run {
             $Error{"Service invalid"} = 'invalid';
         }
         if (%Error) {
+
+            # get services
+            my $Services = $Self->_GetServices(
+                CustomerUserID => $CustomerUser || '',
+                QueueID => $NewQueueID || 1,
+            );
+            # reset previous ServiceID to reset SLA-List if no service is selected
+            if ( !$Services->{$GetParam{ServiceID}} ) {
+                $GetParam{ServiceID} = '';
+            }
+
             # header
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -524,10 +535,7 @@ sub Run {
                 NextState => $NextState,
                 Priorities => $Self->_GetPriorities(QueueID => $NewQueueID || 1),
                 Types => $Self->_GetTypes(QueueID => $NewQueueID || 1),
-                Services => $Self->_GetServices(
-                    CustomerUserID => $CustomerUser || '',
-                    QueueID => $NewQueueID || 1,
-                ),
+                Services => $Services,
                 SLAs => $Self->_GetSLAs(QueueID => $NewQueueID || 1, %GetParam),
                 CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
                 CustomerUser => $CustomerUser,
