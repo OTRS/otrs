@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.81 2008-01-24 13:37:00 ot Exp $
+# $Id: DB.pm,v 1.82 2008-01-26 13:42:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 =head1 NAME
 
@@ -182,24 +182,6 @@ sub new {
         return;
     }
     return $Self;
-}
-
-=item DESTROY()
-
-cleanup the DB conncection
-
-=cut
-
-sub DESTROY {
-    my ($Self) = @_;
-
-    # cleanup open statement handle if there is any and then disconnect from DB
-    if ($Self->{Cursor}) {
-        $Self->{Cursor}->finish();
-    }
-    $Self->Disconnect();
-
-    return 1;
 }
 
 =item Connect()
@@ -887,6 +869,18 @@ sub _TypeCheck {
     return 1;
 }
 
+sub DESTROY {
+    my ($Self) = @_;
+
+    # cleanup open statement handle if there is any and then disconnect from DB
+    if ($Self->{Cursor}) {
+        $Self->{Cursor}->finish();
+    }
+    $Self->Disconnect();
+
+    return 1;
+}
+
 1;
 
 =back
@@ -903,6 +897,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.81 $ $Date: 2008-01-24 13:37:00 $
+$Revision: 1.82 $ $Date: 2008-01-26 13:42:42 $
 
 =cut
