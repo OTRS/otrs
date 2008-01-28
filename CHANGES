@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.551 2008-01-25 16:21:05 ub Exp $
+# $Id: CHANGES,v 1.552 2008-01-28 09:25:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -88,14 +88,14 @@ CVS HEAD (????/??/??)
     HTML to text convertion to email parser.
  - (2007/09/13) Improved report overview of perfornance log.
 
-2.2.5 (2008/??/??)
+2.2.5 (2008/01/28)
  - (2008/01/25) Fixed bug# 2645 - SLA selection doesn't change when customer is
     changed.
  - (2008/01/16) Fixed bug# 2157 - Ticket merged note not translated.
  - (2008/01/15) Fixed bug# 2392 - Charset problems with iso8859 and the
     xml-caching mechanism.
- - (2008/01/15) Implemented hotfix for bug# 2227 - XMLHashSearch returns no
-    values on MS SQL in certain cases.
+ - (2008/01/15) Implemented workaround for bug# 2227 - XMLHashSearch returns
+    no values on MS SQL in certain cases.
  - (2008/01/14) Fixed bug# 2330 - Cron.sh start <OTRS_USER> does not work.
     Thanks to Felix J. Ogris.
  - (2008/01/14) Fixed bug# 977 - No agent notification for new ticket from
@@ -117,17 +117,18 @@ CVS HEAD (????/??/??)
  - (2008/01/03) Fixed bug# 2491 - OTRS crash's after initial login on fresh
     installation on fedora 7, fedora 8, altlinux and ActiveState Perl on win32.
  - (2008/01/02) Fixed bug# 2601 - Only agents with rw permissions are shown in
-    inform agent selections of note screens, all agents with note permissions
-    should be shown.
+    inform agent selection of a note screen (note permission need to be
+    activated via SysConfig first). Now all agents with _note_ permissions are
+    displayed.
  - (2008/01/02) Fixed bug# 2600 - MS SQL: Fulltext search in ticket body with
     mssql backend not possible (workaround, improved API for 2.3.x).
- - (2008/01/01) Fixed bug# 1120 - TO recipients are dropped when replying to a
-    ticket.
+ - (2008/01/01) Fixed bug# 1120 - TO recipients which were sometimes dropped
+    in a ticket reply.
  - (2008/01/01) Fixed bug# 2589 - Ticket-title not shown in ticket list of
     change customer, phone- and email ticket.
  - (2007/12/27) Fixed bug# 1148 - Lost of attachments when spliting ticket.
- - (2007/12/18) Fixed bug# 2295 - IE7 tries to download [ Attachments ] or
-    [ Attachments <-> Responses ].
+ - (2007/12/18) Fixed bug# 2295 - Added workaround for IE7. Tries to download
+    [ Attachments ] or [ Attachments <-> Responses ].
  - (2007/12/17) Fixed bug# 2580 - Wrong quoating of semicolon if mssql is used.
  - (2007/12/17) Fixed bug# 2539 - SMIME signing was broken for private keys that
    have no passphrase and when openssl is unable to write to random state file.
@@ -143,7 +144,8 @@ CVS HEAD (????/??/??)
     };
 
  - (2007/12/10) Fixed bug# 1428 - Whitespaces remove from email subject
-    (notification and new tickets creation) if utf-8 is used.
+    (notification and new tickets creation) if utf-8 is used (specifically
+    in Russian, Chinese  and Japanese).
     The problem is a bug in MIME::Tools/MIME::Words, for more info see
     CPAN-Bug# 5462: http://rt.cpan.org/Public/Bug/Display.html?id=5462
     As solution Kernel/cpan-lib/MIME/Words.pm got patched. Note: Everybody
