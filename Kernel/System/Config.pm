@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Config.pm - all system config tool functions
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.69 2008-01-03 23:28:30 martin Exp $
+# $Id: Config.pm,v 1.70 2008-01-30 13:48:30 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Config;
@@ -20,7 +20,7 @@ use Digest::MD5 qw(md5_hex);
 use Data::Dumper;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 =head1 NAME
 
@@ -123,10 +123,8 @@ sub _Init {
             my $ConfigFile = '';
             my $In;
             if ( open( $In, '<', $File ) ) {
-                while (<$In>) {
-                    $ConfigFile .= $_;
-                }
-                close( $In );
+                $ConfigFile = do {local $/; <$In>};
+                close $In;
             }
             else {
                 $Self->{LogObject}->Log(
@@ -146,10 +144,8 @@ sub _Init {
                     my $ConfigFileCache = '';
                     my $In;
                     if ( open( $In , '<', $FileCache ) ) {
-                        while (<$In>) {
-                            $ConfigFileCache .= $_;
-                        }
-                        close( $In );
+                        $ConfigFileCache = do {local $/; <$In>};
+                        close $In;
                         my $XMLHashRef;
                         if ( eval $ConfigFileCache ) {
                             $Data{$File} = $XMLHashRef;
@@ -1664,12 +1660,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.69 $ $Date: 2008-01-03 23:28:30 $
+$Revision: 1.70 $ $Date: 2008-01-30 13:48:30 $
 
 =cut

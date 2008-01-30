@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Main.pm - main core components
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.18 2007-10-20 10:24:12 mh Exp $
+# $Id: Main.pm,v 1.19 2008-01-30 13:47:08 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Main;
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -346,17 +346,14 @@ sub FileRead {
         while ( my $Line = <$FH> ) {
             push( @Array, $Line );
         }
-        close($FH);
+        close $FH;
 
         return \@Array;
     }
 
     # read file as string
-    my $String;
-    while ( my $Line = <$FH> ) {
-        $String .= $Line;
-    }
-    close($FH);
+    my $String = do {local $/; <$FH>};
+    close $FH;
 
     return \$String;
 }
@@ -714,12 +711,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2007-10-20 10:24:12 $
+$Revision: 1.19 $ $Date: 2008-01-30 13:47:08 $
 
 =cut
