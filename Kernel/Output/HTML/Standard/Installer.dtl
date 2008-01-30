@@ -1,12 +1,12 @@
 # --
 # Installer.dtl - provides HTML form for Installer
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.15 2007-12-19 15:41:25 mh Exp $
+# $Id: Installer.dtl,v 1.16 2008-01-30 15:53:34 ho Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
@@ -39,7 +39,7 @@
                 <table width="70%">
                   <tr>
                     <td>
-                      OTRS GmbH<br>
+                      OTRS AG<br>
                       Norsk-Data-Str. 1<br>
                       61352 Bad Homburg<br>
 
