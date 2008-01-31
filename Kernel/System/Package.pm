@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Package.pm - lib package manager
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.72 2007-10-05 09:25:07 martin Exp $
+# $Id: Package.pm,v 1.73 2008-01-31 06:20:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Package;
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 =head1 NAME
 
@@ -71,17 +71,12 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = { %Param };
     bless( $Self, $Type );
-
-    # get common objects
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
 
     # check all needed objects
     for (qw(DBObject ConfigObject LogObject TimeObject MainObject)) {
-        die "Got no $_" if ( !$Self->{$_} );
+        die "Got no $_" if !$Self->{$_};
     }
     $Self->{XMLObject} = Kernel::System::XML->new(%Param);
 
@@ -2067,12 +2062,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.72 $ $Date: 2007-10-05 09:25:07 $
+$Revision: 1.73 $ $Date: 2008-01-31 06:20:20 $
 
 =cut

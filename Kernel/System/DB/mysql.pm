@@ -1,12 +1,12 @@
 # --
 # Kernel/System/DB/mysql.pm - mysql database backend
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.27 2008-01-15 18:39:49 mh Exp $
+# $Id: mysql.pm,v 1.28 2008-01-31 06:20:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::DB::mysql;
@@ -15,19 +15,15 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = { %Param };
     bless( $Self, $Type );
 
-    # check needed objects
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
     return $Self;
 }
 

@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentStats.pm - stats module
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.46 2007-11-28 06:54:09 tr Exp $
+# $Id: AgentStats.pm,v 1.47 2008-01-31 06:22:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AgentStats;
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -433,7 +433,7 @@ sub Run {
                             my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType")
                                 || 'Normal';
                             my %TimeData = _Timeoutput( $Self, %{$ObjectAttribute},
-                                OnlySelectedAttributs => 1 );
+                                OnlySelectedAttributes => 1 );
                             %BlockData = ( %BlockData, %TimeData );
                             if ( $ObjectAttribute->{TimeStart} ) {
                                 $BlockData{TimeStartMax} = $ObjectAttribute->{TimeStart};
@@ -1474,7 +1474,7 @@ sub Run {
                         && ( $_->{Fixed} || ( !$_->{SelectedValues}[1] && $TimeType eq 'Normal' ) )
                         && $_->{Block} eq 'Time' )
                     {
-                        $ObjectAttribute->{OnlySelectedAttributs} = 1;
+                        $ObjectAttribute->{OnlySelectedAttributes} = 1;
                         if ( $_->{SelectedValues}[0] eq 'Second' ) {
                             $ObjectAttribute->{SelectedValues} = ['Minute'];
                         }
@@ -1708,7 +1708,7 @@ sub Run {
                                     for my $Unit (qw(Year Month Day Hour Minute Second)) {
                                         if (defined(
                                                 $Self->{ParamObject}->GetParam(
-                                                          Param => $Use
+                                                        Param => $Use
                                                         . $Element->{Element}
                                                         . "$Limit$Unit"
                                                 )
@@ -2215,8 +2215,8 @@ sub _Timeoutput {
         $Data->{$_}{Selected} = 1;
     }
 
-    # to show only the selected Attributs in the view mask
-    if ( $Param{OnlySelectedAttributs} ) {
+    # to show only the selected Attributes in the view mask
+    if ( $Param{OnlySelectedAttributes} ) {
         for ( keys %{$Data} ) {
             if ( !$Data->{$_}{Selected} ) {
                 delete( $Data->{$_} );

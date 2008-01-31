@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.34 2008-01-15 17:00:26 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.35 2008-01-31 06:22:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AgentTicketCompose;
@@ -23,21 +23,16 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = { %Param };
     bless( $Self, $Type );
 
     $Self->{Debug} = $Param{Debug} || 0;
-
-    # get common objects
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
 
     # check all needed objects
     for (qw(TicketObject ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {

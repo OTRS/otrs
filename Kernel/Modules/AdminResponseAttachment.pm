@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AdminResponseAttachment.pm - queue <-> responses
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.pm,v 1.18 2007-10-02 10:33:31 mh Exp $
+# $Id: AdminResponseAttachment.pm,v 1.19 2008-01-31 06:22:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AdminResponseAttachment;
@@ -18,19 +18,14 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = { %Param };
     bless( $Self, $Type );
-
-    # get common objects
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
 
     # check all needed objects
     for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
@@ -51,7 +46,7 @@ sub Run {
 
     my $Output = '';
     my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-    $ID = $Self->{DBObject}->Quote( $ID, 'Integer' ) if ($ID);
+    $ID = $Self->{DBObject}->Quote( $ID, 'Integer' ) if $ID;
 
     my $NextScreen = 'AdminResponseAttachment';
 

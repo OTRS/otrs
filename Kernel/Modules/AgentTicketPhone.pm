@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.54 2008-01-25 15:45:19 ub Exp $
+# $Id: AgentTicketPhone.pm,v 1.55 2008-01-31 06:22:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,17 +22,14 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = { %Param };
     bless( $Self, $Type );
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
 
     # check needed objects
     for (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
@@ -939,7 +936,7 @@ sub Run {
                 Action => $Self->{Action},
                 QueueID => $QueueID || 0,
                 UserID => $Self->{UserID},
-           );
+            );
             if ($ConfigValue) {
                 push(@TicketFreeTextConfig, {
                     Name => "TicketFreeText$_",

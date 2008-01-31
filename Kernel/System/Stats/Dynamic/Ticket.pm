@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.15 2007-10-11 11:23:44 mh Exp $
+# $Id: Ticket.pm,v 1.16 2008-01-31 06:20:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Stats::Dynamic::Ticket;
@@ -21,19 +21,14 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = { %Param };
     bless( $Self, $Type );
-
-    # get common objects
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
 
     # check all needed objects
     for (qw(DBObject ConfigObject LogObject UserObject MainObject)) {

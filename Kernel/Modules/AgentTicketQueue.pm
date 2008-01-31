@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.41 2007-10-08 20:54:48 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.42 2008-01-31 06:22:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AgentTicketQueue;
@@ -19,19 +19,14 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = { %Param };
     bless( $Self, $Type );
-
-    # get common objects
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
 
     # set debug
     $Self->{Debug} = 0;
@@ -525,7 +520,7 @@ sub ShowTicket {
                         TicketFreeKey => $Article{'TicketFreeKey'.$Count},
                         TicketFreeText => $Article{'TicketFreeText'.$Count},
                         Count => $Count,
-                     },
+                    },
                 );
             }
             else {
@@ -541,7 +536,7 @@ sub ShowTicket {
                         TicketFreeKey => $Article{'TicketFreeKey'.$Count},
                         TicketFreeText => $Article{'TicketFreeText'.$Count},
                         Count => $Count,
-                     },
+                    },
                 );
             }
         }

@@ -1,12 +1,12 @@
 # --
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: FollowUp.pm,v 1.56 2007-10-02 10:34:46 mh Exp $
+# $Id: FollowUp.pm,v 1.57 2008-01-31 06:20:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::PostMaster::FollowUp;
@@ -17,17 +17,14 @@ use warnings;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = { %Param };
     bless( $Self, $Type );
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
 
     $Self->{Debug} = $Param{Debug} || 0;
 

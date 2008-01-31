@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AdminState.pm - to add/update/delete state
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminState.pm,v 1.22 2007-10-02 10:33:20 mh Exp $
+# $Id: AdminState.pm,v 1.23 2008-01-31 06:22:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AdminState;
@@ -18,19 +18,14 @@ use Kernel::System::State;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = { %Param };
     bless( $Self, $Type );
-
-    # allocate new hash for objects
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
 
     # check all needed objects
     for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
@@ -56,7 +51,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
-            Action => "Change",
+            Action => 'Change',
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(

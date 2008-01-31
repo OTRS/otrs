@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Email.pm - the global email send module
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.34 2007-11-05 13:16:06 martin Exp $
+# $Id: Email.pm,v 1.35 2008-01-31 06:20:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Email;
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -77,20 +77,15 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = { %Param };
     bless( $Self, $Type );
-
-    # get common objects
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
 
     # debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check all needed objects
     for (qw(ConfigObject LogObject DBObject TimeObject MainObject)) {
-        die "Got no $_" if ( !$Self->{$_} );
+        die "Got no $_" if !$Self->{$_};
     }
 
     # create encode object
@@ -650,12 +645,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2007-11-05 13:16:06 $
+$Revision: 1.35 $ $Date: 2008-01-31 06:20:20 $
 
 =cut

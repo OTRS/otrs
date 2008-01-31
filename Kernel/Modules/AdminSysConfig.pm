@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.66 2008-01-03 23:56:46 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.67 2008-01-31 06:22:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AdminSysConfig;
@@ -17,19 +17,14 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = { %Param };
     bless( $Self, $Type );
-
-    # get common objects
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
 
     # check all needed objects
     for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
@@ -185,7 +180,7 @@ sub Run {
 
                             # Delete SubHash Element?
                             if (!$Self->{ParamObject}->GetParam(
-                                          Param => $ItemHash{Name}
+                                        Param => $ItemHash{Name}
                                         . '##SubHash##'
                                         . $Keys[$Index]
                                         . '#DeleteSubHashElement'
@@ -230,7 +225,7 @@ sub Run {
                         #Delete SubArray Element?
                         for my $Index2 ( 0 .. $#SubArray ) {
                             if ($Self->{ParamObject}->GetParam(
-                                          Param => $ItemHash{Name}
+                                        Param => $ItemHash{Name}
                                         . '##SubArray##'
                                         . $Keys[$Index]
                                         . '#DeleteSubArrayElement'
@@ -331,7 +326,7 @@ sub Run {
                     # Delete Group Element
                     for my $Index ( 0 .. $#Group ) {
                         if ($Self->{ParamObject}->GetParam(
-                                      Param => $ItemHash{Name}
+                                    Param => $ItemHash{Name}
                                     . '#Delete'
                                     . $Type
                                     . 'Element'
@@ -376,7 +371,7 @@ sub Run {
 
                         # New Group(Ro)Element
                         if ($Self->{ParamObject}->GetParam(
-                                      Param => $ItemHash{Name}
+                                    Param => $ItemHash{Name}
                                     . '#NavBar'
                                     . ( $Index + 1 ) . '#New'
                                     . $Type
@@ -391,7 +386,7 @@ sub Run {
                         # Delete Group Element
                         for my $Index2 ( 0 .. $#Group ) {
                             if ($Self->{ParamObject}->GetParam(
-                                          Param => $ItemHash{Name}
+                                        Param => $ItemHash{Name}
                                         . '#NavBar'
                                         . ( $Index + 1 )
                                         . '#Delete'
@@ -419,7 +414,7 @@ sub Run {
                 # Delete NavBar Element
                 for my $Index ( 0 .. $#{ $NavBarParams{Description} } ) {
                     if ($Self->{ParamObject}->GetParam(
-                                  Param => $ItemHash{Name}
+                                Param => $ItemHash{Name}
                                 . '#NavBar#'
                                 . ( $Index + 1 )
                                 . '#DeleteElement'
@@ -473,7 +468,7 @@ sub Run {
 
                     # Delete TimeVacationDaysOneTime Element?
                     if (!$Self->{ParamObject}->GetParam(
-                                  Param => $ItemHash{Name}
+                                Param => $ItemHash{Name}
                                 . '#DeleteTimeVacationDaysOneTimeElement'
                                 . ( $Index + 1 )
                         )
@@ -516,7 +511,7 @@ sub Run {
 
                     # Delete TimeVacationDays Element?
                     if (!$Self->{ParamObject}->GetParam(
-                                  Param => $ItemHash{Name}
+                                Param => $ItemHash{Name}
                                 . '#DeleteTimeVacationDaysElement'
                                 . ( $Index + 1 )
                         )

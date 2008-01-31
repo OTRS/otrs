@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.49 2008-01-25 15:45:19 ub Exp $
+# $Id: AgentTicketEmail.pm,v 1.50 2008-01-31 06:22:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,19 +22,16 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = { %Param };
     bless( $Self, $Type );
 
     $Self->{Debug} = $Param{Debug} || 0;
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
 
     # check needed objects
     for (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
@@ -992,7 +989,7 @@ sub Run {
                 Action => $Self->{Action},
                 QueueID => $QueueID || 0,
                 UserID => $Self->{UserID},
-           );
+            );
             if ($ConfigValue) {
                 push(@TicketFreeTextConfig, {
                     Name => "TicketFreeText$_",
