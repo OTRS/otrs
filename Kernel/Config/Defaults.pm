@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.281 2008-01-31 01:59:17 martin Exp $
+# $Id: Defaults.pm,v 1.282 2008-01-31 02:02:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.281 $) [1];
+$VERSION = qw($Revision: 1.282 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -534,13 +534,13 @@ sub LoadDefaults {
     #    $Self->{'Frontend::NotifyModule'}->{'3-ShowAgentOnline'} = {
     #        Module      => 'Kernel::Output::HTML::NotificationAgentOnline',
     #        ShowEmail   => 1,
-    #        IdleMinutes => 120,
+    #        IdleMinutes => 60,
     #    };
     # show online customers
     #    $Self->{'Frontend::NotifyModule'}->{'4-ShowCustomerOnline'} = {
     #        Module      => 'Kernel::Output::HTML::NotificationCustomerOnline',
     #        ShowEmail   => 1,
-    #        IdleMinutes => 120,
+    #        IdleMinutes => 60,
     #    };
 
     # --------------------------------------------------- #
@@ -973,7 +973,7 @@ Your OTRS Notification Master
     #    $Self->{'CustomerFrontend::NotifyModule'}->{'1-ShowAgentOnline'} = {
     #        Module      => 'Kernel::Output::HTML::NotificationAgentOnline',
     #        ShowEmail   => 1,
-    #        IdleMinutes => 120,
+    #        IdleMinutes => 60,
     #    };
 
     # --------------------------------------------------- #
@@ -2299,6 +2299,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.281 $ $Date: 2008-01-31 01:59:17 $
+$Revision: 1.282 $ $Date: 2008-01-31 02:02:25 $
 
 =cut
