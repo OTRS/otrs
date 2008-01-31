@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/NotificationCustomerOnline.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationCustomerOnline.pm,v 1.5 2007-10-02 10:41:39 mh Exp $
+# $Id: NotificationCustomerOnline.pm,v 1.6 2008-01-31 01:59:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Output::HTML::NotificationCustomerOnline;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,7 +27,7 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject UserID)) {
+    for (qw(ConfigObject LogObject DBObject LayoutObject TimeObject UserID)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{SessionObject} = Kernel::System::AuthSession->new(%Param);
@@ -38,11 +38,16 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get session info
-    my %Online   = ();
-    my @Sessions = $Self->{SessionObject}->GetAllSessionIDs();
+    my %Online      = ();
+    my @Sessions    = $Self->{SessionObject}->GetAllSessionIDs();
+    my $IdleMinutes = $Param{Config}->{IdleMinutes} || 60*2;
     for (@Sessions) {
         my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $_, );
-        if ( $Data{UserType} eq 'Customer' && $Data{UserFirstname} && $Data{UserLastname} ) {
+        if ( $Data{UserType} eq 'Customer'
+            && $Data{UserLastRequest}
+            && $Data{UserLastRequest}+($IdleMinutes*60) > $Self->{TimeObject}->SystemTime()
+            && $Data{UserFirstname}
+            && $Data{UserLastname} ) {
             $Online{ $Data{UserID} } = "$Data{UserFirstname} $Data{UserLastname}";
             if ( $Param{Config}->{ShowEmail} ) {
                 $Online{ $Data{UserID} } .= " ($Data{UserEmail})";

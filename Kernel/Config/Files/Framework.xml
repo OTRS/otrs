@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.156 2008-01-13 22:04:48 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.157 2008-01-31 01:59:18 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -648,6 +648,7 @@ TimeWorkingHours
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NotificationAgentOnline</Item>
                 <Item Key="ShowEmail">1</Item>
+                <Item Key="IdleMinutes">120</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -660,6 +661,7 @@ TimeWorkingHours
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NotificationCustomerOnline</Item>
                 <Item Key="ShowEmail">1</Item>
+                <Item Key="IdleMinutes">120</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3256,6 +3258,7 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NotificationAgentOnline</Item>
                 <Item Key="ShowEmail">1</Item>
+                <Item Key="IdleMinutes">120</Item>
             </Hash>
         </Setting>
     </ConfigItem>

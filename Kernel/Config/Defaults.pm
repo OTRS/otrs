@@ -1,12 +1,12 @@
 # --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.280 2008-01-15 15:43:14 martin Exp $
+# $Id: Defaults.pm,v 1.281 2008-01-31 01:59:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 #
 #  Note:
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.280 $) [1];
+$VERSION = qw($Revision: 1.281 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -532,13 +532,15 @@ sub LoadDefaults {
 
     # show online agents
     #    $Self->{'Frontend::NotifyModule'}->{'3-ShowAgentOnline'} = {
-    #        Module => 'Kernel::Output::HTML::NotificationAgentOnline',
-    #        ShowEmail => 1,
+    #        Module      => 'Kernel::Output::HTML::NotificationAgentOnline',
+    #        ShowEmail   => 1,
+    #        IdleMinutes => 120,
     #    };
     # show online customers
     #    $Self->{'Frontend::NotifyModule'}->{'4-ShowCustomerOnline'} = {
-    #        Module => 'Kernel::Output::HTML::NotificationCustomerOnline',
-    #        ShowEmail => 1,
+    #        Module      => 'Kernel::Output::HTML::NotificationCustomerOnline',
+    #        ShowEmail   => 1,
+    #        IdleMinutes => 120,
     #    };
 
     # --------------------------------------------------- #
@@ -969,8 +971,9 @@ Your OTRS Notification Master
 
     # show online agents
     #    $Self->{'CustomerFrontend::NotifyModule'}->{'1-ShowAgentOnline'} = {
-    #        Module => 'Kernel::Output::HTML::NotificationAgentOnline',
-    #        ShowEmail => 1,
+    #        Module      => 'Kernel::Output::HTML::NotificationAgentOnline',
+    #        ShowEmail   => 1,
+    #        IdleMinutes => 120,
     #    };
 
     # --------------------------------------------------- #
@@ -1173,7 +1176,7 @@ Your OTRS Notification Master
         #        # admin can change customer preferences
         #        AdminSetPreferences => 1,
         #        # use customer company support (reference to company, See CustomerCompany settings)
-        #        CustomerCompanySupport => 1,
+                CustomerCompanySupport => 1,
         #        # cache time to life in sec. - cache any database queris
         #        CacheTTL => 0,
         #        # just a read only source
@@ -1288,14 +1291,18 @@ Your OTRS Notification Master
         },
 
         # customer uniq id
-        CustomerCompanyKey        => 'customer_id',
-        CustomerCompanyValid      => 'valid_id',
-        CustomerCompanyListFields => [ 'customer_id', 'name' ],
+        CustomerCompanyKey          => 'customer_id',
+        CustomerCompanyValid        => 'valid_id',
+        CustomerCompanyListFields   => [ 'customer_id', 'name' ],
+        CustomerCompanySearchFields => ['customer_id', 'name'],
+        CustomerCompanySearchPrefix => '',
+        CustomerCompanySearchSuffix => '*',
+        CustomerCompanySearchListLimit => 250,
         Map                       => [
 
       # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
             [ 'CustomerID',             'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
-            [ 'CustomerCompanyName',    'Name',       'name',        1, 1, 'var', '', 0 ],
+            [ 'CustomerCompanyName',    'Company',       'name',        1, 1, 'var', '', 0 ],
             [ 'CustomerCompanyStreet',  'Street',     'street',      1, 0, 'var', '', 0 ],
             [ 'CustomerCompanyZIP',     'Zip',        'zip',         1, 0, 'var', '', 0 ],
             [ 'CustomerCompanyCity',    'City',       'city',        1, 0, 'var', '', 0 ],
@@ -2286,12 +2293,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.280 $ $Date: 2008-01-15 15:43:14 $
+$Revision: 1.281 $ $Date: 2008-01-31 01:59:17 $
 
 =cut
