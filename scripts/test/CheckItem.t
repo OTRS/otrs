@@ -2,7 +2,7 @@
 # CheckItem.t - check item tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.t,v 1.4 2008-02-01 17:24:52 ub Exp $
+# $Id: CheckItem.t,v 1.5 2008-02-01 19:58:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,6 +21,10 @@ $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%{$Self});
 # email address checks
 my @EmailTests = (
     # Invalid
+    {
+        Email => 'somebody',
+        Valid => 0,
+    },
     {
         Email => 'somebod y@somehost.com',
         Valid => 0,
@@ -52,6 +56,14 @@ my @EmailTests = (
     },
     {
         Email => 'some.body@somehost.com',
+        Valid => 1,
+    },
+    {
+        Email => 'some+body@somehost.com',
+        Valid => 1,
+    },
+    {
+        Email => 'some-body@somehost.com',
         Valid => 1,
     },
     {
