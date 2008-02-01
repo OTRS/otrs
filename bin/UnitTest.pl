@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # UnitTest.pl - the global test handle
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pl,v 1.12 2007-09-29 11:41:28 mh Exp $
+# $Id: UnitTest.pl,v 1.13 2008-02-01 12:49:20 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;

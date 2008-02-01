@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/CleanUp.pl - to cleanup, remove used tmp data of ipc, database or fs
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CleanUp.pl,v 1.7 2007-10-01 09:46:01 mh Exp $
+# $Id: CleanUp.pl,v 1.8 2008-02-01 12:49:20 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;

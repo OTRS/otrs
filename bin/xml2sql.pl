@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/xml2sql.pl - a xml 2 sql processor
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2sql.pl,v 1.13 2007-09-29 11:38:19 mh Exp $
+# $Id: xml2sql.pl,v 1.14 2008-02-01 12:49:20 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ use Kernel::System::Main;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 my %Opts = ();
 getopt( 'htosi', \%Opts );

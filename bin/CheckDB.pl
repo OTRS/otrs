@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/CheckDB.pl - to check the db access
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckDB.pl,v 1.19 2007-09-29 11:40:56 mh Exp $
+# $Id: CheckDB.pl,v 1.20 2008-02-01 12:49:20 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # XMLMaster.pl - the global xml handle for xml2db
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: XMLMaster.pl,v 1.8 2007-10-01 09:46:18 mh Exp $
+# $Id: XMLMaster.pl,v 1.9 2008-02-01 12:49:20 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;

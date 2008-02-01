@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/PostMasterDaemon.pl - the daemon for the PostMasterClient.pl client
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMasterDaemon.pl,v 1.14 2007-10-01 09:45:50 mh Exp $
+# $Id: PostMasterDaemon.pl,v 1.15 2008-02-01 12:49:20 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

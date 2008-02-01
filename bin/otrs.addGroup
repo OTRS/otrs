@@ -2,9 +2,9 @@
 # --
 # bin/otrs.addGroup - add new system groups
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2006 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addGroup,v 1.14 2007-10-01 09:45:36 mh Exp $
+# $Id: otrs.addGroup,v 1.15 2008-02-01 12:49:20 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

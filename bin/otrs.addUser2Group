@@ -2,9 +2,9 @@
 # --
 # bin/otrs.addUser2Group - Add User to a Group
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2006 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addUser2Group,v 1.15 2007-10-16 11:30:42 ot Exp $
+# $Id: otrs.addUser2Group,v 1.16 2008-02-01 12:49:20 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

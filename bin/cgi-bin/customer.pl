@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/cgi-bin/customer.pl - the global CGI handle file (incl. auth) for OTRS
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: customer.pl,v 1.40 2007-10-01 09:46:18 mh Exp $
+# $Id: customer.pl,v 1.41 2008-02-01 12:49:21 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 # check @INC for mod_perl (add lib path for "require module"!)
 push( @INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib" );

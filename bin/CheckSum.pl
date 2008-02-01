@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/CheckSum.pl - a tool to compare changes in a installation
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckSum.pl,v 1.9 2007-10-01 09:46:01 mh Exp $
+# $Id: CheckSum.pl,v 1.10 2008-02-01 12:49:20 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION $RealBin);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);

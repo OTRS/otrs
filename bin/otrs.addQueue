@@ -2,9 +2,9 @@
 # --
 # otrs.addQueue - Add Queue from CLI
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2006 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addQueue,v 1.15 2007-10-16 11:30:42 ot Exp $
+# $Id: otrs.addQueue,v 1.16 2008-02-01 12:49:20 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -48,7 +48,7 @@ getopt( 'hgnsc', \%Opts );
 if ( $Opts{'h'} ) {
     print "otrs.addQueue.pl <Revision $VERSION> - add new queue\n";
     print "Copyright (C) 2002 Atif Ghaffar <aghaffar\@developer.ch>\n";
-    print "Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/\n";
+    print "Copyright (C) 2001-2006 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.addQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -c <COMMENT>]\n";
     exit 1;
 }
