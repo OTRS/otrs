@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.11 2007-11-06 10:04:43 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.12 2008-02-01 14:14:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Output::HTML::NotificationAgentTicketEscalation;
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -143,12 +143,13 @@ sub Run {
     my $SolutionTime = '';
     my $Comment      = '';
     my $Count        = 0;
+    my $ShownMax     = $Param{Config}->{ShownMax} || 30;
     for my $TicketData (@TicketIDs) {
         my %Ticket   = %{$TicketData};
         my $TicketID = $Ticket{TicketID};
 
         # just use the oldest 30 ticktes
-        if ( $Count > 30 ) {
+        if ( $Count >= $ShownMax) {
             $Count = 100;
             last;
         }
