@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.pm,v 1.4 2008-01-31 06:22:11 tr Exp $
+# $Id: AdminCustomerCompany.pm,v 1.5 2008-02-01 12:25:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -191,14 +191,21 @@ sub Run {
 
 sub _Edit {
     my ( $Self, %Param ) = @_;
+    my $Search = $Self->{ParamObject}->GetParam(Param => 'Search') || '';
 
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
-        Data => \%Param,
+        Data => {
+            %Param,
+            Search => $Search,
+        },
     );
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
-        Data => \%Param,
+        Data => {
+            %Param,
+            Search => $Search,
+        },
     );
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => { $Self->{ValidObject}->ValidList(), },
@@ -284,18 +291,30 @@ sub _Edit {
 
 sub _Overview {
     my ( $Self, %Param ) = @_;
-
+    my $Search = $Self->{ParamObject}->GetParam(Param => 'Search') || '';
     my $Output = '';
 
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
-        Data => \%Param,
+        Data => {
+            %Param,
+            Search => $Search,
+        },
     );
     $Self->{LayoutObject}->Block(
         Name => 'OverviewResult',
-        Data => \%Param,
+        Data => {
+            %Param,
+            Search => $Search,
+        },
     );
-    my %List = $Self->{CustomerCompanyObject}->CustomerCompanyList( Valid => 0, );
+    my %List = ();
+    if ($Search) {
+        %List = $Self->{CustomerCompanyObject}->CustomerCompanyList(
+            Search => $Search,
+            Valid => 0,
+        );
+    }
 
     # get valid list
     my %ValidList = $Self->{ValidObject}->ValidList();
@@ -316,6 +335,7 @@ sub _Overview {
                 Valid    => $ValidList{ $Data{ValidID} },
                 CssClass => $CssClass,
                 %Data,
+                Search => $Search,
             },
         );
     }

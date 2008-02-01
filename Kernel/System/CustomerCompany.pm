@@ -1,12 +1,12 @@
 # --
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.5 2007-10-02 10:37:19 mh Exp $
+# $Id: CustomerCompany.pm,v 1.6 2008-02-01 12:25:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::CustomerCompany;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -85,6 +85,14 @@ sub new {
         || die "Need CustomerCompany->CustomerCompanyKey in Kernel/Config.pm!";
     $Self->{CustomerCompanyMap} = $Self->{ConfigObject}->Get('CustomerCompany')->{Map}
         || die "Need CustomerCompany->Map in Kernel/Config.pm!";
+    $Self->{SearchPrefix} = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchPrefix'};
+    if (!defined($Self->{SearchPrefix})) {
+        $Self->{SearchPrefix} = '';
+    }
+    $Self->{SearchSuffix} = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchSuffix'};
+    if (!defined($Self->{SearchSuffix})) {
+        $Self->{SearchSuffix} = '*';
+    }
 
     # create new db connect if DSN is given
     if ( $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{DSN} ) {
@@ -289,6 +297,11 @@ get project list
         Valid => 0,
     );
 
+    my %List = $ProjectObject->ProjectList(
+        Search => '*sometext*',
+        Limit => 10,
+    );
+
 =cut
 
 sub CustomerCompanyList {
@@ -300,6 +313,7 @@ sub CustomerCompanyList {
     if ( !$Param{Valid} && defined( $Param{Valid} ) ) {
         $Valid = 0;
     }
+
     my $What = '';
     for ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyListFields} } ) {
         if ($What) {
@@ -307,13 +321,43 @@ sub CustomerCompanyList {
         }
         $What .= "$_";
     }
-
+    # where
+    my $SQL = '';
+    if ($Param{Search}) {
+        my $Count = 0;
+        my @Parts = split(/\+/, $Param{Search}, 6);
+        foreach my $Part (@Parts) {
+            $Part = $Self->{SearchPrefix}.$Part.$Self->{SearchSuffix};
+            $Part =~ s/\*/%/g;
+            $Part =~ s/%%/%/g;
+            if ($Count) {
+                $SQL .= " AND ";
+            }
+            $Count ++;
+            if ($Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanySearchFields}) {
+                my $SQLExt = '';
+                foreach (@{$Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanySearchFields}}) {
+                    if ($SQLExt) {
+                        $SQLExt .= ' OR ';
+                    }
+                    $SQLExt .= " LOWER($_) LIKE LOWER('".$Self->{DBObject}->Quote($Part)."') ";
+                }
+                if ($SQLExt) {
+                    $SQL .= "($SQLExt)";
+                }
+            }
+            else {
+                $SQL .= " LOWER($Self->{CustomerKey}) LIKE LOWER('".$Self->{DBObject}->Quote($Part)."') ";
+            }
+        }
+    }
     # sql
     return $Self->{DBObject}->GetTableData(
         What  => "$Self->{CustomerCompanyKey}, $What",
         Valid => $Valid,
         Clamp => 1,
         Table => $Self->{CustomerCompanyTable},
+        Where => $SQL,
     );
 }
 
@@ -339,12 +383,12 @@ This Software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2007-10-02 10:37:19 $
+$Revision: 1.6 $ $Date: 2008-02-01 12:25:52 $
 
 =cut

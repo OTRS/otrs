@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.553 2008-02-01 11:51:16 martin Exp $
+# $Id: CHANGES,v 1.554 2008-02-01 12:25:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -89,6 +89,10 @@ CVS HEAD (????/??/??)
     if html encoded chars like &Egrave; or &eacute; is used. Added full
     HTML to text convertion to email parser.
  - (2007/09/13) Improved report overview of perfornance log.
+
+2.2.6 (2008/??/??)
+ - (2008/02/01) Fixed ticket# 2008012242000417 - View performance problems
+    if more then 1000 customer companies are in the database available.
 
 2.2.5 (2008/01/28)
  - (2008/01/25) Fixed bug# 2645 - SLA selection doesn't change when customer is

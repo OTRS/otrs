@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.282 2008-01-31 02:02:25 martin Exp $
+# $Id: Defaults.pm,v 1.283 2008-02-01 12:25:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.282 $) [1];
+$VERSION = qw($Revision: 1.283 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -1176,7 +1176,7 @@ Your OTRS Notification Master
         #        # admin can change customer preferences
         #        AdminSetPreferences => 1,
         #        # use customer company support (reference to company, See CustomerCompany settings)
-                CustomerCompanySupport => 1,
+        #        CustomerCompanySupport => 1,
         #        # cache time to life in sec. - cache any database queris
         #        CacheTTL => 0,
         #        # just a read only source
@@ -2299,6 +2299,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.282 $ $Date: 2008-01-31 02:02:25 $
+$Revision: 1.283 $ $Date: 2008-02-01 12:25:52 $
 
 =cut
