@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.2.2.1 2008-02-01 12:22:27 martin Exp $
+# $Id: CustomerCompany.pm,v 1.2.2.2 2008-02-01 14:02:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2.2.1 $) [1];
+$VERSION = qw($Revision: 1.2.2.2 $) [1];
 
 =head1 NAME
 
@@ -85,6 +85,8 @@ sub new {
         || die "Need CustomerCompany->CustomerCompanyKey in Kernel/Config.pm!";
     $Self->{CustomerCompanyMap} = $Self->{ConfigObject}->Get('CustomerCompany')->{Map}
         || die "Need CustomerCompany->Map in Kernel/Config.pm!";
+    $Self->{CustomerCompanyValid} = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanyValid'};
+    $Self->{SearchListLimit} =  $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchListLimit'};
     $Self->{SearchPrefix} = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchPrefix'};
     if (!defined($Self->{SearchPrefix})) {
         $Self->{SearchPrefix} = '';
@@ -314,6 +316,7 @@ sub CustomerCompanyList {
         $Valid = 0;
     }
 
+    # what is the result
     my $What = '';
     for ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyListFields} } ) {
         if ($What) {
@@ -321,8 +324,14 @@ sub CustomerCompanyList {
         }
         $What .= "$_";
     }
-    # where
+
+    # add valid option if required
     my $SQL = '';
+    if ( $Valid ) {
+        $SQL .= "$Self->{CustomerCompanyValid} IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
+    }
+
+    # where
     if ($Param{Search}) {
         my $Count = 0;
         my @Parts = split(/\+/, $Param{Search}, 6);
@@ -330,7 +339,7 @@ sub CustomerCompanyList {
             $Part = $Self->{SearchPrefix}.$Part.$Self->{SearchSuffix};
             $Part =~ s/\*/%/g;
             $Part =~ s/%%/%/g;
-            if ($Count) {
+            if ($Count || $SQL) {
                 $SQL .= " AND ";
             }
             $Count ++;
@@ -351,14 +360,23 @@ sub CustomerCompanyList {
             }
         }
     }
+
     # sql
-    return $Self->{DBObject}->GetTableData(
-        What  => "$Self->{CustomerCompanyKey}, $What",
-        Valid => $Valid,
-        Clamp => 1,
-        Table => $Self->{CustomerCompanyTable},
-        Where => $SQL,
-    );
+    my %List = ();
+    $SQL = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable} WHERE $SQL";
+
+    $Self->{DBObject}->Prepare( SQL => $SQL, Limit => $Self->{SearchListLimit});
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        my $Value = '';
+        for my $Position ( 1..10 ) {
+            if ( $Value ) {
+                $Value = " ";
+            }
+            $Value .= $Row[ $Position ];
+        }
+        $List{ $Row[0] } = $Value;
+    }
+    return %List;
 }
 
 sub DESTROY {
@@ -389,6 +407,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.2.2.1 $ $Date: 2008-02-01 12:22:27 $
+$Revision: 1.2.2.2 $ $Date: 2008-02-01 14:02:59 $
 
 =cut
