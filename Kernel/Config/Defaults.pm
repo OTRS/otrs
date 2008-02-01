@@ -1,12 +1,12 @@
 # --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.272.2.2 2008-01-15 15:42:52 martin Exp $
+# $Id: Defaults.pm,v 1.272.2.3 2008-02-01 12:22:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 #
 #  Note:
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.272.2.2 $';
+$VERSION = '$Revision: 1.272.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -1258,6 +1258,10 @@ Your OTRS Notification Master
         CustomerCompanyKey => 'customer_id',
         CustomerCompanyValid => 'valid_id',
         CustomerCompanyListFields => ['customer_id', 'name'],
+        CustomerCompanySearchFields => ['customer_id', 'name'],
+        CustomerCompanySearchPrefix => '',
+        CustomerCompanySearchSuffix => '*',
+        CustomerCompanySearchListLimit => 250,
         Map => [
             # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
             [ 'CustomerID',              'CustomerID',  'customer_id',  0, 1, 'var', '', 0 ],
@@ -2171,12 +2175,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.272.2.2 $ $Date: 2008-01-15 15:42:52 $
+$Revision: 1.272.2.3 $ $Date: 2008-02-01 12:22:27 $
 
 =cut
