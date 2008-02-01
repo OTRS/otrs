@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.552 2008-01-28 09:25:48 martin Exp $
+# $Id: CHANGES,v 1.553 2008-02-01 11:51:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/01/28) Added note permission "note" to default ticket permissions to
+    manage list of inform involved agents out of the box.
  - (2008/01/24) Fixed bug# 2611 - PGP module not working on Windows platform.
  - (2008/01/15) Fixed bug# 2227 - XMLHashSearch returns no values on MS SQL in
     certain cases.
