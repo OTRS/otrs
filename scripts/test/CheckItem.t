@@ -1,20 +1,63 @@
 # --
 # CheckItem.t - check item tests
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.t,v 1.1 2007-12-21 13:04:35 mh Exp $
+# $Id: CheckItem.t,v 1.2 2008-02-01 14:43:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use Kernel::System::CheckItem;
 
+# disable dns lookups
+$Self->{ConfigObject}->Set( Key => 'CheckMXRecord', Value => 0 );
+$Self->{ConfigObject}->Set( Key => 'CheckEmailAddresses', Value => 1 );
+
+# create new object
 $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%{$Self});
 
+# email address checks
+my @EmailTests = (
+    {
+        Email => 'somebod y@somehost.com',
+        Valid => 0,
+    },
+    {
+        Email => 'somebody@somehost.com',
+        Valid => 1,
+    },
+    {
+        Email => 'ä@somehost.com',
+        Valid => 0,
+    },
+);
+
+for my $Test ( @EmailTests ) {
+
+    # check address
+    my $Valid = $Self->{CheckItemObject}->CheckEmail(
+        Address => $Test->{Email},
+    );
+
+    # execute unit test
+    if ( $Test->{Valid} ) {
+        $Self->True(
+            $Test->{Valid},
+            "CheckEmail() - $Test->{Email}",
+        );
+    }
+    else {
+        $Self->False(
+            $Test->{Valid},
+            "CheckEmail() - $Test->{Email}",
+        );
+    }
+}
+
 # string clean tests
-my $StringCleanTests = [
+my @StringCleanTests = (
     {
         String => ' ',
         Params => {},
@@ -142,9 +185,9 @@ my $StringCleanTests = [
         },
         Result => "TesttestTest",
     },
-];
+);
 
-for my $Test ( @{$StringCleanTests} ) {
+for my $Test ( @StringCleanTests ) {
 
     # copy string to leave the original untouched
     my $String = $Test->{String};
