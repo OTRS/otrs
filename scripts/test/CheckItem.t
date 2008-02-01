@@ -2,7 +2,7 @@
 # CheckItem.t - check item tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.t,v 1.2 2008-02-01 14:43:56 martin Exp $
+# $Id: CheckItem.t,v 1.3 2008-02-01 16:01:33 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,17 +20,51 @@ $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%{$Self});
 
 # email address checks
 my @EmailTests = (
+    # Invalid
     {
         Email => 'somebod y@somehost.com',
         Valid => 0,
     },
     {
+        Email => 'ä@somehost.com',
+        Valid => 0,
+    },
+    {
+        Email => '.somebody@somehost.com',
+        Valid => 0,
+    },
+    {
+        Email => 'somebody.@somehost.com',
+        Valid => 0,
+    },
+    {
+        Email => 'some..body@somehost.com',
+        Valid => 0,
+    },
+    {
+        Email => 'some@body@somehost.com',
+        Valid => 0,
+    },
+    # Valid
+    {
         Email => 'somebody@somehost.com',
         Valid => 1,
     },
     {
-        Email => 'ä@somehost.com',
-        Valid => 0,
+        Email => 'some.body@somehost.com',
+        Valid => 1,
+    },
+    {
+        Email => 'some_b_o_d_y@somehost.com',
+        Valid => 1,
+    },
+    {
+        Email => 'Some.Bo_dY.test.TesT@somehost.com',
+        Valid => 1,
+    },
+    {
+        Email => '_somename@example.com',
+        Valid => 1,
     },
 );
 
@@ -44,13 +78,13 @@ for my $Test ( @EmailTests ) {
     # execute unit test
     if ( $Test->{Valid} ) {
         $Self->True(
-            $Test->{Valid},
+            $Valid,
             "CheckEmail() - $Test->{Email}",
         );
     }
     else {
         $Self->False(
-            $Test->{Valid},
+            $Valid,
             "CheckEmail() - $Test->{Email}",
         );
     }
