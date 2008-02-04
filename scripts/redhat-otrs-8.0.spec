@@ -1,12 +1,12 @@
 # --
 # RPM spec file for RedHat Linux of the OTRS package
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: redhat-otrs-8.0.spec,v 1.14 2007-08-09 21:43:57 martin Exp $
+# $Id: redhat-otrs-8.0.spec,v 1.15 2008-02-04 09:55:04 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 #
 # please send bugfixes or comments to bugs+rpm@otrs.org
@@ -75,8 +75,8 @@ if test -e /opt/otrs/RELEASE; then
 fi
 # useradd
 export OTRSUSER=otrs
-echo -n "Check OTRS user (/etc/passwd)... "
-if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then
+echo -n "Check OTRS user ... "
+if id $OTRSUSER >/dev/null 2>&1; then
     echo "$OTRSUSER exists."
     # update home dir
     usermod -d /opt/otrs $OTRSUSER
