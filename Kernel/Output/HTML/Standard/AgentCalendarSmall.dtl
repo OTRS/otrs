@@ -1,10 +1,10 @@
 # --
 # AgentCalendarSmall.dtl - provides HTML form for AgentSpelling
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <script language="JavaScript" type="text/javascript">
@@ -42,7 +42,7 @@ function SelectDay(tt, mm, yyyy) {
 //-->
 </script>
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<table border="0" width="225" cellspacing="0" cellpadding="3">
   <tr>
     <th class="mainhead"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Month=$LQData{"Back"}&Prefix=$LQData{"Prefix"}" class="headeritem">&lt;&lt;</a></th>
     <th class="mainhead">$Text{"$QData{"Month"}"} $QData{"Year"}</th>
