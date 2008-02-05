@@ -1,12 +1,12 @@
 # --
 # Kernel/System/DB.pm - the global database wrapper to support different databases
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.75 2007-08-28 20:02:13 martin Exp $
+# $Id: DB.pm,v 1.75.2.1 2008-02-05 16:31:30 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::DB;
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.75 $';
+$VERSION = '$Revision: 1.75.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -41,16 +41,22 @@ create database object with database connect
 
     use Kernel::Config;
     use Kernel::System::Log;
+    use Kernel::System::Main;
     use Kernel::System::DB;
 
     my $ConfigObject = Kernel::Config->new();
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
+    my $MainObject = Kernel::System::Main->new(
+        LogObject => $LogObject,
+        ConfigObject => $ConfigObject,
+    );
 
     $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
+        MainObject => $MainObject,
         # if you don't use the follow params, then this are used
         # from Kernel/Config.pm!
         DatabaseDSN => 'DBI:odbc:database=123;host=localhost;',
@@ -807,12 +813,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.75 $ $Date: 2007-08-28 20:02:13 $
+$Revision: 1.75.2.1 $ $Date: 2008-02-05 16:31:30 $
 
 =cut
