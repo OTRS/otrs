@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.83 2008-01-31 06:20:20 tr Exp $
+# $Id: DB.pm,v 1.84 2008-02-05 16:30:53 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 =head1 NAME
 
@@ -40,16 +40,22 @@ create database object with database connect
 
     use Kernel::Config;
     use Kernel::System::Log;
+    use Kernel::System::Main;
     use Kernel::System::DB;
 
     my $ConfigObject = Kernel::Config->new();
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
+    my $MainObject = Kernel::System::Main->new(
+        LogObject => $LogObject,
+        ConfigObject => $ConfigObject,
+    );
 
     $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
+        MainObject => $MainObject,
         # if you don't use the follow params, then this are used
         # from Kernel/Config.pm!
         DatabaseDSN => 'DBI:odbc:database=123;host=localhost;',
@@ -898,6 +904,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.83 $ $Date: 2008-01-31 06:20:20 $
+$Revision: 1.84 $ $Date: 2008-02-05 16:30:53 $
 
 =cut
