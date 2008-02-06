@@ -1,12 +1,12 @@
 # --
 # Time.t - Time tests
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.t,v 1.12 2007-11-06 10:37:54 martin Exp $
+# $Id: Time.t,v 1.13 2008-02-06 18:30:37 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use Kernel::System::Time;
@@ -415,7 +415,7 @@ $Self->Is(
     'DestinationTime()',
 );
 
-# Summertime test - switch back to winter time (+- 60 minutes)
+# Summertime test - switch back to winter time (+ 60 minutes)
 $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
     String => '2007-10-26 18:12:23',
 );
@@ -444,6 +444,37 @@ $Self->Is(
     "$Year-$Month-$Day $Hour:$Min:$Sec",
     '2007-10-29 10:42:23',
     'SystemTime2Date() - summertime -> wintertime',
+);
+
+# Wintertime test - switch to summer time (- 60 minutes)
+$SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2007-03-23 18:12:23',
+);
+$Self->Is(
+    $SystemTime,
+    1174669943,
+    'TimeStamp2SystemTime() - wintertime -> summertime',
+);
+
+$DestinationTime = $Self->{TimeObject}->DestinationTime(
+    StartTime => $SystemTime,
+    Time => 60*60*4.5,
+);
+
+$Self->Is(
+    $DestinationTime,
+    1174894943,
+    'DestinationTime() - wintertime -> summertime',
+);
+
+($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+    SystemTime => $DestinationTime,
+);
+
+$Self->Is(
+    "$Year-$Month-$Day $Hour:$Min:$Sec",
+    '2007-03-26 08:42:23',
+    'SystemTime2Date() - wintertime -> summertime',
 );
 
 # check the vacations
