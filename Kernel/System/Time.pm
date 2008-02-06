@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Time.pm - time functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.29.2.1 2007-11-06 10:38:19 martin Exp $
+# $Id: Time.pm,v 1.29.2.2 2008-02-06 22:55:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Time;
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.29.2.1 $';
+$VERSION = '$Revision: 1.29.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -541,7 +541,6 @@ sub DestinationTime {
     while ($Param{Time} > 1) {
         $Count++;
         if ($Count > 100) {
-#print STDERR "LAST        !!!!!!!!!!!!!!!!!\n";
             last;
         }
         my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay) = localtime($CTime);
@@ -580,7 +579,6 @@ sub DestinationTime {
                     my $Hit = 0;
                     foreach (@{$TimeWorkingHours{$LDay{$WDay}}}) {
                         if ($H == $_) {
-#print STDERR "aaaaaa $_ \n";
                             $Hit = 1;
                         }
                     }
@@ -590,13 +588,11 @@ sub DestinationTime {
                                 my $Max = 60 - $Min;
                                 $Param{Time} = $Param{Time} - ($Max*60);
                                 $DestinationTime = $DestinationTime + ($Max*60);
-#print STDERR "DD Time > $Max*60 DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
                                 $FirstTurn = 0;
                             }
                             else {
                                 $Param{Time} = $Param{Time} - (60*60);
                                 $DestinationTime = $DestinationTime + (60*60);
-#print STDERR "DD Time > 60*60 DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
                                 $FirstTurn = 0;
                             }
                         }
@@ -605,13 +601,11 @@ sub DestinationTime {
                                 if ($Param{Time} > 1) {
                                     $Param{Time} = $Param{Time} - 60;
                                     $DestinationTime = $DestinationTime + 60;
-#print STDERR "DD Time > 1*60 DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
                                     $FirstTurn = 0;
                                 }
                             }
                         }
                         else {
-#print STDERR "DD Time else DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
                             last;
                         }
                     }
@@ -627,11 +621,9 @@ sub DestinationTime {
                                 Second => 0,
                             );
                         }
-#                        $Param{Time} = $Param{Time} - (60*60);
                         if ($Param{Time} > 59) {
                             $DestinationTime = $DestinationTime + (60*60);
                         }
-#print STDERR "DD NOHIT DestinationTime : ".$Self->SystemTime2TimeStamp(SystemTime => $DestinationTime)." $Param{Time} \n";
                     }
                 }
             }
@@ -646,18 +638,40 @@ sub DestinationTime {
             Minute => 0,
             Second => 0,
         ) + ( 60 * 60 * 24 );
+
         # Protect local time zone problems on your machine
-        # (e. g. sommer zeit / winter zeit) and not geting
+        # (e. g. sommertime / wintertime) and not geting
         # over to the next day.
         if ($NewCTime == $CTime) {
             $CTime = $CTime + ( 60 * 60 * 24 );
+
+            # reduce destination time diff between today and tomrrow
+            my $Diff = ( $Self->Date2SystemTime(
+                Year   => $Year,
+                Month  => $Month,
+                Day    => $Day+1,
+                Hour   => 0,
+                Minute => 0,
+                Second => 0,
+            ) - $Self->Date2SystemTime(
+                Year   => $Year,
+                Month  => $Month,
+                Day    => $Day,
+                Hour   => 0,
+                Minute => 0,
+                Second => 0,
+            ) ) - ( 60 * 60 * 24 );
+            $DestinationTime = $DestinationTime - $Diff;
         }
+
+        # Set next loop time to 00:00:00 of next day.
         else {
             $CTime = $NewCTime;
         }
     }
-    $DestinationTime = $DestinationTime - $Zone;
-    return $DestinationTime;
+
+    # return destination time - e. g. with diff of calendar time zone
+    return $DestinationTime - $Zone;
 }
 
 =item VacationCheck()
@@ -718,12 +732,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.29.2.1 $ $Date: 2007-11-06 10:38:19 $
+$Revision: 1.29.2.2 $ $Date: 2008-02-06 22:55:49 $
 
 =cut

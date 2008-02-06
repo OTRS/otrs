@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.66 2008-02-01 12:22:27 martin Exp $
+# $Id: CHANGES,v 1.465.2.67 2008-02-06 22:55:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 2.2.6 (2008/??/??)
+ - (2008/02/06) Fixed bug# 1716 - Wrong escalation time calculation on
+     wintertime/summertime switch.
  - (2008/02/01) Fixed ticket# 2008012242000417 - View performance problems
     if more then 1000 customer companies are in the database available.
 
