@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.559 2008-02-05 09:39:42 ub Exp $
+# $Id: CHANGES,v 1.560 2008-02-06 22:56:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,8 +11,10 @@
 
 CVS HEAD (????/??/??)
  - (2008/02/04) Fixed bug# 1608 - Badly formatted calendar popup.
- - (2008/02/04) Fixed bug# 2657 - Incorrect regex in RPM spec files.
- - (2008/02/01) Fixed bug# 2638 - Broken email syntax detection.
+-  (2008/02/04) Fixed bug# 2657 - Improved regexp in RPM spec files to detect
+    already existing "otrs" user (it was also matching on xxxotrsxxx names).
+-  (2008/02/01) Fixed bug# 2638 - Broken email syntax check if
+    _somebody@example.com is used.
  - (2008/01/28) Added note permission "note" to default ticket permissions to
     manage list of inform involved agents out of the box.
  - (2008/01/24) Fixed bug# 2611 - PGP module not working on Windows platform.
@@ -94,6 +96,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.6 (2008/??/??)
+ - (2008/02/06) Fixed bug# 1716 - Wrong escalation time calculation on
+     wintertime/summertime switch.
  - (2008/02/01) Fixed ticket# 2008012242000417 - View performance problems
     if more then 1000 customer companies are in the database available.
 

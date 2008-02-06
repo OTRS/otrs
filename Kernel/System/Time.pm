@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.34 2008-01-31 06:20:20 tr Exp $
+# $Id: Time.pm,v 1.35 2008-02-06 22:56:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -69,7 +69,7 @@ sub new {
     # 0=off; 1=on;
     $Self->{Debug} = 0;
 
-           $Self->{TimeZone} = $Param{TimeZone}
+    $Self->{TimeZone} = $Param{TimeZone}
         || $Param{UserTimeZone}
         || $Self->{ConfigObject}->Get('TimeZone')
         || 0;
@@ -666,6 +666,7 @@ sub DestinationTime {
                 }
             }
         }
+
         # Find the unix time stamp for the next day at 00:00:00 to
         # start for calculation.
         my $NewCTime = $Self->Date2SystemTime(
@@ -676,18 +677,40 @@ sub DestinationTime {
             Minute => 0,
             Second => 0,
         ) + ( 60 * 60 * 24 );
+
         # Protect local time zone problems on your machine
-        # (e. g. sommer zeit / winter zeit) and not geting
+        # (e. g. sommertime -> wintertime) and not getting
         # over to the next day.
         if ($NewCTime == $CTime) {
             $CTime = $CTime + ( 60 * 60 * 24 );
+
+            # reduce destination time diff between today and tomrrow
+            my $Diff = ( $Self->Date2SystemTime(
+                Year   => $Year,
+                Month  => $Month,
+                Day    => $Day+1,
+                Hour   => 0,
+                Minute => 0,
+                Second => 0,
+            ) - $Self->Date2SystemTime(
+                Year   => $Year,
+                Month  => $Month,
+                Day    => $Day,
+                Hour   => 0,
+                Minute => 0,
+                Second => 0,
+            ) ) - ( 60 * 60 * 24 );
+            $DestinationTime = $DestinationTime - $Diff;
         }
+
+        # Set next loop time to 00:00:00 of next day.
         else {
             $CTime = $NewCTime;
         }
     }
-    $DestinationTime = $DestinationTime - $Zone;
-    return $DestinationTime;
+
+    # return destination time - e. g. with diff of calendar time zone
+    return $DestinationTime - $Zone;
 }
 
 =item VacationCheck()
@@ -763,6 +786,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2008-01-31 06:20:20 $
+$Revision: 1.35 $ $Date: 2008-02-06 22:56:26 $
 
 =cut
