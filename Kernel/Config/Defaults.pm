@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.283 2008-02-01 12:25:52 martin Exp $
+# $Id: Defaults.pm,v 1.284 2008-02-07 11:37:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.283 $) [1];
+$VERSION = qw($Revision: 1.284 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -2153,18 +2153,33 @@ sub new {
             if ( $Param{Level} && $Param{Level} eq 'Default' && $File =~ /ZZZ/ ) {
                 next;
             }
-            # check config file format
+
+            # check config file format - use 1.0 as eval string, 1.1 as require or do
             my $FileFormat = 1;
             my $ConfigFile = '';
             if ( open( my $In, '<', $File ) ) {
+
+                # only try to find # VERSION:1.1 in the first 8 lines
+                my $TryCount = 0;
                 while ( my $Line = <$In> ) {
                     if ($Line =~ /^\Q# VERSION:1.1\E/) {
                         $FileFormat = 1.1;
                         last;
                     }
-                    $ConfigFile .= $Line;
+
+                    $TryCount++;
+                    if ( $TryCount >= 8 ) {
+                        last;
+                    }
                 }
                 close($In);
+
+                # read file format 1.0 - file as string
+                if ( $FileFormat == 1 ) {
+                    open( my $In, '<', $File );
+                    $ConfigFile = do {local $/; <$In>};
+                    close $In;
+                }
             }
             else {
                 print STDERR "ERROR: $!: $File\n";
@@ -2299,6 +2314,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.283 $ $Date: 2008-02-01 12:25:52 $
+$Revision: 1.284 $ $Date: 2008-02-07 11:37:40 $
 
 =cut
