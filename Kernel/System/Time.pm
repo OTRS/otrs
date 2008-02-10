@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.36 2008-02-06 23:10:06 martin Exp $
+# $Id: Time.pm,v 1.37 2008-02-10 08:11:29 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -40,6 +40,7 @@ create a time object
 
     use Kernel::Config;
     use Kernel::System::Log;
+    use Kernel::System::Time;
 
     my $ConfigObject = Kernel::Config->new();
 
@@ -790,6 +791,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2008-02-06 23:10:06 $
+$Revision: 1.37 $ $Date: 2008-02-10 08:11:29 $
 
 =cut
