@@ -8,8 +8,8 @@ use warnings;
 $ENV{MOD_PERL} =~ /mod_perl/ or die "MOD_PERL not used!";
 
 # set otrs lib path!
-use lib "/opt/otrs/";
-use lib "/opt/otrs/Kernel/cpan-lib";
+use lib "/home/tr/src/OTRS-CVS/otrs-pubsystem-utf8/";
+use lib "/home/tr/src/OTRS-CVS/otrs-pubsystem-utf8/Kernel/cpan-lib";
 
 # pull in things we will use in most requests so it is read and compiled
 # exactly once

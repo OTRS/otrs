@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.1 2008-02-10 15:40:51 tr Exp $
+# $Id: Layout.t,v 1.2 2008-02-10 17:12:46 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,6 +14,7 @@ use warnings;
 
 use Kernel::System::AuthSession;
 use Kernel::System::Web::Request;
+use Kernel::System::Group;
 use Kernel::System::Ticket;
 use Kernel::Output::HTML::Layout;
 
@@ -28,6 +29,12 @@ $Self->{SessionObject} = Kernel::System::AuthSession->new(
 $Self->{ParamObject} = Kernel::System::Web::Request->new(
     %{$Self},
     WebRequest => $Param{WebRequest} || 0,
+);
+
+$Self->{GroupObject} = Kernel::System::Group->new(
+    ConfigObject   => $Self->{ConfigObject},
+    LogObject      => $Self->{LogObject},
+    DBObject       => $Self->{DBObject},
 );
 
 $Self->{TicketObject} = Kernel::System::Ticket->new(
@@ -48,6 +55,7 @@ $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
     DBObject       => $Self->{DBObject},
     ParamObject    => $Self->{ParamObject},
     TicketObject   => $Self->{TicketObject},
+    GroupObject    => $Self->{GroupObject},
     UserID         => 1,
     Lang => 'de',
 );
