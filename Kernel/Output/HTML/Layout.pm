@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.68 2008-01-15 17:22:34 martin Exp $
+# $Id: Layout.pm,v 1.69 2008-02-10 15:41:46 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Output::HTML::Layout;
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 =head1 NAME
 
@@ -35,22 +35,62 @@ All generic html finctions. E. g. to get options fields, template processing, ..
 
 =cut
 
+=item new()
+
+create a new object
+
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::Time;
+    use Kernel::System::Main;
+    use Kernel::System::Encode;
+    use Kernel::Output::HTML::Layout;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
+    my $LayoutObject = Kernel::Output::HTML::Layout->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+        TimeObject   => $TimeObject,
+        EncodeObject => $EncodeObject,
+        Lang         => 'de',
+    );
+
+    in addition for NavigationBar() you need
+        DBObject
+        SessionObject
+        ParamObject
+        UserID
+        TicketObject
+
+=cut
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = { %Param };
     bless( $Self, $Type );
-
-    # get common objects
-    for ( keys %Param ) {
-        $Self->{$_} = $Param{$_};
-    }
 
     # set debug
     $Self->{Debug} = 0;
 
     # check needed objects
+    # Attention the SessionObject is needet for NavigationBar()
     for (qw(ConfigObject LogObject TimeObject MainObject EncodeObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LogObject}->Log(
@@ -77,9 +117,11 @@ sub new {
     if ( !$Self->{UserLanguage} ) {
         my $BrowserLang = $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
         my %Data = %{ $Self->{ConfigObject}->Get('DefaultUsedLanguages') };
-        for ( keys %Data ) {
-            if ( $BrowserLang =~ /^$_/i ) {
-                $Self->{UserLanguage} = $_;
+        LANGUAGE:
+        for my $Language ( keys %Data ) {
+            if ( $BrowserLang =~ /^$Language/i ) {
+                $Self->{UserLanguage} = $Language;
+                last LANGUAGE;
             }
         }
     }
@@ -504,6 +546,7 @@ sub Output {
     # read template from filesystem
     my $TemplateString = '';
     if ( defined( $Param{Template} ) && ref( $Param{Template} ) eq 'ARRAY' ) {
+# die 'TemplateArray';
         for ( @{ $Param{Template} } ) {
             $TemplateString .= $_;
         }
@@ -519,11 +562,13 @@ sub Output {
         else {
             $File = "$Self->{TemplateDir}/../Standard/$Param{TemplateFile}.dtl";
         }
-        if ( open( TEMPLATEIN, "< $File" ) ) {
-            while ( my $Line = <TEMPLATEIN> ) {
-                $TemplateString .= $Line;
-            }
-            close(TEMPLATEIN);
+        if ( open my $TEMPLATEIN, '<', $File ) {
+            $TemplateString = do {local $/; <$TEMPLATEIN>};
+            close $TEMPLATEIN;
+
+            # filtering of comment lines
+            $TemplateString =~ s/^#.*\n//gm;
+
         }
         else {
             $Self->{LogObject}->Log(
@@ -560,9 +605,6 @@ sub Output {
             }
         }
     }
-
-    # filtering of comment lines
-    $TemplateString =~ s/^#.*\n//gm;
 
     # parse/get text blocks
     my @BR = $Self->_BlockTemplatesReplace(
@@ -647,16 +689,10 @@ sub Output {
     }
 
     # process template
-    my @Template  = split( /\n/, $TemplateString );
     my $Output    = '';
-    my $LineCount = 0;
-    for my $Line (@Template) {
-        $LineCount++;
-
+    for my $Line (split( /\n/, $TemplateString)) {
         # add missing new line (striped from split)
-        if ( $LineCount != $#Template + 1 ) {
-            $Line .= "\n";
-        }
+        $Line .= "\n";
         if ( $Line =~ /<dtl/ ) {
 
             # do template set (<dtl set $Data{"adasd"} = "lala">)
@@ -729,8 +765,9 @@ sub Output {
         }
 
         # variable & env & config replacement (three times)
-        for ( 1 .. 3 ) {
-            $Line =~ s{
+        my $Regexp = 1;
+        while ($Regexp) {
+            $Regexp = $Line =~ s{
                 \$(QData|LQData|Data|Env|QEnv|Config|Include){"(.+?)"}
             }
             {
@@ -822,46 +859,41 @@ sub Output {
         # add this line to output
         $Output .= $Line;
     }
+    chomp $Output;
 
     # do time translation (with seconds)
-    for ( 1 .. 1 ) {
-        $Output =~ s{
-            \$TimeLong({"(.+?)"}|{""})
-        }
-        {
-            if (defined($2)) {
-                $Self->{LanguageObject}->FormatTimeString($2);
-            }
-            else {
-                '';
-            }
-        }egx;
+    $Output =~ s{
+        \$TimeLong({"(.+?)"}|{""})
     }
+    {
+        if (defined($2)) {
+            $Self->{LanguageObject}->FormatTimeString($2);
+        }
+        else {
+            '';
+        }
+    }egx;
 
     # do time translation (without seconds)
-    for ( 1 .. 1 ) {
-        $Output =~ s{
-            \$TimeShort({"(.+?)"}|{""})
-        }
-        {
-            if (defined($2)) {
-                $Self->{LanguageObject}->FormatTimeString($2, undef, 'NoSeconds');
-            }
-            else {
-                '';
-            }
-        }egx;
+    $Output =~ s{
+        \$TimeShort({"(.+?)"}|{""})
     }
+    {
+        if (defined($2)) {
+            $Self->{LanguageObject}->FormatTimeString($2, undef, 'NoSeconds');
+        }
+        else {
+            '';
+        }
+    }egx;
 
     # do date translation
-    for ( 1 .. 1 ) {
-        $Output =~ s{
-            \$Date({"(.+?)"}|{""})
-        }
-        {
-            $Self->{LanguageObject}->FormatTimeString($2, 'DateFormatShort');
-        }egx;
+    $Output =~ s{
+        \$Date({"(.+?)"}|{""})
     }
+    {
+        $Self->{LanguageObject}->FormatTimeString($2, 'DateFormatShort');
+    }egx;
 
     # do translation
     for ( 1 .. 2 ) {
@@ -879,41 +911,38 @@ sub Output {
             }
         }egx;
     }
-    for ( 1 .. 1 ) {
-        $Output =~ s{
-            \$JSText({"(.+?)"}|{""})
-        }
-        {
-            if (defined($2)) {
-                $Self->Ascii2Html(
-                    Text => $Self->{LanguageObject}->Get($2, $Param{TemplateFile}),
-                    Type => 'JSText',
-                );
-            }
-            else {
-                '';
-            }
-        }egx;
+
+    $Output =~ s{
+        \$JSText({"(.+?)"}|{""})
     }
+    {
+        if (defined($2)) {
+            $Self->Ascii2Html(
+                Text => $Self->{LanguageObject}->Get($2, $Param{TemplateFile}),
+                Type => 'JSText',
+            );
+        }
+        else {
+            '';
+        }
+    }egx;
 
     # do html quote
-    for ( 1 .. 1 ) {
-        $Output =~ s{
-            \$Quote({"(.+?)"}|{""})
-        }
-        {
-            my $Text = $2;
-            if (!defined($Text) || $Text =~ /^","(.+?)$/) {
-                '';
-            }
-            elsif ($Text =~ /^(.+?)","(.+?)$/) {
-                $Self->Ascii2Html(Text => $1, Max => $2);
-            }
-            else {
-                $Self->Ascii2Html(Text => $Text);
-            }
-        }egx;
+    $Output =~ s{
+        \$Quote({"(.+?)"}|{""})
     }
+    {
+        my $Text = $2;
+        if (!defined($Text) || $Text =~ /^","(.+?)$/) {
+            '';
+        }
+        elsif ($Text =~ /^(.+?)","(.+?)$/) {
+            $Self->Ascii2Html(Text => $1, Max => $2);
+        }
+        else {
+            $Self->Ascii2Html(Text => $Text);
+        }
+    }egx;
 
     # Check if the browser sends the session id cookie!
     # If not, add the session id to the links and forms!
@@ -3817,12 +3846,12 @@ This Software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.68 $ $Date: 2008-01-15 17:22:34 $
+$Revision: 1.69 $ $Date: 2008-02-10 15:41:46 $
 
 =cut
