@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.71 2007-07-29 23:43:10 martin Exp $
+    $Id: otrs-schema.xml,v 1.72 2008-02-11 11:14:50 martin Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.71  2007/07/29 23:43:10  martin
+    Removed xml tags from comment log.
+
     Revision 1.70  2007/07/26 13:26:46  martin
     Improved system performance of escalation (bug# 2020 Performance
     problem after updating to 2.2.0).
@@ -766,6 +769,19 @@
     <ForeignKey ForeignTable="system_user">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- queue preferences -->
+<Table Name="queue_preferences">
+    <Column Name="queue_id" Required="true" Type="INTEGER"/>
+    <Column Name="preferences_key" Required="true" Size="150" Type="VARCHAR"/>
+    <Column Name="preferences_value" Required="false" Size="250" Type="VARCHAR"/>
+    <Index Name="index_queue_preferences_user_id">
+        <IndexColumn Name="queue_id"/>
+    </Index>
+    <ForeignKey ForeignTable="queue">
+        <Reference Local="queue_id" Foreign="id"/>
     </ForeignKey>
 </Table>
 
