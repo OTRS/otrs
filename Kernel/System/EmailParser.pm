@@ -1,12 +1,12 @@
 # --
 # Kernel/System/EmailParser.pm - the global email parser module
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.57 2007-12-10 19:31:09 martin Exp $
+# $Id: EmailParser.pm,v 1.58 2008-02-11 17:49:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::EmailParser;
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 =head1 NAME
 
@@ -480,6 +480,11 @@ sub GetMessageBody {
                 );
             }
 
+            # check if charset is given, set iso-8859-1 if content is text
+            if ( !$Self->{Charset} && $Self->{ContentType} =~ /\btext\b/) {
+                $Self->{Charset} = 'iso-8859-1';
+            }
+
             # check if charset exists
             if ( $Self->GetCharset() ) {
                 $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
@@ -612,8 +617,7 @@ sub PartsAttachments {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message =>
-                    "Was not able to parse corrupt MIME email! Skipped attachment ($PartCounter)",
+                Message => "Was not able to parse corrupt MIME email! Skipped attachment ($PartCounter)",
             );
             return;
         }
@@ -627,8 +631,9 @@ sub PartsAttachments {
             $PartData{Filename} = decode_mimewords( $Part->head()->recommended_filename() );
             $PartData{ContentDisposition} = $Part->head()->get('Content-Disposition');
             if ( $PartData{ContentDisposition} ) {
-                my %Data
-                    = $Self->GetContentTypeParams( ContentType => $PartData{ContentDisposition} );
+                my %Data = $Self->GetContentTypeParams(
+                    ContentType => $PartData{ContentDisposition},
+                );
                 if ( $Data{Charset} ) {
                     $PartData{Charset} = $Data{Charset};
                 }
@@ -1169,10 +1174,10 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2007-12-10 19:31:09 $
+$Revision: 1.58 $ $Date: 2008-02-11 17:49:44 $
 
 =cut

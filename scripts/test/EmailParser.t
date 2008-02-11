@@ -1,12 +1,12 @@
 # --
 # EmailParser.t - email parser tests
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.9 2007-12-10 19:31:09 martin Exp $
+# $Id: EmailParser.t,v 1.10 2008-02-11 17:49:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use utf8;
@@ -420,6 +420,59 @@ $Self->True(
 $Self->True(
     !$Attachments[1] || 0,
     "#9 attachment check #2",
+);
+
+# test #10
+@Array = ();
+open(IN, "< $Home/scripts/test/sample/PostMaster-Test10.box");
+while (<IN>) {
+    push(@Array, $_);
+}
+close (IN);
+
+$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+    %{$Self},
+    Email => \@Array,
+);
+$Self->Is(
+    $Self->{EmailParserObject}->GetCharset(),
+    'iso-8859-1',
+    "#10 GetCharset() - iso-8859-1 charset should be found",
+);
+
+$MD5 = md5_hex($Self->{EmailParserObject}->GetMessageBody()) || '';
+$Self->Is(
+    $MD5,
+    '7ddc731e5a3e76cd27d4b1e0628468b1',
+    "#10 md5 body check",
+);
+
+@Attachments = $Self->{EmailParserObject}->GetAttachments();
+$MD5 = md5_hex($Attachments[0]->{Content}) || '';
+$Self->Is(
+    $MD5,
+    '7ddc731e5a3e76cd27d4b1e0628468b1',
+    "#10 md5 check",
+);
+
+$Self->True(
+    $Attachments[0] || 0,
+    "#10 attachment check #1",
+);
+
+$Self->True(
+    $Attachments[1] || 0,
+    "#10 attachment check #2",
+);
+
+$Self->True(
+    $Attachments[2] || 0,
+    "#10 attachment check #3",
+);
+
+$Self->True(
+    !$Attachments[3] || 0,
+    "#10 attachment check #4",
 );
 
 1;
