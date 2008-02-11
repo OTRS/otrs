@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.70 2008-01-30 13:48:30 tr Exp $
+# $Id: Config.pm,v 1.71 2008-02-11 11:09:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Digest::MD5 qw(md5_hex);
 use Data::Dumper;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 =head1 NAME
 
@@ -192,12 +192,12 @@ sub _Init {
 
         # load framework, application, config, changes
         for my $Init (qw(Framework Application Config Changes)) {
-            for my $Set ( sort keys %Data ) {
-                if ( $Data{$Set}->[1]->{otrs_config}->[1]->{init} eq $Init ) {
-                    push(
-                        @{ $Self->{XMLConfig} },
-                        @{ $Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem} }
-                    );
+            for my $Set (sort keys %Data) {
+                if ($Data{$Set}->[1]->{otrs_config}->[1]->{init} eq $Init) {
+                    # just use valid entries
+                    if ($Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem}) {
+                        push (@{$Self->{XMLConfig}}, @{$Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem}});
+                    }
                     delete $Data{$Set};
                 }
             }
@@ -1666,6 +1666,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2008-01-30 13:48:30 $
+$Revision: 1.71 $ $Date: 2008-02-11 11:09:21 $
 
 =cut
