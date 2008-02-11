@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2007-07-26 15:10:16
+#  driver: mysql, generated: 2008-02-11 12:43:46
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -288,8 +288,11 @@ CREATE TABLE queue (
     group_id INTEGER NOT NULL,
     unlock_timeout INTEGER,
     first_response_time INTEGER,
+    first_response_notify SMALLINT,
     update_time INTEGER,
+    update_notify SMALLINT,
     solution_time INTEGER,
+    solution_notify SMALLINT,
     system_address_id SMALLINT NOT NULL,
     calendar_name VARCHAR (100),
     default_sign_key VARCHAR (100),
@@ -309,6 +312,15 @@ CREATE TABLE queue (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE (name)
+);
+# ----------------------------------------------------------
+#  create table queue_preferences
+# ----------------------------------------------------------
+CREATE TABLE queue_preferences (
+    queue_id INTEGER NOT NULL,
+    preferences_key VARCHAR (150) NOT NULL,
+    preferences_value VARCHAR (250),
+    INDEX index_queue_preferences_user_id (queue_id)
 );
 # ----------------------------------------------------------
 #  create table ticket
@@ -712,8 +724,11 @@ CREATE TABLE sla (
     name VARCHAR (200) NOT NULL,
     calendar_name VARCHAR (100),
     first_response_time INTEGER NOT NULL,
+    first_response_notify SMALLINT,
     update_time INTEGER NOT NULL,
+    update_notify SMALLINT,
     solution_time INTEGER NOT NULL,
+    solution_notify SMALLINT,
     valid_id SMALLINT NOT NULL,
     comments VARCHAR (200),
     create_time DATETIME NOT NULL,
@@ -898,7 +913,7 @@ CREATE TABLE xml_storage (
     xml_type VARCHAR (200) NOT NULL,
     xml_key VARCHAR (250) NOT NULL,
     xml_content_key VARCHAR (250) NOT NULL,
-    xml_content_value LONGBLOB,
+    xml_content_value MEDIUMTEXT,
     INDEX xml_storage_xml_content_key (xml_content_key(100)),
     INDEX xml_storage_key_type (xml_key(10), xml_type(10))
 );

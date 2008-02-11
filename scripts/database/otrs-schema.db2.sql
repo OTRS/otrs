@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2007-07-26 15:10:15
+--  driver: db2, generated: 2008-02-11 12:43:45
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -88,7 +88,7 @@ CREATE TABLE user_preferences (
     preferences_value VARCHAR (250)
 );
 
-CREATE INDEX index_user_prefe37 ON user_preferences (user_id);
+CREATE INDEX index_user_prefe75 ON user_preferences (user_id);
 
 -- ----------------------------------------------------------
 --  create table groups
@@ -309,8 +309,11 @@ CREATE TABLE queue (
     group_id INTEGER NOT NULL,
     unlock_timeout INTEGER,
     first_response_time INTEGER,
+    first_response_notify SMALLINT,
     update_time INTEGER,
+    update_notify SMALLINT,
     solution_time INTEGER,
+    solution_notify SMALLINT,
     system_address_id SMALLINT NOT NULL,
     calendar_name VARCHAR (100),
     default_sign_key VARCHAR (100),
@@ -331,6 +334,17 @@ CREATE TABLE queue (
     PRIMARY KEY(id),
     UNIQUE (name)
 );
+
+-- ----------------------------------------------------------
+--  create table queue_preferences
+-- ----------------------------------------------------------
+CREATE TABLE queue_preferences (
+    queue_id INTEGER NOT NULL,
+    preferences_key VARCHAR (150) NOT NULL,
+    preferences_value VARCHAR (250)
+);
+
+CREATE INDEX index_queue_pref42 ON queue_preferences (queue_id);
 
 -- ----------------------------------------------------------
 --  create table ticket
@@ -409,13 +423,13 @@ CREATE TABLE ticket (
     UNIQUE (tn)
 );
 
-CREATE INDEX index_ticket_use11 ON ticket (user_id);
+CREATE INDEX index_ticket_use93 ON ticket (user_id);
 
-CREATE INDEX index_ticket_typ93 ON ticket (type_id);
+CREATE INDEX index_ticket_typ35 ON ticket (type_id);
 
-CREATE INDEX index_ticket_que25 ON ticket (ticket_state_id, ticket_lock_id, group_id);
+CREATE INDEX index_ticket_que66 ON ticket (ticket_state_id, ticket_lock_id, group_id);
 
-CREATE INDEX index_ticket_ans29 ON ticket (ticket_answered);
+CREATE INDEX index_ticket_ans52 ON ticket (ticket_answered);
 
 -- ----------------------------------------------------------
 --  create table object_link
@@ -450,9 +464,9 @@ CREATE TABLE ticket_history (
     PRIMARY KEY(id)
 );
 
-CREATE INDEX ticket_history_t26 ON ticket_history (ticket_id);
+CREATE INDEX ticket_history_t62 ON ticket_history (ticket_id);
 
-CREATE INDEX ticket_history_c78 ON ticket_history (create_time);
+CREATE INDEX ticket_history_c23 ON ticket_history (create_time);
 
 -- ----------------------------------------------------------
 --  create table ticket_history_type
@@ -512,9 +526,9 @@ CREATE TABLE article_flag (
     create_by INTEGER NOT NULL
 );
 
-CREATE INDEX article_flag_cre73 ON article_flag (create_by);
+CREATE INDEX article_flag_cre81 ON article_flag (create_by);
 
-CREATE INDEX article_flag_art45 ON article_flag (article_id);
+CREATE INDEX article_flag_art43 ON article_flag (article_id);
 
 -- ----------------------------------------------------------
 --  create table article
@@ -531,7 +545,7 @@ CREATE TABLE article (
     a_subject VARCHAR (3800),
     a_message_id VARCHAR (3800),
     a_content_type VARCHAR (250),
-    a_body LONG VARCHAR NOT NULL,
+    a_body CLOB (14062K) NOT NULL,
     incoming_time INTEGER NOT NULL,
     content_path VARCHAR (250),
     a_freekey1 VARCHAR (250),
@@ -550,7 +564,7 @@ CREATE TABLE article (
 
 CREATE INDEX article_ticket_i66 ON article (ticket_id);
 
-CREATE INDEX article_message_52 ON article (a_message_id);
+CREATE INDEX article_message_8 ON article (a_message_id);
 
 -- ----------------------------------------------------------
 --  create table article_plain
@@ -558,7 +572,7 @@ CREATE INDEX article_message_52 ON article (a_message_id);
 CREATE TABLE article_plain (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     article_id BIGINT NOT NULL,
-    body BLOB NOT NULL,
+    body BLOB (20M) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
@@ -566,7 +580,7 @@ CREATE TABLE article_plain (
     PRIMARY KEY(id)
 );
 
-CREATE INDEX article_plain_ar32 ON article_plain (article_id);
+CREATE INDEX article_plain_ar65 ON article_plain (article_id);
 
 -- ----------------------------------------------------------
 --  create table article_attachment
@@ -577,7 +591,7 @@ CREATE TABLE article_attachment (
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
-    content BLOB NOT NULL,
+    content BLOB (20M) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
@@ -585,7 +599,7 @@ CREATE TABLE article_attachment (
     PRIMARY KEY(id)
 );
 
-CREATE INDEX article_attachme65 ON article_attachment (article_id);
+CREATE INDEX article_attachme9 ON article_attachment (article_id);
 
 -- ----------------------------------------------------------
 --  create table standard_response
@@ -593,7 +607,7 @@ CREATE INDEX article_attachme65 ON article_attachment (article_id);
 CREATE TABLE standard_response (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     name VARCHAR (80) NOT NULL,
-    text LONG VARCHAR,
+    text CLOB (78K),
     comments VARCHAR (100),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -623,7 +637,7 @@ CREATE TABLE standard_attachment (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     name VARCHAR (150) NOT NULL,
     content_type VARCHAR (150) NOT NULL,
-    content BLOB NOT NULL,
+    content BLOB (20M) NOT NULL,
     filename VARCHAR (250) NOT NULL,
     comments VARCHAR (200),
     valid_id SMALLINT NOT NULL,
@@ -671,9 +685,9 @@ CREATE TABLE auto_response_type (
 CREATE TABLE auto_response (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     name VARCHAR (100) NOT NULL,
-    text0 LONG VARCHAR,
-    text1 LONG VARCHAR,
-    text2 LONG VARCHAR,
+    text0 CLOB (46K),
+    text1 CLOB (46K),
+    text2 CLOB (46K),
     type_id SMALLINT NOT NULL,
     system_address_id SMALLINT NOT NULL,
     charset VARCHAR (80) NOT NULL,
@@ -716,7 +730,7 @@ CREATE TABLE time_accounting (
     PRIMARY KEY(id)
 );
 
-CREATE INDEX index_time_accou12 ON time_accounting (ticket_id);
+CREATE INDEX index_time_accou89 ON time_accounting (ticket_id);
 
 -- ----------------------------------------------------------
 --  create table ticket_watcher
@@ -730,7 +744,7 @@ CREATE TABLE ticket_watcher (
     change_by INTEGER NOT NULL
 );
 
-CREATE INDEX ticket_watcher_t80 ON ticket_watcher (ticket_id);
+CREATE INDEX ticket_watcher_t63 ON ticket_watcher (ticket_id);
 
 -- ----------------------------------------------------------
 --  create table service
@@ -758,9 +772,9 @@ CREATE TABLE service_customer_user (
     create_by INTEGER NOT NULL
 );
 
-CREATE INDEX service_customer41 ON service_customer_user (customer_user_login);
+CREATE INDEX service_customer36 ON service_customer_user (customer_user_login);
 
-CREATE INDEX service_customer72 ON service_customer_user (service_id);
+CREATE INDEX service_customer9 ON service_customer_user (service_id);
 
 -- ----------------------------------------------------------
 --  create table sla
@@ -771,8 +785,11 @@ CREATE TABLE sla (
     name VARCHAR (200) NOT NULL,
     calendar_name VARCHAR (100),
     first_response_time INTEGER NOT NULL,
+    first_response_notify SMALLINT,
     update_time INTEGER NOT NULL,
+    update_notify SMALLINT,
     solution_time INTEGER NOT NULL,
+    solution_notify SMALLINT,
     valid_id SMALLINT NOT NULL,
     comments VARCHAR (200),
     create_time TIMESTAMP NOT NULL,
@@ -788,10 +805,10 @@ CREATE TABLE sla (
 -- ----------------------------------------------------------
 CREATE TABLE sessions (
     session_id VARCHAR (150) NOT NULL,
-    session_value LONG VARCHAR NOT NULL
+    session_value CLOB (78K) NOT NULL
 );
 
-CREATE INDEX index_session_id96 ON sessions (session_id);
+CREATE INDEX index_session_id18 ON sessions (session_id);
 
 -- ----------------------------------------------------------
 --  create table ticket_index
@@ -815,7 +832,7 @@ CREATE TABLE ticket_lock_index (
     ticket_id BIGINT NOT NULL
 );
 
-CREATE INDEX index_ticket_loc88 ON ticket_lock_index (ticket_id);
+CREATE INDEX index_ticket_loc87 ON ticket_lock_index (ticket_id);
 
 -- ----------------------------------------------------------
 --  create table customer_user
@@ -848,7 +865,7 @@ CREATE TABLE customer_preferences (
     preferences_value VARCHAR (250)
 );
 
-CREATE INDEX index_customer_p87 ON customer_preferences (user_id);
+CREATE INDEX index_customer_p51 ON customer_preferences (user_id);
 
 -- ----------------------------------------------------------
 --  create table customer_company
@@ -879,9 +896,9 @@ CREATE TABLE ticket_loop_protection (
     sent_date VARCHAR (150) NOT NULL
 );
 
-CREATE INDEX index_ticket_loo4 ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loo19 ON ticket_loop_protection (sent_to);
 
-CREATE INDEX index_ticket_loo82 ON ticket_loop_protection (sent_date);
+CREATE INDEX index_ticket_loo91 ON ticket_loop_protection (sent_date);
 
 -- ----------------------------------------------------------
 --  create table pop3_account
@@ -950,7 +967,7 @@ CREATE TABLE web_upload_cache (
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
-    content BLOB NOT NULL,
+    content BLOB (20M) NOT NULL,
     create_time_unix BIGINT NOT NULL
 );
 
@@ -963,7 +980,7 @@ CREATE TABLE notifications (
     notification_charset VARCHAR (60) NOT NULL,
     notification_language VARCHAR (60) NOT NULL,
     subject VARCHAR (200) NOT NULL,
-    text LONG VARCHAR NOT NULL,
+    text CLOB (31K) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
@@ -978,12 +995,12 @@ CREATE TABLE xml_storage (
     xml_type VARCHAR (200) NOT NULL,
     xml_key VARCHAR (250) NOT NULL,
     xml_content_key VARCHAR (250) NOT NULL,
-    xml_content_value BLOB
+    xml_content_value CLOB (7812K)
 );
 
-CREATE INDEX xml_storage_xml_77 ON xml_storage (xml_content_key);
+CREATE INDEX xml_storage_xml_76 ON xml_storage (xml_content_key);
 
-CREATE INDEX xml_storage_key_62 ON xml_storage (xml_key, xml_type);
+CREATE INDEX xml_storage_key_65 ON xml_storage (xml_key, xml_type);
 
 -- ----------------------------------------------------------
 --  create table package_repository
@@ -997,7 +1014,7 @@ CREATE TABLE package_repository (
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
-    content BLOB NOT NULL,
+    content BLOB (20M) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,

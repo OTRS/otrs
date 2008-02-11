@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2007-07-26 15:10:16
+--  driver: postgresql, generated: 2008-02-11 12:43:47
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -288,8 +288,11 @@ CREATE TABLE queue (
     group_id INTEGER NOT NULL,
     unlock_timeout INTEGER,
     first_response_time INTEGER,
+    first_response_notify INTEGER,
     update_time INTEGER,
+    update_notify INTEGER,
     solution_time INTEGER,
+    solution_notify INTEGER,
     system_address_id INTEGER NOT NULL,
     calendar_name VARCHAR (100),
     default_sign_key VARCHAR (100),
@@ -310,6 +313,15 @@ CREATE TABLE queue (
     PRIMARY KEY(id),
     UNIQUE (name)
 );
+-- ----------------------------------------------------------
+--  create table queue_preferences
+-- ----------------------------------------------------------
+CREATE TABLE queue_preferences (
+    queue_id INTEGER NOT NULL,
+    preferences_key VARCHAR (150) NOT NULL,
+    preferences_value VARCHAR (250)
+);
+CREATE INDEX index_queue_preferences_user_id ON queue_preferences (queue_id);
 -- ----------------------------------------------------------
 --  create table ticket
 -- ----------------------------------------------------------
@@ -712,8 +724,11 @@ CREATE TABLE sla (
     name VARCHAR (200) NOT NULL,
     calendar_name VARCHAR (100),
     first_response_time INTEGER NOT NULL,
+    first_response_notify INTEGER,
     update_time INTEGER NOT NULL,
+    update_notify INTEGER,
     solution_time INTEGER NOT NULL,
+    solution_notify INTEGER,
     valid_id INTEGER NOT NULL,
     comments VARCHAR (200),
     create_time timestamp(0) NOT NULL,
@@ -898,7 +913,7 @@ CREATE TABLE xml_storage (
     xml_type VARCHAR (200) NOT NULL,
     xml_key VARCHAR (250) NOT NULL,
     xml_content_key VARCHAR (250) NOT NULL,
-    xml_content_value TEXT
+    xml_content_value VARCHAR
 );
 CREATE INDEX xml_storage_xml_content_key ON xml_storage (xml_content_key);
 CREATE INDEX xml_storage_key_type ON xml_storage (xml_key, xml_type);
