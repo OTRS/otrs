@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.27 2008-01-31 06:20:20 tr Exp $
+# $Id: db2.pm,v 1.28 2008-02-11 00:44:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,12 +37,12 @@ sub LoadPreferences {
     $Self->{'DB::QuoteSingle'}       = '\'';
     $Self->{'DB::QuoteBack'}         = 0;
     $Self->{'DB::QuoteSemicolon'}    = '';
-    $Self->{'DB::NoLikeInLargeText'} = 0;
+    $Self->{'DB::NoLikeInLargeText'} = 1;
 
     # dbi attributes
     $Self->{'DB::Attribute'} = {
         LongTruncOk => 1,
-        LongReadLen => 100 * 1024,
+        LongReadLen => 40 * 1024 * 1024,
     };
 
     # set current time stamp if different to "current_timestamp"
@@ -577,7 +577,8 @@ sub _TypeTranslation {
     elsif ( $Tag->{Type} =~ /^VARCHAR$/i ) {
         $Tag->{Type} = "VARCHAR ($Tag->{Size})";
         if ( $Tag->{Size} >= 4000 ) {
-            $Tag->{Type} = "LONG VARCHAR";
+            my $Size = int (($Tag->{Size} * 8) / 1024);
+            $Tag->{Type} = "CLOB (".$Size."K)";
         }
     }
     elsif ( $Tag->{Type} =~ /^DECIMAL$/i ) {
