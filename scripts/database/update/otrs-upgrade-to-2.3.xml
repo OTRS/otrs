@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<database Name="otrs">
+
+    <TableCreate Name="queue_preferences">
+        <Column Name="queue_id" Required="true" Type="INTEGER"/>
+        <Column Name="preferences_key" Required="true" Size="150" Type="VARCHAR"/>
+        <Column Name="preferences_value" Required="false" Size="250" Type="VARCHAR"/>
+        <Index Name="index_queue_preferences_user_id">
+            <IndexColumn Name="queue_id"/>
+        </Index>
+        <ForeignKey ForeignTable="queue">
+            <Reference Local="queue_id" Foreign="id"/>
+        </ForeignKey>
+    </TableCreate>
+
+    <TableAlter Name="queue">
+        <ColumnAdd Name="first_response_notify" Required="false" Type="SMALLINT"/>
+        <ColumnAdd Name="update_notify" Required="false" Type="SMALLINT"/>
+        <ColumnAdd Name="solution_notify" Required="false" Type="SMALLINT"/>
+    </TableAlter>
+
+    <TableAlter Name="sla">
+        <ColumnAdd Name="first_response_notify" Required="false" Type="SMALLINT"/>
+        <ColumnAdd Name="update_notify" Required="false" Type="SMALLINT"/>
+        <ColumnAdd Name="solution_notify" Required="false" Type="SMALLINT"/>
+    </TableAlter>
+
+    <TableAlter Name="article">
+        <ColumnChange NameOld="a_body" NameNew="a_body" Required="true" Size="1800000" Type="VARCHAR"/>
+    </TableAlter>
+
+    <TableAlter Name="xml_storage">
+        <ColumnChange NameOld="xml_content_value" NameNew="xml_content_value" Required="false" Size="1000000" Type="VARCHAR"/>
+    </TableAlter>
+
+
+    <Insert Table="notifications">
+        <Data Key="notification_type" Type="Quote">Agent::EscalationNotifyBefore</Data>
+        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_language" Type="Quote">en</Data>
+        <Data Key="subject" Type="Quote">Ticket Escalation Warning! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+
+the ticket "&lt;OTRS_TICKET_TicketNumber&gt;" will escalate!
+
+Escalation at: &lt;OTRS_TICKET_EscalationDestinationDate&gt;
+Escalation in: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
+
+&lt;OTRS_CUSTOMER_FROM&gt;
+
+wrote:
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;snip&gt;
+
+Please have a look at:
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+
+Your OTRS Notification Master</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+
+    <Insert Table="notifications">
+        <Data Key="notification_type" Type="Quote">Agent::EscalationNotifyBefore</Data>
+        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_language" Type="Quote">de</Data>
+        <Data Key="subject" Type="Quote">Ticket Eskalations-Warnung! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
+
+das Ticket "&lt;OTRS_TICKET_TicketNumber&gt;" wird bald eskalieren!
+
+Eskalation um: &lt;OTRS_TICKET_EscalationDestinationDate&gt;
+Eskalation in: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
+
+&lt;OTRS_CUSTOMER_FROM&gt;
+
+schrieb:
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;snip&gt;
+
+Bitte um Bearbeitung:
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+
+Ihr OTRS Benachrichtigungs-Master</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+
+</database>
