@@ -1,12 +1,12 @@
 # --
 # css.dtl - css file
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: css.dtl,v 1.17 2006-12-21 16:12:27 mh Exp $
+# $Id: css.dtl,v 1.18 2008-02-11 12:33:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <style type="text/css">
@@ -41,9 +41,9 @@ a.menuitem:hover { color:#002244;font-size:12px; }
 a.footeritem { color:#ffffff;text-decoration:none; }
 a.footeritem:hover { color:#dddddd;text-decoration:underline; }
 # small
-.small { color:#000000;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
-a.small { color:#000000;text-decoration:none; }
-a.small:hover { color:#222222;text-decoration:underline; }
+.small { color:#000000;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px;font-weight: normal; }
+a.small { color:#000000;text-decoration:none;font-weight: normal; }
+a.small:hover { color:#222222;text-decoration:underline;font-weight: normal; }
 # form
 .required { color:red;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .validity { color:red;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; font-weight: bold;}
