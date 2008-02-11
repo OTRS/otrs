@@ -1,12 +1,12 @@
 # --
 # DB.t - database tests
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.14.2.7 2008-01-15 12:16:10 mh Exp $
+# $Id: DB.t,v 1.14.2.8 2008-02-11 00:49:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use Kernel::System::XML;
@@ -147,6 +147,19 @@ elsif ($Self->{DBObject}->{'DB::Type'} =~ /maxdb/i) {
     $Self->Is(
         $Self->{DBObject}->Quote("Test'l;"),
         'Test\'\'l\\\;',
+        'Quote() String - Test\'l;',
+    );
+}
+elsif ($Self->{DBObject}->{'DB::Type'} =~ /db2/i) {
+    $Self->Is(
+        $Self->{DBObject}->Quote("Test'l"),
+        'Test\'\'l',
+        'Quote() String - Test\'l',
+    );
+
+    $Self->Is(
+        $Self->{DBObject}->Quote("Test'l;"),
+        'Test\'\'l;',
         'Quote() String - Test\'l;',
     );
 }
