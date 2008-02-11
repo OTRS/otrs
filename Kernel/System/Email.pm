@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Email.pm - the global email send module
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.31.2.1 2007-11-05 13:18:11 martin Exp $
+# $Id: Email.pm,v 1.31.2.2 2008-02-11 16:33:13 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Email;
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31.2.1 $';
+$VERSION = '$Revision: 1.31.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -292,7 +292,7 @@ sub Send {
                     Data => $Upload{Content},
                     Type => $Upload{ContentType},
                     Disposition => $Upload{Disposition} || 'inline',
-                    Encoding => $Upload{Encoding} || 'base64',
+                    Encoding => $Upload{Encoding} || '-SUGGEST',
                 );
             }
         }
@@ -592,12 +592,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.31.2.1 $ $Date: 2007-11-05 13:18:11 $
+$Revision: 1.31.2.2 $ $Date: 2008-02-11 16:33:13 $
 
 =cut
