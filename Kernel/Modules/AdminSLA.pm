@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.6 2007-06-13 10:36:46 mh Exp $
+# $Id: AdminSLA.pm,v 1.6.2.1 2008-02-11 16:48:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AdminSLA;
@@ -17,7 +17,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.6.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -177,6 +177,14 @@ sub Run {
         # output header
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        # check if service is enabled to use it here
+        if ( !$Self->{ConfigObject}->Get('Ticket::Service') ) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Data     => '$Text{"You need to activate %s first to use it!", "Service"}',
+                Link => '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Ticket&SysConfigSubGroup=Core::Ticket#Ticket::Service"',
+            );
+        }
         # get service list
         my %ServiceList = $Self->{ServiceObject}->ServiceList(
             Valid => 0,
