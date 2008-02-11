@@ -1,12 +1,12 @@
 # --
 # Kernel/System/SLA.pm - all sla function
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.17 2007-10-02 10:37:06 mh Exp $
+# $Id: SLA.pm,v 1.18 2008-02-11 12:18:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::SLA;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -186,25 +186,29 @@ sub SLAGet {
     my %SLAData = ();
     $Self->{DBObject}->Prepare(
         SQL =>
-            "SELECT id, service_id, name, calendar_name, first_response_time, update_time, solution_time, "
+            "SELECT id, service_id, name, calendar_name, first_response_time, first_response_notify, "
+            . "update_time, update_notify, solution_time, solution_notify, "
             . "valid_id, comments, create_time, create_by, change_time, change_by "
             . "FROM sla WHERE id = $Param{SLAID}",
         Limit => 1,
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $SLAData{SLAID}             = $Row[0];
-        $SLAData{ServiceID}         = $Row[1];
-        $SLAData{Name}              = $Row[2];
-        $SLAData{Calendar}          = $Row[3] || '';
-        $SLAData{FirstResponseTime} = $Row[4];
-        $SLAData{UpdateTime}        = $Row[5];
-        $SLAData{SolutionTime}      = $Row[6];
-        $SLAData{ValidID}           = $Row[7];
-        $SLAData{Comment}           = $Row[8] || '';
-        $SLAData{CreateTime}        = $Row[9];
-        $SLAData{CreateBy}          = $Row[10];
-        $SLAData{ChangeTime}        = $Row[11];
-        $SLAData{ChangeBy}          = $Row[12];
+        $SLAData{SLAID}               = $Row[0];
+        $SLAData{ServiceID}           = $Row[1];
+        $SLAData{Name}                = $Row[2];
+        $SLAData{Calendar}            = $Row[3] || '';
+        $SLAData{FirstResponseTime}   = $Row[4];
+        $SLAData{FirstResponseNotify} = $Row[5];
+        $SLAData{UpdateTime}          = $Row[6];
+        $SLAData{UpdateNotify}        = $Row[7];
+        $SLAData{SolutionTime}        = $Row[8];
+        $SLAData{SolutionNotify}      = $Row[9];
+        $SLAData{ValidID}             = $Row[10];
+        $SLAData{Comment}             = $Row[11] || '';
+        $SLAData{CreateTime}          = $Row[12];
+        $SLAData{CreateBy}            = $Row[13];
+        $SLAData{ChangeTime}          = $Row[14];
+        $SLAData{ChangeBy}            = $Row[15];
     }
 
     # check sla
@@ -301,9 +305,12 @@ add a sla
         ServiceID => 1,
         Name => 'Service Name',
         Calendar => 'Calendar1',   # (optional)
-        FirstResponseTime => 120,
-        UpdateTime => 180,
-        SolutionTime => 580,
+        FirstResponseTime => 120,  # (optional)
+        FirstResponseNotify => 60, # (optional, notify agent if first response escalation is 60% reached)
+        UpdateTime => 180,         # (optional)
+        UpdateNotify => 80,        # (optional, notify agent if update escalation is 80% reached)
+        SolutionTime => 580,       # (optional)
+        SolutionNotify => 80,      # (optional, notify agent if solution escalation is 80% reached)
         ValidID => 1,
         Comment => 'Comment',      # (optional)
         UserID => 1,
@@ -326,7 +333,7 @@ sub SLAAdd {
     }
 
     # check escalation times
-    for (qw(FirstResponseTime UpdateTime SolutionTime)) {
+    for (qw(FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify)) {
         if ( !$Param{$_} ) {
             $Param{$_} = 0;
         }
@@ -336,17 +343,19 @@ sub SLAAdd {
     for (qw(Name Calendar Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
     }
-    for (qw(ServiceID FirstResponseTime UpdateTime SolutionTime ValidID UserID)) {
+    for (qw(ServiceID FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify ValidID UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
 
     # add sla to database
     if ($Self->{DBObject}->Do(
                   SQL => "INSERT INTO sla "
-                . "(service_id, name, calendar_name, first_response_time, update_time, solution_time, "
+                . "(service_id, name, calendar_name, first_response_time, first_response_notify, "
+                . "update_time, update_notify, solution_time, solution_notify, "
                 . "valid_id, comments, create_time, create_by, change_time, change_by) VALUES "
                 . "($Param{ServiceID}, '$Param{Name}', '$Param{Calendar}', $Param{FirstResponseTime}, "
-                . "$Param{UpdateTime}, $Param{SolutionTime}, $Param{ValidID}, '$Param{Comment}', "
+                . "$Param{FirstResponseNotify}, $Param{UpdateTime}, $Param{UpdateNotify}, "
+                . "$Param{SolutionTime}, $Param{SolutionNotify}, $Param{ValidID}, '$Param{Comment}', "
                 . "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})",
         )
         )
@@ -378,8 +387,11 @@ update a existing sla
         Name => 'Service Name',
         Calendar => 'Calendar1',   # (optional)
         FirstResponseTime => 120,  # (optional)
-        UpdateTime => 120,         # (optional)
-        SolutionTime => 180,       # (optional)
+        FirstResponseNotify => 60, # (optional, notify agent if first response escalation is 60% reached)
+        UpdateTime => 180,         # (optional)
+        UpdateNotify => 80,        # (optional, notify agent if update escalation is 80% reached)
+        SolutionTime => 580,       # (optional)
+        SolutionNotify => 80,      # (optional, notify agent if solution escalation is 80% reached)
         ValidID => 1,
         Comment => 'Comment',      # (optional)
         UserID => 1,
@@ -408,7 +420,7 @@ sub SLAUpdate {
     }
 
     # check escalation times
-    for (qw(FirstResponseTime UpdateTime SolutionTime)) {
+    for (qw(FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify)) {
         if ( !$Param{$_} ) {
             $Param{$_} = 0;
         }
@@ -418,16 +430,18 @@ sub SLAUpdate {
     for (qw(Name Calendar Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
     }
-    for (qw(ServiceID FirstResponseTime UpdateTime SolutionTime ValidID UserID)) {
+    for (qw(ServiceID FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify ValidID UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
 
     # update service
     return $Self->{DBObject}
         ->Do( SQL => "UPDATE sla SET service_id = $Param{ServiceID}, name = '$Param{Name}', "
-            . "calendar_name = '$Param{Calendar}', first_response_time = $Param{FirstResponseTime}, "
-            . "update_time = $Param{UpdateTime}, "
-            . "solution_time = $Param{SolutionTime}, valid_id = $Param{ValidID}, "
+            . "calendar_name = '$Param{Calendar}', "
+            . "first_response_time = $Param{FirstResponseTime}, first_response_notify = $Param{FirstResponseNotify}, "
+            . "update_time = $Param{UpdateTime}, update_notify = $Param{UpdateNotify}, "
+            . "solution_time = $Param{SolutionTime}, solution_notify = $Param{SolutionNotify}, "
+            . "valid_id = $Param{ValidID}, "
             . "comments = '$Param{Comment}', change_time = current_timestamp, change_by = $Param{UserID} "
             . "WHERE id = $Param{SLAID}", );
 }
@@ -442,12 +456,12 @@ This Software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2007-10-02 10:37:06 $
+$Revision: 1.18 $ $Date: 2008-02-11 12:18:16 $
 
 =cut

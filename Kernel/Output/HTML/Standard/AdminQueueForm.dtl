@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueForm.dtl,v 1.37 2008-02-11 11:34:37 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.38 2008-02-11 12:18:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -59,8 +59,8 @@
             <td class="contentbody">
               <table border="0" cellspacing="0" cellpadding="3">
                 <tr>
-                  <td class="contentkey">$Text{"Name"}: </td>
-                  <td class="contentvalue">
+                  <td width="40%" class="contentkey">$Text{"Name"}: </td>
+                  <td width="60%" class="contentvalue">
                     <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50">
                   </td>
                 </tr>
@@ -77,27 +77,43 @@
                   </td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Unlock timeout"} ($Text{"minutes"}): </td>
+                  <td class="contentkey">
+                    $Text{"Unlock timeout"}:
+                    <br/>
+                    <i class="small">($Text{"0 = no unlock"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
+                  </td>
                   <td class="contentvalue">
-                    <input type="text" name="UnlockTimeout" value="$QData{"UnlockTimeout"}" size="10" maxlength="10"> $Text{"0 = no unlock"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}
+                    <input type="text" name="UnlockTimeout" value="$QData{"UnlockTimeout"}" size="8" maxlength="10"> $Text{"minutes"}
                   </td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Escalation - First Response Time"} ($Text{"minutes"}): </td>
+                  <td class="contentkey">
+                    $Text{"Escalation - First Response Time"}:
+                    <br/>
+                    <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
+                  </td>
                   <td class="contentvalue">
-                    <input type="text" name="FirstResponseTime" value="$QData{"FirstResponseTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}
+                    <input type="text" name="FirstResponseTime" value="$QData{"FirstResponseTime"}" size="8" maxlength="10"> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"FirstResponseNotifyOptionStrg"} )
                   </td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Escalation - Update Time"} ($Text{"minutes"}): </td>
+                  <td class="contentkey">
+                    $Text{"Escalation - Update Time"}
+                    <br/>
+                    <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
+                  </td>
                   <td class="contentvalue">
-                    <input type="text" name="UpdateTime" value="$QData{"UpdateTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}
+                    <input type="text" name="UpdateTime" value="$QData{"UpdateTime"}" size="8" maxlength="10"> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"UpdateNotifyOptionStrg"} )
                   </td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Escalation - Solution Time"} ($Text{"minutes"}): </td>
+                  <td class="contentkey">
+                    $Text{"Escalation - Solution Time"}
+                    <br/>
+                    <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
+                  </td>
                   <td class="contentvalue">
-                    <input type="text" name="SolutionTime" value="$QData{"SolutionTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}
+                    <input type="text" name="SolutionTime" value="$QData{"SolutionTime"}" size="8" maxlength="10"> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"SolutionNotifyOptionStrg"} )
                   </td>
                 </tr>
                 <tr>

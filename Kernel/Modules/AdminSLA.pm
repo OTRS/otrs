@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.9 2008-01-31 06:22:12 tr Exp $
+# $Id: AdminSLA.pm,v 1.10 2008-02-11 12:18:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -97,6 +97,35 @@ sub Run {
             SelectedID   => $SLAData{Calendar},
             PossibleNone => 1,
         );
+        my %NotifyLevelList = (
+            10 => '10%',
+            20 => '20%',
+            30 => '30%',
+            40 => '40%',
+            50 => '50%',
+            60 => '60%',
+            70 => '70%',
+            80 => '80%',
+            90 => '90%',
+        );
+        $SLAData{FirstResponseNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data         => \%NotifyLevelList,
+            Name         => 'FirstResponseNotify',
+            SelectedID   => $SLAData{FirstResponseNotify},
+            PossibleNone => 1,
+        );
+        $SLAData{UpdateNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data         => \%NotifyLevelList,
+            Name         => 'UpdateNotify',
+            SelectedID   => $SLAData{UpdateNotify},
+            PossibleNone => 1,
+        );
+        $SLAData{SolutionNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data         => \%NotifyLevelList,
+            Name         => 'SolutionNotify',
+            SelectedID   => $SLAData{SolutionNotify},
+            PossibleNone => 1,
+        );
         $Param{ServiceOptionStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => \%ServiceList,
             Name         => 'ServiceID',
@@ -144,7 +173,7 @@ sub Run {
 
         # get params
         for (
-            qw(SLAID ServiceID Name Calendar FirstResponseTime SolutionTime UpdateTime ValidID Comment)
+            qw(SLAID ServiceID Name Calendar FirstResponseTime FirstResponseNotify SolutionTime SolutionNotify UpdateTime UpdateNotify ValidID Comment)
             )
         {
             $SLAData{$_} = $Self->{ParamObject}->GetParam( Param => "$_" ) || '';

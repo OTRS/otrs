@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.12 2008-02-01 14:14:41 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.13 2008-02-11 12:18:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -64,8 +64,8 @@ sub Run {
             . " FROM "
             . " ticket st, queue q "
             . " WHERE "
-            . " st.queue_id = q.id " . " AND "
-            . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) " . " AND ";
+            . " st.queue_id = q.id AND "
+            . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) AND ";
         my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
             UserID => $Self->{UserID},
             Type   => 'rw',

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.37 2008-02-11 11:33:03 martin Exp $
+# $Id: AdminQueue.pm,v 1.38 2008-02-11 12:18:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Crypt;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,14 +45,15 @@ sub Run {
     $Param{NextScreen} = 'AdminQueue';
     my $QueueID = $Self->{ParamObject}->GetParam( Param => 'QueueID' ) || '';
 
-    my @Params = (
-        'QueueID',        'ParentQueueID',     'Name',            'GroupID',
-        'UnlockTimeout',  'WorkflowID',        'SystemAddressID', 'Calendar',
-        'DefaultSignKey', 'SalutationID',      'SignatureID',     'FollowUpID',
-        'FollowUpLock',   'FirstResponseTime', 'UpdateTime',      'SolutionTime',
-        'MoveNotify',     'StateNotify',       'LockNotify',      'OwnerNotify',
-        'Comment',        'ValidID'
-    );
+    my @Params = (qw(
+        QueueID           ParentQueueID       Name            GroupID
+        UnlockTimeout     FollowUpLock        SystemAddressID Calendar
+        DefaultSignKey    SalutationID        SignatureID     FollowUpID
+        FirstResponseTime FirstResponseNotify UpdateTime      UpdateNotify
+        SolutionTime      SolutionNotify
+        MoveNotify        StateNotify         LockNotify      OwnerNotify
+        Comment           ValidID
+    ));
 
     # get possible sign keys
     my %KeyList = ();
@@ -301,6 +302,35 @@ sub _Mask {
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
     );
+    my %NotifyLevelList = (
+        10 => '10%',
+        20 => '20%',
+        30 => '30%',
+        40 => '40%',
+        50 => '50%',
+        60 => '60%',
+        70 => '70%',
+        80 => '80%',
+        90 => '90%',
+    );
+    $Param{FirstResponseNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data         => \%NotifyLevelList,
+        Name         => 'FirstResponseNotify',
+        SelectedID   => $Param{FirstResponseNotify},
+        PossibleNone => 1,
+    );
+    $Param{UpdateNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data         => \%NotifyLevelList,
+        Name         => 'UpdateNotify',
+        SelectedID   => $Param{UpdateNotify},
+        PossibleNone => 1,
+    );
+    $Param{SolutionNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data         => \%NotifyLevelList,
+        Name         => 'SolutionNotify',
+        SelectedID   => $Param{SolutionNotify},
+        PossibleNone => 1,
+    );
 
     $Param{'SignatureOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
@@ -334,7 +364,7 @@ sub _Mask {
         SelectedID => $Param{SystemAddressID},
     );
 
-    my %DefaultSignKeyList = {};
+    my %DefaultSignKeyList = ();
     if ( $Param{DefaultSignKeyList} ) {
         %DefaultSignKeyList = %{ $Param{DefaultSignKeyList} };
     }
@@ -410,7 +440,10 @@ sub _Mask {
     );
 
     # show each preferences setting
-    my %Preferences = %{$Self->{ConfigObject}->Get('QueuePreferences')};
+    my %Preferences = ();
+    if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
+        %Preferences = %{$Self->{ConfigObject}->Get('QueuePreferences')};
+    }
     foreach my $Item (sort keys %Preferences) {
         my $Module = $Preferences{$Item}->{Module} || 'Kernel::Output::HTML::QueuePreferencesGeneric';
         # load module

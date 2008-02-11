@@ -1,12 +1,12 @@
 # --
 # AdminSLA.dtl - provides HTML form for AdminSLA
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.8 2007-06-28 23:55:33 martin Exp $
+# $Id: AdminSLA.dtl,v 1.9 2008-02-11 12:18:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- dtl:block:Overview -->
@@ -98,21 +98,33 @@
                   <td class="contentvalue">$Data{"CalendarOptionStrg"}</td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"First Response Time"} ($Text{"minutes"}): </td>
+                  <td class="contentkey">
+                    $Text{"Escalation - First Response Time"}:
+                    <br/>
+                    <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
+                  </td>
                   <td class="contentvalue">
-                    <input type="text" name="FirstResponseTime" value="$QData{"FirstResponseTime"}" size="10" maxlength="15"> $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}
+                    <input type="text" name="FirstResponseTime" value="$QData{"FirstResponseTime"}" size="8" maxlength="10"> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"FirstResponseNotifyOptionStrg"} )
                   </td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Update Time"} ($Text{"minutes"}): </td>
+                  <td class="contentkey">
+                    $Text{"Escalation - Update Time"}
+                    <br/>
+                    <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
+                  </td>
                   <td class="contentvalue">
-                    <input type="text" name="UpdateTime" value="$QData{"UpdateTime"}" size="10" maxlength="15"> $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}
+                    <input type="text" name="UpdateTime" value="$QData{"UpdateTime"}" size="8" maxlength="10"> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"UpdateNotifyOptionStrg"} )
                   </td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Solution Time"} ($Text{"minutes"}): </td>
+                  <td class="contentkey">
+                    $Text{"Escalation - Solution Time"}
+                    <br/>
+                    <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
+                  </td>
                   <td class="contentvalue">
-                    <input type="text" name="SolutionTime" value="$QData{"SolutionTime"}" size="10" maxlength="15"> $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}
+                    <input type="text" name="SolutionTime" value="$QData{"SolutionTime"}" size="8" maxlength="10"> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"SolutionNotifyOptionStrg"} )
                   </td>
                 </tr>
                 <tr>

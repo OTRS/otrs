@@ -1,12 +1,12 @@
 # --
 # Queue.t - Queue tests
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.t,v 1.4 2007-03-16 09:59:24 martin Exp $
+# $Id: Queue.t,v 1.5 2008-02-11 12:18:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use Kernel::System::Queue;
@@ -19,8 +19,11 @@ my $QueueID = $Self->{QueueObject}->QueueAdd(
     ValidID => 1,
     GroupID => 1,
     FirstResponseTime => 30,
+    FirstResponseNotify => 70,
     UpdateTime => 240,
+    UpdateNotify => 80,
     SolutionTime => 2440,
+    SolutionNotify => 90,
     SystemAddressID => 1,
     SalutationID => 1,
     SignatureID => 1,
@@ -61,15 +64,27 @@ $Self->True(
     $QueueGet{FirstResponseTime} eq 30,
     'QueueGet() - FirstResponseTime',
 );
+$Self->True(
+    $QueueGet{FirstResponseNotify} eq 70,
+    'QueueGet() - FirstResponseNotify',
+);
 
 $Self->True(
     $QueueGet{UpdateTime} eq 240,
     'QueueGet() - UpdateTime',
 );
+$Self->True(
+    $QueueGet{UpdateNotify} eq 80,
+    'QueueGet() - UpdateNotify',
+);
 
 $Self->True(
     $QueueGet{SolutionTime} eq 2440,
     'QueueGet() - SolutionTime',
+);
+$Self->True(
+    $QueueGet{SolutionNotify} eq 90,
+    'QueueGet() - SolutionNotify',
 );
 
 my $QueueUpdate = $Self->{QueueObject}->QueueUpdate(
@@ -79,8 +94,11 @@ my $QueueUpdate = $Self->{QueueObject}->QueueUpdate(
     GroupID => 1,
     Calendar => 1,
     FirstResponseTime => 60,
+    FirstResponseNotify => 60,
     UpdateTime => 480,
+    UpdateNotify => 70,
     SolutionTime => 4880,
+    SolutionNotify => 80,
     SystemAddressID => 1,
     SalutationID => 1,
     SignatureID => 1,
@@ -123,15 +141,27 @@ $Self->True(
     $QueueGet{FirstResponseTime} eq 60,
     'QueueGet() - FirstResponseTime',
 );
+$Self->True(
+    $QueueGet{FirstResponseNotify} eq 60,
+    'QueueGet() - FirstResponseNotify',
+);
 
 $Self->True(
     $QueueGet{UpdateTime} eq 480,
     'QueueGet() - UpdateTime',
 );
+$Self->True(
+    $QueueGet{UpdateNotify} eq 70,
+    'QueueGet() - UpdateNotify',
+);
 
 $Self->True(
     $QueueGet{SolutionTime} eq 4880,
     'QueueGet() - SolutionTime',
+);
+$Self->True(
+    $QueueGet{SolutionNotify} eq 80,
+    'QueueGet() - SolutionNotify',
 );
 
 my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $QueueID);

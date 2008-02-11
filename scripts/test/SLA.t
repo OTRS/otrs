@@ -1,12 +1,12 @@
 # --
 # SLA.t - SLA tests
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.t,v 1.3 2007-05-24 11:42:14 mh Exp $
+# $Id: SLA.t,v 1.4 2008-02-11 12:18:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use Kernel::System::SLA;
@@ -19,8 +19,11 @@ my $SLAID = $Self->{SLAObject}->SLAAdd(
     ServiceID => 1,
     Calendar => '',
     FirstResponseTime => 30,
+    FirstResponseNotify => 60,
     UpdateTime => 240,
+    UpdateNotify => 70,
     SolutionTime => 2440,
+    SolutionNotify => 80,
     Comment => 'Some Comment',
     ValidID => 1,
     UserID => 1,
@@ -61,17 +64,32 @@ $Self->Is(
     30,
     'SLAGet() - FirstResponseTime',
 );
+$Self->Is(
+    $SLAGet{FirstResponseNotify} || '',
+    60,
+    'SLAGet() - FirstResponseNotify',
+);
 
 $Self->Is(
     $SLAGet{UpdateTime} || '',
     240,
     'SLAGet() - EscalationUpdateTime',
 );
+$Self->Is(
+    $SLAGet{UpdateNotify} || '',
+    70,
+    'SLAGet() - EscalationUpdateNotify',
+);
 
 $Self->Is(
     $SLAGet{SolutionTime} || '',
     2440,
     'SLAGet() - SolutionTime',
+);
+$Self->Is(
+    $SLAGet{SolutionNotify} || '',
+    80,
+    'SLAGet() - SolutionNotify',
 );
 
 my $SLAUpdate = $Self->{SLAObject}->SLAUpdate(
@@ -80,8 +98,11 @@ my $SLAUpdate = $Self->{SLAObject}->SLAUpdate(
     Name => $SLARand."1",
     Calendar => 1,
     FirstResponseTime => 60,
+    FirstResponseNotify => 70,
     UpdateTime => 480,
+    UpdateNotify => 80,
     SolutionTime => 4880,
+    SolutionNotify => 90,
     ValidID => 2,
     UserID => 1,
     Comment => 'Some Comment1',
@@ -123,17 +144,32 @@ $Self->Is(
     60,
     'SLAGet() - FirstResponseTime',
 );
+$Self->Is(
+    $SLAGet{FirstResponseNotify} || '',
+    70,
+    'SLAGet() - FirstResponseNotify',
+);
 
 $Self->Is(
     $SLAGet{UpdateTime} || '',
     480,
     'SLAGet() - UpdateTime',
 );
+$Self->Is(
+    $SLAGet{UpdateNotify} || '',
+    80,
+    'SLAGet() - UpdateNotify',
+);
 
 $Self->Is(
     $SLAGet{SolutionTime} || '',
     4880,
     'SLAGet() - SolutionTime',
+);
+$Self->Is(
+    $SLAGet{SolutionNotify} || '',
+    90,
+    'SLAGet() - SolutionNotify',
 );
 
 my $SLA = $Self->{SLAObject}->SLALookup(SLAID => $SLAID);

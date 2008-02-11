@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Ticket.pm - the global ticket handle
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.291 2008-01-16 12:46:35 tr Exp $
+# $Id: Ticket.pm,v 1.292 2008-02-11 12:18:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Ticket;
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.291 $) [1];
+$VERSION = qw($Revision: 1.292 $) [1];
 
 =head1 NAME
 
@@ -899,8 +899,7 @@ sub TicketGet {
     }
 
     # get escalation attributes
-    my %Escalation
-        = $Self->TicketEscalationState( Ticket => \%Ticket, UserID => $Param{UserID} || 1 );
+    my %Escalation = $Self->TicketEscalationState( Ticket => \%Ticket, UserID => $Param{UserID} || 1 );
     %Ticket = ( %Escalation, %Ticket );
 
     # cache user result
@@ -1883,19 +1882,20 @@ sub TicketEscalationState {
             $Ticket{EscalationResponseTime} = 0;
 
             # find first response time
-            my $SQL
-                = "SELECT a.create_time,a.id FROM "
+            my $SQL = "SELECT a.create_time,a.id FROM "
                 . " article a, article_sender_type ast, article_type at "
                 . " WHERE "
-                . " a.article_sender_type_id = ast.id " . " AND "
-                . " a.article_type_id = at.id " . " AND "
-                . " a.ticket_id = $Ticket{TicketID} " . " AND "
-                . " ast.name = 'agent' AND (at.name LIKE 'email-ext%' OR at.name = 'phone' OR at.name = 'fax') "
+                . " a.article_sender_type_id = ast.id AND "
+                . " a.article_type_id = at.id AND "
+                . " a.ticket_id = $Ticket{TicketID} AND "
+                . " ast.name = 'agent' AND "
+                . " (at.name LIKE 'email-ext%' OR at.name = 'phone' OR at.name = 'fax') "
                 . " ORDER BY a.create_time";
             $Self->{DBObject}->Prepare( SQL => $SQL, Limit => 1 );
             while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-                $Ticket{EscalationResponseTime}
-                    = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Row[0], );
+                $Ticket{EscalationResponseTime} = $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $Row[0],
+                );
             }
             $Self->TicketEscalationResponseTimeUpdate(
                 EscalationResponseTime => $Ticket{EscalationResponseTime},
@@ -1907,8 +1907,9 @@ sub TicketEscalationState {
         # do escalation stuff
         if ( !$Ticket{EscalationResponseTime} ) {
             my $DestinationTime = $Self->{TimeObject}->DestinationTime(
-                StartTime =>
-                    $Self->{TimeObject}->TimeStamp2SystemTime( String => $Ticket{Created} ),
+                StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $Ticket{Created}
+                ),
                 Time     => $Escalation{FirstResponseTime} * 60,
                 Calendar => $Escalation{Calendar},
             );
@@ -1921,9 +1922,12 @@ sub TicketEscalationState {
                     Calendar  => $Escalation{Calendar},
                 );
 
-                # set notification
-                if ( 60 * 60 * 2.2 > $WorkingTime ) {
-                    $Data{"FirstResponseTimeNotification"} = 1;
+                # set notification if notfy % is reached
+                if ( $Escalation{FirstResponseNotify} ) {
+                    my $Reached = 100 - ( $WorkingTime / ( ( $Escalation{FirstResponseTime} * 60 ) / 100 ) );
+                    if ( $Reached >= $Escalation{FirstResponseNotify} ) {
+                        $Data{"FirstResponseTimeNotification"} = 1;
+                    }
                 }
             }
             else {
@@ -1937,12 +1941,29 @@ sub TicketEscalationState {
                 # set escalation
                 $Data{"FirstResponseTimeEscalation"} = 1;
             }
-            my $DestinationDate
-                = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $DestinationTime );
+
+            # set first response escalation attributes
+            my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(
+                SystemTime => $DestinationTime,
+            );
             $Data{"FirstResponseTimeDestinationTime"} = $DestinationTime;
             $Data{"FirstResponseTimeDestinationDate"} = $DestinationDate;
             $Data{"FirstResponseTimeWorkingTime"}     = $WorkingTime;
             $Data{"FirstResponseTime"}                = $Time;
+
+            # set escalation attributes
+            if ( !$Data{"EscalationDestinationTime"} || $Data{"EscalationDestinationTime"} > $DestinationTime) {
+                $Data{"EscalationDestinationTime"} = $DestinationTime;
+                $Data{"EscalationDestinationDate"} = $DestinationDate;
+                # escalation time in readable way
+                $Data{"EscalationDestinationIn"} = '';
+                if ( $WorkingTime >= 3600 ) {
+                    $Data{"EscalationDestinationIn"} .= int( ( $WorkingTime / 3600 ) ) . 'h ';
+                }
+                if ( $WorkingTime <= 3600 || int( ( $WorkingTime / 60 ) % 60 ) ) {
+                    $Data{"EscalationDestinationIn"} .= int( ( $WorkingTime / 60 ) % 60 ) . 'm';
+                }
+            }
         }
     }
 
@@ -1962,12 +1983,14 @@ sub TicketEscalationState {
                 Calendar  => $Escalation{Calendar},
             );
 
-            # set notification
-            if (   $Ticket{StateType} =~ /^(new|open)$/i
-                && $Ticket{Lock} ne 'lock'
-                && 60 * 60 * 2.2 > $WorkingTime )
-            {
-                $Data{"UpdateTimeNotification"} = 1;
+            # set notification if notfy % is reached
+            if ( $Escalation{UpdateNotify} ) {
+                if ( $Ticket{StateType} =~ /^(new|open)$/i && $Ticket{Lock} ne 'lock') {
+                    my $Reached = 100 - ( $WorkingTime / ( ( $Escalation{UpdateTime} * 60 ) / 100 ) );
+                    if ( $Reached >= $Escalation{UpdateNotify} ) {
+                        $Data{"UpdateTimeNotification"} = 1;
+                    }
+                }
             }
         }
         else {
@@ -1983,12 +2006,29 @@ sub TicketEscalationState {
                 $Data{"UpdateTimeEscalation"} = 1;
             }
         }
-        my $DestinationDate
-            = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $DestinationTime );
+
+        # set update escalation attributes
+        my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $DestinationTime
+        );
         $Data{"UpdateTimeDestinationTime"} = $DestinationTime;
         $Data{"UpdateTimeDestinationDate"} = $DestinationDate;
         $Data{"UpdateTimeWorkingTime"}     = $WorkingTime;
         $Data{"UpdateTime"}                = $Time;
+
+        # set escalation attributes
+        if ( !$Data{"EscalationDestinationTime"} || $Data{"EscalationDestinationTime"} > $DestinationTime) {
+            $Data{"EscalationDestinationTime"} = $DestinationTime;
+            $Data{"EscalationDestinationDate"} = $DestinationDate;
+            # escalation time in readable way
+            $Data{"EscalationDestinationIn"} = '';
+            if ( $WorkingTime >= 3600 ) {
+                $Data{"EscalationDestinationIn"} .= int( ( $WorkingTime / 3600 ) ) . 'h ';
+            }
+            if ( $WorkingTime <= 3600 || int( ( $WorkingTime / 60 ) % 60 ) ) {
+                $Data{"EscalationDestinationIn"} .= int( ( $WorkingTime / 60 ) % 60 ) . 'm';
+            }
+        }
     }
 
     # check solution time
@@ -2003,17 +2043,17 @@ sub TicketEscalationState {
                 StateType => ['closed'],
                 Result    => 'ID',
             );
-            my $SQL
-                = "SELECT create_time FROM "
+            my $SQL = "SELECT create_time FROM "
                 . " ticket_history "
                 . " WHERE "
-                . " ticket_id = $Ticket{TicketID} " . " AND "
+                . " ticket_id = $Ticket{TicketID} AND "
                 . " state_id IN (${\(join ', ', @StateIDs)}) "
                 . " ORDER BY create_time";
             $Self->{DBObject}->Prepare( SQL => $SQL, Limit => 1 );
             while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-                $Ticket{EscalationSolutionTime}
-                    = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Row[0], );
+                $Ticket{EscalationSolutionTime} = $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $Row[0],
+                );
             }
             $Self->TicketEscalationSolutionTimeUpdate(
                 EscalationSolutionTime => $Ticket{EscalationSolutionTime},
@@ -2025,8 +2065,9 @@ sub TicketEscalationState {
         # do escalation stuff
         if ( !$Ticket{EscalationSolutionTime} ) {
             my $DestinationTime = $Self->{TimeObject}->DestinationTime(
-                StartTime =>
-                    $Self->{TimeObject}->TimeStamp2SystemTime( String => $Ticket{Created} ),
+                StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $Ticket{Created}
+                ),
                 Time     => $Escalation{SolutionTime} * 60,
                 Calendar => $Escalation{Calendar},
             );
@@ -2039,9 +2080,12 @@ sub TicketEscalationState {
                     Calendar  => $Escalation{Calendar},
                 );
 
-                # set notification
-                if ( $Ticket{StateType} !~ /^close/i && 60 * 60 * 2.2 > $WorkingTime ) {
-                    $Data{"SolutionTimeNotification"} = 1;
+                # set notification if notfy % is reached
+                if ( $Ticket{StateType} !~ /^close/i ) {
+                    my $Reached = 100 - ( $WorkingTime / ( ( $Escalation{SolutionTime} * 60 ) / 100 ) );
+                    if ( $Reached >= $Escalation{SolutionNotify} ) {
+                        $Data{"SolutionTimeNotification"} = 1;
+                    }
                 }
             }
             else {
@@ -2057,12 +2101,22 @@ sub TicketEscalationState {
                     $Data{"SolutionTimeEscalation"} = 1;
                 }
             }
-            my $DestinationDate
-                = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $DestinationTime );
+
+            # set solution escalation attributes
+            my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(
+                SystemTime => $DestinationTime,
+            );
             $Data{"SolutionTimeDestinationTime"} = $DestinationTime;
             $Data{"SolutionTimeDestinationDate"} = $DestinationDate;
             $Data{"SolutionTimeWorkingTime"}     = $WorkingTime;
             $Data{"SolutionTime"}                = $Time;
+
+            # set escalation attributes
+            if ( !$Data{"EscalationDestinationTime"} || $Data{"EscalationDestinationTime"} > $DestinationTime) {
+                $Data{"EscalationDestinationTime"} = $DestinationTime;
+                $Data{"EscalationDestinationDate"} = $DestinationDate;
+                $Data{"EscalationDestinationIn"} = $WorkingTime / 60 / 60;
+            }
         }
     }
     return %Data;
@@ -6786,10 +6840,10 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.291 $ $Date: 2008-01-16 12:46:35 $
+$Revision: 1.292 $ $Date: 2008-02-11 12:18:16 $
 
 =cut
