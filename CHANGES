@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.561 2008-02-11 12:34:56 martin Exp $
+# $Id: CHANGES,v 1.562 2008-02-11 16:34:08 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -104,6 +104,7 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.6 (2008/??/??)
+ - (2008/02/11) Fixed bug# 1975 - OTRS cannot forward .eml files.
  - (2008/02/11) Fixed bug# 2413 - OTRS cannot write to BLOB column in table
     XML_STORAGE with DB2.
  - (2008/02/06) Fixed bug# 1716 - Wrong escalation time calculation on
