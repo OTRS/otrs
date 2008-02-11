@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.72 2008-02-11 11:14:50 martin Exp $
+    $Id: otrs-schema.xml,v 1.73 2008-02-11 11:45:39 martin Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.72  2008/02/11 11:14:50  martin
+    Added support of queue preferences.
+
     Revision 1.71  2007/07/29 23:43:10  martin
     Removed xml tags from comment log.
 
@@ -726,8 +729,11 @@
     <Column Name="group_id" Required="true" Type="INTEGER"/>
     <Column Name="unlock_timeout" Required="false" Type="INTEGER"/>
     <Column Name="first_response_time" Required="false" Type="INTEGER"/>
+    <Column Name="first_response_notify" Required="false" Type="SMALLINT"/>
     <Column Name="update_time" Required="false" Type="INTEGER"/>
+    <Column Name="update_notify" Required="false" Type="SMALLINT"/>
     <Column Name="solution_time" Required="false" Type="INTEGER"/>
+    <Column Name="solution_notify" Required="false" Type="SMALLINT"/>
     <Column Name="system_address_id" Required="true" Type="SMALLINT"/>
     <Column Name="calendar_name" Required="false" Size="100" Type="VARCHAR"/>
     <Column Name="default_sign_key" Required="false" Size="100" Type="VARCHAR"/>
@@ -1064,7 +1070,7 @@
     <Column Name="a_subject" Required="false" Size="3800" Type="VARCHAR"/>
     <Column Name="a_message_id" Required="false" Size="3800" Type="VARCHAR"/>
     <Column Name="a_content_type" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="a_body" Required="true" Size="5000000" Type="VARCHAR"/>
+    <Column Name="a_body" Required="true" Size="1800000" Type="VARCHAR"/>
     <Column Name="incoming_time" Required="true" Type="INTEGER"/>
     <Column Name="content_path" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="a_freekey1" Required="false" Size="250" Type="VARCHAR"/>
@@ -1394,8 +1400,11 @@
     <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="calendar_name" Required="false" Size="100" Type="VARCHAR"/>
     <Column Name="first_response_time" Required="true" Type="INTEGER"/>
+    <Column Name="first_response_notify" Required="false" Type="SMALLINT"/>
     <Column Name="update_time" Required="true" Type="INTEGER"/>
+    <Column Name="update_notify" Required="false" Type="SMALLINT"/>
     <Column Name="solution_time" Required="true" Type="INTEGER"/>
+    <Column Name="solution_notify" Required="false" Type="SMALLINT"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="comments" Required="false" Size="200" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -1606,7 +1615,7 @@
     <Column Name="xml_type" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="xml_key" Required="true" Size="250" Type="VARCHAR"/>
     <Column Name="xml_content_key" Required="true" Size="250" Type="VARCHAR"/>
-    <Column Name="xml_content_value" Required="false" Type="LONGBLOB"/>
+    <Column Name="xml_content_value" Required="false" Size="1000000" Type="VARCHAR"/>
     <Index Name="xml_storage_key_type">
         <IndexColumn Name="xml_key" Size="10"/>
         <IndexColumn Name="xml_type" Size="10"/>
