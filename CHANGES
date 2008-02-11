@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.560 2008-02-06 22:56:26 martin Exp $
+# $Id: CHANGES,v 1.561 2008-02-11 12:34:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,14 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/02/11) Added queue preferences - module support like for agents and
+    customer to create easier extentions/addons for queues.
+    See Developer-Manual for more information.
+    NOTE: table sla need to be modified - use scripts/DBUpdate-to-2.3.*.sql
+ - (2008/02/11) Added escalation warning feature. So agents will be notified
+    before a ticket will escalate. This time point can be configured in the
+    admin interface for queue and sla settings.
+    NOTE: table queue need to be modified - use scripts/DBUpdate-to-2.3.*.sql
  - (2008/02/04) Fixed bug# 1608 - Badly formatted calendar popup.
 -  (2008/02/04) Fixed bug# 2657 - Improved regexp in RPM spec files to detect
     already existing "otrs" user (it was also matching on xxxotrsxxx names).
@@ -96,6 +104,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.6 (2008/??/??)
+ - (2008/02/11) Fixed bug# 2413 - OTRS cannot write to BLOB column in table
+    XML_STORAGE with DB2.
  - (2008/02/06) Fixed bug# 1716 - Wrong escalation time calculation on
      wintertime/summertime switch.
  - (2008/02/01) Fixed ticket# 2008012242000417 - View performance problems
