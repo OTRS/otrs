@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.50 2008-01-12 14:00:54 martin Exp $
+# $Id: StaticDB.pm,v 1.51 2008-02-11 12:23:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Ticket::IndexAccelerator::StaticDB;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -82,12 +82,11 @@ sub TicketAcceleratorUpdate {
                 for (qw(Queue State Lock)) {
                     $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
                 }
-                my $SQL
-                    = "UPDATE ticket_index SET "
+                my $SQL = "UPDATE ticket_index SET "
                     . " queue_id = $TicketData{QueueID}, "
                     . " queue = '$TicketData{Queue}', group_id = $TicketData{GroupID}, "
                     . " s_lock = '$TicketData{Lock}', s_state = '$TicketData{State}' "
-                    . " WHERE  "
+                    . " WHERE "
                     . " ticket_id = $Param{TicketID}";
                 $Self->{DBObject}->Do( SQL => $SQL );
             }
@@ -133,7 +132,7 @@ sub TicketAcceleratorDelete {
     for (qw(TicketID)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
-    my $SQL = "DELETE FROM ticket_index WHERE ticket_id = $Param{TicketID} ";
+    my $SQL = "DELETE FROM ticket_index WHERE ticket_id = $Param{TicketID}";
     $Self->{DBObject}->Do( SQL => $SQL );
     return;
 }
@@ -181,8 +180,7 @@ sub TicketAcceleratorAdd {
     for (qw(Queue State Lock)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
     }
-    my $SQL
-        = "INSERT INTO ticket_index "
+    my $SQL = "INSERT INTO ticket_index "
         . " (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix)"
         . " VALUES "
         . " ($Param{TicketID}, $TicketData{QueueID}, '$TicketData{Queue}', "
@@ -236,8 +234,7 @@ sub TicketLockAcceleratorAdd {
 
     # get ticket data
     my %TicketData = $Self->TicketGet(%Param);
-    my $SQL
-        = "INSERT INTO ticket_lock_index " . " (ticket_id)" . " VALUES " . " ($Param{TicketID})";
+    my $SQL = "INSERT INTO ticket_lock_index (ticket_id) VALUES ($Param{TicketID})";
     if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         return 1;
     }
@@ -264,12 +261,11 @@ sub TicketAcceleratorIndex {
 
     # prepar "All tickets: ??" in Queue
     if (@QueueIDs) {
-        my $SQL
-            = "SELECT count(*) as count "
+        my $SQL = "SELECT count(*) "
             . " FROM "
             . " ticket st "
             . " WHERE "
-            . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " . " and "
+            . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) AND "
             . " st.queue_id IN (";
         for ( 0 .. $#QueueIDs ) {
             if ( $_ > 0 ) {
@@ -312,12 +308,11 @@ sub TicketAcceleratorIndex {
     }
 
     # CustomQueue add on
-    my $SQL
-        = "SELECT count(*) FROM "
+    my $SQL = "SELECT count(*) FROM "
         . " ticket_index ti, personal_queues suq "
         . " WHERE "
-        . " suq.queue_id = ti.queue_id " . " AND "
-        . " ti.group_id IN ( ${\(join ', ', @GroupIDs)} ) " . " AND "
+        . " suq.queue_id = ti.queue_id AND "
+        . " ti.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND "
         . " suq.user_id = $Param{UserID}";
     $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -336,8 +331,7 @@ sub TicketAcceleratorIndex {
     }
 
     # prepar the tickets in Queue bar (all data only with my/your Permission)
-    $SQL
-        = "SELECT queue_id, queue, min(create_time_unix), count(*) as count "
+    $SQL = "SELECT queue_id, queue, min(create_time_unix), count(*) "
         . " FROM "
         . " ticket_index "
         . " WHERE "
@@ -375,18 +369,17 @@ sub TicketAcceleratorRebuild {
     my ( $Self, %Param ) = @_;
 
     # get all viewable tickets
-    my $SQL
-        = "SELECT st.id, st.queue_id, sq.name, sq.group_id, slt.name, "
+    my $SQL = "SELECT st.id, st.queue_id, sq.name, sq.group_id, slt.name, "
         . " tsd.name, st.create_time_unix "
         . " FROM "
         . " ticket st, queue sq, ticket_state tsd, "
         . " ticket_lock_type slt "
         . " WHERE "
-        . " st.ticket_state_id = tsd.id " . " AND "
-        . " st.queue_id = sq.id " . " AND "
-        . " st.ticket_lock_id = slt.id " . " AND "
-        . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " . " AND "
-        . " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " . " ";
+        . " st.ticket_state_id = tsd.id AND "
+        . " st.queue_id = sq.id AND "
+        . " st.ticket_lock_id = slt.id AND "
+        . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) AND "
+        . " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} )";
 
     $Self->{DBObject}->Prepare( SQL => $SQL );
     my @RowBuffer = ();
@@ -409,8 +402,7 @@ sub TicketAcceleratorRebuild {
         for ( keys %Data ) {
             $Data{$_} = $Self->{DBObject}->Quote( $Data{$_} );
         }
-        my $SQL
-            = "INSERT INTO ticket_index "
+        my $SQL = "INSERT INTO ticket_index "
             . " (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix)"
             . " VALUES "
             . " ($Data{TicketID}, $Data{QueueID}, '$Data{Queue}', $Data{GroupID}, "
@@ -454,8 +446,7 @@ sub GetIndexTicket {
     }
 
     # sql query
-    my $SQL
-        = "SELECT ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix "
+    my $SQL = "SELECT ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix "
         . " FROM ticket_index "
         . " WHERE ticket_id = $Param{TicketID}";
     my %Data = ();
@@ -489,8 +480,7 @@ sub GetIndexTicketLock {
     }
 
     # sql query
-    my $SQL
-        = "SELECT ticket_id " . " FROM ticket_lock_index " . " WHERE ticket_id = $Param{TicketID}";
+    my $SQL = "SELECT ticket_id FROM ticket_lock_index WHERE ticket_id = $Param{TicketID}";
     my $Hit = 0;
     $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -521,8 +511,7 @@ sub GetLockedCount {
     }
 
     # db query
-    $Self->{DBObject}
-        ->Prepare( SQL => "SELECT ar.id, ar.article_sender_type_id, ti.id, "
+    $Self->{DBObject}->Prepare( SQL => "SELECT ar.id, ar.article_sender_type_id, ti.id, "
             . " ar.create_by, ti.create_time_unix, ti.until_time, "
             . " tst.name, ar.article_type_id "
             . " FROM "
@@ -625,13 +614,12 @@ sub GetOverTimeTickets {
         Type   => 'Viewable',
         Result => 'ID',
     );
-    my $SQL
-        = "SELECT st.id, st.tn, st.escalation_start_time, st.escalation_response_time, st.escalation_solution_time, "
+    my $SQL = "SELECT st.id, st.tn, st.escalation_start_time, st.escalation_response_time, st.escalation_solution_time, "
         . "st.ticket_state_id, st.service_id, st.sla_id, st.create_time, st.queue_id, st.ticket_lock_id "
         . " FROM "
         . " ticket st, queue q "
         . " WHERE "
-        . " st.queue_id = q.id " . " AND "
+        . " st.queue_id = q.id AND "
         . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) ";
     if ( $Self->{UserID} && $Self->{UserID} ne 1 ) {
         my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
@@ -700,21 +688,21 @@ sub GetOverTimeTickets {
         );
 
         # check response time
-        if ( defined( $Ticket{'FirstResponseTimeEscalation'} ) ) {
+        if ( defined( $Ticket{'FirstResponseTimeEscalation'} ) || defined( $Ticket{'FirstResponseTimeNotification'} ) ) {
             push( @TicketIDsOverTime, $TicketID );
             $Count++;
             next;
         }
 
         # check update time
-        if ( defined( $Ticket{'UpdateTimeEscalation'} ) ) {
+        if ( defined( $Ticket{'UpdateTimeEscalation'} ) || defined( $Ticket{'UpdateTimeNotification'} ) ) {
             push( @TicketIDsOverTime, $TicketID );
             $Count++;
             next;
         }
 
         # check solution
-        if ( defined( $Ticket{'SolutionTimeEscalation'} ) ) {
+        if ( defined( $Ticket{'SolutionTimeEscalation'} ) || defined( $Ticket{'SolutionTimeNotification'} )) {
             push( @TicketIDsOverTime, $TicketID );
             $Count++;
             next;

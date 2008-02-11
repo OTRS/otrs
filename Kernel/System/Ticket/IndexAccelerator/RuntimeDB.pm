@@ -1,13 +1,13 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm - realtime database
 # queue ticket index module
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.49 2008-01-12 14:00:54 martin Exp $
+# $Id: RuntimeDB.pm,v 1.50 2008-02-11 12:23:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -71,12 +71,11 @@ sub TicketAcceleratorIndex {
 
     # prepar "All tickets: ??" in Queue
     if (@QueueIDs) {
-        my $SQL
-            = "SELECT count(*) "
+        my $SQL = "SELECT count(*) "
             . " FROM "
             . " ticket st "
             . " WHERE "
-            . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " . " AND "
+            . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) AND "
             . " st.queue_id IN (";
         for ( 0 .. $#QueueIDs ) {
             if ( $_ > 0 ) {
@@ -104,15 +103,14 @@ sub TicketAcceleratorIndex {
     }
 
     # CustomQueue add on
-    my $SQL
-        = "SELECT count(*) FROM "
+    my $SQL = "SELECT count(*) FROM "
         . " ticket st, queue sq, personal_queues suq "
         . " WHERE "
-        . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " . " AND "
-        . " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " . " AND "
-        . " st.queue_id = sq.id " . " AND "
-        . " suq.queue_id = st.queue_id " . " AND "
-        . " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) " . " AND "
+        . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) AND "
+        . " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) AND "
+        . " st.queue_id = sq.id AND "
+        . " suq.queue_id = st.queue_id AND "
+        . " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND "
         .
 
         # get all custom queues
@@ -137,14 +135,13 @@ sub TicketAcceleratorIndex {
     }
 
     # prepar the tickets in Queue bar (all data only with my/your Permission)
-    $SQL
-        = "SELECT st.queue_id, sq.name, min(st.create_time_unix), count(*) "
+    $SQL = "SELECT st.queue_id, sq.name, min(st.create_time_unix), count(*) "
         . " FROM "
         . " ticket st, queue sq "
         . " WHERE "
-        . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " . " AND "
-        . " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " . " AND "
-        . " st.queue_id = sq.id " . " AND "
+        . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) AND "
+        . " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) AND "
+        . " st.queue_id = sq.id AND "
         . " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) "
         . " GROUP BY st.queue_id,sq.name "
         . " ORDER BY sq.name";
@@ -203,8 +200,7 @@ sub GetLockedCount {
     }
 
     # db query
-    $Self->{DBObject}
-        ->Prepare( SQL => "SELECT ar.id, ar.article_sender_type_id, ti.id, "
+    $Self->{DBObject}->Prepare( SQL => "SELECT ar.id, ar.article_sender_type_id, ti.id, "
             . " ar.create_by, ti.create_time_unix, ti.until_time, "
             . " tst.name, ar.article_type_id "
             . " FROM "
@@ -308,13 +304,12 @@ sub GetOverTimeTickets {
         Type   => 'Viewable',
         Result => 'ID',
     );
-    my $SQL
-        = "SELECT st.id, st.tn, st.escalation_start_time, st.escalation_response_time, st.escalation_solution_time, "
+    my $SQL = "SELECT st.id, st.tn, st.escalation_start_time, st.escalation_response_time, st.escalation_solution_time, "
         . "st.ticket_state_id, st.service_id, st.sla_id, st.create_time, st.queue_id, st.ticket_lock_id "
         . " FROM "
         . " ticket st, queue q "
         . " WHERE "
-        . " st.queue_id = q.id " . " AND "
+        . " st.queue_id = q.id AND "
         . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) ";
     if ( $Self->{UserID} && $Self->{UserID} ne 1 ) {
         my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
@@ -382,25 +377,15 @@ sub GetOverTimeTickets {
             )
         );
 
-        # check response time
-        if ( defined( $Ticket{'FirstResponseTimeEscalation'} ) ) {
-            push( @TicketIDsOverTime, $TicketID );
-            $Count++;
-            next;
-        }
-
-        # check update time
-        if ( defined( $Ticket{'UpdateTimeEscalation'} ) ) {
-            push( @TicketIDsOverTime, $TicketID );
-            $Count++;
-            next;
-        }
-
-        # check solution
-        if ( defined( $Ticket{'SolutionTimeEscalation'} ) ) {
-            push( @TicketIDsOverTime, $TicketID );
-            $Count++;
-            next;
+        # check escalation times
+        for my $Type (qw(FirstResponseTimeEscalation UpdateTimeEscalation SolutionTimeEscalation
+            FirstResponseTimeNotification UpdateTimeNotification SolutionTimeNotification))
+        {
+            if ( defined( $Ticket{$Type} ) || defined( $Ticket{$Type} ) ) {
+                push( @TicketIDsOverTime, $TicketID );
+                $Count++;
+                next;
+            }
         }
     }
 

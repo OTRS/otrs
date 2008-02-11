@@ -1,12 +1,12 @@
 # --
 # Kernel/System/GenericAgent/NotifyAgentGroupOfCustomQueue.pm - generic agent notifications
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.14 2007-10-02 10:36:47 mh Exp $
+# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.15 2008-02-11 12:23:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::GenericAgent::NotifyAgentGroupOfCustomQueue;
@@ -19,7 +19,7 @@ use Kernel::System::Email;
 use Kernel::System::Queue;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -65,9 +65,35 @@ sub Run {
         return 1;
     }
 
+    # check if it's a escalation ot escalation notification
+    # check escalation times
+    my $EscalationType = '';
+    for my $Type (qw(FirstResponseTimeEscalation UpdateTimeEscalation SolutionTimeEscalation
+        FirstResponseTimeNotification UpdateTimeNotification SolutionTimeNotification))
+    {
+        if ( defined( $Ticket{$Type} ) ) {
+            if ( $Type =~ /TimeEscalation$/ ) {
+                $EscalationType = 'Escalation';
+                last;
+            }
+            elsif ( $Type =~ /TimeNotification$/ ) {
+                $EscalationType = 'EscalationNotifyBefore';
+                last;
+            }
+        }
+    }
+
+    # check
+    if ( !$EscalationType ) {
+        $Self->{LogObject}->Log(
+            Priority => 'debug',
+            Message => "Can't send escalation for Ticket $Ticket{TicketNumber}/$Ticket{TicketID} because ticket is not escalated!",
+        );
+        return;
+    }
+
     # get agentss who are sucscribed the ticket queue to the custom queues
-    my @UserIDs
-        = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID}, );
+    my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID}, );
 
     # send each agent the escalation notification
     for my $UserID (@UserIDs) {
@@ -75,17 +101,17 @@ sub Run {
         if (%User) {
 
             # check if today a reminder is already sent
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-                = $Self->{TimeObject}
-                ->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Self->{TimeObject}->SystemTime(),
+            );
             my @Lines = $Self->{TicketObject}->HistoryGet(
                 TicketID => $Ticket{TicketID},
                 UserID   => 1,
             );
             my $Sent = 0;
             for my $Line (@Lines) {
-                if (   $Line->{Name} =~ /Escalation/
-                    && $Line->{Name}       =~ /\Q$User{UserEmail}\E/i
+                if (   $Line->{Name} =~ /\%\%$EscalationType\%\%/
+                    && $Line->{Name}       =~ /\Q\%\%$User{UserEmail}\E$/i
                     && $Line->{CreateTime} =~ /$Year-$Month-$Day/ )
                 {
                     $Sent = 1;
@@ -97,7 +123,7 @@ sub Run {
 
             # send agent notification
             $Self->{TicketObject}->SendAgentNotification(
-                Type                  => 'Escalation',
+                Type                  => $EscalationType,
                 UserData              => \%User,
                 CustomerMessageParams => \%Param,
                 TicketID              => $Param{TicketID},
