@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.28 2008-02-11 00:44:28 martin Exp $
+# $Id: db2.pm,v 1.29 2008-02-11 11:49:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -572,7 +572,7 @@ sub _TypeTranslation {
 
     # performance option
     elsif ( $Tag->{Type} =~ /^longblob$/i ) {
-        $Tag->{Type} = 'BLOB';
+        $Tag->{Type} = 'BLOB (20M)';
     }
     elsif ( $Tag->{Type} =~ /^VARCHAR$/i ) {
         $Tag->{Type} = "VARCHAR ($Tag->{Size})";
