@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2007-07-20 11:56:48
+--  driver: mssql, generated: 2008-02-11 12:43:46
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
@@ -66,6 +66,7 @@ ALTER TABLE queue ADD FOREIGN KEY (system_address_id) REFERENCES system_address(
 ALTER TABLE queue ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE queue ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
 ALTER TABLE queue ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
+ALTER TABLE queue_preferences ADD FOREIGN KEY (queue_id) REFERENCES queue(id);
 ALTER TABLE ticket ADD FOREIGN KEY (ticket_lock_id) REFERENCES ticket_lock_type(id);
 ALTER TABLE ticket ADD FOREIGN KEY (ticket_priority_id) REFERENCES ticket_priority(id);
 ALTER TABLE ticket ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
