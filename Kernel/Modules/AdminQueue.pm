@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.36 2008-01-31 06:22:12 tr Exp $
+# $Id: AdminQueue.pm,v 1.37 2008-02-11 11:33:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Crypt;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -90,6 +90,7 @@ sub Run {
 
     # update action
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
+        my $Note = '';
         my %GetParam;
         for (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
@@ -114,6 +115,35 @@ sub Run {
                 . $GetParam{Name};
         }
         if ( $Self->{QueueObject}->QueueUpdate( %GetParam, UserID => $Self->{UserID} ) ) {
+
+            # update preferences
+            my %QueueData = $Self->{QueueObject}->QueueGet(ID => $GetParam{QueueID});
+            my %Preferences = %{$Self->{ConfigObject}->Get('QueuePreferences')};
+            foreach my $Item (sort keys %Preferences) {
+                my $Module = $Preferences{$Item}->{Module} || 'Kernel::Output::HTML::QueuePreferencesGeneric';
+                # load module
+                if ($Self->{MainObject}->Require($Module)) {
+                    my $Object = $Module->new(
+                        %{$Self},
+                        ConfigItem => $Preferences{$Item},
+                        Debug => $Self->{Debug},
+                    );
+                    my @Params = $Object->Param(QueueData => \%QueueData);
+                    if (@Params) {
+                        my %GetParam = ();
+                        foreach my $ParamItem (@Params) {
+                            my @Array = $Self->{ParamObject}->GetArray(Param => $ParamItem->{Name});
+                            $GetParam{$ParamItem->{Name}} = \@Array;
+                        }
+                        if (!$Object->Run(GetParam => \%GetParam, QueueData => \%QueueData)) {
+                            $Note .= $Self->{LayoutObject}->Notify(Info => $Object->Error());
+                        }
+                    }
+                }
+                else {
+                    return $Self->{LayoutObject}->FatalError();
+                }
+            }
             return $Self->{LayoutObject}->Redirect( OP => "Action=$Param{NextScreen}" );
         }
         else {
@@ -123,6 +153,7 @@ sub Run {
 
     # add new queue
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
+        my $Note = '';
         my %GetParam;
         for (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
@@ -142,15 +173,46 @@ sub Run {
 
         # get long queue name
         if ( $GetParam{ParentQueueID} ) {
-            $GetParam{Name}
-                = $Self->{QueueObject}->QueueLookup( QueueID => $GetParam{ParentQueueID}, ) . '::'
-                . $GetParam{Name};
+            $GetParam{Name} = $Self->{QueueObject}->QueueLookup(
+                QueueID => $GetParam{ParentQueueID},
+            ) . '::' . $GetParam{Name};
         }
 
         # create new queue
         if ( my $Id = $Self->{QueueObject}->QueueAdd( %GetParam, UserID => $Self->{UserID} ) ) {
-            return $Self->{LayoutObject}
-                ->Redirect( OP => "Action=AdminQueueResponses&Subaction=Queue&ID=$Id", );
+
+            # update preferences
+            my %QueueData = $Self->{QueueObject}->QueueGet(ID => $Id);
+            my %Preferences = %{$Self->{ConfigObject}->Get('QueuePreferences')};
+            foreach my $Item (sort keys %Preferences) {
+                my $Module = $Preferences{$Item}->{Module} || 'Kernel::Output::HTML::QueuePreferencesGeneric';
+                # load module
+                if ($Self->{MainObject}->Require($Module)) {
+                    my $Object = $Module->new(
+                        %{$Self},
+                        ConfigItem => $Preferences{$Item},
+                        Debug => $Self->{Debug},
+                    );
+                    my @Params = $Object->Param(QueueData => \%QueueData);
+                    if (@Params) {
+                        my %GetParam = ();
+                        foreach my $ParamItem (@Params) {
+                            my @Array = $Self->{ParamObject}->GetArray(Param => $ParamItem->{Name});
+                            $GetParam{$ParamItem->{Name}} = \@Array;
+                        }
+                        if (!$Object->Run(GetParam => \%GetParam, QueueData => \%QueueData)) {
+                            $Note .= $Self->{LayoutObject}->Notify(Info => $Object->Error());
+                        }
+                    }
+                }
+                else {
+                    return $Self->{LayoutObject}->FatalError();
+                }
+            }
+
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AdminQueueResponses&Subaction=Queue&ID=$Id",
+            );
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();
@@ -346,6 +408,45 @@ sub _Mask {
         Name       => 'Calendar',
         SelectedID => $Param{Calendar},
     );
+
+    # show each preferences setting
+    my %Preferences = %{$Self->{ConfigObject}->Get('QueuePreferences')};
+    foreach my $Item (sort keys %Preferences) {
+        my $Module = $Preferences{$Item}->{Module} || 'Kernel::Output::HTML::QueuePreferencesGeneric';
+        # load module
+        if ($Self->{MainObject}->Require($Module)) {
+            my $Object = $Module->new(
+                %{$Self},
+                ConfigItem => $Preferences{$Item},
+                Debug => $Self->{Debug},
+            );
+            my @Params = $Object->Param(QueueData => \%Param);
+            if (@Params) {
+                foreach my $ParamItem (@Params) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Item',
+                        Data => { %Param, },
+                    );
+                    if (ref($ParamItem->{Data}) eq 'HASH' || ref($Preferences{$Item}->{Data}) eq 'HASH') {
+                        $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                            %{$Preferences{$Item}},
+                            %{$ParamItem},
+                        );
+                    }
+                    $Self->{LayoutObject}->Block(
+                        Name => $ParamItem->{Block} || $Preferences{$Item}->{Block} || 'Option',
+                        Data => {
+                            %{$Preferences{$Item}},
+                            %{$ParamItem},
+                        },
+                    );
+                }
+            }
+        }
+        else {
+            return $Self->{LayoutObject}->FatalError();
+        }
+    }
 
     return $Self->{LayoutObject}->Output( TemplateFile => 'AdminQueueForm', Data => \%Param );
 }

@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Queue.pm - lib for queue functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.77 2007-10-05 14:11:22 mh Exp $
+# $Id: Queue.pm,v 1.78 2008-02-11 11:32:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Queue;
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 =head1 NAME
 
@@ -77,7 +77,7 @@ sub new {
     $Self->{QueueID} = $Param{QueueID} || '';    #die "Got no QueueID!";
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
@@ -95,6 +95,12 @@ sub new {
     }
     else {
         $Self->{CustomerGroupObject} = $Param{CustomerGroupObject};
+    }
+
+    # load generator preferences module
+    my $GeneratorModule = 'Kernel::System::Queue::PreferencesDB';
+    if ($Self->{MainObject}->Require($GeneratorModule)) {
+        $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
     }
 
     # --------------------------------------------------- #
@@ -931,10 +937,10 @@ sub QueueGet {
         $Suffix = 'Name';
         $SQL .= " q.name = '" . $Self->{DBObject}->Quote( $Param{Name} ) . "'";
     }
-    my %QueueData = ();
+    my %Data = ();
     $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        %QueueData = (
+        %Data = (
             QueueID           => $Data[15],
             Name              => $Data[0],
             GroupID           => $Data[1],
@@ -958,11 +964,10 @@ sub QueueGet {
             DefaultSignKey    => $Data[20],
             Calendar          => $Data[21],
         );
-        $Self->{"QG::$Suffix$Param{What}"} = \%QueueData;
     }
 
     # check if data exists
-    if ( !exists $Self->{"QG::$Suffix$Param{What}"} ) {
+    if ( !%Data ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Found no \$$Suffix for $Param{What}!",
@@ -970,8 +975,19 @@ sub QueueGet {
         return;
     }
 
+    # get queue preferences
+    my %Preferences = $Self->QueuePreferencesGet( QueueID => $Data{QueueID} );
+
+    # merge hash
+    if ( %Preferences ) {
+        %Data = ( %Data, %Preferences );
+    }
+
+    # cache result
+    $Self->{"QG::$Suffix$Param{What}"} = \%Data;
+
     # return result
-    return %{ $Self->{"QG::$Suffix$Param{What}"} };
+    return %Data;
 }
 
 =item QueueUpdate()
@@ -1125,6 +1141,40 @@ sub QueueUpdate {
     }
 }
 
+=item QueuePreferencesSet()
+
+set user preferences
+
+    $UserObject->QueuePreferencesSet(
+        QueueID => 123,
+        Key => 'UserComment',
+        Value => 'some comment',
+        UserID => 123,
+    );
+
+=cut
+
+sub QueuePreferencesSet {
+    my $Self = shift;
+    return $Self->{PreferencesObject}->QueuePreferencesSet(@_);
+}
+
+=item QueuePreferencesGet()
+
+get user preferences
+
+    my %Preferences = $UserObject->QueuePreferencesGet(
+        QueueID => 123,
+        UserID => 123,
+    );
+
+=cut
+
+sub QueuePreferencesGet {
+    my $Self = shift;
+    return $Self->{PreferencesObject}->QueuePreferencesGet(@_);
+}
+
 1;
 
 =back
@@ -1135,12 +1185,12 @@ This Software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.77 $ $Date: 2007-10-05 14:11:22 $
+$Revision: 1.78 $ $Date: 2008-02-11 11:32:26 $
 
 =cut
