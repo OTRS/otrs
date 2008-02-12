@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.564 2008-02-12 11:30:30 ot Exp $
+# $Id: CHANGES,v 1.565 2008-02-12 13:36:41 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -109,6 +109,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.6 (2008/??/??)
+ - (2008/02/12) Fixed bug# 2363 - AgentTicketPhone###Body is now a text area
+    instead of a string.
  - (2008/02/11) Fixed bug# 1975 - OTRS cannot forward .eml files.
  - (2008/02/11) Fixed bug# 2413 - OTRS cannot write to BLOB column in table
     XML_STORAGE with DB2.
