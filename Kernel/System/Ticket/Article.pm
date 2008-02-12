@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.147 2007-08-22 13:13:52 sb Exp $
+# $Id: Article.pm,v 1.147.2.1 2008-02-12 17:58:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Ticket::Article;
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.147 $';
+$VERSION = '$Revision: 1.147.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2210,6 +2210,7 @@ send an auto response to a customer via email
 sub SendAutoResponse {
     my $Self = shift;
     my %Param = @_;
+
     # check needed stuff
     foreach (qw(Text Realname Address CustomerMessageParams TicketID UserID HistoryType)) {
         if (!$Param{$_}) {
@@ -2219,6 +2220,7 @@ sub SendAutoResponse {
     }
     $Param{Body} = $Param{Text} || 'No Std. Body found!';
     my %GetParam = %{$Param{CustomerMessageParams}};
+
     # get old article for quoteing
     my %Article = $Self->ArticleLastCustomerArticle(TicketID => $Param{TicketID});
     foreach (qw(From To Cc Subject Body)) {
@@ -2227,10 +2229,32 @@ sub SendAutoResponse {
         }
         chomp $GetParam{$_};
     }
+
     # check reply to for auto response recipient
     if ($GetParam{ReplyTo}) {
         $GetParam{From} = $GetParam{ReplyTo};
     }
+
+    # check if sender has an valid email address
+    if ( $GetParam{From} !~ /@/ ) {
+
+        # add it to ticket history
+        $Self->HistoryAdd(
+            TicketID     => $Param{TicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType  => 'Misc',
+            Name         => "Sent not auto response, no valid email in From.",
+        );
+
+        # log
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Sent not auto response to '$GetParam{From}' because of"
+                . " invalid From address",
+        );
+        return 1;
+    }
+
     # check if sender is e. g. MAILDER-DAEMON or Postmaster
     my $NoAutoRegExp = $Self->{ConfigObject}->Get('SendNoAutoResponseRegExp');
     if ($GetParam{From} =~ /$NoAutoRegExp/i) {
@@ -2249,10 +2273,12 @@ sub SendAutoResponse {
         );
         return 1;
     }
+
     # check if original content isn't text/plain, don't use it
     if ($GetParam{'Content-Type'} && $GetParam{'Content-Type'} !~ /(text\/plain|\btext\b)/i) {
         $GetParam{Body} = "-> no quotable message <-";
     }
+
     # replace all scaned email x-headers with <OTRS_CUSTOMER_X-HEADER>
     foreach (keys %GetParam) {
         if (defined $GetParam{$_}) {
@@ -2268,6 +2294,7 @@ sub SendAutoResponse {
             $Param{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
         }
     }
+
     # cleanup
     $Param{Subject} =~ s/<OTRS_CURRENT_.+?>/-/gi;
     $Param{Body} =~ s/<OTRS_CURRENT_.+?>/-/gi;
@@ -2282,6 +2309,7 @@ sub SendAutoResponse {
             $Param{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
         }
     }
+
     # cleanup
     $Param{Subject} =~ s/<OTRS_OWNER_.+?>/-/gi;
     $Param{Body} =~ s/<OTRS_OWNER_.+?>/-/gi;
