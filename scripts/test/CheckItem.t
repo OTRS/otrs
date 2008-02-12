@@ -2,7 +2,7 @@
 # CheckItem.t - check item tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.t,v 1.5.2.2 2008-02-12 17:12:00 martin Exp $
+# $Id: CheckItem.t,v 1.5.2.3 2008-02-12 18:39:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,6 +38,14 @@ my @EmailTests = (
         Valid => 0,
     },
     {
+        Email => 'somebody.@somehost.com',
+        Valid => 0,
+    },
+    {
+        Email => 'some..body@somehost.com',
+        Valid => 0,
+    },
+    {
         Email => 'some@body@somehost.com',
         Valid => 0,
     },
@@ -64,6 +72,10 @@ my @EmailTests = (
     },
     {
         Email => 'Some.Bo_dY.test.TesT@somehost.com',
+        Valid => 1,
+    },
+    {
+        Email => '_some.name@somehost.com',
         Valid => 1,
     },
 );
