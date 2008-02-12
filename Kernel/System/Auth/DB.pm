@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Auth/DB.pm - provides the db authentification
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.20 2007-10-02 10:35:33 mh Exp $
+# $Id: DB.pm,v 1.21 2008-02-12 21:52:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Auth::DB;
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,7 +28,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(LogObject ConfigObject DBObject)) {
+    for (qw(LogObject ConfigObject DBObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
@@ -37,15 +37,13 @@ sub new {
     $Self->{Debug} = 0;
 
     # get user table
-    $Self->{UserTable} = $Self->{ConfigObject}->Get( 'DatabaseUserTable' . $Param{Count} )
+    $Self->{UserTable}       = $Self->{ConfigObject}->Get( 'DatabaseUserTable' . $Param{Count} )
         || 'user';
-    $Self->{UserTableUserID}
-        = $Self->{ConfigObject}->Get( 'DatabaseUserTableUserID' . $Param{Count} )
+    $Self->{UserTableUserID} = $Self->{ConfigObject}->Get( 'DatabaseUserTableUserID' . $Param{Count} )
         || 'id';
-    $Self->{UserTableUserPW}
-        = $Self->{ConfigObject}->Get( 'DatabaseUserTableUserPW' . $Param{Count} )
+    $Self->{UserTableUserPW} = $Self->{ConfigObject}->Get( 'DatabaseUserTableUserPW' . $Param{Count} )
         || 'pw';
-    $Self->{UserTableUser} = $Self->{ConfigObject}->Get( 'DatabaseUserTableUser' . $Param{Count} )
+    $Self->{UserTableUser}   = $Self->{ConfigObject}->Get( 'DatabaseUserTableUser' . $Param{Count} )
         || 'login';
 
     return $Self;
@@ -84,14 +82,12 @@ sub Auth {
     my $GetPw      = '';
 
     # sql query
-    my $SQL
-        = "SELECT $Self->{UserTableUserPW}, $Self->{UserTableUserID} "
+    my $SQL = "SELECT $Self->{UserTableUserPW}, $Self->{UserTableUserID} "
         . " FROM "
         . " $Self->{UserTable} "
         . " WHERE "
-        . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) " . " AND "
-        . " $Self->{UserTableUser} = '"
-        . $Self->{DBObject}->Quote($User) . "'";
+        . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) AND "
+        . " $Self->{UserTableUser} = '" . $Self->{DBObject}->Quote($User) . "'";
     $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $GetPw  = $Row[0];
@@ -112,6 +108,11 @@ sub Auth {
 
         # strip Salt
         $Salt =~ s/^\$.+?\$(.+?)\$.*$/$1/;
+
+        # encode output, needed by unix_md5_crypt() only non utf8 signs
+        $Self->{EncodeObject}->EncodeOutput( \$Pw );
+        $Self->{EncodeObject}->EncodeOutput( \$Salt );
+
         $CryptedPw = unix_md5_crypt( $Pw, $Salt );
     }
 
@@ -126,6 +127,10 @@ sub Auth {
         # and do this check only in such case (unfortunately there is a mod_perl2
         # bug on RH8 - check if crypt() is working correctly) :-/
         if ( ( $Salt =~ /^\$\d\$/ ) || ( crypt( 'root', 'root@localhost' ) eq 'roK20XGbWEsSM' ) ) {
+
+            # encode output, needed by crypt() only non utf8 signs
+            $Self->{EncodeObject}->EncodeOutput( \$Pw );
+            $Self->{EncodeObject}->EncodeOutput( \$Salt );
             $CryptedPw = crypt( $Pw, $Salt );
         }
         else {
@@ -150,8 +155,7 @@ sub Auth {
     if ( $Self->{Debug} > 0 ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message =>
-                "User: '$User' tried to authenticate with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
+            Message => "User: '$User' tried to authenticate with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
         );
     }
 

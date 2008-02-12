@@ -1,12 +1,12 @@
 # --
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.58 2008-01-15 18:39:49 mh Exp $
+# $Id: DB.pm,v 1.59 2008-02-12 21:52:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::CustomerUser::DB;
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,8 +57,7 @@ sub new {
     $Self->{CustomerID} = $Self->{CustomerUserMap}->{CustomerID}
         || die "Need CustomerUser->CustomerID in Kernel/Config.pm!";
     $Self->{ReadOnly} = $Self->{CustomerUserMap}->{ReadOnly};
-    $Self->{ExcludePrimaryCustomerID}
-        = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
+    $Self->{ExcludePrimaryCustomerID} = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
     $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{'CustomerUserSearchPrefix'};
     if ( !defined( $Self->{SearchPrefix} ) ) {
         $Self->{SearchPrefix} = '';
@@ -165,8 +164,10 @@ sub CustomerSearch {
 
     # check needed stuff
     if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Need Search, UserLogin or PostMasterSearch!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need Search, UserLogin or PostMasterSearch!",
+        );
         return;
     }
 
@@ -233,16 +234,16 @@ sub CustomerSearch {
 
     # add valid option
     if ( $Self->{CustomerUserMap}->{CustomerValid} && $Valid ) {
-        $SQL
-            .= "AND "
+        $SQL .= "AND "
             . $Self->{CustomerUserMap}->{CustomerValid}
             . " IN (".join(', ', $Self->{ValidObject}->ValidIDsGet() ).") ";
     }
 
     # check cache
     if ( $Self->{CacheObject} ) {
-        my $Users
-            = $Self->{CacheObject}->Get( Key => $Self->{CacheKey} . "::CustomerSearch::$SQL", );
+        my $Users = $Self->{CacheObject}->Get(
+            Key => $Self->{CacheKey} . "::CustomerSearch::$SQL",
+        );
         if ($Users) {
             return %{$Users};
         }
@@ -279,8 +280,9 @@ sub CustomerUserList {
 
     # check cache
     if ( $Self->{CacheObject} ) {
-        my $Users
-            = $Self->{CacheObject}->Get( Key => $Self->{CacheKey} . "::CustomerUserList::$Valid", );
+        my $Users = $Self->{CacheObject}->Get(
+            Key => $Self->{CacheKey} . "::CustomerUserList::$Valid",
+        );
         if ($Users) {
             return %{$Users};
         }
@@ -318,8 +320,9 @@ sub CustomerIDs {
 
     # check cache
     if ( $Self->{CacheObject} ) {
-        my $CustomerIDs = $Self->{CacheObject}
-            ->Get( Key => $Self->{CacheKey} . "::CustomerIDs::$Param{User}", );
+        my $CustomerIDs = $Self->{CacheObject}->Get(
+            Key => $Self->{CacheKey} . "::CustomerIDs::$Param{User}",
+        );
         if ($CustomerIDs) {
             return @{$CustomerIDs};
         }
@@ -384,8 +387,9 @@ sub CustomerUserDataGet {
 
         # check cache
         if ( $Self->{CacheObject} ) {
-            my $Data = $Self->{CacheObject}
-                ->Get( Key => $Self->{CacheKey} . "::CustomerUserDataGet::User::$Param{User}", );
+            my $Data = $Self->{CacheObject}->Get(
+                Key => $Self->{CacheKey} . "::CustomerUserDataGet::User::$Param{User}",
+            );
             if ($Data) {
                 return %{$Data};
             }
@@ -397,10 +401,9 @@ sub CustomerUserDataGet {
 
         # check cache
         if ( $Self->{CacheObject} ) {
-            my $Data
-                = $Self->{CacheObject}->Get(
+            my $Data = $Self->{CacheObject}->Get(
                 Key => $Self->{CacheKey} . "::CustomerUserDataGet::CustomerID::$Param{CustomerID}",
-                );
+            );
             if ($Data) {
                 return %{$Data};
             }
@@ -684,7 +687,8 @@ sub CustomerUserUpdate {
         # cache resete
         if ( $Self->{CacheObject} ) {
             $Self->{CacheObject}->Delete(
-                Key => $Self->{CacheKey} . "::CustomerUserDataGet::User::$Param{UserLogin}", );
+                Key => $Self->{CacheKey} . "::CustomerUserDataGet::User::$Param{UserLogin}",
+            );
         }
         return 1;
     }
@@ -720,6 +724,11 @@ sub SetPassword {
     elsif ($Self->{ConfigObject}->Get('Customer::AuthModule::DB::CryptType')
         && $Self->{ConfigObject}->Get('Customer::AuthModule::DB::CryptType') eq 'md5' )
     {
+
+        # encode output, needed by unix_md5_crypt() only non utf8 signs
+        $Self->{EncodeObject}->EncodeOutput( \$Pw );
+        $Self->{EncodeObject}->EncodeOutput( \$Param{UserLogin} );
+
         $CryptedPw = unix_md5_crypt( $Pw, $Param{UserLogin} );
     }
 
@@ -729,13 +738,17 @@ sub SetPassword {
         # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if
         # crypt() is working correctly) :-/
         if ( crypt( 'root', 'root@localhost' ) eq 'roK20XGbWEsSM' ) {
+
+            # encode output, needed by crypt() only non utf8 signs
+            $Self->{EncodeObject}->EncodeOutput( \$Pw );
+            $Self->{EncodeObject}->EncodeOutput( \$Param{UserLogin} );
+
             $CryptedPw = crypt( $Pw, $Param{UserLogin} );
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message =>
-                    "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
+                Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
             );
             my $TempUser = quotemeta( $Param{UserLogin} );
             my $TempPw   = quotemeta($Pw);
@@ -781,7 +794,8 @@ sub SetPassword {
             # cache resete
             if ( $Self->{CacheObject} ) {
                 $Self->{CacheObject}->Delete(
-                    Key => $Self->{CacheKey} . "::CustomerUserDataGet::User::$Param{UserLogin}" );
+                    Key => $Self->{CacheKey} . "::CustomerUserDataGet::User::$Param{UserLogin}",
+                );
             }
             return 1;
         }
@@ -804,8 +818,7 @@ sub GenerateRandomPassword {
 
     # The list of characters that can appear in a randomly generated password.
     # Note that users can put any character into a password they choose themselves.
-    my @PwChars
-        = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
+    my @PwChars = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
 
     # The number of characters in the list.
     my $PwCharsLen = scalar(@PwChars);

@@ -1,12 +1,12 @@
 # --
 # Kernel/System/User.pm - some user functions
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.71 2008-01-15 18:39:49 mh Exp $
+# $Id: User.pm,v 1.72 2008-02-12 21:52:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::User;
@@ -19,7 +19,7 @@ use Kernel::System::Valid;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 =head1 NAME
 
@@ -146,8 +146,7 @@ sub GetUserData {
     my %Data;
 
     # get initial data
-    my $SQL
-        = "SELECT $Self->{UserTableUserID}, $Self->{UserTableUser}, "
+    my $SQL = "SELECT $Self->{UserTableUserID}, $Self->{UserTableUser}, "
         . " salutation, first_name, last_name, $Self->{UserTableUserPW}, valid_id "
         . " FROM "
         . " $Self->{UserTable} "
@@ -278,8 +277,7 @@ sub UserAdd {
     }
 
     # sql
-    my $SQL
-        = "INSERT INTO $Self->{UserTable} "
+    my $SQL = "INSERT INTO $Self->{UserTable} "
         . "(salutation, "
         . " first_name, "
         . " last_name, "
@@ -298,8 +296,7 @@ sub UserAdd {
     if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
 
         # get new user id
-        my $SQL
-            = "SELECT $Self->{UserTableUserID} "
+        my $SQL = "SELECT $Self->{UserTableUserID} "
             . " FROM "
             . " $Self->{UserTable} "
             . " WHERE "
@@ -381,8 +378,7 @@ sub UserUpdate {
     }
 
     # update db
-    my $SQL
-        = "UPDATE $Self->{UserTable} SET "
+    my $SQL = "UPDATE $Self->{UserTable} SET "
         . " salutation = '$Param{UserSalutation}', "
         . " first_name = '$Param{UserFirstname}',"
         . " last_name = '$Param{UserLastname}', "
@@ -448,8 +444,10 @@ sub UserSearch {
 
     # check needed stuff
     if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Need Search, UserLogin or PostMasterSearch!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need Search, UserLogin or PostMasterSearch!",
+        );
         return;
     }
 
@@ -463,7 +461,7 @@ sub UserSearch {
     }
 
     # build SQL string 2/2
-    $SQL .= " FROM " . " $Self->{UserTable} " . " WHERE ";
+    $SQL .= " FROM $Self->{UserTable} WHERE ";
     if ( $Param{Search} ) {
         my $Count = 0;
         my @Parts = split( /\+/, $Param{Search}, 6 );
@@ -518,8 +516,10 @@ sub UserSearch {
     }
 
     # get data
-    $Self->{DBObject}
-        ->Prepare( SQL => $SQL, Limit => $Self->{UserSearchListLimit} || $Param{Limit} );
+    $Self->{DBObject}->Prepare(
+        SQL => $SQL,
+        Limit => $Self->{UserSearchListLimit} || $Param{Limit},
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         for ( 1 .. 8 ) {
             if ( $Row[$_] ) {
@@ -569,6 +569,11 @@ sub SetPassword {
     elsif ($Self->{ConfigObject}->Get('AuthModule::DB::CryptType')
         && $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') eq 'md5' )
     {
+
+        # encode output, needed by unix_md5_crypt() only non utf8 signs
+        $Self->{EncodeObject}->EncodeOutput( \$Pw );
+        $Self->{EncodeObject}->EncodeOutput( \$Param{UserLogin} );
+
         $CryptedPw = unix_md5_crypt( $Pw, $Param{UserLogin} );
     }
 
@@ -578,13 +583,17 @@ sub SetPassword {
         # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if
         # crypt() is working correctly) :-/
         if ( crypt( 'root', 'root@localhost' ) eq 'roK20XGbWEsSM' ) {
+
+            # encode output, needed by crypt() only non utf8 signs
+            $Self->{EncodeObject}->EncodeOutput( \$Pw );
+            $Self->{EncodeObject}->EncodeOutput( \$Param{UserLogin} );
+
             $CryptedPw = crypt( $Pw, $Param{UserLogin} );
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message =>
-                    "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
+                Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
             );
             my $TempUser = quotemeta( $Param{UserLogin} );
             my $TempPw   = quotemeta($Pw);
@@ -773,8 +782,7 @@ sub UserList {
             . " $Self->{ConfigObject}->{DatabaseUserTableUser}";
     }
     else {
-        $Param{What}
-            = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
+        $Param{What} = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
             . " last_name, first_name, "
             . " $Self->{ConfigObject}->{DatabaseUserTableUser}";
     }
@@ -970,12 +978,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.71 $ $Date: 2008-01-15 18:39:49 $
+$Revision: 1.72 $ $Date: 2008-02-12 21:52:33 $
 
 =cut
