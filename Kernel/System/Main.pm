@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.19 2008-01-30 13:47:08 tr Exp $
+# $Id: Main.pm,v 1.20 2008-02-12 20:52:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -205,6 +205,7 @@ sub FilenameCleanUp {
     }
 
     if ( $Param{Type} && $Param{Type} =~ /^md5/i ) {
+        $Self->{EncodeObject}->EncodeOutput( \$Param{Filename} );
         $Param{Filename} = md5_hex( $Param{Filename} );
     }
 
@@ -717,6 +718,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2008-01-30 13:47:08 $
+$Revision: 1.20 $ $Date: 2008-02-12 20:52:09 $
 
 =cut

@@ -1,96 +1,91 @@
 # --
 # Main.t - Main tests
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.6 2008-01-15 15:00:20 tr Exp $
+# $Id: Main.t,v 1.7 2008-02-12 20:52:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use utf8;
 
-# FilenameCleanUp
-my $Filename1 = $Self->{MainObject}->FilenameCleanUp(
-    Filename => 'me_t o/alal.xml',
-    Type => 'Local', # Local|Attachment|MD5
-);
-$Self->Is(
-    $Filename1 || '',
-    'me_t o_alal.xml',
-    '#1 FilenameCleanUp() - Local',
-);
-
-my $Filename2 = $Self->{MainObject}->FilenameCleanUp(
-    Filename => 'me_to/al?al"l.xml',
-    Type => 'Local', # Local|Attachment|MD5
-);
-$Self->Is(
-    $Filename2 || '',
-    'me_to_al_al_l.xml',
-    '#2 FilenameCleanUp() - Local',
-);
-
-my $Filename3 = $Self->{MainObject}->FilenameCleanUp(
-    Filename => 'me_to/a\/\\lal.xml',
-    Type => 'Local', # Local|Attachment|MD5
-);
-$Self->Is(
-    $Filename3 || '',
-    'me_to_a___lal.xml',
-    '#3 FilenameCleanUp() - Local',
-);
-
-my $Filename4 = $Self->{MainObject}->FilenameCleanUp(
-    Filename => 'me_to/al[al].xml',
-    Type => 'Local', # Local|Attachment|MD5
-);
-$Self->Is(
-    $Filename4 || '',
-    'me_to_al_al_.xml',
-    '#4 FilenameCleanUp() - Local',
-);
-
-my $Filename5 = $Self->{MainObject}->FilenameCleanUp(
-    Filename => 'me_to/alal.xml',
-    Type => 'Local', # Local|Attachment|MD5
-);
-$Self->Is(
-    $Filename5 || '',
-    'me_to_alal.xml',
-    '#5 FilenameCleanUp() - Local',
-);
-
-my $Filename6 = $Self->{MainObject}->FilenameCleanUp(
-    Filename => 'me_to/a+la l.xml',
-    Type => 'Attachment', # Local|Attachment|MD5
-);
-$Self->Is(
-    $Filename6 || '',
-    'me_to_a+la_l.xml',
-    '#6 FilenameCleanUp() - Attachment',
-);
-
-my $Filename7 = $Self->{MainObject}->FilenameCleanUp(
-    Filename => 'me_to/a+lal Grüße 0.xml',
-    Type => 'Local', # Local|Attachment|MD5
-);
-$Self->Is(
-    $Filename7 || '',
-    'me_to_a+lal Grüße 0.xml',
-    '#7 FilenameCleanUp() - Local',
+# FilenameCleanUp - tests
+my @Tests = (
+    {
+        Name => 'FilenameCleanUp() - Local',
+        FilenameOrig => 'me_t o/alal.xml',
+        FilenameNew  => 'me_t o_alal.xml',
+        Type => 'Local',
+    },
+    {
+        Name => 'FilenameCleanUp() - Local',
+        FilenameOrig => 'me_to/al?al"l.xml',
+        FilenameNew  => 'me_to_al_al_l.xml',
+        Type => 'Local',
+    },
+    {
+        Name => 'FilenameCleanUp() - Local',
+        FilenameOrig => 'me_to/a\/\\lal.xml',
+        FilenameNew  => 'me_to_a___lal.xml',
+        Type => 'Local',
+    },
+    {
+        Name => 'FilenameCleanUp() - Local',
+        FilenameOrig => 'me_to/al[al].xml',
+        FilenameNew  => 'me_to_al_al_.xml',
+        Type => 'Local',
+    },
+    {
+        Name => 'FilenameCleanUp() - Local',
+        FilenameOrig => 'me_to/alal.xml',
+        FilenameNew  => 'me_to_alal.xml',
+        Type => 'Local',
+    },
+    {
+        Name => 'FilenameCleanUp() - Attachment',
+        FilenameOrig => 'me_to/a+la l.xml',
+        FilenameNew  => 'me_to_a+la_l.xml',
+        Type => 'Attachment',
+    },
+    {
+        Name => 'FilenameCleanUp() - Local',
+        FilenameOrig => 'me_to/a+lal Grüße 0.xml',
+        FilenameNew  => 'me_to_a+lal Grüße 0.xml',
+        Type => 'Local',
+    },
+    {
+        Name => 'FilenameCleanUp() - Attachment',
+        FilenameOrig => 'me_to/a+lal123456789012345678901234567890Liebe Grüße aus Straubing123456789012345678901234567890123456789012345678901234567890.xml',
+        FilenameNew  => 'me_to_a+lal123456789012345678901234567890Liebe_Gruesse_aus_Straubing123456789012345678901234567.xml',
+        Type => 'Attachment',
+    },
+    {
+        Name => 'FilenameCleanUp() - md5',
+        FilenameOrig => 'some file.xml',
+        FilenameNew  => '6b9e62f9a8c56a0c06c66cc716e30c45',
+        Type => 'md5',
+    },
+    {
+        Name => 'FilenameCleanUp() - md5',
+        FilenameOrig => 'me_to/a+lal Grüße 0öäüßカスタマ.xml',
+        FilenameNew  => 'c235a9eabe8494b5f90ffd1330af3407',
+        Type => 'md5',
+    },
 );
 
-my $Filename8 = $Self->{MainObject}->FilenameCleanUp(
-    Filename => 'me_to/a+lal123456789012345678901234567890Liebe Grüße aus Straubing123456789012345678901234567890123456789012345678901234567890.xml',
-    Type => 'Attachment', # Local|Attachment|MD5
-);
-$Self->Is(
-    $Filename8 || '',
-    'me_to_a+lal123456789012345678901234567890Liebe_Gruesse_aus_Straubing123456789012345678901234567.xml',
-    '#8 FilenameCleanUp() - Attachment',
-);
+for my $Test ( @Tests ) {
+    my $Filename = $Self->{MainObject}->FilenameCleanUp(
+        Filename => $Test->{FilenameOrig},
+        Type => $Test->{Type},
+    );
+    $Self->Is(
+        $Filename || '',
+        $Test->{FilenameNew},
+        $Test->{Name},
+    );
+}
 
 # md5sum tests
 my $String = 'abc1234567890';
@@ -100,7 +95,7 @@ my $MD5Sum = $Self->{MainObject}->MD5sum(
 $Self->Is(
     $MD5Sum || '',
     '57041f8f7dff9b67e3f97d7facbaf8d3',
-    "#9 MD5sum() - String - abc1234567890",
+    "MD5sum() - String - abc1234567890",
 );
 
 # test charset specific situations
@@ -114,7 +109,7 @@ if ($Charset eq 'utf-8') {
     $Self->Is(
         $MD5Sum || '',
         '56a681e0c46b1f156020182cdf62e825',
-        "#9 MD5sum() - String - abc1234567890äöüß-カスタマ",
+        "MD5sum() - String - abc1234567890äöüß-カスタマ",
     );
 }
 elsif ($Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15') {
@@ -127,7 +122,7 @@ elsif ($Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15') {
     $Self->Is(
         $MD5Sum || '',
         'f528f84187c4ca0e6fc9c4a937dbf9bb',
-        "#9 MD5sum() - String - $String",
+        "MD5sum() - String - $String",
     );
 }
 
@@ -146,7 +141,7 @@ for my $Extention (qw(doc pdf png txt xls)) {
     $Self->Is(
         $MD5Sum || '',
         $MD5SumOf{$Extention},
-        "#10 MD5sum() - Filename - Main-Test1.$Extention",
+        "MD5sum() - Filename - Main-Test1.$Extention",
     );
 }
 
@@ -161,7 +156,7 @@ for my $Extention (qw(doc pdf png txt xls)) {
     );
     $Self->True(
         ${$Content} || '',
-        "#11 FileRead() - Main-Test1.$Extention",
+        "FileRead() - Main-Test1.$Extention",
     );
     my $FileLocation = $Self->{MainObject}->FileWrite(
         Directory => $Self->{ConfigObject}->Get('TempDir'),
@@ -170,7 +165,7 @@ for my $Extention (qw(doc pdf png txt xls)) {
     );
     $Self->True(
         $FileLocation || '',
-        "#11 FileWrite() - $FileLocation",
+        "FileWrite() - $FileLocation",
     );
     my $MD5Sum2 = $Self->{MainObject}->MD5sum(
         Filename => $Self->{ConfigObject}->Get('TempDir').'/'.$FileLocation,
@@ -178,7 +173,7 @@ for my $Extention (qw(doc pdf png txt xls)) {
     $Self->Is(
         $MD5Sum2 || '',
         $MD5Sum || '',
-        "#11 MD5sum()>FileWrite()>MD5sum() - $FileLocation",
+        "MD5sum()>FileWrite()>MD5sum() - $FileLocation",
     );
     my $Success = $Self->{MainObject}->FileDelete(
         Directory => $Self->{ConfigObject}->Get('TempDir'),
@@ -186,7 +181,7 @@ for my $Extention (qw(doc pdf png txt xls)) {
     );
     $Self->True(
         $Success || '',
-        "#11 FileDelete() - $FileLocation",
+        "FileDelete() - $FileLocation",
     );
 }
 
@@ -200,7 +195,7 @@ for my $Extention (qw(doc pdf png txt xls)) {
     );
     $Self->True(
         ${$Content} || '',
-        "#12 FileRead() - Main-Test1.$Extention",
+        "FileRead() - Main-Test1.$Extention",
     );
     my $FileLocation = $Self->{MainObject}->FileWrite(
         Location => $Self->{ConfigObject}->Get('TempDir')."Main-Test1.$Extention",
@@ -208,7 +203,7 @@ for my $Extention (qw(doc pdf png txt xls)) {
     );
     $Self->True(
         $FileLocation || '',
-        "#12 FileWrite() - $FileLocation",
+        "FileWrite() - $FileLocation",
     );
     my $MD5Sum2 = $Self->{MainObject}->MD5sum(
         Filename => $FileLocation,
@@ -216,14 +211,14 @@ for my $Extention (qw(doc pdf png txt xls)) {
     $Self->Is(
         $MD5Sum2 || '',
         $MD5Sum || '',
-        "#12 MD5sum()>FileWrite()>MD5sum() - $FileLocation",
+        "MD5sum()>FileWrite()>MD5sum() - $FileLocation",
     );
     my $Success = $Self->{MainObject}->FileDelete(
         Location => $FileLocation,
     );
     $Self->True(
         $Success || '',
-        "#12 FileDelete() - $FileLocation",
+        "FileDelete() - $FileLocation",
     );
 }
 
@@ -237,7 +232,7 @@ my $FileLocation = $Self->{MainObject}->FileWrite(
 );
 $Self->True(
     $FileLocation || '',
-    "#13 FileWrite() - $FileLocation",
+    "FileWrite() - $FileLocation",
 );
 
 my $ContentARRAYRef = $Self->{MainObject}->FileRead(
@@ -248,22 +243,22 @@ my $ContentARRAYRef = $Self->{MainObject}->FileRead(
 );
 $Self->True(
     $ContentARRAYRef || '',
-    "#13 FileRead() - $FileLocation $ContentARRAYRef",
+    "FileRead() - $FileLocation $ContentARRAYRef",
 );
 $Self->Is(
     $ContentARRAYRef->[0] || '',
    "some\n",
-    "#13 FileRead() [0] - $FileLocation",
+    "FileRead() [0] - $FileLocation",
 );
 $Self->Is(
     $ContentARRAYRef->[1] || '',
    "test\n",
-    "#13 FileRead() [1] - $FileLocation",
+    "FileRead() [1] - $FileLocation",
 );
 $Self->Is(
     $ContentARRAYRef->[2] || '',
     "öäüßカスタマ",
-    "#13 FileRead() [2] - $FileLocation",
+    "FileRead() [2] - $FileLocation",
 );
 
 my $Success = $Self->{MainObject}->FileDelete(
@@ -272,7 +267,7 @@ my $Success = $Self->{MainObject}->FileDelete(
 );
 $Self->True(
     $Success || '',
-    "#13 FileDelete() - $FileLocation",
+    "FileDelete() - $FileLocation",
 );
 
 1;
