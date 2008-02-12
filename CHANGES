@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.69 2008-02-11 16:33:13 ot Exp $
+# $Id: CHANGES,v 1.465.2.70 2008-02-12 13:35:37 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 2.2.6 (2008/??/??)
+ - (2008/02/12) Fixed bug# 2363 - AgentTicketPhone###Body is now a text area
+    instead of a string.
  - (2008/02/11) Fixed bug# 1975 - OTRS cannot forward .eml files.
  - (2008/02/11) Fixed bug# 2413 - OTRS cannot write to BLOB column in table
     XML_STORAGE with DB2.
