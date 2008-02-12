@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.566 2008-02-12 17:59:31 martin Exp $
+# $Id: CHANGES,v 1.567 2008-02-12 18:42:45 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,8 +26,6 @@ CVS HEAD (????/??/??)
  - (2008/02/04) Fixed bug# 1608 - Badly formatted calendar popup.
 -  (2008/02/04) Fixed bug# 2657 - Improved regexp in RPM spec files to detect
     already existing "otrs" user (it was also matching on xxxotrsxxx names).
--  (2008/02/01) Fixed bug# 2638 - Broken email syntax check if
-    _somebody@example.com is used.
  - (2008/01/28) Added note permission "note" to default ticket permissions to
     manage list of inform involved agents out of the box.
  - (2008/01/24) Fixed bug# 2611 - PGP module not working on Windows platform.
@@ -109,6 +107,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.6 (2008/??/??)
+-  (2008/02/12) Fixed bug# 2638 - Broken email syntax check if
+    _somebody@example.com is used.
  - (2008/02/12) Fixed bug# 1957 - Auto reply for new Phone-Tickets goes to
     non-existing addresses (if no email addres is given in From field).
  - (2008/02/12) Fixed bug# 2363 - AgentTicketPhone###Body is now a text area
