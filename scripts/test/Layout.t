@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.2 2008-02-10 17:12:46 tr Exp $
+# $Id: Layout.t,v 1.3 2008-02-12 12:59:40 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,6 +17,9 @@ use Kernel::System::Web::Request;
 use Kernel::System::Group;
 use Kernel::System::Ticket;
 use Kernel::Output::HTML::Layout;
+
+# declare externally defined variables to avoid errors under 'use strict'
+use vars qw( $Self %Param );
 
 $Self->{SessionObject} = Kernel::System::AuthSession->new(
     ConfigObject   => $Self->{ConfigObject},
