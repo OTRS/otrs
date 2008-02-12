@@ -2,14 +2,17 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.72 2008-02-12 18:39:05 ub Exp $
+# $Id: CHANGES,v 1.465.2.73 2008-02-12 20:53:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 2.2.6 (2008/??/??)
--  (2008/02/12) Fixed bug# 2638 - Broken email syntax check if
+ - (2008/02/12) Fixed bug# 2533 - Wide character error when searching for a
+    customer with umlaut in LDAP backend with cache option (CacheTTL) in
+    CustomerUser config option.
+ - (2008/02/12) Fixed bug# 2638 - Broken email syntax check if
     _somebody@example.com is used.
  - (2008/02/12) Fixed bug# 1957 - Auto reply for new Phone-Tickets goes to
     non-existing addresses (if no email addres is given in From field).

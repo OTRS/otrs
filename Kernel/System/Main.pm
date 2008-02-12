@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Main.pm - main core components
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.10.2.1 2007-09-24 04:42:08 martin Exp $
+# $Id: Main.pm,v 1.10.2.2 2008-02-12 20:53:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Main;
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10.2.1 $';
+$VERSION = '$Revision: 1.10.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -196,6 +196,7 @@ sub FilenameCleanUp {
     }
 
     if ($Param{Type} && $Param{Type} =~ /^md5/i) {
+        $Self->{EncodeObject}->EncodeOutput( \$Param{Filename} );
         $Param{Filename} = md5_hex($Param{Filename});
     }
     # replace invalid token for attachment file names
@@ -624,12 +625,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.10.2.1 $ $Date: 2007-09-24 04:42:08 $
+$Revision: 1.10.2.2 $ $Date: 2008-02-12 20:53:26 $
 
 =cut
