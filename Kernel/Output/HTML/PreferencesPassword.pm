@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesPassword.pm,v 1.15 2008-01-31 06:21:30 tr Exp $
+# $Id: PreferencesPassword.pm,v 1.16 2008-02-12 22:02:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -142,6 +142,10 @@ sub Run {
                 Key       => 'UserLastPw',
                 Value     => $Param{UserData}->{UserPw},
             );
+
+            # encode output, needed by crypt() only non utf8 signs
+            $Self->{EncodeObject}->EncodeOutput( \$Param{UserData}->{UserLogin} );
+            $Self->{EncodeObject}->EncodeOutput( \$Pw );
 
             # update SessionID
             $Self->{SessionObject}->UpdateSessionID(

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.568 2008-02-12 20:52:09 martin Exp $
+# $Id: CHANGES,v 1.569 2008-02-12 22:02:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,10 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/02/12) Fixed bug# 2670 - "wide character" error when login with
+    russian password.
+    Note: It could be on older systems, that existing passwords are not
+    longer valid. Just reset the password and everything will work fine.
  - (2008/02/12) Fixed bug# 1996 - Replaced 'U' & 'D' with respective arrow
     icons.
  - (2008/02/12) Improved Fix for bug# 1608 - Badly formatted calendar popup.
