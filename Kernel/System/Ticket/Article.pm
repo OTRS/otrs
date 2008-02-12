@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.156 2008-01-11 23:53:27 martin Exp $
+# $Id: Article.pm,v 1.157 2008-02-12 17:59:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Ticket::Article;
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.156 $) [1];
+$VERSION = qw($Revision: 1.157 $) [1];
 
 =head1 NAME
 
@@ -93,7 +93,6 @@ sub ArticleCreate {
     if ( !$Param{Body} ) {
         $Param{Body} = 'No body';
     }
-
     # if body isn't text, attach body as attachment (mostly done by OE) :-/
     elsif ( $Param{ContentType} && $Param{ContentType} !~ /\btext\b/i ) {
         $Param{AttachContentType} = $Param{ContentType};
@@ -133,8 +132,7 @@ sub ArticleCreate {
     }
 
     # do db insert
-    my $SQL
-        = "INSERT INTO article "
+    my $SQL = "INSERT INTO article "
         . " (ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, "
         . " a_cc, a_subject, a_message_id, a_body, a_content_type, content_path, "
         . " valid_id, incoming_time,  create_time, create_by, change_time, change_by) "
@@ -2533,6 +2531,26 @@ sub SendAutoResponse {
         $GetParam{From} = $GetParam{ReplyTo};
     }
 
+    # check if sender has an valid email address
+    if ( $GetParam{From} !~ /@/ ) {
+
+        # add it to ticket history
+        $Self->HistoryAdd(
+            TicketID     => $Param{TicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType  => 'Misc',
+            Name         => "Sent not auto response, no valid email in From.",
+        );
+
+        # log
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Sent not auto response to '$GetParam{From}' because of"
+                . " invalid From address",
+        );
+        return 1;
+    }
+
     # check if sender is e. g. MAILDER-DAEMON or Postmaster
     my $NoAutoRegExp = $Self->{ConfigObject}->Get('SendNoAutoResponseRegExp');
     if ( $GetParam{From} =~ /$NoAutoRegExp/i ) {
@@ -2580,7 +2598,9 @@ sub SendAutoResponse {
     $Param{Body}    =~ s/<OTRS_CURRENT_.+?>/-/gi;
 
     # get owner data
-    my %OwnerPreferences = $Self->{UserObject}->GetUserData( UserID => $Article{OwnerID}, );
+    my %OwnerPreferences = $Self->{UserObject}->GetUserData(
+        UserID => $Article{OwnerID},
+    );
     for ( keys %OwnerPreferences ) {
         if ( $OwnerPreferences{$_} ) {
             $Param{Body}    =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
@@ -2593,8 +2613,9 @@ sub SendAutoResponse {
     $Param{Body}    =~ s/<OTRS_OWNER_.+?>/-/gi;
 
     # get responsible data
-    my %ResponsiblePreferences
-        = $Self->{UserObject}->GetUserData( UserID => $Article{ResponsibleID}, );
+    my %ResponsiblePreferences = $Self->{UserObject}->GetUserData(
+        UserID => $Article{ResponsibleID},
+    );
     for ( keys %ResponsiblePreferences ) {
         if ( $ResponsiblePreferences{$_} ) {
             $Param{Body}    =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
