@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.59 2008-02-12 21:52:33 martin Exp $
+# $Id: DB.pm,v 1.60 2008-02-12 21:58:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,11 +16,12 @@ use warnings;
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 use Kernel::System::Cache;
+use Kernel::System::Encode;
 
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -39,6 +40,9 @@ sub new {
 
     # create check item object
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
+
+    # create encode object
+    $Self->{EncodeObject}    = Kernel::System::Encode->new(%Param);
 
     # create cache object
     if ( $Self->{CustomerUserMap}->{'CacheTTL'} ) {
