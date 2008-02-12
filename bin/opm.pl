@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: opm.pl,v 1.21 2008-02-01 12:49:20 tr Exp $
+# $Id: opm.pl,v 1.22 2008-02-12 12:29:22 ot Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -102,6 +102,7 @@ if ( $Opts{'h'} ) {
     print "       opm.pl -a upgrade -p http://ftp.otrs.org/pub/otrs/packages/:Package-1.0.0.opm\n";
     print "   developer: \n";
     print "       opm.pl -a build -p /path/to/Package-1.0.0.sopm\n";
+    print "       opm.pl -a build -p /path/to/Package-1.0.0.sopm -d module-home-path\n";
     print "       opm.pl -a index -d /path/to/repository/\n";
     exit 1;
 }
@@ -257,6 +258,16 @@ if ( $Opts{'a'} eq 'build' ) {
         print STDERR "ERROR: $Opts{'o'} doesn't exist!\n";
         exit 1;
     }
+
+    # build from given package directory, if any (otherwise default to OTRS home)
+    if ($Opts{'d'}) {
+        if ( !-d $Opts{'d'} ) {
+            print STDERR "ERROR: $Opts{'d'} doesn't exist!\n";
+            exit 1;
+        }
+        $Structure{Home} = $Opts{'d'};
+    }
+
     my $Filename = $Structure{Name}->{Content} . '-' . $Structure{Version}->{Content} . '.opm';
     my $Content  = $CommonObject{PackageObject}->PackageBuild(%Structure);
     my $File     = $CommonObject{MainObject}->FileWrite(
