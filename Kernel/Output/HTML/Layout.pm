@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.70 2008-02-10 17:11:51 tr Exp $
+# $Id: Layout.pm,v 1.71 2008-02-12 09:08:08 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 =head1 NAME
 
@@ -1462,6 +1462,9 @@ sub Footer {
     my ( $Self, %Param ) = @_;
 
     my $Type = $Param{Type} || '';
+
+    # unless explicitly specified, we set the footer width to use the whole space
+    $Param{Width} ||= '100%';
 
     # create & return output
     return $Self->Output( TemplateFile => "Footer$Type", Data => \%Param );
@@ -3650,6 +3653,11 @@ sub CustomerFooter {
 
     my $Type = $Param{Type} || '';
 
+    # unless explicitly specified, we set the footer width to the defaults, which are:
+    #     800 pixel for the standard footer
+    #     100% for any others (small)
+    $Param{Width} ||= $Type eq '' ? '800' : '100%';
+
     # create & return output
     return $Self->Output( TemplateFile => "CustomerFooter$Type", Data => \%Param );
 }
@@ -3853,6 +3861,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2008-02-10 17:11:51 $
+$Revision: 1.71 $ $Date: 2008-02-12 09:08:08 $
 
 =cut

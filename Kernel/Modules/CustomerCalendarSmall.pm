@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerCalendarSmall.pm - small calendar lookup
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCalendarSmall.pm,v 1.9 2008-01-31 06:22:12 tr Exp $
+# $Id: CustomerCalendarSmall.pm,v 1.10 2008-02-12 09:08:07 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Date::Pcalc qw(Today Days_in_Month Day_of_Week);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -153,7 +153,7 @@ sub Run {
         TemplateFile => 'AgentCalendarSmall',
         Data         => { %Param, Prefix => $Prefix, }
     );
-    $Output .= $Self->{LayoutObject}->CustomerFooter( Type => 'Small' );
+    $Output .= $Self->{LayoutObject}->CustomerFooter( Type => 'Small', Width => '225' );
     return $Output;
 }
 

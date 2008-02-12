@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.562 2008-02-11 16:34:08 ot Exp $
+# $Id: CHANGES,v 1.563 2008-02-12 09:08:08 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,9 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/02/12) Improved Fix for bug# 1608 - Badly formatted calendar popup.
+    Now the table width is explicity passed into DTL from the perl module
+    and the customer calendar view has been fixed, too.
  - (2008/02/11) Added queue preferences - module support like for agents and
     customer to create easier extentions/addons for queues.
     See Developer-Manual for more information.
