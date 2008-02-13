@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.38 2008-02-11 12:18:17 martin Exp $
+# $Id: AdminQueue.pm,v 1.39 2008-02-13 14:54:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Crypt;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -119,7 +119,10 @@ sub Run {
 
             # update preferences
             my %QueueData = $Self->{QueueObject}->QueueGet(ID => $GetParam{QueueID});
-            my %Preferences = %{$Self->{ConfigObject}->Get('QueuePreferences')};
+            my %Preferences = ();
+            if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
+                %Preferences = %{$Self->{ConfigObject}->Get('QueuePreferences')};
+            }
             foreach my $Item (sort keys %Preferences) {
                 my $Module = $Preferences{$Item}->{Module} || 'Kernel::Output::HTML::QueuePreferencesGeneric';
                 # load module
