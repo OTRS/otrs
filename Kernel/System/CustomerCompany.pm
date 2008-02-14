@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.7 2008-02-01 14:02:32 martin Exp $
+# $Id: CustomerCompany.pm,v 1.8 2008-02-14 14:14:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -79,8 +79,7 @@ sub new {
     # config options
     $Self->{CustomerCompanyTable} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Table}
         || die "Need CustomerCompany->Params->Table in Kernel/Config.pm!";
-    $Self->{CustomerCompanyKey}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyKey}
+    $Self->{CustomerCompanyKey} = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyKey}
         || $Self->{ConfigObject}->Get('CustomerCompany')->{Key}
         || die "Need CustomerCompany->CustomerCompanyKey in Kernel/Config.pm!";
     $Self->{CustomerCompanyMap} = $Self->{ConfigObject}->Get('CustomerCompany')->{Map}
@@ -364,15 +363,16 @@ sub CustomerCompanyList {
     # sql
     my %List = ();
     $SQL = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable} WHERE $SQL";
-
     $Self->{DBObject}->Prepare( SQL => $SQL, Limit => $Self->{SearchListLimit});
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my $Value = '';
         for my $Position ( 1..10 ) {
             if ( $Value ) {
-                $Value = " ";
+                $Value .= ' ';
             }
-            $Value .= $Row[ $Position ];
+            if ( defined $Row[ $Position ] ) {
+                $Value .= $Row[ $Position ];
+            }
         }
         $List{ $Row[0] } = $Value;
     }
@@ -407,6 +407,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2008-02-01 14:02:32 $
+$Revision: 1.8 $ $Date: 2008-02-14 14:14:51 $
 
 =cut
