@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Cache/File.pm - all cache functions
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: File.pm,v 1.8 2008-01-15 16:01:37 tr Exp $
+# $Id: File.pm,v 1.9 2008-02-14 15:04:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Cache::File;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -62,7 +62,7 @@ sub Set {
         Permission => '664',
     );
 
-    if ($Self->{ConfigObject}->Get('DefaultCharset') eq 'utf-8') {
+    if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
         $FileData{Mode} = 'utf8';
     }
 
@@ -87,7 +87,7 @@ sub Get {
         DisableWarnings => 1,
     );
 
-    if ($Self->{ConfigObject}->Get('DefaultCharset') eq 'utf-8') {
+    if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
         $FileData{Mode} = 'utf8';
     }
 
