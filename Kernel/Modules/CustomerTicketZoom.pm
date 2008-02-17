@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.20 2008-01-31 06:22:12 tr Exp $
+# $Id: CustomerTicketZoom.pm,v 1.21 2008-02-17 20:08:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -97,24 +97,22 @@ sub Run {
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
+    # get params
+    for ( qw(
+        Subject Body StateID PriorityID
+        AttachmentUpload
+        AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
+        AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
+        AttachmentDelete9 AttachmentDelete10
+        ) )
+    {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+    }
+
     # check follow up
     if ( $Self->{Subaction} eq 'Store' ) {
         my $NextScreen = $Self->{NextScreen} || $Self->{Config}->{NextScreenAfterFollowUp};
         my %Error = ();
-
-        # get params
-        for (
-            qw(
-            Subject Body StateID PriorityID
-            AttachmentUpload
-            AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
-            AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-            AttachmentDelete9 AttachmentDelete10
-            )
-            )
-        {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-        }
 
         # rewrap body if exists
         if ( $GetParam{Body} ) {
@@ -256,8 +254,9 @@ sub Run {
                 $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
 
                 # redirect to zoom view
-                return $Self->{LayoutObject}
-                    ->Redirect( OP => "Action=$NextScreen&TicketID=$Self->{TicketID}" );
+                return $Self->{LayoutObject}->Redirect(
+                    OP => "Action=$NextScreen&TicketID=$Self->{TicketID}",
+                );
             }
             else {
                 my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
@@ -269,8 +268,9 @@ sub Run {
     }
 
     $Ticket{TmpCounter} = 0;
-    $Ticket{TicketTimeUnits}
-        = $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $Ticket{TicketID} );
+    $Ticket{TicketTimeUnits} = $Self->{TicketObject}->TicketAccountedTimeGet(
+        TicketID => $Ticket{TicketID},
+    );
 
     # get all atricle of this ticket
     my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList(Type => 'Customer');
