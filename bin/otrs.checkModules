@@ -3,7 +3,7 @@
 # bin/otrs.checkModules - to check needed cpan framework modules
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.checkModules,v 1.14.2.1 2008-02-17 21:40:03 martin Exp $
+# $Id: otrs.checkModules,v 1.14.2.2 2008-02-17 21:43:31 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -147,7 +147,8 @@ my @NeededModules = (
         Depends  => [
             {
                 Module => 'Compress::Zlib',
-                Required => 1,
+                Required => 0,
+                Comment  => 'for PDF required!',
             },
         ]
     },
