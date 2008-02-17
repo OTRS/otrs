@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.573 2008-02-17 14:28:28 martin Exp $
+# $Id: CHANGES,v 1.574 2008-02-17 16:15:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -114,8 +114,11 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.6 (2008/??/??)
+ - (2008/02/15) Fixed non fixed font and wrong new line breaking problem on
+    safari in textarea input fields (updated Kernel/Output/HTML/Standard/css.dtl
+    and Kernel/Output/HTML/Standard/customer-css.dtl).
  - (2008/02/15) Fixed bug# 2694 - URL-to-long-error in
-    AdminCustomerUserService mask.
+    AdminCustomerUserService mask on changing settings.
  - (2008/02/14) Fixed bug# 2239 - CustomerCompanySupport is broken when
     using external backend DB.
  - (2008/02/12) Fixed bug# 2533 - Wide character error when searching for a

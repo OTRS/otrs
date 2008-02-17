@@ -1,12 +1,12 @@
 # --
 # customer-css.dtl - customer css
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: customer-css.dtl,v 1.12 2007-06-28 23:57:17 martin Exp $
+# $Id: customer-css.dtl,v 1.13 2008-02-17 16:15:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <style type="text/css">
@@ -16,6 +16,7 @@ body { color:black;background-color:#ffffff;font-size:11pt;font-family:Geneva,He
 a { color:#557799; }
 a:hover { color:#002244;text-decoration:none; }
 pre { font-size:12px;font-family:Courier,monospace,fixed; }
+textarea { font-family:Courier,monospace,fixed;font-size:12px; }
 td,th { font-size:12px;font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif; }
 # header
 .header { color:#efefef;background-color:green;font-weight:bold;font-size:16px;font-family:Geneva,Helvetica,Arial,sans-serif; }
