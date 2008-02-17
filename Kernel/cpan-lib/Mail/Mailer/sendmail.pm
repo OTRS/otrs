@@ -1,11 +1,16 @@
+# Copyrights 1995-2007 by Mark Overmeer <perl@overmeer.net>.
+#  For other contributors see ChangeLog.
+# See the manual pages for details on the licensing terms.
+# Pod stripped from pm file by OODoc 1.03.
+use strict;
+
 package Mail::Mailer::sendmail;
-use vars qw(@ISA);
-require Mail::Mailer::rfc822;
-@ISA = qw(Mail::Mailer::rfc822);
+use vars '$VERSION';
+$VERSION = '2.02';
+use base 'Mail::Mailer::rfc822';
 
-
-sub exec {
-    my($self, $exe, $args, $to) = @_;
+sub exec($$$$)
+{   my($self, $exe, $args, $to, $sender) = @_;
     # Fork and exec the mailer (no shell involved to avoid risks)
 
     # We should always use a -t on sendmail so that Cc: and Bcc: work
@@ -13,5 +18,8 @@ sub exec {
     # Chopped out the @$to arguments, because -t means
     # they are sent in the body, and postfix complains if they
     # are also given on comand line.
+
     exec( $exe, '-t', @$args );
 }
+
+1;

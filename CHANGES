@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.571 2008-02-15 12:45:30 mh Exp $
+# $Id: CHANGES,v 1.572 2008-02-17 14:23:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/02/17) Upgraded Mail::Tools from version 1.77 to 2.02 from CPAN.
  - (2008/02/12) Fixed bug# 2670 - "wide character" error when login with
     russian password.
     Note: It could be on older systems, that existing passwords are not

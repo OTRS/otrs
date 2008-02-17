@@ -1,16 +1,22 @@
+# Copyrights 1995-2007 by Mark Overmeer <perl@overmeer.net>.
+#  For other contributors see ChangeLog.
+# See the manual pages for details on the licensing terms.
+# Pod stripped from pm file by OODoc 1.03.
+use strict;
+
 package Mail::Mailer::smtp;
-use vars qw(@ISA);
+use vars '$VERSION';
+$VERSION = '2.02';
+use base 'Mail::Mailer::rfc822';
+
 use Net::SMTP;
 use Mail::Util qw(mailaddress);
 use Carp;
 
-require Mail::Mailer::rfc822;
-@ISA = qw(Mail::Mailer::rfc822);
-
 sub can_cc { 0 }
 
 sub exec {
-    my($self, $exe, $args, $to) = @_;
+    my ($self, $exe, $args, $to) = @_;
     my %opt   = @$args;
     my $host  = $opt{Server} || undef;
     $opt{Debug} ||= 0;
@@ -19,71 +25,77 @@ sub exec {
     my $smtp = Net::SMTP->new($host, %opt)
 	or return undef;
 
-    if ($opt{Auth}) {
-       $smtp->auth(@{$opt{Auth}})
+    if($opt{Auth})
+    {   $smtp->auth(@{$opt{Auth}})
            or return undef;
     }
 
-    ${*$self}{'sock'} = $smtp;
+    ${*$self}{sock} = $smtp;
 
-    $smtp->mail(mailaddress());
-    my $u;
-    foreach $u (@$to) {
-	$smtp->to($u);
-    }
+    $smtp->mail(mailaddress);
+    $smtp->to($_) for @$to;
     $smtp->data;
-    untie(*$self) if tied *$self;
-    tie *$self, 'Mail::Mailer::smtp::pipe',$self;
+
+    untie *$self if tied *$self;
+    tie *$self, 'Mail::Mailer::smtp::pipe', $self;
     $self;
 }
 
-sub set_headers {
-    my($self,$hdrs) = @_;
-    $self->SUPER::set_headers({
-	From => "<" . mailaddress() . ">",
-	%$hdrs,
-	'X-Mailer' => "Mail::Mailer[v$Mail::Mailer::VERSION] Net::SMTP[v$Net::SMTP::VERSION]"
-    })
+sub set_headers($)
+{   my ($self, $hdrs) = @_;
+    $self->SUPER::set_headers
+     ( { From => "<" . mailaddress() . ">"
+       , %$hdrs
+       , 'X-Mailer' => "Mail::Mailer[v$Mail::Mailer::VERSION] Net::SMTP[v$Net::SMTP::VERSION]"
+       }
+     );
 }
 
-sub epilogue {
-    my $self = shift;
-    my $sock = ${*$self}{'sock'};
+sub epilogue()
+{   my $self = shift;
+    my $sock = ${*$self}{sock};
+
     $sock->dataend;
     $sock->quit;
-    delete ${*$self}{'sock'};
-    untie(*$self);
+
+    delete ${*$self}{sock};
+    untie *$self;
 }
 
-sub close {
-    my($self, @to) = @_;
-    my $sock = ${*$self}{'sock'};
-    if ($sock && fileno($sock)) {
-        $self->epilogue;
-        # Epilogue should destroy the SMTP filehandle,
-        # but just to be on the safe side.
-        if ($sock && fileno($sock)) {
-            close $sock
-                or croak 'Cannot destroy socket filehandle';
-        }
-    }
+sub close(@)
+{   my ($self, @to) = @_;
+    my $sock = ${*$self}{sock};
+
+    $sock && fileno $sock
+        or return 1;
+
+    $self->epilogue;
+
+    # Epilogue should destroy the SMTP filehandle,
+    # but just to be on the safe side.
+    $sock && fileno $sock
+        or return 1;
+
+    close $sock
+        or croak 'Cannot destroy socket filehandle';
+
     1;
 }
 
 package Mail::Mailer::smtp::pipe;
+use vars '$VERSION';
+$VERSION = '2.02';
 
-sub TIEHANDLE {
-    my $pkg = shift;
-    my $self = shift;
-    my $sock = ${*$self}{'sock'};
-    return bless \$sock;
+sub TIEHANDLE
+{   my ($class, $self) = @_;
+    my $sock = ${*$self}{sock};
+    bless \$sock, $class;
 }
 
-sub PRINT {
-    my $self = shift;
+sub PRINT
+{   my $self = shift;
     my $sock = $$self;
     $sock->datasend( @_ );
 }
-
 
 1;

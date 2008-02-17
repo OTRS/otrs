@@ -1,80 +1,61 @@
-# Mail::Field::Date
-#
-# Copyright (c) 1997 Graham Barr <gbarr@pobox.com>. All rights reserved.
-# This program is free software; you can redistribute it and/or
-# modify it under the same terms as Perl itself.
-#
-# An example of a Mail::Field::* class
+# Copyrights 1995-2007 by Mark Overmeer <perl@overmeer.net>.
+#  For other contributors see ChangeLog.
+# See the manual pages for details on the licensing terms.
+# Pod stripped from pm file by OODoc 1.03.
+use strict;
 
 package Mail::Field::Date;
+use vars '$VERSION';
+$VERSION = '2.02';
+use base 'Mail::Field';
 
-use strict;
-use Mail::Field ();
-use vars qw(@ISA $VERSION);
 use Date::Format qw(time2str);
-use Date::Parse qw(str2time);
+use Date::Parse  qw(str2time);
 
-@ISA = qw(Mail::Field);
-$VERSION = '1.77';
+(bless [])->register('Date');
 
-bless([])->register('Date');
 
-sub set
-{
- my $self = shift;
- my $arg = @_ == 1 ? shift : { @_ };
- my $s;
+sub set()
+{   my $self = shift;
+    my $arg = @_ == 1 ? shift : { @_ };
 
- foreach $s (qw(Time TimeStr))
-  {
-   if(exists $arg->{$s}) { $self->{$s} = $arg->{$s} }
-		    else { delete $self->{$s} }
-  }
+    foreach my $s (qw(Time TimeStr))
+    {   if(exists $arg->{$s})
+             { $self->{$s} = $arg->{$s} }
+        else { delete $self->{$s} }
+    }
 
- $self;
+    $self;
 }
 
-sub parse
-{
- my $self = shift;
-
- delete $self->{Time};
- $self->{TimeStr} = shift;
- $self;
+sub parse($)
+{   my $self = shift;
+    delete $self->{Time};
+    $self->{TimeStr} = shift;
+    $self;
 }
 
-sub time
-{
- my $self = shift;
 
- if(@_)
-  {
-   delete $self->{TimeStr};
-   return $self->{Time} = shift;
-  }
+sub time(;$)
+{   my $self = shift;
 
- return $self->{Time}
-	if exists $self->{Time};
+    if(@_)
+    {   delete $self->{TimeStr};
+        return $self->{Time} = shift;
+    }
 
- $self->{Time} = str2time($self->{TimeStr});
+    $self->{Time} ||= str2time $self->{TimeStr};
 }
 
 sub stringify
-{
- my $self = shift;
-
- return $self->{TimeStr}
-	if exists $self->{TimeStr};
-
- time2str("%a, %e %b %Y %T %z", $self->time);
+{   my $self = shift;
+    $self->{TimeStr} ||= time2str("%a, %e %b %Y %T %z", $self->time);
 }
 
 sub reformat
-{
- my $self = shift;
- $self->time($self->time);
- $self->stringify;
+{   my $self = shift;
+    $self->time($self->time);
+    $self->stringify;
 }
 
 1;
-
