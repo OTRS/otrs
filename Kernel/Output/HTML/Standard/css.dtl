@@ -1,12 +1,12 @@
 # --
 # css.dtl - css file
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: css.dtl,v 1.16 2006-10-05 02:35:00 martin Exp $
+# $Id: css.dtl,v 1.16.2.1 2008-02-17 16:16:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 <style type="text/css">
 <!--
@@ -15,6 +15,7 @@ body { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11pt;background-c
 a { color:#557799;}
 a:hover { color:#002244;text-decoration:none; }
 pre { font-family:Courier,monospace,fixed;font-size:12px; }
+textarea { font-family:Courier,monospace,fixed;font-size:12px; }
 td,th { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
 # header
 .header { color:#ffffff;background-color:#000000;font-size:12px;vertical-align:top; }
