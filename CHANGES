@@ -2,15 +2,18 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.75 2008-02-15 12:44:01 mh Exp $
+# $Id: CHANGES,v 1.465.2.76 2008-02-17 16:16:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 2.2.6 (2008/??/??)
+ - (2008/02/15) Fixed non fixed font and wrong new line breaking problem on
+    safari in textarea input fields (updated Kernel/Output/HTML/Standard/css.dtl
+    and Kernel/Output/HTML/Standard/customer-css.dtl).
  - (2008/02/15) Fixed bug# 2694 - URL-to-long-error in
-    AdminCustomerUserService mask.
+    AdminCustomerUserService mask on changing settings.
  - (2008/02/14) Fixed bug# 2239 - CustomerCompanySupport is broken when
     using external backend DB.
  - (2008/02/12) Fixed bug# 2533 - Wide character error when searching for a
