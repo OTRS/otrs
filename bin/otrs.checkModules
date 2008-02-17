@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.checkModules - to check needed cpan framework modules
-# Copyright (C) 2001-2006 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.checkModules,v 1.19 2008-02-01 12:49:20 tr Exp $
+# $Id: otrs.checkModules,v 1.20 2008-02-17 21:41:04 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,87 +20,207 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-use strict;
-use warnings;
-
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin) . "/Kernel/cpan-lib";
+use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 # config
 my @NeededModules = (
-    qw(
-        CGI
-        Text::CSV
-        Date::Pcalc
-        Date::Format
-        DBI DBD::mysql
-        Digest::MD5
-        Crypt::PasswdMD5
-        LWP::UserAgent
-        IO::Scalar IO::Wrap
-        MIME::Base64 MIME::Tools Mail::Internet
-        Net::DNS Net::POP3 Net::LDAP Net::SMTP
-        Authen::SASL
-        GD GD::Text GD::Graph GD::Graph::lines GD::Text::Align
-        XML::Parser
-        PDF::API2 Compress::Zlib
-        )
+    {
+        Module   => 'CGI',
+        Required => 1,
+    },
+    {
+        Module   => 'Date::Pcalc',
+        Required => 1,
+    },
+    {
+        Module   => 'Date::Format',
+        Required => 1,
+    },
+    {
+        Module   => 'DBI',
+        Required => 1,
+    },
+    {
+        Module   => 'DBD::mysql',
+        Required => 1,
+    },
+    {
+        Module   => 'Digest::MD5',
+        Required => 1,
+    },
+    {
+        Module   => 'Crypt::PasswdMD5',
+        Required => 1,
+    },
+    {
+        Module   => 'LWP::UserAgent',
+        Required => 1,
+    },
+    {
+        Module   => 'IO::Scalar',
+        Required => 1,
+    },
+    {
+        Module   => 'IO::Wrap',
+        Required => 1,
+    },
+    {
+        Module   => 'MIME::Base64',
+        Required => 1,
+    },
+    {
+        Module   => 'Mail::Internet',
+        Required => 1,
+    },
+    {
+        Module   => 'MIME::Tools',
+        Required => 1,
+        Version  => '5.423',
+    },
+    {
+        Module   => 'Net::DNS',
+        Required => 1,
+        NotSupported  => [
+            {
+                Version => 0.60,
+                Comment => 'This version is broken and not useable, please upgrade to a higher version!',
+            },
+        ],
+    },
+    {
+        Module   => 'Net::POP3',
+        Required => 1,
+    },
+    {
+        Module   => 'Net::SMTP',
+        Required => 0,
+        Comment  => 'for SMTP backend',
+        Depends  => [
+            {
+                Module   => 'Authen::SASL',
+                Required => 0,
+                Comment  => 'for SMTP backend',
+            },
+        ]
+    },
+    {
+        Module   => 'Net::LDAP',
+        Required => 0,
+        Comment  => 'for directory authentication',
+    },
+    {
+        Module   => 'GD',
+        Required => 0,
+        Comment  => 'for stats',
+        Depends  => [
+            {
+                Module   => 'GD::Text',
+                Required => 0,
+                Comment  => 'for stats',
+            },
+            {
+                Module   => 'GD::Graph',
+                Required => 0,
+                Comment  => 'for stats',
+            },
+            {
+                Module   => 'GD::Graph::lines',
+                Required => 0,
+                Comment  => 'for stats',
+            },
+            {
+                Module   => 'GD::Text::Align',
+                Required => 0,
+                Comment  => 'for stats',
+            },
+        ],
+    },
+    {
+        Module   => 'PDF::API2',
+        Version  => 0.57,
+        Required => 0,
+        Comment  => 'for PDF required!',
+        Depends  => [
+            {
+                Module => 'Compress::Zlib',
+                Required => 1,
+            },
+        ]
+    },
+    {
+        Module   => 'XML::Parser',
+        Required => 0,
+        Comment  => 'for faster xml speed'
+    },
 );
 
 # try to load modules
-for (@NeededModules) {
-    if ( eval "require $_" ) {
-        printf "%20s ...", $_;
-        if ( $_ eq 'Net::DNS' ) {
-            if ( $Net::DNS::VERSION =~ m{\A0\.60\z}mx ) {
-                print
-                    " version 0.60 is not useable with OTRS. Please use an older or an newer one.\n";
+my $Depends = 0;
+foreach my $Module (@NeededModules) {
+    _Check($Module, $Depends);
+}
+exit;
+
+sub _Check {
+    my $Module = shift;
+    my $Depends = shift;
+    for ( 0..$Depends ) {
+        print "   ";
+    }
+    print "o $Module->{Module}";
+    my $Length = length( $Module->{Module} ) + ($Depends * 3);
+    for ( $Length .. 30 ) {
+        print ".";
+    }
+    if (eval "require $Module->{Module}") {
+        my $Version = eval "\$$Module->{Module}::VERSION";
+        if ( $Module->{Version} ) {
+            if ( $Version >= $Module->{Version} ) {
+                print "ok (v$Version)\n";
             }
             else {
-                print " ok\n";
+                print "failed!!! Version $Version installed but $Module->{Version} or higher is required!\n";
             }
         }
-        elsif ( $_ eq 'PDF::API2' ) {
-            if ( $PDF::API2::Version::VERSION =~ m{^(\d)\.(\d\d).*}mx
-                && ( $1 > 0 || ( $1 eq 0 && $2 >= 57 ) ) )
-            {
-                print " ok\n";
+        elsif ( $Module->{NotSupported} ) {
+            my $NotSupported = 0;
+            for my $Item ( @{ $Module->{NotSupported} } ) {
+                if ( $Item->{Version} == $Version ) {
+                    $NotSupported = $Item->{Comment};
+                    last;
+                }
+            }
+            if ( $NotSupported ) {
+                print "failed!!! Version $Version not supported! $NotSupported\n";
             }
             else {
-                print " is installed, but version 0.57 or newer is required.\n";
+                print "ok (v$Version)\n";
             }
         }
         else {
-            print " ok\n";
+            print "ok (v$Version)\n";
         }
     }
     else {
-        if ( $_ =~ /^GD/ ) {
-            print sprintf( " %20s %s\n", $_, '... not installed! (for stats - not required)' );
-        }
-        elsif ( $_ =~ /^Net::SMTP$/ || $_ =~ /^Authen::SASL$/ ) {
-            print
-                sprintf( " %20s %s\n", $_, '... not installed! (for SMTP backend - not required)' );
-        }
-        elsif ( $_ =~ /^Net::LDAP/ ) {
-            print sprintf( " %20s %s\n",
-                $_, '... not installed! (for directory authentication - not required)' );
-        }
-        elsif ( $_ =~ /^XML::Parser$/ ) {
-            print sprintf( " %20s %s\n",
-                $_, '... not installed! (required for strong xml use - not required!)' );
-        }
-        elsif ( $_ =~ /^PDF::API2$/ || $_ =~ /^Compress::Zlib$/ ) {
-            print sprintf( " %20s %s\n", $_, '... not installed! (for PDF output - not required)' );
+        my $Comment = $Module->{Comment} || '';
+        my $Required = $Module->{Required};
+        if ( $Required ) {
+            $Required = 'required - use "perl -MCPAN -e shell;"';
         }
         else {
-            print sprintf( " %20s %s\n",
-                $_, '... not installed! (required - use "perl -MCPAN -e shell;")' );
+            $Required = 'not required';
+        }
+        print "not installed! ($Required / $Comment)\n";
+    }
+
+    if ( $Module->{Depends} ) {
+        for my $ModuleSub ( @{ $Module->{Depends} } ) {
+            _Check($ModuleSub, $Depends+1);
         }
     }
 }
 
-exit;
