@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Encode.pm - character encodings
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.24 2008-01-09 14:47:24 martin Exp $
+# $Id: Encode.pm,v 1.25 2008-02-17 14:28:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Encode;
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -241,7 +241,7 @@ sub SetIO {
 
 Convert internal used charset (e. g. utf-8) into given charset (utf-8), if
 "EncodeInternalUsed()" returns one. Should be used on all I/O interfaces
-if data is already utf-8.
+if data is already utf-8 to set the utf-8 stamp.
 
     $EncodeObject->Encode(\$String);
 
@@ -255,27 +255,24 @@ sub Encode {
     return if !$Self->{CharsetEncodeFrontendUsed};
     return if !$Self->{CharsetEncodeFrontendUsed} =~ /utf(-8|8)/i;
 
-    if ( ref $What eq 'ARRAY' ) {
-        ROW:
-        for my $Row ( @{$What} ) {
-            next ROW if ! defined $Row;
-
-            $Row = Encode::decode_utf8($Row);
-            Encode::_utf8_on($Row);
-        }
-        return $What;
-    }
-
     if ( ref $What eq 'SCALAR' ) {
         return $What if !defined ${$What};
 
-        ${$What} = Encode::decode_utf8( ${$What} );
         Encode::_utf8_on( ${$What} );
 
         return $What;
     }
 
-    $What = Encode::decode_utf8($What);
+    if ( ref $What eq 'ARRAY' ) {
+        ROW:
+        for my $Row ( @{$What} ) {
+            next ROW if ! defined $Row;
+
+            Encode::_utf8_on($Row);
+        }
+        return $What;
+    }
+
     Encode::_utf8_on($What);
 
     return $What;
@@ -342,12 +339,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2008-01-09 14:47:24 $
+$Revision: 1.25 $ $Date: 2008-02-17 14:28:28 $
 
 =cut
