@@ -2,13 +2,17 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.76 2008-02-17 16:16:09 martin Exp $
+# $Id: CHANGES,v 1.465.2.77 2008-02-17 20:09:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 2.2.6 (2008/??/??)
+ - (2008/02/17) Fixed bug# 2255 - SysConfig setting Ticket ->
+    Frontend::Customer::Ticket::ViewZoom ->
+    Ticket::Frontend::CustomerTicketZoom###State has no effect (only
+    closed is shown any time).
  - (2008/02/15) Fixed non fixed font and wrong new line breaking problem on
     safari in textarea input fields (updated Kernel/Output/HTML/Standard/css.dtl
     and Kernel/Output/HTML/Standard/customer-css.dtl).

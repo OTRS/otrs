@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.13.2.1 2007-10-05 08:25:17 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.13.2.2 2008-02-17 20:09:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::CustomerTicketZoom;
@@ -16,7 +16,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13.2.1 $';
+$VERSION = '$Revision: 1.13.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -83,22 +83,22 @@ sub Run {
             Value => $Self->{RequestedURL},
         );
     }
+    # get params
+    foreach (qw(
+        Subject Body StateID PriorityID
+        AttachmentUpload
+        AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
+        AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
+        AttachmentDelete9 AttachmentDelete10
+    )) {
+        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+    }
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
     # check follow up
     if ($Self->{Subaction} eq 'Store') {
         my $NextScreen = $Self->{NextScreen} || $Self->{Config}->{NextScreenAfterFollowUp};
         my %Error = ();
-        # get params
-        foreach (qw(
-            Subject Body StateID PriorityID
-            AttachmentUpload
-            AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
-            AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-            AttachmentDelete9 AttachmentDelete10
-        )) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
-        }
         # rewrap body if exists
         if ($GetParam{Body}) {
             $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
