@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.77 2008-02-17 20:09:08 martin Exp $
+# $Id: CHANGES,v 1.465.2.78 2008-02-18 18:13:31 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 2.2.6 (2008/??/??)
+ - (2008/02/18) Fixed bug# 2674 - spellchecker always reports 0 errors
  - (2008/02/17) Fixed bug# 2255 - SysConfig setting Ticket ->
     Frontend::Customer::Ticket::ViewZoom ->
     Ticket::Frontend::CustomerTicketZoom###State has no effect (only
