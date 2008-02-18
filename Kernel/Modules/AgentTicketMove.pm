@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.14 2007-01-01 23:18:15 mh Exp $
+# $Id: AgentTicketMove.pm,v 1.14.2.1 2008-02-18 16:36:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AgentTicketMove;
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.14.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -131,7 +131,7 @@ sub Run {
             )) {
                 # show lock state
                 $Self->{LayoutObject}->Block(
-                    Name => 'TicketLocked',
+                    Name => 'PropertiesLock',
                     Data => {
                         %Param,
                         TicketID => $Self->{TicketID},
