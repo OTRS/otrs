@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.158 2008-01-31 02:02:25 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.159 2008-02-18 17:20:37 cs Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -447,8 +447,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LogModule::LogFile::Date" Required="1" Valid="1">
-        <Description Lang="en">Would you like to add a timestamp as suffix for every log entry?</Description>
-        <Description Lang="de">Soll für jeden Logeintrag das Datum und die aktuelle Zeit mit protokolliert werden?</Description>
+        <Description Lang="en">Set this config parameter to "Yes", if you want to add a suffix with the actual year and month to the otrs logfile. A logfile for every month will be created.</Description>
+        <Description Lang="de">Wird dieser Konfigurationsparameter aktiviert, wird an das OTRS Logfile eine Endung mit dem aktuellen Monat und Jahr angehängt und monatlich ein neues Logfile geschrieben.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Log</SubGroup>
         <Setting>
