@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.17 2008-01-31 06:22:12 tr Exp $
+# $Id: AgentTicketMerge.pm,v 1.18 2008-02-18 16:35:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -103,7 +103,7 @@ sub Run {
 
                 # show lock state
                 $Self->{LayoutObject}->Block(
-                    Name => 'TicketLocked',
+                    Name => 'PropertiesLock',
                     Data => { %Param, TicketID => $Self->{TicketID}, },
                 );
             }
@@ -167,8 +167,10 @@ sub Run {
         {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}
-                ->Output( TemplateFile => 'AgentTicketMerge', Data => { %Param, %Ticket } );
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentTicketMerge',
+                Data => { %Param, %Ticket },
+            );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
@@ -230,8 +232,9 @@ sub Run {
     else {
 
         # get last article
-        my %Article
-            = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $Self->{TicketID}, );
+        my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+            TicketID => $Self->{TicketID},
+        );
 
         # merge box
         my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
@@ -240,8 +243,9 @@ sub Run {
         # get customer data
         my %Customer = ();
         if ( $Ticket{CustomerUserID} ) {
-            %Customer = $Self->{CustomerUserObject}
-                ->CustomerUserDataGet( User => $Ticket{CustomerUserID}, );
+            %Customer = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $Ticket{CustomerUserID},
+            );
         }
 
         # prepare subject ...
@@ -251,7 +255,7 @@ sub Run {
         );
 
         # prepare from ...
-        my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Ticket{QueueID}, );
+        my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Ticket{QueueID} );
         $Article{QueueFrom} = "$Address{RealName} <$Address{Email}>";
         $Article{Email}     = $Address{Email};
         $Article{RealName}  = $Address{RealName};
@@ -267,8 +271,9 @@ sub Run {
             if ( $Param{$_} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
                 my $From = '';
                 if ( $Ticket{CustomerUserID} ) {
-                    $From = $Self->{CustomerUserObject}
-                        ->CustomerName( UserLogin => $Ticket{CustomerUserID} );
+                    $From = $Self->{CustomerUserObject}->CustomerName(
+                        UserLogin => $Ticket{CustomerUserID},
+                    );
                 }
                 if ( !$From ) {
                     $From = $Article{From} || '';
@@ -352,8 +357,10 @@ sub Run {
             $Param{$_} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
             $Param{$_} =~ s/<OTRS_CONFIG_.+?>/-/gi;
         }
-        $Output .= $Self->{LayoutObject}
-            ->Output( TemplateFile => 'AgentTicketMerge', Data => { %Param, %Ticket, %Article } );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentTicketMerge',
+            Data => { %Param, %Ticket, %Article },
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
