@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Spelling.pm - the global spelling module
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Spelling.pm,v 1.19 2007-10-02 10:37:06 mh Exp $
+# $Id: Spelling.pm,v 1.20 2008-02-18 18:12:23 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Spelling;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -147,6 +147,16 @@ sub Check {
         $Param{Text} =~ s/ß/sS/g;
     }
 
+    # check if spell checker exists in file system
+    if (! -e $Self->{ConfigObject}->Get('SpellCheckerBin')) {
+        $Self->{Error} = 1;
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't open spell: $!",
+        );
+        return;
+    }
+
     # get spell output
 
     # write text to file and read it with (i|a)spell
@@ -258,10 +268,10 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2007-10-02 10:37:06 $
+$Revision: 1.20 $ $Date: 2008-02-18 18:12:23 $
 
 =cut
