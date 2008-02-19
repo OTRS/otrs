@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.51.2.5 2007-12-18 10:28:30 tr Exp $
+# $Id: Layout.pm,v 1.51.2.6 2008-02-19 14:26:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Output::HTML::Layout;
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.51.2.5 $';
+$VERSION = '$Revision: 1.51.2.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1425,7 +1425,24 @@ sub Ascii2Html {
     if ($Param{LinkFeature}) {
         my $Counter = 0;
         $Text =~ s{
-            (>|<|&gt;|&lt;|)(https|http|\sftp|\swww)((:\/\/|\.).*?)([\?,;!\.]\s|[\?,;!\.]$|\s|\)|\"|&quot;|&nbsp;|]|'|>|<|&gt;|&lt;)
+            (>|<|&gt;|&lt;|)                # $1 greater-than and less-than sign
+             (https|http|\sftp|\swww)       # $2
+            ((:\/\/|\.).*?)                 # $3 and $4
+            (                               # $5
+                [\?,;!\.]\s
+              | [\?,;!\.]$
+              | \s
+              | \)\s                        # this construct is because of bug# 2450
+              | \"
+              | &quot;
+              | &nbsp;
+              | ]
+              | '
+              | >                           # greater-than and less-than sign
+              | <                           # "
+              | &gt;                        # "
+              | &lt;                        # "
+            )
         }
         {
             my $Start = $1;
@@ -3408,12 +3425,12 @@ This Software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.51.2.5 $ $Date: 2007-12-18 10:28:30 $
+$Revision: 1.51.2.6 $ $Date: 2008-02-19 14:26:18 $
 
 =cut

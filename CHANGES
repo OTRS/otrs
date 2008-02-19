@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.78 2008-02-18 18:13:31 ub Exp $
+# $Id: CHANGES,v 1.465.2.79 2008-02-19 14:26:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 2.2.6 (2008/??/??)
+ - (2008/02/19) Fixed bug# 2450 - Auto-conversion of URLs to links fail when
+    a ')' is encountered.
  - (2008/02/18) Fixed bug# 2674 - spellchecker always reports 0 errors
  - (2008/02/17) Fixed bug# 2255 - SysConfig setting Ticket ->
     Frontend::Customer::Ticket::ViewZoom ->
