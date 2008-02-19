@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.71 2008-02-12 09:08:08 ot Exp $
+# $Id: Layout.pm,v 1.72 2008-02-19 14:26:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 =head1 NAME
 
@@ -1545,6 +1545,22 @@ sub PrintFooter {
     return $Self->Output( TemplateFile => 'PrintFooter', Data => \%Param );
 }
 
+=item Ascii2Html()
+
+convert ascii to html
+
+    my $ConvertedText = $LayoutObject->Ascii2Html(
+        Text            => 'some Text',
+        Max             => ?, # optional
+        VMax            => ?, # optional
+        NewLine         => ?  # optional
+        HTMLResultMode  => ?; # optional
+        StripEmptyLines => ?, # optional
+        Type            => ?, # optional
+        LinkFeature     => ?, # optional
+
+=cut
+
 sub Ascii2Html {
     my ( $Self, %Param ) = @_;
 
@@ -1560,32 +1576,37 @@ sub Ascii2Html {
     if ( $Param{LinkFeature} ) {
         my $Counter = 0;
         $Text =~ s{
-            (>|<|&gt;|&lt;|)(https|http|\sftp|\swww)((:\/\/|\.).*?)([\?,;!\.]\s|[\?,;!\.]$|\s|\)|\"|&quot;|&nbsp;|]|'|>|<|&gt;|&lt;)
-        }
+            ( > | < | &gt; | &lt; | \s | ^ )  # $1 greater-than and less-than sign
+             (https|http|ftp|www)          # $2
+            ((?: :\/\/|\.).*?)             # $3
+            (                              # $4
+                [\?,;!\.\)] (?: \s | $ )        # \)\s this construct is because of bug# 2450
+              | \s
+              | \"
+              | &quot;
+              | &nbsp;
+              | ]
+              | '
+              | >                           # greater-than and less-than sign
+              | <                           # "
+              | &gt;                        # "
+              | &lt;                        # "
+            )        }
         {
             my $Start = $1;
-            my $Link = $2.$3;
-            my $End = $5;
-            if ($Link =~ /^(\s)/) {
-                $Start .= $1;
-            }
-            $Link =~ s/^\s//g;
+            my $Link  = $2 . $3;
+            my $End   = $4;
             $Link =~ s/ //g;
             $Counter++;
             if ($Link !~ /^(http|https|ftp):\/\//) {
                 $Link = "http://$Link";
             }
             my $Length = length($Link);
-            my $String = '';
-           for (1..$Length) {
-                if ($_ > 75) {
-                    last;
-                }
-                $String .= '#';
-            }
-            $LinkHash{"[$String"."$Counter]"} = $Link;
+            $Length = $Length < 75 ? $Length : 75;
+            my $String = '#' x $Length;
+            $LinkHash{"[$String$Counter]"} = $Link;
             $Start."[$String$Counter]".$End;
-        }egxi;
+        }egxism;
     }
 
     # max width
@@ -3861,6 +3882,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.71 $ $Date: 2008-02-12 09:08:08 $
+$Revision: 1.72 $ $Date: 2008-02-19 14:26:42 $
 
 =cut

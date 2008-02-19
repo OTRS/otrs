@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.3 2008-02-12 12:59:40 ot Exp $
+# $Id: Layout.t,v 1.4 2008-02-19 14:26:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -185,6 +185,111 @@ for my $File (@Files) {
         );
     }
 }
+
+# check the function Ascii2Html
+my $TestString = << 'END_STRING';
+Created:
+02/19/2008 12:17:03
+http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone
+
+asdfasfd  sdfas dfsdf
+http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone
+asdfasf
+
+asdfasf asasdfa fasdf
+http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone
+asdfasdf
+
+http://localhost/otrs-22-utf8/index.pl?Action=AgentTicke()tPhone
+
+asdfasfd  sdfas dfsdf
+http://localhost/otrs-22-utf8/index.pl?Action=AgentTi()cketPhone
+asdfasf
+
+asdfasf asasdfa fasdf
+http://localhost/otrs-22-utf8/index.pl?Action=AgentTick()etPhone
+asdfasdf
+
+ak@otrs.com
+http://www.google.de
+http://bugs.otrs.org/show_bug.cgi?id=2450
+<http://bugs.otrs.org/show_bug.cgi?id=2450>
+<http://bugs.otrs.org/s()how_bug.cgi?id=2450>
+
+http://bugs.otrs.org/show_bug.cgi?id=2450as
+<http://bugs.otrs.org/show_bug.cgi?id=2450>asdf
+<http://bugs.otrs.org/s()how_bug.cgi?id=2450> as
+
+wwww.google.de
+
+ftp.otrs.org
+
+https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl
+
+lkj https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl lk
+lkj https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl
+lk
+END_STRING
+
+my $NeededResult = <<'END_RESULT';
+Created:&nbsp;&nbsp;<br>
+02/19/2008 12:17:03<br>
+<a href="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone" target="_blank" title="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone">http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone</a><br>
+<br>
+asdfasfd&nbsp;&nbsp;sdfas dfsdf<br>
+<a href="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone" target="_blank" title="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone">http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone</a><br>
+asdfasf<br>
+<br>
+asdfasf asasdfa fasdf<br>
+<a href="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone" target="_blank" title="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone">http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone</a><br>
+asdfasdf<br>
+<br>
+<a href="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicke()tPhone" target="_blank" title="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicke()tPhone">http://localhost/otrs-22-utf8/index.pl?Action=AgentTicke()tPhone</a><br>
+<br>
+asdfasfd&nbsp;&nbsp;sdfas dfsdf<br>
+<a href="http://localhost/otrs-22-utf8/index.pl?Action=AgentTi()cketPhone" target="_blank" title="http://localhost/otrs-22-utf8/index.pl?Action=AgentTi()cketPhone">http://localhost/otrs-22-utf8/index.pl?Action=AgentTi()cketPhone</a><br>
+asdfasf<br>
+<br>
+asdfasf asasdfa fasdf<br>
+<a href="http://localhost/otrs-22-utf8/index.pl?Action=AgentTick()etPhone" target="_blank" title="http://localhost/otrs-22-utf8/index.pl?Action=AgentTick()etPhone">http://localhost/otrs-22-utf8/index.pl?Action=AgentTick()etPhone</a><br>
+asdfasdf<br>
+<br>
+ak@otrs.com<br>
+<a href="http://www.google.de" target="_blank" title="http://www.google.de">http://www.google.de</a><br>
+<a href="http://bugs.otrs.org/show_bug.cgi?id=2450" target="_blank" title="http://bugs.otrs.org/show_bug.cgi?id=2450">http://bugs.otrs.org/show_bug.cgi?id=2450</a><br>
+&lt;<a href="http://bugs.otrs.org/show_bug.cgi?id=2450" target="_blank" title="http://bugs.otrs.org/show_bug.cgi?id=2450">http://bugs.otrs.org/show_bug.cgi?id=2450</a>&gt;<br>
+&lt;<a href="http://bugs.otrs.org/s()how_bug.cgi?id=2450" target="_blank" title="http://bugs.otrs.org/s()how_bug.cgi?id=2450">http://bugs.otrs.org/s()how_bug.cgi?id=2450</a>&gt;<br>
+<br>
+<a href="http://bugs.otrs.org/show_bug.cgi?id=2450as" target="_blank" title="http://bugs.otrs.org/show_bug.cgi?id=2450as">http://bugs.otrs.org/show_bug.cgi?id=2450as</a><br>
+&lt;<a href="http://bugs.otrs.org/show_bug.cgi?id=2450" target="_blank" title="http://bugs.otrs.org/show_bug.cgi?id=2450">http://bugs.otrs.org/show_bug.cgi?id=2450</a>&gt;asdf<br>
+&lt;<a href="http://bugs.otrs.org/s()how_bug.cgi?id=2450" target="_blank" title="http://bugs.otrs.org/s()how_bug.cgi?id=2450">http://bugs.otrs.org/s()how_bug.cgi?id=2450</a>&gt; as<br>
+<br>
+wwww.google.de<br>
+<br>
+<a href="http://ftp.otrs.org" target="_blank" title="http://ftp.otrs.org">http://ftp.otrs.org</a><br>
+<br>
+<a href="https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/hom[..]</a><br>
+<br>
+lkj <a href="https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/hom[..]</a> lk<br>
+lkj <a href="https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/hom[..]</a><br>
+lk<br>
+END_RESULT
+
+# html quoting
+my $ConvertedString = $Self->{LayoutObject}->Ascii2Html(
+    NewLine        => 90,
+    Text           => $TestString,
+    VMax           => 6000,
+    HTMLResultMode => 1,
+    LinkFeature    => 1,
+);
+
+$Self->{LogObject}->Dumper($ConvertedString);
+
+$Self->True(
+    $NeededResult eq $ConvertedString,
+    'Ascii2Html - Check if the link feature works correct' ,
+);
 
 # this check is only to display how long it had take
 $Self->True(
