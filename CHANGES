@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.579 2008-02-20 10:08:27 tr Exp $
+# $Id: CHANGES,v 1.580 2008-02-20 10:47:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -113,14 +113,21 @@ CVS HEAD (????/??/??)
     HTML to text convertion to email parser.
  - (2007/09/13) Improved report overview of perfornance log.
 
-2.2.6 (2008/??/??)0
+2.2.6 (2008/??/??)
  - (2008/02/20) Fixed bug# 2644 - Insert a test function to find easier wrong
     configured GD-CPAN modules.
  - (2008/02/20) Fixed bug# 2706 - SysConfig setting LogSystemCacheSize causes
     error messages.
  - (2008/02/19) Fixed bug# 2450 - Auto-conversion of URLs to links fail when
     a ')' is encountered.
- - (2008/02/18) Fixed bug# 2674 - spellchecker always reports 0 errors
+ - (2008/02/18) Fixed bug# 2541 - Missing "Ticket unlock" link for ticket the
+    actions 'Phone call', 'Merge', 'Move' and 'Forward'.
+ - (2008/02/18) Fixed bug# 2145 - $Config{"TicketFreeTimeKey22"} instant of
+    $Config{"TicketFreeTimeKey2"} in AgentTicketSearchResultShort.dtl.
+ - (2008/02/18) Fixed bug# 2674 - Spellchecker always reports 0 errors
+    even SpellCheckerBin is not configured correctly.
+ - (2008/02/17) Improved bin/otrs.checkModules tool for required
+    CPAN modules.
  - (2008/02/17) Fixed bug# 2255 - SysConfig setting Ticket ->
     Frontend::Customer::Ticket::ViewZoom ->
     Ticket::Frontend::CustomerTicketZoom###State has no effect (only
