@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.81 2008-02-20 10:09:54 tr Exp $
+# $Id: CHANGES,v 1.465.2.82 2008-02-20 10:46:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,6 +16,14 @@
  - (2008/02/19) Fixed bug# 2450 - Auto-conversion of URLs to links fail when
     a ')' is encountered.
  - (2008/02/18) Fixed bug# 2674 - spellchecker always reports 0 errors
+ - (2008/02/18) Fixed bug# 2541 - Missing "Ticket unlock" link for ticket the
+    actions 'Phone call', 'Merge', 'Move' and 'Forward'.
+ - (2008/02/18) Fixed bug# 2145 - $Config{"TicketFreeTimeKey22"} instant of
+    $Config{"TicketFreeTimeKey2"} in AgentTicketSearchResultShort.dtl.
+ - (2008/02/18) Fixed bug# 2674 - Spellchecker always reports 0 errors
+    even SpellCheckerBin is not configured correctly.
+ - (2008/02/17) Improved bin/otrs.checkModules tool for checking required
+    CPAN modules.
  - (2008/02/17) Fixed bug# 2255 - SysConfig setting Ticket ->
     Frontend::Customer::Ticket::ViewZoom ->
     Ticket::Frontend::CustomerTicketZoom###State has no effect (only
