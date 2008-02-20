@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.3.2.3 2008-02-20 06:39:27 tr Exp $
+# $Id: Layout.t,v 1.3.2.4 2008-02-20 22:02:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -286,8 +286,155 @@ my $ConvertedString = $Self->{LayoutObject}->Ascii2Html(
 
 $Self->True(
     $NeededResult eq $ConvertedString,
-    'Ascii2Html - Check if the link feature works correct' ,
+    'Ascii2Html() - Check if the link feature works correct' ,
 );
+
+# html quoting 2
+my @Tests = (
+    {
+        Name => 'Ascii2Html() - #1',
+        String => 'http://example.com/',
+        Result => '<a href="http://example.com/" target="_blank" title="http://example.com/">http://example.com/</a>',
+    },
+    {
+        Name => 'Ascii2Html() - #2',
+        String => ' http://example.com/',
+        Result => ' <a href="http://example.com/" target="_blank" title="http://example.com/">http://example.com/</a>',
+    },
+    {
+        Name => 'Ascii2Html() - #3',
+        String => ' http://example.com/ ',
+        Result => ' <a href="http://example.com/" target="_blank" title="http://example.com/">http://example.com/</a> ',
+    },
+    {
+        Name => 'Ascii2Html() - #4',
+        String => ' http://example.com/. ',
+        Result => ' <a href="http://example.com/" target="_blank" title="http://example.com/">http://example.com/</a>. ',
+    },
+    {
+        Name => 'Ascii2Html() - #5',
+        String => ' http://example.com. ',
+        Result => ' <a href="http://example.com" target="_blank" title="http://example.com">http://example.com</a>. ',
+    },
+    {
+        Name => 'Ascii2Html() - #6',
+        String => ' www.example.com ',
+        Result => ' <a href="http://www.example.com" target="_blank" title="http://www.example.com">http://www.example.com</a>. ',
+    },
+    {
+        Name => 'Ascii2Html() - #7',
+        String => ' ftp://ftp.example.com. ',
+        Result => ' <a href="ftp://ftp.example.com" target="_blank" title="ftp://ftp.example.com">ftp://ftp.example.com</a>. ',
+    },
+    {
+        Name => 'Ascii2Html() - #8',
+        String => ' HTTP://www.example.com, ',
+        Result => ' <a href="HTTP://www.example.com" target="_blank" title="HTTP://www.example.com">HTTP://www.example.com</a>, ',
+    },
+    {
+        Name => 'Ascii2Html() - #9',
+        String => ' http://example.com?some_long_url=yes&some_what_else=index.html ',
+        Result => ' <a href="http://example.com?some_long_url=yes&some_what_else=index.html" target="_blank" title="http://example.com?some_long_url=yes&some_what_else=index.html">http://example.com?some_long_url=yes&some_what_else=index.html</a> ',
+    },
+    {
+        Name => 'Ascii2Html() - #10',
+        String => ' http://example.com?some_long_url=yes&some_what_else=index+test.html ',
+        Result => ' <a href="http://example.com?some_long_url=yes&some_what_else=index+test.html" target="_blank" title="http://example.com?some_long_url=yes&some_what_else=index+test.html">http://example.com?some_long_url=yes&some_what_else=index+test.html</a> ',
+    },
+    {
+        Name => 'Ascii2Html() - #11',
+        String => ' http://example.com?some_long_url=yes&some_what_else=0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.index.html ',
+        Result => ' <a href="http://example.com?some_long_url=yes&some_what_else=0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.index.html" target="_blank" title="http://example.com?some_long_url=yes&some_what_else=0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.index.html">http://example.com?some_long_url=yes&some_what_else=0123456789.0123456789.0[..]</a> ',
+    },
+    {
+        Name => 'Ascii2Html() - #12',
+        String => ' http://example.com/ http://www.example.com/ ',
+        Result => ' <a href="http://example.com/" target="_blank" title="http://example.com/">http://example.com/</a> <a href="http://www.example.com/" target="_blank" title="http://www.example.com/">http://www.example.com/</a> ',
+    },
+    {
+        Name => 'Ascii2Html() - #13',
+        String => 'Please visit this url http://example.com.',
+        Result => 'Please visit this url <a href="http://example.com" target="_blank" title="http://example.com">http://example.com</a>.',
+    },
+    {
+        Name => 'Ascii2Html() - #14',
+        String => 'Please visit this url http://example.com, and follow the second link.',
+        Result => 'Please visit this url <a href="http://example.com" target="_blank" title="http://example.com">http://example.com</a>, and follow the second link.',
+    },
+    {
+        Name => 'Ascii2Html() - #15',
+        String => '&',
+        Result => '&amp;',
+    },
+    {
+        Name => 'Ascii2Html() - #16',
+        String => '&&',
+        Result => '&amp;&amp;',
+    },
+    {
+        Name => 'Ascii2Html() - #17',
+        String => ' ',
+        Result => ' ',
+    },
+    {
+        Name => 'Ascii2Html() - #18',
+        String => '  ',
+        Result => '&nbsp;&nbsp;',
+    },
+    {
+        Name => 'Ascii2Html() - #19',
+        String => '<',
+        Result => '&lt;',
+    },
+    {
+        Name => 'Ascii2Html() - #20',
+        String => '<<',
+        Result => '&lt;&lt;',
+    },
+    {
+        Name => 'Ascii2Html() - #21',
+        String => '>',
+        Result => '&gt;',
+    },
+    {
+        Name => 'Ascii2Html() - #22',
+        String => '>>',
+        Result => '&gt;&gt;',
+    },
+    {
+        Name => 'Ascii2Html() - #23',
+        String => '"',
+        Result => '&quot;',
+    },
+    {
+        Name => 'Ascii2Html() - #24',
+        String => '""',
+        Result => '&quot;&quot;',
+    },
+    {
+        Name => 'Ascii2Html() - #25',
+        String => "\t",
+        Result => ' ',
+    },
+    {
+        Name => 'Ascii2Html() - #26',
+        String => '<script language="JavaScript" type="text/javascript"> alert("Not save!"); </script>',
+        Result => '&lt;script language=&quot;JavaScript&quot; type=&quot;text/javascript&quot;&gt; alert(&quot;Not save!&quot;); &lt;/script&gt;',
+    },
+);
+
+for my $Test ( @Tests ) {
+    my $HTML = $Self->{LayoutObject}->Ascii2Html(
+        Text           => $Test->{String},
+        LinkFeature    => 1,
+        HTMLResultMode => 1,
+    );
+    $Self->Is(
+        $HTML || '',
+        $Test->{Result},
+        $Test->{Name},
+    );
+}
 
 # this check is only to display how long it had take
 $Self->True(
