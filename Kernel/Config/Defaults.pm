@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.284 2008-02-07 11:37:40 martin Exp $
+# $Id: Defaults.pm,v 1.285 2008-02-20 08:11:09 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.284 $) [1];
+$VERSION = qw($Revision: 1.285 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -270,6 +270,8 @@ sub LoadDefaults {
 
     # system log cache size for admin system log (default 4k)
     # Note: use bin/CleanUp.pl before you change this
+    # Note: this configuration is not useable in SysConfig
+    #       for more information see FAQ# 4200111 and FAQ# 4200110
     #    $Self->{'LogSystemCacheSize'} = 4*1024;
 
     # --------------------------------------------------- #
@@ -2314,6 +2316,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.284 $ $Date: 2008-02-07 11:37:40 $
+$Revision: 1.285 $ $Date: 2008-02-20 08:11:09 $
 
 =cut
