@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.82 2008-02-20 10:46:23 martin Exp $
+# $Id: CHANGES,v 1.465.2.83 2008-02-20 11:38:57 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 2.2.6 (2008/??/??)
+ - (2008/02/20) Improved error message if spell checker is not found.
  - (2008/02/20) Fixed bug# 2644 - Insert a test function to find easier wrong
     configured GD-CPAN modules.
  - (2008/02/20) Fixed bug# 2706 - SysConfig setting LogSystemCacheSize causes
