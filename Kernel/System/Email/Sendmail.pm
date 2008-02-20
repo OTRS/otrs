@@ -2,7 +2,7 @@
 # Kernel/System/Email/Sendmail.pm - the global email send module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Sendmail.pm,v 1.24 2008-01-31 06:20:20 tr Exp $
+# $Id: Sendmail.pm,v 1.25 2008-02-20 22:12:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,9 +41,6 @@ sub new {
 sub Send {
     my ( $Self, %Param ) = @_;
 
-    my $ToString = '';
-    my $FH;
-
     # check needed stuff
     for (qw(Header Body ToArray)) {
         if ( !$Param{$_} ) {
@@ -52,19 +49,25 @@ sub Send {
         }
     }
 
-    # from
+    # from for arg
     my $Arg = quotemeta( $Param{From} );
     if ( !$Param{From} ) {
         $Arg = "''";
     }
 
-    # recipient
-    for ( @{ $Param{ToArray} } ) {
-        $ToString .= "$_,";
-        $Arg      .= ' ' . quotemeta($_);
+    # get recipients
+    my $ToString = '';
+    for my $To ( @{ $Param{ToArray} } ) {
+        if ( $ToString ) {
+            $ToString .= ", ";
+            $Arg      .= ' ';
+        }
+        $ToString .= $To;
+        $Arg      .= quotemeta($To);
     }
 
     # invoke sendmail in order to send off mail, catching errors in a temporary file
+    my $FH;
     if ( open( $FH, '|-', "$Self->{Sendmail} $Arg " ) ) {
 
         # switch filehandle to utf8 mode if utf-8 is used

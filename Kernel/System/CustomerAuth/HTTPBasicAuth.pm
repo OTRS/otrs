@@ -1,13 +1,13 @@
 # --
 # Kernel/System/CustomerAuth/HTTPBasicAuth.pm - provides the $ENV{REMOTE_USER}
 # authentification
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: HTTPBasicAuth.pm,v 1.7 2007-10-02 10:36:20 mh Exp $
+# $Id: HTTPBasicAuth.pm,v 1.8 2008-02-20 22:10:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 # Note:
 #
@@ -26,7 +26,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,8 +71,9 @@ sub Auth {
     my $User = $ENV{REMOTE_USER};
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     if ($User) {
-        my $Replace = $Self->{ConfigObject}
-            ->Get( 'Customer::AuthModule::HTTPBasicAuth::Replace' . $Self->{Count} );
+        my $Replace = $Self->{ConfigObject}->Get(
+            'Customer::AuthModule::HTTPBasicAuth::Replace' . $Self->{Count},
+        );
         if ($Replace) {
             $User =~ s/^\Q$Replace\E//;
         }

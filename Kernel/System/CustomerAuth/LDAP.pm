@@ -1,12 +1,12 @@
 # --
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.25 2007-10-02 10:36:20 mh Exp $
+# $Id: LDAP.pm,v 1.26 2008-02-20 22:10:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::CustomerAuth::LDAP;
@@ -18,7 +18,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,8 +41,7 @@ sub new {
     # get ldap preferences
     $Self->{Die} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Die' . $Param{Count} );
     if ( $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Host' . $Param{Count} ) ) {
-        $Self->{Host}
-            = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Host' . $Param{Count} );
+        $Self->{Host} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Host' . $Param{Count} );
     }
     else {
         $Self->{LogObject}->Log(
@@ -51,13 +50,8 @@ sub new {
         );
         return;
     }
-    if (defined(
-            $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::BaseDN' . $Param{Count} )
-        )
-        )
-    {
-        $Self->{BaseDN}
-            = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::BaseDN' . $Param{Count} );
+    if (defined( $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::BaseDN' . $Param{Count} ))) {
+        $Self->{BaseDN} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::BaseDN' . $Param{Count} );
     }
     else {
         $Self->{LogObject}->Log(
@@ -67,8 +61,7 @@ sub new {
         return;
     }
     if ( $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::UID' . $Param{Count} ) ) {
-        $Self->{UID}
-            = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::UID' . $Param{Count} );
+        $Self->{UID} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::UID' . $Param{Count} );
     }
     else {
         $Self->{LogObject}->Log(
@@ -77,36 +70,27 @@ sub new {
         );
         return;
     }
-    $Self->{SearchUserDN}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::SearchUserDN' . $Param{Count} )
+    $Self->{SearchUserDN} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::SearchUserDN' . $Param{Count} )
         || '';
-    $Self->{SearchUserPw}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::SearchUserPw' . $Param{Count} )
+    $Self->{SearchUserPw} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::SearchUserPw' . $Param{Count} )
         || '';
-    $Self->{GroupDN}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::GroupDN' . $Param{Count} ) || '';
-    $Self->{AccessAttr}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::AccessAttr' . $Param{Count} )
+    $Self->{GroupDN} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::GroupDN' . $Param{Count} ) || '';
+    $Self->{AccessAttr} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::AccessAttr' . $Param{Count} )
         || '';
-    $Self->{UserAttr}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::UserAttr' . $Param{Count} )
+    $Self->{UserAttr} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::UserAttr' . $Param{Count} )
         || 'DN';
-    $Self->{UserSuffix}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::UserSuffix' . $Param{Count} )
+    $Self->{UserSuffix} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::UserSuffix' . $Param{Count} )
         || '';
-    $Self->{DestCharset}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Charset' . $Param{Count} )
+    $Self->{DestCharset} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Charset' . $Param{Count} )
         || 'utf-8';
 
     # ldap filter always used
-    $Self->{AlwaysFilter}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::AlwaysFilter' . $Param{Count} )
+    $Self->{AlwaysFilter} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::AlwaysFilter' . $Param{Count} )
         || '';
 
     # Net::LDAP new params
     if ( $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Params' . $Param{Count} ) ) {
-        $Self->{Params}
-            = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Params' . $Param{Count} );
+        $Self->{Params} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Params' . $Param{Count} );
     }
     else {
         $Self->{Params} = {};
@@ -299,8 +283,7 @@ sub Auth {
             # failed login note
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message =>
-                    "CustomerUser: $Param{User} authentification failed, no LDAP group entry found"
+                Message => "CustomerUser: $Param{User} authentification failed, no LDAP group entry found"
                     . "GroupDN='$Self->{GroupDN}', Filter='$Filter2'! (REMOTE_ADDR: $RemoteAddr).",
             );
 
@@ -318,8 +301,7 @@ sub Auth {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "CustomerUser: $Param{User} ($UserDN) authentification failed: '"
-                . $Result->error
-                . "' (REMOTE_ADDR: $RemoteAddr).",
+                . $Result->error . "' (REMOTE_ADDR: $RemoteAddr).",
         );
 
         # take down session
@@ -331,8 +313,7 @@ sub Auth {
         # login note
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message =>
-                "CustomerUser: $Param{User} ($UserDN) authentification ok (REMOTE_ADDR: $RemoteAddr).",
+            Message => "CustomerUser: $Param{User} ($UserDN) authentification ok (REMOTE_ADDR: $RemoteAddr).",
         );
 
         # take down session

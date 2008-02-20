@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentification
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.21 2008-02-12 21:52:34 martin Exp $
+# $Id: DB.pm,v 1.22 2008-02-20 22:10:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -97,8 +97,7 @@ sub Auth {
     my $GetPw      = '';
 
     # sql query
-    my $SQL
-        = "SELECT $Self->{Pw}, $Self->{Key}"
+    my $SQL = "SELECT $Self->{Pw}, $Self->{Key}"
         . " FROM "
         . " $Self->{Table} "
         . " WHERE "
@@ -186,7 +185,7 @@ sub Auth {
     if ( !$Pw ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "CustomerUser: $User authentification without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
+            Message  => "CustomerUser: $User authentification without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
         return;
     }
@@ -204,7 +203,7 @@ sub Auth {
     elsif ( ($UserID) && ($GetPw) ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "CustomerUser: $User authentification with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
+            Message  => "CustomerUser: $User authentification with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
         );
         return;
     }
@@ -213,7 +212,7 @@ sub Auth {
     else {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "CustomerUser: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
+            Message  => "CustomerUser: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
         );
         return;
     }

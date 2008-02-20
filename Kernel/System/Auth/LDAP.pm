@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.43 2007-11-06 06:53:55 martin Exp $
+# $Id: LDAP.pm,v 1.44 2008-02-20 22:05:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Auth::LDAP;
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -322,12 +322,13 @@ sub Auth {
 
         # maybe check if pw is expired
         # if () {
-        #           $Self->{LogObject}->Log(
-        #               Priority => 'info',
-        #               Message => "Password is expired!",
-        #            );
-        #            return;
-        #        }
+        #     $Self->{LogObject}->Log(
+        #         Priority => 'info',
+        #         Message => "Password is expired!",
+        #     );
+        #     return;
+        # }
+
         # login note
         $Self->{LogObject}->Log(
             Priority => 'notice',
@@ -338,8 +339,10 @@ sub Auth {
         if ( $Self->{ConfigObject}->Get( 'UserSyncLDAPMap' . $Self->{Count} ) ) {
             my $Result = '';
             if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
-                $Result
-                    = $LDAP->bind( dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw} );
+                $Result = $LDAP->bind(
+                    dn => $Self->{SearchUserDN},
+                    password => $Self->{SearchUserPw},
+                );
             }
             else {
                 $Result = $LDAP->bind();
@@ -383,25 +386,25 @@ sub Auth {
             my %SyncUser = ();
             for my $Entry ( $Result->all_entries ) {
                 $UserDN = $Entry->dn();
-                for my $Key (
-                    keys %{ $Self->{ConfigObject}->Get( 'UserSyncLDAPMap' . $Self->{Count} ) } )
-                {
+                for my $Key ( keys %{ $Self->{ConfigObject}->Get( 'UserSyncLDAPMap' . $Self->{Count} ) } ) {
 
                     # detect old config setting
                     if ( $Key =~ /^(Firstname|Lastname|Email)/ ) {
                         $Key = "User" . $Key;
                         $Self->{LogObject}->Log(
                             Priority => 'error',
-                            Message =>
-                                "Old config setting detected, please use the new one from Kernel/Config/Defaults.pm (User* has been added!).",
+                            Message => "Old config setting detected, please use the new one "
+                                ."from Kernel/Config/Defaults.pm (User* has been added!).",
                         );
                     }
                     $SyncUser{$Key} = $Entry->get_value(
-                        $Self->{ConfigObject}->Get( 'UserSyncLDAPMap' . $Self->{Count} )->{$Key} );
+                        $Self->{ConfigObject}->Get( 'UserSyncLDAPMap' . $Self->{Count} )->{$Key},
+                    );
 
                     # e. g. set utf-8 flag
                     $SyncUser{$Key} = $Self->_ConvertFrom( $SyncUser{$Key},
-                        $Self->{ConfigObject}->Get('DefaultCharset') );
+                        $Self->{ConfigObject}->Get('DefaultCharset'),
+                    );
                 }
                 if ( $Entry->get_value('userPassword') ) {
                     $SyncUser{Pw} = $Entry->get_value('userPassword');
@@ -427,19 +430,13 @@ sub Auth {
                     if ($UserID) {
                         $Self->{LogObject}->Log(
                             Priority => 'notice',
-                            Message =>
-                                "Initial data for '$Param{User}' ($UserDN) created in RDBMS.",
+                            Message => "Initial data for '$Param{User}' ($UserDN) created in RDBMS.",
                         );
 
                         # sync initial groups
                         if ( $Self->{ConfigObject}->Get( 'UserSyncLDAPGroups' . $Self->{Count} ) ) {
                             my %Groups = $Self->{GroupObject}->GroupList();
-                            for (
-                                @{  $Self->{ConfigObject}
-                                        ->Get( 'UserSyncLDAPGroups' . $Self->{Count} )
-                                }
-                                )
-                            {
+                            for ( @{  $Self->{ConfigObject}->Get( 'UserSyncLDAPGroups' . $Self->{Count} ) }) {
                                 my $GroupID = '';
                                 for my $GID ( keys %Groups ) {
                                     if ( $Groups{$GID} eq $_ ) {
@@ -481,8 +478,10 @@ sub Auth {
         if ( $Self->{ConfigObject}->Get( 'UserSyncLDAPGroupsDefination' . $Self->{Count} ) ) {
             my $Result = '';
             if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
-                $Result
-                    = $LDAP->bind( dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw} );
+                $Result = $LDAP->bind(
+                    dn => $Self->{SearchUserDN},
+                    password => $Self->{SearchUserPw},
+                );
             }
             else {
                 $Result = $LDAP->bind();
@@ -519,10 +518,7 @@ sub Auth {
             }
 
             # group config settings
-            for my $GroupDN (
-                sort keys
-                %{ $Self->{ConfigObject}->Get( 'UserSyncLDAPGroupsDefination' . $Self->{Count} ) } )
-            {
+            for my $GroupDN ( sort keys %{ $Self->{ConfigObject}->Get( 'UserSyncLDAPGroupsDefination' . $Self->{Count} ) } ) {
 
                 # just in case for debug
                 $Self->{LogObject}->Log(
@@ -571,8 +567,7 @@ sub Auth {
                 else {
 
                     # sync groups permissions
-                    my %SGroups = %{ $Self->{ConfigObject}
-                            ->Get( 'UserSyncLDAPGroupsDefination' . $Self->{Count} )->{$GroupDN} };
+                    my %SGroups = %{ $Self->{ConfigObject}->Get( 'UserSyncLDAPGroupsDefination' . $Self->{Count} )->{$GroupDN} };
                     for my $SGroup ( sort keys %SGroups ) {
                         my %Permissions = %{ $SGroups{$SGroup} };
 
@@ -608,8 +603,10 @@ sub Auth {
         if ( $Self->{ConfigObject}->Get( 'UserSyncLDAPRolesDefination' . $Self->{Count} ) ) {
             my $Result = '';
             if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
-                $Result
-                    = $LDAP->bind( dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw} );
+                $Result = $LDAP->bind(
+                    dn => $Self->{SearchUserDN},
+                    password => $Self->{SearchUserPw},
+                );
             }
             else {
                 $Result = $LDAP->bind();
@@ -640,12 +637,7 @@ sub Auth {
             }
 
             # group config settings
-            for my $GroupDN (
-                sort
-                keys %{ $Self->{ConfigObject}->Get( 'UserSyncLDAPRolesDefination' . $Self->{Count} )
-                }
-                )
-            {
+            for my $GroupDN ( sort keys %{ $Self->{ConfigObject}->Get( 'UserSyncLDAPRolesDefination' . $Self->{Count} ) } ) {
 
                 # just in case for debug
                 $Self->{LogObject}->Log(
@@ -694,8 +686,7 @@ sub Auth {
                 else {
 
                     # sync groups permissions
-                    my %SRoles = %{ $Self->{ConfigObject}
-                            ->Get( 'UserSyncLDAPRolesDefination' . $Self->{Count} )->{$GroupDN} };
+                    my %SRoles = %{ $Self->{ConfigObject}->Get( 'UserSyncLDAPRolesDefination' . $Self->{Count} )->{$GroupDN} };
                     for my $SRole ( sort keys %SRoles ) {
 
                         # get group id
@@ -711,8 +702,7 @@ sub Auth {
                             # just in case for debug
                             $Self->{LogObject}->Log(
                                 Priority => 'notice',
-                                Message =>
-                                    "User: '$Param{User}' sync ldap group $GroupDN in $SRole role!",
+                                Message => "User: '$Param{User}' sync ldap group $GroupDN in $SRole role!",
                             );
                             $Self->{GroupObject}->GroupUserRoleMemberAdd(
                                 UID    => $UserData{UserID},
@@ -727,12 +717,13 @@ sub Auth {
         }
 
         # sync ldap attribute 2 otrs group permissions
-        if ( $Self->{ConfigObject}->Get( 'UserSyncLDAPAttibuteGroupsDefination' . $Self->{Count} ) )
-        {
+        if ( $Self->{ConfigObject}->Get( 'UserSyncLDAPAttibuteGroupsDefination' . $Self->{Count} ) ) {
             my $Result = '';
             if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
-                $Result
-                    = $LDAP->bind( dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw} );
+                $Result = $LDAP->bind(
+                    dn => $Self->{SearchUserDN},
+                    password => $Self->{SearchUserPw},
+                );
             }
             else {
                 $Result = $LDAP->bind();
@@ -785,8 +776,7 @@ sub Auth {
                         . $Result->error,
                 );
             }
-            my %SyncConfig = %{ $Self->{ConfigObject}
-                    ->Get( 'UserSyncLDAPAttibuteGroupsDefination' . $Self->{Count} ) };
+            my %SyncConfig = %{ $Self->{ConfigObject}->Get( 'UserSyncLDAPAttibuteGroupsDefination' . $Self->{Count} ) };
             for my $Attribute ( keys %SyncConfig ) {
                 my %AttributeValues = %{ $SyncConfig{$Attribute} };
                 for my $AttributeValue ( keys %AttributeValues ) {
@@ -818,8 +808,7 @@ sub Auth {
                                     # just in case for debug
                                     $Self->{LogObject}->Log(
                                         Priority => 'notice',
-                                        Message =>
-                                            "User: '$Param{User}' sync ldap attribute $Attribute=$AttributeValue in $Group group!",
+                                        Message => "User: '$Param{User}' sync ldap attribute $Attribute=$AttributeValue in $Group group!",
                                     );
                                     $Self->{GroupObject}->GroupMemberAdd(
                                         GID        => $GroupID,
@@ -836,12 +825,13 @@ sub Auth {
         }
 
         # sync ldap attribute 2 otrs role permissions
-        if ( $Self->{ConfigObject}->Get( 'UserSyncLDAPAttibuteRolesDefination' . $Self->{Count} ) )
-        {
+        if ( $Self->{ConfigObject}->Get( 'UserSyncLDAPAttibuteRolesDefination' . $Self->{Count} ) ) {
             my $Result = '';
             if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
-                $Result
-                    = $LDAP->bind( dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw} );
+                $Result = $LDAP->bind(
+                    dn => $Self->{SearchUserDN},
+                    password => $Self->{SearchUserPw},
+                );
             }
             else {
                 $Result = $LDAP->bind();
@@ -888,8 +878,7 @@ sub Auth {
                         . $Result->error,
                 );
             }
-            my %SyncConfig = %{ $Self->{ConfigObject}
-                    ->Get( 'UserSyncLDAPAttibuteRolesDefination' . $Self->{Count} ) };
+            my %SyncConfig = %{ $Self->{ConfigObject}->Get( 'UserSyncLDAPAttibuteRolesDefination' . $Self->{Count} ) };
             for my $Attribute ( keys %SyncConfig ) {
                 my %AttributeValues = %{ $SyncConfig{$Attribute} };
                 for my $AttributeValue ( keys %AttributeValues ) {
@@ -921,8 +910,7 @@ sub Auth {
                                     # just in case for debug
                                     $Self->{LogObject}->Log(
                                         Priority => 'notice',
-                                        Message =>
-                                            "User: '$Param{User}' sync ldap attribute $Attribute=$AttributeValue in $Role role!",
+                                        Message => "User: '$Param{User}' sync ldap attribute $Attribute=$AttributeValue in $Role role!",
                                     );
                                     $Self->{GroupObject}->GroupUserRoleMemberAdd(
                                         UID    => $UserData{UserID},

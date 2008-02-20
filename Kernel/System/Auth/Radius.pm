@@ -1,13 +1,13 @@
 # --
 # Kernel/System/Auth/Radius.pm - provides the radius authentification
 # based on Martin Edenhofer's Kernel::System::Auth::DB
-# Copyright (C) 2004 Andreas Jobs <Andreas.Jobs+dev@ruhr-uni-bochum.de>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Radius.pm,v 1.8 2007-10-02 10:35:33 mh Exp $
+# $Id: Radius.pm,v 1.9 2008-02-20 22:05:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Auth::Radius;
@@ -18,7 +18,7 @@ use warnings;
 use Authen::Radius;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,8 +41,7 @@ sub new {
     # get user table
     $Self->{RadiusHost} = $Self->{ConfigObject}->Get( 'AuthModule::Radius::Host' . $Param{Count} )
         || die "Need AuthModule::Radius::Host$Param{Count} in Kernel/Config.pm";
-    $Self->{RadiusSecret}
-        = $Self->{ConfigObject}->Get( 'AuthModule::Radius::Password' . $Param{Count} )
+    $Self->{RadiusSecret} = $Self->{ConfigObject}->Get( 'AuthModule::Radius::Password' . $Param{Count} )
         || die "Need AuthModule::Radius::Password$Param{Count} in Kernel/Config.pm";
 
     return $Self;
@@ -107,8 +106,10 @@ sub Auth {
     }
 
     # Create a radius object
-    my $Radius
-        = Authen::Radius->new( Host => $Self->{RadiusHost}, Secret => $Self->{RadiusSecret} );
+    my $Radius = Authen::Radius->new(
+        Host   => $Self->{RadiusHost},
+        Secret => $Self->{RadiusSecret},
+    );
     if ( !$Radius ) {
         if ( $Self->{Die} ) {
             die "Can't connect to $Self->{RadiusHost}: $@";

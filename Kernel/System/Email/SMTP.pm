@@ -2,7 +2,7 @@
 # Kernel/System/Email/SMTP.pm - the global email send module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMTP.pm,v 1.18 2008-01-31 06:20:20 tr Exp $
+# $Id: SMTP.pm,v 1.19 2008-02-20 22:12:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Net::SMTP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,8 +54,6 @@ sub new {
 sub Send {
     my ( $Self, %Param ) = @_;
 
-    my $ToString = '';
-
     # check needed stuff
     for (qw(Header Body ToArray)) {
         if ( !$Param{$_} ) {
@@ -75,6 +73,8 @@ sub Send {
         Timeout => $Self->{SMTPTimeout},
         Debug   => $Self->{SMTPDebug}
     );
+
+    # return if no connect was possible
     if (!$SMTP) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -83,6 +83,7 @@ sub Send {
         return;
     }
 
+    # use smtp auth if configured
     if ( $Self->{User} && $Self->{Password} ) {
         if ( !$SMTP->auth( $Self->{User}, $Self->{Password} ) ) {
             $Self->{LogObject}->Log(
@@ -93,6 +94,8 @@ sub Send {
             return;
         }
     }
+
+    # set from, return it from was not accepted
     if ( !$SMTP->mail( $Param{From} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -101,8 +104,11 @@ sub Send {
         $SMTP->quit;
         return;
     }
-    for ( @{ $Param{ToArray} } ) {
-        $ToString .= "$_,";
+
+    # get recipients
+    my $ToString = '';
+    for my $To ( @{ $Param{ToArray} } ) {
+        $ToString .= "$To,";
         if ( !$SMTP->to($_) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -134,10 +140,9 @@ sub Send {
 
     # debug
     if ( $Self->{Debug} > 2 ) {
-        $Self->{LogObject}->Log( Message => "Sent email to '$ToString' from '$Param{From}'.", );
+        $Self->{LogObject}->Log( Message => "Sent email to '$ToString' from '$Param{From}'." );
     }
     return 1;
-
 }
 
 1;

@@ -1,13 +1,13 @@
 # --
 # Kernel/System/CustomerAuth/Radius.pm - provides the radius authentification
 # based on Martin Edenhofer's Kernel::System::Auth::DB
-# Copyright (C) 2004 Andreas Jobs <Andreas.Jobs+dev@ruhr-uni-bochum.de>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Radius.pm,v 1.7 2007-10-02 10:36:20 mh Exp $
+# $Id: Radius.pm,v 1.8 2008-02-20 22:10:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::CustomerAuth::Radius;
@@ -18,7 +18,7 @@ use warnings;
 use Authen::Radius;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,15 +36,12 @@ sub new {
     $Self->{Debug} = 0;
 
     # get config
-    $Self->{Die}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::Radius::Die' . $Param{Count} );
+    $Self->{Die} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::Radius::Die' . $Param{Count} );
 
     # get user table
-    $Self->{RadiusHost}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::Radius::Host' . $Param{Count} )
+    $Self->{RadiusHost}   = $Self->{ConfigObject}->Get( 'Customer::AuthModule::Radius::Host' . $Param{Count} )
         || die "Need Customer::AuthModule::Radius::Host$Param{Count} in Kernel/Config.pm";
-    $Self->{RadiusSecret}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::Radius::Password' . $Param{Count} )
+    $Self->{RadiusSecret} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::Radius::Password' . $Param{Count} )
         || die "Need Customer::AuthModule::Radius::Password$Param{Count} in Kernel/Config.pm";
 
     return $Self;
@@ -109,8 +106,10 @@ sub Auth {
     }
 
     # Create a radius object
-    my $Radius
-        = Authen::Radius->new( Host => $Self->{RadiusHost}, Secret => $Self->{RadiusSecret} );
+    my $Radius = Authen::Radius->new(
+        Host => $Self->{RadiusHost},
+        Secret => $Self->{RadiusSecret},
+    );
     if ( !$Radius ) {
         if ( $Self->{Die} ) {
             die "Can't connect to $Self->{RadiusHost}: $@";
