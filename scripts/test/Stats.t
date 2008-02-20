@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.13 2008-02-12 12:59:40 ot Exp $
+# $Id: Stats.t,v 1.14 2008-02-20 10:08:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -284,6 +284,28 @@ else {
 $Self->True(
     $Self->{StatsObject}->StatsDelete(StatID => $StatID),
     'StatsDelete() delete import stat',
+);
+
+# check the graph GD functionality
+my $HeadArrayRef = ['State','Administration','Alarm','Sum'];
+my $StatsArrayRef = [
+          [ 'closed successful',7,2,4,13],
+          ['closed unsuccessful',6,3,9,18],
+          ['merged',1,0,3,4],
+          ['Sum',14,5,16,35],
+        ];
+
+my $Graph = $Self->{StatsObject}->GenerateGraph(
+    Array        => $StatsArrayRef,
+    GraphSize    => '800x600',
+    HeadArrayRef => $HeadArrayRef,
+    Title        => 'some text',
+    Format       => 'GD::Graph::lines',
+);
+
+$Self->True(
+    $Graph,
+    'GenerateGraph() make a diagram',
 );
 
 1;

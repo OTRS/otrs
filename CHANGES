@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.578 2008-02-20 08:11:09 tr Exp $
+# $Id: CHANGES,v 1.579 2008-02-20 10:08:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -113,7 +113,9 @@ CVS HEAD (????/??/??)
     HTML to text convertion to email parser.
  - (2007/09/13) Improved report overview of perfornance log.
 
-2.2.6 (2008/??/??)
+2.2.6 (2008/??/??)0
+ - (2008/02/20) Fixed bug# 2644 - Insert a test function to find easier wrong
+    configured GD-CPAN modules.
  - (2008/02/20) Fixed bug# 2706 - SysConfig setting LogSystemCacheSize causes
     error messages.
  - (2008/02/19) Fixed bug# 2450 - Auto-conversion of URLs to links fail when

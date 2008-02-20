@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.37 2008-01-24 08:42:04 tr Exp $
+# $Id: Stats.pm,v 1.38 2008-02-20 10:08:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1342,11 +1342,11 @@ sub GenerateDynamicStats {
 make graph from result array
 
     my $Graph = $StatsObject->GenerateGraph(
-        Array => \@StatArray,
-        GraphSize => \%GraphConfig,
+        Array        => \@StatArray,
+        GraphSize    => '800x600',
         HeadArrayRef => $HeadArrayRef,
-        Title => 'All Tickets of the month',
-        Format => 'graph-lines',
+        Title        => 'All Tickets of the month',
+        Format       => 'GD::Graph::lines',
     );
 
 =cut
@@ -1453,7 +1453,7 @@ sub GenerateGraph {
     else {
         $Ext = $graph->export_format;
         $Self->{LogObject}->Log(
-            Priority => 'notice',
+            Priority => 'error',
             Message  => "Can't write png! Write: $Ext",
         );
     }
@@ -2756,6 +2756,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2008-01-24 08:42:04 $
+$Revision: 1.38 $ $Date: 2008-02-20 10:08:27 $
 
 =cut
