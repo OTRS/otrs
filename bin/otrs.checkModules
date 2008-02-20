@@ -3,7 +3,7 @@
 # bin/otrs.checkModules - to check needed cpan framework modules
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.checkModules,v 1.21 2008-02-17 21:43:55 martin Exp $
+# $Id: otrs.checkModules,v 1.22 2008-02-20 22:26:41 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -178,7 +178,14 @@ sub _Check {
         print ".";
     }
     if (eval "require $Module->{Module}") {
-        my $Version = eval "\$$Module->{Module}::VERSION";
+
+        # some strange CPAN module do not export VERSION
+        my $Version = eval "\$$Module->{Module}::Version::VERSION";
+
+        # ask for CPAN module VERSION
+        if ( !$Version ) {
+            $Version = eval "\$$Module->{Module}::VERSION";
+        }
         if ( $Module->{Version} ) {
             if ( $Version >= $Module->{Version} ) {
                 print "ok (v$Version)\n";
