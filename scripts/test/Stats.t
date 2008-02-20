@@ -1,12 +1,12 @@
 # --
 # scripts/test/Stats.t - stats module testscript
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.5 2007-04-13 06:11:50 tr Exp $
+# $Id: Stats.t,v 1.5.2.1 2008-02-20 10:09:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use Kernel::System::Stats;
@@ -217,6 +217,28 @@ else {
 $Self->True(
     $Self->{StatsObject}->StatsDelete(StatID => $StatID),
     'StatsDelete() delete import stat',
+);
+
+# check the graph GD functionality
+my $HeadArrayRef = ['State','Administration','Alarm','Sum'];
+my $StatsArrayRef = [
+          [ 'closed successful',7,2,4,13],
+          ['closed unsuccessful',6,3,9,18],
+          ['merged',1,0,3,4],
+          ['Sum',14,5,16,35],
+        ];
+
+my $Graph = $Self->{StatsObject}->GenerateGraph(
+    Array        => $StatsArrayRef,
+    GraphSize    => '800x600',
+    HeadArrayRef => $HeadArrayRef,
+    Title        => 'some text',
+    Format       => 'GD::Graph::lines',
+);
+
+$Self->True(
+    $Graph,
+    'GenerateGraph() make a diagram',
 );
 
 1;

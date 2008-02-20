@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.80 2008-02-20 08:12:25 tr Exp $
+# $Id: CHANGES,v 1.465.2.81 2008-02-20 10:09:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 2.2.6 (2008/??/??)
+ - (2008/02/20) Fixed bug# 2644 - Insert a test function to find easier wrong
+    configured GD-CPAN modules.
  - (2008/02/20) Fixed bug# 2706 - SysConfig setting LogSystemCacheSize causes
     error messages.
  - (2008/02/19) Fixed bug# 2450 - Auto-conversion of URLs to links fail when

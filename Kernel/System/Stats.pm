@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Stats.pm - all advice functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.25.2.1 2007-11-08 09:29:18 tr Exp $
+# $Id: Stats.pm,v 1.25.2.2 2008-02-20 10:09:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Stats;
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.25.2.1 $';
+$VERSION = '$Revision: 1.25.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -1183,11 +1183,11 @@ sub GenerateDynamicStats {
 make graph from result array
 
     my $Graph = $StatsObject->GenerateGraph(
-        Array => \@StatArray,
-        GraphSize => \%GraphConfig,
+        Array        => \@StatArray,
+        GraphSize    => '800x600',
         HeadArrayRef => $HeadArrayRef,
-        Title => 'All Tickets of the month',
-        Format => 'graph-lines',
+        Title        => 'All Tickets of the month',
+        Format       => 'GD::Graph::lines',
     );
 
 =cut
@@ -2478,10 +2478,10 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.25.2.1 $ $Date: 2007-11-08 09:29:18 $
+$Revision: 1.25.2.2 $ $Date: 2008-02-20 10:09:54 $
 
 =cut
