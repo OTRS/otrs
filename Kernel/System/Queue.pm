@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.79 2008-02-11 12:18:16 martin Exp $
+# $Id: Queue.pm,v 1.80 2008-02-20 12:14:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 =head1 NAME
 
@@ -1162,13 +1162,13 @@ sub QueueUpdate {
 
 =item QueuePreferencesSet()
 
-set user preferences
+set queue preferences
 
-    $UserObject->QueuePreferencesSet(
+    $QueueObject->QueuePreferencesSet(
         QueueID => 123,
-        Key => 'UserComment',
-        Value => 'some comment',
-        UserID => 123,
+        Key     => 'UserComment',
+        Value   => 'some comment',
+        UserID  => 123,
     );
 
 =cut
@@ -1180,11 +1180,11 @@ sub QueuePreferencesSet {
 
 =item QueuePreferencesGet()
 
-get user preferences
+get queue preferences
 
-    my %Preferences = $UserObject->QueuePreferencesGet(
+    my %Preferences = $QueueObject->QueuePreferencesGet(
         QueueID => 123,
-        UserID => 123,
+        UserID  => 123,
     );
 
 =cut
@@ -1210,6 +1210,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.79 $ $Date: 2008-02-11 12:18:16 $
+$Revision: 1.80 $ $Date: 2008-02-20 12:14:32 $
 
 =cut
