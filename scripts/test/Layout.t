@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.5 2008-02-20 06:38:18 tr Exp $
+# $Id: Layout.t,v 1.6 2008-02-20 06:40:28 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -283,8 +283,6 @@ my $ConvertedString = $Self->{LayoutObject}->Ascii2Html(
     HTMLResultMode => 1,
     LinkFeature    => 1,
 );
-
-$Self->{LogObject}->Dumper($ConvertedString);
 
 $Self->True(
     $NeededResult eq $ConvertedString,
