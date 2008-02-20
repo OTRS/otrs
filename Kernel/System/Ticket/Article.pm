@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.157 2008-02-12 17:59:31 martin Exp $
+# $Id: Article.pm,v 1.158 2008-02-20 22:28:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.157 $) [1];
+$VERSION = qw($Revision: 1.158 $) [1];
 
 =head1 NAME
 
@@ -217,13 +217,12 @@ sub ArticleCreate {
 
         # check if latest article comes from customer
         my $LastSender = '';
-        my $SQL
-            .= "SELECT ast.name "
+        my $SQL = "SELECT ast.name "
             . " FROM "
             . " article at, article_sender_type ast "
             . " WHERE "
-            . " at.ticket_id = $Param{TicketID} " . " AND "
-            . " at.id NOT IN ($ArticleID) " . " AND "
+            . " at.ticket_id = $Param{TicketID} AND "
+            . " at.id NOT IN ($ArticleID) AND "
             . " at.article_sender_type_id = ast.id ORDER BY at.create_time ASC";
         $Self->{DBObject}->Prepare( SQL => $SQL );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -382,9 +381,7 @@ sub ArticleCreate {
     # send agent notification!?
     my $To          = '';
     my %AlreadySent = ();
-    if ( $Param{HistoryType}
-        =~ /^(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer|SystemRequest)$/i )
-    {
+    if ( $Param{HistoryType} =~ /^(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer|SystemRequest)$/i ) {
         for ( $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} ) ) {
             if ( !$AlreadySent{$_} ) {
                 $AlreadySent{$_} = 1;
@@ -539,8 +536,7 @@ sub ArticleCreate {
     }
 
     # send forced notifications
-    if ( $Param{ForceNotificationToUserID} && ref( $Param{ForceNotificationToUserID} ) eq 'ARRAY' )
-    {
+    if ( $Param{ForceNotificationToUserID} && ref( $Param{ForceNotificationToUserID} ) eq 'ARRAY' ) {
         for my $UserID ( @{ $Param{ForceNotificationToUserID} } ) {
             if ( !$AlreadySent{$UserID} ) {
 
@@ -567,8 +563,9 @@ sub ArticleCreate {
     # update note to: field
     if (%AlreadySent) {
         if ( !$Param{ArticleType} ) {
-            $Param{ArticleType}
-                = $Self->ArticleTypeLookup( ArticleTypeID => $Param{ArticleTypeID} );
+            $Param{ArticleType} = $Self->ArticleTypeLookup(
+                ArticleTypeID => $Param{ArticleTypeID},
+            );
         }
         if ( $Param{ArticleType} =~ /^note\-/ && $Param{UserID} ne 1 ) {
             my $NewTo = $Param{To} || '';
@@ -618,7 +615,7 @@ sub _ArticleGetId {
     }
 
     # sql query
-    my $SQL = "SELECT id FROM article " . " WHERE " . " ticket_id = $Param{TicketID} " . " AND ";
+    my $SQL = "SELECT id FROM article WHERE ticket_id = $Param{TicketID} AND ";
     if ( $Param{MessageID} ) {
         $SQL .= "a_message_id = '$Param{MessageID}' AND ";
     }
@@ -690,8 +687,8 @@ sub ArticleGetTicketIDOfMessageID {
     else {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message =>
-                "The MessageID '$Param{MessageID}' is in your database more the one time! That should not be, a message_id should be uniq!",
+            Message => "The MessageID '$Param{MessageID}' is in your database "
+                . "more the one time! That should not be, a message_id should be uniq!",
         );
         return;
     }
@@ -728,8 +725,9 @@ sub ArticleGetContentPath {
 
     # sql query
     my $Path = '';
-    $Self->{DBObject}
-        ->Prepare( SQL => "SELECT content_path FROM article WHERE id = $Param{ArticleID}", );
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT content_path FROM article WHERE id = $Param{ArticleID}",
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Path = $Row[0];
     }
@@ -758,8 +756,10 @@ sub ArticleSenderTypeLookup {
 
     # check needed stuff
     if ( !$Param{SenderType} && !$Param{SenderTypeID} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Need SenderType or SenderTypeID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need SenderType or SenderTypeID!",
+        );
         return;
     }
 
@@ -833,8 +833,10 @@ sub ArticleTypeLookup {
 
     # check needed stuff
     if ( !$Param{ArticleType} && !$Param{ArticleTypeID} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Need ArticleType or ArticleTypeID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need ArticleType or ArticleTypeID!",
+         );
         return;
     }
 
@@ -1205,18 +1207,16 @@ sub ArticleIndex {
     # db query
     my $SQL = '';
     if ( $Param{SenderType} ) {
-        $SQL
-            .= "SELECT at.id"
+        $SQL .= "SELECT at.id"
             . " FROM "
             . " article at, article_sender_type ast "
             . " WHERE "
-            . " at.ticket_id = $Param{TicketID} " . " AND "
-            . " at.article_sender_type_id = ast.id " . " AND "
+            . " at.ticket_id = $Param{TicketID} AND "
+            . " at.article_sender_type_id = ast.id AND "
             . " ast.name = '$Param{SenderType}' ";
     }
     else {
-        $SQL
-            = "SELECT at.id"
+        $SQL = "SELECT at.id"
             . " FROM "
             . " article at "
             . " WHERE "
@@ -1380,8 +1380,7 @@ sub ArticleGet {
 
     # sql query
     my @Content = ();
-    my $SQL
-        = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, "
+    my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, "
         . " sa.a_reply_to, sa.a_message_id, sa.a_body, "
         . " st.create_time_unix, st.ticket_state_id, st.queue_id, sa.create_time, "
         . " sa.a_content_type, sa.create_by, st.tn, article_sender_type_id, st.customer_id, "
@@ -1409,7 +1408,7 @@ sub ArticleGet {
     else {
         $SQL .= " sa.ticket_id = $Param{TicketID}";
     }
-    $SQL .= " AND " . " sa.ticket_id = st.id ";
+    $SQL .= " AND sa.ticket_id = st.id ";
 
     # add article types
     if ($ArticleTypeSQL) {
@@ -1442,8 +1441,6 @@ sub ArticleGet {
         $Data{Age}                      = $Self->{TimeObject}->SystemTime() - $Row[8];
         $Ticket{CreateTimeUnix}         = $Row[8];
         $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Row[8] );
-
-        #        $Ticket{Age} = $Data{Age},
         $Data{PriorityID}   = $Row[18];
         $Ticket{PriorityID} = $Row[18];
         $Data{StateID}      = $Row[9];
@@ -1551,8 +1548,7 @@ sub ArticleGet {
     $Ticket{Responsible} = $Self->{UserObject}->UserLookup( UserID => $Ticket{ResponsibleID} || 1 );
 
     # get priority
-    $Ticket{Priority}
-        = $Self->{PriorityObject}->PriorityLookup( PriorityID => $Ticket{PriorityID} );
+    $Ticket{Priority} = $Self->{PriorityObject}->PriorityLookup( PriorityID => $Ticket{PriorityID} );
 
     # get lock
     $Ticket{Lock} = $Self->{LockObject}->LockLookup( LockID => $Ticket{LockID} );
@@ -1576,8 +1572,10 @@ sub ArticleGet {
     $Ticket{State}     = $StateData{Name};
 
     # get esclation attributes
-    my %Escalation
-        = $Self->TicketEscalationState( Ticket => \%Ticket, UserID => $Param{UserID} || 1 );
+    my %Escalation = $Self->TicketEscalationState(
+        Ticket => \%Ticket,
+        UserID => $Param{UserID} || 1,
+    );
     %Ticket = ( %Escalation, %Ticket );
 
     # article stuff
@@ -1771,13 +1769,17 @@ sub ArticleSend {
         }
     }
     if ( !$Param{ArticleType} && !$Param{ArticleTypeID} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Need ArticleType or ArticleTypeID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need ArticleType or ArticleTypeID!",
+        );
         return;
     }
     if ( !$Param{SenderType} && !$Param{SenderTypeID} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Need SenderType or SenderTypeID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need SenderType or SenderTypeID!",
+        );
         return;
     }
 
@@ -1863,8 +1865,8 @@ sub ArticleSend {
         # log
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message =>
-                "Sent email to '$ToOrig' from '$Param{From}'. HistoryType => $HistoryType, Subject => $Param{Subject};",
+            Message => "Sent email to '$ToOrig' from '$Param{From}'. "
+                . "HistoryType => $HistoryType, Subject => $Param{Subject};",
         );
 
         # ticket event
@@ -2017,8 +2019,9 @@ sub SendAgentNotification {
     my $Language = $User{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
 
     # get notification data
-    my %Notification = $Self->{NotificationObject}
-        ->NotificationGet( Name => $Language . '::Agent::' . $Param{Type} );
+    my %Notification = $Self->{NotificationObject}->NotificationGet(
+        Name => $Language . '::Agent::' . $Param{Type},
+    );
 
     # get notify texts
     for (qw(Subject Body)) {
@@ -2036,7 +2039,9 @@ sub SendAgentNotification {
     $Notification{Body}    =~ s/<OTRS_CONFIG_.+?>/-/gi;
 
     # get owner data and replace it with <OTRS_OWNER_...
-    my %OwnerPreferences = $Self->{UserObject}->GetUserData( UserID => $Article{OwnerID} );
+    my %OwnerPreferences = $Self->{UserObject}->GetUserData(
+        UserID => $Article{OwnerID},
+    );
     for ( keys %OwnerPreferences ) {
         if ( $OwnerPreferences{$_} ) {
             $Notification{Body}    =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
@@ -2049,8 +2054,9 @@ sub SendAgentNotification {
     $Notification{Body}    =~ s/<OTRS_OWNER_.+?>/-/gi;
 
     # get owner data and replace it with <OTRS_RESPONSIBLE_...
-    my %ResponsiblePreferences
-        = $Self->{UserObject}->GetUserData( UserID => $Article{ResponsibleID} );
+    my %ResponsiblePreferences = $Self->{UserObject}->GetUserData(
+        UserID => $Article{ResponsibleID},
+    );
     for ( keys %ResponsiblePreferences ) {
         if ( $ResponsiblePreferences{$_} ) {
             $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
@@ -2270,13 +2276,14 @@ sub SendCustomerNotification {
 
     # check customer email
     elsif ( $Self->{ConfigObject}->Get('CustomerNotifyJustToRealCustomer') ) {
-        my %CustomerUser
-            = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Article{CustomerUserID}, );
+        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Article{CustomerUserID},
+        );
         if ( !$CustomerUser{UserEmail} ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message =>
-                    "Send no customer notification because of missing customer email (CustomerUserID=$CustomerUser{CustomerUserID})!",
+                Message => "Send no customer notification because of missing "
+                    . "customer email (CustomerUserID=$CustomerUser{CustomerUserID})!",
             );
             return;
         }
@@ -2303,8 +2310,9 @@ sub SendCustomerNotification {
     }
 
     # get notification data
-    my %Notification = $Self->{NotificationObject}
-        ->NotificationGet( Name => $Language . '::Customer::' . $Param{Type} );
+    my %Notification = $Self->{NotificationObject}->NotificationGet(
+        Name => $Language . '::Customer::' . $Param{Type},
+    );
 
     # get notify texts
     for (qw(Subject Body)) {
@@ -2822,11 +2830,13 @@ sub ArticleFlagSet {
 
         # do db insert
         $Self->{DBObject}->Do( SQL => "DELETE FROM article_flag WHERE "
-                . "article_id = $Param{ArticleID} AND create_by = $Param{UserID}", );
+                . "article_id = $Param{ArticleID} AND create_by = $Param{UserID}"
+        );
         return $Self->{DBObject}->Do( SQL => "INSERT INTO article_flag "
                 . " (article_id, article_flag, create_time, create_by) "
                 . " VALUES "
-                . " ($Param{ArticleID}, '$Param{Flag}', current_timestamp, $Param{UserID})", );
+                . " ($Param{ArticleID}, '$Param{Flag}', current_timestamp, $Param{UserID})",
+        );
     }
     else {
 
@@ -2908,8 +2918,7 @@ sub ArticleAccountedTimeGet {
     }
 
     # db query
-    my $SQL
-        = "SELECT time_unit "
+    my $SQL = "SELECT time_unit "
         . " FROM "
         . " time_accounting "
         . " WHERE "
@@ -2947,7 +2956,7 @@ sub ArticleAccountedTimeDelete {
     }
 
     # db query
-    my $SQL = "DELETE FROM time_accounting " . " WHERE " . " article_id = $Param{ArticleID}";
+    my $SQL = "DELETE FROM time_accounting WHERE article_id = $Param{ArticleID}";
     return $Self->{DBObject}->Do( SQL => $SQL );
 }
 
