@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.3.2.2 2008-02-19 14:26:19 tr Exp $
+# $Id: Layout.t,v 1.3.2.3 2008-02-20 06:39:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -232,7 +232,7 @@ lk
 END_STRING
 
 my $NeededResult = <<'END_RESULT';
-Created:&nbsp;&nbsp;<br>
+Created:<br>
 02/19/2008 12:17:03<br>
 <a href="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone" target="_blank" title="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone">http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone</a><br>
 <br>
@@ -283,8 +283,6 @@ my $ConvertedString = $Self->{LayoutObject}->Ascii2Html(
     HTMLResultMode => 1,
     LinkFeature    => 1,
 );
-
-$Self->{LogObject}->Dumper($ConvertedString);
 
 $Self->True(
     $NeededResult eq $ConvertedString,
