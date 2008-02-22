@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.292 2008-02-11 12:18:16 martin Exp $
+# $Id: Ticket.pm,v 1.293 2008-02-22 16:01:05 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.292 $) [1];
+$VERSION = qw($Revision: 1.293 $) [1];
 
 =head1 NAME
 
@@ -3660,9 +3660,10 @@ sub TicketSearch {
         }
     }
 
+    my @GroupIDs;
+
     # user groups
-    my @GroupIDs = ();
-    if ( $Param{UserID} ) {
+    if ( $Param{UserID} && $Param{UserID} != 1 ) {
 
         # get users groups
         @GroupIDs = $Self->{GroupObject}->GroupMemberList(
@@ -3674,7 +3675,7 @@ sub TicketSearch {
     }
 
     # customer groups
-    if ( $Param{CustomerUserID} ) {
+    elsif ( $Param{CustomerUserID} ) {
         @GroupIDs = $Self->{CustomerGroupObject}->GroupMemberList(
             UserID => $Param{CustomerUserID},
             Type   => $Param{Permission} || 'ro',
@@ -3707,17 +3708,11 @@ sub TicketSearch {
             .= ") " . " OR "
             . " st.customer_user_id = '"
             . $Self->{DBObject}->Quote( $Param{CustomerUserID} ) . "') ";
-
     }
-    if ( $Param{UserID} && $Param{UserID} == 1 ) {
 
-#        $Self->{LogObject}->Log(Priority => 'info', Message => "It's a admin search, no groups are used!");
-    }
-    elsif (@GroupIDs) {
+    # add group ids to sql string
+    if (@GroupIDs) {
         $SQLExt .= " AND sq.group_id IN (${\(join ', ' , @GroupIDs)}) ";
-    }
-    else {
-        return;
     }
 
     # current priority lookup
@@ -6844,6 +6839,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.292 $ $Date: 2008-02-11 12:18:16 $
+$Revision: 1.293 $ $Date: 2008-02-22 16:01:05 $
 
 =cut

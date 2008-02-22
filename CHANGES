@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.581 2008-02-20 11:42:06 ub Exp $
+# $Id: CHANGES,v 1.582 2008-02-22 16:02:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/02/22) Improved performance of TicketSearch() function.
  - (2008/02/17) Removed not needed Encode::decode_utf8() in core module
     Kernel::System::Encode (only set of utf-8 stamp is needed).
  - (2008/02/17) Upgraded Mail::Tools from version 1.77 to 2.02 from CPAN.
@@ -31,7 +32,7 @@ CVS HEAD (????/??/??)
     admin interface for queue and sla settings.
     NOTE: table queue need to be modified - use scripts/DBUpdate-to-2.3.*.sql
  - (2008/02/04) Fixed bug# 1608 - Badly formatted calendar popup.
--  (2008/02/04) Fixed bug# 2657 - Improved regexp in RPM spec files to detect
+ - (2008/02/04) Fixed bug# 2657 - Improved regexp in RPM spec files to detect
     already existing "otrs" user (it was also matching on xxxotrsxxx names).
  - (2008/01/28) Added note permission "note" to default ticket permissions to
     manage list of inform involved agents out of the box.
