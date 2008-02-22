@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.84 2008-02-05 16:30:53 ub Exp $
+# $Id: DB.pm,v 1.85 2008-02-22 20:29:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 =head1 NAME
 
@@ -351,16 +351,14 @@ to insert, update or delete something
     my $Var2 = 'dog2';
 
     $DBObject->Do(
-        SQL => "INSERT INTO table (name1, name2) VALUES (?, ?)",
-        Bind => [\$Var1, \$Var2],
+        SQL  => "INSERT INTO table (name1, name2) VALUES (?, ?)",
+        Bind => [ \$Var1, \$Var2 ],
     );
 
 =cut
 
 sub Do {
     my ( $Self, %Param ) = @_;
-
-    my @Array = ();
 
     # check needed stuff
     if ( !$Param{SQL} ) {
@@ -369,6 +367,7 @@ sub Do {
     }
 
     # check bind params
+    my @Array = ();
     if ( $Param{Bind} ) {
         for my $Data ( @{ $Param{Bind} } ) {
             if ( ref($Data) eq 'SCALAR' ) {
@@ -414,8 +413,8 @@ sub Do {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'error',
-            Message =>
-                "Your SQL is longer the 4k, this probably not work on many databases (use Bind instead)!",
+            Message => "Your SQL is longer the 4k, this probably not work on many "
+                ."databases (use Bind instead)!",
         );
     }
     no bytes;
@@ -437,14 +436,14 @@ sub Do {
 to send a select something to the database
 
     $DBObject->Prepare(
-        SQL => "SELECT id, name FROM table",
+        SQL   => "SELECT id, name FROM table",
         Limit => 10,
     );
 
 or in case you want just to get row 10 till 30
 
     $DBObject->Prepare(
-        SQL => "SELECT id, name FROM table",
+        SQL   => "SELECT id, name FROM table",
         Start => 10,
         Limit => 20,
     );
@@ -453,8 +452,19 @@ in case you wan't not utf-8 encoding for some column use this to do
 not encode content column
 
     $DBObject->Prepare(
-        SQL => "SELECT id, name, content FROM table",
-        Encode => [1,1,0],
+        SQL    => "SELECT id, name, content FROM table",
+        Encode => [ 1, 1, 0 ],
+    );
+
+you also can use DBI bind values (used for large strings):
+
+    my $Var1 = 'dog1';
+    my $Var2 = 'dog2';
+
+    $DBObject->Do(
+        SQL    => "SELECT id, name, content FROM table WHERE name_a = ? AND name_b = ?",
+        Encode => [ 1, 1, 0 ],
+        Bind   => [ \$Var1, \$Var2 ],
     );
 
 =cut
@@ -514,6 +524,24 @@ sub Prepare {
         $LogTime = time();
     }
 
+    # check bind params
+    my @Array = ();
+    if ( $Param{Bind} ) {
+        for my $Data ( @{ $Param{Bind} } ) {
+            if ( ref($Data) eq 'SCALAR' ) {
+                push( @Array, $$Data );
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Caller   => 1,
+                    Priority => 'Error',
+                    Message  => "No SCALAR param in Bind!",
+                );
+                return;
+            }
+        }
+    }
+
     # do
     if ( !( $Self->{Cursor} = $Self->{dbh}->prepare($SQL) ) ) {
         $Self->{LogObject}->Log(
@@ -524,7 +552,7 @@ sub Prepare {
         return;
     }
 
-    if ( !$Self->{Cursor}->execute() ) {
+    if ( !$Self->{Cursor}->execute(@Array) ) {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'Error',
@@ -552,7 +580,7 @@ sub Prepare {
 to get a select return
 
     $DBObject->Prepare(
-        SQL => "SELECT id, name FROM table",
+        SQL   => "SELECT id, name FROM table",
         Limit => 10
     );
 
@@ -671,17 +699,17 @@ generate database based sql syntax (e. g. CREATE TABLE ...)
     my @SQL = $DBObject->SQLProcessor(
         Database =>
             [
-                Tag => 'TableCreate',
+                Tag  => 'TableCreate',
                 Name => 'table_name',
             ],
             [
-                Tag => 'Column',
+                Tag  => 'Column',
                 Name => 'col_name',
                 Type => 'VARCHAR',
                 Size => 150,
             ],
             [
-                Tag => 'Column',
+                Tag  => 'Column',
                 Name => 'col_name2',
                 Type => 'INTEGER',
             ],
@@ -700,7 +728,6 @@ sub SQLProcessor {
         my @Table = ();
         for my $Tag ( @{ $Param{Database} } ) {
 
-            #            print STDERR "$Tag->{Tag} $Tag->{TagType}------\n";
             if ( ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
                 && $Tag->{TagType} eq 'Start' )
             {
@@ -904,6 +931,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.84 $ $Date: 2008-02-05 16:30:53 $
+$Revision: 1.85 $ $Date: 2008-02-22 20:29:26 $
 
 =cut

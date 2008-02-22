@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.29 2008-02-13 19:50:16 martin Exp $
+# $Id: DB.t,v 1.30 2008-02-22 20:29:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -405,6 +405,20 @@ for my $Count (1..6) {
             $LengthBack,
             $Length,
             "#2 Do() SQL SELECT 2 - $Count",
+        );
+        # select bind
+        $Self->{DBObject}->Prepare(
+            SQL => 'SELECT name_b FROM test_a WHERE name_a = ?',
+            Bind => [ \$Key ],
+        );
+        $LengthBack = 0;
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $LengthBack = length($Row[0]);
+        }
+        $Self->Is(
+            $LengthBack,
+            $Length,
+            "#2 Do() SQL SELECT (bind) 2 - $Count",
         );
     }
 }
