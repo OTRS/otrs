@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/CustomerTicketPrint - print layout for customer interface
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.2.2.4 2007-07-26 15:37:44 mh Exp $
+# $Id: CustomerTicketPrint.pm,v 1.2.2.5 2008-02-22 19:55:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::CustomerTicketPrint;
@@ -18,7 +18,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2.2.4 $';
+$VERSION = '$Revision: 1.2.2.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -66,13 +66,12 @@ sub Run {
     }
 
     # check permissions
-    if (!$Self->{TicketObject}->Permission(
+    if (!$Self->{TicketObject}->CustomerPermission(
         Type => 'ro',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
-
         # error screen, don't show ticket
-        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+        return $Self->{LayoutObject}->CustomerNoPermission(WithHeader => 'yes');
     }
     # get linked objects
     my %Links = $Self->{LinkObject}->AllLinkedObjects(
