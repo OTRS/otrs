@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.5.2.5 2008-02-11 17:52:15 martin Exp $
+# $Id: EmailParser.t,v 1.5.2.6 2008-02-22 21:34:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -473,6 +473,37 @@ $Self->True(
 $Self->True(
     !$Attachments[3] || 0,
     "#10 attachment check #4",
+);
+
+# test #11
+@Array = ();
+open(IN, "< $Home/scripts/test/sample/PostMaster-Test11.box");
+while (<IN>) {
+    push(@Array, $_);
+}
+close (IN);
+
+$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+    %{$Self},
+    Email => \@Array,
+);
+$Self->Is(
+    $Self->{EmailParserObject}->GetCharset(),
+    'ISO-8859-1',
+    "#11 GetCharset() - iso-8859-1 charset should be found",
+);
+
+$MD5 = md5_hex($Self->{EmailParserObject}->GetMessageBody()) || '';
+$Self->Is(
+    $MD5,
+    '81739946972f824c27878deac281e0a7',
+    "#11 md5 body check",
+);
+
+@Attachments = $Self->{EmailParserObject}->GetAttachments();
+$Self->True(
+    !$Attachments[0] || 0,
+    "#11 attachment check #0",
 );
 
 1;

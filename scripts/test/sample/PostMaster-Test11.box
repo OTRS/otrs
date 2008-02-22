@@ -1,0 +1,31 @@
+From skywalker@example.com  Fri Dec 21 23:59:24 2001
+Return-Path: <skywalker@example.com>
+Received: (from skywalker@localhost)
+	by avro.de (8.11.3/8.11.3/SuSE Linux 8.11.1-0.5) id f3MMSE303694
+	for martin@localhost; Fri, 21 Dec 2001 23:59:24 +0200
+Date: Fri, 21 Dec 2001 23:59:24 +0200
+From: Skywalker Attachment <skywalker@example.com>
+To: darthvader@example.com
+Subject: test 11 (no content type but, 8bit chars)
+Message-ID: <20011221002814.A3599@avro>
+Mime-Version: 1.0
+Content-Disposition: inline
+X-Operating-System: Linux 2.4.10-4GB i686
+X-Uptime: 12:23am  up  5:19,  6 users,  load average: 0.11, 0.13, 0.18
+X-CVS: $Id: PostMaster-Test11.box,v 1.1.2.2 2008-02-22 21:34:20 martin Exp $
+Content-Length: 139
+Lines: 11
+
+This is the 11 test.
+
+... pc va demasiado rápido ...
+
+Adios ...
+
+  Little "Skywalker"
+
+--
+System Tester I - <skywalker@example.com>
+--
+Old programmers never die. They just branch to a new address.
+

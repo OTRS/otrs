@@ -1,12 +1,12 @@
 # --
 # Kernel/System/EmailParser.pm - the global email parser module
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.50.2.3 2007-12-10 19:29:50 martin Exp $
+# $Id: EmailParser.pm,v 1.50.2.4 2008-02-22 21:34:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::EmailParser;
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50.2.3 $';
+$VERSION = '$Revision: 1.50.2.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -281,9 +281,8 @@ sub GetCharset {
             return $Data{Charset};
         }
 
-        # if it's not a text content type, return no charset
-        elsif ( $Data{ContentType} !~ /text/i) {
-
+        # if it's not a text content type (e. g. pdf, png, ...), return no charset
+        elsif ( $Data{ContentType} && $Data{ContentType} !~ /text/i) {
             # debug
             if ( $Self->{Debug} > 0 ) {
                 $Self->{LogObject}->Log(
@@ -299,6 +298,8 @@ sub GetCharset {
             return '';
         }
 
+        # if there is no available header for charset and content type, use
+        # iso-8859-1 as charset
         else {
             # debug
             if ($Self->{Debug} > 0) {
@@ -1100,10 +1101,10 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.50.2.3 $ $Date: 2007-12-10 19:29:50 $
+$Revision: 1.50.2.4 $ $Date: 2008-02-22 21:34:20 $
 
 =cut
