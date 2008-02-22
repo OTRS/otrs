@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.58 2008-02-11 17:49:44 martin Exp $
+# $Id: EmailParser.pm,v 1.59 2008-02-22 21:32:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 =head1 NAME
 
@@ -301,8 +301,8 @@ sub GetCharset {
             return $Data{Charset};
         }
 
-        # if it's not a text content type, return no charset
-        elsif ( $Data{ContentType} !~ /text/i) {
+        # if it's not a text content type (e. g. pdf, png, ...), return no charset
+        elsif ( $Data{ContentType} && $Data{ContentType} !~ /text/i) {
 
             # debug
             if ( $Self->{Debug} > 0 ) {
@@ -319,7 +319,8 @@ sub GetCharset {
             return '';
         }
 
-        # if it's a text content type, return iso-8859-1 as default charset
+        # if there is no available header for charset and content type, use
+        # iso-8859-1 as charset
         else {
 
             # debug
@@ -1178,6 +1179,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2008-02-11 17:49:44 $
+$Revision: 1.59 $ $Date: 2008-02-22 21:32:31 $
 
 =cut

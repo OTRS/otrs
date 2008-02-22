@@ -1,18 +1,17 @@
 # --
 # PostMaster.t - PostMaster tests
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.6 2007-12-13 01:36:22 martin Exp $
+# $Id: PostMaster.t,v 1.7 2008-02-22 21:32:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::PostMaster;
 use Kernel::System::Ticket;
-use Digest::MD5 qw(md5_hex);
 
 for my $Module (qw(DB FS)) {
     $Self->{ConfigObject}->Set(
@@ -68,7 +67,7 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
         # get rand sender address
         my $UserRand1 = 'example-user'.int(rand(1000000)).'@example.com';
 
-        for my $File (qw(1 2 3 6)) {
+        for my $File (qw(1 2 3 6 11)) {
 
             # new ticket check
             my @Content = ();
@@ -116,8 +115,7 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
                 my %Article = $Self->{TicketObject}->ArticleGet(
                     ArticleID => $ArticleIDs[0],
                 );
-                $Self->{EncodeObject}->EncodeOutput(\$Article{Body});
-                my $MD5 = md5_hex($Article{Body}) || '';
+                my $MD5 = $Self->{MainObject}->MD5sum( String => $Article{Body} ) || '';
                 $Self->Is(
                     $MD5,
                     'b50d85781d2ac10c210f99bf8142badc',
@@ -134,8 +132,7 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
                     FileID => 2,
                     UserID => 1,
                 );
-                $Self->{EncodeObject}->EncodeOutput(\$Attachment{Content});
-                $MD5 = md5_hex($Attachment{Content}) || '';
+                $MD5 = $Self->{MainObject}->MD5sum( String => $Attachment{Content} ) || '';
                 $Self->Is(
                     $MD5,
                     '4e78ae6bffb120669f50bca56965f552',
@@ -149,8 +146,7 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
                 my %Article = $Self->{TicketObject}->ArticleGet(
                     ArticleID => $ArticleIDs[0],
                 );
-                $Self->{EncodeObject}->EncodeOutput(\$Article{Body});
-                my $MD5 = md5_hex($Article{Body}) || '';
+                my $MD5 = $Self->{MainObject}->MD5sum( String => $Article{Body} ) || '';
                 $Self->Is(
                     $MD5,
                     '2ac290235a8cad953a1837c77701c5dc',
@@ -171,14 +167,27 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
                     FileID => $FileID,
                     UserID => 1,
                 );
-                $Self->{EncodeObject}->EncodeOutput(\$Attachment{Content});
-                $MD5 = md5_hex($Attachment{Content}) || '';
+                $MD5 = $Self->{MainObject}->MD5sum( String => $Attachment{Content} ) || '';
                 $Self->Is(
                     $MD5,
                     '5ee767f3b68f24a9213e0bef82dc53e5',
                     "#$NumberModule $StorageModule $File md5 attachment check",
                 );
 
+            }
+            if ($File == 11) {
+
+                # check body
+                my %Article = $Self->{TicketObject}->ArticleGet(
+                    ArticleID => $ArticleIDs[0],
+                );
+                my $MD5 = $Self->{MainObject}->MD5sum( String => $Article{Body} ) || '';
+
+                $Self->Is(
+                    $MD5,
+                    '52f20c90a1f0d8cf3bd415e278992001',
+                    "#$NumberModule $StorageModule $File md5 body check",
+                );
             }
 
             # send follow up #1
