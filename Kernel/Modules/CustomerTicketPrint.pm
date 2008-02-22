@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.18 2008-01-31 06:22:12 tr Exp $
+# $Id: CustomerTicketPrint.pm,v 1.19 2008-02-22 19:54:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,10 +30,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (
-        qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject MainObject)
-        )
-    {
+    for ( qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject MainObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
@@ -66,7 +63,7 @@ sub Run {
     }
 
     # check permissions
-    if (!$Self->{TicketObject}->Permission(
+    if (!$Self->{TicketObject}->CustomerPermission(
             Type     => 'ro',
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}
@@ -75,7 +72,7 @@ sub Run {
     {
 
         # error screen, don't show ticket
-        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'yes' );
     }
 
     # get linked objects
@@ -93,33 +90,21 @@ sub Run {
         ArticleType => \@CustomerArticleTypes,
         StripPlainBodyAsAttachment => 1,
     );
-    $Ticket{TicketTimeUnits}
-        = $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $Ticket{TicketID} );
-
-    # user info
-    my %UserInfo = $Self->{UserObject}->GetUserData(
-        User   => $Ticket{Owner},
-        Cached => 1
+    $Ticket{TicketTimeUnits} = $Self->{TicketObject}->TicketAccountedTimeGet(
+        TicketID => $Ticket{TicketID},
     );
-
-    # responsible info
-    my %ResponsibleInfo;
-    if ( $Self->{ConfigObject}->Get('Ticket::Responsible') && $Ticket{Responsible} ) {
-        %ResponsibleInfo = $Self->{UserObject}->GetUserData(
-            User   => $Ticket{Responsible},
-            Cached => 1
-        );
-    }
 
     # customer info
     my %CustomerData = ();
     if ( $Ticket{CustomerUserID} ) {
-        %CustomerData
-            = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Ticket{CustomerUserID}, );
+        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Ticket{CustomerUserID},
+        );
     }
     elsif ( $Ticket{CustomerID} ) {
-        %CustomerData = $Self->{CustomerUserObject}
-            ->CustomerUserDataGet( CustomerID => $Ticket{CustomerID}, );
+        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            CustomerID => $Ticket{CustomerID},
+        );
     }
 
     # do some html quoting
@@ -140,8 +125,7 @@ sub Run {
         my $Time      = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
         my $Url       = ' ';
         if ( $ENV{REQUEST_URI} ) {
-            $Url
-                = $Self->{ConfigObject}->Get('HttpType') . '://'
+            $Url = $Self->{ConfigObject}->Get('HttpType') . '://'
                 . $Self->{ConfigObject}->Get('FQDN')
                 . $ENV{REQUEST_URI};
         }
@@ -191,8 +175,6 @@ sub Run {
         $Self->_PDFOutputTicketInfos(
             PageData        => \%Page,
             TicketData      => \%Ticket,
-            UserData        => \%UserInfo,
-            ResponsibleData => \%ResponsibleInfo,
         );
 
         # output ticket freetext fields
@@ -228,10 +210,10 @@ sub Run {
         );
 
         # return the pdf document
-        my $Filename = 'ticket_' . $Ticket{TicketNumber};
-        my ( $s, $m, $h, $D, $M, $Y )
-            = $Self->{TimeObject}
-            ->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+        my $Filename = 'Ticket_' . $Ticket{TicketNumber};
+        my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
+            SystemTime => $Self->{TimeObject}->SystemTime(),
+        );
         $M = sprintf( "%02d", $M );
         $D = sprintf( "%02d", $D );
         $h = sprintf( "%02d", $h );
@@ -278,9 +260,7 @@ sub Run {
             TicketID        => $Self->{TicketID},
             QueueID         => $QueueID,
             ArticleBox      => \@ArticleBox,
-            ResponsibleData => \%ResponsibleInfo,
             %Param,
-            %UserInfo,
             %Ticket,
         );
 
@@ -296,14 +276,13 @@ sub _PDFOutputTicketInfos {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(PageData TicketData UserData)) {
+    for (qw(PageData TicketData)) {
         if ( !defined( $Param{$_} ) ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     my %Ticket   = %{ $Param{TicketData} };
-    my %UserInfo = %{ $Param{UserData} };
     my %Page     = %{ $Param{PageData} };
 
     # create left table
@@ -323,28 +302,7 @@ sub _PDFOutputTicketInfos {
         {   Key   => $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID') . ':',
             Value => $Ticket{CustomerID},
         },
-        {   Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Owner') . ':',
-            Value => $Ticket{Owner} . ' ('
-                . $UserInfo{UserFirstname} . ' '
-                . $UserInfo{UserLastname} . ')',
-        },
     ];
-
-    # add responible row, if feature is enabled
-    if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
-        my $Responsible = '-';
-        if ( $Ticket{Responsible} ) {
-            $Responsible
-                = $Ticket{Responsible} . ' ('
-                . $Param{ResponsibleData}->{UserFirstname} . ' '
-                . $Param{ResponsibleData}->{UserLastname} . ')';
-        }
-        my $Row = {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Responsible') . ':',
-            Value => $Responsible,
-        };
-        push( @{$TableLeft}, $Row );
-    }
 
     # add type row, if feature is enabled
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
@@ -387,42 +345,6 @@ sub _PDFOutputTicketInfos {
             Value => $Ticket{PendingUntil},
         },
     ];
-
-    # add first response time row
-    if ( defined( $Ticket{FirstResponseTime} ) ) {
-        my $Row = {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('First Response Time') . ':',
-            Value => $Self->{LayoutObject}->Output(
-                Template => '$TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}',
-                Data     => \%Ticket,
-            ),
-        };
-        push( @{$TableRight}, $Row );
-    }
-
-    # add update time row
-    if ( defined( $Ticket{UpdateTime} ) ) {
-        my $Row = {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Update Time') . ':',
-            Value => $Self->{LayoutObject}->Output(
-                Template => '$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}',
-                Data     => \%Ticket,
-            ),
-        };
-        push( @{$TableRight}, $Row );
-    }
-
-    # add solution time row
-    if ( defined( $Ticket{SolutionTime} ) ) {
-        my $Row = {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Solution Time') . ':',
-            Value => $Self->{LayoutObject}->Output(
-                Template => '$TimeShort{"$QData{"SolutionTimeDestinationDate"}"}',
-                Data     => \%Ticket,
-            ),
-        };
-        push( @{$TableRight}, $Row );
-    }
 
     my $Rows = @{$TableLeft};
     if ( @{$TableRight} > $Rows ) {
@@ -1021,21 +943,6 @@ sub _PDFOutputArticles {
 sub _HTMLMask {
     my ( $Self, %Param ) = @_;
 
-    # output responible, if feature is enabled
-    if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
-        my $Responsible = '-';
-        if ( $Param{Responsible} ) {
-            $Responsible
-                = $Param{Responsible} . ' ('
-                . $Param{ResponsibleData}->{UserFirstname} . ' '
-                . $Param{ResponsibleData}->{UserLastname} . ')';
-        }
-        $Self->{LayoutObject}->Block(
-            Name => 'Responsible',
-            Data => { ResponsibleString => $Responsible, },
-        );
-    }
-
     # output type, if feature is enabled
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
         $Self->{LayoutObject}->Block(
@@ -1052,30 +959,6 @@ sub _HTMLMask {
                 Service => $Param{Service} || '-',
                 SLA     => $Param{SLA}     || '-',
             },
-        );
-    }
-
-    # output first response time
-    if ( defined( $Param{FirstResponseTime} ) ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'FirstResponseTime',
-            Data => { %Param },
-        );
-    }
-
-    # output update time
-    if ( defined( $Param{UpdateTime} ) ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'UpdateTime',
-            Data => { %Param },
-        );
-    }
-
-    # output solution time
-    if ( defined( $Param{SolutionTime} ) ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'SolutionTime',
-            Data => { %Param },
         );
     }
 

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.582 2008-02-22 16:02:23 mh Exp $
+# $Id: CHANGES,v 1.583 2008-02-22 19:54:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -115,8 +115,11 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.6 (2008/??/??)
- - (2008/02/20) Improved error message if spell checker is not found.
- - (2008/02/20) Fixed bug# 2644 - Insert a test function to find easier wrong
+ - (2008/02/22) Fixed bug# 2462 - Permission denied when trying to print ticket
+    details from customer panel (customer.pl).
+ - (2008/02/21) Added sendmail dummy backend module to deactivate sending
+    emails, useful for test system (Kernel::System::Email::DoNotSendEmail).
+ - (2008/02/20) Fixed bug# 2644 - Added unit tests to find easier wrong
     configured GD-CPAN modules.
  - (2008/02/20) Fixed bug# 2706 - SysConfig setting LogSystemCacheSize causes
     error messages.
