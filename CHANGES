@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.85 2008-02-22 21:34:20 martin Exp $
+# $Id: CHANGES,v 1.465.2.86 2008-02-23 00:16:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 2.2.6 (2008/??/??)
+ - (2008/02/23) Fixed bug# 2544 - Customer with RO can update ticket in
+    customer panel (wrong SysConfig setting).
  - (2008/02/22) Fixed bug# 2650 - Mails not full imported by PostmasterPOP3.pl
     (mail body is cutted off, if no content type is availabe but 8bit chars are
     used).
