@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/CustomerNewTicketQueueSelectionGeneric.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerNewTicketQueueSelectionGeneric.pm,v 1.5 2007-10-02 10:43:31 mh Exp $
+# $Id: CustomerNewTicketQueueSelectionGeneric.pm,v 1.6 2008-02-23 00:42:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,9 +25,7 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (
-        qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ParamObject QueueObject SystemAddress)
-        )
+    for ( qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ParamObject QueueObject SystemAddress))
     {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
@@ -38,20 +36,32 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # check if own selection is configured
     my %NewTos = ();
     if ( $Self->{ConfigObject}->{CustomerPanelOwnSelection} ) {
-        for ( keys %{ $Self->{ConfigObject}->{CustomerPanelOwnSelection} } ) {
-            my $Value = $Self->{ConfigObject}->{CustomerPanelOwnSelection}->{$_};
-            if ( $_ =~ /^\d+$/ ) {
-                $NewTos{$_} = $Value;
+        for my $Queue ( keys %{ $Self->{ConfigObject}->{CustomerPanelOwnSelection} } ) {
+            my $Value = $Self->{ConfigObject}->{CustomerPanelOwnSelection}->{$Queue};
+            if ( $Queue =~ /^\d+$/ ) {
+                $NewTos{$Queue} = $Value;
             }
             else {
-                if ( $Self->{QueueObject}->QueueLookup( Queue => $_ ) ) {
-                    $NewTos{ $Self->{QueueObject}->QueueLookup( Queue => $_ ) } = $Value;
+                if ( $Self->{QueueObject}->QueueLookup( Queue => $Queue ) ) {
+                    $NewTos{ $Self->{QueueObject}->QueueLookup( Queue => $Queue ) } = $Value;
                 }
                 else {
-                    $NewTos{$_} = $Value;
+                    $NewTos{ $Queue } = $Value;
                 }
+            }
+        }
+        # check create permissions
+        my %Queues = $Self->{TicketObject}->MoveList(
+            CustomerUserID => $Param{Env}->{UserID},
+            Type => 'create',
+            Action => $Param{Env}->{Action},
+        );
+        for my $QueueID ( keys %NewTos ) {
+            if ( !$Queues{ $QueueID } ) {
+                delete $NewTos{ $QueueID };
             }
         }
     }
@@ -62,14 +72,14 @@ sub Run {
         if ( $Self->{ConfigObject}->Get('CustomerPanelSelectionType') eq 'Queue' ) {
             %Tos = $Self->{TicketObject}->MoveList(
                 CustomerUserID => $Param{Env}->{UserID},
-                Type           => 'rw',
+                Type           => 'create',
                 Action         => $Param{Env}->{Action},
             );
         }
         else {
             my %Queues = $Self->{TicketObject}->MoveList(
                 CustomerUserID => $Param{Env}->{UserID},
-                Type           => 'rw',
+                Type           => 'create',
                 Action         => $Param{Env}->{Action},
             );
             my %SystemTos = $Self->{DBObject}->GetTableData(
@@ -78,28 +88,28 @@ sub Run {
                 Valid => 1,
                 Clamp => 1,
             );
-            for ( keys %Queues ) {
-                if ( $SystemTos{$_} ) {
-                    $Tos{$_} = $Queues{$_};
+            for my $QueueID ( keys %Queues ) {
+                if ( $SystemTos{$QueueID} ) {
+                    $Tos{$QueueID} = $Queues{$QueueID};
                 }
             }
         }
         %NewTos = %Tos;
 
         # build selection string
-        for ( keys %NewTos ) {
-            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $_ );
-            my $Srting = $Self->{ConfigObject}->Get('CustomerPanelSelectionString')
+        for my $QueueID ( keys %NewTos ) {
+            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
+            my $String = $Self->{ConfigObject}->Get('CustomerPanelSelectionString')
                 || '<Realname> <<Email>> - Queue: <Queue>';
-            $Srting =~ s/<Queue>/$QueueData{Name}/g;
-            $Srting =~ s/<QueueComment>/$QueueData{Comment}/g;
+            $String =~ s/<Queue>/$QueueData{Name}/g;
+            $String =~ s/<QueueComment>/$QueueData{Comment}/g;
             if ( $Self->{ConfigObject}->Get('CustomerPanelSelectionType') ne 'Queue' ) {
                 my %SystemAddressData
                     = $Self->{SystemAddress}->SystemAddressGet( ID => $QueueData{SystemAddressID} );
-                $Srting =~ s/<Realname>/$SystemAddressData{Realname}/g;
-                $Srting =~ s/<Email>/$SystemAddressData{Name}/g;
+                $String =~ s/<Realname>/$SystemAddressData{Realname}/g;
+                $String =~ s/<Email>/$SystemAddressData{Name}/g;
             }
-            $NewTos{$_} = $Srting;
+            $NewTos{$QueueID} = $String;
         }
     }
     return (%NewTos);
