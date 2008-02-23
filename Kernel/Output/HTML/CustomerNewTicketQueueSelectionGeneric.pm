@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/CustomerNewTicketQueueSelectionGeneric.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerNewTicketQueueSelectionGeneric.pm,v 1.3 2007-07-31 14:03:32 bb Exp $
+# $Id: CustomerNewTicketQueueSelectionGeneric.pm,v 1.3.2.1 2008-02-23 00:42:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric;
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.3.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -53,6 +53,17 @@ sub Run {
                 }
             }
         }
+        # check create permissions
+        my %Queues = $Self->{TicketObject}->MoveList(
+            CustomerUserID => $Param{Env}->{UserID},
+            Type => 'create',
+            Action => $Param{Env}->{Action},
+        );
+        for my $QueueID ( keys %NewTos ) {
+            if ( !$Queues{ $QueueID } ) {
+                delete $NewTos{ $QueueID };
+            }
+        }
     }
     else {
         # SelectionType Queue or SystemAddress?
@@ -60,14 +71,14 @@ sub Run {
         if ($Self->{ConfigObject}->Get('CustomerPanelSelectionType') eq 'Queue') {
             %Tos = $Self->{TicketObject}->MoveList(
                 CustomerUserID => $Param{Env}->{UserID},
-                Type => 'rw',
+                Type => 'create',
                 Action => $Param{Env}->{Action},
             );
         }
         else {
             my %Queues = $Self->{TicketObject}->MoveList(
                 CustomerUserID => $Param{Env}->{UserID},
-                Type => 'rw',
+                Type => 'create',
                 Action => $Param{Env}->{Action},
             );
             my %SystemTos = $Self->{DBObject}->GetTableData(
