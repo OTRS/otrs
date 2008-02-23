@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.158 2008-02-20 22:28:42 martin Exp $
+# $Id: Article.pm,v 1.159 2008-02-23 01:33:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.158 $) [1];
+$VERSION = qw($Revision: 1.159 $) [1];
 
 =head1 NAME
 
@@ -1474,8 +1474,8 @@ sub ArticleGet {
         $Ticket{CustomerID}        = $Row[16];
         $Data{OwnerID}             = $Row[20];
         $Ticket{OwnerID}           = $Row[20];
-        $Data{ResponsibleID}       = $Row[21];
-        $Ticket{ResponsibleID}     = $Row[21];
+        $Data{ResponsibleID}       = $Row[21] || 1;
+        $Ticket{ResponsibleID}     = $Row[21] || 1;
         $Data{ArticleTypeID}       = $Row[22];
         $Data{ArticleFreeKey1}     = $Row[23];
         $Data{ArticleFreeText1}    = $Row[24];
@@ -1545,7 +1545,7 @@ sub ArticleGet {
     $Ticket{Owner} = $Self->{UserObject}->UserLookup( UserID => $Ticket{OwnerID} );
 
     # get responsible
-    $Ticket{Responsible} = $Self->{UserObject}->UserLookup( UserID => $Ticket{ResponsibleID} || 1 );
+    $Ticket{Responsible} = $Self->{UserObject}->UserLookup( UserID => $Ticket{ResponsibleID} );
 
     # get priority
     $Ticket{Priority} = $Self->{PriorityObject}->PriorityLookup( PriorityID => $Ticket{PriorityID} );
@@ -1591,11 +1591,14 @@ sub ArticleGet {
         $Part->{Responsible} = $Ticket{Responsible};
 
         # get sender type
-        $Part->{SenderType}
-            = $Self->ArticleSenderTypeLookup( SenderTypeID => $Part->{SenderTypeID}, );
+        $Part->{SenderType} = $Self->ArticleSenderTypeLookup(
+            SenderTypeID => $Part->{SenderTypeID},
+        );
 
         # get article type
-        $Part->{ArticleType} = $Self->ArticleTypeLookup( ArticleTypeID => $Part->{ArticleTypeID}, );
+        $Part->{ArticleType} = $Self->ArticleTypeLookup(
+            ArticleTypeID => $Part->{ArticleTypeID},
+        );
 
         # get priority name
         $Part->{Priority} = $Ticket{Priority};

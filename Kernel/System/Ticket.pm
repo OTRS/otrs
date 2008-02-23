@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.294 2008-02-23 00:51:13 martin Exp $
+# $Id: Ticket.pm,v 1.295 2008-02-23 01:33:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.294 $) [1];
+$VERSION = qw($Revision: 1.295 $) [1];
 
 =head1 NAME
 
@@ -811,7 +811,7 @@ sub TicketGet {
         $Ticket{CustomerID}             = $Row[11];
         $Ticket{CustomerUserID}         = $Row[12];
         $Ticket{OwnerID}                = $Row[13];
-        $Ticket{ResponsibleID}          = $Row[14];
+        $Ticket{ResponsibleID}          = $Row[14] || 1;
         $Ticket{RealTillTimeNotUsed}    = $Row[15];
         $Ticket{TypeID}                 = $Row[58] || 1;
         $Ticket{ServiceID}              = $Row[59] || '';
@@ -866,10 +866,14 @@ sub TicketGet {
     }
 
     # get owner
-    $Ticket{Owner} = $Self->{UserObject}->UserLookup( UserID => $Ticket{OwnerID} );
+    $Ticket{Owner} = $Self->{UserObject}->UserLookup(
+        UserID => $Ticket{OwnerID},
+    );
 
     # get responsible
-    $Ticket{Responsible} = $Self->{UserObject}->UserLookup( UserID => $Ticket{ResponsibleID} || 1 );
+    $Ticket{Responsible} = $Self->{UserObject}->UserLookup(
+        UserID => $Ticket{ResponsibleID},
+    );
 
     # get lock
     $Ticket{Lock} = $Self->{LockObject}->LockLookup( LockID => $Ticket{LockID} );
@@ -879,7 +883,9 @@ sub TicketGet {
 
     # get service
     if ( $Ticket{ServiceID} ) {
-        $Ticket{Service} = $Self->{ServiceObject}->ServiceLookup( ServiceID => $Ticket{ServiceID} );
+        $Ticket{Service} = $Self->{ServiceObject}->ServiceLookup(
+            ServiceID => $Ticket{ServiceID},
+        );
     }
 
     # get sla
@@ -899,7 +905,10 @@ sub TicketGet {
     }
 
     # get escalation attributes
-    my %Escalation = $Self->TicketEscalationState( Ticket => \%Ticket, UserID => $Param{UserID} || 1 );
+    my %Escalation = $Self->TicketEscalationState(
+        Ticket => \%Ticket,
+        UserID => $Param{UserID} || 1,
+    );
     %Ticket = ( %Escalation, %Ticket );
 
     # cache user result
@@ -6850,6 +6859,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.294 $ $Date: 2008-02-23 00:51:13 $
+$Revision: 1.295 $ $Date: 2008-02-23 01:33:07 $
 
 =cut
