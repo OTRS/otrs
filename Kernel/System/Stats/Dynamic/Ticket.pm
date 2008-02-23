@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.16 2008-01-31 06:20:20 tr Exp $
+# $Id: Ticket.pm,v 1.17 2008-02-23 10:16:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,30 +20,29 @@ use Kernel::System::SLA;
 use Kernel::System::Ticket;
 use Kernel::System::Type;
 
-use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+use vars qw($VERSION);
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(DBObject ConfigObject LogObject UserObject MainObject)) {
-        die "Got no $_" if ( !$Self->{$_} );
+    # check needed objects
+    for my $Object (qw(DBObject ConfigObject LogObject UserObject TimeObject MainObject)) {
+        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
-
-    $Self->{QueueObject}    = Kernel::System::Queue->new(%Param);
-    $Self->{TicketObject}   = Kernel::System::Ticket->new(%Param);
-    $Self->{StateObject}    = Kernel::System::State->new(%Param);
-    $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
+    $Self->{QueueObject}    = Kernel::System::Queue->new( %{$Self} );
+    $Self->{TicketObject}   = Kernel::System::Ticket->new( %{$Self} );
+    $Self->{StateObject}    = Kernel::System::State->new( %{$Self} );
+    $Self->{PriorityObject} = Kernel::System::Priority->new( %{$Self} );
     $Self->{LockObject}     = Kernel::System::Lock->new( %{$Self} );
     $Self->{CustomerUser}   = Kernel::System::CustomerUser->new( %{$Self} );
-    $Self->{ServiceObject}  = Kernel::System::Service->new(%Param);
-    $Self->{SLAObject}      = Kernel::System::SLA->new(%Param);
-    $Self->{TypeObject}     = Kernel::System::Type->new(%Param);
+    $Self->{ServiceObject}  = Kernel::System::Service->new( %{$Self} );
+    $Self->{SLAObject}      = Kernel::System::SLA->new( %{$Self} );
+    $Self->{TypeObject}     = Kernel::System::Type->new( %{$Self} );
 
     return $Self;
 }
@@ -51,136 +50,174 @@ sub new {
 sub GetObjectName {
     my ( $Self, %Param ) = @_;
 
-    my $Name = 'Ticket';
-    return $Name;
+    return 'Ticket';
 }
 
 sub GetObjectAttributes {
     my ( $Self, %Param ) = @_;
 
-    my %User = $Self->{UserObject}->UserList( Type => 'Long', Valid => 0 );
-    my %State        = $Self->{StateObject}->StateList( UserID       => 1 );
-    my %StateTypeIDs = $Self->{StateObject}->StateTypeList( UserID   => 1 );
-    my %Queues       = $Self->{QueueObject}->GetAllQueues();
-    my %PriorityIDs  = $Self->{PriorityObject}->PriorityList( UserID => 1 );
-    my %LockIDs      = $Self->{LockObject}->LockList( UserID         => 1 );
+    # get user list
+    my %UserList = $Self->{UserObject}->UserList(
+        Type  => 'Long',
+        Valid => 0,
+    );
+
+    # get state list
+    my %StateList = $Self->{StateObject}->StateList(
+        UserID => 1,
+    );
+
+    # get state type list
+    my %StateTypeList = $Self->{StateObject}->StateTypeList(
+        UserID => 1,
+    );
+
+    # get queue list
+    my %QueueList = $Self->{QueueObject}->GetAllQueues();
+
+    # get priority list
+    my %PriorityList = $Self->{PriorityObject}->PriorityList(
+        UserID => 1,
+    );
+
+    # get lock list
+    my %LockList = $Self->{LockObject}->LockList(
+        UserID => 1,
+    );
+
     my @ObjectAttributes = (
-        {   Name                => 'Queue',
+        {
+            Name                => 'Queue',
             UseAsXvalue         => 1,
             UseAsValueSeries    => 1,
             UseAsRestriction    => 1,
             Element             => 'QueueIDs',
             Block               => 'MultiSelectField',
             LanguageTranslation => 0,
-            Values              => \%Queues,
+            Values              => \%QueueList,
         },
-        {   Name             => 'State',
+        {
+            Name             => 'State',
             UseAsXvalue      => 1,
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'StateIDs',
             Block            => 'MultiSelectField',
-            Values           => \%State,
+            Values           => \%StateList,
         },
-        {   Name             => 'State Type',
+        {
+            Name             => 'State Type',
             UseAsXvalue      => 1,
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'StateTypeIDs',
             Block            => 'MultiSelectField',
-            Values           => \%StateTypeIDs,
+            Values           => \%StateTypeList,
         },
-        {   Name             => 'Priority',
+        {
+            Name             => 'Priority',
             UseAsXvalue      => 1,
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'PriorityIDs',
             Block            => 'MultiSelectField',
-            Values           => \%PriorityIDs,
+            Values           => \%PriorityList,
         },
-        {   Name                => 'Created in Queue',
+        {
+            Name                => 'Created in Queue',
             UseAsXvalue         => 1,
             UseAsValueSeries    => 1,
             UseAsRestriction    => 1,
             Element             => 'CreatedQueueIDs',
             Block               => 'MultiSelectField',
             LanguageTranslation => 0,
-            Values              => \%Queues,
+            Values              => \%QueueList,
         },
-        {   Name             => 'Created Priority',
+        {
+            Name             => 'Created Priority',
             UseAsXvalue      => 1,
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'CreatedPriorityIDs',
             Block            => 'MultiSelectField',
-            Values           => \%PriorityIDs,
+            Values           => \%PriorityList,
         },
-        {   Name             => 'Created State',
+        {
+            Name             => 'Created State',
             UseAsXvalue      => 1,
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'CreatedStateIDs',
             Block            => 'MultiSelectField',
-            Values           => \%State,
+            Values           => \%StateList,
         },
-        {   Name             => 'Lock',
+        {
+            Name             => 'Lock',
             UseAsXvalue      => 1,
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'LocksIDs',
             Block            => 'MultiSelectField',
-            Values           => \%LockIDs,
+            Values           => \%LockList,
         },
-        {   Name             => 'Title',
+        {
+            Name             => 'Title',
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
             Element          => 'Title',
             Block            => 'InputField',
         },
-        {   Name             => 'CustomerUserLogin',
+        {
+            Name             => 'CustomerUserLogin',
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
             Element          => 'CustomerUserLogin',
             Block            => 'InputField',
         },
-        {   Name             => 'From',
+        {
+            Name             => 'From',
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
             Element          => 'From',
             Block            => 'InputField',
         },
-        {   Name             => 'To',
+        {
+            Name             => 'To',
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
             Element          => 'To',
             Block            => 'InputField',
         },
-        {   Name             => 'Cc',
+        {
+            Name             => 'Cc',
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
             Element          => 'Cc',
             Block            => 'InputField',
         },
-        {   Name             => 'Subject',
+        {
+            Name             => 'Subject',
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
             Element          => 'Subject',
             Block            => 'InputField',
         },
-        {   Name             => 'Text',
+        {
+            Name             => 'Text',
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
             Element          => 'Body',
             Block            => 'InputField',
         },
-        {   Name             => 'Create Time',
+        {
+            Name             => 'Create Time',
             UseAsXvalue      => 1,
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
@@ -192,12 +229,13 @@ sub GetObjectAttributes {
                 TimeStop  => 'TicketCreateTimeOlderDate',
             },
         },
-        {   Name             => 'Close Time',
+        {
+            Name             => 'Close Time',
             UseAsXvalue      => 1,
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'CloseTime2',
-            TimePeriodFormat => 'DateInputFormat',    #'DateInputFormat', # 'DateInputFormatLong',
+            TimePeriodFormat => 'DateInputFormat',    #'DateInputFormat',  # 'DateInputFormatLong',
             Block            => 'Time',
             Values           => {
                 TimeStart => 'TicketCloseTimeNewerDate',
@@ -207,35 +245,50 @@ sub GetObjectAttributes {
     );
 
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
-        my %SLA     = $Self->{SLAObject}->SLAList( UserID         => $Self->{UserID}, );
-        my %Service = $Self->{ServiceObject}->ServiceList( UserID => $Self->{UserID}, );
-        my %ObjectAttribute2 = (
-            Name                => 'SLA',
-            UseAsXvalue         => 1,
-            UseAsValueSeries    => 1,
-            UseAsRestriction    => 1,
-            Element             => 'SLAIDs',
-            Block               => 'MultiSelectField',
-            LanguageTranslation => 0,
-            Values              => \%SLA,
-        );
-        unshift( @ObjectAttributes, \%ObjectAttribute2 );
 
-        my %ObjectAttribute1 = (
-            Name                => 'Service',
-            UseAsXvalue         => 1,
-            UseAsValueSeries    => 1,
-            UseAsRestriction    => 1,
-            Element             => 'ServiceIDs',
-            Block               => 'MultiSelectField',
-            LanguageTranslation => 0,
-            Values              => \%Service,
+        # get service list
+        my %Service = $Self->{ServiceObject}->ServiceList(
+            UserID => 1,
         );
-        unshift( @ObjectAttributes, \%ObjectAttribute1 );
+
+        # get sla list
+        my %SLA = $Self->{SLAObject}->SLAList(
+            UserID => 1,
+        );
+
+        my @ObjectAttributeAdd = (
+            {
+                Name                => 'Service',
+                UseAsXvalue         => 1,
+                UseAsValueSeries    => 1,
+                UseAsRestriction    => 1,
+                Element             => 'ServiceIDs',
+                Block               => 'MultiSelectField',
+                LanguageTranslation => 0,
+                Values              => \%Service,
+            },
+            {
+                Name                => 'SLA',
+                UseAsXvalue         => 1,
+                UseAsValueSeries    => 1,
+                UseAsRestriction    => 1,
+                Element             => 'SLAIDs',
+                Block               => 'MultiSelectField',
+                LanguageTranslation => 0,
+                Values              => \%SLA,
+            },
+        );
+
+        unshift @ObjectAttributes, @ObjectAttributeAdd;
     }
 
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
-        my %Type = $Self->{TypeObject}->TypeList( UserID => $Self->{UserID}, );
+
+        # get ticket type list
+        my %Type = $Self->{TypeObject}->TypeList(
+            UserID => 1,
+        );
+
         my %ObjectAttribute1 = (
             Name                => 'Type',
             UseAsXvalue         => 1,
@@ -246,61 +299,64 @@ sub GetObjectAttributes {
             LanguageTranslation => 0,
             Values              => \%Type,
         );
-        unshift( @ObjectAttributes, \%ObjectAttribute1 );
+
+        unshift @ObjectAttributes, \%ObjectAttribute1;
     }
 
     if ( $Self->{ConfigObject}->Get('Stats::UseAgentElementInStats') ) {
-        my %ObjectAttribute1 = (
-            Name                => 'Agent/Owner',
-            UseAsXvalue         => 1,
-            UseAsValueSeries    => 1,
-            UseAsRestriction    => 1,
-            Element             => 'OwnerIDs',
-            Block               => 'MultiSelectField',
-            LanguageTranslation => 0,
-            Values              => \%User,
-        );
-        push( @ObjectAttributes, \%ObjectAttribute1 );
 
-        my %ObjectAttribute2 = (
-            Name                => 'Created by Agent/Owner',
-            UseAsXvalue         => 1,
-            UseAsValueSeries    => 1,
-            UseAsRestriction    => 1,
-            Element             => 'CreatedUserIDs',
-            Block               => 'MultiSelectField',
-            LanguageTranslation => 0,
-            Values              => \%User,
+        my @ObjectAttributeAdd = (
+            {
+                Name                => 'Agent/Owner',
+                UseAsXvalue         => 1,
+                UseAsValueSeries    => 1,
+                UseAsRestriction    => 1,
+                Element             => 'OwnerIDs',
+                Block               => 'MultiSelectField',
+                LanguageTranslation => 0,
+                Values              => \%UserList,
+            },
+            {
+                Name                => 'Created by Agent/Owner',
+                UseAsXvalue         => 1,
+                UseAsValueSeries    => 1,
+                UseAsRestriction    => 1,
+                Element             => 'CreatedUserIDs',
+                Block               => 'MultiSelectField',
+                LanguageTranslation => 0,
+                Values              => \%UserList,
+            },
+            {
+                Name                => 'Responsible',
+                UseAsXvalue         => 1,
+                UseAsValueSeries    => 1,
+                UseAsRestriction    => 1,
+                Element             => 'ResponsibleIDs',
+                Block               => 'MultiSelectField',
+                LanguageTranslation => 0,
+                Values              => \%UserList,
+            },
         );
 
-        push( @ObjectAttributes, \%ObjectAttribute2 );
-
-        my %ObjectAttribute3 = (
-            Name                => 'Responsible',
-            UseAsXvalue         => 1,
-            UseAsValueSeries    => 1,
-            UseAsRestriction    => 1,
-            Element             => 'ResponsibleIDs',
-            Block               => 'MultiSelectField',
-            LanguageTranslation => 0,
-            Values              => \%User,
-        );
-        push( @ObjectAttributes, \%ObjectAttribute3 );
+        push @ObjectAttributes, @ObjectAttributeAdd;
     }
 
     if ( $Self->{ConfigObject}->Get('Stats::CustomerIDAsMultiSelect') ) {
 
         # Get CustomerID
         # (This way also can be the solution for the CustomerUserID)
-        my %CustomerID = ();
-        $Self->{DBObject}->Prepare( SQL => "SELECT DISTINCT customer_id FROM ticket" );
+        $Self->{DBObject}->Prepare(
+            SQL => "SELECT DISTINCT customer_id FROM ticket",
+        );
 
-        # fetch Data
+        # fetch the result
+        my %CustomerID;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             if ( $Row[0] ) {
                 $CustomerID{ $Row[0] } = $Row[0];
             }
         }
+
         my %ObjectAttribute = (
             Name             => 'CustomerID',
             UseAsXvalue      => 1,
@@ -310,9 +366,11 @@ sub GetObjectAttributes {
             Block            => 'MultiSelectField',
             Values           => \%CustomerID,
         );
-        push( @ObjectAttributes, \%ObjectAttribute );
+
+        push @ObjectAttributes, \%ObjectAttribute;
     }
     else {
+
         my %ObjectAttribute = (
             Name             => 'CustomerID',
             UseAsXvalue      => 0,
@@ -321,82 +379,92 @@ sub GetObjectAttributes {
             Element          => 'CustomerID',
             Block            => 'InputField',
         );
-        push( @ObjectAttributes, \%ObjectAttribute );
-    }
-    for my $ID ( 1 .. 16 ) {
-        if ( ref( $Self->{ConfigObject}->Get( 'TicketFreeKey' . $ID ) ) eq 'HASH' ) {
-            my %TicketFreeKey = %{ $Self->{ConfigObject}->Get( 'TicketFreeKey' . $ID ) };
-            my @FreeKey       = keys %TicketFreeKey;
-            my $Name          = '';
-            if ( $#FreeKey == 0 ) {
-                $Name = $TicketFreeKey{ $FreeKey[0] };
-            }
-            else {
-                $Name = 'TicketFreeText' . $ID;
-                my %ObjectAttribute = (
-                    Name                => 'TicketFreeKey' . $ID,
-                    UseAsXvalue         => 1,
-                    UseAsValueSeries    => 1,
-                    UseAsRestriction    => 1,
-                    Element             => 'TicketFreeKey' . $ID,
-                    Block               => 'MultiSelectField',
-                    Values              => \%TicketFreeKey,
-                    LanguageTranslation => 0,
-                );
-                push( @ObjectAttributes, \%ObjectAttribute );
-            }
-            if ($Self->{TicketObject}->TicketFreeTextGet(
-                    Type   => 'TicketFreeText' . $ID,
-                    UserID => 1
-                )
-                )
-            {
-                my %TicketFreeText = %{
-                    $Self->{TicketObject}->TicketFreeTextGet(
-                        Type   => 'TicketFreeText' . $ID,
-                        UserID => 1,
-                    )
-                    };
-                my %ObjectAttribute = (
-                    Name                => $Name,
-                    UseAsXvalue         => 1,
-                    UseAsValueSeries    => 1,
-                    UseAsRestriction    => 1,
-                    Element             => 'TicketFreeText' . $ID,
-                    Block               => 'MultiSelectField',
-                    Values              => \%TicketFreeText,
-                    LanguageTranslation => 0,
 
-                );
-                push( @ObjectAttributes, \%ObjectAttribute );
-            }
-            else {
-                my %ObjectAttribute = (
-                    Name             => $Name,
-                    UseAsXvalue      => 0,
-                    UseAsValueSeries => 0,
-                    UseAsRestriction => 1,
-                    Element          => 'TicketFreeText' . $ID,
-                    ,
-                    Block => 'InputField',
-                );
-                push( @ObjectAttributes, \%ObjectAttribute );
-            }
+        push @ObjectAttributes, \%ObjectAttribute;
+    }
+
+    FREEKEY:
+    for my $FreeKey ( 1 .. 16 ) {
+
+        # get ticket free key config
+        my $TicketFreeKey = $Self->{ConfigObject}->Get( 'TicketFreeKey' . $FreeKey );
+
+        next FREEKEY if ref $TicketFreeKey ne 'HASH';
+
+        my @FreeKey = keys %{$TicketFreeKey};
+        my $Name    = '';
+
+        if ( scalar @FreeKey == 1 ) {
+            $Name = $TicketFreeKey->{ $FreeKey[0] };
+        }
+        else {
+            $Name = 'TicketFreeText' . $FreeKey;
+
+            my %ObjectAttribute = (
+                Name                => 'TicketFreeKey' . $FreeKey,
+                UseAsXvalue         => 1,
+                UseAsValueSeries    => 1,
+                UseAsRestriction    => 1,
+                Element             => 'TicketFreeKey' . $FreeKey,
+                Block               => 'MultiSelectField',
+                Values              => $TicketFreeKey,
+                LanguageTranslation => 0,
+            );
+
+            push @ObjectAttributes, \%ObjectAttribute;
+        }
+
+        # get ticket free text
+        my $TicketFreeText = $Self->{TicketObject}->TicketFreeTextGet(
+            Type   => 'TicketFreeText' . $FreeKey,
+            UserID => 1,
+        );
+
+        if ($TicketFreeText) {
+
+            my %ObjectAttribute = (
+                Name                => $Name,
+                UseAsXvalue         => 1,
+                UseAsValueSeries    => 1,
+                UseAsRestriction    => 1,
+                Element             => 'TicketFreeText' . $FreeKey,
+                Block               => 'MultiSelectField',
+                Values              => $TicketFreeText,
+                LanguageTranslation => 0,
+            );
+
+            push @ObjectAttributes, \%ObjectAttribute;
+        }
+        else {
+
+            my %ObjectAttribute = (
+                Name             => $Name,
+                UseAsXvalue      => 0,
+                UseAsValueSeries => 0,
+                UseAsRestriction => 1,
+                Element          => 'TicketFreeText' . $FreeKey,,
+                Block            => 'InputField',
+            );
+
+            push @ObjectAttributes, \%ObjectAttribute;
         }
     }
+
     return @ObjectAttributes;
 }
 
 sub GetStatElement {
     my ( $Self, %Param ) = @_;
 
+    # search tickets
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
         UserID     => 1,
         Result     => 'ARRAY',
-        Permission => 'rw',
-        Limit      => 100000000,
+        Permission => 'ro',
+        Limit      => 100_000_000,
         %Param,
     );
+
     return scalar @TicketIDs;
 }
 
@@ -452,6 +520,7 @@ sub ExportWrapper {
             }
         }
     }
+
     return \%Param;
 }
 
@@ -550,6 +619,7 @@ sub ImportWrapper {
             }
         }
     }
+
     return \%Param;
 }
 
