@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.7 2008-02-20 22:01:23 martin Exp $
+# $Id: Layout.t,v 1.8 2008-02-23 01:19:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -418,8 +418,8 @@ my @Tests = (
     },
     {
         Name => 'Ascii2Html() - #26',
-        String => '<script language="JavaScript" type="text/javascript"> alert("Not save!"); </script>',
-        Result => '&lt;script language=&quot;JavaScript&quot; type=&quot;text/javascript&quot;&gt; alert(&quot;Not save!&quot;); &lt;/script&gt;',
+        String => '<script language="JavaScript" type="text/javascript"> alert("Not safe!"); </script>',
+        Result => '&lt;script language=&quot;JavaScript&quot; type=&quot;text/javascript&quot;&gt; alert(&quot;Not safe!&quot;); &lt;/script&gt;',
     },
 );
 
