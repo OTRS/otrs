@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Ticket.pm - the global ticket handle
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.275.2.8 2008-01-16 12:47:07 tr Exp $
+# $Id: Ticket.pm,v 1.275.2.9 2008-02-23 01:59:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Ticket;
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.275.2.8 $';
+$VERSION = '$Revision: 1.275.2.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -776,7 +776,7 @@ sub TicketGet {
         $Ticket{CustomerID} = $Row[11];
         $Ticket{CustomerUserID} = $Row[12];
         $Ticket{OwnerID} = $Row[13];
-        $Ticket{ResponsibleID} = $Row[14];
+        $Ticket{ResponsibleID} = $Row[14] || 1;
         $Ticket{RealTillTimeNotUsed} = $Row[15];
         $Ticket{TypeID} = $Row[58] || 1;
         $Ticket{ServiceID} = $Row[59] || '';
@@ -831,7 +831,7 @@ sub TicketGet {
     # get owner
     $Ticket{Owner} = $Self->{UserObject}->UserLookup(UserID => $Ticket{OwnerID});
     # get responsible
-    $Ticket{Responsible} = $Self->{UserObject}->UserLookup(UserID => $Ticket{ResponsibleID} || 1);
+    $Ticket{Responsible} = $Self->{UserObject}->UserLookup(UserID => $Ticket{ResponsibleID} );
     # get lock
     $Ticket{Lock} = $Self->{LockObject}->LockLookup(LockID => $Ticket{LockID});
     # get service
@@ -6198,10 +6198,10 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.275.2.8 $ $Date: 2008-01-16 12:47:07 $
+$Revision: 1.275.2.9 $ $Date: 2008-02-23 01:59:28 $
 
 =cut
