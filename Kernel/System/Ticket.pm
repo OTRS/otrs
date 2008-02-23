@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.293 2008-02-22 16:01:05 mh Exp $
+# $Id: Ticket.pm,v 1.294 2008-02-23 00:51:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.293 $) [1];
+$VERSION = qw($Revision: 1.294 $) [1];
 
 =head1 NAME
 
@@ -3672,6 +3672,12 @@ sub TicketSearch {
             Result => 'ID',
             Cached => 1,
         );
+
+        # return if we have no permissions
+        if ( !@GroupIDs ) {
+            return;
+        }
+
     }
 
     # customer groups
@@ -3683,13 +3689,20 @@ sub TicketSearch {
             Cached => 1,
         );
 
+        # return if we have no permissions
+        if ( !@GroupIDs ) {
+            return;
+        }
+
         # get secondary customer ids
-        my @CustomerIDs
-            = $Self->{CustomerUserObject}->CustomerIDs( User => $Param{CustomerUserID} );
+        my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(
+            User => $Param{CustomerUserID},
+        );
 
         # add own customer id
-        my %CustomerData
-            = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Param{CustomerUserID} );
+        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Param{CustomerUserID},
+        );
         if ( $CustomerData{UserCustomerID} ) {
             push( @CustomerIDs, $CustomerData{UserCustomerID} );
         }
@@ -3704,10 +3717,8 @@ sub TicketSearch {
             }
             $SQLExt .= "LOWER('" . $Self->{DBObject}->Quote($_) . "')";
         }
-        $SQLExt
-            .= ") " . " OR "
-            . " st.customer_user_id = '"
-            . $Self->{DBObject}->Quote( $Param{CustomerUserID} ) . "') ";
+        $SQLExt .= ") OR "
+            . " st.customer_user_id = '" . $Self->{DBObject}->Quote( $Param{CustomerUserID} ) . "') ";
     }
 
     # add group ids to sql string
@@ -6839,6 +6850,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.293 $ $Date: 2008-02-22 16:01:05 $
+$Revision: 1.294 $ $Date: 2008-02-23 00:51:13 $
 
 =cut
