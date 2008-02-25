@@ -2,7 +2,7 @@
 # Kernel/System/Queue/PreferencesDB.pm - some user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesDB.pm,v 1.1 2008-02-11 11:31:52 martin Exp $
+# $Id: PreferencesDB.pm,v 1.2 2008-02-25 10:50:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -27,7 +27,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -41,22 +41,24 @@ sub new {
 }
 
 sub QueuePreferencesSet {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     # check needed stuff
-    foreach (qw(QueueID Key Value)) {
+    for (qw(QueueID Key Value)) {
         if (!defined($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
+
     # db quote
-    foreach (qw(Key Value)) {
+    for (qw(Key Value)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    foreach (qw(QueueID)) {
+    for (qw(QueueID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
+
     # delete old data
     if (!$Self->{DBObject}->Do(
         SQL => "DELETE FROM $Self->{PreferencesTable} ".
@@ -89,21 +91,28 @@ sub QueuePreferencesSet {
 }
 
 sub QueuePreferencesGet {
-    my $Self = shift;
-    my %Param = @_;
-    my %Data;
+    my ( $Self, %Param ) = @_;
+
     # check needed stuff
-    foreach (qw(QueueID)) {
+    for (qw(QueueID)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
+
+    # check if queue preferences are available
+    if ( !$Self->{ConfigObject}->Get('QueuePreferences') ) {
+        return;
+    }
+
     # db quote
-    foreach (qw(QueueID)) {
+    for (qw(QueueID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
+
     # get preferences
+    my %Data;
     my $SQL = "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} " .
         " FROM " .
         " $Self->{PreferencesTable} ".
@@ -114,6 +123,7 @@ sub QueuePreferencesGet {
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Data{$Row[0]} = $Row[1];
     }
+
     # return data
     return %Data;
 }
