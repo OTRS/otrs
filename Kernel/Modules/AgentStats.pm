@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.47 2008-01-31 06:22:12 tr Exp $
+# $Id: AgentStats.pm,v 1.48 2008-02-25 08:50:33 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,8 +31,7 @@ sub new {
         qw(
         GroupObject ParamObject  DBObject   ModuleReg  LayoutObject
         LogObject   ConfigObject UserObject MainObject TimeObject   SessionObject
-        UserID      Subaction    AccessRo   AccessRw
-
+        UserID      Subaction    AccessRo   AccessRw   UserLanguage
         )
         )
     {
