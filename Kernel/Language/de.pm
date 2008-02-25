@@ -1,12 +1,12 @@
 # --
 # Kernel/Language/de.pm - provides de language translation
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.155 2007-12-27 16:18:37 martin Exp $
+# $Id: de.pm,v 1.156 2008-02-25 15:38:22 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 package Kernel::Language::de;
 
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.155 $) [1];
+$VERSION = qw($Revision: 1.156 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1299,6 +1299,7 @@ sub Data {
         # Template: AgentTicketPhone
         'Phone call' => 'Anruf',
         'Clear From' => 'Von: löschen',
+        'A required field is:' => 'Bitte füllen Sie das Pflichtfeld aus:',
 
         # Template: AgentTicketPhoneOutbound
 
