@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.14 2007-12-17 09:27:34 ot Exp $
+# $Id: SMIME.pm,v 1.15 2008-02-25 16:35:04 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Crypt::SMIME;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -153,7 +153,8 @@ sub Crypt {
     print $FH $Param{Message};
 
     open( SIGN,
-        "$Self->{Bin} smime -encrypt -in $Filename -out $FilenameCrypted -des3 $FilenameCertificate 2>&1 |"
+        "$Self->{Bin} smime -binary -encrypt -in $Filename -out $FilenameCrypted -des3"
+            . " $FilenameCertificate 2>&1 |"
     );
     while (<SIGN>) {
         $LogMessage .= $_;
@@ -206,11 +207,11 @@ sub Decrypt {
     my ( $FHDecrypted, $FilenameDecrypted ) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Message};
 
-#    open (IN, "$Self->{Bin} smime -decrypt -passin pass:1234 -in $Filename -out $FilenameDecrypted -recip newcert.pem -inkey newpriv.pem 2>&1 |");
     open( IN,
-              "$Self->{Bin} smime -decrypt -passin "
+        "$Self->{Bin} smime -decrypt -passin pass:"
             . quotemeta($Secret)
-            . " -in $Filename -out $FilenameDecrypted -recip $FilenameCertificate -inkey $FilenamePrivate 2>&1 |"
+            . " -in $Filename -out $FilenameDecrypted -recip $FilenameCertificate"
+            . " -inkey $FilenamePrivate 2>&1 |"
     );
     while (<IN>) {
         $LogMessage .= $_;
@@ -224,7 +225,7 @@ sub Decrypt {
         );
     }
     my $Decrypted;
-    open( TMP, "< $FilenameDecrypted" );
+    open( TMP, '<:bytes', $FilenameDecrypted );
     while (<TMP>) {
         $Decrypted .= $_;
     }
@@ -270,9 +271,10 @@ sub Sign {
     my ( $FHCertificate, $FilenameCertificate ) = $Self->{FileTempObject}->TempFile();
     print $FHCertificate $Certificate;
     open( SIGN,
-              "$Self->{Bin} smime -sign -passin pass:"
+        "$Self->{Bin} smime -sign -passin pass:"
             . quotemeta($Secret)
-            . " -in $Filename -out $FilenameSign -text -signer $FilenameCertificate -inkey $FilenamePrivate -binary 2>&1 |"
+            . " -in $Filename -out $FilenameSign -text -signer $FilenameCertificate"
+            . " -inkey $FilenamePrivate -binary 2>&1 |"
     );
 
     while (<SIGN>) {
@@ -327,7 +329,8 @@ sub Verify {
         $File = "$FilenameSign $File";
     }
     open( VERIFY,
-        "$Self->{Bin} smime -verify -in $Filename -signer $FilenameSign -out $FilenameOutput $Self->{CertPathArg} 2>&1 |"
+        "$Self->{Bin} smime -verify -in $Filename -signer $FilenameSign -out $FilenameOutput"
+            . " $Self->{CertPathArg} 2>&1 |"
     );
     while (<VERIFY>) {
         $MessageLong .= $_;
@@ -340,7 +343,8 @@ sub Verify {
     }
     close(VERIFY);
 
-    # read signer certificate
+    # TODO: maybe use _FetchAttributesFromCert() to determine the cert-hash and return that instead?
+    # determine hash of signer certificate
     my $SignerCertificate = '';
     if ( open( IN, "< $FilenameSign" ) ) {
         while (<IN>) {
@@ -526,7 +530,7 @@ sub CertificateRemove {
         return;
     }
     unlink "$Self->{CertPath}/$Param{Hash}.0" || return $!;
-    return;
+    return 1;
 }
 
 =item CertificateList()
@@ -564,101 +568,14 @@ sub CertificateAttributes {
     my ( $Self, %Param ) = @_;
 
     my %Attributes = ();
-    my %Option     = (
-        Hash        => '-hash',
-        Issuer      => '-issuer',
-        Fingerprint => '-fingerprint',
-        Serial      => '-serial',
-        Subject     => '-subject',
-        StartDate   => '-startdate',
-        EndDate     => '-enddate',
-        Email       => '-email',
-        Modulus     => '-modulus',
-    );
     if ( !$Param{Certificate} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need Certificate!" );
         return;
     }
     my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Certificate};
-    for my $Key ( keys %Option ) {
-        open( VERIFY, "$Self->{Bin} x509 -in $Filename -noout $Option{$Key} |" );
-        my $Line = '';
-        while (<VERIFY>) {
-            chomp($_);
-            $Line .= $_;
-        }
-        close(VERIFY);
-        if ( $Key eq 'Issuer' ) {
-            $Line =~ s/=/= /g;
-        }
-        elsif ( $Key eq 'Fingerprint' ) {
-            $Line =~ s/MD5 Fingerprint=//;
-        }
-        elsif ( $Key eq 'StartDate' ) {
-            $Line =~ s/notBefore=//;
-        }
-        elsif ( $Key eq 'EndDate' ) {
-            $Line =~ s/notAfter=//;
-        }
-        elsif ( $Key eq 'Subject' ) {
-            $Line =~ s/subject=//;
-            $Line =~ s/\// /g;
-            $Line =~ s/=/= /g;
-        }
-        elsif ( $Key eq 'Modulus' ) {
-            $Line =~ s/Modulus=//;
-        }
-        if ( $Key =~ /(StartDate|EndDate)/ ) {
-            my $Type = $1;
-            if ( $Line =~ /(.+?)\s(.+?)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)/ ) {
-                my $Day = $2;
-                if ( $Day < 10 ) {
-                    $Day = "0" . int($Day);
-                }
-                my $Month = '';
-                my $Year  = $4;
-                if ( $Line =~ /jan/i ) {
-                    $Month = '01';
-                }
-                elsif ( $Line =~ /feb/i ) {
-                    $Month = '02';
-                }
-                elsif ( $Line =~ /mar/i ) {
-                    $Month = '03';
-                }
-                elsif ( $Line =~ /apr/i ) {
-                    $Month = '04';
-                }
-                elsif ( $Line =~ /mai/i ) {
-                    $Month = '05';
-                }
-                elsif ( $Line =~ /jun/i ) {
-                    $Month = '06';
-                }
-                elsif ( $Line =~ /jul/i ) {
-                    $Month = '07';
-                }
-                elsif ( $Line =~ /aug/i ) {
-                    $Month = '08';
-                }
-                elsif ( $Line =~ /sep/i ) {
-                    $Month = '09';
-                }
-                elsif ( $Line =~ /oct/i ) {
-                    $Month = '10';
-                }
-                elsif ( $Line =~ /nov/i ) {
-                    $Month = '11';
-                }
-                elsif ( $Line =~ /dec/i ) {
-                    $Month = '12';
-                }
-                $Attributes{"Short$Type"} = "$Year-$Month-$Day";
-            }
-        }
-        $Attributes{$Key} = $Line;
-    }
+    close $FH;
+    $Self->_FetchAttributesFromCert( $Filename, \%Attributes );
     if ( $Attributes{Hash} ) {
         my ($Private) = $Self->PrivateGet( Hash => $Attributes{Hash} );
         if ($Private) {
@@ -750,7 +667,7 @@ sub PrivateAdd {
     elsif ( $#Certificates > 0 ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Multible Certificates with the same Modulus, can't add Private Key!",
+            Message  => "Multiple Certificates with the same Modulus, can't add Private Key!",
         );
         return;
     }
@@ -847,7 +764,7 @@ sub PrivateRemove {
     }
     unlink "$Self->{PrivatePath}/$Param{Hash}.0" || return $!;
     unlink "$Self->{PrivatePath}/$Param{Hash}.P" || return $!;
-    return;
+    return 1;
 }
 
 =item PrivateList()
@@ -897,7 +814,7 @@ sub PrivateAttributes {
     for my $Key ( keys %Option ) {
         my $Pass = '';
         if ( $Param{Secret} ) {
-            $Pass = " -passin pass:$Param{Secret}";
+            $Pass = " -passin pass:" . quotemeta($Param{Secret});
         }
         open( VERIFY, "$Self->{Bin} rsa -in $Filename -noout $Option{$Key} $Pass |" );
         my $Line = '';
@@ -915,6 +832,101 @@ sub PrivateAttributes {
     return %Attributes;
 }
 
+sub _FetchAttributesFromCert {
+    my ( $Self, $Filename, $AttributesRef ) = @_;
+
+    my %Option     = (
+        Hash        => '-hash',
+        Issuer      => '-issuer',
+        Fingerprint => '-fingerprint',
+        Serial      => '-serial',
+        Subject     => '-subject',
+        StartDate   => '-startdate',
+        EndDate     => '-enddate',
+        Email       => '-email',
+        Modulus     => '-modulus',
+    );
+    for my $Key ( keys %Option ) {
+        open( VERIFY, "$Self->{Bin} x509 -in $Filename -noout $Option{$Key} |" );
+        my $Line = '';
+        while (<VERIFY>) {
+            chomp($_);
+            $Line .= $_;
+        }
+        close(VERIFY);
+        if ( $Key eq 'Issuer' ) {
+            $Line =~ s/=/= /g;
+        }
+        elsif ( $Key eq 'Fingerprint' ) {
+            $Line =~ s/MD5 Fingerprint=//;
+        }
+        elsif ( $Key eq 'StartDate' ) {
+            $Line =~ s/notBefore=//;
+        }
+        elsif ( $Key eq 'EndDate' ) {
+            $Line =~ s/notAfter=//;
+        }
+        elsif ( $Key eq 'Subject' ) {
+            $Line =~ s/subject=//;
+            $Line =~ s/\// /g;
+            $Line =~ s/=/= /g;
+        }
+        elsif ( $Key eq 'Modulus' ) {
+            $Line =~ s/Modulus=//;
+        }
+        if ( $Key =~ /(StartDate|EndDate)/ ) {
+            my $Type = $1;
+            if ( $Line =~ /(.+?)\s(.+?)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)/ ) {
+                my $Day = $2;
+                if ( $Day < 10 ) {
+                    $Day = "0" . int($Day);
+                }
+                my $Month = '';
+                my $Year  = $4;
+                if ( $Line =~ /jan/i ) {
+                    $Month = '01';
+                }
+                elsif ( $Line =~ /feb/i ) {
+                    $Month = '02';
+                }
+                elsif ( $Line =~ /mar/i ) {
+                    $Month = '03';
+                }
+                elsif ( $Line =~ /apr/i ) {
+                    $Month = '04';
+                }
+                elsif ( $Line =~ /mai/i ) {
+                    $Month = '05';
+                }
+                elsif ( $Line =~ /jun/i ) {
+                    $Month = '06';
+                }
+                elsif ( $Line =~ /jul/i ) {
+                    $Month = '07';
+                }
+                elsif ( $Line =~ /aug/i ) {
+                    $Month = '08';
+                }
+                elsif ( $Line =~ /sep/i ) {
+                    $Month = '09';
+                }
+                elsif ( $Line =~ /oct/i ) {
+                    $Month = '10';
+                }
+                elsif ( $Line =~ /nov/i ) {
+                    $Month = '11';
+                }
+                elsif ( $Line =~ /dec/i ) {
+                    $Month = '12';
+                }
+                $AttributesRef->{"Short$Type"} = "$Year-$Month-$Day";
+            }
+        }
+        $AttributesRef->{$Key} = $Line;
+    }
+    return 1;
+}
+
 1;
 
 =back
@@ -925,12 +937,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2007-12-17 09:27:34 $
+$Revision: 1.15 $ $Date: 2008-02-25 16:35:04 $
 
 =cut
