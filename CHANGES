@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.88 2008-02-23 01:59:28 martin Exp $
+# $Id: CHANGES,v 1.465.2.89 2008-02-25 16:37:37 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 2.2.6 (2008/??/??)
+ - (2008/02/25) Fixed bug# 2451 - Typo in openssl invocation when decrypting.
  - (2008/02/23) Fixed bug# 2275 - Need User or UserID! by using UnlockTickets.pl
     and PendingJobs.pl.
  - (2008/02/23) Fixed bug# 2696 - CustomerPanelOwnSelection and
@@ -190,7 +191,7 @@
     type is email-internal which is set via a postmaster filter.
  - (2007/10/02) Fixed bug# 2346 - Emty entries are shown in the responsible
     option list in TicketSearch mask.
- - (2007/09/24) Fixed bug# 2321 - It's not possible to use ñ or ü in
+ - (2007/09/24) Fixed bug# 2321 - It's not possible to use ï¿½ or ï¿½ in
     description tag of .sopm file -> leading to perl syntax error!
  - (2007/09/17) Fixed bug# 2291 - Only include/use PDF::API2 in
     Kernel/Modules/AgentTicketSearch.pm and Kernel/Modules/AgentStats.pm
@@ -1668,7 +1669,7 @@
     (show just user with rw permission to selected queue)
  - (2004/11/07) fixed utf8-problem with postgres and non utf-8 emails in
     article_plain
- - (2004/11/05) updated Kernel/Language/hu.pm Thanks to Czakó Krisztián!
+ - (2004/11/05) updated Kernel/Language/hu.pm Thanks to Czakï¿½ Krisztiï¿½n!
  - (2004/11/04) fixed loop if now theme directory is found
  - (2004/11/04) fixed upper queue rename with () or + chars
  - (2004/11/04) fixed bug 604 - Typo in AgentStatusView.pm
@@ -1857,7 +1858,7 @@
 1.2.4 (2004/07/07)
  - (2004/06/29) fixed bug [456] not existing queue_auto_response
     references in scripts/database/initial_insert.sql
- - (2004/06/11) added Hungarian translation. Thanks to Gáncs Gábor!
+ - (2004/06/11) added Hungarian translation. Thanks to Gï¿½ncs Gï¿½bor!
  - (2004/04/10) fixed not shown "this message is written in an
     other charset as your own" link in agent zoom
  - (2004/04/08) fixed performance problem in Kernel::Language
@@ -1892,7 +1893,7 @@
  - (2004/02/14) updated spanish translation. Thanks to Jorge Becerra!
  - (2004/02/14) updated czech translation. Thanks to Petr Ocasek
     (BENETA.cz, s.r.o.)!
- - (2004/02/14) added Norwegian language translation (bokmål)
+ - (2004/02/14) added Norwegian language translation (bokmï¿½l)
     Thanks to Arne Georg Gleditsch!
  - (2004/02/12) fixed security bugs ins SQL quote()
  - (2004/02/12) fixed bin/PendingJobs.pl bug (Need User)
@@ -2158,7 +2159,7 @@
     datatypes (DATETIME instead of TIMESTAMP)
  - (2003/07/06) fixed bug 165 - Pop3 change - does not show the queue
  - (2003/07/03) fixed bug 178 - Authenticated customer LDAP requests don't work
- - (2003/07/02) updated Finnish translation, thanks to Antti Kämäräinen
+ - (2003/07/02) updated Finnish translation, thanks to Antti Kï¿½mï¿½rï¿½inen
  - (2003/07/01) added SMTP module port patch of Jeroen Boomgaardt
  - (2003/06/22) fixed bug 144 - PostMasterPOP3.pl is exiting
     "Attached .eml file causes bug in EmailParser.pm"
@@ -2361,7 +2362,7 @@
     http://bugs.otrs.org/show_bug.cgi?id=62
  - (2003/01/16) added bin/otrs.checkModules to check installed and
     required cpan modules
- - (2003/01/15) updated finnish translation! Thanks to Antti Kämäräinen!
+ - (2003/01/15) updated finnish translation! Thanks to Antti Kï¿½mï¿½rï¿½inen!
  - (2003/01/15) added CheckMXRecord option to webinstaller
  - (2003/01/14) fixed typos "preferneces != preferences typo"
     http://lists.otrs.org/pipermail/dev/2003-January/000074.html
@@ -2405,7 +2406,7 @@
  - (2002/12/18) added more error handling to AgentPhone
  - (2002/12/15) added bin/PostMasterPOP3.pl and AdminPOP3 interface for
     fetching emails without procmail, fetchmail and MDA
- - (2002/12/12) added finnish translation - Thanks to Antti Kämäräinen!
+ - (2002/12/12) added finnish translation - Thanks to Antti Kï¿½mï¿½rï¿½inen!
  - (2002/12/08) added working PostMasterDaemon.pl and PostMasterClient.pl,
     alternative to PostMaster.pl. How it works: If the PostMasterDaemon.pl
     is running, pipe email through PostMasterClient.pl like (PostMaster.pl)

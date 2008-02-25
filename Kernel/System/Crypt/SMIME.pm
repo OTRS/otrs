@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.11.2.1 2007-12-17 09:27:41 ot Exp $
+# $Id: SMIME.pm,v 1.11.2.2 2008-02-25 16:37:37 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Crypt::SMIME;
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::SMIME;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11.2.1 $';
+$VERSION = '$Revision: 1.11.2.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -153,7 +153,10 @@ sub Crypt {
     my ($FHCrypted, $FilenameCrypted) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Message};
 
-    open (SIGN, "$Self->{Bin} smime -encrypt -in $Filename -out $FilenameCrypted -des3 $FilenameCertificate 2>&1 |");
+    open (SIGN,
+        "$Self->{Bin} smime -encrypt -in $Filename -out $FilenameCrypted -des3 $FilenameCertificate"
+            . " 2>&1 |"
+    );
     while (<SIGN>) {
         $LogMessage .= $_;
     }
@@ -204,8 +207,12 @@ sub Decrypt {
     my ($FHDecrypted, $FilenameDecrypted) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Message};
 
-#    open (IN, "$Self->{Bin} smime -decrypt -passin pass:1234 -in $Filename -out $FilenameDecrypted -recip newcert.pem -inkey newpriv.pem 2>&1 |");
-    open (IN, "$Self->{Bin} smime -decrypt -passin ".quotemeta($Secret)." -in $Filename -out $FilenameDecrypted -recip $FilenameCertificate -inkey $FilenamePrivate 2>&1 |");
+    open (IN,
+        "$Self->{Bin} smime -decrypt -passin pass:"
+            . quotemeta($Secret)
+            . " -in $Filename -out $FilenameDecrypted -recip $FilenameCertificate"
+            . " -inkey $FilenamePrivate 2>&1 |"
+    );
     while (<IN>) {
         $LogMessage .= $_;
     }
@@ -262,7 +269,12 @@ sub Sign {
     print $FHPrivate $Private;
     my ($FHCertificate, $FilenameCertificate) = $Self->{FileTempObject}->TempFile();
     print $FHCertificate $Certificate;
-    open (SIGN, "$Self->{Bin} smime -sign -passin pass:".quotemeta($Secret)." -in $Filename -out $FilenameSign -text -signer $FilenameCertificate -inkey $FilenamePrivate -binary 2>&1 |");
+    open (SIGN,
+        "$Self->{Bin} smime -sign -passin pass:"
+            . quotemeta($Secret)
+            . " -in $Filename -out $FilenameSign -text -signer $FilenameCertificate"
+            . " -inkey $FilenamePrivate -binary 2>&1 |"
+    );
     while (<SIGN>) {
         $LogMessage .= $_;
     }
@@ -313,7 +325,10 @@ sub Verify {
         print $FHSign $Param{Sign};
         $File = "$FilenameSign $File";
     }
-    open (VERIFY, "$Self->{Bin} smime -verify -in $Filename -signer $FilenameSign -out $FilenameOutput $Self->{CertPathArg} 2>&1 |");
+    open (VERIFY,
+        "$Self->{Bin} smime -verify -in $Filename -signer $FilenameSign -out $FilenameOutput"
+            ." $Self->{CertPathArg} 2>&1 |"
+    );
     while (<VERIFY>) {
         $MessageLong .= $_;
         if ($_ =~ /^\d.*:(.+?):.+?:.+?:$/ || $_ =~ /^\d.*:(.+?)$/) {
@@ -905,12 +920,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.11.2.1 $ $Date: 2007-12-17 09:27:41 $
+$Revision: 1.11.2.2 $ $Date: 2008-02-25 16:37:37 $
 
 =cut
