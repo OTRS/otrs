@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.588 2008-02-25 16:35:04 ot Exp $
+# $Id: CHANGES,v 1.589 2008-02-25 18:04:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -115,6 +115,7 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.6 (2008/??/??)
+ - (2008/02/25) Added missing german translation for required free-text fields.
  - (2008/02/25) Fixed bug# 2451 - Typo in openssl invocation when decrypting.
  - (2008/02/23) Fixed bug# 2275 - Need User or UserID! by using UnlockTickets.pl
     and PendingJobs.pl.
