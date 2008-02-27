@@ -1,12 +1,12 @@
 # --
 # Kernel/System/CSV.pm - all csv functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.15 2007-11-22 08:43:54 martin Exp $
+# $Id: CSV.pm,v 1.16 2008-02-27 13:23:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::CSV;
@@ -16,7 +16,7 @@ use warnings;
 use Text::CSV;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -36,6 +36,7 @@ create a object
 
     use Kernel::Config;
     use Kernel::System::Log;
+    use Kernel::System::CSV;
 
     my $ConfigObject = Kernel::Config->new();
     my $LogObject = Kernel::System::Log->new(
@@ -213,10 +214,10 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2007-11-22 08:43:54 $
+$Revision: 1.16 $ $Date: 2008-02-27 13:23:32 $
 
 =cut

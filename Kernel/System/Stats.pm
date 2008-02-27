@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.38 2008-02-20 10:08:27 tr Exp $
+# $Id: Stats.pm,v 1.39 2008-02-27 13:23:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 SYNOPSIS
 
@@ -36,23 +36,52 @@ create a object
 
     use Kernel::Config;
     use Kernel::System::Log;
+    use Kernel::System::Main;
     use Kernel::System::DB;
+    use Kernel::System::Group;
+    use Kernel::System::Time;
+    use Kernel::System::CSV;
+    use Kernel::System::User;
     use Kernel::System::Stats;
 
     my $ConfigObject = Kernel::Config->new();
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
+    my $GroupObject = Kernel::System::Group->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
+    my $CSVObject = Kernel::System::CSV->new(
+        LogObject    => $LogObject,
+    );
+    my $UserObject = Kernel::System::User->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+        TimeObject   => $TimeObject,
+        DBObject     => $DBObject,
+    );
     my $StatsObject = Kernel::System::Stats->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
-        UserID => 123,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        MainObject   => $MainObject,
+        UserID       => 123,
     );
 
 =cut
@@ -2756,6 +2785,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2008-02-20 10:08:27 $
+$Revision: 1.39 $ $Date: 2008-02-27 13:23:32 $
 
 =cut
