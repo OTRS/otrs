@@ -1,12 +1,12 @@
 # --
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.27 2007-10-02 10:35:44 mh Exp $
+# $Id: FS.pm,v 1.28 2008-02-27 17:35:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::AuthSession::FS;
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -199,9 +199,7 @@ sub CreateSessionID {
 
     # create SessionID
     my $md5 = Digest::MD5->new();
-    $md5->add( ( $Self->{TimeObject}->SystemTime() . int( rand(999999999) ) . $Self->{SystemID} )
-        . $RemoteAddr
-            . $RemoteUserAgent );
+    $md5->add( ( $Self->{TimeObject}->SystemTime() . int( rand(999999999) ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent );
     my $SessionID = $Self->{SystemID} . $md5->hexdigest;
 
     # data 2 strg
@@ -212,8 +210,7 @@ sub CreateSessionID {
             $DataToStore .= "$_:" . encode_base64( $Param{$_}, '' ) . "\n";
         }
     }
-    $DataToStore
-        .= "UserSessionStart:" . encode_base64( $Self->{TimeObject}->SystemTime(), '' ) . "\n";
+    $DataToStore .= "UserSessionStart:" . encode_base64( $Self->{TimeObject}->SystemTime(), '' ) . "\n";
     $DataToStore .= "UserRemoteAddr:" . encode_base64( $RemoteAddr,           '' ) . "\n";
     $DataToStore .= "UserRemoteUserAgent:" . encode_base64( $RemoteUserAgent, '' ) . "\n";
 

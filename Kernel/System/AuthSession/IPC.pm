@@ -1,12 +1,12 @@
 # --
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: IPC.pm,v 1.30 2007-10-05 11:22:37 mh Exp $
+# $Id: IPC.pm,v 1.31 2008-02-27 17:35:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::AuthSession::IPC;
@@ -20,7 +20,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -197,8 +197,7 @@ sub CheckSessionID {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "SessionID ($Param{SessionID}) idle timeout ("
-                . int(
-                ( $Self->{TimeObject}->SystemTime() - $Data{UserLastRequest} ) / ( 60 * 60 ) )
+                . int( ( $Self->{TimeObject}->SystemTime() - $Data{UserLastRequest} ) / ( 60 * 60 ) )
                 . "h)! Don't grant access!!!",
         );
 
@@ -216,9 +215,7 @@ sub CheckSessionID {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "SessionID ($Param{SessionID}) too old ("
-                . int(
-                ( $Self->{TimeObject}->SystemTime() - $Data{UserSessionStart} ) / ( 60 * 60 )
-                )
+                . int( ( $Self->{TimeObject}->SystemTime() - $Data{UserSessionStart} ) / ( 60 * 60 ))
                 . "h)! Don't grant access!!!",
         );
 
@@ -300,9 +297,7 @@ sub CreateSessionID {
 
     # create SessionID
     my $md5 = Digest::MD5->new();
-    $md5->add( ( $Self->{TimeObject}->SystemTime() . int( rand(999999999) ) . $Self->{SystemID} )
-        . $RemoteAddr
-            . $RemoteUserAgent );
+    $md5->add( ( $Self->{TimeObject}->SystemTime() . int( rand(999999999) ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent );
     my $SessionID = $Self->{SystemID} . $md5->hexdigest;
     my $SessionIDBase64 = encode_base64( $SessionID, '' );
 
@@ -314,8 +309,7 @@ sub CreateSessionID {
             $DataToStore .= "$_:" . encode_base64( $Param{$_}, '' ) . ";";
         }
     }
-    $DataToStore
-        .= "UserSessionStart:" . encode_base64( $Self->{TimeObject}->SystemTime(), '' ) . ";";
+    $DataToStore .= "UserSessionStart:" . encode_base64( $Self->{TimeObject}->SystemTime(), '' ) . ";";
     $DataToStore .= "UserRemoteAddr:" . encode_base64( $RemoteAddr,           '' ) . ";";
     $DataToStore .= "UserRemoteUserAgent:" . encode_base64( $RemoteUserAgent, '' ) . ";\n";
 
