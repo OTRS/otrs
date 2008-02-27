@@ -1,12 +1,12 @@
 # --
 # Kernel/System/AuthSession/DB.pm - provides session db backend
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.31 2007-10-02 10:35:44 mh Exp $
+# $Id: DB.pm,v 1.32 2008-02-27 17:35:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::AuthSession::DB;
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -82,8 +82,7 @@ sub CheckSessionID {
 
     # remote ip check
     if (   $Data{UserRemoteAddr} ne $RemoteAddr
-        && $Self->{ConfigObject}->Get('SessionCheckRemoteIP') )
-    {
+        && $Self->{ConfigObject}->Get('SessionCheckRemoteIP') ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "RemoteIP of '$Param{SessionID}' ($Data{UserRemoteAddr}) is "
@@ -104,8 +103,7 @@ sub CheckSessionID {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "SessionID ($Param{SessionID}) idle timeout ("
-                . int(
-                ( $Self->{TimeObject}->SystemTime() - $Data{UserLastRequest} ) / ( 60 * 60 ) )
+                . int( ( $Self->{TimeObject}->SystemTime() - $Data{UserLastRequest} ) / ( 60 * 60 ) )
                 . "h)! Don't grant access!!!",
         );
 
@@ -123,9 +121,7 @@ sub CheckSessionID {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "SessionID ($Param{SessionID}) too old ("
-                . int(
-                ( $Self->{TimeObject}->SystemTime() - $Data{UserSessionStart} ) / ( 60 * 60 )
-                )
+                . int( ( $Self->{TimeObject}->SystemTime() - $Data{UserSessionStart} ) / ( 60 * 60 ))
                 . "h)! Don't grant access!!!",
         );
 
@@ -161,19 +157,12 @@ sub GetSessionIDData {
         return %{ $Self->{"Cache::$Param{SessionID}"} };
     }
 
-    # db quote
-    for (qw(SessionID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-
     # read data
-    my $SQL
-        = "SELECT $Self->{SQLSessionTableValue} "
-        . " FROM "
-        . " $Self->{SQLSessionTable} "
-        . " WHERE "
-        . " $Self->{SQLSessionTableID} = '$Param{SessionID}'";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT $Self->{SQLSessionTableValue} FROM "
+            . " $Self->{SQLSessionTable} WHERE $Self->{SQLSessionTableID} = ?",
+        Bind => [ \$Param{SessionID} ],
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Strg = $Row[0];
     }
@@ -217,9 +206,7 @@ sub CreateSessionID {
 
     # create SessionID
     my $md5 = Digest::MD5->new();
-    $md5->add( ( $Self->{TimeObject}->SystemTime() . int( rand(999999999) ) . $Self->{SystemID} )
-        . $RemoteAddr
-            . $RemoteUserAgent );
+    $md5->add( ( $Self->{TimeObject}->SystemTime() . int( rand(999999999) ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent );
     my $SessionID = $Self->{SystemID} . $md5->hexdigest;
 
     # data 2 strg
@@ -230,17 +217,16 @@ sub CreateSessionID {
             $DataToStore .= "$_:" . encode_base64( $Param{$_}, '' ) . ":;";
         }
     }
-    $DataToStore
-        .= "UserSessionStart:" . encode_base64( $Self->{TimeObject}->SystemTime(), '' ) . ":;";
+    $DataToStore .= "UserSessionStart:" . encode_base64( $Self->{TimeObject}->SystemTime(), '' ) . ":;";
     $DataToStore .= "UserRemoteAddr:" . encode_base64( $RemoteAddr,           '' ) . ":;";
     $DataToStore .= "UserRemoteUserAgent:" . encode_base64( $RemoteUserAgent, '' ) . ":;";
 
     # store SessionID + data
-    my $SQL
-        = "INSERT INTO $Self->{SQLSessionTable} "
-        . " ($Self->{SQLSessionTableID}, $Self->{SQLSessionTableValue}) "
-        . " VALUES (?, ?)";
-    $Self->{DBObject}->Do( SQL => $SQL, Bind => [ \$SessionID, \$DataToStore ] );
+    return if ! $Self->{DBObject}->Do(
+        SQL => "INSERT INTO $Self->{SQLSessionTable} "
+            . " ($Self->{SQLSessionTableID}, $Self->{SQLSessionTableValue}) VALUES (?, ?)",
+        Bind => [ \$SessionID, \$DataToStore ],
+    );
 
     return $SessionID;
 }
@@ -254,34 +240,23 @@ sub RemoveSessionID {
         return;
     }
 
-    # db quote
-    for ( keys %Param ) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-
     # delete db recode
-    if ($Self->{DBObject}->Do(
-            SQL  => "DELETE FROM $Self->{SQLSessionTable} WHERE $Self->{SQLSessionTableID} = ?",
-            Bind => [ \$Param{SessionID} ],
-        )
-        )
-    {
+    return if ! $Self->{DBObject}->Do(
+        SQL  => "DELETE FROM $Self->{SQLSessionTable} WHERE $Self->{SQLSessionTableID} = ?",
+        Bind => [ \$Param{SessionID} ],
+    );
 
-        # reset cache
-        if ( $Self->{"Cache::$Param{SessionID}"} ) {
-            delete( $Self->{"Cache::$Param{SessionID}"} );
-        }
+    # reset cache
+    if ( $Self->{"Cache::$Param{SessionID}"} ) {
+        delete( $Self->{"Cache::$Param{SessionID}"} );
+    }
 
-        # log event
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "Removed SessionID $Param{SessionID}."
-        );
-        return 1;
-    }
-    else {
-        return;
-    }
+    # log event
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "Removed SessionID $Param{SessionID}."
+    );
+    return 1;
 }
 
 sub UpdateSessionID {
@@ -299,8 +274,7 @@ sub UpdateSessionID {
 
     # check needed update! (no changes)
     if (   ( ( exists $SessionData{$Key} ) && $SessionData{$Key} eq $Value )
-        || ( !exists $SessionData{$Key} && $Value eq '' ) )
-    {
+        || ( !exists $SessionData{$Key} && $Value eq '' ) ) {
         return 1;
     }
 
@@ -323,23 +297,17 @@ sub UpdateSessionID {
     }
 
     # update db enrty
-    my $SQL
-        = "UPDATE $Self->{SQLSessionTable} " . " SET "
-        . " $Self->{SQLSessionTableValue} = ? "
-        . " WHERE "
-        . " $Self->{SQLSessionTableID} = ?";
-    if ( $Self->{DBObject}->Do( SQL => $SQL, Bind => [ \$NewDataToStore, \$Param{SessionID} ] ) ) {
+    return if ! $Self->{DBObject}->Do(
+        SQL => "UPDATE $Self->{SQLSessionTable} SET "
+            . " $Self->{SQLSessionTableValue} = ? WHERE $Self->{SQLSessionTableID} = ?",
+        Bind => [ \$NewDataToStore, \$Param{SessionID} ],
+    );
 
-        # reset cache
-        if ( $Self->{"Cache::$Param{SessionID}"} ) {
-            delete( $Self->{"Cache::$Param{SessionID}"} );
-        }
-        return 1;
+    # reset cache
+    if ( $Self->{"Cache::$Param{SessionID}"} ) {
+        delete( $Self->{"Cache::$Param{SessionID}"} );
     }
-    else {
-        return;
-    }
-
+    return 1;
 }
 
 sub GetAllSessionIDs {
@@ -348,10 +316,11 @@ sub GetAllSessionIDs {
     my @SessionIDs = ();
 
     # read data
-    my $SQL = "SELECT $Self->{SQLSessionTableID} " . " FROM " . " $Self->{SQLSessionTable}";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
-    while ( my @RowTmp = $Self->{DBObject}->FetchrowArray() ) {
-        push( @SessionIDs, $RowTmp[0] );
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT $Self->{SQLSessionTableID} FROM $Self->{SQLSessionTable}",
+    );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        push( @SessionIDs, $Row[0] );
     }
     return @SessionIDs;
 }
@@ -360,12 +329,7 @@ sub CleanUp {
     my ( $Self, %Param ) = @_;
 
     # delete db recodes
-    if ( $Self->{DBObject}->Do( SQL => "DELETE FROM $Self->{SQLSessionTable}" ) ) {
-        return 1;
-    }
-    else {
-        return;
-    }
+    return $Self->{DBObject}->Do( SQL => "DELETE FROM $Self->{SQLSessionTable}" );
 }
 
 1;
