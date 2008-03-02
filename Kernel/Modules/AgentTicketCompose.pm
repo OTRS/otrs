@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.30.2.2 2008-01-15 17:00:43 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.30.2.3 2008-03-02 21:11:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AgentTicketCompose;
@@ -21,7 +21,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30.2.2 $';
+$VERSION = '$Revision: 1.30.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -157,7 +157,7 @@ sub Run {
     # get params
     my %GetParam = ();
     foreach (qw(
-        From To Cc Bcc Subject Body InReplyTo ResponseID StateID
+        From To Cc Bcc Subject Body InReplyTo ResponseID ReplyArticleID StateID
         ArticleID TimeUnits Year Month Day Hour Minute AttachmentUpload
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
@@ -360,13 +360,23 @@ sub Run {
         if (%UploadStuff) {
             push (@AttachmentData, \%UploadStuff);
         }
+        # get recipients
+        my $Recipients = '';
+        for my $Line (qw(To Cc Bcc)) {
+            if ( $GetParam{$Line} ) {
+                if ( $Recipients ) {
+                    $Recipients .= ',';
+                }
+                $Recipients .= $GetParam{$Line};
+            }
+        }
         # send email
         if (my $ArticleID = $Self->{TicketObject}->ArticleSend(
             ArticleType => 'email-external',
             SenderType => 'agent',
             TicketID => $Self->{TicketID},
             HistoryType => 'SendAnswer',
-            HistoryComment => "\%\%$GetParam{To}, $GetParam{Cc}, $GetParam{Bcc}",
+            HistoryComment => "\%\%$Recipients",
             From => $GetParam{From},
             To => $GetParam{To},
             Cc => $GetParam{Cc},
@@ -472,6 +482,13 @@ sub Run {
                     Minute => $GetParam{Minute},
                 );
             }
+            # log use response id and reply article id (useful for response diagnostics)
+            $Self->{TicketObject}->HistoryAdd(
+                Name         => "ResponseTemplate ($GetParam{ResponseID}/$GetParam{ReplyArticleID}/$ArticleID)",
+                HistoryType  => 'Misc',
+                TicketID     => $Self->{TicketID},
+                CreateUserID => $Self->{UserID},
+            );
             # remove pre submited attachments
             $Self->{UploadCachObject}->FormIDRemove(FormID => $GetParam{FormID});
             # redirect
@@ -820,6 +837,8 @@ sub Run {
             Attachments => \@Attachments,
             Errors => \%Error,
             GetParam => \%GetParam,
+            ResponseID     => $GetParam{ResponseID},
+            ReplyArticleID => $GetParam{ArticleID},
             %Ticket,
             %Data,
             %TicketFreeTextHTML,

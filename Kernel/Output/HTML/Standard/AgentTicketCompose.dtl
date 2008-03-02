@@ -1,12 +1,12 @@
 # --
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.23 2007-03-02 08:15:50 rk Exp $
+# $Id: AgentTicketCompose.dtl,v 1.23.2.1 2008-03-02 21:13:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <script language="JavaScript" type="text/javascript">
@@ -139,6 +139,7 @@ function FAQSubmit() {
         <input type="hidden" name="InReplyTo" value="$QData{"InReplyTo"}">
         <input type="hidden" name="FormID" value="$QData{"FormID"}">
         <input type="hidden" name="ResponseID" value="$QData{"ResponseID"}">
+        <input type="hidden" name="ReplyArticleID" value="$QData{"ReplyArticleID"}">
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Options"}</td>
