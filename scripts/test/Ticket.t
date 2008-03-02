@@ -1,12 +1,12 @@
 # --
 # Ticket.t - ticket module testscript
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.32 2007-12-28 16:01:21 martin Exp $
+# $Id: Ticket.t,v 1.33 2008-03-02 20:56:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use utf8;
@@ -339,6 +339,66 @@ for (1..16) {
     $Self->True(
         $TicketFreeTextSet,
         'TicketFreeTextSet() '.$_,
+    );
+}
+
+# Check the TicketFreeTime functions
+my %TicketFreeTime = ();
+for (1..5) {
+    my $TicketFreeTimeSet = $Self->{TicketObject}->TicketFreeTimeSet(
+        Counter => $_,
+        Prefix => 'a',
+        "a$_"."Year" => 2008,
+        "a$_"."Month" => 2,
+        "a$_"."Day" => 25,
+        "a$_"."Hour" => 22,
+        "a$_"."Minute" => $_,
+        TicketID => $TicketID,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketFreeTimeSet,
+        'TicketFreeTimeSet() '.$_,
+    );
+}
+
+%TicketFreeTime = $Self->{TicketObject}->TicketGet(
+    TicketID => $TicketID,
+);
+for (1..5) {
+    $Self->Is(
+        $TicketFreeTime{'TicketFreeTime'.$_},
+        "2008-02-25 22:0$_:00",
+        "TicketGet() (TicketFreeTime$_)",
+    );
+}
+# set undef
+for (1..5) {
+    my $TicketFreeTimeSet = $Self->{TicketObject}->TicketFreeTimeSet(
+        Counter => $_,
+        Prefix => 'a',
+        "a$_"."Year" => '0000',
+        "a$_"."Month" => 0,
+        "a$_"."Day" => 0,
+        "a$_"."Hour" => 0,
+        "a$_"."Minute" => 0,
+        TicketID => $TicketID,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketFreeTimeSet,
+        'TicketFreeTimeSet() '.$_,
+    );
+}
+
+%TicketFreeTime = $Self->{TicketObject}->TicketGet(
+    TicketID => $TicketID,
+);
+for (1..5) {
+    $Self->Is(
+        $TicketFreeTime{'TicketFreeTime'.$_},
+        '',
+        "TicketGet() (TicketFreeTime$_)",
     );
 }
 
