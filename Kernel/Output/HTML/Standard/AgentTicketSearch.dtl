@@ -1,12 +1,12 @@
 # --
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.20 2007-05-22 12:12:28 mh Exp $
+# $Id: AgentTicketSearch.dtl,v 1.21 2008-03-02 14:05:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- dtl:block:Search -->
@@ -64,6 +64,12 @@
                   <td width="50%" class="contentkey">$Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}</td>
                   <td width="50%" class="contentvalue"><input type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}"></td>
                 </tr>
+<!-- dtl:block:TicketTitle-->
+                <tr>
+                  <td class="contentkey">$Text{"Title"}</td>
+                  <td class="contentvalue"><input type="text" name="Title" size="30" value="$QData{"Title"}"></td>
+                </tr>
+<!-- dtl:block:TicketTitle-->
                 <tr>
                   <td class="contentkey">$Text{"CustomerID"} $Text{"(e. g. 234321)"}</td>
                   <td class="contentvalue"><input type="text" name="CustomerID" size="30" value="$QData{"CustomerID"}"></td>

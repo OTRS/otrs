@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.47 2008-01-31 06:22:12 tr Exp $
+# $Id: AgentTicketSearch.pm,v 1.48 2008-03-02 14:05:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::State;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -114,7 +114,7 @@ sub Run {
     # get search string params (get submitted params)
     else {
         for (
-            qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin
+            qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerUserLogin
             Agent ResultForm TimeSearchType
             TicketFreeTime1
             TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
@@ -372,8 +372,8 @@ sub Run {
             }
         }
 
-        # focus of "From To Cc Subject Body"
-        for (qw(From To Cc Subject Body)) {
+        # focus of "From To Cc Subject Body Title"
+        for (qw(From To Cc Subject Body Title)) {
             if ( defined( $GetParam{$_} ) && $GetParam{$_} ne '' ) {
                 $GetParam{$_} = "*$GetParam{$_}*";
             }
@@ -509,8 +509,7 @@ sub Run {
                     }
                     for (qw(From To Subject)) {
                         if ( !$GetParam{$_} ) {
-                            $Data{$_}
-                                = $Self->{LayoutObject}->Ascii2Html( Text => $Data{$_}, Max => 80 );
+                            $Data{$_} = $Self->{LayoutObject}->Ascii2Html( Text => $Data{$_}, Max => 80 );
                         }
                     }
 
@@ -799,7 +798,7 @@ sub Run {
             $m = sprintf( "%02d", $m );
             return $Self->{LayoutObject}->Attachment(
                 Filename    => $CSVFile . "_" . "$Y-$M-$D" . "_" . "$h-$m.csv",
-                ContentType => "text/csv",
+                ContentType => "text/csv; charset=utf-8",
                 Content     => $CSV,
             );
         }
@@ -1078,6 +1077,14 @@ sub MaskForm {
         Name => 'Search',
         Data => { %Param, },
     );
+
+    # add ticket title
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::Title') ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketTitle',
+            Data => { %Param },
+        );
+    }
 
     # build type string
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.589 2008-02-25 18:04:05 ub Exp $
+# $Id: CHANGES,v 1.590 2008-03-02 14:05:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,9 @@
 # --
 
 CVS HEAD (????/??/??)
- - (2008/02/22) Improved performance of TicketSearch() function.
+ - (2008/03/01) Added missing ticket title to ticket search mask in agent
+    interface.
+ - (2008/02/22) Improved performance of TicketSearch() function (what?).
  - (2008/02/17) Removed not needed Encode::decode_utf8() in core module
     Kernel::System::Encode (only set of utf-8 stamp is needed).
  - (2008/02/17) Upgraded Mail::Tools from version 1.77 to 2.02 from CPAN.
