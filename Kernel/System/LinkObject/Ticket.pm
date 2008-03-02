@@ -1,12 +1,12 @@
 # --
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.13 2007-10-02 10:38:08 mh Exp $
+# $Id: Ticket.pm,v 1.14 2008-03-02 20:54:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::LinkObject::Ticket;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub Init {
     my ( $Self, %Param ) = @_;
@@ -36,11 +36,14 @@ sub FillDataMap {
             return;
         }
     }
-    my %Ticket
-        = $Self->{TicketObject}->TicketGet( TicketID => $Param{ID}, UserID => $Self->{UserID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID => $Param{ID},
+        UserID => $Self->{UserID},
+    );
     return (
         Text         => 'T:' . $Ticket{TicketNumber},
         Number       => $Ticket{TicketNumber},
+        Title        => $Ticket{Title},
         ID           => $Param{ID},
         Object       => 'Ticket',
         FrontendDest => "Action=AgentTicketZoom&TicketID=",
@@ -143,7 +146,8 @@ sub LinkSearchParams {
     my ( $Self, %Param ) = @_;
 
     return (
-        { Name => 'TicketNumber',   Text => 'Ticket#' },
+        { Name => 'TicketNumber',   Text => 'Ticket#'  },
+        { Name => 'Title',          Text => 'Title'    },
         { Name => 'TicketFulltext', Text => 'Fulltext' },
     );
 }
@@ -153,6 +157,11 @@ sub LinkSearch {
 
     my %Search         = ();
     my @ResultWithData = ();
+
+    # set focus
+    if ( $Param{Title} ) {
+        $Param{Title} = '*' . $Param{Title} . '*';
+    }
     if ( $Param{TicketFulltext} ) {
         $Param{TicketFulltext} = '*' . $Param{TicketFulltext} . '*';
         %Search = (

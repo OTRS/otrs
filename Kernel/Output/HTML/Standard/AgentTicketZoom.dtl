@@ -1,12 +1,12 @@
 # --
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.31 2008-01-08 23:13:52 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.32 2008-03-02 20:54:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- dtl:block:Header -->
@@ -313,7 +313,7 @@ $Data{"Body"}
           <td><b>$Text{"Linked"} ($Text{"Normal"}):</b></td>
           <td>
 <!-- dtl:block:LinkNormal -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"} $QData{"Title"}">$QData{"Text"}</a>
 <!-- dtl:block:LinkNormal -->
           </td>
         </tr>
@@ -321,7 +321,7 @@ $Data{"Body"}
           <td><b>$Text{"Linked"} ($Text{"Parent"}):</b></td>
           <td>
 <!-- dtl:block:LinkParent -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"} $QData{"Title"}">$QData{"Text"}</a>
 <!-- dtl:block:LinkParent -->
           </td>
         </tr>
@@ -329,7 +329,7 @@ $Data{"Body"}
           <td><b>$Text{"Linked"} ($Text{"Child"}):</b></td>
           <td>
 <!-- dtl:block:LinkChild -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"} $QData{"Title"}">$QData{"Text"}</a>
 <!-- dtl:block:LinkChild -->
           </td>
         </tr>
