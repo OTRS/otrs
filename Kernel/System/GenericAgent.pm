@@ -1,12 +1,12 @@
 # --
 # Kernel/System/GenericAgent.pm - generic agent system module
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.32 2007-10-09 22:23:21 martin Exp $
+# $Id: GenericAgent.pm,v 1.33 2008-03-02 20:50:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::GenericAgent;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -95,6 +95,7 @@ sub new {
 
     my %Map = (
         TicketNumber                 => 'SCALAR',
+        Title                        => 'SCALAR',
         From                         => 'SCALAR',
         To                           => 'SCALAR',
         Cc                           => 'SCALAR',
@@ -136,6 +137,7 @@ sub new {
         TypeIDs                      => 'ARRAY',
         ServiceIDs                   => 'ARRAY',
         SLAIDs                       => 'ARRAY',
+        NewTitle                     => 'SCALAR',
         NewCustomerID                => 'SCALAR',
         NewCustomerUserLogin         => 'SCALAR',
         NewStateID                   => 'SCALAR',
@@ -526,6 +528,17 @@ sub _JobRunTicket {
         );
     }
 
+    # set new title
+    if ( $Param{Config}->{New}->{Title} ) {
+        if ( $Self->{NoticeSTDOUT} ) {
+            print "  - set title of Ticket $Ticket to '$Param{Config}->{New}->{Title}'\n";
+        }
+        $Self->{TicketObject}->TicketTitleUpdate(
+            Title    => $Param{Config}->{New}->{Title},
+            TicketID => $Param{TicketID},
+            UserID   => $Param{UserID},
+        );
+    }
     # set new type
     if ( $Param{Config}->{New}->{Type} ) {
         if ( $Self->{NoticeSTDOUT} ) {
@@ -803,8 +816,7 @@ sub JobGet {
             return;
         }
     }
-    my $SQL
-        = "SELECT job_key, job_value FROM generic_agent_jobs"
+    my $SQL = "SELECT job_key, job_value FROM generic_agent_jobs"
         . " WHERE "
         . " job_name = '"
         . $Self->{DBObject}->Quote( $Param{Name} ) . "'";
@@ -1052,8 +1064,7 @@ sub JobAdd {
         if ( ref( $Param{Data}->{$Key} ) eq 'ARRAY' ) {
             for ( @{ $Param{Data}->{$Key} } ) {
                 if ( defined($_) ) {
-                    my $SQL
-                        = "INSERT INTO generic_agent_jobs (job_name, "
+                    my $SQL = "INSERT INTO generic_agent_jobs (job_name, "
                         . "job_key, job_value) VALUES " . " ('"
                         . $Self->{DBObject}->Quote( $Param{Name} )
                         . "', '$Key', '"
@@ -1064,8 +1075,7 @@ sub JobAdd {
         }
         else {
             if ( defined( $Param{Data}->{$Key} ) ) {
-                my $SQL
-                    = "INSERT INTO generic_agent_jobs (job_name, "
+                my $SQL = "INSERT INTO generic_agent_jobs (job_name, "
                     . "job_key, job_value) VALUES " . " ('"
                     . $Self->{DBObject}->Quote( $Param{Name} )
                     . "', '$Key', '"
@@ -1101,10 +1111,12 @@ sub JobDelete {
     }
 
     # delete job
-    $Self->{DBObject}->Do( SQL => "DELETE FROM generic_agent_jobs WHERE "
+    $Self->{DBObject}->Do(
+         SQL => "DELETE FROM generic_agent_jobs WHERE "
             . "job_name = '"
             . $Self->{DBObject}->Quote( $Param{Name} )
-            . "'", );
+            . "'",
+    );
     $Self->{LogObject}->Log(
         Priority => 'notice',
         Message  => "GenericAgent job '$Param{Name}' deleted (UserID=$Param{UserID}).",
@@ -1169,12 +1181,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2007-10-09 22:23:21 $
+$Revision: 1.33 $ $Date: 2008-03-02 20:50:23 $
 
 =cut

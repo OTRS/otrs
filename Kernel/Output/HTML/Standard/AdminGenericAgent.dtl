@@ -1,12 +1,12 @@
 # --
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.33 2007-10-09 22:25:59 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.34 2008-03-02 20:50:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
@@ -147,15 +147,21 @@
                     $Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}
                   </td>
                   <td width="50%">
-                    <input type="text" name="TicketNumber" size="20" value="$QData{"TicketNumber"}">
+                    <input type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}">
                   </td>
                 </tr>
+<!-- dtl:block:TicketTitle-->
+                <tr>
+                  <td>$Text{"Title"}</td>
+                  <td><input type="text" name="Title" size="30" value="$QData{"Title"}"></td>
+                </tr>
+<!-- dtl:block:TicketTitle-->
                 <tr>
                   <td>
                     $Text{"CustomerID"} $Text{"(e. g. 234321)"}
                   </td>
                   <td>
-                    <input type="text" name="CustomerID" size="20" value="$QData{"CustomerID"}">
+                    <input type="text" name="CustomerID" size="30" value="$QData{"CustomerID"}">
                   </td>
                 </tr>
                 <tr>
@@ -163,7 +169,7 @@
                     $Text{"Customer User Login"} $Text{"(e. g. U5150)"}
                   </td>
                   <td>
-                    <input type="text" name="CustomerUserLogin" size="20" value="$QData{"CustomerUserLogin"}">
+                    <input type="text" name="CustomerUserLogin" size="30" value="$QData{"CustomerUserLogin"}">
                   </td>
                 </tr>
 <!-- dtl:block:TicketType -->
@@ -370,6 +376,12 @@
                     $Data{"NewLockOption"}
                   </td>
                 </tr>
+<!-- dtl:block:NewTicketTitle-->
+                <tr>
+                  <td>$Text{"New Title"}</td>
+                  <td><input type="text" name="NewTitle" size="30" value="$QData{"New Title"}"></td>
+                </tr>
+<!-- dtl:block:NewTicketTitle-->
 <!-- dtl:block:NewTicketType -->
                 <tr>
                   <td>
