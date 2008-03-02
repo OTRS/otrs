@@ -1,12 +1,12 @@
 # --
 # GenericAgent.t - GenericAgent tests
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.t,v 1.5 2007-10-09 22:21:55 martin Exp $
+# $Id: GenericAgent.t,v 1.6 2008-03-02 20:56:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use Kernel::System::Ticket;
@@ -62,6 +62,7 @@ my %NewJob = (
         TicketCreateTimePoint => 1,
         TicketCreateTimePointStart => 'Last',
         TicketCreateTimePointFormat => 'day',
+        NewTitle => 'some new title',
         NewStateID => 2,
         NewPriorityID => 3,
         NewNoteBody => '',
@@ -127,6 +128,16 @@ $Self->Is(
     $GetParam{CustomerUserLogin} || '',
     'customerUnitTest@example.com',
     "JobGet() - CustomerUserLogin",
+);
+$Self->Is(
+    $GetParam{Title} || '',
+    '',
+    "JobGet() - Title",
+);
+$Self->Is(
+    $GetParam{NewTitle} || '',
+    'some new title',
+    "JobGet() - NewTitle",
 );
 $Self->Is(
     $GetParam{NewTicketFreeKey1} || '',
@@ -244,6 +255,11 @@ my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
 
 # more change checks are useful!!
 $Self->Is(
+    $Ticket{Title},
+    'some new title',
+    "TicketGet() - Title",
+);
+$Self->Is(
     $Ticket{StateID},
     2,
     "TicketGet() - State",
@@ -295,6 +311,16 @@ $Self->Is(
     "JobGet() - CustomerUserLogin",
 );
 $Self->Is(
+    $GetParam{Title} || '',
+    '',
+    "JobGet() - Title",
+);
+$Self->Is(
+    $GetParam{NewTitle} || '',
+    'some new title',
+    "JobGet() - NewTitle",
+);
+$Self->Is(
     $GetParam{NewTicketFreeKey1} || '',
     'Phone',
     "JobGet() - NewTicketFreeKey1",
@@ -342,8 +368,9 @@ $Self->True(
 );
 
 # add
-$GetParam{From} = 'Some From';
-$GetParam{Body} = 'Some Body';
+$GetParam{From}  = 'Some From';
+$GetParam{Body}  = 'Some Body';
+$GetParam{Title} = 'some new new title';
 $JobAdd = $Self->{GenericAgentObject}->JobAdd(
     Name => $Name,
     Data => \%GetParam,
@@ -360,6 +387,16 @@ $Self->Is(
     $GetParam{CustomerUserLogin} || '',
     'customerUnitTest@example.com',
     "JobGet() - CustomerUserLogin",
+);
+$Self->Is(
+    $GetParam{Title} || '',
+    'some new new title',
+    "JobGet() - Title",
+);
+$Self->Is(
+    $GetParam{NewTitle} || '',
+    'some new title',
+    "JobGet() - NewTitle",
 );
 $Self->Is(
     $GetParam{NewTicketFreeKey1} || '',
