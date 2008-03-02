@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.20 2008-02-12 20:52:09 martin Exp $
+# $Id: Main.pm,v 1.21 2008-03-02 21:01:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -296,8 +296,10 @@ sub FileRead {
         $Param{Location} =~ s/\/\//\//g;
     }
     else {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => 'Need Filename and Directory or Location!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => 'Need Filename and Directory or Location!',
+        );
 
     }
 
@@ -718,6 +720,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2008-02-12 20:52:09 $
+$Revision: 1.21 $ $Date: 2008-03-02 21:01:54 $
 
 =cut

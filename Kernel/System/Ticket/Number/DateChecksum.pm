@@ -1,13 +1,13 @@
 # --
 # Ticket/Number/DateChecksum.pm - a date ticket number generator
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
-# Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DateChecksum.pm,v 1.26 2007-12-19 08:06:28 martin Exp $
+# $Id: DateChecksum.pm,v 1.27 2008-03-02 20:57:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 # Note:
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
@@ -43,8 +43,9 @@ sub TicketCreateNumber {
     my $SystemID   = $Self->{ConfigObject}->Get('SystemID');
 
     # get current time
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-        = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
 
     # read count
     my $Count      = 0;
