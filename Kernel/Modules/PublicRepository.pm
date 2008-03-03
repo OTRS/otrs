@@ -2,7 +2,7 @@
 # Kernel/Modules/PublicRepository.pm - provides a local repository
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PublicRepository.pm,v 1.8 2008-01-31 06:22:12 tr Exp $
+# $Id: PublicRepository.pm,v 1.9 2008-03-03 13:50:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -69,7 +69,7 @@ sub Run {
         }
         $Index .= "</otrs_package_list>\n";
         return $Self->{LayoutObject}->Attachment(
-            Type        => 'inline',     # inline|attached
+            Type        => 'inline',    # inline|attachment
             Filename    => 'otrs.xml',
             ContentType => 'text/xml',
             Content     => $Index,
@@ -89,7 +89,7 @@ sub Run {
             Version => $Version,
         );
         return $Self->{LayoutObject}->Attachment(
-            Type        => 'inline',           # inline|attached
+            Type        => 'inline',          # inline|attachment
             Filename    => "$Name-$Version",
             ContentType => 'text/xml',
             Content     => $Package,
