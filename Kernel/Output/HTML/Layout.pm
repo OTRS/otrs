@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.72 2008-02-19 14:26:42 tr Exp $
+# $Id: Layout.pm,v 1.73 2008-03-03 13:47:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 =head1 NAME
 
@@ -2769,18 +2769,20 @@ sub ReturnValue {
 returns browser output to display/download a attachment
 
     $HTML = $LayoutObject->Attachment(
-        Type => 'inline', # inline|attached
-        Filename => 'FileName.png',
+        Type        => 'inline', # inline|attachment
+        Filename    => 'FileName.png',
         ContentType => 'image/png',
-        Content => $Content,
+        Content     => $Content,
     );
 
+    or
+
     $HTML = $LayoutObject->Attachment(
-        Type => 'inline', # inline|attached
-        Filename => 'FileName.png',
+        Type        => 'inline', # inline|attachment
+        Filename    => 'FileName.png',
         ContentType => 'image/png',
-        Content => $Content,
-        NoCache => 1,
+        Content     => $Content,
+        NoCache     => 1,
     );
 
 =cut
@@ -3882,6 +3884,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.72 $ $Date: 2008-02-19 14:26:42 $
+$Revision: 1.73 $ $Date: 2008-03-03 13:47:00 $
 
 =cut
