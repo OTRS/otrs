@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.67 2008-01-31 06:22:12 tr Exp $
+# $Id: AdminSysConfig.pm,v 1.68 2008-03-03 14:35:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -67,7 +67,7 @@ sub Run {
             ContentType => 'application/octet-stream',
             Content     => $Self->{SysConfigObject}->Download(),
             Filename    => "SysConfigBackup" . "_" . "$Y-$M-$D" . "_$h-$m.pm",
-            Type        => 'attached',
+            Type        => 'attachment',
         );
     }
 
