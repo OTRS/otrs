@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.61 2007-02-26 14:25:00 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.61.2.1 2008-03-03 14:35:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AdminSysConfig;
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.61.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -71,7 +71,7 @@ sub Run {
             ContentType => 'application/octet-stream',
             Content => $Self->{SysConfigObject}->Download(),
             Filename => "SysConfigBackup"."_"."$Y-$M-$D"."_$h-$m.pm",
-            Type => 'attached',
+            Type => 'attachment',
         );
     }
     # upload
