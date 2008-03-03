@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.46.2.2 2007-11-07 16:32:24 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.46.2.3 2008-03-03 14:00:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AdminPackageManager;
@@ -16,7 +16,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46.2.2 $';
+$VERSION = '$Revision: 1.46.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -515,7 +515,7 @@ sub Run {
         else {
             return $Self->{LayoutObject}->Attachment(
                 Content => $Package,
-                ContentType => 'plain/xml',
+                ContentType => 'text/xml',
                 Filename => "$Name-$Version.opm",
                 Type => 'attachment',
             );
@@ -539,7 +539,7 @@ sub Run {
         else {
             return $Self->{LayoutObject}->Attachment(
                 Content => $Package,
-                ContentType => 'plain/xml',
+                ContentType => 'text/xml',
                 Filename => $File,
                 Type => 'attachment',
             );
@@ -1167,7 +1167,7 @@ sub Run {
             my $File = $Self->{PackageObject}->PackageBuild(%Structure);
             return $Self->{LayoutObject}->Attachment(
                 Content => $File,
-                ContentType => 'plain/xml',
+                ContentType => 'text/xml',
                 Filename => "$Name-$Version-rebuild.opm",
                 Type => 'attachment',
             );

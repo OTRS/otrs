@@ -2,13 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.91 2008-02-29 12:21:45 ot Exp $
+# $Id: CHANGES,v 1.465.2.92 2008-03-03 14:05:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
+
 2.2.6 (2008/??/??)
+ - (2008/03/03) Fixed bug# 2742 - Wrong content type in admin package manager
+    mask.
  - (2008/02/25) Added missing german translation for required free-text fields.
  - (2008/02/25) Fixed bug# 2451 - Typo in openssl invocation when decrypting.
  - (2008/02/23) Fixed bug# 2275 - Need User or UserID! by using UnlockTickets.pl
@@ -114,7 +117,7 @@
  - (2007/12/12) Fixed bug# 2581 - Follow up not possible if "ticket#: xxxxxxx"
     is copied from webinterface into new email subject.
  - (2007/12/11) Fixed bug# 2479 - Unable to retrieve attachments bigger than
-    3MB (on Oracle DB). Changed default read size from 4 MB to 15 MB in
+    3 MB (on Oracle DB). Changed default read size from 4 MB to 15 MB in
     Kernel/System/DB/oracle.pm:
 
     $Self->{'DB::Attribute'}      = {
