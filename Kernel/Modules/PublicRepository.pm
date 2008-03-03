@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/PublicRepository.pm - provides a local repository
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PublicRepository.pm,v 1.4 2006-10-09 17:38:03 mh Exp $
+# $Id: PublicRepository.pm,v 1.4.4.1 2008-03-03 13:48:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::PublicRepository;
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.4.4.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -75,7 +75,7 @@ sub Run {
         }
         $Index .= "</otrs_package_list>\n";
         return $Self->{LayoutObject}->Attachment(
-            Type => 'inline', # inline|attached
+            Type => 'inline', # inline|attachment
             Filename => 'otrs.xml',
             ContentType => 'text/xml',
             Content => $Index,
@@ -94,7 +94,7 @@ sub Run {
             Version => $Version,
         );
         return $Self->{LayoutObject}->Attachment(
-            Type => 'inline', # inline|attached
+            Type => 'inline', # inline|attachment
             Filename => "$Name-$Version",
             ContentType => 'text/xml',
             Content => $Package,
