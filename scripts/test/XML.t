@@ -1,12 +1,12 @@
 # --
 # XML.t - XML tests
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.t,v 1.20 2008-01-16 09:10:57 tr Exp $
+# $Id: XML.t,v 1.21 2008-03-04 11:08:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use utf8;
@@ -293,7 +293,7 @@ for my $Key ( 'Some\'Key', '123' ) {
         $Self->Is(
             $#XMLHashGet == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
             'German Umlaute Ã¶Ã¤Ã¼ Ã„ÃœÃ– ÃŸ',
-            "#3 UTF8($Key) XMLHashGet() (GermanText)",
+            "#3 utf8($Key) XMLHashGet() (GermanText)",
         );
         $Self->True(
             Encode::is_utf8($XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content}) || '',
@@ -305,7 +305,7 @@ for my $Key ( 'Some\'Key', '123' ) {
         $Self->Is(
             $#XMLHashGet == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
             'German Umlaute öäü ÄÜÖ ß',
-            "#3 UTF8($Key) XMLHashGet() (GermanText)",
+            "#3 utf8($Key) XMLHashGet() (GermanText)",
         );
         $Self->True(
             !Encode::is_utf8($XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content}) || '',
@@ -381,7 +381,7 @@ for my $Key ( 'Some\'Key', '123' ) {
         $Self->Is(
             $#XMLHashGet == 1 && $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
             'German Umlaute Ã¶Ã¤Ã¼ Ã„ÃœÃ– ÃŸ',
-            "UTF8#3 ($Key) XMLHashGet() (GermanText)",
+            "utf8#3 ($Key) XMLHashGet() (GermanText)",
         );
         $Self->True(
             Encode::is_utf8($XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content}) || '',
@@ -393,7 +393,7 @@ for my $Key ( 'Some\'Key', '123' ) {
         $Self->Is(
             $#XMLHashGet == 1 && $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
             'German Umlaute öäü ÄÜÖ ß',
-            "UTF8#3 ($Key) XMLHashGet() (GermanText)",
+            "utf8#3 ($Key) XMLHashGet() (GermanText)",
         );
         $Self->True(
             !Encode::is_utf8($XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content}) || '',
