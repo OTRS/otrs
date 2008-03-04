@@ -1,12 +1,12 @@
 # --
 # Kernel/System/PostMaster/Filter/MatchDBSource.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: MatchDBSource.pm,v 1.9 2007-10-02 10:34:46 mh Exp $
+# $Id: MatchDBSource.pm,v 1.10 2008-03-04 11:07:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::PostMaster::Filter::MatchDBSource;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -67,9 +67,9 @@ sub Run {
             if ( $Param{GetParam}->{$_} && $Match{$_} =~ /^EMAILADDRESS:(.*)$/ ) {
                 my $SearchEmail = $1;
                 my @EmailAddresses
-                    = $Self->{ParseObject}->SplitAddressLine( Line => $Param{GetParam}->{$_}, );
+                    = $Self->{ParseObject}->SplitAddressLine( Line => $Param{GetParam}->{$_} );
                 for my $RawEmail (@EmailAddresses) {
-                    my $Email = $Self->{ParseObject}->GetEmailAddress( Email => $RawEmail, );
+                    my $Email = $Self->{ParseObject}->GetEmailAddress( Email => $RawEmail );
                     if ( $Email =~ /^$SearchEmail$/i ) {
                         $Matched = $SearchEmail || 1;
                         if ( $Self->{Debug} > 1 ) {
