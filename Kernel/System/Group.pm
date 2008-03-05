@@ -1,9 +1,8 @@
 # --
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.52 2008-03-05 19:49:05 martin Exp $
+# $Id: Group.pm,v 1.53 2008-03-05 20:40:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 =head1 NAME
 
@@ -621,7 +620,7 @@ sub GroupMemberInvolvedList {
     # check needed stuff
     for my $Attribute (qw(UserID Type)) {
         if ( !$Param{$Attribute} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Attribute!" );
             return;
         }
     }
@@ -1526,6 +1525,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2008-03-05 19:49:05 $
+$Revision: 1.53 $ $Date: 2008-03-05 20:40:54 $
 
 =cut
