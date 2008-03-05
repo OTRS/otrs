@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.39 2008-02-27 13:23:32 tr Exp $
+# $Id: Stats.pm,v 1.40 2008-03-05 07:16:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 SYNOPSIS
 
@@ -81,6 +81,9 @@ create a object
         LogObject    => $LogObject,
         DBObject     => $DBObject,
         MainObject   => $MainObject,
+        CVSObject    => $CVSObject,
+        TimeObject   => $TimeObject,
+        GroupObject  => $GroupObject,
         UserID       => 123,
     );
 
@@ -2785,6 +2788,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2008-02-27 13:23:32 $
+$Revision: 1.40 $ $Date: 2008-03-05 07:16:47 $
 
 =cut
