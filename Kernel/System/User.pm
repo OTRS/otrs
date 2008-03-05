@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.74 2008-03-05 19:49:05 martin Exp $
+# $Id: User.pm,v 1.75 2008-03-05 22:57:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 =head1 NAME
 
@@ -152,8 +152,9 @@ sub GetUserData {
         . " salutation, first_name, last_name, $Self->{UserTableUserPW}, valid_id "
         . " FROM $Self->{UserTable} WHERE ";
     if ( $Param{User} ) {
-        $SQL .= " LOWER($Self->{UserTableUser}) = LOWER(?)";
-        push ( @Bind, \$Param{User} );
+        my $User = lc $Param{User};
+        $SQL .= " LOWER($Self->{UserTableUser}) = ?";
+        push ( @Bind, \$User );
     }
     else {
         $SQL .= " $Self->{UserTableUserID} = ?";
@@ -285,10 +286,11 @@ sub UserAdd {
     );
 
     # get new user id
+    my $UserLogin = lc $Param{UserLogin};
     return if ! $Self->{DBObject}->Prepare(
         SQL  => "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} "
-            . " WHERE LOWER($Self->{UserTableUser}) = LOWER(?)",
-        Bind => [ \$Param{UserLogin} ],
+            . " WHERE LOWER($Self->{UserTableUser}) = ?",
+        Bind => [ \$UserLogin ],
     );
     my $UserID = '';
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -593,10 +595,11 @@ sub SetPassword {
     $Self->SetPreferences( UserID => $User{UserID}, Key => 'UserLastPw', Value => $MD5Pw );
 
     # update db
+    my $UserLogin = lc $Param{UserLogin};
     return if ! $Self->{DBObject}->Do(
         SQL => "UPDATE $Self->{UserTable} SET $Self->{UserTableUserPW} = ? "
-            . " WHERE LOWER($Self->{UserTableUser}) = LOWER(?)",
-        Bind => [ \$CryptedPw, \$Param{UserLogin} ],
+            . " WHERE LOWER($Self->{UserTableUser}) = ?",
+        Bind => [ \$CryptedPw, \$UserLogin ],
     );
 
     # log notice
@@ -637,10 +640,11 @@ sub UserLookup {
         }
 
         # build sql query
+        my $UserLogin = lc $Param{UserLogin};
         return if ! $Self->{DBObject}->Prepare(
             SQL => "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} "
-                . " WHERE LOWER($Self->{UserTableUser}) = LOWER(?)",
-            Bind => [ \$Param{UserLogin} ],
+                . " WHERE LOWER($Self->{UserTableUser}) = ?",
+            Bind => [ \$UserLogin ],
         );
         my $ID;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -944,6 +948,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.74 $ $Date: 2008-03-05 19:49:05 $
+$Revision: 1.75 $ $Date: 2008-03-05 22:57:14 $
 
 =cut
