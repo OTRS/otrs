@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.9 2008-02-25 15:22:48 tr Exp $
+# $Id: Layout.t,v 1.10 2008-03-05 16:55:23 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -264,7 +264,7 @@ ak@otrs.com<br>
 &lt;<a href="http://bugs.otrs.org/show_bug.cgi?id=2450" target="_blank" title="http://bugs.otrs.org/show_bug.cgi?id=2450">http://bugs.otrs.org/show_bug.cgi?id=2450</a>&gt;asdf<br>
 &lt;<a href="http://bugs.otrs.org/s()how_bug.cgi?id=2450" target="_blank" title="http://bugs.otrs.org/s()how_bug.cgi?id=2450">http://bugs.otrs.org/s()how_bug.cgi?id=2450</a>&gt; as<br>
 <br>
-wwww.google.de<br>
+w<a href="http://www.google.de" target="_blank" title="http://www.google.de">http://www.google.de</a><br>
 <br>
 <a href="http://ftp.otrs.org" target="_blank" title="http://ftp.otrs.org">http://ftp.otrs.org</a><br>
 <br>
@@ -284,23 +284,24 @@ my $ConvertedString = $Self->{LayoutObject}->Ascii2Html(
     LinkFeature    => 1,
 );
 
-$Self->True(
-    $NeededResult eq $ConvertedString,
+$Self->Is(
+    $ConvertedString,
+    $NeededResult,
     'Ascii2Html() - Check if the link feature works correct' ,
 );
 
 # html quoting 2
 my @Tests = (
-#    {
-#        Name => 'Ascii2Html() - #1',
-#        String => 'http://example.com/',
-#        Result => '<a href="http://example.com/" target="_blank" title="http://example.com/">http://example.com/</a>',
-#    },
-#    {
-#        Name => 'Ascii2Html() - #2',
-#        String => ' http://example.com/',
-#        Result => ' <a href="http://example.com/" target="_blank" title="http://example.com/">http://example.com/</a>',
-#    },
+    {
+        Name => 'Ascii2Html() - #1',
+        String => 'http://example.com/',
+        Result => '<a href="http://example.com/" target="_blank" title="http://example.com/">http://example.com/</a>',
+    },
+    {
+        Name => 'Ascii2Html() - #2',
+        String => ' http://example.com/',
+        Result => ' <a href="http://example.com/" target="_blank" title="http://example.com/">http://example.com/</a>',
+    },
     {
         Name => 'Ascii2Html() - #3',
         String => ' http://example.com/ ',
@@ -316,21 +317,21 @@ my @Tests = (
         String => ' http://example.com. ',
         Result => ' <a href="http://example.com" target="_blank" title="http://example.com">http://example.com</a>. ',
     },
-#    {
-#        Name => 'Ascii2Html() - #6',
-#        String => ' www.example.com ',
-#        Result => ' <a href="http://www.example.com" target="_blank" title="http://www.example.com">http://www.example.com</a>. ',
-#    },
+    {
+        Name => 'Ascii2Html() - #6',
+        String => ' www.example.com ',
+        Result => ' <a href="http://www.example.com" target="_blank" title="http://www.example.com">http://www.example.com</a> ',
+    },
     {
         Name => 'Ascii2Html() - #7',
         String => ' ftp://ftp.example.com. ',
         Result => ' <a href="ftp://ftp.example.com" target="_blank" title="ftp://ftp.example.com">ftp://ftp.example.com</a>. ',
     },
-#    {
-#        Name => 'Ascii2Html() - #8',
-#        String => ' HTTP://www.example.com, ',
-#        Result => ' <a href="HTTP://www.example.com" target="_blank" title="HTTP://www.example.com">HTTP://www.example.com</a>, ',
-#    },
+    {
+        Name => 'Ascii2Html() - #8',
+        String => ' HTTP://www.example.com, ',
+        Result => ' <a href="HTTP://www.example.com" target="_blank" title="HTTP://www.example.com">HTTP://www.example.com</a>, ',
+    },
     {
         Name => 'Ascii2Html() - #9',
         String => ' http://example.com?some_long_url=yes&some_what_else=index.html ',
@@ -346,11 +347,11 @@ my @Tests = (
         String => ' http://example.com?some_long_url=yes&some_what_else=0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.index.html ',
         Result => ' <a href="http://example.com?some_long_url=yes&some_what_else=0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.index.html" target="_blank" title="http://example.com?some_long_url=yes&some_what_else=0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.index.html">http://example.com?some_long_url=yes&some_what_else=0123456789.0123456789.0[..]</a> ',
     },
-#    {
-#        Name => 'Ascii2Html() - #12',
-#        String => ' http://example.com/ http://www.example.com/ ',
-#        Result => ' <a href="http://example.com/" target="_blank" title="http://example.com/">http://example.com/</a> <a href="http://www.example.com/" target="_blank" title="http://www.example.com/">http://www.example.com/</a> ',
-#    },
+    {
+        Name => 'Ascii2Html() - #12',
+        String => ' http://example.com/ http://www.example.com/ ',
+        Result => ' <a href="http://example.com/" target="_blank" title="http://example.com/">http://example.com/</a> <a href="http://www.example.com/" target="_blank" title="http://www.example.com/">http://www.example.com/</a> ',
+    },
     {
         Name => 'Ascii2Html() - #13',
         String => 'Please visit this url http://example.com.',

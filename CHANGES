@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.593 2008-03-03 14:04:58 mh Exp $
+# $Id: CHANGES,v 1.594 2008-03-05 16:55:23 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -119,6 +119,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.6 (2008/??/??)
+ - (2008/03/05) Fixed bug# 2715 - Ascii2Html() is not quoting all links
+    correctly.
  - (2008/03/03) Fixed bug# 2742 - Wrong content type in admin package manager
     mask.
  - (2008/02/25) Added missing german translation for required free-text fields.
