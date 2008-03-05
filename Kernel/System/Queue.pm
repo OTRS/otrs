@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.80 2008-02-20 12:14:32 tr Exp $
+# $Id: Queue.pm,v 1.81 2008-03-05 23:10:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 =head1 NAME
 
@@ -98,8 +98,9 @@ sub new {
     }
 
     # load generator preferences module
-    my $GeneratorModule = 'Kernel::System::Queue::PreferencesDB';
-    if ($Self->{MainObject}->Require($GeneratorModule)) {
+    my $GeneratorModule = $Self->{ConfigObject}->Get('Queue::PreferencesModule')
+        || 'Kernel::System::Queue::PreferencesDB';
+    if ( $Self->{MainObject}->Require($GeneratorModule) ) {
         $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
     }
 
@@ -108,6 +109,7 @@ sub new {
     #  these settings are used by the CLI version         #
     # --------------------------------------------------- #
     $Self->{QueueDefaults} = {
+        Calendar            => '',
         UnlockTimeout       => 0,
         FirstResponseTime   => 0,
         FirstResponseNotify => 0,
@@ -144,11 +146,11 @@ sub GetSystemAddress {
 
     my %Address;
     my $QueueID = $Param{QueueID} || $Self->{QueueID};
-    my $SQL = "SELECT sa.value0, sa.value1 FROM system_address sa, queue sq "
-        . " WHERE "
-        . " sq.id = " . $Self->{DBObject}->Quote( $QueueID, 'Integer' ) . " AND "
-        . " sa.id = sq.system_address_id";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT sa.value0, sa.value1 FROM system_address sa, queue sq "
+            . " WHERE sq.id = ? AND sa.id = sq.system_address_id",
+        Bind => [ \$QueueID ],
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Address{Email}    = $Row[0];
         $Address{RealName} = $Row[1];
@@ -179,18 +181,13 @@ sub GetSalutation {
         return;
     }
 
-    # db quote
-    for (qw(QueueID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql
     my $String = '';
-    my $SQL = "SELECT text FROM salutation sa, queue sq "
-        . " WHERE "
-        . " sq.id = $Param{QueueID} " . " and "
-        . " sq.salutation_id = sa.id";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT text FROM salutation sa, queue sq "
+            . " WHERE sq.id = ? AND sq.salutation_id = sa.id",
+        Bind => [ \$Param{QueueID} ],
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $String = $Row[0];
     }
@@ -214,18 +211,13 @@ sub GetSignature {
         return;
     }
 
-    # db quote
-    for (qw(QueueID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql
     my $String = '';
-    my $SQL = "SELECT text FROM signature si, queue sq "
-        . " WHERE "
-        . " sq.id = $Param{QueueID} AND "
-        . " sq.signature_id = si.id";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT text FROM signature si, queue sq "
+            . " WHERE sq.id = ? AND sq.signature_id = si.id",
+        Bind => [ \$Param{QueueID} ],
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $String = $Row[0];
     }
@@ -251,14 +243,11 @@ sub GetStdResponse {
         return;
     }
 
-    # db quote
-    for (qw(ID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql
-    my $SQL = "SELECT text FROM standard_response WHERE id = $Param{ID}";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT text FROM standard_response WHERE id = ?",
+        Bind => [ \$Param{ID} ],
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $String = $Row[0];
     }
@@ -273,55 +262,14 @@ sub SetQueueStdResponse {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need ResponseID, QueueID and UserID!" );
         return;
     }
-    if ( $Self->QueueHasStdResponse(%Param) ) {
-        return;
-    }
-
-    # db quote
-    for ( keys %Param ) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
 
     # sql
-    my $SQL = sprintf(
-        qq|INSERT INTO queue_standard_response (queue_id, standard_response_id, create_time, create_by, change_time, change_by)
-    VALUES ( %s, %s, current_timestamp, %s, current_timestamp, %s)|, $Param{QueueID},
-        $Param{ResponseID}, $Param{UserID}, $Param{UserID}
+    return $Self->{DBObject}->Do(
+        SQL => "INSERT INTO queue_standard_response "
+            . "(queue_id, standard_response_id, create_time, create_by, change_time, change_by)"
+            . " VALUES ( ?, ?, current_timestamp, ?, current_timestamp, ?)",
+        Bind => [ \$Param{ResponseID}, \$Param{UserID}, \$Param{UserID} ],
     );
-
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        return 1;
-    }
-    else {
-        return 0;
-    }
-}
-
-# for comapt!
-sub QueueHasStdResponse {
-    my ( $Self, %Param ) = @_;
-
-    unless ( $Param{ResponseID} && $Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ResponseID and QueueID!" );
-        return;
-    }
-
-    # db quote
-    for ( keys %Param ) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-
-    # sql
-    my $SQL = sprintf(
-        "select count(*) from  queue_standard_response  where queue_id=%s and standard_response_id=%s",
-        $Param{QueueID}, $Param{ResponseID} );
-
-    $Self->{DBObject}->Prepare( SQL => $SQL );
-    my $Count;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Count = $Row[0];
-    }
-    return $Count;
 }
 
 =item GetStdResponses()
@@ -421,8 +369,7 @@ sub GetAllQueues {
             Cached => 1,
         );
         if (@GroupIDs) {
-            my $SQL
-                = "SELECT id, name FROM queue"
+            my $SQL = "SELECT id, name FROM queue"
                 . " WHERE "
                 . " group_id IN ( ${\(join ', ', @GroupIDs)} ) AND "
                 . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
@@ -475,15 +422,12 @@ sub GetAllCustomQueues {
         return;
     }
 
-    # db quote
-    for (qw(UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # fetch all queues
     my @QueueIDs;
-    my $SQL = "SELECT queue_id FROM personal_queues WHERE user_id = $Param{UserID}";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL  => "SELECT queue_id FROM personal_queues WHERE user_id = ?",
+        Bind => [ \$Param{UserID} ],
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push( @QueueIDs, $Row[0] );
     }
@@ -518,21 +462,23 @@ sub QueueLookup {
     }
 
     # get data
-    my $SQL    = '';
     my $Suffix = '';
     if ( $Param{Queue} ) {
         $Param{What} = $Param{Queue};
         $Suffix      = 'QueueID';
-        $SQL         = "SELECT id FROM queue WHERE name = '"
-            . $Self->{DBObject}->Quote( $Param{Queue} ) . "'";
+        $Self->{DBObject}->Prepare(
+            SQL  => "SELECT id FROM queue WHERE name = ?",
+            Bind => [ \$Param{Queue} ],
+        );
     }
     else {
         $Param{What} = $Param{QueueID};
         $Suffix      = 'Queue';
-        $SQL         = "SELECT name FROM queue WHERE id = "
-            . $Self->{DBObject}->Quote( $Param{QueueID}, 'Integer' ) . "";
+        $Self->{DBObject}->Prepare(
+            SQL  => "SELECT name FROM queue WHERE id = ?",
+            Bind => [ \$Param{QueueID} ],
+        );
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # store result
@@ -569,20 +515,13 @@ sub GetFollowUpOption {
         return;
     }
 
-    # db quote
-    for (qw(QueueID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # fetch queues data
     my $Return = '';
-    my $SQL = "SELECT sf.name "
-        . " FROM "
-        . " follow_up_possible sf, queue sq "
-        . " WHERE "
-        . " sq.follow_up_id = sf.id AND "
-        . " sq.id = $Param{QueueID}";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT sf.name FROM follow_up_possible sf, queue sq "
+            . " WHERE sq.follow_up_id = sf.id AND sq.id = ?",
+        Bind => [ \$Param{QueueID} ],
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Return = $Row[0];
     }
@@ -606,19 +545,12 @@ sub GetFollowUpLockOption {
         return;
     }
 
-    # db quote
-    for (qw(QueueID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # fetch queues data
     my $Return = 0;
-    my $SQL = "SELECT sq.follow_up_lock "
-        . " FROM "
-        . " queue sq "
-        . " WHERE "
-        . " sq.id = $Param{QueueID}";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL  => "SELECT sq.follow_up_lock FROM queue sq WHERE sq.id = ?",
+        Bind => [ \$Param{QueueID} ],
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Return = $Row[0];
     }
@@ -647,15 +579,11 @@ sub GetQueueGroupID {
         return $Self->{"QG::GetQueueGroupID::$Param{QueueID}"};
     }
 
-    # db quote
-    for (qw(QueueID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # get group id from database
     my $GroupID = '';
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT group_id FROM queue WHERE id = $Param{QueueID}",
+        SQL   => "SELECT group_id FROM queue WHERE id = ?",
+        Bind  => [ \$Param{QueueID} ],
         Limit => 1
     );
 
@@ -739,8 +667,7 @@ sub QueueAdd {
 
     for ( qw(UnlockTimeout FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
         FollowUpLock SystemAddressID SalutationID SignatureID
-        FollowUpID FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify DefaultSignKey Calendar)
-        ) {
+        FollowUpID FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify DefaultSignKey Calendar) ) {
 
         # these are coming from Config.pm
         # I added default values in the Load Routine
@@ -748,11 +675,8 @@ sub QueueAdd {
     }
 
     # check needed stuff
-    for (
-        qw(Name GroupID SystemAddressID SalutationID SignatureID MoveNotify StateNotify
-        LockNotify OwnerNotify ValidID UserID)
-        )
-    {
+    for ( qw(Name GroupID SystemAddressID SalutationID SignatureID MoveNotify StateNotify
+        LockNotify OwnerNotify ValidID UserID) ) {
         if ( !defined( $Param{$_} ) ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -778,112 +702,65 @@ sub QueueAdd {
         return;
     }
 
-    # quote db
-    for (qw(Name DefaultSignKey Calendar Comment)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
+    return if ! $Self->{DBObject}->Do(
+        SQL => "INSERT INTO queue (name, group_id, unlock_timeout, system_address_id, "
+            . " calendar_name, default_sign_key, salutation_id, signature_id, "
+            . " first_response_time, first_response_notify, update_time, "
+            . " update_notify, solution_time, solution_notify, follow_up_id, "
+            . " follow_up_lock, state_notify, move_notify, lock_notify, "
+            . " owner_notify, valid_id, comments, create_time, create_by, "
+            . " change_time, change_by) VALUES "
+            . " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+            . " ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
+        Bind => [
+            \$Param{Name}, \$Param{GroupID}, \$Param{UnlockTimeout}, \$Param{SystemAddressID},
+            \$Param{Calendar}, \$Param{DefaultSignKey}, \$Param{SalutationID}, \$Param{SignatureID},
+            \$Param{FirstResponseTime}, \$Param{FirstResponseNotify}, \$Param{UpdateTime},
+            \$Param{UpdateNotify}, \$Param{SolutionTime}, \$Param{SolutionNotify},
+            \$Param{FollowUpID}, \$Param{FollowUpLock}, \$Param{StateNotify},
+            \$Param{MoveNotify}, \$Param{LockNotify}, \$Param{OwnerNotify},
+            \$Param{ValidID}, \$Param{Comment}, \$Param{UserID}, \$Param{UserID},
+        ],
+    );
+
+    # get new queue id
+    my $QueueID = '';
+    $Self->{DBObject}->Prepare(
+        SQL  => "SELECT id FROM queue WHERE name = ?",
+        Bind => [ \$Param{Name} ],
+    );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $QueueID = $Row[0];
     }
-    for (qw(GroupID UnlockTimeout SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock
-        FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
-        MoveNotify StateNotify ValidID)
-        ) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-    my $SQL
-        = "INSERT INTO queue "
-        . "(name, "
-        . " group_id, "
-        . " unlock_timeout, "
-        . " system_address_id, "
-        . " calendar_name, "
-        . " default_sign_key, "
-        . " salutation_id, "
-        . " signature_id, "
-        . " first_response_time, "
-        . " first_response_notify, "
-        . " update_time, "
-        . " update_notify, "
-        . " solution_time, "
-        . " solution_notify, "
-        . " follow_up_id, "
-        . " follow_up_lock, "
-        . " state_notify, "
-        . " move_notify, "
-        . " lock_notify, "
-        . " owner_notify, "
-        . " valid_id, "
-        . " comments, "
-        . " create_time, "
-        . " create_by, "
-        . " change_time, "
-        . " change_by)"
-        . " VALUES "
-        . " ('$Param{Name}', "
-        . " $Param{GroupID}, "
-        . " $Param{UnlockTimeout}, "
-        . " $Param{SystemAddressID}, "
-        . " '$Param{Calendar}', "
-        . " '$Param{DefaultSignKey}', "
-        . " $Param{SalutationID}, "
-        . " $Param{SignatureID}, "
-        . " $Param{FirstResponseTime}, "
-        . " $Param{FirstResponseNotify}, "
-        . " $Param{UpdateTime}, "
-        . " $Param{UpdateNotify}, "
-        . " $Param{SolutionTime}, "
-        . " $Param{SolutionNotify}, "
-        . " $Param{FollowUpID}, "
-        . " $Param{FollowUpLock}, "
-        . " $Param{StateNotify}, "
-        . " $Param{MoveNotify}, "
-        . " $Param{LockNotify}, "
-        . " $Param{OwnerNotify}, "
-        . " $Param{ValidID}, "
-        . " '$Param{Comment}', "
-        . " current_timestamp, "
-        . " $Param{UserID}, "
-        . " current_timestamp, "
-        . " $Param{UserID})";
 
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-
-        # get new queue id
-        $SQL = "SELECT id FROM queue WHERE name = '$Param{Name}'";
-        my $QueueID = '';
-        $Self->{DBObject}->Prepare( SQL => $SQL );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $QueueID = $Row[0];
-        }
-
-        # add default responses (if needed), add response by name
-        if ( $Self->{ConfigObject}->Get('StdResponse2QueueByCreating') ) {
-            for ( @{ $Self->{ConfigObject}->{StdResponse2QueueByCreating} } ) {
-                my $StdResponseID
-                    = $Self->{StdResponseObject}->StdResponseLookup( StdResponse => $_ );
-                if ($StdResponseID) {
-                    $Self->SetQueueStdResponse(
-                        QueueID    => $QueueID,
-                        ResponseID => $StdResponseID,
-                        UserID     => $Param{UserID},
-                    );
-                }
-            }
-        }
-
-        # add response by id
-        if ( $Self->{ConfigObject}->Get('StdResponseID2QueueByCreating') ) {
-            for ( @{ $Self->{ConfigObject}->{StdResponseID2QueueByCreating} } ) {
+    # add default responses (if needed), add response by name
+    if ( $Self->{ConfigObject}->Get('StdResponse2QueueByCreating') ) {
+        for ( @{ $Self->{ConfigObject}->{StdResponse2QueueByCreating} } ) {
+            my $StdResponseID = $Self->{StdResponseObject}->StdResponseLookup(
+                StdResponse => $_,
+            );
+            if ($StdResponseID) {
                 $Self->SetQueueStdResponse(
                     QueueID    => $QueueID,
-                    ResponseID => $_,
+                    ResponseID => $StdResponseID,
                     UserID     => $Param{UserID},
                 );
             }
         }
-        return $QueueID;
     }
-    else {
-        return;
+
+    # add response by id
+    if ( $Self->{ConfigObject}->Get('StdResponseID2QueueByCreating') ) {
+        for ( @{ $Self->{ConfigObject}->{StdResponseID2QueueByCreating} } ) {
+            $Self->SetQueueStdResponse(
+                QueueID    => $QueueID,
+                ResponseID => $_,
+                UserID     => $Param{UserID},
+            );
+        }
     }
+
+    return $QueueID;
 }
 
 =item QueueGet()
@@ -920,8 +797,7 @@ sub QueueGet {
     }
 
     # sql
-    my $SQL
-        = "SELECT q.name, q.group_id, q.unlock_timeout, "
+    my $SQL = "SELECT q.name, q.group_id, q.unlock_timeout, "
         . " q.system_address_id, q.salutation_id, q.signature_id, q.comments, q.valid_id, "
         . " q.first_response_time, q.first_response_notify, "
         . " q.update_time, q.update_notify, q.solution_time, q.solution_notify, "
@@ -971,7 +847,7 @@ sub QueueGet {
             LockNotify          => $Data[21],
             OwnerNotify         => $Data[22],
             DefaultSignKey      => $Data[23],
-            Calendar            => $Data[24],
+            Calendar            => $Data[24] || '',
         );
     }
 
@@ -1048,28 +924,11 @@ sub QueueUpdate {
         }
     }
 
-    # db quote
-    my %DB = ();
-
     # check !!!
-    for (
-        qw(UnlockTimeout FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify
+    for ( qw(UnlockTimeout FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify
         FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
-        FollowUpID FollowUpLock DefaultSignKey Calendar)
-        )
-    {
+        FollowUpID FollowUpLock DefaultSignKey Calendar) ) {
         $Param{$_} = 0 if ( !$Param{$_} );
-    }
-    for (qw(Name DefaultSignKey Calendar Comment)) {
-        $DB{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
-    }
-    for (
-        qw(QueueID GroupID UnlockTimeout SystemAddressID SalutationID SignatureID FollowUpID
-        FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
-        FollowUpLock StateNotify LockNotify OwnerNotify MoveNotify StateNotify ValidID UserID)
-        )
-    {
-        $DB{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
 
     # cleanup queue name
@@ -1102,62 +961,45 @@ sub QueueUpdate {
     }
 
     # sql
-    my $SQL
-        = "UPDATE queue SET name = '$DB{Name}', "
-        . " comments = '$DB{Comment}', "
-        . " group_id = $DB{GroupID}, "
-        . " unlock_timeout = $DB{UnlockTimeout}, "
-        . " first_response_time = $DB{FirstResponseTime}, "
-        . " first_response_notify = $DB{FirstResponseNotify}, "
-        . " update_time = $DB{UpdateTime}, "
-        . " update_notify = $DB{UpdateNotify}, "
-        . " solution_time = $DB{SolutionTime}, "
-        . " solution_notify = $DB{SolutionNotify}, "
-        . " follow_up_id = $DB{FollowUpID}, "
-        . " follow_up_lock = $DB{FollowUpLock}, "
-        . " system_address_id = $DB{SystemAddressID}, "
-        . " calendar_name = '$DB{Calendar}', "
-        . " default_sign_key = '$DB{DefaultSignKey}', "
-        . " salutation_id = $DB{SalutationID}, "
-        . " signature_id = $DB{SignatureID}, "
-        . " move_notify = $DB{MoveNotify}, "
-        . " state_notify = $DB{StateNotify}, "
-        . " lock_notify = $DB{LockNotify}, "
-        . " owner_notify = $DB{OwnerNotify}, "
-        . " valid_id = $DB{ValidID}, "
-        . " change_time = current_timestamp, "
-        . " change_by = $DB{UserID} "
-        . " WHERE id = $DB{QueueID}";
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
+    return if ! $Self->{DBObject}->Do(
+        SQL => "UPDATE queue SET name = ?, comments = ?, group_id = ?, "
+            . " unlock_timeout = ?, first_response_time = ?, first_response_notify = ?, "
+            . " update_time = ?, update_notify = ?, solution_time = ?, "
+            . " solution_notify = ?, follow_up_id = ?, follow_up_lock = ?, "
+            . " system_address_id = ?, calendar_name = ?, default_sign_key = ?, "
+            . " salutation_id = ?, signature_id = ?, move_notify = ?, "
+            . " state_notify = ?, lock_notify = ?, owner_notify = ?, "
+            . " valid_id = ?, change_time = current_timestamp, change_by = ? "
+            . " WHERE id = ?",
+        Bind => [
+            \$Param{Name}, \$Param{Comment}, \$Param{GroupID}, \$Param{UnlockTimeout},
+            \$Param{FirstResponseTime}, \$Param{FirstResponseNotify}, \$Param{UpdateTime},
+            \$Param{UpdateNotify}, \$Param{SolutionTime}, \$Param{SolutionNotify},
+            \$Param{FollowUpID}, \$Param{FollowUpLock}, \$Param{SystemAddressID},
+            \$Param{Calendar}, \$Param{DefaultSignKey}, \$Param{SalutationID},
+            \$Param{SignatureID}, \$Param{MoveNotify}, \$Param{StateNotify},
+            \$Param{LockNotify}, \$Param{OwnerNotify}, \$Param{ValidID},
+            \$Param{UserID}, \$Param{QueueID},
+        ],
+    );
 
-        # updated all sub queue names
-        my @ParentQueue = split( /::/, $OldQueue{Name} );
-        my %AllQueue = $Self->{DBObject}->GetTableData(
-            Table => 'queue',
-            What  => 'id, name',
-        );
-        for ( keys %AllQueue ) {
-            my @SubQueue = split( /::/, $AllQueue{$_} );
-            if ( $#SubQueue > $#ParentQueue ) {
-                if ( $AllQueue{$_} =~ /^\Q$OldQueue{Name}::\E/i ) {
-                    my $NewQueueName = $AllQueue{$_};
-                    $NewQueueName =~ s/\Q$OldQueue{Name}\E/$Param{Name}/;
-                    $NewQueueName = $Self->{DBObject}->Quote($NewQueueName);
-                    my $SQL
-                        = "UPDATE queue SET "
-                        . " name = '$NewQueueName', "
-                        . " change_time = current_timestamp, "
-                        . " change_by = $DB{UserID} "
-                        . " WHERE id = $_";
-                    $Self->{DBObject}->Do( SQL => $SQL );
-                }
+    # updated all sub queue names
+    my @ParentQueue = split( /::/, $OldQueue{Name} );
+    for my $QueueID ( keys %AllQueue ) {
+        my @SubQueue = split( /::/, $AllQueue{$QueueID} );
+        if ( $#SubQueue > $#ParentQueue ) {
+            if ( $AllQueue{$QueueID} =~ /^\Q$OldQueue{Name}::\E/i ) {
+                my $NewQueueName = $AllQueue{$QueueID};
+                $NewQueueName =~ s/\Q$OldQueue{Name}\E/$Param{Name}/;
+                $Self->{DBObject}->Do(
+                    SQL => "UPDATE queue SET name = ?, change_time = current_timestamp, "
+                        . " change_by = ? WHERE id = ?",
+                    Bind => [ \$NewQueueName, \$Param{UserID}, \$QueueID ],
+                );
             }
         }
-        return 1;
     }
-    else {
-        return;
-    }
+    return 1;
 }
 
 =item QueuePreferencesSet()
@@ -1210,6 +1052,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.80 $ $Date: 2008-02-20 12:14:32 $
+$Revision: 1.81 $ $Date: 2008-03-05 23:10:08 $
 
 =cut

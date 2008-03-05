@@ -2,7 +2,7 @@
 # Kernel/System/Queue/PreferencesDB.pm - some user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesDB.pm,v 1.2 2008-02-25 10:50:09 martin Exp $
+# $Id: PreferencesDB.pm,v 1.3 2008-03-05 23:10:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -51,43 +51,20 @@ sub QueuePreferencesSet {
         }
     }
 
-    # db quote
-    for (qw(Key Value)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
-    for (qw(QueueID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
-    }
-
     # delete old data
-    if (!$Self->{DBObject}->Do(
-        SQL => "DELETE FROM $Self->{PreferencesTable} ".
-            " WHERE ".
-            " $Self->{PreferencesTableQueueID} = $Param{QueueID} ".
-            " AND ".
-            " $Self->{PreferencesTableKey} = '$Param{Key}'",
-    )) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Can't delete $Self->{PreferencesTable}!",
-        );
-        return;
-    }
+    return if !$Self->{DBObject}->Do(
+        SQL => "DELETE FROM $Self->{PreferencesTable} WHERE "
+            . "$Self->{PreferencesTableQueueID} = ? AND $Self->{PreferencesTableKey} = ?",
+        Bind => [ \$Param{QueueID}, \$Param{Key} ],
+    );
 
     # insert new data
-    if (!$Self->{DBObject}->Do(
-        SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableQueueID}, ".
-            " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) " .
-            " VALUES ($Param{QueueID}, '$Param{Key}', '$Param{Value}')",
-    )) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Can't insert new $Self->{PreferencesTable}!",
-        );
-        return;
-    }
-
-    return 1;
+    return $Self->{DBObject}->Do(
+        SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableQueueID}, "
+            . " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) "
+            . " VALUES (?, ?, ?)",
+        Bind => [ \$Param{QueueID}, \$Param{Key}, \$Param{Value} ],
+    );
 }
 
 sub QueuePreferencesGet {
@@ -106,20 +83,13 @@ sub QueuePreferencesGet {
         return;
     }
 
-    # db quote
-    for (qw(QueueID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
-    }
-
     # get preferences
+    return if ! $Self->{DBObject}->Prepare(
+        SQL => "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} "
+            . " FROM $Self->{PreferencesTable} WHERE $Self->{PreferencesTableQueueID} = ?",
+        Bind => [ \$Param{QueueID} ],
+    );
     my %Data;
-    my $SQL = "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} " .
-        " FROM " .
-        " $Self->{PreferencesTable} ".
-        " WHERE " .
-        " $Self->{PreferencesTableQueueID} = $Param{QueueID}";
-
-    $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Data{$Row[0]} = $Row[1];
     }
