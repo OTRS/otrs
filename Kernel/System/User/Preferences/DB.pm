@@ -1,12 +1,12 @@
 # --
 # Kernel/System/User/Preferences/DB.pm - some user functions
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.14 2008-01-15 18:39:49 mh Exp $
+# $Id: DB.pm,v 1.15 2008-03-05 01:54:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::User::Preferences::DB;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,44 +53,20 @@ sub SetPreferences {
         }
     }
 
-    # db quote
-    for (qw(Key Value)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    for (qw(UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # delete old data
-    if (!$Self->{DBObject}->Do(
-                  SQL => "DELETE FROM $Self->{PreferencesTable} "
-                . " WHERE "
-                . " $Self->{PreferencesTableUserID} = $Param{UserID} " . " AND "
-                . " $Self->{PreferencesTableKey} = '$Param{Key}'",
-        )
-        )
-    {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't delete $Self->{PreferencesTable}!",
-        );
-        return;
-    }
+    return if ! $Self->{DBObject}->Do(
+        SQL => "DELETE FROM $Self->{PreferencesTable} WHERE "
+            . " $Self->{PreferencesTableUserID} = ? AND $Self->{PreferencesTableKey} = ?",
+        Bind => [ \$Param{UserID}, \$Param{Key} ],
+    );
 
     # insert new data
-    if (!$Self->{DBObject}->Do(
-                  SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableUserID}, "
-                . " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) "
-                . " VALUES ($Param{UserID}, '$Param{Key}', '$Param{Value}')",
-        )
-        )
-    {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't insert new $Self->{PreferencesTable}!",
-        );
-        return;
-    }
+    return if !$Self->{DBObject}->Do(
+        SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableUserID}, "
+            . " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) "
+            . " VALUES (?, ?, ?)",
+        Bind => [ \$Param{UserID}, \$Param{Key}, \$Param{Value} ],
+    );
 
     return 1;
 }
@@ -108,20 +84,12 @@ sub GetPreferences {
         }
     }
 
-    # db quote
-    for (qw(UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # get preferences
-    my $SQL
-        = "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} "
-        . " FROM "
-        . " $Self->{PreferencesTable} "
-        . " WHERE "
-        . " $Self->{PreferencesTableUserID} = $Param{UserID}";
-
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL  => "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} "
+            . " FROM $Self->{PreferencesTable} WHERE $Self->{PreferencesTableUserID} = ?",
+        Bind => [ \$Param{UserID} ],
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
@@ -138,8 +106,7 @@ sub SearchPreferences {
     my $Value  = $Param{Value} || '';
 
     # get preferences
-    my $SQL
-        = "SELECT $Self->{PreferencesTableUserID}, $Self->{PreferencesTableValue} "
+    my $SQL = "SELECT $Self->{PreferencesTableUserID}, $Self->{PreferencesTableValue} "
         . " FROM "
         . " $Self->{PreferencesTable} "
         . " WHERE "

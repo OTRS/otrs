@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.12 2007-10-02 10:35:04 mh Exp $
+# $Id: DB.pm,v 1.13 2008-03-05 01:54:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Web::UploadCache::DB;
@@ -16,7 +16,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,8 +52,10 @@ sub FormIDRemove {
             return;
         }
     }
-    return $Self->{DBObject}
-        ->Do( SQL => "DELETE FROM web_upload_cache WHERE form_id = '$Param{FormID}'", );
+    return $Self->{DBObject}->Do(
+        SQL  => "DELETE FROM web_upload_cache WHERE form_id = ?",
+        Bind => [ \$Param{FormID} ],
+    );
 }
 
 sub FormIDAddFile {
@@ -79,21 +81,17 @@ sub FormIDAddFile {
         $Param{Content} = encode_base64( $Param{Content} );
     }
 
-    # db quote (just not Content, use db Bind values)
-    for (qw(FormID Filename ContentType Filesize)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    my $SQL
-        = "INSERT INTO web_upload_cache "
-        . " (form_id, filename, content_type, content_size, content, "
-        . " create_time_unix) "
-        . " VALUES "
-        . " ('$Param{FormID}', '$Param{Filename}', '$Param{ContentType}', "
-        . " '$Param{Filesize}', ?, "
-        . time() . ")";
-
     # write attachment to db
-    return $Self->{DBObject}->Do( SQL => $SQL, Bind => [ \$Param{Content} ] );
+    my $Time = time();
+    return $Self->{DBObject}->Do(
+        SQL =>  "INSERT INTO web_upload_cache "
+            . " (form_id, filename, content_type, content_size, content, create_time_unix)"
+            . " VALUES  (?, ?, ?, ?, ?, ?)",
+        Bind => [
+            \$Param{FormID}, \$Param{Filename}, \$Param{ContentType}, \$Param{Filesize},
+            \$Param{Content}, \$Time,
+        ],
+    );
 }
 
 sub FormIDRemoveFile {
@@ -109,12 +107,9 @@ sub FormIDRemoveFile {
     my $ID    = $Param{FileID} - 1;
     $Param{Filename} = $Index[$ID]->{Filename};
 
-    # db quote
-    for (qw(FormID Filename)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    return $Self->{DBObject}->Do( SQL =>
-            "DELETE FROM web_upload_cache WHERE form_id = '$Param{FormID}' AND filename = '$Param{Filename}'",
+    return $Self->{DBObject}->Do(
+        SQL  => "DELETE FROM web_upload_cache WHERE form_id = ? AND filename = ?",
+        Bind => [ \$Param{FormID}, \$Param{Filename} ],
     );
 }
 
@@ -129,13 +124,12 @@ sub FormIDGetAllFilesData {
             return;
         }
     }
-    my $SQL
-        = "SELECT filename, content_type, content_size, content FROM web_upload_cache "
-        . " WHERE "
-        . " form_id = '"
-        . $Self->{DBObject}->Quote( $Param{FormID} ) . "'"
-        . " ORDER BY create_time_unix";
-    $Self->{DBObject}->Prepare( SQL => $SQL, Encode => [ 1, 1, 1, 0 ] );
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT filename, content_type, content_size, content FROM web_upload_cache "
+            . " WHERE form_id = ? ORDER BY create_time_unix",
+        Bind   => [ \$Param{FormID} ],
+        Encode => [ 1, 1, 1, 0 ],
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Counter++;
 
@@ -182,13 +176,11 @@ sub FormIDGetAllFilesMeta {
             return;
         }
     }
-    my $SQL
-        = "SELECT filename, content_type, content_size FROM web_upload_cache "
-        . " WHERE "
-        . " form_id = '"
-        . $Self->{DBObject}->Quote( $Param{FormID} ) . "'"
-        . " ORDER BY create_time_unix";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL  => "SELECT filename, content_type, content_size FROM web_upload_cache "
+            . " WHERE form_id = ? ORDER BY create_time_unix",
+        Bind => [ \$Param{FormID} ],
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Counter++;
 
@@ -222,8 +214,10 @@ sub FormIDCleanUp {
     my ( $Self, %Param ) = @_;
 
     my $CurrentTile = time() - ( 60 * 60 * 24 * 1 );
-    return $Self->{DBObject}
-        ->Do( SQL => "DELETE FROM web_upload_cache WHERE create_time_unix < $CurrentTile", );
+    return $Self->{DBObject}->Do(
+        SQL  => "DELETE FROM web_upload_cache WHERE create_time_unix < ?",
+        Bind => [ \$CurrentTile ],
+    );
 }
 
 1;
