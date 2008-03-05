@@ -2,7 +2,7 @@
 # Kernel/System/User/Preferences/DB.pm - some user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.15 2008-03-05 01:54:55 martin Exp $
+# $Id: DB.pm,v 1.16 2008-03-05 23:10:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -61,20 +61,16 @@ sub SetPreferences {
     );
 
     # insert new data
-    return if !$Self->{DBObject}->Do(
+    return $Self->{DBObject}->Do(
         SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableUserID}, "
             . " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) "
             . " VALUES (?, ?, ?)",
         Bind => [ \$Param{UserID}, \$Param{Key}, \$Param{Value} ],
     );
-
-    return 1;
 }
 
 sub GetPreferences {
     my ( $Self, %Param ) = @_;
-
-    my %Data;
 
     # check needed stuff
     for (qw(UserID)) {
@@ -85,11 +81,12 @@ sub GetPreferences {
     }
 
     # get preferences
-    $Self->{DBObject}->Prepare(
+    return if ! $Self->{DBObject}->Prepare(
         SQL  => "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} "
             . " FROM $Self->{PreferencesTable} WHERE $Self->{PreferencesTableUserID} = ?",
         Bind => [ \$Param{UserID} ],
     );
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
