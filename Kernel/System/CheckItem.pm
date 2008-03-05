@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spelling module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.25 2008-02-01 17:24:52 ub Exp $
+# $Id: CheckItem.pm,v 1.26 2008-03-05 11:46:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -224,16 +224,15 @@ clean a given string
 sub StringClean {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    if (
-        !( $Param{StringRef} && ref $Param{StringRef} eq 'SCALAR' && defined ${ $Param{StringRef} } )
-    ) {
+    if ( !$Param{StringRef} || ref $Param{StringRef} ne 'SCALAR' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Need StringRef as string reference!'
+            Message  => 'Need a scalar reference!'
         );
         return;
     }
+
+    return 1 if !${ $Param{StringRef} };
 
     # set default values
     $Param{TrimLeft}  = defined $Param{TrimLeft}  ? $Param{TrimLeft}  : 1;
@@ -273,6 +272,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2008-02-01 17:24:52 $
+$Revision: 1.26 $ $Date: 2008-03-05 11:46:42 $
 
 =cut
