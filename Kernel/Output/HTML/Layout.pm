@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.51.2.7 2008-03-03 13:44:45 mh Exp $
+# $Id: Layout.pm,v 1.51.2.8 2008-03-05 16:57:56 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.51.2.7 $';
+$VERSION = '$Revision: 1.51.2.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1442,6 +1442,7 @@ sub Ascii2Html {
               | <                           # "
               | &gt;                        # "
               | &lt;                        # "
+              | $                           # bug# 2715
             )
         }
         {
@@ -1454,7 +1455,9 @@ sub Ascii2Html {
             $Link =~ s/^\s//g;
             $Link =~ s/ //g;
             $Counter++;
-            if ($Link !~ /^(http|https|ftp):\/\//) {
+            if (
+                $Link !~ m{^ ( http | https | ftp ) : \/ \/ }xi
+            ) {
                 $Link = "http://$Link";
             }
             my $Length = length($Link);
@@ -3431,6 +3434,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.51.2.7 $ $Date: 2008-03-03 13:44:45 $
+$Revision: 1.51.2.8 $ $Date: 2008-03-05 16:57:56 $
 
 =cut

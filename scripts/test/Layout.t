@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.3.2.6 2008-02-25 15:22:18 tr Exp $
+# $Id: Layout.t,v 1.3.2.7 2008-03-05 16:57:56 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -291,16 +291,16 @@ $Self->True(
 
 # html quoting 2
 my @Tests = (
-#    {
-#        Name => 'Ascii2Html() - #1',
-#        String => 'http://example.com/',
-#        Result => '<a href="http://example.com/" target="_blank" title="http://example.com/">http://example.com/</a>',
-#    },
-#    {
-#        Name => 'Ascii2Html() - #2',
-#        String => ' http://example.com/',
-#        Result => ' <a href="http://example.com/" target="_blank" title="http://example.com/">http://example.com/</a>',
-#    },
+    {
+        Name => 'Ascii2Html() - #1',
+        String => 'http://example.com/',
+        Result => '<a href="http://example.com/" target="_blank" title="http://example.com/">http://example.com/</a>',
+    },
+    {
+        Name => 'Ascii2Html() - #2',
+        String => ' http://example.com/',
+        Result => ' <a href="http://example.com/" target="_blank" title="http://example.com/">http://example.com/</a>',
+    },
     {
         Name => 'Ascii2Html() - #3',
         String => ' http://example.com/ ',
@@ -316,21 +316,21 @@ my @Tests = (
         String => ' http://example.com. ',
         Result => ' <a href="http://example.com" target="_blank" title="http://example.com">http://example.com</a>. ',
     },
-#    {
-#        Name => 'Ascii2Html() - #6',
-#        String => ' www.example.com ',
-#        Result => ' <a href="http://www.example.com" target="_blank" title="http://www.example.com">http://www.example.com</a>. ',
-#    },
+    {
+        Name => 'Ascii2Html() - #6',
+        String => ' www.example.com ',
+        Result => ' <a href="http://www.example.com" target="_blank" title="http://www.example.com">http://www.example.com</a> ',
+    },
     {
         Name => 'Ascii2Html() - #7',
         String => ' ftp://ftp.example.com. ',
         Result => ' <a href="ftp://ftp.example.com" target="_blank" title="ftp://ftp.example.com">ftp://ftp.example.com</a>. ',
     },
-#    {
-#        Name => 'Ascii2Html() - #8',
-#        String => ' HTTP://www.example.com, ',
-#        Result => ' <a href="HTTP://www.example.com" target="_blank" title="HTTP://www.example.com">HTTP://www.example.com</a>, ',
-#    },
+    {
+        Name => 'Ascii2Html() - #8',
+        String => ' HTTP://www.example.com, ',
+        Result => ' <a href="HTTP://www.example.com" target="_blank" title="HTTP://www.example.com">HTTP://www.example.com</a>, ',
+    },
     {
         Name => 'Ascii2Html() - #9',
         String => ' http://example.com?some_long_url=yes&some_what_else=index.html ',
