@@ -1,12 +1,12 @@
 # --
 # Kernel/System/PID.pm - all system pid functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PID.pm,v 1.9 2007-10-05 14:11:22 mh Exp $
+# $Id: PID.pm,v 1.10 2008-03-05 19:49:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::PID;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -102,8 +102,7 @@ sub PIDCreate {
         if ( $ProcessID{Created} > ( time() - ( 60 * 60 ) ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message =>
-                    "Can't create PID $ProcessID{Name}, because it's already running ($ProcessID{Host}/$ProcessID{PID})!",
+                Message => "Can't create PID $ProcessID{Name}, because it's already running ($ProcessID{Host}/$ProcessID{PID})!",
             );
             return;
         }
@@ -119,24 +118,14 @@ sub PIDCreate {
     # remember to delete it in DESTROY
     $Self->{Name} = $Param{Name};
 
-    # db quote
-    for (qw(Name)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-
     # sql
-    my $SQL
-        = "INSERT INTO process_id "
-        . " (process_name, process_id, process_host, process_create) "
-        . " VALUES "
-        . " ('$Param{Name}', '$Self->{PID}', '$Self->{Host}', "
-        . time() . ")";
-
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        return 1;
-    }
-
-    return;
+    my $Time = time();
+    return $Self->{DBObject}->Do(
+        SQL => "INSERT INTO process_id "
+            . " (process_name, process_id, process_host, process_create) "
+            . " VALUES (?, ?, ?, ?)",
+        Bind => [ \$Param{Name}, \$Self->{PID}, \$Self->{Host}, \$Time ],
+    );
 }
 
 =item PIDGet()
@@ -160,21 +149,12 @@ sub PIDGet {
         }
     }
 
-    # db quote
-    for (qw(Name)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-
     # sql
-    my $SQL
-        = "SELECT process_name, process_id, process_host, process_create "
-        . " FROM "
-        . " process_id "
-        . " WHERE "
-        . " process_name = '$Param{Name}'";
-    if ( !$Self->{DBObject}->Prepare( SQL => $SQL ) ) {
-        return;
-    }
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "SELECT process_name, process_id, process_host, process_create "
+            . "FROM process_id WHERE process_name = ?",
+        Bind => [ \$Param{Name} ],
+    );
     my %Data = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
@@ -208,21 +188,11 @@ sub PIDDelete {
         }
     }
 
-    # db quote
-    for (qw(Name)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-
     # sql
-    my $SQL = "DELETE FROM process_id WHERE "
-        . " process_name = '$Param{Name}' AND process_host = '$Self->{Host}'";
-
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        return 1;
-    }
-    else {
-        return;
-    }
+    return $Self->{DBObject}->Do(
+        SQL => "DELETE FROM process_id WHERE process_name = ? AND process_host = ?",
+        Bind => [ \$Param{Name}, \$Self->{Host} ],
+    );
 }
 
 1;
@@ -235,12 +205,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2007-10-05 14:11:22 $
+$Revision: 1.10 $ $Date: 2008-03-05 19:49:05 $
 
 =cut

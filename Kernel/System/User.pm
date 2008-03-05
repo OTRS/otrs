@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.73 2008-02-12 21:58:53 martin Exp $
+# $Id: User.pm,v 1.74 2008-03-05 19:49:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 =head1 NAME
 
@@ -145,23 +145,22 @@ sub GetUserData {
             return %{ $Self->{ 'GetUserData::UserID::' . $Param{UserID} } };
         }
     }
-    my %Data;
 
     # get initial data
+    my @Bind;
     my $SQL = "SELECT $Self->{UserTableUserID}, $Self->{UserTableUser}, "
         . " salutation, first_name, last_name, $Self->{UserTableUserPW}, valid_id "
-        . " FROM "
-        . " $Self->{UserTable} "
-        . " WHERE ";
+        . " FROM $Self->{UserTable} WHERE ";
     if ( $Param{User} ) {
-        $SQL .= " LOWER($Self->{UserTableUser}) = LOWER('"
-            . $Self->{DBObject}->Quote( $Param{User} ) . "')";
+        $SQL .= " LOWER($Self->{UserTableUser}) = LOWER(?)";
+        push ( @Bind, \$Param{User} );
     }
     else {
-        $SQL .= " $Self->{UserTableUserID} = "
-            . $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' ) . "";
+        $SQL .= " $Self->{UserTableUserID} = ?";
+        push ( @Bind, \$Param{UserID} );
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    return if ! $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{UserID}         = $Row[0];
         $Data{UserLogin}      = $Row[1];
@@ -270,62 +269,53 @@ sub UserAdd {
         $Param{UserPw} = $Self->GenerateRandomPassword();
     }
 
-    # quote params
-    for (qw(UserSalutation UserFirstname UserLastname UserLogin UserPw)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
-    }
-    for (qw(ValidID ChangeUserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql
-    my $SQL = "INSERT INTO $Self->{UserTable} "
-        . "(salutation, "
-        . " first_name, "
-        . " last_name, "
-        . " $Self->{UserTableUser}, "
-        . " $Self->{UserTableUserPW}, "
-        . " valid_id, create_time, create_by, change_time, change_by)"
-        . " VALUES "
-        . " ('$Param{UserSalutation}', "
-        . " '$Param{UserFirstname}', "
-        . " '$Param{UserLastname}', "
-        . " '$Param{UserLogin}', "
-        . " '$Param{UserPw}', "
-        . " $Param{ValidID}, current_timestamp, $Param{ChangeUserID}, "
-        . " current_timestamp, $Param{ChangeUserID})";
+    return if ! $Self->{DBObject}->Do(
+        SQL => "INSERT INTO $Self->{UserTable} "
+            . "(salutation, first_name, last_name, "
+            . " $Self->{UserTableUser}, $Self->{UserTableUserPW}, "
+            . " valid_id, create_time, create_by, change_time, change_by)"
+            . " VALUES "
+            . " (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
+        Bind => [
+            \$Param{UserSalutation}, \$Param{UserFirstname}, \$Param{UserLastname},
+            \$Param{UserLogin}, \$Param{UserPw}, \$Param{ValidID},
+            \$Param{ChangeUserID}, \$Param{ChangeUserID},
+        ],
+    );
 
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
+    # get new user id
+    return if ! $Self->{DBObject}->Prepare(
+        SQL  => "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} "
+            . " WHERE LOWER($Self->{UserTableUser}) = LOWER(?)",
+        Bind => [ \$Param{UserLogin} ],
+    );
+    my $UserID = '';
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $UserID = $Row[0];
+    }
 
-        # get new user id
-        my $SQL = "SELECT $Self->{UserTableUserID} "
-            . " FROM "
-            . " $Self->{UserTable} "
-            . " WHERE "
-            . " LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')";
-        my $UserID = '';
-        $Self->{DBObject}->Prepare( SQL => $SQL );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $UserID = $Row[0];
-        }
-
-        # log notice
+    # check if user exists
+    if ( !$UserID ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message =>
-                "User: '$Param{UserLogin}' ID: '$UserID' created successfully ($Param{ChangeUserID})!",
+            Message => "Unable to create User: '$Param{UserLogin}' ($Param{ChangeUserID})!",
         );
-
-        # set password
-        $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPw} );
-
-        # set email address
-        $Self->SetPreferences( UserID => $UserID, Key => 'UserEmail', Value => $Param{UserEmail} );
-        return $UserID;
-    }
-    else {
         return;
     }
+
+    # log notice
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message => "User: '$Param{UserLogin}' ID: '$UserID' created successfully ($Param{ChangeUserID})!",
+    );
+
+    # set password
+    $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPw} );
+
+    # set email address
+    $Self->SetPreferences( UserID => $UserID, Key => 'UserEmail', Value => $Param{UserEmail} );
+    return $UserID;
 }
 
 =item UserUpdate()
@@ -371,49 +361,36 @@ sub UserUpdate {
     # get old user data (pw)
     my %UserData = $Self->GetUserData( UserID => $Param{UserID} );
 
-    # quote params
-    for (qw(UserSalutation UserFirstname UserLastname)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
-    }
-    for (qw(ID ValidID UserID ChangeUserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # update db
-    my $SQL = "UPDATE $Self->{UserTable} SET "
-        . " salutation = '$Param{UserSalutation}', "
-        . " first_name = '$Param{UserFirstname}',"
-        . " last_name = '$Param{UserLastname}', "
-        . " $Self->{UserTableUser} = '$Param{UserLogin}', "
-        . " valid_id = $Param{ValidID}, "
-        . " change_time = current_timestamp, "
-        . " change_by = $Param{ChangeUserID} "
-        . " WHERE $Self->{UserTableUserID} = $Param{UserID}";
+    return if ! $Self->{DBObject}->Do(
+        SQL => "UPDATE $Self->{UserTable} SET salutation = ?, first_name = ?, last_name = ?, "
+            . " $Self->{UserTableUser} = ?, valid_id = ?, "
+            . " change_time = current_timestamp, change_by = ? "
+            . " WHERE $Self->{UserTableUserID} = ?",
+        Bind => [
+            \$Param{UserSalutation}, \$Param{UserFirstname}, \$Param{UserLastname},
+            \$Param{UserLogin}, \$Param{ValidID}, \$Param{ChangeUserID}, \$Param{UserID},
+        ],
+    );
 
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
+    # log notice
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "User: '$Param{UserLogin}' updated successfully ($Param{ChangeUserID})!",
+    );
 
-        # log notice
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "User: '$Param{UserLogin}' updated successfully ($Param{ChangeUserID})!",
-        );
-
-        # check pw
-        if ( $Param{UserPw} ) {
-            $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPw} );
-        }
-
-        # set email address
-        $Self->SetPreferences(
-            UserID => $Param{UserID},
-            Key    => 'UserEmail',
-            Value  => $Param{UserEmail}
-        );
-        return 1;
+    # check pw
+    if ( $Param{UserPw} ) {
+        $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPw} );
     }
-    else {
-        return;
-    }
+
+    # set email address
+    $Self->SetPreferences(
+        UserID => $Param{UserID},
+        Key    => 'UserEmail',
+        Value  => $Param{UserEmail}
+    );
+    return 1;
 }
 
 =item UserSearch()
@@ -518,7 +495,7 @@ sub UserSearch {
     }
 
     # get data
-    $Self->{DBObject}->Prepare(
+    return if ! $Self->{DBObject}->Prepare(
         SQL => $SQL,
         Limit => $Self->{UserSearchListLimit} || $Param{Limit},
     );
@@ -615,32 +592,19 @@ sub SetPassword {
     );
     $Self->SetPreferences( UserID => $User{UserID}, Key => 'UserLastPw', Value => $MD5Pw );
 
-    # db quote
-    for (qw(UserLogin)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    my $NewPw = $Self->{DBObject}->Quote($CryptedPw);
-
     # update db
-    if ($Self->{DBObject}->Do(
-                  SQL => "UPDATE $Self->{UserTable} SET "
-                . " $Self->{UserTableUserPW} = '$NewPw' "
-                . " WHERE "
-                . " LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')",
-        )
-        )
-    {
+    return if ! $Self->{DBObject}->Do(
+        SQL => "UPDATE $Self->{UserTable} SET $Self->{UserTableUserPW} = ? "
+            . " WHERE LOWER($Self->{UserTableUser}) = LOWER(?)",
+        Bind => [ \$CryptedPw, \$Param{UserLogin} ],
+    );
 
-        # log notice
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "User: '$Param{UserLogin}' changed password successfully!",
-        );
-        return 1;
-    }
-    else {
-        return;
-    }
+    # log notice
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "User: '$Param{UserLogin}' changed password successfully!",
+    );
+    return 1;
 }
 
 =item UserLookup()
@@ -666,12 +630,6 @@ sub UserLookup {
         return;
     }
     if ( $Param{UserLogin} ) {
-        my $ID;
-
-        # db quote
-        for (qw(UserLogin)) {
-            $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-        }
 
         # check cache
         if ( $Self->{ 'UserLookup::ID::' . $Param{UserLogin} } ) {
@@ -679,9 +637,12 @@ sub UserLookup {
         }
 
         # build sql query
-        my $SQL = "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} "
-            . " WHERE LOWER($Self->{UserTableUser}) = LOWER('$Param{UserLogin}')";
-        $Self->{DBObject}->Prepare( SQL => $SQL );
+        return if ! $Self->{DBObject}->Prepare(
+            SQL => "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} "
+                . " WHERE LOWER($Self->{UserTableUser}) = LOWER(?)",
+            Bind => [ \$Param{UserLogin} ],
+        );
+        my $ID;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $ID = $Row[0];
         }
@@ -700,12 +661,6 @@ sub UserLookup {
         }
     }
     else {
-        my $Login;
-
-        # db quote
-        for (qw(UserID)) {
-            $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-        }
 
         # check cache
         if ( $Self->{ 'UserLookup::Login::' . $Param{UserID} } ) {
@@ -713,9 +668,12 @@ sub UserLookup {
         }
 
         # build sql query
-        my $SQL = "SELECT $Self->{UserTableUser} FROM $Self->{UserTable} "
-            . " WHERE $Self->{UserTableUserID} = $Param{UserID}";
-        $Self->{DBObject}->Prepare( SQL => $SQL );
+        return if ! $Self->{DBObject}->Prepare(
+            SQL => "SELECT $Self->{UserTableUser} FROM $Self->{UserTable} "
+                . " WHERE $Self->{UserTableUserID} = ?",
+            Bind => [ \$Param{UserID} ],
+        );
+        my $Login;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Login = $Row[0];
         }
@@ -986,6 +944,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.73 $ $Date: 2008-02-12 21:58:53 $
+$Revision: 1.74 $ $Date: 2008-03-05 19:49:05 $
 
 =cut
