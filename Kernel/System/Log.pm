@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Log.pm - log wapper
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Log.pm,v 1.45 2007-10-19 10:48:06 mh Exp $
+# $Id: Log.pm,v 1.46 2008-03-06 13:43:00 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Log;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -147,8 +147,11 @@ sub Log {
 
             # print line if upper caller module exists
             if ($Line1) {
-                my $Version = $Package1->VERSION;
-                $Error .= "   Module: $Subroutine2 (v$Version) Line: $Line1\n";
+                my $VersionString
+                    = defined $Package1->VERSION
+                        ? 'v' . $Package1->VERSION
+                        : 'unknown version';
+                $Error .= "   Module: $Subroutine2 ($VersionString) Line: $Line1\n";
             }
 
             # return if there is no upper caller module
@@ -290,10 +293,10 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2007-10-19 10:48:06 $
+$Revision: 1.46 $ $Date: 2008-03-06 13:43:00 $
 
 =cut

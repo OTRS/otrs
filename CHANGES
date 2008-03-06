@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.595 2008-03-06 10:18:51 tr Exp $
+# $Id: CHANGES,v 1.596 2008-03-06 13:43:00 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/03/06) Fixed use of uninitialized value in Log.pm (visible when
+    executed in ModPerl environment).
  - (2008/03/02) Added title of object to div tag of linked objects to have an
     preview to the content of a linked object.
  - (2008/03/01) Added missing ticket title to ticket search mask in agent
