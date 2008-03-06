@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentStats.pm - stats module
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.33.2.5 2007-11-28 06:58:51 tr Exp $
+# $Id: AgentStats.pm,v 1.33.2.6 2008-03-06 10:17:44 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AgentStats;
@@ -16,7 +16,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33.2.5 $';
+$VERSION = '$Revision: 1.33.2.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1941,6 +1941,8 @@ sub Run {
         $Self->_ColumnAndRowTranslation(
             StatArrayRef => \@StatArray,
             HeadArrayRef => $HeadArrayRef,
+            StatRef      => $Stat,
+            ExchangeAxis => $Param{ExchangeAxis},
         );
 
         # csv output
@@ -2300,9 +2302,10 @@ sub _ColumnAndRowTranslation {
     my ( $Self, %Param ) = @_;
 
     # check if need params are available
-    for my $NeededParam (qw(StatArrayRef HeadArrayRef)) {
+    for my $NeededParam (qw(StatArrayRef HeadArrayRef StatRef)) {
         if ( !$Param{$NeededParam} ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "_ColumnAndRowTranslation: Need $NeededParam!" );
+            return $Self->{LayoutObject}
+                ->ErrorScreen( Message => "_ColumnAndRowTranslation: Need $NeededParam!" );
         }
     }
 
@@ -2315,14 +2318,77 @@ sub _ColumnAndRowTranslation {
         UserLanguage => $Self->{UserLanguage} || 'en',
     );
 
-    # translate the headline
-    for my $Word (@{$Param{HeadArrayRef}}) {
-        $Word = $Self->{LanguageObject}->Get($Word);
+    # find out, if the column or row names should be translated
+    my %Translation;
+    for my $Use (qw( UseAsXvalue UseAsValueSeries )) {
+        my @Array   = @{ $Param{StatRef}->{$Use} };
+
+        ELEMENT:
+        for my $Element (@Array) {
+            if ( $Element->{SelectedValues} ) {
+                $Translation{$Use} = $Element->{LanguageTranslation};
+                last ELEMENT;
+            }
+        }
     }
 
-    # translate the row description
-    for my $Word (@{$Param{StatArrayRef}}) {
-        $Word->[0] = $Self->{LanguageObject}->Get($Word->[0]);
+    # check if the axis are changed
+    if ($Param{ExchangeAxis}) {
+        my $UseAsXvalueOld             = $Translation{UseAsXvalue};
+        $Translation{UseAsXvalue}      = $Translation{UseAsValueSeries};
+        $Translation{UseAsValueSeries} = $UseAsXvalueOld;
+    }
+
+    # translate and sort the headline
+    if ($Translation{UseAsXvalue}) {
+        # translate
+        for my $Word ( @{ $Param{HeadArrayRef} } ) {
+            $Word = $Self->{LanguageObject}->Get($Word);
+        }
+
+        # sort
+        my @HeadOld = @{ $Param{HeadArrayRef} };
+        shift @HeadOld; # because the first value is no sortable column name
+
+        my @SortedHead = sort { $a cmp $b } @HeadOld;
+        my @StatArrayNew = ();
+
+        # add the row names to the new StatArray
+        for my $Row (@{ $Param{StatArrayRef} }) {
+            push @StatArrayNew, [ $Row->[0]];
+        }
+
+        # sort the values
+        for my $ColumnName (@SortedHead) {
+            my $Counter = 0;
+            COLUMNNAMEOLD:
+            for my $ColumnNameOld (@HeadOld) {
+                $Counter++;
+                next COLUMNNAMEOLD if $ColumnNameOld ne $ColumnName;
+
+                for my $RowLine (0 .. $#StatArrayNew) {
+                    push @{$StatArrayNew[$RowLine]}, $Param{StatArrayRef}->[$RowLine]->[$Counter];
+                }
+                last COLUMNNAMEOLD;
+            }
+        }
+
+        # bring the data back to the references
+        unshift @SortedHead, $Param{HeadArrayRef}->[0];
+        @{$Param{HeadArrayRef}} = @SortedHead;
+        @{$Param{StatArrayRef}} = @StatArrayNew;
+
+    }
+
+    # translate and sort the row description
+    if ($Translation{UseAsValueSeries}) {
+        # translate
+        for my $Word ( @{ $Param{StatArrayRef} } ) {
+            $Word->[0] = $Self->{LanguageObject}->Get( $Word->[0] );
+        }
+
+        # sort
+        @{ $Param{StatArrayRef}} = sort { $a->[0] cmp $b->[0] } @{ $Param{StatArrayRef}};
     }
 
     return 1;
