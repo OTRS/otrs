@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.11.2.1 2008-01-01 22:07:26 martin Exp $
+# $Id: AgentTicketCustomer.pm,v 1.11.2.2 2008-03-06 09:52:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AgentTicketCustomer;
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11.2.1 $';
+$VERSION = '$Revision: 1.11.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -213,13 +213,15 @@ sub Form {
         if ($CustomerUserData{UserCustomerID}) {
             push (@CustomerIDs, $CustomerUserData{UserCustomerID});
         }
-        @TicketIDs = $Self->{TicketObject}->TicketSearch(
-            Result => 'ARRAY',
-            CustomerID => \@CustomerIDs,
-            UserID => $Self->{UserID},
-            Permission => 'ro',
-            Limit => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerShownTickets') || '40',
-        );
+        if ( @CustomerIDs ) {
+            @TicketIDs = $Self->{TicketObject}->TicketSearch(
+                Result => 'ARRAY',
+                CustomerID => \@CustomerIDs,
+                UserID => $Self->{UserID},
+                Permission => 'ro',
+                Limit => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerShownTickets') || '40',
+            );
+        }
     }
     elsif ($TicketCustomerID) {
         @TicketIDs = $Self->{TicketObject}->TicketSearch(

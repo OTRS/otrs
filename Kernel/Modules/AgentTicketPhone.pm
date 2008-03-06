@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.46.2.2 2008-01-25 15:55:13 ub Exp $
+# $Id: AgentTicketPhone.pm,v 1.46.2.3 2008-03-06 09:52:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46.2.2 $';
+$VERSION = '$Revision: 1.46.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -561,14 +561,15 @@ sub Run {
                     push (@CustomerIDs, $CustomerData{UserCustomerID});
                 }
 
-                @TicketIDs = $Self->{TicketObject}->TicketSearch(
-                    Result => 'ARRAY',
-                    Limit => $Self->{Config}->{ShownCustomerTickets},
-                    CustomerID => \@CustomerIDs,
-
-                    UserID => $Self->{UserID},
-                    Permission => 'ro',
-                );
+                if ( @CustomerIDs ) {
+                    @TicketIDs = $Self->{TicketObject}->TicketSearch(
+                        Result => 'ARRAY',
+                        Limit => $Self->{Config}->{ShownCustomerTickets},
+                        CustomerID => \@CustomerIDs,
+                        UserID => $Self->{UserID},
+                        Permission => 'ro',
+                    );
+                }
             }
             foreach my $TicketID (@TicketIDs) {
                 my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
