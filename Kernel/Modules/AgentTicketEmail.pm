@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.51 2008-02-01 13:14:32 ub Exp $
+# $Id: AgentTicketEmail.pm,v 1.52 2008-03-06 09:50:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -288,36 +288,8 @@ sub Run {
         my %Queue     = ();
         my $Signature = '';
         if ($NewQueueID) {
+            $Signature = $Self->_GetSignature( QueueID => $NewQueueID );
             %Queue = $Self->{QueueObject}->GetSystemAddress( QueueID => $NewQueueID );
-
-            # prepare signature
-            $Signature = $Self->{QueueObject}->GetSignature( QueueID => $NewQueueID );
-            $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
-            $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
-
-            # current user
-            my %User = $Self->{UserObject}->GetUserData(
-                UserID => $Self->{UserID},
-                Cached => 1,
-            );
-            for my $UserKey ( keys %User ) {
-                if ( $User{$UserKey} ) {
-                    $Signature =~ s/<OTRS_Agent_$UserKey>/$User{$UserKey}/gi;
-                    $Signature =~ s/<OTRS_CURRENT_$UserKey>/$User{$UserKey}/gi;
-                }
-            }
-
-            # replace other needed stuff
-            $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
-            $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
-
-            # cleanup
-            $Signature =~ s/<OTRS_Agent_.+?>/-/gi;
-            $Signature =~ s/<OTRS_CURRENT_.+?>/-/gi;
-
-            # replace config options
-            $Signature =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
-            $Signature =~ s/<OTRS_CONFIG_.+?>/-/gi;
         }
         my $CustomerUser = $Self->{ParamObject}->GetParam( Param => 'CustomerUser' )
             || $Self->{ParamObject}->GetParam( Param => 'PreSelectedCustomerUser' )
@@ -658,22 +630,26 @@ sub Run {
                 my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs( User => $CustomerUser );
 
                 # get own customer id
-                my %CustomerData
-                    = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $CustomerUser );
+                my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $CustomerUser,
+                );
                 if ( $CustomerData{UserCustomerID} ) {
                     push( @CustomerIDs, $CustomerData{UserCustomerID} );
                 }
-                @TicketIDs = $Self->{TicketObject}->TicketSearch(
-                    Result     => 'ARRAY',
-                    Limit      => $Self->{Config}->{ShownCustomerTickets},
-                    CustomerID => \@CustomerIDs,
-                    UserID     => $Self->{UserID},
-                    Permission => 'ro',
-                );
+                if ( @CustomerIDs ) {
+                    @TicketIDs = $Self->{TicketObject}->TicketSearch(
+                        Result     => 'ARRAY',
+                        Limit      => $Self->{Config}->{ShownCustomerTickets},
+                        CustomerID => \@CustomerIDs,
+                        UserID     => $Self->{UserID},
+                        Permission => 'ro',
+                    );
+                }
             }
             for my $TicketID (@TicketIDs) {
-                my %Article
-                    = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $TicketID );
+                my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                    TicketID => $TicketID,
+                );
 
                 # get acl actions
                 $Self->{TicketObject}->TicketAcl(
@@ -695,16 +671,17 @@ sub Run {
                 }
 
                 # run ticket menu modules
-                if (ref( $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') ) eq 'HASH' )
-                {
+                if (ref( $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') ) eq 'HASH' ) {
                     my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
                     my $Counter = 0;
                     for my $Menu ( sort keys %Menus ) {
 
                         # load module
                         if ( $Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
-                            my $Object = $Menus{$Menu}->{Module}
-                                ->new( %{$Self}, TicketID => $Self->{TicketID}, );
+                            my $Object = $Menus{$Menu}->{Module}->new(
+                                %{$Self},
+                                TicketID => $Self->{TicketID},
+                            );
 
                             # run module
                             $Counter = $Object->Run(
@@ -960,6 +937,10 @@ sub Run {
         if ($Dest =~ /^(\d{1,100})\|\|.+?$/) {
             $QueueID = $1;
         }
+        my $Signature = '';
+        if ( $QueueID ) {
+            $Signature = $Self->_GetSignature( QueueID => $QueueID );
+        }
         my $Users = $Self->_GetUsers(QueueID => $QueueID, AllUsers => $GetParam{OwnerAll});
         my $ResponsibleUsers = $Self->_GetUsers(QueueID => $QueueID, AllUsers => $GetParam{ResponsibleAll});
         my $NextStates = $Self->_GetNextStates(QueueID => $QueueID || 1);
@@ -1002,6 +983,13 @@ sub Run {
         }
         my $JSON = $Self->{LayoutObject}->BuildJSON(
             [
+                {
+                    Name => 'Signature',
+                    Data => $Signature,
+                    Translation => 1,
+                    PossibleNone => 1,
+                    Max => 100,
+                },
                 {
                     Name => 'NewUserID',
                     Data => $Users,
@@ -1239,6 +1227,43 @@ sub _GetTos {
     # adde empty selection
     $NewTos{''} = '-';
     return \%NewTos;
+}
+
+sub _GetSignature {
+    my ( $Self, %Param ) = @_;
+
+    my $Signature = '';
+    my %Queue = $Self->{QueueObject}->GetSystemAddress( QueueID => $Param{QueueID} );
+
+    # prepare signature
+    $Signature = $Self->{QueueObject}->GetSignature( QueueID => $Param{QueueID} );
+    $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
+    $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
+
+    # current user
+    my %User = $Self->{UserObject}->GetUserData(
+        UserID => $Self->{UserID},
+        Cached => 1,
+    );
+    for my $UserKey ( keys %User ) {
+        if ( $User{$UserKey} ) {
+            $Signature =~ s/<OTRS_Agent_$UserKey>/$User{$UserKey}/gi;
+            $Signature =~ s/<OTRS_CURRENT_$UserKey>/$User{$UserKey}/gi;
+        }
+    }
+
+    # replace other needed stuff
+    $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
+    $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
+
+    # cleanup
+    $Signature =~ s/<OTRS_Agent_.+?>/-/gi;
+    $Signature =~ s/<OTRS_CURRENT_.+?>/-/gi;
+
+    # replace config options
+    $Signature =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    $Signature =~ s/<OTRS_CONFIG_.+?>/-/gi;
+    return $Signature;
 }
 
 sub _MaskEmailNew {

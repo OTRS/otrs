@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.56 2008-02-01 13:14:32 ub Exp $
+# $Id: AgentTicketPhone.pm,v 1.57 2008-03-06 09:50:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -598,23 +598,27 @@ sub Run {
             if ( $CustomerUser && $Self->{Config}->{ShownCustomerTickets} ) {
 
                 # get secondary customer ids
-                my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs( User => $CustomerUser );
+                my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(
+                    User => $CustomerUser,
+                );
 
                 # get own customer id
-                my %CustomerData
-                    = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $CustomerUser );
+                my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $CustomerUser,
+                );
                 if ( $CustomerData{UserCustomerID} ) {
                     push( @CustomerIDs, $CustomerData{UserCustomerID} );
                 }
 
-                @TicketIDs = $Self->{TicketObject}->TicketSearch(
-                    Result     => 'ARRAY',
-                    Limit      => $Self->{Config}->{ShownCustomerTickets},
-                    CustomerID => \@CustomerIDs,
-
-                    UserID     => $Self->{UserID},
-                    Permission => 'ro',
-                );
+                if ( @CustomerIDs ) {
+                    @TicketIDs = $Self->{TicketObject}->TicketSearch(
+                        Result     => 'ARRAY',
+                        Limit      => $Self->{Config}->{ShownCustomerTickets},
+                        CustomerID => \@CustomerIDs,
+                        UserID     => $Self->{UserID},
+                        Permission => 'ro',
+                    );
+                }
             }
             for my $TicketID (@TicketIDs) {
                 my %Article
@@ -640,16 +644,17 @@ sub Run {
                 }
 
                 # run ticket menu modules
-                if (ref( $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') ) eq 'HASH' )
-                {
+                if (ref( $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') ) eq 'HASH' ) {
                     my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
                     my $Counter = 0;
                     for my $Menu ( sort keys %Menus ) {
 
                         # load module
                         if ( $Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
-                            my $Object
-                                = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $TicketID, );
+                            my $Object = $Menus{$Menu}->{Module}->new(
+                                %{$Self},
+                                TicketID => $TicketID,
+                            );
 
                             # run module
                             $Counter = $Object->Run(
