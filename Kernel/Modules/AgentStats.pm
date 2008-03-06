@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.49 2008-03-06 10:18:51 tr Exp $
+# $Id: AgentStats.pm,v 1.50 2008-03-06 10:47:59 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2322,6 +2322,7 @@ sub _ColumnAndRowTranslation {
     }
 
     # translate and sort the headline
+    $Param{HeadArrayRef}->[0] = $Self->{LanguageObject}->Get( $Param{HeadArrayRef}->[0] );
     if ($Translation{UseAsXvalue}) {
         # translate
         for my $Word ( @{ $Param{HeadArrayRef} } ) {
