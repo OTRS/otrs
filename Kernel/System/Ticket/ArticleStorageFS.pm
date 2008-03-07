@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.44 2008-01-11 23:53:27 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.45 2008-03-07 18:34:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Ticket::ArticleStorageFS;
@@ -22,7 +22,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -32,8 +32,9 @@ sub ArticleStorageInit {
         || die "Got no ArticleDir!";
 
     # create ArticleContentPath
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-        = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
     $Self->{ArticleContentPath} = $Year . '/' . $Month . '/' . $Day;
 
     # check fs write permissions!
@@ -103,23 +104,18 @@ sub ArticleDelete {
     }
 
     # delete articles
-    for (qw(TicketID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-    if ( $Self->{DBObject}->Do( SQL => "DELETE FROM article WHERE ticket_id = $Param{TicketID}" ) )
-    {
+    return if ! $Self->{DBObject}->Do(
+        SQL  => "DELETE FROM article WHERE ticket_id = ?",
+        Bind => [ \$Param{TicketID} ],
+    );
 
-        # delete history
-        if ( $Self->HistoryDelete( TicketID => $Param{TicketID}, UserID => $Param{UserID} ) ) {
-            return 1;
-        }
-        else {
-            return;
-        }
-    }
-    else {
-        return;
-    }
+    # delete history
+    return if ! $Self->HistoryDelete(
+        TicketID => $Param{TicketID},
+        UserID => $Param{UserID},
+    );
+
+    return 1;
 }
 
 sub _ArticleDeleteDirectory {
@@ -160,11 +156,10 @@ sub ArticleDeletePlain {
     }
 
     # delete attachments
-    for (qw(ArticleID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-    $Self->{DBObject}
-        ->Do( SQL => "DELETE FROM article_plain WHERE article_id = $Param{ArticleID}" );
+    return if ! $Self->{DBObject}->Do(
+        SQL  => "DELETE FROM article_plain WHERE article_id = ?",
+        Bind => [ \$Param{ArticleID} ],
+    );
 
     # delete from fs
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
@@ -193,11 +188,10 @@ sub ArticleDeleteAttachment {
     }
 
     # delete attachments
-    for (qw(ArticleID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-    $Self->{DBObject}
-        ->Do( SQL => "DELETE FROM article_attachment WHERE article_id = $Param{ArticleID}" );
+    return if ! $Self->{DBObject}->Do(
+        SQL  => "DELETE FROM article_attachment WHERE article_id = ?",
+        Bind => [ \$Param{ArticleID} ],
+    );
 
     # delete from fs
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
@@ -353,11 +347,10 @@ sub ArticlePlain {
     if ( ! -f "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt" ) {
 
         # can't open article, try database
-        for (qw(ArticleID)) {
-            $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-        }
-        my $SQL = "SELECT body FROM article_plain WHERE article_id = $Param{ArticleID}";
-        $Self->{DBObject}->Prepare( SQL => $SQL );
+        $Self->{DBObject}->Prepare(
+            SQL  => "SELECT body FROM article_plain WHERE article_id = ?",
+            Bind => [ \$Param{ArticleID} ],
+        );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Data = $Row[0];
         }
@@ -483,14 +476,11 @@ sub ArticleAttachmentIndex {
 
     # try database (if there is no index in fs)
     if ( !%Index ) {
-        for (qw(ArticleID)) {
-            $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-        }
-        my $SQL
-            = "SELECT filename, content_type, content_size FROM article_attachment "
-            . " WHERE "
-            . " article_id = $Param{ArticleID} ORDER BY id";
-        $Self->{DBObject}->Prepare( SQL => $SQL );
+        $Self->{DBObject}->Prepare(
+            SQL => "SELECT filename, content_type, content_size FROM article_attachment "
+                . " WHERE article_id = ? ORDER BY id",
+            Bind => [ \$Param{ArticleID} ],
+        );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
             # human readable file size
@@ -616,15 +606,13 @@ sub ArticleAttachment {
 
     # try database, if no content is found
     if ( !$Data{Content} ) {
-
-        for (qw(ArticleID)) {
-            $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-        }
-        my $SQL
-            = "SELECT content_type, content FROM article_attachment "
-            . " WHERE "
-            . " article_id = $Param{ArticleID}";
-        $Self->{DBObject}->Prepare( SQL => $SQL, Limit => $Param{FileID}, Encode => [ 1, 0 ] );
+        $Self->{DBObject}->Prepare(
+            SQL => "SELECT content_type, content FROM article_attachment "
+                . " WHERE article_id = ? ORDER BY id",
+            Bind   => [ \$Param{ArticleID} ],
+            Limit  => $Param{FileID},
+            Encode => [ 1, 0 ],
+        );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Data{ContentType} = $Row[0];
 
@@ -642,8 +630,7 @@ sub ArticleAttachment {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message =>
-                    "$!: $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}!",
+                Message => "$!: $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}!",
             );
             return;
         }
