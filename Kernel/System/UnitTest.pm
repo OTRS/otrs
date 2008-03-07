@@ -1,12 +1,12 @@
 # --
 # Kernel/System/UnitTest.pm - the global test wrapper
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.14 2007-10-02 10:38:58 mh Exp $
+# $Id: UnitTest.pm,v 1.15 2008-03-07 16:57:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::UnitTest;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -122,15 +122,27 @@ sub Run {
     my $Home          = $Self->{ConfigObject}->Get('Home');
     my @Files         = glob("$Home/scripts/test/*.t");
     my $StartTime     = $Self->{TimeObject}->SystemTime();
+    my $Product       = $Param{Product} || $Self->{ConfigObject}->Get('Product')." ".$Self->{ConfigObject}->Get('Version');
+    my @Names         = split(/:/, $Param{Name} || '');
+
     $Self->{TestCountOk}    = 0;
     $Self->{TestCountNotOk} = 0;
     for my $File (@Files) {
 
-        if ( $Param{Name} && $File !~ /\/\Q$Param{Name}\E\.t$/ ) {
-            next;
+        # check if only some tests are requested
+        if ( @Names ) {
+            my $Use = 0;
+            for my $Name ( @Names ) {
+                if ( $Name && $File =~ /\/\Q$Name\E\.t$/ ) {
+                    $Use = 1;
+                }
+            }
+            if ( !$Use ) {
+                next;
+            }
         }
         $Self->{TestCount} = 0;
-        my $ConfigFile = $Self->{MainObject}->FileRead( Location => $File, );
+        my $ConfigFile = $Self->{MainObject}->FileRead( Location => $File );
         if ( !$ConfigFile ) {
             $Self->True( 0, "ERROR: $!: $File" );
             print STDERR "ERROR: $!: $File\n";
@@ -141,21 +153,16 @@ sub Run {
                 $Self->True( 0, "ERROR: Syntax error in $File: $@" );
                 print STDERR "ERROR: Syntax error in $File: $@\n";
             }
-            else {
-
-                # file loaded
-                #                print STDERR "Notice: Loaded: $File\n";
-            }
             $Self->_PrintHeadlineEnd($File);
         }
     }
 
     my $Time = $Self->{TimeObject}->SystemTime() - $StartTime;
     $ResultSummary{TimeTaken} = $Time;
-    $ResultSummary{Time}      = $Self->{TimeObject}
-        ->SystemTime2TimeStamp( SystemTime => $Self->{TimeObject}->SystemTime(), );
-    $ResultSummary{Product}
-        = $Self->{ConfigObject}->Get('Product') . " " . $Self->{ConfigObject}->Get('Version');
+    $ResultSummary{Time}      = $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
+    $ResultSummary{Product} = $Product;
     $ResultSummary{Host} = $Self->{ConfigObject}->Get('FQDN');
     $ResultSummary{Perl} = sprintf "%vd", $^V;
     $ResultSummary{OS}   = $^O;
@@ -236,8 +243,7 @@ sub Run {
             $Content =~ s/>/&gt;/g;
             $Content =~ s/"/&quot;/g;
             $Content =~ s/'/&quot;/g;
-            $XML
-                .= "  <Test Result=\"$Self->{XML}->{Test}->{$Key}->{$TestCount}->{Result}\" Count=\"$TestCount\">$Content</Test>\n";
+            $XML .= "  <Test Result=\"$Self->{XML}->{Test}->{$Key}->{$TestCount}->{Result}\" Count=\"$TestCount\">$Content</Test>\n";
         }
         $XML .= "</Unit>\n";
     }
@@ -423,8 +429,7 @@ sub _Print {
     if ($Test) {
         $Self->{TestCountOk}++;
         if ( $Self->{Output} eq 'HTML' ) {
-            $Self->{Content}
-                .= "<tr><td width='70' bgcolor='green'>ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
+            $Self->{Content} .= "<tr><td width='70' bgcolor='green'>ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
         }
         elsif ( $Self->{Output} eq 'ASCII' ) {
             print " ok $Self->{TestCount} - $Name\n";
@@ -436,8 +441,7 @@ sub _Print {
     elsif ( $Self->{Output} eq 'ASCII' ) {
         $Self->{TestCountNotOk}++;
         if ( $Self->{Output} eq 'HTML' ) {
-            $Self->{Content}
-                .= "<tr><td width='70' bgcolor='red'>not ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
+            $Self->{Content} .= "<tr><td width='70' bgcolor='red'>not ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
         }
         else {
             print " not ok $Self->{TestCount} - $Name\n";
@@ -468,12 +472,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2007-10-02 10:38:58 $
+$Revision: 1.15 $ $Date: 2008-03-07 16:57:37 $
 
 =cut
