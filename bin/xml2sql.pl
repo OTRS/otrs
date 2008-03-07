@@ -3,7 +3,7 @@
 # bin/xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2sql.pl,v 1.14 2008-02-01 12:49:20 tr Exp $
+# $Id: xml2sql.pl,v 1.15 2008-03-07 16:44:14 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,13 +39,13 @@ use Kernel::System::Main;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 my %Opts = ();
 getopt( 'htosi', \%Opts );
 if ( $Opts{'h'} ) {
     print "xml2sql.pl <Revision $VERSION> - xml2sql\n";
-    print "Copyright (c) 2001-2007 OTRS GmbH, http://otrs.org/\n";
+    print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
     print
         "usage: xml2sql.pl -t <DATABASE_TYPE> (or 'all') [-o <OUTPUTDIR> -s <SCHEMA> -i <INITIAL_INSERT>]\n";
     exit 1;

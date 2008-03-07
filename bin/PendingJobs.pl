@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PendingJobs.pl,v 1.31 2008-02-01 12:49:20 tr Exp $
+# $Id: PendingJobs.pl,v 1.32 2008-03-07 16:44:14 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -59,7 +59,7 @@ $CommonObject{StateObject}  = Kernel::System::State->new(%CommonObject);
 # check args
 my $Command = shift || '--help';
 print "PendingJobs.pl <Revision $VERSION> - check pending tickets\n";
-print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
+print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
 
 # do ticket auto jobs
 my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
@@ -68,8 +68,7 @@ my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
 );
 if (@PendingAutoStateIDs) {
     my @TicketIDs = ();
-    my $SQL
-        = "SELECT st.id FROM "
+    my $SQL = "SELECT st.id FROM "
         . " ticket st "
         . " WHERE "
         . " st.ticket_state_id IN ( ${\(join ', ', @PendingAutoStateIDs)} ) ";
@@ -120,8 +119,7 @@ my @PendingReminderStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
 # check if pendig time has reached and send notification
 if (@PendingReminderStateIDs) {
     my @TicketIDs = ();
-    my $SQL
-        = "SELECT st.tn, st.id, st.user_id FROM "
+    my $SQL = "SELECT st.tn, st.id, st.user_id FROM "
         . " ticket st, ticket_state tsd "
         . " WHERE "
         . " st.ticket_state_id = tsd.id " . " AND "

@@ -3,7 +3,7 @@
 # bin/otrs.RebuildConfig.pl - rebuild config
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.RebuildConfig.pl,v 1.5 2008-02-01 12:49:20 tr Exp $
+# $Id: otrs.RebuildConfig.pl,v 1.6 2008-03-07 16:44:14 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Time;
@@ -57,7 +57,7 @@ $CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
 # rebuild
 # --
 print "otrs.RebuildConfig.pl <Revision $VERSION> - OTRS rebuild default config\n";
-print "Copyright (c) 2001-2007 OTRS GmbH, http://otrs.org/\n";
+print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
 if ( $CommonObject{SysConfigObject}->WriteDefault() ) {
     exit;
 }

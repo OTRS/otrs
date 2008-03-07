@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pl,v 1.45 2008-02-01 12:49:20 tr Exp $
+# $Id: GenericAgent.pl,v 1.46 2008-03-07 16:44:14 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -48,7 +48,7 @@ my %Opts = ();
 getopt( 'fhcdl', \%Opts );
 if ( $Opts{'h'} ) {
     print "GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
-    print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
+    print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
     print
         "usage: GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] [-l <limit>] [-f force]\n";
     print "usage: GenericAgent.pl [-c db || -c 'Kernel::Config::GenericAgentJobModule'] "

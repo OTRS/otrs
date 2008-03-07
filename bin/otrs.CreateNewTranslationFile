@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # otrs.CreateNewTranslationFile - create new translation file
-# Copyright (C) 2001-2006 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.22 2008-02-01 12:49:20 tr Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.23 2008-03-07 16:44:14 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Opts);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -43,7 +43,7 @@ getopt( 'olst', \%Opts );
 
 # print head
 print "otrs.CreateNewTranslationFile <Revision $VERSION> - create new translation file\n";
-print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
+print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
 print "usage: otrs.CreateNewTranslationFile -l <Language> -t <dtl_files_or_directory>\n";
 
 # common objects
@@ -61,16 +61,14 @@ if ( !$Opts{'l'} ) {
     exit 1;
 }
 else {
-    $Opts{LanguageFile}
-        = $CommonObject{ConfigObject}->Get('Home') . "/Kernel/Language/$Opts{'l'}.pm";
+    $Opts{LanguageFile} = $CommonObject{ConfigObject}->Get('Home') . "/Kernel/Language/$Opts{'l'}.pm";
     if ( !-f $Opts{LanguageFile} ) {
         print "ERROR: Not translation file: $Opts{LanguageFile}!\n";
         exit 1;
     }
 }
 if ( !$Opts{'t'} ) {
-    $Opts{'t'}
-        = $CommonObject{ConfigObject}->Get('Home')
+    $Opts{'t'} = $CommonObject{ConfigObject}->Get('Home')
         . '/Kernel/Output/HTML/'
         . $CommonObject{ConfigObject}->Get('DefaultTheme')
         . '/*.dtl';

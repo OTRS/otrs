@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: opm.pl,v 1.22 2008-02-12 12:29:22 ot Exp $
+# $Id: opm.pl,v 1.23 2008-03-07 16:44:14 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -80,7 +80,7 @@ if ( $Opts{'a'} && $Opts{'a'} eq 'index' ) {
 # check needed params
 if ( $Opts{'h'} ) {
     print "opm.pl <Revision $VERSION> - OTRS Package Manager\n";
-    print "Copyright (c) 2001-2006 OTRS GmbH, http//otrs.org/\n";
+    print "Copyright (c) 2001-2008 OTRS AG, http//otrs.org/\n";
     print
         "usage: opm.pl -a list|install|upgrade|uninstall|reinstall|list-repository|file|build|index \n";
     print
