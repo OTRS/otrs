@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.275.2.10 2008-03-07 16:39:49 martin Exp $
+# $Id: Ticket.pm,v 1.275.2.11 2008-03-07 20:00:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.275.2.10 $';
+$VERSION = '$Revision: 1.275.2.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -3589,7 +3589,7 @@ sub TicketSearch {
                 }
                 elsif ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'db2' ) {
                     $FullTextSQL .= " LCASE($FieldSQLMapFullText{$Key}) LIKE LCASE('"
-                        . $Self->{DBObject}->Quote( $Param{$Key}, 'Like' ) . "')";
+                        . $Self->{DBObject}->Quote( $Param{$Key} ) . "')";
                 }
                 else {
                     $FullTextSQL .= " LOWER($FieldSQLMapFullText{$Key}) LIKE LOWER('"
@@ -6206,6 +6206,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.275.2.10 $ $Date: 2008-03-07 16:39:49 $
+$Revision: 1.275.2.11 $ $Date: 2008-03-07 20:00:17 $
 
 =cut
