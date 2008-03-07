@@ -3,7 +3,7 @@
 # UnlockTickets.pl - to unlock tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: UnlockTickets.pl,v 1.28 2008-02-01 12:49:20 tr Exp $
+# $Id: UnlockTickets.pl,v 1.29 2008-03-07 16:59:05 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -69,17 +69,16 @@ my @ViewableLockIDs = $CommonObject{LockObject}->LockViewableLock( Type => 'ID' 
 # check args
 my $Command = shift || '--help';
 print "UnlockTickets.pl <Revision $VERSION> - unlock tickets\n";
-print "Copyright (c) 2001-2006 OTRS GmbH, http//otrs.org/\n";
+print "Copyright (c) 2001-2008 OTRS AG, http//otrs.org/\n";
 
 # unlock all tickets
 if ( $Command eq '--all' ) {
     print " Unlock all tickets:\n";
     my @Tickets = ();
-    my $SQL
-        = "SELECT st.tn, st.ticket_answered, st.id, st.user_id FROM "
+    my $SQL = "SELECT st.tn, st.ticket_answered, st.id, st.user_id FROM "
         . " ticket st, queue sq "
         . " WHERE "
-        . " st.queue_id = sq.id " . " AND "
+        . " st.queue_id = sq.id AND "
         . " st.ticket_lock_id NOT IN ( ${\(join ', ', @ViewableLockIDs)} ) ";
     $CommonObject{DBObject}->Prepare( SQL => $SQL );
     while ( my @RowTmp = $CommonObject{DBObject}->FetchrowArray() ) {
@@ -108,16 +107,15 @@ if ( $Command eq '--all' ) {
 elsif ( $Command eq '--timeout' ) {
     print " Unlock old tickets:\n";
     my @Tickets = ();
-    my $SQL
-        = "SELECT st.tn, st.ticket_answered, st.id, st.timeout, "
+    my $SQL = "SELECT st.tn, st.ticket_answered, st.id, st.timeout, "
         . " sq.unlock_timeout  "
         . " FROM "
         . " ticket st, queue sq "
         . " WHERE "
-        . " st.queue_id = sq.id " . " AND "
-        . " st.ticket_answered != 1 " . " AND "
-        . " sq.unlock_timeout != 0 " . " AND "
-        . " st.ticket_state_id IN ( ${\(join ', ', @UnlockStateIDs)} ) " . " AND "
+        . " st.queue_id = sq.id AND "
+        . " st.ticket_answered != 1 AND "
+        . " sq.unlock_timeout != 0 AND "
+        . " st.ticket_state_id IN ( ${\(join ', ', @UnlockStateIDs)} ) AND "
         . " st.ticket_lock_id NOT IN ( ${\(join ', ', @ViewableLockIDs)} ) ";
     $CommonObject{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {

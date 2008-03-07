@@ -3,7 +3,7 @@
 # XMLMaster.pl - the global xml handle for xml2db
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: XMLMaster.pl,v 1.9 2008-02-01 12:49:20 tr Exp $
+# $Id: XMLMaster.pl,v 1.10 2008-03-07 16:59:05 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -45,7 +45,7 @@ my %Opts = ();
 getopt( 'hqtd', \%Opts );
 if ( $Opts{'h'} ) {
     print "XMLMaster.pl <Revision $VERSION> - OTRS xml master\n";
-    print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
+    print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
     print "usage: XMLMaster.pl [-d 1] \n";
     exit 1;
 }
