@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.75 2008-03-07 07:57:53 tr Exp $
+# $Id: Layout.pm,v 1.76 2008-03-07 13:47:11 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 =head1 NAME
 
@@ -1577,7 +1577,14 @@ sub Ascii2Html {
         my $Counter = 0;
         $Text =~ s{
             ( > | < | &gt; | &lt; | )  # $1 greater-than and less-than sign
-            ( (?: https | http | ftp | www ) (?: :\/\/|\.) .*?  ) #2
+
+            (                                              #2
+               (?:                                      # http or only www
+                   (?: (?: http s? | ftp ) :\/\/) |        # http://,https:// and ftp://
+                   (?: (?: www | ftp ) \.)                 # www. and ftp.
+               )
+               .*?               # this part should be better defined!
+            )
             (                               # $3
                 [\?,;!\.\)] (?: \s | $ )    # \)\s this construct is because of bug# 2450
               | \s
@@ -1596,7 +1603,6 @@ sub Ascii2Html {
             my $Start = $1;
             my $Link  = $2;
             my $End   = $3;
-            $Link =~ s/ //g;
             $Counter++;
             if (
                 $Link !~ m{^ ( http | https | ftp ) : \/ \/ }xi
@@ -3885,6 +3891,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.75 $ $Date: 2008-03-07 07:57:53 $
+$Revision: 1.76 $ $Date: 2008-03-07 13:47:11 $
 
 =cut
