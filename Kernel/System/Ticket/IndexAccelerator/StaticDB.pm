@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.51 2008-02-11 12:23:29 martin Exp $
+# $Id: StaticDB.pm,v 1.52 2008-03-07 16:53:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -74,21 +74,15 @@ sub TicketAcceleratorUpdate {
     if ($IndexUpdateNeeded) {
         if ($IndexSelcected) {
             if ( $IndexTicketData{TicketID} ) {
-
-                # db quote
-                for (qw(TicketID QueueID GroupID)) {
-                    $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-                }
-                for (qw(Queue State Lock)) {
-                    $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-                }
-                my $SQL = "UPDATE ticket_index SET "
-                    . " queue_id = $TicketData{QueueID}, "
-                    . " queue = '$TicketData{Queue}', group_id = $TicketData{GroupID}, "
-                    . " s_lock = '$TicketData{Lock}', s_state = '$TicketData{State}' "
-                    . " WHERE "
-                    . " ticket_id = $Param{TicketID}";
-                $Self->{DBObject}->Do( SQL => $SQL );
+                $Self->{DBObject}->Do(
+                    SQL => "UPDATE ticket_index SET "
+                        . " queue_id = ?, queue = ?, group_id = ?, s_lock = ?, s_state = ? "
+                        . " WHERE ticket_id = ?",
+                    Bind => [
+                        \$TicketData{QueueID}, \$TicketData{Queue}, \$TicketData{GroupID},
+                        \$TicketData{Lock}, \$TicketData{State}, \$Param{TicketID},
+                    ],
+                );
             }
             else {
                 $Self->TicketAcceleratorAdd(%TicketData);
@@ -128,13 +122,10 @@ sub TicketAcceleratorDelete {
         }
     }
 
-    # db quote
-    for (qw(TicketID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-    my $SQL = "DELETE FROM ticket_index WHERE ticket_id = $Param{TicketID}";
-    $Self->{DBObject}->Do( SQL => $SQL );
-    return;
+    return $Self->{DBObject}->Do(
+        SQL  => "DELETE FROM ticket_index WHERE ticket_id = ?",
+        Bind => [ \$Param{TicketID} ],
+    );
 }
 
 sub TicketAcceleratorAdd {
@@ -173,25 +164,16 @@ sub TicketAcceleratorAdd {
         return 1;
     }
 
-    # db quote
-    for (qw(TicketID QueueID GroupID CreateTimeUnix)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-    for (qw(Queue State Lock)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    my $SQL = "INSERT INTO ticket_index "
-        . " (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix)"
-        . " VALUES "
-        . " ($Param{TicketID}, $TicketData{QueueID}, '$TicketData{Queue}', "
-        . " $TicketData{GroupID}, '$TicketData{Lock}', '$TicketData{State}', "
-        . " $TicketData{CreateTimeUnix})";
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        return 1;
-    }
-    else {
-        return;
-    }
+    return $Self->{DBObject}->Do(
+        SQL => "INSERT INTO ticket_index "
+            . " (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix)"
+            . " VALUES (?, ?, ?, ?, ?, ?, ?)",
+        Bind => [
+            \$Param{TicketID}, \$TicketData{QueueID}, \$TicketData{Queue},
+            \$TicketData{GroupID}, \$TicketData{Lock}, \$TicketData{State},
+            \$TicketData{CreateTimeUnix},
+        ],
+    );
 }
 
 sub TicketLockAcceleratorDelete {
@@ -205,15 +187,11 @@ sub TicketLockAcceleratorDelete {
         }
     }
 
-    # db quote
-    for (qw(TicketID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # db query
-    my $SQL = "DELETE FROM ticket_lock_index WHERE ticket_id = $Param{TicketID} ";
-    $Self->{DBObject}->Do( SQL => $SQL );
-    return;
+    return $Self->{DBObject}->Do(
+        SQL  => "DELETE FROM ticket_lock_index WHERE ticket_id = ?",
+        Bind => [ \$Param{TicketID} ],
+    );
 }
 
 sub TicketLockAcceleratorAdd {
@@ -227,20 +205,12 @@ sub TicketLockAcceleratorAdd {
         }
     }
 
-    # db quote
-    for (qw(TicketID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # get ticket data
     my %TicketData = $Self->TicketGet(%Param);
-    my $SQL = "INSERT INTO ticket_lock_index (ticket_id) VALUES ($Param{TicketID})";
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        return 1;
-    }
-    else {
-        return;
-    }
+    return $Self->{DBObject}->Do(
+        SQL  => "INSERT INTO ticket_lock_index (ticket_id) VALUES (?)",
+        Bind => [ \$Param{TicketID} ],
+    );
 }
 
 sub TicketAcceleratorIndex {
@@ -402,28 +372,29 @@ sub TicketAcceleratorRebuild {
         for ( keys %Data ) {
             $Data{$_} = $Self->{DBObject}->Quote( $Data{$_} );
         }
-        my $SQL = "INSERT INTO ticket_index "
-            . " (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix)"
-            . " VALUES "
-            . " ($Data{TicketID}, $Data{QueueID}, '$Data{Queue}', $Data{GroupID}, "
-            . " '$Data{Lock}', '$Data{State}', $Data{CreateTimeUnix})";
-        $Self->{DBObject}->Do( SQL => $SQL );
+        $Self->{DBObject}->Do(
+            SQL => "INSERT INTO ticket_index "
+                . " (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix)"
+                . " VALUES (?, ?, ?, ?, ?, ?, ?)",
+            Bind => [
+                \$Data{TicketID}, \$Data{QueueID}, \$Data{Queue}, \$Data{GroupID},
+                \$Data{Lock}, \$Data{State}, \$Data{CreateTimeUnix},
+            ],
+        );
     }
 
     # write lock index
-    $Self->{DBObject}->Prepare( SQL => "SELECT ti.id, ti.user_id "
-            . " FROM "
-            . " ticket ti "
-            . " WHERE "
-            . " ti.ticket_lock_id not IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ", );
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT ti.id, ti.user_id FROM ticket ti WHERE "
+            . " ti.ticket_lock_id not IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ",
+    );
     my @LockRowBuffer = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push( @LockRowBuffer, $Row[0] );
     }
+    # add lock index entry
     $Self->{DBObject}->Do( SQL => "DELETE FROM ticket_lock_index" );
     for (@LockRowBuffer) {
-
-        # add lock index entry
         $Self->TicketLockAcceleratorAdd( TicketID => $_ );
     }
     return 1;
@@ -474,15 +445,12 @@ sub GetIndexTicketLock {
         }
     }
 
-    # db quote
-    for (qw(TicketID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql query
-    my $SQL = "SELECT ticket_id FROM ticket_lock_index WHERE ticket_id = $Param{TicketID}";
+    $Self->{DBObject}->Prepare(
+        SQL  => "SELECT ticket_id FROM ticket_lock_index WHERE ticket_id = ?",
+        Bind => [ \$Param{TicketID} ],
+    );
     my $Hit = 0;
-    $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Hit = 1;
     }
@@ -505,26 +473,22 @@ sub GetLockedCount {
         return %{ $Self->{ 'Cache::GetLockCount' . $Param{UserID} } };
     }
 
-    # db quote
-    for (qw(UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # db query
-    $Self->{DBObject}->Prepare( SQL => "SELECT ar.id, ar.article_sender_type_id, ti.id, "
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT ar.id, ar.article_sender_type_id, ti.id, "
             . " ar.create_by, ti.create_time_unix, ti.until_time, "
             . " tst.name, ar.article_type_id "
-            . " FROM "
-            . " ticket ti, article ar, "
-            . " ticket_state ts, ticket_state_type tst "
+            . " FROM ticket ti, article ar, ticket_state ts, ticket_state_type tst "
             . " WHERE "
             . " ti.ticket_lock_id NOT IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) "
             . " AND "
-            . " ti.user_id = $Param{UserID} AND "
+            . " ti.user_id = ? AND "
             . " ar.ticket_id = ti.id AND "
             . " ts.id = ti.ticket_state_id AND "
             . " ts.type_id = tst.id "
-            . " ORDER BY ar.create_time DESC" );
+            . " ORDER BY ar.create_time DESC",
+        Bind => [ \$Param{UserID} ],
+    );
     my @ArticleLocked = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push (@ArticleLocked, \@Row);

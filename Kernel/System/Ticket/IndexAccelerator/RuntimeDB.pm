@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.50 2008-02-11 12:23:29 martin Exp $
+# $Id: RuntimeDB.pm,v 1.51 2008-03-07 16:53:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -194,26 +194,23 @@ sub GetLockedCount {
         return %{ $Self->{ 'Cache::GetLockCount' . $Param{UserID} } };
     }
 
-    # db quote
-    for (qw(UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # db query
-    $Self->{DBObject}->Prepare( SQL => "SELECT ar.id, ar.article_sender_type_id, ti.id, "
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT ar.id, ar.article_sender_type_id, ti.id, "
             . " ar.create_by, ti.create_time_unix, ti.until_time, "
             . " tst.name, ar.article_type_id "
             . " FROM "
-            . " ticket ti, article ar, "
-            . " ticket_state ts, ticket_state_type tst "
+            . " ticket ti, article ar, ticket_state ts, ticket_state_type tst "
             . " WHERE "
             . " ti.ticket_lock_id NOT IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) "
             . " AND "
-            . " ti.user_id = $Param{UserID} AND "
+            . " ti.user_id = ? AND "
             . " ar.ticket_id = ti.id AND "
             . " ts.id = ti.ticket_state_id AND "
             . " ts.type_id = tst.id "
-            . " ORDER BY ar.create_time DESC" );
+            . " ORDER BY ar.create_time DESC",
+        Bind => [ \$Param{UserID} ],
+    );
     my @ArticleLocked = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push (@ArticleLocked, \@Row);
