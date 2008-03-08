@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.42 2008-01-31 06:22:12 tr Exp $
+# $Id: AgentTicketQueue.pm,v 1.43 2008-03-08 11:07:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -263,12 +263,11 @@ sub Run {
         }
 
         # build query
-        my $SQL
-            = "SELECT st.id, st.queue_id FROM "
+        my $SQL = "SELECT st.id, st.queue_id FROM "
             . " ticket st, queue sq "
             . " WHERE "
-            . " sq.id = st.queue_id " . " AND "
-            . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " . " AND ";
+            . " sq.id = st.queue_id AND "
+            . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) AND ";
         if ( !$Self->{ViewAll} ) {
             $SQL .= " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) "
                 . " AND ";

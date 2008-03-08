@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.285 2008-02-20 08:11:09 tr Exp $
+# $Id: Defaults.pm,v 1.286 2008-03-08 11:06:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.285 $) [1];
+$VERSION = qw($Revision: 1.286 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -1192,7 +1192,7 @@ Your OTRS Notification Master
             [ 'UserLastname',   'Lastname',   'last_name',  1, 1, 'var', '', 0 ],
             [ 'UserLogin',      'Username',   'login',      1, 1, 'var', '', 0 ],
             [ 'UserPassword',   'Password',   'pw',         0, 0, 'var', '', 0 ],
-            [ 'UserEmail',      'Email',      'email',      0, 1, 'var', '', 0 ],
+            [ 'UserEmail',      'Email',      'email',      1, 1, 'var', '', 0 ],
 
 #            [ 'UserEmail',      'Email', 'email',           1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentTicketCompose&ResponseID=1&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}', 0 ],
             [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
@@ -2269,14 +2269,12 @@ sub new {
             close($Product);
         }
         else {
-            print STDERR
-                "ERROR: Can't read $Self->{Home}/RELEASE: $! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
+            print STDERR "ERROR: Can't read $Self->{Home}/RELEASE: $! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
             die;
         }
     }
     else {
-        print STDERR
-            "ERROR: $Self->{Home}/RELEASE does not exist! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
+        print STDERR "ERROR: $Self->{Home}/RELEASE does not exist! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
         die;
     }
 
@@ -2316,6 +2314,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.285 $ $Date: 2008-02-20 08:11:09 $
+$Revision: 1.286 $ $Date: 2008-03-08 11:06:28 $
 
 =cut

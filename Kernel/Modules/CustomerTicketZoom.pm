@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.21 2008-02-17 20:08:37 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.22 2008-03-08 11:03:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -116,13 +116,13 @@ sub Run {
 
         # rewrap body if exists
         if ( $GetParam{Body} ) {
-            $GetParam{Body}
-                =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
+            $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
 
         # get follow up option (possible or not)
-        my $FollowUpPossible
-            = $Self->{QueueObject}->GetFollowUpOption( QueueID => $Ticket{QueueID}, );
+        my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption(
+            QueueID => $Ticket{QueueID},
+        );
 
         # get lock option (should be the ticket locked - if closed - after the follow up)
         my $Lock = $Self->{QueueObject}->GetFollowUpLockOption( QueueID => $Ticket{QueueID}, );
@@ -493,8 +493,7 @@ sub _Mask {
                 Data => {
                     %File,
                     Action => 'Download',
-                    Link =>
-                        "\$Env{\"Baselink\"}Action=CustomerTicketAttachment&ArticleID=$Article{ArticleID}&FileID=$FileID",
+                    Link => "\$Env{\"Baselink\"}Action=CustomerTicketAttachment&ArticleID=$Article{ArticleID}&FileID=$FileID",
                     Image  => 'disk-s.png',
                     Target => $Target,
                 },
@@ -630,8 +629,9 @@ sub _Mask {
 
         # show attachments
         # get all attachments meta data
-        my @Attachments
-            = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID}, );
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
         for my $DataRef (@Attachments) {
             $Self->{LayoutObject}->Block(
                 Name => 'Attachment',
