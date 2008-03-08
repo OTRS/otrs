@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.296 2008-03-08 15:45:49 martin Exp $
+# $Id: Ticket.pm,v 1.297 2008-03-08 15:57:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.296 $) [1];
+$VERSION = qw($Revision: 1.297 $) [1];
 
 =head1 NAME
 
@@ -5837,17 +5837,20 @@ sub TicketAccountTime {
     $Param{TimeUnit} =~ s/,/\./g;
     $Param{TimeUnit} =~ s/ //g;
     $Param{TimeUnit} =~ s/^(\d{1,10}\.\d\d).+?$/$1/g;
-    $Param{TimeUnit} =~ s/\./,/g;
     chomp $Param{TimeUnit};
+
+    # db quote
+    foreach (qw(TimeUnit)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Number');
+    }
 
     # db update
     return if !$Self->{DBObject}->Do(
         SQL => "INSERT INTO time_accounting "
             . " (ticket_id, article_id, time_unit, create_time, create_by, change_time, change_by) "
-            . " VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
+            . " VALUES (?, ?, $Param{TimeUnit}, current_timestamp, ?, current_timestamp, ?)",
         Bind => [
-            \$Param{TicketID}, \$Param{ArticleID}, \$Param{TimeUnit},
-            \$Param{UserID}, \$Param{UserID},
+            \$Param{TicketID}, \$Param{ArticleID}, \$Param{UserID}, \$Param{UserID},
         ],
     );
 
@@ -6549,6 +6552,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.296 $ $Date: 2008-03-08 15:45:49 $
+$Revision: 1.297 $ $Date: 2008-03-08 15:57:17 $
 
 =cut
