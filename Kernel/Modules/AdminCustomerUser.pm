@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.51 2008-01-31 06:22:11 tr Exp $
+# $Id: AdminCustomerUser.pm,v 1.52 2008-03-08 11:25:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -549,8 +549,9 @@ sub _Edit {
                 my %CompanyList
                     = ( $Self->{CustomerCompanyObject}->CustomerCompanyList(), '' => '-' );
                 if ( $Param{ $Entry->[0] } ) {
-                    %Company = $Self->{CustomerCompanyObject}
-                        ->CustomerCompanyGet( CustomerID => $Param{ $Entry->[0] } );
+                    %Company = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
+                        CustomerID => $Param{ $Entry->[0] },
+                    );
                     if ( !%Company ) {
                         $CompanyList{ $Param{ $Entry->[0] } } = $Param{ $Entry->[0] } . ' (-)';
                     }
@@ -559,6 +560,7 @@ sub _Edit {
                 $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
                     Data       => \%CompanyList,
                     Name       => $Entry->[0],
+                    Max        => 80,
                     SelectedID => $Param{ $Entry->[0] },
                 );
             }
