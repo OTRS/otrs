@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.33 2008-03-02 20:50:23 martin Exp $
+# $Id: GenericAgent.pm,v 1.34 2008-03-08 11:20:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -352,8 +352,7 @@ sub JobRun {
             if ( !$Count ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message =>
-                        "Attanchen: Can't run GenericAgent Job '$Param{Job}' because no search attributes are used!.",
+                    Message => "Attanchen: Can't run GenericAgent Job '$Param{Job}' because no search attributes are used!.",
                 );
                 return;
             }
@@ -441,8 +440,10 @@ sub _JobRunTicket {
             print "  - Move Ticket $Ticket to Queue '$Param{Config}->{New}->{Queue}'\n";
         }
         $Self->{TicketObject}->MoveTicket(
-            QueueID => $Self->{QueueObject}
-                ->QueueLookup( Queue => $Param{Config}->{New}->{Queue}, Cache => 1 ),
+            QueueID => $Self->{QueueObject}->QueueLookup(
+                Queue => $Param{Config}->{New}->{Queue},
+                Cache => 1,
+            ),
             UserID             => $Param{UserID},
             TicketID           => $Param{TicketID},
             SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
@@ -510,14 +511,12 @@ sub _JobRunTicket {
     if ( $Param{Config}->{New}->{CustomerID} || $Param{Config}->{New}->{CustomerUserLogin} ) {
         if ( $Param{Config}->{New}->{CustomerID} ) {
             if ( $Self->{NoticeSTDOUT} ) {
-                print
-                    "  - set customer id of Ticket $Ticket to '$Param{Config}->{New}->{CustomerID}'\n";
+                print "  - set customer id of Ticket $Ticket to '$Param{Config}->{New}->{CustomerID}'\n";
             }
         }
         if ( $Param{Config}->{New}->{CustomerUserLogin} ) {
             if ( $Self->{NoticeSTDOUT} ) {
-                print
-                    "  - set customer user id of Ticket $Ticket to '$Param{Config}->{New}->{CustomerUserLogin}'\n";
+                print "  - set customer user id of Ticket $Ticket to '$Param{Config}->{New}->{CustomerUserLogin}'\n";
             }
         }
         $Self->{TicketObject}->SetCustomerData(
@@ -552,8 +551,7 @@ sub _JobRunTicket {
     }
     if ( $Param{Config}->{New}->{TypeID} ) {
         if ( $Self->{NoticeSTDOUT} ) {
-            print
-                "  - set type id of Ticket $Ticket to '$Param{Config}->{New}->{TypeID}'\n";
+            print "  - set type id of Ticket $Ticket to '$Param{Config}->{New}->{TypeID}'\n";
         }
         $Self->{TicketObject}->TicketTypeSet(
             TicketID => $Param{TicketID},
@@ -575,8 +573,7 @@ sub _JobRunTicket {
     }
     if ( $Param{Config}->{New}->{ServiceID} ) {
         if ( $Self->{NoticeSTDOUT} ) {
-            print
-                "  - set service id of Ticket $Ticket to '$Param{Config}->{New}->{ServiceID}'\n";
+            print "  - set service id of Ticket $Ticket to '$Param{Config}->{New}->{ServiceID}'\n";
         }
         $Self->{TicketObject}->TicketServiceSet(
             TicketID  => $Param{TicketID},
@@ -598,8 +595,7 @@ sub _JobRunTicket {
     }
     if ( $Param{Config}->{New}->{SLAID} ) {
         if ( $Self->{NoticeSTDOUT} ) {
-            print
-                "  - set sla id of Ticket $Ticket to '$Param{Config}->{New}->{SLAID}'\n";
+            print "  - set sla id of Ticket $Ticket to '$Param{Config}->{New}->{SLAID}'\n";
         }
         $Self->{TicketObject}->TicketSLASet(
             TicketID   => $Param{TicketID},
@@ -621,8 +617,7 @@ sub _JobRunTicket {
     }
     if ( $Param{Config}->{New}->{PriorityID} ) {
         if ( $Self->{NoticeSTDOUT} ) {
-            print
-                "  - set priority id of Ticket $Ticket to '$Param{Config}->{New}->{PriorityID}'\n";
+            print "  - set priority id of Ticket $Ticket to '$Param{Config}->{New}->{PriorityID}'\n";
         }
         $Self->{TicketObject}->PrioritySet(
             TicketID   => $Param{TicketID},
@@ -789,8 +784,7 @@ sub JobList {
             return;
         }
     }
-    my $SQL = "SELECT job_name FROM generic_agent_jobs";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare( SQL => 'SELECT job_name FROM generic_agent_jobs' );
     my %Data = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[0];
@@ -816,11 +810,10 @@ sub JobGet {
             return;
         }
     }
-    my $SQL = "SELECT job_key, job_value FROM generic_agent_jobs"
-        . " WHERE "
-        . " job_name = '"
-        . $Self->{DBObject}->Quote( $Param{Name} ) . "'";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT job_key, job_value FROM generic_agent_jobs WHERE job_name = ?",
+        Bind => [ \$Param{Name} ],
+    );
     my %Data = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         if ( $Self->{Map}->{ $Row[0] } && $Self->{Map}->{ $Row[0] } eq 'ARRAY' ) {
@@ -832,7 +825,9 @@ sub JobGet {
     }
     for my $Key ( keys %Data ) {
         if ( $Key =~ /(NewParam)Key(\d)/ ) {
-            $Data{"New$Data{$Key}"} = $Data{"$1Value$2"} if ( $Data{"$1Value$2"} );
+            if ( $Data{"$1Value$2"} ) {
+                $Data{"New$Data{$Key}"} = $Data{"$1Value$2"};
+            }
         }
     }
 
@@ -1062,25 +1057,23 @@ sub JobAdd {
     # insert data into db
     for my $Key ( keys %{ $Param{Data} } ) {
         if ( ref( $Param{Data}->{$Key} ) eq 'ARRAY' ) {
-            for ( @{ $Param{Data}->{$Key} } ) {
-                if ( defined($_) ) {
-                    my $SQL = "INSERT INTO generic_agent_jobs (job_name, "
-                        . "job_key, job_value) VALUES " . " ('"
-                        . $Self->{DBObject}->Quote( $Param{Name} )
-                        . "', '$Key', '"
-                        . $Self->{DBObject}->Quote($_) . "')";
-                    $Self->{DBObject}->Do( SQL => $SQL );
+            for my $Item ( @{ $Param{Data}->{$Key} } ) {
+                if ( defined($Item) ) {
+                    $Self->{DBObject}->Do(
+                        SQL => "INSERT INTO generic_agent_jobs "
+                            . "(job_name, job_key, job_value) VALUES (?, ?, ?)",
+                        Bind => [ \$Param{Name}, \$Key, \$Item ],
+                    );
                 }
             }
         }
         else {
             if ( defined( $Param{Data}->{$Key} ) ) {
-                my $SQL = "INSERT INTO generic_agent_jobs (job_name, "
-                    . "job_key, job_value) VALUES " . " ('"
-                    . $Self->{DBObject}->Quote( $Param{Name} )
-                    . "', '$Key', '"
-                    . $Self->{DBObject}->Quote( $Param{Data}->{$Key} ) . "')";
-                $Self->{DBObject}->Do( SQL => $SQL );
+                $Self->{DBObject}->Do(
+                    SQL => "INSERT INTO generic_agent_jobs "
+                        ."(job_name, job_key, job_value) VALUES (?, ?, ?)",
+                    Bind => [ \$Param{Name}, \$Key, \$Param{Data}->{$Key} ],
+                );
             }
         }
     }
@@ -1112,10 +1105,8 @@ sub JobDelete {
 
     # delete job
     $Self->{DBObject}->Do(
-         SQL => "DELETE FROM generic_agent_jobs WHERE "
-            . "job_name = '"
-            . $Self->{DBObject}->Quote( $Param{Name} )
-            . "'",
+        SQL  => "DELETE FROM generic_agent_jobs WHERE job_name = ?",
+        Bind => [ \$Param{Name} ],
     );
     $Self->{LogObject}->Log(
         Priority => 'notice',
@@ -1137,9 +1128,10 @@ sub _JobUpdateRunTime {
     }
 
     # check if job name already exists
-    my $SQL = "SELECT job_key, job_value FROM generic_agent_jobs"
-        . " WHERE job_name = '". $Self->{DBObject}->Quote( $Param{Name} ) . "'";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL  => "SELECT job_key, job_value FROM generic_agent_jobs WHERE job_name = ?",
+        Bind => [ \$Param{Name} ],
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         if ($Row[0] =~ /^(ScheduleLastRun|ScheduleLastRunUnixTime)/) {
             push( @Data, { Key => $Row[0], Value => $Row[1] } );
@@ -1154,19 +1146,19 @@ sub _JobUpdateRunTime {
         ScheduleLastRunUnixTime => $Self->{TimeObject}->SystemTime(),
     );
     for my $Key (keys %Insert) {
-        my $SQL = "INSERT INTO generic_agent_jobs (job_name,job_key, job_value)"
-            . " VALUES ('". $Self->{DBObject}->Quote( $Param{Name} ). "', '$Key', '"
-            . $Self->{DBObject}->Quote($Insert{$Key}) . "')";
-        $Self->{DBObject}->Do( SQL => $SQL );
+        $Self->{DBObject}->Do(
+            SQL  => "INSERT INTO generic_agent_jobs (job_name,job_key, job_value) VALUES (?, ?, ?)",
+            Bind => [ \$Param{Name}, \$Key, \$Insert{$Key} ],
+        );
     }
 
     # remove old times
     for my $Time (@Data) {
-        my $SQL = "DELETE FROM generic_agent_jobs WHERE "
-            . "job_name = '".$Self->{DBObject}->Quote( $Param{Name} ). "' AND "
-            . "job_key = '$Time->{Key}' AND "
-            . "job_value = '".$Self->{DBObject}->Quote( $Time->{Value} ). "'";
-        $Self->{DBObject}->Do( SQL => $SQL );
+        $Self->{DBObject}->Do(
+            SQL => "DELETE FROM generic_agent_jobs WHERE "
+                . "job_name = ? AND job_key = ? AND job_value = ?",
+            Bind => [ \$Param{Name}, \$Time->{Key}, \$Time->{Value} ],
+        );
     }
     return 1;
 }
@@ -1187,6 +1179,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2008-03-02 20:50:23 $
+$Revision: 1.34 $ $Date: 2008-03-08 11:20:27 $
 
 =cut

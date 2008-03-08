@@ -1,12 +1,12 @@
 # --
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerGroup.pm,v 1.14 2007-10-02 10:37:19 mh Exp $
+# $Id: CustomerGroup.pm,v 1.15 2008-03-08 11:18:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::CustomerGroup;
@@ -18,7 +18,7 @@ use Kernel::System::Group;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -107,8 +107,6 @@ to add a member to a group
 sub GroupMemberAdd {
     my ( $Self, %Param ) = @_;
 
-    my $count;
-
     # check needed stuff
     for (qw(UID GID UserID Permission)) {
         if ( !$Param{$_} ) {
@@ -118,40 +116,33 @@ sub GroupMemberAdd {
     }
 
     # update permission
-    for ( keys %{ $Param{Permission} } ) {
+    for my $Type ( keys %{ $Param{Permission} } ) {
 
         # delete existing permission
-        my $SQL
-            = "DELETE FROM group_customer_user "
-            . " WHERE "
-            . " group_id = "
-            . $Self->{DBObject}->Quote( $Param{GID} ) . " AND "
-            . " user_id = '"
-            . $Self->{DBObject}->Quote( $Param{UID} ) . "' " . " AND "
-            . " permission_key = '"
-            . $Self->{DBObject}->Quote($_) . "'";
-        $Self->{DBObject}->Do( SQL => $SQL );
+        $Self->{DBObject}->Do(
+            SQL => "DELETE FROM group_customer_user WHERE "
+                . " group_id = ? AND user_id = ? AND permission_key = ?",
+            Bind => [ \$Param{GID}, \$Param{UID}, \$Type ],
+        );
 
         # debug
         if ( $Self->{Debug} ) {
             $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Add UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!",
+                Priority => 'notice',
+                Message  => "Add UID:$Param{UID} to GID:$Param{GID}, $Type:$Param{Permission}->{$Type}!",
             );
         }
 
         # insert new permission
-        $SQL
-            = "INSERT INTO group_customer_user "
-            . " (user_id, group_id, permission_key, permission_value, "
-            . " create_time, create_by, change_time, change_by) "
-            . " VALUES " . " ('"
-            . $Self->{DBObject}->Quote( $Param{UID} ) . "', " . " "
-            . $Self->{DBObject}->Quote( $Param{GID} ) . ", " . " '"
-            . $Self->{DBObject}->Quote($_) . "', " . " "
-            . $Self->{DBObject}->Quote( $Param{Permission}->{$_} ) . ","
-            . " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-        $Self->{DBObject}->Do( SQL => $SQL );
+        $Self->{DBObject}->Do(
+            SQL  => "INSERT INTO group_customer_user "
+                . " (user_id, group_id, permission_key, permission_value, "
+                . " create_time, create_by, change_time, change_by) "
+                . " VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
+            Bind => [
+                \$Param{UID}, \$Param{GID}, \$Type, \$Param{Permission}->{$Type}, \$Param{UserID}, \$Param{UserID},
+            ],
+        );
     }
     return 1;
 }
@@ -205,18 +196,15 @@ sub GroupMemberList {
     }
 
     # if it's activ, return just the permitted groups
-    my $SQL
-        = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
-        . " gu.user_id "
+    my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, gu.user_id "
         . " FROM "
         . " groups g, group_customer_user gu"
         . " WHERE "
-        . " g.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) " . " AND "
-        . " g.id = gu.group_id " . " AND "
-        . " gu.permission_value = 1 " . " AND "
-        . " gu.permission_key IN ('"
-        . $Self->{DBObject}->Quote( $Param{Type} )
-        . "', 'rw') " . " AND ";
+        . " g.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) AND "
+        . " g.id = gu.group_id AND "
+        . " gu.permission_value = 1 AND "
+        . " gu.permission_key IN ('" . $Self->{DBObject}->Quote( $Param{Type} ) . "', 'rw') "
+        . " AND ";
     if ( $Param{UserID} ) {
         $SQL .= " gu.user_id = '" . $Self->{DBObject}->Quote( $Param{UserID} ) . "'";
     }
@@ -278,12 +266,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2007-10-02 10:37:19 $
+$Revision: 1.15 $ $Date: 2008-03-08 11:18:32 $
 
 =cut
