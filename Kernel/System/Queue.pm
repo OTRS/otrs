@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.81 2008-03-05 23:10:08 martin Exp $
+# $Id: Queue.pm,v 1.82 2008-03-08 10:58:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 =head1 NAME
 
@@ -584,7 +584,7 @@ sub GetQueueGroupID {
     $Self->{DBObject}->Prepare(
         SQL   => "SELECT group_id FROM queue WHERE id = ?",
         Bind  => [ \$Param{QueueID} ],
-        Limit => 1
+        Limit => 1,
     );
 
     # fetch the result
@@ -797,6 +797,7 @@ sub QueueGet {
     }
 
     # sql
+    my @Bind;
     my $SQL = "SELECT q.name, q.group_id, q.unlock_timeout, "
         . " q.system_address_id, q.salutation_id, q.signature_id, q.comments, q.valid_id, "
         . " q.first_response_time, q.first_response_notify, "
@@ -804,23 +805,23 @@ sub QueueGet {
         . " q.follow_up_id, q.follow_up_lock, sa.value0, sa.value1, q.id, "
         . " q.move_notify, q.state_notify, q.lock_notify, q.owner_notify, q.default_sign_key, "
         . " q.calendar_name "
-        . " FROM "
-        . " queue q, system_address sa"
-        . " WHERE "
-        . " q.system_address_id = sa.id AND ";
+        . " FROM queue q, system_address sa"
+        . " WHERE q.system_address_id = sa.id AND ";
     my $Suffix = '';
     if ( $Param{ID} ) {
         $Param{What} = $Param{ID};
         $Suffix = 'ID';
-        $SQL .= " q.id = " . $Self->{DBObject}->Quote( $Param{ID}, 'Integer' ) . "";
+        $SQL .= "q.id = ?";
+        push @Bind, \$Param{ID};
     }
     else {
         $Param{What} = $Param{Name};
         $Suffix = 'Name';
-        $SQL .= " q.name = '" . $Self->{DBObject}->Quote( $Param{Name} ) . "'";
+        $SQL .= "q.name = ?";
+        push @Bind, \$Param{Name};
     }
     my %Data = ();
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
             QueueID             => $Data[18],
@@ -1052,6 +1053,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.81 $ $Date: 2008-03-05 23:10:08 $
+$Revision: 1.82 $ $Date: 2008-03-08 10:58:48 $
 
 =cut
