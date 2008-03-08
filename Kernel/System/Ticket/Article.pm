@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.159 2008-02-23 01:33:08 martin Exp $
+# $Id: Article.pm,v 1.160 2008-03-08 11:01:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.159 $) [1];
+$VERSION = qw($Revision: 1.160 $) [1];
 
 =head1 NAME
 
@@ -115,44 +115,23 @@ sub ArticleCreate {
         }
     }
 
-    # db quoting
-    my %DBParam = ();
-    for (qw(From To Cc ReplyTo Subject Body MessageID ContentType)) {
-        if ( $Param{$_} ) {
-
-            # qb quoting
-            $DBParam{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-        }
-        else {
-            $DBParam{$_} = '';
-        }
-    }
-    for (qw(TicketID ArticleTypeID SenderTypeID UserID)) {
-        $DBParam{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # do db insert
-    my $SQL = "INSERT INTO article "
-        . " (ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, "
-        . " a_cc, a_subject, a_message_id, a_body, a_content_type, content_path, "
-        . " valid_id, incoming_time,  create_time, create_by, change_time, change_by) "
-        . " VALUES "
-        . " ($DBParam{TicketID}, $DBParam{ArticleTypeID}, $DBParam{SenderTypeID}, "
-        . " '$DBParam{From}', '$DBParam{ReplyTo}', ?, ?, ?, "
-        . " '$DBParam{MessageID}', ?, '$DBParam{ContentType}', ?, "
-        . " $ValidID,  $IncomingTime, "
-        . " current_timestamp, $DBParam{UserID}, current_timestamp, $DBParam{UserID})";
-    if (!$Self->{DBObject}->Do(
-            SQL  => $SQL,
-            Bind => [
-                \$Param{To},   \$Param{Cc}, \$Param{Subject},
-                \$Param{Body}, \$Self->{ArticleContentPath}
-            ]
-        )
-        )
-    {
-        return;
-    }
+    return if !$Self->{DBObject}->Do(
+        SQL  => "INSERT INTO article "
+            . " (ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, "
+            . " a_cc, a_subject, a_message_id, a_body, a_content_type, content_path, "
+            . " valid_id, incoming_time,  create_time, create_by, change_time, change_by) "
+            . " VALUES "
+            . " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
+        Bind => [
+            \$Param{TicketID}, \$Param{ArticleTypeID}, \$Param{SenderTypeID},
+            \$Param{From}, \$Param{ReplyTo}, \$Param{To},   \$Param{Cc},
+            \$Param{Subject}, \$Param{MessageID}, \$Param{Body},
+            \$Param{ContentType}, \$Self->{ArticleContentPath},
+            \$ValidID, \$IncomingTime,
+            \$Param{UserID}, \$Param{UserID},
+        ]
+    );
 
     # get article id
     my $ArticleID = $Self->_ArticleGetId(
@@ -217,14 +196,12 @@ sub ArticleCreate {
 
         # check if latest article comes from customer
         my $LastSender = '';
-        my $SQL = "SELECT ast.name "
-            . " FROM "
-            . " article at, article_sender_type ast "
-            . " WHERE "
-            . " at.ticket_id = $Param{TicketID} AND "
-            . " at.id NOT IN ($ArticleID) AND "
-            . " at.article_sender_type_id = ast.id ORDER BY at.create_time ASC";
-        $Self->{DBObject}->Prepare( SQL => $SQL );
+        $Self->{DBObject}->Prepare(
+            SQL => "SELECT ast.name FROM article at, article_sender_type ast WHERE "
+                . " at.ticket_id = ? AND at.id NOT IN (?) AND "
+                . " at.article_sender_type_id = ast.id ORDER BY at.create_time ASC",
+            Bind => [ \$Param{TicketID}, \$ArticleID ],
+        );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             if ( $Row[0] ne 'system' ) {
                 $LastSender = $Row[0];
@@ -383,25 +360,26 @@ sub ArticleCreate {
     my %AlreadySent = ();
     if ( $Param{HistoryType} =~ /^(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer|SystemRequest)$/i ) {
         for ( $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} ) ) {
-            if ( !$AlreadySent{$_} ) {
-                $AlreadySent{$_} = 1;
-                my %UserData = $Self->{UserObject}->GetUserData(
-                    UserID => $_,
-                    Cached => 1,
-                    Valid  => 1,
-                );
-                if ( $UserData{UserSendNewTicketNotification} ) {
+            if ( $AlreadySent{$_} ) {
+                next;
+            }
+            $AlreadySent{$_} = 1;
+            my %UserData = $Self->{UserObject}->GetUserData(
+                UserID => $_,
+                Cached => 1,
+                Valid  => 1,
+            );
+            if ( $UserData{UserSendNewTicketNotification} ) {
 
-                    # send notification
-                    $Self->SendAgentNotification(
-                        Type                  => $Param{HistoryType},
-                        UserData              => \%UserData,
-                        CustomerMessageParams => \%Param,
-                        TicketID              => $Param{TicketID},
-                        Queue                 => $Param{Queue},
-                        UserID                => $Param{UserID},
-                    );
-                }
+                # send notification
+                $Self->SendAgentNotification(
+                    Type                  => $Param{HistoryType},
+                    UserData              => \%UserData,
+                    CustomerMessageParams => \%Param,
+                    TicketID              => $Param{TicketID},
+                    Queue                 => $Param{Queue},
+                    UserID                => $Param{UserID},
+                );
             }
         }
     }
@@ -410,24 +388,25 @@ sub ArticleCreate {
         # send owner/responsible notification to agent
         for (qw(OwnerID ResponsibleID)) {
             if ( $Ticket{$_} && $Ticket{$_} ne 1 && $Ticket{$_} ne $Param{UserID} ) {
-                if ( !$AlreadySent{ $Ticket{$_} } ) {
-                    $AlreadySent{ $Ticket{$_} } = 1;
-                    my %UserData = $Self->{UserObject}->GetUserData(
-                        UserID => $Ticket{$_},
-                        Cached => 1,
-                        Valid  => 1,
-                    );
-
-                    # send notification
-                    $Self->SendAgentNotification(
-                        Type                  => $Param{HistoryType},
-                        UserData              => \%UserData,
-                        CustomerMessageParams => \%Param,
-                        TicketID              => $Param{TicketID},
-                        Queue                 => $Param{Queue},
-                        UserID                => $Param{UserID},
-                    );
+                if ( $AlreadySent{ $Ticket{$_} } ) {
+                    next;
                 }
+                $AlreadySent{ $Ticket{$_} } = 1;
+                my %UserData = $Self->{UserObject}->GetUserData(
+                    UserID => $Ticket{$_},
+                    Cached => 1,
+                    Valid  => 1,
+                );
+
+                # send notification
+                $Self->SendAgentNotification(
+                    Type                  => $Param{HistoryType},
+                    UserData              => \%UserData,
+                    CustomerMessageParams => \%Param,
+                    TicketID              => $Param{TicketID},
+                    Queue                 => $Param{Queue},
+                    UserID                => $Param{UserID},
+                );
             }
         }
     }
@@ -479,25 +458,26 @@ sub ArticleCreate {
         else {
             for my $Type (qw(OwnerID ResponsibleID)) {
                 if ( $Ticket{$Type} && $Ticket{$Type} ne 1 ) {
-                    if ( !$AlreadySent{ $Ticket{$Type} } ) {
-                        $AlreadySent{ $Ticket{$Type} } = 1;
-                        my %UserData = $Self->{UserObject}->GetUserData(
-                            UserID => $Ticket{$Type},
-                            Cached => 1,
-                            Valid  => 1,
-                        );
-                        if ( $UserData{UserSendFollowUpNotification} ) {
+                    if ( $AlreadySent{ $Ticket{$Type} } ) {
+                        next;
+                    }
+                    $AlreadySent{ $Ticket{$Type} } = 1;
+                    my %UserData = $Self->{UserObject}->GetUserData(
+                        UserID => $Ticket{$Type},
+                        Cached => 1,
+                        Valid  => 1,
+                    );
+                    if ( $UserData{UserSendFollowUpNotification} ) {
 
-                            # send notification
-                            $Self->SendAgentNotification(
-                                Type                  => $Param{HistoryType},
-                                UserData              => \%UserData,
-                                CustomerMessageParams => \%Param,
-                                TicketID              => $Param{TicketID},
-                                Queue                 => $Param{Queue},
-                                UserID                => $Param{UserID},
-                            );
-                        }
+                        # send notification
+                        $Self->SendAgentNotification(
+                            Type                  => $Param{HistoryType},
+                            UserData              => \%UserData,
+                            CustomerMessageParams => \%Param,
+                            TicketID              => $Param{TicketID},
+                            Queue                 => $Param{Queue},
+                            UserID                => $Param{UserID},
+                        );
                     }
                 }
             }
@@ -538,25 +518,26 @@ sub ArticleCreate {
     # send forced notifications
     if ( $Param{ForceNotificationToUserID} && ref( $Param{ForceNotificationToUserID} ) eq 'ARRAY' ) {
         for my $UserID ( @{ $Param{ForceNotificationToUserID} } ) {
-            if ( !$AlreadySent{$UserID} ) {
-
-                # remember already sent info
-                $AlreadySent{$UserID} = 1;
-                my %Preferences = $Self->{UserObject}->GetUserData(
-                    UserID => $UserID,
-                    Cached => 1,
-                    Valid  => 1,
-                );
-
-                # send notification
-                $Self->SendAgentNotification(
-                    Type                  => $Param{HistoryType},
-                    UserData              => \%Preferences,
-                    CustomerMessageParams => \%Param,
-                    TicketID              => $Param{TicketID},
-                    UserID                => $Param{UserID},
-                );
+            if ( $AlreadySent{$UserID} ) {
+                next;
             }
+
+            # remember already sent info
+            $AlreadySent{$UserID} = 1;
+            my %Preferences = $Self->{UserObject}->GetUserData(
+                UserID => $UserID,
+                Cached => 1,
+                Valid  => 1,
+            );
+
+            # send notification
+            $Self->SendAgentNotification(
+                Type                  => $Param{HistoryType},
+                UserData              => \%Preferences,
+                CustomerMessageParams => \%Param,
+                TicketID              => $Param{TicketID},
+                UserID                => $Param{UserID},
+            );
         }
     }
 
@@ -581,9 +562,10 @@ sub ArticleCreate {
                 $NewTo .= "$UserData{UserFirstname} $UserData{UserLastname} <$UserData{UserEmail}>";
             }
             if ($NewTo) {
-                $Self->{DBObject}->Do( SQL => "UPDATE article SET a_to = '"
-                        . $Self->{DBObject}->Quote($NewTo)
-                        . "' WHERE id = $ArticleID", );
+                $Self->{DBObject}->Do(
+                    SQL  => "UPDATE article SET a_to = ? WHERE id = ?",
+                    Bind => [ \$NewTo, \$ArticleID ],
+                );
             }
         }
     }
@@ -604,36 +586,34 @@ sub _ArticleGetId {
         }
     }
 
-    # db quote
-    for (qw(MessageID From Subject IncomingTime)) {
-        if ( $Param{$_} ) {
-            $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-        }
-    }
-    for (qw(TicketID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql query
-    my $SQL = "SELECT id FROM article WHERE ticket_id = $Param{TicketID} AND ";
+    my @Bind = ( \$Param{TicketID});
+    my $SQL = "SELECT id FROM article WHERE ticket_id = ? AND ";
     if ( $Param{MessageID} ) {
-        $SQL .= "a_message_id = '$Param{MessageID}' AND ";
+        $SQL .= "a_message_id = ? AND ";
+        push @Bind, \$Param{MessageID};
     }
     if ( $Param{From} ) {
-        $SQL .= "a_from = '$Param{From}' AND ";
+        $SQL .= "a_from = ? AND ";
+        push @Bind, \$Param{From};
     }
     if ( $Param{Subject} ) {
-        $SQL .= "a_subject = '$Param{Subject}' AND ";
+        $SQL .= "a_subject = ? AND ";
+        push @Bind, \$Param{Subject};
     }
     $SQL .= " incoming_time = $Param{IncomingTime}";
+    push @Bind, \$Param{IncomingTime};
 
     # start query
-    $Self->{DBObject}->Prepare( SQL => $SQL );
-    my $Id;
+    $Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind,
+    );
+    my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Id = $Row[0];
+        $ID = $Row[0];
     }
-    return $Id;
+    return $ID;
 }
 
 =item ArticleGetTicketIDOfMessageID()
@@ -649,25 +629,20 @@ get ticket id of given message id
 sub ArticleGetTicketIDOfMessageID {
     my ( $Self, %Param ) = @_;
 
-    my $TicketID;
-    my $Count = 0;
-
     # check needed stuff
     if ( !$Param{MessageID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need MessageID!" );
         return;
     }
 
-    # db quote
-    for (qw(MessageID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-
     # sql query
     $Self->{DBObject}->Prepare(
-        SQL   => "SELECT ticket_id FROM article WHERE a_message_id = '$Param{MessageID}'",
+        SQL   => "SELECT ticket_id FROM article WHERE a_message_id = ?",
+        Bind  => [ \$Param{MessageID} ],
         Limit => 10,
     );
+    my $TicketID;
+    my $Count = 0;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Count++;
         $TicketID = $Row[0];
@@ -713,11 +688,6 @@ sub ArticleGetContentPath {
         return;
     }
 
-    # db quote
-    for (qw(ArticleID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # check cache
     if ( $Self->{"ArticleGetContentPath::$Param{ArticleID}"} ) {
         return $Self->{"ArticleGetContentPath::$Param{ArticleID}"};
@@ -726,7 +696,8 @@ sub ArticleGetContentPath {
     # sql query
     my $Path = '';
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT content_path FROM article WHERE id = $Param{ArticleID}",
+        SQL  => "SELECT content_path FROM article WHERE id = ?",
+        Bind => [ \$Param{ArticleID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Path = $Row[0];
@@ -777,27 +748,21 @@ sub ArticleSenderTypeLookup {
     }
 
     # get data
-    my $SQL = '';
     if ( $Param{SenderType} ) {
-
-        # db quote
-        for (qw(SenderType)) {
-            $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-        }
-        $SQL = "SELECT id FROM article_sender_type WHERE name = '$Param{SenderType}'";
+        $Self->{DBObject}->Prepare(
+            SQL  => "SELECT id FROM article_sender_type WHERE name = ?",
+            Bind => [ \$Param{SenderType} ],
+        );
     }
     else {
-
-        # db quote
-        for (qw(SenderTypeID)) {
-            $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-        }
-        $SQL = "SELECT name FROM article_sender_type WHERE id = $Param{SenderTypeID}";
+        $Self->{DBObject}->Prepare(
+            SQL  => "SELECT name FROM article_sender_type WHERE id = ?",
+            Bind => [ \$Param{SenderTypeID} ],
+        );
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-        # store result
+    # store result
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"} = $Row[0];
     }
 
@@ -856,26 +821,20 @@ sub ArticleTypeLookup {
     # get data
     my $SQL = '';
     if ( $Param{ArticleType} ) {
-
-        # db quote
-        for (qw(ArticleType)) {
-            $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-        }
-        $SQL = "SELECT id FROM article_type WHERE name = '$Param{ArticleType}'";
+        $Self->{DBObject}->Prepare(
+            SQL  => "SELECT id FROM article_type WHERE name = ?",
+            Bind => [ \$Param{ArticleType} ],
+        );
     }
     else {
-
-        # db quote
-        for (qw(ArticleTypeID)) {
-            $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-        }
-        $SQL = "SELECT name FROM article_type WHERE id = $Param{ArticleTypeID}";
+        $Self->{DBObject}->Prepare(
+            SQL  => "SELECT name FROM article_type WHERE id = ?",
+            Bind => [ \$Param{ArticleTypeID} ],
+        );
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL );
 
+    # store result
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-
-        # store result
         $Self->{"ArticleTypeLookup::$Param{$Param{Key}}"} = $Row[0];
     }
 
@@ -908,8 +867,6 @@ get a article type list
 sub ArticleTypeList {
     my ( $Self, %Param ) = @_;
 
-    my @List = ();
-
     # check needed stuff
     for (qw()) {
         if ( !$Param{$_} ) {
@@ -917,9 +874,11 @@ sub ArticleTypeList {
             return;
         }
     }
-    my $SQL = "SELECT id, name FROM article_type "
-        . " WHERE valid_id IN (${\(join ', ', $Self->{ValidObject}->ValidIDsGet())}) ";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    my @List = ();
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT id, name FROM article_type WHERE "
+            . "valid_id IN (${\(join ', ', $Self->{ValidObject}->ValidIDsGet())})",
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         if ( $Param{Type} && $Param{Type} eq 'Customer' ) {
             if ( $Row[1] !~ /int/i ) {
@@ -1057,31 +1016,26 @@ sub ArticleFreeTextSet {
     # db quote for key an value
     $Param{Value} = $Self->{DBObject}->Quote( $Param{Value} ) || '';
     $Param{Key}   = $Self->{DBObject}->Quote( $Param{Key} )   || '';
-    for (qw(Counter ArticleID UserID)) {
+    for (qw(Counter)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
 
     # db update
-    if ($Self->{DBObject}->Do(
-                  SQL => "UPDATE article SET a_freekey$Param{Counter} = '$Param{Key}', "
-                . " a_freetext$Param{Counter} = '$Param{Value}', "
-                . " change_time = current_timestamp, change_by = $Param{UserID} "
-                . " WHERE id = $Param{ArticleID}",
-        )
-        )
-    {
+    return if ! $Self->{DBObject}->Do(
+        SQL => "UPDATE article SET a_freekey$Param{Counter} = ?, "
+            . " a_freetext$Param{Counter} = ?, "
+            . " change_time = current_timestamp, change_by = ? "
+            . " WHERE id = ?",
+        Bind => [ \$Param{Key}, \$Param{Value}, \$Param{UserID}, \$Param{ArticleID} ],
+    );
 
-        # ticket event
-        $Self->TicketEventHandlerPost(
-            Event    => 'ArticleFreeTextUpdate',
-            TicketID => $Param{TicketID},
-            UserID   => $Param{UserID},
-        );
-        return 1;
-    }
-    else {
-        return;
-    }
+    # ticket event
+    $Self->TicketEventHandlerPost(
+        Event    => 'ArticleFreeTextUpdate',
+        TicketID => $Param{TicketID},
+        UserID   => $Param{UserID},
+    );
+    return 1;
 }
 
 =item ArticleLastCustomerArticle()
@@ -1196,34 +1150,22 @@ sub ArticleIndex {
         return;
     }
 
-    # db quote
-    for (qw(SenderType)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    for (qw(TicketID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # db query
     my $SQL = '';
     if ( $Param{SenderType} ) {
-        $SQL .= "SELECT at.id"
-            . " FROM "
-            . " article at, article_sender_type ast "
-            . " WHERE "
-            . " at.ticket_id = $Param{TicketID} AND "
-            . " at.article_sender_type_id = ast.id AND "
-            . " ast.name = '$Param{SenderType}' ";
+        $Self->{DBObject}->Prepare(
+            SQL => "SELECT at.id FROM article at, article_sender_type ast WHERE "
+                . " at.ticket_id = ? AND at.article_sender_type_id = ast.id AND "
+                . " ast.name = ? ORDER BY at.id",
+            Bind => [ \$Param{TicketID}, \$Param{SenderType} ],
+        );
     }
     else {
-        $SQL = "SELECT at.id"
-            . " FROM "
-            . " article at "
-            . " WHERE "
-            . " at.ticket_id = $Param{TicketID} ";
+        $Self->{DBObject}->Prepare(
+            SQL  => "SELECT at.id FROM article at WHERE at.ticket_id = ? ORDER BY at.id",
+            Bind => [ \$Param{TicketID} ],
+        );
     }
-    $SQL .= " ORDER BY at.id";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push( @Index, $Row[0] );
     }
@@ -1312,8 +1254,20 @@ sub ArticleContentIndex {
                         last;
                     }
                 }
-                if ( %AttachmentFile && length($Article->{Body}) == $AttachmentFile{FilesizeRaw} ) {
-                    delete $AtmIndex{$AttachmentCount};
+
+                # plain attachment detected
+                if ( %AttachmentFile ) {
+
+                    # check body size vs. attachment size to be sure
+                    my $BodySize = 0;
+                    {
+                        use bytes;
+                        $BodySize = length($Article->{Body});
+                        no bytes;
+                    }
+                    if ( $BodySize == $AttachmentFile{FilesizeRaw} ) {
+                        delete $AtmIndex{$AttachmentCount};
+                    }
                 }
             }
 
@@ -1676,30 +1630,21 @@ sub ArticleUpdate {
     # db quote for key an value
     $Param{Value} = $Self->{DBObject}->Quote( $Param{Value} );
     $Param{Key}   = $Self->{DBObject}->Quote( $Param{Key} );
-    for (qw(ArticleID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
 
     # db update
-    if ($Self->{DBObject}->Do(
-                  SQL => "UPDATE article SET $Map{$Param{Key}} = '$Param{Value}', "
-                . " change_time = current_timestamp, change_by = $Param{UserID} "
-                . " WHERE id = $Param{ArticleID}",
-        )
-        )
-    {
+    return if ! $Self->{DBObject}->Do(
+        SQL => "UPDATE article SET $Map{$Param{Key}} = ?, "
+            . " change_time = current_timestamp, change_by = ? WHERE id = ?",
+        Bind => [ \$Param{Value}, \$Param{UserID}, \$Param{ArticleID} ],
+    );
 
-        # ticket event
-        $Self->TicketEventHandlerPost(
-            Event    => 'ArticleUpdate',
-            TicketID => $Param{TicketID},
-            UserID   => $Param{UserID},
-        );
-        return 1;
-    }
-    else {
-        return;
-    }
+    # ticket event
+    $Self->TicketEventHandlerPost(
+        Event    => 'ArticleUpdate',
+        TicketID => $Param{TicketID},
+        UserID   => $Param{UserID},
+    );
+    return 1;
 }
 
 =item ArticleSend()
@@ -1921,16 +1866,12 @@ sub ArticleBounce {
     my $NewMessageID = "<$Time.$Random.$Param{TicketID}.0.$Param{UserID}\@$Self->{FQDN}>";
 
     # pipe all into sendmail
-    if (!$Self->{SendmailObject}->Bounce(
-            MessageID => $NewMessageID,
-            From      => $Param{From},
-            To        => $Param{To},
-            Email     => $Param{Email},
-        )
-        )
-    {
-        return;
-    }
+    return if !$Self->{SendmailObject}->Bounce(
+        MessageID => $NewMessageID,
+        From      => $Param{From},
+        To        => $Param{To},
+        Email     => $Param{Email},
+    );
 
     # write history
     $Self->HistoryAdd(
@@ -1978,9 +1919,7 @@ sub SendAgentNotification {
     }
 
     # compat Type
-    if ( $Param{Type}
-        =~ /(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer|SystemRequest)/ )
-    {
+    if ( $Param{Type} =~ /(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer|SystemRequest)/ ) {
         $Param{Type} = 'NewTicket';
     }
 
@@ -2821,27 +2760,20 @@ sub ArticleFlagSet {
         }
     }
 
-    # db quote
-    for (qw(Flag)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    for (qw(ArticleID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
     my %Flag = $Self->ArticleFlagGet(%Param);
     if ( !defined( $Flag{Flag} ) || $Flag{Flag} ne $Param{Flag} ) {
 
         # do db insert
-        $Self->{DBObject}->Do( SQL => "DELETE FROM article_flag WHERE "
-                . "article_id = $Param{ArticleID} AND create_by = $Param{UserID}"
+        $Self->{DBObject}->Do(
+            SQL  => "DELETE FROM article_flag WHERE article_id = ? AND create_by = ?",
+            Bind => [ \$Param{ArticleID}, \$Param{UserID} ],
         );
-        return $Self->{DBObject}->Do( SQL => "INSERT INTO article_flag "
+        $Self->{DBObject}->Do(
+            SQL => "INSERT INTO article_flag "
                 . " (article_id, article_flag, create_time, create_by) "
-                . " VALUES "
-                . " ($Param{ArticleID}, '$Param{Flag}', current_timestamp, $Param{UserID})",
+                . " VALUES (?, ?, current_timestamp, ?)",
+            Bind => [ \$Param{ArticleID}, \$Param{Flag}, \$Param{UserID} ],
         );
-    }
-    else {
 
         # ticket event
         $Self->TicketEventHandlerPost(
@@ -2849,8 +2781,8 @@ sub ArticleFlagSet {
             TicketID => $Param{TicketID},
             UserID   => $Param{UserID},
         );
-        return 1;
     }
+    return 1;
 }
 
 =item ArticleFlagGet()
@@ -2877,15 +2809,10 @@ sub ArticleFlagGet {
         }
     }
 
-    # db quote
-    for (qw(ArticleID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql query
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT article_flag FROM article_flag WHERE "
-            . " article_id = $Param{ArticleID} AND create_by = $Param{UserID}",
+        SQL => "SELECT article_flag FROM article_flag WHERE article_id = ? AND create_by = ?",
+        Bind  => [ \$Param{ArticleID}, \$Param{UserID} ],
         Limit => 1000,
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -2915,18 +2842,11 @@ sub ArticleAccountedTimeGet {
         return;
     }
 
-    # db quote
-    for (qw(ArticleID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # db query
-    my $SQL = "SELECT time_unit "
-        . " FROM "
-        . " time_accounting "
-        . " WHERE "
-        . " article_id = $Param{ArticleID}";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL  => "SELECT time_unit FROM time_accounting WHERE article_id = ?",
+        Bind => [ \$Param{ArticleID} ],
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Row[0] =~ s/,/./g;
         $AccountedTime = $AccountedTime + $Row[0];
@@ -2953,14 +2873,11 @@ sub ArticleAccountedTimeDelete {
         return;
     }
 
-    # db quote
-    for (qw(ArticleID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # db query
-    my $SQL = "DELETE FROM time_accounting WHERE article_id = $Param{ArticleID}";
-    return $Self->{DBObject}->Do( SQL => $SQL );
+    return $Self->{DBObject}->Do(
+        SQL  => "DELETE FROM time_accounting WHERE article_id = ?",
+        Bind => [ \$Param{ArticleID} ],
+    );
 }
 
 1;

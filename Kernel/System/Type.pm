@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Type.pm - All type related function should be here eventually
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.3 2007-10-02 10:38:58 mh Exp $
+# $Id: Type.pm,v 1.4 2008-03-08 10:58:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Type;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -102,33 +102,23 @@ sub TypeAdd {
         }
     }
 
-    # quote params
-    for (qw(Name)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
-    }
-    for (qw(ValidID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-    my $SQL
-        = "INSERT INTO ticket_type (name, valid_id, "
-        . " create_time, create_by, change_time, change_by)"
-        . " VALUES "
-        . " ('$Param{Name}', $Param{ValidID}, "
-        . " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
+    return if ! $Self->{DBObject}->Do(
+        SQL => "INSERT INTO ticket_type (name, valid_id, "
+            . " create_time, create_by, change_time, change_by)"
+            . " VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)",
+        Bind => [ \$Param{Name}, \$Param{ValidID}, \$Param{UserID}, \$Param{UserID} ],
+   );
 
-        # get new type id
-        my $SQL = "SELECT id FROM ticket_type WHERE name = '$Param{Name}'";
-        my $ID  = '';
-        $Self->{DBObject}->Prepare( SQL => $SQL );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $ID = $Row[0];
-        }
-        return $ID;
+    # get new type id
+    $Self->{DBObject}->Prepare(
+        SQL  => "SELECT id FROM ticket_type WHERE name = ?",
+        Bind => [ \$Param{Name} ],
+    );
+    my $ID  = '';
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $ID = $Row[0];
     }
-    else {
-        return;
-    }
+    return $ID;
 }
 
 =item TypeGet()
@@ -150,44 +140,33 @@ sub TypeGet {
         return;
     }
 
-    # quote params
-    for (qw(ID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql
-    my $SQL
-        = "SELECT id, name, valid_id, change_time, create_time "
-        . " FROM "
-        . " ticket_type "
-        . " WHERE "
-        . " id = $Param{ID}";
-    if ( $Self->{DBObject}->Prepare( SQL => $SQL ) ) {
-        my %Data = ();
-        while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-            %Data = (
-                ID         => $Data[0],
-                Name       => $Data[1],
-                ValidID    => $Data[2],
-                ChangeTime => $Data[3],
-                CreateTime => $Data[4],
-            );
-        }
-
-        # no data found
-        if ( !%Data ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "TypeType '$Param{Name}' not found!"
-            );
-        }
-
-        # return data
-        return %Data;
+    return if ! $Self->{DBObject}->Prepare(
+        SQL => "SELECT id, name, valid_id, change_time, create_time "
+            . " FROM ticket_type WHERE id = ?",
+        Bind => [ \$Param{ID} ],
+    );
+    my %Data = ();
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        %Data = (
+            ID         => $Data[0],
+            Name       => $Data[1],
+            ValidID    => $Data[2],
+            ChangeTime => $Data[3],
+            CreateTime => $Data[4],
+        );
     }
-    else {
-        return;
+
+    # no data found
+    if ( !%Data ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "TypeType '$Param{Name}' not found!"
+        );
     }
+
+    # return data
+    return %Data;
 }
 
 =item TypeUpdate()
@@ -214,26 +193,14 @@ sub TypeUpdate {
         }
     }
 
-    # quote params
-    for (qw(Name)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
-    }
-    for (qw(ID ValidID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql
-    my $SQL
-        = "UPDATE ticket_type SET name = '$Param{Name}', "
-        . " valid_id = $Param{ValidID}, "
-        . " change_time = current_timestamp, change_by = $Param{UserID} "
-        . " WHERE id = $Param{ID}";
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        return 1;
-    }
-    else {
-        return;
-    }
+    return $Self->{DBObject}->Do(
+        SQL => "UPDATE ticket_type SET name = ?, valid_id = ?, "
+            . " change_time = current_timestamp, change_by = ? WHERE id = ?",
+        Bind => [
+            \$Param{Name}, \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
+        ],
+    );
 }
 
 =item TypeList()
@@ -296,20 +263,21 @@ sub TypeLookup {
 
     # get data
     my $SQL    = '';
+    my @Bind;
     my $Suffix = '';
     if ( $Param{Type} ) {
         $Param{What} = $Param{Type};
         $Suffix      = 'TypeID';
-        $SQL         = "SELECT id FROM ticket_type WHERE name = '"
-            . $Self->{DBObject}->Quote( $Param{Type} ) . "'";
+        $SQL         = "SELECT id FROM ticket_type WHERE name = ?";
+        push @Bind, \$Param{Type};
     }
     else {
         $Param{What} = $Param{TypeID};
         $Suffix      = 'Type';
-        $SQL         = "SELECT name FROM ticket_type WHERE id = "
-            . $Self->{DBObject}->Quote( $Param{TypeID}, 'Integer' ) . "";
+        $SQL         = "SELECT name FROM ticket_type WHERE id = ?";
+        push @Bind, \$Param{TypeID};
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # store result
@@ -339,12 +307,12 @@ This Software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2007-10-02 10:38:58 $
+$Revision: 1.4 $ $Date: 2008-03-08 10:58:09 $
 
 =cut

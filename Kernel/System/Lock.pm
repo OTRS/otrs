@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Lock.pm,v 1.14 2007-10-02 10:38:08 mh Exp $
+# $Id: Lock.pm,v 1.15 2008-03-08 10:58:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Lock;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -102,9 +102,6 @@ get list of lock types
 sub LockViewableLock {
     my ( $Self, %Param ) = @_;
 
-    my @Name = ();
-    my @ID   = ();
-
     # check needed stuff
     for (qw(Type)) {
         if ( !$Param{$_} ) {
@@ -113,30 +110,24 @@ sub LockViewableLock {
         }
     }
 
-    # db quote
-    for ( keys %Param ) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-
     # sql
-    my $SQL
-        = "SELECT id, name "
-        . " FROM "
-        . " ticket_lock_type "
-        . " WHERE "
-        . " name IN ( ${\(join ', ', @{$Self->{ViewableLocks}})} ) " . " AND "
-        . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
-    if ( $Self->{DBObject}->Prepare( SQL => $SQL ) ) {
-        while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-            push( @Name, $Data[1] );
-            push( @ID,   $Data[0] );
-        }
-        if ( $Param{Type} eq 'Name' ) {
-            return @Name;
-        }
-        else {
-            return @ID;
-        }
+    return if ! $Self->{DBObject}->Prepare(
+        SQL => "SELECT id, name FROM ticket_lock_type WHERE "
+            . " name IN ( ${\(join ', ', @{$Self->{ViewableLocks}})} ) AND "
+            . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
+    );
+
+    my @Name = ();
+    my @ID   = ();
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        push( @Name, $Data[1] );
+        push( @ID,   $Data[0] );
+    }
+    if ( $Param{Type} eq 'Name' ) {
+        return @Name;
+    }
+    else {
+        return @ID;
     }
 }
 
@@ -153,9 +144,8 @@ lock lookup
 sub LockLookup {
     my ( $Self, %Param ) = @_;
 
-    my $Key = '';
-
     # check needed stuff
+    my $Key = '';
     if ( !$Param{Lock} && $Param{LockID} ) {
         $Key = 'LockID';
     }
@@ -174,15 +164,16 @@ sub LockLookup {
 
     # db query
     my $SQL = '';
+    my @Bind;
     if ( $Param{Lock} ) {
-        $SQL = "SELECT id FROM ticket_lock_type WHERE name = '"
-            . $Self->{DBObject}->Quote( $Param{Lock} ) . "'";
+        $SQL = "SELECT id FROM ticket_lock_type WHERE name = ?";
+        push @Bind, $Param{Lock};
     }
     else {
-        $SQL = "SELECT name FROM ticket_lock_type WHERE id = "
-            . $Self->{DBObject}->Quote( $Param{LockID}, 'Integer' );
+        $SQL = "SELECT name FROM ticket_lock_type WHERE id = ?";
+        push @Bind, $Param{LockID};
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # store result
@@ -191,8 +182,10 @@ sub LockLookup {
 
     # check if data exists
     if ( !exists $Self->{"Lock::Lookup::$Param{$Key}"} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "No Lock/LockID for $Param{$Key} found!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No Lock/LockID for $Param{$Key} found!",
+        );
         return;
     }
     else {
@@ -225,11 +218,12 @@ sub LockList {
     }
 
     # sql
+    return if ! $Self->{DBObject}->Prepare(
+        SQL => 'SELECT id, name FROM ticket_lock_type',
+    );
     my %Data = ();
-    if ( $Self->{DBObject}->Prepare( SQL => 'SELECT id, name FROM ticket_lock_type' ) ) {
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $Data{ $Row[0] } = $Row[1];
-        }
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data{ $Row[0] } = $Row[1];
     }
 
     # cache result
@@ -247,12 +241,12 @@ This Software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2007-10-02 10:38:08 $
+$Revision: 1.15 $ $Date: 2008-03-08 10:58:09 $
 
 =cut
