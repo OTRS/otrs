@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.161 2008-03-08 12:05:01 martin Exp $
+# $Id: Article.pm,v 1.162 2008-03-08 16:22:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.161 $) [1];
+$VERSION = qw($Revision: 1.162 $) [1];
 
 =head1 NAME
 
@@ -1310,11 +1310,6 @@ sub ArticleGet {
         return;
     }
 
-    # db quote
-    for (qw(TicketID ArticleID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # article type lookup
     my $ArticleTypeSQL = '';
     if ( $Param{ArticleType} && ( ref( $Param{ArticleType} ) eq 'ARRAY' ) ) {
@@ -1323,8 +1318,10 @@ sub ArticleGet {
                 if ($ArticleTypeSQL) {
                     $ArticleTypeSQL .= ',';
                 }
-                $ArticleTypeSQL .= $Self->{DBObject}
-                    ->Quote( $Self->ArticleTypeLookup( ArticleType => $_ ), 'Integer' );
+                $ArticleTypeSQL .= $Self->{DBObject}->Quote(
+                    $Self->ArticleTypeLookup( ArticleType => $_ ),
+                    'Integer',
+                );
             }
         }
         if ($ArticleTypeSQL) {
@@ -1334,6 +1331,7 @@ sub ArticleGet {
 
     # sql query
     my @Content = ();
+    my @Bind;
     my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, "
         . " sa.a_reply_to, sa.a_message_id, sa.a_body, "
         . " st.create_time_unix, st.ticket_state_id, st.queue_id, sa.create_time, "
@@ -1353,14 +1351,14 @@ sub ArticleGet {
         . " st.ticket_lock_id, st.title, st.escalation_start_time, "
         . " st.freetime1 , st.freetime2, st.freetime3, st.freetime4, st.freetime5, st.freetime6, "
         . " st.type_id, st.service_id, st.sla_id, st.escalation_response_time, st.escalation_solution_time "
-        . " FROM "
-        . " article sa, ticket st "
-        . " WHERE ";
+        . " FROM article sa, ticket st WHERE ";
     if ( $Param{ArticleID} ) {
-        $SQL .= " sa.id = $Param{ArticleID}";
+        $SQL .= "sa.id = ?";
+        push @Bind, \$Param{ArticleID};
     }
     else {
-        $SQL .= " sa.ticket_id = $Param{TicketID}";
+        $SQL .= "sa.ticket_id = ?";
+        push @Bind, \$Param{TicketID};
     }
     $SQL .= " AND sa.ticket_id = st.id ";
 
@@ -1370,7 +1368,7 @@ sub ArticleGet {
     }
     $SQL .= " ORDER BY sa.create_time, sa.id ASC";
 
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
     my %Ticket = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Data;
