@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.68 2008-02-25 22:20:08 martin Exp $
+# $Id: XML.pm,v 1.69 2008-03-10 19:40:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 =head1 NAME
 
@@ -260,7 +260,10 @@ sub XMLHashGet {
 
     # read cache
     if ( $Param{Cache} ) {
-        my $Cache = $Self->{CacheObject}->Get( Key => "$Param{Type}-$Param{Key}", );
+        my $Cache = $Self->{CacheObject}->Get(
+            Type => 'XML',
+            Key  => "$Param{Type}-$Param{Key}",
+        );
         if ($Cache) {
             return @{$Cache};
         }
@@ -290,6 +293,7 @@ sub XMLHashGet {
     # write cache file
     if ( $Param{Cache} && $Content ) {
         $Self->{CacheObject}->Set(
+            Type => 'XML',
             Key   => "$Param{Type}-$Param{Key}",
             Value => \@XMLHash,
             TTL   => 24 * 60 * 60,
@@ -321,7 +325,10 @@ sub XMLHashDelete {
     }
 
     # remove cache
-    $Self->{CacheObject}->Delete( Key => "$Param{Type}-$Param{Key}" );
+    $Self->{CacheObject}->Delete(
+        Type => 'XML',
+        Key => "$Param{Type}-$Param{Key}",
+    );
 
     return $Self->{DBObject}->Do(
         SQL => "DELETE FROM xml_storage WHERE xml_type = ? AND xml_key = ?",
@@ -354,8 +361,14 @@ sub XMLHashMove {
     }
 
     # remove cache
-    $Self->{CacheObject}->Delete( Key => "$Param{OldType}-$Param{OldKey}", );
-    $Self->{CacheObject}->Delete( Key => "$Param{NewType}-$Param{NewKey}", );
+    $Self->{CacheObject}->Delete(
+        Type => 'XML',
+        Key => "$Param{OldType}-$Param{OldKey}",
+    );
+    $Self->{CacheObject}->Delete(
+        Type => 'XML',
+        Key => "$Param{NewType}-$Param{NewKey}",
+    );
 
     # delete existing xml hash
     $Self->{DBObject}->Do(
@@ -1411,6 +1424,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.68 $ $Date: 2008-02-25 22:20:08 $
+$Revision: 1.69 $ $Date: 2008-03-10 19:40:55 $
 
 =cut

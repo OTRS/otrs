@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Cache.pm - all cache functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.pm,v 1.6 2007-10-22 16:10:20 martin Exp $
+# $Id: Cache.pm,v 1.7 2008-03-10 19:40:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Cache;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -88,9 +88,10 @@ sub new {
 set a new cache
 
     $CacheObject->Set(
-        Key => 'SomeKey',
+        Type  => 'ObjectName', # only A-z chars usable
+        Key   => 'SomeKey',
         Value => 'Some Value',
-        TTL => 24*60*60, # in sec. in this case 24h
+        TTL   => 24*60*60,     # in sec. in this case 24h
     );
 
 =cut
@@ -99,8 +100,8 @@ sub Set {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Key Value)) {
-        if (!defined($Param{$_})) {
+    for (qw(Type Key Value)) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -121,7 +122,8 @@ sub Set {
 return a cache
 
     my $Value = $CacheObject->Get(
-        Key => 'SomeKey',
+        Type  => 'ObjectName', # only A-z chars usable
+        Key   => 'SomeKey',
     );
 
 =cut
@@ -130,7 +132,7 @@ sub Get {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Key)) {
+    for (qw(Type Key)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -161,7 +163,8 @@ sub Get {
 delete a cache
 
     $CacheObject->Delete(
-        Key => 'SomeKey',
+        Type  => 'ObjectName', # only A-z chars usable
+        Key   => 'SomeKey',
     );
 
 =cut
@@ -170,7 +173,7 @@ sub Delete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Key)) {
+    for (qw(Type Key)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -197,12 +200,12 @@ This Software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2007-10-22 16:10:20 $
+$Revision: 1.7 $ $Date: 2008-03-10 19:40:55 $
 
 =cut

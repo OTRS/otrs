@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.13 2008-02-11 12:18:17 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.14 2008-03-10 19:40:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,7 +49,10 @@ sub Run {
 
     # get all open rw ticket
     my @TicketIDs = ();
-    my $Cache = $Self->{CacheObject}->Get( Key => "Ticket::EscalationIndex::$Self->{UserID}");
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'TicketEscalation',
+        Key  => "EscalationIndex::$Self->{UserID}",
+    );
     if ( $Cache && ref($Cache) eq 'ARRAY' ) {
         @TicketIDs = @{$Cache};
     }
@@ -58,8 +61,7 @@ sub Run {
             Type   => 'Viewable',
             Result => 'ID',
         );
-        my $SQL
-            = "SELECT st.id, st.tn, st.escalation_start_time, st.escalation_response_time, st.escalation_solution_time, "
+        my $SQL = "SELECT st.id, st.tn, st.escalation_start_time, st.escalation_response_time, st.escalation_solution_time, "
             . "st.ticket_state_id, st.service_id, st.sla_id, st.create_time, st.queue_id, st.ticket_lock_id "
             . " FROM "
             . " ticket st, queue q "
@@ -101,12 +103,15 @@ sub Run {
         for my $TicketData (@TicketIDs) {
 
             # get state info
-            my %StateData
-                = $Self->{StateObject}->StateGet( ID => $TicketData->{StateID}, Cache => 1 );
+            my %StateData = $Self->{StateObject}->StateGet(
+                ID    => $TicketData->{StateID},
+                Cache => 1,
+            );
             $TicketData->{StateType} = $StateData{TypeName};
             $TicketData->{State}     = $StateData{Name};
-            $TicketData->{Lock}
-                = $Self->{LockObject}->LockLookup( LockID => $TicketData->{LockID} );
+            $TicketData->{Lock} = $Self->{LockObject}->LockLookup(
+                LockID => $TicketData->{LockID},
+            );
         }
         my $TTL = 0.2 * 60;
         if ( $#TicketIDs > 2000 ) {
@@ -131,7 +136,8 @@ sub Run {
             $TTL = 0.5 * 60;
         }
         $Self->{CacheObject}->Set(
-            Key   => "Ticket::EscalationIndex::$Self->{UserID}",
+            Type  => 'TicketEscalation',
+            Key   => "EscalationIndex::$Self->{UserID}",
             Value => \@TicketIDs,
             TTL   => $TTL,
         );
