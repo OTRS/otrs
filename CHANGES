@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.94 2008-03-06 10:17:44 tr Exp $
+# $Id: CHANGES,v 1.465.2.95 2008-03-10 10:22:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.6 (2008/??/??)
+ - (2008/03/10) Fixed bug# 2717 - All column and row names will be translated.
+    Additional fixes for special situations.
  - (2008/03/06) Fixed bug# 2737 - Wrong order of the xaxis in stats output.
  - (2008/03/06) Fixed bug# 2717 - All column and row names will be translated.
  - (2008/03/05) Fixed bug# 2715 - Ascii2Html() is not quoting all links
