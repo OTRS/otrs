@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.96 2008-03-10 10:56:28 tr Exp $
+# $Id: CHANGES,v 1.465.2.97 2008-03-10 15:39:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,10 +10,11 @@
 # --
 
 2.2.6 (2008/??/??)
- - (2008/03/10) Fixed bug# 2757 - Can't download graph if I use a diagram as
-    output format.
- - (2008/03/10) Fixed bug# 2717 - All column and row names will be translated.
-    Additional fixes for special situations.
+ - (2008/03/10) Updated vietnam translation, thanks to Nguyen Nguyet. Phuong!
+ - (2008/03/10) Fixed bug# 2757 - Can't download statistic graph if I use
+    a diagram as output format.
+ - (2008/03/10) Fixed bug# 2717 - All column and row names will be translated
+    statistics. Additional fixes for special situations.
  - (2008/03/06) Fixed bug# 2737 - Wrong order of the xaxis in stats output.
  - (2008/03/06) Fixed bug# 2717 - All column and row names will be translated.
  - (2008/03/05) Fixed bug# 2715 - Ascii2Html() is not quoting all links
@@ -67,10 +68,11 @@
  - (2008/02/12) Fixed bug# 2638 - Broken email syntax check if
     _somebody@example.com is used.
  - (2008/02/12) Fixed bug# 1957 - Auto reply for new Phone-Tickets goes to
-    non-existing addresses (if no email addres is given in From field).
+    non-existing addresses (if no email address is given in From field).
  - (2008/02/12) Fixed bug# 2363 - AgentTicketPhone###Body is now a text area
     instead of a string.
- - (2008/02/11) Fixed bug# 1975 - OTRS cannot forward .eml files.
+ - (2008/02/11) Fixed bug# 1975 - OTRS cannot forward tickets with .eml file
+    attachments.
  - (2008/02/11) Fixed bug# 2413 - OTRS cannot write to BLOB column in table
     XML_STORAGE with DB2.
  - (2008/02/06) Fixed bug# 1716 - Wrong escalation time calculation on
@@ -2588,7 +2590,7 @@
          like 100057866352 and 103745394596.
  - added UPGRADING file
  - updated redhat init script (Thanks to Pablo Ruiz Garcia)
- - fixed bug [21] " in email adresses are missing - http://bugs.otrs.org/show_bug.cgi?id=21
+ - fixed bug [21] " in email addresses are missing - http://bugs.otrs.org/show_bug.cgi?id=21
     (Thanks to Christoph Kaulich)
  - fixed bug [19] Responses sort randomly - http://bugs.otrs.org/show_bug.cgi?id=19
  - fixed SetPermissions.sh (permission for var/log/TicketCounter.log) (Thanks to
