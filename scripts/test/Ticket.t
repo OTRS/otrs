@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.33 2008-03-02 20:56:37 martin Exp $
+# $Id: Ticket.t,v 1.34 2008-03-10 17:57:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -3874,7 +3874,6 @@ for my $Module ('RuntimeDB', 'StaticDB') {
         QueueID => [1,2,3,4,5,$QueueID],
         ShownQueueIDs => [1,2,3,4,5,$QueueID],
     );
-    @TicketIDs = ();
     $TicketID = $Self->{TicketObject}->TicketCreate(
         Title => 'Some Ticket Title - ticket index accelerator tests',
         Queue => 'Raw',
@@ -3965,7 +3964,7 @@ for my $Module ('RuntimeDB', 'StaticDB') {
     }
     my $TicketLock = $Self->{TicketObject}->LockSet(
         Lock => 'lock',
-        TicketID => $TicketIDs[0],
+        TicketID => $TicketIDs[1],
         SendNoNotification => 1,
         UserID => 1,
     );
@@ -3998,7 +3997,7 @@ for my $Module ('RuntimeDB', 'StaticDB') {
     }
     $TicketLock = $Self->{TicketObject}->LockSet(
         Lock => 'lock',
-        TicketID => $TicketIDs[3],
+        TicketID => $TicketIDs[4],
         SendNoNotification => 1,
         UserID => 1,
     );
@@ -4031,7 +4030,7 @@ for my $Module ('RuntimeDB', 'StaticDB') {
     }
     $TicketLock = $Self->{TicketObject}->LockSet(
         Lock => 'unlock',
-        TicketID => $TicketIDs[3],
+        TicketID => $TicketIDs[4],
         SendNoNotification => 1,
         UserID => 1,
     );
@@ -4064,7 +4063,7 @@ for my $Module ('RuntimeDB', 'StaticDB') {
     }
     my $TicketState = $Self->{TicketObject}->StateSet(
         State => 'open',
-        TicketID => $TicketIDs[0],
+        TicketID => $TicketIDs[1],
         SendNoNotification => 1,
         UserID => 1,
     );
@@ -4074,7 +4073,7 @@ for my $Module ('RuntimeDB', 'StaticDB') {
     );
     $TicketLock = $Self->{TicketObject}->LockSet(
         Lock => 'unlock',
-        TicketID => $TicketIDs[0],
+        TicketID => $TicketIDs[1],
         SendNoNotification => 1,
         UserID => 1,
     );
