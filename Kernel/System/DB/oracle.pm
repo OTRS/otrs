@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.34 2008-01-31 06:20:20 tr Exp $
+# $Id: oracle.pm,v 1.35 2008-03-10 20:05:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,12 +31,12 @@ sub LoadPreferences {
     my ( $Self, %Param ) = @_;
 
     # db settings
-    $Self->{'DB::Limit'}             = 0;
-    $Self->{'DB::DirectBlob'}        = 0;
-    $Self->{'DB::QuoteSingle'}       = '\'';
-    $Self->{'DB::QuoteBack'}         = 0;
-    $Self->{'DB::QuoteSemicolon'}    = '';
-    $Self->{'DB::NoLikeInLargeText'} = 0;
+    $Self->{'DB::Limit'}              = 0;
+    $Self->{'DB::DirectBlob'}         = 0;
+    $Self->{'DB::QuoteSingle'}        = '\'';
+    $Self->{'DB::QuoteBack'}          = 0;
+    $Self->{'DB::QuoteSemicolon'}     = '';
+    $Self->{'DB::NoLowerInLargeText'} = 0;
 
     # dbi attributes
     $Self->{'DB::Attribute'} = {
@@ -127,11 +127,9 @@ sub TableCreate {
             && $Tag->{TagType} eq 'Start' )
         {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                $SQLStart .= $Self->{'DB::Comment'}
-                    . "----------------------------------------------------------\n";
+                $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
                 $SQLStart .= $Self->{'DB::Comment'} . " create table $Tag->{Name}\n";
-                $SQLStart .= $Self->{'DB::Comment'}
-                    . "----------------------------------------------------------\n";
+                $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
             }
         }
         if ( ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
@@ -190,7 +188,8 @@ sub TableCreate {
         if ( $Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i ) {
             push( @Return2,
                       "ALTER TABLE $TableName ADD CONSTRAINT $Constraint"
-                    . "_PK PRIMARY KEY ($Tag->{Name})" );
+                    . "_PK PRIMARY KEY ($Tag->{Name})"
+            );
         }
 
         # auto increment
@@ -280,11 +279,9 @@ sub TableDrop {
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'Table' && $Tag->{TagType} eq 'Start' ) {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                $SQL .= $Self->{'DB::Comment'}
-                    . "----------------------------------------------------------\n";
+                $SQL .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
                 $SQL .= $Self->{'DB::Comment'} . " drop table $Tag->{Name}\n";
-                $SQL .= $Self->{'DB::Comment'}
-                    . "----------------------------------------------------------\n";
+                $SQL .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
             }
         }
         $SQL .= "DROP TABLE $Tag->{Name} CASCADE CONSTRAINTS";
@@ -302,11 +299,9 @@ sub TableAlter {
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                $SQLStart .= $Self->{'DB::Comment'}
-                    . "----------------------------------------------------------\n";
+                $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
                 $SQLStart .= $Self->{'DB::Comment'} . " alter table $Tag->{Name}\n";
-                $SQLStart .= $Self->{'DB::Comment'}
-                    . "----------------------------------------------------------\n";
+                $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
             }
             $SQLStart .= "ALTER TABLE $Tag->{Name}";
             $Table = $Tag->{Name};
@@ -336,14 +331,10 @@ sub TableAlter {
             # default values
             if ( $Tag->{Default} ) {
                 if ( $Tag->{Type} =~ /int/i ) {
-                    push( @SQL,
-                        "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL"
-                    );
+                    push( @SQL, "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL");
                 }
                 else {
-                    push( @SQL,
-                        "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE '$Tag->{Name}' IS NULL"
-                    );
+                    push( @SQL, "UPDATE $Table SET $Tag->{Name} = '$Tag->{Default}' WHERE $Tag->{Name} IS NULL");
                 }
                 if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                     push( @SQL, "ALTER TABLE $Table MODIFY $Tag->{Name} $Tag->{Type} NOT NULL" );
@@ -527,11 +518,9 @@ sub Insert {
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start' ) {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                $SQL .= $Self->{'DB::Comment'}
-                    . "----------------------------------------------------------\n";
+                $SQL .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
                 $SQL .= $Self->{'DB::Comment'} . " insert into table $Tag->{Table}\n";
-                $SQL .= $Self->{'DB::Comment'}
-                    . "----------------------------------------------------------\n";
+                $SQL .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
             }
             $SQL .= "INSERT INTO $Tag->{Table} ";
         }
@@ -543,8 +532,9 @@ sub Insert {
                 $Value = $Tag->{Value};
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message =>
-                        "The content for inserts is not longer appreciated attribut Value, use Content from now on! Reason: You can't use new lines in attributes.",
+                    Message => "The content for inserts is not longer appreciated "
+                        . "attribut Value, use Content from now on! Reason: You can't "
+                        . "use new lines in attributes.",
                 );
             }
             elsif ( defined( $Tag->{Content} ) ) {
