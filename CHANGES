@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.598 2008-03-10 10:57:04 tr Exp $
+# $Id: CHANGES,v 1.599 2008-03-10 19:41:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,26 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/03/09) Improved API of Cache core module (Kernel::System::Cache), added
+    type param to define the type of cached object/data (so also a better
+    storage is possible because you can manage each cache type object/data it
+    self, e. g. if file system backend is used in differend sub directories).
+
+    API Example (old):
+        $CacheObject->Set(
+            Key   => 'SomeKey',
+            Value => 'Some Value',
+            TTL   => 24*60*60,     # in sec. in this case 24h
+        );
+
+    API Example (new):
+        $CacheObject->Set(
+            Type  => 'ObjectName', # only A-z chars usable
+            Key   => 'SomeKey',
+            Value => 'Some Value',
+            TTL   => 24*60*60,     # in sec. in this case 24h
+        );
+
  - (2008/03/06) Fixed use of uninitialized value in Log.pm (visible when
     executed in ModPerl environment).
  - (2008/03/02) Added title of object to div tag of linked objects to have an
@@ -121,10 +141,11 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.6 (2008/??/??)
- - (2008/03/10) Fixed bug# 2757 - Can't download graph if I use a diagram as
-    output format.
- - (2008/03/10) Fixed bug# 2717 - All column and row names will be translated.
-    Additional fixes for special situations.
+ - (2008/03/10) Updated vietnam translation, thanks to Nguyen Nguyet. Phuong!
+ - (2008/03/10) Fixed bug# 2757 - Can't download statistic graph if I use
+    a diagram as output format.
+ - (2008/03/10) Fixed bug# 2717 - All column and row names will be translated
+    statistics. Additional fixes for special situations.
  - (2008/03/06) Fixed bug# 2737 - Wrong order of the xaxis in stats output.
  - (2008/03/06) Fixed bug# 2717 - All column and row names will be translated.
  - (2008/03/05) Fixed bug# 2715 - Ascii2Html() is not quoting all links
@@ -178,10 +199,11 @@ CVS HEAD (????/??/??)
  - (2008/02/12) Fixed bug# 2638 - Broken email syntax check if
     _somebody@example.com is used.
  - (2008/02/12) Fixed bug# 1957 - Auto reply for new Phone-Tickets goes to
-    non-existing addresses (if no email addres is given in From field).
+    non-existing addresses (if no email address is given in From field).
  - (2008/02/12) Fixed bug# 2363 - AgentTicketPhone###Body is now a text area
     instead of a string.
- - (2008/02/11) Fixed bug# 1975 - OTRS cannot forward .eml files.
+ - (2008/02/11) Fixed bug# 1975 - OTRS cannot forward tickets with .eml file
+    attachments.
  - (2008/02/11) Fixed bug# 2413 - OTRS cannot write to BLOB column in table
     XML_STORAGE with DB2.
  - (2008/02/06) Fixed bug# 1716 - Wrong escalation time calculation on
@@ -2699,7 +2721,7 @@ CVS HEAD (????/??/??)
          like 100057866352 and 103745394596.
  - added UPGRADING file
  - updated redhat init script (Thanks to Pablo Ruiz Garcia)
- - fixed bug [21] " in email adresses are missing - http://bugs.otrs.org/show_bug.cgi?id=21
+ - fixed bug [21] " in email addresses are missing - http://bugs.otrs.org/show_bug.cgi?id=21
     (Thanks to Christoph Kaulich)
  - fixed bug [19] Responses sort randomly - http://bugs.otrs.org/show_bug.cgi?id=19
  - fixed SetPermissions.sh (permission for var/log/TicketCounter.log) (Thanks to
