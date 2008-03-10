@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.45 2008-03-07 18:34:02 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.46 2008-03-10 19:42:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -241,9 +241,10 @@ sub ArticleWritePlain {
 
     # write article to fs
     if ($Self->{MainObject}->FileWrite(
-        Location  => "$Path/plain.txt",
+        Location   => "$Path/plain.txt",
         Mode       => 'binmode',
-        Content   => \$Param{Email},
+        Content    => \$Param{Email},
+        Permission => '664',
     )) {
         return 1;
     }
@@ -297,28 +298,32 @@ sub ArticleWriteAttachment {
     # write attachment to backend
     if ( !-d $Param{Path} ) {
         if ( !File::Path::mkpath( [ $Param{Path} ], 0, 0775 ) ) {
-            $Self->{LogObject}
-                ->Log( Priority => 'error', Message => "Can't create $Param{Path}: $!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't create $Param{Path}: $!",
+            );
             return;
         }
     }
 
     # write attachment content type to fs
     if (!$Self->{MainObject}->FileWrite(
-        Directory => $Param{Path},
-        Filename  => "$Param{Filename}.content_type",
+        Directory  => $Param{Path},
+        Filename   => "$Param{Filename}.content_type",
         Mode       => 'binmode',
-        Content   => \$Param{ContentType},
+        Content    => \$Param{ContentType},
+        Permission => '664',
     )) {
         return;
     }
 
     # write attachment content to fs
     if (!$Self->{MainObject}->FileWrite(
-        Directory => $Param{Path},
-        Filename  => $Param{Filename},
+        Directory  => $Param{Path},
+        Filename   => $Param{Filename},
         Mode       => 'binmode',
-        Content   => \$Param{Content},
+        Content    => \$Param{Content},
+        Permission => '664',
     )) {
         return;
     }

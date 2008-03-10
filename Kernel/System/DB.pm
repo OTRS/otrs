@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.85 2008-02-22 20:29:26 martin Exp $
+# $Id: DB.pm,v 1.86 2008-03-10 19:47:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 =head1 NAME
 
@@ -177,7 +177,7 @@ sub new {
 
     # check/get extra database config options
     # (overwrite with params)
-    for (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode NoLikeInLargeText)) {
+    for (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode NoLowerInLargeText LcaseLikeInLargeText)) {
         if ( defined( $Param{$_} ) ) {
             $Self->{Backend}->{"DB::$_"} = $Param{$_};
         }
@@ -204,18 +204,18 @@ sub Connect {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'debug',
-            Message =>
-                "DB.pm->Connect: DSN: $Self->{DSN}, User: $Self->{USER}, Pw: $Self->{PW}, DB Type: $Self->{'DB::Type'};",
+            Message => "DB.pm->Connect: DSN: $Self->{DSN}, User: $Self->{USER}, Pw: $Self->{PW}, DB Type: $Self->{'DB::Type'};",
         );
     }
 
     # db connect
-    if (!(  $Self->{dbh} = DBI->connect(
-                "$Self->{DSN}", $Self->{USER}, $Self->{PW}, $Self->{Backend}->{'DB::Attribute'}
-            )
-        )
-        )
-    {
+    $Self->{dbh} = DBI->connect(
+        $Self->{DSN},
+        $Self->{USER},
+        $Self->{PW},
+        $Self->{Backend}->{'DB::Attribute'},
+    );
+    if ( ! $Self->{dbh} ) {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'Error',
@@ -248,7 +248,9 @@ sub Disconnect {
     }
 
     # do disconnect
-    $Self->{dbh}->disconnect() if ( $Self->{dbh} );
+    if ( $Self->{dbh} ) {
+        $Self->{dbh}->disconnect();
+    }
     return 1;
 }
 
@@ -640,7 +642,14 @@ sub FetchrowArray {
     return @Row;
 }
 
-# _should_ not used because of database incompat.
+# FetchrowHashref()
+#
+# !! DONT USE THIS FUNCTION !!
+#
+# Due to compatibility reason this function will be removed in a further release.
+#
+# *** _should_ not used because of database incompat., it will not work on any database ***
+#
 sub FetchrowHashref {
     my ($Self) = @_;
 
@@ -931,6 +940,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.85 $ $Date: 2008-02-22 20:29:26 $
+$Revision: 1.86 $ $Date: 2008-03-10 19:47:26 $
 
 =cut
