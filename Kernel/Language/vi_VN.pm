@@ -1,21 +1,20 @@
 # --
 # Kernel/Language/vi_VN.pm - provides vi_VN language translation
-# Copyright (C) 2008 Nguyen Nguyet. Phuong <phuongnn at iwayvietnam dot com>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.2 2008-01-13 22:04:48 martin Exp $
+# $Id: vi_VN.pm,v 1.3 2008-03-10 15:41:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
-
 package Kernel::Language::vi_VN;
 
 use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -127,7 +126,7 @@ sub Data {
         'CustomerID'          => 'Mã khách hàng',
         'CustomerIDs'         => 'Mã khách hàng',
         'customer'            => 'khách hàng',
-        'agent'               => 'ðÕi lý',
+        'agent'               => 'nhân viên',
         'system'              => 'h® th¯ng',
         'Customer Info'       => 'Thông tin khách hàng',
         'Customer Company'    => 'Công ty khách hàng',
@@ -240,7 +239,7 @@ sub Data {
         'Added User "%s"'     => 'Ngß¶i dùng "%s" ðã ðßþc thêm.',
         'Contract'            => 'Hþp ð°ng',
         'Online Customer: %s' => 'Khách hàng trñc tuyªn: %s',
-        'Online Agent: %s'    => 'ÐÕi lý trñc tuyªn: %s',
+        'Online Agent: %s'    => 'Nhân viên ðang online: %s',
         'Calendar'            => 'L¸ch',
         'File'                => 'File',
         'Filename'            => 'Tên file',
@@ -298,12 +297,12 @@ sub Data {
 
         # Template: AAANavBar
         'Admin-Area'                  => 'Khu vñc dành cho quän tr¸',
-        'Agent-Area'                  => 'Khu vñc dành cho ðÕi lý',
+        'Agent-Area'                  => 'Khu vñc dành cho nhân viên',
         'Ticket-Area'                 => 'Khu vñc thë',
         'Logout'                      => 'Ðång xu¤t',
-        'Agent Preferences'           => 'Giao di®n ðÕi lý',
+        'Agent Preferences'           => 'Giao di®n cho nhân viên phø trách',
         'Preferences'                 => 'Giao di®n',
-        'Agent Mailbox'               => 'Hµp thß dành cho ðÕi lý',
+        'Agent Mailbox'               => 'Hµp thß dành cho nhân viên',
         'Stats'                       => 'Th¯ng kê',
         'Stats-Area'                  => 'Khu vñc dành cho th¯ng kê',
         'Admin'                       => 'Quän tr¸',
@@ -328,7 +327,7 @@ sub Data {
         'Other Options'                       => 'Các tùy ch÷n khác',
         'Change Password'                     => 'Ð±i m§t kh¦u',
         'New password'                        => 'M§t kh¦u m¾i',
-        'New password again'                  => 'M§t kh¦u m¾i l¥n næa',
+        'New password again'                  => 'Gõ lÕi m§t kh¦u m¾i',
         'Select your QueueView refresh time.' => 'Hãy ch÷n th¶i gian làm m¾i hàng ðþi cüa bÕn.',
         'Select your frontend language.'      => 'Hãy ch÷n ngôn ngæ m£t ngoài cüa bÕn.',
         'Select your frontend Charset.'       => 'Hãy ch÷n bµ mã ký tñ m£t ngoài cüa bÕn.',
@@ -398,8 +397,8 @@ sub Data {
         'graph-area'             => 'Bi¬u ð° vùng',
         'graph-pie'              => 'Bi¬u ð° tròn',
         'extended'               => 'm· rµng',
-        'Agent/Owner'            => 'ÐÕi lý/Phø trách',
-        'Created by Agent/Owner' => 'Ðßþc tÕo b·i ÐÕi lý/Phø trách',
+        'Agent/Owner'            => 'Nhân viên/Phø trách',
+        'Created by Agent/Owner' => 'Ðßþc tÕo b·i nhân viên/ngß¶i phø trách',
         'Created Priority'       => '¿u tiên kh·i tÕo',
         'Created State'          => 'TrÕng thái kh·i tÕo',
         'Create Time'            => 'Th¶i gian kh·i tÕo',
@@ -491,15 +490,15 @@ sub Data {
         'New Article'                        => 'Bài viªt m¾i',
         'Email-Ticket'                       => 'Thë e-mail',
         'Create new Email Ticket'            => 'TÕo thë e-mail m¾i',
-        'Phone-Ticket'                       => 'Thë ði®n thoÕi',
+        'Phone-Ticket'                       => 'Thë Cuµc g÷i',
         'Search Tickets'                     => 'Tìm kiªm thë',
         'Edit Customer Users'                => 'SØa ngß¶i dùng khách hàng',
-        'Bulk-Action'                        => 'Hành ðµng hàng loÕt',
-        'Bulk Actions on Tickets'            => 'Hàng loÕt hành ðµng trên các thë',
+        'Bulk-Action'                        => 'L®nh lô',
+        'Bulk Actions on Tickets'            => 'L®nh lô trên các thë',
         'Send Email and create a new Ticket' => 'GØi e-mail và tÕo 1 thë m¾i',
         'Create new Email Ticket and send this out (Outbound)' =>
             'TÕo 1 thë e-mail m¾i và gØi ra ngoài',
-        'Create new Phone Ticket (Inbound)' => 'TÕo thë ði®n thoÕi m¾i (vào trong)',
+        'Create new Phone Ticket (Inbound)' => 'TÕo thë cuµc g÷i m¾i (vào trong)',
         'Overview of all open Tickets'      => 'T±ng quan t¤t cä các thë m·',
         'Locked Tickets'                    => 'Các thë ðã khóa',
         'Watched Tickets'                   => 'Các thë ðã xem',
@@ -534,14 +533,14 @@ sub Data {
             'Thë %s: l¥n c§p nh§t quá (%s)!',
         'Ticket %s: update time will be over in %s!' =>
             'Thë %s: l¥n c§p nh§t s¨ quá %s!',
-        'Ticket %s: solution time is over (%s)!' => '',
+        'Ticket %s: solution time is over (%s)!' => 'Ticket %s: L?sungszeit ist abgelaufen (%s)!',
         'Ticket %s: solution time will be over in %s!' =>
             'Thë %s: l¥n giäi pháp s¨ quá %s!',
         'There are more escalated tickets!' => 'Có nhi«u thë h½n!',
         'New ticket notification'           => 'Thông báo thë m¾i',
         'Send me a notification if there is a new ticket in "My Queues".' =>
             'GØi thông báo cho tôi nªu có thë m¾i trong "Hàng ðþi cüa tôi".',
-        'Follow up notification' => 'Theo dõi thông báo',
+        'Follow up notification' => 'Thông báo theo dõi',
         'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.'
             => 'GØi thông báo cho tôi nªu có khách hàng gØi theo dõi và tôi là phø trách cüa thë này.',
         'Ticket lock timeout notification' => 'Thông báo th¶i gian ch¶ khóa thë',
@@ -551,11 +550,11 @@ sub Data {
         'Send me a notification if a ticket is moved into one of "My Queues".' =>
             'GØi thông báo cho tôi nªu mµt thë ðßþc chuy¬n vào trong "Hàng ðþi cüa tôi".',
         'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.'
-            => 'Lña ch÷n hàng ðþi cüa bÕn cüa các hàng ðþi ßa thích. BÕn cûng s¨ ðßþc thông báo v« các hàng ðþi ðó thông qua email nªu có th¬',
+            => 'Lña ch÷n hàng ðþi trong s¯ các hàng ðþi ßa thích cüa bÕn. BÕn cûng s¨ nh§n ðßþc thông báo v« chúng thông qua email nªu chÑc nång ðßþc kích hoÕt',
         'QueueView refresh time'  => 'Th¶i gian làm m¾i Hàng ðþi',
-        'Screen after new ticket' => 'Màn hình sau thë m¾i',
+        'Screen after new ticket' => 'Màn hình sau khi tÕo thë m¾i',
         'Select your screen after creating a new ticket.' =>
-            'Ch÷n màn hình cüa bÕn sau khi tÕo mµt thë m¾i.',
+            'Hãy lña ch÷n màn hình sau khi tÕo mµt thë m¾i.',
         'Closed Tickets'       => 'Các thë ðã ðóng',
         'Show closed tickets.' => 'Hi¬n th¸ các thë ðã ðóng.',
         'Max. shown Tickets a page in QueueView.' =>
@@ -583,11 +582,11 @@ sub Data {
         'History::Forward'          => 'L¸ch sØ::Chuy¬n tiªp.',
         'History::Bounce'           => 'L¸ch sØ::T× bö',
         'History::SendAnswer'       => 'L¸ch sØ::GØi trä l¶i',
-        'History::SendAgentNotification'    => 'L¸ch sØ::GØi thông báo ðÕi lý',
+        'History::SendAgentNotification'    => 'L¸ch sØ::GØi thông báo cho nhân viên phø trách',
         'History::SendCustomerNotification' => 'L¸ch sØ::GØi thông báo khách hàng',
-        'History::EmailAgent'               => 'L¸ch sØ::Email ðÕi lý',
+        'History::EmailAgent'               => 'L¸ch sØ::Email nhân viên',
         'History::EmailCustomer'            => 'L¸ch sØ::Email khách hàng',
-        'History::PhoneCallAgent'           => 'L¸ch sØ::Cuµc g÷i ðÕi lý',
+        'History::PhoneCallAgent'           => 'L¸ch sØ::Cuµc g÷i nhân viên',
         'History::PhoneCallCustomer'        => 'L¸ch sØ::Cuµc g÷i khách hàng',
         'History::AddNote'                  => 'L¸ch sØ::Thêm lßu ý',
         'History::Lock'                     => 'L¸ch sØ::Khóa',
@@ -598,7 +597,7 @@ sub Data {
         'History::PriorityUpdate' => 'L¸ch sØ::C§p nh§t ßu tiên',
         'History::OwnerUpdate'    => 'L¸ch sØ::C§p nh§t phø trách',
         'History::LoopProtection' => 'L¸ch sØ::Bäo v® vòng l£p',
-        'History::Misc'           => 'L¸ch sØ::Linh tinh',
+        'History::Misc'           => 'L¸ch sØ::Khác',
         'History::SetPendingTime' => 'L¸ch sØ::Ð£t th¶i gian treo',
         'History::StateUpdate'    => 'L¸ch sØ::C§p nh§t trÕng thái',
         'History::TicketFreeTextUpdate' => 'L¸ch sØ::C§p nh§t thë',
@@ -693,7 +692,7 @@ sub Data {
         'Send'            => 'GØi',
 
         # Template: AdminGenericAgent
-        'GenericAgent'  => 'ÐÕi lý có ð£c ði¬m chung',
+        'GenericAgent'  => 'Nhân viên phø trách chung',
         'Job-List'      => 'Danh sách công vi®c',
         'Last run'      => 'L¥n v§n hành trß¾c',
         'Run Now!'      => 'V§n hành ngay!',
@@ -708,7 +707,7 @@ sub Data {
         '(e. g. 234321)'                      => 'ví dø: 234321',
         'Customer User Login'                 => 'Ðång nh§p ngß¶i dùng khách hàng',
         '(e. g. U5150)'                       => 'ví dø: U5150',
-        'Agent'                               => 'ÐÕi lý',
+        'Agent'                               => 'Nhân viên',
         'Ticket Lock'                         => 'Khóa thë',
         'TicketFreeFields'                    => 'Các trß¶ng không thë',
         'Create Times'                        => 'Các l¥n kh·i tÕo',
@@ -722,7 +721,7 @@ sub Data {
         'New Priority'                        => '¿u tiên m¾i',
         'New Queue'                           => 'Hàng ðþi m¾i',
         'New State'                           => 'TrÕng thái m¾i',
-        'New Agent'                           => 'ÐÕi lý m¾i',
+        'New Agent'                           => 'Nhân viên m¾i',
         'New Owner'                           => 'Phø trách m¾i',
         'New Customer'                        => 'Khách hàng m¾i',
         'New Ticket Lock'                     => 'Khóa thë m¾i',
@@ -744,9 +743,9 @@ sub Data {
         'Param 6'               => 'Tham s¯ 6',
         'Send no notifications' => 'Không gØi thông báo nào',
         'Yes means, send no agent and customer notifications on changes.' =>
-            'Có nghîa là, không gØi thông báo ðÕi lý và khách hàng nào v« các thay ð±i.',
+            'Có, nghîa là, không gØi thông báo cho nhân viên và khách hàng nào v« các thay ð±i.',
         'No means, send agent and customer notifications on changes.' =>
-            'Không nghîa là, gØi thông báo ðÕi lý và khách hàng nào v« các thay ð±i.',
+            'Không, nghîa là, gØi thông báo cho nhân viên và khách hàng v« các thay ð±i.',
         'Save' => 'Lßu',
         '%s Tickets affected! Do you really want to use this job?' =>
             '%s thë b¸ änh hß·ng! BÕn có thñc sñ mu¯n dùng công vi®c này?',
@@ -758,7 +757,7 @@ sub Data {
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Nhóm quän tr¸ l¤y trong khu vñc quän tr¸ và nhóm th¯ng kê l¤y trong khu vñc th¯ng kê.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).'
-            => 'TÕo các nhóm m¾i ð¬ ði«u khi¬n quy«n truy c§p cho các nhóm ðÕi lý khác nhau (ví dø: bµ ph§n mua hàng, bµ ph§n h² trþ, bµ ph§n kinh doanh,...).',
+            => 'TÕo các nhóm m¾i ð¬ ði«u khi¬n quy«n truy c§p cho các nhóm nhân viên khác nhau (ví dø: bµ ph§n mua hàng, bµ ph§n h² trþ, bµ ph§n kinh doanh,...).',
         'It\'s useful for ASP solutions.' => 'Nó hæu ích cho giäi pháp ASP.',
 
         # Template: AdminLog
@@ -768,13 +767,13 @@ sub Data {
         # Template: AdminNavigationBar
         'Users'  => 'Ngß¶i dùng',
         'Groups' => 'Nhóm',
-        'Misc'   => 'Linh tinh',
+        'Misc'   => 'Khác',
 
         # Template: AdminNotificationForm
         'Notification Management' => 'Quän tr¸ thông báo',
         'Notification'            => 'Thông báo',
         'Notifications are sent to an agent or a customer.' =>
-            'Các thông báo ðã ðßþc gØi t¾i 1 ðÕi lý ho£c khách hàng.',
+            'Các thông báo ðã ðßþc gØi t¾i 1 nhân viên ho£c khách hàng.',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Quän tr¸ gói',
@@ -880,7 +879,7 @@ sub Data {
         'Customer State Notify'            => 'Thông báo trÕng thái khách hàng',
         'Customer Owner Notify'            => 'Thông báo phø trách khách hàng',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.'
-            => 'Nªu 1 ð¸a lý khóa mµt thë và h÷ s¨ không gØi trä l¶i trong th¶i gian này, thë s¨ ðßþc tñ ðµng m· khóa. Do v§y t¤t cä các ðÕi lý khác ð«u có th¬ nhìn th¤y thë ðó.',
+            => 'Nªu 1 nhân viên khóa thë và h÷ không gØi trä l¶i trong th¶i gian này, thë s¨ ðßþc tñ ðµng m· khóa. Do v§y t¤t cä các nhân viên khác ð«u có th¬ nhìn th¤y thë ðó.',
         'Escalation time' => 'Th¶i gian tiªp tøc',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' =>
             'Nªu mµt thë không ðßþc trä l¶i trong th¶i gian này, chï duy nh¤t thë này s¨ ðßþc hi¬n th¸.',
@@ -1051,7 +1050,7 @@ sub Data {
         # Template: AdminUserForm
         'User Management'  => 'Quän tr¸ ngß¶i dùng',
         'Add User'         => 'Thêm ngß¶i dùng',
-        'Add a new Agent.' => 'Thêm mµt ðÕi lý m¾i.',
+        'Add a new Agent.' => 'Thêm mµt nhân viên m¾i.',
         'Login as'         => 'Ðång nh§p v¾i',
         'Firstname'        => 'H÷',
         'Lastname'         => 'Tên',
@@ -1118,7 +1117,7 @@ sub Data {
         'Here you can make restrictions to your stat.' =>
             'BÕn có th¬ tÕo các gi¾i hÕn cho th¯ng kê tÕi ðây.',
         'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.'
-            => 'Nªu bÕn bö ðánh d¤u trong ô "Ðã sØa", ðÕi lý sinh th¯ng kê có th¬ thay ð±i các thuµc tính cüa thành t¯ liên quan.',
+            => 'Nªu bÕn bö ðánh d¤u trong ô "Ðã sØa", nhân viên phø trách sinh th¯ng kê có th¬ thay ð±i các thuµc tính cüa thành t¯ liên quan.',
 
         # Template: AgentStatsEditSpecification
         'Insert of the common specifications' => 'Chèn c¤u hình chung',
@@ -1148,7 +1147,7 @@ sub Data {
         'If a new hardcoded file is available this attribute will be shown and you can select one.'
             => 'Nªu mµt file ðã mã hóa sÇn sàng sØ døng, thuµc tính này s¨ ðßþc hi¬n th¸ và bÕn có th¬ ch÷n nó.',
         'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.'
-            => 'Các thiªt ð£t quy«n. BÕn có th¬ lña ch÷n 1 ho£c nhi«u nhóm ð¬ tÕo th¯ng kê ðã ðßþc c¤u hình mà các ðÕi lý khác nhau ð«u có th¬ nhìn th¤y.',
+            => 'Các thiªt ð£t quy«n. BÕn có th¬ lña ch÷n 1 ho£c nhi«u nhóm ð¬ tÕo th¯ng kê ðã ðßþc c¤u hình mà các nhân viên khác nhau ð«u có th¬ nhìn th¤y.',
         'Multiple selection of the output format.' => 'Nhi«u lña ch÷n cüa ð¸nh dÕng ð¥u ra.',
         'If you use a graph as output format you have to select at least one graph size.' =>
             'Nªu bÕn dùng mµt bi¬u ð° làm ð¸nh dÕng ð¥u ra, bÕn phäi ch÷n ít nh¤t 1 cÞ bi¬u ð°.',
@@ -1217,7 +1216,7 @@ sub Data {
         'Send mail!'        => 'GØi mail!',
 
         # Template: AgentTicketBulk
-        'Ticket Bulk Action' => 'Thë hoÕt ðµng hàng loÕt',
+        'Ticket Bulk Action' => 'L®nh lô trên thë',
         'Spell Check'        => 'Ki¬m tra chính tä',
         'Note type'          => 'LoÕi lßu ý',
         'Unlock Tickets'     => 'Các thë m·',
@@ -1225,9 +1224,9 @@ sub Data {
         # Template: AgentTicketClose
         'Close ticket'           => 'Ðóng thë',
         'Previous Owner'         => 'Phø trách trß¾c',
-        'Inform Agent'           => 'Thông báo ðÕi lý',
+        'Inform Agent'           => 'Nhân viên thông báo',
         'Optional'               => 'Tùy ch÷n',
-        'Inform involved Agents' => 'Thông báo các ðÕi lý liên quan',
+        'Inform involved Agents' => 'Thông báo các nhân viên liên quan',
         'Attach'                 => 'Ðính kèm',
         'Next state'             => 'TrÕng thái tiªp',
         'Pending date'           => 'Ngày treo',
@@ -1378,7 +1377,7 @@ sub Data {
         'Traceback' => 'Truy nguyên',
 
         # Template: CustomerFooter
-        'Powered by' => 'Ðßþc ði«u hành b·i',
+        'Powered by' => 'ChÕy trên n«n',
 
         # Template: CustomerFooterSmall
 
@@ -1515,7 +1514,7 @@ sub Data {
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' =>
             'Tìm kiªm l¸ch sØ khách hàng (ví dø: "ID342425").',
-        'for agent firstname' => 'cho h÷ (tên) cüa ðÕi lý',
+        'for agent firstname' => 'cho h÷ (tên) cüa nhân viên',
         'Close!'              => 'Ðóng!',
         'Reporter'            => 'Ngß¶i báo cáo',
         'Process-Path'        => 'Ðß¶ng dçn quy trình',
@@ -1538,13 +1537,13 @@ sub Data {
         'customer realname'              => 'tên thñc khách hàng',
         'Pending messages'               => 'Các tin nh¡n treo',
         'Modules'                        => 'Mô ðun',
-        'for agent login'                => 'cho ðång nh§p ðÕi lý',
+        'for agent login'                => 'cho nhân viên ðång nh§p',
         'Keyword'                        => 'T× khóa',
         'Reference'                      => 'Tham chiªu',
         'with'                           => 'v¾i',
         'Close type'                     => 'Ðóng loÕi',
         'DB Admin User'                  => 'Ngß¶i dùng quän tr¸ C½ s· dæ li®u',
-        'for agent user id'              => 'ð¯i v¾i mã ngß¶i dùng ðÕi lý',
+        'for agent user id'              => 'ð¯i v¾i mã ngß¶i dùng nhân viên',
         'sort upward'                    => 's¡p xªp theo hß¾ng tång',
         'Classification'                 => 'Phân loÕi',
         'Change user <-> group settings' => 'Thay ð±i ngß¶i dùng <-> các thiªt ð£t nhóm',
@@ -1560,7 +1559,7 @@ sub Data {
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.'
             => 'Email cüa bÕn v¾i s¯ thë "<OTRS_TICKET>" ðßþc chuy¬n t¾i "<OTRS_BOUNCE_TO>". Hãy liên h® v¾i ð¸a chï này ð¬ có thêm thông tin.',
         'A message should have a body!' => 'Tin nh¡n nên có nµi dung!',
-        'All Agents'                    => 'T¤t cä các ðÕi lý',
+        'All Agents'                    => 'T¤t cä nhân viên',
         'Keywords'                      => 'T× khóa',
         'No * possible!'                => 'Không * có th¬!',
         'Load'                          => 'Täi',
@@ -1592,13 +1591,13 @@ sub Data {
         'Fulltext'                    => 'Toàn bµ vån bän',
         'Month'                       => 'Tháng',
         'Node-Address'                => 'Ð¸a chï nút',
-        'All Agent variables.'        => 'T¤t cä các biªn s¯ ðÕi lý',
+        'All Agent variables.'        => 'T¤t cä các biªn s¯ nhân viên',
         ' (work units)'               => ' (các ð½n v¸ làm vi®c)',
         'You use the DELETE option! Take care, all deleted Tickets are lost!!!' =>
             'BÕn sØ døng tùy ch÷n Xóa! Hãy c¦n th§n, t¤t cä các thë xóa s¨ b¸ m¤t!',
         'All Customer variables like defined in config option CustomerUser.' =>
             'T¤t cä các biªn s¯ khách hàng ðã ð¸nh nghîa trong c¤u hình tùy ch÷n ngß¶i dùng khách hàng.',
-        'for agent lastname' => 'tên ðÕi lý',
+        'for agent lastname' => 'tên nhân viên',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)'
             => 'Các tùy ch÷n cüa ngß¶i dùng hi®n tÕi ngß¶i yêu c¥u hành ðµng này (ví dø: <OTRS_CURRENT_UserFirstname>)',
         'Reminder messages'                => 'Tin nh¡n nh¡c nh·',
@@ -1654,7 +1653,7 @@ sub Data {
         'User-Name'                        => 'Tên ðång nh§p',
         'File-Path'                        => 'Ðß¶ng dçn file',
         'Modified'                         => 'Ðã chïnh sØa',
-        'Ticket selected for bulk action!' => 'Thë ðã ðßþc ch÷n cho hành ðµng hàng loÕt',
+        'Ticket selected for bulk action!' => 'Thë ðã ðßþc ch÷n cho l®nh lô',
     };
 
     # $$STOP$$
