@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.50 2008-03-06 10:47:59 tr Exp $
+# $Id: AgentStats.pm,v 1.51 2008-03-10 10:22:00 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1340,11 +1340,11 @@ sub Run {
         my $Flag = 0;
         for my $ObjectAttribute ( @{ $Stat->{UseAsXvalue} } ) {
             my %BlockData = ();
-            $BlockData{Fixed}   = "checked=\"checked\"";
+            $BlockData{Fixed}   = 'checked="checked"';
             $BlockData{Checked} = '';
 
             if ( $ObjectAttribute->{Selected} ) {
-                $BlockData{Checked} = "checked=\"checked\"";
+                $BlockData{Checked} = 'checked="checked"';
                 if ( !$ObjectAttribute->{Fixed} ) {
                     $BlockData{Fixed} = "";
                 }
@@ -1427,15 +1427,17 @@ sub Run {
 
         my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
         my $Flag = 0;
+
+        OBJECTATTRIBUTE:
         for my $ObjectAttribute ( @{ $Stat->{UseAsValueSeries} } ) {
             my %BlockData = ();
-            $BlockData{Fixed}   = "checked=\"checked\"";
+            $BlockData{Fixed}   = 'checked="checked"';
             $BlockData{Checked} = '';
 
             if ( $ObjectAttribute->{Selected} ) {
-                $BlockData{Checked} = "checked=\"checked\"";
+                $BlockData{Checked} = 'checked="checked"';
                 if ( !$ObjectAttribute->{Fixed} ) {
-                    $BlockData{Fixed} = "";
+                    $BlockData{Fixed} = '';
                 }
             }
 
@@ -1458,11 +1460,11 @@ sub Run {
             $BlockData{Element} = $ObjectAttribute->{Element};
 
             # show the attribute block
-            $Self->{LayoutObject}->Block( Name => 'Attribute', );
+            $Self->{LayoutObject}->Block( Name => 'Attribute' );
 
             # show line if needed
             if ($Flag) {
-                $Self->{LayoutObject}->Block( Name => 'hr', );
+                $Self->{LayoutObject}->Block( Name => 'hr' );
             }
             $Flag = 1;
 
@@ -1488,6 +1490,9 @@ sub Run {
                         }
                         elsif ( $_->{SelectedValues}[0] eq 'Month' ) {
                             $ObjectAttribute->{SelectedValues} = ['Year'];
+                        }
+                        elsif ($_->{SelectedValues}[0] eq 'Year') {
+                            next OBJECTATTRIBUTE;
                         }
                     }
                 }
@@ -1538,11 +1543,11 @@ sub Run {
         my $Flag = 0;
         for my $ObjectAttribute ( @{ $Stat->{UseAsRestriction} } ) {
             my %BlockData = ();
-            $BlockData{Fixed}   = "checked=\"checked\"";
+            $BlockData{Fixed}   = 'checked="checked"';
             $BlockData{Checked} = '';
 
             if ( $ObjectAttribute->{Selected} ) {
-                $BlockData{Checked} = "checked=\"checked\"";
+                $BlockData{Checked} = 'checked="checked"';
                 if ( !$ObjectAttribute->{Fixed} ) {
                     $BlockData{Fixed} = "";
                 }
@@ -2183,10 +2188,10 @@ sub _Timeoutput {
     }
 
     if ( $Param{TimeRelativeCount} && $Param{TimeRelativeUnit} ) {
-        $Timeoutput{CheckedRelative} = "checked=\"checked\"";
+        $Timeoutput{CheckedRelative} = 'checked="checked"';
     }
     else {
-        $Timeoutput{CheckedAbsolut} = "checked=\"checked\"";
+        $Timeoutput{CheckedAbsolut} = 'checked="checked"';
     }
 
     my $Data = _TimeScale();
@@ -2302,14 +2307,32 @@ sub _ColumnAndRowTranslation {
 
     # find out, if the column or row names should be translated
     my %Translation;
-    for my $Use (qw( UseAsXvalue UseAsValueSeries )) {
-        my @Array   = @{ $Param{StatRef}->{$Use} };
+    my %Sort;
 
-        ELEMENT:
-        for my $Element (@Array) {
-            if ( $Element->{SelectedValues} ) {
-                $Translation{$Use} = $Element->{LanguageTranslation};
-                last ELEMENT;
+    for my $Use (qw( UseAsXvalue UseAsValueSeries )) {
+        if ($Param{StatRef}->{StatType} eq 'dynamic'
+            && $Param{StatRef}->{$Use}
+            && ref($Param{StatRef}->{$Use}) eq 'ARRAY') {
+            my @Array   = @{ $Param{StatRef}->{$Use} };
+
+            ELEMENT:
+            for my $Element (@Array) {
+                if ( $Element->{SelectedValues} ) {
+                    if ($Element->{LanguageTranslation} && $Element->{Block} eq 'Time') {
+                        $Translation{$Use} = 'Time';
+                    }
+                    elsif ( $Element->{LanguageTranslation} ) {
+                        $Translation{$Use} = 'Common';
+                    }
+                    else {
+                        $Translation{$Use} = '';
+                    }
+
+                    if ( $Element->{LanguageTranslation} && $Element->{Block} ne 'Time') {
+                        $Sort{$Use} = 1;
+                    }
+                    last ELEMENT;
+                }
             }
         }
     }
@@ -2319,24 +2342,50 @@ sub _ColumnAndRowTranslation {
         my $UseAsXvalueOld             = $Translation{UseAsXvalue};
         $Translation{UseAsXvalue}      = $Translation{UseAsValueSeries};
         $Translation{UseAsValueSeries} = $UseAsXvalueOld;
+
+        my $SortUseAsXvalueOld  = $Sort{UseAsXvalue};
+        $Sort{UseAsXvalue}      = $Sort{UseAsValueSeries};
+        $Sort{UseAsValueSeries} = $SortUseAsXvalueOld;
     }
 
-    # translate and sort the headline
+    # translate the headline
     $Param{HeadArrayRef}->[0] = $Self->{LanguageObject}->Get( $Param{HeadArrayRef}->[0] );
-    if ($Translation{UseAsXvalue}) {
-        # translate
+    if ($Translation{UseAsXvalue} && $Translation{UseAsXvalue} eq 'Time') {
+        for my $Word ( @{ $Param{HeadArrayRef} } ) {
+            if ( $Word =~ m{ ^ (\w+?) ( \s \d+ ) $ }smx ) {
+                my $TranslatedWord = $Self->{LanguageObject}->Get($1);
+                $Word =~ s{ ^ ( \w+? ) ( \s \d+ ) $ }{$TranslatedWord$2}smx;
+            }
+        }
+    }
+    elsif ($Translation{UseAsXvalue}) {
         for my $Word ( @{ $Param{HeadArrayRef} } ) {
             $Word = $Self->{LanguageObject}->Get($Word);
         }
+    }
 
-        # sort
+    # sort the headline
+    if ($Sort{UseAsXvalue}) {
         my @HeadOld = @{ $Param{HeadArrayRef} };
         shift @HeadOld; # because the first value is no sortable column name
 
+        # special handling if the sumfunction is used
+        my $SumColRef;
+        if ($Param{StatRef}->{SumRow}) {
+            $SumColRef = pop @HeadOld;
+        }
+
+        # sort
         my @SortedHead = sort { $a cmp $b } @HeadOld;
-        my @StatArrayNew = ();
+
+        # special handling if the sumfunction is used
+        if ($Param{StatRef}->{SumCol}) {
+            push @SortedHead, $SumColRef;
+            push @HeadOld, $SumColRef;
+        }
 
         # add the row names to the new StatArray
+        my @StatArrayNew = ();
         for my $Row (@{ $Param{StatArrayRef} }) {
             push @StatArrayNew, [ $Row->[0]];
         }
@@ -2360,18 +2409,39 @@ sub _ColumnAndRowTranslation {
         unshift @SortedHead, $Param{HeadArrayRef}->[0];
         @{$Param{HeadArrayRef}} = @SortedHead;
         @{$Param{StatArrayRef}} = @StatArrayNew;
-
     }
 
-    # translate and sort the row description
-    if ($Translation{UseAsValueSeries}) {
+    # translate the row description
+    if ($Translation{UseAsValueSeries} && $Translation{UseAsValueSeries} eq 'Time') {
+        for my $Word ( @{ $Param{StatArrayRef} } ) {
+            if ( $Word->[0] =~ m{ ^ (\w+?) ( \s \d+ ) $ }smx ) {
+                my $TranslatedWord = $Self->{LanguageObject}->Get($1);
+                $Word->[0] =~ s{ ^ ( \w+? ) ( \s \d+ ) $ }{$TranslatedWord$2}smx;
+            }
+        }
+    }
+    elsif ($Translation{UseAsValueSeries}) {
         # translate
         for my $Word ( @{ $Param{StatArrayRef} } ) {
             $Word->[0] = $Self->{LanguageObject}->Get( $Word->[0] );
         }
+    }
+
+    # sort the row description
+    if ($Sort{UseAsValueSeries}) {
+        # special handling if the sumfunction is used
+        my $SumRowArrayRef;
+        if ($Param{StatRef}->{SumRow}) {
+            $SumRowArrayRef = pop @{ $Param{StatArrayRef}};
+        }
 
         # sort
         @{ $Param{StatArrayRef}} = sort { $a->[0] cmp $b->[0] } @{ $Param{StatArrayRef}};
+
+        # special handling if the sumfunction is used
+        if ($Param{StatRef}->{SumRow}) {
+            push @{ $Param{StatArrayRef}}, $SumRowArrayRef;
+        }
     }
 
     return 1;
