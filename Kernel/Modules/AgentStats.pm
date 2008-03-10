@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.51 2008-03-10 10:22:00 tr Exp $
+# $Id: AgentStats.pm,v 1.52 2008-03-10 10:57:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2037,7 +2037,7 @@ sub Run {
                 my $PDFString = $Self->{PDFObject}->DocumentOutput();
                 return $Self->{LayoutObject}->Attachment(
                     Filename    => $Filename . '.pdf',
-                    ContentType => "application/pdf",
+                    ContentType => 'application/pdf',
                     Content     => $PDFString,
                     Type        => 'attachment',
                 );
@@ -2078,11 +2078,13 @@ sub Run {
             if ( !$Graph ) {
                 if ( $Param{Format} =~ m{^GD::Graph::pie}x ) {
                     return $Self->{LayoutObject}->ErrorScreen(
-                        Message => "You use invalid data! Perhaps there are no results.", );
+                        Message => 'You use invalid data! Perhaps there are no results.',
+                    );
                 }
                 else {
-                    return $Self->{LayoutObject}
-                        ->ErrorScreen( Message => "To much data, can't use it with graph!", );
+                    return $Self->{LayoutObject}->ErrorScreen(
+                        Message => "To much data, can't use it with graph!",
+                    );
                 }
             }
 
@@ -2091,7 +2093,7 @@ sub Run {
                 Filename    => $Filename . "." . $Ext,
                 ContentType => "image/$Ext",
                 Content     => $Graph,
-                Type        => 'inline',
+                Type        => 'attachment', # not inline because of bug# 2757
             );
         }
     }
@@ -2099,7 +2101,7 @@ sub Run {
     # ---------------------------------------------------------- #
     # show error screen
     # ---------------------------------------------------------- #
-    return $Self->{LayoutObject}->ErrorScreen( Message => "Invalid Subaction process!" );
+    return $Self->{LayoutObject}->ErrorScreen( Message => 'Invalid Subaction process!' );
 }
 
 sub _Notify {
@@ -2133,7 +2135,7 @@ sub _Timeoutput {
     # check if need params are available
     if ( !$Param{TimePeriodFormat} ) {
         return $Self->{LayoutObject}
-            ->ErrorScreen( Message => "_Timeoutput: Need TimePeriodFormat!" );
+            ->ErrorScreen( Message => '_Timeoutput: Need TimePeriodFormat!' );
     }
 
     # get time
