@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.33.2.8 2008-03-10 10:22:27 tr Exp $
+# $Id: AgentStats.pm,v 1.33.2.9 2008-03-10 10:56:28 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33.2.8 $';
+$VERSION = '$Revision: 1.33.2.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -2122,7 +2122,7 @@ sub Run {
                 Filename => $Filename . "." . $Ext,
                 ContentType => "image/$Ext",
                 Content => $Graph,
-                Type => 'inline',
+                Type => 'attachment', # not inline because of bug# 2757
             );
         }
     }
