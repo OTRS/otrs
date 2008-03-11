@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.599 2008-03-10 19:41:21 martin Exp $
+# $Id: CHANGES,v 1.600 2008-03-11 15:23:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -141,6 +141,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.6 (2008/??/??)
+ - (2008/03/11) Fixed bug# 2763 - Trimming of service name input field produce
+    errors.
  - (2008/03/10) Updated vietnam translation, thanks to Nguyen Nguyet. Phuong!
  - (2008/03/10) Fixed bug# 2757 - Can't download statistic graph if I use
     a diagram as output format.
