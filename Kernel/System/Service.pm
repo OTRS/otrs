@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Service.pm - all service function
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.22 2008-01-15 18:39:49 mh Exp $
+# $Id: Service.pm,v 1.23 2008-03-11 15:45:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Service;
@@ -14,10 +14,11 @@ package Kernel::System::Service;
 use strict;
 use warnings;
 
+use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -48,8 +49,10 @@ create a object
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
+
     my $ServiceObject = Kernel::System::Service->new(
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
@@ -66,10 +69,11 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
+    $Self->{ValidObject}     = Kernel::System::Valid->new( %{$Self} );
 
     return $Self;
 }
@@ -88,74 +92,75 @@ return a hash list of services
 sub ServiceList {
     my ( $Self, %Param ) = @_;
 
-    my %ServiceList;
-    my %ServiceValidList;
-
     # check needed stuff
-    for (qw(UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        return;
     }
 
     # check valid param
-    if ( !defined( $Param{Valid} ) ) {
+    if ( !defined $Param{Valid} ) {
         $Param{Valid} = 1;
     }
 
     # quote
-    for (qw(UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
+    $Param{UserID} = $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
 
     # ask database
-    $Self->{DBObject}->Prepare( SQL => "SELECT id, name, valid_id FROM service", );
+    $Self->{DBObject}->Prepare(
+        SQL => 'SELECT id, name, valid_id FROM service',
+    );
+
+    # fetch the result
+    my %ServiceList;
+    my %ServiceValidList;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ServiceList{ $Row[0] }      = $Row[1];
         $ServiceValidList{ $Row[0] } = $Row[2];
     }
-    if ( $Param{Valid} ) {
 
-        # get valid ids
-        my @ValidIDs = $Self->{ValidObject}->ValidIDsGet();
+    return %ServiceList if !$Param{Valid};
 
-        # duplicate service list
-        my %ServiceListTmp = %ServiceList;
+    # get valid ids
+    my @ValidIDs = $Self->{ValidObject}->ValidIDsGet();
 
-        # add suffix for correct sorting
-        for my $ServiceID ( keys %ServiceListTmp ) {
-            $ServiceListTmp{$ServiceID} .= '::';
-        }
-        my %ServiceInvalidList;
-        for my $ServiceID (
-            sort { $ServiceListTmp{$a} cmp $ServiceListTmp{$b} }
-            keys %ServiceListTmp
-            )
-        {
-            my $Invalid = 1;
-            for my $ValidID (@ValidIDs) {
-                if ( $ServiceValidList{$ServiceID} eq $ValidID ) {
-                    $Invalid = 0;
-                    last;
-                }
-            }
-            if ($Invalid) {
-                $ServiceInvalidList{ $ServiceList{$ServiceID} } = 1;
-                delete( $ServiceList{$ServiceID} );
+    # duplicate service list
+    my %ServiceListTmp = %ServiceList;
+
+    # add suffix for correct sorting
+    for my $ServiceID ( keys %ServiceListTmp ) {
+        $ServiceListTmp{$ServiceID} .= '::';
+    }
+
+    my %ServiceInvalidList;
+    for my $ServiceID ( sort { $ServiceListTmp{$a} cmp $ServiceListTmp{$b} } keys %ServiceListTmp )
+    {
+
+        my $Invalid = 1;
+        for my $ValidID (@ValidIDs) {
+            if ( $ServiceValidList{$ServiceID} eq $ValidID ) {
+                $Invalid = 0;
+                last;
             }
         }
 
-        # delete invalid services an childs
-        for my $ServiceID ( keys %ServiceList ) {
-            for my $InvalidName ( keys %ServiceInvalidList ) {
-                if ( $ServiceList{$ServiceID} =~ /^($InvalidName)::/ ) {
-                    delete( $ServiceList{$ServiceID} );
-                    last;
-                }
+        if ($Invalid) {
+            $ServiceInvalidList{ $ServiceList{$ServiceID} } = 1;
+            delete( $ServiceList{$ServiceID} );
+        }
+    }
+
+    # delete invalid services an childs
+    for my $ServiceID ( keys %ServiceList ) {
+        for my $InvalidName ( keys %ServiceInvalidList ) {
+
+            if ( $ServiceList{$ServiceID} =~ m{ \A $InvalidName :: }xms ) {
+                delete $ServiceList{$ServiceID};
+                last;
             }
         }
     }
+
     return %ServiceList;
 }
 
@@ -206,6 +211,7 @@ sub ServiceGet {
             . "FROM service WHERE id = $Param{ServiceID}",
         Limit => 1,
     );
+
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ServiceData{ServiceID}  = $Row[0];
         $ServiceData{Name}       = $Row[1];
@@ -235,6 +241,7 @@ sub ServiceGet {
         my $ServiceID = $Self->ServiceLookup( Name => $1, );
         $ServiceData{ParentID} = $ServiceID;
     }
+
     return %ServiceData;
 }
 
@@ -262,6 +269,7 @@ sub ServiceLookup {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need ServiceID or Name!" );
         return;
     }
+
     if ( $Param{ServiceID} ) {
 
         # check cache
@@ -345,7 +353,15 @@ sub ServiceAdd {
     for (qw(ValidID UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
-    chomp( $Param{Name} );
+
+    # cleanup given params
+    for my $Argument (qw(Name Comment)) {
+        $Self->{CheckItemObject}->StringClean(
+            StringRef         => \$Param{$Argument},
+            RemoveAllNewlines => 1,
+            RemoveAllTabs     => 1,
+        );
+    }
 
     # check service name
     if ( $Param{Name} =~ /::/ ) {
@@ -383,8 +399,9 @@ sub ServiceAdd {
     # add service to database
     my $Return;
     if ( !$Exists ) {
-        if ($Self->{DBObject}->Do(
-                      SQL => "INSERT INTO service "
+        if (
+            $Self->{DBObject}->Do(
+                SQL => "INSERT INTO service "
                     . "(name, valid_id, comments, create_time, create_by, change_time, change_by) VALUES "
                     . "('$Param{FullName}', $Param{ValidID}, '$Param{Comment}', "
                     . "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})",
@@ -452,7 +469,15 @@ sub ServiceUpdate {
     for (qw(ServiceID ValidID UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
-    chomp( $Param{Name} );
+
+    # cleanup given params
+    for my $Argument (qw(Name Comment)) {
+        $Self->{CheckItemObject}->StringClean(
+            StringRef         => \$Param{$Argument},
+            RemoveAllNewlines => 1,
+            RemoveAllTabs     => 1,
+        );
+    }
 
     # check service name
     if ( $Param{Name} =~ /::/ ) {
@@ -513,12 +538,15 @@ sub ServiceUpdate {
         $Self->{DBObject}->Do(
             SQL => "UPDATE service SET name = '$Param{FullName}', valid_id = $Param{ValidID}, "
                 . "comments = '$Param{Comment}', change_time = current_timestamp, change_by = $Param{UserID} "
-                . "WHERE id = $Param{ServiceID}", );
+                . "WHERE id = $Param{ServiceID}",
+        );
 
         # find all childs
-        $Self->{DBObject}->Prepare( SQL => "SELECT id, name FROM service WHERE name LIKE '"
+        $Self->{DBObject}->Prepare(
+            SQL => "SELECT id, name FROM service WHERE name LIKE '"
                 . $Self->{DBObject}->Quote( $OldServiceName, 'Like' )
-                . "::%'", );
+                . "::%'",
+        );
         my @Childs;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             my %Child;
@@ -568,17 +596,17 @@ sub ServiceSearch {
         }
     }
     $Param{Limit} = $Param{Limit} || 1000;
-    $Param{Name} =~ s/^\s+//;
-    $Param{Name} =~ s/\s+$//;
 
     my $SQL = 'SELECT id FROM service WHERE valid_id = 1 ';
 
     if ( $Param{Name} ) {
-        $Param{Name} =~ s/\*/%/g;
-        $Param{Name} =~ s/%%/%/g;
 
         # quote
         $Param{Name} = $Self->{DBObject}->Quote( $Param{Name}, 'Like' );
+
+        # replace * with % and clean the string
+        $Param{Name} =~ s{ \*+ }{%}xmsg;
+        $Param{Name} =~ s{ %+ }{%}xmsg;
 
         $SQL .= "AND name LIKE '$Param{Name}' ";
     }
@@ -691,6 +719,7 @@ sub CustomerUserServiceMemberList {
         . " WHERE "
         . " s.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) " . " AND "
         . " s.id = scu.service_id " . " AND ";
+
     if ( $Param{ServiceID} ) {
         $SQL .= " scu.service_id = $Param{ServiceID}";
     }
@@ -823,12 +852,12 @@ This Software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2008-01-15 18:39:49 $
+$Revision: 1.23 $ $Date: 2008-03-11 15:45:34 $
 
 =cut
