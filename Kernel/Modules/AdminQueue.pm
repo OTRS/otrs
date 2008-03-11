@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.39 2008-02-13 14:54:59 martin Exp $
+# $Id: AdminQueue.pm,v 1.40 2008-03-11 14:51:22 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Crypt;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -123,7 +123,7 @@ sub Run {
             if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
                 %Preferences = %{$Self->{ConfigObject}->Get('QueuePreferences')};
             }
-            foreach my $Item (sort keys %Preferences) {
+            for my $Item (sort keys %Preferences) {
                 my $Module = $Preferences{$Item}->{Module} || 'Kernel::Output::HTML::QueuePreferencesGeneric';
                 # load module
                 if ($Self->{MainObject}->Require($Module)) {
@@ -135,7 +135,7 @@ sub Run {
                     my @Params = $Object->Param(QueueData => \%QueueData);
                     if (@Params) {
                         my %GetParam = ();
-                        foreach my $ParamItem (@Params) {
+                        for my $ParamItem (@Params) {
                             my @Array = $Self->{ParamObject}->GetArray(Param => $ParamItem->{Name});
                             $GetParam{$ParamItem->{Name}} = \@Array;
                         }
@@ -187,8 +187,11 @@ sub Run {
 
             # update preferences
             my %QueueData = $Self->{QueueObject}->QueueGet(ID => $Id);
-            my %Preferences = %{$Self->{ConfigObject}->Get('QueuePreferences')};
-            foreach my $Item (sort keys %Preferences) {
+            my %Preferences = ();
+            if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
+                %Preferences = %{$Self->{ConfigObject}->Get('QueuePreferences')};
+            }
+            for my $Item (keys %Preferences) {
                 my $Module = $Preferences{$Item}->{Module} || 'Kernel::Output::HTML::QueuePreferencesGeneric';
                 # load module
                 if ($Self->{MainObject}->Require($Module)) {
@@ -200,7 +203,7 @@ sub Run {
                     my @Params = $Object->Param(QueueData => \%QueueData);
                     if (@Params) {
                         my %GetParam = ();
-                        foreach my $ParamItem (@Params) {
+                        for my $ParamItem (@Params) {
                             my @Array = $Self->{ParamObject}->GetArray(Param => $ParamItem->{Name});
                             $GetParam{$ParamItem->{Name}} = \@Array;
                         }
@@ -447,7 +450,7 @@ sub _Mask {
     if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
         %Preferences = %{$Self->{ConfigObject}->Get('QueuePreferences')};
     }
-    foreach my $Item (sort keys %Preferences) {
+    for my $Item (sort keys %Preferences) {
         my $Module = $Preferences{$Item}->{Module} || 'Kernel::Output::HTML::QueuePreferencesGeneric';
         # load module
         if ($Self->{MainObject}->Require($Module)) {
@@ -458,7 +461,7 @@ sub _Mask {
             );
             my @Params = $Object->Param(QueueData => \%Param);
             if (@Params) {
-                foreach my $ParamItem (@Params) {
+                for my $ParamItem (@Params) {
                     $Self->{LayoutObject}->Block(
                         Name => 'Item',
                         Data => { %Param, },
