@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Service.pm - all service function
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.18 2007-08-27 14:22:47 mh Exp $
+# $Id: Service.pm,v 1.18.2.1 2008-03-11 15:21:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Service;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.18.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -139,7 +139,7 @@ sub ServiceList {
         # delete invalid services an childs
         foreach my $ServiceID (keys %ServiceList) {
             foreach my $InvalidName (keys %ServiceInvalidList) {
-                if ($ServiceList{$ServiceID} =~ /^($InvalidName)::/) {
+                if ( $ServiceList{$ServiceID} =~ m{ \A $InvalidName :: }xms ) {
                     delete($ServiceList{$ServiceID});
                     last;
                 }
@@ -322,7 +322,16 @@ sub ServiceAdd {
     foreach (qw(ValidID UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
-    chomp($Param{Name});
+
+    # cleanup given params (replace it with StringClean() in OTRS 2.3 and later)
+    for my $Argument (qw(Name Comment)) {
+        $Self->_StringClean(
+            StringRef         => \$Param{$Argument},
+            RemoveAllNewlines => 1,
+            RemoveAllTabs     => 1,
+        );
+    }
+
     # check service name
     if ($Param{Name} =~ /::/) {
         $Self->{LogObject}->Log(
@@ -420,7 +429,16 @@ sub ServiceUpdate {
     foreach (qw(ServiceID ValidID UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
-    chomp($Param{Name});
+
+    # cleanup given params (replace it with StringClean() in OTRS 2.3 and later)
+    for my $Argument (qw(Name Comment)) {
+        $Self->_StringClean(
+            StringRef         => \$Param{$Argument},
+            RemoveAllNewlines => 1,
+            RemoveAllTabs     => 1,
+        );
+    }
+
     # check service name
     if ($Param{Name} =~ /::/) {
         $Self->{LogObject}->Log(
@@ -529,16 +547,21 @@ sub ServiceSearch {
         }
     }
     $Param{Limit} = $Param{Limit} || 1000;
-    $Param{Name} =~ s/^\s+//;
-    $Param{Name} =~ s/\s+$//;
+
     # quote
     foreach (qw(UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "SELECT id FROM service WHERE valid_id = 1 ";
     if ($Param{Name}) {
-        $Param{Name} =~ s/\*/%/g;
-        $Param{Name} =~ s/%%/%/g;
+
+        # quote
+        $Param{Name} = $Self->{DBObject}->Quote($Param{Name});
+
+        # replace * with % and clean the string
+        $Param{Name} =~ s{ \*+ }{%}xmsg;
+        $Param{Name} =~ s{ %+ }{%}xmsg;
+
         $SQL .= "AND name LIKE '$Param{Name}' ";
     }
     $SQL .= "ORDER BY name";
@@ -754,6 +777,60 @@ sub CustomerUserServiceMemberAdd {
     }
 }
 
+=item _StringClean()
+
+DON'T USE THIS INTERNAL FUNCTION IN OTHER MODULES!
+
+This function can be replaced with Kernel::System::CheckItem::StringClean() in OTRS 2.3 and later!
+
+clean a given string
+
+    my $Error = $CheckItemObject->_StringClean(
+        StringRef         => \'String',
+        TrimLeft          => 0,  # (optional) default 1
+        TrimRight         => 0,  # (optional) default 1
+        RemoveAllNewlines => 1,  # (optional) default 0
+        RemoveAllTabs     => 1,  # (optional) default 0
+        RemoveAllSpaces   => 1,  # (optional) default 0
+    );
+
+=cut
+
+sub _StringClean {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{StringRef} || ref $Param{StringRef} ne 'SCALAR' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need a scalar reference!'
+        );
+        return;
+    }
+
+    return 1 if !${ $Param{StringRef} };
+
+    # set default values
+    $Param{TrimLeft}  = defined $Param{TrimLeft}  ? $Param{TrimLeft}  : 1;
+    $Param{TrimRight} = defined $Param{TrimRight} ? $Param{TrimRight} : 1;
+
+    my %TrimAction = (
+        RemoveAllNewlines => qr{ [\n\r\f] }xms,
+        RemoveAllTabs     => qr{ \t       }xms,
+        RemoveAllSpaces   => qr{ [ ]      }xms,
+        TrimLeft          => qr{ \A \s+   }xms,
+        TrimRight         => qr{ \s+ \z   }xms,
+    );
+
+    ACTION:
+    for my $Action ( sort keys %TrimAction ) {
+        next ACTION if !$Param{$Action};
+
+        ${ $Param{StringRef} } =~ s{ $TrimAction{$Action} }{}xmsg;
+    }
+
+    return 1;
+}
+
 1;
 
 =back
@@ -764,12 +841,12 @@ This Software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2007-08-27 14:22:47 $
+$Revision: 1.18.2.1 $ $Date: 2008-03-11 15:21:13 $
 
 =cut
