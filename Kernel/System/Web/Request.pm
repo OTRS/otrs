@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.19 2008-02-10 10:50:55 tr Exp $
+# $Id: Request.pm,v 1.20 2008-03-13 15:12:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -215,25 +215,25 @@ sub GetUploadAll {
 
     # get upload
     my $Upload = $Self->GetUpload( Filename => $Param{Param} );
-
     return if !$Upload;
 
-    $Param{UploadFilenameOrig} = $Self->GetParam( Param => $Param{Param} ) || 'unkown';
-    my $Filename = $Param{UploadFilenameOrig} || '';
-    $Self->{EncodeObject}->Encode( \$Filename );
+    # get real file name
+    my $UploadFilenameOrig = $Self->GetParam( Param => $Param{Param} ) || 'unkown';
+    my $NewFileName = "$UploadFilenameOrig"; # use "" to get filename of anony. object
+    $Self->{EncodeObject}->Encode( \$NewFileName);
 
     # replace all devices like c: or d: and dirs for IE!
-    my $NewFileName = $Filename;
     $NewFileName =~ s/.:\\(.*)/$1/g;
     $NewFileName =~ s/.*\\(.+?)/$1/g;
 
     # return a string
+    my $Content;
     if ( $Param{Source} && lc $Param{Source} eq 'string' ) {
-        $Param{UploadFilename} = '';
 
         while (<$Upload>) {
-            $Param{UploadFilename} .= $_;
+            $Content .= $_;
         }
+        close $Upload;
     }
 
     # return file location in FS
@@ -248,9 +248,9 @@ sub GetUploadAll {
         # create upload dir
         File::Path::mkpath( [$Path], 0, '0700' );
 
-        $Param{UploadFilename} = "$Path/$NewFileName";
+        $Content = "$Path/$NewFileName";
 
-        open( my $Out, '>', $Param{UploadFilename} ) || die $!;
+        open( my $Out, '>', $Content ) || die $!;
         while (<$Upload>) {
             print $Out $_;
         }
@@ -259,17 +259,17 @@ sub GetUploadAll {
 
     # check if content is there, IE is always sending file uploades
     # without content
-    return if !$Param{UploadFilename};
+    return if !$Content;
 
-    $Param{UploadContentType} = $Self->GetUploadInfo(
-        Filename => $Param{UploadFilenameOrig},
+    my $ContentType = $Self->GetUploadInfo(
+        Filename => $UploadFilenameOrig,
         Header   => 'Content-Type',
     ) || '';
 
     return (
         Filename    => $NewFileName,
-        Content     => $Param{UploadFilename},
-        ContentType => $Param{UploadContentType},
+        Content     => $Content,
+        ContentType => $ContentType,
     );
 }
 
@@ -326,6 +326,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2008-02-10 10:50:55 $
+$Revision: 1.20 $ $Date: 2008-03-13 15:12:14 $
 
 =cut
