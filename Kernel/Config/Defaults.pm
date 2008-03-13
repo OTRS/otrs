@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.286 2008-03-08 11:06:28 martin Exp $
+# $Id: Defaults.pm,v 1.287 2008-03-13 21:19:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.286 $) [1];
+$VERSION = qw($Revision: 1.287 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -164,6 +164,7 @@ sub LoadDefaults {
         ru    => 'Russian (&#x0420;&#x0443;&#x0441;&#x0441;&#x043a;&#x0438;&#x0439;)',
         sk_SK => 'Slovak (Sloven&#x010d;ina)',
         sv    => 'Svenska',
+        tr    => 'T&uuml;rk&ccedil;e',
         vi_VN => 'Vietnam (Vi&#x0246;t Nam)',
         zh_CN => 'Chinese (Sim.) (&#x7b80;&#x4f53;&#x4e2d;&#x6587;)',
 
@@ -171,7 +172,6 @@ sub LoadDefaults {
 #            ro => 'Rom&acirc;n&auml;',
 #            hr => 'Croatian',
 #            sl => 'Slovenian (Sloven&#x0161;&#x010d;ina)',
-#            tr => 'T&uuml;rk&ccedil;e',
 #            uk => 'Ukrainian (&#x0423;&#x043a;&#x0440;&#x0430;&#x0457;&#x043d;&#x0441;&#x044c;&#x043a;&#x0430;)',
 #            jp => 'Japanese (&#x65e5;&#x672c;&#x8a9e;)',
     };
@@ -2314,6 +2314,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.286 $ $Date: 2008-03-08 11:06:28 $
+$Revision: 1.287 $ $Date: 2008-03-13 21:19:16 $
 
 =cut
