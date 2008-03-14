@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.57 2008-03-06 09:50:56 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.58 2008-03-14 08:46:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,10 +19,11 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CheckItem;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
+use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,7 +64,7 @@ sub Run {
     # get params
     my %GetParam = ();
     for (
-        qw(AttachmentUpload ArticleID PriorityID NewUserID
+        qw(AttachmentUpload ArticleID LinkTicketID PriorityID NewUserID
         From Subject Body NextStateID TimeUnits
         Year Month Day Hour Minute
         NewResponsibleID ResponsibleAll OwnerAll TypeID ServiceID SLAID
@@ -172,17 +173,20 @@ sub Run {
             # show customer info
             if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose') ) {
                 if ( $Article{CustomerUserID} ) {
-                    %CustomerData = $Self->{CustomerUserObject}
-                        ->CustomerUserDataGet( User => $Article{CustomerUserID}, );
+                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                        User => $Article{CustomerUserID},
+                    );
                 }
                 elsif ( $Article{CustomerID} ) {
-                    %CustomerData = $Self->{CustomerUserObject}
-                        ->CustomerUserDataGet( CustomerID => $Article{CustomerID}, );
+                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                        CustomerID => $Article{CustomerID},
+                    );
                 }
             }
             if ( $Article{CustomerUserID} ) {
-                my %CustomerUserList = $Self->{CustomerUserObject}
-                    ->CustomerSearch( UserLogin => $Article{CustomerUserID}, );
+                my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+                    UserLogin => $Article{CustomerUserID},
+                );
                 for ( sort keys %CustomerUserList ) {
                     $Article{From} = $CustomerUserList{$_};
                 }
@@ -226,8 +230,10 @@ sub Run {
         );
 
         # free time
-        my %TicketFreeTimeHTML
-            = $Self->{LayoutObject}->AgentFreeDate( %Param, Ticket => \%GetParam, );
+        my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
+            %Param,
+            Ticket => \%GetParam,
+        );
 
         # get article free text default selections
         my %ArticleFreeDefault = ();
@@ -284,7 +290,9 @@ sub Run {
             CustomerID   => $Article{CustomerID},
             CustomerUser => $Article{CustomerUserID},
             CustomerData => \%CustomerData,
-            Attachments => \@Attachments,
+            Attachments  => \@Attachments,
+            LinkTicketID => $GetParam{LinkTicketID} || '',
+#            %GetParam,
             %TicketFreeTextHTML,
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,
@@ -298,8 +306,9 @@ sub Run {
         my %Error     = ();
         my %StateData = ();
         if ( $GetParam{NextStateID} ) {
-            %StateData
-                = $Self->{TicketObject}->{StateObject}->StateGet( ID => $GetParam{NextStateID}, );
+            %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                ID => $GetParam{NextStateID},
+            );
         }
         my $NextState = $StateData{Name} || '';
         my $Dest = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
@@ -338,8 +347,7 @@ sub Run {
 
         # rewrap body if exists
         if ( $GetParam{Body} ) {
-            $GetParam{Body}
-                =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
+            $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
 
         # check pending date
@@ -442,8 +450,9 @@ sub Run {
 
             # search customer
             my %CustomerUserList = ();
-            %CustomerUserList
-                = $Self->{CustomerUserObject}->CustomerSearch( Search => $GetParam{From}, );
+            %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+                Search => $GetParam{From},
+            );
 
             # check if just one customer user exists
             # if just one, fillup CustomerUserID and CustomerID
@@ -516,12 +525,14 @@ sub Run {
         my %CustomerData = ();
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose') ) {
             if ( $CustomerUser || $SelectedCustomerUser ) {
-                %CustomerData = $Self->{CustomerUserObject}
-                    ->CustomerUserDataGet( User => $CustomerUser || $SelectedCustomerUser, );
+                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $CustomerUser || $SelectedCustomerUser,
+                );
             }
             elsif ($CustomerID) {
-                %CustomerData = $Self->{CustomerUserObject}
-                    ->CustomerUserDataGet( CustomerID => $CustomerID, );
+                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    CustomerID => $CustomerID,
+                );
             }
         }
 
@@ -565,8 +576,7 @@ sub Run {
             # html output
             $Output .= $Self->_MaskPhoneNew(
                 QueueID => $Self->{QueueID},
-                Users =>
-                    $Self->_GetUsers( QueueID => $NewQueueID, AllUsers => $GetParam{OwnerAll} ),
+                Users => $Self->_GetUsers( QueueID => $NewQueueID, AllUsers => $GetParam{OwnerAll} ),
                 UserSelected     => $GetParam{NewUserID},
                 ResponsibleUsers => $Self->_GetUsers(
                     QueueID  => $NewQueueID,
@@ -621,8 +631,9 @@ sub Run {
                 }
             }
             for my $TicketID (@TicketIDs) {
-                my %Article
-                    = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $TicketID );
+                my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                    TicketID => $TicketID,
+                );
 
                 # get acl actions
                 $Self->{TicketObject}->TicketAcl(
@@ -698,8 +709,7 @@ sub Run {
                     Data         => {
                         %AclAction,
                         %Article,
-                        Age =>
-                            $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' )
+                        Age => $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' )
                             || '',
                     }
                 );
@@ -755,8 +765,10 @@ sub Run {
                 $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
 
                 if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
-                    %Time = $Self->{LayoutObject}
-                        ->TransfromDateSelection( %GetParam, Prefix => "TicketFreeTime" . $_, );
+                    %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                        %GetParam,
+                        Prefix => "TicketFreeTime" . $_,
+                    );
                 }
                 $Self->{TicketObject}->TicketFreeTimeSet(
                     %Time,
@@ -848,8 +860,9 @@ sub Run {
             }
 
             # get pre loaded attachment
-            my @AttachmentData
-                = $Self->{UploadCachObject}->FormIDGetAllFilesData( FormID => $Self->{FormID}, );
+            my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+                FormID => $Self->{FormID},
+            );
             for my $Ref (@AttachmentData) {
                 $Self->{TicketObject}->ArticleWriteAttachment(
                     %{$Ref},
@@ -873,6 +886,19 @@ sub Run {
 
             # remove pre submited attachments
             $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
+
+            # link tickets
+            if ( $GetParam{LinkTicketID} ) {
+                my $LinkObject = Kernel::System::LinkObject->new(%{ $Self });
+                $LinkObject->LoadBackend(Module => 'Ticket');
+                $LinkObject->LinkObject(
+                    LinkType => 'Normal',
+                    LinkID1 => $GetParam{LinkTicketID},
+                    LinkObject1 => 'Ticket',
+                    LinkID2 => $TicketID,
+                    LinkObject2 => 'Ticket',
+                );
+            }
 
             # should i set an unlock?
             my %StateData = $Self->{StateObject}->StateGet( ID => $GetParam{NextStateID} );
@@ -899,8 +925,9 @@ sub Run {
                 || 'AgentTicketPhone';
 
             # redirect
-            return $Self->{LayoutObject}
-                ->Redirect( OP => "Action=$NextScreen&Subaction=Created&TicketID=$TicketID", );
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=$NextScreen&Subaction=Created&TicketID=$TicketID",
+            );
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();

@@ -1,12 +1,12 @@
 # --
 # AgentTicketPhone.dtl - provides HTML form for phone
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.29 2008-01-14 14:38:59 martin Exp $
+# $Id: AgentTicketPhone.dtl,v 1.30 2008-03-14 08:46:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 # include AJAX lib
@@ -130,6 +130,7 @@ function clear_field() {
         <input type="hidden" name="PreSelectedCustomerUser" value="">
         <input type="hidden" name="SelectedCustomerUser" value="$Data{"CustomerUser"}">
         <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+        <input type="hidden" name="LinkTicketID" value="$Data{"LinkTicketID"}">
         <table border="0" width="100%">
 <!-- dtl:block:TicketType -->
           <tr>
