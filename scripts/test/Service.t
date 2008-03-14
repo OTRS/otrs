@@ -2,7 +2,7 @@
 # Service.t - Service tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.t,v 1.4 2008-03-11 15:23:59 mh Exp $
+# $Id: Service.t,v 1.5 2008-03-14 14:32:26 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -64,8 +64,6 @@ my $ServiceRand8  = 'UnitTest' . int( rand(1_000_000) );
 my $ServiceRand9  = 'UnitTest' . int( rand(1_000_000) );
 my $ServiceRand10 = 'UnitTest' . int( rand(1_000_000) );
 my $ServiceRand11 = 'UnitTest' . int( rand(1_000_000) );
-my $ServiceRand12 = 'UnitTest' . int( rand(1_000_000) );
-my $ServiceRand13 = 'UnitTest' . int( rand(1_000_000) );
 
 # get original service list for later checks
 my %ServiceListOriginal = $Self->{ServiceObject}->ServiceList(
@@ -197,7 +195,7 @@ my $ItemData = [
     {
         Update => {
             Name    => $ServiceRand2 . 'UPDATE2',
-            ValidID => $UserID1,
+            ValidID => 2,
             Comment => 'TestComment2UPDATE2',
             UserID  => $UserID1,
         },
@@ -205,7 +203,7 @@ my $ItemData = [
             ParentID  => '',
             Name      => $ServiceRand2 . 'UPDATE2',
             NameShort => $ServiceRand2 . 'UPDATE2',
-            ValidID   => $UserID1,
+            ValidID   => 2,
             Comment   => 'TestComment2UPDATE2',
             CreateBy  => 1,
             ChangeBy  => $UserID1,
@@ -289,15 +287,15 @@ my $ItemData = [
     # the service one add-test before must be updated sucessfully (check string cleaner function)
     {
         Update => {
-            Name    => " \t \n \r " . $ServiceRand4 . " UPDATED \t \n \r ",
+            Name    => " \t \n \r " . $ServiceRand4 . " UPDATE1 \t \n \r ",
             ValidID => 2,
             Comment => " \t \n \r Test Comment \t \n \r ",
             UserID  => $UserID2,
         },
         UpdateGet => {
             ParentID  => '',
-            Name      => $ServiceRand4 . ' UPDATED',
-            NameShort => $ServiceRand4 . ' UPDATED',
+            Name      => $ServiceRand4 . ' UPDATE1',
+            NameShort => $ServiceRand4 . ' UPDATE1',
             ValidID   => 2,
             Comment   => 'Test Comment',
             CreateBy  => 1,
@@ -327,17 +325,17 @@ my $ItemData = [
     # the service one add-test before must be updated sucessfully (unicode checks)
     {
         Update => {
-            Name    => $ServiceRand5 . ' ϒ ϡ Ʃ Ϟ UPDATED',
+            Name    => $ServiceRand5 . ' ϒ ϡ Ʃ Ϟ UPDATE1',
             ValidID => 2,
-            Comment => ' Ѡ Ѥ TestComment5 Ϡ Ω UPDATED',
+            Comment => ' Ѡ Ѥ TestComment5 Ϡ Ω UPDATE1',
             UserID  => $UserID1,
         },
         UpdateGet => {
             ParentID  => '',
-            Name      => $ServiceRand5 . ' ϒ ϡ Ʃ Ϟ UPDATED',
-            NameShort => $ServiceRand5 . ' ϒ ϡ Ʃ Ϟ UPDATED',
+            Name      => $ServiceRand5 . ' ϒ ϡ Ʃ Ϟ UPDATE1',
+            NameShort => $ServiceRand5 . ' ϒ ϡ Ʃ Ϟ UPDATE1',
             ValidID   => 2,
-            Comment   => 'Ѡ Ѥ TestComment5 Ϡ Ω UPDATED',
+            Comment   => 'Ѡ Ѥ TestComment5 Ϡ Ω UPDATE1',
             CreateBy  => 1,
             ChangeBy  => $UserID1,
         },
@@ -448,14 +446,14 @@ my $ItemData = [
     {
         Update => {
             ParentID => '',
-            Name     => $ServiceRand8 . ' UPDATED1',
+            Name     => $ServiceRand8 . ' UPDATE1',
             ValidID  => 1,
             UserID   => 1,
         },
         UpdateGet => {
             ParentID  => '',
-            Name      => $ServiceRand8 . ' UPDATED1',
-            NameShort => $ServiceRand8 . ' UPDATED1',
+            Name      => $ServiceRand8 . ' UPDATE1',
+            NameShort => $ServiceRand8 . ' UPDATE1',
             ValidID   => 1,
             CreateBy  => 1,
             ChangeBy  => 1,
@@ -466,14 +464,14 @@ my $ItemData = [
     {
         Update => {
             ParentID => 'LASTLASTADDID',
-            Name     => $ServiceRand8 . ' UPDATED2',
+            Name     => $ServiceRand8 . ' UPDATE2',
             ValidID  => 1,
             UserID   => 1,
         },
         UpdateGet => {
             ParentID  => 'LASTLASTADDID',
-            Name      => $ServiceRand6 . '::' . $ServiceRand7 . '::' . $ServiceRand8 . ' UPDATED2',
-            NameShort => $ServiceRand8 . ' UPDATED2',
+            Name      => $ServiceRand6 . '::' . $ServiceRand7 . '::' . $ServiceRand8 . ' UPDATE2',
+            NameShort => $ServiceRand8 . ' UPDATE2',
             ValidID   => 1,
             CreateBy  => 1,
             ChangeBy  => 1,
@@ -830,7 +828,7 @@ for my $ServiceName (@ServiceNames) {
 
 # clean the service table
 $Self->{DBObject}->Do(
-    SQL => "DELETE FROM service WHERE name LIKE 'UnitTest%'",
+    SQL => "DELETE FROM service WHERE name LIKE '%UnitTest%'",
 );
 
 # clean the system user table
