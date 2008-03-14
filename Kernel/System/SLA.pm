@@ -1,12 +1,12 @@
 # --
 # Kernel/System/SLA.pm - all sla function
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.15 2007-08-21 10:15:38 mh Exp $
+# $Id: SLA.pm,v 1.15.2.1 2008-03-14 14:01:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::SLA;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.15.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -285,9 +285,9 @@ add a sla
         ServiceID => 1,
         Name => 'Service Name',
         Calendar => 'Calendar1',   # (optional)
-        FirstResponseTime => 120,
-        UpdateTime => 180,
-        SolutionTime => 580,
+        FirstResponseTime => 120,  # (optional)
+        UpdateTime => 180,         # (optional)
+        SolutionTime => 580,       # (optional)
         ValidID => 1,
         Comment => 'Comment',      # (optional)
         UserID => 1,
@@ -320,6 +320,14 @@ sub SLAAdd {
     }
     foreach (qw(ServiceID FirstResponseTime UpdateTime SolutionTime ValidID UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    # cleanup given params (replace it with StringClean() in OTRS 2.3 and later)
+    for my $Argument (qw(Name Comment)) {
+        $Self->_StringClean(
+            StringRef         => \$Param{$Argument},
+            RemoveAllNewlines => 1,
+            RemoveAllTabs     => 1,
+        );
     }
     # add sla to database
     if ($Self->{DBObject}->Do(
@@ -376,8 +384,9 @@ sub SLAUpdate {
         }
     }
     # reset cache
-    $Self->{"Cache::SLALookup::Name::$Param{Name}"} = 0;
-    $Self->{"Cache::SLALookup::ID::$Param{SLAID}"} = 0;
+    delete $Self->{"Cache::SLAGet::$Param{SLAID}"};
+    delete $Self->{"Cache::SLALookup::Name::$Param{Name}"};
+    delete $Self->{"Cache::SLALookup::ID::$Param{SLAID}"};
     # set default values
     foreach (qw(Calendar Comment)) {
         $Param{$_} = $Param{$_} || '';
@@ -395,6 +404,14 @@ sub SLAUpdate {
     foreach (qw(ServiceID FirstResponseTime UpdateTime SolutionTime ValidID UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
+    # cleanup given params (replace it with StringClean() in OTRS 2.3 and later)
+    for my $Argument (qw(Name Comment)) {
+        $Self->_StringClean(
+            StringRef         => \$Param{$Argument},
+            RemoveAllNewlines => 1,
+            RemoveAllTabs     => 1,
+        );
+    }
     # update service
     return $Self->{DBObject}->Do(
         SQL => "UPDATE sla SET service_id = $Param{ServiceID}, name = '$Param{Name}', ".
@@ -404,6 +421,60 @@ sub SLAUpdate {
             "comments = '$Param{Comment}', change_time = current_timestamp, change_by = $Param{UserID} ".
             "WHERE id = $Param{SLAID}",
     );
+}
+
+=item _StringClean()
+
+DON'T USE THIS INTERNAL FUNCTION IN OTHER MODULES!
+
+This function can be replaced with Kernel::System::CheckItem::StringClean() in OTRS 2.3 and later!
+
+clean a given string
+
+    my $Error = $CheckItemObject->_StringClean(
+        StringRef         => \'String',
+        TrimLeft          => 0,  # (optional) default 1
+        TrimRight         => 0,  # (optional) default 1
+        RemoveAllNewlines => 1,  # (optional) default 0
+        RemoveAllTabs     => 1,  # (optional) default 0
+        RemoveAllSpaces   => 1,  # (optional) default 0
+    );
+
+=cut
+
+sub _StringClean {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{StringRef} || ref $Param{StringRef} ne 'SCALAR' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need a scalar reference!'
+        );
+        return;
+    }
+
+    return 1 if !${ $Param{StringRef} };
+
+    # set default values
+    $Param{TrimLeft}  = defined $Param{TrimLeft}  ? $Param{TrimLeft}  : 1;
+    $Param{TrimRight} = defined $Param{TrimRight} ? $Param{TrimRight} : 1;
+
+    my %TrimAction = (
+        RemoveAllNewlines => qr{ [\n\r\f] }xms,
+        RemoveAllTabs     => qr{ \t       }xms,
+        RemoveAllSpaces   => qr{ [ ]      }xms,
+        TrimLeft          => qr{ \A \s+   }xms,
+        TrimRight         => qr{ \s+ \z   }xms,
+    );
+
+    ACTION:
+    for my $Action ( sort keys %TrimAction ) {
+        next ACTION if !$Param{$Action};
+
+        ${ $Param{StringRef} } =~ s{ $TrimAction{$Action} }{}xmsg;
+    }
+
+    return 1;
 }
 
 1;
@@ -416,12 +487,12 @@ This Software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2007-08-21 10:15:38 $
+$Revision: 1.15.2.1 $ $Date: 2008-03-14 14:01:35 $
 
 =cut
