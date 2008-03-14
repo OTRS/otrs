@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.18 2008-02-11 12:18:16 martin Exp $
+# $Id: SLA.pm,v 1.19 2008-03-14 14:33:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,11 @@ package Kernel::System::SLA;
 use strict;
 use warnings;
 
+use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -48,8 +49,10 @@ create a object
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
+
     my $SLAObject = Kernel::System::SLA->new(
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
@@ -66,10 +69,11 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
+    $Self->{ValidObject}     = Kernel::System::Valid->new( %{$Self} );
 
     return $Self;
 }
@@ -80,8 +84,8 @@ return a hash list of slas
 
     my %SLAList = $SLAObject->SLAList(
         ServiceID => 1,  # (optional)
-        Valid => 0,      # (optional) default 1 (0|1)
-        UserID => 1,
+        Valid     => 0,  # (optional) default 1 (0|1)
+        UserID    => 1,
     );
 
 =cut
@@ -89,25 +93,19 @@ return a hash list of slas
 sub SLAList {
     my ( $Self, %Param ) = @_;
 
-    my %SLAList;
-
     # check needed stuff
-    for (qw(UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+        return;
     }
 
     # check valid param
-    if ( !defined( $Param{Valid} ) ) {
+    if ( !defined $Param{Valid} ) {
         $Param{Valid} = 1;
     }
 
     # quote
-    for (qw(UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
+    $Param{UserID} = $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
 
     # check ServiceID
     my $Where = '';
@@ -128,6 +126,7 @@ sub SLAList {
     }
 
     # ask database
+    my %SLAList;
     $Self->{DBObject}->Prepare( SQL => "SELECT id, name FROM sla $Where", );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $SLAList{ $Row[0] } = $Row[1];
@@ -146,8 +145,11 @@ Return
     $SLAData{Name}
     $SLAData{Calendar}
     $SLAData{FirstResponseTime}
+    $SLAData{FirstResponseNotify}
     $SLAData{UpdateTime}
+    $SLAData{UpdateNotify}
     $SLAData{SolutionTime}
+    $SLAData{SolutionNotify}
     $SLAData{ValidID}
     $SLAData{Comment}
     $SLAData{CreateTime}
@@ -156,9 +158,9 @@ Return
     $SLAData{ChangeBy}
 
     my %SLAData = $SLAObject->SLAGet(
-        SLAID => 123,
+        SLAID  => 123,
         UserID => 1,
-        Cache => 1, # optional
+        Cache  => 1,  # (optional)
     );
 
 =cut
@@ -173,6 +175,7 @@ sub SLAGet {
             return;
         }
     }
+
     if ( $Param{Cache} && $Self->{"Cache::SLAGet::$Param{SLAID}"} ) {
         return %{ $Self->{"Cache::SLAGet::$Param{SLAID}"} };
     }
@@ -192,6 +195,8 @@ sub SLAGet {
             . "FROM sla WHERE id = $Param{SLAID}",
         Limit => 1,
     );
+
+    # fetch the result
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $SLAData{SLAID}               = $Row[0];
         $SLAData{ServiceID}           = $Row[1];
@@ -219,7 +224,10 @@ sub SLAGet {
         );
         return;
     }
+
+    # cache the data
     $Self->{"Cache::SLAGet::$Param{SLAID}"} = \%SLAData;
+
     return %SLAData;
 }
 
@@ -247,13 +255,13 @@ sub SLALookup {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need SLAID or Name!" );
         return;
     }
+
     if ( $Param{SLAID} ) {
 
         # check cache
         if ( $Self->{"Cache::SLALookup::ID::$Param{SLAID}"} ) {
             return $Self->{"Cache::SLALookup::ID::$Param{SLAID}"};
         }
-        my $Name;
 
         # quote
         $Param{SLAID} = $Self->{DBObject}->Quote( $Param{SLAID}, 'Integer' );
@@ -263,12 +271,16 @@ sub SLALookup {
             SQL   => "SELECT name FROM sla WHERE id = $Param{SLAID}",
             Limit => 1,
         );
+
+        # fetch the result
+        my $Name;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Name = $Row[0];
         }
 
         # cache
         $Self->{"Cache::SLALookup::ID::$Param{SLAID}"} = $Name;
+
         return $Name;
     }
     else {
@@ -277,7 +289,6 @@ sub SLALookup {
         if ( $Self->{"Cache::SLALookup::Name::$Param{Name}"} ) {
             return $Self->{"Cache::SLALookup::Name::$Param{Name}"};
         }
-        my $ID;
 
         # quote
         $Param{Name} = $Self->{DBObject}->Quote( $Param{Name} );
@@ -287,12 +298,16 @@ sub SLALookup {
             SQL   => "SELECT id FROM sla WHERE name = '$Param{Name}'",
             Limit => 1,
         );
+
+        # fetch the result
+        my $ID;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $ID = $Row[0];
         }
 
         # cache
         $Self->{"Cache::SLALookup::Name::$Param{Name}"} = $ID;
+
         return $ID;
     }
 }
@@ -302,18 +317,18 @@ sub SLALookup {
 add a sla
 
     my $SLAID = $SLAObject->SLAAdd(
-        ServiceID => 1,
-        Name => 'Service Name',
-        Calendar => 'Calendar1',   # (optional)
-        FirstResponseTime => 120,  # (optional)
-        FirstResponseNotify => 60, # (optional, notify agent if first response escalation is 60% reached)
-        UpdateTime => 180,         # (optional)
-        UpdateNotify => 80,        # (optional, notify agent if update escalation is 80% reached)
-        SolutionTime => 580,       # (optional)
-        SolutionNotify => 80,      # (optional, notify agent if solution escalation is 80% reached)
-        ValidID => 1,
-        Comment => 'Comment',      # (optional)
-        UserID => 1,
+        ServiceID           => 1,
+        Name                => 'Service Name',
+        Calendar            => 'Calendar1',  # (optional)
+        FirstResponseTime   => 120,          # (optional)
+        FirstResponseNotify => 60,           # (optional) notify agent if first response escalation is 60% reached
+        UpdateTime          => 180,          # (optional)
+        UpdateNotify        => 80,           # (optional) notify agent if update escalation is 80% reached
+        SolutionTime        => 580,          # (optional)
+        SolutionNotify      => 80,           # (optional) notify agent if solution escalation is 80% reached
+        ValidID             => 1,
+        Comment             => 'Comment',    # (optional)
+        UserID              => 1,
     );
 
 =cut
@@ -329,52 +344,64 @@ sub SLAAdd {
         }
     }
     for (qw(Calendar Comment)) {
-        $Param{$_} = $Param{$_} || '';
+        $Param{$_} ||= '';
     }
 
     # check escalation times
-    for (qw(FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify)) {
-        if ( !$Param{$_} ) {
-            $Param{$_} = 0;
-        }
+    for (
+        qw(FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify)
+        )
+    {
+        $Param{$_} ||= 0;
     }
 
     # quote
     for (qw(Name Calendar Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
     }
-    for (qw(ServiceID FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify ValidID UserID)) {
+    for (
+        qw(ServiceID FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify ValidID UserID)
+        )
+    {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
 
-    # add sla to database
-    if ($Self->{DBObject}->Do(
-                  SQL => "INSERT INTO sla "
-                . "(service_id, name, calendar_name, first_response_time, first_response_notify, "
-                . "update_time, update_notify, solution_time, solution_notify, "
-                . "valid_id, comments, create_time, create_by, change_time, change_by) VALUES "
-                . "($Param{ServiceID}, '$Param{Name}', '$Param{Calendar}', $Param{FirstResponseTime}, "
-                . "$Param{FirstResponseNotify}, $Param{UpdateTime}, $Param{UpdateNotify}, "
-                . "$Param{SolutionTime}, $Param{SolutionNotify}, $Param{ValidID}, '$Param{Comment}', "
-                . "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})",
-        )
-        )
-    {
-
-        # get sla id
-        $Self->{DBObject}->Prepare(
-            SQL   => "SELECT id FROM sla WHERE name = '$Param{Name}'",
-            Limit => 1,
+    # cleanup given params
+    for my $Argument (qw(Name Comment)) {
+        $Self->{CheckItemObject}->StringClean(
+            StringRef         => \$Param{$Argument},
+            RemoveAllNewlines => 1,
+            RemoveAllTabs     => 1,
         );
-        my $SLAID;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $SLAID = $Row[0];
-        }
-        return $SLAID;
     }
-    else {
-        return;
+
+    # add sla to database
+    my $Success = $Self->{DBObject}->Do(
+        SQL => "INSERT INTO sla "
+            . "(service_id, name, calendar_name, first_response_time, first_response_notify, "
+            . "update_time, update_notify, solution_time, solution_notify, "
+            . "valid_id, comments, create_time, create_by, change_time, change_by) VALUES "
+            . "($Param{ServiceID}, '$Param{Name}', '$Param{Calendar}', $Param{FirstResponseTime}, "
+            . "$Param{FirstResponseNotify}, $Param{UpdateTime}, $Param{UpdateNotify}, "
+            . "$Param{SolutionTime}, $Param{SolutionNotify}, $Param{ValidID}, '$Param{Comment}', "
+            . "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})",
+    );
+
+    return if !$Success;
+
+    # get sla id
+    $Self->{DBObject}->Prepare(
+        SQL   => "SELECT id FROM sla WHERE name = '$Param{Name}'",
+        Limit => 1,
+    );
+
+    # fetch the result
+    my $SLAID;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $SLAID = $Row[0];
     }
+
+    return $SLAID;
 }
 
 =item SLAUpdate()
@@ -382,19 +409,19 @@ sub SLAAdd {
 update a existing sla
 
     my $True = $SLAObject->SLAUpdate(
-        SLAID => 2,
-        ServiceID => 1,
-        Name => 'Service Name',
-        Calendar => 'Calendar1',   # (optional)
-        FirstResponseTime => 120,  # (optional)
-        FirstResponseNotify => 60, # (optional, notify agent if first response escalation is 60% reached)
-        UpdateTime => 180,         # (optional)
-        UpdateNotify => 80,        # (optional, notify agent if update escalation is 80% reached)
-        SolutionTime => 580,       # (optional)
-        SolutionNotify => 80,      # (optional, notify agent if solution escalation is 80% reached)
-        ValidID => 1,
-        Comment => 'Comment',      # (optional)
-        UserID => 1,
+        SLAID               => 2,
+        ServiceID           => 1,
+        Name                => 'Service Name',
+        Calendar            => 'Calendar1',  # (optional)
+        FirstResponseTime   => 120,          # (optional)
+        FirstResponseNotify => 60,           # (optional) notify agent if first response escalation is 60% reached
+        UpdateTime          => 180,          # (optional)
+        UpdateNotify        => 80,           # (optional) notify agent if update escalation is 80% reached
+        SolutionTime        => 580,          # (optional)
+        SolutionNotify      => 80,           # (optional) notify agent if solution escalation is 80% reached
+        ValidID             => 1,
+        Comment             => 'Comment',    # (optional)
+        UserID              => 1,
     );
 
 =cut
@@ -411,39 +438,54 @@ sub SLAUpdate {
     }
 
     # reset cache
-    $Self->{"Cache::SLALookup::Name::$Param{Name}"} = 0;
-    $Self->{"Cache::SLALookup::ID::$Param{SLAID}"}  = 0;
+    delete $Self->{"Cache::SLAGet::$Param{SLAID}"};
+    delete $Self->{"Cache::SLALookup::Name::$Param{Name}"};
+    delete $Self->{"Cache::SLALookup::ID::$Param{SLAID}"};
 
     # set default values
     for (qw(Calendar Comment)) {
-        $Param{$_} = $Param{$_} || '';
+        $Param{$_} ||= '';
     }
 
     # check escalation times
-    for (qw(FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify)) {
-        if ( !$Param{$_} ) {
-            $Param{$_} = 0;
-        }
+    for (
+        qw(FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify)
+        )
+    {
+        $Param{$_} ||= 0;
     }
 
     # quote
     for (qw(Name Calendar Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
     }
-    for (qw(ServiceID FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify ValidID UserID)) {
+    for (
+        qw(ServiceID FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify ValidID UserID)
+        )
+    {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
 
+    # cleanup given params
+    for my $Argument (qw(Name Comment)) {
+        $Self->{CheckItemObject}->StringClean(
+            StringRef         => \$Param{$Argument},
+            RemoveAllNewlines => 1,
+            RemoveAllTabs     => 1,
+        );
+    }
+
     # update service
-    return $Self->{DBObject}
-        ->Do( SQL => "UPDATE sla SET service_id = $Param{ServiceID}, name = '$Param{Name}', "
+    return $Self->{DBObject}->Do(
+        SQL => "UPDATE sla SET service_id = $Param{ServiceID}, name = '$Param{Name}', "
             . "calendar_name = '$Param{Calendar}', "
             . "first_response_time = $Param{FirstResponseTime}, first_response_notify = $Param{FirstResponseNotify}, "
             . "update_time = $Param{UpdateTime}, update_notify = $Param{UpdateNotify}, "
             . "solution_time = $Param{SolutionTime}, solution_notify = $Param{SolutionNotify}, "
             . "valid_id = $Param{ValidID}, "
             . "comments = '$Param{Comment}', change_time = current_timestamp, change_by = $Param{UserID} "
-            . "WHERE id = $Param{SLAID}", );
+            . "WHERE id = $Param{SLAID}",
+    );
 }
 
 1;
@@ -462,6 +504,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2008-02-11 12:18:16 $
+$Revision: 1.19 $ $Date: 2008-03-14 14:33:02 $
 
 =cut
