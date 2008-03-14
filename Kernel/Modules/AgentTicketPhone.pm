@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.46.2.3 2008-03-06 09:52:00 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.46.2.4 2008-03-14 08:44:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,10 +17,11 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CheckItem;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
+use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46.2.3 $';
+$VERSION = '$Revision: 1.46.2.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -65,7 +66,7 @@ sub Run {
     my %Param = @_;
     # get params
     my %GetParam = ();
-    foreach (qw(AttachmentUpload ArticleID PriorityID NewUserID
+    foreach (qw(AttachmentUpload LinkTicketID ArticleID PriorityID NewUserID
         From Subject Body NextStateID TimeUnits
         Year Month Day Hour Minute
         NewResponsibleID ResponsibleAll OwnerAll TypeID ServiceID SLAID
@@ -267,6 +268,7 @@ sub Run {
             CustomerUser => $Article{CustomerUserID},
             CustomerData => \%CustomerData,
             Attachments => \@Attachments,
+            LinkTicketID => $GetParam{LinkTicketID} || '',
             %TicketFreeTextHTML,
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,
@@ -807,6 +809,18 @@ sub Run {
             }
             # remove pre submited attachments
             $Self->{UploadCachObject}->FormIDRemove(FormID => $Self->{FormID});
+            # link tickets
+            if ( $GetParam{LinkTicketID} ) {
+                my $LinkObject = Kernel::System::LinkObject->new(%{ $Self });
+                $LinkObject->LoadBackend(Module => 'Ticket');
+                $LinkObject->LinkObject(
+                    LinkType => 'Normal',
+                    LinkID1 => $GetParam{LinkTicketID},
+                    LinkObject1 => 'Ticket',
+                    LinkID2 => $TicketID,
+                    LinkObject2 => 'Ticket',
+                );
+            }
             # should i set an unlock?
             my %StateData = $Self->{StateObject}->StateGet(ID => $GetParam{NextStateID});
             if ($StateData{TypeName} =~ /^close/i) {

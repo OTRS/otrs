@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.99 2008-03-13 21:20:11 martin Exp $
+# $Id: CHANGES,v 1.465.2.100 2008-03-14 08:44:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.6 (2008/??/??)
+ - (2008/03/14) Fixed bug# 954 - ticket split should linking tickets (origin to
+    new one).
  - (2008/03/13) Added new turkish translation, thanks to Necmettin Begiter!
  - (2008/03/11) Fixed bug# 2763 - Trimming of service name input field produce
     errors.

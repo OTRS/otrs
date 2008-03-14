@@ -1,12 +1,12 @@
 # --
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.27 2007-06-28 23:21:32 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.27.2.1 2008-03-14 08:44:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- dtl:block:Header -->
@@ -442,7 +442,7 @@ $Data{"AgentPhoneStrg"}
 # check if split should be shown
 <!-- dtl:block:AgentArticleComPhone -->
                     <dtl if ($Data{"SenderType"} eq "customer") { $Data{"ArticleSplitString"} = "Split"; }>
-                    <a href="$Env{"Baselink"}Action=AgentTicketPhone&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Split"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleSplitString"}"}</a>
+                    <a href="$Env{"Baselink"}Action=AgentTicketPhone&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}&LinkTicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Split"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleSplitString"}"}</a>
 <!-- dtl:block:AgentArticleComPhone -->
                   </td>
                 </tr>
