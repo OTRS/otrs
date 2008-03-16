@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.298 2008-03-16 18:32:04 martin Exp $
+# $Id: Ticket.pm,v 1.299 2008-03-16 22:45:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.298 $) [1];
+$VERSION = qw($Revision: 1.299 $) [1];
 
 =head1 NAME
 
@@ -5911,7 +5911,7 @@ sub TicketMerge {
     }
 
     # change ticket id of merge ticket to main ticket
-    return if $Self->{DBObject}->Do(
+    return if ! $Self->{DBObject}->Do(
         SQL  => "UPDATE article SET ticket_id = ? WHERE ticket_id = ?",
         Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
     );
@@ -6563,6 +6563,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.298 $ $Date: 2008-03-16 18:32:04 $
+$Revision: 1.299 $ $Date: 2008-03-16 22:45:13 $
 
 =cut
