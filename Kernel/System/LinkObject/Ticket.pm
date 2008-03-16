@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.14 2008-03-02 20:54:09 martin Exp $
+# $Id: Ticket.pm,v 1.15 2008-03-16 21:36:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub Init {
     my ( $Self, %Param ) = @_;
@@ -40,12 +40,17 @@ sub FillDataMap {
         TicketID => $Param{ID},
         UserID => $Self->{UserID},
     );
+    my $Css = '';
+    if ( $Ticket{StateType} eq 'merged') {
+        $Css = ' style="text-decoration: line-through"';
+    }
     return (
         Text         => 'T:' . $Ticket{TicketNumber},
         Number       => $Ticket{TicketNumber},
         Title        => $Ticket{Title},
         ID           => $Param{ID},
         Object       => 'Ticket',
+        Css          => $Css,
         FrontendDest => "Action=AgentTicketZoom&TicketID=",
     );
 }
