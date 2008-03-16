@@ -1,12 +1,12 @@
 # --
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.53 2007-08-28 21:27:16 martin Exp $
+# $Id: DB.pm,v 1.53.2.1 2008-03-16 21:44:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::CustomerUser::DB;
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.53.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -264,6 +264,10 @@ sub CustomerUserList {
         if ($Users) {
             return %{$Users};
         }
+    }
+    # do not use valid option if no valid option is used
+    if ( !$Self->{CustomerUserMap}->{CustomerValid} ) {
+        $Valid = 0;
     }
     # get data
     my %Users = $Self->{DBObject}->GetTableData(
