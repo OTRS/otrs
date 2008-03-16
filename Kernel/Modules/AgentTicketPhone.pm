@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.58 2008-03-14 08:46:05 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.59 2008-03-16 19:19:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -888,11 +888,11 @@ sub Run {
             $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
 
             # link tickets
-            if ( $GetParam{LinkTicketID} ) {
+            if ( $GetParam{LinkTicketID} && $Self->{Config}->{SplitLinkType} ) {
                 my $LinkObject = Kernel::System::LinkObject->new(%{ $Self });
                 $LinkObject->LoadBackend(Module => 'Ticket');
                 $LinkObject->LinkObject(
-                    LinkType => 'Normal',
+                    LinkType => $Self->{Config}->{SplitLinkType},
                     LinkID1 => $GetParam{LinkTicketID},
                     LinkObject1 => 'Ticket',
                     LinkID2 => $TicketID,

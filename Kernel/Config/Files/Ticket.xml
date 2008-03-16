@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.160 2008-02-23 00:18:44 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.161 2008-03-16 19:19:07 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -3098,6 +3098,20 @@ TimeWorkingHours
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
             <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###SplitLinkType" Required="1" Valid="1">
+        <Description Lang="en">Default link type of splited tickets.</Description>
+        <Description Lang="de">Standardmäßig vergebener Verknüpfungs-Typ von geteilten Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <Option SelectedID="Child">
+                <Item Key="">- (no links between tickets)</Item>
+                <Item Key="Child">Child (new ticket is child)</Item>
+                <Item Key="Master">Master (new ticket is master)</Item>
+                <Item Key="Normal">Normal (normal link between ticket)</Item>
+            </Option>
         </Setting>
     </ConfigItem>
 
