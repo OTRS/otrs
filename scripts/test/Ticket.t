@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.34 2008-03-10 17:57:39 martin Exp $
+# $Id: Ticket.t,v 1.35 2008-03-16 18:32:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -173,234 +173,6 @@ $Self->Is(
     '1',
     'TicketGet() (TypeID)',
 );
-
-# Check the TicketFreeField functions
-my %TicketFreeText = ();
-for (1..16) {
-    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
-        Counter => $_,
-        Key => 'Planet'.$_,
-        Value => 'Sun'.$_,
-        TicketID => $TicketID,
-        UserID => 1,
-    );
-    $Self->True(
-        $TicketFreeTextSet,
-        'TicketFreeTextSet() '.$_,
-    );
-}
-
-%TicketFreeText = $Self->{TicketObject}->TicketGet(
-    TicketID => $TicketID,
-);
-for (1..16) {
-    $Self->Is(
-        $TicketFreeText{'TicketFreeKey'.$_},
-        'Planet'.$_,
-        "TicketGet() (TicketFreeKey$_)",
-    );
-    $Self->Is(
-        $TicketFreeText{'TicketFreeText'.$_},
-        'Sun'.$_,
-        "TicketGet() (TicketFreeText$_)",
-    );
-}
-
-# TicketFreeTextSet check, if only a value is available but no key
-for (1..16) {
-    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
-        Counter => $_,
-        Value => 'Earth'.$_,
-        TicketID => $TicketID,
-        UserID => 1,
-    );
-    $Self->True(
-        $TicketFreeTextSet,
-        'TicketFreeTextSet () without key '.$_,
-    );
-}
-
-%TicketFreeText = $Self->{TicketObject}->TicketGet(
-    TicketID => $TicketID,
-);
-
-for (1..16) {
-    $Self->Is(
-        $TicketFreeText{'TicketFreeKey'.$_},
-        'Planet'.$_,
-        "TicketGet() (TicketFreeKey$_)",
-    );
-    $Self->Is(
-        $TicketFreeText{'TicketFreeText'.$_},
-        'Earth'.$_,
-        "TicketGet() (TicketFreeText$_)",
-    );
-}
-
-# TicketFreeTextSet check, if only a key is available but no value
-for (1..16) {
-    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
-        Counter => $_,
-        Key => 'Location'.$_,
-        TicketID => $TicketID,
-        UserID => 1,
-    );
-    $Self->True(
-        $TicketFreeTextSet,
-        'TicketFreeTextSet () without value '.$_,
-    );
-}
-
-%TicketFreeText = $Self->{TicketObject}->TicketGet(
-    TicketID => $TicketID,
-);
-
-for (1..16) {
-    $Self->Is(
-        $TicketFreeText{'TicketFreeKey'.$_},
-        'Location'.$_,
-        "TicketGet() (TicketFreeKey$_)",
-    );
-    $Self->Is(
-        $TicketFreeText{'TicketFreeText'.$_},
-        'Earth'.$_,
-        "TicketGet() (TicketFreeText$_)",
-    );
-}
-
-# TicketFreeTextSet check, if no key and value
-for (1..16) {
-    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
-        Counter => $_,
-        TicketID => $TicketID,
-        UserID => 1,
-    );
-    $Self->True(
-        $TicketFreeTextSet,
-        'TicketFreeTextSet () without key and value '.$_,
-    );
-}
-
-%TicketFreeText = $Self->{TicketObject}->TicketGet(
-    TicketID => $TicketID,
-);
-for (1..16) {
-    $Self->Is(
-        $TicketFreeText{'TicketFreeKey'.$_},
-        'Location'.$_,
-        "TicketGet() (TicketFreeKey$_)",
-    );
-    $Self->Is(
-        $TicketFreeText{'TicketFreeText'.$_},
-        'Earth'.$_,
-        "TicketGet() (TicketFreeText$_)",
-    );
-}
-
-# TicketFreeTextSet check, with empty keys and values
-for (1..16) {
-    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
-        Counter  => $_,
-        TicketID => $TicketID,
-        Key      => '',
-        Value    => '',
-        UserID   => 1,
-    );
-    $Self->True(
-        $TicketFreeTextSet,
-        'TicketFreeTextSet () with empty key and value '.$_,
-    );
-}
-
-%TicketFreeText = $Self->{TicketObject}->TicketGet(
-    TicketID => $TicketID,
-);
-for (1..16) {
-    $Self->Is(
-        $TicketFreeText{'TicketFreeKey'.$_},
-        '',
-        "TicketGet() (TicketFreeKey$_)",
-    );
-    $Self->Is(
-        $TicketFreeText{'TicketFreeText'.$_},
-        '',
-        "TicketGet() (TicketFreeText$_)",
-    );
-}
-
-for (1..16) {
-    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
-        Counter => $_,
-        Key => 'Hans'.$_,
-        Value => 'Max'.$_,
-        TicketID => $TicketID,
-        UserID => 1,
-    );
-    $Self->True(
-        $TicketFreeTextSet,
-        'TicketFreeTextSet() '.$_,
-    );
-}
-
-# Check the TicketFreeTime functions
-my %TicketFreeTime = ();
-for (1..5) {
-    my $TicketFreeTimeSet = $Self->{TicketObject}->TicketFreeTimeSet(
-        Counter => $_,
-        Prefix => 'a',
-        "a$_"."Year" => 2008,
-        "a$_"."Month" => 2,
-        "a$_"."Day" => 25,
-        "a$_"."Hour" => 22,
-        "a$_"."Minute" => $_,
-        TicketID => $TicketID,
-        UserID => 1,
-    );
-    $Self->True(
-        $TicketFreeTimeSet,
-        'TicketFreeTimeSet() '.$_,
-    );
-}
-
-%TicketFreeTime = $Self->{TicketObject}->TicketGet(
-    TicketID => $TicketID,
-);
-for (1..5) {
-    $Self->Is(
-        $TicketFreeTime{'TicketFreeTime'.$_},
-        "2008-02-25 22:0$_:00",
-        "TicketGet() (TicketFreeTime$_)",
-    );
-}
-# set undef
-for (1..5) {
-    my $TicketFreeTimeSet = $Self->{TicketObject}->TicketFreeTimeSet(
-        Counter => $_,
-        Prefix => 'a',
-        "a$_"."Year" => '0000',
-        "a$_"."Month" => 0,
-        "a$_"."Day" => 0,
-        "a$_"."Hour" => 0,
-        "a$_"."Minute" => 0,
-        TicketID => $TicketID,
-        UserID => 1,
-    );
-    $Self->True(
-        $TicketFreeTimeSet,
-        'TicketFreeTimeSet() '.$_,
-    );
-}
-
-%TicketFreeTime = $Self->{TicketObject}->TicketGet(
-    TicketID => $TicketID,
-);
-for (1..5) {
-    $Self->Is(
-        $TicketFreeTime{'TicketFreeTime'.$_},
-        '',
-        "TicketGet() (TicketFreeTime$_)",
-    );
-}
 
 my $ArticleID = $Self->{TicketObject}->ArticleCreate(
     TicketID => $TicketID,
@@ -2988,6 +2760,244 @@ $Self->True(
     $Article{From} eq 'Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent <email@example.com>',
     'ArticleGet()',
 );
+
+# Check the TicketFreeField functions
+my %TicketFreeText = ();
+for (1..16) {
+    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+        Counter => $_,
+        Key => 'Planet'.$_,
+        Value => 'Sun'.$_,
+        TicketID => $TicketID,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketFreeTextSet,
+        'TicketFreeTextSet() '.$_,
+    );
+}
+
+%TicketFreeText = $Self->{TicketObject}->TicketGet(
+    TicketID => $TicketID,
+);
+for (1..16) {
+    $Self->Is(
+        $TicketFreeText{'TicketFreeKey'.$_},
+        'Planet'.$_,
+        "TicketGet() (TicketFreeKey$_)",
+    );
+    $Self->Is(
+        $TicketFreeText{'TicketFreeText'.$_},
+        'Sun'.$_,
+        "TicketGet() (TicketFreeText$_)",
+    );
+}
+
+# TicketFreeTextSet check, if only a value is available but no key
+for (1..16) {
+    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+        Counter => $_,
+        Value => 'Earth'.$_,
+        TicketID => $TicketID,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketFreeTextSet,
+        'TicketFreeTextSet () without key '.$_,
+    );
+}
+
+%TicketFreeText = $Self->{TicketObject}->TicketGet(
+    TicketID => $TicketID,
+);
+
+for (1..16) {
+    $Self->Is(
+        $TicketFreeText{'TicketFreeKey'.$_},
+        'Planet'.$_,
+        "TicketGet() (TicketFreeKey$_)",
+    );
+    $Self->Is(
+        $TicketFreeText{'TicketFreeText'.$_},
+        'Earth'.$_,
+        "TicketGet() (TicketFreeText$_)",
+    );
+}
+
+# TicketFreeTextSet check, if only a key is available but no value
+for (1..16) {
+    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+        Counter => $_,
+        Key => 'Location'.$_,
+        TicketID => $TicketID,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketFreeTextSet,
+        'TicketFreeTextSet () without value '.$_,
+    );
+}
+
+%TicketFreeText = $Self->{TicketObject}->TicketGet(
+    TicketID => $TicketID,
+);
+
+for (1..16) {
+    $Self->Is(
+        $TicketFreeText{'TicketFreeKey'.$_},
+        'Location'.$_,
+        "TicketGet() (TicketFreeKey$_)",
+    );
+    $Self->Is(
+        $TicketFreeText{'TicketFreeText'.$_},
+        'Earth'.$_,
+        "TicketGet() (TicketFreeText$_)",
+    );
+}
+
+# TicketFreeTextSet check, if no key and value
+for (1..16) {
+    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+        Counter => $_,
+        TicketID => $TicketID,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketFreeTextSet,
+        'TicketFreeTextSet () without key and value '.$_,
+    );
+}
+
+%TicketFreeText = $Self->{TicketObject}->TicketGet(
+    TicketID => $TicketID,
+);
+for (1..16) {
+    $Self->Is(
+        $TicketFreeText{'TicketFreeKey'.$_},
+        'Location'.$_,
+        "TicketGet() (TicketFreeKey$_)",
+    );
+    $Self->Is(
+        $TicketFreeText{'TicketFreeText'.$_},
+        'Earth'.$_,
+        "TicketGet() (TicketFreeText$_)",
+    );
+}
+
+# TicketFreeTextSet check, with empty keys and values
+for (1..16) {
+    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+        Counter  => $_,
+        TicketID => $TicketID,
+        Key      => '',
+        Value    => '',
+        UserID   => 1,
+    );
+    $Self->True(
+        $TicketFreeTextSet,
+        'TicketFreeTextSet () with empty key and value '.$_,
+    );
+}
+
+%TicketFreeText = $Self->{TicketObject}->TicketGet(
+    TicketID => $TicketID,
+);
+for (1..16) {
+    $Self->Is(
+        $TicketFreeText{'TicketFreeKey'.$_},
+        '',
+        "TicketGet() (TicketFreeKey$_)",
+    );
+    $Self->Is(
+        $TicketFreeText{'TicketFreeText'.$_},
+        '',
+        "TicketGet() (TicketFreeText$_)",
+    );
+}
+
+for (1..16) {
+    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+        Counter => $_,
+        Key => 'Hans'.$_,
+        Value => 'Max'.$_,
+        TicketID => $TicketID,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketFreeTextSet,
+        'TicketFreeTextSet() '.$_,
+    );
+}
+
+# Check the TicketFreeTime functions
+my %TicketFreeTime = ();
+for (1..5) {
+    my $TicketFreeTimeSet = $Self->{TicketObject}->TicketFreeTimeSet(
+        Counter => $_,
+        Prefix => 'a',
+        "a$_"."Year" => 2008,
+        "a$_"."Month" => 2,
+        "a$_"."Day" => 25,
+        "a$_"."Hour" => 22,
+        "a$_"."Minute" => $_,
+        TicketID => $TicketID,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketFreeTimeSet,
+        'TicketFreeTimeSet() '.$_,
+    );
+}
+
+%TicketFreeTime = $Self->{TicketObject}->TicketGet(
+    TicketID => $TicketID,
+);
+for (1..5) {
+    $Self->Is(
+        $TicketFreeTime{'TicketFreeTime'.$_},
+        "2008-02-25 22:0$_:00",
+        "TicketGet() (TicketFreeTime$_)",
+    );
+}
+my @ArticleFreeTime = $Self->{TicketObject}->ArticleGet(
+    TicketID => $TicketID,
+);
+for (1..5) {
+    $Self->Is(
+        $ArticleFreeTime[0]->{'TicketFreeTime'.$_},
+        "2008-02-25 22:0$_:00",
+        "ArticleGet() (TicketFreeTime$_)",
+    );
+}
+# set undef
+for (1..5) {
+    my $TicketFreeTimeSet = $Self->{TicketObject}->TicketFreeTimeSet(
+        Counter => $_,
+        Prefix => 'a',
+        "a$_"."Year" => '0000',
+        "a$_"."Month" => 0,
+        "a$_"."Day" => 0,
+        "a$_"."Hour" => 0,
+        "a$_"."Minute" => 0,
+        TicketID => $TicketID,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketFreeTimeSet,
+        'TicketFreeTimeSet() '.$_,
+    );
+}
+
+%TicketFreeTime = $Self->{TicketObject}->TicketGet(
+    TicketID => $TicketID,
+);
+for (1..5) {
+    $Self->Is(
+        $TicketFreeTime{'TicketFreeTime'.$_},
+        '',
+        "TicketGet() (TicketFreeTime$_)",
+    );
+}
 
 # article attachment checks
 for my $Backend (qw(DB FS)) {

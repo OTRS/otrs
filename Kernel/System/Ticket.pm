@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.297 2008-03-08 15:57:17 martin Exp $
+# $Id: Ticket.pm,v 1.298 2008-03-16 18:32:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.297 $) [1];
+$VERSION = qw($Revision: 1.298 $) [1];
 
 =head1 NAME
 
@@ -840,6 +840,14 @@ sub TicketGet {
             Message  => "No such TicketID ($Param{TicketID})!",
         );
         return;
+    }
+
+    # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
+    # time stamps)
+    for my $Time ( 1..6 ) {
+        if ( $Ticket{'TicketFreeTime'.$Time} ) {
+            $Ticket{'TicketFreeTime'.$Time} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+        }
     }
 
     # get owner
@@ -2513,6 +2521,9 @@ sub TicketFreeTimeSet {
         Bind => [ \$TimeStamp, \$Param{UserID}, \$Param{TicketID} ],
     );
 
+    if ( ! $TimeStamp ) {
+        $TimeStamp = '';
+    }
     # history insert
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
@@ -2565,9 +2576,9 @@ sub Permission {
             return;
         }
     }
-    my $AccessOk = 0;
 
     # run all TicketPermission modules
+    my $AccessOk = 0;
     if ( ref( $Self->{ConfigObject}->Get('Ticket::Permission') ) eq 'HASH' ) {
         my %Modules = %{ $Self->{ConfigObject}->Get('Ticket::Permission') };
         for my $Module ( sort keys %Modules ) {
@@ -6552,6 +6563,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.297 $ $Date: 2008-03-08 15:57:17 $
+$Revision: 1.298 $ $Date: 2008-03-16 18:32:04 $
 
 =cut

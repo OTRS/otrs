@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.162 2008-03-08 16:22:26 martin Exp $
+# $Id: Article.pm,v 1.163 2008-03-16 18:32:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.162 $) [1];
+$VERSION = qw($Revision: 1.163 $) [1];
 
 =head1 NAME
 
@@ -1487,6 +1487,15 @@ sub ArticleGet {
         for (qw(From To Cc Subject)) {
             $Data{$_} =~ s/\n|\r//g if ( $Data{$_} );
         }
+
+        # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
+        # time stamps)
+        for my $Time ( 1..6 ) {
+            if ( $Data{'TicketFreeTime'.$Time} ) {
+                $Data{'TicketFreeTime'.$Time} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+            }
+        }
+
         push( @Content, { %Ticket, %Data } );
     }
 
