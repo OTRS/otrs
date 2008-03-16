@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.61 2008-03-10 19:40:55 martin Exp $
+# $Id: DB.pm,v 1.62 2008-03-16 21:44:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -297,6 +297,11 @@ sub CustomerUserList {
         if ($Users) {
             return %{$Users};
         }
+    }
+
+    # do not use valid option if no valid option is used
+    if ( !$Self->{CustomerUserMap}->{CustomerValid} ) {
+        $Valid = 0;
     }
 
     # get data
