@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.20 2008-03-13 15:12:14 martin Exp $
+# $Id: Request.pm,v 1.21 2008-03-16 23:31:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -194,19 +194,23 @@ sub GetUploadInfo {
 to get file upload
 
     my %File = $ParamObject->GetUploadAll(
-        Param => 'FileParam',
+        Param  => 'FileParam',
+        Source => 'string',
     );
 
     to get file upload without uft-8 encoding
 
     my %File = $ParamObject->GetUploadAll(
         Param => 'FileParam',
-        Encoding => 'Raw', # optional
+        Source => 'string',
     );
 
     print "Filename: $File{Filename}\n";
     print "ContentType: $File{ContentType}\n";
     print "Content: $File{Content}\n";
+
+    If param Source is file, the the content contains the file location
+    in your local file system.
 
 =cut
 
@@ -236,7 +240,7 @@ sub GetUploadAll {
         close $Upload;
     }
 
-    # return file location in FS
+    # return file location in file system
     else {
 
         # delete upload dir if exists
@@ -326,6 +330,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2008-03-13 15:12:14 $
+$Revision: 1.21 $ $Date: 2008-03-16 23:31:36 $
 
 =cut
