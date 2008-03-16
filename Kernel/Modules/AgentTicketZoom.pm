@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.44 2008-01-31 06:22:12 tr Exp $
+# $Id: AgentTicketZoom.pm,v 1.45 2008-03-16 21:35:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -596,6 +596,8 @@ sub MaskAgentZoom {
                 my %Article = %$ArticleTmp;
                 my $Start   = '';
                 my $Stop    = '';
+                my $Start2  = '';
+                my $Stop2   = '';
                 $CounterTree++;
                 my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
                     TicketNumber => $Article{TicketNumber},
@@ -609,62 +611,36 @@ sub MaskAgentZoom {
 
                 # if this is the shown article -=> add <b>
                 if ( $ArticleID eq $Article{ArticleID} ) {
-                    $Start = '&gt;&gt;<i><b><u>';
+                    $Start = '<i><u>';
+                    $Start2 = '<b>';
                 }
 
                 # if this is the shown article -=> add </b>
                 if ( $ArticleID eq $Article{ArticleID} ) {
-                    $Stop = '</u></b></i>';
+                    $Stop = '</u></i>';
+                    $Stop2 = '</b>';
                 }
 
                 # check if we need to show also expand/collapse icon
-                my $ColSpan = 2;
-                if ( $CounterTree == 1 ) {
-                    $ColSpan = 1;
-                }
                 $Self->{LayoutObject}->Block(
                     Name => 'TreeItem',
                     Data => {
                         %Article,
-                        ColSpan        => $ColSpan,
                         Subject        => $TmpSubject,
                         Space          => $Space,
                         Start          => $Start,
                         Stop           => $Stop,
+                        Start2         => $Start2,
+                        Stop2          => $Stop2,
                         Count          => $CounterTree,
                         ZoomExpand     => $Self->{ZoomExpand},
                         ZoomExpandSort => $Self->{ZoomExpandSort},
                     },
                 );
 
-                # check if expand/cpllapse view is usable (only for less then 300 articles)
-                if ( $CounterTree == 1 && $#ArticleBox < $ArticleMaxLimit ) {
-                    if ( $Count == 1 && $Self->{ZoomExpand} ) {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'TreeItemCollapse',
-                            Data => {
-                                %Article,
-                                ArticleID      => $ArticleID,
-                                ZoomExpand     => $Self->{ZoomExpand},
-                                ZoomExpandSort => $Self->{ZoomExpandSort},
-                            },
-                        );
-                    }
-                    else {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'TreeItemExpand',
-                            Data => {
-                                %Article,
-                                ArticleID      => $ArticleID,
-                                ZoomExpand     => $Self->{ZoomExpand},
-                                ZoomExpandSort => $Self->{ZoomExpandSort},
-                            },
-                        );
-                    }
-                }
-
                 # show plain link
-                if ( $Article{ArticleType} =~ /^email/ ) {
+                if ( $Self->{ConfigObject}->Get('Ticket::Frontend::PlainView')
+                    && $Article{ArticleType} =~ /^email/ ) {
                     $Self->{LayoutObject}->Block(
                         Name => 'TreeItemEmail',
                         Data => { %Article, },
@@ -714,6 +690,32 @@ sub MaskAgentZoom {
                             }
                         }
                     }
+                }
+            }
+
+            # check if expand/cpllapse view is usable (only for less then 300 articles)
+            if ( $#ArticleBox < $ArticleMaxLimit ) {
+                if ( $Count == 1 && $Self->{ZoomExpand} ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'TreeItemCollapse',
+                        Data => {
+                            %Article,
+                            ArticleID      => $ArticleID,
+                            ZoomExpand     => $Self->{ZoomExpand},
+                            ZoomExpandSort => $Self->{ZoomExpandSort},
+                        },
+                    );
+                }
+                else {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'TreeItemExpand',
+                        Data => {
+                            %Article,
+                            ArticleID      => $ArticleID,
+                            ZoomExpand     => $Self->{ZoomExpand},
+                            ZoomExpandSort => $Self->{ZoomExpandSort},
+                        },
+                    );
                 }
             }
         }

@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.33 2008-03-14 08:46:05 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.34 2008-03-16 21:35:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -52,43 +52,60 @@
   <tr>
     <td rowspan="2" valign="top" width="75%" class="mainbody">
 <!-- dtl:block:Tree -->
-      <table border="0" width="100%" cellspacing="0" cellpadding="0">
+      <table border="0" width="100%" cellspacing="0" cellpadding="1">
+        <tr>
+          <td>
+            <table border="0" width="100%" cellspacing="0" cellpadding="0">
 <!-- dtl:block:TreeItem -->
-        <tr class="$QData{"SenderType"}-$QData{"ArticleType"}">
-          <td colspan="$QData{"ColSpan"}" class="small">
-            <div title="$QData{"From","60"}: $QData{"Subject","200"} - $TimeLong{"$QData{"Created"}"}">
-            $Data{"Space"}$Data{"Start"} $QData{"Count"}.
-            <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=$LQData{"ZoomExpand"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})</a>
+              <tr class="$QData{"SenderType"}-$QData{"ArticleType"}">
+                <td class="small">
+                  <div title="$QData{"From","70"}: $QData{"Subject","200"} - $TimeShort{"$QData{"Created"}"}">
+                  $Data{"Space"}$Data{"Start"}$Data{"Start2"}&nbsp;$QData{"Count"}.&nbsp;$Data{"Stop2"}&nbsp;<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=$LQData{"ZoomExpand"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"}&nbsp;($Text{"$QData{"ArticleType"}"})</a>$Data{"Stop"}
 <!-- dtl:block:TreeItemEmail -->
-            (<a href="$Env{"Baselink"}Action=AgentTicketPlain&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}" onmouseover="window.status='$JSText{"plain"}'; return true;" onmouseout="window.status='';">$Text{"plain"}</a>)
+                  (<a href="$Env{"Baselink"}Action=AgentTicketPlain&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}" onmouseover="window.status='$JSText{"plain"}'; return true;" onmouseout="window.status='';" title="$Text{"plain"}">$Text{"plain"}</a>)
 <!-- dtl:block:TreeItemEmail -->
-            &nbsp $QData{"From","16"}: $QData{"Subject","20"} - $TimeLong{"$QData{"Created"}"}$Data{"Stop"}
+                  </div>
+                </td>
+                <td class="small">
+                  <div title="$QData{"From","70"}: $QData{"Subject","200"} - $TimeShort{"$QData{"Created"}"}">
+                  $Data{"Start"}$QData{"From","32"}$Data{"Stop"}
+                  </div>
+                </td>
+                <td class="small">
+                  <div title="$QData{"From","70"}: $QData{"Subject","200"} - $TimeShort{"$QData{"Created"}"}">
+                  $Data{"Start"}$QData{"Subject","30"}$Data{"Stop"}
+                  </div>
+                </td>
+                <td class="small" align="right">
 <!-- dtl:block:TreeItemAttachment -->
-            &nbsp;<a href="$Env{"Baselink"}Action=AgentTicketAttachment&ArticleID=$QData{"ArticleID"}&FileID=$QData{"FileID"}" title="$QData{"Filename"} - $QData{"Filesize"}" $Data{"Target"}><img border="0" src="$Env{"Images"}attach-small.png"></a>
+                  <a href="$Env{"Baselink"}Action=AgentTicketAttachment&ArticleID=$QData{"ArticleID"}&FileID=$QData{"FileID"}" title="$QData{"Filename"} - $QData{"Filesize"}" $Data{"Target"}><img border="0" src="$Env{"Images"}attach-small.png"></a>
 <!-- dtl:block:TreeItemAttachment -->
 <!-- dtl:block:TreeItemAttachmentMore -->
-            &nbsp;[..]
+                  &nbsp;[..]
 <!-- dtl:block:TreeItemAttachmentMore -->
-            </div>
+                </td>
+                <td class="small" align="right">
+                  $Data{"Start"}$TimeShort{"$QData{"Created"}"}$Data{"Stop"}
+                </td>
+              </tr>
+<!-- dtl:block:TreeItem -->
+            </table>
           </td>
 <!-- dtl:block:TreeItemExpand -->
-          <td>
+          <td valign="top">
             <div title="$Text{"Expand View"}">
             <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=1" onmouseover="window.status='$JSText{"Expand"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}expand.png"></a>
             </div>
           </td>
 <!-- dtl:block:TreeItemExpand -->
 <!-- dtl:block:TreeItemCollapse -->
-          <td>
+          <td valign="top">
             <div title="$Text{"Collapse View"}">
             <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=0" onmouseover="window.status='$JSText{"Collapse View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}collapse.png"></a>
             </div>
           </td>
 <!-- dtl:block:TreeItemCollapse -->
         </tr>
-        <tr>
-        </tr>
-<!-- dtl:block:TreeItem -->
       </table>
 <!-- dtl:block:Tree -->
       <hr size="2">
@@ -313,7 +330,7 @@ $Data{"Body"}
           <td><b>$Text{"Linked"} ($Text{"Normal"}):</b></td>
           <td>
 <!-- dtl:block:LinkNormal -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"} $QData{"Title"}">$QData{"Text"}</a>
+            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"} $QData{"Title"}" $Data{"Css"}>$QData{"Text"}</a>
 <!-- dtl:block:LinkNormal -->
           </td>
         </tr>
@@ -321,7 +338,7 @@ $Data{"Body"}
           <td><b>$Text{"Linked"} ($Text{"Parent"}):</b></td>
           <td>
 <!-- dtl:block:LinkParent -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"} $QData{"Title"}">$QData{"Text"}</a>
+            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"} $QData{"Title"}" $Data{"Css"}>$QData{"Text"}</a>
 <!-- dtl:block:LinkParent -->
           </td>
         </tr>
@@ -329,7 +346,7 @@ $Data{"Body"}
           <td><b>$Text{"Linked"} ($Text{"Child"}):</b></td>
           <td>
 <!-- dtl:block:LinkChild -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"} $QData{"Title"}">$QData{"Text"}</a>
+            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"} $QData{"Title"}" $Data{"Css"}>$QData{"Text"}</a>
 <!-- dtl:block:LinkChild -->
           </td>
         </tr>
