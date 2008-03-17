@@ -1,17 +1,28 @@
 # --
 # SysConfig.t - SysConfig tests
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.t,v 1.2 2006-08-26 17:36:26 martin Exp $
+# $Id: SysConfig.t,v 1.3 2008-03-17 23:05:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use Kernel::System::Config;
 
 $Self->{SystemConfigObject} = Kernel::System::Config->new(%{$Self});
+
+my %Config = $Self->{SystemConfigObject}->ConfigItemGet(
+    Name    => 'FQDN',
+    Default => 1,
+);
+my $FQDN = $Self->{SystemConfigObject}->_XML2Perl( Data => \%Config );
+$Self->Is(
+    $FQDN || '',
+    " 'yourhost.example.com';\n",
+    '_XML2Perl() SCALAR',
+);
 
 my $A = 'Test';
 my $B = 'Test';
@@ -166,6 +177,5 @@ $Self->Is(
     1,
     'DataDiff() ARRAY',
 );
-
 
 1;
