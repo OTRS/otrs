@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.45 2008-03-16 21:35:50 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.46 2008-03-17 11:44:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -501,14 +501,31 @@ sub MaskAgentZoom {
                 ObjectID => $Self->{TicketID},
                 UserID   => $Self->{UserID},
             );
-            for my $LinkType ( sort keys %Links ) {
+            my %LinkTypeBox = ();
+            for my $LinkType ( qw(Normal Parent Child) ) {
+                if ( ! $Links{$LinkType} ) {
+                    next;
+                }
                 my %ObjectType = %{ $Links{$LinkType} };
                 for my $Object ( sort keys %ObjectType ) {
                     my %Data = %{ $ObjectType{$Object} };
                     for my $Item ( sort keys %Data ) {
+                        if ( !$LinkTypeBox{$LinkType} ) {
+                            $Self->{LayoutObject}->Block(
+                                Name => 'Link',
+                                Data => {
+                                    %Param,
+                                    LinkType => $LinkType,
+                                },
+                            );
+                            $LinkTypeBox{$LinkType} = 1;
+                        }
                         $Self->{LayoutObject}->Block(
-                            Name => "Link$LinkType",
-                            Data => $Data{$Item},
+                            Name => 'LinkItem',
+                            Data => {
+                                %{ $Data{$Item} },
+                                LinkType => $LinkType,
+                            },
                         );
                     }
                 }

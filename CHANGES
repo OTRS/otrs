@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.604 2008-03-16 21:35:51 martin Exp $
+# $Id: CHANGES,v 1.605 2008-03-17 11:44:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,9 @@
 # --
 
 CVS HEAD (????/??/??)
- - (2008/03/16) Improved ticket zoom view, disabled plain link to emails (per
+ - (2008/03/17) Improved ticket zoom view, shown linked objects (only show link
+    types (Normal/Child/Parent) if links are available).
+ - (2008/03/16) Improved ticket zoom view, shown plain link to emails (per
     default, can be enabled via sys config) and improved shown linked/merged
     tickets.
  - (2008/03/09) Improved API of Cache core module (Kernel::System::Cache), added
