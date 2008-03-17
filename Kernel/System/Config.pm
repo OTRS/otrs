@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.71 2008-02-11 11:09:21 martin Exp $
+# $Id: Config.pm,v 1.72 2008-03-17 23:04:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,11 +16,9 @@ use warnings;
 
 use Kernel::System::XML;
 use Kernel::Config;
-use Digest::MD5 qw(md5_hex);
-use Data::Dumper;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 =head1 NAME
 
@@ -75,17 +73,24 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject TimeObject MainObject)) {
+    for (qw(DBObject ConfigObject LogObject TimeObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
+    # get home directory
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
+
+    # set utf8 if used
+    if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
+        $Self->{utf8} = 1;
+        $Self->{FileMode} = ':utf8';
+    }
+    else {
+        $Self->{FileMode} = '';
+    }
 
     # create xml object
     $Self->{XMLObject} = Kernel::System::XML->new(%Param);
-
-    # mild pretty print
-    $Data::Dumper::Indent = 1;
 
     # create config object
     $Self->{ConfigDefaultObject} = Kernel::Config->new( %Param, Level => 'Default' );
@@ -138,12 +143,14 @@ sub _Init {
             $FileCachePart =~ s/\//_/g;
             if ($ConfigFile) {
                 my $CacheFileUsed = 0;
-                my $Digest        = md5_hex($ConfigFile);
+                my $Digest        = $Self->{MainObject}->MD5sum(
+                    String => $ConfigFile,
+                );
                 my $FileCache = "$Self->{Home}/var/tmp/SysConfig-Cache$FileCachePart-$Digest.pm";
                 if ( -e $FileCache ) {
                     my $ConfigFileCache = '';
                     my $In;
-                    if ( open( $In , '<', $FileCache ) ) {
+                    if ( open( $In , "<$Self->{FileMode}", $FileCache ) ) {
                         $ConfigFileCache = do {local $/; <$In>};
                         close $In;
                         my $XMLHashRef;
@@ -172,10 +179,13 @@ sub _Init {
                 if ( !$CacheFileUsed ) {
                     my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $ConfigFile );
                     $Data{$File} = \@XMLHash;
-                    my $Dump = Data::Dumper::Dumper( \@XMLHash );
+                    my $Dump = $Self->{MainObject}->Dump( \@XMLHash, 'ascii' );
                     $Dump =~ s/\$VAR1/\$XMLHashRef/;
                     my $Out;
-                    if ( open( $Out, '>', $FileCache ) ) {
+                    if ( open( $Out, ">$Self->{FileMode}", $FileCache ) ) {
+                        if ( $Self->{utf8} ) {
+                            print $Out "use utf8;\n";
+                        }
                         print $Out $Dump . "\n1;";
                         close( $Out );
                     }
@@ -261,7 +271,7 @@ sub WriteDefault {
 
     # write default config file
     my $Out;
-    if ( !open( $Out, '>', "$Self->{Home}/Kernel/Config/Files/ZZZAAuto.pm" ) ) {
+    if ( !open( $Out, ">$Self->{FileMode}", "$Self->{Home}/Kernel/Config/Files/ZZZAAuto.pm" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write $Self->{Home}/Kernel/Config/Files/ZZZAAuto.pm: $!!",
@@ -272,6 +282,9 @@ sub WriteDefault {
         print $Out "# OTRS config file (automaticaly generated!)\n";
         print $Out "# VERSION:1.1\n";
         print $Out "package Kernel::Config::Files::ZZZAAuto;\n";
+        if ( $Self->{utf8} ) {
+            print $Out "use utf8;\n";
+        }
         print $Out "sub Load {\n";
         print $Out "    my (\$File, \$Self) = \@_;\n";
         print $Out $File;
@@ -311,7 +324,7 @@ sub Download {
     if ( !-e "$Home/Kernel/Config/Files/ZZZAuto.pm" ) {
         return $File;
     }
-    elsif ( !open( $In, '<', "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+    elsif ( !open( $In, "<$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         if ( $Param{Type} ) {
             return;
         }
@@ -367,7 +380,7 @@ sub Upload {
         }
     }
     my $Out;
-    if ( !open( $Out, '>', "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+    if ( !open( $Out, ">$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm!"
@@ -454,7 +467,7 @@ sub CreateConfig {
 
     # write new config file
     my $Out;
-    if ( !open( $Out, '>', "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+    if ( !open( $Out, ">$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm!"
@@ -465,6 +478,9 @@ sub CreateConfig {
     print $Out "# OTRS config file (automaticaly generated!)\n";
     print $Out "# VERSION:1.1\n";
     print $Out "package Kernel::Config::Files::ZZZAuto;\n";
+    if ( $Self->{utf8} ) {
+        print $Out "use utf8;\n";
+    }
     print $Out "sub Load {\n";
     print $Out "    my (\$File, \$Self) = \@_;\n";
     print $Out $File;
@@ -513,7 +529,7 @@ sub ConfigItemUpdate {
 
     # check if config file is writable
     my $Out;
-    if ( !open( $Out, '>>', "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+    if ( !open( $Out, ">>$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm: $!"
@@ -538,7 +554,7 @@ sub ConfigItemUpdate {
         $Option = "delete \$Self->{'$Param{Key}'};\n";
     }
     else {
-        $Option = Data::Dumper::Dumper( $Param{Value} );
+        $Option = $Self->{MainObject}->Dump( $Param{Value}, 'ascii' );
         $Option =~ s/\$VAR1/\$Self->{'$Param{Key}'}/;
     }
 
@@ -549,7 +565,7 @@ sub ConfigItemUpdate {
 
     # get config file and insert it
     my $In;
-    if ( !open( $In, '<', "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+    if ( !open( $In, "<$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't read $Home/Kernel/Config/Files/ZZZAuto.pm: $!"
@@ -570,7 +586,7 @@ sub ConfigItemUpdate {
     close ( $In );
 
     # write it to file
-    if ( !open( $Out, '>', "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+    if ( !open( $Out, ">$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm: $!"
@@ -622,13 +638,13 @@ sub ConfigItemGet {
     if ( $Self->{Config}->{ $Param{Name} } ) {
 
         # copy config and store it as default
-        my $Dump = Data::Dumper::Dumper( $Self->{Config}->{ $Param{Name} } );
+        my $Dump = $Self->{MainObject}->Dump( $Self->{Config}->{ $Param{Name} }, 'ascii' );
         $Dump =~ s/\$VAR1 =/\$ConfigItem =/;
 
         # rh as 8 bug fix
         $Dump =~ s/\${\\\$VAR1->{'.+?'}\[0\]}/\{\}/g;
         my $ConfigItem;
-        if ( !eval "$Dump" ) {
+        if ( !eval $Dump ) {
             die "ERROR: $!: $@ in $Dump";
         }
 
@@ -1424,7 +1440,7 @@ sub _XML2Perl {
         $Data = $D;
 
         # store in config
-        my $Dump = Data::Dumper::Dumper($Data);
+        my $Dump = $Self->{MainObject}->Dump( $Data, 'ascii' );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -1434,7 +1450,7 @@ sub _XML2Perl {
         $Data = $D;
 
         # store in config
-        my $Dump = Data::Dumper::Dumper($Data);
+        my $Dump = $Self->{MainObject}->Dump( $Data, 'ascii' );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -1445,7 +1461,7 @@ sub _XML2Perl {
         $Data = $D;
 
         # store in config
-        my $Dump = Data::Dumper::Dumper($Data);
+        my $Dump = $Self->{MainObject}->Dump( $Data, 'ascii' );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -1493,7 +1509,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = Data::Dumper::Dumper( \%Hash );
+        my $Dump = $Self->{MainObject}->Dump( \%Hash, 'ascii' );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -1508,7 +1524,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = Data::Dumper::Dumper( \@ArrayNew );
+        my $Dump = $Self->{MainObject}->Dump( \@ArrayNew, 'ascii' );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -1588,7 +1604,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = Data::Dumper::Dumper( \%Hash );
+        my $Dump = $Self->{MainObject}->Dump( \%Hash, 'ascii' );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -1607,7 +1623,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = Data::Dumper::Dumper( \%Days );
+        my $Dump = $Self->{MainObject}->Dump( \%Days, 'ascii' );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -1619,7 +1635,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = Data::Dumper::Dumper( \%Hash );
+        my $Dump = $Self->{MainObject}->Dump( \%Hash, 'ascii' );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -1632,10 +1648,11 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = Data::Dumper::Dumper( \%Hash );
+        my $Dump = $Self->{MainObject}->Dump( \%Hash, 'ascii' );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
+
     return $Data;
 }
 
@@ -1666,6 +1683,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.71 $ $Date: 2008-02-11 11:09:21 $
+$Revision: 1.72 $ $Date: 2008-03-17 23:04:54 $
 
 =cut
