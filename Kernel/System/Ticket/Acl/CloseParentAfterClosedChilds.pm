@@ -3,7 +3,7 @@
 # - allow no parent close till all clients are closed -
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseParentAfterClosedChilds.pm,v 1.1 2008-03-14 00:32:37 martin Exp $
+# $Id: CloseParentAfterClosedChilds.pm,v 1.2 2008-03-17 13:12:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -26,7 +26,7 @@ sub new {
     bless ($Self, $Type);
 
     # get needed objects
-    foreach (qw(ConfigObject DBObject TicketObject LogObject UserObject CustomerUserObject)) {
+    foreach (qw(ConfigObject DBObject TicketObject LogObject UserObject CustomerUserObject MainObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -43,28 +43,27 @@ sub Run {
             return;
         }
     }
-
     # check if child tickets are not closed
-    if ($Param{TicketID} && $Param{UserID}) {
-        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Param{TicketID});
-        $Self->{LinkObject} = Kernel::System::LinkObject->new(%Param, %{$Self});
-        $Self->{LinkObject}->LoadBackend(Module => 'Ticket');
+    if ( $Param{TicketID} && $Param{UserID} ) {
+        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+        $Self->{LinkObject} = Kernel::System::LinkObject->new( %Param, %{$Self} );
+        $Self->{LinkObject}->LoadBackend( Module => 'Ticket' );
         my %Link = $Self->{LinkObject}->LinkedObjects(
-            LinkType => 'Child',
+            LinkType    => 'Child',
             LinkObject1 => 'Ticket',
-            LinkID1 => $Param{TicketID},
+            LinkID1     => $Param{TicketID},
             LinkObject2 => 'Ticket',
         );
         my $OpenSubTickets = 0;
-        foreach my $TicketID (sort keys %Link) {
-            my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
-            if ($Ticket{StateType} !~ /^(close|merge|remove)/) {
+        foreach my $TicketID ( sort keys %Link ) {
+            my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+            if ( $Ticket{StateType} !~ /^(close|merge|remove)/ ) {
                 $OpenSubTickets = 1;
                 last;
             }
         }
         # generate acl
-        if ($OpenSubTickets) {
+        if ( $OpenSubTickets ) {
             $Param{Acl}->{CloseParentAfterClosedChilds} = {
 
                 # match properties
@@ -76,34 +75,38 @@ sub Run {
                     }
                 },
 
-                # return possible options (white list)
-                Possible => {
+                # return possible options (black list)
+                PossibleNot => {
 
-                    # possible ticket options (white list)
+                    # possible ticket options (black list)
                     Ticket => {
                         State => $Param{Config}->{State},
                     },
+                },
+
+                # return possible options (white list)
+                Possible => {
 
                     # possible action options
                     Action => {
-                        AgentTicketLock => 1,
-                        AgentTicketZoom => 1,
-                        AgentTicketClose => 0,
-                        AgentTicketPending => 1,
-                        AgentTicketNote => 1,
-                        AgentTicketHistory => 1,
-                        AgentTicketPriority => 1,
-                        AgentTicketFreeText => 1,
-                        AgentTicketHistory => 1,
-                        AgentTicketCompose => 1,
-                        AgentTicketBounce => 1,
-                        AgentTicketTicketPrint => 1,
-                        AgentTicketForward => 1,
-                        AgentTicketTicketLink => 1,
-                        AgentTicketPrint => 1,
-                        AgentTicketPhone => 1,
-                        AgentTicketCustomer => 1,
-                        AgentTicketOwner => 1,
+                        AgentTicketLock        => 1,
+                        AgentTicketZoom        => 1,
+                        AgentTicketClose       => 0,
+                        AgentTicketPending     => 1,
+                        AgentTicketNote        => 1,
+                        AgentTicketHistory     => 1,
+                        AgentTicketPriority    => 1,
+                        AgentTicketFreeText    => 1,
+                        AgentTicketHistory     => 1,
+                        AgentTicketCompose     => 1,
+                        AgentTicketBounce      => 1,
+                        AgentTicketForward     => 1,
+                        AgentLinkObject        => 1,
+                        AgentTicketPrint       => 1,
+                        AgentTicketPhone       => 1,
+                        AgentTicketCustomer    => 1,
+                        AgentTicketOwner       => 1,
+                        AgentTicketResponsible => 1,
                     },
                 },
             };
