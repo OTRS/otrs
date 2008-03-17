@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.21 2008-03-02 21:01:54 martin Exp $
+# $Id: Main.pm,v 1.22 2008-03-17 23:09:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -406,8 +406,10 @@ sub FileWrite {
         $Param{Location} =~ s/\/\//\//g;
     }
     else {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => 'Need Filename and Directory or Location!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => 'Need Filename and Directory or Location!',
+        );
     }
 
     # set open mode
@@ -488,8 +490,10 @@ sub FileDelete {
         $Param{Location} =~ s/\/\//\//g;
     }
     else {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => 'Need Filename and Directory or Location!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => 'Need Filename and Directory or Location!',
+        );
     }
 
     # check if file exists
@@ -605,15 +609,31 @@ dump variable to an string
         },
     );
 
+    dump only in ascii signs (> 128 bit will be marked as \x{..})
+
+    my $Dump = $MainObject->Dump(
+        $SomeVariable,
+        'ascii', # ascii|binary - default is binary
+    );
+
 =cut
 
 sub Dump {
-    my ( $Self, $Data ) = @_;
+    my ( $Self, $Data, $Type ) = @_;
 
-    my $String;
-    if ( !defined($Data) ) {
+    # check needed data
+    if ( !defined $Data ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need \$String in Dump()!" );
         return;
+    }
+
+    # check type
+    if ( $Type && $Type !~ /^(ascii|binary)$/) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Invalid Type '$Type'!" );
+        return;
+    }
+    if ( !$Type ) {
+        $Type = 'binary';
     }
 
     # mild pretty print
@@ -624,8 +644,9 @@ sub Dump {
     # strings as latin1/8bit instead of utf8. Use Storable module used for
     # workaround.
     # -> http://rt.cpan.org/Ticket/Display.html?id=28607
-    if (   $Self->{ConfigObject}->Get('DefaultCharset') =~ /utf(8|\-8)/i
-        && $Self->Require('Storable') )
+    if (  $Self->{ConfigObject}->Get('DefaultCharset') =~ /utf(8|\-8)/i
+        && $Self->Require('Storable')
+        && $Type eq 'binary' )
     {
 
         # Clone the data because we need to disable the utf8 flag in all
@@ -637,18 +658,19 @@ sub Dump {
         $Self->_Dump($DataNew);
 
         # Dump it as binary strings.
-        $String = Data::Dumper::Dumper( ${$DataNew} );
+        my $String = Data::Dumper::Dumper( ${$DataNew} );
 
         # Enable utf8 flag.
         Encode::_utf8_on($String);
+
+        return $String;
     }
 
     # fallback if Storable can not be loaded
     else {
-        $String = Data::Dumper::Dumper($Data);
+        return Data::Dumper::Dumper($Data);
     }
 
-    return $String;
 }
 
 sub _Dump {
@@ -720,6 +742,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2008-03-02 21:01:54 $
+$Revision: 1.22 $ $Date: 2008-03-17 23:09:57 $
 
 =cut
