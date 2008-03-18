@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.51 2008-03-07 16:53:28 martin Exp $
+# $Id: RuntimeDB.pm,v 1.52 2008-03-18 16:08:23 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -182,11 +182,9 @@ sub GetLockedCount {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(UserID)) {
-        if ( !exists( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !exists( $Param{UserID} ) ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        return;
     }
 
     # check cache
@@ -227,7 +225,7 @@ sub GetLockedCount {
     # find only new messages
     # put all tickets to ToDo where last sender type is customer / system or ! UserID
     # and article type is not a email-notification
-    foreach my $Article (@ArticleLocked) {
+    for my $Article (@ArticleLocked) {
         my $SenderType = $Self->ArticleSenderTypeLookup( SenderTypeID => $Article->[1]);
         my $ArticleType = $Self->ArticleTypeLookup( ArticleTypeID => $Article->[7]);
         if ( ! $TicketIDs{ $Article->[2] } ) {
@@ -237,32 +235,32 @@ sub GetLockedCount {
             if ( ( $Article->[3] ne $Param{UserID}
                 || $SenderType eq 'customer' )
                 && $ArticleType !~ /^email-notification/i ) {
-                $Data{'New'}++;
-                $Data{'NewTicketIDs'}->{$Article->[2]} = 1;
+                $Data{New}++;
+                $Data{NewTicketIDs}->{$Article->[2]} = 1;
             }
-
         }
         $TicketIDs{ $Article->[2] } = 1;
     }
 
     # find all and reminder tickets
     %TicketIDs = ();
-    foreach my $Article (@ArticleLocked) {
+    my $SystemTime = $Self->{TimeObject}->SystemTime();
+    for my $Article (@ArticleLocked) {
         my $SenderType = $Self->ArticleSenderTypeLookup( SenderTypeID => $Article->[1]);
         my $ArticleType = $Self->ArticleTypeLookup( ArticleTypeID => $Article->[7]);
         if ( ! $TicketIDs{ $Article->[2] } ) {
-            $Data{'All'}++;
+            $Data{All}++;
 
             if ( $Article->[5] && $Article->[6] =~ /^pending/i ) {
-                $Data{'Pending'}++;
-                $Data{'PendingTicketIDs'}->{$Article->[2]} = 1;
-                if ( $Article->[6] !~ /^pending auto/i && $Article->[5] <= $Self->{TimeObject}->SystemTime() ) {
-                    $Data{'ReminderTicketIDs'}->{$Article->[2]} = 1;
-                    $Data{'Reminder'}++;
+                $Data{Pending}++;
+                $Data{PendingTicketIDs}->{$Article->[2]} = 1;
+                if ( $Article->[6] !~ /^pending auto/i && $Article->[5] <= $SystemTime ) {
+                    $Data{ReminderTicketIDs}->{$Article->[2]} = 1;
+                    $Data{Reminder}++;
                 }
             }
         }
-        $Data{"MaxAge"}             = $Article->[4];
+        $Data{MaxAge}             = $Article->[4];
         $TicketIDs{ $Article->[2] } = 1;
     }
 
@@ -270,8 +268,8 @@ sub GetLockedCount {
     if ( $Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen' ) {
 
         # reset new message count
-        $Data{'New'} = 0;
-        $Data{'NewTicketIDs'} = undef;
+        $Data{New} = 0;
+        $Data{NewTicketIDs} = undef;
         for my $TicketID ( keys %TicketIDs ) {
             my @Index = $Self->ArticleIndex( TicketID => $TicketID );
             my %Flag = $Self->ArticleFlagGet(
@@ -279,8 +277,8 @@ sub GetLockedCount {
                 UserID    => $Param{UserID},
             );
             if ( !$Flag{seen} ) {
-                $Data{'NewTicketIDs'}->{$TicketID} = 1;
-                $Data{'New'}++;
+                $Data{NewTicketIDs}->{$TicketID} = 1;
+                $Data{New}++;
             }
         }
     }
@@ -318,9 +316,7 @@ sub GetOverTimeTickets {
         $SQL .= " AND q.group_id IN ( ${\(join ', ', @GroupIDs)} )";
 
         # check if user is in min. one group! if not, return here
-        if ( !@GroupIDs ) {
-            return;
-        }
+        return if !@GroupIDs ;
     }
     $SQL .= " ORDER BY st.escalation_start_time ASC";
     $Self->{DBObject}->Prepare( SQL => $SQL, Limit => 5000 );
@@ -340,7 +336,6 @@ sub GetOverTimeTickets {
         };
         push( @TicketIDs, $TicketData );
     }
-
     # get state infos
     for my $TicketData (@TicketIDs) {
 
@@ -352,10 +347,6 @@ sub GetOverTimeTickets {
     }
 
     # get escalations
-    my $ResponseTime = '';
-    my $UpdateTime   = '';
-    my $SolutionTime = '';
-    my $Comment      = '';
     my $Count        = 0;
     for my $TicketData (@TicketIDs) {
         my %Ticket   = %{$TicketData};
