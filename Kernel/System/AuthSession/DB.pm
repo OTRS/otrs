@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.32 2008-02-27 17:35:53 martin Exp $
+# $Id: DB.pm,v 1.33 2008-03-18 16:10:41 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -267,7 +267,7 @@ sub UpdateSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no SessionID!!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
     my %SessionData = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
@@ -285,7 +285,7 @@ sub UpdateSessionID {
     my $NewDataToStore = '';
     for ( keys %SessionData ) {
         $Self->{EncodeObject}->EncodeOutput( \$SessionData{$_} );
-        $NewDataToStore .= "$_:" . encode_base64( $SessionData{$_}, '' ) . ":;";
+        $NewDataToStore .= "$_:" . encode_base64( $SessionData{$_}, '' ) . ':;';
 
         # Debug
         if ( $Self->{Debug} ) {
