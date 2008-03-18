@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.43 2008-03-08 11:07:04 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.44 2008-03-18 16:21:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -316,7 +316,7 @@ sub ShowTicket {
     my ( $Self, %Param ) = @_;
 
     my $TicketID = $Param{TicketID} || return;
-    my $Output = '';
+
     $Param{QueueViewQueueID} = $Self->{QueueID};
     my %MoveQueues = $Self->{TicketObject}->MoveList(
         TicketID => $TicketID,
@@ -334,29 +334,29 @@ sub ShowTicket {
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                my $Object = $Jobs{$Job}->{Module}->new(
-                    %{$Self},
-                    ArticleID => $Article{ArticleID},
-                    UserID    => $Self->{UserID},
-                    Debug     => $Self->{Debug},
-                );
-
-                # run module
-                my @Data = $Object->Check( Article => \%Article, %Param, Config => $Jobs{$Job} );
-                for my $DataRef (@Data) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ArticleOption',
-                        Data => $DataRef,
-                    );
-                }
-
-                # filter option
-                $Object->Filter( Article => \%Article, %Param, Config => $Jobs{$Job} );
-            }
-            else {
+            if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 return $Self->{LayoutObject}->FatalError();
             }
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                ArticleID => $Article{ArticleID},
+                UserID    => $Self->{UserID},
+                Debug     => $Self->{Debug},
+            );
+
+            # run module
+            my @Data = $Object->Check( Article => \%Article, %Param, Config => $Jobs{$Job} );
+
+            for my $DataRef (@Data) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleOption',
+                    Data => $DataRef,
+                );
+            }
+
+            # filter option
+            $Object->Filter( Article => \%Article, %Param, Config => $Jobs{$Job} );
+
         }
     }
 
@@ -472,22 +472,19 @@ sub ShowTicket {
         for my $Menu ( sort keys %Menus ) {
 
             # load module
-            if ( $Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
-                my $Object
-                    = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Self->{TicketID}, );
-
-                # run module
-                $Counter = $Object->Run(
-                    %Param,
-                    Ticket  => \%Article,
-                    Counter => $Counter,
-                    ACL     => \%AclAction,
-                    Config  => $Menus{$Menu},
-                );
-            }
-            else {
+            if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
                 return $Self->{LayoutObject}->FatalError();
             }
+            my $Object = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Self->{TicketID}, );
+
+            # run module
+            $Counter = $Object->Run(
+                %Param,
+                Ticket  => \%Article,
+                Counter => $Counter,
+                ACL     => \%AclAction,
+                Config  => $Menus{$Menu},
+            );
         }
     }
 
@@ -733,6 +730,7 @@ sub ShowTicket {
     # create & return output
     my $TicketView = $Self->{UserQueueView}
         || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueView}->{DataSelected};
+
     if ( $TicketView ne 'AgentTicketQueueTicketViewLite' ) {
         return $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketQueueTicketView',

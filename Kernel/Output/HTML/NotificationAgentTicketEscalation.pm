@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.14 2008-03-10 19:40:55 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.15 2008-03-18 16:17:44 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,9 +43,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    if ( $Self->{LayoutObject}->{Action} !~ /^AgentTicket(Queue|Mailbox|Status)/ ) {
-        return '';
-    }
+    return '' if $Self->{LayoutObject}->{Action} !~ /^AgentTicket(Queue|Mailbox|Status)/;
 
     # get all open rw ticket
     my @TicketIDs = ();
@@ -53,6 +51,7 @@ sub Run {
         Type => 'TicketEscalation',
         Key  => "EscalationIndex::$Self->{UserID}",
     );
+
     if ( $Cache && ref($Cache) eq 'ARRAY' ) {
         @TicketIDs = @{$Cache};
     }
@@ -77,9 +76,8 @@ sub Run {
         $SQL .= " q.group_id IN ( ${\(join ', ', @GroupIDs)} )";
 
         # check if user is in min. one group! if not, return here
-        if ( !@GroupIDs ) {
-            return;
-        }
+        return if !@GroupIDs;
+
         $SQL .= " ORDER BY st.escalation_start_time ASC";
         $Self->{DBObject}->Prepare( SQL => $SQL, Limit => 5000 );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -96,10 +94,13 @@ sub Run {
                 QueueID                => $Row[9],
                 LockID                 => $Row[10],
             };
-            push( @TicketIDs, $TicketData );
+            push @TicketIDs, $TicketData;
         }
 
-        # get state infos
+        # get state and lock infos
+        my %LockList = $Self->{LockObject}->LockList(
+                UserID => $Self->{UserID},
+        );
         for my $TicketData (@TicketIDs) {
 
             # get state info
@@ -109,31 +110,31 @@ sub Run {
             );
             $TicketData->{StateType} = $StateData{TypeName};
             $TicketData->{State}     = $StateData{Name};
-            $TicketData->{Lock} = $Self->{LockObject}->LockLookup(
-                LockID => $TicketData->{LockID},
-            );
+            $TicketData->{Lock}      = $LockList{$TicketData->{LockID}}
         }
-        my $TTL = 0.2 * 60;
-        if ( $#TicketIDs > 2000 ) {
-            $TTL = 5.5 * 60;
+
+        my $LastElementCount = $#TicketIDs;
+        my $TTL = 12;                        # 0.2 * 60
+        if ( $LastElementCount > 2000 ) {
+            $TTL = 330;                      # 5.5 * 60
         }
-        elsif ( $#TicketIDs > 1500 ) {
-            $TTL = 3.5 * 60;
+        elsif ( $LastElementCount > 1500 ) {
+            $TTL = 210;                      # 3.5 * 60;
         }
-        elsif ( $#TicketIDs > 1000 ) {
-            $TTL = 2.5 * 60;
+        elsif ( $LastElementCount > 1000 ) {
+            $TTL = 150;                      # 2.5 * 60;
         }
-        elsif ( $#TicketIDs > 500 ) {
-            $TTL = 2.0 * 60;
+        elsif ( $LastElementCount > 500 ) {
+            $TTL = 120;                      # 2.0 * 60;
         }
-        elsif ( $#TicketIDs > 200 ) {
-            $TTL = 1.5 * 60;
+        elsif ( $LastElementCount > 200 ) {
+            $TTL = 90;                       # 1.5 * 60;
         }
-        elsif ( $#TicketIDs > 100 ) {
-            $TTL = 1.0 * 60;
+        elsif ( $LastElementCount > 100 ) {
+            $TTL = 60;                       # 1.0 * 60;
         }
-        elsif ( $#TicketIDs > 50 ) {
-            $TTL = 0.5 * 60;
+        elsif ( $LastElementCount > 50 ) {
+            $TTL = 30;                       # 0.5 * 60;
         }
         $Self->{CacheObject}->Set(
             Type  => 'TicketEscalation',
@@ -159,14 +160,15 @@ sub Run {
             $Count = 100;
             last;
         }
-        %Ticket = (
-            %Ticket,
-            $Self->{TicketObject}->TicketEscalationState(
+        my %Escalation = $Self->{TicketObject}->TicketEscalationState(
                 TicketID => $TicketID,
                 Ticket   => $TicketData,
                 UserID   => $Self->{UserID},
-            )
         );
+        for my $Key (keys %Escalation) {
+            $Ticket{$Key} = $Escalation{$Key};
+        }
+
         for (
             qw(FirstResponseTimeDestinationDate UpdateTimeDestinationDate SolutionTimeDestinationDate)
             )
@@ -178,12 +180,12 @@ sub Run {
         }
 
         # check response time
-        if ( defined( $Ticket{'FirstResponseTime'} ) ) {
+        if ( defined( $Ticket{FirstResponseTime} ) ) {
             my $TimeHuman = $Self->{LayoutObject}->CustomerAgeInHours(
-                Age   => $Ticket{'FirstResponseTime'},
+                Age   => $Ticket{FirstResponseTime},
                 Space => ' ',
             );
-            if ( $Ticket{'FirstResponseTimeEscalation'} ) {
+            if ( $Ticket{FirstResponseTimeEscalation} ) {
                 $ResponseTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Error',
                     Link     => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
@@ -193,7 +195,7 @@ sub Run {
                 );
                 $Count++;
             }
-            elsif ( $Ticket{'FirstResponseTimeNotification'} ) {
+            elsif ( $Ticket{FirstResponseTimeNotification} ) {
                 $ResponseTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Notice',
                     Link     => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
@@ -206,12 +208,12 @@ sub Run {
         }
 
         # check update time
-        if ( defined( $Ticket{'UpdateTime'} ) ) {
+        if ( defined( $Ticket{UpdateTime} ) ) {
             my $TimeHuman = $Self->{LayoutObject}->CustomerAgeInHours(
-                Age   => $Ticket{'UpdateTime'},
+                Age   => $Ticket{UpdateTime},
                 Space => ' ',
             );
-            if ( $Ticket{'UpdateTimeEscalation'} ) {
+            if ( $Ticket{UpdateTimeEscalation} ) {
                 $UpdateTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Error',
                     Link     => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
@@ -221,7 +223,7 @@ sub Run {
                 );
                 $Count++;
             }
-            elsif ( $Ticket{'UpdateTimeNotification'} ) {
+            elsif ( $Ticket{UpdateTimeNotification} ) {
                 $UpdateTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Notice',
                     Link     => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
@@ -234,12 +236,12 @@ sub Run {
         }
 
         # check solution
-        if ( defined( $Ticket{'SolutionTime'} ) ) {
+        if ( defined( $Ticket{SolutionTime} ) ) {
             my $TimeHuman = $Self->{LayoutObject}->CustomerAgeInHours(
-                Age   => $Ticket{'SolutionTime'},
+                Age   => $Ticket{SolutionTime},
                 Space => ' ',
             );
-            if ( $Ticket{'SolutionTimeEscalation'} ) {
+            if ( $Ticket{SolutionTimeEscalation} ) {
                 $SolutionTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Error',
                     Link     => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
@@ -249,7 +251,7 @@ sub Run {
                 );
                 $Count++;
             }
-            elsif ( $Ticket{'SolutionTimeNotification'} ) {
+            elsif ( $Ticket{SolutionTimeNotification} ) {
                 $SolutionTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Notice',
                     Link     => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
@@ -264,7 +266,7 @@ sub Run {
     if ( $Count == 100 ) {
         $Comment .= $Self->{LayoutObject}->Notify(
             Priority => 'Error',
-            Info     => "There are more escalated tickets!",
+            Info     => 'There are more escalated tickets!',
         );
     }
     return $ResponseTime . $UpdateTime . $SolutionTime . $Comment;

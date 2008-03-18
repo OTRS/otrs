@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.24 2008-03-05 20:24:00 martin Exp $
+# $Id: State.pm,v 1.25 2008-03-18 16:13:22 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -286,14 +286,13 @@ sub StateGetStatesByType {
     my %Data = ();
 
     # check needed stuff
-    for (qw(Result)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{Result} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Result!' );
+        return;
     }
+
     if ( !$Param{Type} && !$Param{StateType} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Type or StateType!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Type or StateType!' );
         return;
     }
 
@@ -323,8 +322,8 @@ sub StateGetStatesByType {
         . " ts.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     return if ! $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        push( @Name, $Data[1] );
-        push( @ID,   $Data[0] );
+        push @Name, $Data[1] ;
+        push @ID,   $Data[0] ;
         $Data{ $Data[0] } = $Data[1];
     }
     if ( $Param{Result} eq 'Name' ) {
@@ -333,9 +332,8 @@ sub StateGetStatesByType {
     elsif ( $Param{Result} eq 'HASH' ) {
         return %Data;
     }
-    else {
-        return @ID;
-    }
+
+    return @ID;
 }
 
 =item StateList()
@@ -431,6 +429,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2008-03-05 20:24:00 $
+$Revision: 1.25 $ $Date: 2008-03-18 16:13:22 $
 
 =cut

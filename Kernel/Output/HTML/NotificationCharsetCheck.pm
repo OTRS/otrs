@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/NotificationCharsetCheck.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationCharsetCheck.pm,v 1.6 2007-10-02 10:41:39 mh Exp $
+# $Id: NotificationCharsetCheck.pm,v 1.7 2008-03-18 16:16:33 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Output::HTML::NotificationCharsetCheck;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,29 +34,25 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
-
     # check DisplayCharset
     if ( $Self->{LayoutObject}->{UserCharset} =~ /^utf-8$/i ) {
-        $Param{CorrectDisplayCharset} = 1;
+        return '';
     }
-    else {
-        for ( $Self->{LayoutObject}->{LanguageObject}->GetPossibleCharsets() ) {
-            if ( $Self->{LayoutObject}->{UserCharset} =~ /^$_$/i ) {
-                $Param{CorrectDisplayCharset} = 1;
-            }
+
+    for ( $Self->{LayoutObject}->{LanguageObject}->GetPossibleCharsets() ) {
+        if ( $Self->{LayoutObject}->{UserCharset} =~ /^$_$/i ) {
+            return ''
         }
     }
-    if ( !$Param{CorrectDisplayCharset}
-        && $Self->{LayoutObject}->{LanguageObject}->GetRecommendedCharset() )
-    {
-        $Output .= $Self->{LayoutObject}->Notify(
+
+    if ( $Self->{LayoutObject}->{LanguageObject}->GetRecommendedCharset() ) {
+        return $Self->{LayoutObject}->Notify(
             Priority => 'Notice',
             Data     => '$Text{"The recommended charset for your language is %s!", "'
                 . $Self->{LayoutObject}->{LanguageObject}->GetRecommendedCharset() . '"}',
         );
     }
-    return $Output;
+    return '';
 }
 
 1;

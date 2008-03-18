@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/ArticleCheckPGP.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckPGP.pm,v 1.17 2007-10-16 17:43:30 mh Exp $
+# $Id: ArticleCheckPGP.pm,v 1.18 2008-03-18 16:20:37 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Output::HTML::ArticleCheckPGP;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,7 +36,7 @@ sub new {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
         }
     }
-    $Self->{CryptObject} = Kernel::System::Crypt->new( %Param, CryptType => 'PGP' );
+
     return $Self;
 }
 
@@ -47,14 +47,12 @@ sub Check {
     my @Return    = ();
 
     # check if pgp is enabled
-    if ( !$Self->{ConfigObject}->Get('PGP') ) {
-        return;
-    }
+    return if !$Self->{ConfigObject}->Get('PGP');
 
     # check if article is an email
-    if ( $Param{Article}->{ArticleType} !~ /email/i ) {
-        return;
-    }
+    return if $Param{Article}->{ArticleType} !~ /email/i;
+
+    $Self->{CryptObject} = Kernel::System::Crypt->new( %Param, CryptType => 'PGP' );
 
     # check inline pgp crypt
     if ( $Param{Article}->{Body} =~ /^-----BEGIN PGP MESSAGE-----/ ) {

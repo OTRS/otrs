@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.53 2008-03-05 20:40:54 martin Exp $
+# $Id: Group.pm,v 1.54 2008-03-18 16:15:02 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 NAME
 
@@ -539,7 +539,7 @@ sub GroupMemberList {
             if (@Member) {
                 my @ResultGroupRole = $Self->GroupRoleMemberList( %Param, RoleIDs => \@Member, );
                 for (@ResultGroupRole) {
-                    push( @Result, $_ );
+                    push @Result, $_ ;
                 }
             }
         }
@@ -557,7 +557,7 @@ sub GroupMemberList {
                     RoleIDs => \@Roles,
                 );
                 for (@ResultGroupUserRole) {
-                    push( @Result, $_ );
+                    push @Result, $_;
                 }
             }
         }
@@ -781,10 +781,10 @@ sub GroupGroupMemberList {
         $CacheKey .= 'GroupID::' . $Param{GroupID};
     }
     elsif ( $Param{UserIDs} ) {
-        @UserIDs = sort( @{ $Param{UserIDs} } );
+        @UserIDs = sort @{ $Param{UserIDs} };
     }
     elsif ( $Param{GroupIDs} ) {
-        @GroupIDs = sort( @{ $Param{GroupIDs} } );
+        @GroupIDs = sort @{ $Param{GroupIDs} };
     }
 
     # check cache
@@ -803,9 +803,7 @@ sub GroupGroupMemberList {
     }
 
     # db quote
-    for (qw(Type)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
+    $Param{Type} = $Self->{DBObject}->Quote( $Param{Type} );
 
     # sql
     my %Data = ();
@@ -855,8 +853,8 @@ sub GroupGroupMemberList {
         # remember permissions
         if ( !defined( $Data{$Key} ) ) {
             $Data{$Key} = $Value;
-            push( @Name, $Value );
-            push( @ID,   $Key );
+            push @Name, $Value;
+            push @ID,   $Key;
         }
     }
 
@@ -879,14 +877,13 @@ sub GroupGroupMemberList {
         }
         return @Name;
     }
-    else {
-        if ( $Param{UserID} || $Param{GroupID} ) {
 
-            # cache result
-            $Self->{$CacheKey} = \%Data;
-        }
-        return %Data;
+    if ( $Param{UserID} || $Param{GroupID} ) {
+
+        # cache result
+        $Self->{$CacheKey} = \%Data;
     }
+    return %Data;
 }
 
 =item GroupRoleMemberList()
@@ -952,10 +949,10 @@ sub GroupRoleMemberList {
         $CacheKey .= 'GroupID::' . $Param{GroupID};
     }
     elsif ( $Param{RoleIDs} ) {
-        @RoleIDs = sort( @{ $Param{RoleIDs} } );
+        @RoleIDs = sort @{ $Param{RoleIDs} };
     }
     elsif ( $Param{GroupIDs} ) {
-        @GroupIDs = sort( @{ $Param{GroupIDs} } );
+        @GroupIDs = sort @{ $Param{GroupIDs} };
     }
 
     # check cache
@@ -974,9 +971,7 @@ sub GroupRoleMemberList {
     }
 
     # db quote
-    for (qw(Type)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
+    $Param{Type} = $Self->{DBObject}->Quote( $Param{Type} );
 
     # sql
     my %Data = ();
@@ -1026,8 +1021,8 @@ sub GroupRoleMemberList {
         # remember permissions
         if ( !defined( $Data{$Key} ) ) {
             $Data{$Key} = $Value;
-            push( @Name, $Value );
-            push( @ID,   $Key );
+            push @Name, $Value;
+            push @ID,   $Key;
         }
     }
 
@@ -1050,14 +1045,13 @@ sub GroupRoleMemberList {
         }
         return @Name;
     }
-    else {
-        if ( $Param{RoleID} || $Param{GroupID} ) {
 
-            # cache result
-            $Self->{$CacheKey} = \%Data;
-        }
-        return %Data;
+    if ( $Param{RoleID} || $Param{GroupID} ) {
+
+        # cache result
+        $Self->{$CacheKey} = \%Data;
     }
+    return %Data;
 }
 
 =item GroupRoleMemberAdd()
@@ -1525,6 +1519,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2008-03-05 20:40:54 $
+$Revision: 1.54 $ $Date: 2008-03-18 16:15:02 $
 
 =cut

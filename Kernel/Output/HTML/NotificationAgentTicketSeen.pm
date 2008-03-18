@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/NotificationAgentTicketSeen.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketSeen.pm,v 1.6 2007-10-02 10:41:39 mh Exp $
+# $Id: NotificationAgentTicketSeen.pm,v 1.7 2008-03-18 16:17:10 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Output::HTML::NotificationAgentTicketSeen;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,7 +35,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
     if (   $Self->{LayoutObject}->{Action} ne 'AgentTicketZoom'
         || $Self->{ConfigObject}->Get('Ticket::NewMessageMode') ne 'ArticleSeen' )
     {
@@ -50,7 +49,7 @@ sub Run {
             UserID    => $Self->{UserID},
         );
     }
-    return $Output;
+    return '';
 }
 
 1;

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.163 2008-03-16 18:32:04 martin Exp $
+# $Id: Article.pm,v 1.164 2008-03-18 16:09:16 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.163 $) [1];
+$VERSION = qw($Revision: 1.164 $) [1];
 
 =head1 NAME
 
@@ -800,7 +800,7 @@ sub ArticleTypeLookup {
     if ( !$Param{ArticleType} && !$Param{ArticleTypeID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need ArticleType or ArticleTypeID!",
+            Message => 'Need ArticleType or ArticleTypeID!',
          );
         return;
     }
@@ -819,16 +819,15 @@ sub ArticleTypeLookup {
     }
 
     # get data
-    my $SQL = '';
     if ( $Param{ArticleType} ) {
         $Self->{DBObject}->Prepare(
-            SQL  => "SELECT id FROM article_type WHERE name = ?",
+            SQL  => 'SELECT id FROM article_type WHERE name = ?',
             Bind => [ \$Param{ArticleType} ],
         );
     }
     else {
         $Self->{DBObject}->Prepare(
-            SQL  => "SELECT name FROM article_type WHERE id = ?",
+            SQL  => 'SELECT name FROM article_type WHERE id = ?',
             Bind => [ \$Param{ArticleTypeID} ],
         );
     }
@@ -1061,32 +1060,28 @@ sub ArticleLastCustomerArticle {
     my @Index = $Self->ArticleIndex( TicketID => $Param{TicketID}, SenderType => 'customer' );
 
     # get article data
-    if (@Index) {
-        return $Self->ArticleGet( ArticleID => $Index[-1] );
+    return $Self->ArticleGet( ArticleID => $Index[-1] ) if @Index;
+
+    @Index = $Self->ArticleIndex( TicketID => $Param{TicketID} );
+
+    if (!@Index) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No article found for TicketID $Param{TicketID}!",
+        );
+        return;
     }
-    else {
-        my @Index = $Self->ArticleIndex( TicketID => $Param{TicketID} );
-        if (@Index) {
 
-            # return latest non internal article
-            for my $ArticleID ( reverse @Index ) {
-                my %Article = $Self->ArticleGet( ArticleID => $ArticleID );
-                if ( $Article{StateType} eq 'merged' || $Article{ArticleType} !~ /int/ ) {
-                    return %Article;
-                }
-            }
-
-            # if we got no internal article, return the latest one
-            return $Self->ArticleGet( ArticleID => $Index[-1] );
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "No article found for TicketID $Param{TicketID}!",
-            );
-            return;
+    # return latest non internal article
+    for my $ArticleID ( reverse @Index ) {
+        my %Article = $Self->ArticleGet( ArticleID => $ArticleID );
+        if ( $Article{StateType} eq 'merged' || $Article{ArticleType} !~ /int/ ) {
+            return %Article;
         }
     }
+
+    # if we got no internal article, return the latest one
+    return $Self->ArticleGet( ArticleID => $Index[-1] );
 }
 
 =item ArticleFirstArticle()
@@ -1146,12 +1141,11 @@ sub ArticleIndex {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
 
     # db query
-    my $SQL = '';
     if ( $Param{SenderType} ) {
         $Self->{DBObject}->Prepare(
             SQL => "SELECT at.id FROM article at, article_sender_type ast WHERE "
@@ -1166,8 +1160,9 @@ sub ArticleIndex {
             Bind => [ \$Param{TicketID} ],
         );
     }
+
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push( @Index, $Row[0] );
+        push @Index, $Row[0];
     }
 
     # return data

@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.52 2008-02-10 11:39:11 tr Exp $
+# $Id: Language.pm,v 1.53 2008-03-18 16:22:30 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 =head1 NAME
 
@@ -291,9 +291,8 @@ Get date format in used language formate (based on translation file).
 
 sub FormatTimeString {
     my ( $Self, $String, $Config, $Short ) = @_;
-    if ( !$String ) {
-        return;
-    }
+    return if !$String;
+
     if ( !$Config ) {
         $Config = 'DateFormat';
     }
@@ -324,20 +323,18 @@ sub FormatTimeString {
         if ( $Self->{TimeZone} ) {
             return $ReturnString . " ($Self->{TimeZone})";
         }
-        else {
-            return $ReturnString;
-        }
+        return $ReturnString;
     }
     elsif ( $String =~ /^(\d\d:\d\d:\d\d)$/ ) {
         return $String;
     }
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "No FormatTimeString() translation found for '$String' string!",
-        );
-        return $String;
-    }
+
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "No FormatTimeString() translation found for '$String' string!",
+    );
+    return $String;
+
 }
 
 =item GetRecommendedCharset()
@@ -362,9 +359,7 @@ sub GetRecommendedCharset {
         my @Chatsets = @{ $Self->{Charset} };
         return $Chatsets[-1];
     }
-    else {
-        return $Self->{ConfigObject}->Get('DefaultCharset') || 'iso-8859-1';
-    }
+    return $Self->{ConfigObject}->Get('DefaultCharset') || 'iso-8859-1';
 }
 
 =item GetPossibleCharsets()
@@ -381,9 +376,7 @@ sub GetPossibleCharsets {
     if ( $Self->{Charset} ) {
         return @{ $Self->{Charset} };
     }
-    else {
-        return;
-    }
+    return;
 }
 
 =item Time()
@@ -518,6 +511,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2008-02-10 11:39:11 $
+$Revision: 1.53 $ $Date: 2008-03-18 16:22:30 $
 
 =cut
