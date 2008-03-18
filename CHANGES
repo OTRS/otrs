@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.606 2008-03-17 13:12:41 martin Exp $
+# $Id: CHANGES,v 1.607 2008-03-18 12:21:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,30 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/03/18) Fixed mssql/sybase/freetds database problem
+    "Setting of CS_OPT_TEXTSIZE failed. at" if a mssql customer backend
+    is used. The problem is, that LongReadLen is not supported by
+    dbd::sybase (this is the reason of this error message).
+    So the database customer is no improved to set all database attributes
+    in CustomerUser config. For example this is the solution to prevent
+    the sybase error message:
+
+    $Self->{CustomerUser} = {
+        Name   => 'Database Backend',
+        Module => 'Kernel::System::CustomerUser::DB',
+        Params => {
+            DSN        => 'DBI:sybase:yourdsn',
+            User       => 'some_user',
+            Password   => 'some_password',
+            Table      => 'customer_user',
+            Attributes => {},
+        },
+    [...]
+
+    For more info see: http://www.perlmonks.org/index.pl?node_id=663835
+ - (2008/03/17) Fixed bug# 2197 - utf8 problems with auto generated
+    Kernel/Config/Files/ZZZAuto.pm and Kernel/Config/Files/ZZZAAuto.pm
+    (non ascii signs and utf8 stamps).
  - (2008/03/17) Added ACL example module "CloseParentAfterClosedChilds" which
     allows you to not close parent tickets till all childs are closed (
     configuable via SysConfig -> Ticket -> Core::TicketACL).
