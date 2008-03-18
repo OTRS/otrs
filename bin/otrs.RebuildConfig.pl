@@ -3,7 +3,7 @@
 # bin/otrs.RebuildConfig.pl - rebuild config
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.RebuildConfig.pl,v 1.6 2008-03-07 16:44:14 martin Exp $
+# $Id: otrs.RebuildConfig.pl,v 1.7 2008-03-18 08:34:11 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,9 +30,10 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Time;
 use Kernel::System::Log;
 use Kernel::System::Main;
@@ -48,6 +49,7 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-otrs.RebuildConfig.pl',
     %CommonObject,
 );
+$CommonObject{EncodeObject}    = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
 $CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
