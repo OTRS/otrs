@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.82 2008-03-08 10:58:48 martin Exp $
+# $Id: Queue.pm,v 1.83 2008-03-18 16:13:56 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 =head1 NAME
 
@@ -287,7 +287,7 @@ sub GetStdResponses {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need QueueID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
         return;
     }
 
@@ -388,6 +388,7 @@ sub GetAllQueues {
                 . "( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
         );
     }
+
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $MoveQueues{ $Row[0] } = $Row[1];
     }
@@ -1053,6 +1054,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.82 $ $Date: 2008-03-08 10:58:48 $
+$Revision: 1.83 $ $Date: 2008-03-18 16:13:56 $
 
 =cut
