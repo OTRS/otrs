@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.37 2008-02-10 08:11:29 tr Exp $
+# $Id: Time.pm,v 1.38 2008-03-18 16:11:33 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -553,10 +553,10 @@ sub DestinationTime {
                 ->Get( "TimeVacationDaysOneTime::Calendar" . $Param{Calendar} );
             $Zone = $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} );
             if ( $Zone > 0 ) {
-                $Zone = '+' . ( $Zone * 60 * 60 );
+                $Zone = '+' . ( $Zone * 3600 ); # 60 * 60
             }
             else {
-                $Zone = ( $Zone * 60 * 60 );
+                $Zone = ( $Zone * 3600 ); # 60 * 60
                 $Zone =~ s/\+/-/;
             }
             $Param{StartTime} = $Param{StartTime} + $Zone;
@@ -575,9 +575,8 @@ sub DestinationTime {
 
     while ( $Param{Time} > 1 ) {
         $Count++;
-        if ( $Count > 100 ) {
-            last;
-        }
+        last if $Count > 100;
+
         my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime($CTime);
         $Year  = $Year + 1900;
         $Month = $Month + 1;
@@ -791,6 +790,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2008-02-10 08:11:29 $
+$Revision: 1.38 $ $Date: 2008-03-18 16:11:33 $
 
 =cut
