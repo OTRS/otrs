@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.76 2008-03-07 13:47:11 tr Exp $
+# $Id: Layout.pm,v 1.77 2008-03-18 16:19:29 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 =head1 NAME
 
@@ -345,6 +345,7 @@ sub _BlockTemplatePreferences {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need Template!" );
         return;
     }
+
     if ( !$Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} ) {
         $Param{Template} =~ s{
             <!--\s{0,1}dtl:block:(.+?)\s{0,1}-->
@@ -404,7 +405,6 @@ sub _BlockTemplatePreferences {
         return @Preferences;
     }
     else {
-
         # return already parsed block data
         return @{ $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} };
     }
@@ -448,12 +448,11 @@ sub _BlockTemplatesReplace {
                     @BR,
                     {   Layer => $BlockLayer{ $Block->{Name} },
                         Name  => $Block->{Name},
-                        Data  => $Self->Output(
+                        Data  => $Self->_Output(
                             Template => "<!--start $Block->{Name}-->"
                                 . $BlockTemplates{ $Block->{Name} }
                                 . "<!--stop $Block->{Name} -->",
                             Data           => $Block->{Data},
-                            NoBlockReplace => 1,
                         ),
                     }
                 );
@@ -483,16 +482,6 @@ use a dtl template and get html back
 sub Output {
     my ( $Self, %Param ) = @_;
 
-    # deep recursion protection
-    $Self->{OutputCount}++;
-    if ( $Self->{OutputCount} > 20 ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Loop detection!",
-        );
-        $Self->FatalDie();
-    }
-
     # get and check param Data
     if ( $Param{Data} ) {
         if ( ref( $Param{Data} ) ne 'HASH' ) {
@@ -507,55 +496,23 @@ sub Output {
         $Param{Data} = {};
     }
 
-    # create %Env for this round!
-    my $EnvRef = {};
-
     # fill init Env
     if ( !$Self->{EnvRef} ) {
 
         # build OTRS env
-        %{$EnvRef} = %ENV;
+        %{$Self->{EnvRef}} = %ENV;
 
         # all $Self->{*}
         for ( keys %{$Self} ) {
             if ( defined( $Self->{$_} ) && !ref( $Self->{$_} ) ) {
-                $EnvRef->{$_} = $Self->{$_};
+                $Self->{EnvRef}->{$_} = $Self->{$_};
             }
         }
     }
 
-    # get %Env from $Self->{EnvRef}
-    else {
-        $EnvRef = $Self->{EnvRef};
-    }
-
-    # add new env
-    if ( $Self->{EnvNewRef} ) {
-        for ( %{ $Self->{EnvNewRef} } ) {
-            $EnvRef->{$_} = $Self->{EnvNewRef}->{$_};
-        }
-        undef $Self->{EnvNewRef};
-    }
-
-    # create refs
-    my $GlobalRef = {
-        Env    => $EnvRef,
-        Data   => $Param{Data},
-        Config => $Self->{ConfigObject},
-    };
-
     # read template from filesystem
     my $TemplateString = '';
-    if ( defined( $Param{Template} ) && ref( $Param{Template} ) eq 'ARRAY' ) {
-# die 'TemplateArray';
-        for ( @{ $Param{Template} } ) {
-            $TemplateString .= $_;
-        }
-    }
-    elsif ( defined( $Param{Template} ) ) {
-        $TemplateString = $Param{Template};
-    }
-    elsif ( $Param{TemplateFile} ) {
+    if ( $Param{TemplateFile} ) {
         my $File = '';
         if ( -f "$Self->{TemplateDir}/$Param{TemplateFile}.dtl" ) {
             $File = "$Self->{TemplateDir}/$Param{TemplateFile}.dtl";
@@ -578,6 +535,14 @@ sub Output {
             );
         }
     }
+    elsif ( defined( $Param{Template} ) && ref( $Param{Template} ) eq 'ARRAY' ) {
+        for ( @{ $Param{Template} } ) {
+            $TemplateString .= $_;
+        }
+    }
+    elsif ( defined( $Param{Template} ) ) {
+        $TemplateString = $Param{Template};
+    }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -585,6 +550,47 @@ sub Output {
         );
         $Self->FatalError();
     }
+    my $Output = $Self->_Output(
+        Template       => $TemplateString,
+        Data           => $Param{Data},
+        BlockReplace   => 1,
+    );
+
+    return $Output;
+}
+
+sub _Output {
+    my ( $Self, %Param ) = @_;
+
+    # deep recursion protection
+    $Self->{OutputCount}++;
+    if ( $Self->{OutputCount} > 20 ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Loop detection!',
+        );
+        $Self->FatalDie();
+    }
+
+    # get %Env from $Self->{EnvRef}
+    my $EnvRef = $Self->{EnvRef};
+
+    # add new env
+    if ( $Self->{EnvNewRef} ) {
+        for ( %{ $Self->{EnvNewRef} } ) {
+            $EnvRef->{$_} = $Self->{EnvNewRef}->{$_};
+        }
+        undef $Self->{EnvNewRef};
+    }
+
+    # create refs
+    my $GlobalRef = {
+        Env    => $EnvRef,
+        Data   => $Param{Data},
+        Config => $Self->{ConfigObject},
+    };
+
+    my $TemplateString = $Param{Template};
 
     # custom pre filters
     if ( $Self->{FilterElementPre} ) {
@@ -678,15 +684,8 @@ sub Output {
     }
 
     # remove empty blocks and block preferences
-
-    if ( !$Param{NoBlockReplace} ) {
-        undef $Self->{BlockTemplatePreferences};
-        $TemplateString =~ s{
-            <!--\s{0,1}dtl:place_block:.+?\s{0,1}-->
-        }
-        {
-            '';
-        }segxm;
+    if ( $Param{BlockReplace} ) {
+        $TemplateString =~ s{ <!--\s{0,1}dtl:place_block:.+?\s{0,1}--> }{}sgxm;
     }
 
     # process template
@@ -1348,22 +1347,19 @@ sub Notify {
 
     # create & return output
     if ( !$Param{Info} && !$Param{Data} ) {
-        for (qw(Message)) {
-            $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
-                Type => 'Notice',
-                What => $_
-                )
-                || $Self->{LogObject}->GetLogEntry(
-                Type => 'Error',
-                What => $_
-                ) || '';
-        }
+        $Param{BackendMessage} = $Self->{LogObject}->GetLogEntry(
+            Type => 'Notice',
+            What => 'Message',
+            )
+            || $Self->{LogObject}->GetLogEntry(
+            Type => 'Error',
+            What => 'Message',
+            ) || '';
+
         $Param{Info} = $Param{BackendMessage};
 
         # return if we have nothing to show
-        if ( !$Param{Info} ) {
-            return '';
-        }
+        return if !$Param{Info};
     }
     if ( $Param{Info} ) {
         $Param{Info} =~ s/\n//g;
@@ -2956,16 +2952,9 @@ sub NavigationBar {
 
     my $Output = '';
     if ( !$Param{Type} ) {
-
-        #        if (!$Self->{ModuleReg}->{NavBarName}) {
-        #            $Self->{LogObject}->Log(
-        #                Priority => 'error',
-        #                Message => "Need NavBarName in Module registry!",
-        #            );
-        #            $Self->FatalError();
-        #        }
         $Param{Type} = $Self->{ModuleReg}->{NavBarName} || $Self->{LastNavBarName} || 'Ticket';
     }
+
     $Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
         Key       => 'LastNavBarName',
@@ -2977,7 +2966,6 @@ sub NavigationBar {
     if ( ref($FrontendNotifyModuleConfig) eq 'HASH' ) {
         my %Jobs = %{$FrontendNotifyModuleConfig};
         for my $Job ( sort keys %Jobs ) {
-
             # load module
             if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 my $Object = $Jobs{$Job}->{Module}->new(
@@ -3002,85 +2990,75 @@ sub NavigationBar {
     # create menu items
     my %NavBarModule         = ();
     my $FrontendModuleConfig = $Self->{ConfigObject}->Get('Frontend::Module');
+
+    MODULE:
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
         my %Hash = %{ $FrontendModuleConfig->{$Module} };
-        if ( $Hash{NavBar} && ref( $Hash{NavBar} ) eq 'ARRAY' ) {
-            my @Items = @{ $Hash{NavBar} };
-            for my $Item (@Items) {
-                if (   ( $Item->{NavBar} && $Item->{NavBar} eq $Param{Type} )
-                    || ( $Item->{Type} && $Item->{Type} eq 'Menu' )
-                    || !$Item->{NavBar} )
+        next MODULE if !$Hash{NavBar} || ref( $Hash{NavBar} ) ne 'ARRAY';
+
+        my @Items = @{ $Hash{NavBar} };
+        for my $Item (@Items) {
+            if (   ( $Item->{NavBar} && $Item->{NavBar} eq $Param{Type} )
+                || ( $Item->{Type} && $Item->{Type} eq 'Menu' )
+                || !$Item->{NavBar} )
+            {
+
+                # highligt avtive area link
+                if (   ( $Item->{Type} && $Item->{Type} eq 'Menu' )
+                    && ( $Item->{NavBar} && $Item->{NavBar} eq $Param{Type} ) )
                 {
+                    next if !$Self->{ConfigObject}->Get('Frontend::NavBarStyle::ShowSelectedArea');
+                    $Item->{ItemAreaCSSSuffix} = 'active';
+                }
 
-                    # highligt avtive area link
-                    if (   ( $Item->{Type} && $Item->{Type} eq 'Menu' )
-                        && ( $Item->{NavBar} && $Item->{NavBar} eq $Param{Type} ) )
-                    {
-                        if (!$Self->{ConfigObject}->Get('Frontend::NavBarStyle::ShowSelectedArea') )
-                        {
-                            next;
-                        }
-                        else {
-                            $Item->{ItemAreaCSSSuffix} = 'active';
-                        }
+                # get permissions from module if no permissions are defined for the icon
+                if ( !$Item->{GroupRo} && !$Item->{Group} ) {
+                    if ( $Hash{GroupRo} ) {
+                        $Item->{GroupRo} = $Hash{GroupRo};
                     }
-
-                    # get permissions from module if no permissions are defined for the icon
-                    if ( !$Item->{GroupRo} && !$Item->{Group} ) {
-                        if ( $Hash{GroupRo} ) {
-                            $Item->{GroupRo} = $Hash{GroupRo};
-                        }
-                        if ( $Hash{Group} ) {
-                            $Item->{Group} = $Hash{Group};
-                        }
+                    if ( $Hash{Group} ) {
+                        $Item->{Group} = $Hash{Group};
                     }
+                }
 
-                    # check shown permission
-                    my $Shown = 0;
-                    for my $Permission (qw(GroupRo Group)) {
+                # check shown permission
+                my $Shown = 0;
+                for my $Permission (qw(GroupRo Group)) {
 
-       #                        if ($Item->{Group} && !$Item->{GroupRo} && $Permission eq 'Group') {
-       #                            $Shown = 0;
-       #                        }
-       # array access restriction
-                        if ( $Item->{$Permission} && ref( $Item->{$Permission} ) eq 'ARRAY' ) {
-                            for ( @{ $Item->{$Permission} } ) {
-                                my $Key = "UserIs" . $Permission . "[" . $_ . "]";
-                                if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
-                                    $Shown = 1;
-                                }
-                            }
-                        }
-
-                        # scalar access restriction
-                        elsif ( $Item->{$Permission} ) {
-                            my $Key = "UserIs" . $Permission . "[" . $Item->{$Permission} . "]";
-                            if ( $Self->{$Key} && $Self->{"$Key"} eq 'Yes' ) {
+                    # array access restriction
+                    if ( $Item->{$Permission} && ref( $Item->{$Permission} ) eq 'ARRAY' ) {
+                        for ( @{ $Item->{$Permission} } ) {
+                            my $Key = "UserIs" . $Permission . "[" . $_ . "]";
+                            if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
                                 $Shown = 1;
                             }
                         }
+                    }
 
-                        # no access restriction
-                        elsif ( !$Item->{GroupRo} && !$Item->{Group} ) {
+                    # scalar access restriction
+                    elsif ( $Item->{$Permission} ) {
+                        my $Key = "UserIs" . $Permission . "[" . $Item->{$Permission} . "]";
+                        if ( $Self->{$Key} && $Self->{"$Key"} eq 'Yes' ) {
                             $Shown = 1;
                         }
                     }
-                    if ($Shown) {
-                        my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
-                        for ( 1 .. 51 ) {
-                            if ( $NavBarModule{$Key} ) {
-                                $Item->{Prio}++;
-                                $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
-                            }
-                            if ( !$NavBarModule{$Key} ) {
-                                last;
-                            }
-                        }
-                        $NavBarModule{$Key} = $Item;
 
-                        #print STDERR "$Item->{Block}-$Item->{Prio}\n";
+                    # no access restriction
+                    elsif ( !$Item->{GroupRo} && !$Item->{Group} ) {
+                        $Shown = 1;
                     }
                 }
+                next if !$Shown;
+
+                my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
+                for ( 1 .. 51 ) {
+                    last if !$NavBarModule{$Key};
+
+                    $Item->{Prio}++;
+                    $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
+                }
+                $NavBarModule{$Key} = $Item;
+
             }
         }
     }
@@ -3089,7 +3067,6 @@ sub NavigationBar {
     if ( ref( $Self->{ConfigObject}->Get('Frontend::NavBarModule') ) eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('Frontend::NavBarModule') };
         for my $Job ( sort keys %Jobs ) {
-
             # load module
             if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 my $Object = $Jobs{$Job}->{Module}->new(
@@ -3129,7 +3106,6 @@ sub NavigationBar {
 
         # run navbar modules
         my %Jobs = %{ $Self->{ModuleReg}->{NavBarModule} };
-
         # load module
         if ( $Self->{MainObject}->Require( $Jobs{Module} ) ) {
             my $Object = $Jobs{Module}->new(
@@ -3891,6 +3867,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.76 $ $Date: 2008-03-07 13:47:11 $
+$Revision: 1.77 $ $Date: 2008-03-18 16:19:29 $
 
 =cut
