@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckPGP.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckPGP.pm,v 1.18 2008-03-18 16:20:37 tr Exp $
+# $Id: ArticleCheckPGP.pm,v 1.19 2008-03-18 17:31:21 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,7 +52,7 @@ sub Check {
     # check if article is an email
     return if $Param{Article}->{ArticleType} !~ /email/i;
 
-    $Self->{CryptObject} = Kernel::System::Crypt->new( %Param, CryptType => 'PGP' );
+    $Self->{CryptObject} = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
 
     # check inline pgp crypt
     if ( $Param{Article}->{Body} =~ /^-----BEGIN PGP MESSAGE-----/ ) {
