@@ -1,12 +1,12 @@
 # --
 # Kernel/System/CustomerUser.pm - some customer user functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.37 2007-12-27 16:18:36 martin Exp $
+# $Id: CustomerUser.pm,v 1.38 2008-03-18 16:15:36 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::CustomerUser;
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -124,17 +124,17 @@ to search users
 
     my %List = $CustomerUserObject->CustomerSearch(
         Search => '*some*', # also 'hans+huber' possible
-        ValidID => 1, # not required, default 1
+        Valid => 1, # not required, default 1
     );
 
     my %List = $CustomerUserObject->CustomerSearch(
         UserLogin => '*some*',
-        ValidID => 1, # not required, default 1
+        Valid => 1, # not required, default 1
     );
 
     my %List = $CustomerUserObject->CustomerSearch(
         PostMasterSearch => 'email@example.com',
-        ValidID => 1, # not required, default 1
+        Valid => 1, # not required, default 1
     );
 
 =cut
@@ -313,7 +313,8 @@ to update customer users
 
     $CustomerUserObject->CustomerUserUpdate(
         Source => 'CustomerUser', # CustomerUser source config
-        UserLogin => 'mhuber',
+        ID     => 'mh'         # current user login
+        UserLogin => 'mhuber', # new user login
         UserFirstname => 'Huber',
         UserLastname => 'Manfred',
         UserPassword => 'some-pass', # not required
@@ -535,12 +536,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2007-12-27 16:18:36 $
+$Revision: 1.38 $ $Date: 2008-03-18 16:15:36 $
 
 =cut
