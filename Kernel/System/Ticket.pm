@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.299 2008-03-16 22:45:13 martin Exp $
+# $Id: Ticket.pm,v 1.300 2008-03-18 16:12:44 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.299 $) [1];
+$VERSION = qw($Revision: 1.300 $) [1];
 
 =head1 NAME
 
@@ -1084,9 +1084,8 @@ sub TicketEscalationResponseTimeUpdate {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $EscalationResponseTime = $Row[0];
     }
-    if ($EscalationResponseTime) {
-        return;
-    }
+
+    return if $EscalationResponseTime;
 
     return if !$Self->{DBObject}->Do(
         SQL  => "UPDATE ticket SET escalation_response_time = ? WHERE id = ?",
@@ -1228,7 +1227,7 @@ sub MoveList {
     if ( !$Param{QueueID} && !$Param{TicketID} && !$Param{Type} ) {
         $Self->{LogObject} ->Log(
             Priority => 'error',
-            Message => "Need QueueID, TicketID or Type!",
+            Message => 'Need QueueID, TicketID or Type!',
         );
         return;
     }
@@ -1866,29 +1865,29 @@ sub TicketEscalationState {
                 $WorkingTime = "-$WorkingTime";
 
                 # set escalation
-                $Data{"FirstResponseTimeEscalation"} = 1;
+                $Data{FirstResponseTimeEscalation} = 1;
             }
 
             # set first response escalation attributes
             my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(
                 SystemTime => $DestinationTime,
             );
-            $Data{"FirstResponseTimeDestinationTime"} = $DestinationTime;
-            $Data{"FirstResponseTimeDestinationDate"} = $DestinationDate;
-            $Data{"FirstResponseTimeWorkingTime"}     = $WorkingTime;
-            $Data{"FirstResponseTime"}                = $Time;
+            $Data{FirstResponseTimeDestinationTime} = $DestinationTime;
+            $Data{FirstResponseTimeDestinationDate} = $DestinationDate;
+            $Data{FirstResponseTimeWorkingTime}     = $WorkingTime;
+            $Data{FirstResponseTime}                = $Time;
 
             # set escalation attributes
-            if ( !$Data{"EscalationDestinationTime"} || $Data{"EscalationDestinationTime"} > $DestinationTime) {
-                $Data{"EscalationDestinationTime"} = $DestinationTime;
-                $Data{"EscalationDestinationDate"} = $DestinationDate;
+            if ( !$Data{EscalationDestinationTime} || $Data{EscalationDestinationTime} > $DestinationTime) {
+                $Data{EscalationDestinationTime} = $DestinationTime;
+                $Data{EscalationDestinationDate} = $DestinationDate;
                 # escalation time in readable way
-                $Data{"EscalationDestinationIn"} = '';
+                $Data{EscalationDestinationIn} = '';
                 if ( $WorkingTime >= 3600 ) {
-                    $Data{"EscalationDestinationIn"} .= int( ( $WorkingTime / 3600 ) ) . 'h ';
+                    $Data{EscalationDestinationIn} .= int( ( $WorkingTime / 3600 ) ) . 'h ';
                 }
                 if ( $WorkingTime <= 3600 || int( ( $WorkingTime / 60 ) % 60 ) ) {
-                    $Data{"EscalationDestinationIn"} .= int( ( $WorkingTime / 60 ) % 60 ) . 'm';
+                    $Data{EscalationDestinationIn} .= int( ( $WorkingTime / 60 ) % 60 ) . 'm';
                 }
             }
         }
@@ -1915,7 +1914,7 @@ sub TicketEscalationState {
                 if ( $Ticket{StateType} =~ /^(new|open)$/i && $Ticket{Lock} ne 'lock') {
                     my $Reached = 100 - ( $WorkingTime / ( ( $Escalation{UpdateTime} * 60 ) / 100 ) );
                     if ( $Reached >= $Escalation{UpdateNotify} ) {
-                        $Data{"UpdateTimeNotification"} = 1;
+                        $Data{UpdateTimeNotification} = 1;
                     }
                 }
             }
@@ -1938,22 +1937,22 @@ sub TicketEscalationState {
         my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(
             SystemTime => $DestinationTime
         );
-        $Data{"UpdateTimeDestinationTime"} = $DestinationTime;
-        $Data{"UpdateTimeDestinationDate"} = $DestinationDate;
-        $Data{"UpdateTimeWorkingTime"}     = $WorkingTime;
-        $Data{"UpdateTime"}                = $Time;
+        $Data{UpdateTimeDestinationTime} = $DestinationTime;
+        $Data{UpdateTimeDestinationDate} = $DestinationDate;
+        $Data{UpdateTimeWorkingTime}     = $WorkingTime;
+        $Data{UpdateTime}                = $Time;
 
         # set escalation attributes
-        if ( !$Data{"EscalationDestinationTime"} || $Data{"EscalationDestinationTime"} > $DestinationTime) {
-            $Data{"EscalationDestinationTime"} = $DestinationTime;
-            $Data{"EscalationDestinationDate"} = $DestinationDate;
+        if ( !$Data{EscalationDestinationTime} || $Data{EscalationDestinationTime} > $DestinationTime) {
+            $Data{EscalationDestinationTime} = $DestinationTime;
+            $Data{EscalationDestinationDate} = $DestinationDate;
             # escalation time in readable way
-            $Data{"EscalationDestinationIn"} = '';
+            $Data{EscalationDestinationIn} = '';
             if ( $WorkingTime >= 3600 ) {
-                $Data{"EscalationDestinationIn"} .= int( ( $WorkingTime / 3600 ) ) . 'h ';
+                $Data{EscalationDestinationIn} .= int( ( $WorkingTime / 3600 ) ) . 'h ';
             }
             if ( $WorkingTime <= 3600 || int( ( $WorkingTime / 60 ) % 60 ) ) {
-                $Data{"EscalationDestinationIn"} .= int( ( $WorkingTime / 60 ) % 60 ) . 'm';
+                $Data{EscalationDestinationIn} .= int( ( $WorkingTime / 60 ) % 60 ) . 'm';
             }
         }
     }
@@ -2013,7 +2012,7 @@ sub TicketEscalationState {
                 if ( $Ticket{StateType} !~ /^close/i ) {
                     my $Reached = 100 - ( $WorkingTime / ( ( $Escalation{SolutionTime} * 60 ) / 100 ) );
                     if ( $Reached >= $Escalation{SolutionNotify} ) {
-                        $Data{"SolutionTimeNotification"} = 1;
+                        $Data{SolutionTimeNotification} = 1;
                     }
                 }
             }
@@ -2035,16 +2034,16 @@ sub TicketEscalationState {
             my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(
                 SystemTime => $DestinationTime,
             );
-            $Data{"SolutionTimeDestinationTime"} = $DestinationTime;
-            $Data{"SolutionTimeDestinationDate"} = $DestinationDate;
-            $Data{"SolutionTimeWorkingTime"}     = $WorkingTime;
-            $Data{"SolutionTime"}                = $Time;
+            $Data{SolutionTimeDestinationTime} = $DestinationTime;
+            $Data{SolutionTimeDestinationDate} = $DestinationDate;
+            $Data{SolutionTimeWorkingTime}     = $WorkingTime;
+            $Data{SolutionTime}                = $Time;
 
             # set escalation attributes
-            if ( !$Data{"EscalationDestinationTime"} || $Data{"EscalationDestinationTime"} > $DestinationTime) {
-                $Data{"EscalationDestinationTime"} = $DestinationTime;
-                $Data{"EscalationDestinationDate"} = $DestinationDate;
-                $Data{"EscalationDestinationIn"} = $WorkingTime / 60 / 60;
+            if ( !$Data{EscalationDestinationTime} || $Data{EscalationDestinationTime} > $DestinationTime) {
+                $Data{EscalationDestinationTime} = $DestinationTime;
+                $Data{EscalationDestinationDate} = $DestinationDate;
+                $Data{EscalationDestinationIn}   = $WorkingTime / 60 / 60;
             }
         }
     }
@@ -2582,7 +2581,6 @@ sub Permission {
     if ( ref( $Self->{ConfigObject}->Get('Ticket::Permission') ) eq 'HASH' ) {
         my %Modules = %{ $Self->{ConfigObject}->Get('Ticket::Permission') };
         for my $Module ( sort keys %Modules ) {
-
             # log try of load module
             if ( $Self->{Debug} > 1 ) {
                 $Self->{LogObject}->Log(
@@ -2655,9 +2653,7 @@ sub Permission {
     }
 
     # grant access to the ticket
-    if ($AccessOk) {
-        return 1;
-    }
+    return 1 if $AccessOk;
 
     # don't grant access to the ticket
     if ( !$Param{LogNo} ) {
@@ -4237,9 +4233,7 @@ sub LockIsTicketLocked {
     if ( $Ticket{Lock} =~ /^lock$/i ) {
         return 1;
     }
-    else {
-        return;
-    }
+    return;
 }
 
 =item LockSet()
@@ -6145,7 +6139,7 @@ sub TicketAcl {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID or CustomerUserID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
         return;
     }
 
@@ -6222,9 +6216,8 @@ sub TicketAcl {
     my $Modules = $Self->{ConfigObject}->Get('Ticket::Acl::Module');
     if ($Modules) {
         for my $Module ( sort keys %{$Modules} ) {
-            if ( !$Self->{MainObject}->Require( $Modules->{$Module}->{Module} ) ) {
-                next;
-            }
+            next if !$Self->{MainObject}->Require( $Modules->{$Module}->{Module} );
+
             my $Generic = $Modules->{$Module}->{Module}->new(
                 %{$Self},
                 TicketObject => $Self,
@@ -6473,9 +6466,9 @@ sub TicketEventHandlerPost {
 
     # load ticket event module
     my $Modules = $Self->{ConfigObject}->Get('Ticket::EventModulePost');
-    if ( !$Modules ) {
-        return 1;
-    }
+
+    return if !$Modules;
+
     for my $Module ( sort keys %{$Modules} ) {
         if ( !$Modules->{$Module}->{Event} || $Param{Event} =~ /$Modules->{$Module}->{Event}/i ) {
             if ( $Self->{MainObject}->Require( $Modules->{$Module}->{Module} ) ) {
@@ -6490,62 +6483,51 @@ sub TicketEventHandlerPost {
 
     # COMPAT: compat to 2.0
     if ( 1 && !$Param{CompatOff} ) {
-        my $Hit = 0;
         if ( $Param{Event} eq 'TicketStateUpdate' ) {
-            $Hit = 1;
             $Param{Event} = 'StateSet';
         }
         elsif ( $Param{Event} eq 'TicketPriorityUpdate' ) {
-            $Hit = 1;
             $Param{Event} = 'PrioritySet';
         }
         elsif ( $Param{Event} eq 'TicketLockUpdate' ) {
-            $Hit = 1;
             $Param{Event} = 'LockSet';
         }
         elsif ( $Param{Event} eq 'TicketOwnerUpdate' ) {
-            $Hit = 1;
             $Param{Event} = 'OwnerSet';
         }
         elsif ( $Param{Event} eq 'TicketQueueUpdate' ) {
-            $Hit = 1;
             $Param{Event} = 'MoveTicket';
         }
         elsif ( $Param{Event} eq 'TicketCustomerUpdate' ) {
-            $Hit = 1;
             $Param{Event} = 'SetCustomerData';
         }
         elsif ( $Param{Event} eq 'TicketFreeTextUpdate' ) {
-            $Hit = 1;
             $Param{Event} = 'TicketFreeTextSet';
         }
         elsif ( $Param{Event} eq 'TicketFreeTimeUpdate' ) {
-            $Hit = 1;
             $Param{Event} = 'TicketFreeTimeSet';
         }
         elsif ( $Param{Event} eq 'TicketPendingTimeUpdate' ) {
-            $Hit = 1;
             $Param{Event} = 'TicketPendingTimeSet';
         }
         elsif ( $Param{Event} eq 'ArticleFreeTextUpdate' ) {
-            $Hit = 1;
             $Param{Event} = 'ArticleFreeTextSet';
         }
         elsif ( $Param{Event} eq 'ArticleAgentNotification' ) {
-            $Hit = 1;
             $Param{Event} = 'SendAgentNotification';
         }
         elsif ( $Param{Event} eq 'ArticleCustomerNotification' ) {
-            $Hit = 1;
             $Param{Event} = 'SendCustomerNotification';
         }
         elsif ( $Param{Event} eq 'ArticleAutoResponse' ) {
-            $Hit = 1;
             $Param{Event} = 'SendAutoResponse';
         }
-        if ($Hit) {
-            return $Self->TicketEventHandlerPost( %Param, CompatOff => 1 );
+        else {
+            return 1;
         }
+
+        return $Self->TicketEventHandlerPost( %Param, CompatOff => 1 );
+
     }
     return 1;
 }
@@ -6563,6 +6545,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.299 $ $Date: 2008-03-16 22:45:13 $
+$Revision: 1.300 $ $Date: 2008-03-18 16:12:44 $
 
 =cut
