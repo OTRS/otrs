@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.164 2008-03-18 16:09:16 tr Exp $
+# $Id: Article.pm,v 1.165 2008-03-19 13:30:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.164 $) [1];
+$VERSION = qw($Revision: 1.165 $) [1];
 
 =head1 NAME
 
@@ -1242,6 +1242,8 @@ sub ArticleContentIndex {
                 my %AttachmentFile = ();
                 for my $Count ( keys %AtmIndex ) {
                     my %File = %{ $AtmIndex{$Count} };
+
+                    # remember, file-1 got defined by parsing if no filename was given
                     if ( $File{Filename} eq 'file-1'
                         && $File{ContentType} =~ /text\/plain/i ) {
                         $AttachmentCount = $Count;
@@ -1260,7 +1262,10 @@ sub ArticleContentIndex {
                         $BodySize = length($Article->{Body});
                         no bytes;
                     }
-                    if ( $BodySize == $AttachmentFile{FilesizeRaw} ) {
+
+                    # check size by tolerance of 1.1 factor (because of charset difs)
+                    if ( $BodySize/1.1 < $AttachmentFile{FilesizeRaw}
+                        && $BodySize*1.1 > $AttachmentFile{FilesizeRaw} ) {
                         delete $AtmIndex{$AttachmentCount};
                     }
                 }
