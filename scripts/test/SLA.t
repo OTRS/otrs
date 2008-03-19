@@ -2,7 +2,7 @@
 # SLA.t - SLA tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.t,v 1.3.2.1 2008-03-14 13:59:46 mh Exp $
+# $Id: SLA.t,v 1.3.2.2 2008-03-19 12:28:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,40 +23,54 @@ $Self->{ServiceObject} = Kernel::System::Service->new( %{$Self} );
 $Self->{SLAObject}     = Kernel::System::SLA->new( %{$Self} );
 $Self->{UserObject}    = Kernel::System::User->new( %{$Self} );
 
-# disable email checks to create new user
-my $CheckEmailAddressesOrg = $Self->{ConfigObject}->Get('CheckEmailAddresses') || 1;
-$Self->{ConfigObject}->Set(
-    Key   => 'CheckEmailAddresses',
-    Value => 0,
-);
+# ------------------------------------------------------------ #
+# make preparations
+# ------------------------------------------------------------ #
 
-# create new users for the tests
-my $UserID1 = $Self->{UserObject}->UserAdd(
-    UserFirstname => 'SLA1',
-    UserLastname  => 'UnitTest',
-    UserLogin     => 'UnitTest-SLA-1' . int( rand(1_000_000) ),
-    UserEmail     => 'UnitTest-SLA-1@localhost',
-    ValidID       => 1,
-    ChangeUserID  => 1,
-);
-my $UserID2 = $Self->{UserObject}->UserAdd(
-    UserFirstname => 'SLA2',
-    UserLastname  => 'UnitTest',
-    UserLogin     => 'UnitTest-SLA-2' . int( rand(1_000_000) ),
-    UserEmail     => 'UnitTest-SLA-2@localhost',
-    ValidID       => 1,
-    ChangeUserID  => 1,
-);
+# create needed users
+my @UserIDs;
+{
 
-# restore original email check param
-$Self->{ConfigObject}->Set(
-    Key   => 'CheckEmailAddresses',
-    Value => $CheckEmailAddressesOrg,
-);
+    # disable email checks to create new user
+    my $CheckEmailAddressesOrg = $Self->{ConfigObject}->Get('CheckEmailAddresses') || 1;
+    $Self->{ConfigObject}->Set(
+        Key   => 'CheckEmailAddresses',
+        Value => 0,
+    );
+
+    for my $Counter ( 1 .. 2 ) {
+
+        # create new users for the tests
+        my $UserID = $Self->{UserObject}->UserAdd(
+            UserFirstname => 'SLA' . $Counter,
+            UserLastname  => 'UnitTest',
+            UserLogin     => 'UnitTest-SLA-' . $Counter . int rand 1_000_000,
+            UserEmail     => 'UnitTest-SLA-' . $Counter . '@localhost',
+            ValidID       => 1,
+            ChangeUserID  => 1,
+        );
+
+        push @UserIDs, $UserID;
+    }
+
+    # restore original email check param
+    $Self->{ConfigObject}->Set(
+        Key   => 'CheckEmailAddresses',
+        Value => $CheckEmailAddressesOrg,
+    );
+}
+
+# create needed random service names
+my @SLAName;
+
+for my $Counter ( 1 .. 5 ) {
+
+    push @SLAName, 'UnitTest' . int rand 1_000_000;
+}
 
 # create on test service
 my $ServiceID = $Self->{ServiceObject}->ServiceAdd(
-    Name    => 'UnitTest-SLA' . int( rand(1_000_000) ),
+    Name    => 'UnitTest-SLA' . int rand 1_000_000,
     ValidID => 1,
     UserID  => 1,
 );
@@ -67,20 +81,16 @@ my %SLAListOriginal = $Self->{SLAObject}->SLAList(
     UserID => 1,
 );
 
-# create some random numbers for the sla name
-my $SLARand1 = 'UnitTest' . int( rand(1_000_000) );
-my $SLARand2 = 'UnitTest' . int( rand(1_000_000) );
-my $SLARand3 = 'UnitTest' . int( rand(1_000_000) );
-my $SLARand4 = 'UnitTest' . int( rand(1_000_000) );
-my $SLARand5 = 'UnitTest' . int( rand(1_000_000) );
+# ------------------------------------------------------------ #
+# define general tests
+# ------------------------------------------------------------ #
 
-# define tests
 my $ItemData = [
 
     # this sla is NOT complete and must not be added
     {
         Add => {
-            Name    => $SLARand1,
+            Name    => $SLAName[0],
             ValidID => 1,
             UserID  => 1,
         },
@@ -99,7 +109,7 @@ my $ItemData = [
     {
         Add => {
             ServiceID => $ServiceID,
-            Name      => $SLARand1,
+            Name      => $SLAName[0],
             UserID    => 1,
         },
     },
@@ -108,7 +118,7 @@ my $ItemData = [
     {
         Add => {
             ServiceID => $ServiceID,
-            Name      => $SLARand1,
+            Name      => $SLAName[0],
             ValidID   => 1,
         },
     },
@@ -117,13 +127,13 @@ my $ItemData = [
     {
         Add => {
             ServiceID => $ServiceID,
-            Name      => $SLARand1,
+            Name      => $SLAName[0],
             ValidID   => 1,
             UserID    => 1,
         },
         AddGet => {
             ServiceID         => $ServiceID,
-            Name              => $SLARand1,
+            Name              => $SLAName[0],
             Calendar          => '',
             FirstResponseTime => 0,
             UpdateTime        => 0,
@@ -138,7 +148,7 @@ my $ItemData = [
     # this sla have the same name as one test before and must not be added
     {
         Add => {
-            Name    => $SLARand1,
+            Name    => $SLAName[0],
             ValidID => 1,
             UserID  => 1,
         },
@@ -157,7 +167,7 @@ my $ItemData = [
     {
         Update => {
             ServiceID => $ServiceID,
-            Name      => $SLARand1 . 'UPDATE1',
+            Name      => $SLAName[0] . 'UPDATE1',
             UserID    => 1,
         },
     },
@@ -166,7 +176,7 @@ my $ItemData = [
     {
         Update => {
             ServiceID => $ServiceID,
-            Name      => $SLARand1 . 'UPDATE1',
+            Name      => $SLAName[0] . 'UPDATE1',
             ValidID   => 1,
         },
     },
@@ -175,7 +185,7 @@ my $ItemData = [
     {
         Add => {
             ServiceID         => $ServiceID,
-            Name              => $SLARand2,
+            Name              => $SLAName[1],
             Calendar          => '1',
             FirstResponseTime => 10,
             UpdateTime        => 20,
@@ -186,7 +196,7 @@ my $ItemData = [
         },
         AddGet => {
             ServiceID         => $ServiceID,
-            Name              => $SLARand2,
+            Name              => $SLAName[1],
             Calendar          => '1',
             FirstResponseTime => 10,
             UpdateTime        => 20,
@@ -201,7 +211,7 @@ my $ItemData = [
     # the sla one add-test before must be NOT updated (sla update arguments NOT complete)
     {
         Update => {
-            Name    => $SLARand2 . 'UPDATE1',
+            Name    => $SLAName[1] . 'UPDATE1',
             ValidID => 1,
             UserID  => 1,
         },
@@ -220,7 +230,7 @@ my $ItemData = [
     {
         Update => {
             ServiceID => $ServiceID,
-            Name      => $SLARand2 . 'UPDATE1',
+            Name      => $SLAName[1] . 'UPDATE1',
             UserID    => 1,
         },
     },
@@ -229,7 +239,7 @@ my $ItemData = [
     {
         Update => {
             ServiceID => $ServiceID,
-            Name      => $SLARand2 . 'UPDATE1',
+            Name      => $SLAName[1] . 'UPDATE1',
             ValidID   => 1,
         },
     },
@@ -238,18 +248,18 @@ my $ItemData = [
     {
         Update => {
             ServiceID         => $ServiceID,
-            Name              => $SLARand2 . 'UPDATE2',
+            Name              => $SLAName[1] . 'UPDATE2',
             Calendar          => '1',
             FirstResponseTime => 20,
             UpdateTime        => 30,
             SolutionTime      => 40,
             ValidID           => 1,
             Comment           => 'TestComment2UPDATE2',
-            UserID            => $UserID1,
+            UserID            => $UserIDs[0],
         },
         UpdateGet => {
             ServiceID         => $ServiceID,
-            Name              => $SLARand2 . 'UPDATE2',
+            Name              => $SLAName[1] . 'UPDATE2',
             Calendar          => '1',
             FirstResponseTime => 20,
             UpdateTime        => 30,
@@ -257,7 +267,7 @@ my $ItemData = [
             ValidID           => 1,
             Comment           => 'TestComment2UPDATE2',
             CreateBy          => 1,
-            ChangeBy          => $UserID1,
+            ChangeBy          => $UserIDs[0],
         },
     },
 
@@ -265,18 +275,18 @@ my $ItemData = [
     {
         Update => {
             ServiceID         => $ServiceID,
-            Name              => $SLARand2 . 'UPDATE3',
+            Name              => $SLAName[1] . 'UPDATE3',
             Calendar          => '2',
             FirstResponseTime => 30,
             UpdateTime        => 40,
             SolutionTime      => 50,
             ValidID           => 2,
             Comment           => 'TestComment2UPDATE3',
-            UserID            => $UserID2,
+            UserID            => $UserIDs[1],
         },
         UpdateGet => {
             ServiceID         => $ServiceID,
-            Name              => $SLARand2 . 'UPDATE3',
+            Name              => $SLAName[1] . 'UPDATE3',
             Calendar          => '2',
             FirstResponseTime => 30,
             UpdateTime        => 40,
@@ -284,7 +294,7 @@ my $ItemData = [
             ValidID           => 2,
             Comment           => 'TestComment2UPDATE3',
             CreateBy          => 1,
-            ChangeBy          => $UserID2,
+            ChangeBy          => $UserIDs[1],
         },
     },
 
@@ -292,14 +302,14 @@ my $ItemData = [
     {
         Add => {
             ServiceID => $ServiceID,
-            Name      => " \t \n \r " . $SLARand3 . " \t \n \r ",
+            Name      => " \t \n \r " . $SLAName[2] . " \t \n \r ",
             ValidID   => 1,
             Comment   => " \t \n \r Test Comment \t \n \r ",
             UserID    => 1,
         },
         AddGet => {
             ServiceID         => $ServiceID,
-            Name              => $SLARand3,
+            Name              => $SLAName[2],
             Calendar          => '',
             FirstResponseTime => 0,
             UpdateTime        => 0,
@@ -315,14 +325,14 @@ my $ItemData = [
     {
         Update => {
             ServiceID => $ServiceID,
-            Name      => " \t \n \r " . $SLARand3 . " UPDATE1 \t \n \r ",
+            Name      => " \t \n \r " . $SLAName[2] . " UPDATE1 \t \n \r ",
             ValidID   => 2,
             Comment   => " \t \n \r Test Comment UPDATE1 \t \n \r ",
-            UserID    => $UserID2,
+            UserID    => $UserIDs[1],
         },
         UpdateGet => {
             ServiceID         => $ServiceID,
-            Name              => $SLARand3 . ' UPDATE1',
+            Name              => $SLAName[2] . ' UPDATE1',
             Calendar          => '',
             FirstResponseTime => 0,
             UpdateTime        => 0,
@@ -330,7 +340,7 @@ my $ItemData = [
             ValidID           => 2,
             Comment           => 'Test Comment UPDATE1',
             CreateBy          => 1,
-            ChangeBy          => $UserID2,
+            ChangeBy          => $UserIDs[1],
         },
     },
 
@@ -338,14 +348,14 @@ my $ItemData = [
     {
         Add => {
             ServiceID => $ServiceID,
-            Name      => $SLARand4 . ' ϒ ϡ Ʃ Ϟ ',
+            Name      => $SLAName[3] . ' ϒ ϡ Ʃ Ϟ ',
             ValidID   => 1,
             Comment   => ' Ѡ Ѥ TestComment5 Ϡ Ω ',
             UserID    => 1,
         },
         AddGet => {
             ServiceID         => $ServiceID,
-            Name              => $SLARand4 . ' ϒ ϡ Ʃ Ϟ',
+            Name              => $SLAName[3] . ' ϒ ϡ Ʃ Ϟ',
             Calendar          => '',
             FirstResponseTime => 0,
             UpdateTime        => 0,
@@ -361,14 +371,14 @@ my $ItemData = [
     {
         Update => {
             ServiceID => $ServiceID,
-            Name      => $SLARand4 . ' ϒ ϡ Ʃ Ϟ UPDATE1',
+            Name      => $SLAName[3] . ' ϒ ϡ Ʃ Ϟ UPDATE1',
             ValidID   => 2,
             Comment   => ' Ѡ Ѥ TestComment5 Ϡ Ω UPDATE1',
-            UserID    => $UserID1,
+            UserID    => $UserIDs[0],
         },
         UpdateGet => {
             ServiceID         => $ServiceID,
-            Name              => $SLARand4 . ' ϒ ϡ Ʃ Ϟ UPDATE1',
+            Name              => $SLAName[3] . ' ϒ ϡ Ʃ Ϟ UPDATE1',
             Calendar          => '',
             FirstResponseTime => 0,
             UpdateTime        => 0,
@@ -376,7 +386,7 @@ my $ItemData = [
             ValidID           => 2,
             Comment           => 'Ѡ Ѥ TestComment5 Ϡ Ω UPDATE1',
             CreateBy          => 1,
-            ChangeBy          => $UserID1,
+            ChangeBy          => $UserIDs[0],
         },
     },
 
@@ -384,14 +394,14 @@ my $ItemData = [
     {
         Add => {
             ServiceID => $ServiceID,
-            Name      => ' [test]%*\\ ' . $SLARand5 . ' [test]%*\\ ',
+            Name      => ' [test]%*\\ ' . $SLAName[4] . ' [test]%*\\ ',
             ValidID   => 1,
             Comment   => ' [test]%*\\ Test Comment [test]%*\\ ',
             UserID    => 1,
         },
         AddGet => {
             ServiceID         => $ServiceID,
-            Name              => '[test]%*\\ ' . $SLARand5 . ' [test]%*\\',
+            Name              => '[test]%*\\ ' . $SLAName[4] . ' [test]%*\\',
             Calendar          => '',
             FirstResponseTime => 0,
             UpdateTime        => 0,
@@ -407,14 +417,14 @@ my $ItemData = [
     {
         Update => {
             ServiceID => $ServiceID,
-            Name      => ' [test]%*\\ ' . $SLARand5 . ' UPDATE1 [test]%*\\ ',
+            Name      => ' [test]%*\\ ' . $SLAName[4] . ' UPDATE1 [test]%*\\ ',
             ValidID   => 2,
             Comment   => ' [test]%*\\ Test Comment UPDATE1 [test]%*\\ ',
-            UserID    => $UserID2,
+            UserID    => $UserIDs[1],
         },
         UpdateGet => {
             ServiceID         => $ServiceID,
-            Name              => '[test]%*\\ ' . $SLARand5 . ' UPDATE1 [test]%*\\',
+            Name              => '[test]%*\\ ' . $SLAName[4] . ' UPDATE1 [test]%*\\',
             Calendar          => '',
             FirstResponseTime => 0,
             UpdateTime        => 0,
@@ -422,10 +432,14 @@ my $ItemData = [
             ValidID           => 2,
             Comment           => '[test]%*\\ Test Comment UPDATE1 [test]%*\\',
             CreateBy          => 1,
-            ChangeBy          => $UserID2,
+            ChangeBy          => $UserIDs[1],
         },
     },
 ];
+
+# ------------------------------------------------------------ #
+# run general tests
+# ------------------------------------------------------------ #
 
 my $TestCount = 1;
 my $LastAddedSLAID;
@@ -579,7 +593,10 @@ for my $Item ( @{$ItemData} ) {
     $TestCount++;
 }
 
+# ------------------------------------------------------------ #
 # SLAList test 1 (check general functionality)
+# ------------------------------------------------------------ #
+
 my %SLAList1 = $Self->{SLAObject}->SLAList(
     Valid  => 0,
     UserID => 1,
@@ -603,23 +620,6 @@ $Self->Is(
     $SLAList1Count || '',
     $AddedCounter  || '',
     "Test $TestCount: SLAList()",
-);
-
-# clean the sla table
-$Self->{DBObject}->Do(
-    SQL => "DELETE FROM sla WHERE name LIKE '%UnitTest%'",
-);
-
-# clean the service table
-$Self->{DBObject}->Do(
-    SQL => "DELETE FROM service WHERE name LIKE '%UnitTest%'",
-);
-
-# clean the system user table
-my $UserTable = $Self->{ConfigObject}->Get('DatabaseUserTable') || 'system_user';
-
-$Self->{DBObject}->Do(
-    SQL => "DELETE FROM $UserTable WHERE login LIKE 'UnitTest-SLA-%'",
 );
 
 1;

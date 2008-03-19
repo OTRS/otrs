@@ -2,7 +2,7 @@
 # Service.t - Service tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.t,v 1.2.2.2 2008-03-14 13:59:28 mh Exp $
+# $Id: Service.t,v 1.2.2.3 2008-03-19 12:28:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,55 +21,60 @@ use Kernel::System::User;
 $Self->{ServiceObject} = Kernel::System::Service->new( %{$Self} );
 $Self->{UserObject}    = Kernel::System::User->new( %{$Self} );
 
-# disable email checks to create new user
-my $CheckEmailAddressesOrg = $Self->{ConfigObject}->Get('CheckEmailAddresses') || 1;
-$Self->{ConfigObject}->Set(
-    Key   => 'CheckEmailAddresses',
-    Value => 0,
-);
+# ------------------------------------------------------------ #
+# make preparations
+# ------------------------------------------------------------ #
 
-# create new users for the tests
-my $UserID1 = $Self->{UserObject}->UserAdd(
-    UserFirstname => 'Service1',
-    UserLastname  => 'UnitTest',
-    UserLogin     => 'UnitTest-Service-1' . int( rand(1_000_000) ),
-    UserEmail     => 'UnitTest-Service-1@localhost',
-    ValidID       => 1,
-    ChangeUserID  => 1,
-);
-my $UserID2 = $Self->{UserObject}->UserAdd(
-    UserFirstname => 'Service2',
-    UserLastname  => 'UnitTest',
-    UserLogin     => 'UnitTest-Service-2' . int( rand(1_000_000) ),
-    UserEmail     => 'UnitTest-Service-2@localhost',
-    ValidID       => 1,
-    ChangeUserID  => 1,
-);
+# create needed users
+my @UserIDs;
+{
 
-# restore original email check param
-$Self->{ConfigObject}->Set(
-    Key   => 'CheckEmailAddresses',
-    Value => $CheckEmailAddressesOrg,
-);
+    # disable email checks to create new user
+    my $CheckEmailAddressesOrg = $Self->{ConfigObject}->Get('CheckEmailAddresses') || 1;
+    $Self->{ConfigObject}->Set(
+        Key   => 'CheckEmailAddresses',
+        Value => 0,
+    );
 
-# create some random numbers for the service name
-my $ServiceRand1  = 'UnitTest' . int( rand(1_000_000) );
-my $ServiceRand2  = 'UnitTest' . int( rand(1_000_000) );
-my $ServiceRand3  = 'UnitTest' . int( rand(1_000_000) );
-my $ServiceRand4  = 'UnitTest' . int( rand(1_000_000) );
-my $ServiceRand5  = 'UnitTest' . int( rand(1_000_000) );
-my $ServiceRand6  = 'UnitTest' . int( rand(1_000_000) );
-my $ServiceRand7  = 'UnitTest' . int( rand(1_000_000) );
-my $ServiceRand8  = 'UnitTest' . int( rand(1_000_000) );
-my $ServiceRand9  = 'UnitTest' . int( rand(1_000_000) );
-my $ServiceRand10 = 'UnitTest' . int( rand(1_000_000) );
-my $ServiceRand11 = 'UnitTest' . int( rand(1_000_000) );
+    for my $Counter ( 1 .. 2 ) {
+
+        # create new users for the tests
+        my $UserID = $Self->{UserObject}->UserAdd(
+            UserFirstname => 'Service' . $Counter,
+            UserLastname  => 'UnitTest',
+            UserLogin     => 'UnitTest-Service-' . $Counter . int rand 1_000_000,
+            UserEmail     => 'UnitTest-Service-' . $Counter . '@localhost',
+            ValidID       => 1,
+            ChangeUserID  => 1,
+        );
+
+        push @UserIDs, $UserID;
+    }
+
+    # restore original email check param
+    $Self->{ConfigObject}->Set(
+        Key   => 'CheckEmailAddresses',
+        Value => $CheckEmailAddressesOrg,
+    );
+}
+
+# create needed random service names
+my @ServiceName;
+
+for my $Counter ( 1 .. 11 ) {
+
+    push @ServiceName, 'UnitTest' . int rand 1_000_000;
+}
 
 # get original service list for later checks
 my %ServiceListOriginal = $Self->{ServiceObject}->ServiceList(
     Valid  => 0,
     UserID => 1,
 );
+
+# ------------------------------------------------------------ #
+# define general tests
+# ------------------------------------------------------------ #
 
 my $ItemData = [
 
@@ -84,7 +89,7 @@ my $ItemData = [
     # this service is NOT complete and must not be added
     {
         Add => {
-            Name   => $ServiceRand1,
+            Name   => $ServiceName[0],
             UserID => 1,
         },
     },
@@ -92,7 +97,7 @@ my $ItemData = [
     # this service is NOT complete and must not be added
     {
         Add => {
-            Name    => $ServiceRand1,
+            Name    => $ServiceName[0],
             ValidID => 1,
         },
     },
@@ -100,14 +105,14 @@ my $ItemData = [
     # this service must be inserted sucessfully
     {
         Add => {
-            Name    => $ServiceRand1,
+            Name    => $ServiceName[0],
             ValidID => 1,
             UserID  => 1,
         },
         AddGet => {
             ParentID  => '',
-            Name      => $ServiceRand1,
-            NameShort => $ServiceRand1,
+            Name      => $ServiceName[0],
+            NameShort => $ServiceName[0],
             ValidID   => 1,
             Comment   => '',
             CreateBy  => 1,
@@ -118,7 +123,7 @@ my $ItemData = [
     # this service have the same name as one test before and must not be added
     {
         Add => {
-            Name    => $ServiceRand1,
+            Name    => $ServiceName[0],
             ValidID => 1,
             UserID  => 1,
         },
@@ -135,7 +140,7 @@ my $ItemData = [
     # the service one add-test before must be NOT updated (service is NOT complete)
     {
         Update => {
-            Name   => $ServiceRand1 . 'UPDATE1',
+            Name   => $ServiceName[0] . 'UPDATE1',
             UserID => 1,
         },
     },
@@ -143,7 +148,7 @@ my $ItemData = [
     # the service one add-test before must be NOT updated (service is NOT complete)
     {
         Update => {
-            Name    => $ServiceRand1 . 'UPDATE1',
+            Name    => $ServiceName[0] . 'UPDATE1',
             ValidID => 1,
         },
     },
@@ -151,15 +156,15 @@ my $ItemData = [
     # this service must be inserted sucessfully
     {
         Add => {
-            Name    => $ServiceRand2,
+            Name    => $ServiceName[1],
             ValidID => 1,
             Comment => 'TestComment2',
             UserID  => 1,
         },
         AddGet => {
             ParentID  => '',
-            Name      => $ServiceRand2,
-            NameShort => $ServiceRand2,
+            Name      => $ServiceName[1],
+            NameShort => $ServiceName[1],
             ValidID   => 1,
             Comment   => 'TestComment2',
             CreateBy  => 1,
@@ -178,7 +183,7 @@ my $ItemData = [
     # the service one add-test before must be NOT updated (service update arguments NOT complete)
     {
         Update => {
-            Name   => $ServiceRand2 . 'UPDATE2',
+            Name   => $ServiceName[1] . 'UPDATE2',
             UserID => 1,
         },
     },
@@ -186,7 +191,7 @@ my $ItemData = [
     # the service one add-test before must be NOT updated (service update arguments NOT complete)
     {
         Update => {
-            Name    => $ServiceRand2 . 'UPDATE2',
+            Name    => $ServiceName[1] . 'UPDATE2',
             ValidID => 1,
         },
     },
@@ -194,45 +199,45 @@ my $ItemData = [
     # the service one add-test before must be updated (service update arguments are complete)
     {
         Update => {
-            Name    => $ServiceRand2 . 'UPDATE2',
+            Name    => $ServiceName[1] . 'UPDATE2',
             ValidID => 2,
             Comment => 'TestComment2UPDATE2',
-            UserID  => $UserID1,
+            UserID  => $UserIDs[0],
         },
         UpdateGet => {
             ParentID  => '',
-            Name      => $ServiceRand2 . 'UPDATE2',
-            NameShort => $ServiceRand2 . 'UPDATE2',
+            Name      => $ServiceName[1] . 'UPDATE2',
+            NameShort => $ServiceName[1] . 'UPDATE2',
             ValidID   => 2,
             Comment   => 'TestComment2UPDATE2',
             CreateBy  => 1,
-            ChangeBy  => $UserID1,
+            ChangeBy  => $UserIDs[0],
         },
     },
 
     # the service one add-test before must be updated (service update arguments are complete)
     {
         Update => {
-            Name    => $ServiceRand2 . 'UPDATE3',
+            Name    => $ServiceName[1] . 'UPDATE3',
             ValidID => 1,
             Comment => 'TestComment2UPDATE3',
-            UserID  => $UserID2,
+            UserID  => $UserIDs[1],
         },
         UpdateGet => {
             ParentID  => '',
-            Name      => $ServiceRand2 . 'UPDATE3',
-            NameShort => $ServiceRand2 . 'UPDATE3',
+            Name      => $ServiceName[1] . 'UPDATE3',
+            NameShort => $ServiceName[1] . 'UPDATE3',
             ValidID   => 1,
             Comment   => 'TestComment2UPDATE3',
             CreateBy  => 1,
-            ChangeBy  => $UserID2,
+            ChangeBy  => $UserIDs[1],
         },
     },
 
     # this service has an invalid name and must be NOT inserted
     {
         Update => {
-            Name    => $ServiceRand2 . '::UPDATE4',
+            Name    => $ServiceName[1] . '::UPDATE4',
             ValidID => 1,
             UserID  => 1,
         },
@@ -241,7 +246,7 @@ my $ItemData = [
     # this service has an invalid name and must be NOT inserted
     {
         Update => {
-            Name    => $ServiceRand2 . '::Test::UPDATE4',
+            Name    => $ServiceName[1] . '::Test::UPDATE4',
             ValidID => 1,
             UserID  => 1,
         },
@@ -250,7 +255,7 @@ my $ItemData = [
     # this service has an invalid name and must be NOT inserted
     {
         Add => {
-            Name    => $ServiceRand3 . '::Test',
+            Name    => $ServiceName[2] . '::Test',
             ValidID => 1,
             UserID  => 1,
         },
@@ -259,7 +264,7 @@ my $ItemData = [
     # this service has an invalid name and must be NOT inserted
     {
         Add => {
-            Name    => $ServiceRand3 . '::Test::Test',
+            Name    => $ServiceName[2] . '::Test::Test',
             ValidID => 1,
             UserID  => 1,
         },
@@ -268,15 +273,15 @@ my $ItemData = [
     # this service must be inserted sucessfully (check string cleaner function)
     {
         Add => {
-            Name    => " \t \n \r " . $ServiceRand4 . " \t \n \r ",
+            Name    => " \t \n \r " . $ServiceName[3] . " \t \n \r ",
             ValidID => 1,
             Comment => " \t \n \r Test Comment \t \n \r ",
             UserID  => 1,
         },
         AddGet => {
             ParentID  => '',
-            Name      => $ServiceRand4,
-            NameShort => $ServiceRand4,
+            Name      => $ServiceName[3],
+            NameShort => $ServiceName[3],
             ValidID   => 1,
             Comment   => 'Test Comment',
             CreateBy  => 1,
@@ -287,34 +292,34 @@ my $ItemData = [
     # the service one add-test before must be updated sucessfully (check string cleaner function)
     {
         Update => {
-            Name    => " \t \n \r " . $ServiceRand4 . " UPDATE1 \t \n \r ",
+            Name    => " \t \n \r " . $ServiceName[3] . " UPDATE1 \t \n \r ",
             ValidID => 2,
             Comment => " \t \n \r Test Comment \t \n \r ",
-            UserID  => $UserID2,
+            UserID  => $UserIDs[1],
         },
         UpdateGet => {
             ParentID  => '',
-            Name      => $ServiceRand4 . ' UPDATE1',
-            NameShort => $ServiceRand4 . ' UPDATE1',
+            Name      => $ServiceName[3] . ' UPDATE1',
+            NameShort => $ServiceName[3] . ' UPDATE1',
             ValidID   => 2,
             Comment   => 'Test Comment',
             CreateBy  => 1,
-            ChangeBy  => $UserID2,
+            ChangeBy  => $UserIDs[1],
         },
     },
 
     # this service must be inserted sucessfully (unicode checks)
     {
         Add => {
-            Name    => $ServiceRand5 . ' ϒ ϡ Ʃ Ϟ ',
+            Name    => $ServiceName[4] . ' ϒ ϡ Ʃ Ϟ ',
             ValidID => 1,
             Comment => ' Ѡ Ѥ TestComment5 Ϡ Ω ',
             UserID  => 1,
         },
         AddGet => {
             ParentID  => '',
-            Name      => $ServiceRand5 . ' ϒ ϡ Ʃ Ϟ',
-            NameShort => $ServiceRand5 . ' ϒ ϡ Ʃ Ϟ',
+            Name      => $ServiceName[4] . ' ϒ ϡ Ʃ Ϟ',
+            NameShort => $ServiceName[4] . ' ϒ ϡ Ʃ Ϟ',
             ValidID   => 1,
             Comment   => 'Ѡ Ѥ TestComment5 Ϡ Ω',
             CreateBy  => 1,
@@ -325,34 +330,34 @@ my $ItemData = [
     # the service one add-test before must be updated sucessfully (unicode checks)
     {
         Update => {
-            Name    => $ServiceRand5 . ' ϒ ϡ Ʃ Ϟ UPDATE1',
+            Name    => $ServiceName[4] . ' ϒ ϡ Ʃ Ϟ UPDATE1',
             ValidID => 2,
             Comment => ' Ѡ Ѥ TestComment5 Ϡ Ω UPDATE1',
-            UserID  => $UserID1,
+            UserID  => $UserIDs[0],
         },
         UpdateGet => {
             ParentID  => '',
-            Name      => $ServiceRand5 . ' ϒ ϡ Ʃ Ϟ UPDATE1',
-            NameShort => $ServiceRand5 . ' ϒ ϡ Ʃ Ϟ UPDATE1',
+            Name      => $ServiceName[4] . ' ϒ ϡ Ʃ Ϟ UPDATE1',
+            NameShort => $ServiceName[4] . ' ϒ ϡ Ʃ Ϟ UPDATE1',
             ValidID   => 2,
             Comment   => 'Ѡ Ѥ TestComment5 Ϡ Ω UPDATE1',
             CreateBy  => 1,
-            ChangeBy  => $UserID1,
+            ChangeBy  => $UserIDs[0],
         },
     },
 
     # this service must be inserted sucessfully (special character checks)
     {
         Add => {
-            Name    => ' [test]%*\\ ' . $ServiceRand9 . ' [test]%*\\ ',
+            Name    => ' [test]%*\\ ' . $ServiceName[8] . ' [test]%*\\ ',
             ValidID => 1,
             Comment => ' [test]%*\\ Test Comment [test]%*\\ ',
             UserID  => 1,
         },
         AddGet => {
             ParentID  => '',
-            Name      => '[test]%*\\ ' . $ServiceRand9 . ' [test]%*\\',
-            NameShort => '[test]%*\\ ' . $ServiceRand9 . ' [test]%*\\',
+            Name      => '[test]%*\\ ' . $ServiceName[8] . ' [test]%*\\',
+            NameShort => '[test]%*\\ ' . $ServiceName[8] . ' [test]%*\\',
             ValidID   => 1,
             Comment   => '[test]%*\\ Test Comment [test]%*\\',
             CreateBy  => 1,
@@ -363,33 +368,33 @@ my $ItemData = [
     # the service one add-test before must be updated sucessfully (special character checks)
     {
         Update => {
-            Name    => ' [test]%*\\ ' . $ServiceRand9 . ' UPDATE1 [test]%*\\ ',
+            Name    => ' [test]%*\\ ' . $ServiceName[8] . ' UPDATE1 [test]%*\\ ',
             ValidID => 2,
             Comment => ' [test]%*\\ Test Comment UPDATE1 [test]%*\\ ',
-            UserID  => $UserID2,
+            UserID  => $UserIDs[1],
         },
         UpdateGet => {
             ParentID  => '',
-            Name      => '[test]%*\\ ' . $ServiceRand9 . ' UPDATE1 [test]%*\\',
-            NameShort => '[test]%*\\ ' . $ServiceRand9 . ' UPDATE1 [test]%*\\',
+            Name      => '[test]%*\\ ' . $ServiceName[8] . ' UPDATE1 [test]%*\\',
+            NameShort => '[test]%*\\ ' . $ServiceName[8] . ' UPDATE1 [test]%*\\',
             ValidID   => 2,
             Comment   => '[test]%*\\ Test Comment UPDATE1 [test]%*\\',
             CreateBy  => 1,
-            ChangeBy  => $UserID2,
+            ChangeBy  => $UserIDs[1],
         },
     },
 
     # this service must be inserted sucessfully (used for the following tests)
     {
         Add => {
-            Name    => $ServiceRand6,
+            Name    => $ServiceName[5],
             ValidID => 1,
             UserID  => 1,
         },
         AddGet => {
             ParentID  => '',
-            Name      => $ServiceRand6,
-            NameShort => $ServiceRand6,
+            Name      => $ServiceName[5],
+            NameShort => $ServiceName[5],
             ValidID   => 1,
             CreateBy  => 1,
             ChangeBy  => 1,
@@ -400,14 +405,14 @@ my $ItemData = [
     {
         Add => {
             ParentID => 'LASTADDID',
-            Name     => $ServiceRand7,
+            Name     => $ServiceName[6],
             ValidID  => 1,
             UserID   => 1,
         },
         AddGet => {
             ParentID  => 'LASTADDID',
-            Name      => $ServiceRand6 . '::' . $ServiceRand7,
-            NameShort => $ServiceRand7,
+            Name      => $ServiceName[5] . '::' . $ServiceName[6],
+            NameShort => $ServiceName[6],
             ValidID   => 1,
             CreateBy  => 1,
             ChangeBy  => 1,
@@ -418,14 +423,14 @@ my $ItemData = [
     {
         Add => {
             ParentID => 'LASTADDID',
-            Name     => " \n \t " . $ServiceRand8 . " \n \t ",
+            Name     => " \n \t " . $ServiceName[7] . " \n \t ",
             ValidID  => 1,
             UserID   => 1,
         },
         AddGet => {
             ParentID  => 'LASTADDID',
-            Name      => $ServiceRand6 . '::' . $ServiceRand7 . '::' . $ServiceRand8,
-            NameShort => $ServiceRand8,
+            Name      => $ServiceName[5] . '::' . $ServiceName[6] . '::' . $ServiceName[7],
+            NameShort => $ServiceName[7],
             ValidID   => 1,
             CreateBy  => 1,
             ChangeBy  => 1,
@@ -436,7 +441,7 @@ my $ItemData = [
     {
         Update => {
             ParentID => 'LASTADDID',
-            Name     => $ServiceRand8 . 'UPDATE1',
+            Name     => $ServiceName[7] . 'UPDATE1',
             ValidID  => 1,
             UserID   => 1,
         },
@@ -446,14 +451,14 @@ my $ItemData = [
     {
         Update => {
             ParentID => '',
-            Name     => $ServiceRand8 . ' UPDATE1',
+            Name     => $ServiceName[7] . ' UPDATE1',
             ValidID  => 1,
             UserID   => 1,
         },
         UpdateGet => {
             ParentID  => '',
-            Name      => $ServiceRand8 . ' UPDATE1',
-            NameShort => $ServiceRand8 . ' UPDATE1',
+            Name      => $ServiceName[7] . ' UPDATE1',
+            NameShort => $ServiceName[7] . ' UPDATE1',
             ValidID   => 1,
             CreateBy  => 1,
             ChangeBy  => 1,
@@ -464,20 +469,24 @@ my $ItemData = [
     {
         Update => {
             ParentID => 'LASTLASTADDID',
-            Name     => $ServiceRand8 . ' UPDATE2',
+            Name     => $ServiceName[7] . ' UPDATE2',
             ValidID  => 1,
             UserID   => 1,
         },
         UpdateGet => {
-            ParentID  => 'LASTLASTADDID',
-            Name      => $ServiceRand6 . '::' . $ServiceRand7 . '::' . $ServiceRand8 . ' UPDATE2',
-            NameShort => $ServiceRand8 . ' UPDATE2',
+            ParentID => 'LASTLASTADDID',
+            Name => $ServiceName[5] . '::' . $ServiceName[6] . '::' . $ServiceName[7] . ' UPDATE2',
+            NameShort => $ServiceName[7] . ' UPDATE2',
             ValidID   => 1,
             CreateBy  => 1,
             ChangeBy  => 1,
         },
     },
 ];
+
+# ------------------------------------------------------------ #
+# run general tests
+# ------------------------------------------------------------ #
 
 my $TestCount = 1;
 my $LastAddedServiceID;
@@ -674,7 +683,10 @@ for my $Item ( @{$ItemData} ) {
     $TestCount++;
 }
 
+# ------------------------------------------------------------ #
 # ServiceList test 1 (check general functionality)
+# ------------------------------------------------------------ #
+
 my %ServiceList1 = $Self->{ServiceObject}->ServiceList(
     Valid  => 0,
     UserID => 1,
@@ -702,14 +714,17 @@ $Self->Is(
 
 $TestCount++;
 
+# ------------------------------------------------------------ #
 # ServiceList test 2 (check cache)
+# ------------------------------------------------------------ #
+
 my %ServiceList2 = $Self->{ServiceObject}->ServiceList(
     Valid  => 0,
     UserID => 1,
 );
 
 my $ServiceList2ServiceID = $Self->{ServiceObject}->ServiceAdd(
-    Name    => $ServiceRand10,
+    Name    => $ServiceName[9],
     ValidID => 1,
     UserID  => 1,
 );
@@ -747,7 +762,10 @@ $Self->Is(
 
 $TestCount++;
 
+# ------------------------------------------------------------ #
 # ServiceSearch test 1 (check general functionality)
+# ------------------------------------------------------------ #
+
 my @ServiceSearch1Search = $Self->{ServiceObject}->ServiceSearch(
     UserID => 1,
 );
@@ -777,8 +795,12 @@ $Self->Is(
 
 $TestCount++;
 
-# add some needed services
-my @ServiceNames = ( $ServiceRand11 . 'Normal', $ServiceRand11 . 'Ԉ Ӵ Ϫ Ͼ' );
+# ------------------------------------------------------------ #
+# make preparations for later tests
+# ------------------------------------------------------------ #
+
+# add some needed services for later tests
+my @ServiceNames = ( $ServiceName[10] . 'Normal', $ServiceName[10] . 'Ԉ Ӵ Ϫ Ͼ' );
 my %ServiceSearch2ServiceID;
 
 my $Counter1 = 0;
@@ -793,7 +815,10 @@ for my $ServiceName (@ServiceNames) {
     $Counter1++;
 }
 
+# ------------------------------------------------------------ #
 # ServiceSearch test 2 (general name checks)
+# ------------------------------------------------------------ #
+
 my $Counter2 = 0;
 for my $ServiceName (@ServiceNames) {
 
@@ -825,17 +850,5 @@ for my $ServiceName (@ServiceNames) {
 
     $Counter2++;
 }
-
-# clean the service table
-$Self->{DBObject}->Do(
-    SQL => "DELETE FROM service WHERE name LIKE '%UnitTest%'",
-);
-
-# clean the system user table
-my $UserTable = $Self->{ConfigObject}->Get('DatabaseUserTable') || 'system_user';
-
-$Self->{DBObject}->Do(
-    SQL => "DELETE FROM $UserTable WHERE login LIKE 'UnitTest-Service-%'",
-);
 
 1;
