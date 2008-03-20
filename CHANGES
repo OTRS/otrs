@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.607 2008-03-18 12:21:51 martin Exp $
+# $Id: CHANGES,v 1.608 2008-03-20 22:53:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ CVS HEAD (????/??/??)
     "Setting of CS_OPT_TEXTSIZE failed. at" if a mssql customer backend
     is used. The problem is, that LongReadLen is not supported by
     dbd::sybase (this is the reason of this error message).
-    So the database customer is no improved to set all database attributes
+    So the database customer is now improved to set all database attributes
     in CustomerUser config. For example this is the solution to prevent
     the sybase error message:
 
@@ -173,6 +173,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.6 (2008/??/??)
+ - (2008/03/20) Fixed bug# 2772 - Dangling links to deleted tickets (ticket
+    links get not deleted after a ticket got deleted).
  - (2008/03/14) Fixed bug# 2770 - Internal cache mechanism of SLAs delivers
     wrong content.
  - (2008/03/14) Fixed bug# 2769 - Trimming of sla name input field produce

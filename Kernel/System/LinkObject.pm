@@ -1,12 +1,12 @@
 # --
 # Kernel/System/LinkObject.pm - to link objects
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.16 2007-10-02 10:38:08 mh Exp $
+# $Id: LinkObject.pm,v 1.17 2008-03-20 22:53:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::LinkObject;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -194,18 +194,26 @@ sub UnlinkObject {
             return;
         }
     }
-    my $SQL
-        = "DELETE FROM object_link WHERE "
-        . " (object_link_a_id = '$Param{LinkID1}' " . " AND "
-        . " object_link_b_id = '$Param{LinkID2}' " . " AND "
-        . " object_link_a_object = '$Param{LinkObject1}' " . " AND "
-        . " object_link_b_object = '$Param{LinkObject2}' " . " AND "
-        . " object_link_type = '$Param{LinkType}') " . " OR "
-        . " (object_link_a_id = '$Param{LinkID2}' " . " AND "
-        . " object_link_b_id = '$Param{LinkID1}' " . " AND "
-        . " object_link_a_object = '$Param{LinkObject2}' " . " AND "
-        . " object_link_b_object = '$Param{LinkObject1}' " . " AND "
-        . " object_link_type = '$Param{LinkType}') ";
+
+    my $SQLExt = '';
+    if ( $Param{LinkType} eq 'Parent' || $Param{LinkType} eq 'Child' ) {
+        $SQLExt = "object_link_type IN ('Parent', 'Child')";
+    }
+    else {
+        $SQLExt = "object_link_type = '$Param{LinkType}'";
+    }
+
+    my $SQL = "DELETE FROM object_link WHERE "
+        . " (object_link_a_id = '$Param{LinkID1}' AND "
+        . " object_link_b_id = '$Param{LinkID2}' AND "
+        . " object_link_a_object = '$Param{LinkObject1}' AND "
+        . " object_link_b_object = '$Param{LinkObject2}' AND "
+        . " $SQLExt ) OR "
+        . " (object_link_a_id = '$Param{LinkID2}' AND "
+        . " object_link_b_id = '$Param{LinkID1}' AND "
+        . " object_link_a_object = '$Param{LinkObject2}' AND "
+        . " object_link_b_object = '$Param{LinkObject1}' AND "
+        . " $SQLExt)";
 
     if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         $Self->BackendUnlinkObject(%Param);
@@ -352,6 +360,30 @@ sub LinkedObjects {
     # fill up data
     for (@LinkedIDs) {
         my %Hash = $Self->FillDataMap( ID => $_, UserID => $Self->{UserID} );
+
+        # delete links if object exists not anymore
+        if ( !%Hash ) {
+            if ( $Param{LinkID1} ) {
+                $Self->UnlinkObject(
+                    LinkType    => $Param{LinkType},
+                    LinkID1     => $Param{LinkID1},
+                    LinkObject1 => $Param{LinkObject1},
+                    LinkID2     => $_,
+                    LinkObject2 => $Param{LinkObject2},
+                    UserID      => 1,
+                );
+            }
+            elsif ( $Param{LinkID2} ) {
+                $Self->UnlinkObject(
+                    LinkType    => $Param{LinkType},
+                    LinkID1     => $_,
+                    LinkObject1 => $Param{LinkObject1},
+                    LinkID2     => $Param{LinkID2},
+                    LinkObject2 => $Param{LinkObject2},
+                    UserID      => 1,
+                );
+            }
+        }
         $Linked{$_} = \%Hash;
     }
     return %Linked;
@@ -408,12 +440,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2007-10-02 10:38:08 $
+$Revision: 1.17 $ $Date: 2008-03-20 22:53:03 $
 
 =cut

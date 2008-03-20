@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.300 2008-03-18 16:12:44 tr Exp $
+# $Id: Ticket.pm,v 1.301 2008-03-20 22:53:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.300 $) [1];
+$VERSION = qw($Revision: 1.301 $) [1];
 
 =head1 NAME
 
@@ -547,6 +547,40 @@ sub TicketDelete {
         SQL  => "DELETE FROM ticket WHERE id = ?",
         Bind => [ \$Param{TicketID} ],
     );
+
+    # delete ticket links
+    my $LinkObject = Kernel::System::LinkObject->new(
+        %Param,
+        %{$Self},
+        TicketObject => $Self,
+    );
+    $LinkObject->LoadBackend( Module => 'Ticket' );
+
+    # get linked objects and ids, then delete links
+    my %Links = $LinkObject->AllLinkedObjects(
+        Object   => 'Ticket',
+        ObjectID => $Param{TicketID},
+        UserID   => $Param{UserID},
+    );
+    for my $LinkType ( qw(Normal Parent Child) ) {
+        if ( ! $Links{$LinkType} ) {
+            next;
+        }
+        my %ObjectType = %{ $Links{$LinkType} };
+        for my $Object ( sort keys %ObjectType ) {
+            my %Data = %{ $ObjectType{$Object} };
+            for my $Item ( sort keys %Data ) {
+                $LinkObject->UnlinkObject(
+                    LinkType    => $LinkType,
+                    LinkID1     => $Data{$Item}->{ID},
+                    LinkObject1 => $Object,
+                    LinkID2     => $Param{TicketID},
+                    LinkObject2 => 'Ticket',
+                    UserID      => $Param{UserID},
+                );
+            }
+        }
+    }
 
     # ticket event
     $Self->TicketEventHandlerPost(
@@ -5948,13 +5982,13 @@ sub TicketMerge {
     );
 
     # link tickets
-    $Self->{LinkObject} = Kernel::System::LinkObject->new(
+    my $LinkObject = Kernel::System::LinkObject->new(
         %Param,
         %{$Self},
         TicketObject => $Self,
     );
-    $Self->{LinkObject}->LoadBackend( Module => 'Ticket' );
-    $Self->{LinkObject}->LinkObject(
+    $LinkObject->LoadBackend( Module => 'Ticket' );
+    $LinkObject->LinkObject(
         LinkType    => 'Parent',
         LinkID1     => $Param{MainTicketID},
         LinkObject1 => 'Ticket',
@@ -6153,6 +6187,7 @@ sub TicketAcl {
 
     # check if workflows are configured, if not, just return
     if ((      !$Self->{ConfigObject}->Get('TicketAcl')
+            && !$Self->{ConfigObject}->Get('Ticket::Acl::Module')
             && !$Self->{ConfigObject}->Get('Ticket::EventModulePost')
         )
         || ( $Param{UserID} && $Param{UserID} == 1 )
@@ -6545,6 +6580,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.300 $ $Date: 2008-03-18 16:12:44 $
+$Revision: 1.301 $ $Date: 2008-03-20 22:53:03 $
 
 =cut
