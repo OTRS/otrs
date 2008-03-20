@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.275.2.11 2008-03-07 20:00:17 martin Exp $
+# $Id: Ticket.pm,v 1.275.2.12 2008-03-20 22:52:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.275.2.11 $';
+$VERSION = '$Revision: 1.275.2.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -525,6 +525,40 @@ sub TicketDelete {
         if ($Self->ArticleDelete(%Param)) {
             # delete ticket
             if ($Self->{DBObject}->Do(SQL => "DELETE FROM ticket WHERE id = $Param{TicketID}")) {
+                # delete ticket links
+                my $LinkObject = Kernel::System::LinkObject->new(
+                    %Param,
+                    %{$Self},
+                    TicketObject => $Self,
+                );
+                $LinkObject->LoadBackend( Module => 'Ticket' );
+
+                # get linked objects and ids, then delete links
+                my %Links = $LinkObject->AllLinkedObjects(
+                    Object   => 'Ticket',
+                    ObjectID => $Param{TicketID},
+                    UserID   => $Param{UserID},
+                );
+                for my $LinkType ( qw(Normal Parent Child) ) {
+                    if ( ! $Links{$LinkType} ) {
+                        next;
+                    }
+                    my %ObjectType = %{ $Links{$LinkType} };
+                    for my $Object ( sort keys %ObjectType ) {
+                        my %Data = %{ $ObjectType{$Object} };
+                        for my $Item ( sort keys %Data ) {
+                            $LinkObject->UnlinkObject(
+                                LinkType    => $LinkType,
+                                LinkID1     => $Data{$Item}->{ID},
+                                LinkObject1 => $Object,
+                                LinkID2     => $Param{TicketID},
+                                LinkObject2 => 'Ticket',
+                                UserID      => $Param{UserID},
+                            );
+                        }
+                    }
+                }
+
                 # ticket event
                 $Self->TicketEventHandlerPost(
                     Event => 'TicketDelete',
@@ -5621,9 +5655,9 @@ sub TicketMerge {
             CreateUserID => $Param{UserID},
         );
         # link tickets
-        $Self->{LinkObject} = Kernel::System::LinkObject->new(%Param, %{$Self}, TicketObject => $Self);
-        $Self->{LinkObject}->LoadBackend(Module => 'Ticket');
-        $Self->{LinkObject}->LinkObject(
+        my $LinkObject = Kernel::System::LinkObject->new(%Param, %{$Self}, TicketObject => $Self);
+        $LinkObject->LoadBackend(Module => 'Ticket');
+        $LinkObject->LinkObject(
             LinkType => 'Parent',
             LinkID1 => $Param{MainTicketID},
             LinkObject1 => 'Ticket',
@@ -6206,6 +6240,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.275.2.11 $ $Date: 2008-03-07 20:00:17 $
+$Revision: 1.275.2.12 $ $Date: 2008-03-20 22:52:32 $
 
 =cut

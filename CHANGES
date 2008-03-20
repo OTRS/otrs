@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.101 2008-03-14 14:03:06 mh Exp $
+# $Id: CHANGES,v 1.465.2.102 2008-03-20 22:52:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.6 (2008/??/??)
+ - (2008/03/20) Fixed bug# 2772 - Dangling links to deleted tickets (ticket
+    links get not deleted after a ticket got deleted).
  - (2008/03/14) Fixed bug# 2770 - Internal cache mechanism of SLAs delivers
     wrong content.
  - (2008/03/14) Fixed bug# 2769 - Trimming of sla name input field produce
