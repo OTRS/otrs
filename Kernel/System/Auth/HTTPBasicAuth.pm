@@ -1,8 +1,8 @@
 # --
-# Kernel/System/Auth/HTTPBasicAuth.pm - provides the $ENV{REMOTE_USER} authentification
+# Kernel/System/Auth/HTTPBasicAuth.pm - provides the $ENV authentification
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: HTTPBasicAuth.pm,v 1.9 2008-02-20 22:05:35 martin Exp $
+# $Id: HTTPBasicAuth.pm,v 1.10 2008-03-21 02:00:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@
 # If you use this module, you should use as fallback the following
 # config settings:
 #
-# If use isn't login through apache ($ENV{REMOTE_USER})
+# If use isn't login through apache ($ENV{REMOTE_USER} or $ENV{HTTP_REMOTE_USER})
 # $Self->{LoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
 #
 # $Self->{LogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -67,7 +67,7 @@ sub Auth {
     my ( $Self, %Param ) = @_;
 
     # get params
-    my $User = $ENV{REMOTE_USER};
+    my $User = $ENV{REMOTE_USER} || $ENV{HTTP_REMOTE_USER};
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     if ($User) {
         my $Replace = $Self->{ConfigObject}->Get( 'AuthModule::HTTPBasicAuth::Replace' . $Self->{Count} );
@@ -83,7 +83,7 @@ sub Auth {
     else {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "User: No \$ENV{REMOTE_USER} !(REMOTE_ADDR: $RemoteAddr).",
+            Message  => "User: No \$ENV{REMOTE_USER} or \$ENV{HTTP_REMOTE_USER} !(REMOTE_ADDR: $RemoteAddr).",
         );
         return;
     }
