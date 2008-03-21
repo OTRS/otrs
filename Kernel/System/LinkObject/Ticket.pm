@@ -1,12 +1,12 @@
 # --
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.11 2007-01-21 01:26:10 mh Exp $
+# $Id: Ticket.pm,v 1.11.2.1 2008-03-21 00:41:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::LinkObject::Ticket;
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.11.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Init {
@@ -37,6 +37,9 @@ sub FillDataMap {
         }
     }
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Param{ID}, UserID => $Self->{UserID});
+    if ( !%Ticket ) {
+        return;
+    }
     return (
         Text => 'T:'.$Ticket{TicketNumber},
         Number => $Ticket{TicketNumber},
