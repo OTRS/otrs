@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.18 2008-01-31 06:22:12 tr Exp $
+# $Id: AgentLinkObject.pm,v 1.19 2008-03-21 00:46:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -69,7 +69,6 @@ sub new {
     if ( $Self->{DestinationObject} ) {
         $Param{Module} = $Self->{DestinationObject};
         $Param{ID}     = $Self->{ID};
-        $Self->{LinkObject}->LoadBackend(%Param);
     }
     return $Self;
 }

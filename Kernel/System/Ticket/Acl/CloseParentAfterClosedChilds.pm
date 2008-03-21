@@ -3,7 +3,7 @@
 # - allow no parent close till all clients are closed -
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseParentAfterClosedChilds.pm,v 1.2 2008-03-17 13:12:41 martin Exp $
+# $Id: CloseParentAfterClosedChilds.pm,v 1.3 2008-03-21 00:46:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,7 +47,6 @@ sub Run {
     if ( $Param{TicketID} && $Param{UserID} ) {
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
         $Self->{LinkObject} = Kernel::System::LinkObject->new( %Param, %{$Self} );
-        $Self->{LinkObject}->LoadBackend( Module => 'Ticket' );
         my %Link = $Self->{LinkObject}->LinkedObjects(
             LinkType    => 'Child',
             LinkObject1 => 'Ticket',
