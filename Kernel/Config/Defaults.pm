@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.287 2008-03-13 21:19:16 martin Exp $
+# $Id: Defaults.pm,v 1.288 2008-03-21 20:21:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.287 $) [1];
+$VERSION = qw($Revision: 1.288 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -182,10 +182,10 @@ sub LoadDefaults {
 
     # DefaultTheme::HostBased
     # (set theme based on host name)
-    #    $Self->{'DefaultTheme::HostBased'} = {
-    #        'host1\.example\.com' => 'SomeTheme1',
-    #        'host2\.example\.com' => 'SomeTheme1',
-    #    };
+#    $Self->{'DefaultTheme::HostBased'} = {
+#        'host1\.example\.com' => 'SomeTheme1',
+#        'host2\.example\.com' => 'SomeTheme1',
+#    };
 
     # Frontend::ImagePath
     # (Define URL of images)
@@ -248,10 +248,10 @@ sub LoadDefaults {
     # (log backend module)
     $Self->{'LogModule'} = 'Kernel::System::Log::SysLog';
 
-    #    $Self->{'LogModule'} = 'Kernel::System::Log::File';
+#    $Self->{'LogModule'} = 'Kernel::System::Log::File';
 
     # param for LogModule Kernel::System::Log::SysLog
-    #    $Self->{'LogModule::SysLog::Facility'} = 'user';
+#    $Self->{'LogModule::SysLog::Facility'} = 'user';
 
     # param for LogModule Kernel::System::Log::SysLog
     # (if syslog can't work with utf-8, force the log
@@ -259,20 +259,20 @@ sub LoadDefaults {
     # replaces with ?)
     $Self->{'LogModule::SysLog::Charset'} = 'iso-8859-15';
 
-    #    $Self->{'LogModule::SysLog::Charset'} = 'utf-8';
+#    $Self->{'LogModule::SysLog::Charset'} = 'utf-8';
 
     # param for LogModule Kernel::System::Log::File (required!)
     $Self->{'LogModule::LogFile'} = '/tmp/otrs.log';
 
     # param if the date (yyyy-mm) should be added as suffix to
     # logfile [0|1]
-    #    $Self->{'LogModule::LogFile::Date'} = 0;
+#    $Self->{'LogModule::LogFile::Date'} = 0;
 
     # system log cache size for admin system log (default 4k)
     # Note: use bin/CleanUp.pl before you change this
     # Note: this configuration is not useable in SysConfig
     #       for more information see FAQ# 4200111 and FAQ# 4200110
-    #    $Self->{'LogSystemCacheSize'} = 4*1024;
+#    $Self->{'LogSystemCacheSize'} = 4*1024;
 
     # --------------------------------------------------- #
     # SendmailModule
@@ -282,11 +282,11 @@ sub LoadDefaults {
     $Self->{'SendmailModule'}      = 'Kernel::System::Email::Sendmail';
     $Self->{'SendmailModule::CMD'} = '/usr/sbin/sendmail -i -f ';
 
-    #    $Self->{'SendmailModule'} = 'Kernel::System::Email::SMTP';
-    #    $Self->{'SendmailModule::Host'} = 'mail.example.com';
-    #    $Self->{'SendmailModule::Port'} = '25';
-    #    $Self->{'SendmailModule::AuthUser'} = '';
-    #    $Self->{'SendmailModule::AuthPassword'} = '';
+#    $Self->{'SendmailModule'} = 'Kernel::System::Email::SMTP';
+#    $Self->{'SendmailModule::Host'} = 'mail.example.com';
+#    $Self->{'SendmailModule::Port'} = '25';
+#    $Self->{'SendmailModule::AuthUser'} = '';
+#    $Self->{'SendmailModule::AuthPassword'} = '';
 
     # SendmailBcc
     # (Send all outgoing email via bcc to...
@@ -296,7 +296,7 @@ sub LoadDefaults {
     # SendmailNotificationEnvelopeFrom
     # Set a email address that is used as envelope from header in outgoing
     # notifications
-    #    $Self->{'SendmailNotificationEnvelopeFrom'} = '';
+#    $Self->{'SendmailNotificationEnvelopeFrom'} = '';
 
     # --------------------------------------------------- #
     # authentication settings                             #
@@ -308,181 +308,181 @@ sub LoadDefaults {
     $Self->{'AuthModule'} = 'Kernel::System::Auth::DB';
 
     # password crypt type (crypt|md5|plain)
-    #    $Self->{'AuthModule::DB::CryptType'} = 'crypt';
+#    $Self->{'AuthModule::DB::CryptType'} = 'crypt';
 
     # This is an example configuration for an LDAP auth. backend.
     # (take care that Net::LDAP is installed!)
-    #    $Self->{'AuthModule'} = 'Kernel::System::Auth::LDAP';
-    #    $Self->{'AuthModule::LDAP::Host'} = 'ldap.example.com';
-    #    $Self->{'AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
-    #    $Self->{'AuthModule::LDAP::UID'} = 'uid';
+#    $Self->{'AuthModule'} = 'Kernel::System::Auth::LDAP';
+#    $Self->{'AuthModule::LDAP::Host'} = 'ldap.example.com';
+#    $Self->{'AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
+#    $Self->{'AuthModule::LDAP::UID'} = 'uid';
 
     # Check if the user is allowed to auth in a posixGroup
     # (e. g. user needs to be in a group xyz to use otrs)
-    #    $Self->{'AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com';
-    #    $Self->{'AuthModule::LDAP::AccessAttr'} = 'memberUid';
+#    $Self->{'AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com';
+#    $Self->{'AuthModule::LDAP::AccessAttr'} = 'memberUid';
     # for ldap posixGroups objectclass (just uid)
-    #    $Self->{'AuthModule::LDAP::UserAttr'} = 'UID';
+#    $Self->{'AuthModule::LDAP::UserAttr'} = 'UID';
     # for non ldap posixGroups objectclass (with full user dn)
-    #    $Self->{'AuthModule::LDAP::UserAttr'} = 'DN';
+#    $Self->{'AuthModule::LDAP::UserAttr'} = 'DN';
 
     # The following is valid but would only be necessary if the
     # anonymous user do NOT have permission to read from the LDAP tree
-    #    $Self->{'AuthModule::LDAP::SearchUserDN'} = '';
-    #    $Self->{'AuthModule::LDAP::SearchUserPw'} = '';
+#    $Self->{'AuthModule::LDAP::SearchUserDN'} = '';
+#    $Self->{'AuthModule::LDAP::SearchUserPw'} = '';
 
     # in case you want to add always one filter to each ldap query, use
     # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
-    #   $Self->{'AuthModule::LDAP::AlwaysFilter'} = '';
+#    $Self->{'AuthModule::LDAP::AlwaysFilter'} = '';
 
     # in case you want to add a suffix to each login name, then
     # you can use this option. e. g. user just want to use user but
     # in your ldap directory exists user@domain.
-    #    $Self->{'AuthModule::LDAP::UserSuffix'} = '@domain.com';
+#    $Self->{'AuthModule::LDAP::UserSuffix'} = '@domain.com';
 
     # In case you want to convert all given usernames to lower letters you
     # should activate this option. It might be helpfull if databases are
     # in use that do not distinguish selects for upper and lower case letters
     # (Oracle, postgresql). User might be synched twice, if this option
     # is not in use.
-    #    $Self->{'AuthModule::LDAP::UserLowerCase'} = 0;
+#    $Self->{'AuthModule::LDAP::UserLowerCase'} = 0;
 
     # In case you need to use OTRS in iso-charset, you can define this
     # by using this option (converts utf-8 data from LDAP to iso).
-    #    $Self->{'AuthModule::LDAP::Charset'} = 'iso-8859-1';
+#    $Self->{'AuthModule::LDAP::Charset'} = 'iso-8859-1';
 
     # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
-    #    $Self->{'AuthModule::LDAP::Params'} = {
-    #        port => 389,
-    #        timeout => 120,
-    #        async => 0,
-    #        version => 3,
-    #    };
+#    $Self->{'AuthModule::LDAP::Params'} = {
+#        port => 389,
+#        timeout => 120,
+#        async => 0,
+#        version => 3,
+#    };
 
     # Die if backend can't work, e. g. can't connect to server.
-    #    $Self->{'AuthModule::LDAP::Die'} = 1;
+#    $Self->{'AuthModule::LDAP::Die'} = 1;
 
     # This is an example configuration for an apache ($ENV{REMOTE_USER})
     # auth. backend. Use it if you want to have a singe login through
     # apache http-basic-auth.
-    #   $Self->{'AuthModule'} = 'Kernel::System::Auth::HTTPBasicAuth';
+#    $Self->{'AuthModule'} = 'Kernel::System::Auth::HTTPBasicAuth';
     # In case there is a leading domain in the REMOTE_USER, you can
     # replace it by the next config option.
-    #   $Self->{'AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
+#    $Self->{'AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
     # Note:
     # If you use this module, you should use as fallback the following
     # config settings if user isn't login through apache ($ENV{REMOTE_USER}).
-    #   $Self->{LoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
-    #   $Self->{LogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
+#    $Self->{LoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
+#    $Self->{LogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
 
     # This is example configuration to auth. agents against a radius server.
-    #    $Self->{'AuthModule'} = 'Kernel::System::Auth::Radius';
-    #    $Self->{'AuthModule::Radius::Host'} = 'radiushost';
-    #    $Self->{'AuthModule::Radius::Password'} = 'radiussecret';
+#    $Self->{'AuthModule'} = 'Kernel::System::Auth::Radius';
+#    $Self->{'AuthModule::Radius::Host'} = 'radiushost';
+#    $Self->{'AuthModule::Radius::Password'} = 'radiussecret';
 
     # Die if backend can't work, e. g. can't connect to server.
-    #    $Self->{'AuthModule::Radius::Die'} = 1;
+#    $Self->{'AuthModule::Radius::Die'} = 1;
 
     # UserSyncLDAPMap
     # (map if agent should create/synced from LDAP to DB after login)
-    #    $Self->{UserSyncLDAPMap} = {
-    #        # DB -> LDAP
-    #        UserFirstname => 'givenName',
-    #        UserLastname => 'sn',
-    #        UserEmail => 'mail',
-    #    };
+#    $Self->{UserSyncLDAPMap} = {
+#        # DB -> LDAP
+#        UserFirstname => 'givenName',
+#        UserLastname => 'sn',
+#        UserEmail => 'mail',
+#    };
     # UserSyncLDAPGroups
     # (If "LDAP" was selected for AuthModule, you can specify initial
     # user groups for first login.)
-    #    $Self->{UserSyncLDAPGroups} = [
-    #        'users',
-    #    ];
+#    $Self->{UserSyncLDAPGroups} = [
+#        'users',
+#    ];
     # UserSyncLDAPGroupsDefination
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # groups to otrs groups, define the following.)
-    #    $Self->{'UserSyncLDAPGroupsDefination'} = {
-    #        # ldap group
-    #        'cn=agent,o=otrs' => {
-    #            # otrs group
-    #            'admin' => {
-    #                # permission
-    #                rw => 1,
-    #                ro => 1,
-    #            },
-    #            'faq' => {
-    #                rw => 0,
-    #                ro => 1,
-    #            },
-    #        },
-    #        'cn=agent2,o=otrs' => {
-    #            'users' => {
-    #                rw => 1,
-    #                ro => 1,
-    #            },
-    #        }
-    #    };
+#    $Self->{'UserSyncLDAPGroupsDefination'} = {
+#        # ldap group
+#        'cn=agent,o=otrs' => {
+#            # otrs group
+#            'admin' => {
+#                # permission
+#                rw => 1,
+#                ro => 1,
+#            },
+#            'faq' => {
+#                rw => 0,
+#                ro => 1,
+#            },
+#        },
+#        'cn=agent2,o=otrs' => {
+#            'users' => {
+#                rw => 1,
+#                ro => 1,
+#            },
+#        }
+#    };
     # UserSyncLDAPRolesDefination
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # groups to otrs roles, define the following.)
-    #    $Self->{'UserSyncLDAPRolesDefination'} = {
-    #        # ldap group
-    #        'cn=agent,o=otrs' => {
-    #            # otrs role
-    #            'role1' => 1,
-    #            'role2' => 0,
-    #        },
-    #        'cn=agent2,o=otrs' => {
-    #            'role3' => 1,
-    #        }
-    #    };
+#    $Self->{'UserSyncLDAPRolesDefination'} = {
+#        # ldap group
+#        'cn=agent,o=otrs' => {
+#            # otrs role
+#            'role1' => 1,
+#            'role2' => 0,
+#        },
+#        'cn=agent2,o=otrs' => {
+#            'role3' => 1,
+#        }
+#    };
     # UserSyncLDAPAttibuteGroupsDefination
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # attributes to otrs groups, define the following.)
-    #    $Self->{'UserSyncLDAPAttibuteGroupsDefination'} = {
-    #        # ldap attribute
-    #        'LDAPAttribute' => {
-    #            # ldap attribute value
-    #            'LDAPAttributeValue1' => {
-    #                # otrs group
-    #                'admin' => {
-    #                    # permission
-    #                    rw => 1,
-    #                    ro => 1,
-    #                },
-    #                'faq' => {
-    #                    rw => 0,
-    #                    ro => 1,
-    #                },
-    #            },
-    #        },
-    #        'LDAPAttribute2' => {
-    #            'LDAPAttributeValue' => {
-    #                'users' => {
-    #                    rw => 1,
-    #                    ro => 1,
-    #                },
-    #            },
-    #         }
-    #    };
+#    $Self->{'UserSyncLDAPAttibuteGroupsDefination'} = {
+#        # ldap attribute
+#        'LDAPAttribute' => {
+#            # ldap attribute value
+#            'LDAPAttributeValue1' => {
+#                # otrs group
+#                'admin' => {
+#                    # permission
+#                    rw => 1,
+#                    ro => 1,
+#                },
+#                'faq' => {
+#                    rw => 0,
+#                    ro => 1,
+#                },
+#            },
+#        },
+#        'LDAPAttribute2' => {
+#            'LDAPAttributeValue' => {
+#                'users' => {
+#                    rw => 1,
+#                    ro => 1,
+#                },
+#            },
+#         }
+#    };
     # UserSyncLDAPAttibuteRolesDefination
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # attributes to otrs roles, define the following.)
-    #    $Self->{'UserSyncLDAPAttibuteRolesDefination'} = {
-    #        # ldap attribute
-    #        'LDAPAttribute' => {
-    #            # ldap attribute value
-    #            'LDAPAttributeValue1' => {
-    #                # otrs role
-    #                'role1' => 1,
-    #                'role2' => 1,
-    #            },
-    #        },
-    #        'LDAPAttribute2' => {
-    #            'LDAPAttributeValue1' => {
-    #                'role3' => 1,
-    #            },
-    #        },
-    #    };
+#    $Self->{'UserSyncLDAPAttibuteRolesDefination'} = {
+#        # ldap attribute
+#        'LDAPAttribute' => {
+#            # ldap attribute value
+#            'LDAPAttributeValue1' => {
+#                # otrs role
+#                'role1' => 1,
+#                'role2' => 1,
+#            },
+#        },
+#        'LDAPAttribute2' => {
+#            'LDAPAttributeValue1' => {
+#                'role3' => 1,
+#            },
+#        },
+#    };
 
     # UserTable
     $Self->{DatabaseUserTable}       = 'system_user';
@@ -498,52 +498,54 @@ sub LoadDefaults {
     # (If this is anything other than '', then it is assumed to be the
     # URL of an alternate login screen which will be used in place of
     # the default one.)
-    #    $Self->{LoginURL} = '';
-    #    $Self->{LoginURL} = 'http://host.example.com/cgi-bin/login.pl';
+#    $Self->{LoginURL} = '';
+#    $Self->{LoginURL} = 'http://host.example.com/cgi-bin/login.pl';
 
     # LogoutURL
     # (If this is anything other than '', it is assumed to be the URL
     # of an alternate logout page which users will be sent to when they
     # logout.)
-    #    $Self->{LogoutURL} = '';
-    #    $Self->{LogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
+#    $Self->{LogoutURL} = '';
+#    $Self->{LogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
 
     # PreApplicationModule
     # (Used for every request, if defined, the PreRun() function of
     # this module will be used. This interface use useful to check
     # some user options or to redirect not accept new application
     # news)
-    #    $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
+#    $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
     # Kernel::Modules::AgentInfo check key, if this user preferences key
     # is true, then the message is already accepted
-    #    $Self->{InfoKey} = 'wpt22';
+#    $Self->{InfoKey} = 'wpt22';
     # shown InfoFile located under Kernel/Output/HTML/Standard/AgentInfo.dtl
-    #    $Self->{InfoFile} = 'AgentInfo';
+#    $Self->{InfoFile} = 'AgentInfo';
 
     # --------------------------------------------------- #
     # Notification Settings
     # --------------------------------------------------- #
     # agent interface notification module to check the used charset
-    $Self->{'Frontend::NotifyModule'}->{'1-CharsetCheck'}
-        = { Module => 'Kernel::Output::HTML::NotificationCharsetCheck', };
+    $Self->{'Frontend::NotifyModule'}->{'1-CharsetCheck'} = {
+        Module => 'Kernel::Output::HTML::NotificationCharsetCheck',
+    };
 
     # agent interface notification module to check the admin user id
     # (don't work with user id 1 notification)
-    $Self->{'Frontend::NotifyModule'}->{'2-UID-Check'}
-        = { Module => 'Kernel::Output::HTML::NotificationUIDCheck', };
+    $Self->{'Frontend::NotifyModule'}->{'2-UID-Check'} = {
+        Module => 'Kernel::Output::HTML::NotificationUIDCheck',
+    };
 
     # show online agents
-    #    $Self->{'Frontend::NotifyModule'}->{'3-ShowAgentOnline'} = {
-    #        Module      => 'Kernel::Output::HTML::NotificationAgentOnline',
-    #        ShowEmail   => 1,
-    #        IdleMinutes => 60,
-    #    };
+#    $Self->{'Frontend::NotifyModule'}->{'3-ShowAgentOnline'} = {
+#        Module      => 'Kernel::Output::HTML::NotificationAgentOnline',
+#        ShowEmail   => 1,
+#        IdleMinutes => 60,
+#    };
     # show online customers
-    #    $Self->{'Frontend::NotifyModule'}->{'4-ShowCustomerOnline'} = {
-    #        Module      => 'Kernel::Output::HTML::NotificationCustomerOnline',
-    #        ShowEmail   => 1,
-    #        IdleMinutes => 60,
-    #    };
+#    $Self->{'Frontend::NotifyModule'}->{'4-ShowCustomerOnline'} = {
+#        Module      => 'Kernel::Output::HTML::NotificationCustomerOnline',
+#        ShowEmail   => 1,
+#        IdleMinutes => 60,
+#    };
 
     # --------------------------------------------------- #
     # Frontend::Output::FilterElementPost
@@ -551,10 +553,10 @@ sub LoadDefaults {
     # Frontend::Output::FilterElementPost
     # (a output filter for application html output, e. g. to filter
     # java script, java applets, ...)
-    #    $Self->{'Frontend::Output::FilterElementPost'}->{'ActiveElementFilter'} = {
-    #        Module => 'Kernel::Output::HTML::OutputFilterActiveElement',
-    #        Debug => 0,
-    #    };
+#    $Self->{'Frontend::Output::FilterElementPost'}->{'ActiveElementFilter'} = {
+#        Module => 'Kernel::Output::HTML::OutputFilterActiveElement',
+#        Debug => 0,
+#    };
 
     # --------------------------------------------------- #
     #                                                     #
@@ -571,8 +573,8 @@ sub LoadDefaults {
     # Frontendserver from the db-server. fs or ipc is faster.)
     $Self->{SessionModule} = 'Kernel::System::AuthSession::DB';
 
-    #    $Self->{SessionModule} = 'Kernel::System::AuthSession::FS';
-    #    $Self->{SessionModule} = 'Kernel::System::AuthSession::IPC';
+#    $Self->{SessionModule} = 'Kernel::System::AuthSession::FS';
+#    $Self->{SessionModule} = 'Kernel::System::AuthSession::IPC';
 
     # SessionName
     # (Name of the session key. E. g. Session, SessionID, OTRS)
@@ -635,7 +637,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # TimeZone
     # (set the system time zone, default is local time)
-    #    $Self->{'TimeZone'} = 0;
+#    $Self->{'TimeZone'} = 0;
 
     # Time*
     # (Used for ticket age, escalation and system unlock calculation)
@@ -669,7 +671,7 @@ sub LoadDefaults {
 
     # TimeVacationDaysOneTime
     # adde new own days with:
-    # "$Self->{'TimeVacationDaysOneTime'}->{1977}-{10}->{27} = 'Some Info';"
+# "$Self->{'TimeVacationDaysOneTime'}->{1977}-{10}->{27} = 'Some Info';"
 
     $Self->{'TimeVacationDaysOneTime'} = {
 
@@ -700,7 +702,7 @@ sub LoadDefaults {
     # (select you WebUploadCacheModule module, default DB [DB|FS])
     $Self->{WebUploadCacheModule} = 'Kernel::System::Web::UploadCache::DB';
 
-    #    $Self->{WebUploadCacheModule} = 'Kernel::System::Web::UploadCache::FS';
+#    $Self->{WebUploadCacheModule} = 'Kernel::System::Web::UploadCache::FS';
 
     # CGILogPrefix
     $Self->{CGILogPrefix} = 'OTRS-CGI';
@@ -730,14 +732,14 @@ sub LoadDefaults {
     # MIME-Viewer for online to html converter
     # --------------------------------------------------- #
     # (e. g. xlhtml (xls2html), http://chicago.sourceforge.net/xlhtml/)
-    #    $Self->{'MIME-Viewer'}->{'application/excel'} = 'xlhtml';
+#    $Self->{'MIME-Viewer'}->{'application/excel'} = 'xlhtml';
     # MIME-Viewer for online to html converter
     # (e. g. wv (word2html), http://wvware.sourceforge.net/)
-    #    $Self->{'MIME-Viewer'}->{'application/msword'} = 'wvWare';
+#    $Self->{'MIME-Viewer'}->{'application/msword'} = 'wvWare';
     # (e. g. pdftohtml (pdf2html), http://pdftohtml.sourceforge.net/)
-    #    $Self->{'MIME-Viewer'}->{'application/pdf'} = 'pdftohtml -stdout -i';
+#    $Self->{'MIME-Viewer'}->{'application/pdf'} = 'pdftohtml -stdout -i';
     # (e. g. xml2html (xml2html))
-    #    $Self->{'MIME-Viewer'}->{'text/xml'} = $Self->{Home}.'/scripts/tools/xml2html.pl';
+#    $Self->{'MIME-Viewer'}->{'text/xml'} = $Self->{Home}.'/scripts/tools/xml2html.pl';
 
     # --------------------------------------------------- #
     # SpellChecker
@@ -780,9 +782,9 @@ sub LoadDefaults {
 
     # Package::RepositoryList
     # (repository list)
-    #    $Self->{'Package::RepositoryList'} = {
-    #        'ftp://ftp.example.com/pub/otrs/misc/packages/' => '[Example] ftp://ftp.example.com/',
-    #    };
+#    $Self->{'Package::RepositoryList'} = {
+#        'ftp://ftp.example.com/pub/otrs/misc/packages/' => '[Example] ftp://ftp.example.com/',
+#    };
 
     # Package::Timeout
     # (http/ftp timeout to get packages)
@@ -790,7 +792,7 @@ sub LoadDefaults {
 
     # Package::Proxy
     # (fetch packages via proxy)
-    #    $Self->{'Package::Proxy'} = 'http://proxy.sn.no:8001/';
+#    $Self->{'Package::Proxy'} = 'http://proxy.sn.no:8001/';
 
     # --------------------------------------------------- #
     # PGP settings (supports gpg)                         #
@@ -799,9 +801,9 @@ sub LoadDefaults {
     $Self->{'PGP::Bin'}     = '/usr/bin/gpg';
     $Self->{'PGP::Options'} = '--homedir /opt/otrs/.gnupg/ --batch --no-tty --yes';
 
-    #    $Self->{'PGP::Options'} = '--batch --no-tty --yes';
-    #    $Self->{'PGP::Key::Password'}->{'D2DF79FA'} = 1234;
-    #    $Self->{'PGP::Key::Password'}->{'488A0B8F'} = 1234;
+#    $Self->{'PGP::Options'} = '--batch --no-tty --yes';
+#    $Self->{'PGP::Key::Password'}->{'D2DF79FA'} = 1234;
+#    $Self->{'PGP::Key::Password'}->{'488A0B8F'} = 1234;
 
     # --------------------------------------------------- #
     # S/MIME settings (supports smime)                    #
@@ -812,8 +814,8 @@ sub LoadDefaults {
     #$ENV{HOME} = '/var/lib/wwwrun';
     $Self->{'SMIME::Bin'} = '/usr/bin/openssl';
 
-    #    $Self->{'SMIME::CertPath'} = '/etc/ssl/certs';
-    #    $Self->{'SMIME::PrivatePath'} = '/etc/ssl/private';
+#    $Self->{'SMIME::CertPath'} = '/etc/ssl/certs';
+#    $Self->{'SMIME::PrivatePath'} = '/etc/ssl/private';
 
     # --------------------------------------------------- #
     # system permissions
@@ -847,7 +849,7 @@ sub LoadDefaults {
         Area            => 'Agent',
         PasswordHistory => 0,
 
-        #        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
+#        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
         PasswordRegExp                    => '',
         PasswordMinSize                   => 0,
         PasswordMin2Lower2UpperCharacters => 0,
@@ -887,17 +889,17 @@ sub LoadDefaults {
         Activ   => 0,
     };
 
-    #    $Self->{PreferencesGroups}->{FreeText} = {
-    #        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-    #        Colum => 'Other Options',
-    #        Label => 'Free Text',
-    #        Desc => 'Example for free text.',
-    #        Block => 'Input',
-    #        Data => '$Env{"UserFreeText"}',
-    #        PrefKey => 'UserFreeText',
-    #        Prio => 7000,
-    #        Activ => 1,
-    #    };
+#    $Self->{PreferencesGroups}->{FreeText} = {
+#        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+#        Colum => 'Other Options',
+#        Label => 'Free Text',
+#        Desc => 'Example for free text.',
+#        Block => 'Input',
+#        Data => '$Env{"UserFreeText"}',
+#        PrefKey => 'UserFreeText',
+#        Prio => 7000,
+#        Activ => 1,
+#    };
 
     $Self->{PreferencesGroups}->{Language} = {
         Module  => 'Kernel::Output::HTML::PreferencesLanguage',
@@ -972,11 +974,11 @@ Your OTRS Notification Master
     $Self->{CustomerGroupAlwaysGroups} = [ 'users', 'info' ];
 
     # show online agents
-    #    $Self->{'CustomerFrontend::NotifyModule'}->{'1-ShowAgentOnline'} = {
-    #        Module      => 'Kernel::Output::HTML::NotificationAgentOnline',
-    #        ShowEmail   => 1,
-    #        IdleMinutes => 60,
-    #    };
+#    $Self->{'CustomerFrontend::NotifyModule'}->{'1-ShowAgentOnline'} = {
+#        Module      => 'Kernel::Output::HTML::NotificationAgentOnline',
+#        ShowEmail   => 1,
+#        IdleMinutes => 60,
+#    };
 
     # --------------------------------------------------- #
     # login and logout settings                           #
@@ -985,26 +987,26 @@ Your OTRS Notification Master
     # (If this is anything other than '', then it is assumed to be the
     # URL of an alternate login screen which will be used in place of
     # the default one.)
-    #    $Self->{CustomerPanelLoginURL} = '';
-    #    $Self->{CustomerPanelLoginURL} = 'http://host.example.com/cgi-bin/login.pl';
+#    $Self->{CustomerPanelLoginURL} = '';
+#    $Self->{CustomerPanelLoginURL} = 'http://host.example.com/cgi-bin/login.pl';
 
     # CustomerPanelLogoutURL
     # (If this is anything other than '', it is assumed to be the URL
     # of an alternate logout page which users will be sent to when they
     # logout.)
-    #    $Self->{CustomerPanelLogoutURL} = '';
-    #    $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
+#    $Self->{CustomerPanelLogoutURL} = '';
+#    $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
 
-# CustomerPanelPreApplicationModule
-# (Used for every request, if defined, the PreRun() function of
-# this module will be used. This interface use useful to check
-# some user options or to redirect not accept new application
-# news)
+    # CustomerPanelPreApplicationModule
+    # (Used for every request, if defined, the PreRun() function of
+    # this module will be used. This interface use useful to check
+    # some user options or to redirect not accept new application
+    # news)
 #    $Self->{CustomerPanelPreApplicationModule}->{CustomerAccept} = 'Kernel::Modules::CustomerAccept';
-# Kernel::Modules::CustomerAccept check key, if this user preferences key
-# is true, then the message is already accepted
+    # Kernel::Modules::CustomerAccept check key, if this user preferences key
+    # is true, then the message is already accepted
 #    $Self->{'CustomerPanel::InfoKey'} = 'CustomerAccept1';
-# shown InfoFile located under Kernel/Output/HTML/Standard/CustomerAccept.dtl
+    # shown InfoFile located under Kernel/Output/HTML/Standard/CustomerAccept.dtl
 #    $Self->{'CustomerPanel::InfoFile'} = 'CustomerAccept';
 
     # CustomerPanelLostPassword
@@ -1072,62 +1074,63 @@ Your OTRS Notification Master
 
     # This is an example configuration for an LDAP auth. backend.
     # (take care that Net::LDAP is installed!)
-    #    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::LDAP';
-    #    $Self->{'Customer::AuthModule::LDAP::Host'} = 'ldap.example.com';
-    #    $Self->{'Customer::AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
-    #    $Self->{'Customer::AuthModule::LDAP::UID'} = 'uid';
+#    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::LDAP';
+#    $Self->{'Customer::AuthModule::LDAP::Host'} = 'ldap.example.com';
+#    $Self->{'Customer::AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
+#    $Self->{'Customer::AuthModule::LDAP::UID'} = 'uid';
 
-# Check if the user is allowed to auth in a posixGroup
-# (e. g. user needs to be in a group xyz to use otrs)
+    # Check if the user is allowed to auth in a posixGroup
+    # (e. g. user needs to be in a group xyz to use otrs)
 #    $Self->{'Customer::AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com';
 #    $Self->{'Customer::AuthModule::LDAP::AccessAttr'} = 'memberUid';
-# for ldap posixGroups objectclass (just uid)
+    # for ldap posixGroups objectclass (just uid)
 #    $Self->{'Customer::AuthModule::LDAP::UserAttr'} = 'UID';
-# for non ldap posixGroups objectclass (full user dn)
+    # for non ldap posixGroups objectclass (full user dn)
 #    $Self->{'Customer::AuthModule::LDAP::UserAttr'} = 'DN';
 
     # The following is valid but would only be necessary if the
     # anonymous user do NOT have permission to read from the LDAP tree
-    #    $Self->{'Customer::AuthModule::LDAP::SearchUserDN'} = '';
-    #    $Self->{'Customer::AuthModule::LDAP::SearchUserPw'} = '';
+#    $Self->{'Customer::AuthModule::LDAP::SearchUserDN'} = '';
+#    $Self->{'Customer::AuthModule::LDAP::SearchUserPw'} = '';
 
     # in case you want to add always one filter to each ldap query, use
     # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
-    #   $Self->{'Customer::AuthModule::LDAP::AlwaysFilter'} = '';
+#   $Self->{'Customer::AuthModule::LDAP::AlwaysFilter'} = '';
 
     # in case you want to add a suffix to each customer login name, then
     # you can use this option. e. g. user just want to use user but
     # in your ldap directory exists user@domain.
-    #    $Self->{'Customer::AuthModule::LDAP::UserSuffix'} = '@domain.com';
+#    $Self->{'Customer::AuthModule::LDAP::UserSuffix'} = '@domain.com';
 
     # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
-    #    $Self->{'Customer::AuthModule::LDAP::Params'} = {
-    #        port => 389,
-    #        timeout => 120,
-    #        async => 0,
-    #        version => 3,
-    #    };
+#    $Self->{'Customer::AuthModule::LDAP::Params'} = {
+#        port => 389,
+#        timeout => 120,
+#        async => 0,
+#        version => 3,
+#    };
 
     # Die if backend can't work, e. g. can't connect to server.
-    #    $Self->{'Customer::AuthModule::LDAP::Die'} = 1;
+#    $Self->{'Customer::AuthModule::LDAP::Die'} = 1;
 
     # This is an example configuration for an apache ($ENV{REMOTE_USER})
     # auth. backend. Use it if you want to have a singe login through
     # apache http-basic-auth
-    #   $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::HTTPBasicAuth';
+#   $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::HTTPBasicAuth';
+
     # In case there is a leading domain in the REMOTE_USER, you can
     # replace it by the next config option.
-    #   $Self->{'Customer::AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
+#   $Self->{'Customer::AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
     # Note:
     # If you use this module, you should use as fallback the following
     # config settings if user isn't login through apache ($ENV{REMOTE_USER})
-    #    $Self->{CustomerPanelLoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
-    #    $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
+#    $Self->{CustomerPanelLoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
+#    $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
 
     # This is example configuration to auth. agents against a radius server
-    #    $Self->{'Customer::AuthModule'} = 'Kernel::System::Auth::Radius';
-    #    $Self->{'Customer::AuthModule::Radius::Host'} = 'radiushost';
-    #    $Self->{'Customer::AuthModule::Radius::Password'} = 'radiussecret';
+#    $Self->{'Customer::AuthModule'} = 'Kernel::System::Auth::Radius';
+#    $Self->{'Customer::AuthModule::Radius::Host'} = 'radiushost';
+#    $Self->{'Customer::AuthModule::Radius::Password'} = 'radiussecret';
 
     # --------------------------------------------------- #
     #                                                     #
@@ -1142,13 +1145,12 @@ Your OTRS Notification Master
         Name   => 'Database Backend',
         Module => 'Kernel::System::CustomerUser::DB',
         Params => {
-
             # if you want to use an external database, add the
             # required settings
-            #            DSN => 'DBI:odbc:yourdsn',
-            #            DSN => 'DBI:mysql:database=customerdb;host=customerdbhost',
-            #            User => '',
-            #            Password => '',
+#            DSN => 'DBI:odbc:yourdsn',
+#            DSN => 'DBI:mysql:database=customerdb;host=customerdbhost',
+#            User => '',
+#            Password => '',
             Table => 'customer_user',
         },
 
@@ -1160,7 +1162,7 @@ Your OTRS Notification Master
         CustomerValid          => 'valid_id',
         CustomerUserListFields => [ 'first_name', 'last_name', 'email' ],
 
-    #        CustomerUserListFields => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
+#        CustomerUserListFields => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
         CustomerUserSearchFields           => [ 'login', 'first_name', 'last_name', 'customer_id' ],
         CustomerUserSearchPrefix           => '',
         CustomerUserSearchSuffix           => '*',
@@ -1169,24 +1171,24 @@ Your OTRS Notification Master
         CustomerUserNameFields     => [ 'salutation', 'first_name', 'last_name' ],
         CustomerUserEmailUniqCheck => 1,
 
-        #        # show now own tickets in customer panel, CompanyTickets
-        #        CustomerUserExcludePrimaryCustomerID => 0,
-        #        # generate auto logins
-        #        AutoLoginCreation => 0,
-        #        # generate auto login prefix
-        #        AutoLoginCreationPrefix => 'auto',
-        #        # admin can change customer preferences
-        #        AdminSetPreferences => 1,
-        #        # use customer company support (reference to company, See CustomerCompany settings)
-        #        CustomerCompanySupport => 1,
-        #        # cache time to life in sec. - cache any database queris
-        #        CacheTTL => 0,
-        #        # just a read only source
-        #        ReadOnly => 1,
+#        # show now own tickets in customer panel, CompanyTickets
+#        CustomerUserExcludePrimaryCustomerID => 0,
+#        # generate auto logins
+#        AutoLoginCreation => 0,
+#        # generate auto login prefix
+#        AutoLoginCreationPrefix => 'auto',
+#        # admin can change customer preferences
+#        AdminSetPreferences => 1,
+#        # use customer company support (reference to company, See CustomerCompany settings)
+#        CustomerCompanySupport => 1,
+#        # cache time to life in sec. - cache any database queris
+#        CacheTTL => 0,
+#        # just a read only source
+#        ReadOnly => 1,
         Map => [
 
-      # note: Login, Email and CustomerID needed!
-      # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
+            # note: Login, Email and CustomerID needed!
+            # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
             [ 'UserSalutation', 'Salutation', 'salutation', 1, 0, 'var', '', 0 ],
             [ 'UserFirstname',  'Firstname',  'first_name', 1, 1, 'var', '', 0 ],
             [ 'UserLastname',   'Lastname',   'last_name',  1, 1, 'var', '', 0 ],
@@ -1197,7 +1199,7 @@ Your OTRS Notification Master
 #            [ 'UserEmail',      'Email', 'email',           1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentTicketCompose&ResponseID=1&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}', 0 ],
             [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
 
-            #            [ 'UserCustomerIDs', 'CustomerIDs', 'customer_ids', 1, 0, 'var', '', 0 ],
+#            [ 'UserCustomerIDs', 'CustomerIDs', 'customer_ids', 1, 0, 'var', '', 0 ],
             [ 'UserComment', 'Comment', 'comments', 1, 0, 'var', '', 0 ],
             [ 'ValidID',     'Valid',   'valid_id', 0, 1, 'int', '', 0 ],
         ],
@@ -1205,10 +1207,10 @@ Your OTRS Notification Master
         # default selections
         Selections => {
 
-            #            UserSalutation => {
-            #                'Mr.' => 'Mr.',
-            #                'Mrs.' => 'Mrs.',
-            #            },
+#            UserSalutation => {
+#                'Mr.' => 'Mr.',
+#                'Mrs.' => 'Mrs.',
+#            },
         },
     };
 
@@ -1282,13 +1284,12 @@ Your OTRS Notification Master
 
     $Self->{CustomerCompany} = {
         Params => {
-
             # if you want to use an external database, add the
             # required settings
-            #            DSN => 'DBI:odbc:yourdsn',
-            #            DSN => 'DBI:mysql:database=customerdb;host=customerdbhost',
-            #            User => '',
-            #            Password => '',
+#            DSN => 'DBI:odbc:yourdsn',
+#            DSN => 'DBI:mysql:database=customerdb;host=customerdbhost',
+#            User => '',
+#            Password => '',
             Table => 'customer_company',
         },
 
@@ -1302,7 +1303,7 @@ Your OTRS Notification Master
         CustomerCompanySearchListLimit => 250,
         Map                       => [
 
-      # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
+# var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
             [ 'CustomerID',             'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
             [ 'CustomerCompanyName',    'Company',       'name',        1, 1, 'var', '', 0 ],
             [ 'CustomerCompanyStreet',  'Street',     'street',      1, 0, 'var', '', 0 ],
@@ -1597,7 +1598,7 @@ Your OTRS Notification Master
         Area            => 'Customer',
         PasswordHistory => 0,
 
-        #        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
+#        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
         PasswordRegExp                    => '',
         PasswordMinSize                   => 0,
         PasswordMin2Lower2UpperCharacters => 0,
@@ -1657,12 +1658,12 @@ Your OTRS Notification Master
     $Self->{'Frontend::CommonObject'} = {
 
         # key => module
-        # SomeObject => 'Kernel::System::Some',
+#        SomeObject => 'Kernel::System::Some',
     };
     $Self->{'Frontend::CommonParam'} = {
 
         # param => default value
-        #        SomeParam => 'DefaultValue',
+#        SomeParam => 'DefaultValue',
         Action => 'AdminInit',
     };
 
@@ -1672,12 +1673,12 @@ Your OTRS Notification Master
     $Self->{'CustomerFrontend::CommonObject'} = {
 
         # key => module
-        #        SomeObject => 'Kernel::System::Some',
+#        SomeObject => 'Kernel::System::Some',
     };
     $Self->{'CustomerFrontend::CommonParam'} = {
 
         # param => default value
-        #        SomeParam => 'DefaultValue',
+#        SomeParam => 'DefaultValue',
     };
 
     # --------------------------------------------------- #
@@ -1686,12 +1687,12 @@ Your OTRS Notification Master
     $Self->{'PublicFrontend::CommonObject'} = {
 
         # key => module
-        #        SomeObject => 'Kernel::System::Some',
+#        SomeObject => 'Kernel::System::Some',
     };
     $Self->{'PublicFrontend::CommonParam'} = {
 
         # param => default value
-        #        SomeParam => 'DefaultValue',
+#        SomeParam => 'DefaultValue',
     };
 
     # --------------------------------------------------- #
@@ -2314,6 +2315,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.287 $ $Date: 2008-03-13 21:19:16 $
+$Revision: 1.288 $ $Date: 2008-03-21 20:21:32 $
 
 =cut
