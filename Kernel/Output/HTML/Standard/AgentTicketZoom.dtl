@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.35 2008-03-17 11:44:14 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.36 2008-03-21 00:50:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -60,7 +60,7 @@
               <tr class="$QData{"SenderType"}-$QData{"ArticleType"}">
                 <td class="small">
                   <div title="$QData{"From","70"}: $QData{"Subject","200"} - $TimeShort{"$QData{"Created"}"}">
-                  $Data{"Space"}$Data{"Start"}$Data{"Start2"}&nbsp;$QData{"Count"}.&nbsp;$Data{"Stop2"}&nbsp;<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=$LQData{"ZoomExpand"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"}&nbsp;($Text{"$QData{"ArticleType"}"})</a>$Data{"Stop"}
+                  $Data{"Start2"}$Data{"Space"}$Data{"Stop2"}$Data{"Start"}$Data{"Start2"}&nbsp;$QData{"Count"}.&nbsp;$Data{"Stop2"}&nbsp;<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=$LQData{"ZoomExpand"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"}&nbsp;($Text{"$QData{"ArticleType"}"})</a>$Data{"Stop"}
 <!-- dtl:block:TreeItemEmail -->
                   (<a href="$Env{"Baselink"}Action=AgentTicketPlain&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}" onmouseover="window.status='$JSText{"plain"}'; return true;" onmouseout="window.status='';" title="$Text{"plain"}">$Text{"plain"}</a>)
 <!-- dtl:block:TreeItemEmail -->
