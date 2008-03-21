@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.275.2.13 2008-03-21 00:42:08 martin Exp $
+# $Id: Ticket.pm,v 1.275.2.14 2008-03-21 00:53:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.275.2.13 $';
+$VERSION = '$Revision: 1.275.2.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -521,7 +521,6 @@ sub TicketDelete {
     my $LinkObject = Kernel::System::LinkObject->new(
         %Param,
         %{$Self},
-        TicketObject => $Self,
     );
     $LinkObject->LoadBackend( Module => 'Ticket' );
 
@@ -5655,7 +5654,7 @@ sub TicketMerge {
             CreateUserID => $Param{UserID},
         );
         # link tickets
-        my $LinkObject = Kernel::System::LinkObject->new(%Param, %{$Self}, TicketObject => $Self);
+        my $LinkObject = Kernel::System::LinkObject->new(%Param, %{$Self});
         $LinkObject->LoadBackend(Module => 'Ticket');
         $LinkObject->LinkObject(
             LinkType => 'Parent',
@@ -6240,6 +6239,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.275.2.13 $ $Date: 2008-03-21 00:42:08 $
+$Revision: 1.275.2.14 $ $Date: 2008-03-21 00:53:17 $
 
 =cut
