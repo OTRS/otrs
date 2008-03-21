@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.302 2008-03-21 00:42:46 martin Exp $
+# $Id: Ticket.pm,v 1.303 2008-03-21 13:48:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.302 $) [1];
+$VERSION = qw($Revision: 1.303 $) [1];
 
 =head1 NAME
 
@@ -1373,7 +1373,7 @@ sub MoveTicket {
     );
 
     # send move notify to queue subscriber
-    if ( !$Param{SendNoNotification} & $Ticket{StateType} ne 'closed' ) {
+    if ( !$Param{SendNoNotification} && $Ticket{StateType} ne 'closed' ) {
         my %Used = ();
         my @UserIDs = $Self->GetSubscribedUserIDsByQueueID( QueueID => $Param{QueueID} );
         if ( $Param{ForceNotificationToUserID} ) {
@@ -6576,6 +6576,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.302 $ $Date: 2008-03-21 00:42:46 $
+$Revision: 1.303 $ $Date: 2008-03-21 13:48:35 $
 
 =cut
