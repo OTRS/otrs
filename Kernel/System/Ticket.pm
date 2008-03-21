@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.301 2008-03-20 22:53:03 martin Exp $
+# $Id: Ticket.pm,v 1.302 2008-03-21 00:42:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.301 $) [1];
+$VERSION = qw($Revision: 1.302 $) [1];
 
 =head1 NAME
 
@@ -530,31 +530,11 @@ sub TicketDelete {
     # clear ticket cache
     $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
 
-    # update ticket index
-    return if ! $Self->TicketAcceleratorDelete(%Param);
-
-    # delete ticket_history
-    return if ! $Self->{DBObject}->Do(
-        SQL  => "DELETE FROM ticket_history WHERE ticket_id = ?",
-        Bind => [ \$Param{TicketID} ],
-    );
-
-    # delete article
-    return if ! $Self->ArticleDelete(%Param);
-
-    # delete ticket
-    return if ! $Self->{DBObject}->Do(
-        SQL  => "DELETE FROM ticket WHERE id = ?",
-        Bind => [ \$Param{TicketID} ],
-    );
-
     # delete ticket links
     my $LinkObject = Kernel::System::LinkObject->new(
         %Param,
         %{$Self},
-        TicketObject => $Self,
     );
-    $LinkObject->LoadBackend( Module => 'Ticket' );
 
     # get linked objects and ids, then delete links
     my %Links = $LinkObject->AllLinkedObjects(
@@ -581,6 +561,24 @@ sub TicketDelete {
             }
         }
     }
+
+    # update ticket index
+    return if ! $Self->TicketAcceleratorDelete(%Param);
+
+    # delete ticket_history
+    return if ! $Self->{DBObject}->Do(
+        SQL  => "DELETE FROM ticket_history WHERE ticket_id = ?",
+        Bind => [ \$Param{TicketID} ],
+    );
+
+    # delete article
+    return if ! $Self->ArticleDelete(%Param);
+
+    # delete ticket
+    return if ! $Self->{DBObject}->Do(
+        SQL  => "DELETE FROM ticket WHERE id = ?",
+        Bind => [ \$Param{TicketID} ],
+    );
 
     # ticket event
     $Self->TicketEventHandlerPost(
@@ -5985,9 +5983,7 @@ sub TicketMerge {
     my $LinkObject = Kernel::System::LinkObject->new(
         %Param,
         %{$Self},
-        TicketObject => $Self,
     );
-    $LinkObject->LoadBackend( Module => 'Ticket' );
     $LinkObject->LinkObject(
         LinkType    => 'Parent',
         LinkID1     => $Param{MainTicketID},
@@ -6580,6 +6576,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.301 $ $Date: 2008-03-20 22:53:03 $
+$Revision: 1.302 $ $Date: 2008-03-21 00:42:46 $
 
 =cut
