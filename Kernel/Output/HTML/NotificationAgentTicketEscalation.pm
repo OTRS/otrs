@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.8.2.1 2007-11-06 10:04:50 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.8.2.2 2008-03-21 00:44:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Output::HTML::NotificationAgentTicketEscalation;
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8.2.1 $';
+$VERSION = '$Revision: 1.8.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -45,6 +45,16 @@ sub Run {
     my %Param = @_;
     if ($Self->{LayoutObject}->{Action} !~ /^AgentTicket(Queue|Mailbox|Status)/) {
         return '';
+    }
+    # check result cache
+    my $CacheTime = $Param{Config}->{CacheTime} || 180;
+    if ( $CacheTime ) {
+        my $Output = $Self->{CacheObject}->Get(
+            Key  => "TicketEscalation::EscalationResult::$Self->{UserID}",
+        );
+        if ( $Output ) {
+            return $Output;
+        }
     }
     # get all open rw ticket
     my @TicketIDs = ();
@@ -233,7 +243,18 @@ sub Run {
             Info => "There are more escalated tickets!",
         );
     }
-    return $ResponseTime.$UpdateTime.$SolutionTime.$Comment;
+    my $Output = $ResponseTime . $UpdateTime . $SolutionTime . $Comment;
+
+    # cache result
+    if ( $CacheTime ) {
+        $Self->{CacheObject}->Set(
+            Key  => "TicketEscalation::EscalationResult::$Self->{UserID}",
+            Value => $Output,
+            TTL   => $CacheTime,
+        );
+    }
+
+    return $Output;
 }
 
 1;
