@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.17 2008-03-20 22:53:03 martin Exp $
+# $Id: LinkObject.pm,v 1.18 2008-03-21 00:40:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -38,6 +38,8 @@ create a object
 
     use Kernel::Config;
     use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::System::Time;
     use Kernel::System::DB;
     use Kernel::System::LinkObject;
 
@@ -45,14 +47,25 @@ create a object
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
+        MainObject => $MainObject,
     );
     my $LinkObject = Kernel::System::LinkObject->new(
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
         DBObject => $DBObject,
+        TimeObject => $TimeObject,
+        MainObject => $MainObject,
     );
 
 =cut
@@ -67,6 +80,16 @@ sub new {
     # check needed objects
     for (qw(DBObject ConfigObject LogObject MainObject TimeObject UserID)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
+
+    # load backends
+    my %Objects = %{ $Self->{ConfigObject}->Get('LinkObject') };
+    for my $Backend ( sort keys %Objects ) {
+        my $GenericModule = "Kernel::System::LinkObject::$Backend";
+        if ( !$Self->{MainObject}->Require($GenericModule) ) {
+            die "Can't load link backend module $GenericModule! $@";
+        }
+        $Self->{Backend}->{$Backend} = $GenericModule->new(%Param);
     }
 
     return $Self;
@@ -127,36 +150,25 @@ sub LinkObjects {
     return %ObjectList;
 }
 
-=item LoadBackend()
-
-to load a link object backend module, returns true (if module
-is loaded) and returns false (if module load is failed)
-
-    $LinkObject->LoadBackend(Module => $Object);
-
-    $LinkObject->LoadBackend(Module => 'Ticket');
-    $LinkObject->LoadBackend(Module => 'FAQ');
-
-=cut
-
+# just for compat.
 sub LoadBackend {
     my ( $Self, %Param ) = @_;
-
-    if ( !$Param{Module} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Module!" );
-        return;
-    }
-
-    # lib object
-    my $GenericModule = "Kernel::System::LinkObject::$Param{Module}";
-    if ( !$Self->{MainObject}->Require($GenericModule) ) {
-        die "Can't load link backend module $GenericModule! $@";
-    }
-
-    @ISA = ($GenericModule);
-    $Self->Init( %{$Self}, %Param );
     return 1;
 }
+
+=item LinkObject()
+
+link objects
+
+    $LinkObject->LinkObject(
+        LinkType    => 'Normal', # Normal|Parent|Child
+        LinkID1     => 1,
+        LinkObject1 => 'Ticket',
+        LinkID2     => 2,
+        LinkObject2 => 'Ticket',
+    );
+
+=cut
 
 sub LinkObject {
     my ( $Self, %Param ) = @_;
@@ -168,22 +180,35 @@ sub LinkObject {
         }
     }
 
-    my $SQL
-        = "INSERT INTO object_link "
-        . " (object_link_a_id, object_link_b_id, object_link_a_object, object_link_b_object, object_link_type) "
-        . " VALUES "
-        . " ('$Param{LinkID1}', '$Param{LinkID2}', "
-        . " '$Param{LinkObject1}', '$Param{LinkObject2}', "
-        . " '$Param{LinkType}')";
+    return if ! $Self->{DBObject}->Do(
+        SQL  => "INSERT INTO object_link"
+            . " (object_link_a_id, object_link_b_id, object_link_a_object, object_link_b_object, object_link_type)"
+            . " VALUES (?, ?, ?, ?, ?)",
+        Bind => [
+            \$Param{LinkID1}, \$Param{LinkID2}, \$Param{LinkObject1}, \$Param{LinkObject2},
+            \$Param{LinkType}
+        ],
+    );
 
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        $Self->BackendLinkObject(%Param);
-        return 1;
-    }
-    else {
-        return;
-    }
+    return if ! $Self->{Backend}->{$Param{LinkObject1}}->BackendLinkObject(%Param);
+    return if ! $Self->{Backend}->{$Param{LinkObject2}}->BackendLinkObject(%Param);
+
+    return 1;
 }
+
+=item UnlinkObject()
+
+unlink objects
+
+    $LinkObject->UnlinkObject(
+        LinkType    => 'Normal', # Normal|Parent|Child
+        LinkID1     => 1,
+        LinkObject1 => 'Ticket',
+        LinkID2     => 2,
+        LinkObject2 => 'Ticket',
+    );
+
+=cut
 
 sub UnlinkObject {
     my ( $Self, %Param ) = @_;
@@ -200,29 +225,40 @@ sub UnlinkObject {
         $SQLExt = "object_link_type IN ('Parent', 'Child')";
     }
     else {
+        $Param{LinkType} = $Self->{DBObject}->Quote( $Param{LinkType} );
         $SQLExt = "object_link_type = '$Param{LinkType}'";
     }
 
-    my $SQL = "DELETE FROM object_link WHERE "
-        . " (object_link_a_id = '$Param{LinkID1}' AND "
-        . " object_link_b_id = '$Param{LinkID2}' AND "
-        . " object_link_a_object = '$Param{LinkObject1}' AND "
-        . " object_link_b_object = '$Param{LinkObject2}' AND "
-        . " $SQLExt ) OR "
-        . " (object_link_a_id = '$Param{LinkID2}' AND "
-        . " object_link_b_id = '$Param{LinkID1}' AND "
-        . " object_link_a_object = '$Param{LinkObject2}' AND "
-        . " object_link_b_object = '$Param{LinkObject1}' AND "
-        . " $SQLExt)";
+    return if ! $Self->{DBObject}->Do(
+        SQL  => "DELETE FROM object_link WHERE"
+            . " (object_link_a_id = ? AND object_link_b_id = ? AND"
+            . " object_link_a_object = ? AND object_link_b_object = ? AND"
+            . " $SQLExt ) OR"
+            . " (object_link_a_id = ? AND object_link_b_id = ? AND"
+            . " object_link_a_object = ? AND object_link_b_object = ? AND"
+            . " $SQLExt)",
+        Bind => [
+            \$Param{LinkID1}, \$Param{LinkID2}, \$Param{LinkObject1}, \$Param{LinkObject2},
+            \$Param{LinkID2}, \$Param{LinkID1}, \$Param{LinkObject2}, \$Param{LinkObject1},
+        ],
+    );
 
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        $Self->BackendUnlinkObject(%Param);
-        return 1;
-    }
-    else {
-        return;
-    }
+    return if ! $Self->{Backend}->{$Param{LinkObject1}}->BackendUnlinkObject(%Param);
+    return if ! $Self->{Backend}->{$Param{LinkObject2}}->BackendUnlinkObject(%Param);
+
+    return 1;
 }
+
+=item RemoveLinkObject()
+
+remove all links from an objects
+
+    $LinkObject->RemoveLinkObject(
+        ID1    => 1,
+        Object => 'Ticket',
+    );
+
+=cut
 
 sub RemoveLinkObject {
     my ( $Self, %Param ) = @_;
@@ -233,20 +269,46 @@ sub RemoveLinkObject {
             return;
         }
     }
-    my $SQL
-        = "DELETE FROM object_link WHERE "
-        . " (object_link_a_id = '$Param{ID}' " . " AND "
-        . " object_link_a_object = '$Param{Object}') " . " OR "
-        . " (object_link_b_id = '$Param{ID}' " . " AND "
-        . " object_link_b_object = '$Param{Object}')";
 
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        return 1;
-    }
-    else {
-        return;
-    }
+    return $Self->{DBObject}->Do(
+        SQL => "DELETE FROM object_link WHERE"
+            . " (object_link_a_id = ? AND object_link_a_object = ?) OR"
+            . " (object_link_b_id = ? AND object_link_b_object = ?)",
+        Bind => [
+            \$Param{ID}, \$Param{Object}, \$Param{ID}, \$Param{Object},
+        ],
+    );
 }
+
+=item LinkedObjects()
+
+get a hash of all linked object ids
+
+    my %Objects = $LinkObject->LinkedObjects(
+        LinkType    => 'Normal',
+        LinkID1     => 1,
+        LinkObject1 => 'Ticket'
+        LinkObject2 => 'Ticket',
+    );
+
+    2 => {
+        Text         => 'T: 2008032100001',
+        Number       => '2008032100001',
+        Title        => 'Some Title',
+        ID           => 2,
+        Object       => 'Ticket',
+        FrontendDest => "Action=AgentTicketZoom&TicketID=",
+    },
+    3 => {
+        Text         => 'T: 3008033100001',
+        Number       => '3008033100001',
+        Title        => 'Some Title',
+        ID           => 3,
+        Object       => 'Ticket',
+        FrontendDest => "Action=AgentTicketZoom&TicketID=",
+    },
+
+=cut
 
 sub LinkedObjects {
     my ( $Self, %Param ) = @_;
@@ -295,71 +357,63 @@ sub LinkedObjects {
         return;
     }
 
+    my @BindA = ();
+    my @BindB = ();
     if ( $Param{LinkType} eq 'Parent' ) {
-        $SQLA
-            = "SELECT object_link_a_id FROM object_link "
-            . " WHERE "
-            . " object_link_b_id = '$Param{LinkID2}' " . " AND "
-            . " object_link_b_object = '$Param{LinkObject2}' " . " AND "
-            . " object_link_a_object = '$Param{LinkObject1}'" . " AND "
-            . " object_link_type = '$Param{LinkType}'";
-        $SQLB
-            = "SELECT object_link_a_id FROM object_link "
-            . " WHERE "
-            . " object_link_b_id = '$Param{LinkID2}' " . " AND "
-            . " object_link_b_object = '$Param{LinkObject2}' " . " AND "
-            . " object_link_a_object = '$Param{LinkObject1}'" . " AND "
-            . " object_link_type = 'Child'";
+        $SQLA = "SELECT object_link_a_id FROM object_link WHERE "
+            . " object_link_b_id = ? AND object_link_b_object = ? AND "
+            . " object_link_a_object = ? AND object_link_type = ?";
+        push @BindA, \$Param{LinkID2}, \$Param{LinkObject2}, \$Param{LinkObject1}, \$Param{LinkType};
+        $SQLB = "SELECT object_link_a_id FROM object_link WHERE"
+            . " object_link_b_id = ? AND object_link_b_object = ? AND "
+            . " object_link_a_object = ? AND object_link_type = 'Child'";
+        push @BindB, \$Param{LinkID2}, \$Param{LinkObject2}, \$Param{LinkObject1};
     }
     elsif ( $Param{LinkType} eq 'Child' ) {
-        $SQLA
-            = "SELECT object_link_b_id FROM object_link "
-            . " WHERE "
-            . " object_link_a_id = '$Param{LinkID1}' " . " AND "
-            . " object_link_a_object = '$Param{LinkObject1}' " . " AND "
-            . " object_link_b_object = '$Param{LinkObject2}' " . " AND "
-            . " object_link_type = 'Parent'";
-        $SQLB
-            = "SELECT object_link_b_id FROM object_link "
-            . " WHERE "
-            . " object_link_a_id = '$Param{LinkID1}' " . " AND "
-            . " object_link_a_object = '$Param{LinkObject1}' " . " AND "
-            . " object_link_b_object = '$Param{LinkObject2}' " . " AND "
-            . " object_link_type = '$Param{LinkType}'";
+        $SQLA = "SELECT object_link_b_id FROM object_link WHERE "
+            . " object_link_a_id = ? AND object_link_a_object = ? AND "
+            . " object_link_b_object = ? AND object_link_type = 'Parent'";
+        push @BindA, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2};
+        $SQLB = "SELECT object_link_b_id FROM object_link WHERE "
+            . " object_link_a_id = ? AND object_link_a_object = ? AND "
+            . " object_link_b_object = ? AND object_link_type = ?";
+        push @BindB, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2}, \$Param{LinkType};
     }
     elsif ( $Param{LinkType} eq 'Normal' ) {
-        $SQLA
-            = "SELECT object_link_a_id "
-            . " FROM "
-            . " object_link "
-            . " WHERE "
-            . " object_link_b_id = '$Param{LinkID1}' " . " AND "
-            . " object_link_b_object = '$Param{LinkObject1}' " . " AND "
-            . " object_link_a_object = '$Param{LinkObject2}' " . " AND "
-            . " object_link_type = '$Param{LinkType}'";
-        $SQLB
-            = " SELECT object_link_b_id "
-            . " FROM "
-            . " object_link "
-            . " WHERE "
-            . " object_link_a_id = '$Param{LinkID1}' " . " AND "
-            . " object_link_a_object = '$Param{LinkObject1}' " . " AND "
-            . " object_link_b_object = '$Param{LinkObject2}' " . " AND "
-            . " object_link_type = '$Param{LinkType}'";
+        $SQLA = "SELECT object_link_a_id FROM object_link WHERE "
+            . " object_link_b_id = ? AND object_link_b_object = ? AND "
+            . " object_link_a_object = ? AND object_link_type = ?";
+        push @BindA, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2}, \$Param{LinkType};
+        $SQLB = " SELECT object_link_b_id FROM object_link WHERE "
+            . " object_link_a_id = ? AND object_link_a_object = ? AND "
+            . " object_link_b_object = ? AND object_link_type = ?";
+        push @BindB, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2}, \$Param{LinkType};
     }
 
-    $Self->{DBObject}->Prepare( SQL => $SQLA );
+    $Self->{DBObject}->Prepare( SQL => $SQLA, Bind => \@BindA );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push( @LinkedIDs, $Row[0] );
     }
-    $Self->{DBObject}->Prepare( SQL => $SQLB );
+    $Self->{DBObject}->Prepare( SQL => $SQLB, Bind => \@BindB );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push( @LinkedIDs, $Row[0] );
     }
 
     # fill up data
     for (@LinkedIDs) {
-        my %Hash = $Self->FillDataMap( ID => $_, UserID => $Self->{UserID} );
+        my %Hash = ();
+        if ( $Param{LinkID1} ) {
+            %Hash = $Self->{Backend}->{$Param{LinkObject2}}->FillDataMap(
+                ID => $_,
+                UserID => $Self->{UserID},
+            );
+        }
+        else {
+            %Hash = $Self->{Backend}->{$Param{LinkObject2}}->FillDataMap(
+                ID => $_,
+                UserID => $Self->{UserID},
+            );
+        }
 
         # delete links if object exists not anymore
         if ( !%Hash ) {
@@ -389,6 +443,53 @@ sub LinkedObjects {
     return %Linked;
 }
 
+=item AllLinkedObjects()
+
+get a hash of all linked object ids
+
+    my %Objects = $LinkObject->AllLinkedObjects(
+        ObjectID => 1,
+        Object   => 'Ticket'
+    );
+
+    Normal => {
+        Ticket => {
+            2 => {
+                Text         => 'T: 2008032100001',
+                Number       => '2008032100001',
+                Title        => 'Some Title',
+                ID           => 2,
+                Object       => 'Ticket',
+                FrontendDest => "Action=AgentTicketZoom&TicketID=",
+            },
+            3 => {
+                Text         => 'T: 3008033100001',
+                Number       => '3008033100001',
+                Title        => 'Some Title',
+                ID           => 3,
+                Object       => 'Ticket',
+                FrontendDest => "Action=AgentTicketZoom&TicketID=",
+            },
+        }
+    },
+    Child => {
+        Ticket => {
+            4 => {
+                Text         => 'T: 2008032100004',
+                Number       => '2008032100004',
+                Title        => 'Some Title',
+                ID           => 4,
+                Object       => 'Ticket',
+                FrontendDest => "Action=AgentTicketZoom&TicketID=",
+            },
+        }
+    },
+    Parent => {
+        # ...
+    }
+
+=cut
+
 sub AllLinkedObjects {
     my ( $Self, %Param ) = @_;
 
@@ -403,8 +504,6 @@ sub AllLinkedObjects {
     # get objects
     my %Objects = %{ $Self->{ConfigObject}->Get('LinkObject') };
     for my $Object ( keys %Objects ) {
-        $Param{Module} = $Object;
-        $Self->LoadBackend(%Param);
         my %CLinked = $Self->LinkedObjects(
             LinkType    => 'Child',
             LinkObject1 => $Param{Object},
@@ -446,6 +545,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2008-03-20 22:53:03 $
+$Revision: 1.18 $ $Date: 2008-03-21 00:40:11 $
 
 =cut
