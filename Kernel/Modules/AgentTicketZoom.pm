@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.46 2008-03-17 11:44:14 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.47 2008-03-21 20:20:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -915,21 +915,18 @@ sub MaskAgentZoom {
                     my $Access = 1;
                     my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketCompose");
                     if ( $Config->{Permission} ) {
-                        if (!$Self->{TicketObject}->Permission(
-                                Type     => $Config->{Permission},
-                                TicketID => $Param{TicketID},
-                                UserID   => $Self->{UserID},
-                                LogNo    => 1,
-                            )
-                            )
-                        {
+                        my $Ok = $Self->{TicketObject}->Permission(
+                            Type     => $Config->{Permission},
+                            TicketID => $Param{TicketID},
+                            UserID   => $Self->{UserID},
+                            LogNo    => 1,
+                        );
+                        if ( !$Ok ) {
                             $Access = 0;
                         }
                     }
                     if ( $Config->{RequiredLock} ) {
-                        if ( $Self->{TicketObject}
-                            ->LockIsTicketLocked( TicketID => $Param{TicketID} ) )
-                        {
+                        if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Param{TicketID} ) ) {
                             my $AccessOk = $Self->{TicketObject}->OwnerCheck(
                                 TicketID => $Param{TicketID},
                                 OwnerID  => $Self->{UserID},
@@ -954,24 +951,20 @@ sub MaskAgentZoom {
                     )
                 {
                     my $Access = 1;
-                    my $Config
-                        = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketPhoneOutbound");
+                    my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketPhoneOutbound");
                     if ( $Config->{Permission} ) {
-                        if (!$Self->{TicketObject}->Permission(
-                                Type     => $Config->{Permission},
-                                TicketID => $Param{TicketID},
-                                UserID   => $Self->{UserID},
-                                LogNo    => 1,
-                            )
-                            )
-                        {
+                        my $OK = $Self->{TicketObject}->Permission(
+                            Type     => $Config->{Permission},
+                            TicketID => $Param{TicketID},
+                            UserID   => $Self->{UserID},
+                            LogNo    => 1,
+                        );
+                        if ( !$OK ) {
                             $Access = 0;
                         }
                     }
                     if ( $Config->{RequiredLock} ) {
-                        if ( $Self->{TicketObject}
-                            ->LockIsTicketLocked( TicketID => $Param{TicketID} ) )
-                        {
+                        if ( $Self->{TicketObject} ->LockIsTicketLocked( TicketID => $Param{TicketID} ) ) {
                             my $AccessOk = $Self->{TicketObject}->OwnerCheck(
                                 TicketID => $Param{TicketID},
                                 OwnerID  => $Self->{UserID},
@@ -1002,20 +995,18 @@ sub MaskAgentZoom {
                 my $Access = 1;
                 my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketForward");
                 if ( $Config->{Permission} ) {
-                    if (!$Self->{TicketObject}->Permission(
-                            Type     => $Config->{Permission},
-                            TicketID => $Param{TicketID},
-                            UserID   => $Self->{UserID},
-                            LogNo    => 1,
-                        )
-                        )
-                    {
+                    my $OK = $Self->{TicketObject}->Permission(
+                        Type     => $Config->{Permission},
+                        TicketID => $Param{TicketID},
+                        UserID   => $Self->{UserID},
+                        LogNo    => 1,
+                    );
+                    if ( !$OK ) {
                         $Access = 0;
                     }
                 }
                 if ( $Config->{RequiredLock} ) {
-                    if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Param{TicketID} ) )
-                    {
+                    if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Param{TicketID} ) ) {
                         my $AccessOk = $Self->{TicketObject}->OwnerCheck(
                             TicketID => $Param{TicketID},
                             OwnerID  => $Self->{UserID},
@@ -1040,20 +1031,18 @@ sub MaskAgentZoom {
                 my $Access = 1;
                 my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketBounce");
                 if ( $Config->{Permission} ) {
-                    if (!$Self->{TicketObject}->Permission(
-                            Type     => $Config->{Permission},
-                            TicketID => $Param{TicketID},
-                            UserID   => $Self->{UserID},
-                            LogNo    => 1,
-                        )
-                        )
-                    {
+                    my $OK = $Self->{TicketObject}->Permission(
+                        Type     => $Config->{Permission},
+                        TicketID => $Param{TicketID},
+                        UserID   => $Self->{UserID},
+                        LogNo    => 1,
+                    );
+                    if ( !$OK ) {
                         $Access = 0;
                     }
                 }
                 if ( $Config->{RequiredLock} ) {
-                    if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Param{TicketID} ) )
-                    {
+                    if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Param{TicketID} ) ) {
                         my $AccessOk = $Self->{TicketObject}->OwnerCheck(
                             TicketID => $Param{TicketID},
                             OwnerID  => $Self->{UserID},
@@ -1094,14 +1083,13 @@ sub MaskAgentZoom {
     if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketMove}
         && ( !defined( $AclAction{AgentTicketMove} ) || $AclAction{AgentTicketMove} ) )
     {
-        if ($Self->{TicketObject}->Permission(
-                Type     => 'move',
-                TicketID => $Param{TicketID},
-                UserID   => $Self->{UserID},
-                LogNo    => 1,
-            )
-            )
-        {
+        my $Access = $Self->{TicketObject}->Permission(
+            Type     => 'move',
+            TicketID => $Param{TicketID},
+            UserID   => $Self->{UserID},
+            LogNo    => 1,
+        );
+        if ( $Access ) {
             $Self->{LayoutObject}->Block(
                 Name => 'Move',
                 Data => { %Param, %AclAction },
