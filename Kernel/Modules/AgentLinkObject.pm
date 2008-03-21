@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.19 2008-03-21 00:46:42 martin Exp $
+# $Id: AgentLinkObject.pm,v 1.20 2008-03-21 15:08:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -167,7 +167,7 @@ sub Run {
 
         # get backend module params
         my %GetParams = ();
-        for my $Param ( $Self->{LinkObject}->LinkSearchParams() ) {
+        for my $Param ( $Self->{LinkObject}->LinkSearchParams( Object => $Self->{DestinationObject} ) ) {
             if ( defined( $Self->{ParamObject}->GetParam( Param => $Param->{Name} ) ) ) {
                 $GetParams{ $Param->{Name} }
                     = $Self->{ParamObject}->GetParam( Param => $Param->{Name} );
@@ -196,7 +196,7 @@ sub Run {
         );
 
         # get search item
-        for my $Data ( $Self->{LinkObject}->LinkSearchParams() ) {
+        for my $Data ( $Self->{LinkObject}->LinkSearchParams( Object => $Self->{DestinationObject} ) ) {
             if ( defined( $Data->{Select} ) ) {
                 $Data->{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
                     SelectedID => $GetParams{ $Data->{Name} },
@@ -230,6 +230,7 @@ sub Run {
 
         my @DataResultRaw = $Self->{LinkObject}->LinkSearch(
             %GetParams,
+            Object => $Self->{DestinationObject},
             Limit  => $Limit,
             UserID => $Self->{UserID},
         );
@@ -335,8 +336,11 @@ sub Run {
                 Name => 'Preview',
                 Data => {
                     %Param,
-                    $Self->{LinkObject}
-                        ->LinkItemData( ID => $Self->{PreviewID}, UserID => $Self->{UserID} ),
+                    $Self->{LinkObject}->LinkItemData(
+                        Object => $Self->{DestinationObject},
+                        ID     => $Self->{PreviewID},
+                        UserID => $Self->{UserID},
+                    ),
                 },
             );
         }
