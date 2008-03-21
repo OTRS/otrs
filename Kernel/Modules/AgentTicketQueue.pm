@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.44 2008-03-18 16:21:43 tr Exp $
+# $Id: AgentTicketQueue.pm,v 1.45 2008-03-21 20:19:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -575,20 +575,50 @@ sub ShowTicket {
         if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketCompose}
             && ( !defined( $AclAction{AgentTicketCompose} ) || $AclAction{AgentTicketCompose} ) )
         {
-            $Self->{LayoutObject}->Block(
-                Name => 'AgentAnswerCompose',
-                Data => { %Param, %Article, %AclAction },
-            );
+            my $Access = 1;
+            my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketCompose");
+            if ( $Config->{Permission} ) {
+                my $Ok = $Self->{TicketObject}->Permission(
+                    Type     => $Config->{Permission},
+                    TicketID => $Param{TicketID},
+                    UserID   => $Self->{UserID},
+                    LogNo    => 1,
+                );
+                if ( !$Ok ) {
+                    $Access = 0;
+                }
+                if ( $Access ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'AgentAnswerCompose',
+                        Data => { %Param, %Article, %AclAction },
+                    );
+                }
+            }
         }
         if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhoneOutbound}
             && ( !defined( $AclAction{AgentTicketPhoneOutbound} )
                 || $AclAction{AgentTicketPhoneOutbound} )
             )
         {
-            $Self->{LayoutObject}->Block(
-                Name => 'AgentAnswerPhoneOutbound',
-                Data => { %Param, %Article, %AclAction },
-            );
+            my $Access = 1;
+            my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketPhoneOutbound");
+            if ( $Config->{Permission} ) {
+                my $OK = $Self->{TicketObject}->Permission(
+                    Type     => $Config->{Permission},
+                    TicketID => $Param{TicketID},
+                    UserID   => $Self->{UserID},
+                    LogNo    => 1,
+                );
+                if ( !$OK ) {
+                    $Access = 0;
+                }
+            }
+            if ( $Access ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'AgentAnswerPhoneOutbound',
+                    Data => { %Param, %Article, %AclAction },
+                );
+            }
         }
     }
 
@@ -721,10 +751,18 @@ sub ShowTicket {
     if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketMove}
         && ( !defined( $AclAction{AgentTicketMove} ) || $AclAction{AgentTicketMove} ) )
     {
-        $Self->{LayoutObject}->Block(
-            Name => 'Move',
-            Data => { %Param, %AclAction },
+        my $Access = $Self->{TicketObject}->Permission(
+            Type     => 'move',
+            TicketID => $Param{TicketID},
+            UserID   => $Self->{UserID},
+            LogNo    => 1,
         );
+        if ( $Access ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'Move',
+                Data => { %Param, %AclAction },
+            );
+        }
     }
 
     # create & return output
