@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.18 2008-03-21 00:40:11 martin Exp $
+# $Id: LinkObject.pm,v 1.19 2008-03-21 01:38:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -360,31 +360,31 @@ sub LinkedObjects {
     my @BindA = ();
     my @BindB = ();
     if ( $Param{LinkType} eq 'Parent' ) {
-        $SQLA = "SELECT object_link_a_id FROM object_link WHERE "
+        $SQLA = "SELECT object_link_a_id, object_link_a_object FROM object_link WHERE "
             . " object_link_b_id = ? AND object_link_b_object = ? AND "
             . " object_link_a_object = ? AND object_link_type = ?";
         push @BindA, \$Param{LinkID2}, \$Param{LinkObject2}, \$Param{LinkObject1}, \$Param{LinkType};
-        $SQLB = "SELECT object_link_a_id FROM object_link WHERE"
+        $SQLB = "SELECT object_link_a_id, object_link_a_object FROM object_link WHERE"
             . " object_link_b_id = ? AND object_link_b_object = ? AND "
             . " object_link_a_object = ? AND object_link_type = 'Child'";
         push @BindB, \$Param{LinkID2}, \$Param{LinkObject2}, \$Param{LinkObject1};
     }
     elsif ( $Param{LinkType} eq 'Child' ) {
-        $SQLA = "SELECT object_link_b_id FROM object_link WHERE "
+        $SQLA = "SELECT object_link_b_id, object_link_b_object FROM object_link WHERE "
             . " object_link_a_id = ? AND object_link_a_object = ? AND "
             . " object_link_b_object = ? AND object_link_type = 'Parent'";
         push @BindA, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2};
-        $SQLB = "SELECT object_link_b_id FROM object_link WHERE "
+        $SQLB = "SELECT object_link_b_id, object_link_b_object FROM object_link WHERE "
             . " object_link_a_id = ? AND object_link_a_object = ? AND "
             . " object_link_b_object = ? AND object_link_type = ?";
         push @BindB, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2}, \$Param{LinkType};
     }
     elsif ( $Param{LinkType} eq 'Normal' ) {
-        $SQLA = "SELECT object_link_a_id FROM object_link WHERE "
+        $SQLA = "SELECT object_link_a_id, object_link_a_object FROM object_link WHERE "
             . " object_link_b_id = ? AND object_link_b_object = ? AND "
             . " object_link_a_object = ? AND object_link_type = ?";
         push @BindA, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2}, \$Param{LinkType};
-        $SQLB = " SELECT object_link_b_id FROM object_link WHERE "
+        $SQLB = " SELECT object_link_b_id, object_link_b_object FROM object_link WHERE "
             . " object_link_a_id = ? AND object_link_a_object = ? AND "
             . " object_link_b_object = ? AND object_link_type = ?";
         push @BindB, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2}, \$Param{LinkType};
@@ -392,28 +392,21 @@ sub LinkedObjects {
 
     $Self->{DBObject}->Prepare( SQL => $SQLA, Bind => \@BindA );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push( @LinkedIDs, $Row[0] );
+        push( @LinkedIDs, [ $Row[0], $Row[1], ] );
     }
     $Self->{DBObject}->Prepare( SQL => $SQLB, Bind => \@BindB );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push( @LinkedIDs, $Row[0] );
+        push( @LinkedIDs, [ $Row[0], $Row[1], ] );
     }
 
     # fill up data
-    for (@LinkedIDs) {
-        my %Hash = ();
-        if ( $Param{LinkID1} ) {
-            %Hash = $Self->{Backend}->{$Param{LinkObject2}}->FillDataMap(
-                ID => $_,
-                UserID => $Self->{UserID},
-            );
-        }
-        else {
-            %Hash = $Self->{Backend}->{$Param{LinkObject2}}->FillDataMap(
-                ID => $_,
-                UserID => $Self->{UserID},
-            );
-        }
+    for my $Link (@LinkedIDs) {
+        next if ! $Self->{Backend}->{$Link->[1]};
+
+        my %Hash = $Self->{Backend}->{$Link->[1]}->FillDataMap(
+            ID     => $Link->[0],
+            UserID => $Self->{UserID},
+        );
 
         # delete links if object exists not anymore
         if ( !%Hash ) {
@@ -529,6 +522,21 @@ sub AllLinkedObjects {
     return %Links;
 }
 
+sub LinkSearchParams {
+    my ( $Self, %Param ) = @_;
+    return $Self->{Backend}->{$Param{Object}}->LinkSearchParams(%Param);
+}
+
+sub LinkSearch {
+    my ( $Self, %Param ) = @_;
+    return $Self->{Backend}->{$Param{Object}}->LinkSearch(%Param);
+}
+
+sub LinkItemData {
+    my ( $Self, %Param ) = @_;
+    return $Self->{Backend}->{$Param{Object}}->LinkItemData(%Param);
+}
+
 1;
 
 =back
@@ -545,6 +553,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2008-03-21 00:40:11 $
+$Revision: 1.19 $ $Date: 2008-03-21 01:38:04 $
 
 =cut
