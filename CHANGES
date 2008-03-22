@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.610 2008-03-21 13:48:35 martin Exp $
+# $Id: CHANGES,v 1.611 2008-03-22 00:27:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -175,6 +175,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.6 (2008/??/??)
+ - (2008/03/21) Fixed bug# 2758 - non-latin filenames in emails get not converted
+    to utf8 (e. g. koi8-r, utf8, cp1251).
  - (2008/03/21) Fixed bug# 2781 - Typo in Kernel::System::Ticket::MoveTicket()
    "&" instead of "&&".
  - (2008/03/20) Fixed bug# 2772 - Dangling links to deleted tickets (ticket

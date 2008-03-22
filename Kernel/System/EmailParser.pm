@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.59 2008-02-22 21:32:31 martin Exp $
+# $Id: EmailParser.pm,v 1.60 2008-03-22 00:27:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 =head1 NAME
 
@@ -723,13 +723,13 @@ sub GetContentTypeParams {
         $Param{Charset} =~ s/(.+?);.*/$1/g;
     }
     if ( !$Param{Charset} ) {
-        if ( $Param{ContentType} =~ /\?((iso-\d{3,4}-\d{1,2})|(utf-8|utf8))\?/i ) {
+        if ( $Param{ContentType} =~ /\?(iso-\d{3,4}-(\d{1,2}|[A-z]{1,2})|utf(-8|8)|windows-\d{3,5}|koi8-.+?|cp(-|)\d{2,4}|big5(|.+?)|shift(_|-)jis|euc-.+?|tcvn|visii|vps|gb.+?)\?/i ) {
             $Param{Charset} = $1;
         }
         elsif ( $Param{ContentType} =~ /name\*0\*=(utf-8|utf8)/i ) {
             $Param{Charset} = $1;
         }
-        elsif ( $Param{ContentType} =~ /filename\*=((iso-\d{3,4}-\d{1,2})|(utf-8|utf8))''/i ) {
+        elsif ( $Param{ContentType} =~ /filename\*=(iso-\d{3,4}-(\d{1,2}|[A-z]{1,2})|utf(-8|8)|windows-\d{3,5}|koi8-.+?|cp(-|)\d{2,4}|big5(|.+?)|shift(_|-)jis|euc-.+?|tcvn|visii|vps|gb.+?)''/i ) {
             $Param{Charset} = $1;
         }
     }
@@ -1157,8 +1157,7 @@ sub CheckMessageBody {
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message =>
-                    "It's an html only email, added ascii dump, attached html email as attachment.",
+                Message => "It's an html only email, added ascii dump, attached html email as attachment.",
             );
         }
     }
@@ -1179,6 +1178,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.59 $ $Date: 2008-02-22 21:32:31 $
+$Revision: 1.60 $ $Date: 2008-03-22 00:27:05 $
 
 =cut

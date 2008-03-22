@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.11 2008-02-22 21:32:30 martin Exp $
+# $Id: EmailParser.t,v 1.12 2008-03-22 00:27:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -503,6 +503,111 @@ $Self->Is(
 $Self->True(
     !$Attachments[0] || 0,
     "#11 attachment check #0",
+);
+
+# test #12
+@Array = ();
+open(IN, "< $Home/scripts/test/sample/PostMaster-Test12.box");
+while (<IN>) {
+    push(@Array, $_);
+}
+close (IN);
+
+$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+    %{$Self},
+    Email => \@Array,
+);
+$Self->Is(
+    $Self->{EmailParserObject}->GetCharset(),
+    'ISO-8859-1',
+    "#12 GetCharset() - iso-8859-1 charset should be found",
+);
+$Self->Is(
+    $Self->{EmailParserObject}->GetParam(WHAT => 'To'),
+    '金田　美羽 <support@example.com>',
+    "#12 GetParam(WHAT => 'To')",
+);
+$Self->Is(
+    $Self->{EmailParserObject}->GetParam(WHAT => 'Cc'),
+    '張雅惠 <support2@example.com>, "문화연대" <support3@example.com>',
+    "#12 GetParam(WHAT => 'Cc')",
+);
+
+$MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody()  ) || '';
+$Self->Is(
+    $MD5,
+    '603c11a38065909cc13bf53c650506c1',
+    "#12 md5 body check",
+);
+
+@Attachments = $Self->{EmailParserObject}->GetAttachments();
+$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
+$Self->Is(
+    $MD5,
+    'ecfbec2030e6bf91cc97ed22f7c6551a',
+    "#12 md5 check",
+);
+$Self->Is(
+    $Attachments[1]->{Filename} || '',
+    'attachment-äöüß-utf8.txt',
+    "#12 Filename check",
+);
+$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[2]->{Content} ) || '';
+$Self->Is(
+    $MD5,
+    'b25beeea18c52cdc791864b52862743e',
+    "#12 md5 check",
+);
+$Self->Is(
+    $Attachments[2]->{Filename} || '',
+    'attachment-äöüß-iso.txt',
+    "#12 Filename check",
+);
+$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[3]->{Content} ) || '';
+$Self->Is(
+    $MD5,
+    'f287d0dd6d0f90da4ac69348b09ec281',
+    "#12 md5 check",
+);
+$Self->Is(
+    $Attachments[3]->{Filename} || '',
+    'Обяснительная.jpg',
+    "#12 Filename check",
+);
+$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[4]->{Content} ) || '';
+$Self->Is(
+    $MD5,
+    'f287d0dd6d0f90da4ac69348b09ec281',
+    "#12 md5 check",
+);
+$Self->Is(
+    $Attachments[4]->{Filename} || '',
+    'Сообщение.jpg',
+    "#12 Filename check",
+);
+$Self->Is(
+    $Attachments[5]->{Filename} || '',
+    '報告書①..txt',
+    "#12 Filename check",
+);
+$Self->Is(
+    $Attachments[6]->{Filename} || '',
+    '金田　美羽',
+    "#12 Filename check",
+);
+$Self->Is(
+    $Attachments[7]->{Filename} || '',
+    '國科會50科學之旅活動計畫徵求書(r_final).doc',
+    "#12 Filename check",
+);
+$Self->Is(
+    $Attachments[8]->{Filename} || '',
+    '2차 보도자료.hwp',
+    "#12 Filename check",
+);
+$Self->True(
+    !$Attachments[9] || 0,
+    "#12 attachment check #0",
 );
 
 1;
