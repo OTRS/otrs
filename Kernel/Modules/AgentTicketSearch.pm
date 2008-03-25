@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.42.2.2 2007-10-02 12:07:59 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.42.2.3 2008-03-25 13:27:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AgentTicketSearch;
@@ -21,7 +21,7 @@ use Kernel::System::State;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42.2.2 $';
+$VERSION = '$Revision: 1.42.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1049,6 +1049,7 @@ sub MaskForm {
             Size => 5,
             Multiple => 1,
             Translation => 0,
+            Max => 200,
         );
         my %SLA = $Self->{SLAObject}->SLAList(
             UserID => $Self->{UserID},
@@ -1061,6 +1062,7 @@ sub MaskForm {
             Size => 5,
             Multiple => 1,
             Translation => 0,
+            Max => 200,
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketService',

@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.24 2007-06-18 09:33:57 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.24.2.1 2008-03-25 13:27:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::CustomerTicketMessage;
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.24.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -495,6 +495,7 @@ sub _MaskNew {
             Sort => 'TreeView',
             Translation => 0,
             OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
+            Max => 200,
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketService',
@@ -516,6 +517,7 @@ sub _MaskNew {
             Sort => 'AlphanumericValue',
             Translation => 0,
             OnChange => "document.compose.Expand.value='3'; document.compose.submit(); return false;",
+            Max => 200,
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketSLA',

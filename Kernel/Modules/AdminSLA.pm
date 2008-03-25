@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.6.2.1 2008-02-11 16:48:02 martin Exp $
+# $Id: AdminSLA.pm,v 1.6.2.2 2008-03-25 13:27:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6.2.1 $';
+$VERSION = '$Revision: 1.6.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -79,11 +79,12 @@ sub Run {
         $Param{ServiceOptionStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => \%ServiceList,
             Name => 'ServiceID',
+            SelectedID => $SLAData{ServiceID} || '',
             PossibleNone => 1,
             TreeView => $TreeView,
             Sort => 'TreeView',
             Translation => 0,
-            SelectedID => $SLAData{ServiceID},
+            Max => 200,
         );
         # generate CalendarOptionStrg
         my %CalendarList;
@@ -98,15 +99,7 @@ sub Run {
             SelectedID => $SLAData{Calendar},
             PossibleNone => 1,
         );
-        $Param{ServiceOptionStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data => \%ServiceList,
-            Name => 'ServiceID',
-            SelectedID => $SLAData{ServiceID} || '',
-            PossibleNone => 1,
-            TreeView => $TreeView,
-            Sort => 'TreeView',
-            Translation => 0,
-        );
+
         # generate ValidOptionStrg
         my %ValidList = $Self->{ValidObject}->ValidList();
         $SLAData{ValidOptionStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -202,6 +195,7 @@ sub Run {
             TreeView => $TreeView,
             Sort => 'TreeView',
             Translation => 0,
+            Max => 200,
         );
         # output overview
         $Self->{LayoutObject}->Block(

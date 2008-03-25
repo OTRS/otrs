@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.40.2.1 2007-10-09 22:27:02 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.40.2.2 2008-03-25 13:27:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AdminGenericAgent;
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40.2.1 $) [1];
+$VERSION = qw($Revision: 1.40.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -786,6 +786,7 @@ sub Run {
                 Size        => 5,
                 Multiple    => 1,
                 Translation => 0,
+                Max         => 200,
             );
             $Param{'NewServicesStrg'} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Service,
@@ -796,6 +797,7 @@ sub Run {
                 Size        => 5,
                 Multiple    => 1,
                 Translation => 0,
+                Max         => 200,
             );
             my %SLA = $Self->{SLAObject}->SLAList( UserID => $Self->{UserID}, );
             $Param{'SLAsStrg'} = $Self->{LayoutObject}->BuildSelection(
@@ -806,6 +808,7 @@ sub Run {
                 Size        => 5,
                 Multiple    => 1,
                 Translation => 0,
+                Max         => 200,
             );
             $Param{'NewSLAsStrg'} = $Self->{LayoutObject}->BuildSelection(
                 Data       => \%SLA,
@@ -815,6 +818,7 @@ sub Run {
                 Size        => 5,
                 Multiple    => 1,
                 Translation => 0,
+                Max         => 200,
             );
             $Self->{LayoutObject}->Block(
                 Name => 'TicketService',
