@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.83 2008-03-18 16:13:56 tr Exp $
+# $Id: Queue.pm,v 1.84 2008-03-25 10:05:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 =head1 NAME
 
@@ -268,7 +268,7 @@ sub SetQueueStdResponse {
         SQL => "INSERT INTO queue_standard_response "
             . "(queue_id, standard_response_id, create_time, create_by, change_time, change_by)"
             . " VALUES ( ?, ?, current_timestamp, ?, current_timestamp, ?)",
-        Bind => [ \$Param{ResponseID}, \$Param{UserID}, \$Param{UserID} ],
+        Bind => [ \$Param{QueueID}, \$Param{ResponseID}, \$Param{UserID}, \$Param{UserID} ],
     );
 }
 
@@ -1054,6 +1054,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.83 $ $Date: 2008-03-18 16:13:56 $
+$Revision: 1.84 $ $Date: 2008-03-25 10:05:11 $
 
 =cut
