@@ -4,7 +4,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # Copyright (C) 2001-2006 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addUser2Group,v 1.16 2008-02-01 12:49:20 tr Exp $
+# $Id: otrs.addUser2Group,v 1.17 2008-03-25 10:03:59 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use Kernel::Config;
 use Kernel::System::Log;
+use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::Main;
 use Kernel::System::User;
@@ -63,8 +64,8 @@ if ( !$Opts{p} ) {
 
 # create common objects
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{LogObject}
-    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addUser2Group' );
+$CommonObject{LogObject}   = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addUser2Group' );
+$CommonObject{TimeObject}  = Kernel::System::Time->new(%CommonObject);
 $CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
 $CommonObject{UserObject}  = Kernel::System::User->new(%CommonObject);
