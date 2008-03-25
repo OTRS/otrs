@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.11 2008-02-11 16:47:36 martin Exp $
+# $Id: AdminSLA.pm,v 1.12 2008-03-25 13:33:48 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,11 +76,12 @@ sub Run {
         $Param{ServiceOptionStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => \%ServiceList,
             Name         => 'ServiceID',
+            SelectedID   => $SLAData{ServiceID} || '',
             PossibleNone => 1,
             TreeView     => $TreeView,
             Sort         => 'TreeView',
             Translation  => 0,
-            SelectedID   => $SLAData{ServiceID},
+            Max          => 200,
         );
 
         # generate CalendarOptionStrg
@@ -125,15 +126,6 @@ sub Run {
             Name         => 'SolutionNotify',
             SelectedID   => $SLAData{SolutionNotify},
             PossibleNone => 1,
-        );
-        $Param{ServiceOptionStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data         => \%ServiceList,
-            Name         => 'ServiceID',
-            SelectedID   => $SLAData{ServiceID} || '',
-            PossibleNone => 1,
-            TreeView     => $TreeView,
-            Sort         => 'TreeView',
-            Translation  => 0,
         );
 
         # generate ValidOptionStrg

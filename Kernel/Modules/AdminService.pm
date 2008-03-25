@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.pm,v 1.10 2008-02-11 16:47:36 martin Exp $
+# $Id: AdminService.pm,v 1.11 2008-03-25 13:33:48 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -85,6 +85,7 @@ sub Run {
             Sort           => 'TreeView',
             DisabledBranch => $ServiceData{Name},
             Translation    => 0,
+            Max            => 200,
         );
 
         # generate ValidOptionStrg

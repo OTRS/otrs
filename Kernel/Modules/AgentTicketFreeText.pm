@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketFreeText.pm - free text for ticket
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketFreeText.pm,v 1.32 2008-01-31 06:22:12 tr Exp $
+# $Id: AgentTicketFreeText.pm,v 1.33 2008-03-25 13:33:48 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -756,6 +756,7 @@ sub _Mask {
             TreeView     => $TreeView,
             Sort         => 'TreeView',
             Translation  => 0,
+            Max          => 200,
             OnChange =>
                 "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
@@ -778,6 +779,7 @@ sub _Mask {
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
             Translation  => 0,
+            Max          => 200,
             OnChange =>
                 "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );

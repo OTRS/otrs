@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.29 2008-01-31 06:22:12 tr Exp $
+# $Id: CustomerTicketMessage.pm,v 1.30 2008-03-25 13:33:48 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -532,6 +532,7 @@ sub _MaskNew {
             TreeView     => $TreeView,
             Sort         => 'TreeView',
             Translation  => 0,
+            Max          => 200,
             OnChange =>
                 "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
@@ -554,6 +555,7 @@ sub _MaskNew {
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
             Translation  => 0,
+            Max          => 200,
             OnChange =>
                 "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
