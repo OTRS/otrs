@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.288 2008-03-21 20:21:32 martin Exp $
+# $Id: Defaults.pm,v 1.289 2008-03-25 15:42:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.288 $) [1];
+$VERSION = qw($Revision: 1.289 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -369,6 +369,9 @@ sub LoadDefaults {
     # In case there is a leading domain in the REMOTE_USER, you can
     # replace it by the next config option.
 #    $Self->{'AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
+    # In case you need to replace some part of the REMOTE_USER, you can
+    # use the following RegExp ($1 will be new login).
+#    $Self->{'AuthModule::HTTPBasicAuth::ReplaceRegExp'} = '^(.+?)@.+?$';
     # Note:
     # If you use this module, you should use as fallback the following
     # config settings if user isn't login through apache ($ENV{REMOTE_USER}).
@@ -1122,6 +1125,9 @@ Your OTRS Notification Master
     # replace it by the next config option.
 #   $Self->{'Customer::AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
     # Note:
+    # In case you need to replace some part of the REMOTE_USER, you can
+    # use the following RegExp ($1 will be new login).
+#    $Self->{'Customer::AuthModule::HTTPBasicAuth::ReplaceRegExp'} = '^(.+?)@.+?$';
     # If you use this module, you should use as fallback the following
     # config settings if user isn't login through apache ($ENV{REMOTE_USER})
 #    $Self->{CustomerPanelLoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
@@ -2315,6 +2321,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.288 $ $Date: 2008-03-21 20:21:32 $
+$Revision: 1.289 $ $Date: 2008-03-25 15:42:09 $
 
 =cut

@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.162 2008-03-13 21:19:16 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.163 2008-03-25 15:42:09 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -3513,6 +3513,15 @@ Your OTRS Notification Master
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
             <String Regex="">example_domain\\</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::HTTPBasicAuth::ReplaceRegExp" Required="0" Valid="0">
+        <Description Lang="en">If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove tailing domains). RegExp-Note, $1 will be the new Login.</Description>
+        <Description Lang="de">Wenn "HTTPBasicAuth" als Customer::AuthModule ausgewählt wurde, kann hier spezifiziert werden (durch eine RegExp), ob z. B. Teile des REMOTE_USER entfernt werden sollen (z. B. Domäne eines Logins). RegExp-Notiz, $1 ist der neue Login.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::Auth</SubGroup>
+        <Setting>
+            <String Regex="">^(.+?)@.+?$</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::Host" Required="0" Valid="0">
