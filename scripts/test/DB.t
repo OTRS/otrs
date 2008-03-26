@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.30 2008-02-22 20:29:26 martin Exp $
+# $Id: DB.t,v 1.31 2008-03-26 19:56:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -260,6 +260,35 @@ $Self->True(
     '#1 FetchrowArray () SELECT',
 );
 
+# rename table
+$XML = '<TableAlter NameOld="test_a" NameNew="test_aa"/>';
+@XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
+@SQL = $Self->{DBObject}->SQLProcessor(Database => \@XMLARRAY);
+$Self->True(
+    $SQL[0],
+    '#1 SQLProcessorPost() ALTER TABLE',
+);
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do(SQL => $SQL) || 0,
+        "#1 Do() ALTER TABLE ($SQL)",
+    );
+}
+
+$Self->True(
+    $Self->{DBObject}->Prepare(
+        SQL => 'SELECT * FROM test_aa WHERE name_a = \'Some\'',
+        Limit => 1,
+    ),
+    '#1 Prepare() SELECT - Prepare',
+);
+
+$Self->True(
+    ref($Self->{DBObject}->FetchrowArray()) eq '' &&
+        ref($Self->{DBObject}->FetchrowArray()) eq '',
+    '#1 FetchrowArray () SELECT',
+);
+
 $Self->True(
     $Self->{DBObject}->Do(
         SQL => 'DELETE FROM valid WHERE name = \'Some\'',
@@ -267,7 +296,7 @@ $Self->True(
     '#1 Do() DELETE',
 );
 
-$XML = '<TableDrop Name="test_a"/>';
+$XML = '<TableDrop Name="test_aa"/>';
 @XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
 @SQL = $Self->{DBObject}->SQLProcessor(Database => \@XMLARRAY);
 $Self->True(
@@ -936,11 +965,12 @@ for my $SQL (@SQL) {
     );
 }
 
-my @SpecialCharacters = qw( - _ . : ; ' " \ [ ] { } ( ) < > ? ! $ % & / + * = ' ^ | );
+my @SpecialCharacters = qw( - _ . : ; ' " \ [ ] { } ( ) < > ? ! $ % & / + * = ' ^ | ö ス);
 push @SpecialCharacters, (',', '#');
 my $Counter = 0;
 
 for my $Character (@SpecialCharacters) {
+    $Self->{EncodeObject}->Encode(\$Character);
     my $name_b = $Self->{DBObject}->Quote($Character);
 
     my $SQLInsert = "INSERT INTO test_d (name_a, name_b) VALUES ( '$Counter', '$name_b' )";
@@ -957,7 +987,15 @@ for my $Character (@SpecialCharacters) {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Self->True(
             $Row[0] eq $Character,
-            "#$Counter Check special character $Character (db returned $Row[0])",
+            "#$Counter Check special character $Character by 'eq' (db returned $Row[0])",
+        );
+        my $Hit = 0;
+        if ( $Row[0] =~ /\Q$Character\E/) {
+            $Hit = 1;
+        }
+        $Self->True(
+            $Hit || 0,
+            "#$Counter Check special character $Character by RegExp (db returned $Row[0])",
         );
     }
 
