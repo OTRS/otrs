@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.30 2008-03-10 20:05:34 martin Exp $
+# $Id: db2.pm,v 1.31 2008-03-26 19:57:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -282,13 +282,17 @@ sub TableAlter {
     my $Table    = '';
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
+            $Table = $Tag->{Name} || $Tag->{NameNew};
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
                 $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
-                $SQLStart .= $Self->{'DB::Comment'} . " alter table $Tag->{Name}\n";
+                $SQLStart .= $Self->{'DB::Comment'} . " alter table $Table\n";
                 $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
             }
-            $SQLStart .= "ALTER TABLE $Tag->{Name}";
-            $Table = $Tag->{Name};
+            # rename table
+            if ( $Tag->{NameOld} && $Tag->{NameNew} ) {
+                push( @SQL, $SQLStart . "ALTER TABLE $Tag->{NameOld} TO SYSTEM NAME $Tag->{NameNew}" );
+            }
+            $SQLStart .= "ALTER TABLE $Table";
         }
         elsif ( $Tag->{Tag} eq 'ColumnAdd' && $Tag->{TagType} eq 'Start' ) {
 

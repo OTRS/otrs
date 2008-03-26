@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.28 2008-03-10 20:05:34 martin Exp $
+# $Id: mssql.pm,v 1.29 2008-03-26 19:57:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -310,13 +310,21 @@ sub TableAlter {
     my $Table    = '';
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
+            $Table = $Tag->{Name} || $Tag->{NameNew};
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
                 $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
-                $SQLStart .= $Self->{'DB::Comment'} . " alter table $Tag->{Name}\n";
+                $SQLStart .= $Self->{'DB::Comment'} . " alter table $Table\n";
                 $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
             }
-            $SQLStart .= "ALTER TABLE $Tag->{Name}";
-            $Table = $Tag->{Name};
+            # rename table
+            if ( $Tag->{NameOld} && $Tag->{NameNew} ) {
+                my $Start = '';
+                if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
+                    $Start = "GO\n";
+                }
+                push( @SQL, $SQLStart . $Start . "EXEC sp_rename '$Tag->{NameOld}', '$Tag->{NameNew}'\n" . $Start );
+            }
+            $SQLStart .= "ALTER TABLE $Table";
         }
         elsif ( $Tag->{Tag} eq 'ColumnAdd' && $Tag->{TagType} eq 'Start' ) {
 
