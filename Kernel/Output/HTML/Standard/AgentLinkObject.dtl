@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.18 2008-03-02 21:06:26 martin Exp $
+# $Id: AgentLinkObject.dtl,v 1.19 2008-03-27 23:16:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -120,29 +120,27 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainbody">
-      <table border="0" width="100%" cellpadding="3">
+      <table border="0" width="100%" cellspacing="0" cellpadding="3">
         <tr>
-          <td width="10%">$Text{"Number"}</td>
-          <td width="30%">$Text{"Title"}</td>
-          <td width="18%">$Text{"Created"}</td>
-          <td width="18%">$Text{"Changed"}</td>
-          <td width="8%" align="center">$Text{"Normal"}</td>
-          <td width="8%" align="center">$Text{"Parent"}</td>
-          <td width="8%" align="center">$Text{"Child"}</td>
+          <td class="contenthead" width="10%">$Text{"Number"}</td>
+          <td class="contenthead" width="30%">$Text{"Title"}</td>
+          <td class="contenthead" width="18%">$Text{"Created"}</td>
+          <td class="contenthead" width="18%">$Text{"Changed"}</td>
+          <td class="contenthead" width="8%" align="center">$Text{"Normal"}</td>
+          <td class="contenthead" width="8%" align="center">$Text{"Parent"}</td>
+          <td class="contenthead" width="8%" align="center">$Text{"Child"}</td>
         </tr>
 <!-- dtl:block:SearchResultItem -->
-        <dtl if ($Data{"Linked"} eq "1") { $Data{"Color"} = "bgcolor="red""; }>
         <dtl if ($Data{"LinkedParent"} eq "1") { $Data{"LinkParent"} = "Unlink"; }>
         <dtl if ($Data{"LinkedParent"} eq "0") { $Data{"LinkParent"} = "Link"; }>
-        <dtl if ($Data{"LinkedParent"} eq "2") { $Data{"LinkParent"} = "-"; }>
+        <dtl if ($Data{"LinkedParent"} eq "2") { $Data{"LinkParent"} = ""; }>
         <dtl if ($Data{"LinkedChild"} eq "1") { $Data{"LinkChild"} = "Unlink"; }>
-        <dtl if ($Data{"LinkedChild"} eq "2") { $Data{"LinkChild"} = "-"; }>
+        <dtl if ($Data{"LinkedChild"} eq "2") { $Data{"LinkChild"} = ""; }>
         <dtl if ($Data{"LinkedChild"} eq "0") { $Data{"LinkChild"} = "Link"; }>
         <dtl if ($Data{"LinkedNormal"} eq "1") { $Data{"LinkNormal"} = "Unlink"; }>
-        <dtl if ($Data{"LinkedNormal"} eq "2") { $Data{"LinkNormal"} = "-"; }>
+        <dtl if ($Data{"LinkedNormal"} eq "2") { $Data{"LinkNormal"} = ""; }>
         <dtl if ($Data{"LinkedNormal"} eq "0") { $Data{"LinkNormal"} = "Link"; }>
-        <dtl if ($Data{"LinkedParent"} eq "1") { $Data{"LinkedParentLink"} = " (linked as Parent)"; }>
-        <tr $Data{"Color"} class="contentbody">
+        <tr class="$QData{"css"}">
           <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&PreviewID=$QData{"ID"}">$QData{"Number"}</a></td>
           <td>$QData{"Title"}</td>
           <td>$TimeLong{"$Data{"Created"}"}</td>
@@ -158,6 +156,9 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
           </td>
         </tr>
 <!-- dtl:block:SearchResultItem -->
+        <tr>
+          <td class="contentfooter" colspan="7">&nbsp;</td>
+        </tr>
       </table>
     </td>
   </tr>

@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.19 2008-03-21 01:38:04 martin Exp $
+# $Id: LinkObject.pm,v 1.20 2008-03-27 23:16:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -415,7 +415,7 @@ sub LinkedObjects {
                     LinkType    => $Param{LinkType},
                     LinkID1     => $Param{LinkID1},
                     LinkObject1 => $Param{LinkObject1},
-                    LinkID2     => $_,
+                    LinkID2     => $Link->[0],
                     LinkObject2 => $Param{LinkObject2},
                     UserID      => 1,
                 );
@@ -423,7 +423,7 @@ sub LinkedObjects {
             elsif ( $Param{LinkID2} ) {
                 $Self->UnlinkObject(
                     LinkType    => $Param{LinkType},
-                    LinkID1     => $_,
+                    LinkID1     => $Link->[0],
                     LinkObject1 => $Param{LinkObject1},
                     LinkID2     => $Param{LinkID2},
                     LinkObject2 => $Param{LinkObject2},
@@ -431,7 +431,7 @@ sub LinkedObjects {
                 );
             }
         }
-        $Linked{$_} = \%Hash;
+        $Linked{$Link->[0]} = \%Hash;
     }
     return %Linked;
 }
@@ -553,6 +553,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2008-03-21 01:38:04 $
+$Revision: 1.20 $ $Date: 2008-03-27 23:16:10 $
 
 =cut
