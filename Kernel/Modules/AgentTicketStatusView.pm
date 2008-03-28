@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketStatusView.pm,v 1.10 2008-01-31 06:22:12 tr Exp $
+# $Id: AgentTicketStatusView.pm,v 1.11 2008-03-28 11:35:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -86,6 +86,15 @@ sub Run {
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
+    $Self->{LayoutObject}->Block(
+        Name => 'MetaLink',
+        Data => {
+            Rel => 'search',
+            Type => 'application/opensearchdescription+xml',
+            Title => '$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})',
+            Href => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
+        },
+    );
     my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
 
     # build NavigationBar
@@ -122,8 +131,9 @@ sub Run {
         {
 
             # get last customer article
-            my %Article
-                = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $TicketID );
+            my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                TicketID => $TicketID,
+            );
 
             # prepare subject
             $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
@@ -132,18 +142,19 @@ sub Run {
             );
 
             # create human age
-            $Article{Age}
-                = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
+            $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
 
             # customer info (customer name)
             my %CustomerData = ();
             if ( $Article{CustomerUserID} ) {
-                %CustomerData = $Self->{CustomerUserObject}
-                    ->CustomerUserDataGet( User => $Article{CustomerUserID}, );
+                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $Article{CustomerUserID},
+                );
             }
             if ( $CustomerData{UserLogin} ) {
-                $Article{CustomerName} = $Self->{CustomerUserObject}
-                    ->CustomerName( UserLogin => $CustomerData{UserLogin}, );
+                $Article{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
+                    UserLogin => $CustomerData{UserLogin},
+                );
             }
 
             # user info
@@ -152,6 +163,13 @@ sub Run {
                 Cached => 1
             );
 
+            # seperate each searchresult line by using several css
+            if ( $Counter % 2 ) {
+                $Article{css} = "searchpassive";
+            }
+            else {
+                $Article{css} = "searchactive";
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'Record',
                 Data => { %Article, %UserInfo },

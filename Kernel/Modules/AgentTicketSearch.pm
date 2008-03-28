@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.49 2008-03-25 13:33:48 ub Exp $
+# $Id: AgentTicketSearch.pm,v 1.50 2008-03-28 11:35:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::State;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,8 +59,10 @@ sub new {
         if ( !$ExtraDatabaseObject ) {
             $Self->{LayoutObject}->FatalError();
         }
-        $Self->{TicketObjectSearch}
-            = Kernel::System::Ticket->new( %Param, DBObject => $ExtraDatabaseObject, );
+        $Self->{TicketObjectSearch} = Kernel::System::Ticket->new(
+            %Param,
+            DBObject => $ExtraDatabaseObject,
+        );
     }
     else {
         $Self->{TicketObjectSearch} = $Self->{TicketObject};
@@ -91,6 +93,20 @@ sub Run {
     $Self->{TakeLastSearch} = $Self->{ParamObject}->GetParam( Param => 'TakeLastSearch' ) || '';
     $Self->{SelectTemplate} = $Self->{ParamObject}->GetParam( Param => 'SelectTemplate' ) || '';
     $Self->{EraseTemplate}  = $Self->{ParamObject}->GetParam( Param => 'EraseTemplate' )  || '';
+
+    # check request
+    if ( $Self->{Subaction} eq 'OpenSearchDescription' ) {
+        my $Output = $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentTicketSearchOpenSearchDescription',
+            Data         => { %Param },
+        );
+        return $Self->{LayoutObject}->Attachment(
+            Filename    => 'OpenSearchDescription.xml',
+            ContentType => "text/xml",
+            Content     => $Output,
+            Type        => 'inline',
+        );
+    }
 
     # check request
     if ( $Self->{ParamObject}->GetParam( Param => 'SearchTemplate' ) && $Self->{Profile} ) {
@@ -594,6 +610,14 @@ sub Run {
                         Subject      => $Data{Subject} || '',
                     );
 
+                    # seperate each searchresult line by using several css
+                    if ( $Counter % 2 ) {
+                        $Data{css} = "searchpassive";
+                    }
+                    else {
+                        $Data{css} = "searchactive";
+                    }
+
                     # add table block
                     $Self->{LayoutObject}->Block(
                         Name => 'Record',
@@ -608,6 +632,15 @@ sub Run {
         }
 
         # start html page
+        $Self->{LayoutObject}->Block(
+            Name => 'MetaLink',
+            Data => {
+                Rel => 'search',
+                Type => 'application/opensearchdescription+xml',
+                Title => '$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})',
+                Href => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
+            },
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
@@ -798,7 +831,7 @@ sub Run {
             $m = sprintf( "%02d", $m );
             return $Self->{LayoutObject}->Attachment(
                 Filename    => $CSVFile . "_" . "$Y-$M-$D" . "_" . "$h-$m.csv",
-                ContentType => "text/csv; charset=utf-8",
+                ContentType => "text/csv; charset=".$Self->{LayoutObject}->{UserCharset},
                 Content     => $CSV,
             );
         }
@@ -831,6 +864,15 @@ sub Run {
         }
 
         # generate search mask
+        $Self->{LayoutObject}->Block(
+            Name => 'MetaLink',
+            Data => {
+                Rel => 'search',
+                Type => 'application/opensearchdescription+xml',
+                Title => '$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})',
+                Href => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
+            },
+        );
         my $Output = $Self->{LayoutObject}->Header();
         my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
 

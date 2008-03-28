@@ -2,7 +2,7 @@
 # AgentTicketSearchResultShort.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearchResultShort.dtl,v 1.10 2008-02-12 11:30:31 ot Exp $
+# $Id: AgentTicketSearchResultShort.dtl,v 1.11 2008-03-28 11:35:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,8 +29,8 @@
   <tr>
     <td class="mainbody">
       <table border="0" width="100%" cellspacing="0" cellpadding="3">
-        <tr valign="top" align="left">
-          <th width="15%">$Config{"Ticket::Hook"}<br>
+        <tr class="contenthead" align="left">
+          <th width="10%">$Config{"Ticket::Hook"}<br>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Ticket&Order=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Ticket&Order=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
@@ -38,12 +38,12 @@
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Age&Order=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Age&Order=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
-          <th width="20%">$Text{"From"}/$Text{"Subject"}</th>
-          <th width="10%">$Text{"State"}<br>
+          <th width="25%">$Text{"From"}/$Text{"Subject"}</th>
+          <th width="5%">$Text{"State"}<br>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=State&Order=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=State&Order=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
-          <th width="10%">$Text{"Queue"}<br>
+          <th width="15%">$Text{"Queue"}<br>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Queue&Order=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Queue&Order=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
@@ -67,45 +67,58 @@
 #          </th>
         </tr>
 <!-- dtl:block:Record -->
-        <tr valign="top">
-          <td class="PriorityID-$Data{"PriorityID"}">
-            <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a>
+        <tr class="$QData{"css"}">
+          <td>
+            <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
+              <tr>
+                <td class="PriorityID-$Data{"PriorityID"}" width="1%">&nbsp;
+                </td>
+                <td>
+                  <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
+                </td>
+              </tr>
+            </table>
           </td>
-          <td class="PriorityID-$Data{"PriorityID"}">
+          <td>
             $Data{"StartFont"}$QData{"Age"}$Data{"StopFont"}
           </td>
-          <td class="PriorityID-$Data{"PriorityID"}">
+          <td>
             $Data{"StartFont"}
             <div title="$QData{"From"}">$QData{"From","30"}</div>
             <div title="$QData{"Subject"}">$QData{"Subject","30"}</div>
             $Data{"StopFont"}
           </td>
-          <td class="PriorityID-$Data{"PriorityID"}">
+          <td>
             $Data{"StartFont"}<div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","30"}</div>$Data{"StopFont"}
           </td>
-          <td class="PriorityID-$Data{"PriorityID"}">
+          <td>
             $Data{"StartFont"}<div title="$QData{"Queue"}">$QData{"Queue","30"}</div>$Data{"StopFont"}
           </td>
-          <td class="PriorityID-$Data{"PriorityID"}">
+          <td>
             $Data{"StartFont"}<div title="$QData{"Owner"}">$QData{"Owner","30"}</div>
             <div title="($QData{"UserFirstname"} $QData{"UserLastname"})">($QData{"UserFirstname","15"} $QData{"UserLastname","15"})</div>$Data{"StopFont"}
           </td>
-          <td class="PriorityID-$Data{"PriorityID"}">
+          <td>
             <div title="$Data{"CustomerID"}">
             <a href="$Env{"Baselink"}Action=AgentTicketCustomer&TicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Customer history"}'; return true;" onmouseout="window.status='';">$Quote{"$Data{"CustomerID"}","15"}</a>
             </div>
             <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
           </td>
 # TicketFreeTime1
-#          <td class="PriorityID-$Data{"PriorityID"}">
+#          <td>
 #            $Data{"StartFont"}$TimeShort{"$Data{"TicketFreeTime1"}"}$Data{"StopFont"}
 #          </td>
 # TicketFreeTime2
-#          <td class="PriorityID-$Data{"PriorityID"}">
+#          <td>
 #            $Data{"StartFont"}$TimeShort{"$Data{"TicketFreeTime2"}"}$Data{"StopFont"}
 #          </td>
         </tr>
 <!-- dtl:block:Record -->
+        <tr class="contentfooter">
+          <td colspan="7">
+            &nbsp;
+          </td>
+        </tr>
       </table>
     </td>
   </tr>
