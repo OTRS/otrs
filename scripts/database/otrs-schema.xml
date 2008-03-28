@@ -5,9 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.73 2008-02-11 11:45:39 martin Exp $
+    $Id: otrs-schema.xml,v 1.74 2008-03-28 11:18:41 martin Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.73  2008/02/11 11:45:39  martin
+    Added escalation-warning-notify support.
+
     Revision 1.72  2008/02/11 11:14:50  martin
     Added support of queue preferences.
 
@@ -1527,12 +1530,13 @@
     </Index>
 </Table>
 
-<!-- pop3_account -->
-<Table Name="pop3_account">
+<!-- mail_account -->
+<Table Name="mail_account">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="login" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="pw" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="host" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="account_type" Required="true" Size="20" Type="VARCHAR"/>
     <Column Name="queue_id" Required="true" Type="INTEGER"/>
     <Column Name="trusted" Required="true" Type="SMALLINT"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>

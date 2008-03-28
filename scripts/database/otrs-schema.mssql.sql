@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-02-11 12:43:46
+--  driver: mssql, generated: 2008-03-28 12:16:37
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -813,8 +813,8 @@ CREATE TABLE customer_company (
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
-    UNIQUE (name),
-    UNIQUE (customer_id)
+    UNIQUE (customer_id),
+    UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
@@ -826,13 +826,14 @@ CREATE TABLE ticket_loop_protection (
 CREATE INDEX index_ticket_loop_protection_sent_to ON ticket_loop_protection (sent_to);
 CREATE INDEX index_ticket_loop_protection_sent_date ON ticket_loop_protection (sent_date);
 -- ----------------------------------------------------------
---  create table pop3_account
+--  create table mail_account
 -- ----------------------------------------------------------
-CREATE TABLE pop3_account (
+CREATE TABLE mail_account (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     login VARCHAR (200) NOT NULL,
     pw VARCHAR (200) NOT NULL,
     host VARCHAR (200) NOT NULL,
+    account_type VARCHAR (20) NOT NULL,
     queue_id INTEGER NOT NULL,
     trusted SMALLINT NOT NULL,
     comments VARCHAR (250),

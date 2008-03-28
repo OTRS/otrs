@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-02-11 12:43:45
+--  driver: db2, generated: 2008-03-28 12:16:36
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 
@@ -301,11 +301,11 @@ ALTER TABLE customer_user ADD FOREIGN KEY (change_by) REFERENCES system_user(id)
 
 ALTER TABLE customer_user ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
 
-ALTER TABLE pop3_account ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
+ALTER TABLE mail_account ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 
-ALTER TABLE pop3_account ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE mail_account ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
 
-ALTER TABLE pop3_account ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
+ALTER TABLE mail_account ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
 
 ALTER TABLE notifications ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 

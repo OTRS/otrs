@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-02-11 12:43:46
+//  driver: maxdb, generated: 2008-03-28 12:16:37
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  create table valid
@@ -94,7 +94,7 @@ CREATE TABLE user_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX index_user_preferenc38 ON user_preferences (user_id)
+CREATE INDEX index_user_preferenc59 ON user_preferences (user_id)
 //
 // ----------------------------------------------------------
 //  create table groups
@@ -366,7 +366,7 @@ CREATE TABLE queue_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX index_queue_preferen82 ON queue_preferences (queue_id)
+CREATE INDEX index_queue_preferen27 ON queue_preferences (queue_id)
 //
 // ----------------------------------------------------------
 //  create table ticket
@@ -450,9 +450,9 @@ CREATE INDEX index_ticket_user ON ticket (user_id)
 //
 CREATE INDEX index_ticket_type ON ticket (type_id)
 //
-CREATE INDEX index_ticket_queue_v69 ON ticket (ticket_state_id, ticket_lock_id, group_id)
+CREATE INDEX index_ticket_queue_v64 ON ticket (ticket_state_id, ticket_lock_id, group_id)
 //
-CREATE INDEX index_ticket_answere68 ON ticket (ticket_answered)
+CREATE INDEX index_ticket_answere58 ON ticket (ticket_answered)
 //
 // ----------------------------------------------------------
 //  create table object_link
@@ -489,9 +489,9 @@ CREATE TABLE ticket_history
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX ticket_history_ticke92 ON ticket_history (ticket_id)
+CREATE INDEX ticket_history_ticke30 ON ticket_history (ticket_id)
 //
-CREATE INDEX ticket_history_creat87 ON ticket_history (create_time)
+CREATE INDEX ticket_history_creat23 ON ticket_history (create_time)
 //
 // ----------------------------------------------------------
 //  create table ticket_history_type
@@ -555,9 +555,9 @@ CREATE TABLE article_flag
     create_by INTEGER NOT NULL
 )
 //
-CREATE INDEX article_flag_create_97 ON article_flag (create_by)
+CREATE INDEX article_flag_create_76 ON article_flag (create_by)
 //
-CREATE INDEX article_flag_article50 ON article_flag (article_id)
+CREATE INDEX article_flag_article22 ON article_flag (article_id)
 //
 // ----------------------------------------------------------
 //  create table article
@@ -611,7 +611,7 @@ CREATE TABLE article_plain
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX article_plain_articl94 ON article_plain (article_id)
+CREATE INDEX article_plain_articl46 ON article_plain (article_id)
 //
 // ----------------------------------------------------------
 //  create table article_attachment
@@ -631,7 +631,7 @@ CREATE TABLE article_attachment
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX article_attachment_a59 ON article_attachment (article_id)
+CREATE INDEX article_attachment_a13 ON article_attachment (article_id)
 //
 // ----------------------------------------------------------
 //  create table standard_response
@@ -770,7 +770,7 @@ CREATE TABLE time_accounting
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX index_time_accountin3 ON time_accounting (ticket_id)
+CREATE INDEX index_time_accountin8 ON time_accounting (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table ticket_watcher
@@ -785,7 +785,7 @@ CREATE TABLE ticket_watcher
     change_by INTEGER NOT NULL
 )
 //
-CREATE INDEX ticket_watcher_ticke67 ON ticket_watcher (ticket_id)
+CREATE INDEX ticket_watcher_ticke54 ON ticket_watcher (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table service
@@ -815,9 +815,9 @@ CREATE TABLE service_customer_user
     create_by INTEGER NOT NULL
 )
 //
-CREATE INDEX service_customer_use34 ON service_customer_user (customer_user_login)
+CREATE INDEX service_customer_use78 ON service_customer_user (customer_user_login)
 //
-CREATE INDEX service_customer_use64 ON service_customer_user (service_id)
+CREATE INDEX service_customer_use1 ON service_customer_user (service_id)
 //
 // ----------------------------------------------------------
 //  create table sla
@@ -869,7 +869,7 @@ CREATE TABLE ticket_index
     create_time_unix INTEGER NOT NULL
 )
 //
-CREATE INDEX index_ticket_index_t6 ON ticket_index (ticket_id)
+CREATE INDEX index_ticket_index_t81 ON ticket_index (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table ticket_lock_index
@@ -879,7 +879,7 @@ CREATE TABLE ticket_lock_index
     ticket_id INTEGER NOT NULL
 )
 //
-CREATE INDEX index_ticket_lock_ti2 ON ticket_lock_index (ticket_id)
+CREATE INDEX index_ticket_lock_ti69 ON ticket_lock_index (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table customer_user
@@ -914,7 +914,7 @@ CREATE TABLE customer_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX index_customer_prefe31 ON customer_preferences (user_id)
+CREATE INDEX index_customer_prefe4 ON customer_preferences (user_id)
 //
 // ----------------------------------------------------------
 //  create table customer_company
@@ -934,8 +934,8 @@ CREATE TABLE customer_company
     create_by INTEGER NOT NULL,
     change_time timestamp NOT NULL,
     change_by INTEGER NOT NULL,
-    UNIQUE (name),
-    UNIQUE (customer_id)
+    UNIQUE (customer_id),
+    UNIQUE (name)
 )
 //
 // ----------------------------------------------------------
@@ -947,19 +947,20 @@ CREATE TABLE ticket_loop_protection
     sent_date VARCHAR (150) NOT NULL
 )
 //
-CREATE INDEX index_ticket_loop_pr16 ON ticket_loop_protection (sent_to)
+CREATE INDEX index_ticket_loop_pr67 ON ticket_loop_protection (sent_to)
 //
-CREATE INDEX index_ticket_loop_pr96 ON ticket_loop_protection (sent_date)
+CREATE INDEX index_ticket_loop_pr61 ON ticket_loop_protection (sent_date)
 //
 // ----------------------------------------------------------
-//  create table pop3_account
+//  create table mail_account
 // ----------------------------------------------------------
-CREATE TABLE pop3_account
+CREATE TABLE mail_account
 (
     id serial,
     login VARCHAR (200) NOT NULL,
     pw VARCHAR (200) NOT NULL,
     host VARCHAR (200) NOT NULL,
+    account_type VARCHAR (20) NOT NULL,
     queue_id INTEGER NOT NULL,
     trusted SMALLINT NOT NULL,
     comments VARCHAR (250),
@@ -1057,9 +1058,9 @@ CREATE TABLE xml_storage
     xml_content_value LONG
 )
 //
-CREATE INDEX xml_storage_xml_cont79 ON xml_storage (xml_content_key)
+CREATE INDEX xml_storage_xml_cont91 ON xml_storage (xml_content_key)
 //
-CREATE INDEX xml_storage_key_type56 ON xml_storage (xml_key, xml_type)
+CREATE INDEX xml_storage_key_type96 ON xml_storage (xml_key, xml_type)
 //
 // ----------------------------------------------------------
 //  create table package_repository

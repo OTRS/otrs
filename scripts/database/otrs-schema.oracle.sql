@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-02-11 12:43:47
+--  driver: oracle, generated: 2008-03-28 12:16:38
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -502,7 +502,7 @@ CREATE TABLE queue_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_queue_preferences_user57 ON queue_preferences (queue_id);
+CREATE INDEX index_queue_preferences_user30 ON queue_preferences (queue_id);
 -- ----------------------------------------------------------
 --  create table ticket
 -- ----------------------------------------------------------
@@ -913,14 +913,14 @@ CREATE TABLE standard_response_attachment (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach25_PK PRIMARY KEY (id);
-DROP SEQUENCE standard_response_attach25_seq;
-CREATE SEQUENCE standard_response_attach25_seq;
-CREATE OR REPLACE TRIGGER standard_response_attach25_s_t
+ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach36_PK PRIMARY KEY (id);
+DROP SEQUENCE standard_response_attach36_seq;
+CREATE SEQUENCE standard_response_attach36_seq;
+CREATE OR REPLACE TRIGGER standard_response_attach36_s_t
 before insert on standard_response_attachment
 for each row
 begin
-    select standard_response_attach25_seq.nextval
+    select standard_response_attach36_seq.nextval
     into :new.id
     from dual;
 end;
@@ -1037,7 +1037,7 @@ begin
 end;
 /
 --;
-CREATE INDEX index_time_accounting_ticket40 ON time_accounting (ticket_id);
+CREATE INDEX index_time_accounting_ticket17 ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
 --  create table ticket_watcher
 -- ----------------------------------------------------------
@@ -1086,8 +1086,8 @@ CREATE TABLE service_customer_user (
     create_time DATE NOT NULL,
     create_by NUMBER NOT NULL
 );
-CREATE INDEX service_customer_user_custom5 ON service_customer_user (customer_user_login);
-CREATE INDEX service_customer_user_servic49 ON service_customer_user (service_id);
+CREATE INDEX service_customer_user_custom11 ON service_customer_user (customer_user_login);
+CREATE INDEX service_customer_user_servic39 ON service_customer_user (service_id);
 -- ----------------------------------------------------------
 --  create table sla
 -- ----------------------------------------------------------
@@ -1192,7 +1192,7 @@ CREATE TABLE customer_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_customer_preferences_u68 ON customer_preferences (user_id);
+CREATE INDEX index_customer_preferences_u16 ON customer_preferences (user_id);
 -- ----------------------------------------------------------
 --  create table customer_company
 -- ----------------------------------------------------------
@@ -1220,16 +1220,17 @@ CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR2 (250) NOT NULL,
     sent_date VARCHAR2 (150) NOT NULL
 );
-CREATE INDEX index_ticket_loop_protection23 ON ticket_loop_protection (sent_to);
-CREATE INDEX index_ticket_loop_protection79 ON ticket_loop_protection (sent_date);
+CREATE INDEX index_ticket_loop_protection1 ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loop_protection40 ON ticket_loop_protection (sent_date);
 -- ----------------------------------------------------------
---  create table pop3_account
+--  create table mail_account
 -- ----------------------------------------------------------
-CREATE TABLE pop3_account (
+CREATE TABLE mail_account (
     id NUMBER NOT NULL,
     login VARCHAR2 (200) NOT NULL,
     pw VARCHAR2 (200) NOT NULL,
     host VARCHAR2 (200) NOT NULL,
+    account_type VARCHAR2 (20) NOT NULL,
     queue_id NUMBER NOT NULL,
     trusted NUMBER (5, 0) NOT NULL,
     comments VARCHAR2 (250),
@@ -1239,14 +1240,14 @@ CREATE TABLE pop3_account (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE pop3_account ADD CONSTRAINT pop3_account_PK PRIMARY KEY (id);
-DROP SEQUENCE pop3_account_seq;
-CREATE SEQUENCE pop3_account_seq;
-CREATE OR REPLACE TRIGGER pop3_account_s_t
-before insert on pop3_account
+ALTER TABLE mail_account ADD CONSTRAINT mail_account_PK PRIMARY KEY (id);
+DROP SEQUENCE mail_account_seq;
+CREATE SEQUENCE mail_account_seq;
+CREATE OR REPLACE TRIGGER mail_account_s_t
+before insert on mail_account
 for each row
 begin
-    select pop3_account_seq.nextval
+    select mail_account_seq.nextval
     into :new.id
     from dual;
 end;

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-02-11 12:43:47
+--  driver: postgresql, generated: 2008-03-28 12:16:38
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -826,13 +826,14 @@ CREATE TABLE ticket_loop_protection (
 CREATE INDEX index_ticket_loop_protection_sent_to ON ticket_loop_protection (sent_to);
 CREATE INDEX index_ticket_loop_protection_sent_date ON ticket_loop_protection (sent_date);
 -- ----------------------------------------------------------
---  create table pop3_account
+--  create table mail_account
 -- ----------------------------------------------------------
-CREATE TABLE pop3_account (
+CREATE TABLE mail_account (
     id serial,
     login VARCHAR (200) NOT NULL,
     pw VARCHAR (200) NOT NULL,
     host VARCHAR (200) NOT NULL,
+    account_type VARCHAR (20) NOT NULL,
     queue_id INTEGER NOT NULL,
     trusted INTEGER NOT NULL,
     comments VARCHAR (250),
