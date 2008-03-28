@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/cgi-bin/rpc.pl - soap handle
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: rpc.pl,v 1.1 2006-08-29 13:42:35 martin Exp $
+# $Id: rpc.pl,v 1.1.2.1 2008-03-28 13:00:55 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ use Kernel::System::Queue;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.1.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -78,7 +78,18 @@ sub Dispatch {
     my $Object = shift;
     my $Method = shift;
     my %Param = @_;
-    if ($User ne $CommonObject{ConfigObject}->Get('SOAP::User') || $Pw ne $CommonObject{ConfigObject}->Get('SOAP::Password')) {
+    my $RequiredUser = $CommonObject{ConfigObject}->Get('SOAP::User');
+    my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');
+    if ( !defined $RequiredUser || !length( $RequiredUser )
+        || !defined $RequiredPassword || !length( $RequiredPassword )
+    ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "SOAP::User or SOAP::Password is empty, SOAP access denied!",
+        );
+        return;
+    }
+    if ( $User ne $RequiredUser || $Pw ne $RequiredPassword ) {
         $CommonObject{LogObject}->Log(
             Priority => 'notice',
             Message => "Auth for user $User faild!",
