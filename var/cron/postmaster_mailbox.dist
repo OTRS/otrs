@@ -1,0 +1,14 @@
+# --
+# cron/postmaster_mailbox - postmaster_mailbox cron of the OTRS
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# --
+# $Id: postmaster_mailbox.dist,v 1.1 2008-03-28 11:32:36 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# --
+
+# fetch emails every 10 minutes
+*/10 * * * *    $HOME/bin/PostMasterMailbox.pl >> /dev/null
+

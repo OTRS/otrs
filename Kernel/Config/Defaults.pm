@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.289 2008-03-25 15:42:09 martin Exp $
+# $Id: Defaults.pm,v 1.290 2008-03-28 11:37:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.289 $) [1];
+$VERSION = qw($Revision: 1.290 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -1942,14 +1942,14 @@ Your OTRS Notification Master
             Prio   => 1200,
         },
     };
-    $Self->{'Frontend::Module'}->{'AdminPOP3'} = {
+    $Self->{'Frontend::Module'}->{'AdminMailAccount'} = {
         Group        => ['admin'],
         Description  => 'Admin',
-        Title        => 'POP3 Account',
+        Title        => 'Mail Account',
         NavBarName   => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'PostMaster POP3 Account',
+            Name   => 'PostMaster Mail Account',
             Block  => 'Block4',
             Prio   => 100,
         },
@@ -2321,6 +2321,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.289 $ $Date: 2008-03-25 15:42:09 $
+$Revision: 1.290 $ $Date: 2008-03-28 11:37:54 $
 
 =cut

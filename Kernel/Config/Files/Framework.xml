@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.163 2008-03-25 15:42:09 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.164 2008-03-28 11:37:54 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -4228,20 +4228,20 @@ Your OTRS Notification Master
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AdminPOP3" Required="0" Valid="1">
-        <Description Lang="en">Frontend module registration for the AdminPop3 object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminPop3-Objekts im Admin-Bereich.</Description>
+    <ConfigItem Name="Frontend::Module###AdminMailAccount" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AdminMailAccount object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminMailAccount-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>POP3 Account</Title>
+                <Title>Mail Account</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>PostMaster POP3 Account</Name>
+                    <Name>PostMaster Mail Account</Name>
                     <Block>Block4</Block>
                     <Prio>100</Prio>
                 </NavBarModule>

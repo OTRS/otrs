@@ -1,24 +1,24 @@
 # --
-# Kernel/Modules/AdminPOP3.pm - to add/update/delete POP3 acounts
+# Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount acounts
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPOP3.pm,v 1.21 2008-01-31 06:22:12 tr Exp $
+# $Id: AdminMailAccount.pm,v 1.1 2008-03-28 11:32:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
-package Kernel::Modules::AdminPOP3;
+package Kernel::Modules::AdminMailAccount;
 
 use strict;
 use warnings;
 
-use Kernel::System::POP3Account;
+use Kernel::System::MailAccount;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,7 +33,7 @@ sub new {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
-    $Self->{POP3Account} = Kernel::System::POP3Account->new(%Param);
+    $Self->{MailAccount} = Kernel::System::MailAccount->new(%Param);
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
@@ -43,16 +43,39 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my %GetParam = ();
-    my @Params   = (qw(ID Login Password Host Comment ValidID QueueID Trusted DispatchingBy));
+    my @Params   = (qw(ID Login Password Host Type Comment ValidID QueueID Trusted DispatchingBy));
     for (@Params) {
         $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
     }
 
     # ------------------------------------------------------------ #
+    # Run
+    # ------------------------------------------------------------ #
+    if ( $Self->{Subaction} eq 'Run' ) {
+        my %Data = $Self->{MailAccount}->MailAccountGet(%GetParam);
+        if ( !%Data ) {
+            return $Self->{LayoutObject}->ErrorScreen();
+        }
+        else {
+            my $Ok = $Self->{MailAccount}->MailAccountFetch(
+                %Data,
+                Limit  => 15,
+                UserID => $Self->{UserID},
+            );
+            if ( !$Ok ) {
+                return $Self->{LayoutObject}->ErrorScreen();
+            }
+            else {
+                return $Self->{LayoutObject}->Redirect( OP => 'Action=$Env{"Action"}&Ok=1' );
+            }
+        }
+    }
+
+    # ------------------------------------------------------------ #
     # delete
     # ------------------------------------------------------------ #
-    if ( $Self->{Subaction} eq 'Delete' ) {
-        if ( $Self->{POP3Account}->POP3AccountDelete(%GetParam) ) {
+    elsif ( $Self->{Subaction} eq 'Delete' ) {
+        if ( $Self->{MailAccount}->MailAccountDelete(%GetParam) ) {
             return $Self->{LayoutObject}->Redirect( OP => 'Action=$Env{"Action"}' );
         }
         else {
@@ -64,18 +87,18 @@ sub Run {
     # add action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
-        if (my $ID = $Self->{POP3Account}->POP3AccountAdd(
-                %GetParam,
-                QueueID       => 0,
-                DispatchingBy => 0,
-                Trusted       => 0,
-                ValidID       => 1,
-                UserID        => $Self->{UserID},
-            )
-            )
-        {
-            return $Self->{LayoutObject}
-                ->Redirect( OP => 'Action=$Env{"Action"}&Subaction=Update&ID=' . $ID, );
+        my $ID = $Self->{MailAccount}->MailAccountAdd(
+            %GetParam,
+            QueueID       => 0,
+            DispatchingBy => 0,
+            Trusted       => 0,
+            ValidID       => 1,
+            UserID        => $Self->{UserID},
+        );
+        if ( $ID ) {
+            return $Self->{LayoutObject}->Redirect(
+                OP => 'Action=$Env{"Action"}&Subaction=Update&ID=' . $ID,
+            );
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();
@@ -86,7 +109,7 @@ sub Run {
     # update
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Update' ) {
-        my %Data = $Self->{POP3Account}->POP3AccountGet(%GetParam);
+        my %Data = $Self->{MailAccount}->MailAccountGet(%GetParam);
         if ( !%Data ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
@@ -99,7 +122,7 @@ sub Run {
     # update action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'UpdateAction' ) {
-        if ( $Self->{POP3Account}->POP3AccountUpdate( %GetParam, UserID => $Self->{UserID} ) ) {
+        if ( $Self->{MailAccount}->MailAccountUpdate( %GetParam, UserID => $Self->{UserID} ) ) {
             return $Self->{LayoutObject}->Redirect( OP => 'Action=$Env{"Action"}' );
         }
         else {
@@ -111,7 +134,14 @@ sub Run {
     # overview
     # ------------------------------------------------------------ #
     else {
-        my %List = $Self->{POP3Account}->POP3AccountList( Valid => 0 );
+        my $Ok = $Self->{ParamObject}->GetParam( Param => 'Ok' );
+        my %Backend = $Self->{MailAccount}->MailAccountBackendList();
+        my %List = $Self->{MailAccount}->MailAccountList( Valid => 0 );
+        $Param{'TypeOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data       => { $Self->{MailAccount}->MailAccountBackendList() },
+            Name       => 'Type',
+            SelectedID => $Param{Type} || 'POP3',
+        );
 
         $Self->{LayoutObject}->Block(
             Name => 'Overview',
@@ -122,16 +152,23 @@ sub Run {
             Data => { %Param, },
         );
         for my $Key ( sort keys %List ) {
+            my %Data = $Self->{MailAccount}->MailAccountGet( ID => $Key );
+            if ( !$Backend{ $Data{Type} } ) {
+                $Data{Type} .= '(not installed!)';
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRow',
-                Data => { $Self->{POP3Account}->POP3AccountGet( ID => $Key ), },
+                Data => \%Data,
             );
         }
 
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        if ( $Ok ) {
+            $Output .= $Self->{LayoutObject}->Notify( Info => 'Finished' );
+        }
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminPOP3',
+            TemplateFile => 'AdminMailAccount',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -147,6 +184,12 @@ sub _MaskUpdate {
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
+    );
+
+    $Param{'TypeOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data       => { $Self->{MailAccount}->MailAccountBackendList() },
+        Name       => 'Type',
+        SelectedID => $Param{Type},
     );
 
     $Param{'TrustedOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -187,7 +230,7 @@ sub _MaskUpdate {
     );
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
-    $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPOP3', Data => \%Param );
+    $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminMailAccount', Data => \%Param );
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }

@@ -1,19 +1,19 @@
 # --
-# AdminPOP3.dtl - provides HTML form for AdminPOP3
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# AdminMailAccount.dtl - provides HTML form for AdminMailAccount
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPOP3.dtl,v 1.8 2007-06-28 23:55:33 martin Exp $
+# $Id: AdminMailAccount.dtl,v 1.1 2008-03-28 11:32:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td colspan="2" class="mainhead">
-      $Env{"Box0"}$Text{"POP3 Account Management"}$Env{"Box1"}
+      $Env{"Box0"}$Text{"Mail Account Management"}$Env{"Box1"}
     </td>
   </tr>
   <tr>
@@ -28,6 +28,10 @@
           <tr>
             <td class="contentbody">
               <table>
+                <tr>
+                  <td class="contentkey">$Text{"Type"}:</td>
+                  <td class="contentvalue">$Data{"TypeOption"}</td>
+                </tr>
                 <tr>
                   <td class="contentkey">$Text{"Username"}:</td>
                   <td class="contentvalue"><input type="text" name="Login" value="" size="25"></td>
@@ -61,9 +65,11 @@
           <td class="contentbody">
             <table width="100%" border="0" cellspacing="0" cellpadding="3">
               <tr>
-                <td class="contentkey" width="60%">$Text{"Host"}/$Text{"Username"}</td>
+                <td class="contentkey" width="50%">$Text{"Host"}/$Text{"Username"}</td>
+                <td align="center" class="contentkey">$Text{"Type"}</td>
                 <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
                 <td align="center" class="contentkey">$Text{"Delete"}</td>
+                <td align="center" class="contentkey">$Text{"Run Now!"}</td>
               </tr>
 <!-- dtl:block:OverviewResultRow -->
               <dtl if ($Data{"ValidID"} ne "1") { $Data{"StartFont"} = "<font color="gray">"; }>
@@ -76,10 +82,16 @@
                   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Update&ID=$QData{"ID"}">$Data{"StartFont"}$QData{"Host"} / $QData{"Login"}$Data{"StopFont"}</a>
                 </td>
                 <td align="center" class="$Env{"Color"}">
+                  $Data{"StartFont"}$QData{"Type"}$Data{"StopFont"}
+                </td>
+                <td align="center" class="$Env{"Color"}">
                   $Data{"StartFont"}$Text{"$QData{"ShownValid"}"}$Data{"StopFont"}
                 </td>
                 <td align="center" class="$Env{"Color"}">
                   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&ID=$QData{"ID"}">$Data{"StartFont"}x$Data{"StopFont"}</a>
+                </td>
+                <td align="center" class="$Env{"Color"}">
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Run&ID=$QData{"ID"}">$Data{"StartFont"}x$Data{"StopFont"}</a>
                 </td>
               </tr>
               <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
@@ -107,6 +119,10 @@
           <tr>
             <td class="contentbody">
               <table border="0" cellspacing="0" cellpadding="3">
+                <tr>
+                  <td class="contentkey">$Text{"Type"}: </td>
+                  <td class="contentvalue"> $Data{"TypeOption"}</td>
+                </tr>
                 <tr>
                   <td class="contentkey">$Text{"Username"}: </td>
                   <td class="contentvalue"> <input type="text" name="Login" value="$QData{"Login"}" size="35" maxlength="50"></td>
@@ -172,6 +188,15 @@
         <hr>
         <form action="/">
           <table>
+            <tr>
+              <td>$Text{"Type"}: </td>
+              <td>
+                <select name="Type">
+                  <option selected value="POP3">POP3</option>
+                  <option value="IMAP">IMAP</option>
+                </select>
+              </td>
+            </tr>
             <tr>
               <td>$Text{"Username"}: </td>
               <td> <input type="text" name="Login" value="mail2" size="35" maxlength="50"></td>

@@ -141,7 +141,7 @@ use Kernel::Modules::AdminUser;
 use Kernel::Modules::AdminGroup;
 use Kernel::Modules::AdminUserGroup;
 use Kernel::Modules::AdminSystemAddress;
-use Kernel::Modules::AdminPOP3;
+use Kernel::Modules::AdminMailAccount;
 use Kernel::Modules::AdminPGP;
 use Kernel::Modules::AdminSMIME;
 use Kernel::Modules::AdminPostMasterFilter;

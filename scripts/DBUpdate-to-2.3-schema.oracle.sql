@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-02-11 13:05:11
+--  driver: oracle, generated: 2008-03-28 12:27:28
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -10,7 +10,7 @@ CREATE TABLE queue_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_queue_preferences_user58 ON queue_preferences (queue_id);
+CREATE INDEX index_queue_preferences_user38 ON queue_preferences (queue_id);
 -- ----------------------------------------------------------
 --  alter table queue
 -- ----------------------------------------------------------
@@ -35,6 +35,14 @@ ALTER TABLE sla ADD update_notify NUMBER (5, 0);
 --  alter table sla
 -- ----------------------------------------------------------
 ALTER TABLE sla ADD solution_notify NUMBER (5, 0);
+-- ----------------------------------------------------------
+--  alter table mail_account
+-- ----------------------------------------------------------
+ALTER TABLE pop3_account RENAME TO mail_account;
+-- ----------------------------------------------------------
+--  alter table mail_account
+-- ----------------------------------------------------------
+ALTER TABLE mail_account ADD account_type VARCHAR2 (20);
 -- ----------------------------------------------------------
 --  alter table article
 -- ----------------------------------------------------------
