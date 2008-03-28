@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.614 2008-03-28 11:10:20 martin Exp $
+# $Id: CHANGES,v 1.615 2008-03-28 11:15:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,6 +15,7 @@ CVS HEAD (????/??/??)
  - (2008/03/26) Added POP3/POP3S/IMAP/IMAPS support for PostMaster sub system
     (new bin/PostMasterMailbox.pl is replacing old bin/PostMasterPOP3.pl).
     Thanks to Igor Stradwo for this patch!
+    NOTE: table pop3_account need to be modified - use scripts/DBUpdate-to-2.3.*.sql
  - (2008/03/26) Added support of renaming of database tables in XML backend and
     database drivers (Kernel/System/DB/*.pm).
     Example:
