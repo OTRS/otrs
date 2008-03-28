@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.68 2008-01-31 06:20:20 tr Exp $
+# $Id: PostMaster.pm,v 1.69 2008-03-28 11:40:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 =head1 NAME
 
@@ -230,11 +230,14 @@ sub Run {
 
         # check if it is possible to do the follow up
         # get follow up option (possible or not)
-        my $FollowUpPossible
-            = $Self->{QueueObject}->GetFollowUpOption( QueueID => $Ticket{QueueID}, );
+        my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption(
+            QueueID => $Ticket{QueueID},
+        );
 
         # get lock option (should be the ticket locked - if closed - after the follow up)
-        my $Lock = $Self->{QueueObject}->GetFollowUpLockOption( QueueID => $Ticket{QueueID}, );
+        my $Lock = $Self->{QueueObject}->GetFollowUpLockOption(
+            QueueID => $Ticket{QueueID},
+        );
 
         # get state details
         my %State = $Self->{StateObject}->StateGet( ID => $Ticket{StateID} );
@@ -609,6 +612,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.68 $ $Date: 2008-01-31 06:20:20 $
+$Revision: 1.69 $ $Date: 2008-03-28 11:40:40 $
 
 =cut
