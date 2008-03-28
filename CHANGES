@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.613 2008-03-25 15:42:10 martin Exp $
+# $Id: CHANGES,v 1.614 2008-03-28 11:10:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,17 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/03/27) Added OpenSearchDescription to support "quick" search for
+    ticket numbers for browsers like firefox2.
+ - (2008/03/26) Added POP3/POP3S/IMAP/IMAPS support for PostMaster sub system
+    (new bin/PostMasterMailbox.pl is replacing old bin/PostMasterPOP3.pl).
+    Thanks to Igor Stradwo for this patch!
+ - (2008/03/26) Added support of renaming of database tables in XML backend and
+    database drivers (Kernel/System/DB/*.pm).
+    Example:
+
+    <TableAlter NameOld="calendar_event" NameNew="calendar_event_new"/>
+
  - (2008/03/25) Added enhancement for agent and customer HTTPBasicAuth to strip
     parts of REMOTE_USER or HTTP_REMOTE_USER by using a regexp. Example to
     strip @example.com of login.
