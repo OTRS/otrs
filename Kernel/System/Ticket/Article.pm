@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.165 2008-03-19 13:30:04 martin Exp $
+# $Id: Article.pm,v 1.166 2008-03-31 22:32:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.165 $) [1];
+$VERSION = qw($Revision: 1.166 $) [1];
 
 =head1 NAME
 
@@ -1489,10 +1489,14 @@ sub ArticleGet {
         }
 
         # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
-        # time stamps)
+        # and 0000-00-00 00:00:00 time stamps)
         for my $Time ( 1..6 ) {
-            if ( $Data{'TicketFreeTime'.$Time} ) {
-                $Data{'TicketFreeTime'.$Time} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+            if ( $Data{ 'TicketFreeTime' . $Time } ) {
+                if ( $Data{ 'TicketFreeTime' . $Time } eq '0000-00-00 00:00:00' ) {
+                    $Data{ 'TicketFreeTime' . $Time } = '';
+                    next;
+                }
+                $Data{ 'TicketFreeTime' . $Time } =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
             }
         }
 
