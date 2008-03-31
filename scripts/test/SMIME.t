@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.1 2008-02-25 16:35:04 ot Exp $
+# $Id: SMIME.t,v 1.2 2008-03-31 11:49:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -61,7 +61,7 @@ my %Check = (
         Serial => 'serial=D51FC7523893BCFD',
         ShortEndDate => '2012-03-29',
         Type => 'cert',
-        Fingerprint => 'SHA1 Fingerprint=E1:FB:F1:3E:6B:83:9F:C3:29:8A:3E:C3:19:51:33:1C:73:7F:2C:0B',
+        Fingerprint => 'E1:FB:F1:3E:6B:83:9F:C3:29:8A:3E:C3:19:51:33:1C:73:7F:2C:0B',
         Issuer => 'issuer=  /C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest/emailAddress= unittest@example.org',
         Email => 'unittest@example.org',
         StartDate => 'Feb 19 11:20:56 2008 GMT',
@@ -75,7 +75,7 @@ my %Check = (
         Private => 'No',
         Serial => 'serial=9BCC39BD2A958C37',
         ShortEndDate => '2012-03-29',
-        Fingerprint => 'SHA1 Fingerprint=3F:EE:1A:D2:E1:29:06:03:BF:AB:18:8C:F4:BA:E0:9C:FD:47:5D:0A',
+        Fingerprint => '3F:EE:1A:D2:E1:29:06:03:BF:AB:18:8C:F4:BA:E0:9C:FD:47:5D:0A',
         Type => 'cert',
         Issuer => 'issuer=  /C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest2/emailAddress= unittest2@example.org',
         Email => 'unittest2@example.org',
