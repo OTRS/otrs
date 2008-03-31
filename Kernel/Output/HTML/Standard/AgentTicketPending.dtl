@@ -1,18 +1,23 @@
 # --
 # AgentTicketPending.dtl - provides HTML form for pending mask
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPending.dtl,v 1.23 2007-05-24 10:10:19 martin Exp $
+# $Id: AgentTicketPending.dtl,v 1.24 2008-03-31 21:08:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- dtl:block:Properties -->
 <script language="JavaScript" type="text/javascript">
 <!--
 function submit_compose() {
+    if (document.compose.TypeID && document.compose.TypeID.value == "") {
+        alert('$JSText{"Ticket Type is required!"}');
+        document.compose.TypeID.focus();
+        return false;
+    }
 <!-- dtl:block:NoteJs -->
     if (document.compose.Subject.value == "") {
         alert('$JSText{"A message should have a subject!"}');
