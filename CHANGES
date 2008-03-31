@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.615 2008-03-28 11:15:06 martin Exp $
+# $Id: CHANGES,v 1.616 2008-03-31 12:32:37 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/03/31) Fixed MD5/SHA1 mixups in SMIME handling on older systems (that have
+    MD5 as default, not SHA1).
  - (2008/03/27) Added OpenSearchDescription to support "quick" search for
     ticket numbers for browsers like firefox2.
  - (2008/03/26) Added POP3/POP3S/IMAP/IMAPS support for PostMaster sub system
