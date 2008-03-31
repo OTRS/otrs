@@ -1,12 +1,12 @@
 # --
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.22 2007-03-02 08:15:50 rk Exp $
+# $Id: AgentTicketForward.dtl,v 1.23 2008-03-31 22:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start compose form -->
@@ -44,6 +44,13 @@ function submit_compose() {
         return false;
     }
 <!-- dtl:block:TicketFreeTextCheckJs -->
+<!-- dtl:block:TicketFreeTimeCheckJs -->
+    if (document.compose.$Data{"TicketFreeTimeCheck"}.checked == false) {
+        alert('$JSText{"A required field is:"} $QData{"TicketFreeTimeKey"}!');
+        document.compose.$Data{"TicketFreeTimeCheck"}.focus();
+        return false;
+    }
+<!-- dtl:block:TicketFreeTimeCheckJs -->
 <!-- dtl:block:TimeUnitsJs -->
     else if (document.compose.TimeUnits.value != "") {
         var reg = /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/;

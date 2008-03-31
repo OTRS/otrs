@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.30 2008-03-25 13:33:48 ub Exp $
+# $Id: CustomerTicketMessage.pm,v 1.31 2008-03-31 22:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -573,9 +573,7 @@ sub _MaskNew {
     }
 
     # ticket free text
-    my $Count = 0;
-    for ( 1 .. 16 ) {
-        $Count++;
+    for my $Count ( 1 .. 16 ) {
         if ( $Self->{Config}->{'TicketFreeText'}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'FreeText',
@@ -592,9 +590,7 @@ sub _MaskNew {
             );
         }
     }
-    $Count = 0;
-    for ( 1 .. 6 ) {
-        $Count++;
+    for my $Count ( 1 .. 6 ) {
         if ( $Self->{Config}->{'TicketFreeTime'}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'FreeTime',
@@ -619,7 +615,7 @@ sub _MaskNew {
         );
     }
 
-    # jscript check freetextfields by submit
+    # java script check for required free text fields by form submit
     for my $Key ( keys %{ $Self->{Config}->{TicketFreeText} } ) {
         if ( $Self->{Config}->{TicketFreeText}->{$Key} == 2 ) {
             $Self->{LayoutObject}->Block(
@@ -632,9 +628,25 @@ sub _MaskNew {
         }
     }
 
+    # java script check for required free time fields by form submit
+    for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
+        if ( $Self->{Config}->{TicketFreeTime}->{$Key} == 2 ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTimeCheckJs',
+                Data => {
+                    TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
+                    TicketFreeTimeField => 'TicketFreeTime' . $Key,
+                    TicketFreeTimeKey   => $Self->{ConfigObject}->Get('TicketFreeTimeKey' . $Key),
+                },
+            );
+        }
+    }
+
     # get output back
-    return $Self->{LayoutObject}
-        ->Output( TemplateFile => 'CustomerTicketMessage', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'CustomerTicketMessage',
+        Data         => \%Param,
+    );
 }
 
 1;

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.16 2008-02-18 16:35:36 martin Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.17 2008-03-31 22:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -783,9 +783,7 @@ sub _MaskPhone {
     }
 
     # ticket free text
-    my $Count = 0;
-    for ( 1 .. 16 ) {
-        $Count++;
+    for my $Count ( 1 .. 16 ) {
         if ( $Self->{Config}->{'TicketFreeText'}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeText',
@@ -801,9 +799,7 @@ sub _MaskPhone {
             );
         }
     }
-    $Count = 0;
-    for ( 1 .. 6 ) {
-        $Count++;
+    for my $Count ( 1 .. 6 ) {
         if ( $Self->{Config}->{'TicketFreeTime'}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeTime',
@@ -821,9 +817,7 @@ sub _MaskPhone {
     }
 
     # article free text
-    $Count = 0;
-    for ( 1 .. 3 ) {
-        $Count++;
+    for my $Count ( 1 .. 3 ) {
         if ( $Self->{Config}->{'ArticleFreeText'}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleFreeText',
@@ -870,7 +864,7 @@ sub _MaskPhone {
         );
     }
 
-    # jscript check freetextfields by submit
+    # java script check for required free text fields by form submit
     for my $Key ( keys %{ $Self->{Config}->{TicketFreeText} } ) {
         if ( $Self->{Config}->{TicketFreeText}->{$Key} == 2 ) {
             $Self->{LayoutObject}->Block(
@@ -883,9 +877,25 @@ sub _MaskPhone {
         }
     }
 
+    # java script check for required free time fields by form submit
+    for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
+        if ( $Self->{Config}->{TicketFreeTime}->{$Key} == 2 ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTimeCheckJs',
+                Data => {
+                    TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
+                    TicketFreeTimeField => 'TicketFreeTime' . $Key,
+                    TicketFreeTimeKey   => $Self->{ConfigObject}->Get('TicketFreeTimeKey' . $Key),
+                },
+            );
+        }
+    }
+
     # get output back
-    return $Self->{LayoutObject}
-        ->Output( TemplateFile => 'AgentTicketPhoneOutbound', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketPhoneOutbound',
+        Data         => \%Param,
+    );
 }
 
 1;

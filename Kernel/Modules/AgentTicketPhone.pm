@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.61 2008-03-25 13:33:48 ub Exp $
+# $Id: AgentTicketPhone.pm,v 1.62 2008-03-31 22:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1529,9 +1529,7 @@ sub _MaskPhoneNew {
     }
 
     # ticket free text
-    my $Count = 0;
-    for ( 1 .. 16 ) {
-        $Count++;
+    for my $Count ( 1 .. 16 ) {
         if ( $Self->{Config}->{'TicketFreeText'}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeText',
@@ -1548,9 +1546,7 @@ sub _MaskPhoneNew {
             );
         }
     }
-    $Count = 0;
-    for ( 1 .. 6 ) {
-        $Count++;
+    for my $Count ( 1 .. 6 ) {
         if ( $Self->{Config}->{'TicketFreeTime'}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeTime',
@@ -1568,9 +1564,7 @@ sub _MaskPhoneNew {
     }
 
     # article free text
-    $Count = 0;
-    for ( 1 .. 3 ) {
-        $Count++;
+    for my $Count ( 1 .. 3 ) {
         if ( $Self->{Config}->{'ArticleFreeText'}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleFreeText',
@@ -1617,7 +1611,7 @@ sub _MaskPhoneNew {
         );
     }
 
-    # jscript check freetextfields by submit
+    # java script check for required free text fields by form submit
     for my $Key ( keys %{ $Self->{Config}->{TicketFreeText} } ) {
         if ( $Self->{Config}->{TicketFreeText}->{$Key} == 2 ) {
             $Self->{LayoutObject}->Block(
@@ -1625,6 +1619,20 @@ sub _MaskPhoneNew {
                 Data => {
                     TicketFreeTextField => "TicketFreeText$Key",
                     TicketFreeKeyField  => "TicketFreeKey$Key",
+                },
+            );
+        }
+    }
+
+    # java script check for required free time fields by form submit
+    for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
+        if ( $Self->{Config}->{TicketFreeTime}->{$Key} == 2 ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTimeCheckJs',
+                Data => {
+                    TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
+                    TicketFreeTimeField => 'TicketFreeTime' . $Key,
+                    TicketFreeTimeKey   => $Self->{ConfigObject}->Get('TicketFreeTimeKey' . $Key),
                 },
             );
         }

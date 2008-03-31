@@ -2,7 +2,7 @@
 # AgentTicketClose.dtl - provides HTML form for close mask
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketClose.dtl,v 1.19 2008-03-31 21:08:08 martin Exp $
+# $Id: AgentTicketClose.dtl,v 1.20 2008-03-31 22:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,6 +37,13 @@ function submit_compose() {
         return false;
     }
 <!-- dtl:block:TicketFreeTextCheckJs -->
+<!-- dtl:block:TicketFreeTimeCheckJs -->
+    if (document.compose.$Data{"TicketFreeTimeCheck"}.checked == false) {
+        alert('$JSText{"A required field is:"} $QData{"TicketFreeTimeKey"}!');
+        document.compose.$Data{"TicketFreeTimeCheck"}.focus();
+        return false;
+    }
+<!-- dtl:block:TicketFreeTimeCheckJs -->
 <!-- dtl:block:TimeUnitsJs -->
     if (document.compose.TimeUnits.value != "") {
         var reg = /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/;
