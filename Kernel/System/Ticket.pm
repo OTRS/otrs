@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.303 2008-03-21 13:48:35 martin Exp $
+# $Id: Ticket.pm,v 1.304 2008-03-31 22:41:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.303 $) [1];
+$VERSION = qw($Revision: 1.304 $) [1];
 
 =head1 NAME
 
@@ -875,10 +875,14 @@ sub TicketGet {
     }
 
     # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
-    # time stamps)
+    # and 0000-00-00 00:00:00 time stamps)
     for my $Time ( 1..6 ) {
-        if ( $Ticket{'TicketFreeTime'.$Time} ) {
-            $Ticket{'TicketFreeTime'.$Time} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+        if ( $Ticket{ 'TicketFreeTime' . $Time } ) {
+            if ( $Ticket{ 'TicketFreeTime' . $Time } eq '0000-00-00 00:00:00' ) {
+                $Ticket{ 'TicketFreeTime' . $Time } = '';
+                next;
+            }
+            $Ticket{ 'TicketFreeTime' . $Time } =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
         }
     }
 
@@ -2524,6 +2528,8 @@ sub TicketFreeTimeSet {
             return;
         }
     }
+
+    # generate time stamp to compare if update is needed
     my $TimeStamp = sprintf(
         "%04d-%02d-%02d %02d:%02d:00",
         $Param{ $Prefix . $Param{Counter} . 'Year' },
@@ -2532,6 +2538,9 @@ sub TicketFreeTimeSet {
         $Param{ $Prefix . $Param{Counter} . 'Hour' },
         $Param{ $Prefix . $Param{Counter} . 'Minute' },
     );
+    if ( $TimeStamp eq '0000-00-00 00:00:00' ) {
+        $TimeStamp = '';
+    }
 
     # check if update is needed
     my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
@@ -6576,6 +6585,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.303 $ $Date: 2008-03-21 13:48:35 $
+$Revision: 1.304 $ $Date: 2008-03-31 22:41:34 $
 
 =cut
