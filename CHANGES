@@ -1,15 +1,15 @@
 # --
 # CHANGES - change log of OTRS
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.323.2.49 2007-08-03 16:18:52 mh Exp $
+# $Id: CHANGES,v 1.323.2.50 2008-03-31 20:47:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
-2.1.8 (????/??/??)
+2.1.8 (2008/03/31)
  - (2007/08/03) Fixed bug# 2134 - PDF print is creating damaged pdf files with
     PDF::API2 0.56 or smaller.
  - (2007/07/26) fixed bug# 2046 - german Umlauts not printed in PDFs if system
