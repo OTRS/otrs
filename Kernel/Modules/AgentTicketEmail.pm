@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.43.2.4 2008-03-25 13:27:05 ub Exp $
+# $Id: AgentTicketEmail.pm,v 1.43.2.5 2008-04-01 15:03:20 ak Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43.2.4 $';
+$VERSION = '$Revision: 1.43.2.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -484,8 +484,13 @@ sub Run {
         # check some values
         foreach (qw(To Cc Bcc)) {
             if ($GetParam{$_}) {
-                foreach my $Email (Mail::Address->parse($GetParam{$_})) {
-                    if (!$Self->{CheckItemObject}->CheckEmail(Address => $Email->address())) {
+                EMAIL:
+                for my $Email ( Mail::Address->parse( $GetParam{$_} ) ) {
+                    # skip check if the email address is not fully RFC 2822 compilant
+                    next EMAIL if !$Email->host();
+                    next EMAIL if !$Email->user();
+
+                    if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
                         $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
                     }
                 }
