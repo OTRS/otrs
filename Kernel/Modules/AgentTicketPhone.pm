@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.62 2008-03-31 22:18:37 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.63 2008-04-01 14:53:50 ak Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -536,8 +536,13 @@ sub Run {
             }
         }
 
-        # check some values
+        # check email address
+        EMAIL:
         for my $Email ( Mail::Address->parse( $GetParam{From} ) ) {
+            # skip check if the email address is not fully RFC 2822 compilant
+            next EMAIL if !$Email->host();
+            next EMAIL if !$Email->user();
+
             if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
                 $Error{"From invalid"} .= $Self->{CheckItemObject}->CheckError();
             }
