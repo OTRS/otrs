@@ -2,7 +2,7 @@
 # Crypt.t - Crypt tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.11 2008-01-25 12:07:35 ot Exp $
+# $Id: Crypt.t,v 1.12 2008-04-01 17:41:44 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -333,23 +333,40 @@ for my $Count (1..2) {
         );
     }
 
-    # Crypt() should fail if asked to crypt a UTF8-string (instead of ISO-string or binary octets)
+    # Crypt() should still work if asked to crypt a UTF8-string (instead of ISO-string or
+    # binary octets) - automatic conversion to a byte string should take place.
     my $UTF8Text = $TestText;
     utf8::upgrade($UTF8Text);
     $Self->True(
         utf8::is_utf8($UTF8Text),
         "Should now have a UTF8-string",
     );
-    my $EvalResult = eval {
-        $Self->{CryptObject}->Crypt(
-            Message => $UTF8Text,
-            Key => $Keys[0]->{Key},
-        );
-        0;
-    };
-    $Self->False(
-        $EvalResult,
-        "Crypt() should fail if given a UTF8-string",
+    $Crypted = $Self->{CryptObject}->Crypt(
+        Message => $UTF8Text,
+        Key => $Keys[0]->{Key},
+    );
+    $Self->True(
+        $Crypted || '',
+        "Crypt() should still work if given a UTF8-string",
+    );
+    $Self->True(
+        $Crypted =~ m{-----BEGIN PGP MESSAGE-----} && $Crypted =~ m{-----END PGP MESSAGE-----},
+        "#$Count Crypt() - Data seems ok (crypted)",
+    );
+    # decrypt
+    %Decrypt = $Self->{CryptObject}->Decrypt(
+        Message => $Crypted,
+    );
+    $Self->True(
+        $Decrypt{Successful} || '',
+        "#$Count Decrypt() - Successful",
+    );
+    # we have crypted an utf8-string, but we will get back a byte string. In order to compare it,
+    # we need to decode it into utf8:
+    utf8::decode($Decrypt{Data});
+    $Self->Is(
+        $Decrypt{Data}, $UTF8Text,
+        "#$Count Decrypt() - Data",
     );
 }
 
