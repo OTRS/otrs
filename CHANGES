@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.620 2008-04-01 14:54:34 ak Exp $
+# $Id: CHANGES,v 1.621 2008-04-01 20:35:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -209,6 +209,10 @@ CVS HEAD (????/??/??)
     if html encoded chars like &Egrave; or &eacute; is used. Added full
     HTML to text convertion to email parser.
  - (2007/09/13) Improved report overview of perfornance log.
+
+2.2.7 (2008/??/??)
+ - (2008/04/01) Fixed bug# 2822 - Ticket Number in subject and body of Bounce
+    Notification to customer/sender is not shown.
 
 2.2.6 (2008/03/31)
  - (2008/03/25) Fixed bug# 2732 - Service name is truncated in dropdown lists

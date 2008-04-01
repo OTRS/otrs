@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.13 2008-01-31 06:22:12 tr Exp $
+# $Id: AgentTicketBounce.pm,v 1.14 2008-04-01 20:35:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -140,7 +140,7 @@ sub Run {
 
         # prepare subject ...
         $Article{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
-            TicketNumber => $Param{TicketNumber},
+            TicketNumber => $Article{TicketNumber},
             Subject      => $Article{Subject} || '',
         );
 
@@ -155,8 +155,9 @@ sub Run {
         # get customer data
         my %Customer = ();
         if ( $Ticket{CustomerUserID} ) {
-            %Customer = $Self->{CustomerUserObject}
-                ->CustomerUserDataGet( User => $Ticket{CustomerUserID}, );
+            %Customer = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $Ticket{CustomerUserID},
+            );
         }
 
         # prepare salutation
@@ -170,8 +171,9 @@ sub Run {
             if ( $Param{$_} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
                 my $From = '';
                 if ( $Ticket{CustomerUserID} ) {
-                    $From = $Self->{CustomerUserObject}
-                        ->CustomerName( UserLogin => $Ticket{CustomerUserID} );
+                    $From = $Self->{CustomerUserObject}->CustomerName(
+                        UserLogin => $Ticket{CustomerUserID},
+                    );
                 }
                 if ( !$From ) {
                     $From = $Article{From} || '';
@@ -320,8 +322,7 @@ sub Run {
 
                 # error page
                 return $Self->{LayoutObject}->ErrorScreen(
-                    Message =>
-                        "Can't forward ticket to $Address! It's a local address! You need to move it!",
+                    Message => "Can't forward ticket to $Address! It's a local address! You need to move it!",
                     Comment => 'Please contact the admin.',
                 );
             }
@@ -332,19 +333,18 @@ sub Run {
         $Param{From}       = "$Address{RealName} <$Address{Email}>";
         $Param{Email}      = $Address{Email};
         $Param{EmailPlain} = $Self->{TicketObject}->ArticlePlain( ArticleID => $Self->{ArticleID} );
-        if (!$Self->{TicketObject}->ArticleBounce(
-                TicketID    => $Self->{TicketID},
-                ArticleID   => $Self->{ArticleID},
-                UserID      => $Self->{UserID},
-                To          => $Param{BounceTo},
-                From        => $Param{Email},
-                Email       => $Param{EmailPlain},
-                HistoryType => 'Bounce',
-            )
-            )
-        {
+        my $Bounce = $Self->{TicketObject}->ArticleBounce(
+            TicketID    => $Self->{TicketID},
+            ArticleID   => $Self->{ArticleID},
+            UserID      => $Self->{UserID},
+            To          => $Param{BounceTo},
+            From        => $Param{Email},
+            Email       => $Param{EmailPlain},
+            HistoryType => 'Bounce',
+        );
 
-            # error page
+        # error page
+        if ( !$Bounce ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "Can't bounce email!",
                 Comment => 'Please contact the admin.',
@@ -353,31 +353,26 @@ sub Run {
 
         # send customer info?
         if ( $Param{InformSender} ) {
-            $Param{Body} =~ s/<OTRS_TICKET>/$Param{TicketNumber}/g;
+            $Param{Body} =~ s/<OTRS_TICKET>/$Ticket{TicketNumber}/g;
             $Param{Body} =~ s/<OTRS_BOUNCE_TO>/$Param{BounceTo}/g;
-            if (my $ArticleID = $Self->{TicketObject}->ArticleSend(
-                    ArticleType    => 'email-external',
-                    SenderType     => 'agent',
-                    TicketID       => $Self->{TicketID},
-                    HistoryType    => 'Bounce',
-                    HistoryComment => "Bounced info to '$Param{To}'.",
-                    From           => $Param{From},
-                    Email          => $Param{Email},
-                    To             => $Param{To},
-                    Subject        => $Param{Subject},
-                    UserID         => $Self->{UserID},
-                    Body           => $Param{Body},
-                    Charset        => $Self->{LayoutObject}->{UserCharset},
-                    Type           => 'text/plain',
-                )
-                )
-            {
+            my $ArticleID = $Self->{TicketObject}->ArticleSend(
+                ArticleType    => 'email-external',
+                SenderType     => 'agent',
+                TicketID       => $Self->{TicketID},
+                HistoryType    => 'Bounce',
+                HistoryComment => "Bounced info to '$Param{To}'.",
+                From           => $Param{From},
+                Email          => $Param{Email},
+                To             => $Param{To},
+                Subject        => $Param{Subject},
+                UserID         => $Self->{UserID},
+                Body           => $Param{Body},
+                Charset        => $Self->{LayoutObject}->{UserCharset},
+                Type           => 'text/plain',
+            );
 
-                # null
-            }
-            else {
-
-                # error page
+            # error page
+            if ( !$ArticleID ) {
                 return $Self->{LayoutObject}->ErrorScreen(
                     Message => "Can't send email!",
                     Comment => 'Please contact the admin.',
@@ -386,8 +381,9 @@ sub Run {
         }
 
         # set state
-        my %StateData
-            = $Self->{TicketObject}->{StateObject}->StateGet( ID => $Param{BounceStateID}, );
+        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+            ID => $Param{BounceStateID},
+        );
         $Self->{TicketObject}->StateSet(
             TicketID  => $Self->{TicketID},
             ArticleID => $Self->{ArticleID},
