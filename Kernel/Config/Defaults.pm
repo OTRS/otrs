@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.290 2008-03-28 11:37:54 martin Exp $
+# $Id: Defaults.pm,v 1.291 2008-04-01 10:23:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.290 $) [1];
+$VERSION = qw($Revision: 1.291 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -251,7 +251,12 @@ sub LoadDefaults {
 #    $Self->{'LogModule'} = 'Kernel::System::Log::File';
 
     # param for LogModule Kernel::System::Log::SysLog
-#    $Self->{'LogModule::SysLog::Facility'} = 'user';
+    $Self->{'LogModule::SysLog::Facility'} = 'user';
+
+    # param for LogModule Kernel::System::Log::SysLog
+    # (Depends on you sys log system environment. 'unix' is default, on
+    # solaris you may need to use 'stream'.)
+    $Self->{'LogModule::SysLog::LogSock'} = 'unix';
 
     # param for LogModule Kernel::System::Log::SysLog
     # (if syslog can't work with utf-8, force the log
@@ -2321,6 +2326,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.290 $ $Date: 2008-03-28 11:37:54 $
+$Revision: 1.291 $ $Date: 2008-04-01 10:23:37 $
 
 =cut

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.617 2008-03-31 22:21:46 martin Exp $
+# $Id: CHANGES,v 1.618 2008-04-01 10:23:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/04/31) Added new SysLog backend config for log sock. Defaulte use is
+    'unix'. On Solaris you may need to use 'stream'.
  - (2008/03/31) Added ticket free time as required field support (like
     for already existing ticket free text fields).
  - (2008/03/31) Added missing ticket type as required check if ticket type

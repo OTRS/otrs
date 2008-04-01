@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Log/SysLog.pm - a wrapper for Sys::Syslog or xyz::Syslog
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SysLog.pm,v 1.14 2007-10-02 10:38:08 mh Exp $
+# $Id: SysLog.pm,v 1.15 2008-04-01 10:23:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Log::SysLog;
@@ -18,7 +18,7 @@ use Sys::Syslog qw(:DEFAULT setlogsock);
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,7 +58,8 @@ sub Log {
     }
 
     # start syslog connect
-    setlogsock('unix');
+    my $LogSock  = $Self->{ConfigObject}->Get('LogModule::SysLog::LogSock') || 'unix';
+    setlogsock($LogSock);
     openlog( $Param{LogPrefix}, 'cons,pid', $Self->{SysLogFacility} );
 
     if ( $Param{Priority} =~ /debug/i ) {
@@ -76,13 +77,10 @@ sub Log {
     else {
 
         # print error messages to STDERR
-        print STDERR
-            "[Error][$Param{Module}] Priority: '$Param{Priority}' not defined! Message: $Param{Message}\n";
+        print STDERR "[Error][$Param{Module}] Priority: '$Param{Priority}' not defined! Message: $Param{Message}\n";
 
         # and of course to syslog
-        syslog( 'err',
-            "[Error][$Param{Module}] Priority: '$Param{Priority}' not defined! Message: $Param{Message}"
-        );
+        syslog( 'err', "[Error][$Param{Module}] Priority: '$Param{Priority}' not defined! Message: $Param{Message}" );
     }
 
     # close syslog request

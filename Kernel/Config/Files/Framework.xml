@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.164 2008-03-28 11:37:54 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.165 2008-04-01 10:23:37 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -423,6 +423,15 @@ TimeWorkingHours
         <SubGroup>Core::Log</SubGroup>
         <Setting>
             <String Regex="">user</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="LogModule::SysLog::LogSock" Required="1" Valid="1">
+        <Description Lang="en">If "SysLog" was selected for LogModule, you can specify a special log sock (on solaris you may need to use 'stream').</Description>
+        <Description Lang="de">Wenn für LogModule der Wert "SysLog" ausgewählt wurde, kann hier ein spezielles Log-Sock angegeben werden (auf solaris muss ggf. 'stream' benutzt werden).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Log</SubGroup>
+        <Setting>
+            <String Regex="">unix</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LogModule::SysLog::Charset" Required="1" Valid="1">
