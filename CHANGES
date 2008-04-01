@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.618 2008-04-01 10:23:38 martin Exp $
+# $Id: CHANGES,v 1.619 2008-04-01 10:41:20 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,10 @@
 # --
 
 CVS HEAD (????/??/??)
- - (2008/04/31) Added new SysLog backend config for log sock. Defaulte use is
+ - (2008/04/01) Fixed bug#2575 - trying to PGP::Crypt() utf8-character-strings
+    no longer bails, but simply auto-converts the string into an utf8-byte-string,
+    such that the correct data is written into the temp file.
+ - (2008/04/01) Added new SysLog backend config for log sock. Defaulte use is
     'unix'. On Solaris you may need to use 'stream'.
  - (2008/03/31) Added ticket free time as required field support (like
     for already existing ticket free text fields).

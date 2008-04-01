@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.24 2008-01-25 12:07:34 ot Exp $
+# $Id: PGP.pm,v 1.25 2008-04-01 10:41:20 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -101,9 +101,10 @@ sub Crypt {
         }
     }
 
-    # TODO; this check *must* be removed once OTRS is using UTF8 as native encoding!
+    # since the following write would auto-convert utf8-characters into iso-characters, we
+    # avoid that by explicitly encoding utf8-strings:
     if (utf8::is_utf8($Param{Message})) {
-        die 'Crypt() is unable to handle UTF8-string - pass in binary octets or ISO-string!';
+        utf8::encode($Param{Message});
     }
 
     my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
@@ -747,6 +748,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2008-01-25 12:07:34 $
+$Revision: 1.25 $ $Date: 2008-04-01 10:41:20 $
 
 =cut
