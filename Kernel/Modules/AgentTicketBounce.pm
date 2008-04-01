@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.10 2007-01-20 18:04:49 mh Exp $
+# $Id: AgentTicketBounce.pm,v 1.10.2.1 2008-04-01 20:36:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AgentTicketBounce;
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.10.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -139,7 +139,7 @@ sub Run {
         );
         # prepare subject ...
         $Article{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
-            TicketNumber => $Param{TicketNumber},
+            TicketNumber => $Article{TicketNumber},
             Subject => $Article{Subject} || '',
         );
         # prepare to (ReplyTo!) ...
@@ -329,7 +329,7 @@ sub Run {
         }
         # send customer info?
         if ($Param{InformSender}) {
-            $Param{Body} =~ s/<OTRS_TICKET>/$Param{TicketNumber}/g;
+            $Param{Body} =~ s/<OTRS_TICKET>/$Ticket{TicketNumber}/g;
             $Param{Body} =~ s/<OTRS_BOUNCE_TO>/$Param{BounceTo}/g;
             if (my $ArticleID = $Self->{TicketObject}->ArticleSend(
                 ArticleType => 'email-external',

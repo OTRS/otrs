@@ -2,17 +2,21 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.107 2008-04-01 15:03:20 ak Exp $
+# $Id: CHANGES,v 1.465.2.108 2008-04-01 20:36:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
-2.2.6 (2008/03/31)
- - (2008/04/01) Fixed bug#2453 - syntax errors on customer search; name@host problems
+2.2.7 (2008/??/??)
+ - (2008/04/01) Fixed bug# 2822 - Ticket Number in subject of Bounce Notification
+    to customer/sender is not shown.
+ - (2008/04/01) Fixed bug# 2453 - syntax errors on customer search; name@host problems
     the mail address parser does not recognize the email address if it is not
     fully 2822 compilant.
+
+2.2.6 (2008/03/31)
  - (2008/03/25) Fixed bug# 2732 - Service name is truncated in dropdown lists
  - (2008/03/21) Fixed bug# 2758 - non-latin filenames in emails get not converted
     to utf8 (e. g. koi8-r, utf8, cp1251).
@@ -687,7 +691,7 @@
  - (2006/12/13) Moved config option PostMasterPOP3MaxEmailSize default 6 MB
     to 12 MB.
 
-2.1.8 (????/??/??)
+2.1.8 (2008/03/31)
  - (2007/08/03) Fixed bug# 2134 - PDF print is creating damaged pdf files with
     PDF::API2 0.56 or smaller.
  - (2007/07/26) fixed bug# 2046 - german Umlauts not printed in PDFs if system
