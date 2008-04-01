@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/restore.pl - the restore script
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: restore.pl,v 1.5 2007-09-29 11:10:47 mh Exp $
+# $Id: restore.pl,v 1.6 2008-04-01 19:41:41 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Getopt::Std;
 
@@ -41,7 +41,7 @@ my $DBDump = '';
 getopt( 'hbd', \%Opts );
 if ( $Opts{'h'} ) {
     print "restore.pl <Revision $VERSION> - restore script\n";
-    print "Copyright (c) 2001-2007 OTRS GmbH, http://otrs.org/\n";
+    print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
     print "usage: restore.pl -b /data_backup/<TIME>/ -d /opt/otrs/\n";
     exit 1;
 }
@@ -64,8 +64,9 @@ elsif ( !-d $Opts{'d'} ) {
 
 # restore config
 print "Restore $Opts{'b'}/Config.tar.gz ...\n";
+chdir($Opts{'d'});
 if ( -e "$Opts{'b'}/Config.tar.gz" ) {
-    system("cd $Opts{'d'} && tar -xzf $Opts{'b'}/Config.tar.gz");
+    system("tar -xzf $Opts{'b'}/Config.tar.gz");
 }
 
 require Kernel::Config;
@@ -128,22 +129,20 @@ if ( $CommonObject{DBObject} ) {
             $Check++;
         }
         if ($Check) {
-            print STDERR
-                "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
+            print STDERR "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
             exit(1);
         }
     }
     else {
-        $CommonObject{DBObject}->Prepare( SQL =>
-                "SELECT table_name FROM information_schema.tables WHERE table_catalog = 'otrs' AND table_schema = 'public'",
+        $CommonObject{DBObject}->Prepare(
+            SQL => "SELECT table_name FROM information_schema.tables WHERE table_catalog = 'otrs' AND table_schema = 'public'",
         );
         my $Check = 0;
         while ( my @RowTmp = $CommonObject{DBObject}->FetchrowArray() ) {
             $Check++;
         }
         if ($Check) {
-            print STDERR
-                "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
+            print STDERR "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
             exit(1);
         }
     }
@@ -151,23 +150,24 @@ if ( $CommonObject{DBObject} ) {
 
 # restore
 my $Home = $CommonObject{ConfigObject}->Get('Home');
+chdir($Home);
 
 # backup application
 if ( -e "$Opts{'b'}/Application.tar.gz" ) {
     print "Restore $Opts{'b'}/Application.tar.gz ...\n";
-    system("cd $Opts{'d'} && tar -xzf $Opts{'b'}/Application.tar.gz");
+    system("tar -xzf $Opts{'b'}/Application.tar.gz");
 }
 
 # backup vardir
 if ( -e "$Opts{'b'}/VarDir.tar.gz" ) {
     print "Restore $Opts{'b'}/VarDir.tar.gz ...\n";
-    system("cd $Opts{'d'} && tar -xzf $Opts{'b'}/VarDir.tar.gz");
+    system("tar -xzf $Opts{'b'}/VarDir.tar.gz");
 }
 
 # backup datadir
 if ( -e "$Opts{'b'}/DataDir.tar.gz" ) {
     print "Restore $Opts{'b'}/DataDir.tar.gz ...\n";
-    system("cd $Opts{'d'} && tar -xzf $Opts{'b'}/DataDir.tar.gz");
+    system("tar -xzf $Opts{'b'}/DataDir.tar.gz");
 }
 
 # backup database
@@ -180,9 +180,7 @@ if ( $DB =~ /mysql/i ) {
         print "decompresses SQL-file ...\n";
         system("gunzip $Opts{'b'}/DatabaseBackup.sql.gz");
         print "cat SQL-file into $DB database\n";
-        system(
-            "cat $Opts{'b'}/DatabaseBackup.sql | mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database"
-        );
+        system( "mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database < $Opts{'b'}/DatabaseBackup.sql");
         print "compress SQL-file...\n";
         system("gzip $Opts{'b'}/DatabaseBackup.sql");
     }
@@ -190,9 +188,7 @@ if ( $DB =~ /mysql/i ) {
         print "decompresses SQL-file ...\n";
         system("bunzip $Opts{'b'}/DatabaseBackup.sql.bz2");
         print "cat SQL-file into $DB database\n";
-        system(
-            "cat $Opts{'b'}/DatabaseBackup.sql | mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database"
-        );
+        system( "mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database < $Opts{'b'}/DatabaseBackup.sql");
         print "compress SQL-file...\n";
         system("bzip $Opts{'b'}/DatabaseBackup.sql");
     }
@@ -202,8 +198,7 @@ else {
         print "decompresses SQL-file ...\n";
         system("gunzip $Opts{'b'}/DatabaseBackup.sql.gz");
         print "cat SQL-file into $DB database\n";
-        system(
-            "cat $Opts{'b'}/DatabaseBackup.sql | psql -u$DatabaseUser -h$DatabaseHost $Database");
+        system( "cat $Opts{'b'}/DatabaseBackup.sql | psql -u$DatabaseUser -h$DatabaseHost $Database");
         print "compress SQL-file...\n";
         system("gzip $Opts{'b'}/DatabaseBackup.sql");
     }
@@ -211,8 +206,7 @@ else {
         print "decompresses SQL-file ...\n";
         system("bunzip $Opts{'b'}/DatabaseBackup.sql.bz2");
         print "cat SQL-file into $DB database\n";
-        system(
-            "cat $Opts{'b'}/DatabaseBackup.sql | psql -u$DatabaseUser -h$DatabaseHost $Database");
+        system( "cat $Opts{'b'}/DatabaseBackup.sql | psql -u$DatabaseUser -h$DatabaseHost $Database");
         print "compress SQL-file...\n";
         system("bzip $Opts{'b'}/DatabaseBackup.sql");
     }

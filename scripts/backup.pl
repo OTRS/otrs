@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/backup.pl - the backup script
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.11 2007-10-15 14:55:34 bb Exp $
+# $Id: backup.pl,v 1.12 2008-04-01 19:41:41 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -50,9 +50,8 @@ my $DBDump      = '';
 getopt( 'hcrtd', \%Opts );
 if ( $Opts{'h'} ) {
     print "backup.pl <Revision $VERSION> - backup script\n";
-    print "Copyright (c) 2001-2007 OTRS GmbH, http//otrs.org/\n";
-    print
-        "usage: backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r 30] [-t fullbackup|nofullbackup]\n";
+    print "Copyright (c) 2001-2008 OTRS AG, http//otrs.org/\n";
+    print "usage: backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r 30] [-t fullbackup|nofullbackup]\n";
     exit 1;
 }
 
@@ -114,7 +113,7 @@ if ( $DatabasePw =~ /^\{(.*)\}$/ ) {
 # check db backup support
 if ( $DatabaseDSN =~ /:mysql/i ) {
     $DB     = 'MySQL';
-    $DBDump = 'mysqldump';
+    $DBDump = 'mysqldump5';
 }
 elsif ( $DatabaseDSN =~ /:pg/i ) {
     $DB     = 'PostgreSQL';
@@ -182,9 +181,10 @@ if ( $Opts{'r'} ) {
 
 # create new backup directory
 my $Home = $CommonObject{ConfigObject}->Get('Home');
-my ( $s, $m, $h, $D, $M, $Y )
-    = $CommonObject{TimeObject}
-    ->SystemTime2Date( SystemTime => $CommonObject{TimeObject}->SystemTime(), );
+chdir($Home);
+my ( $s, $m, $h, $D, $M, $Y ) = $CommonObject{TimeObject}->SystemTime2Date(
+    SystemTime => $CommonObject{TimeObject}->SystemTime(),
+);
 my $Directory = "$Opts{'d'}/$Y-$M-$D" . "_" . "$h-$m";
 if ( !mkdir($Directory) ) {
     print STDERR "ERROR: Can't create directory: $Directory: $!\n";
@@ -193,11 +193,7 @@ if ( !mkdir($Directory) ) {
 
 # backup Kernel/Config.pm
 print "Backup $Directory/Config.tar.gz ... ";
-if (!system(
-        "cd $Home && tar -czf $Directory/Config.tar.gz Kernel/Config.pm Kernel/Config/Files/ZZZA*.pm Kernel/Config/GenericAgen*.pm"
-    )
-    )
-{
+if (!system( "tar -czf $Directory/Config.tar.gz Kernel/Config.pm Kernel/Config/Files/ZZZA*.pm Kernel/Config/GenericAgen*.pm")) {
     print "done\n";
 }
 else {
@@ -207,7 +203,7 @@ else {
 # backup application
 if ($FullBackup) {
     print "Backup $Directory/Application.tar.gz ... ";
-    if ( !system("cd $Home && tar -czf $Directory/Application.tar.gz .") ) {
+    if ( !system("tar -czf $Directory/Application.tar.gz .") ) {
         print "done\n";
     }
     else {
@@ -218,7 +214,7 @@ if ($FullBackup) {
 # backup vardir
 else {
     print "Backup $Directory/VarDir.tar.gz ... ";
-    if ( !system("cd $Home && tar -czf $Directory/VarDir.tar.gz var/") ) {
+    if ( !system("tar -czf $Directory/VarDir.tar.gz var/") ) {
         print "done\n";
     }
     else {
@@ -229,7 +225,7 @@ else {
 # backup datadir
 if ( $ArticleDir !~ /\Q$Home\E/ ) {
     print "Backup $Directory/DataDir.tar.gz ... ";
-    if ( !system("cd $ArticleDir && tar -czf $Directory/DataDir.tar.gz .") ) {
+    if ( !system("tar -czf $Directory/DataDir.tar.gz .") ) {
         print "done\n";
     }
     else {
@@ -243,11 +239,7 @@ if ( $DB =~ /mysql/i ) {
     if ($DatabasePw) {
         $DatabasePw = "-p$DatabasePw";
     }
-    if (!system(
-            "$DBDump -u $DatabaseUser $DatabasePw -h $DatabaseHost $Database > $Directory/DatabaseBackup.sql"
-        )
-        )
-    {
+    if (!system( "$DBDump -u $DatabaseUser $DatabasePw -h $DatabaseHost $Database > $Directory/DatabaseBackup.sql")) {
         print "done\n";
     }
     else {
@@ -256,10 +248,7 @@ if ( $DB =~ /mysql/i ) {
 }
 else {
     print "Dump $DB rdbms ... ";
-    if (!system(
-            "$DBDump -f $Directory/DatabaseBackup.sql -h $DatabaseHost -U $DatabaseUser $Database")
-        )
-    {
+    if (!system( "$DBDump -f $Directory/DatabaseBackup.sql -h $DatabaseHost -U $DatabaseUser $Database")) {
         print "done\n";
     }
     else {
