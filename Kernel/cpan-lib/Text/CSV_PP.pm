@@ -11,7 +11,7 @@ use strict;
 use vars qw($VERSION);
 use Carp ();
 
-$VERSION = '1.08';
+$VERSION = '1.10';
 
 sub PV  { 0 }
 sub IV  { 1 }
@@ -24,12 +24,25 @@ sub IS_BINARY () { 0x0002; }
 my $ERRORS = {
         # PP and XS
         1001 => "sep_char is equal to quote_char or escape_char",
+
+        2010 => "ECR - QUO char inside quotes followed by CR not part of EOL",
+        2011 => "ECR - Characters after end of quoted field",
+
+        2021 => "EIQ - NL char inside quotes, binary off",
+        2022 => "EIQ - CR char inside quotes, binary off",
+        2025 => "EIQ - Loose unescaped escape",
+        2026 => "EIQ - Binary character inside quoted field, binary off",
         2027 => "EIQ - Quoted field not terminated",
+
+        2030 => "EIF - NL char inside unquoted verbatim, binary off",
+        2031 => "EIF - CR char is first char of field, not part of EOL",
+        2032 => "EIF - CR char inside unquoted, not part of EOL",
+        2034 => "EIF - Loose unescaped quote",
+        2037 => "EIF - Binary character in unquoted field, binary off",
+
         2110 => "ECB - Binary character in Combine, binary off",
 
         # PP Only Error
-        4000 => "ECR - Binary character in field, binary off",
-        4001 => "EIQ - Needless ESC in quoted field",
         4002 => "EIQ - Unescaped ESC in quoted field",
         4003 => "EIF - ESC CR",
         4004 => "EUF - ",
@@ -37,6 +50,7 @@ my $ERRORS = {
         0    => "",
 };
 
+my $last_new_error = '';
 
 my %def_attr = (
     quote_char          => '"',
@@ -52,6 +66,7 @@ my %def_attr = (
     chomp_verbatim      => 0,
     types               => undef,
     verbatim            => 0,
+    blank_is_undef      => 0,
 
     _EOF                => 0,
     _STATUS             => undef,
@@ -74,13 +89,21 @@ sub version {
 sub new {
     my $proto = shift;
     my $attr  = shift || {};
+
+    $last_new_error = 'usage: my $csv = Text::CSV_PP->new ([{ option => value, ... }]);';
+
     my $class = ref($proto) || $proto or return;
     my $self  = { %def_attr };
 
     for my $prop (keys %$attr) { # if invalid attr, return undef
-        return unless ($prop =~ /^[a-z]/ && exists $def_attr{$prop});
+        unless ($prop =~ /^[a-z]/ && exists $def_attr{$prop}) {
+            $last_new_error = "Unknown attribute '$prop'";
+            return;
+        }
         $self->{$prop} = $attr->{$prop};
     }
+
+    $last_new_error = '';
 
     bless $self, $class;
 
@@ -106,6 +129,8 @@ sub error_input {
 # error_diag
 ################################################################################
 sub error_diag {
+    ($_[0] && ref $_[0]) or return $last_new_error;
+
     defined $_[0]->{_ERROR_DIAG} or return;
     my $diag = $_[0]->{_ERROR_DIAG};
     my $context = wantarray;
@@ -200,17 +225,16 @@ my %allow_eol = ("\r" => 1, "\r\n" => 1, "\n" => 1, "" => 1);
 
 sub parse {
     my ($self, $line) = @_;
-    #utf8::encode($line) if (utf8::is_utf8($line)); # TODO?
+
     @{$self}{qw/_STRING _FIELDS _STATUS _ERROR_INPUT/} = ($line, undef, 0, $line);
 
     return 0 if(!defined $line);
 
-    my ($binary, $quot, $sep, $esc, $types, $keep_meta_info, $allow_whitespace, $eol)
-         = @{$self}{qw/binary quote_char sep_char escape_char types keep_meta_info allow_whitespace eol/};
-
+    my ($binary, $quot, $sep, $esc, $types, $keep_meta_info, $allow_whitespace, $eol, $blank_is_undef)
+         = @{$self}{qw/binary quote_char sep_char escape_char types keep_meta_info allow_whitespace eol blank_is_undef/};
     $sep  = "\0" unless (defined $sep);
     $esc  = "\0" unless (defined $esc);
-    $quot = "\0" unless (defined $quot);
+    $quot = ''   unless (defined $quot);
 
     return $self->_set_error_diag(1001) if (($sep eq $esc or $sep eq $quot) and $sep ne "\0");
 
@@ -247,7 +271,6 @@ sub parse {
             $line .= $sep;
         }
         else {
-            
             $line =~ s/(?:\x0D\x0A|\x0A)?$|(?:\x0D\x0A|\x0A)[ ]*$/$sep/;
         }
     }
@@ -259,8 +282,22 @@ sub parse {
             $flag |= IS_BINARY if ($col =~ /[^\x09\x20-\x7E]/);
         }
 
-        if (!$binary and $col =~ /[^\x09\x20-\x7E]/) {
-            $self->_set_error_diag(4000); # ECR - Binary character in field, binary off
+        if (!$binary and $col =~ /[^\x09\x20-\x7E]/) { # Binary character, binary off
+            if ( $col =~ $re_quoted ) {
+                $self->_set_error_diag(
+                      $col =~ /\n/ ? 2021
+                    : $col =~ /\r/ ? 2022
+                    : 2026
+                );
+            }
+            else {
+                $self->_set_error_diag(
+                      $col =~ /\Q$quot\E(.*)\Q$quot\E\r$/   ? 2010
+                    : $col =~ /^\r/                         ? 2031
+                    : $col =~ /\r/                          ? 2032
+                    : 2037
+                );
+            }
             $palatable = 0;
             last;
         }
@@ -273,7 +310,7 @@ sub parse {
                 my $str = $1;
                 if ($str !~ $re_in_quot_esp2) {
                     unless ($self->{allow_loose_escapes}) {
-                        $self->_set_error_diag(4001); # Needless ESC in quoted field
+                        $self->_set_error_diag(2025); # Needless ESC in quoted field
                         $palatable = 0;
                         last;
                     }
@@ -302,7 +339,11 @@ sub parse {
         elsif ($col =~ $re_invalid_quot) {
 
             unless ($self->{allow_loose_quotes} and $col =~ /$re_quot_char/) {
-                $self->_set_error_diag(2027);
+                $self->_set_error_diag(
+                      $col =~ /^\Q$quot\E(.*)\Q$quot\E.$/s  ? 2011
+                    : $col =~ /^$re_quot_char/              ? 2027
+                    : 2034
+                );
                 $palatable = 0;
                 last;
             }
@@ -333,6 +374,10 @@ sub parse {
                 $self->_set_error_diag(4004);
                 $palatable = 0;
                 last;
+            }
+
+            if ( $col eq '' and $blank_is_undef ) {
+                $col = undef;
             }
 
         }
@@ -391,19 +436,23 @@ sub _make_regexp_split_column_allow_sp {
 sub print {
     my ($self, $io, $cols) = @_;
 
+    require IO::Handle;
+
     if(ref($cols) ne 'ARRAY'){
         Carp::croak("Expected fields to be an array ref");
     }
 
     $self->combine(@$cols) or return '';
 
-    print $io $self->string;
+    $io->print( $self->string );
 }
 ################################################################################
 # getline
 ################################################################################
 sub getline {
-    my ($self,$io) = @_;
+    my ($self, $io) = @_;
+
+    require IO::Handle;
 
     $self->{_EOF} = eof($io) ? 1 : '';
 
@@ -496,7 +545,7 @@ sub _set_error_diag {
 
 BEGIN {
     for my $method (qw/quote_char escape_char sep_char eol always_quote binary allow_whitespace
-                        keep_meta_info allow_loose_quotes allow_loose_escapes verbatim/) {
+                        keep_meta_info allow_loose_quotes allow_loose_escapes verbatim blank_is_undef/) {
         eval qq|
             sub $method {
                 \$_[0]->{$method} = \$_[1] if (defined \$_[1]);
@@ -588,8 +637,7 @@ See to L<Text::CSV_XS>.
 
 =item version ()
 
-(Class method) Returns the current module version. Not worker module version.
-If you want the worker module version, you can use C<module> method.
+(Class method) Returns the current module version. 
 
 =item new(\%attr)
 
@@ -623,8 +671,39 @@ lines like:
   1 , "foo" , bar , 3 , zapp
 
 are now correctly parsed, even though it violates the CSV specs.
+Note that B<all> whitespace is stripped from start and end of each
+field. That would make is more a I<feature> than a way to be able
+to parse bad CSV lines, as
+
+ 1,   2.0,  3,   ape  , monkey
+
+will now be parsed as
+
+ ("1", "2.0", "3", "ape", "monkey")
+
+even if the original line was perfectly sane CSV.
 
 See to L<Text::CSV_XS>.
+
+=item blank_is_undef
+
+Under normal circumstances, CSV data makes no distinction between
+quoted- and unquoted empty fields. They both end up in an empty
+string field once read, so
+
+ 1,"",," ",2
+
+is read as
+
+ ("1", "", "", " ", "2")
+
+When I<writing> CSV files with C<always_quote> set, the unquoted empty
+field is the result of an undefined value. To make it possible to also
+make this distinction when reading CSV data, the C<blank_is_undef> option
+will cause unquoted empty fields to be set to undef, causing the above to
+be parsed as
+
+  ("1", "", undef, " ", "2")
 
 =item quote_char
 
@@ -731,6 +810,7 @@ is equivalent to
      allow_loose_quotes  => 0,
      allow_loose_escapes => 0,
      allow_whitespace    => 0,
+     blank_is_undef      => 0,
      verbatim            => 0,
      });
 
@@ -744,6 +824,16 @@ the value
 It is unwise to change these settings halfway through writing CSV
 data to a stream. If however, you want to create a new stream using
 the available CSV object, there is no harm in changing them.
+
+If the C<new ()> constructor call fails, it returns C<undef>, and makes
+the fail reason available through the C<error_diag ()> method.
+
+ $csv = Text::CSV_PP->new ({ ecs_char => 1 }) or
+     die Text::CSV_PP->error_diag ();
+
+C<error_diag ()> will return a string like
+
+ "Unknown attribute 'ecs_char'"
 
 =item combine
 
@@ -967,7 +1057,6 @@ Note: CSV_PP's diagnostics is different from CSV_XS's:
 Text::CSV_XS parses csv strings by dividing one character
 while Text::CSV_PP by using the regular expressions.
 That difference makes the different cause of the failure.
-Though diagnostics number 1001, 2027 and 2110 are common with CSV_XS.
 
 Currently these errors are available:
 
@@ -975,16 +1064,36 @@ Currently these errors are available:
 
 =item 1001 "sep_char is equal to quote_char or escape_char"
 
+The separation character cannot be equal to either the quotation character
+or the escape character, as that will invalidate all parsing rules.
+
+=item 2010 "ECR - QUO char inside quotes followed by CR not part of EOL"
+
+=item 2011 "ECR - Characters after end of quoted field"
+
+=item 2021 "EIQ - NL char inside quotes, binary off"
+
+=item 2022 "EIQ - CR char inside quotes, binary off"
+
+=item 2025 "EIQ - Loose unescaped escape"
+
+=item 2026 "EIQ - Binary character inside quoted field, binary off"
+
 =item 2027 "EIQ - Quoted field not terminated"
+
+=item 2030 "EIF - NL char inside unquoted verbatim, binary off",
+
+=item 2031 "EIF - CR char is first char of field, not part of EOL",
+
+=item 2032 "EIF - CR char inside unquoted, not part of EOL",
+
+=item 2034 "EIF - Loose unescaped quote",
+
+=item 2037 "EIF - Binary character in unquoted field, binary off",
 
 =item 2110 "ECB - Binary character in Combine, binary off"
 
-=item 4000 "ECR - Binary character in field, binary off"
-
-=item 4001 "EIQ - Needless ESC in quoted field"
-
 =item 4002 "EIQ - Unescaped ESC in quoted field"
-
 
 =back
 
@@ -1000,7 +1109,7 @@ Text::CSV was written by E<lt>alan[at]mfgrtl.comE<gt>.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2005-2007 by Makamaka Hannyaharamitu, E<lt>makamaka[at]cpan.orgE<gt>
+Copyright 2005-2008 by Makamaka Hannyaharamitu, E<lt>makamaka[at]cpan.orgE<gt>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 
