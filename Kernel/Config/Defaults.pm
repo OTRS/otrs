@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.291 2008-04-01 10:23:37 martin Exp $
+# $Id: Defaults.pm,v 1.292 2008-04-02 10:46:45 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.291 $) [1];
+$VERSION = qw($Revision: 1.292 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -2094,13 +2094,10 @@ sub Get {
 
     # debug
     if ( $Self->{Debug} > 1 ) {
-        print STDERR "Debug: Config.pm ->Get('$What') --> $Self->{$What}\n";
+        my $Value = defined $Self->{$What} ? $Self->{$What} : '<undefined>';
+        print STDERR "Debug: Config.pm ->Get('$What') --> $Value\n";
     }
 
-    # warn if the value is not def
-    if ( !$Self->{$What} && $Self->{Debug} > 0 ) {
-        print STDERR "Error: Config.pm No value for '$What' in Config.pm found!\n";
-    }
     return $Self->{$What};
 }
 
@@ -2115,7 +2112,8 @@ sub Set {
 
     # debug
     if ( $Self->{Debug} > 1 ) {
-        print STDERR "Debug: Config.pm ->Set(Key => $Param{Key}, Value => $Param{Value})\n";
+        my $Value = defined $Param{Value} ? $Param{Value} : '<undefined>';
+        print STDERR "Debug: Config.pm ->Set(Key => $Param{Key}, Value => $Value)\n";
     }
     $Self->{ $Param{Key} } = $Param{Value};
     return 1;
@@ -2326,6 +2324,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.291 $ $Date: 2008-04-01 10:23:37 $
+$Revision: 1.292 $ $Date: 2008-04-02 10:46:45 $
 
 =cut
