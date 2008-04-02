@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.77 2008-03-18 16:19:29 tr Exp $
+# $Id: Layout.pm,v 1.78 2008-04-02 04:48:33 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 =head1 NAME
 
@@ -497,17 +497,21 @@ sub Output {
     }
 
     # fill init Env
-    if ( !$Self->{EnvRef} ) {
+    %{$Self->{EnvRef}} = %ENV;
 
-        # build OTRS env
-        %{$Self->{EnvRef}} = %ENV;
-
-        # all $Self->{*}
-        for ( keys %{$Self} ) {
-            if ( defined( $Self->{$_} ) && !ref( $Self->{$_} ) ) {
-                $Self->{EnvRef}->{$_} = $Self->{$_};
-            }
+    # all $Self->{*}
+    for ( keys %{$Self} ) {
+        if ( defined( $Self->{$_} ) && !ref( $Self->{$_} ) ) {
+            $Self->{EnvRef}->{$_} = $Self->{$_};
         }
+    }
+
+    # add new env
+    if ( $Self->{EnvNewRef} ) {
+        for ( %{ $Self->{EnvNewRef} } ) {
+            $Self->{EnvRef}->{$_} = $Self->{EnvNewRef}->{$_};
+        }
+        undef $Self->{EnvNewRef};
     }
 
     # read template from filesystem
@@ -572,20 +576,9 @@ sub _Output {
         $Self->FatalDie();
     }
 
-    # get %Env from $Self->{EnvRef}
-    my $EnvRef = $Self->{EnvRef};
-
-    # add new env
-    if ( $Self->{EnvNewRef} ) {
-        for ( %{ $Self->{EnvNewRef} } ) {
-            $EnvRef->{$_} = $Self->{EnvNewRef}->{$_};
-        }
-        undef $Self->{EnvNewRef};
-    }
-
     # create refs
     my $GlobalRef = {
-        Env    => $EnvRef,
+        Env    => $Self->{EnvRef},
         Data   => $Param{Data},
         Config => $Self->{ConfigObject},
     };
@@ -1030,9 +1023,6 @@ sub _Output {
             }
         }iegx;
     }
-
-    # save %Env
-    $Self->{EnvRef} = $EnvRef;
 
     # custom post filters
     if ( $Self->{FilterElementPost} ) {
@@ -3867,6 +3857,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.77 $ $Date: 2008-03-18 16:19:29 $
+$Revision: 1.78 $ $Date: 2008-04-02 04:48:33 $
 
 =cut
