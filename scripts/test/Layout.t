@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.3.2.7 2008-03-05 16:57:56 tr Exp $
+# $Id: Layout.t,v 1.3.2.8 2008-04-02 09:24:55 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -264,7 +264,7 @@ ak@otrs.com<br>
 &lt;<a href="http://bugs.otrs.org/show_bug.cgi?id=2450" target="_blank" title="http://bugs.otrs.org/show_bug.cgi?id=2450">http://bugs.otrs.org/show_bug.cgi?id=2450</a>&gt;asdf<br>
 &lt;<a href="http://bugs.otrs.org/s()how_bug.cgi?id=2450" target="_blank" title="http://bugs.otrs.org/s()how_bug.cgi?id=2450">http://bugs.otrs.org/s()how_bug.cgi?id=2450</a>&gt; as<br>
 <br>
-wwww.google.de<br>
+w<a href="http://www.google.de" target="_blank" title="http://www.google.de">http://www.google.de</a><br>
 <br>
 <a href="http://ftp.otrs.org" target="_blank" title="http://ftp.otrs.org">http://ftp.otrs.org</a><br>
 <br>
@@ -284,8 +284,9 @@ my $ConvertedString = $Self->{LayoutObject}->Ascii2Html(
     LinkFeature    => 1,
 );
 
-$Self->True(
-    $NeededResult eq $ConvertedString,
+$Self->Is(
+    $ConvertedString,
+    $NeededResult,
     'Ascii2Html() - Check if the link feature works correct' ,
 );
 
@@ -420,6 +421,11 @@ my @Tests = (
         Name => 'Ascii2Html() - #26',
         String => '<script language="JavaScript" type="text/javascript"> alert("Not safe!"); </script>',
         Result => '&lt;script language=&quot;JavaScript&quot; type=&quot;text/javascript&quot;&gt; alert(&quot;Not safe!&quot;); &lt;/script&gt;',
+    },
+    {
+        Name => 'Ascii2Html() - #27 http.-check',
+        String => "http.\nsome text http.\nsome text http. some text\n",
+        Result => "http.<br>\nsome text http.<br>\nsome text http. some text<br>\n",
     },
 );
 
