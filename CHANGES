@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.622 2008-04-02 08:59:22 ot Exp $
+# $Id: CHANGES,v 1.623 2008-04-02 10:00:22 ak Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/04/02) Fixed bug#2496 - HTML formatting in the customer ticket zoom is wrong.
  - (2008/04/02) Fixed bug#1116 - made uses of <br> and <input> comply with XHTML.
  - (2008/04/01) Fixed bug#2453 - syntax errors on customer search; name@host problems
     the mail address parser does not recognize the email address if it is not
