@@ -1,22 +1,22 @@
 # --
 # AgentWindowTab.dtl - provides HTML form for window tabs
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentWindowTab.dtl,v 1.5 2006-12-21 16:13:14 mh Exp $
+# $Id: AgentWindowTab.dtl,v 1.6 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
 <!-- dtl:block:WindowTabStart -->
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Action" value="$Env{"Action"}"/>
   <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>
       <td class="mainbody">
-        <br>
+        <br/>
         <table border="0" cellpadding="0" cellspacing="0" width="99%" align="center">
           <tr>
             <td class="tablayer0">
@@ -29,7 +29,7 @@
                       <tr>
                         <td class="tab$Data{"Active"}">
                           <p align="center">
-                            <input class="tab$Data{"Active"}" type="submit" value="$Text{"$Data{"Text"}"}" name="$Data{"Name"}">
+                            <input class="tab$Data{"Active"}" type="submit" value="$Text{"$Data{"Text"}"}" name="$Data{"Name"}"/>
                             <img border="0" src="$Env{"Images"}$Data{"Image"}">
                           </p>
                         </td>
@@ -42,18 +42,18 @@
               </table>
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td class="tablayer1">&nbsp;<br>&nbsp;
+                  <td class="tablayer1">&nbsp;<br/>&nbsp;
                     <div align="center">
 <!-- dtl:block:WindowTabStart -->
 <!-- dtl:block:WindowTabStop -->
                     </div>
-                    <br>
+                    <br/>
                     <table border="0" cellpadding="5" cellspacing="0" width="100%">
                       <tr>
                         <td>&nbsp;</td>
                         <td align="right">
 <!-- dtl:block:Layer1Footer -->
-                          <input class="button" type="submit" value="$Text{"$QData{"Text"}"}" name="$QData{"Name"}">
+                          <input class="button" type="submit" value="$Text{"$QData{"Text"}"}" name="$QData{"Name"}"/>
 <!-- dtl:block:Layer1Footer -->
                         </td>
                       </tr>
@@ -65,7 +65,7 @@
                 <tr>
 <!-- dtl:block:Layer0Footer -->
                   <td>
-                    <input class="button" type="submit" value="$Text{"$QData{"Text"}"}" name="$QData{"Name"}">
+                    <input class="button" type="submit" value="$Text{"$QData{"Text"}"}" name="$QData{"Name"}"/>
                   </td>
 <!-- dtl:block:Layer0Footer -->
                 </tr>
@@ -89,7 +89,7 @@
       </td>
     </tr>
     <tr class="mainbody">
-      <td><br></td>
+      <td><br/></td>
     </tr>
   </table>
 </form>

@@ -1,12 +1,12 @@
 # --
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentNavigationBar.dtl,v 1.59 2007-02-05 16:38:05 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.60 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start NavigationBar -->
@@ -19,14 +19,14 @@
 <!-- dtl:block:ItemPre -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:ItemPre -->
 <!-- dtl:block:Item -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:Item -->
@@ -35,7 +35,7 @@
 <!-- dtl:block:ItemArea -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitemarea$QData{"ItemAreaCSSSuffix"}"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitemarea$QData{"ItemAreaCSSSuffix"}"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:ItemArea -->
@@ -48,7 +48,7 @@
 <!-- dtl:block:ItemPersonal -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:ItemPersonal -->
@@ -57,14 +57,14 @@
 <!-- dtl:block:ItemPre -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:ItemPre -->
 <!-- dtl:block:ItemArea -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitemarea$QData{"ItemAreaCSSSuffix"}"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitemarea$QData{"ItemAreaCSSSuffix"}"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:ItemArea -->
@@ -73,7 +73,7 @@
 <!-- dtl:block:Item -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:Item -->
@@ -86,7 +86,7 @@
 <!-- dtl:block:ItemPersonal -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:ItemPersonal -->
@@ -147,41 +147,41 @@ function BulkSubmit() {
 </script>
 
 <form action="$Env{"CGIHandle"}" method="post" name="bulk">
-  <input type="hidden" name="Action" value="AgentTicketBulk">
-  <input type="hidden" name="Subaction" value="">
-  <input type="hidden" name="Queue" value="">
-  <input type="hidden" name="State" value="">
-  <input type="hidden" name="ArticleType" value="">
-  <input type="hidden" name="Subject" value="">
-  <input type="hidden" name="Body" value="">
-  <input type="hidden" name="TicketID1" value="">
-  <input type="hidden" name="TicketID2" value="">
-  <input type="hidden" name="TicketID3" value="">
-  <input type="hidden" name="TicketID4" value="">
-  <input type="hidden" name="TicketID5" value="">
-  <input type="hidden" name="TicketID6" value="">
-  <input type="hidden" name="TicketID7" value="">
-  <input type="hidden" name="TicketID8" value="">
-  <input type="hidden" name="TicketID9" value="">
-  <input type="hidden" name="TicketID10" value="">
-  <input type="hidden" name="TicketID11" value="">
-  <input type="hidden" name="TicketID12" value="">
-  <input type="hidden" name="TicketID13" value="">
-  <input type="hidden" name="TicketID14" value="">
-  <input type="hidden" name="TicketID15" value="">
-  <input type="hidden" name="TicketID16" value="">
-  <input type="hidden" name="TicketID17" value="">
-  <input type="hidden" name="TicketID18" value="">
-  <input type="hidden" name="TicketID19" value="">
-  <input type="hidden" name="TicketID20" value="">
-  <input type="hidden" name="TicketID21" value="">
-  <input type="hidden" name="TicketID22" value="">
-  <input type="hidden" name="TicketID23" value="">
-  <input type="hidden" name="TicketID24" value="">
-  <input type="hidden" name="TicketID25" value="">
-  <input type="hidden" name="TicketID26" value="">
-  <input type="hidden" name="TicketID27" value="">
-  <input type="hidden" name="TicketID28" value="">
-  <input type="hidden" name="TicketID29" value="">
+  <input type="hidden" name="Action" value="AgentTicketBulk"/>
+  <input type="hidden" name="Subaction" value=""/>
+  <input type="hidden" name="Queue" value=""/>
+  <input type="hidden" name="State" value=""/>
+  <input type="hidden" name="ArticleType" value=""/>
+  <input type="hidden" name="Subject" value=""/>
+  <input type="hidden" name="Body" value=""/>
+  <input type="hidden" name="TicketID1" value=""/>
+  <input type="hidden" name="TicketID2" value=""/>
+  <input type="hidden" name="TicketID3" value=""/>
+  <input type="hidden" name="TicketID4" value=""/>
+  <input type="hidden" name="TicketID5" value=""/>
+  <input type="hidden" name="TicketID6" value=""/>
+  <input type="hidden" name="TicketID7" value=""/>
+  <input type="hidden" name="TicketID8" value=""/>
+  <input type="hidden" name="TicketID9" value=""/>
+  <input type="hidden" name="TicketID10" value=""/>
+  <input type="hidden" name="TicketID11" value=""/>
+  <input type="hidden" name="TicketID12" value=""/>
+  <input type="hidden" name="TicketID13" value=""/>
+  <input type="hidden" name="TicketID14" value=""/>
+  <input type="hidden" name="TicketID15" value=""/>
+  <input type="hidden" name="TicketID16" value=""/>
+  <input type="hidden" name="TicketID17" value=""/>
+  <input type="hidden" name="TicketID18" value=""/>
+  <input type="hidden" name="TicketID19" value=""/>
+  <input type="hidden" name="TicketID20" value=""/>
+  <input type="hidden" name="TicketID21" value=""/>
+  <input type="hidden" name="TicketID22" value=""/>
+  <input type="hidden" name="TicketID23" value=""/>
+  <input type="hidden" name="TicketID24" value=""/>
+  <input type="hidden" name="TicketID25" value=""/>
+  <input type="hidden" name="TicketID26" value=""/>
+  <input type="hidden" name="TicketID27" value=""/>
+  <input type="hidden" name="TicketID28" value=""/>
+  <input type="hidden" name="TicketID29" value=""/>
 </form>
 <!-- end NavigationBar -->

@@ -1,12 +1,12 @@
 # --
 # AgentTicketMerge.dtl - provides HTML form for ticket merge mask
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.dtl,v 1.11 2007-01-09 03:24:16 martin Exp $
+# $Id: AgentTicketMerge.dtl,v 1.12 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
@@ -43,11 +43,11 @@ function submit_compose() {
   </tr>
   <tr>
     <td class="mainbody">
-      <br>
+      <br/>
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-        <input type="hidden" name="Action" value="AgentTicketMerge">
-        <input type="hidden" name="Subaction" value="Merge">
-        <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+        <input type="hidden" name="Action" value="AgentTicketMerge"/>
+        <input type="hidden" name="Subaction" value="Merge"/>
+        <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -57,23 +57,23 @@ function submit_compose() {
               <table border="0">
                 <tr>
                   <td class="contentkey">$Text{"Merge to"} $Config{"Ticket::Hook"}:</td>
-                  <td class="contentvalue"><input type="text" name="MainTicketNumber" value="$QData{"MainTicketNumber"}" size="30"></td>
+                  <td class="contentvalue"><input type="text" name="MainTicketNumber" value="$QData{"MainTicketNumber"}" size="30"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Inform sender"}:</td>
-                  <td class="contentvalue"><input type="checkbox" name="InformSender" value="1"></td>
+                  <td class="contentvalue"><input type="checkbox" name="InformSender" value="1"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"From"}:</td>
-                  <td class="contentvalue">$QData{"QueueFrom"}<input type="hidden" name="From" value="$QData{"QueueFrom"}" size="60"></td>
+                  <td class="contentvalue">$QData{"QueueFrom"}<input type="hidden" name="From" value="$QData{"QueueFrom"}" size="60"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"To"}:</td>
-                  <td class="contentvalue"><input type="text" name="To" value="$QData{"From"}" size="60"></td>
+                  <td class="contentvalue"><input type="text" name="To" value="$QData{"From"}" size="60"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Subject"}:</td>
-                  <td class="contentvalue"><input type="text" name="Subject" value="$QData{"Subject"}" size="60"></td>
+                  <td class="contentvalue"><input type="text" name="Subject" value="$QData{"Subject"}" size="60"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Text"}:</td>
@@ -93,12 +93,12 @@ $Data{"Signature"}
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">
+              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
             </td>
           </tr>
         </table>
       </form>
-      <br>
+      <br/>
     </td>
   </tr>
 </table>

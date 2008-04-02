@@ -1,12 +1,12 @@
 # --
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.18 2008-01-02 14:05:58 martin Exp $
+# $Id: AdminSysConfig.dtl,v 1.19 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
@@ -19,9 +19,9 @@
   <tr>
     <td width="30%" class="mainbody">
       <form action="$Env{"CGIHandle"}" method="get">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Search">
-        <input type="hidden" name="DontWriteDefault" value="1">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="Search"/>
+        <input type="hidden" name="DontWriteDefault" value="1"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Search"} ($QData{"ConfigCounter"}):</td>
@@ -31,23 +31,23 @@
               <table>
                 <tr>
                   <td class="contentkey">$Text{"Search for"}:</td>
-                  <td class="contentvalue"><input type="text" name="Search" value="$QData{"Search"}" size="25"></td>
+                  <td class="contentvalue"><input type="text" name="Search" value="$QData{"Search"}" size="25"/></td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Search"}">
+              <input class="button" type="submit" value="$Text{"Search"}"/>
             </td>
           </tr>
         </table>
       </form>
-      <br>
+      <br/>
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="SelectGroup">
-        <input type="hidden" name="DontWriteDefault" value="1">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="SelectGroup"/>
+        <input type="hidden" name="DontWriteDefault" value="1"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Group selection"}:</td>
@@ -64,17 +64,17 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" name="" value="$Text{"Show"}">
+              <input class="button" type="submit" name="" value="$Text{"Show"}"/>
             </td>
           </tr>
         </table>
       </form>
-      <br>
+      <br/>
 <!-- dtl:block:Download -->
       <form action="$Env{"CGIHandle"}" method="get">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Download">
-        <input type="hidden" name="DontWriteDefault" value="1">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="Download"/>
+        <input type="hidden" name="DontWriteDefault" value="1"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Download Settings"}:</td>
@@ -91,16 +91,16 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Download"}">
+              <input class="button" type="submit" value="$Text{"Download"}"/>
             </td>
           </tr>
         </table>
       </form>
-      <br>
+      <br/>
 <!-- dtl:block:Download -->
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Upload">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="Upload"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Load Settings"}:</td>
@@ -110,14 +110,14 @@
               <table border="0" cellspacing="0" cellpadding="3">
                 <tr>
                   <td class="contentkey">$Text{"File"}: </td>
-                  <td class="contentvalue"> <input name="file_upload" type="file" size="18" class="fixed"></td>
+                  <td class="contentvalue"> <input name="file_upload" type="file" size="18" class="fixed"/></td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Upload"}">
+              <input class="button" type="submit" value="$Text{"Upload"}"/>
             </td>
           </tr>
         </table>

@@ -1,12 +1,12 @@
 # --
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationForm.dtl,v 1.22 2007-06-28 23:55:33 martin Exp $
+# $Id: AdminNotificationForm.dtl,v 1.23 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
@@ -19,8 +19,8 @@
   <tr>
     <td width="30%" class="mainbody">
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Change">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="Change"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Change"}:</td>
@@ -32,7 +32,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              &nbsp;<input class="button" type="submit" value="$Text{"Change"}">
+              &nbsp;<input class="button" type="submit" value="$Text{"Change"}"/>
             </td>
           </tr>
         </table>
@@ -40,14 +40,14 @@
     </td>
     <td width="70%" class="mainbody">
 # check subaction
-      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Botton"} = "<input class="button" type="submit" value="$Text{"Update"}">"; }>
+      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Botton"} = "<input class="button" type="submit" value="$Text{"Update"}"/>"; }>
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-        <input type="hidden" name="ID" value="$QData{"ID"}">
-        <input type="hidden" name="Charset" value="$Env{"Charset"}">
-        <input type="hidden" name="Language" value="$QData{"Language"}">
-        <input type="hidden" name="Type" value="$QData{"Type"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action"/>
+        <input type="hidden" name="ID" value="$QData{"ID"}"/>
+        <input type="hidden" name="Charset" value="$Env{"Charset"}"/>
+        <input type="hidden" name="Language" value="$QData{"Language"}"/>
+        <input type="hidden" name="Type" value="$QData{"Type"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Notification"}:</td>
@@ -62,7 +62,7 @@
                 <tr>
                   <td class="contentkey">$Text{"Subject"}: </td>
                   <td class="contentvalue">
-                    <input type="text" name="Subject" value="$QData{"Subject"}" size="80" maxlength="120">
+                    <input type="text" name="Subject" value="$QData{"Subject"}" size="80" maxlength="120"/>
                   </td>
                 </tr>
                 <tr>
@@ -150,7 +150,7 @@
             <table>
               <tr>
                 <td>$Text{"Subject"}:</td>
-                <td><input type="text" name="Subject" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" size="80" maxlength="80"></td>
+                <td><input type="text" name="Subject" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" size="80" maxlength="80"/></td>
               </tr>
               <tr>
                 <td>

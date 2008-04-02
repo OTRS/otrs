@@ -1,12 +1,12 @@
 # --
 # AdminPGPForm.dtl - provides HTML form for AdminPGP html
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGPForm.dtl,v 1.20 2007-06-28 23:55:33 martin Exp $
+# $Id: AdminPGPForm.dtl,v 1.21 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
@@ -19,8 +19,8 @@
   <tr>
     <td width="30%" class="mainbody">
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Search">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="Search"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Search"}:</td>
@@ -30,22 +30,22 @@
               <table>
                 <tr>
                   <td class="contentkey">$Text{"Search for"}:</td>
-                  <td class="contentvalue"><input type="text" name="Search" value="$QData{"Search"}" size="25"></td>
+                  <td class="contentvalue"><input type="text" name="Search" value="$QData{"Search"}" size="25"/></td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Search"}">
+              <input class="button" type="submit" value="$Text{"Search"}"/>
             </td>
           </tr>
         </table>
       </form>
-      <br>
+      <br/>
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Add">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="Add"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Add"}:</td>
@@ -59,14 +59,14 @@
 #                </tr>
                 <tr>
                   <td class="contentkey">$Text{"File"}: </td>
-                  <td class="contentbody"> <input name="file_upload" type="file" size="18" class="fixed"></td>
+                  <td class="contentbody"> <input name="file_upload" type="file" size="18" class="fixed"/></td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Add"}">
+              <input class="button" type="submit" value="$Text{"Add"}"/>
             </td>
           </tr>
         </table>
@@ -97,7 +97,7 @@
                 <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Type=$LQData{"Type"}&Key=$LQData{"Key"}">$QData{"Key"}</a>
                   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=DownloadFingerprint&Type=$LQData{"Type"}&Key=$LQData{"Key"}"><div title="$QData{"Fingerprint"}">$QData{"Fingerprint","10"}</div></a>
                 </td>
-                <td class="$Env{"Color"}">$QData{"Created"}<br>$QData{"Expires"}</td>
+                <td class="$Env{"Color"}">$QData{"Created"}<br/>$QData{"Expires"}</td>
                 <td align="center" class="$Env{"Color"}">
                   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Type=$LQData{"Type"}&Key=$LQData{"FingerprintShort"}">x</a>
                 </td>
@@ -127,7 +127,7 @@
     <td class="mainbody">
       <p>
         $Text{"In this way you can directly edit the keyring configured in SysConfig."}
-        <br>
+        <br/>
         $Text{"Description"}: <a href="http://en.wikipedia.org/wiki/Pretty_Good_Privacy" target="_blank">http://en.wikipedia.org/wiki/Pretty_Good_Privacy</a>
       </p>
     </td>

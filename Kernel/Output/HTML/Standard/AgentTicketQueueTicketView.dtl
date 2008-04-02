@@ -1,12 +1,12 @@
 # --
 # AgentTicketQueueTicketView.dtl - provides HTML TicketView for AgentTicketQueueView
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueueTicketView.dtl,v 1.19 2007-10-08 20:54:48 martin Exp $
+# $Id: AgentTicketQueueTicketView.dtl,v 1.20 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start ticket -->
@@ -15,7 +15,7 @@
 <!-- dtl:block:Bulk -->
     <td width="1%" class="mainhead">
       <form name="abulk$Data{"Counter"}">
-        <input type="checkbox" name="Selected" value="1" onclick="BulkChangeSelected($Data{"TicketID"},$Data{"Counter"})">
+        <input type="checkbox" name="Selected" value="1" onclick="BulkChangeSelected($Data{"TicketID"},$Data{"Counter"})"/>
       </form>
     </td>
 <!-- dtl:block:Bulk -->
@@ -136,7 +136,7 @@ $Data{"Body"}
 <!-- dtl:block:FirstResponseTimeFontStart -->
               <font color="red">
 <!-- dtl:block:FirstResponseTimeFontStart -->
-              <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">$QData{"FirstResponseTimeHuman"}<br>$TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</div>
+              <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">$QData{"FirstResponseTimeHuman"}<br/>$TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</div>
 <!-- dtl:block:FirstResponseTimeFontStop -->
               </font>
 <!-- dtl:block:FirstResponseTimeFontStop -->
@@ -150,7 +150,7 @@ $Data{"Body"}
 <!-- dtl:block:UpdateTimeFontStart -->
               <font color="red">
 <!-- dtl:block:UpdateTimeFontStart -->
-              <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">$QData{"UpdateTimeHuman"}<br>$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
+              <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">$QData{"UpdateTimeHuman"}<br/>$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
 <!-- dtl:block:UpdateTimeFontStop -->
               </font>
 <!-- dtl:block:UpdateTimeFontStop -->
@@ -164,7 +164,7 @@ $Data{"Body"}
 <!-- dtl:block:SolutionTimeFontStart -->
               <font color="red">
 <!-- dtl:block:SolutionTimeFontStart -->
-              <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">$QData{"SolutionTimeHuman"}<br>$TimeShort{"$QData{"SolutionTimeDestinationDate"}"}</div>
+              <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">$QData{"SolutionTimeHuman"}<br/>$TimeShort{"$QData{"SolutionTimeDestinationDate"}"}</div>
 <!-- dtl:block:SolutionTimeFontStop -->
               </font>
 <!-- dtl:block:SolutionTimeFontStop -->
@@ -247,7 +247,7 @@ $Data{"Body"}
 <!-- dtl:block:CustomerTable -->
         <p><hr><b>$Text{"Customer Info"}:</b> $Data{"CustomerTable"}<hr></p>
 <!-- dtl:block:CustomerTable -->
-        <br>
+        <br/>
         <table border="0" cellspacing="0" cellpadding="1" width="95%">
           <tr>
             <td>
@@ -255,7 +255,7 @@ $Data{"Body"}
 <!-- dtl:block:AgentIsCustomer -->
               <p>
                 <b>$Text{"Your own Ticket"}:</b>
-                <br>
+                <br/>
                 <table border="0">
                   <tr align="left">
                     <td>
@@ -271,7 +271,7 @@ $Data{"Body"}
 <!-- dtl:block:AgentAnswerCompose -->
               <p>
                 <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
-                <br>
+                <br/>
                 <table border="0">
                   <tr align="left">
                     <td>
@@ -284,7 +284,7 @@ $Data{"Body"}
 <!-- dtl:block:AgentAnswerPhoneOutbound -->
               <p>
                 <b>$Text{"Contact customer"} ($Text{"phone"}):</b>
-                <br>
+                <br/>
                 <table border="0">
                   <tr align="left">
                     <td>
@@ -306,14 +306,14 @@ $Data{"AgentPhoneStrg"}
             <td>
 <!-- dtl:block:Move -->
               <b>$Text{"Change queue"}:</b>
-              <br>
+              <br/>
               <form action="$Env{"CGIHandle"}" method="get">
-                <input type="hidden" name="Action" value="AgentTicketMove">
-                <input type="hidden" name="Subaction" value="InRage">
-                <input type="hidden" name="QueueID" value="$QData{"QueueID"}">
-                <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
+                <input type="hidden" name="Action" value="AgentTicketMove"/>
+                <input type="hidden" name="Subaction" value="InRage"/>
+                <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
+                <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
                 $Data{"MoveQueuesStrg"}
-                <input class="button" type="submit" value="$Text{"Move"}">
+                <input class="button" type="submit" value="$Text{"Move"}"/>
               </form>
 <!-- dtl:block:Move -->
             </td>

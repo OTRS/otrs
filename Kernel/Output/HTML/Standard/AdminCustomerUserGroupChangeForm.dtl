@@ -1,12 +1,12 @@
 # --
 # AdminCustomerUserGroupChangeForm.dtl - provides HTML form for AdminInterface
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroupChangeForm.dtl,v 1.7 2006-12-30 01:38:50 mh Exp $
+# $Id: AdminCustomerUserGroupChangeForm.dtl,v 1.8 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
@@ -18,10 +18,10 @@
   </tr>
   <tr align="center">
     <td class="mainbody">
-      <br>
+      <br/>
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Change$Data{"Type"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="Change$Data{"Type"}"/>
         <table width="500" cellspacing="0" cellpadding="4">
           <tr valign="top">
             <td class="contenthead">$Text{"Change %s settings", "$Data{"Type"}"}:</td>
@@ -32,11 +32,11 @@
             </td>
           </tr>
           <tr class="contentfooter">
-            <td class="contentvalue"><input class="button" type="submit" value="$Text{"Submit"}"></td>
+            <td class="contentvalue"><input class="button" type="submit" value="$Text{"Submit"}"/></td>
           </tr>
         </table>
       </form>
-      <br>
+      <br/>
     </td>
   </tr>
 </table>

@@ -1,20 +1,20 @@
 # --
 # AgentStatsEditValueSeries.dtl - provides HTML form for stats edit mask
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditValueSeries.dtl,v 1.6 2007-06-26 16:08:13 martin Exp $
+# $Id: AgentStatsEditValueSeries.dtl,v 1.7 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Action">
-  <input type="hidden" name="Home" value="EditValueSeries">
-  <input type="hidden" name="StatID" value="$QData{"StatID"}">
+  <input type="hidden" name="Action" value="$Env{"Action"}"/>
+  <input type="hidden" name="Subaction" value="Action"/>
+  <input type="hidden" name="Home" value="EditValueSeries"/>
+  <input type="hidden" name="StatID" value="$QData{"StatID"}"/>
   <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>
       <td class="mainhead">
@@ -31,7 +31,7 @@
     <tr>
       <td class="mainbody" align="center">
         <img border="0" src="$Env{"Images"}installer2.png" alt="">
-        <br>
+        <br/>
         <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">
@@ -50,7 +50,7 @@
 <!-- dtl:block:MultiSelectField -->
                 <tr>
                   <td class="contentkey" >
-                    <input type="Checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}>
+                    <input type="Checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}/>
                   </td>
                   <td class="contentkey" width="200">
                     $Text{"$QData{"Name"}"}:
@@ -60,7 +60,7 @@
                 <tr>
                   <td colspan="2"></td>
                   <td class="contentvalue">
-                    <input type="Checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}>
+                    <input type="Checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}/>
                     $Text{"Fixed"}
                   </td>
                 </tr>
@@ -68,7 +68,7 @@
 <!-- dtl:block:TimeExtended -->
                 <tr>
                   <td class="contentkey">
-                    <input type="Checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}>
+                    <input type="Checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}/>
                   </td>
                   <td class="contentkey">
                     $Text{"$Data{"Name"}"}
@@ -83,7 +83,7 @@
                 <tr>
                   <td colspan="2"></td>
                   <td class="contentvalue">
-                    <input type="Checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}>
+                    <input type="Checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}/>
                     $Text{"Fixed"}
                   </td>
                 </tr>
@@ -91,13 +91,13 @@
 <!-- dtl:block:Time -->
                 <tr>
                   <td class="contentkey">
-                    <input type="Checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}>
+                    <input type="Checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}/>
                   </td>
                   <td class="contentkey">
                     $Text{"$Data{"Name"}"}
-                    $Text{"Scale"}:<br>
+                    $Text{"Scale"}:<br/>
                     <span class="readonly">
-                    $Text{"Please select only one element or turn off the button 'Fixed'."}<br>
+                    $Text{"Please select only one element or turn off the button 'Fixed'."}<br/>
                     $Text{"Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."}
                     </span>
                   </td>
@@ -108,7 +108,7 @@
                 <tr>
                   <td colspan="2"></td>
                   <td class="contentvalue">
-                    <input type="Checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}>
+                    <input type="Checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}/>
                     $Text{"Fixed"}
                   </td>
                 </tr>
@@ -119,12 +119,12 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" name="Back" value="$Text{"...Back"}">
-              <input class="button" type="submit" name="Next" value="$Text{"Next..."}" accesskey="g">
+              <input class="button" type="submit" name="Back" value="$Text{"...Back"}"/>
+              <input class="button" type="submit" name="Next" value="$Text{"Next..."}" accesskey="g"/>
             </td>
           </tr>
         </table>
-        <br>
+        <br/>
       </td>
     </tr>
   </table>

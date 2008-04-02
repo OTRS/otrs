@@ -2,7 +2,7 @@
 # AgentSpelling.dtl - provides HTML form for AgentSpelling
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentSpelling.dtl,v 1.17 2008-02-20 22:19:39 martin Exp $
+# $Id: AgentSpelling.dtl,v 1.18 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -54,8 +54,8 @@ function change_selected(sel) {
   <tr>
     <td class="mainbody">
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="spelling">
-        <input type="hidden" name="Action" value="AgentSpelling">
-        <input type="hidden" name="Field" value="$QData{"Field"}">
+        <input type="hidden" name="Action" value="AgentSpelling"/>
+        <input type="hidden" name="Field" value="$QData{"Field"}"/>
         <table border="0" width="100%" cellspacing="0" cellpadding="1">
           <tr>
             <th width="50">$Text{"Line"}</th>
@@ -69,18 +69,18 @@ function change_selected(sel) {
             <td align="center">$QData{"Line"}</td>
             <td>
               <font color="red">$QData{"Word"}</font>
-              <input type="hidden" name="SpellCheckOld::$QData{"Count"}" value="$QData{"Word"}">
+              <input type="hidden" name="SpellCheckOld::$QData{"Count"}" value="$QData{"Word"}"/>
             </td>
             <td>$Data{"OptionList"}</td>
             <td>
               $Text{"or"}
-              <input type="text" name="SpellCheckOrReplace::$QData{"Count"}" value="" size="20" onchange="change_selected($QData{"Count"})">
+              <input type="text" name="SpellCheckOrReplace::$QData{"Count"}" value="" size="20" onchange="change_selected($QData{"Count"})"/>
             </td>
             <td align="center">
-              <input type="radio" name="SpellCheck::Replace::$QData{"Count"}" value="$QData{"Word"}">
+              <input type="radio" name="SpellCheck::Replace::$QData{"Count"}" value="$QData{"Word"}"/>
             </td>
             <td align="center">
-              <input type="radio" name="SpellCheck::Replace::$QData{"Count"}" value="" checked="checked">
+              <input type="radio" name="SpellCheck::Replace::$QData{"Count"}" value="" checked="checked"/>
             </td>
           </tr>
 <!-- dtl:block:Row -->
@@ -89,8 +89,8 @@ function change_selected(sel) {
         <table border="0" width="580" cellspacing="0" cellpadding="1">
           <tr>
             <td>
-              <input class="button" type="submit" value="$Text{"Apply these changes"}">
-              <input class="button" type="reset" value="$Text{"Reset"}">
+              <input class="button" type="submit" value="$Text{"Apply these changes"}"/>
+              <input class="button" type="reset" value="$Text{"Reset"}"/>
             </td>
             <td>
               $Text{"Language"}: $Data{"SpellLanguageString"}
@@ -99,9 +99,9 @@ function change_selected(sel) {
         </table>
         <textarea name="Body" rows="22" cols="78" wrap="$Env{"BrowserWrap"}">$Data{"Body"}</textarea>
         <br/>
-        <input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}">
+        <input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}"/>
         <i>($Text{"Return to the compose screen"})</i>
-        <input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}">
+        <input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}"/>
         <i>($Text{"Discard all changes and return to the compose screen"})</i>
       </form>
       <hr>

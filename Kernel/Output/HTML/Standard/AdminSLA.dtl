@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.9 2008-02-11 12:18:16 martin Exp $
+# $Id: AdminSLA.dtl,v 1.10 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,8 +19,8 @@
   <tr>
     <td width="30%" class="mainbody">
       <form action="$Env{"CGIHandle"}" method="get">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="SLAEdit">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="SLAEdit"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Add SLA"}:</td>
@@ -30,7 +30,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Add"}">
+              <input class="button" type="submit" value="$Text{"Add"}"/>
             </td>
           </tr>
         </table>
@@ -73,9 +73,9 @@
 <!-- dtl:block:OverviewList -->
 <!-- dtl:block:SLAEdit -->
       <form action="$Env{"CGIHandle"}" method="get">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="SLASave">
-        <input type="hidden" name="SLAID" value="$QData{"SLAID"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="SLASave"/>
+        <input type="hidden" name="SLAID" value="$QData{"SLAID"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Edit"}:</td>
@@ -86,7 +86,7 @@
                 <tr>
                   <td class="contentkey">$Text{"SLA"}: </td>
                   <td class="contentvalue">
-                    <input type="text" name="Name" value="$QData{"Name"}" size="45" maxlength="200">
+                    <input type="text" name="Name" value="$QData{"Name"}" size="45" maxlength="200"/>
                   </td>
                 </tr>
                 <tr>
@@ -104,7 +104,7 @@
                     <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
                   </td>
                   <td class="contentvalue">
-                    <input type="text" name="FirstResponseTime" value="$QData{"FirstResponseTime"}" size="8" maxlength="10"> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"FirstResponseNotifyOptionStrg"} )
+                    <input type="text" name="FirstResponseTime" value="$QData{"FirstResponseTime"}" size="8" maxlength="10"/> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"FirstResponseNotifyOptionStrg"} )
                   </td>
                 </tr>
                 <tr>
@@ -114,7 +114,7 @@
                     <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
                   </td>
                   <td class="contentvalue">
-                    <input type="text" name="UpdateTime" value="$QData{"UpdateTime"}" size="8" maxlength="10"> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"UpdateNotifyOptionStrg"} )
+                    <input type="text" name="UpdateTime" value="$QData{"UpdateTime"}" size="8" maxlength="10"/> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"UpdateNotifyOptionStrg"} )
                   </td>
                 </tr>
                 <tr>
@@ -124,7 +124,7 @@
                     <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
                   </td>
                   <td class="contentvalue">
-                    <input type="text" name="SolutionTime" value="$QData{"SolutionTime"}" size="8" maxlength="10"> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"SolutionNotifyOptionStrg"} )
+                    <input type="text" name="SolutionTime" value="$QData{"SolutionTime"}" size="8" maxlength="10"/> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"SolutionNotifyOptionStrg"} )
                   </td>
                 </tr>
                 <tr>
@@ -134,7 +134,7 @@
                 <tr>
                   <td class="contentkey">$Text{"Comment"}: </td>
                   <td class="contentvalue">
-                    <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150">
+                    <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/>
                   </td>
                 </tr>
               </table>
@@ -142,7 +142,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Submit"}">
+              <input class="button" type="submit" value="$Text{"Submit"}"/>
             </td>
           </tr>
         </table>

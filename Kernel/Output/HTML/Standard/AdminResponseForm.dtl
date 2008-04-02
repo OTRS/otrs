@@ -1,12 +1,12 @@
 # --
 # AdminResponseForm.dtl - provides HTML form for AdminResponse
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseForm.dtl,v 1.25 2007-06-28 23:55:33 martin Exp $
+# $Id: AdminResponseForm.dtl,v 1.26 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
@@ -19,8 +19,8 @@
   <tr>
     <td width="30%" class="mainbody">
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Change">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="Change"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Change"}:</td>
@@ -32,7 +32,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Change"}">
+              <input class="button" type="submit" value="$Text{"Change"}"/>
             </td>
           </tr>
         </table>
@@ -47,9 +47,9 @@
 # delete link
       <dtl if ($Data{"Subaction"} eq "Change") { $Data{"DeleteLink"} = "$Text{"delete this response"}"; }>
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="$Data{"Subaction"}Action">
-        <input type="hidden" name="ID" value="$QData{"ID"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="$Data{"Subaction"}Action"/>
+        <input type="hidden" name="ID" value="$QData{"ID"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"$Data{"Headline"}"}:</td>
@@ -60,7 +60,7 @@
                 <tr>
                   <td class="contentkey">$Text{"Name"}: </td>
                   <td class="contentvalue">
-                    <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50">
+                    <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"/>
                   </td>
                 </tr>
                 <tr>
@@ -80,7 +80,7 @@
                 <tr>
                   <td class="contentkey">$Text{"Comment"}: </td>
                   <td class="contentvalue">
-                    <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150">
+                    <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/>
                   </td>
                 </tr>
               </table>
@@ -90,7 +90,7 @@
             <td class="contentfooter">
               <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&ID=$Data{"ID"}">$Data{"DeleteLink"}</a>
               <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>
-              <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
+              <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"/>
             </td>
           </tr>
         </table>

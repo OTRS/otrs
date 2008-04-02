@@ -1,12 +1,12 @@
 # --
 # CustomerPreferencesForm.dtl - provides HTML form for CustomerPreferences
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerPreferencesForm.dtl,v 1.9 2006-12-21 16:12:27 mh Exp $
+# $Id: CustomerPreferencesForm.dtl,v 1.10 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- dtl:block:Body -->
@@ -36,21 +36,21 @@
               $Text{"$Data{"Desc"}"}
             </p>
             <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post">
-              <input type="hidden" name="Action" value="$Env{"Action"}">
-              <input type="hidden" name="Subaction" value="Update">
-              <input type="hidden" name="Group" value="$QData{"Group"}">
+              <input type="hidden" name="Action" value="$Env{"Action"}"/>
+              <input type="hidden" name="Subaction" value="Update"/>
+              <input type="hidden" name="Group" value="$QData{"Group"}"/>
               <p>
                 <table border="0">
 <!-- dtl:block:InputKey -->
                   <tr>
                     <td>$Text{"$QData{"Key"}"}:</td>
-                    <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"></td>
+                    <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"/></td>
                   </tr>
 <!-- dtl:block:InputKey -->
 <!-- dtl:block:Input -->
                   <tr>
                     <td>$Text{"$QData{"Key"}"}</td>
-                    <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"></td>
+                    <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"/></td>
                   </tr>
 <!-- dtl:block:Input -->
 <!-- dtl:block:Option -->
@@ -62,7 +62,7 @@
 <!-- dtl:block:Upload -->
                   <tr>
                     <td>$Text{"$QData{"Key"}"}</td>
-                    <td><input name="$QData{"Name"}" type="file" size="20" class="fixed"><br>
+                    <td><input name="$QData{"Name"}" type="file" size="20" class="fixed"/><br/>
                       <div title="$QData{"Filename"}">$QData{"Filename","30"}</div>
 #                      <a href="" title="$QData{"Filename"}">$QData{"Filename","30"}</a>
                     </td>
@@ -71,12 +71,12 @@
 <!-- dtl:block:Password -->
                   <tr>
                     <td>$Text{"$QData{"Key"}"}:</td>
-                    <td><input type="password" name="$QData{"Name"}" value="" size="12"></td>
+                    <td><input type="password" name="$QData{"Name"}" value="" size="12"/></td>
                   </tr>
 <!-- dtl:block:Password -->
                 </table>
               </p>
-              <input class="button" type="submit" value="$Text{"Update"}">
+              <input class="button" type="submit" value="$Text{"Update"}"/>
             </form>
           </td>
         </tr>

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.78 2008-04-02 04:48:33 tr Exp $
+# $Id: Layout.pm,v 1.79 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 =head1 NAME
 
@@ -990,7 +990,7 @@ sub _Output {
                 $Start.$Target.$End;
             }
             else {
-                $Start.$Target.$End."<input type=\"hidden\" name=\"$Self->{SessionName}\" value=\"$Self->{SessionID}\">";
+                $Start.$Target.$End."<input type=\"hidden\" name=\"$Self->{SessionName}\" value=\"$Self->{SessionID}\"/>";
             }
         }iegx;
     }
@@ -1656,7 +1656,7 @@ sub Ascii2Html {
         }
     }
     if ($HTMLMode) {
-        $Text =~ s/\n/<br>\n/g;
+        $Text =~ s{\n}{<br/>\n}g;
         $Text =~ s/  /&nbsp;&nbsp;/g;
     }
     if ( $Type eq 'JSText' ) {
@@ -1719,7 +1719,7 @@ sub CustomerAgeInHours {
     my ( $Self, %Param ) = @_;
 
     my $Age = defined( $Param{Age} ) ? $Param{Age} : return;
-    my $Space = $Param{Space} || '<BR>';
+    my $Space = $Param{Space} || '<br/>';
     my $AgeStrg = '';
     if ( $Age =~ /^-(.*)/ ) {
         $Age     = $1;
@@ -1755,7 +1755,7 @@ sub CustomerAge {
     my ( $Self, %Param ) = @_;
 
     my $Age = defined( $Param{Age} ) ? $Param{Age} : return;
-    my $Space = $Param{Space} || '<BR>';
+    my $Space = $Param{Space} || '<br/>';
     my $AgeStrg = '';
     if ( $Age =~ /^-(.*)/ ) {
         $Age     = $1;
@@ -3276,7 +3276,7 @@ sub BuildDateSelection {
             . $Prefix
             . "Year\" size=\"4\" maxlength=\"4\" "
             . "value=\""
-            . sprintf( "%02d", ( $Param{ $Prefix . 'Year' } || $Y ) ) . "\">";
+            . sprintf( "%02d", ( $Param{ $Prefix . 'Year' } || $Y ) ) . "\"/>";
     }
 
     # month
@@ -3299,7 +3299,7 @@ sub BuildDateSelection {
             . $Prefix
             . "Month\" size=\"2\" maxlength=\"2\" "
             . "value=\""
-            . sprintf( "%02d", ( $Param{ $Prefix . 'Month' } || $M ) ) . "\">";
+            . sprintf( "%02d", ( $Param{ $Prefix . 'Month' } || $M ) ) . "\"/>";
     }
 
     # day
@@ -3322,7 +3322,7 @@ sub BuildDateSelection {
             . $Prefix
             . "Day\" size=\"2\" maxlength=\"2\" "
             . "value=\""
-            . ( $Param{ $Prefix . 'Day' } || $D ) . "\">";
+            . ( $Param{ $Prefix . 'Day' } || $D ) . "\"/>";
     }
     if ( $Format eq 'DateInputFormatLong' ) {
 
@@ -3350,7 +3350,7 @@ sub BuildDateSelection {
                 . "value=\""
                 . sprintf( "%02d",
                 ( defined( $Param{ $Prefix . 'Hour' } ) ? int( $Param{ $Prefix . 'Hour' } ) : $h ) )
-                . "\">";
+                . "\"/>";
         }
 
         # minute
@@ -3381,7 +3381,7 @@ sub BuildDateSelection {
                     ? int( $Param{ $Prefix . 'Minute' } )
                     : $m
                 )
-                ) . "\">";
+                ) . "\"/>";
         }
     }
     my $Output;
@@ -3397,7 +3397,7 @@ sub BuildDateSelection {
             . $Prefix
             . "Used\" value=\"1\""
             . $Checked
-            . ">&nbsp;";
+            . "/>&nbsp;";
     }
 
     # date format
@@ -3857,6 +3857,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.78 $ $Date: 2008-04-02 04:48:33 $
+$Revision: 1.79 $ $Date: 2008-04-02 08:59:22 $
 
 =cut

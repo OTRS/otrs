@@ -1,12 +1,12 @@
 # --
 # AgentTicketMailbox.dtl - provides HTML for AgentTicketMailbox
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.dtl,v 1.9 2007-10-08 20:54:48 martin Exp $
+# $Id: AgentTicketMailbox.dtl,v 1.10 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- dtl:block:NavBar -->
@@ -29,7 +29,7 @@
       <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Pending&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"Pending messages"} ($Data{"Pending"})'; return true;" onmouseout="window.status='';">$Text{"Pending"} ($Data{"Pending"})</a>
       -
       <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reminder&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"Reminder messages"} ($Data{"Reminder"})'; return true;" onmouseout="window.status='';">$Text{"Reminder"} ($Data{"Reminder"})</a>
-      <br>
+      <br/>
       $Text{"Sort by"}:
       <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&SortBy=Age">$Text{"Age"}</a> -
       <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&SortBy=Queue">$Text{"Queue"}</a> -
@@ -48,7 +48,7 @@
 <!-- dtl:block:Bulk -->
     <td width="1%" class="mainhead">
       <form name="abulk$Data{"Counter"}">
-        <input type="checkbox" name="Selected" value="1" onclick="BulkChangeSelected($Data{"TicketID"},$Data{"Counter"})">
+        <input type="checkbox" name="Selected" value="1" onclick="BulkChangeSelected($Data{"TicketID"},$Data{"Counter"})"/>
       </form>
     </td>
 <!-- dtl:block:Bulk -->

@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueForm.dtl,v 1.38 2008-02-11 12:18:16 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.39 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,8 +19,8 @@
   <tr>
     <td width="30%" class="mainbody">
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Change">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="Change"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Change"}:</td>
@@ -32,7 +32,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Change"}">
+              <input class="button" type="submit" value="$Text{"Change"}"/>
             </td>
           </tr>
         </table>
@@ -46,9 +46,9 @@
 # check add link
       <dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-        <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action"/>
+        <input type="hidden" name="QueueID" value="$Data{"QueueID"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">
@@ -61,7 +61,7 @@
                 <tr>
                   <td width="40%" class="contentkey">$Text{"Name"}: </td>
                   <td width="60%" class="contentvalue">
-                    <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50">
+                    <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"/>
                   </td>
                 </tr>
                 <tr>
@@ -83,7 +83,7 @@
                     <i class="small">($Text{"0 = no unlock"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
                   </td>
                   <td class="contentvalue">
-                    <input type="text" name="UnlockTimeout" value="$QData{"UnlockTimeout"}" size="8" maxlength="10"> $Text{"minutes"}
+                    <input type="text" name="UnlockTimeout" value="$QData{"UnlockTimeout"}" size="8" maxlength="10"/> $Text{"minutes"}
                   </td>
                 </tr>
                 <tr>
@@ -93,7 +93,7 @@
                     <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
                   </td>
                   <td class="contentvalue">
-                    <input type="text" name="FirstResponseTime" value="$QData{"FirstResponseTime"}" size="8" maxlength="10"> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"FirstResponseNotifyOptionStrg"} )
+                    <input type="text" name="FirstResponseTime" value="$QData{"FirstResponseTime"}" size="8" maxlength="10"/> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"FirstResponseNotifyOptionStrg"} )
                   </td>
                 </tr>
                 <tr>
@@ -103,7 +103,7 @@
                     <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
                   </td>
                   <td class="contentvalue">
-                    <input type="text" name="UpdateTime" value="$QData{"UpdateTime"}" size="8" maxlength="10"> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"UpdateNotifyOptionStrg"} )
+                    <input type="text" name="UpdateTime" value="$QData{"UpdateTime"}" size="8" maxlength="10"/> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"UpdateNotifyOptionStrg"} )
                   </td>
                 </tr>
                 <tr>
@@ -113,7 +113,7 @@
                     <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
                   </td>
                   <td class="contentvalue">
-                    <input type="text" name="SolutionTime" value="$QData{"SolutionTime"}" size="8" maxlength="10"> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"SolutionNotifyOptionStrg"} )
+                    <input type="text" name="SolutionTime" value="$QData{"SolutionTime"}" size="8" maxlength="10"/> $Text{"minutes"} ( $Text{"Notify by"}  $Data{"SolutionNotifyOptionStrg"} )
                   </td>
                 </tr>
                 <tr>
@@ -181,27 +181,27 @@
                 <tr>
                   <td class="contentkey">$Text{"Comment"}: </td>
                   <td class="contentvalue">
-                    <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150">
+                    <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/>
                   </td>
                 </tr>
 <!-- dtl:block:Item -->
 <!-- dtl:block:InputKey -->
                 <tr>
                   <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</td>
-                  <td class="contentvalue"><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="30"></td>
+                  <td class="contentvalue"><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="30"/></td>
                 </tr>
 <!-- dtl:block:InputKey -->
 <!-- dtl:block:Input -->
                 <tr>
-                  <td class="contentkey">$Text{"$Data{"Label"}"}:<br><i class="small">($Text{"$Data{"Desc"}"})</i></td>
+                  <td class="contentkey">$Text{"$Data{"Label"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i></td>
                   <td class="contentvalue">
-                    <input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="30">
+                    <input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="30"/>
                   </td>
                 </tr>
 <!-- dtl:block:Input -->
 <!-- dtl:block:TextArea -->
                 <tr>
-                  <td class="contentkey">$Text{"$Data{"Label"}"}:<br><i class="small">($Text{"$Data{"Desc"}"})</i></td>
+                  <td class="contentkey">$Text{"$Data{"Label"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i></td>
                   <td class="contentvalue">
                     <textarea name="$QData{"Name"}" rows="$QData{"Rows"}" cols="$QData{"Cols"}">$QData{"SelectedID"}</textarea>
                   </td>
@@ -209,7 +209,7 @@
 <!-- dtl:block:TextArea -->
 <!-- dtl:block:Option -->
                 <tr>
-                  <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:<br>
+                  <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:<br/>
                     <i class="small">($Text{"$Data{"Desc"}"})</i>
                   </td>
                   <td class="contentvalue">$Data{"Option"}</td>
@@ -219,7 +219,7 @@
                 <tr>
                   <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}</td>
                   <td class="contentvalue">
-                    <input name="$QData{"Name"}" type="file" size="30" class="fixed"><br>
+                    <input name="$QData{"Name"}" type="file" size="30" class="fixed"/><br/>
                     <a href="">$QData{"Filename"}</a>
                   </td>
                 </tr>
@@ -227,7 +227,7 @@
 <!-- dtl:block:Password -->
                 <tr>
                   <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</td>
-                  <td class="contentvalue"><input type="password" name="$QData{"Name"}" value="" size="30"></td>
+                  <td class="contentvalue"><input type="password" name="$QData{"Name"}" value="" size="30"/></td>
                 </tr>
 <!-- dtl:block:Password -->
 <!-- dtl:block:Item -->
@@ -236,7 +236,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
+              <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"/>
             </td>
           </tr>
         </table>

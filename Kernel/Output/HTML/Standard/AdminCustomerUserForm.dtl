@@ -1,12 +1,12 @@
 # --
 # AdminCustomerUserForm.dtl - provides HTML form for AdminCustomerUser
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.37 2007-06-28 23:55:33 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.38 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- dtl:block:Overview -->
@@ -50,9 +50,9 @@ $Data{"Back"}
   <tr>
     <td width="30%" class="mainbody">
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Search">
-        <input type="hidden" name="Nav" value="$Data{"Nav"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="Search"/>
+        <input type="hidden" name="Nav" value="$Data{"Nav"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Search"}:</td>
@@ -62,23 +62,23 @@ $Data{"Back"}
               <table>
                 <tr>
                   <td class="contentkey">$Text{"Search for"}:</td>
-                  <td class="contentvalue"><input type="text" name="Search" value="$QData{"Search"}" size="20"></td>
+                  <td class="contentvalue"><input type="text" name="Search" value="$QData{"Search"}" size="20"/></td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Search"}">
+              <input class="button" type="submit" value="$Text{"Search"}"/>
             </td>
           </tr>
         </table>
       </form>
-      <br>
+      <br/>
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Add">
-        <input type="hidden" name="Nav" value="$Data{"Nav"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="Add"/>
+        <input type="hidden" name="Nav" value="$Data{"Nav"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Add Customer User"}:</td>
@@ -95,7 +95,7 @@ $Data{"Back"}
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Create"}">
+              <input class="button" type="submit" value="$Text{"Create"}"/>
             </td>
           </tr>
         </table>
@@ -143,12 +143,12 @@ $Data{"Back"}
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
       <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post" name="compose">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="$QData{"Action"}Action">
-        <input type="hidden" name="ID" value="$QData{"ID"}">
-        <input type="hidden" name="Source" value="$QData{"Source"}">
-        <input type="hidden" name="Nav" value="$QData{"Nav"}">
-        <input type="hidden" name="Search" value="$QData{"Search"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="$QData{"Action"}Action"/>
+        <input type="hidden" name="ID" value="$QData{"ID"}"/>
+        <input type="hidden" name="Source" value="$QData{"Source"}"/>
+        <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
+        <input type="hidden" name="Search" value="$QData{"Search"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">
@@ -162,7 +162,7 @@ $Data{"Back"}
                 <dtl if ($Data{"ReadOnly"} ne "") { $Data{"TableFontStart"} = "<font color="#aaaaaa">"; }>
                 <dtl if ($Data{"ReadOnly"} ne "") { $Data{"TableFontStop"} = "</font>"; }>
 <!-- dtl:block:PreferencesGenericInputHidden -->
-                <input type="hidden" name="$QData{"Name"}" value="$QData{"Value"}">
+                <input type="hidden" name="$QData{"Name"}" value="$QData{"Value"}"/>
 <!-- dtl:block:PreferencesGenericInputHidden -->
 <!-- dtl:block:PreferencesGenericInput -->
                 <tr>
@@ -172,7 +172,7 @@ $Data{"Back"}
                     <font color="blue" title="$Text{"This values are read only."}">$Data{"ReadOnly"}</font>
                   </td>
                   <td class="contentvalue">
-                    <input type="text" name="$QData{"Name"}" value="$QData{"Value"}" size="35" maxlength="150" $QData{"ReadOnlyType"}>
+                    <input type="text" name="$QData{"Name"}" value="$QData{"Value"}" size="35" maxlength="150" $QData{"ReadOnlyType"}/>
                   </td>
                 </tr>
 <!-- dtl:block:PreferencesGenericInput -->
@@ -184,7 +184,7 @@ $Data{"Back"}
                     <font color="blue" title="$Text{"This values are read only."}">$Data{"ReadOnly"}</font>
                   </td>
                   <td class="contentvalue">
-                    <input type="password" name="$QData{"Name"}" value="" size="35" maxlength="60" $QData{"ReadOnlyType"}>
+                    <input type="password" name="$QData{"Name"}" value="" size="35" maxlength="60" $QData{"ReadOnlyType"}/>
                   </td>
                 </tr>
 <!-- dtl:block:PreferencesGenericPassword -->
@@ -206,24 +206,24 @@ $Data{"Back"}
                     $Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:
                   </td>
                   <td class="contentvalue">
-                    <input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="35">
+                    <input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="35"/>
                   </td>
                 </tr>
 <!-- dtl:block:InputKey -->
 <!-- dtl:block:Input -->
                 <tr>
                   <td class="contentkey">
-                    $Text{"$Data{"Label"}"}:<br><i class="small">($Text{"$Data{"Desc"}"})</i>
+                    $Text{"$Data{"Label"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i>
                   </td>
                   <td class="contentvalue">
-                    <input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="35">
+                    <input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="35"/>
                   </td>
                 </tr>
 <!-- dtl:block:Input -->
 <!-- dtl:block:Option -->
                 <tr>
                   <td class="contentkey">
-                    $Text{"$Data{"Label"}"}:<br><i class="small">($Text{"$Data{"Desc"}"})</i>$Text{"$QData{"Key"}"}
+                    $Text{"$Data{"Label"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i>$Text{"$QData{"Key"}"}
                   </td>
                   <td class="contentvalue">
                     $Data{"Option"}
@@ -233,10 +233,10 @@ $Data{"Back"}
 <!-- dtl:block:Upload -->
                 <tr>
                   <td class="contentkey">
-                    $Text{"$Data{"Label"}"}:<br><i class="small">($Text{"$Data{"Desc"}"})</i>
+                    $Text{"$Data{"Label"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i>
                   </td>
                   <td class="contentvalue">
-                    <input name="$QData{"Name"}" type="file" size="25" class="fixed"><br>
+                    <input name="$QData{"Name"}" type="file" size="25" class="fixed"/><br/>
                     <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Group=$LQData{"Group"}&ID=$QData{"UserID"}&File=$LQData{"Filename"}">$QData{"Filename","80"}</a>
                   </td>
                 </tr>
@@ -247,7 +247,7 @@ $Data{"Back"}
                     $Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:
                   </td>
                   <td class="contentvalue">
-                    <input type="password" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="35">
+                    <input type="password" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="35"/>
                   </td>
                 </tr>
 <!-- dtl:block:Password -->
@@ -257,7 +257,7 @@ $Data{"Back"}
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Submit"}">
+              <input class="button" type="submit" value="$Text{"Submit"}"/>
             </td>
           </tr>
         </table>
@@ -276,9 +276,9 @@ $Data{"Back"}
     <td class="mainbody">
       <p>
         <font color="red">*</font> $Text{"This values are required."}
-        <br>
+        <br/>
         <font color="blue">*</font> $Text{"This values are read only."}
-        <br>
+        <br/>
         $Text{"Customer user will be needed to have a customer history and to login via customer panel."}
       </p>
     </td>

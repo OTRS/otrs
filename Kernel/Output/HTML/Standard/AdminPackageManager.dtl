@@ -1,12 +1,12 @@
 # --
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.40 2007-10-10 18:15:37 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.41 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- dtl:block:Uninstall -->
@@ -23,7 +23,7 @@
   </tr>
   <tr>
     <td class="mainbody">
-      <br>
+      <br/>
       <table border="0" width="350" align="center" cellspacing="0" cellpadding="4">
         <tr>
           <td colspan="2" class="contenthead">$Text{"Uninstall"}</td>
@@ -54,18 +54,18 @@
               <tr>
                 <td class="contentfooter">
                   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="Action" value="$Env{"Action"}">
-                    <input type="hidden" name="Subaction" value="">
-                    <input class="button" type="submit" value="$Text{"No"}">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value=""/>
+                    <input class="button" type="submit" value="$Text{"No"}"/>
                   </form>
                 </td>
                 <td width="10" class="contentfooter">
                   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="Action" value="$Env{"Action"}">
-                    <input type="hidden" name="Subaction" value="UninstallAction">
-                    <input type="hidden" name="Name" value="$QData{"Name"}">
-                    <input type="hidden" name="Version" value="$QData{"Version"}">
-                    <input class="button" type="submit" value="$Text{"Yes"}">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="UninstallAction"/>
+                    <input type="hidden" name="Name" value="$QData{"Name"}"/>
+                    <input type="hidden" name="Version" value="$QData{"Version"}"/>
+                    <input class="button" type="submit" value="$Text{"Yes"}"/>
                   </form>
                 </td>
               </tr>
@@ -73,7 +73,7 @@
           </td>
         </tr>
       </table>
-      <br>
+      <br/>
     </td>
   </tr>
 </table>
@@ -92,7 +92,7 @@
   </tr>
   <tr>
     <td class="mainbody">
-      <br>
+      <br/>
       <table border="0" width="350" align="center" cellspacing="0" cellpadding="4">
         <tr>
           <td colspan="2" class="contenthead">$Text{"Reinstall"}</td>
@@ -123,18 +123,18 @@
               <tr>
                 <td class="contentfooter">
                   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="Action" value="$Env{"Action"}">
-                    <input type="hidden" name="Subaction" value="">
-                    <input class="button" type="submit" value="$Text{"No"}">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value=""/>
+                    <input class="button" type="submit" value="$Text{"No"}"/>
                   </form>
                 </td>
                 <td width="10" class="contentfooter">
                   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="Action" value="$Env{"Action"}">
-                    <input type="hidden" name="Subaction" value="ReinstallAction">
-                    <input type="hidden" name="Name" value="$QData{"Name"}">
-                    <input type="hidden" name="Version" value="$QData{"Version"}">
-                    <input class="button" type="submit" value="$Text{"Yes"}">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="ReinstallAction"/>
+                    <input type="hidden" name="Name" value="$QData{"Name"}"/>
+                    <input type="hidden" name="Version" value="$QData{"Version"}"/>
+                    <input class="button" type="submit" value="$Text{"Yes"}"/>
                   </form>
                 </td>
               </tr>
@@ -142,7 +142,7 @@
           </td>
         </tr>
       </table>
-      <br>
+      <br/>
     </td>
   </tr>
 </table>
@@ -156,7 +156,7 @@
   </tr>
   <tr>
     <td class="mainbody">
-      <br>
+      <br/>
       <table border="0" width="350" align="center" cellspacing="0" cellpadding="4">
         <tr>
           <td colspan="2" class="contenthead"><div title="$QData{"Name"} $QData{"Version"}: $QData{"Title"}">$QData{"Name"}: $QData{"Title"}</div></td>
@@ -173,23 +173,23 @@
                 <td class="contentfooter">
 <!-- dtl:block:IntroCancel -->
                   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="Action" value="$Env{"Action"}">
-                    <input type="hidden" name="Subaction" value="">
-                    <input class="button" type="submit" value="$Text{"Cancel"}">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value=""/>
+                    <input class="button" type="submit" value="$Text{"Cancel"}"/>
                   </form>
 <!-- dtl:block:IntroCancel -->
                 </td>
                 <td width="10" class="contentfooter">
                   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="Action" value="$Env{"Action"}">
-                    <input type="hidden" name="Subaction" value="$QData{"Subaction"}">
-                    <input type="hidden" name="FormID" value="$QData{"FormID"}">
-                    <input type="hidden" name="Source" value="$QData{"Source"}">
-                    <input type="hidden" name="File" value="$QData{"File"}">
-                    <input type="hidden" name="$QData{"Type"}" value="1">
-                    <input type="hidden" name="Name" value="$QData{"Name"}">
-                    <input type="hidden" name="Version" value="$QData{"Version"}">
-                    <input class="button" type="submit" value="$Text{"Continue"}">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="$QData{"Subaction"}"/>
+                    <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+                    <input type="hidden" name="Source" value="$QData{"Source"}"/>
+                    <input type="hidden" name="File" value="$QData{"File"}"/>
+                    <input type="hidden" name="$QData{"Type"}" value="1"/>
+                    <input type="hidden" name="Name" value="$QData{"Name"}"/>
+                    <input type="hidden" name="Version" value="$QData{"Version"}"/>
+                    <input class="button" type="submit" value="$Text{"Continue"}"/>
                   </form>
                 </td>
               </tr>
@@ -197,7 +197,7 @@
           </td>
         </tr>
       </table>
-      <br>
+      <br/>
     </td>
   </tr>
 </table>
@@ -213,9 +213,9 @@
     <td width="30%" class="mainbody">
 <!-- dtl:block:OverviewFileUpload -->
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="InstallUpload">
-        <input type="hidden" name="FormID" value="$QData{"FormID"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="InstallUpload"/>
+        <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Install"}:</td>
@@ -225,23 +225,23 @@
               <table>
                 <tr>
                   <td class="contentkey">$Text{"Package"}:</td>
-                  <td class="contentvalue"><input name="file_upload" type="file" size="18" class="fixed"></td>
+                  <td class="contentvalue"><input name="file_upload" type="file" size="18" class="fixed"/></td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Install"}">
+              <input class="button" type="submit" value="$Text{"Install"}"/>
             </td>
           </tr>
         </table>
       </form>
-      <br>
+      <br/>
 <!-- dtl:block:OverviewFileUpload -->
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="ChangeRepository">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="ChangeRepository"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Online Repository"}:</td>
@@ -258,7 +258,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" name="GetRepositoryList" value="$Text{"Update"}">
+              <input class="button" type="submit" name="GetRepositoryList" value="$Text{"Update"}"/>
             </td>
           </tr>
         </table>
@@ -306,7 +306,7 @@
           </td>
         </tr>
       </table>
-      <br>
+      <br/>
       <table border="0" width="100%" cellspacing="0" cellpadding="4">
         <tr>
           <td class="contenthead">$Text{"Local Repository"}:</td>
@@ -334,15 +334,15 @@
                 <td class="$QData{"CssClass"}">
 <!-- dtl:block:ShowLocalPackageInstall -->
                   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Install&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Install"}</a>
-                  <br><br>
+                  <br/><br/>
 <!-- dtl:block:ShowLocalPackageInstall -->
 <!-- dtl:block:ShowLocalPackageUninstall -->
                   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Uninstall&Name=$LQData{"Name"}&Version=$LQData{"Version"}">$Text{"Uninstall"}</a>
-                  <br>
+                  <br/>
 <!-- dtl:block:ShowLocalPackageUninstall -->
 <!-- dtl:block:ShowLocalPackageReinstall -->
                   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reinstall&Name=$QData{"Name"}&Version=$QData{"Version"}" title="$Text{"Package not correctly deployed! You should reinstall the Package again!"}">$Text{"Reinstall"}</a>
-                  <br>
+                  <br/>
 <!-- dtl:block:ShowLocalPackageReinstall -->
                 </td>
               </tr>
@@ -390,7 +390,7 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
   </tr>
   <tr>
     <td class="mainbody">
-      <br>
+      <br/>
       <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
         <tr>
           <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -468,7 +468,7 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
 <!-- dtl:block:PackageItemDatabase -->
               <tr>
                 <td class="contentkey">$QData{"TagName"}: </td>
-                <td class="contentvalue">$QData{"Tag"}: $QData{"Name"} ($QData{"Version"})<br>
+                <td class="contentvalue">$QData{"Tag"}: $QData{"Name"} ($QData{"Version"})<br/>
 <!-- dtl:block:PackageItemDatabaseSub -->
                   <table border="0" cellspacing="0" cellpadding="0">
                     <tr>
@@ -520,7 +520,7 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
           <td class="contentfooter">&nbsp;</td>
         </tr>
       </table>
-      <br>
+      <br/>
     </td>
   </tr>
 </table>
@@ -539,7 +539,7 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
   </tr>
   <tr>
     <td class="mainbody">
-      <br>
+      <br/>
       <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
         <tr>
           <td colspan="2" class="contenthead">$Text{"Diff"}: $QData{"Location"}</td>
@@ -555,7 +555,7 @@ $QData{"Diff"}
           <td class="contentfooter">&nbsp;</td>
         </tr>
       </table>
-      <br>
+      <br/>
     </td>
   </tr>
 </table>

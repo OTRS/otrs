@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.13 2008-03-31 22:18:37 martin Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.14 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -57,7 +57,7 @@ function submit_compose() {
   </tr>
   <tr>
     <td class="mainbody">
-      <br>
+      <br/>
       <table border="0" width="680" align="center" cellspacing="0" cellpadding="4">
         <tr>
           <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -65,10 +65,10 @@ function submit_compose() {
         <tr>
           <td class="contentbody">
             <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data">
-              <input type="hidden" name="Action" value="$Env{"Action"}">
-              <input type="hidden" name="Subaction" value="StoreNew">
-              <input type="hidden" name="Expand" value="">
-              <input type="hidden" name="FormID" value="$QData{"FormID"}">
+              <input type="hidden" name="Action" value="$Env{"Action"}"/>
+              <input type="hidden" name="Subaction" value="StoreNew"/>
+              <input type="hidden" name="Expand" value=""/>
+              <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
               <table border="0">
 <!-- dtl:block:TicketType -->
                 <tr>
@@ -98,7 +98,7 @@ function submit_compose() {
                 <tr>
                   <td class="contentkey">$Text{"Subject"}:</td>
                   <td class="contentvalue">
-                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70">
+                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70"/>
                     <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
                   </td>
                 </tr>
@@ -118,14 +118,14 @@ function submit_compose() {
                         <td>$QData{"Filename"}</td>
                         <td>$QData{"Filesize"}</td>
                         <td align="right">
-                          <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">
+                          <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
                         </td>
                       </tr>
 <!-- dtl:block:Attachment -->
                       <tr>
-                        <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td>
+                        <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"/></td>
                         <td align="right">
-                          <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">
+                          <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
                           <a name="attachment"></a>
                         </td>
                       </tr>
@@ -179,12 +179,12 @@ function submit_compose() {
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">
+              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
             </td>
           </tr>
         </table>
       </form>
-      <br>
+      <br/>
     </td>
   </tr>
 </table>

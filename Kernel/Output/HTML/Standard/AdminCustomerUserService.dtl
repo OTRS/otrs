@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.4 2008-02-15 12:45:03 mh Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.5 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@
     <td width="30%" class="mainbody">
 <!-- dtl:block:Search -->
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Search"}:</td>
@@ -29,28 +29,28 @@
               <table>
                 <tr>
                   <td class="contentkey">$Text{"Search for"} $Text{"CustomerUser"}:</td>
-                  <td class="contentvalue"><input type="text" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}" size="20"></td>
+                  <td class="contentvalue"><input type="text" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}" size="20"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Search for"} $Text{"Service"}:</td>
-                  <td class="contentvalue"><input type="text" name="ServiceSearch" value="$QData{"ServiceSearch"}" size="20"></td>
+                  <td class="contentvalue"><input type="text" name="ServiceSearch" value="$QData{"ServiceSearch"}" size="20"/></td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Search"}">
+              <input class="button" type="submit" value="$Text{"Search"}"/>
             </td>
           </tr>
         </table>
       </form>
 <!-- dtl:block:Search -->
 <!-- dtl:block:Default -->
-      <br>
+      <br/>
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="AllocateCustomerUser">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="AllocateCustomerUser"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Edit"}:</td>
@@ -62,7 +62,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Edit"}">
+              <input class="button" type="submit" value="$Text{"Edit"}"/>
             </td>
           </tr>
         </table>
@@ -124,11 +124,11 @@
 <!-- dtl:block:Result -->
 <!-- dtl:block:AllocateCustomerUser -->
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="AllocateCustomerUserSave">
-        <input type="hidden" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}">
-        <input type="hidden" name="ServiceSearch" value="$QData{"ServiceSearch"}">
-        <input type="hidden" name="CustomerUserLogin" value="$QData{"CustomerUserLogin"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="AllocateCustomerUserSave"/>
+        <input type="hidden" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}"/>
+        <input type="hidden" name="ServiceSearch" value="$QData{"ServiceSearch"}"/>
+        <input type="hidden" name="CustomerUserLogin" value="$QData{"CustomerUserLogin"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Allocate services to CustomerUser"} "$QData{"CustomerUser"}":</td>
@@ -155,8 +155,8 @@
                     </a>
                   </td>
                   <td class="$QData{"CssClass"}">
-                    <input type="checkbox" name="ServiceIDsSelected" value="$QData{"ServiceID"}" $QData{"Checked"}>
-                    <input type="hidden" name="ServiceIDsAll" value="$QData{"ServiceID"}">
+                    <input type="checkbox" name="ServiceIDsSelected" value="$QData{"ServiceID"}" $QData{"Checked"}/>
+                    <input type="hidden" name="ServiceIDsAll" value="$QData{"ServiceID"}"/>
                   </td>
                 </tr>
 <!-- dtl:block:AllocateCustomerUserRow -->
@@ -165,7 +165,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Submit"}">
+              <input class="button" type="submit" value="$Text{"Submit"}"/>
             </td>
           </tr>
         </table>
@@ -173,11 +173,11 @@
 <!-- dtl:block:AllocateCustomerUser -->
 <!-- dtl:block:AllocateService -->
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="AllocateServiceSave">
-        <input type="hidden" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}">
-        <input type="hidden" name="ServiceSearch" value="$QData{"ServiceSearch"}">
-        <input type="hidden" name="ServiceID" value="$QData{"ServiceID"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="AllocateServiceSave"/>
+        <input type="hidden" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}"/>
+        <input type="hidden" name="ServiceSearch" value="$QData{"ServiceSearch"}"/>
+        <input type="hidden" name="ServiceID" value="$QData{"ServiceID"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Allocate CustomerUser to service"} "$QData{"Service"}":</td>
@@ -204,8 +204,8 @@
                     </a>
                   </td>
                   <td class="$QData{"CssClass"}">
-                    <input type="checkbox" name="CustomerUserLoginsSelected" value="$QData{"CustomerUserLogin"}" $QData{"Checked"}>
-                    <input type="hidden" name="CustomerUserLoginsAll" value="$QData{"CustomerUserLogin"}">
+                    <input type="checkbox" name="CustomerUserLoginsSelected" value="$QData{"CustomerUserLogin"}" $QData{"Checked"}/>
+                    <input type="hidden" name="CustomerUserLoginsAll" value="$QData{"CustomerUserLogin"}"/>
                   </td>
                 </tr>
 <!-- dtl:block:AllocateServiceRow -->
@@ -214,7 +214,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Submit"}">
+              <input class="button" type="submit" value="$Text{"Submit"}"/>
             </td>
           </tr>
         </table>

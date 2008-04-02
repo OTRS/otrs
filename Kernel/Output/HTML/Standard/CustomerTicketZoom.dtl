@@ -1,12 +1,12 @@
 # --
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.31 2007-10-08 23:39:33 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.32 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start ticket $Data{"TicketNumber"} -->
@@ -120,16 +120,16 @@ $Data{"Article::Text"}
 <!-- dtl:block:FollowUp -->
       <hr>
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-        <input type="hidden" name="Action" value="CustomerTicketZoom">
-        <input type="hidden" name="Subaction" value="Store">
-        <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
-        <input type="hidden" name="ArticleID" value="$QData{"Article::ArticleID"}">
-        <input type="hidden" name="FormID" value="$QData{"FormID"}">
+        <input type="hidden" name="Action" value="CustomerTicketZoom"/>
+        <input type="hidden" name="Subaction" value="Store"/>
+        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+        <input type="hidden" name="ArticleID" value="$QData{"Article::ArticleID"}"/>
+        <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
         <table border="0" width="100%">
           <tr>
             <td class="contentkey" width="15%">$Text{"Subject"}:</td>
             <td class="contentvalue" width="85%">
-              <input type="text" name="Subject" value="$QData{"Subject"}" size="70">
+              <input type="text" name="Subject" value="$QData{"Subject"}" size="70"/>
             </td>
           </tr>
           <tr>
@@ -147,14 +147,14 @@ $Data{"Article::Text"}
                   <td>$QData{"Filename"}</td>
                   <td>$QData{"Filesize"}</td>
                   <td align="right">
-                    <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">
+                    <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
                   </td>
                 </tr>
 <!-- dtl:block:Attachment -->
                 <tr>
-                  <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td>
+                  <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"/></td>
                   <td align="right">
-                    <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">
+                    <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
                     <a name="attachment"></a>
                   </td>
                 </tr>
@@ -174,8 +174,8 @@ $Data{"Article::Text"}
           </tr>
 <!-- dtl:block:Priority -->
         </table>
-        <br>
-        <input class="button" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">
+        <br/>
+        <input class="button" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
       </form>
 <!-- dtl:block:FollowUp -->
     </td>

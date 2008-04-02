@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.16 2008-01-30 15:53:34 ho Exp $
+# $Id: Installer.dtl,v 1.17 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,8 +26,8 @@
 <!-- dtl:block:Intro -->
       <img border="0" src="$Env{"Images"}installer-start.png" alt="">
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="Installer">
-        <input type="hidden" name="Subaction" value="License">
+        <input type="hidden" name="Action" value="Installer"/>
+        <input type="hidden" name="Subaction" value="License"/>
         <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="3" class="contenthead">$Text{"Welcome to %s", "$Config{"ProductName"}"}</td>
@@ -39,26 +39,26 @@
                 <table width="70%">
                   <tr>
                     <td>
-                      OTRS AG<br>
-                      Norsk-Data-Str. 1<br>
-                      61352 Bad Homburg<br>
+                      OTRS AG<br/>
+                      Norsk-Data-Str. 1<br/>
+                      61352 Bad Homburg<br/>
 
-                      Germany<br>
-                      Phone: +49 (0) 9421 56818 0<br>
-                      Fax: +49 (0) 9421 56818 18<br>
-                      Web: <a href="http://otrs.com/">http://otrs.com/</a><br>
-                      Info: <a href="mailto:info@otrs.com">info@otrs.com</a><br>
+                      Germany<br/>
+                      Phone: +49 (0) 9421 56818 0<br/>
+                      Fax: +49 (0) 9421 56818 18<br/>
+                      Web: <a href="http://otrs.com/">http://otrs.com/</a><br/>
+                      Info: <a href="mailto:info@otrs.com">info@otrs.com</a><br/>
                     </td>
                     <td>
-                      OTRS Inc.<br>
-                      19925 Stevens Creek Blvd.<br>
+                      OTRS Inc.<br/>
+                      19925 Stevens Creek Blvd.<br/>
 
-                      Cupertino, CA 95014-2358 <br>
-                      USA<br>
-                      Phone: +1 (408) 725 7501<br>
-                      Fax:  +1 (408) 725 8885<br>
-                      Web: <a href="http://otrs.com/">http://otrs.com/</a><br>
-                      Info: <a href="mailto:info@otrs.com">info@otrs.com</a><br>
+                      Cupertino, CA 95014-2358 <br/>
+                      USA<br/>
+                      Phone: +1 (408) 725 7501<br/>
+                      Fax:  +1 (408) 725 8885<br/>
+                      Web: <a href="http://otrs.com/">http://otrs.com/</a><br/>
+                      Info: <a href="mailto:info@otrs.com">info@otrs.com</a><br/>
                     </td>
                   </tr>
                 </table>
@@ -68,7 +68,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Next..."}">
+              <input class="button" type="submit" value="$Text{"Next..."}"/>
             </td>
           </tr>
         </table>
@@ -432,13 +432,13 @@ Public License instead of this License.
               <tr>
                 <td class="contentfooter">
                   <form action="$Env{"CGIHandle"}" method="post">
-                    <input type="hidden" name="Subaction" value="Start">
-                    <input class="button" type="submit" value="$Text{"Accept license"}">
+                    <input type="hidden" name="Subaction" value="Start"/>
+                    <input class="button" type="submit" value="$Text{"Accept license"}"/>
                   </form>
                 </td>
                 <td width="10" class="contentfooter">
                   <form action="$Env{"CGIHandle"}" method="post">
-                    <input class="button" type="submit" value="$Text{"Don't accept license"}">
+                    <input class="button" type="submit" value="$Text{"Don't accept license"}"/>
                   </form>
                 </td>
               </tr>
@@ -450,8 +450,8 @@ Public License instead of this License.
 <!-- dtl:block:DatabaseStart -->
       <img border="0" src="$Env{"Images"}installer1.png" alt="">
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action"    value="Installer">
-        <input type="hidden" name="Subaction" value="DB">
+        <input type="hidden" name="Action"    value="Installer"/>
+        <input type="hidden" name="Subaction" value="DB"/>
         <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="3" class="contenthead">$Text{"$Data{"Item"}"} ($Data{"Step"})</td>
@@ -461,7 +461,7 @@ Public License instead of this License.
               <table width="100%" cellspacing="0" cellpadding="2">
                 <tr>
                   <td class="contentkey" width="25%">$Text{"Admin-User"}:</td>
-                  <td class="contentvalue" width="35%"><input type="text" name="DBUser" value="root" size="25"></td>
+                  <td class="contentvalue" width="35%"><input type="text" name="DBUser" value="root" size="25"/></td>
                   <td class="contentvalue" rowspan="4">
                     <font color="red" size="-2">
                     $Text{"If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation."}
@@ -470,11 +470,11 @@ Public License instead of this License.
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Admin-Password"}:</td>
-                  <td class="contentvalue"><input type="password" name="DBPassword" value="" size="25"></td>
+                  <td class="contentvalue"><input type="password" name="DBPassword" value="" size="25"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Host"}:</td>
-                  <td class="contentvalue"><input type="text" name="DBHost" value="$Config{"DatabaseHost"}" size="25"></td>
+                  <td class="contentvalue"><input type="text" name="DBHost" value="$Config{"DatabaseHost"}" size="25"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Type"}:</td>
@@ -489,17 +489,17 @@ Public License instead of this License.
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"User"}:</td>
-                  <td class="contentvalue"><input type="text" name="OTRSDBUser" value="$Config{"DatabaseUser"}" size="25"></td>
+                  <td class="contentvalue"><input type="text" name="OTRSDBUser" value="$Config{"DatabaseUser"}" size="25"/></td>
                   <td class="contentvalue"></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Password"}:</td>
-                  <td class="contentvalue"><input type="password" name="OTRSDBPassword" value="hot" size="25"></td>
+                  <td class="contentvalue"><input type="password" name="OTRSDBPassword" value="hot" size="25"/></td>
                   <td class="contentvalue"><font color="red" size="-2">$Text{"default 'hot'"}</font></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"DB connect host"}:</td>
-                  <td class="contentvalue"><input type="text" name="OTRSDBConnectHost" value="localhost" size="25"></td>
+                  <td class="contentvalue"><input type="text" name="OTRSDBConnectHost" value="localhost" size="25"/></td>
                   <td class="contentvalue"></td>
                 </tr>
                 <tr>
@@ -507,18 +507,18 @@ Public License instead of this License.
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Name"}:</td>
-                  <td><input type="text" name="DBName" value="$Config{"Database"}" size="25"></td>
+                  <td><input type="text" name="DBName" value="$Config{"Database"}" size="25"/></td>
                   <td class="contentvalue"></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Default Charset"}:</td>
-                  <td class="contentvalue">$Text{"utf8"}: $Text{"Yes"} <input type="radio" name="DBDefaultCharset" checked value="utf8"> - $Text{"No"} <input type="radio" name="DBDefaultCharset" value="">
+                  <td class="contentvalue">$Text{"utf8"}: $Text{"Yes"} <input type="radio" name="DBDefaultCharset" checked value="utf8"/> - $Text{"No"} <input type="radio" name="DBDefaultCharset" value=""/>
                   </td>
                   <td class="contentvalue"></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Action"}:</td>
-                  <td class="contentvalue">$Text{"Create"} <input type="radio" name="DBAction" checked value="Create"> - $Text{"Delete"} <input type="radio" name="DBAction" value="Delete">
+                  <td class="contentvalue">$Text{"Create"} <input type="radio" name="DBAction" checked value="Create"/> - $Text{"Delete"} <input type="radio" name="DBAction" value="Delete"/>
                   </td>
                   <td class="contentvalue"></td>
                 </tr>
@@ -527,7 +527,7 @@ Public License instead of this License.
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Next..."}">
+              <input class="button" type="submit" value="$Text{"Next..."}"/>
             </td>
           </tr>
         </table>
@@ -536,7 +536,7 @@ Public License instead of this License.
 <!-- dtl:block:DatabaseResult -->
       <img border="0" src="$Env{"Images"}installer1.png" alt="">
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="Installer">
+        <input type="hidden" name="Action" value="Installer"/>
         <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"$Data{"Item"}"} ($Data{"Step"})</td>
@@ -566,12 +566,12 @@ Public License instead of this License.
           <tr>
             <td class="contentfooter">
 <!-- dtl:block:DatabaseResultBack -->
-              <input type="hidden" name="Subaction" value="Start">
-              <input class="button" type="submit" value="$Text{"...Back"}">
+              <input type="hidden" name="Subaction" value="Start"/>
+              <input class="button" type="submit" value="$Text{"...Back"}"/>
 <!-- dtl:block:DatabaseResultBack -->
 <!-- dtl:block:DatabaseResultNext -->
-              <input type="hidden" name="Subaction" value="System">
-              <input class="button" type="submit" value="$Text{"Next..."}">
+              <input type="hidden" name="Subaction" value="System"/>
+              <input class="button" type="submit" value="$Text{"Next..."}"/>
 <!-- dtl:block:DatabaseResultNext -->
             </td>
           </tr>
@@ -581,8 +581,8 @@ Public License instead of this License.
 <!-- dtl:block:System-->
       <img border="0" src="$Env{"Images"}installer2.png" alt="">
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="Installer">
-        <input type="hidden" name="Subaction" value="Finish">
+        <input type="hidden" name="Action" value="Installer"/>
+        <input type="hidden" name="Subaction" value="Finish"/>
         <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="3" class="contenthead">$Text{"$Data{"Item"}"} ($Data{"Step"})</td>
@@ -597,17 +597,17 @@ Public License instead of this License.
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"System FQDN"}:</td>
-                  <td class="contentvalue"><input type="text" name="FQDN" value="$Config{"FQDN"}" size="30"></td>
+                  <td class="contentvalue"><input type="text" name="FQDN" value="$Config{"FQDN"}" size="30"/></td>
                   <td class="contentvalue">$Text{"(Full qualified domain name of your system)"}</td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"AdminEmail"}:</td>
-                  <td class="contentvalue"><input type="text" name="AdminEmail" value="$Config{"AdminEmail"}" size="30"></td>
+                  <td class="contentvalue"><input type="text" name="AdminEmail" value="$Config{"AdminEmail"}" size="30"/></td>
                   <td class="contentvalue">$Text{"(Email of the system admin)"}</td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Organization"}:</td>
-                  <td class="contentvalue"><input type="text" name="Organization" value="$Config{"Organization"}" size="30"></td>
+                  <td class="contentvalue"><input type="text" name="Organization" value="$Config{"Organization"}" size="30"/></td>
                   <td class="contentvalue"></td>
                 </tr>
                 <tr>
@@ -620,7 +620,7 @@ Public License instead of this License.
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Logfile"}:</td>
-                  <td class="contentvalue"><input type="text" name="LogModule::LogFile" value="$Config{"LogModule::LogFile"}" size="30"></td>
+                  <td class="contentvalue"><input type="text" name="LogModule::LogFile" value="$Config{"LogModule::LogFile"}" size="30"/></td>
                   <td class="contentvalue">$Text{"(Logfile just needed for File-LogModule!)"}</td>
                 </tr>
                 <tr>
@@ -628,7 +628,7 @@ Public License instead of this License.
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Default Charset"}:</td>
-                  <td class="contentvalue"><input type="text" name="DefaultCharset" value="$Data{"DefaultCharset"}" size="30"></td>
+                  <td class="contentvalue"><input type="text" name="DefaultCharset" value="$Data{"DefaultCharset"}" size="30"/></td>
                   <td class="contentvalue">$Text{"Use utf-8 it your database supports it!"}</td>
                 </tr>
                 <tr>
@@ -653,7 +653,7 @@ Public License instead of this License.
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Next..."}">
+              <input class="button" type="submit" value="$Text{"Next..."}"/>
             </td>
           </tr>
         </table>
@@ -662,8 +662,8 @@ Public License instead of this License.
 <!-- dtl:block:Finish -->
       <img border="0" src="$Env{"Images"}installer3.png" alt="">
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action"    value="Installer">
-        <input type="hidden" name="Subaction" value="Finish">
+        <input type="hidden" name="Action"    value="Installer"/>
+        <input type="hidden" name="Subaction" value="Finish"/>
         <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="3" class="contenthead">$Text{"$Data{"Item"}"} ($Data{"Step"})</td>
@@ -673,7 +673,7 @@ Public License instead of this License.
 <!-- dtl:block:Restart -->
 $Text{"To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root."}
               <p>
-                <b>$Text{"Restart your webserver"}:</b><br>
+                <b>$Text{"Restart your webserver"}:</b><br/>
                 <font color='red'>$Data{"Webserver"}</font>
               </p>
               <p>
@@ -703,7 +703,7 @@ $Text{"After doing so your OTRS is up and running."}
                   </tr>
                   <tr>
                     <td class="contentkey" colspan="2">
-                      ((enjoy))<br>
+                      ((enjoy))<br/>
                       &nbsp;$Text{"Your OTRS Team"}
                     </td>
                   </tr>
@@ -719,9 +719,9 @@ $Text{"After doing so your OTRS is up and running."}
         </table>
       </form>
 <!-- dtl:block:Finish -->
-      <br>
-      <br>
-      <br>
+      <br/>
+      <br/>
+      <br/>
     </td>
   </tr>
 </table>

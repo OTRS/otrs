@@ -1,12 +1,12 @@
 # --
 # AdminPerformanceLog.dtl - provides HTML form for AdminPerformanceLog
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.dtl,v 1.9 2007-09-13 01:17:56 martin Exp $
+# $Id: AdminPerformanceLog.dtl,v 1.10 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
@@ -20,10 +20,10 @@
     <td width="30%" class="mainbody">
 <!-- dtl:block:Enabled -->
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="Action" value="AdminSysConfig">
-        <input type="hidden" name="Subaction" value="Edit">
-        <input type="hidden" name="SysConfigGroup" value="Framework">
-        <input type="hidden" name="SysConfigSubGroup" value="Core::PerformanceLog">
+        <input type="hidden" name="Action" value="AdminSysConfig"/>
+        <input type="hidden" name="Subaction" value="Edit"/>
+        <input type="hidden" name="SysConfigGroup" value="Framework"/>
+        <input type="hidden" name="SysConfigSubGroup" value="Core::PerformanceLog"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">
@@ -38,7 +38,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Disable it here!"}">
+              <input class="button" type="submit" value="$Text{"Disable it here!"}"/>
             </td>
           </tr>
         </table>
@@ -46,10 +46,10 @@
 <!-- dtl:block:Enabled -->
 <!-- dtl:block:Disabled -->
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="Action" value="AdminSysConfig">
-        <input type="hidden" name="Subaction" value="Edit">
-        <input type="hidden" name="SysConfigGroup" value="Framework">
-        <input type="hidden" name="SysConfigSubGroup" value="Core::PerformanceLog">
+        <input type="hidden" name="Action" value="AdminSysConfig"/>
+        <input type="hidden" name="Subaction" value="Edit"/>
+        <input type="hidden" name="SysConfigGroup" value="Framework"/>
+        <input type="hidden" name="SysConfigSubGroup" value="Core::PerformanceLog"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">
@@ -64,7 +64,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Enable it here!"}">
+              <input class="button" type="submit" value="$Text{"Enable it here!"}"/>
             </td>
           </tr>
         </table>
@@ -93,14 +93,14 @@
         <tr>
           <td class="contentfooter">
             <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="Action" value="$Env{"Action"}">
-              <input type="hidden" name="Subaction" value="Reset">
-              <input class="button" type="submit" value="$Text{"Reset"}">
+              <input type="hidden" name="Action" value="$Env{"Action"}"/>
+              <input type="hidden" name="Subaction" value="Reset"/>
+              <input class="button" type="submit" value="$Text{"Reset"}"/>
             </form>
           </td>
         </tr>
       </table>
-      <br>
+      <br/>
 <!-- dtl:block:Reset -->
 <!-- dtl:block:Overview -->
       <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
@@ -151,7 +151,7 @@
           </td>
         </tr>
       </table>
-      <br>
+      <br/>
 <!-- dtl:block:Overview -->
 <!-- dtl:block:View -->
       <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
@@ -208,7 +208,7 @@
           </td>
         </tr>
       </table>
-      <br>
+      <br/>
 <!-- dtl:block:View -->
     </td>
   </tr>

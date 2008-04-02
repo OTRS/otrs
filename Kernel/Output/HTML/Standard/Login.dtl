@@ -1,12 +1,12 @@
 # --
 # Login.dtl - provides HTML login screen
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.30 2007-05-21 14:17:18 martin Exp $
+# $Id: Login.dtl,v 1.31 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 #
 # http headers
@@ -53,10 +53,10 @@ function submit_form() {
 </p>
 <p>
   <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login">
-    <input type="hidden" name="Action" value="Login">
-    <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
-    <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
-    <input type="hidden" name="TimeOffset" value="">
+    <input type="hidden" name="Action" value="Login"/>
+    <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}"/>
+    <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
+    <input type="hidden" name="TimeOffset" value=""/>
     <table border="0" cellspacing="0" cellpadding="3" width="280">
       <tr>
         <td align="center" class="singleboxhead">$Text{"Welcome to %s", "$Config{"ProductName"}"}</td>
@@ -66,14 +66,14 @@ function submit_form() {
           <table cellspacing="8" cellpadding="2">
             <tr>
               <td class="singleboxkey">$Text{"User"}:</td>
-              <td class="singleboxvalue"><input type="text" name="User" value="$QData{"User"}" size="18"></td>
+              <td class="singleboxvalue"><input type="text" name="User" value="$QData{"User"}" size="18"/></td>
             </tr>
             <tr>
               <td class="singleboxkey">$Text{"Password"}:</td>
-              <td class="singleboxvalue"><input type="password" name="Password" size="18"></td>
+              <td class="singleboxvalue"><input type="password" name="Password" size="18"/></td>
             </tr>
           </table>
-          <input class="button" type="submit" value="$Text{"Login"}" onclick="return submit_form();">
+          <input class="button" type="submit" value="$Text{"Login"}" onclick="return submit_form();"/>
         </td>
       </tr>
     </table>
@@ -84,8 +84,8 @@ function submit_form() {
 # --
 <p>
   <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
-    <input type="hidden" name="Action" value="">
-    <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
+    <input type="hidden" name="Action" value=""/>
+    <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}"/>
     <table border="0" cellspacing="0" cellpadding="3" width="280">
       <tr>
         <td align="center" class="singleboxhead">$Text{"Language"}</td>
@@ -98,7 +98,7 @@ function submit_form() {
               <td class="singleboxvalue">$Data{"Language"}</td>
             </tr>
           </table>
-          <input class="button" type="submit" value="$Text{"Submit"}">
+          <input class="button" type="submit" value="$Text{"Submit"}"/>
         </td>
       </tr>
     </table>
@@ -115,15 +115,15 @@ function submit_form() {
       <td align="center" class="singleboxbody">
         <i class="small">($Text{"Request new password"})</i>
         <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
-          <input type="hidden" name="Action" value="LostPassword">
-          <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
+          <input type="hidden" name="Action" value="LostPassword"/>
+          <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
           <table cellspacing="8" cellpadding="2">
             <tr>
               <td class="singleboxkey">$Text{"User"}:</td>
-              <td class="singleboxvalue"><input type="text" name="User" value="" size="18"></td>
+              <td class="singleboxvalue"><input type="text" name="User" value="" size="18"/></td>
             </tr>
           </table>
-          <input class="button" type="submit" value="$Text{"Submit"}">
+          <input class="button" type="submit" value="$Text{"Submit"}"/>
         </form>
       </td>
     </tr>

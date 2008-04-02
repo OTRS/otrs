@@ -1,12 +1,12 @@
 # --
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.11 2006-12-21 16:13:14 mh Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.12 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- dtl:block:Customer -->
@@ -25,11 +25,11 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainbody">
-      <br>
+      <br/>
       <form action="$Env{"CGIHandle"}" method="post" name="compose">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Update">
-        <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="Update"/>
+        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
         <table border="0" width="500" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Options"}</td>
@@ -37,33 +37,33 @@
           <tr>
             <td class="contentbody">
               $Text{"Set customer user and customer id of a ticket"}:
-              <br>
+              <br/>
               <table>
                 <tr>
                   <td class="contentkey">$Text{"Customer User"}:</td>
-                  <td class="contentvalue"><input type="text" name="CustomerUserID" value="$QData{"CustomerUserID"}" size="40">
+                  <td class="contentvalue"><input type="text" name="CustomerUserID" value="$QData{"CustomerUserID"}" size="40"/>
 <!-- dtl:block:CustomerTakeOver -->
-                    <br> $Data{"CustomerUserStrg"}
-                    <input class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">
+                    <br/> $Data{"CustomerUserStrg"}
+                    <input class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}"/>
 <!-- dtl:block:CustomerTakeOver -->
-                    <input class="button" type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}">
+                    <input class="button" type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}"/>
                   </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"CustomerID"}:</td>
-                  <td class="contentvalue"> <input type="text" name="CustomerID" value="$QData{"CustomerID"}" size="40"></td>
+                  <td class="contentvalue"> <input type="text" name="CustomerID" value="$QData{"CustomerID"}" size="40"/></td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
             <td class="contentfooter">
-              <input accesskey="g" class="button" type="submit" value="$Text{"Submit"}">
+              <input accesskey="g" class="button" type="submit" value="$Text{"Submit"}"/>
             </td>
           </tr>
         </table>
       </form>
-      <br>
+      <br/>
       <table border="0" width="500" align="center" cellspacing="0" cellpadding="4">
         <tr>
           <td class="contenthead">$Text{"Customer Data"}: $Data{"CustomerID"}</td>
@@ -79,7 +79,7 @@ $Data{"Table"}
           </td>
         </tr>
       </table>
-      <br>
+      <br/>
     </td>
   </tr>
 </table>

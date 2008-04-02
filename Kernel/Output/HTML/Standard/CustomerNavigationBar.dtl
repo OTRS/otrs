@@ -1,12 +1,12 @@
 # --
 # CustomerNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerNavigationBar.dtl,v 1.20 2006-12-21 16:12:27 mh Exp $
+# $Id: CustomerNavigationBar.dtl,v 1.21 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start Notifications -->
@@ -20,14 +20,14 @@ $Data{"Notification"}
         <tr>
 <!-- dtl:block:Item -->
           <td valign="top" align="center" class="nav">
-            <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a></div>
+            <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a></div>
           </td>
 <!-- dtl:block:Item -->
         </tr>
       </table>
     </td>
     <td valign="top" align="right" width="30%" class="nav">
-      $Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"} ($Data{"UserLoginTop"})"}<br>
+      $Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"} ($Data{"UserLoginTop"})"}<br/>
       $Env{"Time"}
     </td>
   </tr>

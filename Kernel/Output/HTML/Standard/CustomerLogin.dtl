@@ -1,12 +1,12 @@
 # --
 # CustomerLogin.dtl - provides customer HTML login screen
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.23 2007-12-27 16:18:37 martin Exp $
+# $Id: CustomerLogin.dtl,v 1.24 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 #
 # http headers
@@ -43,21 +43,21 @@ function submit_form() {
     <tr>
       <td class="singleboxbody">
         <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login">
-          <input type="hidden" name="Action" value="Login">
-          <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
-          <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
-          <input type="hidden" name="TimeOffset" value="">
+          <input type="hidden" name="Action" value="Login"/>
+          <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}"/>
+          <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
+          <input type="hidden" name="TimeOffset" value=""/>
           <table cellspacing="8" cellpadding="2">
             <tr>
               <td>$Text{"Username"}:</td>
-              <td><input type="text" name="User" value="$QData{"User"}" size="18"></td>
+              <td><input type="text" name="User" value="$QData{"User"}" size="18"/></td>
             </tr>
             <tr>
               <td>$Text{"Password"}:</td>
-              <td><input type="password" name="Password" size="18"></td>
+              <td><input type="password" name="Password" size="18"/></td>
             </tr>
           </table>
-          <input class="button" type="submit" value="$Text{"Login"}" onclick="return submit_form();">
+          <input class="button" type="submit" value="$Text{"Login"}" onclick="return submit_form();"/>
         </form>
       </td>
     </tr>
@@ -72,18 +72,18 @@ function submit_form() {
     <tr>
       <td class="singleboxbody">
         <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
-          <input type="hidden" name="Action" value="CustomerLostPassword">
-          <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
+          <input type="hidden" name="Action" value="CustomerLostPassword"/>
+          <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
           <table cellspacing="8" cellpadding="2">
             <tr>
               <td>$Text{"Username"}:</td>
-              <td><input type="text" name="User" value="" size="18"></td>
+              <td><input type="text" name="User" value="" size="18"/></td>
             </tr>
             <tr>
               <td colspan="2"><i class="small">($Text{"Request new password"})</i></td>
             </tr>
           </table>
-          <input class="button" type="submit" value="$Text{"Submit"}">
+          <input class="button" type="submit" value="$Text{"Submit"}"/>
         </form>
       </td>
     </tr>
@@ -92,8 +92,8 @@ function submit_form() {
 <!-- dtl:block:LostPassword -->
 <p>
   <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
-    <input type="hidden" name="Action" value="">
-    <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
+    <input type="hidden" name="Action" value=""/>
+    <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}"/>
     <table border="0" cellspacing="0" cellpadding="3" width="300">
       <tr>
         <td class="singleboxhead">$Text{"Language"}</td>
@@ -106,7 +106,7 @@ function submit_form() {
               <td>$Data{"Language"}</td>
             </tr>
           </table>
-          <input class="button" type="submit" value="$Text{"Submit"}">
+          <input class="button" type="submit" value="$Text{"Submit"}"/>
         </td>
       </tr>
     </table>
@@ -121,35 +121,35 @@ function submit_form() {
     <tr>
       <td class="singleboxbody">
         <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
-          <input type="hidden" name="Action" value="CustomerCreateAccount">
-          <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
+          <input type="hidden" name="Action" value="CustomerCreateAccount"/>
+          <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
           <table border="0" cellspacing="0" cellpadding="3">
             <tr>
               <td>$Text{"Salutation"}: </td>
-              <td> <input type="text" name="Salutation" value="$QData{"UserSalutation"}" size="25" maxlength="50"></td>
+              <td> <input type="text" name="Salutation" value="$QData{"UserSalutation"}" size="25" maxlength="50"/></td>
             </tr>
             <tr>
               <td>$Text{"Firstname"}: </td>
-              <td> <input type="text" name="Firstname" value="$QData{"UserFirstname"}" size="25" maxlength="50"></td>
+              <td> <input type="text" name="Firstname" value="$QData{"UserFirstname"}" size="25" maxlength="50"/></td>
             </tr>
             <tr>
               <td>$Text{"Lastname"}: </td>
-              <td> <input type="text" name="Lastname" value="$QData{"UserLastname"}" size="25" maxlength="50"></td>
+              <td> <input type="text" name="Lastname" value="$QData{"UserLastname"}" size="25" maxlength="50"/></td>
             </tr>
 #            <tr>
 #              <td>$Text{"Login"}: </td>
-#              <td> <input type="text" name="Username" value="$QData{"UserLogin"}" size="25" maxlength="50"></td>
+#              <td> <input type="text" name="Username" value="$QData{"UserLogin"}" size="25" maxlength="50"/></td>
 #            </tr>
             <tr>
               <td>$Text{"Email"}/$Text{"Login"}: </td>
-              <td> <input type="text" name="Email" value="$QData{"UserEmail"}" size="25" maxlength="50"></td>
+              <td> <input type="text" name="Email" value="$QData{"UserEmail"}" size="25" maxlength="50"/></td>
             </tr>
 #            <tr>
 #              <td>$Text{"CustomerID"}: </td>
-#              <td> <input type="text" name="CustomerID" value="$QData{"UserCustomerID"}" size="25" maxlength="50"></td>
+#              <td> <input type="text" name="CustomerID" value="$QData{"UserCustomerID"}" size="25" maxlength="50"/></td>
 #            </tr>
           </table>
-          <input class="button" type="submit" value="$Text{"Create"}">
+          <input class="button" type="submit" value="$Text{"Create"}"/>
         </form>
       </td>
     </tr>

@@ -1,41 +1,41 @@
 # --
 # Test.dtl - provides HTML test page
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.dtl,v 1.12 2006-12-21 16:12:27 mh Exp $
+# $Id: Test.dtl,v 1.13 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <h1>$Text{"OTRS Test Page"}</h1>
 <hr>
-<b>dynamic test</b><br>
+<b>dynamic test</b><br/>
 <p>
   <dtl set $Data{"Test1"} = "German">
   a) Set $Data{\"Test1\"} = "$Data{"Test1"}"
-  <br>
+  <br/>
   Echo ($Text{\"Lock\"}): $Text{"Lock"}
-  <br>
+  <br/>
   <dtl if ($Text{"Lock"} eq "Lock") { $Data{"Test1"} = "English"; }>
-  b) if ($Text{\"Lock\"} eq "Lock") { $Data{\"Test:\"} = "English"; }<br>
+  b) if ($Text{\"Lock\"} eq "Lock") { $Data{\"Test:\"} = "English"; }<br/>
   Result: $Data{"Test1"}
 </p>
 <p>
   <dtl set $Data{"Test2"} = "lala">
   c) Set $Data{\"Test2\"} = "$Data{"Test2"}"
-  <br>
+  <br/>
   <dtl if ($Data{"Test2"} ne "hallo!") { $Data{"Test2"} = "hallo!!"; }>
   d) if ($Data{\"Test2\"} ne "hallo!") { $Data{\"Test2\"} = "hallo!!"; }
-  <br>
+  <br/>
   Result: $Data{"Test2"}
 </p>
 <hr>
 # --
 # translation test
 # --
-<b>translation test</b><br>
+<b>translation test</b><br/>
 <table>
   <tr>
     <td>Lock:</td><td> $Text{"Lock"}</td>
@@ -51,7 +51,7 @@
 # --
 # show some config options
 # --
-<b>config options</b><br>
+<b>config options</b><br/>
 <table>
   <tr>
     <td>SystemID:</td><td> $Config{"SystemID"}</td>
@@ -70,7 +70,7 @@
 # --
 # show some env variables
 # --
-<b>env variables</b><br>
+<b>env variables</b><br/>
 <table>
   <tr>
     <td>Time:</td><td> $Env{"Time"}</td>
@@ -152,12 +152,12 @@ $Data{"w"}
 # blocks
 # --
 <b>dtl block</b>
-<br>
+<br/>
 <!-- dtl:block:Row -->
 $QData{"Text"} $Text{"Counter"}: $QData{"Counter"}
 <hr size="1">
 <!-- dtl:block:Row -->
-<br>
+<br/>
 <!-- dtl:block:System -->
 <table border="1">
 <!-- dtl:block:User -->
@@ -185,5 +185,5 @@ $QData{"Text"} $Text{"Counter"}: $QData{"Counter"}
   </tr>
 <!-- dtl:block:Times -->
 </table>
-<br>
+<br/>
 <!-- dtl:block:System -->

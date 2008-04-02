@@ -2,7 +2,7 @@
 # AgentTicketResponsible.dtl - provides HTML form for responsible mask
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketResponsible.dtl,v 1.13 2008-03-31 22:18:37 martin Exp $
+# $Id: AgentTicketResponsible.dtl,v 1.14 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -108,13 +108,13 @@ function change_selected(sel) {
   </tr>
   <tr>
     <td class="mainbody">
-      <br>
+      <br/>
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Store">
-        <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
-        <input type="hidden" name="Expand" value="">
-        <input type="hidden" name="FormID" value="$QData{"FormID"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="Store"/>
+        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+        <input type="hidden" name="Expand" value=""/>
+        <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -126,7 +126,7 @@ function change_selected(sel) {
                 <tr>
                   <td colspan="2" width="20%" class="contentkey">$Text{"Title"}:</td>
                   <td width="80%" class="contentvalue">
-                    <input type="text" name="Title" value="$QData{"Title"}" size="70">
+                    <input type="text" name="Title" value="$QData{"Title"}" size="70"/>
                     <font color="red" size="-2">$Text{"$Data{"Title invalid"}"}</font>
                   </td>
                 </tr>
@@ -153,14 +153,14 @@ function change_selected(sel) {
                 <tr>
                   <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
                   <td width="2%" class="contentvalue">
-                    <input type="radio" name="NewOwnerType" value="New" $Data{"NewOwnerType::New"}>
+                    <input type="radio" name="NewOwnerType" value="New" $Data{"NewOwnerType::New"}/>
                   </td>
                   <td width="80%" class="contentvalue">$Data{"OwnerStrg"}</td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Previous Owner"}:</td>
                   <td class="contentvalue">
-                    <input type="radio" name="NewOwnerType" value="Old" $Data{"NewOwnerType::Old"}>
+                    <input type="radio" name="NewOwnerType" value="Old" $Data{"NewOwnerType::Old"}/>
                   </td>
                   <td class="contentvalue">$Data{"OldOwnerStrg"}</td>
                 </tr>
@@ -187,7 +187,7 @@ function change_selected(sel) {
                 <tr>
                   <td colspan="2" width="20%" class="contentkey">$Text{"Subject"}:</td>
                   <td width="80%" class="contentvalue">
-                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70">
+                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70"/>
                     <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
                   </td>
                 </tr>
@@ -216,14 +216,14 @@ function change_selected(sel) {
                         <td>$QData{"Filename"}</td>
                         <td>$QData{"Filesize"}</td>
                         <td align="right">
-                          <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">
+                          <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
                         </td>
                       </tr>
 <!-- dtl:block:Attachment -->
                       <tr>
-                        <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td>
+                        <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"/></td>
                         <td align="right">
-                          <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">
+                          <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
                           <a name="attachment"></a>
                         </td>
                       </tr>
@@ -312,7 +312,7 @@ function change_selected(sel) {
 <!-- dtl:block:TimeUnits -->
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
-                  <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
+                  <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"/></td>
                 </tr>
 <!-- dtl:block:TimeUnits -->
               </table>
@@ -320,17 +320,17 @@ function change_selected(sel) {
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">
+              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
             </td>
           </tr>
         </table>
       </form>
       <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-        <input type="hidden" name="Action" value="AgentSpelling">
-        <input type="hidden" name="Body" value="">
-        <input type="hidden" name="spell_lang" value="">
+        <input type="hidden" name="Action" value="AgentSpelling"/>
+        <input type="hidden" name="Body" value=""/>
+        <input type="hidden" name="spell_lang" value=""/>
       </form>
-      <br>
+      <br/>
     </td>
   </tr>
 </table>

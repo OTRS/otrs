@@ -2,7 +2,7 @@
 # AgentTicketPhoneOutbound.dtl - provides HTML form for phone
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.12 2008-03-31 22:18:37 martin Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.13 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -97,22 +97,22 @@ function SpellCheckSubmit() {
     <td class="mainbody">
       <p>
         <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-          <input type="hidden" name="Action" value="$Env{"Action"}">
-          <input type="hidden" name="Subaction" value="Store">
-          <input type="hidden" name="FormID" value="$QData{"FormID"}">
-          <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+          <input type="hidden" name="Action" value="$Env{"Action"}"/>
+          <input type="hidden" name="Subaction" value="Store"/>
+          <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+          <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
           <table border="0" width="100%">
             <tr>
               <td width="20%" class="contentkey">$Text{"Subject"}:</td>
               <td width="50%" class="contentvalue">
-                <input type="text" name="Subject" value="$QData{"Subject"}" size="80">
+                <input type="text" name="Subject" value="$QData{"Subject"}" size="80"/>
                 <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
               </td>
               <td width="30%" rowspan="7" class="contentvalue">
 # show customer info table
 <!-- dtl:block:CustomerTable -->
                 <p>
-                  <b>$Text{"Customer Info"}</b>:<br>
+                  <b>$Text{"Customer Info"}</b>:<br/>
                   $Data{"CustomerTable"}
                 </p>
 <!-- dtl:block:CustomerTable -->
@@ -142,14 +142,14 @@ function SpellCheckSubmit() {
                     <td>$QData{"Filename"}</td>
                     <td>$QData{"Filesize"}</td>
                     <td align="right">
-                      <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">
+                      <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
                     </td>
                   </tr>
 <!-- dtl:block:Attachment -->
                   <tr>
-                    <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td>
+                    <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"/></td>
                     <td align="right">
-                      <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">
+                      <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
                       <a name="attachment"></a>
                     </td>
                   </tr>
@@ -223,17 +223,17 @@ function SpellCheckSubmit() {
 <!-- dtl:block:TimeUnits -->
             <tr>
               <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
-              <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
+              <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"/></td>
             </tr>
 <!-- dtl:block:TimeUnits -->
           </table>
-          <br>
-          <input accesskey="g" class="button" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">
+          <br/>
+          <input accesskey="g" class="button" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
         </form>
         <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-          <input type="hidden" name="Action" value="AgentSpelling">
-          <input type="hidden" name="Body" value="">
-          <input type="hidden" name="spell_lang" value="">
+          <input type="hidden" name="Action" value="AgentSpelling"/>
+          <input type="hidden" name="Body" value=""/>
+          <input type="hidden" name="spell_lang" value=""/>
         </form>
       </p>
     </td>

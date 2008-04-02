@@ -1,12 +1,12 @@
 # --
 # AgentTicketMove.dtl - provides HTML form for move mask
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.11 2008-01-08 00:59:33 martin Exp $
+# $Id: AgentTicketMove.dtl,v 1.12 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
@@ -88,7 +88,7 @@ function SpellCheckSubmit() {
   </tr>
   <tr>
     <td class="mainbody">
-      <br>
+      <br/>
       <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
         <tr>
           <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -97,12 +97,12 @@ function SpellCheckSubmit() {
           <td class="contentbody">
 #$Data{"TicketUnlock"}
             <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-              <input type="hidden" name="Action" value="$Env{"Action"}">
-              <input type="hidden" name="FormID" value="$QData{"FormID"}">
-              <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-              <input type="hidden" name="TicketUnlock" value="$Data{"TicketUnlock"}">
-              <input type="hidden" name="ExpandQueueUsers" value="$QData{"ExpandQueueUsers"}">
-              <input type="hidden" name="NoSubmit" value="">
+              <input type="hidden" name="Action" value="$Env{"Action"}"/>
+              <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+              <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
+              <input type="hidden" name="TicketUnlock" value="$Data{"TicketUnlock"}"/>
+              <input type="hidden" name="ExpandQueueUsers" value="$QData{"ExpandQueueUsers"}"/>
+              <input type="hidden" name="NoSubmit" value=""/>
               <table border="0" width="100%">
                 <tr>
                   <td class="contentkey">$Text{"New Queue"}:</td>
@@ -112,7 +112,7 @@ function SpellCheckSubmit() {
                 <tr>
                   <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
                   <td width="2%" class="contentvalue">
-                    <input type="radio" name="UserSelection" value="New" $QData{"UserSelection::New"}>
+                    <input type="radio" name="UserSelection" value="New" $QData{"UserSelection::New"}/>
                   </td>
                   <td width="80%" class="contentvalue">
                     $Data{"OwnerStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandQueueUsers.value='3'; document.compose.NoSubmit.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
@@ -120,13 +120,13 @@ function SpellCheckSubmit() {
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Previous Owner"}:</td>
-                  <td class="contentvalue"><input type="radio" name="UserSelection" value="Old" $QData{"UserSelection::Old"}></td>
+                  <td class="contentvalue"><input type="radio" name="UserSelection" value="Old" $QData{"UserSelection::Old"}/></td>
                   <td class="contentvalue">$Data{"OldUserStrg"}</td>
                 </tr>
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"Subject"}:</td>
                   <td class="contentvalue">
-                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70">
+                    <input type="text" name="Subject" value="$QData{"Subject"}" size="70"/>
                     <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
                   </td>
                 </tr>
@@ -156,16 +156,16 @@ function SpellCheckSubmit() {
                         <td>$QData{"Filename"}</td>
                         <td>$QData{"Filesize"}</td>
                         <td align="right">
-                            <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">
+                            <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
                         </td>
                       </tr>
 <!-- dtl:block:Attachment -->
                       <tr>
                         <td colspan="2">
-                          <input name="file_upload" type="file" size="40" class="fixed">
+                          <input name="file_upload" type="file" size="40" class="fixed"/>
                         </td>
                         <td align="right">
-                          <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">
+                          <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
                           <a name="attachment"></a>
                         </td>
                       </tr>
@@ -186,13 +186,13 @@ function SpellCheckSubmit() {
                 <tr>
                   <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
                   <td class="contentvalue"></td>
-                  <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
+                  <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"/></td>
                 </tr>
 <!-- dtl:block:TimeUnits -->
               </table>
               <tr>
                 <td class="contentfooter">
-                  <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">
+                  <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
                 </td>
               </tr>
             </form>
@@ -200,11 +200,11 @@ function SpellCheckSubmit() {
         </tr>
       </table>
       <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-        <input type="hidden" name="Action" value="AgentSpelling">
-        <input type="hidden" name="Body" value="">
-        <input type="hidden" name="spell_lang" value="">
+        <input type="hidden" name="Action" value="AgentSpelling"/>
+        <input type="hidden" name="Body" value=""/>
+        <input type="hidden" name="spell_lang" value=""/>
       </form>
-      <br>
+      <br/>
     </td>
   </tr>
 </table>

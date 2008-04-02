@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.1 2008-03-28 11:32:36 martin Exp $
+# $Id: AdminMailAccount.dtl,v 1.2 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,8 +19,8 @@
   <tr>
     <td width="30%" class="mainbody">
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="AddAction">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="AddAction"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Add"}:</td>
@@ -34,22 +34,22 @@
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Username"}:</td>
-                  <td class="contentvalue"><input type="text" name="Login" value="" size="25"></td>
+                  <td class="contentvalue"><input type="text" name="Login" value="" size="25"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Password"}:</td>
-                  <td class="contentvalue"><input type="password" name="Password" value="" size="25"></td>
+                  <td class="contentvalue"><input type="password" name="Password" value="" size="25"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Host"}:</td>
-                  <td class="contentvalue"><input type="text" name="Host" value="" size="25"></td>
+                  <td class="contentvalue"><input type="text" name="Host" value="" size="25"/></td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Add"}">
+              <input class="button" type="submit" value="$Text{"Add"}"/>
             </td>
           </tr>
         </table>
@@ -109,9 +109,9 @@
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="UpdateAction">
-        <input type="hidden" name="ID" value="$QData{"ID"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="UpdateAction"/>
+        <input type="hidden" name="ID" value="$QData{"ID"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Edit"}:</td>
@@ -125,15 +125,15 @@
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Username"}: </td>
-                  <td class="contentvalue"> <input type="text" name="Login" value="$QData{"Login"}" size="35" maxlength="50"></td>
+                  <td class="contentvalue"> <input type="text" name="Login" value="$QData{"Login"}" size="35" maxlength="50"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Password"}: </td>
-                  <td class="contentvalue"> <input type="password" name="Password" value="$QData{"Password"}" size="35" maxlength="50"></td>
+                  <td class="contentvalue"> <input type="password" name="Password" value="$QData{"Password"}" size="35" maxlength="50"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Host"}: </td>
-                  <td class="contentvalue"> <input type="text" name="Host" value="$QData{"Host"}" size="35" maxlength="50"></td>
+                  <td class="contentvalue"> <input type="text" name="Host" value="$QData{"Host"}" size="35" maxlength="50"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Trusted"}: </td>
@@ -153,14 +153,14 @@
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Comment"}: </td>
-                  <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"></td>
+                  <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/></td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Submit"}">
+              <input class="button" type="submit" value="$Text{"Submit"}"/>
             </td>
           </tr>
         </table>
@@ -180,7 +180,7 @@
     <td class="mainbody">
       <p>
         $Text{"All incoming emails with one account will be dispatched in the selected queue!"}
-        <br>
+        <br/>
         $Text{"If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway."}
       </p>
       <p>
@@ -199,15 +199,15 @@
             </tr>
             <tr>
               <td>$Text{"Username"}: </td>
-              <td> <input type="text" name="Login" value="mail2" size="35" maxlength="50"></td>
+              <td> <input type="text" name="Login" value="mail2" size="35" maxlength="50"/></td>
             </tr>
             <tr>
               <td>$Text{"Password"}: </td>
-              <td> <input type="password" name="Password" value="test" size="35" maxlength="50"></td>
+              <td> <input type="password" name="Password" value="test" size="35" maxlength="50"/></td>
             </tr>
             <tr>
               <td>$Text{"Host"}: </td>
-              <td> <input type="text" name="Host" value="mail.example.com" size="35" maxlength="50"></td>
+              <td> <input type="text" name="Host" value="mail.example.com" size="35" maxlength="50"/></td>
             </tr>
             <tr>
               <td>$Text{"Trusted"}: </td>
@@ -249,7 +249,7 @@
             </tr>
             <tr>
               <td>$Text{"Comment"}: </td>
-              <td> <input type="text" name="Comment" value="$Text{"Comment"}" size="60" maxlength="150"></td>
+              <td> <input type="text" name="Comment" value="$Text{"Comment"}" size="60" maxlength="150"/></td>
             </tr>
           </table>
         </form>

@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.32 2008-03-31 22:18:37 martin Exp $
+# $Id: AgentTicketPhone.dtl,v 1.33 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -121,28 +121,28 @@ function clear_field() {
   <tr>
     <td class="mainbody">
 #      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-#        <input type="hidden" name="Action" value="$Env{"Action"}">
-#        <input type="hidden" name="Subaction" value="StoreNew">
-#        <input type="hidden" name="FormID" value="$QData{"FormID"}">
-#        <input type="hidden" name="ExpandCustomerName" value="2">
-#        <input type="hidden" name="Subject" value="Example Subject">
+#        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+#        <input type="hidden" name="Subaction" value="StoreNew"/>
+#        <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+#        <input type="hidden" name="ExpandCustomerName" value="2"/>
+#        <input type="hidden" name="Subject" value="Example Subject"/>
 #        <input type="hidden" name="Body" value="Name:
 #        Product:
-#        Comment:">
-#        <input class="button" type="submit" name="" value="$Text{"Example Template"}">
+#        Comment:"/>
+#        <input class="button" type="submit" name="" value="$Text{"Example Template"}"/>
 #      </form>
 #      <hr>
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="StoreNew">
-        <input type="hidden" name="FormID" value="$QData{"FormID"}">
-        <input type="hidden" name="ExpandCustomerName" value="0">
-        <input type="hidden" name="OwnerAll" value="$QData{"OwnerAll"}">
-        <input type="hidden" name="ResponsibleAll" value="$QData{"ResponsibleAll"}">
-        <input type="hidden" name="PreSelectedCustomerUser" value="">
-        <input type="hidden" name="SelectedCustomerUser" value="$Data{"CustomerUser"}">
-        <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-        <input type="hidden" name="LinkTicketID" value="$Data{"LinkTicketID"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="StoreNew"/>
+        <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+        <input type="hidden" name="ExpandCustomerName" value="0"/>
+        <input type="hidden" name="OwnerAll" value="$QData{"OwnerAll"}"/>
+        <input type="hidden" name="ResponsibleAll" value="$QData{"ResponsibleAll"}"/>
+        <input type="hidden" name="PreSelectedCustomerUser" value=""/>
+        <input type="hidden" name="SelectedCustomerUser" value="$Data{"CustomerUser"}"/>
+        <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
+        <input type="hidden" name="LinkTicketID" value="$Data{"LinkTicketID"}"/>
         <table border="0" width="100%">
 <!-- dtl:block:TicketType -->
           <tr>
@@ -153,29 +153,29 @@ function clear_field() {
           <tr>
             <td width="20%" class="contentkey">$Text{"From"}:</td>
             <td width="60%" class="contentvalue">
-              <input type="text" name="From" value="$QData{"From"}" size="80">
+              <input type="text" name="From" value="$QData{"From"}" size="80"/>
               <font color="red" size="-2">$Text{"$Data{"From invalid"}"}</font>
-              <br>
+              <br/>
               $Data{"CustomerUserStrg"}
-              <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br><input class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">"; }>
+              <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br/><input class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}"/>"; }>
               $Data{"TakeThisCustomer"}
-              <input class="button" type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}">
-              <input class="button" type="submit" name="ClearFrom" value="$Text{"Clear From"}" onclick="javascript:clear_field(); return false;">
+              <input class="button" type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}"/>
+              <input class="button" type="submit" name="ClearFrom" value="$Text{"Clear From"}" onclick="javascript:clear_field(); return false;"/>
             </td>
             <td width="20%" rowspan="10" class="contentkey">
 # show customer info table
 <!-- dtl:block:CustomerTable -->
-              <p><b>$Text{"Customer Info"}</b>:<br>$Data{"CustomerTable"}</p>
+              <p><b>$Text{"Customer Info"}</b>:<br/>$Data{"CustomerTable"}</p>
 <!-- dtl:block:CustomerTable -->
 #              $Text{"FAQ-Search"}: $Env{"Box0"}<a href="" onclick="FAQSubmit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"Insert"}'; return true;">$Text{"Insert"}</a>$Env{"Box1"}
-#              <input type="text" name="FAQ" value="" onSubmit="document.compose.ExpandCustomerName.value='4';">
+#              <input type="text" name="FAQ" value="" onSubmit="document.compose.ExpandCustomerName.value='4';"/>
             </td>
           </tr>
           <tr>
             <td class="contentkey">$Text{"To"}:</td>
             <td class="contentvalue">$Data{"ToStrg"} <font color="red" size="-2">$Text{"$Data{"Destination invalid"}"}</font>
 <!-- dtl:block:ToUpdateSubmit -->
-              <input class="button" type="submit" value="$Text{"Refresh"}" name="ExpandCustomerName2">
+              <input class="button" type="submit" value="$Text{"Refresh"}" name="ExpandCustomerName2"/>
 <!-- dtl:block:ToUpdateSubmit -->
             </td>
           </tr>
@@ -206,7 +206,7 @@ function clear_field() {
               $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.OwnerAll.value='1'; AJAXUpdate('AJAXUpdate', 'OwnerAll', ['OwnerAll', 'Dest'], ['NewUserID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
 <!-- dtl:block:OwnerSelectionAllJS -->
 <!-- dtl:block:OwnerSelectionAllSubmit -->
-              <input class="button" type="submit" value="$Text{"All"}" name="OwnerAllRefresh">
+              <input class="button" type="submit" value="$Text{"All"}" name="OwnerAllRefresh"/>
 <!-- dtl:block:OwnerSelectionAllSubmit -->
             </td>
           </tr>
@@ -220,7 +220,7 @@ function clear_field() {
               $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.ResponsibleAll.value='1'; AJAXUpdate('AJAXUpdate', 'ResponsibleAll', ['ResponsibleAll', 'Dest'], ['NewResponsibleID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
 <!-- dtl:block:ResponsibleSelectionAllJS -->
 <!-- dtl:block:ResponsibleSelectionAllSubmit -->
-              <input class="button" type="submit" value="$Text{"All"}" name="ResponsibleAllRefresh">
+              <input class="button" type="submit" value="$Text{"All"}" name="ResponsibleAllRefresh"/>
 <!-- dtl:block:ResponsibleSelectionAllSubmit -->
             </td>
           </tr>
@@ -228,7 +228,7 @@ function clear_field() {
           <tr>
             <td class="contentkey">$Text{"Subject"}:</td>
             <td class="contentvalue">
-              <input type="text" name="Subject" value="$QData{"Subject"}" size="80">
+              <input type="text" name="Subject" value="$QData{"Subject"}" size="80"/>
               <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font>
             </td>
           </tr>
@@ -262,16 +262,16 @@ function clear_field() {
                   <td>$QData{"Filename"}</td>
                   <td>$QData{"Filesize"}</td>
                   <td align="right">
-                    <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">
+                    <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
                   </td>
                 </tr>
 <!-- dtl:block:Attachment -->
                 <tr>
                   <td colspan="2">
-                    <input name="file_upload" type="file" size="40" class="fixed">
+                    <input name="file_upload" type="file" size="40" class="fixed"/>
                   </td>
                   <td align="right">
-                    <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">
+                    <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
                     <a name="attachment"></a>
                   </td>
                 </tr>
@@ -280,7 +280,7 @@ function clear_field() {
           </tr>
           <tr>
             <td class="contentkey">$Text{"CustomerID"}:</td>
-            <td class="contentvalue"> <input type="text" name="CustomerID" value="$Data{"CustomerID"}" size="25"></td>
+            <td class="contentvalue"> <input type="text" name="CustomerID" value="$Data{"CustomerID"}" size="25"/></td>
           </tr>
           <tr>
             <td class="contentkey">$Text{"Next ticket state"}:</td>
@@ -351,30 +351,30 @@ function clear_field() {
 <!-- dtl:block:TimeUnits -->
           <tr>
             <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
-            <td class="contentvalue"> <input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
+            <td class="contentvalue"> <input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"/></td>
           </tr>
 <!-- dtl:block:TimeUnits -->
         </table>
-        <br>
-        <input class="button" accesskey="g" type="submit" name="Create" value="$Text{"Create"}" onclick="return submit_compose();">
+        <br/>
+        <input class="button" accesskey="g" type="submit" name="Create" value="$Text{"Create"}" onclick="return submit_compose();"/>
       </form>
       <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-        <input type="hidden" name="Action" value="AgentSpelling">
-        <input type="hidden" name="Body" value="">
-        <input type="hidden" name="spell_lang" value="">
+        <input type="hidden" name="Action" value="AgentSpelling"/>
+        <input type="hidden" name="Body" value=""/>
+        <input type="hidden" name="spell_lang" value=""/>
       </form>
       <form action="$Env{"CGIHandle"}" method="post" name="faq" target="faq">
-        <input type="hidden" name="Action" value="AgentFAQ">
-        <input type="hidden" name="Nav" value="None">
-        <input type="hidden" name="Body" value="">
-        <input type="hidden" name="Subject" value="">
-        <input type="hidden" name="What" value="">
+        <input type="hidden" name="Action" value="AgentFAQ"/>
+        <input type="hidden" name="Nav" value="None"/>
+        <input type="hidden" name="Body" value=""/>
+        <input type="hidden" name="Subject" value=""/>
+        <input type="hidden" name="What" value=""/>
       </form>
       <form action="$Env{"CGIHandle"}" method="post" name="customer" target="customer">
-        <input type="hidden" name="Action" value="AdminCustomerUser">
-        <input type="hidden" name="Nav" value="None">
-        <input type="hidden" name="Subject" value="">
-        <input type="hidden" name="What" value="">
+        <input type="hidden" name="Action" value="AdminCustomerUser"/>
+        <input type="hidden" name="Nav" value="None"/>
+        <input type="hidden" name="Subject" value=""/>
+        <input type="hidden" name="What" value=""/>
       </form>
     </td>
   </tr>

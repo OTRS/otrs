@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.25 2008-03-31 22:18:37 martin Exp $
+# $Id: AgentTicketCompose.dtl,v 1.26 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -136,17 +136,17 @@ function FAQSubmit() {
   </tr>
   <tr>
     <td class="mainbody">
-      <br>
+      <br/>
 <!-- dtl:block:Content -->
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="SendEmail">
-        <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
-        <input type="hidden" name="Email" value="$QData{"Email"}">
-        <input type="hidden" name="InReplyTo" value="$QData{"InReplyTo"}">
-        <input type="hidden" name="FormID" value="$QData{"FormID"}">
-        <input type="hidden" name="ResponseID" value="$QData{"ResponseID"}">
-        <input type="hidden" name="ReplyArticleID" value="$QData{"ReplyArticleID"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="SendEmail"/>
+        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+        <input type="hidden" name="Email" value="$QData{"Email"}"/>
+        <input type="hidden" name="InReplyTo" value="$QData{"InReplyTo"}"/>
+        <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+        <input type="hidden" name="ResponseID" value="$QData{"ResponseID"}"/>
+        <input type="hidden" name="ReplyArticleID" value="$QData{"ReplyArticleID"}"/>
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -157,35 +157,35 @@ function FAQSubmit() {
                 <tr>
                   <td class="contentkey" width="20%">$Text{"From"}:</td>
                   <td class="contentvalue" width="80%">
-                    $QData{"From"} <input type="hidden" name="From" value="$QData{"From"}">
+                    $QData{"From"} <input type="hidden" name="From" value="$QData{"From"}"/>
                     <font color="red" size="-2">$Data{"From invalid"}</font>
                   </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"To"}:</td>
                   <td class="contentvalue">
-                    <input type="text" name="To" value="$QData{"To"}" size="80">
+                    <input type="text" name="To" value="$QData{"To"}" size="80"/>
                     <font color="red" size="-2">$Data{"To invalid"}</font>
                   </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Cc"}:</td>
                   <td class="contentvalue">
-                    <input type="text" name="Cc" value="$QData{"Cc"}" size="80">
+                    <input type="text" name="Cc" value="$QData{"Cc"}" size="80"/>
                     <font color="red" size="-2">$Data{"Cc invalid"}</font>
                   </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Bcc"}:</td>
                   <td class="contentvalue">
-                    <input type="text" name="Bcc" value="$QData{"Bcc"}" size="80">
+                    <input type="text" name="Bcc" value="$QData{"Bcc"}" size="80"/>
                     <font color="red" size="-2">$Data{"Bcc invalid"}</font>
                   </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Subject"}:</td>
                   <td class="contentvalue">
-                    <input type="text" name="Subject" value="$QData{"Subject"}" size="80">
+                    <input type="text" name="Subject" value="$QData{"Subject"}" size="80"/>
                   </td>
                 </tr>
 <!-- dtl:block:Option -->
@@ -230,14 +230,14 @@ $Data{"ResponseFormat"}
                         <td>$QData{"Filename"}</td>
                         <td>$QData{"Filesize"}</td>
                         <td align="right">
-                          <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">
+                          <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
                         </td>
                       </tr>
 <!-- dtl:block:Attachment -->
                       <tr>
-                        <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td>
+                        <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"/></td>
                         <td align="right">
-                          <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}">
+                          <input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"/>
                           <a name="attachment"></a>
                         </td>
                       </tr>
@@ -311,7 +311,7 @@ $Data{"ResponseFormat"}
 <!-- dtl:block:TimeUnits -->
                 <tr>
                   <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
-                  <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
+                  <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"/></td>
                 </tr>
 <!-- dtl:block:TimeUnits -->
               </table>
@@ -319,31 +319,31 @@ $Data{"ResponseFormat"}
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">
+              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
             </td>
           </tr>
         </table>
       </form>
       <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-        <input type="hidden" name="Action" value="AgentSpelling">
-        <input type="hidden" name="Body" value="">
-        <input type="hidden" name="spell_lang" value="">
+        <input type="hidden" name="Action" value="AgentSpelling"/>
+        <input type="hidden" name="Body" value=""/>
+        <input type="hidden" name="spell_lang" value=""/>
       </form>
       <form action="$Env{"CGIHandle"}" method="post" name="book" target="book">
-        <input type="hidden" name="Action" value="AgentBook">
-        <input type="hidden" name="To" value="">
-        <input type="hidden" name="Cc" value="">
-        <input type="hidden" name="Bcc" value="">
+        <input type="hidden" name="Action" value="AgentBook"/>
+        <input type="hidden" name="To" value=""/>
+        <input type="hidden" name="Cc" value=""/>
+        <input type="hidden" name="Bcc" value=""/>
       </form>
       <form action="$Env{"CGIHandle"}" method="post" name="faq" target="faq">
-        <input type="hidden" name="Action" value="AgentFAQ">
-        <input type="hidden" name="Nav" value="None">
-        <input type="hidden" name="Body" value="">
-        <input type="hidden" name="Subject" value="">
-        <input type="hidden" name="What" value="">
+        <input type="hidden" name="Action" value="AgentFAQ"/>
+        <input type="hidden" name="Nav" value="None"/>
+        <input type="hidden" name="Body" value=""/>
+        <input type="hidden" name="Subject" value=""/>
+        <input type="hidden" name="What" value=""/>
       </form>
 <!-- dtl:block:Content -->
-      <br>
+      <br/>
     </td>
   </tr>
 </table>

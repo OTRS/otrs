@@ -1,12 +1,12 @@
 # --
 # AgentStatsView.dtl - provides HTML form for view IDMEF
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.9 2007-05-08 11:36:47 tr Exp $
+# $Id: AgentStatsView.dtl,v 1.10 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
@@ -31,12 +31,12 @@
   </tr>
   <tr>
     <td class="mainbody">
-      <br>
+      <br/>
       <table border="0" width="700" align="center" cellspacing="0" cellpadding="4" class="contentbody">
         <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-          <input type="hidden" name="Action"    value="$Env{"Action"}">
-          <input type="hidden" name="Subaction" value="Run">
-          <input type="hidden" name="StatID"    value="$Data{"StatID"}">
+          <input type="hidden" name="Action"    value="$Env{"Action"}"/>
+          <input type="hidden" name="Subaction" value="Run"/>
+          <input type="hidden" name="StatID"    value="$Data{"StatID"}"/>
           <tr>
             <td class="contenthead">$Text{"Informations about the Stat"}</td>
           </tr>
@@ -71,7 +71,7 @@
 <!-- dtl:block:Format -->
 <!-- dtl:block:FormatFixed -->
                 <tr>
-                  <input type="hidden" name="Format" value="$Data{"FormatKey"}">
+                  <input type="hidden" name="Format" value="$Data{"FormatKey"}"/>
                   <td class="contentkey">$Text{"Format"}:</td>
                   <td class="contentvalue">$Text{"$Data{"Format"}"}</td>
                 </tr>
@@ -84,7 +84,7 @@
 <!-- dtl:block:Graphsize -->
 <!-- dtl:block:GraphsizeFixed -->
                 <tr>
-                  <input type="hidden" name="GraphSize" value="$Data{"GraphSizeKey"}">
+                  <input type="hidden" name="GraphSize" value="$Data{"GraphSizeKey"}"/>
                   <td class="contentkey">$Text{"Graphsize"}:</td>
                   <td class="contentvalue">$Data{"GraphSize"}</td>
                 </tr>
@@ -150,16 +150,16 @@
                   <td class="contentkey" width="150">$Text{"$QData{"Name"}"}:</td>
                   <td class="contentvalue">
 <!--dtl:block:TimePeriodFixed -->
-                    $Text{"Between"} $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}<br>
+                    $Text{"Between"} $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}<br/>
 <!--dtl:block:TimePeriodFixed -->
 <!--dtl:block:TimeRelativeFixed -->
-                    $Text{"The last"} $Data{"TimeRelativeCount"} $Text{"$Data{"TimeRelativeUnit"}"}<br>
+                    $Text{"The last"} $Data{"TimeRelativeCount"} $Text{"$Data{"TimeRelativeUnit"}"}<br/>
 <!--dtl:block:TimeRelativeFixed -->
 <!--dtl:block:TimeScaleFixed -->
                     $Text{"Scale"}: $Data{"Count"} $Text{"$Data{"Scale"}"}
 <!--dtl:block:TimeScaleFixed -->
 <!--dtl:block:Fixed -->
-                    $Data{"Value"}<br>
+                    $Data{"Value"}<br/>
 <!--dtl:block:Fixed -->
 <!--dtl:block:MultiSelectField -->
                     $Data{"SelectField"}
@@ -168,7 +168,7 @@
                     $Data{"SelectField"}
 <!--dtl:block:SelectField -->
 <!--dtl:block:InputField -->
-                    <input type="text" name="$QData{"Key"}" value="$QData{"Value"}" size="60">
+                    <input type="text" name="$QData{"Key"}" value="$QData{"Value"}" size="60"/>
 <!--dtl:block:InputField -->
 <!--dtl:block:TimeScale -->
                   </td>
@@ -193,7 +193,7 @@
                   </td>
                   <td valign="middle">
                     $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}
-                    <br>
+                    <br/>
                     ($Text{"maximal period from"} $TimeLong{"$Data{"TimeStartMax"}"} $Text{"to"} $TimeLong{"$Data{"TimeStopMax"}"})
 <!--dtl:block:TimePeriod -->
 <!--dtl:block:TimePeriodRelative -->
@@ -217,14 +217,14 @@
           <tr>
             <td class="contentfooter">
 <!--dtl:block:FormSubmit -->
-              <input class="button" type="submit" name="Start" value="$Text{"Start"}">
+              <input class="button" type="submit" name="Start" value="$Text{"Start"}"/>
 <!--dtl:block:FormSubmit -->
               &nbsp;
             </td>
           </tr>
         </form>
       </table>
-      <br>
+      <br/>
     </td>
     <td width="25%" class="menu">
       <table border="0" align="right" cellspacing="1" cellpadding="0" width="95%">

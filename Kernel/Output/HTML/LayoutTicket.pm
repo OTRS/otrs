@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.20 2008-01-14 14:38:59 martin Exp $
+# $Id: LayoutTicket.pm,v 1.21 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Output::HTML::LayoutTicket;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -35,15 +35,15 @@ sub TicketStdResponseString {
             .= '<form action="'
             . $Self->{CGIHandle}
             . '" method="post">'
-            . '<input type="hidden" name="Action" value="AgentTicketCompose">'
+            . '<input type="hidden" name="Action" value="AgentTicketCompose"/>'
             . '<input type="hidden" name="ArticleID" value="'
-            . $Param{ArticleID} . '">'
+            . $Param{ArticleID} . '"/>'
             . '<input type="hidden" name="TicketID" value="'
-            . $Param{TicketID} . '">'
+            . $Param{TicketID} . '"/>'
             . $Self->OptionStrgHashRef(
             Name => 'ResponseID',
             Data => $Param{StdResponsesRef},
-            ) . '<input class="button" type="submit" value="$Text{"Compose"}"></form>';
+            ) . '<input class="button" type="submit" value="$Text{"Compose"}"/></form>';
     }
     else {
         my %StdResponses = %{ $Param{StdResponsesRef} };
@@ -318,7 +318,7 @@ sub AgentFreeText {
                         . '<input type="hidden" name="TicketFreeKey'
                         . $_
                         . '" value="'
-                        . $Self->{LayoutObject}->Ascii2Html( Text => $LastKey ) . '">';
+                        . $Self->{LayoutObject}->Ascii2Html( Text => $LastKey ) . '"/>';
                 }
             }
         }
@@ -337,11 +337,11 @@ sub AgentFreeText {
                     . $_
                     . '" value="'
                     . $Self->{LayoutObject}->Ascii2Html( Text => $Ticket{"TicketFreeKey$_"} )
-                    . '" size="18">';
+                    . '" size="18"/>';
             }
             else {
                 $Data{"TicketFreeKeyField$_"}
-                    = '<input type="text" name="TicketFreeKey' . $_ . '" value="" size="18">';
+                    = '<input type="text" name="TicketFreeKey' . $_ . '" value="" size="18"/>';
             }
         }
 
@@ -372,11 +372,11 @@ sub AgentFreeText {
                     . $_
                     . '" value="'
                     . $Self->{LayoutObject}->Ascii2Html( Text => $Ticket{"TicketFreeText$_"} )
-                    . '" size="30">';
+                    . '" size="30"/>';
             }
             else {
                 $Data{"TicketFreeTextField$_"}
-                    = '<input type="text" name="TicketFreeText' . $_ . '" value="" size="30">';
+                    = '<input type="text" name="TicketFreeText' . $_ . '" value="" size="30"/>';
             }
         }
         $Data{"TicketFreeTextField$_"}
@@ -474,7 +474,7 @@ sub TicketArticleFreeText {
                         . '<input type="hidden" name="ArticleFreeKey'
                         . $_
                         . '" value="'
-                        . $Self->{LayoutObject}->Ascii2Html( Text => $LastKey ) . '">';
+                        . $Self->{LayoutObject}->Ascii2Html( Text => $LastKey ) . '"/>';
                 }
             }
         }
@@ -493,11 +493,11 @@ sub TicketArticleFreeText {
                     . $_
                     . '" value="'
                     . $Self->{LayoutObject}->Ascii2Html( Text => $Article{"ArticleFreeKey$_"} )
-                    . '" size="18">';
+                    . '" size="18"/>';
             }
             else {
                 $Data{"ArticleFreeKeyField$_"}
-                    = '<input type="text" name="ArticleFreeKey' . $_ . '" value="" size="18">';
+                    = '<input type="text" name="ArticleFreeKey' . $_ . '" value="" size="18"/>';
             }
         }
 
@@ -528,11 +528,11 @@ sub TicketArticleFreeText {
                     . $_
                     . '" value="'
                     . $Self->{LayoutObject}->Ascii2Html( Text => $Article{"ArticleFreeText$_"} )
-                    . '" size="30">';
+                    . '" size="30"/>';
             }
             else {
                 $Data{"ArticleFreeTextField$_"}
-                    = '<input type="text" name="ArticleFreeText' . $_ . '" value="" size="30">';
+                    = '<input type="text" name="ArticleFreeText' . $_ . '" value="" size="30"/>';
             }
         }
     }

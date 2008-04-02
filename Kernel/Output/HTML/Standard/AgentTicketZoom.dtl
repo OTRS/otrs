@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.36 2008-03-21 00:50:13 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.37 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -247,7 +247,7 @@ $Data{"Body"}
 <!-- dtl:block:FirstResponseTimeFontStart -->
             <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">
             $QData{"FirstResponseTimeHuman"}
-            <br>
+            <br/>
             $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}
             </div>
 <!-- dtl:block:FirstResponseTimeFontStop -->
@@ -265,7 +265,7 @@ $Data{"Body"}
 <!-- dtl:block:UpdateTimeFontStart -->
             <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">
             $QData{"UpdateTimeHuman"}
-            <br>
+            <br/>
             $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}
             </div>
 <!-- dtl:block:UpdateTimeFontStop -->
@@ -283,7 +283,7 @@ $Data{"Body"}
 <!-- dtl:block:SolutionTimeFontStart -->
             <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">
             $QData{"SolutionTimeHuman"}
-            <br>
+            <br/>
             $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}
             </div>
 <!-- dtl:block:SolutionTimeFontStop -->
@@ -420,7 +420,7 @@ $Data{"Body"}
 <!-- dtl:block:AgentIsCustomer -->
             <p>
               <b>$Text{"Your own Ticket"}:</b>
-              <br>
+              <br/>
               <table border="0">
                 <tr>
                   <td>
@@ -436,7 +436,7 @@ $Data{"Body"}
 <!-- dtl:block:AgentAnswerCompose -->
             <p>
               <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
-              <br>
+              <br/>
               <table border="0">
                 <tr>
                   <td>
@@ -449,7 +449,7 @@ $Data{"Body"}
 <!-- dtl:block:AgentAnswerPhoneOutbound -->
             <p>
               <b>$Text{"Contact customer"} ($Text{"phone"}):</b>
-              <br>
+              <br/>
               <table border="0">
                 <tr>
                   <td>
@@ -498,14 +498,14 @@ $Data{"AgentPhoneStrg"}
     <td valign="bottom" class="PriorityID-$Data{"PriorityID"}">
 <!-- dtl:block:Move -->
       <p>
-        <b>$Text{"Change queue"}:</b><br>
+        <b>$Text{"Change queue"}:</b><br/>
         <form action="$Env{"CGIHandle"}" method="get">
-          <input type="hidden" name="Action" value="AgentTicketMove">
-          <input type="hidden" name="Subaction" value="InRage">
-          <input type="hidden" name="QueueID" value="$QData{"QueueID"}">
-          <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
+          <input type="hidden" name="Action" value="AgentTicketMove"/>
+          <input type="hidden" name="Subaction" value="InRage"/>
+          <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
+          <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
           $Data{"MoveQueuesStrg"}
-          <input class="button" type="submit" value="$Text{"Move"}">
+          <input class="button" type="submit" value="$Text{"Move"}"/>
         </form>
       </p>
 <!-- dtl:block:Move -->

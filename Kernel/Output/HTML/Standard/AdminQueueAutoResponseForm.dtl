@@ -1,12 +1,12 @@
 # --
 # AdminQueueAutoResponseForm.dtl - provides HTML form for AdminQueueAutoResponse
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueAutoResponseForm.dtl,v 1.15 2006-12-30 01:38:50 mh Exp $
+# $Id: AdminQueueAutoResponseForm.dtl,v 1.16 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- dtl:block:Overview -->
@@ -18,7 +18,7 @@
   </tr>
   <tr align="center">
     <td class="mainbody">
-      <br>
+      <br/>
       <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
         <tr>
           <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -35,10 +35,10 @@
                 <td class="contentvalue"><a href="$Env{"Baselink"}Action=AdminQueueAutoResponse&Subaction=Change&ID=$Data{"QueueID"}">$QData{"Queue"}</a></td>
                 <td class="contentvalue">
 <!-- dtl:block:ItemList -->
-                  * <a href="$Env{"Baselink"}Action=AdminAutoResponse&Subaction=Change&ID=$QData{"ID"}">$QData{"Name"}</a> ($QData{"Type"})<br>
+                  * <a href="$Env{"Baselink"}Action=AdminAutoResponse&Subaction=Change&ID=$QData{"ID"}">$QData{"Name"}</a> ($QData{"Type"})<br/>
 <!-- dtl:block:ItemList -->
 <!-- dtl:block:ItemNo -->
-                  <font color="red">-$Text{"none"}-</font><br>
+                  <font color="red">-$Text{"none"}-</font><br/>
 <!-- dtl:block:ItemNo -->
                 </td>
               </tr>
@@ -52,7 +52,7 @@
           </td>
         </tr>
       </table>
-      <br>
+      <br/>
     </td>
   </tr>
 </table>
@@ -71,11 +71,11 @@
   </tr>
   <tr align="center">
     <td class="mainbody">
-      <br>
+      <br/>
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="ChangeAction">
-        <input type="hidden" name="ID" value="$QData{"ID"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="ChangeAction"/>
+        <input type="hidden" name="ID" value="$QData{"ID"}"/>
         <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Queue"}: $QData{"Queue"}</td>
@@ -98,12 +98,12 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Update"}">
+              <input class="button" type="submit" value="$Text{"Update"}"/>
             </td>
           </tr>
         </table>
       </form>
-      <br>
+      <br/>
     </td>
   </tr>
 </table>

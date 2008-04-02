@@ -1,13 +1,13 @@
 # --
 # CustomerStatusView.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerStatusView.dtl,v 1.29 2007-01-22 09:13:11 rk Exp $
+# $Id: CustomerStatusView.dtl,v 1.30 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
@@ -35,28 +35,28 @@
     <td align="center" class="mainbody">
       <table border="0" width="100%" cellspacing="0" cellpadding="3">
         <tr>
-          <th width="10%">$Config{"Ticket::Hook"}<br>
+          <th width="10%">$Config{"Ticket::Hook"}<br/>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Ticket&Order=Up&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Ticket&Order=Down&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
-          <th width="20%">$Text{"Age"}<br>
+          <th width="20%">$Text{"Age"}<br/>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Age&Order=Up&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Age&Order=Down&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
           <th width="30%">$Text{"Subject"}</th>
-          <th width="15%">$Text{"State"}<br>
+          <th width="15%">$Text{"State"}<br/>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=State&Order=Up&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=State&Order=Down&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
-          <th width="15%">$Text{"Queue"}<br>
+          <th width="15%">$Text{"Queue"}<br/>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Queue&Order=Up&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Queue&Order=Down&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
-          <th width="10%">$Text{"Owner"}<br>
+          <th width="10%">$Text{"Owner"}<br/>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Owner&Order=Up&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Owner&Order=Down&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
-#          <th width="10%">$Text{"CustomerID"}<br>
+#          <th width="10%">$Text{"CustomerID"}<br/>
 #            <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=CustomerID&Order=Up&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
 #            <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=CustomerID&Order=Down&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
 #          </th>

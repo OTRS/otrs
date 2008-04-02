@@ -1,12 +1,12 @@
 # --
 # CustomerTicketSearchResultPrint.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearchResultPrint.dtl,v 1.6 2006-12-21 16:12:27 mh Exp $
+# $Id: CustomerTicketSearchResultPrint.dtl,v 1.7 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
@@ -31,9 +31,9 @@
         <tr>
           <td class="contentvalue">$Data{"TicketNumber"}</td>
           <td class="contentvalue">$TimeLong{"$Data{"Created"}"}</td>
-          <td class="contentvalue">$QData{"From","30"}<br>$QData{"Subject","30"}</td>
-          <td class="contentvalue">$Quote{"$Text{"$Data{"State"}"}","30"}<br>$QData{"Queue","30"}</td>
-          <td class="contentvalue">$QData{"CustomerID","15"}&nbsp;<br>$QData{"CustomerName","15"}</td>
+          <td class="contentvalue">$QData{"From","30"}<br/>$QData{"Subject","30"}</td>
+          <td class="contentvalue">$Quote{"$Text{"$Data{"State"}"}","30"}<br/>$QData{"Queue","30"}</td>
+          <td class="contentvalue">$QData{"CustomerID","15"}&nbsp;<br/>$QData{"CustomerName","15"}</td>
         </tr>
 <!-- dtl:block:Record -->
       </table>

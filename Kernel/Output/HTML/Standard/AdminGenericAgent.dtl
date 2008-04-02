@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.34 2008-03-02 20:50:23 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.35 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,8 +20,8 @@
   <tr>
     <td width="30%" class="mainbody">
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Add">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="Add"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">$Text{"Add"}:</td>
@@ -32,7 +32,7 @@
                 <tr>
                   <td class="contentkey">$Text{"Name"}:</td>
                   <td class="contentvalue">
-                    <input type="text" name="Profile" value="" size="20">
+                    <input type="text" name="Profile" value="" size="20"/>
                   </td>
                 </tr>
               </table>
@@ -40,7 +40,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Add"}">
+              <input class="button" type="submit" value="$Text{"Add"}"/>
             </td>
           </tr>
         </table>
@@ -104,12 +104,12 @@
   </tr>
   <tr>
     <td colspan="2" align="center" class="mainbody">
-      <br>
+      <br/>
       <form action="$Env{"CGIHandle"}" method="post" name="compose">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="UpdateAction">
-        <input type="hidden" name="ScheduleLastRun" value="$QData{"ScheduleLastRun"}">
-        <input type="hidden" name="OldProfile" value="$QData{"Profile"}">
+        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction" value="UpdateAction"/>
+        <input type="hidden" name="ScheduleLastRun" value="$QData{"ScheduleLastRun"}"/>
+        <input type="hidden" name="OldProfile" value="$QData{"Profile"}"/>
         <table width="800" border="0" cellspacing="0" cellpadding="4">
 <!-- job name -->
           <tr align="left">
@@ -119,7 +119,7 @@
           <tr>
             <td class="contentbody">
               $Text{"Name"}:
-              <input type="text" name="Profile" size="20" value="$QData{"Profile"}">
+              <input type="text" name="Profile" size="20" value="$QData{"Profile"}"/>
             </td>
             <td class="contentbody">
               $Text{"Is Job Valid"}: $Data{"ValidOption"}
@@ -147,13 +147,13 @@
                     $Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}
                   </td>
                   <td width="50%">
-                    <input type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}">
+                    <input type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}"/>
                   </td>
                 </tr>
 <!-- dtl:block:TicketTitle-->
                 <tr>
                   <td>$Text{"Title"}</td>
-                  <td><input type="text" name="Title" size="30" value="$QData{"Title"}"></td>
+                  <td><input type="text" name="Title" size="30" value="$QData{"Title"}"/></td>
                 </tr>
 <!-- dtl:block:TicketTitle-->
                 <tr>
@@ -161,7 +161,7 @@
                     $Text{"CustomerID"} $Text{"(e. g. 234321)"}
                   </td>
                   <td>
-                    <input type="text" name="CustomerID" size="30" value="$QData{"CustomerID"}">
+                    <input type="text" name="CustomerID" size="30" value="$QData{"CustomerID"}"/>
                   </td>
                 </tr>
                 <tr>
@@ -169,7 +169,7 @@
                     $Text{"Customer User Login"} $Text{"(e. g. U5150)"}
                   </td>
                   <td>
-                    <input type="text" name="CustomerUserLogin" size="30" value="$QData{"CustomerUserLogin"}">
+                    <input type="text" name="CustomerUserLogin" size="30" value="$QData{"CustomerUserLogin"}"/>
                   </td>
                 </tr>
 <!-- dtl:block:TicketType -->
@@ -191,7 +191,7 @@
                     $Text{"From"}
                   </td>
                   <td>
-                    <input type="text" name="From" size="30" value="$QData{"From"}">
+                    <input type="text" name="From" size="30" value="$QData{"From"}"/>
                   </td>
                 </tr>
                 <tr>
@@ -199,7 +199,7 @@
                     $Text{"To"}
                   </td>
                   <td>
-                    <input type="text" name="To" size="30" value="$QData{"To"}">
+                    <input type="text" name="To" size="30" value="$QData{"To"}"/>
                   </td>
                 </tr>
                 <tr align="left">
@@ -207,7 +207,7 @@
                     $Text{"Cc"}
                   </td>
                   <td>
-                    <input type="text" name="Cc" size="30" value="$QData{"Cc"}">
+                    <input type="text" name="Cc" size="30" value="$QData{"Cc"}"/>
                   </td>
                 </tr>
                 <tr>
@@ -215,7 +215,7 @@
                     $Text{"Subject"}
                   </td>
                   <td>
-                    <input type="text" name="Subject" size="30" value="$QData{"Subject"}">
+                    <input type="text" name="Subject" size="30" value="$QData{"Subject"}"/>
                   </td>
                 </tr>
                 <tr>
@@ -223,7 +223,7 @@
                     $Text{"Text"}
                   </td>
                   <td>
-                    <input type="text" name="Body" size="30" value="$QData{"Body"}">
+                    <input type="text" name="Body" size="30" value="$QData{"Body"}"/>
                   </td>
                 </tr>
               </table>
@@ -277,19 +277,19 @@
           </tr>
           <tr>
             <td colspan="2" class="contentbody">
-              <input type="radio" name="TimeSearchType" value="" $Data{"TimeSearchType::None"}>
+              <input type="radio" name="TimeSearchType" value="" $Data{"TimeSearchType::None"}/>
               $Text{"No create time settings."}
             </td>
           </tr>
           <tr>
             <td colspan="2" class="contentbody">
-              <input type="radio" name="TimeSearchType" value="TimePoint" $Data{"TimeSearchType::TimePoint"}>
+              <input type="radio" name="TimeSearchType" value="TimePoint" $Data{"TimeSearchType::TimePoint"}/>
               $Text{"Ticket created"} $Data{"TicketCreateTimePointStart"} $Data{"TicketCreateTimePoint"} $Data{"TicketCreateTimePointFormat"}.
             </td>
           </tr>
           <tr>
             <td colspan="2" class="contentbody">
-              <input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}>
+              <input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}/>
               $Text{"Ticket created between"} $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}.
             </td>
           </tr>
@@ -298,19 +298,19 @@
           </tr>
           <tr>
             <td colspan="2" class="contentbody">
-              <input type="radio" name="TimePendingSearchType" value="" $Data{"TimePendingSearchType::None"}>
+              <input type="radio" name="TimePendingSearchType" value="" $Data{"TimePendingSearchType::None"}/>
               $Text{"No pending time settings."}
             </td>
           </tr>
           <tr>
             <td colspan="2" class="contentbody">
-              <input type="radio" name="TimePendingSearchType" value="TimePoint" $Data{"TimePendingSearchType::TimePoint"}>
+              <input type="radio" name="TimePendingSearchType" value="TimePoint" $Data{"TimePendingSearchType::TimePoint"}/>
               $Text{"Ticket pending time reached"} $Data{"TicketPendingTimePointStart"} $Data{"TicketPendingTimePoint"} $Data{"TicketPendingTimePointFormat"}.
             </td>
           </tr>
           <tr>
             <td colspan="2" class="contentbody">
-              <input type="radio" name="TimePendingSearchType" value="TimeSlot" $Data{"TimePendingSearchType::TimeSlot"}>
+              <input type="radio" name="TimePendingSearchType" value="TimeSlot" $Data{"TimePendingSearchType::TimeSlot"}/>
               $Text{"Ticket pending time reached between"} $Data{"TicketPendingTimeStart"} $Text{"and"} $Data{"TicketPendingTimeStop"}.
             </td>
           </tr>
@@ -353,7 +353,7 @@
                     $Text{"CustomerUser"}:
                   </td>
                   <td>
-                    <input type="text" name="NewCustomerUserLogin" value="$QData{"NewCustomerUserLogin"}" size="30">
+                    <input type="text" name="NewCustomerUserLogin" value="$QData{"NewCustomerUserLogin"}" size="30"/>
                   </td>
                 </tr>
                 <tr>
@@ -361,7 +361,7 @@
                     $Text{"CustomerID"}:
                   </td>
                   <td>
-                    <input type="text" name="NewCustomerID" value="$QData{"NewCustomerID"}" size="30">
+                    <input type="text" name="NewCustomerID" value="$QData{"NewCustomerID"}" size="30"/>
                   </td>
                 </tr>
               </table>
@@ -379,7 +379,7 @@
 <!-- dtl:block:NewTicketTitle-->
                 <tr>
                   <td>$Text{"New Title"}</td>
-                  <td><input type="text" name="NewTitle" size="30" value="$QData{"New Title"}"></td>
+                  <td><input type="text" name="NewTitle" size="30" value="$QData{"New Title"}"/></td>
                 </tr>
 <!-- dtl:block:NewTicketTitle-->
 <!-- dtl:block:NewTicketType -->
@@ -417,7 +417,7 @@
                     $Text{"From"}:
                   </td>
                   <td>
-                    <input type="text" name="NewNoteFrom" value="$QData{"NewNoteFrom"}" size="60">
+                    <input type="text" name="NewNoteFrom" value="$QData{"NewNoteFrom"}" size="60"/>
                   </td>
                 </tr>
                 <tr>
@@ -425,7 +425,7 @@
                     $Text{"Subject"}:
                   </td>
                   <td>
-                    <input type="text" name="NewNoteSubject" value="$QData{"NewNoteSubject"}" size="60">
+                    <input type="text" name="NewNoteSubject" value="$QData{"NewNoteSubject"}" size="60"/>
                   </td>
                 </tr>
                 <tr>
@@ -445,13 +445,13 @@
           </tr>
           <tr>
             <td class="contentbody">
-              <input type="text" name="NewCMD" value="$QData{"NewCMD"}" size="40">
-              <br>
+              <input type="text" name="NewCMD" value="$QData{"NewCMD"}" size="40"/>
+              <br/>
               ($Text{"This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id."})
             </td>
             <td class="contentbody">
               $Text{"Delete tickets"}: $Data{"DeleteOption"}
-              <br>
+              <br/>
               <font color="red">
               <b>($Text{"Warning! This tickets will be removed from the database! This tickets are lost!"})</b>
               </font>
@@ -466,67 +466,67 @@
               <table>
                 <tr>
                   <td valign="top">$Text{"Module"}:</td>
-                  <td><input type="text" name="NewModule" value="$QData{"NewModule"}" size="45"></td>
+                  <td><input type="text" name="NewModule" value="$QData{"NewModule"}" size="45"/></td>
                 </tr>
                 <tr>
                   <td valign="top">$Text{"Param 1"}:</td>
                   <td>
-                    <input type="text" name="NewParamKey1" value="$QData{"NewParamKey1"}" size="12">=&gt;
-                    <input type="text" name="NewParamValue1" value="$QData{"NewParamValue1"}" size="20">
+                    <input type="text" name="NewParamKey1" value="$QData{"NewParamKey1"}" size="12"/>=&gt;
+                    <input type="text" name="NewParamValue1" value="$QData{"NewParamValue1"}" size="20"/>
                   </td>
                 </tr>
                 <tr>
                   <td valign="top">$Text{"Param 2"}:</td>
                   <td>
-                    <input type="text" name="NewParamKey2" value="$QData{"NewParamKey2"}" size="12">=&gt;
-                    <input type="text" name="NewParamValue2" value="$QData{"NewParamValue2"}" size="20">
+                    <input type="text" name="NewParamKey2" value="$QData{"NewParamKey2"}" size="12"/>=&gt;
+                    <input type="text" name="NewParamValue2" value="$QData{"NewParamValue2"}" size="20"/>
                   </td>
                 </tr>
                 <tr>
                   <td valign="top">$Text{"Param 3"}:</td>
                   <td>
-                    <input type="text" name="NewParamKey3" value="$QData{"NewParamKey3"}" size="12">=&gt;
-                    <input type="text" name="NewParamValue3" value="$QData{"NewParamValue3"}" size="20">
+                    <input type="text" name="NewParamKey3" value="$QData{"NewParamKey3"}" size="12"/>=&gt;
+                    <input type="text" name="NewParamValue3" value="$QData{"NewParamValue3"}" size="20"/>
                   </td>
                 </tr>
                 <tr>
                   <td valign="top">$Text{"Param 4"}:</td>
                   <td>
-                    <input type="text" name="NewParamKey4" value="$QData{"NewParamKey4"}" size="12">=&gt;
-                    <input type="text" name="NewParamValue4" value="$QData{"NewParamValue4"}" size="20">
+                    <input type="text" name="NewParamKey4" value="$QData{"NewParamKey4"}" size="12"/>=&gt;
+                    <input type="text" name="NewParamValue4" value="$QData{"NewParamValue4"}" size="20"/>
                   </td>
                 </tr>
                 <tr>
                   <td valign="top">$Text{"Param 5"}:</td>
                   <td>
-                    <input type="text" name="NewParamKey5" value="$QData{"NewParamKey5"}" size="12">=&gt;
-                    <input type="text" name="NewParamValue5" value="$QData{"NewParamValue5"}" size="20">
+                    <input type="text" name="NewParamKey5" value="$QData{"NewParamKey5"}" size="12"/>=&gt;
+                    <input type="text" name="NewParamValue5" value="$QData{"NewParamValue5"}" size="20"/>
                   </td>
                 </tr>
                 <tr>
                   <td valign="top">$Text{"Param 6"}:</td>
                   <td>
-                    <input type="text" name="NewParamKey6" value="$QData{"NewParamKey6"}" size="12">=&gt;
-                    <input type="text" name="NewParamValue6" value="$QData{"NewParamValue6"}" size="20">
+                    <input type="text" name="NewParamKey6" value="$QData{"NewParamKey6"}" size="12"/>=&gt;
+                    <input type="text" name="NewParamValue6" value="$QData{"NewParamValue6"}" size="20"/>
                   </td>
                 </tr>
               </table>
             </td>
             <td class="contentbody">
               $Text{"Send no notifications"}: $Data{"SendNoNotificationOption"}
-              <br>
+              <br/>
               $Text{"Yes means, send no agent and customer notifications on changes."}
               $Text{"No means, send agent and customer notifications on changes."}
             </td>
           </tr>
           <tr>
             <td colspan="2" class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Save"}">
+              <input class="button" type="submit" value="$Text{"Save"}"/>
             </td>
           </tr>
         </table>
       </form>
-      <br>
+      <br/>
     </td>
   </tr>
 <!-- dtl:block:Edit -->
@@ -543,7 +543,7 @@
   <tr>
     <td class="mainbody">
       <p>
-        $Text{"%s Tickets affected! Do you really want to use this job?", "$QData{"AffectedIDs"}"}<br>
+        $Text{"%s Tickets affected! Do you really want to use this job?", "$QData{"AffectedIDs"}"}<br/>
         $Text{"$QData{"DeleteMessage"}"}
       </p>
     </td>
@@ -551,7 +551,7 @@
 <!-- dtl:block:ResultBlock -->
   <tr>
     <td class="mainbody">
-      <br>
+      <br/>
       <table border="0" width="100%" cellpadding="3" cellspacing="0">
         <tr class="contenthead">
           <td>$Config{"Ticket::Hook"}</td>
@@ -569,11 +569,11 @@
           </td>
           <td class="contentvalue">$QData{"Age"}</td>
           <td class="contentvalue">
-            $QData{"From","30"}<br>$QData{"Subject","30"}
+            $QData{"From","30"}<br/>$QData{"Subject","30"}
           </td>
           <td class="contentvalue">$Quote{"$Text{"$Data{"State"}"}","30"}</td>
           <td class="contentvalue">$QData{"Queue","30"}</td>
-          <td class="contentvalue">$QData{"Owner","30"}<br>($QData{"UserFirstname"} $QData{"UserLastname"})</td>
+          <td class="contentvalue">$QData{"Owner","30"}<br/>($QData{"UserFirstname"} $QData{"UserLastname"})</td>
           <td class="contentvalue">
             <a href="$Env{"Baselink"}Action=AgentTicketCustomer&TicketID=$QData{"TicketID"}">
             $Quote{"$Data{"CustomerID"}","15"}
@@ -585,7 +585,7 @@
           <td colspan="7" class="contentfooter">&nbsp;</td>
         </tr>
       </table>
-      <br>
+      <br/>
     </td>
   </tr>
 <!-- dtl:block:ResultBlock -->

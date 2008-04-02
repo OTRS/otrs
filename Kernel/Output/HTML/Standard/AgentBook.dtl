@@ -1,12 +1,12 @@
 # --
 # AgentBook.dtl - provides HTML form for AgentSpelling
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentBook.dtl,v 1.9 2006-12-21 16:13:13 mh Exp $
+# $Id: AgentBook.dtl,v 1.10 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start Spelling form -->
@@ -72,30 +72,30 @@ function AddBccAddress(x) {
   <tr>
     <td class="mainbody">
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="book">
-        <input type="hidden" name="Action" value="AgentBook">
+        <input type="hidden" name="Action" value="AgentBook"/>
         <table border="0" cellspacing="0" cellpadding="1">
           <tr>
-            <td>$Text{"To"}:</td><td> <input type="text" name="To" value="$QData{"To"}" size="80"></td>
+            <td>$Text{"To"}:</td><td> <input type="text" name="To" value="$QData{"To"}" size="80"/></td>
           </tr>
           <tr>
-            <td>$Text{"Cc"}:</td><td> <input type="text" name="Cc" value="$QData{"Cc"}" size="80"></td>
+            <td>$Text{"Cc"}:</td><td> <input type="text" name="Cc" value="$QData{"Cc"}" size="80"/></td>
           </tr>
           <tr>
-            <td>$Text{"Bcc"}:</td><td> <input type="text" name="Bcc" value="$QData{"Bcc"}" size="80"></td>
+            <td>$Text{"Bcc"}:</td><td> <input type="text" name="Bcc" value="$QData{"Bcc"}" size="80"/></td>
           </tr>
         </table>
-        <br>
-        <input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}">
+        <br/>
+        <input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}"/>
         <i>($Text{"Return to the compose screen"})</i>
-        <input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}">
+        <input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}"/>
         <i>($Text{"Discard all changes and return to the compose screen"})</i>
         <hr>
         <table border="0" cellspacing="0" cellpadding="1">
           <tr>
             <td>
-              <input type="text" name="Search" value="">
-              <input class="button" type="submit" value="$Text{"Search"}">
-              <input class="button" type="reset" value="$Text{"Reset"}">
+              <input type="text" name="Search" value=""/>
+              <input class="button" type="submit" value="$Text{"Search"}"/>
+              <input class="button" type="reset" value="$Text{"Reset"}"/>
             </td>
           </tr>
         </table>

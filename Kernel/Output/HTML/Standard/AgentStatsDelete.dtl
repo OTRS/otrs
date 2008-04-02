@@ -1,12 +1,12 @@
 # --
 # AgentStatsDelete.dtl - provides HTML form for delete a Stats
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsDelete.dtl,v 1.4 2007-06-18 13:41:02 tr Exp $
+# $Id: AgentStatsDelete.dtl,v 1.5 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start form -->
@@ -23,7 +23,7 @@
   </tr>
   <tr>
     <td class="mainbody">
-      <br>
+      <br/>
       <table border="0" width="350" align="center" cellspacing="0" cellpadding="4">
         <form action="$Env{"CGIHandle"}" method="get" enctype="multipart/form-data">
           <tr>
@@ -51,17 +51,17 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input type="hidden" name="Action" value="$Env{"Action"}">
-              <input type="hidden" name="Subaction" value="Delete">
-              <input type="hidden" name="Status" value="Action">
-              <input type="hidden" name="StatID" value="$Data{"StatID"}">
-              <input class="button" type="submit" name="Yes" value="$Text{"Yes"}">&nbsp;
-              <input class="button" type="submit" name="No" value="$Text{"No"}">
+              <input type="hidden" name="Action" value="$Env{"Action"}"/>
+              <input type="hidden" name="Subaction" value="Delete"/>
+              <input type="hidden" name="Status" value="Action"/>
+              <input type="hidden" name="StatID" value="$Data{"StatID"}"/>
+              <input class="button" type="submit" name="Yes" value="$Text{"Yes"}"/>&nbsp;
+              <input class="button" type="submit" name="No" value="$Text{"No"}"/>
             </td>
           </tr>
         </form>
       </table>
-      <br>
+      <br/>
     </td>
   </tr>
 </table>

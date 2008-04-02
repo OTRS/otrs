@@ -1,12 +1,12 @@
 # --
 # AgentTicketQueueTicketViewLite.dtl - provides HTML TicketView for AgentTicketQueue
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueueTicketViewLite.dtl,v 1.15 2007-10-08 20:54:48 martin Exp $
+# $Id: AgentTicketQueueTicketViewLite.dtl,v 1.16 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- start ticket -->
@@ -15,7 +15,7 @@
 <!-- dtl:block:Bulk -->
     <td width="1%" class="mainhead">
       <form name="abulk$Data{"Counter"}">
-        <input type="checkbox" name="Selected" value="1" onclick="BulkChangeSelected($Data{"TicketID"},$Data{"Counter"})">
+        <input type="checkbox" name="Selected" value="1" onclick="BulkChangeSelected($Data{"TicketID"},$Data{"Counter"})"/>
       </form>
     </td>
 <!-- dtl:block:Bulk -->
@@ -235,12 +235,12 @@
 #    <td valign="top" class="PriorityID-$Data{"PriorityID"}"><b>$Text{"Change queue"}:</b></td>
 #    <td valign="top" class="PriorityID-$Data{"PriorityID"}">
 #      <form action="$Env{"CGIHandle"}" method="get">
-#        <input type="hidden" name="Action" value="AgentTicketMove">
-#        <input type="hidden" name="Subaction" value="InRage">
-#        <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
-#        <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+#        <input type="hidden" name="Action" value="AgentTicketMove"/>
+#        <input type="hidden" name="Subaction" value="InRage"/>
+#        <input type="hidden" name="QueueID" value="$Data{"QueueID"}"/>
+#        <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
 #        $Data{"MoveQueuesStrg"}
-#        <input class="button" type="submit" value="$Text{"Move"}">
+#        <input class="button" type="submit" value="$Text{"Move"}"/>
 #      </form>
 #    </td>
 #  </tr>

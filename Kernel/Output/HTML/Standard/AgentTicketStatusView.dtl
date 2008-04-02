@@ -2,7 +2,7 @@
 # AgentTicketStatusView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketStatusView.dtl,v 1.10 2008-03-28 11:35:13 martin Exp $
+# $Id: AgentTicketStatusView.dtl,v 1.11 2008-04-02 08:59:22 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,32 +30,32 @@
     <td class="mainbody">
       <table border="0" width="100%" cellspacing="0" cellpadding="3">
         <tr class="contenthead" align="left">
-          <th width="10%">$Config{"Ticket::Hook"}<br>
+          <th width="10%">$Config{"Ticket::Hook"}<br/>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Ticket&Order=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Ticket&Order=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
-          <th width="15%">$Text{"Age"}<br>
+          <th width="15%">$Text{"Age"}<br/>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Age&Order=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Age&Order=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
           <th width="25%">$Text{"From"}/$Text{"Subject"}</th>
-          <th width="5%">$Text{"State"}<br>
+          <th width="5%">$Text{"State"}<br/>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=State&Order=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=State&Order=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
-          <th width="5%">$Text{"Locked"}<br>
+          <th width="5%">$Text{"Locked"}<br/>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Lock&Order=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Lock&Order=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
-          <th width="10%">$Text{"Queue"}<br>
+          <th width="10%">$Text{"Queue"}<br/>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Queue&Order=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Queue&Order=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
-          <th width="15%">$Text{"Owner"}<br>
+          <th width="15%">$Text{"Owner"}<br/>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Owner&Order=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Owner&Order=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
-          <th width="15%">$Text{"CustomerID"}<br>
+          <th width="15%">$Text{"CustomerID"}<br/>
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=CustomerID&Order=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=CustomerID&Order=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
