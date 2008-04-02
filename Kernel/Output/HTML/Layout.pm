@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.79 2008-04-02 08:59:22 ot Exp $
+# $Id: Layout.pm,v 1.80 2008-04-02 10:39:21 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 =head1 NAME
 
@@ -142,7 +142,7 @@ sub new {
     $Self->{Charset}     = $Self->{UserCharset};                               # just for compat.
     $Self->{SessionID}   = $Param{SessionID} || '';
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
-    $Self->{CGIHandle}   = $ENV{'SCRIPT_NAME'} || 'No-$ENV{"SCRIPT_NAME"}';
+    $Self->{CGIHandle}   = $ENV{SCRIPT_NAME} || 'No-$ENV{"SCRIPT_NAME"}';
 
     # baselink
     $Self->{Baselink} = "$Self->{CGIHandle}?";
@@ -179,14 +179,14 @@ sub new {
     else {
         $Self->{BrowserJavaScriptSupport} = 1;
     }
-    if ( !$ENV{'HTTP_USER_AGENT'} ) {
+    if ( !$ENV{HTTP_USER_AGENT} ) {
         $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
     }
-    elsif ( $ENV{'HTTP_USER_AGENT'} ) {
+    elsif ( $ENV{HTTP_USER_AGENT} ) {
 
         # msie
-        if (   $ENV{'HTTP_USER_AGENT'} =~ /MSIE ([0-9.]+)/i
-            || $ENV{'HTTP_USER_AGENT'} =~ /Internet Explorer\/([0-9.]+)/i )
+        if (   $ENV{HTTP_USER_AGENT} =~ /MSIE ([0-9.]+)/i
+            || $ENV{HTTP_USER_AGENT} =~ /Internet Explorer\/([0-9.]+)/i )
         {
             $Self->{Browser}     = 'MSIE';
             $Self->{BrowserWrap} = 'physical';
@@ -203,25 +203,25 @@ sub new {
         }
 
         # netscape
-        elsif ( $ENV{'HTTP_USER_AGENT'} =~ /netscape/i ) {
+        elsif ( $ENV{HTTP_USER_AGENT} =~ /netscape/i ) {
             $Self->{Browser}     = 'Netscape';
             $Self->{BrowserWrap} = 'hard';
         }
 
         # konqueror
-        elsif ( $ENV{'HTTP_USER_AGENT'} =~ /konqueror/i ) {
+        elsif ( $ENV{HTTP_USER_AGENT} =~ /konqueror/i ) {
             $Self->{Browser}     = 'Konqueror';
             $Self->{BrowserWrap} = 'hard';
         }
 
         # mozilla
-        elsif ( $ENV{'HTTP_USER_AGENT'} =~ /^mozilla/i ) {
+        elsif ( $ENV{HTTP_USER_AGENT} =~ /^mozilla/i ) {
             $Self->{Browser}     = 'Mozilla';
             $Self->{BrowserWrap} = 'hard';
         }
 
         # konqueror
-        elsif ( $ENV{'HTTP_USER_AGENT'} =~ /^opera.*/i ) {
+        elsif ( $ENV{HTTP_USER_AGENT} =~ /^opera.*/i ) {
             $Self->{Browser}     = 'Opera';
             $Self->{BrowserWrap} = 'hard';
         }
@@ -233,13 +233,13 @@ sub new {
         }
 
         # lynx
-        elsif ( $ENV{'HTTP_USER_AGENT'} =~ /^lynx.*/i ) {
+        elsif ( $ENV{HTTP_USER_AGENT} =~ /^lynx.*/i ) {
             $Self->{Browser}                  = 'Lynx';
             $Self->{BrowserJavaScriptSupport} = 0;
         }
 
         # links
-        elsif ( $ENV{'HTTP_USER_AGENT'} =~ /^links.*/i ) {
+        elsif ( $ENV{HTTP_USER_AGENT} =~ /^links.*/i ) {
             $Self->{Browser} = 'Links';
         }
         else {
@@ -283,7 +283,7 @@ sub new {
                 if ( !$Self->{MainObject}->Require("Kernel::Output::HTML::$File") ) {
                     $Self->FatalError();
                 }
-                push( @ISA, "Kernel::Output::HTML::$File" );
+                push @ISA, "Kernel::Output::HTML::$File";
             }
         }
     }
@@ -342,72 +342,70 @@ sub _BlockTemplatePreferences {
     my %UsedNames      = ();
     my $TemplateFile   = $Param{TemplateFile} || '';
     if ( !defined( $Param{Template} ) ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Template!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Template!' );
         return;
     }
 
-    if ( !$Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} ) {
-        $Param{Template} =~ s{
-            <!--\s{0,1}dtl:block:(.+?)\s{0,1}-->
-        }
-        {
-            my $BlockName = $1;
-            if (!$TagsOpen{$BlockName}) {
-                $Layer++;
-                $TagsOpen{$BlockName} = 1;
-                my $CL = '';
-                if ($Layer == 1) {
-                    $LastLayer = '';
-                    $CurrentLayer = $BlockName;
-                }
-                elsif ($LastLayerCount == $Layer) {
-                    $CurrentLayer = $LastLayer.'::'.$BlockName;
-                }
-                else {
-                    $LastLayer = $CurrentLayer;
-                    $CurrentLayer = $CurrentLayer.'::'.$BlockName;
-                }
-                $LastLayerCount = $Layer;
-                if (!$UsedNames{$BlockName}) {
-                    push (@Preferences, {
-                        Name => $BlockName,
-                        Layer => $Layer,
-                        },
-                    );
-                    $UsedNames{$BlockName} = 1;
-                }
-            }
-            else {
-                $TagsOpen{$BlockName} = 0;
-                $Layer--;
-            }
-        }segxm;
-
-        # check open (invalid) tags
-        for ( keys %TagsOpen ) {
-            if ( $TagsOpen{$_} ) {
-                my $Message = "'dtl:block:$_' isn't closed!";
-                if ($TemplateFile) {
-                    $Message .= " ($TemplateFile.dtl)";
-                }
-                $Self->{LogObject}->Log( Priority => 'error', Message => $Message );
-                $Self->FatalError();
-            }
-        }
-
-        # remember block data
-        if ($TemplateFile) {
-            $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} = \@Preferences;
-        }
-        else {
-            undef $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile};
-        }
-        return @Preferences;
-    }
-    else {
-        # return already parsed block data
+    if ( $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} ) {
         return @{ $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} };
     }
+
+    $Param{Template} =~ s{
+        <!--\s{0,1}dtl:block:(.+?)\s{0,1}-->
+    }
+    {
+        my $BlockName = $1;
+        if (!$TagsOpen{$BlockName}) {
+            $Layer++;
+            $TagsOpen{$BlockName} = 1;
+            my $CL = '';
+            if ($Layer == 1) {
+                $LastLayer = '';
+                $CurrentLayer = $BlockName;
+            }
+            elsif ($LastLayerCount == $Layer) {
+                $CurrentLayer = $LastLayer.'::'.$BlockName;
+            }
+            else {
+                $LastLayer = $CurrentLayer;
+                $CurrentLayer = $CurrentLayer.'::'.$BlockName;
+            }
+            $LastLayerCount = $Layer;
+            if (!$UsedNames{$BlockName}) {
+                push (@Preferences, {
+                    Name => $BlockName,
+                    Layer => $Layer,
+                    },
+                );
+                $UsedNames{$BlockName} = 1;
+            }
+        }
+        else {
+            $TagsOpen{$BlockName} = 0;
+            $Layer--;
+        }
+    }segxm;
+
+    # check open (invalid) tags
+    for ( keys %TagsOpen ) {
+        if ( $TagsOpen{$_} ) {
+            my $Message = "'dtl:block:$_' isn't closed!";
+            if ($TemplateFile) {
+                $Message .= " ($TemplateFile.dtl)";
+            }
+            $Self->{LogObject}->Log( Priority => 'error', Message => $Message );
+            $Self->FatalError();
+        }
+    }
+
+    # remember block data
+    if ($TemplateFile) {
+        $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} = \@Preferences;
+    }
+    else {
+        undef $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile};
+    }
+    return @Preferences;
 }
 
 sub _BlockTemplatesReplace {
@@ -417,7 +415,7 @@ sub _BlockTemplatesReplace {
     my %BlockTemplates = ();
     my @BR             = ();
     if ( !$Param{Template} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Template!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Template!' );
         return;
     }
     my $TemplateString = $Param{Template};
@@ -1084,57 +1082,55 @@ sub Redirect {
         $Param{Redirect} = $Param{ExtURL};
         return $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
     }
-    else {
 
-        # internal redirect
-        $Param{OP} =~ s/^.*\?(.+?)$/$1/;
-        $Param{Redirect} = $Self->{Baselink} . $Param{OP};
+    # internal redirect
+    $Param{OP} =~ s/^.*\?(.+?)$/$1/;
+    $Param{Redirect} = $Self->{Baselink} . $Param{OP};
 
-        # check if IIS is used, add absolute url for IIS workaround
-        # see also:
-        #  o http://bugs.otrs.org/show_bug.cgi?id=2230
-        #  o http://support.microsoft.com/default.aspx?scid=kb;en-us;221154
-        if ( $ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis/i ) {
-            my $Host = $ENV{HTTP_HOST} || $Self->{ConfigObject}->Get('FQDN');
-            $Param{Redirect}
-                = $Self->{ConfigObject}->Get('HttpType') . '://' . $Host . '/' . $Param{Redirect};
+    # check if IIS is used, add absolute url for IIS workaround
+    # see also:
+    #  o http://bugs.otrs.org/show_bug.cgi?id=2230
+    #  o http://support.microsoft.com/default.aspx?scid=kb;en-us;221154
+    if ( $ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis/i ) {
+        my $Host = $ENV{HTTP_HOST} || $Self->{ConfigObject}->Get('FQDN');
+        $Param{Redirect}
+            = $Self->{ConfigObject}->Get('HttpType') . '://' . $Host . '/' . $Param{Redirect};
+    }
+    my $Output = $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
+    if ( !$Self->{SessionIDCookie} ) {
+
+        # rewrite location header
+        $Output =~ s{
+            (location: )(.*)
         }
-        my $Output = $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
-        if ( !$Self->{SessionIDCookie} ) {
-
-            # rewrite location header
-            $Output =~ s{
-                (location: )(.*)
+        {
+            my $Start  = $1;
+            my $Target = $2;
+            my $End = '';
+            if ($Target =~ /^(.+?)#(|.+?)$/) {
+                $Target = $1;
+                $End = "#$2";
             }
-            {
-                my $Start = "$1";
-                my $Target = $2;
-                my $End = '';
-                if ($Target =~ /^(.+?)#(|.+?)$/) {
-                    $Target = $1;
-                    $End = "#$2";
+            if ($Target =~ /http/i || !$Self->{SessionID}) {
+                "$Start$Target$End";
+            }
+            else {
+                if ($Target =~ /(\?|&)$/) {
+                    "$Start$Target$Self->{SessionName}=$Self->{SessionID}$End";
                 }
-                if ($Target =~ /http/i || !$Self->{SessionID}) {
-                    "$Start$Target$End";
+                elsif ($Target !~ /\?/) {
+                    "$Start$Target?$Self->{SessionName}=$Self->{SessionID}$End";
+                }
+                elsif ($Target =~ /\?/) {
+                    "$Start$Target&$Self->{SessionName}=$Self->{SessionID}$End";
                 }
                 else {
-                    if ($Target =~ /(\?|&)$/) {
-                        "$Start$Target$Self->{SessionName}=$Self->{SessionID}$End";
-                    }
-                    elsif ($Target !~ /\?/) {
-                        "$Start$Target?$Self->{SessionName}=$Self->{SessionID}$End";
-                    }
-                    elsif ($Target =~ /\?/) {
-                        "$Start$Target&$Self->{SessionName}=$Self->{SessionID}$End";
-                    }
-                    else {
-                        "$Start$Target?&$Self->{SessionName}=$Self->{SessionID}$End";
-                    }
+                    "$Start$Target?&$Self->{SessionName}=$Self->{SessionID}$End";
                 }
-            }iegx;
-        }
-        return $Output;
+            }
+        }iegx;
     }
+    return $Output;
 }
 
 sub Login {
@@ -1202,7 +1198,7 @@ sub FatalDie {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'error',
-            Message  => "$Param{Message}",
+            Message  => $Param{Message},
         );
     }
 
@@ -1276,20 +1272,19 @@ sub Warning {
     my ( $Self, %Param ) = @_;
 
     # get backend error messages
-    for (qw(Message)) {
-        $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
-            Type => 'Notice',
-            What => $_
-            )
-            || $Self->{LogObject}->GetLogEntry(
-            Type => 'Error',
-            What => $_
-            ) || '';
-        $Param{ 'Backend' . $_ } = $Self->Ascii2Html(
-            Text           => $Param{ 'Backend' . $_ },
-            HTMLResultMode => 1,
-        );
-    }
+    $Param{BackendMessage} = $Self->{LogObject}->GetLogEntry(
+        Type => 'Notice',
+        What => 'Message',
+        )
+        || $Self->{LogObject}->GetLogEntry(
+        Type => 'Error',
+        What => 'Message',
+        ) || '';
+    $Param{BackendMessage} = $Self->Ascii2Html(
+        Text           => $Param{BackendMessage},
+        HTMLResultMode => 1,
+    );
+
     if ( !$Param{Message} ) {
         $Param{Message} = $Param{BackendMessage};
     }
@@ -1486,7 +1481,6 @@ sub Print {
 sub PrintHeader {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
     if ( !$Param{Width} ) {
         $Param{Width} = 640;
     }
@@ -1498,7 +1492,7 @@ sub PrintHeader {
     }
 
     # set file name for "save page as"
-    $Param{"ContentDisposition"} = "filename=\"$File.html\"";
+    $Param{ContentDisposition} = "filename=\"$File.html\"";
 
     # area and title
     if ( !$Param{Area} ) {
@@ -1517,8 +1511,7 @@ sub PrintHeader {
     }
 
     # create & return output
-    $Output .= $Self->Output( TemplateFile => 'PrintHeader', Data => \%Param );
-    return $Output;
+    return $Self->Output( TemplateFile => 'PrintHeader', Data => \%Param );
 }
 
 sub PrintFooter {
@@ -2159,14 +2152,14 @@ sub BuildSelection {
         if (!$Param{Ajax}->{Depend}) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Need Depend Param Ajax option!",
+                Message  => 'Need Depend Param Ajax option!',
             );
             $Self->FatalError();
         }
         if (!$Param{Ajax}->{Update}) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Need Update Param Ajax option()!",
+                Message  => 'Need Update Param Ajax option()!',
             );
             $Self->FatalError();
         }
@@ -2801,7 +2794,7 @@ sub Attachment {
     }
 
     # return attachment
-    my $Output = "Content-Disposition: ";
+    my $Output = 'Content-Disposition: ';
     if ( $Param{Type} ) {
         $Output .= $Param{Type} . '; ';
     }
@@ -3121,7 +3114,6 @@ sub NavigationBar {
 sub WindowTabStart {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
     if ( !$Param{Tab} || ( $Param{Tab} && ref( $Param{Tab} ) ne 'ARRAY' ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -3150,14 +3142,11 @@ sub WindowTabStart {
             Data => { %{$Hash}, },
         );
     }
-    $Output .= $Self->Output( TemplateFile => 'AgentWindowTab', Data => \%Param );
-    return $Output;
+    return $Self->Output( TemplateFile => 'AgentWindowTab', Data => \%Param );
 }
 
 sub WindowTabStop {
     my ( $Self, %Param ) = @_;
-
-    my $Output = '';
 
     $Self->Block(
         Name => 'WindowTabStop',
@@ -3180,8 +3169,7 @@ sub WindowTabStop {
             );
         }
     }
-    $Output .= $Self->Output( TemplateFile => 'AgentWindowTab', Data => \%Param );
-    return $Output;
+    return $Self->Output( TemplateFile => 'AgentWindowTab', Data => \%Param );
 }
 
 sub TransfromDateSelection {
@@ -3194,19 +3182,19 @@ sub TransfromDateSelection {
     # time zone translation
     if ( $Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone} ) {
         my $TimeStamp
-            = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Param{ $Prefix . "Year" } . "-"
-                . $Param{ $Prefix . "Month" } . "-"
-                . $Param{ $Prefix . "Day" } . " "
-                . ( $Param{ $Prefix . "Hour" }   || 0 ) . ":"
-                . ( $Param{ $Prefix . "Minute" } || 0 )
+            = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Param{ $Prefix . 'Year' } . '-'
+                . $Param{ $Prefix . 'Month' } . '-'
+                . $Param{ $Prefix . 'Day' } . ' '
+                . ( $Param{ $Prefix . 'Hour' }   || 0 ) . ':'
+                . ( $Param{ $Prefix . 'Minute' } || 0 )
                 . ":00", );
-        $TimeStamp = $TimeStamp - ( $Self->{UserTimeZone} * 60 * 60 );
-        (   $Param{ $Prefix . "Secunde" },
-            $Param{ $Prefix . "Minute" },
-            $Param{ $Prefix . "Hour" },
-            $Param{ $Prefix . "Day" },
-            $Param{ $Prefix . "Month" },
-            $Param{ $Prefix . "Year" }
+        $TimeStamp = $TimeStamp - ( $Self->{UserTimeZone} * 3600 );
+        (   $Param{ $Prefix . 'Secunde' },
+            $Param{ $Prefix . 'Minute' },
+            $Param{ $Prefix . 'Hour' },
+            $Param{ $Prefix . 'Day' },
+            $Param{ $Prefix . 'Month' },
+            $Param{ $Prefix . 'Year' }
         ) = $Self->{UserTimeObject}->SystemTime2Date( SystemTime => $TimeStamp, );
     }
     return %Param;
@@ -3216,8 +3204,8 @@ sub BuildDateSelection {
     my ( $Self, %Param ) = @_;
 
     my $DateInputStyle = $Self->{ConfigObject}->Get('TimeInputFormat');
-    my $Prefix         = $Param{'Prefix'} || '';
-    my $DiffTime       = $Param{'DiffTime'} || 0;
+    my $Prefix         = $Param{Prefix} || '';
+    my $DiffTime       = $Param{DiffTime} || 0;
     my $Format         = defined( $Param{Format} ) ? $Param{Format} : 'DateInputFormatLong';
     my $Area           = $Param{Area} || 'Agent';
     my $Optional       = $Param{ $Prefix . 'Optional' } || 0;
@@ -3229,24 +3217,24 @@ sub BuildDateSelection {
     # time zone translation
     if (   $Self->{ConfigObject}->Get('TimeZoneUser')
         && $Self->{UserTimeZone}
-        && $Param{ $Prefix . "Year" }
-        && $Param{ $Prefix . "Month" }
-        && $Param{ $Prefix . "Day" } )
+        && $Param{ $Prefix . 'Year' }
+        && $Param{ $Prefix . 'Month' }
+        && $Param{ $Prefix . 'Day' } )
     {
         my $TimeStamp
-            = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Param{ $Prefix . "Year" } . "-"
-                . $Param{ $Prefix . "Month" } . "-"
-                . $Param{ $Prefix . "Day" } . " "
-                . ( $Param{ $Prefix . "Hour" }   || 0 ) . ":"
-                . ( $Param{ $Prefix . "Minute" } || 0 )
-                . ":00", );
-        $TimeStamp = $TimeStamp + ( $Self->{UserTimeZone} * 60 * 60 );
-        (   $Param{ $Prefix . "Secunde" },
-            $Param{ $Prefix . "Minute" },
-            $Param{ $Prefix . "Hour" },
-            $Param{ $Prefix . "Day" },
-            $Param{ $Prefix . "Month" },
-            $Param{ $Prefix . "Year" }
+            = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Param{ $Prefix . 'Year' } . '-'
+                . $Param{ $Prefix . 'Month' } . '-'
+                . $Param{ $Prefix . 'Day' } . ' '
+                . ( $Param{ $Prefix . 'Hour' }   || 0 ) . ':'
+                . ( $Param{ $Prefix . 'Minute' } || 0 )
+                . ':00', );
+        $TimeStamp = $TimeStamp + ( $Self->{UserTimeZone} * 3600 );
+        (   $Param{ $Prefix . 'Secunde' },
+            $Param{ $Prefix . 'Minute' },
+            $Param{ $Prefix . 'Hour' },
+            $Param{ $Prefix . 'Day' },
+            $Param{ $Prefix . 'Month' },
+            $Param{ $Prefix . 'Year' }
         ) = $Self->{UserTimeObject}->SystemTime2Date( SystemTime => $TimeStamp, );
     }
 
@@ -3665,7 +3653,7 @@ sub CustomerFatalError {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'error',
-            Message  => "$Param{Message}",
+            Message  => $Param{Message},
         );
     }
     my $Output = $Self->CustomerHeader( Area => 'Frontend', Title => 'Fatal Error' );
@@ -3803,20 +3791,19 @@ sub CustomerWarning {
     my ( $Self, %Param ) = @_;
 
     # get backend error messages
-    for (qw(Message)) {
-        $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
-            Type => 'Notice',
-            What => $_
-            )
-            || $Self->{LogObject}->GetLogEntry(
-            Type => 'Error',
-            What => $_
-            ) || '';
-        $Param{ 'Backend' . $_ } = $Self->Ascii2Html(
-            Text           => $Param{ 'Backend' . $_ },
-            HTMLResultMode => 1,
-        );
-    }
+    $Param{BackendMessage} = $Self->{LogObject}->GetLogEntry(
+        Type => 'Notice',
+        What => 'Message',
+        )
+        || $Self->{LogObject}->GetLogEntry(
+        Type => 'Error',
+        What => 'Message',
+        ) || '';
+    $Param{BackendMessage} = $Self->Ascii2Html(
+        Text           => $Param{BackendMessage},
+        HTMLResultMode => 1,
+    );
+
     if ( !$Param{Message} ) {
         $Param{Message} = $Param{BackendMessage};
     }
@@ -3857,6 +3844,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.79 $ $Date: 2008-04-02 08:59:22 $
+$Revision: 1.80 $ $Date: 2008-04-02 10:39:21 $
 
 =cut
