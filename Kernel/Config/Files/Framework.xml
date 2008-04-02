@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.165 2008-04-01 10:23:37 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.166 2008-04-02 12:54:05 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -3444,7 +3444,7 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
-            <Option SelectedID="crypt">
+            <Option SelectedID="md5">
                 <Item Key="crypt">Crypt</Item>
                 <Item Key="md5">MD5</Item>
                 <Item Key="plain">Plain</Item>

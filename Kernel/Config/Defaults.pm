@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.292 2008-04-02 10:46:45 ot Exp $
+# $Id: Defaults.pm,v 1.293 2008-04-02 12:54:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.292 $) [1];
+$VERSION = qw($Revision: 1.293 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -239,8 +239,7 @@ sub LoadDefaults {
 
     # CheckEmailInvalidAddress
     # (regexp of invalid email addresses)
-    $Self->{CheckEmailInvalidAddress}
-        = '@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$';
+    $Self->{CheckEmailInvalidAddress} = '@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$';
 
     # --------------------------------------------------- #
     # LogModule                                           #
@@ -312,8 +311,8 @@ sub LoadDefaults {
     # This is the auth. module againt the otrs db
     $Self->{'AuthModule'} = 'Kernel::System::Auth::DB';
 
-    # password crypt type (crypt|md5|plain)
-#    $Self->{'AuthModule::DB::CryptType'} = 'crypt';
+    # password crypt type (md5|crypt|plain)
+#    $Self->{'AuthModule::DB::CryptType'} = 'md5';
 
     # This is an example configuration for an LDAP auth. backend.
     # (take care that Net::LDAP is installed!)
@@ -682,21 +681,20 @@ sub LoadDefaults {
 # "$Self->{'TimeVacationDaysOneTime'}->{1977}-{10}->{27} = 'Some Info';"
 
     $Self->{'TimeVacationDaysOneTime'} = {
-
-        #        2004 => {
-        #            6 => {
-        #                7 => 'Some Day',
-        #            },
-        #            12 => {
-        #                24 => 'Some A Day',
-        #                31 => 'Some B Day',
-        #            },
-        #        },
-        #        2005 => {
-        #            1 => {
-        #                11 => 'Some Day',
-        #            },
-        #        },
+#        2004 => {
+#            6 => {
+#                7 => 'Some Day',
+#            },
+#            12 => {
+#                24 => 'Some A Day',
+#                31 => 'Some B Day',
+#            },
+#        },
+#        2005 => {
+#            1 => {
+#                11 => 'Some Day',
+#            },
+#        },
     };
 
     # --------------------------------------------------- #
@@ -1075,10 +1073,12 @@ Your OTRS Notification Master
 #    $Self->{'Customer::AuthModule::DB::DSN'} = "DBI:mysql:database=customerdb;host=customerdbhost";
 #    $Self->{'Customer::AuthModule::DB::User'} = "some_user";
 #    $Self->{'Customer::AuthModule::DB::Password'} = "some_password";
-# if you use odbc or you want to define a database type (without autodetection)
+
+    # if you use odbc or you want to define a database type (without autodetection)
 #    $Self->{'Customer::AuthModule::DB::Type'} = 'mysql';
-# password crypt type (crypt|md5|plain)
-#    $Self->{'Customer::AuthModule::DB::CryptType'} = 'crypt';
+
+    # password crypt type (md5|crypt|plain)
+#    $Self->{'Customer::AuthModule::DB::CryptType'} = 'md5';
 
     # This is an example configuration for an LDAP auth. backend.
     # (take care that Net::LDAP is installed!)
@@ -2324,6 +2324,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.292 $ $Date: 2008-04-02 10:46:45 $
+$Revision: 1.293 $ $Date: 2008-04-02 12:54:05 $
 
 =cut

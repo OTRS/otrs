@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.76 2008-04-02 04:52:27 tr Exp $
+# $Id: User.pm,v 1.77 2008-04-02 12:54:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 =head1 NAME
 
@@ -541,25 +541,16 @@ sub SetPassword {
     }
     my $CryptedPw = '';
 
-    # md5 pw
-    if (   $Self->{ConfigObject}->Get('AuthModule::DB::CryptType')
-        && $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') eq 'plain' )
-    {
+    # get crypt type
+    my $CryptType = $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') || '';
+
+    # crypt plain (no crypt at all)
+    if ( $CryptType eq 'plain' ) {
         $CryptedPw = $Pw;
     }
-    elsif ($Self->{ConfigObject}->Get('AuthModule::DB::CryptType')
-        && $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') eq 'md5' )
-    {
 
-        # encode output, needed by unix_md5_crypt() only non utf8 signs
-        $Self->{EncodeObject}->EncodeOutput( \$Pw );
-        $Self->{EncodeObject}->EncodeOutput( \$Param{UserLogin} );
-
-        $CryptedPw = unix_md5_crypt( $Pw, $Param{UserLogin} );
-    }
-
-    # crypt pw
-    else {
+    # crypt with unix crypt
+    elsif ( $CryptType eq 'crypt' ) {
 
         # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if
         # crypt() is working correctly) :-/
@@ -586,6 +577,16 @@ sub SetPassword {
             close(IO);
             chomp $CryptedPw;
         }
+    }
+
+    # crypt with md5
+    else {
+
+        # encode output, needed by unix_md5_crypt() only non utf8 signs
+        $Self->{EncodeObject}->EncodeOutput( \$Pw );
+        $Self->{EncodeObject}->EncodeOutput( \$Param{UserLogin} );
+
+        $CryptedPw = unix_md5_crypt( $Pw, $Param{UserLogin} );
     }
 
     # md5 sum of pw, needed for password history
@@ -948,6 +949,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.76 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.77 $ $Date: 2008-04-02 12:54:05 $
 
 =cut
