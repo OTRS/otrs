@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.25 2008-03-18 16:13:22 tr Exp $
+# $Id: State.pm,v 1.26 2008-04-02 04:52:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -35,7 +35,7 @@ All state functions.
 
 =item new()
 
-create a object
+create an object
 
     use Kernel::Config;
     use Kernel::System::Time;
@@ -429,6 +429,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2008-03-18 16:13:22 $
+$Revision: 1.26 $ $Date: 2008-04-02 04:52:27 $
 
 =cut

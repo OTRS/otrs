@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.9 2008-02-26 13:23:30 martin Exp $
+# $Id: CustomerCompany.pm,v 1.10 2008-04-02 04:52:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -35,7 +35,7 @@ All project functions.
 
 =item new()
 
-create a object
+create an object
 
     use Kernel::Config;
     use Kernel::System::Time;
@@ -407,6 +407,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2008-02-26 13:23:30 $
+$Revision: 1.10 $ $Date: 2008-04-02 04:52:27 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerGroup.pm,v 1.15 2008-03-08 11:18:32 martin Exp $
+# $Id: CustomerGroup.pm,v 1.16 2008-04-02 04:52:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Group;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -36,7 +36,7 @@ All customer group functions. E. g. to add groups or to get a member list of a g
 
 =item new()
 
-create a object
+create an object
 
     use Kernel::Config;
     use Kernel::System::Log;
@@ -272,6 +272,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2008-03-08 11:18:32 $
+$Revision: 1.16 $ $Date: 2008-04-02 04:52:27 $
 
 =cut

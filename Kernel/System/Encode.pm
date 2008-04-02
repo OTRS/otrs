@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.25 2008-02-17 14:28:28 martin Exp $
+# $Id: Encode.pm,v 1.26 2008-04-02 04:52:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -259,7 +259,6 @@ sub Encode {
         return $What if !defined ${$What};
 
         Encode::_utf8_on( ${$What} );
-
         return $What;
     }
 
@@ -345,6 +344,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2008-02-17 14:28:28 $
+$Revision: 1.26 $ $Date: 2008-04-02 04:52:27 $
 
 =cut

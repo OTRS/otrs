@@ -2,7 +2,7 @@
 # HTML::Safe.pm - remove activ html stuff from html strings
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Safe.pm,v 1.4 2006-10-03 14:36:01 mh Exp $
+# $Id: Safe.pm,v 1.5 2008-04-02 04:52:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ A module to remove/strip active html tags/addons (javascript, applets, embeds an
 
 =item new()
 
-create a object
+create an object
 
   use HTML::Safe;
 
@@ -278,6 +278,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2006-10-03 14:36:01 $
+$Revision: 1.5 $ $Date: 2008-04-02 04:52:27 $
 
 =cut
