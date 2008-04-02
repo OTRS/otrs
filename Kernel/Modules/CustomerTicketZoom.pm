@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.22 2008-03-08 11:03:48 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.23 2008-04-02 09:58:38 ak Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -526,7 +526,7 @@ sub _Mask {
             NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
             Text           => $Article{Body},
             VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
-            HTMLResultMode => 1,
+            HTMLResultMode => 0,
             LinkFeature    => 1,
         );
 
