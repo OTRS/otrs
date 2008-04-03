@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.28 2007-12-27 16:18:36 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.29 2008-04-03 07:35:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Web::InterfaceAgent;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -110,7 +110,7 @@ sub Run {
     $Param{SessionID} = $Self->{ParamObject}->GetParam( Param => $Param{SessionName} ) || '';
 
     # drop old session id (if exists)
-    my $QueryString = $ENV{"QUERY_STRING"} || '';
+    my $QueryString = $ENV{QUERY_STRING} || '';
     $QueryString =~ s/(\?|&|)$Param{SessionName}(=&|=.+?&|=.+?$)/&/g;
 
     # definde frame work params
@@ -177,7 +177,7 @@ sub Run {
     $Param{Action} =~ s/\W//g;
 
     # check request type
-    if ( $Param{Action} eq "Login" ) {
+    if ( $Param{Action} eq 'Login' ) {
 
         # get params
         my $PostUser = $Self->{ParamObject}->GetParam( Param => 'User' )     || '';
@@ -211,7 +211,7 @@ sub Run {
                             %Param,
                         ),
                     );
-                    exit(0);
+                    exit 0;
                 }
             }
 
@@ -301,7 +301,7 @@ sub Run {
             }
 
             # redirect with new session id
-            print $LayoutObject->Redirect( OP => "$Param{RequestedURL}" );
+            print $LayoutObject->Redirect( OP => $Param{RequestedURL} );
         }
 
         # login is valid
@@ -334,7 +334,7 @@ sub Run {
     }
 
     # Logout
-    elsif ( $Param{Action} eq "Logout" ) {
+    elsif ( $Param{Action} eq 'Logout' ) {
         if ( $Self->{SessionObject}->CheckSessionID( SessionID => $Param{SessionID} ) ) {
 
             # get session data
@@ -405,7 +405,7 @@ sub Run {
     }
 
     # user lost password
-    elsif ( $Param{Action} eq "LostPassword" ) {
+    elsif ( $Param{Action} eq 'LostPassword' ) {
 
         # check feature
         if ( !$Self->{ConfigObject}->Get('LostPassword') ) {
@@ -513,7 +513,7 @@ sub Run {
                     $Self->{LayoutObject}->Print(
                         Output => \$Self->{LayoutObject}->Login(
                             Title   => 'Login',
-                            Message => "Invalid Token!",
+                            Message => 'Invalid Token!',
                             %Param,
                         ),
                     );
@@ -666,7 +666,7 @@ sub Run {
                             %Param,
                         ),
                     );
-                    exit(0);
+                    exit 0;
                 }
             }
 
@@ -720,8 +720,8 @@ sub Run {
             }
             if ( !$Param{AccessRo} && !$Param{AccessRw} || !$Param{AccessRo} && $Param{AccessRw} ) {
                 print $Self->{LayoutObject}
-                    ->NoPermission( Message => "No Permission to use this frontend module!", );
-                exit(0);
+                    ->NoPermission( Message => 'No Permission to use this frontend module!' );
+                exit 0;
             }
 
             # create new LayoutObject with new '%Param' and '%UserData'
@@ -764,7 +764,7 @@ sub Run {
                         my $Output = $PreModuleObject->PreRun();
                         if ($Output) {
                             $Self->{LayoutObject}->Print( Output => \$Output );
-                            exit(0);
+                            exit 0;
                         }
                     }
                 }
@@ -796,12 +796,12 @@ sub Run {
             # log request time
             if ( $Self->{ConfigObject}->Get('PerformanceLog') ) {
                 if ( ( !$QueryString && $Param{Action} ) || ( $QueryString !~ /Action=/ ) ) {
-                    $QueryString = "Action=" . $Param{Action};
+                    $QueryString = 'Action=' . $Param{Action};
                 }
                 my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
-                if ( open( my $Out, '>>', $File ) ) {
+                if ( open my $Out, '>>', $File ) {
                     print $Out time()
-                        . "::Agent::"
+                        . '::Agent::'
                         . ( time() - $Self->{PerformanceLogStart} )
                         . "::$UserData{UserLogin}::$QueryString\n";
                     close($Out);
@@ -857,12 +857,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2007-12-27 16:18:36 $
+$Revision: 1.29 $ $Date: 2008-04-03 07:35:43 $
 
 =cut
