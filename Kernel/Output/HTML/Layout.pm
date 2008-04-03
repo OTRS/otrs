@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.80 2008-04-02 10:39:21 tr Exp $
+# $Id: Layout.pm,v 1.81 2008-04-03 05:57:45 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 =head1 NAME
 
@@ -347,7 +347,7 @@ sub _BlockTemplatePreferences {
     }
 
     if ( $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} ) {
-        return @{ $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} };
+        return $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile};
     }
 
     $Param{Template} =~ s{
@@ -402,10 +402,8 @@ sub _BlockTemplatePreferences {
     if ($TemplateFile) {
         $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} = \@Preferences;
     }
-    else {
-        undef $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile};
-    }
-    return @Preferences;
+
+    return \@Preferences;
 }
 
 sub _BlockTemplatesReplace {
@@ -419,14 +417,13 @@ sub _BlockTemplatesReplace {
         return;
     }
     my $TemplateString = $Param{Template};
-    my $TemplateFile = $Param{TemplateFile} || '';
 
     # get availabe template block preferences
-    my @Blocks = $Self->_BlockTemplatePreferences(
+    my $BlocksRef = $Self->_BlockTemplatePreferences(
         Template     => $$TemplateString,
-        TemplateFile => $TemplateFile,
+        TemplateFile => $Param{TemplateFile} || '',
     );
-    for my $Block ( reverse @Blocks ) {
+    for my $Block ( reverse @{$BlocksRef} ) {
         $$TemplateString =~ s{
             <!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->(.+?)<!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->
         }
@@ -456,7 +453,7 @@ sub _BlockTemplatesReplace {
                 );
             }
             else {
-                push( @NotUsedBlockData, { %{$Block} } );
+                push @NotUsedBlockData, { %{$Block} };
             }
         }
 
@@ -556,6 +553,7 @@ sub Output {
         Template       => $TemplateString,
         Data           => $Param{Data},
         BlockReplace   => 1,
+        TemplateFile   => $Param{TemplateFile} || '',
     );
 
     return $Output;
@@ -626,7 +624,7 @@ sub _Output {
         undef $ID;
         for ( my $i = 1; $i <= $Block->{Layer}; $i++ ) {
             if ( defined($ID) ) {
-                $ID .= ":";
+                $ID .= ':';
             }
             if ( defined( $LayerHash{$i} ) ) {
                 $ID .= $LayerHash{$i};
@@ -759,7 +757,7 @@ sub _Output {
         my $Regexp = 1;
         while ($Regexp) {
             $Regexp = $Line =~ s{
-                \$(QData|LQData|Data|Env|QEnv|Config|Include){"(.+?)"}
+                \$((?:|Q|LQ|)Data|(?:|Q)Env|Config|Include){"(.+?)"}
             }
             {
                 if ($1 eq 'Data' || $1 eq 'Env') {
@@ -773,10 +771,10 @@ sub _Output {
                 }
                 elsif ($1 eq 'QEnv') {
                     my $Text = $2;
-                    if (!defined($Text) || $Text =~ /^","(.+?)$/) {
+                    if (!defined($Text) || $Text =~ /^","(.+)$/) {
                         '';
                     }
-                    elsif ($Text =~ /^(.+?)","(.+?)$/) {
+                    elsif ($Text =~ /^(.+?)","(.+)$/) {
                         if (defined $GlobalRef->{Env}->{$1}) {
                             $Self->Ascii2Html(Text => $GlobalRef->{Env}->{$1}, Max => $2);
                         }
@@ -797,10 +795,10 @@ sub _Output {
                 }
                 elsif ($1 eq 'QData') {
                     my $Text = $2;
-                    if (!defined($Text) || $Text =~ /^","(.+?)$/) {
+                    if (!defined($Text) || $Text =~ /^","(.+)$/) {
                         '';
                     }
-                    elsif ($Text =~ /^(.+?)","(.+?)$/) {
+                    elsif ($Text =~ /^(.+?)","(.+)$/) {
                         if (defined $GlobalRef->{Data}->{$1}) {
                             $Self->Ascii2Html(Text => $GlobalRef->{Data}->{$1}, Max => $2);
                         }
@@ -924,10 +922,10 @@ sub _Output {
     }
     {
         my $Text = $2;
-        if (!defined($Text) || $Text =~ /^","(.+?)$/) {
+        if (!defined($Text) || $Text =~ /^","(.+)$/) {
             '';
         }
-        elsif ($Text =~ /^(.+?)","(.+?)$/) {
+        elsif ($Text =~ /^(.+?)","(.+)$/) {
             $Self->Ascii2Html(Text => $1, Max => $2);
         }
         else {
@@ -1408,7 +1406,7 @@ sub Header {
     }
 
     # set file name for "save page as"
-    $Param{"ContentDisposition"} = "filename=\"$File.html\"";
+    $Param{ContentDisposition} = "filename=\"$File.html\"";
 
     # area and title
     if ( !$Param{Area} ) {
@@ -1420,9 +1418,9 @@ sub Header {
         $Param{Title} = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{Title}
             || '';
     }
-    for (qw(Area Title Value)) {
-        if ( $Param{$_} ) {
-            $Param{TitleArea} .= " :: " . $Self->{LanguageObject}->Get( $Param{$_} );
+    for my $Word (qw(Area Title Value)) {
+        if ( $Param{$Word} ) {
+            $Param{TitleArea} .= ' :: ' . $Self->{LanguageObject}->Get( $Param{$Word} );
         }
     }
 
@@ -3844,6 +3842,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.80 $ $Date: 2008-04-02 10:39:21 $
+$Revision: 1.81 $ $Date: 2008-04-03 05:57:45 $
 
 =cut
