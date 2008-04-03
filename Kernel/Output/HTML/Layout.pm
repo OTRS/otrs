@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.82 2008-04-03 11:34:50 tr Exp $
+# $Id: Layout.pm,v 1.83 2008-04-03 16:19:46 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 =head1 NAME
 
@@ -721,7 +721,7 @@ sub _Output {
                 my $IsValue = $7 || '';
                 # do ne actions
                 if ($Type eq 'Text') {
-                    my $Tmp = $Self->{LanguageObject}->Get($TypeKey, $Param{TemplateFile}) || '';
+                    my $Tmp = $Self->{LanguageObject}->Get($TypeKey) || '';
                     if (eval '($Tmp '.$Con.' $ConVal)') {
                         $GlobalRef->{$IsType}->{$IsKey} = $IsValue;
                         # output replace with nothing!
@@ -892,7 +892,7 @@ sub _Output {
         {
             if (defined($2)) {
                 $Self->Ascii2Html(
-                    Text => $Self->{LanguageObject}->Get($2, $Param{TemplateFile}),
+                    Text => $Self->{LanguageObject}->Get($2),
                 );
             }
             else {
@@ -907,7 +907,7 @@ sub _Output {
     {
         if (defined($2)) {
             $Self->Ascii2Html(
-                Text => $Self->{LanguageObject}->Get($2, $Param{TemplateFile}),
+                Text => $Self->{LanguageObject}->Get($2),
                 Type => 'JSText',
             );
         }
@@ -3847,6 +3847,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.82 $ $Date: 2008-04-03 11:34:50 $
+$Revision: 1.83 $ $Date: 2008-04-03 16:19:46 $
 
 =cut
