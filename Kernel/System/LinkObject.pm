@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.21 2008-04-02 04:52:27 tr Exp $
+# $Id: LinkObject.pm,v 1.22 2008-04-03 07:41:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -49,7 +49,7 @@ create an object
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $TimeObject = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
@@ -57,15 +57,15 @@ create an object
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        MainObject => $MainObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
     my $LinkObject = Kernel::System::LinkObject->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
-        TimeObject => $TimeObject,
-        MainObject => $MainObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        TimeObject   => $TimeObject,
+        MainObject   => $MainObject,
     );
 
 =cut
@@ -110,7 +110,7 @@ sub LinkObjects {
 
     # check needed object
     if ( !$Param{SourceObject} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need SourceObject!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SourceObject!' );
         return;
     }
 
@@ -317,11 +317,10 @@ sub LinkedObjects {
     my @LinkedIDs = ();
     my $SQLA      = '';
     my $SQLB      = '';
-    for (qw(LinkType)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+
+    if ( !$Param{LinkType} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need LinkType!' );
+        return;
     }
 
     # get parents
@@ -392,11 +391,11 @@ sub LinkedObjects {
 
     $Self->{DBObject}->Prepare( SQL => $SQLA, Bind => \@BindA );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push( @LinkedIDs, [ $Row[0], $Row[1], ] );
+        push @LinkedIDs, [ $Row[0], $Row[1], ];
     }
     $Self->{DBObject}->Prepare( SQL => $SQLB, Bind => \@BindB );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push( @LinkedIDs, [ $Row[0], $Row[1], ] );
+        push @LinkedIDs, [ $Row[0], $Row[1], ] ;
     }
 
     # fill up data
@@ -553,6 +552,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.22 $ $Date: 2008-04-03 07:41:53 $
 
 =cut
