@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.54 2008-04-03 05:35:33 tr Exp $
+# $Id: Language.pm,v 1.55 2008-04-03 05:39:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 =head1 NAME
 
@@ -51,13 +51,13 @@ create a language object
 
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
 
     my $LanguageObject = Kernel::Language->new(
-        MainObject => $MainObject,
+        MainObject   => $MainObject,
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
         UserLanguage => 'de',
     );
 
@@ -195,9 +195,7 @@ sub Get {
     my @Dyn = ();
 
     # check
-    if ( !defined $What ) {
-        return;
-    }
+    return if !defined $What;
 
     # check dyn spaces
     if ( $What && $What =~ /^(.+?)", "(.+?|)$/ ) {
@@ -246,35 +244,33 @@ sub Get {
         }
         return $Text;
     }
-    else {
 
-        # warn if the value is not def
-        if ( $Self->{Debug} > 1 ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message  => "->Get('$What') Is not translated!!!",
-            );
-        }
+    # warn if the value is not def
+    if ( $Self->{Debug} > 1 ) {
+        $Self->{LogObject}->Log(
+            Priority => 'debug',
+            Message  => "->Get('$What') Is not translated!!!",
+        );
+    }
 
-        if ( $Self->{LanguageDebug} ) {
-            print STDERR "No translation available for '$What'\n";
-        }
-        for ( 0 .. 3 ) {
-            if ( defined $Dyn[$_] ) {
-                if ( $Dyn[$_] =~ /Time\((.*)\)/ ) {
-                    $Dyn[$_] = $Self->Time(
-                        Action => 'GET',
-                        Format => $1,
-                    );
-                    $What =~ s/\%(s|d)/$Dyn[$_]/;
-                }
-                else {
-                    $What =~ s/\%(s|d)/$Dyn[$_]/;
-                }
+    if ( $Self->{LanguageDebug} ) {
+        print STDERR "No translation available for '$What'\n";
+    }
+    for ( 0 .. 3 ) {
+        if ( defined $Dyn[$_] ) {
+            if ( $Dyn[$_] =~ /Time\((.*)\)/ ) {
+                $Dyn[$_] = $Self->Time(
+                    Action => 'GET',
+                    Format => $1,
+                );
+                $What =~ s/\%(s|d)/$Dyn[$_]/;
+            }
+            else {
+                $What =~ s/\%(s|d)/$Dyn[$_]/;
             }
         }
-        return $What;
     }
+    return $What;
 }
 
 =item FormatTimeString()
@@ -507,6 +503,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2008-04-03 05:35:33 $
+$Revision: 1.55 $ $Date: 2008-04-03 05:39:48 $
 
 =cut
