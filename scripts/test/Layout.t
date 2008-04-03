@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.12 2008-04-02 09:36:27 tr Exp $
+# $Id: Layout.t,v 1.13 2008-04-03 11:34:50 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -266,7 +266,7 @@ ak@otrs.com<br/>
 <br/>
 w<a href="http://www.google.de" target="_blank" title="http://www.google.de">http://www.google.de</a><br/>
 <br/>
-<a href="http://ftp.otrs.org" target="_blank" title="http://ftp.otrs.org">http://ftp.otrs.org</a><br/>
+<a href="ftp://ftp.otrs.org" target="_blank" title="ftp://ftp.otrs.org">ftp://ftp.otrs.org</a><br/>
 <br/>
 <a href="https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/hom[..]</a><br/>
 <br/>
@@ -426,6 +426,11 @@ my @Tests = (
         Name => 'Ascii2Html() - #27 http.-check',
         String => "http.\nsome text http.\nsome text http. some text\n",
         Result => "http.<br/>\nsome text http.<br/>\nsome text http. some text<br/>\n",
+    },
+    {
+        Name => 'Ascii2Html() - #27 ftp-check',
+        String => "ftp.example.com",
+        Result => "<a href=\"ftp://ftp.example.com\" target=\"_blank\" title=\"ftp://ftp.example.com\">ftp://ftp.example.com</a>",
     },
 );
 

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.625 2008-04-02 12:54:05 martin Exp $
+# $Id: CHANGES,v 1.626 2008-04-03 11:34:50 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -215,6 +215,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.7 (2008/??/??)
+ - (2008/04/03) Fixed bug# 2828 - Strings like ftp.invalid.org are shown as http
+    link in Ticketzoom.
  - (2008/04/01) Fixed bug# 2822 - Ticket Number in subject and body of Bounce
     Notification to customer/sender is not shown.
  - (2008/04/01) Fixed bug#2453 - syntax errors on customer search; name@host problems
