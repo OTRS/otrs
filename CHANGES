@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.109 2008-04-02 09:24:55 tr Exp $
+# $Id: CHANGES,v 1.465.2.110 2008-04-03 11:34:15 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.7 (2008/??/??)
+ - (2008/04/03) Fixed bug# 2828 - Strings like ftp.invalid.org are shown as http
+    link in Ticketzoom.
  - (2008/04/02) Fixed bug# 2756 - "http." in article body is displayed as
     "http://http."
  - (2008/04/01) Fixed bug# 2822 - Ticket Number in subject of Bounce Notification
