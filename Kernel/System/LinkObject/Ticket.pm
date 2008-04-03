@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.16 2008-03-21 00:40:11 martin Exp $
+# $Id: Ticket.pm,v 1.17 2008-04-03 11:04:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -39,19 +39,18 @@ sub new {
 sub FillDataMap {
     my ( $Self, %Param ) = @_;
 
-    for (qw(ID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{ID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        return;
     }
+
     my %Ticket = $Self->{TicketObject}->TicketGet(
         TicketID => $Param{ID},
         UserID => $Self->{UserID},
     );
-    if ( !%Ticket ) {
-        return;
-    }
+
+    return if !%Ticket;
+
     my $Css = '';
     if ( $Ticket{StateType} eq 'merged') {
         $Css = ' style="text-decoration: line-through"';
@@ -63,7 +62,7 @@ sub FillDataMap {
         ID           => $Param{ID},
         Object       => 'Ticket',
         Css          => $Css,
-        FrontendDest => "Action=AgentTicketZoom&TicketID=",
+        FrontendDest => 'Action=AgentTicketZoom&TicketID=',
     );
 }
 
