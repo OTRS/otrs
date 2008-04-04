@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.70 2008-04-02 04:52:27 tr Exp $
+# $Id: XML.pm,v 1.71 2008-04-04 10:36:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 =head1 NAME
 
@@ -47,18 +47,20 @@ create an object
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-    );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
     my $XMLObject = Kernel::System::XML->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        MainObject   => $MainObject,
     );
 
 =cut
@@ -148,13 +150,12 @@ sub XMLHashAdd {
         );
         return $Param{Key};
     }
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Got no \%ValueHASH from XMLHash2D()",
-        );
-        return;
-    }
+
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => "Got no \%ValueHASH from XMLHash2D()",
+    );
+    return;
 }
 
 sub _XMLHashAddAutoIncrement {
@@ -172,7 +173,7 @@ sub _XMLHashAddAutoIncrement {
     }
 
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT DISTINCT(xml_key) FROM xml_storage WHERE xml_type = ?",
+        SQL  => 'SELECT DISTINCT(xml_key) FROM xml_storage WHERE xml_type = ?',
         Bind => [ \$Param{Type} ],
     );
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
@@ -204,8 +205,8 @@ update an XMLHash part to storage
     $XMLHash[1]->{Name}->[1]->{Content} = 'Some Name';
 
     $XMLObject->XMLHashUpdate(
-        Type => 'SomeType',
-        Key => '123',
+        Type    => 'SomeType',
+        Key     => '123',
         XMLHash => \@XMLHash,
     );
 
@@ -414,17 +415,14 @@ search a xml hash from database
 sub XMLHashSearch {
     my ( $Self, %Param ) = @_;
 
-    my $SQL     = '';
     my @Keys    = ();
     my %Hash    = ();
     my %HashNew = ();
 
     # check needed stuff
-    for (qw(Type)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{Type} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Type!' );
+        return;
     }
 
     $Self->{DBObject}->Prepare(
@@ -473,7 +471,7 @@ sub XMLHashSearch {
         }
     }
     for my $Key ( keys %Hash ) {
-        push( @Keys, $Key );
+        push @Keys, $Key;
     }
     return @Keys;
 }
@@ -491,22 +489,20 @@ a list of xml hash's in database
 sub XMLHashList {
     my ( $Self, %Param ) = @_;
 
-    my $SQL  = '';
     my @Keys = ();
 
     # check needed stuff
-    for (qw(Type)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{Type} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Type!' );
+        return;
     }
+
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT distinct(xml_key) FROM xml_storage WHERE xml_type = ? GROUP BY xml_key",
+        SQL => 'SELECT distinct(xml_key) FROM xml_storage WHERE xml_type = ? GROUP BY xml_key',
         Bind => [ \$Param{Type} ],
     );
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        push( @Keys, $Data[0] );
+        push @Keys, $Data[0] ;
     }
 
     return @Keys;
@@ -564,7 +560,7 @@ sub _ElementBuild {
         }
     }
     if ( $Param{Key} ) {
-        $Output .= ">";
+        $Output .= '>';
     }
     if ( defined( $Param{Content} ) ) {
 
@@ -680,13 +676,11 @@ sub XMLParse2XMLHash {
     my ( $Self, %Param ) = @_;
 
     my @XMLStructure = $Self->XMLParse(%Param);
-    if ( !@XMLStructure ) {
-        return ();
-    }
-    else {
-        my @XMLHash = ( undef, $Self->XMLStructure2XMLHash( XMLStructure => \@XMLStructure ) );
-        return @XMLHash;
-    }
+    return () if !@XMLStructure;
+
+    my @XMLHash = ( undef, $Self->XMLStructure2XMLHash( XMLStructure => \@XMLStructure ) );
+    return @XMLHash;
+
 }
 
 =item XMLHash2D()
@@ -707,11 +701,9 @@ sub XMLHash2D {
     my @NewXMLStructure;
 
     # check needed stuff
-    for (qw(XMLHash)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
-            return;
-        }
+    if ( !defined $Param{XMLHash} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'XMLHash not defined!' );
+        return;
     }
 
     $Self->{XMLLevel}      = 0;
@@ -790,19 +782,17 @@ sub XMLStructure2XMLHash {
     my @NewXMLStructure;
 
     # check needed stuff
-    for (qw(XMLStructure)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
-            return;
-        }
+    if ( !defined $Param{XMLStructure} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'XMLStructure not defined!' );
+        return;
     }
+
     $Self->{Tll}           = 0;
     $Self->{XMLTagCount}   = 0;
     $Self->{XMLHash2}      = {};
     $Self->{XMLHashReturn} = 1;
     undef $Self->{XMLLevelTag};
     undef $Self->{XMLLevelCount};
-    my $Output = '';
 
     for my $Item ( @{ $Param{XMLStructure} } ) {
         if ( ref($Item) eq 'HASH' ) {
@@ -1243,11 +1233,9 @@ sub XMLParse {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(String)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
-            return;
-        }
+    if ( !defined $Param{String} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'String not defined!' );
+        return;
     }
 
     # cleanup global vars
@@ -1424,6 +1412,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.71 $ $Date: 2008-04-04 10:36:20 $
 
 =cut
