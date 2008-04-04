@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.83 2008-04-03 16:19:46 tr Exp $
+# $Id: Layout.pm,v 1.84 2008-04-04 08:42:50 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 =head1 NAME
 
@@ -492,12 +492,13 @@ sub Output {
     }
 
     # fill init Env
-    %{$Self->{EnvRef}} = %ENV;
-
-    # all $Self->{*}
-    for ( keys %{$Self} ) {
-        if ( defined( $Self->{$_} ) && !ref( $Self->{$_} ) ) {
-            $Self->{EnvRef}->{$_} = $Self->{$_};
+    if (!$Self->{EnvRef}) {
+        %{$Self->{EnvRef}} = %ENV;
+        # all $Self->{*}
+        for ( keys %{$Self} ) {
+            if ( defined( $Self->{$_} ) && !ref( $Self->{$_} ) ) {
+                $Self->{EnvRef}->{$_} = $Self->{$_};
+            }
         }
     }
 
@@ -3847,6 +3848,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.83 $ $Date: 2008-04-03 16:19:46 $
+$Revision: 1.84 $ $Date: 2008-04-04 08:42:50 $
 
 =cut

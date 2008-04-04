@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.14 2008-04-04 08:10:09 tr Exp $
+# $Id: Layout.t,v 1.15 2008-04-04 08:42:50 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -446,6 +446,29 @@ for my $Test ( @Tests ) {
         $Test->{Name},
     );
 }
+
+# check if a Env setting is lost
+# Attention the needed header.dtl is called a few tests before
+my $Output = $Self->{LayoutObject}->Output(
+    TemplateFile => 'Test',
+    Data         => {},
+);
+$Output =~ m{^ .+? Box0:<\/td><td>(.*?)<\/td> .+? $}smx;
+my $Box0 = $1;
+
+$Self->Is(
+    $Box0,
+    '[ ',
+    "Layout.t - check if a Box0 Env setting is lost." ,
+);
+$Output =~ m{^ .+? Box1:<\/td><td>(.*?)<\/td> .+? $}smx;
+my $Box1 = $1;
+
+$Self->Is(
+    $Box1,
+    ' ]',
+    "Layout.t - check if a Box1 Env setting is lost." ,
+);
 
 # this check is only to display how long it had take
 $Self->True(
