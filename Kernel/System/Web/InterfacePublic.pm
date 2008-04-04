@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.17 2008-04-04 07:01:47 tr Exp $
+# $Id: InterfacePublic.pm,v 1.18 2008-04-04 07:15:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -72,9 +72,9 @@ sub new {
         LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
         %{$Self},
     );
-    $Self->{MainObject}   = Kernel::System::Main->new( %{$Self} );
+    $Self->{MainObject}   = Kernel::System::Main  ->new( %{$Self} );
     $Self->{EncodeObject} = Kernel::System::Encode->new( %{$Self} );
-    $Self->{TimeObject}   = Kernel::System::Time->new( %{$Self} );
+    $Self->{TimeObject}   = Kernel::System::Time  ->new( %{$Self} );
     $Self->{ParamObject}
         = Kernel::System::Web::Request->new( %{$Self}, WebRequest => $Param{WebRequest} || 0, );
 
@@ -221,7 +221,7 @@ sub Run {
         # log request time
         if ( $Self->{ConfigObject}->Get('PerformanceLog') ) {
             if ( ( !$QueryString && $Param{Action} ) || ( $QueryString !~ /Action=/ ) ) {
-                $QueryString = "Action=" . $Param{Action};
+                $QueryString = 'Action=' . $Param{Action};
             }
             my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
             if ( open my $Out, '>>', $File ) {
@@ -232,7 +232,7 @@ sub Run {
                 close $Out ;
                 $Self->{LogObject}->Log(
                     Priority => 'notice',
-                    Message  => "Response::Public: "
+                    Message  => 'Response::Public: '
                         . ( time() - $Self->{PerformanceLogStart} )
                         . "s taken (URL:$QueryString)",
                 );
@@ -283,6 +283,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2008-04-04 07:01:47 $
+$Revision: 1.18 $ $Date: 2008-04-04 07:15:31 $
 
 =cut
