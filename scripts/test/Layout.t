@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.3.2.9 2008-04-03 11:34:16 tr Exp $
+# $Id: Layout.t,v 1.3.2.10 2008-04-04 08:09:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -210,24 +210,24 @@ asdfasf asasdfa fasdf
 http://localhost/otrs-22-utf8/index.pl?Action=AgentTick()etPhone
 asdfasdf
 
-ak@otrs.com
-http://www.google.de
-http://bugs.otrs.org/show_bug.cgi?id=2450
-<http://bugs.otrs.org/show_bug.cgi?id=2450>
-<http://bugs.otrs.org/s()how_bug.cgi?id=2450>
+ak@example.com
+http://www.example.com
+http://bugs.example.org/show_bug.cgi?id=2450
+<http://bugs.example.org/show_bug.cgi?id=2450>
+<http://bugs.example.org/s()how_bug.cgi?id=2450>
 
-http://bugs.otrs.org/show_bug.cgi?id=2450as
-<http://bugs.otrs.org/show_bug.cgi?id=2450>asdf
-<http://bugs.otrs.org/s()how_bug.cgi?id=2450> as
+http://bugs.example.org/show_bug.cgi?id=2450as
+<http://bugs.example.org/show_bug.cgi?id=2450>asdf
+<http://bugs.example.org/s()how_bug.cgi?id=2450> as
 
-wwww.google.de
+wwww.example.com
 
-ftp.otrs.org
+ftp.example.org
 
-https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl
+https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl
 
-lkj https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl lk
-lkj https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl
+lkj https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl lk
+lkj https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl
 lk
 END_STRING
 
@@ -254,24 +254,24 @@ asdfasf asasdfa fasdf<br>
 <a href="http://localhost/otrs-22-utf8/index.pl?Action=AgentTick()etPhone" target="_blank" title="http://localhost/otrs-22-utf8/index.pl?Action=AgentTick()etPhone">http://localhost/otrs-22-utf8/index.pl?Action=AgentTick()etPhone</a><br>
 asdfasdf<br>
 <br>
-ak@otrs.com<br>
-<a href="http://www.google.de" target="_blank" title="http://www.google.de">http://www.google.de</a><br>
-<a href="http://bugs.otrs.org/show_bug.cgi?id=2450" target="_blank" title="http://bugs.otrs.org/show_bug.cgi?id=2450">http://bugs.otrs.org/show_bug.cgi?id=2450</a><br>
-&lt;<a href="http://bugs.otrs.org/show_bug.cgi?id=2450" target="_blank" title="http://bugs.otrs.org/show_bug.cgi?id=2450">http://bugs.otrs.org/show_bug.cgi?id=2450</a>&gt;<br>
-&lt;<a href="http://bugs.otrs.org/s()how_bug.cgi?id=2450" target="_blank" title="http://bugs.otrs.org/s()how_bug.cgi?id=2450">http://bugs.otrs.org/s()how_bug.cgi?id=2450</a>&gt;<br>
+ak@example.com<br>
+<a href="http://www.example.com" target="_blank" title="http://www.example.com">http://www.example.com</a><br>
+<a href="http://bugs.example.org/show_bug.cgi?id=2450" target="_blank" title="http://bugs.example.org/show_bug.cgi?id=2450">http://bugs.example.org/show_bug.cgi?id=2450</a><br>
+&lt;<a href="http://bugs.example.org/show_bug.cgi?id=2450" target="_blank" title="http://bugs.example.org/show_bug.cgi?id=2450">http://bugs.example.org/show_bug.cgi?id=2450</a>&gt;<br>
+&lt;<a href="http://bugs.example.org/s()how_bug.cgi?id=2450" target="_blank" title="http://bugs.example.org/s()how_bug.cgi?id=2450">http://bugs.example.org/s()how_bug.cgi?id=2450</a>&gt;<br>
 <br>
-<a href="http://bugs.otrs.org/show_bug.cgi?id=2450as" target="_blank" title="http://bugs.otrs.org/show_bug.cgi?id=2450as">http://bugs.otrs.org/show_bug.cgi?id=2450as</a><br>
-&lt;<a href="http://bugs.otrs.org/show_bug.cgi?id=2450" target="_blank" title="http://bugs.otrs.org/show_bug.cgi?id=2450">http://bugs.otrs.org/show_bug.cgi?id=2450</a>&gt;asdf<br>
-&lt;<a href="http://bugs.otrs.org/s()how_bug.cgi?id=2450" target="_blank" title="http://bugs.otrs.org/s()how_bug.cgi?id=2450">http://bugs.otrs.org/s()how_bug.cgi?id=2450</a>&gt; as<br>
+<a href="http://bugs.example.org/show_bug.cgi?id=2450as" target="_blank" title="http://bugs.example.org/show_bug.cgi?id=2450as">http://bugs.example.org/show_bug.cgi?id=2450as</a><br>
+&lt;<a href="http://bugs.example.org/show_bug.cgi?id=2450" target="_blank" title="http://bugs.example.org/show_bug.cgi?id=2450">http://bugs.example.org/show_bug.cgi?id=2450</a>&gt;asdf<br>
+&lt;<a href="http://bugs.example.org/s()how_bug.cgi?id=2450" target="_blank" title="http://bugs.example.org/s()how_bug.cgi?id=2450">http://bugs.example.org/s()how_bug.cgi?id=2450</a>&gt; as<br>
 <br>
-w<a href="http://www.google.de" target="_blank" title="http://www.google.de">http://www.google.de</a><br>
+w<a href="http://www.example.com" target="_blank" title="http://www.example.com">http://www.example.com</a><br>
 <br>
-<a href="ftp://ftp.otrs.org" target="_blank" title="ftp://ftp.otrs.org">ftp://ftp.otrs.org</a><br>
+<a href="ftp://ftp.example.org" target="_blank" title="ftp://ftp.example.org">ftp://ftp.example.org</a><br>
 <br>
-<a href="https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/hom[..]</a><br>
+<a href="https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/[..]</a><br>
 <br>
-lkj <a href="https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/hom[..]</a> lk<br>
-lkj <a href="https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.otrs.com/otrs/index.pl?Action=AgentFileManager&Location=/hom[..]</a><br>
+lkj <a href="https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/[..]</a> lk<br>
+lkj <a href="https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/[..]</a><br>
 lk<br>
 END_RESULT
 
