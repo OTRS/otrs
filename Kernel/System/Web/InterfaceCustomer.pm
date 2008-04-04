@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.27 2008-01-14 12:14:28 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.28 2008-04-04 07:01:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Web::InterfaceCustomer;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -75,9 +75,9 @@ sub new {
         LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
         %{$Self},
     );
-    $Self->{MainObject}   = Kernel::System::Main->new( %{$Self} );
+    $Self->{MainObject}   = Kernel::System::Main  ->new( %{$Self} );
     $Self->{EncodeObject} = Kernel::System::Encode->new( %{$Self} );
-    $Self->{TimeObject}   = Kernel::System::Time->new( %{$Self} );
+    $Self->{TimeObject}   = Kernel::System::Time  ->new( %{$Self} );
     $Self->{ParamObject}
         = Kernel::System::Web::Request->new( %{$Self}, WebRequest => $Param{WebRequest} || 0, );
 
@@ -110,7 +110,7 @@ sub Run {
     $Param{SessionID} = $Self->{ParamObject}->GetParam( Param => $Param{SessionName} ) || '';
 
     # drop old session id (if exists)
-    my $QueryString = $ENV{"QUERY_STRING"} || '';
+    my $QueryString = $ENV{QUERY_STRING} || '';
     $QueryString =~ s/(\?|&|)$Param{SessionName}(=&|=.+?&|=.+?$)/&/g;
 
     # definde frame work params
@@ -150,9 +150,9 @@ sub Run {
     }
 
     # create common framework objects 3/3
-    $Self->{UserObject}    = Kernel::System::CustomerUser->new( %{$Self} );
+    $Self->{UserObject}    = Kernel::System::CustomerUser ->new( %{$Self} );
     $Self->{GroupObject}   = Kernel::System::CustomerGroup->new( %{$Self} );
-    $Self->{SessionObject} = Kernel::System::AuthSession->new( %{$Self} );
+    $Self->{SessionObject} = Kernel::System::AuthSession  ->new( %{$Self} );
 
     # application and add on application common objects
     my %CommonObject = %{ $Self->{ConfigObject}->Get('CustomerFrontend::CommonObject') };
@@ -179,7 +179,7 @@ sub Run {
     $Param{Action} =~ s/\W//g;
 
     # check request type
-    if ( $Param{Action} eq "Login" ) {
+    if ( $Param{Action} eq 'Login' ) {
 
         # get params
         my $PostUser = $Self->{ParamObject}->GetParam( Param => 'User' )     || '';
@@ -202,7 +202,7 @@ sub Run {
                     # redirect to alternate login
                     print $Self->{LayoutObject}
                         ->Redirect( ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
-                            . "?Reason=SystemError", );
+                            . '?Reason=SystemError', );
                 }
                 else {
 
@@ -214,7 +214,7 @@ sub Run {
                             %Param,
                         ),
                     );
-                    exit(0);
+                    exit 0;
                 }
             }
 
@@ -284,7 +284,7 @@ sub Run {
             }
 
             # redirect with new session id
-            print $LayoutObject->Redirect( OP => "$Param{RequestedURL}" );
+            print $LayoutObject->Redirect( OP => $Param{RequestedURL} );
         }
 
         # login is vailid
@@ -317,7 +317,7 @@ sub Run {
     }
 
     # Logout
-    elsif ( $Param{Action} eq "Logout" ) {
+    elsif ( $Param{Action} eq 'Logout' ) {
         if ( $Self->{SessionObject}->CheckSessionID( SessionID => $Param{SessionID} ) ) {
 
             # get session data
@@ -384,7 +384,7 @@ sub Run {
     }
 
     # CustomerLostPassword
-    elsif ( $Param{Action} eq "CustomerLostPassword" ) {
+    elsif ( $Param{Action} eq 'CustomerLostPassword' ) {
 
         # check feature
         if ( !$Self->{ConfigObject}->Get('CustomerPanelLostPassword') ) {
@@ -400,7 +400,7 @@ sub Run {
         }
 
         # get params
-        my $User = $Self->{ParamObject}->GetParam( Param => 'User' ) || '';
+        my $User  = $Self->{ParamObject}->GetParam( Param => 'User'  ) || '';
         my $Token = $Self->{ParamObject}->GetParam( Param => 'Token' ) || '';
 
         # get user login by token
@@ -409,9 +409,9 @@ sub Run {
                 Key => 'UserToken',
                 Value => $Token,
             );
-            foreach my $UserID ( keys %UserList ) {
+            for my $UserID ( keys %UserList ) {
                 my %UserData = $Self->{UserObject}->CustomerUserDataGet(
-                    User => $UserID,
+                    User  => $UserID,
                     Valid => 1,
                 );
                 if ( %UserData ) {
@@ -469,11 +469,9 @@ sub Run {
                     );
                     exit 0;
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Comment => 'Please contact your admin'
-                    );
-                }
+                $Self->{LayoutObject}->FatalError(
+                    Comment => 'Please contact your admin'
+                );
             }
 
             # reset password
@@ -481,7 +479,7 @@ sub Run {
 
                 # check if token is valid
                 my $TokenValid = $Self->{UserObject}->TokenCheck(
-                    Token => $Token,
+                    Token  => $Token,
                     UserID => $UserData{UserID},
                 );
                 if ( !$TokenValid ) {
@@ -533,7 +531,7 @@ sub Run {
     }
 
     # create new customer account
-    elsif ( $Param{Action} eq "CustomerCreateAccount" ) {
+    elsif ( $Param{Action} eq 'CustomerCreateAccount' ) {
 
         # check feature
         if ( !$Self->{ConfigObject}->Get('CustomerPanelCreateAccount') ) {
@@ -570,8 +568,7 @@ sub Run {
         # get user data
         my %UserData = $Self->{UserObject}->CustomerUserDataGet( User => $GetParams{UserLogin} );
         if ( $UserData{UserID} || !$GetParams{UserLogin} ) {
-            my $Output = '';
-            $Output .= $Self->{LayoutObject}->CustomerHeader( Area => 'Core', Title => 'Error' );
+            my $Output = $Self->{LayoutObject}->CustomerHeader( Area => 'Core', Title => 'Error' );
             $Output .= $Self->{LayoutObject}->CustomerWarning(
                 Message => 'This account exists.',
                 Comment => 'Please press Back and try again.'
@@ -582,7 +579,7 @@ sub Run {
         else {
             if ($Self->{UserObject}->CustomerUserAdd(
                     %GetParams,
-                    Comment => "Added via Customer Panel ("
+                    Comment => 'Added via Customer Panel ('
                         . $Self->{TimeObject}
                         ->SystemTime2TimeStamp( SystemTime => $Self->{TimeObject}->SystemTime() )
                         . ")",
@@ -595,7 +592,7 @@ sub Run {
                 # send notify email
                 my $EmailObject = Kernel::System::Email->new( %{$Self} );
                 my $Body        = $Self->{ConfigObject}->Get('CustomerPanelBodyNewAccount')
-                    || "No Config Option found!";
+                    || 'No Config Option found!';
                 my $Subject = $Self->{ConfigObject}->Get('CustomerPanelSubjectNewAccount')
                     || 'New OTRS Account!';
                 for ( keys %GetParams ) {
@@ -611,8 +608,8 @@ sub Run {
                     Body    => $Body
                 );
                 if ( !$Sent ) {
-                    my $Output = '';
-                    $Output .= $Self->{LayoutObject}
+
+                    my $Output = $Self->{LayoutObject}
                         ->CustomerHeader( Area => 'Core', Title => 'Error' );
                     $Output .= $Self->{LayoutObject}
                         ->CustomerWarning( Comment => 'Can\'t send account info!' );
@@ -646,9 +643,8 @@ sub Run {
                 }
             }
             else {
-                my $Output = '';
-                $Output
-                    .= $Self->{LayoutObject}->CustomerHeader( Area => 'Core', Title => 'Error' );
+                my $Output
+                    = $Self->{LayoutObject}->CustomerHeader( Area => 'Core', Title => 'Error' );
                 $Output .= $Self->{LayoutObject}
                     ->CustomerWarning( Comment => 'Please press Back and try again.' );
                 $Output .= $Self->{LayoutObject}->CustomerFooter();
@@ -754,7 +750,7 @@ sub Run {
                             %Param,
                         ),
                     );
-                    exit(0);
+                    exit 0;
                 }
             }
 
@@ -808,7 +804,7 @@ sub Run {
                         my $Output = $PreModuleObject->PreRun();
                         if ($Output) {
                             $Self->{LayoutObject}->Print( Output => \$Output );
-                            exit(0);
+                            exit 0;
                         }
                     }
                 }
@@ -843,15 +839,15 @@ sub Run {
                     $QueryString = "Action=" . $Param{Action};
                 }
                 my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
-                if ( open( my $Out, '>>', $File ) ) {
+                if ( open my $Out, '>>', $File ) {
                     print $Out time()
-                        . "::Customer::"
+                        . '::Customer::'
                         . ( time() - $Self->{PerformanceLogStart} )
                         . "::$UserData{UserLogin}::$QueryString\n";
-                    close($Out);
+                    close $Out;
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
-                        Message  => "Response::Customer: "
+                        Message  => 'Response::Customer: '
                             . ( time() - $Self->{PerformanceLogStart} )
                             . "s taken (URL:$QueryString:$UserData{UserLogin})",
                     );
@@ -901,12 +897,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2008-01-14 12:14:28 $
+$Revision: 1.28 $ $Date: 2008-04-04 07:01:47 $
 
 =cut

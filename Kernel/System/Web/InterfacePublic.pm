@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.16 2007-10-02 10:35:04 mh Exp $
+# $Id: InterfacePublic.pm,v 1.17 2008-04-04 07:01:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Web::InterfacePublic;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -109,7 +109,7 @@ sub Run {
     $Param{SessionID} = $Self->{ParamObject}->GetParam( Param => $Param{SessionName} ) || '';
 
     # drop old session id (if exists)
-    my $QueryString = $ENV{"QUERY_STRING"} || '';
+    my $QueryString = $ENV{QUERY_STRING} || '';
     $QueryString =~ s/(\?|&|)$Param{SessionName}(=&|=.+?&|=.+?$)/&/g;
 
     # definde frame work params
@@ -224,12 +224,12 @@ sub Run {
                 $QueryString = "Action=" . $Param{Action};
             }
             my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
-            if ( open( my $Out, '>>', $File ) ) {
+            if ( open my $Out, '>>', $File ) {
                 print $Out time()
-                    . "::Public::"
+                    . '::Public::'
                     . ( time() - $Self->{PerformanceLogStart} )
                     . "::-::$QueryString\n";
-                close($Out);
+                close $Out ;
                 $Self->{LogObject}->Log(
                     Priority => 'notice',
                     Message  => "Response::Public: "
@@ -277,12 +277,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2007-10-02 10:35:04 $
+$Revision: 1.17 $ $Date: 2008-04-04 07:01:47 $
 
 =cut
