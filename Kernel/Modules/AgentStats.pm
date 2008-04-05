@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.52 2008-03-10 10:57:04 tr Exp $
+# $Id: AgentStats.pm,v 1.53 2008-04-05 14:07:55 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -118,7 +118,7 @@ sub Run {
         }
 
         # build output
-        $Output .= $Self->{LayoutObject}->Header( Title => "Overview" );
+        $Output .= $Self->{LayoutObject}->Header( Title => 'Overview' );
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             Data         => { %Frontend, %Param },
@@ -189,7 +189,7 @@ sub Run {
         }
         my $CounterII = 0;
         for my $Value ( @{ $Stat->{Format} } ) {
-            unless ( $Counter > 0 && $Value eq "GD::Graph::pie" ) {
+            unless ( $Counter > 0 && $Value eq 'GD::Graph::pie' ) {
                 $SelectFormat{$Value} = $Format->{$Value};
                 $CounterII++;
             }
@@ -248,7 +248,7 @@ sub Run {
             }
         }
 
-        if ( $Self->{ConfigObject}->Get("Stats::ExchangeAxis") ) {
+        if ( $Self->{ConfigObject}->Get('Stats::ExchangeAxis') ) {
             my $ExchangeAxis = $Self->{LayoutObject}->OptionStrgHashRef(
                 Data => {
                     1 => 'Yes',
@@ -429,7 +429,7 @@ sub Run {
                         }
                         elsif ( $ObjectAttribute->{Block} eq 'Time' ) {
                             $ObjectAttribute->{Element} = $Use . $ObjectAttribute->{Element};
-                            my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType")
+                            my $TimeType = $Self->{ConfigObject}->Get('Stats::TimeType')
                                 || 'Normal';
                             my %TimeData = _Timeoutput( $Self, %{$ObjectAttribute},
                                 OnlySelectedAttributes => 1 );
@@ -564,7 +564,7 @@ sub Run {
         }
 
         # build output
-        $Output .= $Self->{LayoutObject}->Header( Title => "View" );
+        $Output .= $Self->{LayoutObject}->Header( Title => 'View' );
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
         # Errorwaring if some have done wrong setting in the view mask
@@ -616,13 +616,13 @@ sub Run {
             }
 
             # redirect to edit
-            return $Self->{LayoutObject}->Redirect( OP => "Action=AgentStats&Subaction=Overview" );
+            return $Self->{LayoutObject}->Redirect( OP => 'Action=AgentStats&Subaction=Overview' );
         }
 
         my $Stat = $Self->{StatsObject}->StatsGet( StatID => $StatID );
 
         # build output
-        $Output .= $Self->{LayoutObject}->Header( Title => "Delete" );
+        $Output .= $Self->{LayoutObject}->Header( Title => 'Delete' );
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentStatsDelete',
@@ -645,7 +645,7 @@ sub Run {
 
         # check if available
         if ( !$StatID ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "Export: Get no StatID!" );
+            return $Self->{LayoutObject}->ErrorScreen( Message => 'Export: Get no StatID!' );
         }
         my $ExportFile = $Self->{StatsObject}->Export( StatID => $StatID );
 
@@ -714,7 +714,7 @@ sub Run {
         }
 
         # show import form
-        $Output = $Self->{LayoutObject}->Header( Title => "Import" );
+        $Output = $Self->{LayoutObject}->Header( Title => 'Import' );
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AgentStatsImport' );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -746,7 +746,7 @@ sub Run {
             # call the StatsAddfunction and get the new StatID
             $Param{StatID} = $Self->{StatsObject}->StatsAdd();
             if ( !$Param{StatID} ) {
-                return $Self->{LayoutObject}->ErrorScreen( Message => "Add: Get no StatID!" );
+                return $Self->{LayoutObject}->ErrorScreen( Message => 'Add: Get no StatID!' );
             }
         }
 
@@ -833,7 +833,7 @@ sub Run {
 
                 # This part is only needed if the block time is selected
                 # perhaps a separate function is better
-                my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType") || 'Normal';
+                my $TimeType = $Self->{ConfigObject}->Get('Stats::TimeType') || 'Normal';
                 my %Time     = ();
                 my $Element  = $Data{UseAsXvalue}[0]{Element};
                 $Data{UseAsXvalue}[0]{TimeScaleCount}
@@ -853,35 +853,35 @@ sub Run {
                                     ->GetParam( Param => "$Element$Limit$Unit", );
                             }
                         }
-                        if ( !defined( $Time{ $Limit . "Hour" } ) ) {
+                        if ( !defined( $Time{ $Limit . 'Hour' } ) ) {
                             if ( $Limit eq 'Start' ) {
-                                $Time{"StartHour"}   = 0;
-                                $Time{"StartMinute"} = 0;
-                                $Time{"StartSecond"} = 0;
+                                $Time{StartHour}   = 0;
+                                $Time{StartMinute} = 0;
+                                $Time{StartSecond} = 0;
                             }
                             elsif ( $Limit eq 'Stop' ) {
-                                $Time{"StopHour"}   = 23;
-                                $Time{"StopMinute"} = 59;
-                                $Time{"StopSecond"} = 59;
+                                $Time{StopHour}   = 23;
+                                $Time{StopMinute} = 59;
+                                $Time{StopSecond} = 59;
                             }
                         }
-                        elsif ( !defined( $Time{ $Limit . "Second" } ) ) {
+                        elsif ( !defined( $Time{ $Limit . 'Second' } ) ) {
                             if ( $Limit eq 'Start' ) {
-                                $Time{"StartSecond"} = 0;
+                                $Time{StartSecond} = 0;
                             }
                             elsif ( $Limit eq 'Stop' ) {
-                                $Time{"StopSecond"} = 59;
+                                $Time{StopSecond} = 59;
                             }
                         }
 
                         $Data{UseAsXvalue}[0]{"Time$Limit"} = sprintf(
                             "%04d-%02d-%02d %02d:%02d:%02d",
-                            $Time{ $Limit . "Year" },
-                            $Time{ $Limit . "Month" },
-                            $Time{ $Limit . "Day" },
-                            $Time{ $Limit . "Hour" },
-                            $Time{ $Limit . "Minute" },
-                            $Time{ $Limit . "Second" },
+                            $Time{ $Limit . 'Year' },
+                            $Time{ $Limit . 'Month' },
+                            $Time{ $Limit . 'Day' },
+                            $Time{ $Limit . 'Hour' },
+                            $Time{ $Limit . 'Minute' },
+                            $Time{ $Limit . 'Second' },
                         );    # Second for later functions
                     }
                 }
@@ -932,7 +932,7 @@ sub Run {
 
                 # Check if Time was selected
                 if ( $ObjectAttribute->{Block} eq 'Time' ) {
-                    my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType") || 'Normal';
+                    my $TimeType = $Self->{ConfigObject}->Get('Stats::TimeType') || 'Normal';
                     if ( $TimeType eq 'Normal' ) {
 
                         # if the admin has only one unit selected, unfixed is useless
@@ -1008,35 +1008,35 @@ sub Run {
                                         ->GetParam( Param => "$Element$Limit$Unit", );
                                 }
                             }
-                            if ( !defined( $Time{ $Limit . "Hour" } ) ) {
+                            if ( !defined( $Time{ $Limit . 'Hour' } ) ) {
                                 if ( $Limit eq 'Start' ) {
-                                    $Time{"StartHour"}   = 0;
-                                    $Time{"StartMinute"} = 0;
-                                    $Time{"StartSecond"} = 0;
+                                    $Time{StartHour}   = 0;
+                                    $Time{StartMinute} = 0;
+                                    $Time{StartSecond} = 0;
                                 }
                                 elsif ( $Limit eq 'Stop' ) {
-                                    $Time{"StopHour"}   = 23;
-                                    $Time{"StopMinute"} = 59;
-                                    $Time{"StopSecond"} = 59;
+                                    $Time{StopHour}   = 23;
+                                    $Time{StopMinute} = 59;
+                                    $Time{StopSecond} = 59;
                                 }
                             }
-                            elsif ( !defined( $Time{ $Limit . "Second" } ) ) {
+                            elsif ( !defined( $Time{ $Limit . 'Second' } ) ) {
                                 if ( $Limit eq 'Start' ) {
-                                    $Time{"StartSecond"} = 0;
+                                    $Time{StartSecond} = 0;
                                 }
                                 elsif ( $Limit eq 'Stop' ) {
-                                    $Time{"StopSecond"} = 59;
+                                    $Time{StopSecond} = 59;
                                 }
                             }
 
                             $Data{UseAsRestriction}[$Index]{"Time$Limit"} = sprintf(
                                 "%04d-%02d-%02d %02d:%02d:%02d",
-                                $Time{ $Limit . "Year" },
-                                $Time{ $Limit . "Month" },
-                                $Time{ $Limit . "Day" },
-                                $Time{ $Limit . "Hour" },
-                                $Time{ $Limit . "Minute" },
-                                $Time{ $Limit . "Second" },
+                                $Time{ $Limit . 'Year' },
+                                $Time{ $Limit . 'Month' },
+                                $Time{ $Limit . 'Day' },
+                                $Time{ $Limit . 'Hour' },
+                                $Time{ $Limit . 'Minute' },
+                                $Time{ $Limit . 'Second' },
                             );
                         }
                     }
@@ -1067,7 +1067,7 @@ sub Run {
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen(
-                Message => "EditAction: Invalid declaration of the Home-Attribute!" );
+                Message => 'EditAction: Invalid declaration of the Home-Attribute!' );
         }
 
         # save xmlhash in db
@@ -1634,7 +1634,7 @@ sub Run {
         }
 
         if ( $Param{Format} =~ m{^GD::Graph\.*}x && !$Param{GraphSize} ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "Run: Need GraphSize!" );
+            return $Self->{LayoutObject}->ErrorScreen( Message => 'Run: Need GraphSize!' );
         }
 
         my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
@@ -1725,24 +1725,24 @@ sub Run {
                                                 );
                                         }
                                     }
-                                    if ( !defined( $Time{ $Limit . "Hour" } ) ) {
+                                    if ( !defined( $Time{ $Limit . 'Hour' } ) ) {
                                         if ( $Limit eq 'Start' ) {
-                                            $Time{"StartHour"}   = 0;
-                                            $Time{"StartMinute"} = 0;
-                                            $Time{"StartSecond"} = 0;
+                                            $Time{StartHour}   = 0;
+                                            $Time{StartMinute} = 0;
+                                            $Time{StartSecond} = 0;
                                         }
                                         elsif ( $Limit eq 'Stop' ) {
-                                            $Time{"StopHour"}   = 23;
-                                            $Time{"StopMinute"} = 59;
-                                            $Time{"StopSecond"} = 59;
+                                            $Time{StopHour}   = 23;
+                                            $Time{StopMinute} = 59;
+                                            $Time{StopSecond} = 59;
                                         }
                                     }
-                                    elsif ( !defined( $Time{ $Limit . "Second" } ) ) {
+                                    elsif ( !defined( $Time{ $Limit . 'Second' } ) ) {
                                         if ( $Limit eq 'Start' ) {
-                                            $Time{"StartSecond"} = 0;
+                                            $Time{StartSecond} = 0;
                                         }
                                         elsif ( $Limit eq 'Stop' ) {
-                                            $Time{"StopSecond"} = 59;
+                                            $Time{StopSecond} = 59;
                                         }
                                     }
                                     $Time{"Time$Limit"} = sprintf(
@@ -1902,7 +1902,7 @@ sub Run {
 
         # Gernerate Filename
         my $Filename = $Self->{StatsObject}
-            ->StringAndTimestamp2Filename( String => $Stat->{Title} . " Created", );
+            ->StringAndTimestamp2Filename( String => $Stat->{Title} . ' Created', );
 
         # Translate the column and row description
         $Self->_ColumnAndRowTranslation(
@@ -1925,7 +1925,7 @@ sub Run {
             );
 
             return $Self->{LayoutObject}->Attachment(
-                Filename    => $Filename . ".csv",
+                Filename    => $Filename . '.csv',
                 ContentType => "text/csv",
                 Content     => $Output,
             );
