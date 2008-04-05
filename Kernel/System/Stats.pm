@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.41 2008-04-02 04:52:27 tr Exp $
+# $Id: Stats.pm,v 1.42 2008-04-05 13:57:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 SYNOPSIS
 
@@ -214,7 +214,7 @@ sub StatsGet {
 
         $Stat{$Key} = ();
         for my $Index ( 1 .. $#{ $StatXML->{$Key} } ) {
-            push( @{ $Stat{$Key} }, $StatXML->{$Key}[$Index]->{Content} );
+            push @{ $Stat{$Key} }, $StatXML->{$Key}[$Index]->{Content};
         }
     }
 
@@ -584,7 +584,7 @@ sub SumBuild {
 
     # add sum y
     if ( $Param{SumRow} ) {
-        push( @{ $Data[1] }, 'Sum' );
+        push @{ $Data[1] }, 'Sum';
         for my $Index1 ( 2 .. $#Data ) {
             my $Sum = 0;
             for my $Index2 ( 1 .. $#{ $Data[$Index1] } ) {
@@ -592,7 +592,7 @@ sub SumBuild {
                     $Sum += $Data[$Index1][$Index2];
                 }
             }
-            push( @{ $Data[$Index1] }, $Sum );
+            push @{ $Data[$Index1] }, $Sum;
         }
     }
 
@@ -607,7 +607,7 @@ sub SumBuild {
                 }
             }
         }
-        push( @Data, \@SumRow );
+        push @Data, \@SumRow;
     }
     return \@Data;
 }
@@ -900,7 +900,7 @@ sub GenerateDynamicStats {
                 my $Dow = Day_of_Week( $Year, $Month, $Day );
                 $Dow = Day_of_Week_Abbreviation($Dow);
                 if ( $ToDay eq $Day ) {
-                    push( @HeaderLine, "$Dow $Day" );
+                    push @HeaderLine, "$Dow $Day";
                 }
                 else {
                     push(
@@ -918,7 +918,7 @@ sub GenerateDynamicStats {
                     = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $Hour, $Minute, $Second, 0, 0, 0,
                     -1 );
                 if ( $ToMonth eq $Month ) {
-                    push( @HeaderLine, "$MonthArrayRef->[$Month] $Month" );
+                    push @HeaderLine, "$MonthArrayRef->[$Month] $Month";
                 }
                 else {
                     push(
@@ -936,7 +936,7 @@ sub GenerateDynamicStats {
                     = Add_Delta_DHMS( $ToYear, $ToMonth, $ToDay, $Hour, $Minute, $Second, 0, 0, 0,
                     -1 );
                 if ( $ToYear eq $Year ) {
-                    push( @HeaderLine, "$Year" );
+                    push @HeaderLine, $Year;
                 }
                 else {
                     push(
@@ -1005,7 +1005,7 @@ sub GenerateDynamicStats {
         if ( $Ref1->{SelectedValues}[0] eq 'Year' ) {
             if ( $Count == 1 ) {
                 for ( 1 .. 12 ) {
-                    push( @HeaderLine, "$MonthArrayRef->[$_] $_" );
+                    push @HeaderLine, "$MonthArrayRef->[$_] $_";
                 }
             }
             else {
@@ -1044,7 +1044,7 @@ sub GenerateDynamicStats {
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Day' ) {
             for ( my $Hour = 0; $Hour < 24; $Hour = $Hour + $Count ) {
-                push( @HeaderLine, sprintf( "%02d:00:00-%02d:59:59", $Hour, $Hour + $Count - 1 ) );
+                push @HeaderLine, sprintf( "%02d:00:00-%02d:59:59", $Hour, $Hour + $Count - 1 );
             }
             $VSSecond   = 0;
             $VSMinute   = 0;
@@ -1054,7 +1054,7 @@ sub GenerateDynamicStats {
         elsif ( $Ref1->{SelectedValues}[0] eq 'Hour' ) {
             for ( my $Minute = 0; $Minute < 60; $Minute = $Minute + $Count ) {
                 my $Time = 'min ' . $Minute . ' - ' . ( $Minute + $Count );
-                push( @HeaderLine, $Time );
+                push @HeaderLine, $Time;
             }
             $VSSecond   = 0;
             $VSMinute   = 0;
@@ -1064,13 +1064,13 @@ sub GenerateDynamicStats {
             if ( $Count == 1 ) {
                 for ( 0 .. 59 ) {
                     my $Time = 'sec ' . $_;
-                    push( @HeaderLine, $Time );
+                    push @HeaderLine, $Time;
                 }
             }
             else {
                 for ( my $Second = 0; $Second < 60; $Second = $Second + $Count ) {
                     my $Time = 'sec ' . $Second . '-' . ( $Second + $Count );
-                    push( @HeaderLine, $Time );
+                    push @HeaderLine, $Time;
                 }
             }
             $VSSecond   = 0;
@@ -1287,7 +1287,7 @@ sub GenerateDynamicStats {
         if ( $ValueSeries{$Row} ) {
             %SearchAttribut = %{ $ValueSeries{$Row} };
         }
-        push( @ResultRow, $Row );
+        push @ResultRow, $Row;
         for my $Cell ( @{ $Xvalue->{SelectedValues} } ) {    # get each cell
             if ( $Xvalue->{Block} eq 'Time' ) {
                 if (   $ValueSeries{$Row}{ $Xvalue->{Values}{TimeStop} }
@@ -1424,8 +1424,8 @@ sub GenerateGraph {
     # get first col for legend
     my @YLine = ();
     for my $Tmp (@StatArray) {
-        push( @YLine, $Tmp->[0] );
-        shift( @{$Tmp} );
+        push @YLine, $Tmp->[0];
+        shift @{$Tmp};
     }
 
     # build plot data
@@ -1589,15 +1589,15 @@ sub CompletenessCheck {
     if ( $Param{Section} eq 'Specification' || $Param{Section} eq 'All' ) {
         for (qw(Title Description StatType Permission Format ObjectModule)) {
             if ( !$StatData{$_} ) {
-                push( @IndexArray, 0 );
+                push @IndexArray, 0;
                 last;
             }
         }
         if ( $StatData{StatType} && $StatData{StatType} eq 'static' && !$StatData{File} ) {
-            push( @IndexArray, 1 );
+            push @IndexArray, 1;
         }
         if ( $StatData{StatType} && $StatData{StatType} eq 'dynamic' && !$StatData{Object} ) {
-            push( @IndexArray, 2 );
+            push @IndexArray, 2;
         }
         if ( !$Param{StatData}{GraphSize} && $Param{StatData}{Format} ) {
             for ( @{ $StatData{Format} } ) {
@@ -1641,7 +1641,7 @@ sub CompletenessCheck {
                         }
                     }
                     elsif ( !$Xvalue->{TimeRelativeUnit} || !$Xvalue->{TimeRelativeCount} ) {
-                        push( @IndexArray, 9 );
+                        push @IndexArray, 9;
                         last XVALUE;
                     }
 
@@ -1687,10 +1687,10 @@ sub CompletenessCheck {
                 $Counter++;
             }
             if ( $Counter > 1 && $Flag ) {
-                push( @IndexArray, 13 );
+                push @IndexArray, 13;
             }
             elsif ( $Counter > 2 ) {
-                push( @IndexArray, 12 );
+                push @IndexArray, 12;
             }
         }
         if ( ( $Param{Section} eq 'Restrictions' || $Param{Section} eq 'All' )
@@ -1702,11 +1702,11 @@ sub CompletenessCheck {
 
                 if ( $Restriction->{Block} eq 'SelectField' ) {
                     if ( $Restriction->{Fixed} && $#{ $Restriction->{SelectedValues} } > 0 ) {
-                        push( @IndexArray, 6 );
+                        push @IndexArray, 6;
                         last RESTRICTION;
                     }
                     elsif ( !$Restriction->{SelectedValues}[0] ) {
-                        push( @IndexArray, 7 );
+                        push @IndexArray, 7;
                         last RESTRICTION;
                     }
                 }
@@ -1714,7 +1714,7 @@ sub CompletenessCheck {
                     && !$Restriction->{SelectedValues}[0]
                     && $Restriction->{Fixed} )
                 {
-                    push( @IndexArray, 8 );
+                    push @IndexArray, 8;
                     last RESTRICTION;
                 }
                 elsif ($Restriction->{Block} eq 'Time'
@@ -1807,7 +1807,7 @@ sub CompletenessCheck {
         }
     }
     for (@IndexArray) {
-        push( @NotifySelected, $Notify[$_] );
+        push @NotifySelected, $Notify[$_];
     }
 
     return @NotifySelected;
@@ -1855,7 +1855,7 @@ sub GetStatsObjectAttributes {
             delete $HashRef->{UseAsValueSeries};
             delete $HashRef->{UseAsRestriction};
 
-            push( @ObjectAttributes, $HashRef );
+            push @ObjectAttributes, $HashRef;
         }
     }
     return @ObjectAttributes;
@@ -1940,9 +1940,7 @@ sub GetDynamicFiles {
             delete( $Filelist{$_} );
         }
     }
-    if ( !%Filelist ) {
-        return;
-    }
+    return if !%Filelist;
 
     return \%Filelist;
 }
@@ -2788,6 +2786,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.42 $ $Date: 2008-04-05 13:57:52 $
 
 =cut
