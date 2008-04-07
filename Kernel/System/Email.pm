@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.31.2.2 2008-02-11 16:33:13 ot Exp $
+# $Id: Email.pm,v 1.31.2.3 2008-04-07 11:19:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31.2.2 $';
+$VERSION = '$Revision: 1.31.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -226,7 +226,7 @@ sub Send {
 
     # build header
     my %Header = ();
-    foreach (qw(From To Cc Bcc Subject Charset Reply-To)) {
+    foreach (qw(From To Cc Subject Charset Reply-To)) {
         if ($Param{$_}) {
             $Header{$_} = $Param{$_};
         }
@@ -237,7 +237,7 @@ sub Send {
         $Header{'Precedence'} = 'bulk';
     }
     # do some encode
-    foreach (qw(From To Cc Bcc Subject)) {
+    foreach (qw(From To Cc Subject)) {
         if ($Header{$_} && $Param{Charset}) {
             $Header{$_} = encode_mimewords(Encode::encode($Param{Charset},$Header{$_}), Charset => $Param{Charset}) || '';
         }
@@ -598,6 +598,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.31.2.2 $ $Date: 2008-02-11 16:33:13 $
+$Revision: 1.31.2.3 $ $Date: 2008-04-07 11:19:15 $
 
 =cut
