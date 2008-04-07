@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.61 2008-04-02 04:52:27 tr Exp $
+# $Id: EmailParser.pm,v 1.62 2008-04-07 10:27:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 =head1 NAME
 
@@ -266,7 +266,6 @@ sub GetCharset {
     }
 
     if ( defined( $Self->{Charset} ) ) {
-
         # debug
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
@@ -283,26 +282,10 @@ sub GetCharset {
         chomp($Line);
         my %Data = $Self->GetContentTypeParams( ContentType => $Line );
 
-        # return charset if it can be detected
-        if ( $Data{Charset} ) {
-
-            # debug
-            if ( $Self->{Debug} > 0 ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message  => "Got charset from email body: $Data{Charset}",
-                );
-            }
-
-            # remember to charset
-            $Self->{Charset} = $Data{Charset};
-
-            # return charset
-            return $Data{Charset};
-        }
-
-        # if it's not a text content type (e. g. pdf, png, ...), return no charset
-        elsif ( $Data{ContentType} && $Data{ContentType} !~ /text/i) {
+        # check content type (only do charset decode if no Content-Type or ContentType
+        # with text/* exists) if it's not a text content type (e. g. pdf, png, ...),
+        # return no charset
+        if ( $Data{ContentType} && $Data{ContentType} !~ /text/i) {
 
             # debug
             if ( $Self->{Debug} > 0 ) {
@@ -317,6 +300,24 @@ sub GetCharset {
 
             # return charset
             return '';
+        }
+
+        # return charset if it can be detected
+        elsif ( $Data{Charset} ) {
+
+            # debug
+            if ( $Self->{Debug} > 0 ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message  => "Got charset from email body: $Data{Charset}",
+                );
+            }
+
+            # remember to charset
+            $Self->{Charset} = $Data{Charset};
+
+            # return charset
+            return $Data{Charset};
         }
 
         # if there is no available header for charset and content type, use
@@ -363,9 +364,7 @@ sub GetReturnContentType {
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message  => "Changed ContentType from '"
-                    . $Self->GetContentType()
-                    . "' to '$ContentType'.",
+                Message  => "Changed ContentType from '" . $Self->GetContentType() . "' to '$ContentType'.",
             );
         }
         return $ContentType;
@@ -1178,6 +1177,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.62 $ $Date: 2008-04-07 10:27:39 $
 
 =cut
