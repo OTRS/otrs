@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.37 2008-03-31 22:18:37 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.38 2008-04-07 11:03:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -172,15 +172,13 @@ sub Run {
     # get ticket free text params
     for ( 1 .. 16 ) {
         $GetParam{"TicketFreeKey$_"} = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$_" );
-        $GetParam{"TicketFreeText$_"}
-            = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
+        $GetParam{"TicketFreeText$_"} = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
     }
 
     # get ticket free time params
     for ( 1 .. 6 ) {
         for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{ "TicketFreeTime" . $_ . $Type }
-                = $Self->{ParamObject}->GetParam( Param => "TicketFreeTime" . $_ . $Type );
+            $GetParam{ "TicketFreeTime" . $_ . $Type } = $Self->{ParamObject}->GetParam( Param => "TicketFreeTime" . $_ . $Type );
         }
         if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
             $GetParam{ 'TicketFreeTime' . $_ . 'Used' } = 1;
@@ -189,10 +187,8 @@ sub Run {
 
     # get article free text params
     for ( 1 .. 3 ) {
-        $GetParam{"ArticleFreeKey$_"}
-            = $Self->{ParamObject}->GetParam( Param => "ArticleFreeKey$_" );
-        $GetParam{"ArticleFreeText$_"}
-            = $Self->{ParamObject}->GetParam( Param => "ArticleFreeText$_" );
+        $GetParam{"ArticleFreeKey$_"} = $Self->{ParamObject}->GetParam( Param => "ArticleFreeKey$_" );
+        $GetParam{"ArticleFreeText$_"} = $Self->{ParamObject}->GetParam( Param => "ArticleFreeText$_" );
     }
 
     # send email
@@ -371,8 +367,9 @@ sub Run {
         }
 
         # get pre loaded attachments
-        my @AttachmentData
-            = $Self->{UploadCachObject}->FormIDGetAllFilesData( FormID => $Self->{FormID}, );
+        my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+            FormID => $Self->{FormID},
+        );
 
         # get submit attachment
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
@@ -395,27 +392,26 @@ sub Run {
         }
 
         # send email
-        if (my $ArticleID = $Self->{TicketObject}->ArticleSend(
-                ArticleType    => 'email-external',
-                SenderType     => 'agent',
-                TicketID       => $Self->{TicketID},
-                HistoryType    => 'SendAnswer',
-                HistoryComment => "\%\%$Recipients",
-                From           => $GetParam{From},
-                To             => $GetParam{To},
-                Cc             => $GetParam{Cc},
-                Bcc            => $GetParam{Bcc},
-                Subject        => $GetParam{Subject},
-                UserID         => $Self->{UserID},
-                Body           => $GetParam{Body},
-                InReplyTo      => $GetParam{InReplyTo},
-                Charset        => $Self->{LayoutObject}->{UserCharset},
-                Type           => 'text/plain',
-                Attachment     => \@AttachmentData,
-                %ArticleParam,
-            )
-            )
-        {
+        my $ArticleID = $Self->{TicketObject}->ArticleSend(
+            ArticleType    => 'email-external',
+            SenderType     => 'agent',
+            TicketID       => $Self->{TicketID},
+            HistoryType    => 'SendAnswer',
+            HistoryComment => "\%\%$Recipients",
+            From           => $GetParam{From},
+            To             => $GetParam{To},
+            Cc             => $GetParam{Cc},
+            Bcc            => $GetParam{Bcc},
+            Subject        => $GetParam{Subject},
+            UserID         => $Self->{UserID},
+            Body           => $GetParam{Body},
+            InReplyTo      => $GetParam{InReplyTo},
+            Charset        => $Self->{LayoutObject}->{UserCharset},
+            Type           => 'text/plain',
+            Attachment     => \@AttachmentData,
+            %ArticleParam,
+        );
+        if ( $ArticleID ) {
 
             # time accounting
             if ( $GetParam{TimeUnits} ) {
@@ -457,8 +453,10 @@ sub Run {
                     $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
 
                     if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
-                        %Time = $Self->{LayoutObject}
-                            ->TransfromDateSelection( %GetParam, Prefix => "TicketFreeTime" . $_, );
+                        %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                            %GetParam,
+                            Prefix => "TicketFreeTime" . $_,
+                        );
                     }
                     $Self->{TicketObject}->TicketFreeTimeSet(
                         %Time,
@@ -686,10 +684,15 @@ sub Run {
                     # only use email addresses with @ inside
                     if ( $Address && $Address =~ /@/ && !$Recipient{$Address} ) {
                         $Recipient{$Address} = 1;
-                        if ( $NewLine ) {
-                            $NewLine .= ', ';
+                        my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
+                            Address => $Address,
+                        );
+                        if ( !$IsLocal ) {
+                            if ( $NewLine ) {
+                                $NewLine .= ', ';
+                            }
+                            $NewLine .= $Email->format();
                         }
-                        $NewLine .= $Email->format();
                     }
                 }
                 $Data{$Type} = $NewLine;

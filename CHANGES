@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.627 2008-04-07 10:27:39 martin Exp $
+# $Id: CHANGES,v 1.628 2008-04-07 11:03:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -215,6 +215,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.7 (2008/??/??)
+ - (2008/04/07) Fixed bug# 2829 - Local system email address is always set to CC
+     option in compose email answer screen.
  - (2008/04/07) Fixed bug# 2833 - Broken email attachments if only attachment is
     in email (no mime attachments).
  - (2008/04/03) Fixed bug# 2828 - Strings like ftp.invalid.org are shown as http
