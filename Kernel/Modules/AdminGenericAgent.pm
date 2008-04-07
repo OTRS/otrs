@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.46 2008-03-25 13:33:48 ub Exp $
+# $Id: AdminGenericAgent.pm,v 1.47 2008-04-07 16:56:38 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -74,11 +74,8 @@ sub Run {
             # redirect
             return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}", );
         }
-        else {
-
-            # redirect
-            return $Self->{LayoutObject}->ErrorScreen();
-        }
+        # redirect
+        return $Self->{LayoutObject}->ErrorScreen();
     }
 
     # ---------------------------------------------------------- #
@@ -434,14 +431,12 @@ sub Run {
                 );
 
                 # just show 25 tickts
-                if ( $_ > 25 ) {
-                    last;
-                }
+                last if $_ > 25;
             }
         }
 
         # html search mask output
-        $Output = $Self->{LayoutObject}->Header( Title => "Affected Tickets" );
+        $Output = $Self->{LayoutObject}->Header( Title => 'Affected Tickets' );
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminGenericAgent',
@@ -466,14 +461,14 @@ sub Run {
             Type  => 'Long',
             Valid => 1,
         );
-        $Param{'OwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{OwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data               => \%ShownUsers,
             Name               => 'OwnerIDs',
             Multiple           => 1,
             Size               => 5,
             SelectedIDRefArray => $Param{OwnerIDs},
         );
-        $Param{'NewOwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{NewOwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => \%ShownUsers,
             Name       => 'NewOwnerID',
             Size       => 5,
@@ -484,14 +479,14 @@ sub Run {
         for ( 0 .. 23 ) {
             $Hours{$_} = sprintf( "%02d", $_ );
         }
-        $Param{'ScheduleHours'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ScheduleHours} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data               => \%Hours,
             Name               => 'ScheduleHours',
             Size               => 6,
             Multiple           => 1,
             SelectedIDRefArray => $Param{ScheduleHours},
         );
-        $Param{'ScheduleMinutes'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ScheduleMinutes} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 '00' => '00',
                 10   => '10',
@@ -505,7 +500,7 @@ sub Run {
             Multiple           => 1,
             SelectedIDRefArray => $Param{ScheduleMinutes},
         );
-        $Param{'ScheduleDays'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ScheduleDays} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 1 => 'Mon',
                 2 => 'Tue',
@@ -522,7 +517,7 @@ sub Run {
             SelectedIDRefArray => $Param{ScheduleDays},
         );
 
-        $Param{'StatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{StatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 $Self->{StateObject}->StateList(
                     UserID => 1,
@@ -534,7 +529,7 @@ sub Run {
             Size               => 5,
             SelectedIDRefArray => $Param{StateIDs},
         );
-        $Param{'NewStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{NewStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 $Self->{StateObject}->StateList(
                     UserID => 1,
@@ -546,7 +541,7 @@ sub Run {
             Multiple   => 1,
             SelectedID => $Param{NewStateID},
         );
-        $Param{'QueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
+        $Param{QueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Data               => { $Self->{QueueObject}->GetAllQueues(), },
             Size               => 5,
             Multiple           => 1,
@@ -554,7 +549,7 @@ sub Run {
             SelectedIDRefArray => $Param{QueueIDs},
             OnChangeSubmit     => 0,
         );
-        $Param{'NewQueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
+        $Param{NewQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Data           => { $Self->{QueueObject}->GetAllQueues(), },
             Size           => 5,
             Multiple       => 1,
@@ -562,7 +557,7 @@ sub Run {
             SelectedID     => $Param{NewQueueID},
             OnChangeSubmit => 0,
         );
-        $Param{'PrioritiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{PrioritiesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 $Self->{PriorityObject}->PriorityList(
                     UserID => 1,
@@ -574,7 +569,7 @@ sub Run {
             Size               => 5,
             SelectedIDRefArray => $Param{PriorityIDs},
         );
-        $Param{'NewPrioritiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{NewPrioritiesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 $Self->{PriorityObject}->PriorityList(
                     UserID => 1,
@@ -615,12 +610,12 @@ sub Run {
         }
 
         # create time
-        $Param{'TicketCreateTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{TicketCreateTimePoint} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => \%Counter,
             Name       => 'TicketCreateTimePoint',
             SelectedID => $Param{TicketCreateTimePoint},
         );
-        $Param{'TicketCreateTimePointStart'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{TicketCreateTimePointStart} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 'Last'   => 'last',
                 'Before' => 'before',
@@ -628,7 +623,7 @@ sub Run {
             Name       => 'TicketCreateTimePointStart',
             SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
         );
-        $Param{'TicketCreateTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{TicketCreateTimePointFormat} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 minute => 'minute(s)',
                 hour   => 'hour(s)',
@@ -653,12 +648,12 @@ sub Run {
         );
 
         # pending time
-        $Param{'TicketPendingTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{TicketPendingTimePoint} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => \%Counter,
             Name       => 'TicketPendingTimePoint',
             SelectedID => $Param{TicketPendingTimePoint},
         );
-        $Param{'TicketPendingTimePointStart'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{TicketPendingTimePointStart} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 'Last'   => 'last',
                 'Before' => 'before',
@@ -666,7 +661,7 @@ sub Run {
             Name       => 'TicketPendingTimePointStart',
             SelectedID => $Param{TicketPendingTimePointStart} || 'Last',
         );
-        $Param{'TicketPendingTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{TicketPendingTimePointFormat} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 minute => 'minute(s)',
                 hour   => 'hour(s)',
@@ -689,17 +684,17 @@ sub Run {
             Prefix => 'TicketPendingTimeStop',
             Format => 'DateInputFormat',
         );
-        $Param{'DeleteOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{DeleteOption} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
             Name       => 'NewDelete',
             SelectedID => $Param{NewDelete},
         );
-        $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ValidOption} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
             Name       => 'Valid',
             SelectedID => defined( $Param{Valid} ) ? $Param{Valid} : 1,
         );
-        $Param{'LockOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{LockOption} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 $Self->{LockObject}->LockList(
                     UserID => 1,
@@ -711,7 +706,7 @@ sub Run {
             Size               => 3,
             SelectedIDRefArray => $Param{LockIDs},
         );
-        $Param{'NewLockOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{NewLockOption} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 $Self->{LockObject}->LockList(
                     UserID => 1,
@@ -724,7 +719,7 @@ sub Run {
             SelectedID => $Param{NewLockID},
         );
 
-        $Param{'SendNoNotificationOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{SendNoNotificationOption} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
             Name       => 'NewSendNoNotification',
             SelectedID => $Param{NewSendNoNotification} || 0,
@@ -763,7 +758,7 @@ sub Run {
                 Name => 'TicketType',
                 Data => {%Param},
             );
-            $Param{'NewTypesStrg'} = $Self->{LayoutObject}->BuildSelection(
+            $Param{NewTypesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Type,
                 Name        => 'NewTypeID',
                 SelectedID  => $Param{NewTypeID},
@@ -787,7 +782,7 @@ sub Run {
                 $TreeView = 1;
             }
             my %Service = $Self->{ServiceObject}->ServiceList( UserID => $Self->{UserID}, );
-            $Param{'ServicesStrg'} = $Self->{LayoutObject}->BuildSelection(
+            $Param{ServicesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Service,
                 Name        => 'ServiceIDs',
                 SelectedID  => $Param{ServiceIDs},
@@ -798,7 +793,7 @@ sub Run {
                 Translation => 0,
                 Max         => 200,
             );
-            $Param{'NewServicesStrg'} = $Self->{LayoutObject}->BuildSelection(
+            $Param{NewServicesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Service,
                 Name        => 'NewServiceID',
                 SelectedID  => $Param{NewServiceID},
@@ -810,7 +805,7 @@ sub Run {
                 Max         => 200,
             );
             my %SLA = $Self->{SLAObject}->SLAList( UserID => $Self->{UserID}, );
-            $Param{'SLAsStrg'} = $Self->{LayoutObject}->BuildSelection(
+            $Param{SLAsStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%SLA,
                 Name        => 'SLAIDs',
                 SelectedID  => $Param{SLAIDs},
@@ -820,7 +815,7 @@ sub Run {
                 Translation => 0,
                 Max         => 200,
             );
-            $Param{'NewSLAsStrg'} = $Self->{LayoutObject}->BuildSelection(
+            $Param{NewSLAsStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data       => \%SLA,
                 Name       => 'NewSLAID',
                 SelectedID => $Param{NewSLAID},
@@ -963,7 +958,7 @@ sub Run {
         }
 
         # generate search mask
-        my $Output = $Self->{LayoutObject}->Header( Title => "Edit" );
+        my $Output = $Self->{LayoutObject}->Header( Title => 'Edit' );
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminGenericAgent',
@@ -996,22 +991,17 @@ sub Run {
 
         # css setting and text for valid or invalid jobs
         if ( $JobData{Valid} ) {
-            $JobData{ShownValid} = "valid";
-            $JobData{cssValid}   = "";
+            $JobData{ShownValid} = 'valid';
+            $JobData{cssValid}   = '';
         }
         else {
-            $JobData{ShownValid} = "invalid";
-            $JobData{cssValid}   = "contentvaluepassiv";
+            $JobData{ShownValid} = 'invalid';
+            $JobData{cssValid}   = 'contentvaluepassiv';
         }
 
         # seperate each searchresult line by using several css
         $Counter++;
-        if ( $Counter % 2 ) {
-            $JobData{css} = "searchpassive";
-        }
-        else {
-            $JobData{css} = "searchactive";
-        }
+        $JobData{css} = $Counter % 2 ? 'searchpassive' : 'searchactive';
 
         $Self->{LayoutObject}->Block(
             Name => 'Row',
@@ -1020,7 +1010,7 @@ sub Run {
     }
 
     # generate search mask
-    $Output = $Self->{LayoutObject}->Header( Title => "Overview" );
+    $Output = $Self->{LayoutObject}->Header( Title => 'Overview' );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminGenericAgent',
