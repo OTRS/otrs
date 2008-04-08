@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: opm.pl,v 1.23 2008-03-07 16:44:14 martin Exp $
+# $Id: opm.pl,v 1.24 2008-04-08 14:16:29 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -58,27 +58,27 @@ my %Opts = ();
 getopt( 'hapofd', \%Opts );
 
 # set defaults
-if ( !$Opts{'o'} ) {
-    $Opts{'o'} = '/tmp/';
+if ( !$Opts{o} ) {
+    $Opts{o} = '/tmp/';
 }
-if ( !$Opts{'f'} ) {
-    $Opts{'f'} = 0;
+if ( !$Opts{f} ) {
+    $Opts{f} = 0;
 }
-if ( !$Opts{'a'} ) {
-    $Opts{'h'} = 1;
+if ( !$Opts{a} ) {
+    $Opts{h} = 1;
 }
-if ( $Opts{'a'} && ( $Opts{'a'} !~ /^list/ && !$Opts{'p'} ) ) {
-    $Opts{'h'} = 1;
+if ( $Opts{a} && ( $Opts{a} !~ /^list/ && !$Opts{p} ) ) {
+    $Opts{h} = 1;
 }
-if ( $Opts{'a'} && ( $Opts{'a'} eq 'exportfile' && ( !$Opts{'p'} || !$Opts{'d'} ) ) ) {
-    $Opts{'h'} = 1;
+if ( $Opts{a} && ( $Opts{a} eq 'exportfile' && ( !$Opts{p} || !$Opts{d} ) ) ) {
+    $Opts{h} = 1;
 }
-if ( $Opts{'a'} && $Opts{'a'} eq 'index' ) {
-    $Opts{'h'} = 0;
+if ( $Opts{a} && $Opts{a} eq 'index' ) {
+    $Opts{h} = 0;
 }
 
 # check needed params
-if ( $Opts{'h'} ) {
+if ( $Opts{h} ) {
     print "opm.pl <Revision $VERSION> - OTRS Package Manager\n";
     print "Copyright (c) 2001-2008 OTRS AG, http//otrs.org/\n";
     print
@@ -107,10 +107,10 @@ if ( $Opts{'h'} ) {
     exit 1;
 }
 my $FileString = '';
-if ( $Opts{'a'} !~ /^(list|file)/ && $Opts{'p'} ) {
+if ( $Opts{a} !~ /^(list|file)/ && $Opts{p} ) {
     if ( -e $Opts{'p'} ) {
         my $ContentRef = $CommonObject{MainObject}->FileRead(
-            Location => $Opts{'p'},
+            Location => $Opts{p},
             Mode     => 'utf8',       # optional - binmode|utf8
             Result   => 'SCALAR',     # optional - SCALAR|ARRAY
         );
@@ -118,10 +118,10 @@ if ( $Opts{'a'} !~ /^(list|file)/ && $Opts{'p'} ) {
             $FileString = ${$ContentRef};
         }
         else {
-            die "ERROR: Can't open: $Opts{'p'}: $!";
+            die "ERROR: Can't open: $Opts{p}: $!";
         }
     }
-    elsif ( $Opts{'p'} =~ /^(online|.*):(.+?)$/ ) {
+    elsif ( $Opts{p} =~ /^(online|.*):(.+?)$/ ) {
         my $URL         = $1;
         my $PackageName = $2;
         if ( $URL eq 'online' ) {
@@ -150,11 +150,11 @@ if ( $Opts{'a'} !~ /^(list|file)/ && $Opts{'p'} ) {
             File   => $PackageName,
         );
         if ( !$FileString ) {
-            die "ERROR: No such file '$Opts{'p'}' in $URL!";
+            die "ERROR: No such file '$Opts{p}' in $URL!";
         }
     }
     else {
-        if ( $Opts{'p'} =~ /^(.*)\-(\d{1,4}\.\d{1,4}\.\d{1,4})$/ ) {
+        if ( $Opts{p} =~ /^(.*)\-(\d{1,4}\.\d{1,4}\.\d{1,4})$/ ) {
             $FileString = $CommonObject{PackageObject}->RepositoryGet(
                 Name    => $1,
                 Version => $2,
@@ -162,7 +162,7 @@ if ( $Opts{'a'} !~ /^(list|file)/ && $Opts{'p'} ) {
         }
         else {
             for my $Package ( $CommonObject{PackageObject}->RepositoryList() ) {
-                if ( $Opts{'p'} eq $Package->{Name}->{Content} ) {
+                if ( $Opts{p} eq $Package->{Name}->{Content} ) {
                     $FileString = $CommonObject{PackageObject}->RepositoryGet(
                         Name    => $Package->{Name}->{Content},
                         Version => $Package->{Version}->{Content},
@@ -172,18 +172,18 @@ if ( $Opts{'a'} !~ /^(list|file)/ && $Opts{'p'} ) {
             }
         }
         if ( !$FileString ) {
-            die "ERROR: No such file '$Opts{'p'}' or invalid 'package-version'!";
+            die "ERROR: No such file '$Opts{p}' or invalid 'package-version'!";
         }
     }
 }
 
 # file
-if ( $Opts{'a'} eq 'file' ) {
-    $Opts{'p'} =~ s/\/\//\//g;
+if ( $Opts{a} eq 'file' ) {
+    $Opts{p} =~ s/\/\//\//g;
     my $Hit = 0;
     for my $Package ( $CommonObject{PackageObject}->RepositoryList() ) {
         for my $File ( @{ $Package->{Filelist} } ) {
-            if ( $Opts{'p'} =~ /^\Q$File->{Location}\E$/ ) {
+            if ( $Opts{p} =~ /^\Q$File->{Location}\E$/ ) {
                 print
                     "+----------------------------------------------------------------------------+\n";
                 print "| File:        $File->{Location}!\n";
@@ -202,20 +202,20 @@ if ( $Opts{'a'} eq 'file' ) {
         exit;
     }
     else {
-        print STDERR "ERROR: no package for file $Opts{'p'} found!\n";
+        print STDERR "ERROR: no package for file $Opts{p} found!\n";
         exit 1;
     }
 }
 
 # exportfile
-if ( $Opts{'a'} eq 'exportfile' ) {
-    $Opts{'p'} =~ s/\/\//\//g;
+if ( $Opts{a} eq 'exportfile' ) {
+    $Opts{p} =~ s/\/\//\//g;
     my $String = '';
 
     # read package
-    if ( -e $Opts{'p'} ) {
+    if ( -e $Opts{p} ) {
         my $ContentRef = $CommonObject{MainObject}->FileRead(
-            Location => $Opts{'p'},
+            Location => $Opts{p},
             Mode     => 'utf8',       # optional - binmode|utf8
             Result   => 'SCALAR',     # optional - SCALAR|ARRAY
         );
@@ -224,48 +224,48 @@ if ( $Opts{'a'} eq 'exportfile' ) {
                 $String = ${$ContentRef};
             }
             else {
-                print STDERR "ERROR: File $Opts{'p'} is empty!\n";
+                print STDERR "ERROR: File $Opts{p} is empty!\n";
                 exit 1;
             }
         }
         else {
-            print STDERR "ERROR: no such package $Opts{'p'}: $! !\n";
+            print STDERR "ERROR: no such package $Opts{p}: $! !\n";
             exit 1;
         }
     }
     else {
-        print STDERR "ERROR: no package for file $Opts{'p'} found!\n";
+        print STDERR "ERROR: no package for file $Opts{p} found!\n";
         exit 1;
     }
 
     # export it
     print "+----------------------------------------------------------------------------+\n";
     print "| Export files of:\n";
-    print "| Package: $Opts{'p'}\n";
+    print "| Package: $Opts{p}\n";
     print "| To:      $Opts{'d'}\n";
     print "+----------------------------------------------------------------------------+\n";
     $CommonObject{PackageObject}->PackageExport(
         String => $String,
-        Home   => $Opts{'d'},
+        Home   => $Opts{d},
     );
     exit;
 }
 
 # build
-if ( $Opts{'a'} eq 'build' ) {
+if ( $Opts{a} eq 'build' ) {
     my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
-    if ( !-e $Opts{'o'} ) {
-        print STDERR "ERROR: $Opts{'o'} doesn't exist!\n";
+    if ( !-e $Opts{o} ) {
+        print STDERR "ERROR: $Opts{o} doesn't exist!\n";
         exit 1;
     }
 
     # build from given package directory, if any (otherwise default to OTRS home)
-    if ($Opts{'d'}) {
-        if ( !-d $Opts{'d'} ) {
-            print STDERR "ERROR: $Opts{'d'} doesn't exist!\n";
+    if ($Opts{d}) {
+        if ( !-d $Opts{d} ) {
+            print STDERR "ERROR: $Opts{d} doesn't exist!\n";
             exit 1;
         }
-        $Structure{Home} = $Opts{'d'};
+        $Structure{Home} = $Opts{d};
     }
 
     my $Filename = $Structure{Name}->{Content} . '-' . $Structure{Version}->{Content} . '.opm';
@@ -286,7 +286,7 @@ if ( $Opts{'a'} eq 'build' ) {
         exit 1;
     }
 }
-elsif ( $Opts{'a'} eq 'uninstall' ) {
+elsif ( $Opts{a} eq 'uninstall' ) {
 
     # get package file from db
     # parse package
@@ -305,7 +305,7 @@ elsif ( $Opts{'a'} eq 'uninstall' ) {
     # uninstall
     $CommonObject{PackageObject}->PackageUninstall(
         String => $FileString,
-        Force  => $Opts{'f'},
+        Force  => $Opts{f},
     );
 
     # intro screen
@@ -319,7 +319,7 @@ elsif ( $Opts{'a'} eq 'uninstall' ) {
     }
     exit;
 }
-elsif ( $Opts{'a'} eq 'install' ) {
+elsif ( $Opts{a} eq 'install' ) {
 
     # parse package
     my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
@@ -337,7 +337,7 @@ elsif ( $Opts{'a'} eq 'install' ) {
     # install
     $CommonObject{PackageObject}->PackageInstall(
         String => $FileString,
-        Force  => $Opts{'f'},
+        Force  => $Opts{f},
     );
 
     # intro screen
@@ -351,7 +351,7 @@ elsif ( $Opts{'a'} eq 'install' ) {
     }
     exit;
 }
-elsif ( $Opts{'a'} eq 'reinstall' ) {
+elsif ( $Opts{a} eq 'reinstall' ) {
 
     # parse package
     my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
@@ -369,7 +369,7 @@ elsif ( $Opts{'a'} eq 'reinstall' ) {
     # install
     $CommonObject{PackageObject}->PackageReinstall(
         String => $FileString,
-        Force  => $Opts{'f'},
+        Force  => $Opts{f},
     );
 
     # intro screen
@@ -383,7 +383,7 @@ elsif ( $Opts{'a'} eq 'reinstall' ) {
     }
     exit;
 }
-elsif ( $Opts{'a'} eq 'upgrade' ) {
+elsif ( $Opts{a} eq 'upgrade' ) {
 
     # parse package
     my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
@@ -401,7 +401,7 @@ elsif ( $Opts{'a'} eq 'upgrade' ) {
     # upgrade
     $CommonObject{PackageObject}->PackageUpgrade(
         String => $FileString,
-        Force  => $Opts{'f'},
+        Force  => $Opts{f},
     );
 
     # intro screen
@@ -415,7 +415,7 @@ elsif ( $Opts{'a'} eq 'upgrade' ) {
     }
     exit;
 }
-elsif ( $Opts{'a'} eq 'list' ) {
+elsif ( $Opts{a} eq 'list' ) {
     for my $Package ( $CommonObject{PackageObject}->RepositoryList() ) {
         my %Data = _MessageGet( Info => $Package->{Description}, Reformat => 'No' );
         print "+----------------------------------------------------------------------------+\n";
@@ -429,7 +429,7 @@ elsif ( $Opts{'a'} eq 'list' ) {
     print "+----------------------------------------------------------------------------+\n";
     exit;
 }
-elsif ( $Opts{'a'} eq 'list-repository' ) {
+elsif ( $Opts{a} eq 'list-repository' ) {
     my $Count = 0;
     my %List  = ();
     if ( $CommonObject{ConfigObject}->Get('Package::RepositoryList') ) {
@@ -445,7 +445,7 @@ elsif ( $Opts{'a'} eq 'list-repository' ) {
     print "+----------------------------------------------------------------------------+\n";
     print "| Select the repository [1]: ";
     my $Repository = <STDIN>;
-    chomp($Repository);
+    chomp $Repository;
     if ( !$Repository ) {
         $Repository = 1;
     }
@@ -496,13 +496,13 @@ elsif ( $Opts{'a'} eq 'list-repository' ) {
     }
     exit;
 }
-elsif ( $Opts{'a'} eq 'p' ) {
+elsif ( $Opts{a} eq 'p' ) {
     my @Data = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
     for my $Tag (@Data) {
         print STDERR "Tag: $Tag->{Type} $Tag->{Tag} $Tag->{Content}\n";
     }
 }
-elsif ( $Opts{'a'} eq 'parse' ) {
+elsif ( $Opts{a} eq 'parse' ) {
     my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
     for my $Key ( sort keys %Structure ) {
         if ( ref( $Structure{$Key} ) eq 'ARRAY' ) {
@@ -528,22 +528,22 @@ elsif ( $Opts{'a'} eq 'parse' ) {
     }
     exit;
 }
-elsif ( $Opts{'a'} eq 'index' ) {
-    if ( !$Opts{'d'} ) {
+elsif ( $Opts{a} eq 'index' ) {
+    if ( !$Opts{d} ) {
         die "ERROR: invalid package root location -d is needed!";
     }
-    elsif ( !-d $Opts{'d'} ) {
-        die "ERROR: invalid package root location '$Opts{'d'}'";
+    elsif ( !-d $Opts{d} ) {
+        die "ERROR: invalid package root location '$Opts{d}'";
     }
     my @Dirs = ();
     print "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
     print "<otrs_package_list version=\"1.0\">\n";
-    BuildPackageIndex( $Opts{'d'} );
+    BuildPackageIndex( $Opts{d} );
     print "</otrs_package_list>\n";
 }
 else {
-    print STDERR "ERROR: Invalid -a '$Opts{'a'}' action\n";
-    exit(1);
+    print STDERR "ERROR: Invalid -a '$Opts{a}' action\n";
+    exit 1;
 }
 
 sub BuildPackageIndex {
@@ -553,13 +553,13 @@ sub BuildPackageIndex {
         $File =~ s/\/\//\//g;
         if ( -d $File && $File !~ /CVS/ ) {
             BuildPackageIndex($File);
-            $File =~ s/$Opts{'d'}//;
+            $File =~ s/$Opts{d}//;
 
             #            print "Directory: $File\n";
         }
         else {
             my $OrigFile = $File;
-            $File =~ s/$Opts{'d'}//;
+            $File =~ s/$Opts{d}//;
 
             #               print "File: $File\n";
             #               my $Dir =~ s/^(.*)\//$1/;
