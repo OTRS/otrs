@@ -2,7 +2,7 @@
 # AdminSelectBoxForm.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBoxForm.dtl,v 1.19 2008-04-02 08:59:22 ot Exp $
+# $Id: AdminSelectBoxForm.dtl,v 1.20 2008-04-08 20:54:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
-      $Env{"Box0"}$Text{"Select Box"}$Env{"Box1"}
+      $Env{"Box0"}$Text{"SQL Box"}$Env{"Box1"}
     </td>
   </tr>
   <tr>
