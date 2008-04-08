@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.167 2008-04-08 04:28:48 tr Exp $
+# $Id: Article.pm,v 1.168 2008-04-08 16:27:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.167 $) [1];
+$VERSION = qw($Revision: 1.168 $) [1];
 
 =head1 NAME
 
@@ -42,22 +42,22 @@ create an article
 
     my $ArticleID = $TicketObject->ArticleCreate(
         TicketID         => 123,
-        ArticleType      => 'note-internal',                            # email-external|email-internal|phone|fax|...
-        SenderType       => 'agent',                                    # agent|system|customer
-        From             => 'Some Agent <email@example.com>',           # not required but useful
+        ArticleType      => 'note-internal',                   # email-external|email-internal|phone|fax|...
+        SenderType       => 'agent',                           # agent|system|customer
+        From             => 'Some Agent <email@example.com>',  # not required but useful
         To               => 'Some Customer A <customer-a@example.com>', # not required but useful
         Cc               => 'Some Customer B <customer-b@example.com>', # not required but useful
         ReplyTo          => 'Some Customer B <customer-b@example.com>', # not required
-        Subject          => 'some short description',                   # required
-        Body             => 'the message text',                         # required
-        MessageID        => '<asdasdasd.123@example.com>',              # not required but useful
+        Subject          => 'some short description',          # required
+        Body             => 'the message text',                # required
+        MessageID        => '<asdasdasd.123@example.com>',     # not required but useful
         ContentType      => 'text/plain; charset=ISO-8859-15',
-        HistoryType      => 'OwnerUpdate',                              # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+        HistoryType      => 'OwnerUpdate',                     # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
         HistoryComment   => 'Some free text!',
         UserID           => 123,
-        NoAgentNotify    => 0,                                          # if you don't want to send agent notifications
-        AutoResponseType => 'auto reply'                                # 'auto reject'|'auto follow up'|'auto follow up'|'auto remove'
-        ForceNotificationToUserID => [1,43,56],                         # if you want to force somebody
+        NoAgentNotify    => 0,                                 # if you don't want to send agent notifications
+        AutoResponseType => 'auto reply'                       # auto reject|auto follow up|auto follow up|auto remove
+        ForceNotificationToUserID => [1,43,56],                # if you want to force somebody
     );
 
 =cut
@@ -518,9 +518,10 @@ sub ArticleCreate {
 
     # send forced notifications
     if ( $Param{ForceNotificationToUserID} && ref( $Param{ForceNotificationToUserID} ) eq 'ARRAY' ) {
-        USERID:
         for my $UserID ( @{ $Param{ForceNotificationToUserID} } ) {
-            next USERID if $AlreadySent{$UserID};
+            if ( $AlreadySent{$UserID} ) {
+                next;
+            }
 
             # remember already sent info
             $AlreadySent{$UserID} = 1;
@@ -649,10 +650,14 @@ sub ArticleGetTicketIDOfMessageID {
     }
 
     # no reference found
-    return if $Count == 0;
+    if ( $Count == 0 ) {
+        return;
+    }
 
     # one found
-    return $TicketID if $Count == 1;
+    if ( $Count == 1 ) {
+        return $TicketID;
+    }
 
     # more the one found! that should not be, a message_id should be uniq!
     $Self->{LogObject}->Log(
@@ -729,7 +734,12 @@ sub ArticleSenderTypeLookup {
     }
 
     # get key
-    $Param{Key} = $Param{SenderType} ? 'SenderType' : 'SenderTypeID';
+    if ( $Param{SenderType} ) {
+        $Param{Key} = 'SenderType';
+    }
+    else {
+        $Param{Key} = 'SenderTypeID';
+    }
 
     # check if we ask the same request?
     if ( $Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"} ) {
@@ -855,6 +865,14 @@ get a article type list
 sub ArticleTypeList {
     my ( $Self, %Param ) = @_;
 
+    # check needed stuff
+    for (qw()) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
     my @List = ();
     $Self->{DBObject}->Prepare(
         SQL => "SELECT id, name FROM article_type WHERE "
@@ -881,19 +899,19 @@ get _possible_ article free text options
 Note: the current value is accessible over ArticleGet()
 
     my $HashRef = $TicketObject->ArticleFreeTextGet(
-        Type => 'ArticleFreeText3',
+        Type      => 'ArticleFreeText3',
         ArticleID => 123,
-        UserID => 123, # or CustomerUserID
+        UserID    => 123, # or CustomerUserID
     );
 
     my $HashRef = $TicketObject->ArticleFreeTextGet(
-        Type => 'ArticleFreeText3',
+        Type   => 'ArticleFreeText3',
         UserID => 123, # or CustomerUserID
     );
 
     # fill up with existing values
     my $HashRef = $TicketObject->ArticleFreeTextGet(
-        Type => 'ArticleFreeText3',
+        Type   => 'ArticleFreeText3',
         FillUp => 1,
         UserID => 123, # or CustomerUserID
     );
@@ -973,12 +991,12 @@ sub ArticleFreeTextGet {
 set article free text
 
     $TicketObject->ArticleFreeTextSet(
-        TicketID => 123,
+        TicketID  => 123,
         ArticleID => 1234,
-        Counter => 1,
-        Key => 'Planet',
-        Value => 'Sun',
-        UserID => 123,
+        Counter   => 1,
+        Key       => 'Planet',
+        Value     => 'Sun',
+        UserID    => 123,
     );
 
 =cut
@@ -1111,7 +1129,7 @@ returns an array with article id's
 
     my @ArticleIDs = $TicketObject->ArticleIndex(
         SenderType => 'customer',
-        TicketID => 123,
+        TicketID   => 123,
     );
 
 =cut
@@ -1138,7 +1156,7 @@ sub ArticleIndex {
     }
     else {
         $Self->{DBObject}->Prepare(
-            SQL  => "SELECT at.id FROM article at WHERE at.ticket_id = ? ORDER BY at.id",
+            SQL  => 'SELECT at.id FROM article at WHERE at.ticket_id = ? ORDER BY at.id',
             Bind => [ \$Param{TicketID} ],
         );
     }
@@ -1163,14 +1181,14 @@ or with StripPlainBodyAsAttachment feature to not include
 first attachment / body as attachment
 
     my @ArticleIDs = $TicketObject->ArticleContentIndex(
-        TicketID => 123,
+        TicketID                   => 123,
         StripPlainBodyAsAttachment => 1,
     );
 
 returns an array with hash ref only with given article types
 
     my @ArticleIDs = $TicketObject->ArticleContentIndex(
-        TicketID => 123,
+        TicketID    => 123,
         ArticleType => [ $ArticleType1, $ArticleType2 ],
     );
 
@@ -1314,26 +1332,26 @@ sub ArticleGet {
     # sql query
     my @Content = ();
     my @Bind;
-    my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, "
-        . " sa.a_reply_to, sa.a_message_id, sa.a_body, "
-        . " st.create_time_unix, st.ticket_state_id, st.queue_id, sa.create_time, "
-        . " sa.a_content_type, sa.create_by, st.tn, article_sender_type_id, st.customer_id, "
-        . " st.until_time, st.ticket_priority_id, st.customer_user_id, st.user_id, "
-        . " st.responsible_user_id, sa.article_type_id, "
-        . " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, "
-        . " sa.a_freekey3, sa.a_freetext3, st.ticket_answered, "
-        . " sa.incoming_time, sa.id, st.freekey1, st.freetext1, st.freekey2, st.freetext2,"
-        . " st.freekey3, st.freetext3, st.freekey4, st.freetext4,"
-        . " st.freekey5, st.freetext5, st.freekey6, st.freetext6,"
-        . " st.freekey7, st.freetext7, st.freekey8, st.freetext8, "
-        . " st.freekey9, st.freetext9, st.freekey10, st.freetext10, "
-        . " st.freekey11, st.freetext11, st.freekey12, st.freetext12, "
-        . " st.freekey13, st.freetext13, st.freekey14, st.freetext14, "
-        . " st.freekey15, st.freetext15, st.freekey16, st.freetext16, "
-        . " st.ticket_lock_id, st.title, st.escalation_start_time, "
-        . " st.freetime1 , st.freetime2, st.freetime3, st.freetime4, st.freetime5, st.freetime6, "
-        . " st.type_id, st.service_id, st.sla_id, st.escalation_response_time, st.escalation_solution_time "
-        . " FROM article sa, ticket st WHERE ";
+    my $SQL = 'SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, '
+        . ' sa.a_reply_to, sa.a_message_id, sa.a_body, '
+        . ' st.create_time_unix, st.ticket_state_id, st.queue_id, sa.create_time, '
+        . ' sa.a_content_type, sa.create_by, st.tn, article_sender_type_id, st.customer_id, '
+        . ' st.until_time, st.ticket_priority_id, st.customer_user_id, st.user_id, '
+        . ' st.responsible_user_id, sa.article_type_id, '
+        . ' sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, '
+        . ' sa.a_freekey3, sa.a_freetext3, st.ticket_answered, '
+        . ' sa.incoming_time, sa.id, st.freekey1, st.freetext1, st.freekey2, st.freetext2,'
+        . ' st.freekey3, st.freetext3, st.freekey4, st.freetext4,'
+        . ' st.freekey5, st.freetext5, st.freekey6, st.freetext6,'
+        . ' st.freekey7, st.freetext7, st.freekey8, st.freetext8, '
+        . ' st.freekey9, st.freetext9, st.freekey10, st.freetext10, '
+        . ' st.freekey11, st.freetext11, st.freekey12, st.freetext12, '
+        . ' st.freekey13, st.freetext13, st.freekey14, st.freetext14, '
+        . ' st.freekey15, st.freetext15, st.freekey16, st.freetext16, '
+        . ' st.ticket_lock_id, st.title, st.escalation_start_time, '
+        . ' st.freetime1 , st.freetime2, st.freetime3, st.freetime4, st.freetime5, st.freetime6, '
+        . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time, st.escalation_solution_time '
+        . ' FROM article sa, ticket st WHERE ';
     if ( $Param{ArticleID} ) {
         $SQL .= "sa.id = ?";
         push @Bind, \$Param{ArticleID};
@@ -1586,10 +1604,10 @@ Note: Key "Body", "Subject", "From", "To" and "Cc" is implemented.
 
     $TicketObject->ArticleUpdate(
         ArticleID => 123,
-        Key => 'Body',
-        Value => 'New Body',
-        UserID => 123,
-        TicketID => 123,
+        Key       => 'Body',
+        Value     => 'New Body',
+        UserID    => 123,
+        TicketID  => 123,
     );
 
 =cut
@@ -1645,49 +1663,49 @@ sub ArticleUpdate {
 send article via email and create article with attachments
 
     my $ArticleID = $TicketObject->ArticleSend(
-        TicketID => 123,
+        TicketID    => 123,
         ArticleType => 'note-internal' # email-external|email-internal|phone|fax|...
-        SenderType => 'agent', # agent|system|customer
-        From => 'Some Agent <email@example.com>', # not required but useful
-        To => 'Some Customer A <customer-a@example.com>', # not required but useful
-        Cc => 'Some Customer B <customer-b@example.com>', # not required but useful
-        ReplyTo => 'Some Customer B <customer-b@example.com>', # not required
-        Subject => 'some short description', # required
-        Body => 'the message text', # required
-        MessageID => '<asdasdasd.123@example.com>', # not required but useful
-        Charset => 'ISO-8859-15'
-        Type => 'text/plain',
-        Loop => 0, # 1|0 used for bulk emails
+        SenderType  => 'agent', # agent|system|customer
+        From        => 'Some Agent <email@example.com>', # not required but useful
+        To          => 'Some Customer A <customer-a@example.com>', # not required but useful
+        Cc          => 'Some Customer B <customer-b@example.com>', # not required but useful
+        ReplyTo     => 'Some Customer B <customer-b@example.com>', # not required
+        Subject     => 'some short description', # required
+        Body        => 'the message text', # required
+        MessageID   => '<asdasdasd.123@example.com>', # not required but useful
+        Charset     => 'ISO-8859-15'
+        Type        => 'text/plain',
+        Loop        => 0, # 1|0 used for bulk emails
         Attachment => [
             {
-                Content => $Content,
+                Content     => $Content,
                 ContentType => $ContentType,
-                Filename => 'lala.txt',
+                Filename    => 'lala.txt',
             },
             {
-                Content => $Content,
+                Content     => $Content,
                 ContentType => $ContentType,
-                Filename => 'lala1.txt',
+                Filename    => 'lala1.txt',
             },
         ],
         Sign => {
-            Type => 'PGP',
+            Type    => 'PGP',
             SubType => 'Inline|Detached',
-            Key => '81877F5E',
-            Type => 'SMIME',
-            Key => '3b630c80',
+            Key     => '81877F5E',
+            Type    => 'SMIME',
+            Key     => '3b630c80',
         },
         Crypt => {
-            Type => 'PGP',
+            Type    => 'PGP',
             SubType => 'Inline|Detached',
-            Key => '81877F5E',
-            Type => 'SMIME',
-            Key => '3b630c80',
+            Key     => '81877F5E',
+            Type    => 'SMIME',
+            Key     => '3b630c80',
         },
-        HistoryType => 'OwnerUpdate',  # Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+        HistoryType    => 'OwnerUpdate',  # Move|AddNote|PriorityUpdate|WebRequestCustomer|...
         HistoryComment => 'Some free text!',
-        NoAgentNotify => 0,            # if you don't want to send agent notifications
-        UserID => 123,
+        NoAgentNotify  => 0,            # if you don't want to send agent notifications
+        UserID         => 123,
     );
 
 =cut
@@ -1712,14 +1730,14 @@ sub ArticleSend {
     if ( !$Param{ArticleType} && !$Param{ArticleTypeID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need ArticleType or ArticleTypeID!",
+            Message => 'Need ArticleType or ArticleTypeID!',
         );
         return;
     }
     if ( !$Param{SenderType} && !$Param{SenderTypeID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need SenderType or SenderTypeID!",
+            Message => 'Need SenderType or SenderTypeID!',
         );
         return;
     }
@@ -1830,12 +1848,12 @@ sub ArticleSend {
 bounce an article
 
     $TicketObject->ArticleBounce(
-        From => '',
-        To => '',
-        Email => $EmailAsString,
-        TicketID => 123,
+        From      => '',
+        To        => '',
+        Email     => $EmailAsString,
+        TicketID  => 123,
         ArticleID => 123,
-        UserID => 123,
+        UserID    => 123,
     );
 
 =cut
@@ -1893,9 +1911,9 @@ send an agent notification via email
         CustomerMessageParams => {
             SomeParams => 'For the message!',
         },
-        Type => 'Move', # notification types, see database
+        Type     => 'Move', # notification types, see database
         UserData => { $UserObject->GetUserData(UserID => 3123)}
-        UserID => 123,
+        UserID   => 123,
     );
 
 =cut
@@ -2156,7 +2174,7 @@ send a customer notification via email
             SomeParams => 'For the message!',
         },
         TicketID => 123,
-        UserID => 123,
+        UserID   => 123,
     );
 
 =cut
@@ -2204,7 +2222,7 @@ sub SendCustomerNotification {
     {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "Send no customer notification because no customer is set!",
+            Message  => 'Send no customer notification because no customer is set!',
         );
         return;
     }
@@ -2433,16 +2451,16 @@ sub SendCustomerNotification {
 send an auto response to a customer via email
 
     my $ArticleID = $TicketObject->SendAutoResponse(
-        TicketID => 123,
-        TicketNumber => '123123123',
-        Text => 'Quote Message',
-        Realname => 'Support Team',
-        Address => 'support@example.com',
-        HistoryType => 'SendAutoReply', # SendAutoReply|SendAutoReject|SendAutoFollowUp|...
+        TicketID        => 123,
+        TicketNumber    => '123123123',
+        Text            => 'Quote Message',
+        Realname        => 'Support Team',
+        Address         => 'support@example.com',
+        HistoryType     => 'SendAutoReply', # SendAutoReply|SendAutoReject|SendAutoFollowUp|...
         CustomerMessageParams => {
             SomeParams => 'For the message!',
         },
-        UserID => 123,
+        UserID          => 123,
     );
 
 =cut
@@ -2482,7 +2500,7 @@ sub SendAutoResponse {
             TicketID     => $Param{TicketID},
             CreateUserID => $Param{UserID},
             HistoryType  => 'Misc',
-            Name         => "Sent not auto response, no valid email in From.",
+            Name         => 'Sent not auto response, no valid email in From.',
         );
 
         # log
@@ -2503,7 +2521,7 @@ sub SendAutoResponse {
             TicketID     => $Param{TicketID},
             CreateUserID => $Param{UserID},
             HistoryType  => 'Misc',
-            Name         => "Sent not auto response, SendNoAutoResponseRegExp is matching.",
+            Name         => 'Sent not auto response, SendNoAutoResponseRegExp is matching.',
         );
 
         # log
@@ -2517,7 +2535,7 @@ sub SendAutoResponse {
 
     # check if original content isn't text/plain, don't use it
     if ( $GetParam{'Content-Type'} && $GetParam{'Content-Type'} !~ /(text\/plain|\btext\b)/i ) {
-        $GetParam{Body} = "-> no quotable message <-";
+        $GetParam{Body} = '-> no quotable message <-';
     }
 
     # replace all scaned email x-headers with <OTRS_CUSTOMER_X-HEADER>
@@ -2615,8 +2633,9 @@ sub SendAutoResponse {
         # get realname
         my $From = '';
         if ( $Article{CustomerUserID} ) {
-            $From = $Self->{CustomerUserObject}
-                ->CustomerName( UserLogin => $Article{CustomerUserID} );
+            $From = $Self->{CustomerUserObject}->CustomerName(
+                UserLogin => $Article{CustomerUserID},
+            );
         }
         if ( !$From ) {
             $From = $GetParam{From} || '';
@@ -2736,8 +2755,8 @@ set article flags
 
     $TicketObject->ArticleFlagSet(
         ArticleID => 123,
-        Flag => 'seen',
-        UserID => 123,
+        Flag      => 'seen',
+        UserID    => 123,
     );
 
 =cut
@@ -2758,13 +2777,13 @@ sub ArticleFlagSet {
 
         # do db insert
         $Self->{DBObject}->Do(
-            SQL  => "DELETE FROM article_flag WHERE article_id = ? AND create_by = ?",
+            SQL  => 'DELETE FROM article_flag WHERE article_id = ? AND create_by = ?',
             Bind => [ \$Param{ArticleID}, \$Param{UserID} ],
         );
         $Self->{DBObject}->Do(
-            SQL => "INSERT INTO article_flag "
-                . " (article_id, article_flag, create_time, create_by) "
-                . " VALUES (?, ?, current_timestamp, ?)",
+            SQL => 'INSERT INTO article_flag '
+                . ' (article_id, article_flag, create_time, create_by) '
+                . ' VALUES (?, ?, current_timestamp, ?)',
             Bind => [ \$Param{ArticleID}, \$Param{Flag}, \$Param{UserID} ],
         );
 
@@ -2784,7 +2803,7 @@ get article flags
 
     my %Article = $TicketObject->ArticleFlagGet(
         ArticleID => 123,
-        UserID => 123,
+        UserID    => 123,
     );
 
 =cut
@@ -2804,9 +2823,9 @@ sub ArticleFlagGet {
 
     # sql query
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT article_flag FROM article_flag WHERE article_id = ? AND create_by = ?",
+        SQL   => 'SELECT article_flag FROM article_flag WHERE article_id = ? AND create_by = ?',
         Bind  => [ \$Param{ArticleID}, \$Param{UserID} ],
-        Limit => 1000,
+        Limit => 1500,
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Flag{ $Row[0] } = 1;
@@ -2831,13 +2850,13 @@ sub ArticleAccountedTimeGet {
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ArticleID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleID!' );
         return;
     }
 
     # db query
     $Self->{DBObject}->Prepare(
-        SQL  => "SELECT time_unit FROM time_accounting WHERE article_id = ?",
+        SQL  => 'SELECT time_unit FROM time_accounting WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -2862,13 +2881,13 @@ sub ArticleAccountedTimeDelete {
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ArticleID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleID!' );
         return;
     }
 
     # db query
     return $Self->{DBObject}->Do(
-        SQL  => "DELETE FROM time_accounting WHERE article_id = ?",
+        SQL  => 'DELETE FROM time_accounting WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
 }
@@ -2883,7 +2902,7 @@ delete all article, attachments and plain message of a ticket
 
     $TicketObject->ArticleDelete(
         TicketID => 123,
-        UserID => 123,
+        UserID   => 123,
     );
 
 =item ArticleDeletePlain()
@@ -2892,7 +2911,7 @@ delete a artile plain message
 
     $TicketObject->ArticleDeletePlain(
         ArticleID => 123,
-        UserID => 123,
+        UserID    => 123,
     );
 
 =item ArticleDeleteAttachment()
@@ -2901,7 +2920,7 @@ delete all attachments of an article
 
     $TicketObject->ArticleDeleteAttachment(
         ArticleID => 123,
-        UserID => 123,
+        UserID    => 123,
     );
 
 =item ArticleWritePlain()
@@ -2910,8 +2929,8 @@ write an plain email to storage
 
     $TicketObject->ArticleWritePlain(
         ArticleID => 123,
-        Email => $EmailAsString,
-        UserID => 123,
+        Email     => $EmailAsString,
+        UserID    => 123,
     );
 
 =item ArticlePlain()
@@ -2920,7 +2939,7 @@ get plain message/email
 
     my $PlainMessage = $TicketObject->ArticlePlain(
         ArticleID => 123,
-        UserID => 123,
+        UserID    => 123,
     );
 
 =item ArticleWriteAttachment()
@@ -2928,11 +2947,11 @@ get plain message/email
 write an article attachemnt to storage
 
     $TicketObject->ArticleWriteAttachment(
-        Content => $ContentAsString,
+        Content     => $ContentAsString,
         ContentType => 'text/html; charset="iso-8859-15"',
-        Filename => 'lala.html',
-        ArticleID => 123,
-        UserID => 123,
+        Filename    => 'lala.html',
+        ArticleID   => 123,
+        UserID      => 123,
     );
 
 =item ArticleAttachmentIndex()
@@ -2941,7 +2960,7 @@ get article attachment index as hash (ID => hashref (Filename, Filesize))
 
     my %Index = $TicketObject->ArticleAttachmentIndex(
         ArticleID => 123,
-        UserID => 123,
+        UserID    => 123,
     );
 
 =item ArticleAttachment()
@@ -2950,8 +2969,8 @@ get article attachment (Content, ContentType, Filename)
 
     my %Attachment = $TicketObject->ArticleAttachment(
         ArticleID => 123,
-        FileID => 1,
-        UserID => 123,
+        FileID    => 1,
+        UserID    => 123,
     );
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.46 2008-03-10 19:42:36 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.47 2008-04-08 16:27:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,14 +22,14 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
 
     # ArticleDataDir
     $Self->{ArticleDataDir} = $Self->{ConfigObject}->Get('ArticleDir')
-        || die "Got no ArticleDir!";
+        || die 'Got no ArticleDir!';
 
     # create ArticleContentPath
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
@@ -105,7 +105,7 @@ sub ArticleDelete {
 
     # delete articles
     return if ! $Self->{DBObject}->Do(
-        SQL  => "DELETE FROM article WHERE ticket_id = ?",
+        SQL  => 'DELETE FROM article WHERE ticket_id = ?',
         Bind => [ \$Param{TicketID} ],
     );
 
@@ -157,7 +157,7 @@ sub ArticleDeletePlain {
 
     # delete attachments
     return if ! $Self->{DBObject}->Do(
-        SQL  => "DELETE FROM article_plain WHERE article_id = ?",
+        SQL  => 'DELETE FROM article_plain WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
 
@@ -189,7 +189,7 @@ sub ArticleDeleteAttachment {
 
     # delete attachments
     return if ! $Self->{DBObject}->Do(
-        SQL  => "DELETE FROM article_attachment WHERE article_id = ?",
+        SQL  => 'DELETE FROM article_attachment WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
 
@@ -336,7 +336,7 @@ sub ArticlePlain {
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ArticleID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleID!' );
         return;
     }
 
@@ -353,7 +353,7 @@ sub ArticlePlain {
 
         # can't open article, try database
         $Self->{DBObject}->Prepare(
-            SQL  => "SELECT body FROM article_plain WHERE article_id = ?",
+            SQL  => 'SELECT body FROM article_plain WHERE article_id = ?',
             Bind => [ \$Param{ArticleID} ],
         );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -365,8 +365,7 @@ sub ArticlePlain {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message =>
-                    "Can't open $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt: $!",
+                Message => "Can't open $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt: $!",
             );
             return;
         }
@@ -393,13 +392,13 @@ sub ArticleAttachmentIndex {
 
     # check ArticleContentPath
     if ( !$Self->{ArticleContentPath} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ArticleContentPath!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleContentPath!' );
         return;
     }
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ArticleID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleID!' );
         return;
     }
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
@@ -482,8 +481,8 @@ sub ArticleAttachmentIndex {
     # try database (if there is no index in fs)
     if ( !%Index ) {
         $Self->{DBObject}->Prepare(
-            SQL => "SELECT filename, content_type, content_size FROM article_attachment "
-                . " WHERE article_id = ? ORDER BY id",
+            SQL => 'SELECT filename, content_type, content_size FROM article_attachment '
+                . ' WHERE article_id = ? ORDER BY id',
             Bind => [ \$Param{ArticleID} ],
         );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -612,8 +611,8 @@ sub ArticleAttachment {
     # try database, if no content is found
     if ( !$Data{Content} ) {
         $Self->{DBObject}->Prepare(
-            SQL => "SELECT content_type, content FROM article_attachment "
-                . " WHERE article_id = ? ORDER BY id",
+            SQL => 'SELECT content_type, content FROM article_attachment '
+                . ' WHERE article_id = ? ORDER BY id',
             Bind   => [ \$Param{ArticleID} ],
             Limit  => $Param{FileID},
             Encode => [ 1, 0 ],
