@@ -2,7 +2,7 @@
 # Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SystemAddress.pm,v 1.17 2008-04-02 04:52:27 tr Exp $
+# $Id: SystemAddress.pm,v 1.18 2008-04-09 00:42:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -43,17 +43,17 @@ create an object
     use Kernel::System::SystemAddress;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $SystemAddressObject = Kernel::System::SystemAddress->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
     );
 
 =cut
@@ -79,12 +79,12 @@ sub new {
 add system address with attributes
 
     my $ID = $SystemAddressObject->SystemAddressAdd(
-        Name => 'info@example.com',
+        Name     => 'info@example.com',
         Realname => 'Hotline',
-        ValidID => 1,
-        QueueID => 123,
-        Comment => 'some comment',
-        UserID => 123,
+        ValidID  => 1,
+        QueueID  => 123,
+        Comment  => 'some comment',
+        UserID   => 123,
     );
 
 =cut
@@ -100,34 +100,25 @@ sub SystemAddressAdd {
         }
     }
 
-    # db quote
-    for (qw(Name Realname Comment)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
-    }
-    for (qw(ValidID QueueID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql
-    my $SQL
-        = "INSERT INTO system_address (value0, value1, valid_id, comments, queue_id, "
-        . " create_time, create_by, change_time, change_by)"
-        . " VALUES "
-        . " ('$Param{Name}', '$Param{Realname}', $Param{ValidID}, "
-        . " '$Param{Comment}', $Param{QueueID}, "
-        . " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        my $Id = 0;
-        $Self->{DBObject}->Prepare( SQL => "SELECT id FROM system_address WHERE "
-                . "value0 = '$Param{Name}' AND value1 = '$Param{Realname}'", );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $Id = $Row[0];
-        }
-        return $Id;
+    return if ! $Self->{DBObject}->Do(
+        SQL => 'INSERT INTO system_address (value0, value1, valid_id, comments, queue_id, '
+            . ' create_time, create_by, change_time, change_by)'
+            . ' VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [
+            \$Param{Name}, \$Param{Realname}, \$Param{ValidID}, \$Param{Comment},
+            \$Param{QueueID}, \$Param{UserID}, \$Param{UserID},
+        ],
+    );
+    $Self->{DBObject}->Prepare(
+        SQL  => 'SELECT id FROM system_address WHERE value0 = ? AND value1 = ?',
+        Bind => [ \$Param{Name}, \$Param{Realname}, ],
+    );
+    my $ID;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $ID = $Row[0];
     }
-    else {
-        return;
-    }
+    return $ID;
 }
 
 =item SystemAddressGet()
@@ -149,22 +140,12 @@ sub SystemAddressGet {
         return;
     }
 
-    # db quote
-    for (qw(ID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql
-    my $SQL
-        = "SELECT value0, value1, comments, valid_id, queue_id, change_time, create_time "
-        . " FROM "
-        . " system_address "
-        . " WHERE "
-        . " id = $Param{ID}";
-
-    if ( !$Self->{DBObject}->Prepare( SQL => $SQL ) ) {
-        return;
-    }
+    return if ! $Self->{DBObject}->Prepare(
+        SQL  => 'SELECT value0, value1, comments, valid_id, queue_id, change_time, create_time '
+            . ' FROM system_address WHERE id = ?',
+        Bind => [ \$Param{ID} ],
+    );
     my %Data = ();
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
@@ -186,13 +167,13 @@ sub SystemAddressGet {
 update system address with attributes
 
     $SystemAddressObject->SystemAddressUpdate(
-        ID => 1,
-        Name => 'info@example.com',
+        ID       => 1,
+        Name     => 'info@example.com',
         Realname => 'Hotline',
-        ValidID => 1,
-        QueueID => 123,
-        Comment => 'some comment',
-        UserID => 123,
+        ValidID  => 1,
+        QueueID  => 123,
+        Comment  => 'some comment',
+        UserID   => 123,
     );
 
 =cut
@@ -208,26 +189,15 @@ sub SystemAddressUpdate {
         }
     }
 
-    # db quote
-    for (qw(Name Realname Comment)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
-    }
-    for (qw(ID ValidID QueueID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql
-    my $SQL
-        = "UPDATE system_address SET value0 = '$Param{Name}', value1 = '$Param{Realname}', "
-        . " comments = '$Param{Comment}', valid_id = $Param{ValidID}, "
-        . " change_time = current_timestamp, change_by = $Param{UserID}, queue_id = $Param{QueueID} "
-        . " WHERE id = $Param{ID}";
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        return 1;
-    }
-    else {
-        return;
-    }
+    return $Self->{DBObject}->Do(
+        SQL => 'UPDATE system_address SET value0 = ?, value1 = ?, comments = ?, valid_id = ?, '
+            . ' change_time = current_timestamp, change_by = ?, queue_id = ? WHERE id = ?',
+        Bind => [
+            \$Param{Name}, \$Param{Realname}, \$Param{Comment}, \$Param{ValidID},
+            \$Param{UserID}, \$Param{QueueID}, \$Param{ID},
+        ],
+    );
 }
 
 =item SystemAddressList()
@@ -278,16 +248,11 @@ sub SystemAddressIsLocalAddress {
             return;
         }
     }
-    my $SQL
-        = "SELECT value0, value1, comments, valid_id, queue_id "
-        . " FROM "
-        . " system_address "
-        . " WHERE "
+    my $SQL = "SELECT value0, value1, comments, valid_id, queue_id "
+        . " FROM system_address WHERE "
         . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
 
-    if ( !$Self->{DBObject}->Prepare( SQL => $SQL ) ) {
-        return;
-    }
+    return if ! $Self->{DBObject}->Prepare( SQL => $SQL );
     my $Hit = 0;
     $Param{Address} =~ s/ //g;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -314,6 +279,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.18 $ $Date: 2008-04-09 00:42:09 $
 
 =cut
