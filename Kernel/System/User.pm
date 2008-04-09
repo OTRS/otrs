@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.77 2008-04-02 12:54:05 martin Exp $
+# $Id: User.pm,v 1.78 2008-04-09 00:31:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 =head1 NAME
 
@@ -48,28 +48,28 @@ create an object
     use Kernel::System::User;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
     );
     my $TimeObject = Kernel::System::Time->new(
-        MainObject => $MainObject,
+        MainObject   => $MainObject,
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $DBObject = Kernel::System::DB->new(
-        MainObject => $MainObject,
+        MainObject   => $MainObject,
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $UserObject = Kernel::System::User->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        MainObject => $MainObject,
-        TimeObject => $TimeObject,
-        DBObject => $DBObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+        TimeObject   => $TimeObject,
+        DBObject     => $DBObject,
     );
 
 =cut
@@ -119,10 +119,10 @@ get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
     or
 
     my %User = $UserObject->GetUserData(
-        User => 'franz',
+        User   => 'franz',
         Cached => 1, # not required -> 0|1 (default 0)
-        Valid => 1, # not required -> 0|1 (default 0)
-                    # returns only data if user is valid
+        Valid  => 1, # not required -> 0|1 (default 0)
+                     # returns only data if user is valid
     );
 
 =cut
@@ -232,12 +232,12 @@ to add new users
 
     my $UserID = $UserObject->UserAdd(
         UserFirstname => 'Huber',
-        UserLastname => 'Manfred',
-        UserLogin => 'mhuber',
-        UserPw => 'some-pass', # not required
-        UserEmail => 'email@example.com',
-        ValidID => 1,
-        ChangeUserID => 123,
+        UserLastname  => 'Manfred',
+        UserLogin     => 'mhuber',
+        UserPw        => 'some-pass', # not required
+        UserEmail     => 'email@example.com',
+        ValidID       => 1,
+        ChangeUserID  => 123,
     );
 
 =cut
@@ -325,14 +325,14 @@ sub UserAdd {
 to update users
 
     $UserObject->UserUpdate(
-        UserID => 4321,
+        UserID        => 4321,
         UserFirstname => 'Huber',
-        UserLastname => 'Manfred',
-        UserLogin => 'mhuber',
-        UserPw => 'some-pass', # not required
-        UserEmail => 'email@example.com',
-        ValidID => 1,
-        ChangeUserID => 123,
+        UserLastname  => 'Manfred',
+        UserLogin     => 'mhuber',
+        UserPw        => 'some-pass', # not required
+        UserEmail     => 'email@example.com',
+        ValidID       => 1,
+        ChangeUserID  => 123,
     );
 
 =cut
@@ -401,18 +401,18 @@ to search users
 
     my %List = $UserObject->UserSearch(
         Search => '*some*', # also 'hans+huber' possible
-        Valid => 1, # not required
+        Valid  => 1, # not required
     );
 
     my %List = $UserObject->UserSearch(
         UserLogin => '*some*',
-        Limit => 50,
-        Valid => 1, # not required
+        Limit     => 50,
+        Valid     => 1, # not required
     );
 
     my %List = $UserObject->UserSearch(
         PostMasterSearch => 'email@example.com',
-        Valid => 1, # not required
+        Valid            => 1, # not required
     );
 
 =cut
@@ -518,7 +518,7 @@ to set users passwords
 
     $UserObject->SetPassword(
         UserLogin => 'some-login',
-        PW => 'some-new-password'
+        PW        => 'some-new-password'
     );
 
 =cut
@@ -565,7 +565,7 @@ sub SetPassword {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
+                Message => 'The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!',
             );
             my $TempUser = quotemeta( $Param{UserLogin} );
             my $TempPw   = quotemeta($Pw);
@@ -803,8 +803,8 @@ sub GenerateRandomPassword {
 set user preferences
 
     $UserObject->SetPreferences(
-        Key => 'UserComment',
-        Value => 'some comment',
+        Key    => 'UserComment',
+        Value  => 'some comment',
         UserID => 123,
     );
 
@@ -835,7 +835,7 @@ sub GetPreferences {
 search in user preferences
 
     my %UserList = $UserObject->SearchPreferences(
-        Key => 'UserEmail',
+        Key   => 'UserEmail',
         Value => 'email@example.com',
     );
 
@@ -879,8 +879,8 @@ sub TokenGenerate {
 
     # save token in preferences
     $Self->SetPreferences(
-        Key => 'UserToken',
-        Value => $Token,
+        Key    => 'UserToken',
+        Value  => $Token,
         UserID => $Param{UserID},
     );
 
@@ -893,7 +893,7 @@ sub TokenGenerate {
 check password token
 
     my $Valid = $UserObject->TokenCheck(
-        Token => $Token,
+        Token  => $Token,
         UserID => 123,
     );
 
@@ -949,6 +949,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.77 $ $Date: 2008-04-02 12:54:05 $
+$Revision: 1.78 $ $Date: 2008-04-09 00:31:19 $
 
 =cut

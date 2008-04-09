@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.39 2008-04-02 04:52:27 tr Exp $
+# $Id: CustomerUser.pm,v 1.40 2008-04-09 00:31:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -42,17 +42,17 @@ create an object
     use Kernel::System::CustomerUser;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $CustomerUserObject = Kernel::System::CustomerUser->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
     );
 
 =cut
@@ -124,17 +124,17 @@ to search users
 
     my %List = $CustomerUserObject->CustomerSearch(
         Search => '*some*', # also 'hans+huber' possible
-        Valid => 1, # not required, default 1
+        Valid  => 1, # not required, default 1
     );
 
     my %List = $CustomerUserObject->CustomerSearch(
         UserLogin => '*some*',
-        Valid => 1, # not required, default 1
+        Valid     => 1, # not required, default 1
     );
 
     my %List = $CustomerUserObject->CustomerSearch(
         PostMasterSearch => 'email@example.com',
-        Valid => 1, # not required, default 1
+        Valid            => 1, # not required, default 1
     );
 
 =cut
@@ -273,15 +273,15 @@ sub CustomerUserDataGet {
 to add new customer users
 
     my $UserLogin = $CustomerUserObject->CustomerUserAdd(
-        Source => 'CustomerUser', # CustomerUser source config
-        UserFirstname => 'Huber',
-        UserLastname => 'Manfred',
+        Source         => 'CustomerUser', # CustomerUser source config
+        UserFirstname  => 'Huber',
+        UserLastname   => 'Manfred',
         UserCustomerID => 'A124',
-        UserLogin => 'mhuber',
-        UserPassword => 'some-pass', # not required
-        UserEmail => 'email@example.com',
-        ValidID => 1,
-        UserID => 123,
+        UserLogin      => 'mhuber',
+        UserPassword   => 'some-pass', # not required
+        UserEmail      => 'email@example.com',
+        ValidID        => 1,
+        UserID         => 123,
     );
 
 =cut
@@ -299,8 +299,10 @@ sub CustomerUserAdd {
     if ( $Param{UserLogin} ) {
         my %User = $Self->CustomerUserDataGet( User => $Param{UserLogin} );
         if (%User) {
-            $Self->{LogObject}
-                ->Log( Priority => 'error', Message => "User already exists '$Param{UserLogin}'!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "User already exists '$Param{UserLogin}'!",
+            );
             return;
         }
     }
@@ -312,15 +314,15 @@ sub CustomerUserAdd {
 to update customer users
 
     $CustomerUserObject->CustomerUserUpdate(
-        Source => 'CustomerUser', # CustomerUser source config
-        ID     => 'mh'         # current user login
-        UserLogin => 'mhuber', # new user login
+        Source        => 'CustomerUser', # CustomerUser source config
+        ID            => 'mh'            # current user login
+        UserLogin     => 'mhuber',       # new user login
         UserFirstname => 'Huber',
-        UserLastname => 'Manfred',
-        UserPassword => 'some-pass', # not required
-        UserEmail => 'email@example.com',
-        ValidID => 1,
-        UserID => 123,
+        UserLastname  => 'Manfred',
+        UserPassword  => 'some-pass',    # not required
+        UserEmail     => 'email@example.com',
+        ValidID       => 1,
+        UserID        => 123,
     );
 
 =cut
@@ -349,7 +351,7 @@ to set customer users passwords
 
     $CustomerUserObject->SetPassword(
         UserLogin => 'some-login',
-        PW => 'some-new-password'
+        PW        => 'some-new-password'
     );
 
 =cut
@@ -396,8 +398,8 @@ sub GenerateRandomPassword {
 set customer user preferences
 
     $CustomerUserObject->SetPreferences(
-        Key => 'UserComment',
-        Value => 'some comment',
+        Key    => 'UserComment',
+        Value  => 'some comment',
         UserID => 'some-login',
     );
 
@@ -428,7 +430,7 @@ sub GetPreferences {
 search in user preferences
 
     my %UserList = $CustomerUserObject->SearchPreferences(
-        Key => 'UserSomeKey',
+        Key   => 'UserSomeKey',
         Value => 'SomeValue',
     );
 
@@ -486,7 +488,7 @@ sub TokenGenerate {
 check password token
 
     my $Valid = $UserObject->TokenCheck(
-        Token => $Token,
+        Token  => $Token,
         UserID => 123,
     );
 
@@ -511,8 +513,8 @@ sub TokenCheck {
 
         # reset password token
         $Self->SetPreferences(
-            Key => 'UserToken',
-            Value => '',
+            Key    => 'UserToken',
+            Value  => '',
             UserID => $Param{UserID},
         );
 
@@ -542,6 +544,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.40 $ $Date: 2008-04-09 00:31:19 $
 
 =cut

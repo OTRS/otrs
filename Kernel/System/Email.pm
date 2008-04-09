@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.38 2008-04-07 11:19:37 martin Exp $
+# $Id: Email.pm,v 1.39 2008-04-09 00:31:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -48,27 +48,27 @@ create an object
     use Kernel::System::Email;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $TimeObject = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        MainObject => $MainObject,
-        LogObject => $LogObject,
+        MainObject   => $MainObject,
+        LogObject    => $LogObject,
     );
     my $SendObject = Kernel::System::Email->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
-        MainObject => $MainObject,
-        TimeObject => $TimeObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        MainObject   => $MainObject,
+        TimeObject   => $TimeObject,
     );
 
 =cut
@@ -113,40 +113,40 @@ sub new {
 To send an email without already created header:
 
     if ($SendObject->Send(
-        From => 'me@example.com',
-        To => 'friend@example.com',
+        From    => 'me@example.com',
+        To      => 'friend@example.com',
         Subject => 'Some words!',
-        Type => 'text/plain',
+        Type    => 'text/plain',
         Charset => 'iso-8859-15',
-        Body => 'Some nice text',
-        Loop => 1, # not required, removes smtp from
+        Body    => 'Some nice text',
+        Loop    => 1, # not required, removes smtp from
         Attachment => [
             {
-                Filename => "somefile.csv",
-                Content => $ContentCSV,
+                Filename    => "somefile.csv",
+                Content     => $ContentCSV,
                 ContentType => "text/csv",
             }
             {
-                Filename => "somefile.png",
-                Content => $ContentPNG,
+                Filename    => "somefile.png",
+                Content     => $ContentPNG,
                 ContentType => "image/png",
             }
         ],
         Sign => {
-            Type => 'PGP',
+            Type    => 'PGP',
             SubType => 'Inline|Detached',
-            Key => '81877F5E',
+            Key     => '81877F5E',
 
             Type => 'SMIME',
-            Key => '3b630c80',
+            Key  => '3b630c80',
         },
         Crypt => {
-            Type => 'PGP',
+            Type    => 'PGP',
             SubType => 'Inline|Detached',
-            Key => '81877F5E',
+            Key     => '81877F5E',
 
             Type => 'SMIME',
-            Key => '3b630c80',
+            Key  => '3b630c80',
         },
     )) {
         print "Email sent!\n";
@@ -422,8 +422,8 @@ sub Send {
         my $Crypt = $CryptObject->Crypt(
             Message => $Entity->parts(0)->as_string(),
 
-            #            Key => '81877F5E',
-            #            Key => '488A0B8F',
+            # Key => '81877F5E',
+            # Key => '488A0B8F',
             Key => $Param{Crypt}->{Key},
         );
 
@@ -538,21 +538,17 @@ sub Send {
         );
     }
 
-    #    $Self->{EncodeObject}->EncodeOutput(\$Param{Header});
     # send email to backend
-    if ($Self->{Backend}->Send(
-            From    => $RealFrom,
-            ToArray => \@ToArray,
-            Header  => \$Param{Header},
-            Body    => \$Param{Body},
-        )
-        )
-    {
-        return ( \$Param{Header}, \$Param{Body} );
-    }
-    else {
+    my $Sent = $Self->{Backend}->Send(
+        From    => $RealFrom,
+        ToArray => \@ToArray,
+        Header  => \$Param{Header},
+        Body    => \$Param{Body},
+    );
+    if ( ! $Sent ) {
         return;
     }
+    return ( \$Param{Header}, \$Param{Body} );
 }
 
 =item Bounce()
@@ -560,8 +556,8 @@ sub Send {
 Bounce an email
 
     $SendObject->Bounce(
-        From => 'me@example.com',
-        To => 'friend@example.com',
+        From  => 'me@example.com',
+        To    => 'friend@example.com',
         Email => $Email,
     );
 
@@ -614,20 +610,17 @@ sub Bounce {
         );
     }
 
-    if ($Self->{Backend}->Send(
-            From    => $Param{From},
-            ToArray => [ $Param{To} ],
-            Header  => \$HeaderAsString,
-            Body    => \$BodyAsString,
-        )
-        )
-    {
-        return 1;
-    }
-    else {
+    my $Sent = $Self->{Backend}->Send(
+        From    => $Param{From},
+        ToArray => [ $Param{To} ],
+        Header  => \$HeaderAsString,
+        Body    => \$BodyAsString,
+    );
+
+    if ( ! $Sent ) {
         return;
     }
-
+    return 1;
 }
 
 sub _MessageIDCreate {
@@ -651,6 +644,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2008-04-07 11:19:37 $
+$Revision: 1.39 $ $Date: 2008-04-09 00:31:20 $
 
 =cut

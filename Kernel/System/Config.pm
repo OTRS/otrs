@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.75 2008-04-02 04:52:27 tr Exp $
+# $Id: Config.pm,v 1.76 2008-04-09 00:31:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 =head1 NAME
 
@@ -46,7 +46,7 @@ create an object
     use Kernel::System::Config;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $MainObject = Kernel::System::Main->new(
@@ -503,7 +503,7 @@ submit config settings and save it
 
     $ConfigToolObject->ConfigItemUpdate(
         Valid => 1,
-        Key => 'WebUploadCacheModule',
+        Key   => 'WebUploadCacheModule',
         Value => 'Kernel::System::Web::UploadCache::DB',
     );
 
@@ -619,7 +619,7 @@ get the current config setting
 get the default config setting
 
     my %Config = $ConfigToolObject->ConfigItemGet(
-        Name => 'Ticket::NumberGenerator',
+        Name    => 'Ticket::NumberGenerator',
         Default => 1,
     );
 
@@ -1034,7 +1034,9 @@ sub ConfigGroupList {
 
 get a list of config sub groups
 
-    my %ConfigGroupList = $ConfigToolObject->ConfigSubGroupList(Name => 'Framework');
+    my %ConfigGroupList = $ConfigToolObject->ConfigSubGroupList(
+        Name => 'Framework'
+    );
 
 =cut
 
@@ -1080,7 +1082,7 @@ sub ConfigSubGroupList {
 get a list of config items of a sub group
 
     my @ConfigItemList = $ConfigToolObject->ConfigSubGroupConfigItemList(
-        Group => 'Framework',
+        Group    => 'Framework',
         SubGroup => 'Web',
     );
 
@@ -1690,6 +1692,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.75 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.76 $ $Date: 2008-04-09 00:31:20 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.22 2008-04-03 07:41:53 tr Exp $
+# $Id: LinkObject.pm,v 1.23 2008-04-09 00:31:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -44,7 +44,7 @@ create an object
     use Kernel::System::LinkObject;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $MainObject = Kernel::System::Main->new(
@@ -53,7 +53,7 @@ create an object
     );
     my $TimeObject = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
@@ -99,7 +99,9 @@ sub new {
 
 get a all linkable objects
 
-    my %LinkObjects = $LinkObject->LinkObjects(SourceObject => 'Ticket');
+    my %LinkObjects = $LinkObject->LinkObjects(
+        SourceObject => 'Ticket',
+    );
 
 =cut
 
@@ -181,9 +183,9 @@ sub LinkObject {
     }
 
     return if ! $Self->{DBObject}->Do(
-        SQL  => "INSERT INTO object_link"
-            . " (object_link_a_id, object_link_b_id, object_link_a_object, object_link_b_object, object_link_type)"
-            . " VALUES (?, ?, ?, ?, ?)",
+        SQL  => 'INSERT INTO object_link'
+            . ' (object_link_a_id, object_link_b_id, object_link_a_object, object_link_b_object, object_link_type)'
+            . ' VALUES (?, ?, ?, ?, ?)',
         Bind => [
             \$Param{LinkID1}, \$Param{LinkID2}, \$Param{LinkObject1}, \$Param{LinkObject2},
             \$Param{LinkType}
@@ -271,9 +273,9 @@ sub RemoveLinkObject {
     }
 
     return $Self->{DBObject}->Do(
-        SQL => "DELETE FROM object_link WHERE"
-            . " (object_link_a_id = ? AND object_link_a_object = ?) OR"
-            . " (object_link_b_id = ? AND object_link_b_object = ?)",
+        SQL => 'DELETE FROM object_link WHERE'
+            . ' (object_link_a_id = ? AND object_link_a_object = ?) OR'
+            . ' (object_link_b_id = ? AND object_link_b_object = ?)',
         Bind => [
             \$Param{ID}, \$Param{Object}, \$Param{ID}, \$Param{Object},
         ],
@@ -359,33 +361,33 @@ sub LinkedObjects {
     my @BindA = ();
     my @BindB = ();
     if ( $Param{LinkType} eq 'Parent' ) {
-        $SQLA = "SELECT object_link_a_id, object_link_a_object FROM object_link WHERE "
-            . " object_link_b_id = ? AND object_link_b_object = ? AND "
-            . " object_link_a_object = ? AND object_link_type = ?";
+        $SQLA = 'SELECT object_link_a_id, object_link_a_object FROM object_link WHERE '
+            . ' object_link_b_id = ? AND object_link_b_object = ? AND '
+            . ' object_link_a_object = ? AND object_link_type = ?';
         push @BindA, \$Param{LinkID2}, \$Param{LinkObject2}, \$Param{LinkObject1}, \$Param{LinkType};
-        $SQLB = "SELECT object_link_a_id, object_link_a_object FROM object_link WHERE"
-            . " object_link_b_id = ? AND object_link_b_object = ? AND "
-            . " object_link_a_object = ? AND object_link_type = 'Child'";
+        $SQLB = 'SELECT object_link_a_id, object_link_a_object FROM object_link WHERE'
+            . ' object_link_b_id = ? AND object_link_b_object = ? AND '
+            . ' object_link_a_object = ? AND object_link_type = \'Child\'';
         push @BindB, \$Param{LinkID2}, \$Param{LinkObject2}, \$Param{LinkObject1};
     }
     elsif ( $Param{LinkType} eq 'Child' ) {
-        $SQLA = "SELECT object_link_b_id, object_link_b_object FROM object_link WHERE "
-            . " object_link_a_id = ? AND object_link_a_object = ? AND "
-            . " object_link_b_object = ? AND object_link_type = 'Parent'";
+        $SQLA = 'SELECT object_link_b_id, object_link_b_object FROM object_link WHERE '
+            . ' object_link_a_id = ? AND object_link_a_object = ? AND '
+            . ' object_link_b_object = ? AND object_link_type = \'Parent\'';
         push @BindA, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2};
-        $SQLB = "SELECT object_link_b_id, object_link_b_object FROM object_link WHERE "
-            . " object_link_a_id = ? AND object_link_a_object = ? AND "
-            . " object_link_b_object = ? AND object_link_type = ?";
+        $SQLB = 'SELECT object_link_b_id, object_link_b_object FROM object_link WHERE '
+            . ' object_link_a_id = ? AND object_link_a_object = ? AND '
+            . ' object_link_b_object = ? AND object_link_type = ?';
         push @BindB, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2}, \$Param{LinkType};
     }
     elsif ( $Param{LinkType} eq 'Normal' ) {
-        $SQLA = "SELECT object_link_a_id, object_link_a_object FROM object_link WHERE "
-            . " object_link_b_id = ? AND object_link_b_object = ? AND "
-            . " object_link_a_object = ? AND object_link_type = ?";
+        $SQLA = 'SELECT object_link_a_id, object_link_a_object FROM object_link WHERE '
+            . ' object_link_b_id = ? AND object_link_b_object = ? AND '
+            . ' object_link_a_object = ? AND object_link_type = ?';
         push @BindA, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2}, \$Param{LinkType};
-        $SQLB = " SELECT object_link_b_id, object_link_b_object FROM object_link WHERE "
-            . " object_link_a_id = ? AND object_link_a_object = ? AND "
-            . " object_link_b_object = ? AND object_link_type = ?";
+        $SQLB = 'SELECT object_link_b_id, object_link_b_object FROM object_link WHERE '
+            . ' object_link_a_id = ? AND object_link_a_object = ? AND '
+            . ' object_link_b_object = ? AND object_link_type = ?';
         push @BindB, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2}, \$Param{LinkType};
     }
 
@@ -552,6 +554,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2008-04-03 07:41:53 $
+$Revision: 1.23 $ $Date: 2008-04-09 00:31:19 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.38 2008-03-18 16:11:33 tr Exp $
+# $Id: Time.pm,v 1.39 2008-04-09 00:31:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -50,7 +50,7 @@ create a time object
 
     my $TimeObject = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
 
 =cut
@@ -107,7 +107,7 @@ If you need the short format "23:59:59" if the date is today (if needed).
 
     my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
         SystemTime => $SystemTime,
-        Type => 'Short',
+        Type       => 'Short',
     );
 
 =cut
@@ -286,10 +286,10 @@ system considers to be the epoch (that's 00:00:00, January 1, 1904
 for Mac OS, and 00:00:00 UTC, January 1, 1970 for most other systems).
 
     my $SystemTime = $TimeObject->Date2SystemTime(
-        Year => 2004,
-        Month => 8,
-        Day => 14,
-        Hour => 22,
+        Year   => 2004,
+        Month  => 8,
+        Day    => 14,
+        Hour   => 22,
         Minute => 45,
         Second => 0,
     );
@@ -390,13 +390,13 @@ get the working time in secondes between this times
 
     my $WorkingTime = $TimeObject->WorkingTime(
         StartTime => $Created,
-        StopTime => $TimeObject->SystemTime(),
+        StopTime  => $TimeObject->SystemTime(),
     );
 
     my $WorkingTime = $TimeObject->WorkingTime(
         StartTime => $Created,
-        StopTime => $TimeObject->SystemTime(),
-        Calendar => 3, # '' is default
+        StopTime  => $TimeObject->SystemTime(),
+        Calendar  => 3, # '' is default
     );
 
 =cut
@@ -416,12 +416,9 @@ sub WorkingTime {
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
     if ( $Param{Calendar} ) {
         if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            $TimeWorkingHours
-                = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
-            $TimeVacationDays
-                = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
-            $TimeVacationDaysOneTime = $Self->{ConfigObject}
-                ->Get( "TimeVacationDaysOneTime::Calendar" . $Param{Calendar} );
+            $TimeWorkingHours = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
+            $TimeVacationDays = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
+            $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get( "TimeVacationDaysOneTime::Calendar" . $Param{Calendar} );
             my $Zone = $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} );
             if ($Zone) {
                 if ( $Zone > 0 ) {
@@ -517,13 +514,13 @@ get the destination time (working time cal.) from start plus some time in second
 
     my $DestinationTime = $TimeObject->DestinationTime(
         StartTime => $Created,
-        Time => 60*60*24*2,
+        Time      => 60*60*24*2,
     );
 
     my $DestinationTime = $TimeObject->DestinationTime(
         StartTime => $Created,
-        Time => 60*60*24*2,
-        Calendar => 3, # '' is default
+        Time      => 60*60*24*2,
+        Calendar  => 3, # '' is default
     );
 
 =cut
@@ -545,12 +542,9 @@ sub DestinationTime {
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
     if ( $Param{Calendar} ) {
         if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            $TimeWorkingHours
-                = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
-            $TimeVacationDays
-                = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
-            $TimeVacationDaysOneTime = $Self->{ConfigObject}
-                ->Get( "TimeVacationDaysOneTime::Calendar" . $Param{Calendar} );
+            $TimeWorkingHours = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
+            $TimeVacationDays = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
+            $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get( "TimeVacationDaysOneTime::Calendar" . $Param{Calendar} );
             $Zone = $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} );
             if ( $Zone > 0 ) {
                 $Zone = '+' . ( $Zone * 3600 ); # 60 * 60
@@ -723,9 +717,9 @@ check if the selected day is a vacation (it doesn't matter if you
 insert 01 or 1 for month or day in the function or in the SysConfig)
 
     $TimeAccountingObject->VacationCheck(
-        Year => 2005,
+        Year  => 2005,
         Month => 7 || '07',
-        Day => 13,
+        Day   => 13,
     );
 
 =cut
@@ -790,6 +784,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2008-03-18 16:11:33 $
+$Revision: 1.39 $ $Date: 2008-04-09 00:31:19 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.72 2008-04-04 10:38:43 tr Exp $
+# $Id: XML.pm,v 1.73 2008-04-09 00:31:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 =head1 NAME
 
@@ -92,15 +92,15 @@ sub new {
 add a XMLHash to storage
 
     $XMLObject->XMLHashAdd(
-        Type => 'SomeType',
-        Key => '123',
+        Type    => 'SomeType',
+        Key     => '123',
         XMLHash => \@XMLHash,
     );
 
     my $Key = $XMLObject->XMLHashAdd(
-        Type => 'SomeType',
+        Type             => 'SomeType',
         KeyAutoIncrement => 1,
-        XMLHash => \@XMLHash,
+        XMLHash          => \@XMLHash,
     );
 
 =cut
@@ -137,7 +137,7 @@ sub XMLHashAdd {
         my $TmpKey = "TMP-$Rand-$Param{Type}";
         for my $Key ( sort keys %ValueHASH ) {
             $Self->{DBObject}->Do(
-                SQL  => "INSERT INTO xml_storage (xml_type, xml_key, xml_content_key, xml_content_value) VALUES (?, ?, ?, ?)",
+                SQL  => 'INSERT INTO xml_storage (xml_type, xml_key, xml_content_key, xml_content_value) VALUES (?, ?, ?, ?)',
                 Bind => [ \$TmpKey, \$Param{Key}, \$Key, \$ValueHASH{$Key}, ],
             );
         }
@@ -232,12 +232,12 @@ get a XMLHash from database
 
     my @XMLHash = $XMLObject->XMLHashGet(
         Type => 'SomeType',
-        Key => '123',
+        Key  => '123',
     );
 
     my @XMLHash = $XMLObject->XMLHashGet(
-        Type => 'SomeType',
-        Key => '123',
+        Type  => 'SomeType',
+        Key   => '123',
         Cache => 0, # do not use the file system cache
     );
 
@@ -273,8 +273,8 @@ sub XMLHashGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT xml_content_key, xml_content_value "
-            . " FROM xml_storage WHERE xml_type = ? AND xml_key = ?",
+        SQL => 'SELECT xml_content_key, xml_content_value '
+            . ' FROM xml_storage WHERE xml_type = ? AND xml_key = ?',
         Bind => [ \$Param{Type}, \$Param{Key} ],
 
     );
@@ -295,7 +295,7 @@ sub XMLHashGet {
     # write cache file
     if ( $Param{Cache} && $Content ) {
         $Self->{CacheObject}->Set(
-            Type => 'XML',
+            Type  => 'XML',
             Key   => "$Param{Type}-$Param{Key}",
             Value => \@XMLHash,
             TTL   => 24 * 60 * 60,
@@ -310,7 +310,7 @@ delete a XMLHash from database
 
     $XMLObject->XMLHashDelete(
         Type => 'SomeType',
-        Key => '123',
+        Key  => '123',
     );
 
 =cut
@@ -333,7 +333,7 @@ sub XMLHashDelete {
     );
 
     return $Self->{DBObject}->Do(
-        SQL => "DELETE FROM xml_storage WHERE xml_type = ? AND xml_key = ?",
+        SQL => 'DELETE FROM xml_storage WHERE xml_type = ? AND xml_key = ?',
         Bind => [ \$Param{Type}, \$Param{Key} ],
     );
 }
@@ -344,9 +344,9 @@ move a XMLHash from one type or/and key to another
 
     $XMLObject->XMLHashMove(
         OldType => 'SomeType',
-        OldKey => '123',
+        OldKey  => '123',
         NewType => 'NewType',
-        NewKey => '321',
+        NewKey  => '321',
     );
 
 =cut
@@ -374,14 +374,14 @@ sub XMLHashMove {
 
     # delete existing xml hash
     $Self->{DBObject}->Do(
-        SQL  => "DELETE FROM xml_storage WHERE xml_type = ? AND xml_key = ?",
+        SQL  => 'DELETE FROM xml_storage WHERE xml_type = ? AND xml_key = ?',
         Bind => [ \$Param{NewType}, \$Param{NewKey} ],
     );
 
     # update xml hash
     return $Self->{DBObject}->Do(
-        SQL => "UPDATE xml_storage SET xml_type = ?, xml_key = ? "
-            . "WHERE xml_type = ? AND xml_key = ?",
+        SQL => 'UPDATE xml_storage SET xml_type = ?, xml_key = ? '
+            . 'WHERE xml_type = ? AND xml_key = ?',
         Bind => [ \$Param{NewType}, \$Param{NewKey}, \$Param{OldType}, \$Param{OldKey} ],
     );
 }
@@ -427,7 +427,7 @@ sub XMLHashSearch {
     }
 
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT DISTINCT(xml_key) FROM xml_storage WHERE xml_type = ? GROUP BY xml_key",
+        SQL  => 'SELECT DISTINCT(xml_key) FROM xml_storage WHERE xml_type = ? GROUP BY xml_key',
         Bind => [ \$Param{Type} ],
     );
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
@@ -499,7 +499,7 @@ sub XMLHashList {
     }
 
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT distinct(xml_key) FROM xml_storage WHERE xml_type = ? GROUP BY xml_key',
+        SQL  => 'SELECT distinct(xml_key) FROM xml_storage WHERE xml_type = ? GROUP BY xml_key',
         Bind => [ \$Param{Type} ],
     );
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
@@ -1413,6 +1413,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.72 $ $Date: 2008-04-04 10:38:43 $
+$Revision: 1.73 $ $Date: 2008-04-09 00:31:19 $
 
 =cut

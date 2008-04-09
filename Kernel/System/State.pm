@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.26 2008-04-02 04:52:27 tr Exp $
+# $Id: State.pm,v 1.27 2008-04-09 00:31:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -44,7 +44,7 @@ create an object
     use Kernel::System::State;
 
     my $ConfigObject = Kernel::Config->new();
-    my $TimeObject = Kernel::System::Time->new(
+    my $TimeObject   = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
     );
     my $LogObject = Kernel::System::Log->new(
@@ -52,13 +52,13 @@ create an object
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $StateObject = Kernel::System::State->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
-        TimeObject => $TimeObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        TimeObject   => $TimeObject,
     );
 
 =cut
@@ -89,11 +89,11 @@ sub new {
 add new states
 
     my $ID = $StateObject->StateAdd(
-        Name => 'New State',
+        Name    => 'New State',
         Comment => 'some comment',
         ValidID => 1,
-        TypeID => 1,
-        UserID => 123,
+        TypeID  => 1,
+        UserID  => 123,
     );
 
 =cut
@@ -111,9 +111,9 @@ sub StateAdd {
 
     # store data
     return if ! $Self->{DBObject}->Do(
-        SQL => "INSERT INTO ticket_state (name, valid_id, type_id, comments, "
-            . " create_time, create_by, change_time, change_by)"
-            . " VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
+        SQL => 'INSERT INTO ticket_state (name, valid_id, type_id, comments, '
+            . ' create_time, create_by, change_time, change_by)'
+            . ' VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Name}, \$Param{ValidID}, \$Param{TypeID}, \$Param{Comment},
             \$Param{UserID}, \$Param{UserID},
@@ -122,7 +122,7 @@ sub StateAdd {
 
     # get new state id
     return if ! $Self->{DBObject}->Prepare(
-        SQL  => "SELECT id FROM ticket_state WHERE name = ?",
+        SQL  => 'SELECT id FROM ticket_state WHERE name = ?',
         Bind => [ \$Param{Name} ],
     );
     my $ID  = '';
@@ -137,12 +137,12 @@ sub StateAdd {
 get states attributes
 
     my %State = $StateObject->StateGet(
-        Name => 'New State',
+        Name  => 'New State',
         Cache => 1, # optional
     );
 
     my %State = $StateObject->StateGet(
-        ID => 123,
+        ID    => 123,
         Cache => 1, # optional
     );
 
@@ -169,15 +169,15 @@ sub StateGet {
 
     # sql
     my @Bind;
-    my $SQL = "SELECT ts.id, ts.name, ts.valid_id, ts.comments, ts.type_id, tst.name, "
-        . " ts.change_time, ts.create_time "
-        . " FROM ticket_state ts, ticket_state_type tst WHERE ts.type_id = tst.id AND ";
+    my $SQL = 'SELECT ts.id, ts.name, ts.valid_id, ts.comments, ts.type_id, tst.name, '
+        . ' ts.change_time, ts.create_time '
+        . ' FROM ticket_state ts, ticket_state_type tst WHERE ts.type_id = tst.id AND ';
     if ( $Param{Name} ) {
-        $SQL .= " ts.name = ?";
+        $SQL .= ' ts.name = ?';
         push @Bind, \$Param{Name};
     }
     else {
-        $SQL .= " ts.id = ?";
+        $SQL .= ' ts.id = ?';
         push @Bind, \$Param{ID};
     }
     return if ! $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
@@ -221,12 +221,12 @@ sub StateGet {
 update state attributes
 
     $StateObject->StateUpdate(
-        ID => 123,
-        Name => 'New State',
+        ID      => 123,
+        Name    => 'New State',
         Comment => 'some comment',
         ValidID => 1,
-        TypeID => 1,
-        UserID => 123,
+        TypeID  => 1,
+        UserID  => 123,
     );
 
 =cut
@@ -244,9 +244,9 @@ sub StateUpdate {
 
     # sql
     return $Self->{DBObject}->Do(
-        SQL => "UPDATE ticket_state SET name = ?, comments = ?, type_id = ?, "
-            . " valid_id = ?, change_time = current_timestamp, change_by = ? "
-            . " WHERE id = ?",
+        SQL => 'UPDATE ticket_state SET name = ?, comments = ?, type_id = ?, '
+            . ' valid_id = ?, change_time = current_timestamp, change_by = ? '
+            . ' WHERE id = ?',
         Bind => [
             \$Param{Name}, \$Param{Comment}, \$Param{TypeID}, \$Param{ValidID},
             \$Param{UserID}, \$Param{ID},
@@ -264,7 +264,7 @@ get list of state types
 
     my @List = $StateObject->StateGetStatesByType(
         StateType => ['open', 'new'],
-        Result => 'ID', # HASH|ID|Name
+        Result    => 'ID', # HASH|ID|Name
     );
 
     get all state types used by config option named like
@@ -272,7 +272,7 @@ get list of state types
     Ticket::ViewableStateType for "Viewable" state types
 
     my %List = $StateObject->StateGetStatesByType(
-        Type => 'Viewable',
+        Type   => 'Viewable',
         Result => 'HASH', # HASH|ID|Name
     );
 
@@ -346,12 +346,12 @@ get state list
 
     my %List = $StateObject->StateList(
         UserID => 123,
-        Valid => 1, # is default
+        Valid  => 1, # is default
     );
 
     my %List = $StateObject->StateList(
         UserID => 123,
-        Valid => 0,
+        Valid  => 0,
     );
 
 =cut
@@ -371,7 +371,7 @@ sub StateList {
     }
 
     # sql
-    my $SQL = "SELECT id, name FROM ticket_state";
+    my $SQL = 'SELECT id, name FROM ticket_state';
     if ($Valid) {
         $SQL .= " WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     }
@@ -405,7 +405,7 @@ sub StateTypeList {
     # sql
     my %Data = ();
     return if ! $Self->{DBObject}->Prepare(
-        SQL => "SELECT id, name FROM ticket_state_type",
+        SQL => 'SELECT id, name FROM ticket_state_type',
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
@@ -429,6 +429,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.27 $ $Date: 2008-04-09 00:31:19 $
 
 =cut

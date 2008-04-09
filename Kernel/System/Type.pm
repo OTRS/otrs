@@ -2,7 +2,7 @@
 # Kernel/System/Type.pm - All type related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.5 2008-04-02 04:52:27 tr Exp $
+# $Id: Type.pm,v 1.6 2008-04-09 00:31:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -44,7 +44,7 @@ create an object
     use Kernel::System::Type;
 
     my $ConfigObject = Kernel::Config->new();
-    my $TimeObject = Kernel::System::Time->new(
+    my $TimeObject   = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
     );
     my $LogObject = Kernel::System::Log->new(
@@ -52,13 +52,13 @@ create an object
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $TypeObject = Kernel::System::Type->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
-        TimeObject => $TimeObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        TimeObject   => $TimeObject,
     );
 
 =cut
@@ -84,9 +84,9 @@ sub new {
 add new types
 
     my $ID = $TypeObject->TypeAdd(
-        Name => 'New Type',
+        Name    => 'New Type',
         ValidID => 1,
-        UserID => 123,
+        UserID  => 123,
     );
 
 =cut
@@ -114,7 +114,7 @@ sub TypeAdd {
         SQL  => "SELECT id FROM ticket_type WHERE name = ?",
         Bind => [ \$Param{Name} ],
     );
-    my $ID  = '';
+    my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
     }
@@ -161,8 +161,9 @@ sub TypeGet {
     if ( !%Data ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "TypeType '$Param{Name}' not found!"
+            Message  => "TypeID '$Param{ID}' not found!"
         );
+        return;
     }
 
     # return data
@@ -174,10 +175,10 @@ sub TypeGet {
 update type attributes
 
     $TypeObject->TypeUpdate(
-        ID => 123,
-        Name => 'New Type',
+        ID      => 123,
+        Name    => 'New Type',
         ValidID => 1,
-        UserID => 123,
+        UserID  => 123,
     );
 
 =cut
@@ -268,13 +269,13 @@ sub TypeLookup {
     if ( $Param{Type} ) {
         $Param{What} = $Param{Type};
         $Suffix      = 'TypeID';
-        $SQL         = "SELECT id FROM ticket_type WHERE name = ?";
+        $SQL         = 'SELECT id FROM ticket_type WHERE name = ?';
         push @Bind, \$Param{Type};
     }
     else {
         $Param{What} = $Param{TypeID};
         $Suffix      = 'Type';
-        $SQL         = "SELECT name FROM ticket_type WHERE id = ?";
+        $SQL         = 'SELECT name FROM ticket_type WHERE id = ?';
         push @Bind, \$Param{TypeID};
     }
     $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
@@ -313,6 +314,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.6 $ $Date: 2008-04-09 00:31:19 $
 
 =cut

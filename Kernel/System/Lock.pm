@@ -2,7 +2,7 @@
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Lock.pm,v 1.18 2008-04-02 04:52:27 tr Exp $
+# $Id: Lock.pm,v 1.19 2008-04-09 00:31:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -44,7 +44,7 @@ create an object
     use Kernel::System::Lock;
 
     my $ConfigObject = Kernel::Config->new();
-    my $TimeObject = Kernel::System::Time->new(
+    my $TimeObject   = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
     );
     my $LogObject = Kernel::System::Log->new(
@@ -52,13 +52,13 @@ create an object
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $LockObject = Kernel::System::Lock->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
-        TimeObject => $TimeObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        TimeObject   => $TimeObject,
     );
 
 =cut
@@ -88,12 +88,12 @@ sub new {
 get list of lock types
 
     my @List = $LockObject->LockViewableLock(
-        Type => 'Viewable',
+        Type   => 'Viewable',
         Result => 'Name', # ID|Name
     );
 
     my @List = $LockObject->LockViewableLock(
-        Type => 'Viewable',
+        Type   => 'Viewable',
         Result => 'ID', # ID|Name
     );
 
@@ -166,11 +166,11 @@ sub LockLookup {
     my $SQL = '';
     my @Bind;
     if ( $Param{Lock} ) {
-        $SQL = "SELECT id FROM ticket_lock_type WHERE name = ?";
+        $SQL = 'SELECT id FROM ticket_lock_type WHERE name = ?';
         push @Bind, \$Param{Lock};
     }
     else {
-        $SQL = "SELECT name FROM ticket_lock_type WHERE id = ?";
+        $SQL = 'SELECT name FROM ticket_lock_type WHERE id = ?';
         push @Bind, \$Param{LockID};
     }
     $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
@@ -206,7 +206,7 @@ sub LockList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "UserID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'UserID!' );
         return;
     }
 
@@ -245,6 +245,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.19 $ $Date: 2008-04-09 00:31:20 $
 
 =cut

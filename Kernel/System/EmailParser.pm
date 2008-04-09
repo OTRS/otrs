@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.62 2008-04-07 10:27:39 martin Exp $
+# $Id: EmailParser.pm,v 1.63 2008-04-09 00:31:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 =head1 NAME
 
@@ -47,14 +47,14 @@ create an object
     use Kernel::System::EmailParser;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $ParseObject = Kernel::System::EmailParser->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        Email => \@ArrayOfEmail,
-        Debug => 0,
+        LogObject    => $LogObject,
+        Email        => \@ArrayOfEmail,
+        Debug        => 0,
     );
 
 =cut
@@ -130,7 +130,7 @@ sub GetPlainEmail {
 To get a header (e. g. Subject, To, ContentType, ...) of an email
 (mime is already done!).
 
-    my $To = $ParseObject->GetParam(WHAT => 'To');
+    my $To = $ParseObject->GetParam( WHAT => 'To' );
 
 =cut
 
@@ -191,7 +191,9 @@ sub GetParam {
 
 To get the senders email address back.
 
-    my $SenderEmail = $ParseObject->GetEmailAddress(Email => 'Juergen Weber <juergen.qeber@air.com>');
+    my $SenderEmail = $ParseObject->GetEmailAddress(
+        Email => 'Juergen Weber <juergen.qeber@air.com>',
+    );
 
 =cut
 
@@ -209,7 +211,9 @@ sub GetEmailAddress {
 
 To get an array of email addresses of an To, Cc or Bcc line back.
 
-    my @Addresses = $ParseObject->SplitAddressLine(Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber)');
+    my @Addresses = $ParseObject->SplitAddressLine(
+        Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber)',
+    );
 
 This returns an array with ('Juergen Weber <juergen.qeber@air.com>', 'me@example.com', 'hans@example.com (Hans Huber)').
 
@@ -1177,6 +1181,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.62 $ $Date: 2008-04-07 10:27:39 $
+$Revision: 1.63 $ $Date: 2008-04-09 00:31:20 $
 
 =cut

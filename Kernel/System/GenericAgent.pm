@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.35 2008-04-02 04:52:27 tr Exp $
+# $Id: GenericAgent.pm,v 1.36 2008-04-09 00:31:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -44,33 +44,33 @@ create an object
     use Kernel::System::GenericAgent;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $TimeObject = Kernel::System::Time->new(
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $QueueObject = Kernel::System::Queue->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $TicketObject = Kernel::System::Ticket->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
     );
     my $GenericAgentObject = Kernel::System::GenericAgent->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        TimeObject => $TimeObject,
+        LogObject    => $LogObject,
+        TimeObject   => $TimeObject,
         TicketObject => $TicketObject,
-        QueueObject => $QueueObject,
-        DBObject => $DBObject,
+        QueueObject  => $QueueObject,
+        DBObject     => $DBObject,
     );
 
 =cut
@@ -198,7 +198,7 @@ sub new {
 run an generic agent job
 
     $GenericAgentObject->JobRun(
-        Job => 'JobName',
+        Job    => 'JobName',
         UserID => 1,
     );
 
@@ -811,7 +811,7 @@ sub JobGet {
         }
     }
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT job_key, job_value FROM generic_agent_jobs WHERE job_name = ?",
+        SQL => 'SELECT job_key, job_value FROM generic_agent_jobs WHERE job_name = ?',
         Bind => [ \$Param{Name} ],
     );
     my %Data = ();
@@ -1060,8 +1060,8 @@ sub JobAdd {
             for my $Item ( @{ $Param{Data}->{$Key} } ) {
                 if ( defined($Item) ) {
                     $Self->{DBObject}->Do(
-                        SQL => "INSERT INTO generic_agent_jobs "
-                            . "(job_name, job_key, job_value) VALUES (?, ?, ?)",
+                        SQL => 'INSERT INTO generic_agent_jobs '
+                            . '(job_name, job_key, job_value) VALUES (?, ?, ?)',
                         Bind => [ \$Param{Name}, \$Key, \$Item ],
                     );
                 }
@@ -1070,8 +1070,8 @@ sub JobAdd {
         else {
             if ( defined( $Param{Data}->{$Key} ) ) {
                 $Self->{DBObject}->Do(
-                    SQL => "INSERT INTO generic_agent_jobs "
-                        ."(job_name, job_key, job_value) VALUES (?, ?, ?)",
+                    SQL => 'INSERT INTO generic_agent_jobs '
+                        .'(job_name, job_key, job_value) VALUES (?, ?, ?)',
                     Bind => [ \$Param{Name}, \$Key, \$Param{Data}->{$Key} ],
                 );
             }
@@ -1105,7 +1105,7 @@ sub JobDelete {
 
     # delete job
     $Self->{DBObject}->Do(
-        SQL  => "DELETE FROM generic_agent_jobs WHERE job_name = ?",
+        SQL  => 'DELETE FROM generic_agent_jobs WHERE job_name = ?',
         Bind => [ \$Param{Name} ],
     );
     $Self->{LogObject}->Log(
@@ -1129,7 +1129,7 @@ sub _JobUpdateRunTime {
 
     # check if job name already exists
     $Self->{DBObject}->Prepare(
-        SQL  => "SELECT job_key, job_value FROM generic_agent_jobs WHERE job_name = ?",
+        SQL  => 'SELECT job_key, job_value FROM generic_agent_jobs WHERE job_name = ?',
         Bind => [ \$Param{Name} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -1147,7 +1147,7 @@ sub _JobUpdateRunTime {
     );
     for my $Key (keys %Insert) {
         $Self->{DBObject}->Do(
-            SQL  => "INSERT INTO generic_agent_jobs (job_name,job_key, job_value) VALUES (?, ?, ?)",
+            SQL  => 'INSERT INTO generic_agent_jobs (job_name,job_key, job_value) VALUES (?, ?, ?)',
             Bind => [ \$Param{Name}, \$Key, \$Insert{$Key} ],
         );
     }
@@ -1155,8 +1155,8 @@ sub _JobUpdateRunTime {
     # remove old times
     for my $Time (@Data) {
         $Self->{DBObject}->Do(
-            SQL => "DELETE FROM generic_agent_jobs WHERE "
-                . "job_name = ? AND job_key = ? AND job_value = ?",
+            SQL => 'DELETE FROM generic_agent_jobs WHERE '
+                . 'job_name = ? AND job_key = ? AND job_value = ?',
             Bind => [ \$Param{Name}, \$Time->{Key}, \$Time->{Value} ],
         );
     }
@@ -1179,6 +1179,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.36 $ $Date: 2008-04-09 00:31:20 $
 
 =cut

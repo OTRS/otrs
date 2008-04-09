@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.85 2008-04-02 04:52:27 tr Exp $
+# $Id: Queue.pm,v 1.86 2008-04-09 00:31:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 =head1 NAME
 
@@ -47,22 +47,22 @@ create an object
     use Kernel::System::Queue;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $DBObject = Kernel::System::DB->new(
-        MainObject => $MainObject,
+        MainObject   => $MainObject,
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $QueueObject = Kernel::System::Queue->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
     );
 
 =cut
@@ -147,8 +147,8 @@ sub GetSystemAddress {
     my %Address;
     my $QueueID = $Param{QueueID} || $Self->{QueueID};
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT sa.value0, sa.value1 FROM system_address sa, queue sq "
-            . " WHERE sq.id = ? AND sa.id = sq.system_address_id",
+        SQL => 'SELECT sa.value0, sa.value1 FROM system_address sa, queue sq '
+            . ' WHERE sq.id = ? AND sa.id = sq.system_address_id',
         Bind => [ \$QueueID ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -184,8 +184,8 @@ sub GetSalutation {
     # sql
     my $String = '';
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT text FROM salutation sa, queue sq "
-            . " WHERE sq.id = ? AND sq.salutation_id = sa.id",
+        SQL => 'SELECT text FROM salutation sa, queue sq '
+            . ' WHERE sq.id = ? AND sq.salutation_id = sa.id',
         Bind => [ \$Param{QueueID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -214,8 +214,8 @@ sub GetSignature {
     # sql
     my $String = '';
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT text FROM signature si, queue sq "
-            . " WHERE sq.id = ? AND sq.signature_id = si.id",
+        SQL => 'SELECT text FROM signature si, queue sq '
+            . ' WHERE sq.id = ? AND sq.signature_id = si.id',
         Bind => [ \$Param{QueueID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -245,7 +245,7 @@ sub GetStdResponse {
 
     # sql
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT text FROM standard_response WHERE id = ?",
+        SQL => 'SELECT text FROM standard_response WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -265,9 +265,9 @@ sub SetQueueStdResponse {
 
     # sql
     return $Self->{DBObject}->Do(
-        SQL => "INSERT INTO queue_standard_response "
-            . "(queue_id, standard_response_id, create_time, create_by, change_time, change_by)"
-            . " VALUES ( ?, ?, current_timestamp, ?, current_timestamp, ?)",
+        SQL => 'INSERT INTO queue_standard_response '
+            . '(queue_id, standard_response_id, create_time, create_by, change_time, change_by)'
+            . ' VALUES ( ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [ \$Param{QueueID}, \$Param{ResponseID}, \$Param{UserID}, \$Param{UserID} ],
     );
 }
@@ -426,7 +426,7 @@ sub GetAllCustomQueues {
     # fetch all queues
     my @QueueIDs;
     $Self->{DBObject}->Prepare(
-        SQL  => "SELECT queue_id FROM personal_queues WHERE user_id = ?",
+        SQL  => 'SELECT queue_id FROM personal_queues WHERE user_id = ?',
         Bind => [ \$Param{UserID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -468,7 +468,7 @@ sub QueueLookup {
         $Param{What} = $Param{Queue};
         $Suffix      = 'QueueID';
         $Self->{DBObject}->Prepare(
-            SQL  => "SELECT id FROM queue WHERE name = ?",
+            SQL  => 'SELECT id FROM queue WHERE name = ?',
             Bind => [ \$Param{Queue} ],
         );
     }
@@ -476,7 +476,7 @@ sub QueueLookup {
         $Param{What} = $Param{QueueID};
         $Suffix      = 'Queue';
         $Self->{DBObject}->Prepare(
-            SQL  => "SELECT name FROM queue WHERE id = ?",
+            SQL  => 'SELECT name FROM queue WHERE id = ?',
             Bind => [ \$Param{QueueID} ],
         );
     }
@@ -519,8 +519,8 @@ sub GetFollowUpOption {
     # fetch queues data
     my $Return = '';
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT sf.name FROM follow_up_possible sf, queue sq "
-            . " WHERE sq.follow_up_id = sf.id AND sq.id = ?",
+        SQL => 'SELECT sf.name FROM follow_up_possible sf, queue sq '
+            . ' WHERE sq.follow_up_id = sf.id AND sq.id = ?',
         Bind => [ \$Param{QueueID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -549,7 +549,7 @@ sub GetFollowUpLockOption {
     # fetch queues data
     my $Return = 0;
     $Self->{DBObject}->Prepare(
-        SQL  => "SELECT sq.follow_up_lock FROM queue sq WHERE sq.id = ?",
+        SQL  => 'SELECT sq.follow_up_lock FROM queue sq WHERE sq.id = ?',
         Bind => [ \$Param{QueueID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -583,7 +583,7 @@ sub GetQueueGroupID {
     # get group id from database
     my $GroupID = '';
     $Self->{DBObject}->Prepare(
-        SQL   => "SELECT group_id FROM queue WHERE id = ?",
+        SQL   => 'SELECT group_id FROM queue WHERE id = ?',
         Bind  => [ \$Param{QueueID} ],
         Limit => 1,
     );
@@ -604,24 +604,24 @@ sub GetQueueGroupID {
 add queue with attributes
 
     $QueueObject->QueueAdd(
-        Name => 'Some::Queue',
-        ValidID => 1,
-        GroupID => 1,
-        Calendar => 'Calendar1',   # (optional)
-        FirstResponseTime => 120,  # (optional)
+        Name              => 'Some::Queue',
+        ValidID           => 1,
+        GroupID           => 1,
+        Calendar          => 'Calendar1', # (optional)
+        FirstResponseTime   => 120,       # (optional)
         FirstResponseNotify => 60, # (optional, notify agent if first response escalation is 60% reached)
-        UpdateTime => 180,         # (optional)
-        UpdateNotify => 80,        # (optional, notify agent if update escalation is 80% reached)
-        SolutionTime => 580,       # (optional)
-        SolutionNotify => 80,      # (optional, notify agent if solution escalation is 80% reached)
-        SystemAddressID => 1,
-        SalutationID => 1,
-        SignatureID => 1,
-        UserID => 123,
-        MoveNotify => 0,
-        StateNotify => 0,
-        LockNotify => 0,
-        OwnerNotify => 0,
+        UpdateTime        => 180,  # (optional)
+        UpdateNotify      => 80,   # (optional, notify agent if update escalation is 80% reached)
+        SolutionTime      => 580,  # (optional)
+        SolutionNotify    => 80,   # (optional, notify agent if solution escalation is 80% reached)
+        SystemAddressID   => 1,
+        SalutationID      => 1,
+        SignatureID       => 1,
+        UserID            => 123,
+        MoveNotify        => 0,
+        StateNotify       => 0,
+        LockNotify        => 0,
+        OwnerNotify       => 0,
     );
 
 =cut
@@ -704,15 +704,15 @@ sub QueueAdd {
     }
 
     return if ! $Self->{DBObject}->Do(
-        SQL => "INSERT INTO queue (name, group_id, unlock_timeout, system_address_id, "
-            . " calendar_name, default_sign_key, salutation_id, signature_id, "
-            . " first_response_time, first_response_notify, update_time, "
-            . " update_notify, solution_time, solution_notify, follow_up_id, "
-            . " follow_up_lock, state_notify, move_notify, lock_notify, "
-            . " owner_notify, valid_id, comments, create_time, create_by, "
-            . " change_time, change_by) VALUES "
-            . " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-            . " ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
+        SQL => 'INSERT INTO queue (name, group_id, unlock_timeout, system_address_id, '
+            . ' calendar_name, default_sign_key, salutation_id, signature_id, '
+            . ' first_response_time, first_response_notify, update_time, '
+            . ' update_notify, solution_time, solution_notify, follow_up_id, '
+            . ' follow_up_lock, state_notify, move_notify, lock_notify, '
+            . ' owner_notify, valid_id, comments, create_time, create_by, '
+            . ' change_time, change_by) VALUES '
+            . ' (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '
+            . ' ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Name}, \$Param{GroupID}, \$Param{UnlockTimeout}, \$Param{SystemAddressID},
             \$Param{Calendar}, \$Param{DefaultSignKey}, \$Param{SalutationID}, \$Param{SignatureID},
@@ -727,7 +727,7 @@ sub QueueAdd {
     # get new queue id
     my $QueueID = '';
     $Self->{DBObject}->Prepare(
-        SQL  => "SELECT id FROM queue WHERE name = ?",
+        SQL  => 'SELECT id FROM queue WHERE name = ?',
         Bind => [ \$Param{Name} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -769,12 +769,12 @@ sub QueueAdd {
 get queue attributes
 
     my %Queue = $QueueObject->QueueGet(
-        ID => 123,
+        ID    => 123,
         Cache => 1, # optional
     );
 
     my %Queue = $QueueObject->QueueGet(
-        Name => 'Some::Queue',
+        Name  => 'Some::Queue',
         Cache => 1, # optional
     );
 
@@ -799,26 +799,26 @@ sub QueueGet {
 
     # sql
     my @Bind;
-    my $SQL = "SELECT q.name, q.group_id, q.unlock_timeout, "
-        . " q.system_address_id, q.salutation_id, q.signature_id, q.comments, q.valid_id, "
-        . " q.first_response_time, q.first_response_notify, "
-        . " q.update_time, q.update_notify, q.solution_time, q.solution_notify, "
-        . " q.follow_up_id, q.follow_up_lock, sa.value0, sa.value1, q.id, "
-        . " q.move_notify, q.state_notify, q.lock_notify, q.owner_notify, q.default_sign_key, "
-        . " q.calendar_name "
-        . " FROM queue q, system_address sa"
-        . " WHERE q.system_address_id = sa.id AND ";
+    my $SQL = 'SELECT q.name, q.group_id, q.unlock_timeout, '
+        . ' q.system_address_id, q.salutation_id, q.signature_id, q.comments, q.valid_id, '
+        . ' q.first_response_time, q.first_response_notify, '
+        . ' q.update_time, q.update_notify, q.solution_time, q.solution_notify, '
+        . ' q.follow_up_id, q.follow_up_lock, sa.value0, sa.value1, q.id, '
+        . ' q.move_notify, q.state_notify, q.lock_notify, q.owner_notify, q.default_sign_key, '
+        . ' q.calendar_name '
+        . ' FROM queue q, system_address sa'
+        . ' WHERE q.system_address_id = sa.id AND ';
     my $Suffix = '';
     if ( $Param{ID} ) {
         $Param{What} = $Param{ID};
         $Suffix = 'ID';
-        $SQL .= "q.id = ?";
+        $SQL .= 'q.id = ?';
         push @Bind, \$Param{ID};
     }
     else {
         $Param{What} = $Param{Name};
         $Suffix = 'Name';
-        $SQL .= "q.name = ?";
+        $SQL .= 'q.name = ?';
         push @Bind, \$Param{Name};
     }
     my %Data = ();
@@ -882,25 +882,25 @@ sub QueueGet {
 update queue attributes
 
     $QueueObject->QueueUpdate(
-        QueueID => 123,
-        Name => 'Some::Queue',
-        ValidID => 1,
-        GroupID => 1,
-        Calendar => 'Calendar1',   # (optional)
-        FirstResponseTime => 120,  # (optional)
-        FirstResponseNotify => 60, # (optional, notify agent if first response escalation is 60% reached)
-        UpdateTime => 180,         # (optional)
-        UpdateNotify => 80,        # (optional, notify agent if update escalation is 80% reached)
-        SolutionTime => 580,       # (optional)
-        SolutionNotify => 80,      # (optional, notify agent if solution escalation is 80% reached)
-        SystemAddressID => 1,
-        SalutationID => 1,
-        SignatureID => 1,
-        UserID => 123,
-        MoveNotify => 0,
-        StateNotify => 0,
-        LockNotify => 0,
-        OwnerNotify => 0,
+        QueueID           => 123,
+        Name              => 'Some::Queue',
+        ValidID           => 1,
+        GroupID           => 1,
+        Calendar          => 'Calendar1', # (optional)
+        FirstResponseTime   => 120, # (optional)
+        FirstResponseNotify => 60,  # (optional, notify agent if first response escalation is 60% reached)
+        UpdateTime        => 180,   # (optional)
+        UpdateNotify      => 80,    # (optional, notify agent if update escalation is 80% reached)
+        SolutionTime      => 580,   # (optional)
+        SolutionNotify    => 80,    # (optional, notify agent if solution escalation is 80% reached)
+        SystemAddressID   => 1,
+        SalutationID      => 1,
+        SignatureID       => 1,
+        UserID            => 123,
+        MoveNotify        => 0,
+        StateNotify       => 0,
+        LockNotify        => 0,
+        OwnerNotify       => 0,
     );
 
 =cut
@@ -964,15 +964,15 @@ sub QueueUpdate {
 
     # sql
     return if ! $Self->{DBObject}->Do(
-        SQL => "UPDATE queue SET name = ?, comments = ?, group_id = ?, "
-            . " unlock_timeout = ?, first_response_time = ?, first_response_notify = ?, "
-            . " update_time = ?, update_notify = ?, solution_time = ?, "
-            . " solution_notify = ?, follow_up_id = ?, follow_up_lock = ?, "
-            . " system_address_id = ?, calendar_name = ?, default_sign_key = ?, "
-            . " salutation_id = ?, signature_id = ?, move_notify = ?, "
-            . " state_notify = ?, lock_notify = ?, owner_notify = ?, "
-            . " valid_id = ?, change_time = current_timestamp, change_by = ? "
-            . " WHERE id = ?",
+        SQL => 'UPDATE queue SET name = ?, comments = ?, group_id = ?, '
+            . ' unlock_timeout = ?, first_response_time = ?, first_response_notify = ?, '
+            . ' update_time = ?, update_notify = ?, solution_time = ?, '
+            . ' solution_notify = ?, follow_up_id = ?, follow_up_lock = ?, '
+            . ' system_address_id = ?, calendar_name = ?, default_sign_key = ?, '
+            . ' salutation_id = ?, signature_id = ?, move_notify = ?, '
+            . ' state_notify = ?, lock_notify = ?, owner_notify = ?, '
+            . ' valid_id = ?, change_time = current_timestamp, change_by = ? '
+            . ' WHERE id = ?',
         Bind => [
             \$Param{Name}, \$Param{Comment}, \$Param{GroupID}, \$Param{UnlockTimeout},
             \$Param{FirstResponseTime}, \$Param{FirstResponseNotify}, \$Param{UpdateTime},
@@ -994,8 +994,8 @@ sub QueueUpdate {
                 my $NewQueueName = $AllQueue{$QueueID};
                 $NewQueueName =~ s/\Q$OldQueue{Name}\E/$Param{Name}/;
                 $Self->{DBObject}->Do(
-                    SQL => "UPDATE queue SET name = ?, change_time = current_timestamp, "
-                        . " change_by = ? WHERE id = ?",
+                    SQL => 'UPDATE queue SET name = ?, change_time = current_timestamp, '
+                        . ' change_by = ? WHERE id = ?',
                     Bind => [ \$NewQueueName, \$Param{UserID}, \$QueueID ],
                 );
             }
@@ -1054,6 +1054,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.85 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.86 $ $Date: 2008-04-09 00:31:19 $
 
 =cut

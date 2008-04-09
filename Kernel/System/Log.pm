@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Log.pm,v 1.46 2008-03-06 13:43:00 ot Exp $
+# $Id: Log.pm,v 1.47 2008-04-09 00:31:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -41,7 +41,7 @@ create a log object
     use Kernel::System::Log;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
 
@@ -101,7 +101,7 @@ log something, log priorities are 'debug', 'info', 'notice' and 'error'.
 
     $LogObject->Log(
         Priority => 'error',
-        Message => "Need something!",
+        Message  => "Need something!",
     );
 
 =cut
@@ -131,9 +131,7 @@ sub Log {
 
     # if error, write it to STDERR
     if ( $Priority =~ /^error/i ) {
-        my $Error
-            = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: " . localtime() . "\n\n",
-            $^V;
+        my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: " . localtime() . "\n\n", $^V;
         $Error .= " Message: $Message\n\n";
         $Error .= " Traceback ($$): \n";
         for ( my $i = 0; $i < 12; $i++ ) {
@@ -297,6 +295,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2008-03-06 13:43:00 $
+$Revision: 1.47 $ $Date: 2008-04-09 00:31:20 $
 
 =cut

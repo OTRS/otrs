@@ -2,7 +2,7 @@
 # Kernel/System/Cache.pm - all cache functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.pm,v 1.8 2008-04-02 04:52:27 tr Exp $
+# $Id: Cache.pm,v 1.9 2008-04-09 00:31:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,11 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
-Kernel::System::Cache - valid lib
+Kernel::System::Cache - cache lib
 
 =head1 SYNOPSIS
 
@@ -41,17 +41,17 @@ create an object
     use Kernel::System::Cache;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $CacheObject = Kernel::System::Cache->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        MainObject => $MainObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
 
 =cut
@@ -122,8 +122,8 @@ sub Set {
 return a cache
 
     my $Value = $CacheObject->Get(
-        Type  => 'ObjectName', # only A-z chars usable
-        Key   => 'SomeKey',
+        Type => 'ObjectName', # only A-z chars usable
+        Key  => 'SomeKey',
     );
 
 =cut
@@ -163,8 +163,8 @@ sub Get {
 delete a cache
 
     $CacheObject->Delete(
-        Type  => 'ObjectName', # only A-z chars usable
-        Key   => 'SomeKey',
+        Type => 'ObjectName', # only A-z chars usable
+        Key  => 'SomeKey',
     );
 
 =cut
@@ -206,6 +206,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.9 $ $Date: 2008-04-09 00:31:20 $
 
 =cut

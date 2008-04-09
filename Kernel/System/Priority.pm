@@ -2,7 +2,7 @@
 # Kernel/System/Priority.pm - all ticket priority function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.12 2008-04-02 04:52:27 tr Exp $
+# $Id: Priority.pm,v 1.13 2008-04-09 00:31:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -43,17 +43,17 @@ create an object
     use Kernel::System::Priority;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $PriorityObject = Kernel::System::Priority->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
     );
 
 =cut
@@ -114,7 +114,7 @@ get a priority
 
     my %List = $PriorityObject->PriorityGet(
         PriorityID => 123,
-        UserID => 1,
+        UserID     => 1,
     );
 
 =cut
@@ -160,9 +160,9 @@ sub PriorityGet {
 add a ticket priority
 
     my $True = $PriorityObject->PriorityAdd(
-        Name => 'Prio',
+        Name    => 'Prio',
         ValidID => 1,
-        UserID => 1,
+        UserID  => 1,
     );
 
 =cut
@@ -200,9 +200,9 @@ update a existing ticket priority
 
     my $True = $PriorityObject->PriorityUpdate(
         PriorityID => 123,
-        Name => 'New Prio',
-        ValidID => 1,
-        UserID => 1,
+        Name       => 'New Prio',
+        ValidID    => 1,
+        UserID     => 1,
     );
 
 =cut
@@ -237,9 +237,13 @@ sub PriorityUpdate {
 
 returns the id or the name of a priority
 
-    my $PriorityID = $PriorityObject->PriorityLookup(Priority => '3 normal');
+    my $PriorityID = $PriorityObject->PriorityLookup(
+        Priority => '3 normal',
+    );
 
-    my $Priority = $PriorityObject->PriorityLookup(PriorityID => 1);
+    my $Priority = $PriorityObject->PriorityLookup(
+        PriorityID => 1,
+    );
 
 =cut
 
@@ -265,16 +269,17 @@ sub PriorityLookup {
     }
 
     # db query
-    my $SQL = '';
+    my $SQL;
+    my @Bind;
     if ( $Param{Priority} ) {
-        $SQL = "SELECT id FROM ticket_priority WHERE name = '"
-            . $Self->{DBObject}->Quote( $Param{Priority} ) . "'";
+        $SQL = "SELECT id FROM ticket_priority WHERE name = ?";
+        push @Bind, \$Param{Priority};
     }
     else {
-        $SQL = "SELECT name FROM ticket_priority WHERE id = "
-            . $Self->{DBObject}->Quote( $Param{PriorityID}, 'Integer' ) . "";
+        $SQL = "SELECT name FROM ticket_priority WHERE id = ?";
+        push @Bind, \$Param{PriorityID};
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare( SQL  => $SQL, Bind => \@Bind );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # store result
@@ -329,6 +334,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.13 $ $Date: 2008-04-09 00:31:19 $
 
 =cut

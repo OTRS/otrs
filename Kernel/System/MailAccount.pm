@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount.pm - lib for mail accounts
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: MailAccount.pm,v 1.3 2008-04-07 11:31:48 martin Exp $
+# $Id: MailAccount.pm,v 1.4 2008-04-09 00:31:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -41,17 +41,17 @@ create an object
     use Kernel::System::MailAccount;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $MailAccount = Kernel::System::MailAccount->new(
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
         ConfigObject => $ConfigObject,
-        DBObject => $DBObject,
+        DBObject     => $DBObject,
     );
 
 =cut
@@ -117,9 +117,9 @@ sub MailAccountAdd {
 
     # sql
     return if ! $Self->{DBObject}->Do(
-        SQL => "INSERT INTO mail_account (login, pw, host, account_type, valid_id, comments, queue_id, "
-            . " trusted, create_time, create_by, change_time, change_by)"
-            . " VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
+        SQL => 'INSERT INTO mail_account (login, pw, host, account_type, valid_id, comments, queue_id, '
+            . ' trusted, create_time, create_by, change_time, change_by)'
+            . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Login}, \$Param{Password}, \$Param{Host}, \$Param{Type},
             \$Param{ValidID}, \$Param{Comment}, \$Param{QueueID}, \$Param{Trusted},
@@ -128,7 +128,7 @@ sub MailAccountAdd {
     );
 
     return if ! $Self->{DBObject}->Prepare(
-        SQL  => "SELECT id FROM mail_account WHERE login = ? AND host = ? AND account_type = ?",
+        SQL  => 'SELECT id FROM mail_account WHERE login = ? AND host = ? AND account_type = ?',
         Bind => [ \$Param{Login}, \$Param{Host}, \$Param{Type} ],
     );
     my $ID;
@@ -166,8 +166,8 @@ sub MailAccountGet {
 
     # sql
     return if ! $Self->{DBObject}->Prepare(
-        SQL => "SELECT login, pw, host, account_type, queue_id, trusted, comments, valid_id"
-            . " FROM mail_account WHERE id = ?",
+        SQL => 'SELECT login, pw, host, account_type, queue_id, trusted, comments, valid_id'
+            . ' FROM mail_account WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
     my %Data = ();
@@ -234,9 +234,9 @@ sub MailAccountUpdate {
 
     # sql
     return $Self->{DBObject}->Do(
-        SQL => "UPDATE mail_account SET login = ?, pw = ?, host = ?, account_type = ?, "
-            . " comments = ?, trusted = ?, valid_id = ?, change_time = current_timestamp, "
-            . " change_by = ?, queue_id = ? WHERE id = ?",
+        SQL => 'UPDATE mail_account SET login = ?, pw = ?, host = ?, account_type = ?, '
+            . ' comments = ?, trusted = ?, valid_id = ?, change_time = current_timestamp, '
+            . ' change_by = ?, queue_id = ? WHERE id = ?',
         Bind => [
             \$Param{Login}, \$Param{Password}, \$Param{Host}, \$Param{Type},
             \$Param{Comment}, \$Param{Trusted}, \$Param{ValidID}, \$Param{UserID},
@@ -267,7 +267,7 @@ sub MailAccountDelete {
     # sql
 
     return $Self->{DBObject}->Do(
-        SQL  => "DELETE FROM mail_account WHERE id = ?",
+        SQL  => 'DELETE FROM mail_account WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
 }
@@ -381,6 +381,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2008-04-07 11:31:48 $
+$Revision: 1.4 $ $Date: 2008-04-09 00:31:20 $
 
 =cut
