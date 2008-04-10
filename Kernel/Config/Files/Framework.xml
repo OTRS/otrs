@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.166 2008-04-02 12:54:05 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.167 2008-04-10 16:32:01 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -206,8 +206,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultLanguage" Required="1" Valid="1">
-        <Description Lang="en">The default frontend language. Possible values are ar_SA, bg, cz, da, de, en, esl, es, fi, fr, hu, it, nb_NO, nl, pl, pt, pt_BR ru, th, sk_SK, sv, tr, vi_VN and zh_CN.</Description>
-        <Description Lang="de">Standard Frontend Sprache. Mögliche Werte sind ar_SA, bg, cz, da, de, en, esl, es, fi, fr, hu, it, nb_NO, nl, pl, pt, pt_BR ru, th, sk_SK, sv, tr, vi_VN und zh_CN.</Description>
+        <Description Lang="en">The default frontend language. Possible values are ar_SA, bg, cz, da, de, en, el, es, et, fi, fr, hu, it, nb_NO, nl, pl, pt, pt_BR ru, th, sk_SK, sv, tr, vi_VN and zh_CN.</Description>
+        <Description Lang="de">Standard Frontend Sprache. Mögliche Werte sind ar_SA, bg, cz, da, de, en, el, es, et, fi, fr, hu, it, nb_NO, nl, pl, pt, pt_BR ru, th, sk_SK, sv, tr, vi_VN und zh_CN.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -228,6 +228,7 @@ TimeWorkingHours
                 <Item Key="de">Deutsch</Item>
                 <Item Key="en">English</Item>
                 <Item Key="es">Espa&amp;ntilde;ol</Item>
+                <Item Key="et">Eesti</Item>
                 <Item Key="el">Greek (&amp;#x0395;&amp;#x03bb;&amp;#x03bb;&amp;#x03b7;&amp;#x03bd;&amp;#x03b9;&amp;#x03ba;&amp;#x03ac;)</Item>
                 <Item Key="fa">Persian (&amp;#x0641;&amp;#x0627;&amp;#x0631;&amp;#x0633;&amp;#x0649;)</Item>
                 <Item Key="fr">Fran&amp;ccedil;ais</Item>

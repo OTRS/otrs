@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.293 2008-04-02 12:54:05 martin Exp $
+# $Id: Defaults.pm,v 1.294 2008-04-10 16:32:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.293 $) [1];
+$VERSION = qw($Revision: 1.294 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -89,8 +89,7 @@ sub LoadDefaults {
 
     # DatabaseDSN
     # (The database DSN for MySQL ==> more: "man DBD::mysql")
-    $Self->{DatabaseDSN}
-        = "DBI:mysql:database=<OTRS_CONFIG_Database>;host=<OTRS_CONFIG_DatabaseHost>;";
+    $Self->{DatabaseDSN} = "DBI:mysql:database=<OTRS_CONFIG_Database>;host=<OTRS_CONFIG_DatabaseHost>;";
 
 # (The database DSN for PostgreSQL ==> more: "man DBD::Pg")
 #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=<OTRS_CONFIG_Database>;host=<OTRS_CONFIG_DatabaseHost>;";
@@ -142,7 +141,7 @@ sub LoadDefaults {
     # (short name = long name and file)
     $Self->{DefaultUsedLanguages} = {
 
-        #            bb => 'Bavarian',
+#            bb => 'Bavarian',
         ar_SA => 'Arabic (Saudi Arabia)',
         bg    => 'Bulgarian (&#x0411;&#x044a;&#x043b;&#x0433;&#x0430;&#x0440;&#x0441;&#x043a;&#x0438;)',
         cz    => 'Czech (&#x010c;esky)',
@@ -151,6 +150,7 @@ sub LoadDefaults {
         en    => 'English',
         el    => 'Greek (&#x0395;&#x03bb;&#x03bb;&#x03b7;&#x03bd;&#x03b9;&#x03ba;&#x03ac;)',
         es    => 'Espa&ntilde;ol',
+        et    => 'Eesti',
         fa    => 'Persian (&#x0641;&#x0627;&#x0631;&#x0633;&#x0649;)',
         fr    => 'Fran&ccedil;ais',
         fi    => 'Suomi',
@@ -2324,6 +2324,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.293 $ $Date: 2008-04-02 12:54:05 $
+$Revision: 1.294 $ $Date: 2008-04-10 16:32:01 $
 
 =cut
