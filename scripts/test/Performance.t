@@ -2,7 +2,7 @@
 # scripts/test/Performance.t - a performance testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Performance.t,v 1.2 2008-03-18 16:03:36 tr Exp $
+# $Id: Performance.t,v 1.3 2008-04-10 17:39:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -53,7 +53,12 @@ $Self->{ParamObject} = Kernel::System::Web::Request->new(
     %{$Self},
     WebRequest => $Param{WebRequest} || 0,
 );
-
+$Self->{QueueObject} = Kernel::System::Queue->new(
+    ConfigObject   => $Self->{ConfigObject},
+    LogObject      => $Self->{LogObject},
+    DBObject       => $Self->{DBObject},
+    MainObject     => $Self->{MainObject},
+);
 $Self->{GroupObject} = Kernel::System::Group->new(
     ConfigObject   => $Self->{ConfigObject},
     LogObject      => $Self->{LogObject},
@@ -118,6 +123,8 @@ $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
     ParamObject    => $Self->{ParamObject},
     TicketObject   => $Self->{TicketObject},
     GroupObject    => $Self->{GroupObject},
+    QueueObject    => $Self->{QueueObject},
+    UserObject     => $Self->{UserObject},
     Action         => 'AgentTicketQueue',
     UserID         => 2,
     Lang => 'de',
