@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.39 2008-04-09 00:31:19 martin Exp $
+# $Id: Time.pm,v 1.40 2008-04-10 14:21:44 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -74,7 +74,7 @@ sub new {
         || $Param{UserTimeZone}
         || $Self->{ConfigObject}->Get('TimeZone')
         || 0;
-    $Self->{TimeSecDiff} = $Self->{TimeZone} * 60 * 60;
+    $Self->{TimeSecDiff} = $Self->{TimeZone} * 3600; # 60 * 60
 
     return $Self;
 }
@@ -116,11 +116,9 @@ sub SystemTime2TimeStamp {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(SystemTime)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{SystemTime} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SystemTime!' );
+        return;
     }
 
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->SystemTime2Date( %Param, );
@@ -130,9 +128,7 @@ sub SystemTime2TimeStamp {
         if ( $CYear == $Year && $CMonth == $Month && $CDay == $Day ) {
             return "$Hour:$Min:$Sec";
         }
-        else {
-            return "$Year-$Month-$Day $Hour:$Min:$Sec";
-        }
+        return "$Year-$Month-$Day $Hour:$Min:$Sec";
     }
     return "$Year-$Month-$Day $Hour:$Min:$Sec";
 }
@@ -165,22 +161,20 @@ sub SystemTime2Date {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(SystemTime)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{SystemTime} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SystemTime!' );
+        return;
     }
 
     # get time format
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime( $Param{SystemTime} );
-    $Year  = $Year + 1900;
-    $Month = $Month + 1;
+    $Year  += 1900;
+    $Month += 1;
     $Month = "0$Month" if ( $Month < 10 );
-    $Day   = "0$Day" if ( $Day < 10 );
-    $Hour  = "0$Hour" if ( $Hour < 10 );
-    $Min   = "0$Min" if ( $Min < 10 );
-    $Sec   = "0$Sec" if ( $Sec < 10 );
+    $Day   = "0$Day"   if ( $Day < 10 );
+    $Hour  = "0$Hour"  if ( $Hour < 10 );
+    $Min   = "0$Min"   if ( $Min < 10 );
+    $Sec   = "0$Sec"   if ( $Sec < 10 );
 
     return ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay );
 }
@@ -201,12 +195,11 @@ sub TimeStamp2SystemTime {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(String)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{String} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need String!' );
+        return;
     }
+
     my $SytemTime = 0;
 
     # match iso date format
@@ -268,15 +261,12 @@ sub TimeStamp2SystemTime {
     }
 
     # return system time
-    if ($SytemTime) {
-        return $SytemTime;
-    }
+    return $SytemTime if $SytemTime;
 
     # return error
-    else {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Invalid Date '$Param{String}'!" );
-        return;
-    }
+    $Self->{LogObject}->Log( Priority => 'error', Message => "Invalid Date '$Param{String}'!" );
+    return;
+
 }
 
 =item Date2SystemTime()
@@ -310,17 +300,14 @@ sub Date2SystemTime {
         timelocal( $Param{Second}, $Param{Minute}, $Param{Hour}, $Param{Day}, ( $Param{Month} - 1 ),
             $Param{Year} );
     };
-    if ($SytemTime) {
-        return $SytemTime;
-    }
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message =>
-                "Invalid Date '$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:$Param{Second}'!",
-        );
-        return;
-    }
+    return $SytemTime if $SytemTime;
+
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message =>
+            "Invalid Date '$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:$Param{Second}'!",
+    );
+    return;
 }
 
 =item MailTimeStamp()
@@ -784,6 +771,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2008-04-09 00:31:19 $
+$Revision: 1.40 $ $Date: 2008-04-10 14:21:44 $
 
 =cut
