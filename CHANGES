@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.113 2008-04-07 11:19:15 martin Exp $
+# $Id: CHANGES,v 1.465.2.114 2008-04-10 16:32:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.2.7 (2008/??/??)
+ - (2008/04/10) Added new estonian translation, thanks to Lauri Jesmin!
  - (2008/04/07) Fixed bug# 2814 - BCC emails are visible to all receipiants in
     email header.
  - (2008/04/07) Fixed bug# 2829 - Local system email address is always set to CC

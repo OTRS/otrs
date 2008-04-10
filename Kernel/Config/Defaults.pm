@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.272.2.5 2008-03-13 21:20:11 martin Exp $
+# $Id: Defaults.pm,v 1.272.2.6 2008-04-10 16:32:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.272.2.5 $';
+$VERSION = '$Revision: 1.272.2.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadDefaults {
@@ -146,6 +146,7 @@ sub LoadDefaults {
             en => 'English',
             el => 'Greek (&#x0395;&#x03bb;&#x03bb;&#x03b7;&#x03bd;&#x03b9;&#x03ba;&#x03ac;)',
             es => 'Espa&ntilde;ol',
+            et => 'Eesti',
             fa => 'Persian (&#x0641;&#x0627;&#x0631;&#x0633;&#x0649;)',
             fr => 'Fran&ccedil;ais',
             fi => 'Suomi',
@@ -2183,6 +2184,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.272.2.5 $ $Date: 2008-03-13 21:20:11 $
+$Revision: 1.272.2.6 $ $Date: 2008-04-10 16:32:26 $
 
 =cut
