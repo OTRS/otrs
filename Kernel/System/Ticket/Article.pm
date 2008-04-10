@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.168 2008-04-08 16:27:08 martin Exp $
+# $Id: Article.pm,v 1.169 2008-04-10 20:42:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.168 $) [1];
+$VERSION = qw($Revision: 1.169 $) [1];
 
 =head1 NAME
 
@@ -805,17 +805,10 @@ sub ArticleTypeLookup {
     }
 
     # get key
-    if ( $Param{ArticleType} ) {
-        $Param{Key} = 'ArticleType';
-    }
-    else {
-        $Param{Key} = 'ArticleTypeID';
-    }
+    my $Key = $Param{ArticleTypeID} ? "ArticleTypeLookup::$Param{ArticleTypeID}" : "ArticleTypeLookup::$Param{ArticleType}";
 
     # check if we ask the same request (cache)?
-    if ( $Self->{"ArticleTypeLookup::$Param{$Param{Key}}"} ) {
-        return $Self->{"ArticleTypeLookup::$Param{$Param{Key}}"};
-    }
+    return $Self->{$Key} if $Self->{$Key};
 
     # get data
     if ( $Param{ArticleType} ) {
@@ -833,20 +826,20 @@ sub ArticleTypeLookup {
 
     # store result
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Self->{"ArticleTypeLookup::$Param{$Param{Key}}"} = $Row[0];
+        $Self->{$Key} = $Row[0];
     }
 
     # check if data exists
-    if ( !$Self->{"ArticleTypeLookup::$Param{$Param{Key}}"} ) {
+    if ( !$Self->{$Key}) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Found no ArticleType(ID) for $Param{$Param{Key}}!",
+            Message  => "Found no ArticleType(ID) for $Key!",
         );
         return;
     }
 
     # return
-    return $Self->{"ArticleTypeLookup::$Param{$Param{Key}}"};
+    return $Self->{$Key};
 }
 
 =item ArticleTypeList()
