@@ -1,8 +1,8 @@
 # --
-# Kernel/System/Ticket.pm - the global ticket handle
+# Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.306 2008-04-08 16:27:08 martin Exp $
+# $Id: Ticket.pm,v 1.307 2008-04-10 05:43:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.306 $) [1];
+$VERSION = qw($Revision: 1.307 $) [1];
 
 =head1 NAME
 
@@ -158,7 +158,7 @@ sub new {
     $Self->{NotificationObject}   = Kernel::System::Notification->new(%Param);
     $Self->{ValidObject}          = Kernel::System::Valid->new(%Param);
 
-    # get config static var
+    # get viewable states list
     my @ViewableStates = $Self->{StateObject}->StateGetStatesByType(
         Type   => 'Viewable',
         Result => 'Name',
@@ -176,7 +176,7 @@ sub new {
     my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock( Type => 'ID' );
     $Self->{ViewableLockIDs} = \@ViewableLockIDs;
 
-    # get config static var
+    # get basic config settings
     $Self->{Sendmail}     = $Self->{ConfigObject}->Get('Sendmail');
     $Self->{SendmailBcc}  = $Self->{ConfigObject}->Get('SendmailBcc');
     $Self->{FQDN}         = $Self->{ConfigObject}->Get('FQDN');
@@ -188,7 +188,7 @@ sub new {
     if ( !$Self->{MainObject}->Require($GeneratorModule) ) {
         die "Can't load ticket number generator backend module $GeneratorModule! $@";
     }
-    push( @ISA, $GeneratorModule );
+    push @ISA, $GeneratorModule;
 
     # load ticket index generator
     my $GeneratorIndexModule = $Self->{ConfigObject}->Get('Ticket::IndexModule')
@@ -196,7 +196,7 @@ sub new {
     if ( !$Self->{MainObject}->Require($GeneratorIndexModule) ) {
         die "Can't load ticket index backend module $GeneratorIndexModule! $@";
     }
-    push( @ISA, $GeneratorIndexModule );
+    push @ISA, $GeneratorIndexModule;
 
     # load article storage module
     my $StorageModule = $Self->{ConfigObject}->Get('Ticket::StorageModule')
@@ -204,15 +204,15 @@ sub new {
     if ( !$Self->{MainObject}->Require($StorageModule) ) {
         die "Can't load ticket storage backend module $StorageModule! $@";
     }
-    push( @ISA, $StorageModule );
+    push @ISA, $StorageModule;
 
-    # load custom functions
+    # load ticket extension modules
     my $CustomModule = $Self->{ConfigObject}->Get('Ticket::CustomModule');
     if ($CustomModule) {
         if ( !$Self->{MainObject}->Require($CustomModule) ) {
             die "Can't load ticket custom module $CustomModule! $@";
         }
-        push( @ISA, $CustomModule );
+        push @ISA, $CustomModule;
     }
 
     $Self->ArticleStorageInit();
@@ -232,7 +232,7 @@ creates a new ticket number
 
 =item TicketCheckNumber()
 
-checks if the ticket number exists, returns ticket id if exists
+checks if ticket number exists, returns ticket id if number exists
 
     my $TicketID = $TicketObject->TicketCheckNumber(
         Tn => '200404051004575',
@@ -245,7 +245,7 @@ sub TicketCheckNumber {
 
     # check needed stuff
     if ( !$Param{Tn} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TN!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TN!' );
         return;
     }
 
@@ -260,20 +260,21 @@ sub TicketCheckNumber {
         $Id = $Row[0];
     }
 
-    # get merge main ticket if ticket is merged
-    if ($Id) {
-        my %Ticket = $Self->TicketGet( TicketID => $Id );
-        if ( $Ticket{StateType} eq 'merged' ) {
-            my @Lines = $Self->HistoryGet( TicketID => $Ticket{TicketID}, UserID => 1 );
-            for my $Data ( reverse @Lines ) {
-                if ( $Data->{HistoryType} eq 'Merged' ) {
-                    if ( $Data->{Name} =~ /^.*\(\d+?\/(\d+?)\)$/ ) {
-                        return $1;
-                    }
-                }
+    # get main ticket id if ticket has been merged
+    return if !$Id;
+
+    my %Ticket = $Self->TicketGet( TicketID => $Id );
+    return $Id if $Ticket{StateType} ne 'merged';
+
+    my @Lines = $Self->HistoryGet( TicketID => $Ticket{TicketID}, UserID => 1 );
+    for my $Data ( reverse @Lines ) {
+        if ( $Data->{HistoryType} eq 'Merged' ) {
+            if ( $Data->{Name} =~ /^.*\(\d+?\/(\d+?)\)$/ ) {
+                return $1;
             }
         }
     }
+
     return $Id;
 }
 
@@ -320,7 +321,7 @@ sub TicketCreate {
     my $GroupID = $Param{GroupID} || 1;
     my $ValidID = $Param{ValidID} || 1;
     my $Age                 = $Self->{TimeObject}->SystemTime();
-    my $EscalationStartTime = $Self->{TimeObject}->SystemTime();
+    my $EscalationStartTime = $Age;
 
     # check needed stuff
     for (qw(OwnerID UserID)) {
@@ -329,6 +330,8 @@ sub TicketCreate {
             return;
         }
     }
+
+    # set default values if no values are specified
     if ( !$Param{ResponsibleID} ) {
         $Param{ResponsibleID} = 1;
     }
@@ -434,7 +437,7 @@ sub TicketCreate {
         $Param{SLA} = $Self->{SLAObject}->SLALookup( SLAID => $Param{SLAID} );
     }
 
-    # create ticket number if not given
+    # create ticket number if none has been delivered
     if ( !$Param{TN} ) {
         $Param{TN} = $Self->TicketCreateNumber();
     }
@@ -467,7 +470,7 @@ sub TicketCreate {
         UserID       => $Param{UserID},
     );
 
-    # history insert
+    # add history entry
     $Self->HistoryAdd(
         TicketID    => $TicketID,
         QueueID     => $Param{QueueID},
@@ -476,7 +479,7 @@ sub TicketCreate {
         CreateUserID => $Param{UserID},
     );
 
-    # set customer data if given
+    # set customer data if received
     if ( $Param{CustomerNo} || $Param{CustomerID} || $Param{CustomerUser} ) {
         $Self->SetCustomerData(
             TicketID => $TicketID,
@@ -489,21 +492,20 @@ sub TicketCreate {
     # update ticket view index
     $Self->TicketAcceleratorAdd( TicketID => $TicketID );
 
-    # log
+    # make ticket creation log entry
     $Self->{LogObject}->Log(
         Priority => 'notice',
         Message  => "New Ticket [$Param{TN}/" . substr( $Param{Title}, 0, 15 ) . "] created "
             . "(TicketID=$TicketID,Queue=$Param{Queue},Priority=$Param{Priority},State=$Param{State})",
     );
 
-    # ticket event
+    # trigger ticket event
     $Self->TicketEventHandlerPost(
         Event    => 'TicketCreate',
         UserID   => $Param{UserID},
         TicketID => $TicketID,
     );
 
-    # return ticket id
     return $TicketID;
 }
 
@@ -513,7 +515,7 @@ deletes a ticket from storage
 
     $TicketObject->TicketDelete(
         TicketID => 123,
-        UserID => 123,
+        UserID   => 123,
     );
 
 =cut
@@ -6585,6 +6587,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.306 $ $Date: 2008-04-08 16:27:08 $
+$Revision: 1.307 $ $Date: 2008-04-10 05:43:43 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.23 2008-04-09 00:31:19 martin Exp $
+# $Id: LinkObject.pm,v 1.24 2008-04-10 05:43:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -97,7 +97,7 @@ sub new {
 
 =item LinkObjects()
 
-get a all linkable objects
+get all linkable objects
 
     my %LinkObjects = $LinkObject->LinkObjects(
         SourceObject => 'Ticket',
@@ -554,6 +554,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2008-04-09 00:31:19 $
+$Revision: 1.24 $ $Date: 2008-04-10 05:43:43 $
 
 =cut
