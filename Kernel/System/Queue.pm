@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.86 2008-04-09 00:31:19 martin Exp $
+# $Id: Queue.pm,v 1.87 2008-04-10 17:39:00 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 =head1 NAME
 
@@ -63,6 +63,7 @@ create an object
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         DBObject     => $DBObject,
+        MainObject   => $MainObject,
     );
 
 =cut
@@ -177,7 +178,7 @@ sub GetSalutation {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need QueueID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
         return;
     }
 
@@ -207,7 +208,7 @@ sub GetSignature {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need QueueID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
         return;
     }
 
@@ -239,7 +240,7 @@ sub GetStdResponse {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
         return;
     }
 
@@ -368,19 +369,16 @@ sub GetAllQueues {
             Result => 'ID',
             Cached => 1,
         );
-        if (@GroupIDs) {
-            my $SQL = "SELECT id, name FROM queue"
-                . " WHERE "
-                . " group_id IN ( ${\(join ', ', @GroupIDs)} ) AND "
-                . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
-            $Self->{DBObject}->Prepare( SQL => $SQL );
-        }
-        else {
-            return;
-        }
+        return if !@GroupIDs;
+
+        my $SQL = "SELECT id, name FROM queue"
+            . " WHERE "
+            . " group_id IN ( ${\(join ', ', @GroupIDs)} ) AND "
+            . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
+        $Self->{DBObject}->Prepare( SQL => $SQL );
     }
     else {
-        if ( $Self->{"QG::GetAllQueues"} ) {
+        if ( $Self->{'QG::GetAllQueues'} ) {
             return %{ $Self->{"QG::GetAllQueues"} };
         }
         $Self->{DBObject}->Prepare(
@@ -400,7 +398,7 @@ sub GetAllQueues {
         $Self->{"QG::GetAllQueues::CustomerUserID::$Param{CustomerUserID}"} = \%MoveQueues;
     }
     else {
-        $Self->{"QG::GetAllQueues"} = \%MoveQueues;
+        $Self->{'QG::GetAllQueues'} = \%MoveQueues;
     }
 
     return %MoveQueues;
@@ -419,7 +417,7 @@ sub GetAllCustomQueues {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -430,7 +428,7 @@ sub GetAllCustomQueues {
         Bind => [ \$Param{UserID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push( @QueueIDs, $Row[0] );
+        push @QueueIDs, $Row[0];
     }
     return @QueueIDs;
 }
@@ -450,7 +448,7 @@ sub QueueLookup {
 
     # check needed stuff
     if ( !$Param{Queue} && !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no Queue or QueueID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no Queue or QueueID!' );
         return;
     }
 
@@ -512,7 +510,7 @@ sub GetFollowUpOption {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need QueueID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
         return;
     }
 
@@ -542,7 +540,7 @@ sub GetFollowUpLockOption {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need QueueID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
         return;
     }
 
@@ -571,7 +569,7 @@ sub GetQueueGroupID {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need QueueID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
         return;
     }
 
@@ -785,7 +783,7 @@ sub QueueGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID or Name!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID or Name!' );
         return;
     }
 
@@ -1054,6 +1052,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.86 $ $Date: 2008-04-09 00:31:19 $
+$Revision: 1.87 $ $Date: 2008-04-10 17:39:00 $
 
 =cut
