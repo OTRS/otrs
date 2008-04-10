@@ -275,7 +275,7 @@ non-overridden program name
      fatalsToBrowser() output.
 
 1.23 ineval() now checks both $^S and inspects the message for the "eval" pattern
-     (hack alert!) in order to accomodate various combinations of Perl and
+     (hack alert!) in order to accommodate various combinations of Perl and
      mod_perl.
 
 1.24 Patch from Scott Gifford (sgifford@suspectclass.com): Add support
@@ -323,7 +323,7 @@ use File::Spec;
 
 $main::SIG{__WARN__}=\&CGI::Carp::warn;
 
-$CGI::Carp::VERSION     = '1.29';
+$CGI::Carp::VERSION     = '1.30_01';
 $CGI::Carp::CUSTOM_MSG  = undef;
 $CGI::Carp::DIE_HANDLER = undef;
 
@@ -575,6 +575,7 @@ END
         print STDOUT $mess;
     }
     else {
+        print STDOUT "Status: 500\n";
         print STDOUT "Content-type: text/html\n\n";
         print STDOUT $mess;
     }
