@@ -2,7 +2,7 @@
 # Kernel/System/Priority.pm - all ticket priority function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.13 2008-04-09 00:31:19 martin Exp $
+# $Id: Priority.pm,v 1.14 2008-04-11 15:50:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -88,23 +88,21 @@ sub PriorityList {
     my ( $Self, %Param ) = @_;
 
     # check valid param
-    if ( !defined( $Param{Valid} ) ) {
+    if ( !defined $Param{Valid} ) {
         $Param{Valid} = 1;
     }
 
     # sql
-    my %Data = ();
     my $SQL  = 'SELECT id, name FROM ticket_priority ';
     if ( $Param{Valid} ) {
         $SQL .= "WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     }
 
-    if ( $Self->{DBObject}->Prepare( SQL => $SQL ) ) {
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $Data{ $Row[0] } = $Row[1];
-        }
+    return if ! $Self->{DBObject}->Prepare( SQL => $SQL );
+    my %Data = ();
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data{ $Row[0] } = $Row[1];
     }
-
     return %Data;
 }
 
@@ -130,28 +128,22 @@ sub PriorityGet {
         }
     }
 
-    # quote
-    for (qw(PriorityID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql
+    return if ! $Self->{DBObject}->Prepare(
+        SQL  => "SELECT id, name, valid_id, create_time, create_by, change_time, change_by "
+            . "FROM ticket_priority WHERE id = ?",
+        Bind => [ \$Param{PriorityID} ],
+    );
     my %Data = ();
-    my $SQL  = "SELECT id, name, valid_id, create_time, create_by, change_time, change_by "
-        . "FROM ticket_priority WHERE id = $Param{PriorityID}";
-
-    if ( $Self->{DBObject}->Prepare( SQL => $SQL ) ) {
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $Data{ID}         = $Row[0];
-            $Data{Name}       = $Row[1];
-            $Data{ValidID}    = $Row[2];
-            $Data{CreateTime} = $Row[3];
-            $Data{CreateBy}   = $Row[4];
-            $Data{ChangeTime} = $Row[5];
-            $Data{ChangeBy}   = $Row[6];
-        }
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data{ID}         = $Row[0];
+        $Data{Name}       = $Row[1];
+        $Data{ValidID}    = $Row[2];
+        $Data{CreateTime} = $Row[3];
+        $Data{CreateBy}   = $Row[4];
+        $Data{ChangeTime} = $Row[5];
+        $Data{ChangeBy}   = $Row[6];
     }
-
     return %Data;
 }
 
@@ -178,20 +170,14 @@ sub PriorityAdd {
         }
     }
 
-    # quote
-    for (qw(Name)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    for (qw(ValidID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
-    my $SQL
-        = "INSERT INTO ticket_priority (name, valid_id, create_time, create_by, change_time, change_by) VALUES "
-        . "('$Param{Name}', $Param{ValidID}, current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-    my $Return = $Self->{DBObject}->Do( SQL => $SQL );
-
-    return $Return;
+    return $Self->{DBObject}->Do(
+        SQL => 'INSERT INTO ticket_priority (name, valid_id, create_time, create_by, '
+            . 'change_time, change_by) VALUES '
+            . '(?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [
+            \$Param{Name}, \$Param{ValidID}, \$Param{UserID}, \$Param{UserID},
+        ]
+    );
 }
 
 =item PriorityUpdate()
@@ -218,19 +204,13 @@ sub PriorityUpdate {
         }
     }
 
-    # quote
-    for (qw(Name)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    for (qw(PriorityID ValidID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
-    my $SQL = "UPDATE ticket_priority SET name = '$Param{Name}', valid_id = $Param{ValidID}, "
-        . "change_time = current_timestamp, change_by = $Param{UserID} WHERE id = $Param{PriorityID}";
-    my $Return = $Self->{DBObject}->Do( SQL => $SQL );
-
-    return $Return;
+    return $Self->{DBObject}->Do(
+        SQL => 'UPDATE ticket_priority SET name = ?, valid_id = ?, '
+            . 'change_time = current_timestamp, change_by = ? WHERE id = ?',
+        Bind => [
+            \$Param{Name}, \$Param{ValidID}, \$Param{UserID}, \$Param{PriorityID},
+        ],
+    );
 }
 
 =item PriorityLookup()
@@ -252,19 +232,28 @@ sub PriorityLookup {
 
     # check needed stuff
     if ( !$Param{Priority} && !$Param{PriorityID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Priority or PriorityID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Priority or PriorityID!' );
         return;
     }
 
     # check if we ask the same request?
+    my $CacheKey;
+    my $Key;
+    my $Value;
     if ( $Param{Priority} ) {
-        if ( exists $Self->{"Ticket::Priority::PriorityLookup::$Param{Priority}"} ) {
-            return $Self->{"Ticket::Priority::PriorityLookup::$Param{Priority}"};
+        $Key      = 'Priority';
+        $Value    = $Param{Priority};
+        $CacheKey = 'Ticket::Priority::PriorityLookup::' . $Param{Priority};
+        if ( defined $Self->{$CacheKey} ) {
+            return $Self->{$CacheKey};
         }
     }
     else {
-        if ( exists $Self->{"Ticket::Priority::PriorityIDLookup::$Param{PriorityID}"} ) {
-            return $Self->{"Ticket::Priority::PriorityIDLookup::$Param{PriorityID}"};
+        $Key      = 'PriorityID';
+        $Value    = $Param{PriorityID};
+        $CacheKey = 'Ticket::Priority::PriorityIDLookup::' . $Param{PriorityID};
+        if ( defined $Self->{$CacheKey} ) {
+            return $Self->{$CacheKey};
         }
     }
 
@@ -272,50 +261,28 @@ sub PriorityLookup {
     my $SQL;
     my @Bind;
     if ( $Param{Priority} ) {
-        $SQL = "SELECT id FROM ticket_priority WHERE name = ?";
+        $SQL = 'SELECT id FROM ticket_priority WHERE name = ?';
         push @Bind, \$Param{Priority};
     }
     else {
-        $SQL = "SELECT name FROM ticket_priority WHERE id = ?";
+        $SQL = 'SELECT name FROM ticket_priority WHERE id = ?';
         push @Bind, \$Param{PriorityID};
     }
     $Self->{DBObject}->Prepare( SQL  => $SQL, Bind => \@Bind );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-
-        # store result
-        if ( $Param{Priority} ) {
-            $Self->{"Ticket::Priority::PriorityLookup::$Param{Priority}"} = $Row[0];
-        }
-        else {
-            $Self->{"Ticket::Priority::PriorityIDLookup::$Param{PriorityID}"} = $Row[0];
-        }
+        $Self->{$CacheKey} = $Row[0];
     }
 
     # check if data exists
-    if ( $Param{Priority} ) {
-        if ( !exists $Self->{"Ticket::Priority::PriorityLookup::$Param{Priority}"} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "No PriorityID for $Param{Priority} found!",
-            );
-            return;
-        }
-        else {
-            return $Self->{"Ticket::Priority::PriorityLookup::$Param{Priority}"};
-        }
+    if ( !defined $Self->{$CacheKey} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No $Key for $Value found!",
+        );
+        return;
     }
-    else {
-        if ( !exists $Self->{"Ticket::Priority::PriorityIDLookup::$Param{PriorityID}"} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "No Priority for $Param{PriorityID} found!",
-            );
-            return;
-        }
-        else {
-            return $Self->{"Ticket::Priority::PriorityIDLookup::$Param{PriorityID}"};
-        }
-    }
+
+    return $Self->{$CacheKey};
 }
 
 1;
@@ -334,6 +301,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2008-04-09 00:31:19 $
+$Revision: 1.14 $ $Date: 2008-04-11 15:50:08 $
 
 =cut

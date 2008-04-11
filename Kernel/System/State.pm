@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.27 2008-04-09 00:31:19 martin Exp $
+# $Id: State.pm,v 1.28 2008-04-11 15:49:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -158,13 +158,15 @@ sub StateGet {
     }
 
     # cache data
-    if ( $Param{Cache} ) {
-        if ( $Param{Name} && $Self->{"StateGet::$Param{Name}"} ) {
-            return %{ $Self->{"StateGet::$Param{Name}"} };
-        }
-        elsif ( $Param{ID} && $Self->{"StateGet::$Param{ID}"} ) {
-            return %{ $Self->{"StateGet::$Param{ID}"} };
-        }
+    my $CacheKey;
+    if ( $Param{Name} ) {
+        $CacheKey = 'StateGet::' . $Param{Name};
+    }
+    else {
+        $CacheKey = 'StateGet::' . $Param{ID};
+    }
+    if ( $Param{Cache} && $Self->{$CacheKey} ) {
+        return %{ $Self->{$CacheKey} };
     }
 
     # sql
@@ -196,12 +198,7 @@ sub StateGet {
     }
 
     # cache data
-    if ( $Param{Name} ) {
-        $Self->{"StateGet::$Param{Name}"} = \%Data;
-    }
-    else {
-        $Self->{"StateGet::$Param{ID}"} = \%Data;
-    }
+    $Self->{$CacheKey} = \%Data;
 
     # no data found...
     if ( !%Data ) {
@@ -363,7 +360,7 @@ sub StateList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "UserID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'UserID!' );
         return;
     }
     if ( !$Param{Valid} && defined( $Param{Valid} ) ) {
@@ -398,7 +395,7 @@ sub StateTypeList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "UserID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'UserID!' );
         return;
     }
 
@@ -429,6 +426,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2008-04-09 00:31:19 $
+$Revision: 1.28 $ $Date: 2008-04-11 15:49:50 $
 
 =cut
