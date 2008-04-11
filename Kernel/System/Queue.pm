@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.87 2008-04-10 17:39:00 tr Exp $
+# $Id: Queue.pm,v 1.88 2008-04-11 16:18:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 =head1 NAME
 
@@ -437,9 +437,9 @@ sub GetAllCustomQueues {
 
 get id or name for queue
 
-    my $Queue = $QueueObject->QueueLookup(QueueID => $QueueID);
+    my $Queue = $QueueObject->QueueLookup( QueueID => $QueueID );
 
-    my $QueueID = $QueueObject->QueueLookup(Queue => $Queue);
+    my $QueueID = $QueueObject->QueueLookup( Queue => $Queue );
 
 =cut
 
@@ -453,48 +453,51 @@ sub QueueLookup {
     }
 
     # check if we ask the same request (cache)?
-    if ( $Param{QueueID} && $Self->{"QL::Queue$Param{QueueID}"} ) {
-        return $Self->{"QL::Queue$Param{QueueID}"};
+    my $CacheKey;
+    my $Key;
+    my $Value;
+    if ( $Param{QueueID} ) {
+        $CacheKey = 'QL::Queue::' . $Param{QueueID};
+        $Key      = 'QueueID';
+        $Value    = $Param{QueueID};
     }
-    if ( $Param{Queue} && $Self->{"QL::QueueID$Param{Queue}"} ) {
-        return $Self->{"QL::QueueID$Param{Queue}"};
+    else {
+        $CacheKey = 'QL::QueueID::' . $Param{Queue};
+        $Key      = 'Queue';
+        $Value    = $Param{Queue};
+    }
+    if ( $Self->{$CacheKey} ) {
+        return $Self->{$CacheKey};
     }
 
     # get data
-    my $Suffix = '';
     if ( $Param{Queue} ) {
-        $Param{What} = $Param{Queue};
-        $Suffix      = 'QueueID';
         $Self->{DBObject}->Prepare(
             SQL  => 'SELECT id FROM queue WHERE name = ?',
             Bind => [ \$Param{Queue} ],
         );
     }
     else {
-        $Param{What} = $Param{QueueID};
-        $Suffix      = 'Queue';
         $Self->{DBObject}->Prepare(
             SQL  => 'SELECT name FROM queue WHERE id = ?',
             Bind => [ \$Param{QueueID} ],
         );
     }
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-
-        # store result
-        $Self->{"QL::$Suffix$Param{What}"} = $Row[0];
+        $Self->{$CacheKey} = $Row[0];
     }
 
     # check if data exists
-    if ( !exists $Self->{"QL::$Suffix$Param{What}"} ) {
+    if ( ! $Self->{$CacheKey} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Found no \$$Suffix for $Param{What}!",
+            Message  => "Found no $Key for $Value!",
         );
         return;
     }
 
     # return result
-    return $Self->{"QL::$Suffix$Param{What}"};
+    return $Self->{$CacheKey};
 }
 
 =item GetFollowUpOption()
@@ -515,12 +518,12 @@ sub GetFollowUpOption {
     }
 
     # fetch queues data
-    my $Return = '';
     $Self->{DBObject}->Prepare(
         SQL => 'SELECT sf.name FROM follow_up_possible sf, queue sq '
             . ' WHERE sq.follow_up_id = sf.id AND sq.id = ?',
         Bind => [ \$Param{QueueID} ],
     );
+    my $Return = '';
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Return = $Row[0];
     }
@@ -545,11 +548,11 @@ sub GetFollowUpLockOption {
     }
 
     # fetch queues data
-    my $Return = 0;
     $Self->{DBObject}->Prepare(
         SQL  => 'SELECT sq.follow_up_lock FROM queue sq WHERE sq.id = ?',
         Bind => [ \$Param{QueueID} ],
     );
+    my $Return = 0;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Return = $Row[0];
     }
@@ -574,12 +577,12 @@ sub GetQueueGroupID {
     }
 
     # check, if value is cached
-    if ( $Self->{"QG::GetQueueGroupID::$Param{QueueID}"} ) {
-        return $Self->{"QG::GetQueueGroupID::$Param{QueueID}"};
+    my $CacheKey = 'QG::GetQueueGroupID::' . $Param{QueueID};
+    if ( $Self->{$CacheKey} ) {
+        return $Self->{$CacheKey};
     }
 
     # get group id from database
-    my $GroupID = '';
     $Self->{DBObject}->Prepare(
         SQL   => 'SELECT group_id FROM queue WHERE id = ?',
         Bind  => [ \$Param{QueueID} ],
@@ -588,13 +591,10 @@ sub GetQueueGroupID {
 
     # fetch the result
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $GroupID = $Row[0];
+        $Self->{$CacheKey} = $Row[0];
     }
 
-    # write cache
-    $Self->{"QG::GetQueueGroupID::$Param{QueueID}"} = $GroupID;
-
-    return $GroupID;
+    return $Self->{$CacheKey};
 }
 
 =item QueueAdd()
@@ -788,11 +788,21 @@ sub QueueGet {
     }
 
     # check if we ask the same request (cache)?
-    if ( $Param{Cache} && $Param{ID} && $Self->{"QG::ID$Param{ID}"} ) {
-        return %{ $Self->{"QG::ID$Param{ID}"} };
+    my $CacheKey;
+    my $Key;
+    my $Value;
+    if ( $Param{ID} ) {
+        $CacheKey = 'QG::ID::' . $Param{ID};
+        $Key      = 'ID';
+        $Value    = $Param{ID};
     }
-    if ( $Param{Cache} && $Param{Queue} && $Self->{"QL::Name$Param{Name}"} ) {
-        return %{ $Self->{"QG::Name$Param{Name}"} };
+    else {
+        $CacheKey = 'QL::Name::' . $Param{Name};
+        $Key      = 'Name';
+        $Value    = $Param{Name};
+    }
+    if ( $Param{Cache} && $Self->{$CacheKey} ) {
+        return %{ $Self->{$CacheKey} };
     }
 
     # sql
@@ -808,14 +818,10 @@ sub QueueGet {
         . ' WHERE q.system_address_id = sa.id AND ';
     my $Suffix = '';
     if ( $Param{ID} ) {
-        $Param{What} = $Param{ID};
-        $Suffix = 'ID';
         $SQL .= 'q.id = ?';
         push @Bind, \$Param{ID};
     }
     else {
-        $Param{What} = $Param{Name};
-        $Suffix = 'Name';
         $SQL .= 'q.name = ?';
         push @Bind, \$Param{Name};
     }
@@ -855,7 +861,7 @@ sub QueueGet {
     if ( !%Data ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Found no \$$Suffix for $Param{What}!",
+            Message  => "Found no $Key for $Value!",
         );
         return;
     }
@@ -869,7 +875,7 @@ sub QueueGet {
     }
 
     # cache result
-    $Self->{"QG::$Suffix$Param{What}"} = \%Data;
+    $Self->{$CacheKey} = \%Data;
 
     # return result
     return %Data;
@@ -1052,6 +1058,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.87 $ $Date: 2008-04-10 17:39:00 $
+$Revision: 1.88 $ $Date: 2008-04-11 16:18:39 $
 
 =cut

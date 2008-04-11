@@ -2,7 +2,7 @@
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Lock.pm,v 1.19 2008-04-09 00:31:20 martin Exp $
+# $Id: Lock.pm,v 1.20 2008-04-11 16:20:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -135,9 +135,9 @@ sub LockViewableLock {
 
 lock lookup
 
-    my $LockID = $LockObject->LockLookup(Lock => 'lock');
+    my $LockID = $LockObject->LockLookup( Lock => 'lock' );
 
-    my $Lock = $LockObject->LockLookup(LockID => 2);
+    my $Lock = $LockObject->LockLookup( LockID => 2 );
 
 =cut
 
@@ -158,8 +158,9 @@ sub LockLookup {
     }
 
     # check if we ask the same request?
-    if ( exists $Self->{"Lock::Lookup::$Param{$Key}"} ) {
-        return $Self->{"Lock::Lookup::$Param{$Key}"};
+    my $CacheKey = 'Lock::Lookup::' . $Param{$Key};
+    if ( $Self->{$CacheKey} ) {
+        return $Self->{$CacheKey};
     }
 
     # db query
@@ -175,20 +176,18 @@ sub LockLookup {
     }
     $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-
-        # store result
-        $Self->{"Lock::Lookup::$Param{$Key}"} = $Row[0];
+        $Self->{$CacheKey} = $Row[0];
     }
 
     # check if data exists
-    if ( !exists $Self->{"Lock::Lookup::$Param{$Key}"} ) {
+    if ( !$Self->{$CacheKey} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message => "No Lock/LockID for $Param{$Key} found!",
         );
         return;
     }
-    return $Self->{"Lock::Lookup::$Param{$Key}"};
+    return $Self->{$CacheKey};
 }
 
 =item LockList()
@@ -245,6 +244,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2008-04-09 00:31:20 $
+$Revision: 1.20 $ $Date: 2008-04-11 16:20:16 $
 
 =cut
