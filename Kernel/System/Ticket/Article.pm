@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.169 2008-04-10 20:42:43 tr Exp $
+# $Id: Article.pm,v 1.170 2008-04-11 15:57:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.169 $) [1];
+$VERSION = qw($Revision: 1.170 $) [1];
 
 =head1 NAME
 
@@ -688,23 +688,22 @@ sub ArticleGetContentPath {
     }
 
     # check cache
-    if ( $Self->{"ArticleGetContentPath::$Param{ArticleID}"} ) {
-        return $Self->{"ArticleGetContentPath::$Param{ArticleID}"};
+    my $CacheKey = 'ArticleGetContentPath::' . $Param{ArticleID};
+    if ( $Self->{$CacheKey} ) {
+        return $Self->{$CacheKey};
     }
 
     # sql query
-    my $Path = '';
     $Self->{DBObject}->Prepare(
         SQL  => 'SELECT content_path FROM article WHERE id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Path = $Row[0];
+        $Self->{$CacheKey} = $Row[0];
     }
 
-    # fillup cache
-    $Self->{"ArticleGetContentPath::$Param{ArticleID}"} = $Path;
-    return $Path;
+    # return
+    return $Self->{$CacheKey};
 }
 
 =item ArticleSenderTypeLookup()
@@ -734,16 +733,20 @@ sub ArticleSenderTypeLookup {
     }
 
     # get key
+    my $Key;
+    my $CacheKey;
     if ( $Param{SenderType} ) {
-        $Param{Key} = 'SenderType';
+        $Key      = $Param{SenderType};
+        $CacheKey = 'ArticleSenderTypeLookup::' . $Param{SenderType};
     }
     else {
-        $Param{Key} = 'SenderTypeID';
+        $Key      = $Param{SenderTypeID};
+        $CacheKey = 'ArticleSenderTypeLookup::' . $Param{SenderTypeID};
     }
 
     # check if we ask the same request?
-    if ( $Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"} ) {
-        return $Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"};
+    if ( $Self->{$CacheKey} ) {
+        return $Self->{$CacheKey};
     }
 
     # get data
@@ -762,20 +765,20 @@ sub ArticleSenderTypeLookup {
 
     # store result
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"} = $Row[0];
+        $Self->{$CacheKey} = $Row[0];
     }
 
     # check if data exists
-    if ( !exists $Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"} ) {
+    if ( !$Self->{$CacheKey} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Found no SenderType(ID) for $Param{$Param{Key}}!",
+            Message  => "Found no SenderType(ID) for $Key!",
         );
         return;
     }
 
     # return
-    return $Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"};
+    return $Self->{$CacheKey};
 }
 
 =item ArticleTypeLookup()
@@ -805,10 +808,21 @@ sub ArticleTypeLookup {
     }
 
     # get key
-    my $Key = $Param{ArticleTypeID} ? "ArticleTypeLookup::$Param{ArticleTypeID}" : "ArticleTypeLookup::$Param{ArticleType}";
+    my $Key;
+    my $CacheKey;
+    if ( $Param{ArticleType} ) {
+        $Key      = $Param{ArticleType};
+        $CacheKey = 'ArticleTypeLookup::' . $Param{ArticleType};
+    }
+    else {
+        $Key      = $Param{ArticleTypeID};
+        $CacheKey = 'ArticleTypeLookup::' . $Param{ArticleTypeID};
+    }
 
     # check if we ask the same request (cache)?
-    return $Self->{$Key} if $Self->{$Key};
+    if ( $Self->{$CacheKey} ) {
+        return $Self->{$CacheKey};
+    }
 
     # get data
     if ( $Param{ArticleType} ) {
@@ -826,11 +840,11 @@ sub ArticleTypeLookup {
 
     # store result
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Self->{$Key} = $Row[0];
+        $Self->{$CacheKey} = $Row[0];
     }
 
     # check if data exists
-    if ( !$Self->{$Key}) {
+    if ( !$Self->{$CacheKey} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Found no ArticleType(ID) for $Key!",
@@ -839,7 +853,7 @@ sub ArticleTypeLookup {
     }
 
     # return
-    return $Self->{$Key};
+    return $Self->{$CacheKey};
 }
 
 =item ArticleTypeList()
