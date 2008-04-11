@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.307 2008-04-10 05:43:43 tr Exp $
+# $Id: Ticket.pm,v 1.308 2008-04-11 16:17:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.307 $) [1];
+$VERSION = qw($Revision: 1.308 $) [1];
 
 =head1 NAME
 
@@ -393,7 +393,7 @@ sub TicketCreate {
     if ( !$Param{LockID} && !$Param{Lock} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No LockID and no LockType!",
+            Message  => 'No LockID and no LockType!',
         );
         return;
     }
@@ -412,7 +412,7 @@ sub TicketCreate {
     if ( !$Param{PriorityID} && !$Param{Priority} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No PriorityID and no Priority!",
+            Message  => 'No PriorityID and no Priority!',
         );
         return;
     }
@@ -437,7 +437,7 @@ sub TicketCreate {
         $Param{SLA} = $Self->{SLAObject}->SLALookup( SLAID => $Param{SLAID} );
     }
 
-    # create ticket number if none has been delivered
+    # create ticket number if none is given
     if ( !$Param{TN} ) {
         $Param{TN} = $Self->TicketCreateNumber();
     }
@@ -479,7 +479,7 @@ sub TicketCreate {
         CreateUserID => $Param{UserID},
     );
 
-    # set customer data if received
+    # set customer data if given
     if ( $Param{CustomerNo} || $Param{CustomerID} || $Param{CustomerUser} ) {
         $Self->SetCustomerData(
             TicketID => $TicketID,
@@ -492,7 +492,7 @@ sub TicketCreate {
     # update ticket view index
     $Self->TicketAcceleratorAdd( TicketID => $TicketID );
 
-    # make ticket creation log entry
+    # log ticket creation
     $Self->{LogObject}->Log(
         Priority => 'notice',
         Message  => "New Ticket [$Param{TN}/" . substr( $Param{Title}, 0, 15 ) . "] created "
@@ -609,7 +609,7 @@ sub TicketIDLookup {
 
     # check needed stuff
     if ( !$Param{TicketNumber} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketNumber!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketNumber!' );
         return;
     }
 
@@ -643,7 +643,7 @@ sub TicketNumberLookup {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
     my %Ticket = $Self->TicketGet(%Param);
@@ -707,7 +707,7 @@ strip/clean up a ticket subject
 
     my $NewSubject = $TicketObject->TicketSubjectClean(
         TicketNumber => '2004040510440485',
-        Subject => $OldSubject,
+        Subject      => $OldSubject,
     );
 
 =cut
@@ -770,7 +770,7 @@ sub TicketGet {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
 
@@ -1036,7 +1036,7 @@ sub TicketUnlockTimeoutUpdate {
         TicketID     => $Param{TicketID},
         CreateUserID => $Param{UserID},
         HistoryType  => 'Misc',
-        Name         => "Reset of unlock time.",
+        Name         => 'Reset of unlock time.',
     );
 
     # ticket event
@@ -1080,7 +1080,7 @@ sub TicketEscalationStartUpdate {
         TicketID     => $Param{TicketID},
         CreateUserID => $Param{UserID},
         HistoryType  => 'Misc',
-        Name         => "Reset of escalation update time.",
+        Name         => 'Reset of escalation update time.',
     );
 
     # ticket event
@@ -1136,7 +1136,7 @@ sub TicketEscalationResponseTimeUpdate {
         TicketID     => $Param{TicketID},
         CreateUserID => $Param{UserID},
         HistoryType  => 'Misc',
-        Name         => "Reset of escalation response time.",
+        Name         => 'Reset of escalation response time.',
     );
 
     # ticket event
@@ -1193,7 +1193,7 @@ sub TicketEscalationSolutionTimeUpdate {
         TicketID     => $Param{TicketID},
         CreateUserID => $Param{UserID},
         HistoryType  => 'Misc',
-        Name         => "Reset of escalation solution time.",
+        Name         => 'Reset of escalation solution time.',
     );
 
     # ticket event
@@ -1220,7 +1220,7 @@ sub TicketQueueID {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
     my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID}, UserID => 1 );
@@ -1258,7 +1258,7 @@ sub MoveList {
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need UserID or CustomerUserID!",
+            Message => 'Need UserID or CustomerUserID!',
         );
         return;
     }
@@ -1475,15 +1475,15 @@ sub MoveQueueList {
         # store result
         if ( $Row[1] eq 'NewTicket' ) {
             if ( $Row[3] ) {
-                push( @QueueID, $Row[3] );
+                push @QueueID, $Row[3];
             }
         }
         elsif ( $Row[1] eq 'Move' ) {
             if ( $Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/ ) {
-                push( @QueueID, $2 );
+                push @QueueID, $2;
             }
             elsif ( $Row[0] =~ /^Ticket moved to Queue '.+?' \(ID=(.+?)\)/ ) {
-                push( @QueueID, $1 );
+                push @QueueID, $1;
             }
         }
     }
@@ -1492,7 +1492,7 @@ sub MoveQueueList {
     my @QueueName = ();
     for my $QueueID (@QueueID) {
         my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID, Cache => 1 );
-        push( @QueueName, $Queue );
+        push @QueueName, $Queue;
     }
     if ( $Param{Type} && $Param{Type} eq 'Name' ) {
         return @QueueName;
@@ -1527,13 +1527,13 @@ sub TicketTypeList {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID or CustomerUserID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
         return;
     }
 
     # check needed stuff
     # if (!$Param{QueueID} && !$Param{TicketID}) {
-    #     $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID or TicketID!");
+    #     $Self->{LogObject}->Log(Priority => 'error', Message => 'Need QueueID or TicketID!');
     #     return;
     # }
     my %Types = $Self->{TypeObject}->TypeList( Valid => 1 );
@@ -1668,7 +1668,7 @@ sub TicketServiceList {
     if ( !$Param{UserID} || ($Param{UserID} != 1 && !$Param{CustomerUserID}) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need UserID and CustomerUserID!",
+            Message => 'Need UserID and CustomerUserID!',
         );
         return;
     }
@@ -1677,7 +1677,7 @@ sub TicketServiceList {
     if ( !$Param{QueueID} && !$Param{TicketID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need QueueID or TicketID!",
+            Message => 'Need QueueID or TicketID!',
         );
         return;
     }
@@ -1892,7 +1892,7 @@ sub TicketEscalationState {
                 if ( $Escalation{FirstResponseNotify} ) {
                     my $Reached = 100 - ( $WorkingTime / ( ( $Escalation{FirstResponseTime} * 60 ) / 100 ) );
                     if ( $Reached >= $Escalation{FirstResponseNotify} ) {
-                        $Data{"FirstResponseTimeNotification"} = 1;
+                        $Data{FirstResponseTimeNotification} = 1;
                     }
                 }
             }
@@ -1969,7 +1969,7 @@ sub TicketEscalationState {
 
             # set escalation
             if ( $Ticket{StateType} =~ /^(new|open)$/i && $Ticket{Lock} ne 'lock' ) {
-                $Data{"UpdateTimeEscalation"} = 1;
+                $Data{UpdateTimeEscalation} = 1;
             }
         }
 
@@ -2066,7 +2066,7 @@ sub TicketEscalationState {
 
                 # set escalation
                 if ( $Ticket{StateType} !~ /^close/i ) {
-                    $Data{"SolutionTimeEscalation"} = 1;
+                    $Data{SolutionTimeEscalation} = 1;
                 }
             }
 
@@ -2118,13 +2118,13 @@ sub TicketSLAList {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID or CustomerUserID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
         return;
     }
 
     # check needed stuff
     if ( !$Param{QueueID} && !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need QueueID or TicketID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID or TicketID!' );
         return;
     }
 
@@ -2262,7 +2262,7 @@ sub SetCustomerData {
         }
     }
     if ( !defined $Param{No} && !defined $Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need User or No for update!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User or No for update!' );
         return;
     }
 
@@ -2357,7 +2357,7 @@ sub TicketFreeTextGet {
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need UserID or CustomerUserID!",
+            Message => 'Need UserID or CustomerUserID!',
         );
         return;
     }
@@ -2402,12 +2402,10 @@ sub TicketFreeTextGet {
         my %Hash = $Self->TicketAclData();
         return \%Hash;
     }
-    if (%Data) {
-        return \%Data;
-    }
-    else {
+    if ( !%Data ) {
         return;
     }
+    return \%Data;
 }
 
 =item TicketFreeTextSet()
@@ -2445,14 +2443,14 @@ sub TicketFreeTextSet {
         $Value = $Param{Value};
     }
     else {
-        $Value = $Ticket{ "TicketFreeText" . $Param{Counter} };
+        $Value = $Ticket{ 'TicketFreeText' . $Param{Counter} };
     }
 
     if ( defined( $Param{Key} ) ) {
         $Key = $Param{Key};
     }
     else {
-        $Key = $Ticket{ "TicketFreeKey" . $Param{Counter} };
+        $Key = $Ticket{ 'TicketFreeKey' . $Param{Counter} };
     }
 
     if (   $Value eq $Ticket{"TicketFreeText$Param{Counter}"}
@@ -2844,7 +2842,7 @@ sub GetLockedTicketIDs {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -2859,29 +2857,29 @@ sub GetLockedTicketIDs {
 
     # sort by
     if ( $Param{SortBy} =~ /^Queue$/i ) {
-        $SQL .= " sq.name";
+        $SQL .= 'sq.name';
     }
     elsif ( $Param{SortBy} =~ /^CustomerID$/i ) {
-        $SQL .= " ti.customer_id";
+        $SQL .= 'ti.customer_id';
     }
     elsif ( $Param{SortBy} =~ /^Priority$/i ) {
-        $SQL .= " ti.ticket_priority_id";
+        $SQL .= 'ti.ticket_priority_id';
     }
     else {
-        $SQL .= "ti.create_time";
+        $SQL .= 'ti.create_time';
     }
 
     # order
     if ( $Param{OrderBy} && $Param{OrderBy} eq 'Down' ) {
-        $SQL .= " DESC";
+        $SQL .= ' DESC';
     }
     else {
-        $SQL .= " ASC";
+        $SQL .= ' ASC';
     }
 
     $Self->{DBObject}->Prepare( SQL => $SQL, Bind => [ \$Param{UserID} ] );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push( @ViewableTickets, $Row[0] );
+        push @ViewableTickets, $Row[0];
     }
     return @ViewableTickets;
 }
@@ -2902,7 +2900,7 @@ sub GetSubscribedUserIDsByQueueID {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need QueueID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
         return;
     }
 
@@ -2916,7 +2914,7 @@ sub GetSubscribedUserIDsByQueueID {
         Bind => [ \$Param{QueueID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push( @UserIDs, $Row[0] );
+        push @UserIDs, $Row[0];
     }
 
     # check if user is valid and check permissions
@@ -2932,7 +2930,7 @@ sub GetSubscribedUserIDsByQueueID {
                 Result => 'HASH',
             );
             if ( $GroupMember{ $Queue{GroupID} } ) {
-                push( @CleanUserIDs, $UserID );
+                push @CleanUserIDs, $UserID;
             }
         }
     }
@@ -3034,27 +3032,29 @@ To find tickets in your system.
     my @TicketIDs = $TicketObject->TicketSearch(
         # result (required)
         Result => 'ARRAY' || 'HASH',
+
         # result limit
         Limit => 100,
 
         # ticket number (optional) as STRING or as ARRAYREF
         TicketNumber => '%123546%',
         TicketNumber => ['%123546%', '%123666%'],
+
         # ticket title (optional) as STRING or as ARRAYREF
         Title => '%SomeText%',
         Title => ['%SomeTest1%', '%SomeTest2%'],
 
-        Queues => ['system queue', 'other queue'],
+        Queues   => ['system queue', 'other queue'],
         QueueIDs => [1, 42, 512],
         # use also sub queues of Queue|Queues in search
         UseSubQueues => 0,
 
         # You can use types like normal, ...
-        Types => ['normal', 'change', 'incident'],
+        Types   => ['normal', 'change', 'incident'],
         TypeIDs => [3, 4],
 
         # You can use states like new, open, pending reminder, ...
-        States => ['new', 'open'],
+        States   => ['new', 'open'],
         StateIDs => [3, 4],
 
         # (Open|Closed) tickets for all closed or open tickets.
@@ -3062,19 +3062,19 @@ To find tickets in your system.
 
         # You also can use real state types like new, open, closed,
         # pending reminder, pending auto, removed and merged.
-        StateType => ['open', 'new'],
+        StateType    => ['open', 'new'],
         StateTypeIDs => [1, 2, 3],
 
-        Priorities => ['1 very low', '2 low', '3 normal'],
+        Priorities  => ['1 very low', '2 low', '3 normal'],
         PriorityIDs => [1, 2, 3],
 
-        Services => ['Service A', 'Service B'],
+        Services   => ['Service A', 'Service B'],
         ServiceIDs => [1, 2, 3],
 
-        SLAs => ['SLA A', 'SLA B'],
+        SLAs   => ['SLA A', 'SLA B'],
         SLAIDs => [1, 2, 3],
 
-        Locks => ['unlock'],
+        Locks   => ['unlock'],
         LockIDs => [1, 2, 3],
 
         OwnerIDs => [1, 12, 455, 32]
@@ -3086,26 +3086,27 @@ To find tickets in your system.
         # CustomerID (optional) as STRING or as ARRAYREF
         CustomerID => '123',
         CustomerID => ['123', 'ABC'],
+
         # CustomerUserLogin (optional) as STRING as ARRAYREF
         CustomerUserLogin => 'uid123',
         CustomerUserLogin => ['uid123', 'uid777'],
 
         # create ticket properties (optional)
-        CreatedUserIDs => [1, 12, 455, 32]
-        CreatedTypes => ['normal', 'change', 'incident'],
-        CreatedTypeIDs => [1, 2, 3],
-        CreatedPriorities => ['1 very low', '2 low', '3 normal'],
+        CreatedUserIDs     => [1, 12, 455, 32]
+        CreatedTypes       => ['normal', 'change', 'incident'],
+        CreatedTypeIDs     => [1, 2, 3],
+        CreatedPriorities  => ['1 very low', '2 low', '3 normal'],
         CreatedPriorityIDs => [1, 2, 3],
-        CreatedStates => ['new', 'open'],
-        CreatedStateIDs => [3, 4],
-        CreatedQueues => ['system queue', 'other queue'],
-        CreatedQueueIDs => [1, 42, 512],
+        CreatedStates      => ['new', 'open'],
+        CreatedStateIDs    => [3, 4],
+        CreatedQueues      => ['system queue', 'other queue'],
+        CreatedQueueIDs    => [1, 42, 512],
 
         # 1..16 (optional)
-        TicketFreeKey1 => 'Product',
+        TicketFreeKey1  => 'Product',
         TicketFreeText1 => 'adasd',
         # or with multi options as array ref or string possible
-        TicketFreeKey2 => ['Product', 'Product2'],
+        TicketFreeKey2  => ['Product', 'Product2'],
         TicketFreeText2 => ['Browser', 'Sound', 'Mouse'],
 
         # 1..6 (optional)
@@ -3115,11 +3116,11 @@ To find tickets in your system.
         TicketFreeTime1OlderDate => '2006-01-19 23:59:59',
 
         # article stuff (optional)
-        From => '%spam@example.com%',
-        To => '%support@example.com%',
-        Cc => '%client@example.com%',
+        From    => '%spam@example.com%',
+        To      => '%support@example.com%',
+        Cc      => '%client@example.com%',
         Subject => '%VIRUS 32%',
-        Body => '%VIRUS 32%',
+        Body    => '%VIRUS 32%',
 
         # content search (AND or OR) (optional)
         ContentSearch => 'AND',
@@ -3138,6 +3139,11 @@ To find tickets in your system.
         # tickets with created time before then .... (ticket older this date) (optional)
         TicketCreateTimeOlderDate => '2006-01-19 23:59:59',
 
+        # tickets closed after 60 minutes (ticket closed newer then 60 minutes)  (optional)
+        TicketCloseTimeOlderMinutes => 60,
+        # tickets closed before 120 minutes (ticket closed older 120 minutes) (optional)
+        TicketCloseTimeNewerMinutes => 120,
+
         # tickets with closed time after ... (ticket closed newer then this date) (optional)
         TicketCloseTimeNewerDate => '2006-01-09 00:00:01',
         # tickets with closed time before then .... (ticket closed older this date) (optional)
@@ -3155,16 +3161,16 @@ To find tickets in your system.
 
         # OrderBy and SortBy (optional)
         OrderBy => 'Down',      # Down|Up
-        SortBy => 'Age',        # Owner|CustomerID|State|Ticket|Queue|Priority|Age|Type|Lock|Service|SLA
+        SortBy  => 'Age',        # Owner|CustomerID|State|Ticket|Queue|Priority|Age|Type|Lock|Service|SLA
                                 # TicketFreeTime1-2|TicketFreeKey1-16|TicketFreeText1-16
 
         # user search (UserID or CustomerUserID is required)
-        UserID => 123,
+        UserID     => 123,
         Permission => 'ro' || 'rw',
 
         # customer search (UserID or CustomerUserID is required)
         CustomerUserID => 123,
-        Permission => 'ro' || 'rw',
+        Permission     => 'ro' || 'rw',
     );
 
 =cut
@@ -3235,7 +3241,7 @@ sub TicketSearch {
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need UserID or CustomerUserID params for permission check!",
+            Message  => 'Need UserID or CustomerUserID params for permission check!',
         );
         return;
     }
@@ -3257,8 +3263,8 @@ sub TicketSearch {
     # use also article table if required
     for (qw(From To Cc Subject Body)) {
         if ( $Param{$_} ) {
-            $SQL    .= ", article at ";
-            $SQLExt .= " AND st.id = at.ticket_id";
+            $SQL    .= ', article at ';
+            $SQLExt .= ' AND st.id = at.ticket_id';
             last;
         }
     }
@@ -3266,16 +3272,16 @@ sub TicketSearch {
     # use also history table if required
     for ( keys %Param ) {
         if ( $_ =~ /^(Ticket(Close)Time(Newer|Older)(Date|Minutes)|Created.+?)/ ) {
-            $SQL    .= ", ticket_history th ";
-            $SQLExt .= " AND st.id = th.ticket_id";
+            $SQL    .= ', ticket_history th ';
+            $SQLExt .= ' AND st.id = th.ticket_id';
             last;
         }
     }
     if ( $Param{WatchUserIDs} ) {
-        $SQL    .= ", ticket_watcher tw ";
-        $SQLExt .= " AND st.id = tw.ticket_id";
+        $SQL    .= ', ticket_watcher tw ';
+        $SQLExt .= ' AND st.id = tw.ticket_id';
     }
-    $SQLExt = " WHERE sq.id = st.queue_id" . $SQLExt;
+    $SQLExt = ' WHERE sq.id = st.queue_id' . $SQLExt;
 
     # current type lookup
     if ( $Param{Types} && ref( $Param{Types} ) eq 'ARRAY' ) {
@@ -3291,16 +3297,16 @@ sub TicketSearch {
 
     # type ids
     if ( $Param{TypeIDs} && ref( $Param{TypeIDs} ) eq 'ARRAY' ) {
-        $SQLExt .= " AND st.type_id IN (";
+        $SQLExt .= ' AND st.type_id IN (';
         my $Exists = 0;
         for ( @{ $Param{TypeIDs} } ) {
             if ($Exists) {
-                $SQLExt .= ",";
+                $SQLExt .= ',';
             }
             $SQLExt .= $Self->{DBObject}->Quote($_);
             $Exists = 1;
         }
-        $SQLExt .= ")";
+        $SQLExt .= ')';
     }
 
     # created types lookup
@@ -3319,11 +3325,11 @@ sub TicketSearch {
     if ( $Param{CreatedTypeIDs} && ref( $Param{CreatedTypeIDs} ) eq 'ARRAY' ) {
         my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
         if ($ID) {
-            $SQLExt .= " AND th.type_id IN (";
+            $SQLExt .= ' AND th.type_id IN (';
             my $Exists = 0;
             for ( @{ $Param{CreatedTypeIDs} } ) {
                 if ($Exists) {
-                    $SQLExt .= ",";
+                    $SQLExt .= ',';
                 }
                 $SQLExt .= $Self->{DBObject}->Quote($_);
                 $Exists = 1;
@@ -3347,16 +3353,16 @@ sub TicketSearch {
 
     # state ids
     if ( $Param{StateIDs} && ref( $Param{StateIDs} ) eq 'ARRAY' ) {
-        $SQLExt .= " AND st.ticket_state_id IN (";
+        $SQLExt .= ' AND st.ticket_state_id IN (';
         my $Exists = 0;
         for ( @{ $Param{StateIDs} } ) {
             if ($Exists) {
-                $SQLExt .= ",";
+                $SQLExt .= ',';
             }
             $SQLExt .= $Self->{DBObject}->Quote($_);
             $Exists = 1;
         }
-        $SQLExt .= ")";
+        $SQLExt .= ')';
     }
 
     # created states lookup
@@ -3376,11 +3382,11 @@ sub TicketSearch {
     if ( $Param{CreatedStateIDs} && ref( $Param{CreatedStateIDs} ) eq 'ARRAY' ) {
         my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
         if ($ID) {
-            $SQLExt .= " AND th.state_id IN (";
+            $SQLExt .= ' AND th.state_id IN (';
             my $Exists = 0;
             for ( @{ $Param{CreatedStateIDs} } ) {
                 if ($Exists) {
-                    $SQLExt .= ",";
+                    $SQLExt .= ',';
                 }
                 $SQLExt .= $Self->{DBObject}->Quote($_);
                 $Exists = 1;
@@ -3440,55 +3446,55 @@ sub TicketSearch {
 
     # lock ids
     if ( $Param{LockIDs} && ref( $Param{LockIDs} ) eq 'ARRAY' ) {
-        $SQLExt .= " AND st.ticket_lock_id IN (";
+        $SQLExt .= ' AND st.ticket_lock_id IN (';
         my $Exists = 0;
         for ( @{ $Param{LockIDs} } ) {
             if ($Exists) {
-                $SQLExt .= ",";
+                $SQLExt .= ',';
             }
             $SQLExt .= $Self->{DBObject}->Quote($_);
             $Exists = 1;
         }
-        $SQLExt .= ")";
+        $SQLExt .= ')';
     }
 
     # current owners user ids
     if ( $Param{OwnerIDs} && ref( $Param{OwnerIDs} ) eq 'ARRAY' ) {
-        $SQLExt .= " AND st.user_id IN (";
+        $SQLExt .= ' AND st.user_id IN (';
         my $Exists = 0;
         for ( @{ $Param{OwnerIDs} } ) {
             if ($Exists) {
-                $SQLExt .= ",";
+                $SQLExt .= ',';
             }
             $SQLExt .= $Self->{DBObject}->Quote($_);
             $Exists = 1;
         }
-        $SQLExt .= ")";
+        $SQLExt .= ')';
     }
 
     # current owners user ids
     if ( $Param{ResponsibleIDs} && ref( $Param{ResponsibleIDs} ) eq 'ARRAY' ) {
-        $SQLExt .= " AND st.responsible_user_id IN (";
+        $SQLExt .= ' AND st.responsible_user_id IN (';
         my $Exists = 0;
         for ( @{ $Param{ResponsibleIDs} } ) {
             if ($Exists) {
-                $SQLExt .= ",";
+                $SQLExt .= ',';
             }
             $SQLExt .= $Self->{DBObject}->Quote($_);
             $Exists = 1;
         }
-        $SQLExt .= ")";
+        $SQLExt .= ')';
     }
 
     # created owner user ids
     if ( $Param{CreatedUserIDs} && ref( $Param{CreatedUserIDs} ) eq 'ARRAY' ) {
         my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
         if ($ID) {
-            $SQLExt .= " AND th.create_by IN (";
+            $SQLExt .= ' AND th.create_by IN (';
             my $Exists = 0;
             for ( @{ $Param{CreatedUserIDs} } ) {
                 if ($Exists) {
-                    $SQLExt .= ",";
+                    $SQLExt .= ',';
                 }
                 $SQLExt .= $Self->{DBObject}->Quote($_);
                 $Exists = 1;
@@ -3526,16 +3532,16 @@ sub TicketSearch {
 
     # current queue ids
     if ( $Param{QueueIDs} && ref( $Param{QueueIDs} ) eq 'ARRAY' ) {
-        $SQLExt .= " AND st.queue_id IN (";
+        $SQLExt .= ' AND st.queue_id IN (';
         my $Exists = 0;
         for ( @{ $Param{QueueIDs} } ) {
             if ($Exists) {
-                $SQLExt .= ",";
+                $SQLExt .= ',';
             }
             $SQLExt .= $Self->{DBObject}->Quote($_);
             $Exists = 1;
         }
-        $SQLExt .= ")";
+        $SQLExt .= ')';
     }
 
     # created queue lookup
@@ -3557,11 +3563,11 @@ sub TicketSearch {
     if ( $Param{CreatedQueueIDs} && ref( $Param{CreatedQueueIDs} ) eq 'ARRAY' ) {
         my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
         if ($ID) {
-            $SQLExt .= " AND th.queue_id IN (";
+            $SQLExt .= ' AND th.queue_id IN (';
             my $Exists = 0;
             for ( @{ $Param{CreatedQueueIDs} } ) {
                 if ($Exists) {
-                    $SQLExt .= ",";
+                    $SQLExt .= ',';
                 }
                 $SQLExt .= $Self->{DBObject}->Quote($_);
                 $Exists = 1;
@@ -3616,18 +3622,18 @@ sub TicketSearch {
         if ( $CustomerData{UserCustomerID} ) {
             push( @CustomerIDs, $CustomerData{UserCustomerID} );
         }
-        $SQLExt .= " AND (LOWER(st.customer_id) IN (";
+        $SQLExt .= ' AND (LOWER(st.customer_id) IN (';
         my $Exists = 0;
         for (@CustomerIDs) {
             if ($Exists) {
-                $SQLExt .= ", ";
+                $SQLExt .= ', ';
             }
             else {
                 $Exists = 1;
             }
             $SQLExt .= "LOWER('" . $Self->{DBObject}->Quote($_) . "')";
         }
-        $SQLExt .= ") OR "
+        $SQLExt .= ') OR '
             . " st.customer_user_id = '" . $Self->{DBObject}->Quote( $Param{CustomerUserID} ) . "') ";
     }
 
@@ -3651,16 +3657,16 @@ sub TicketSearch {
 
     # priority ids
     if ( $Param{PriorityIDs} && ref( $Param{PriorityIDs} ) eq 'ARRAY' ) {
-        $SQLExt .= " AND st.ticket_priority_id IN (";
+        $SQLExt .= ' AND st.ticket_priority_id IN (';
         my $Exists = 0;
         for ( @{ $Param{PriorityIDs} } ) {
             if ($Exists) {
-                $SQLExt .= ",";
+                $SQLExt .= ',';
             }
             $SQLExt .= $Self->{DBObject}->Quote($_);
             $Exists = 1;
         }
-        $SQLExt .= ")";
+        $SQLExt .= ')';
     }
 
     # created priority lookup
@@ -3680,11 +3686,11 @@ sub TicketSearch {
     if ( $Param{CreatedPriorityIDs} && ref( $Param{CreatedPriorityIDs} ) eq 'ARRAY' ) {
         my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
         if ($ID) {
-            $SQLExt .= " AND th.priority_id IN (";
+            $SQLExt .= ' AND th.priority_id IN (';
             my $Exists = 0;
             for ( @{ $Param{CreatedPriorityIDs} } ) {
                 if ($Exists) {
-                    $SQLExt .= ",";
+                    $SQLExt .= ',';
                 }
                 $SQLExt .= $Self->{DBObject}->Quote($_);
                 $Exists = 1;
@@ -3708,16 +3714,16 @@ sub TicketSearch {
 
     # service ids
     if ( $Param{ServiceIDs} && ref( $Param{ServiceIDs} ) eq 'ARRAY' ) {
-        $SQLExt .= " AND st.service_id IN (";
+        $SQLExt .= ' AND st.service_id IN (';
         my $Exists = 0;
         for ( @{ $Param{ServiceIDs} } ) {
             if ($Exists) {
-                $SQLExt .= ",";
+                $SQLExt .= ',';
             }
             $SQLExt .= $Self->{DBObject}->Quote($_);
             $Exists = 1;
         }
-        $SQLExt .= ")";
+        $SQLExt .= ')';
     }
 
     # current sla lookup
@@ -3735,30 +3741,30 @@ sub TicketSearch {
 
     # sla ids
     if ( $Param{SLAIDs} && ref( $Param{SLAIDs} ) eq 'ARRAY' ) {
-        $SQLExt .= " AND st.sla_id IN (";
+        $SQLExt .= ' AND st.sla_id IN (';
         my $Exists = 0;
         for ( @{ $Param{SLAIDs} } ) {
             if ($Exists) {
-                $SQLExt .= ",";
+                $SQLExt .= ',';
             }
             $SQLExt .= $Self->{DBObject}->Quote($_);
             $Exists = 1;
         }
-        $SQLExt .= ")";
+        $SQLExt .= ')';
     }
 
     # watch user ids
     if ( $Param{WatchUserIDs} && ref( $Param{WatchUserIDs} ) eq 'ARRAY' ) {
-        $SQLExt .= " AND tw.user_id IN (";
+        $SQLExt .= ' AND tw.user_id IN (';
         my $Exists = 0;
         for ( @{ $Param{WatchUserIDs} } ) {
             if ($Exists) {
-                $SQLExt .= ",";
+                $SQLExt .= ',';
             }
             $SQLExt .= $Self->{DBObject}->Quote($_);
             $Exists = 1;
         }
-        $SQLExt .= ")";
+        $SQLExt .= ')';
     }
 
     # other ticket stuff
@@ -3774,27 +3780,34 @@ sub TicketSearch {
             my $Exists = 0;
             for my $Key ( @{ $Param{$Key} } ) {
                 $Key =~ s/\*/%/gi;
+
+                # check search attribute, we do not need to search for *
+                next if $Key =~ /^\%{1,3}$/;
+
                 if ($Exists) {
-                    $SQLExt .= ", ";
+                    $SQLExt .= ', ';
                 }
                 else {
                     $Exists = 1;
                 }
                 $SQLExt .= "LOWER('" . $Self->{DBObject}->Quote($Key) . "')";
             }
-            $SQLExt .= " )";
+            $SQLExt .= ' )';
         }
         elsif ( $Param{$Key} ) {
             $Param{$Key} =~ s/\*/%/gi;
 
+            # check search attribute, we do not need to search for *
+            next if $Param{$Key} =~ /^\%{1,3}$/;
+
             # check if search condition extention is used
-            if ( $Param{ConditionInline} && ( $Param{$Key} =~ /(&&|\|\|)/ || $Param{$Key} =~ / / ) )
-            {
-                $SQLExt .= " AND "
-                    . $Self->_TicketSearchCondition(
-                    Key   => $FieldSQLMap{$Key},
-                    Value => $Param{$Key}
-                    );
+            if ( $Param{ConditionInline} && $Param{$Key} =~ /(&&|\|\||\!|\+|AND|OR)/ ) {
+                $SQLExt .= ' AND ' . $Self->{DBObject}->QueryCondition(
+                    Key          => $FieldSQLMap{$Key},
+                    Value        => $Param{$Key},
+                    SearchPrefix => '*',
+                    SearchSuffix => '*',
+                );
             }
             else {
                 $SQLExt .= " AND LOWER($FieldSQLMap{$Key}) LIKE LOWER('"
@@ -3815,15 +3828,21 @@ sub TicketSearch {
     for my $Key ( keys %FieldSQLMapFullText ) {
         if ( $Param{$Key} ) {
             $Param{$Key} =~ s/\*/%/gi;
+
+            # check search attribute, we do not need to search for *
+            next if $Param{$Key} =~ /^\%{1,3}$/;
+
             if ($FullTextSQL) {
-                $FullTextSQL .= " $ContentSearch ";
+                $FullTextSQL .= ' ' . $ContentSearch . ' ';
             }
 
             # check if search condition extention is used
-            if ( $Param{ConditionInline} && ( $Param{$Key} =~ /(&&|\|\|)/ || $Param{$Key} =~ / / ) ) {
-                $FullTextSQL .= $Self->_TicketSearchCondition(
-                    Key   => $FieldSQLMapFullText{$Key},
-                    Value => $Param{$Key}
+            if ( $Param{ConditionInline} && $Param{$Key} =~ /(&&|\|\||\!|\+|AND|OR)/ ) {
+                $FullTextSQL .= $Self->{DBObject}->QueryCondition(
+                    Key          => $FieldSQLMapFullText{$Key},
+                    Value        => $Param{$Key},
+                    SearchPrefix => '*',
+                    SearchSuffix => '*',
                 );
             }
             else {
@@ -3852,6 +3871,10 @@ sub TicketSearch {
     for ( 1 .. 16 ) {
         if ( $Param{"TicketFreeKey$_"} && ref( $Param{"TicketFreeKey$_"} ) eq '' ) {
             $Param{"TicketFreeKey$_"} =~ s/\*/%/gi;
+
+            # check search attribute, we do not need to search for *
+            next if $Param{"TicketFreeKey$_"} =~ /^\%{1,3}$/;
+
             $SQLExt .= " AND LOWER(st.freekey$_) LIKE LOWER('"
                 . $Self->{DBObject}->Quote( $Param{"TicketFreeKey$_"}, 'Like' ) . "')";
         }
@@ -3861,6 +3884,10 @@ sub TicketSearch {
             for my $Key ( @{ $Param{"TicketFreeKey$_"} } ) {
                 if ( defined($Key) && $Key ne '' ) {
                     $Key =~ s/\*/%/gi;
+
+                    # check search attribute, we do not need to search for *
+                    next if $Key =~ /^\%{1,3}$/;
+
                     $SQLExtSub .= ' OR ' if ($Counter);
                     $SQLExtSub .= " LOWER(st.freekey$_) LIKE LOWER('"
                         . $Self->{DBObject}->Quote( $Key, 'Like' ) . "')";
@@ -3876,6 +3903,10 @@ sub TicketSearch {
     for ( 1 .. 16 ) {
         if ( $Param{"TicketFreeText$_"} && ref( $Param{"TicketFreeText$_"} ) eq '' ) {
             $Param{"TicketFreeText$_"} =~ s/\*/%/gi;
+
+            # check search attribute, we do not need to search for *
+            next if $Param{"TicketFreeText$_"} =~ /^\%{1,3}$/;
+
             $SQLExt .= " AND LOWER(st.freetext$_) LIKE LOWER('"
                 . $Self->{DBObject}->Quote( $Param{"TicketFreeText$_"}, 'Like' ) . "')";
         }
@@ -3885,6 +3916,10 @@ sub TicketSearch {
             for my $Text ( @{ $Param{"TicketFreeText$_"} } ) {
                 if ( defined($Text) && $Text ne '' ) {
                     $Text =~ s/\*/%/gi;
+
+                    # check search attribute, we do not need to search for *
+                    next if $Text =~ /^\%{1,3}$/;
+
                     $SQLExtSub .= ' OR ' if ($Counter);
                     $SQLExtSub .= " LOWER(st.freetext$_) LIKE LOWER('"
                         . $Self->{DBObject}->Quote( $Text, 'Like' ) . "')";
@@ -3903,29 +3938,21 @@ sub TicketSearch {
         if ( $Param{ 'TicketFreeTime' . $_ . 'OlderDate' } ) {
 
             # check time format
-            if ( $Param{ 'TicketFreeTime' . $_ . 'OlderDate' }
-                !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ )
-            {
+            if ( $Param{ 'TicketFreeTime' . $_ . 'OlderDate' } !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "No valid time format '"
-                        . $Param{ 'TicketFreeTime' . $_ . 'OlderDate' } . "'!",
+                    Message  => "No valid time format '" . $Param{ 'TicketFreeTime' . $_ . 'OlderDate' } . "'!",
                 );
                 return;
             }
             else {
-                $SQLExt
-                    .= " AND st.freetime$_ <= '"
-                    . $Self->{DBObject}->Quote( $Param{ 'TicketFreeTime' . $_ . 'OlderDate' } )
-                    . "'";
+                $SQLExt .= " AND st.freetime$_ <= '" . $Self->{DBObject}->Quote( $Param{ 'TicketFreeTime' . $_ . 'OlderDate' } ) . "'";
             }
         }
 
         # get tickets newer then xxxx-xx-xx xx:xx date
         if ( $Param{ 'TicketFreeTime' . $_ . 'NewerDate' } ) {
-            if ( $Param{ 'TicketFreeTime' . $_ . 'NewerDate' }
-                !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ )
-            {
+            if ( $Param{ 'TicketFreeTime' . $_ . 'NewerDate' } !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message  => "No valid time format '"
@@ -3934,35 +3961,28 @@ sub TicketSearch {
                 return;
             }
             else {
-                $SQLExt
-                    .= " AND st.freetime$_ >= '"
-                    . $Self->{DBObject}->Quote( $Param{ 'TicketFreeTime' . $_ . 'NewerDate' } )
-                    . "'";
+                $SQLExt .= " AND st.freetime$_ >= '" . $Self->{DBObject}->Quote( $Param{ 'TicketFreeTime' . $_ . 'NewerDate' } ) . "'";
             }
         }
     }
 
     # get tickets created older then x minutes
     if ( $Param{TicketCreateTimeOlderMinutes} ) {
-        my $Time
-            = $Self->{TimeObject}->SystemTime() - ( $Param{TicketCreateTimeOlderMinutes} * 60 );
-        $SQLExt .= " AND st.create_time_unix <= " . $Self->{DBObject}->Quote($Time);
+        my $Time = $Self->{TimeObject}->SystemTime() - ( $Param{TicketCreateTimeOlderMinutes} * 60 );
+        $Param{TicketCreateTimeOlderDate} = $Time;
     }
 
     # get tickets created newer then x minutes
     if ( $Param{TicketCreateTimeNewerMinutes} ) {
-        my $Time
-            = $Self->{TimeObject}->SystemTime() - ( $Param{TicketCreateTimeNewerMinutes} * 60 );
-        $SQLExt .= " AND st.create_time_unix >= " . $Self->{DBObject}->Quote($Time);
+        my $Time = $Self->{TimeObject}->SystemTime() - ( $Param{TicketCreateTimeNewerMinutes} * 60 );
+        $Param{TicketCreateTimeOlderDate} = $Time;
     }
 
     # get tickets created older then xxxx-xx-xx xx:xx date
     if ( $Param{TicketCreateTimeOlderDate} ) {
 
         # check time format
-        if ( $Param{TicketCreateTimeOlderDate}
-            !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ )
-        {
+        if ( $Param{TicketCreateTimeOlderDate} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "No valid time format '$Param{TicketCreateTimeOlderDate}'!",
@@ -3970,16 +3990,13 @@ sub TicketSearch {
             return;
         }
         else {
-            $SQLExt .= " AND st.create_time <= '"
-                . $Self->{DBObject}->Quote( $Param{TicketCreateTimeOlderDate} ) . "'";
+            $SQLExt .= " AND st.create_time <= '" . $Self->{DBObject}->Quote( $Param{TicketCreateTimeOlderDate} ) . "'";
         }
     }
 
     # get tickets created newer then xxxx-xx-xx xx:xx date
     if ( $Param{TicketCreateTimeNewerDate} ) {
-        if ( $Param{TicketCreateTimeNewerDate}
-            !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ )
-        {
+        if ( $Param{TicketCreateTimeNewerDate} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "No valid time format '$Param{TicketCreateTimeNewerDate}'!",
@@ -3987,18 +4004,31 @@ sub TicketSearch {
             return;
         }
         else {
-            $SQLExt .= " AND st.create_time >= '"
-                . $Self->{DBObject}->Quote( $Param{TicketCreateTimeNewerDate} ) . "'";
+            $SQLExt .= " AND st.create_time >= '" . $Self->{DBObject}->Quote( $Param{TicketCreateTimeNewerDate} ) . "'";
         }
+    }
+
+    # get tickets closed older then x minutes
+    if ( $Param{TicketCloseTimeOlderMinutes} ) {
+        my $TimeStamp = $Self->{TimeObject}->SystemTime() - ( $Param{TicketCloseTimeOlderMinutes} * 60 );
+        $Param{TicketCloseTimeOlderDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $TimeStamp,
+        );
+    }
+
+    # get tickets closed newer then x minutes
+    if ( $Param{TicketCloseTimeNewerMinutes} ) {
+        my $TimeStamp = $Self->{TimeObject}->SystemTime() - ( $Param{TicketCloseTimeNewerMinutes} * 60 );
+        $Param{TicketCloseTimeNewerDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $TimeStamp,
+        );
     }
 
     # get tickets closed older then xxxx-xx-xx xx:xx date
     if ( $Param{TicketCloseTimeOlderDate} ) {
 
         # check time format
-        if ( $Param{TicketCloseTimeOlderDate}
-            !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ )
-        {
+        if ( $Param{TicketCloseTimeOlderDate} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "No valid time format '$Param{TicketCloseTimeOlderDate}'!",
@@ -4015,8 +4045,7 @@ sub TicketSearch {
             my @StateID = ( $Self->HistoryTypeLookup( Type => 'NewTicket' ) );
             push( @StateID, $Self->HistoryTypeLookup( Type => 'StateUpdate' ) );
             if (@StateID) {
-                $SQLExt
-                    .= " AND th.history_type_id IN  (${\(join ', ', @StateID)}) AND "
+                $SQLExt .= " AND th.history_type_id IN  (${\(join ', ', @StateID)}) AND "
                     . " th.state_id IN (${\(join ', ', @List)}) AND "
                     . "th.change_time <= '"
                     . $Self->{DBObject}->Quote( $Param{TicketCloseTimeOlderDate} ) . "'";
@@ -4026,9 +4055,7 @@ sub TicketSearch {
 
     # get tickets closed newer then xxxx-xx-xx xx:xx date
     if ( $Param{TicketCloseTimeNewerDate} ) {
-        if ( $Param{TicketCloseTimeNewerDate}
-            !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ )
-        {
+        if ( $Param{TicketCloseTimeNewerDate} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "No valid time format '$Param{TicketCloseTimeNewerDate}'!",
@@ -4045,8 +4072,7 @@ sub TicketSearch {
             my @StateID = ( $Self->HistoryTypeLookup( Type => 'NewTicket' ) );
             push( @StateID, $Self->HistoryTypeLookup( Type => 'StateUpdate' ) );
             if (@StateID) {
-                $SQLExt
-                    .= " AND th.history_type_id IN  (${\(join ', ', @StateID)}) AND "
+                $SQLExt .= " AND th.history_type_id IN  (${\(join ', ', @StateID)}) AND "
                     . " th.state_id IN (${\(join ', ', @List)}) AND "
                     . " th.change_time >= '"
                     . $Self->{DBObject}->Quote( $Param{TicketCloseTimeNewerDate} ) . "'";
@@ -4073,25 +4099,21 @@ sub TicketSearch {
 
     # get tickets pending older then x minutes
     if ( $Param{TicketPendingTimeOlderMinutes} ) {
-        my $Time
-            = $Self->{TimeObject}->SystemTime() - ( $Param{TicketPendingTimeOlderMinutes} * 60 );
-        $SQLExt .= " AND st.until_time <= " . $Self->{DBObject}->Quote($Time);
+        my $Time = $Self->{TimeObject}->SystemTime() - ( $Param{TicketPendingTimeOlderMinutes} * 60 );
+        $Param{TicketPendingTimeOlderDate} = $Time;
     }
 
     # get tickets pending newer then x minutes
     if ( $Param{TicketPendingTimeNewerMinutes} ) {
-        my $Time
-            = $Self->{TimeObject}->SystemTime() - ( $Param{TicketPendingTimeNewerMinutes} * 60 );
-        $SQLExt .= " AND st.until_time >= " . $Self->{DBObject}->Quote($Time);
+        my $Time = $Self->{TimeObject}->SystemTime() - ( $Param{TicketPendingTimeNewerMinutes} * 60 );
+        $Param{TicketPendingTimeNewerDate} = $Time;
     }
 
     # get pending tickets older then xxxx-xx-xx xx:xx date
     if ( $Param{TicketPendingTimeOlderDate} ) {
 
         # check time format
-        if ( $Param{TicketPendingTimeOlderDate}
-            !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ )
-        {
+        if ( $Param{TicketPendingTimeOlderDate} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "No valid time format '$Param{TicketPendingTimeOlderDate}'!",
@@ -4099,18 +4121,16 @@ sub TicketSearch {
             return;
         }
         else {
-            $Param{TicketPendingTimeOlderDate} = $Self->{TimeObject}
-                ->TimeStamp2SystemTime( String => $Param{TicketPendingTimeOlderDate}, );
-            $SQLExt .= " AND st.until_time <= '"
-                . $Self->{DBObject}->Quote( $Param{TicketPendingTimeOlderDate} ) . "'";
+            my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
+                String => $Param{TicketPendingTimeOlderDate},
+            );
+            $SQLExt .= " AND st.until_time <= '" . $TimeStamp . "'";
         }
     }
 
     # get pending tickets newer then xxxx-xx-xx xx:xx date
     if ( $Param{TicketPendingTimeNewerDate} ) {
-        if ( $Param{TicketPendingTimeNewerDate}
-            !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ )
-        {
+        if ( $Param{TicketPendingTimeNewerDate} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "No valid time format '$Param{TicketPendingTimeNewerDate}'!",
@@ -4118,11 +4138,10 @@ sub TicketSearch {
             return;
         }
         else {
-            $Param{TicketPendingTimeNewerDate} = $Self->{TimeObject}->TimeStamp2SystemTime(
+            my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $Param{TicketPendingTimeNewerDate},
             );
-            $SQLExt .= " AND st.until_time >= '"
-                . $Self->{DBObject}->Quote( $Param{TicketPendingTimeNewerDate} ) . "'";
+            $SQLExt .= " AND st.until_time >= '" . $Self->{DBObject}->Quote( $TimeStamp ) . "'";
         }
     }
 
@@ -4139,7 +4158,7 @@ sub TicketSearch {
     $Self->{DBObject}->Prepare( SQL => $SQL . $SQLExt, Limit => $Limit );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Tickets{ $Row[0] } = $Row[1];
-        push( @TicketIDs, $Row[0] );
+        push @TicketIDs, $Row[0];
     }
     if ( $Result eq 'HASH' ) {
         return %Tickets;
@@ -4147,108 +4166,6 @@ sub TicketSearch {
     else {
         return @TicketIDs;
     }
-}
-
-sub _TicketSearchCondition {
-    my ( $Self, %Param ) = @_;
-
-    my $Key  = $Param{Key}   || return;
-    my $Word = $Param{Value} || return;
-
-    # clean up
-    $Word =~ s/^\s+//g;
-    $Word =~ s/\s+$//g;
-    $Word =~ s/^(%|\*)(.*)$/$2/gi;
-    $Word =~ s/^(.*)(%|\*)$/$1/gi;
-    if ( $Word !~ /^\(/ ) {
-        $Word = '(' . $Word;
-    }
-    if ( $Word !~ /\)$/ ) {
-        $Word = $Word . ')';
-    }
-    $Word =~ s/  / /g;
-    $Word =~ s/ /&&/g;
-
-    my @Array   = split( //, $Word );
-    my $WordNew = '';
-    my $Open    = 0;
-    my $Not     = 0;
-    for my $Position ( 0 .. $#Array ) {
-        if ( !defined( $Array[$Position] ) ) {
-            next;
-        }
-        if ( $Not && $Array[$Position] eq '!' ) {
-            next;
-        }
-        if ( $Array[$Position] eq '(' && $Array[ $Position + 1 ] && $Array[ $Position + 1 ] ne '(' )
-        {
-            $Open = 1;
-            $WordNew .= " (";
-            if ( $Array[ $Position + 1 ] ne '(' ) {
-                if ( $Array[ $Position + 1 ] eq '!' ) {
-                    $Not = 1;
-                    $WordNew .= " LOWER($Key) NOT LIKE LOWER('%";
-                }
-                else {
-                    $WordNew .= " LOWER($Key) LIKE LOWER('%";
-                }
-            }
-        }
-        elsif ($Array[$Position] eq ')'
-            && $Array[ $Position - 1 ]
-            && $Array[ $Position - 1 ] ne ')' )
-        {
-            $WordNew .= "%')) ";
-        }
-        elsif ($Array[$Position] eq ')'
-            && $Array[ $Position + 1 ]
-            && $Array[ $Position + 1 ] ne ')' )
-        {
-            $WordNew .= ") ";
-        }
-        elsif ($Array[$Position] eq '&'
-            && $Array[ $Position + 1 ]
-            && $Array[ $Position + 1 ] eq '&' )
-        {
-            if ( $Array[ $Position - 1 ] ne ')' ) {
-                $WordNew .= "%') ";
-            }
-            $WordNew .= " AND ";
-            if ( $Array[ $Position + 2 ] ne '(' ) {
-                if ( $Array[ $Position + 2 ] eq '!' ) {
-                    $Not = 1;
-                    $WordNew .= " LOWER($Key) NOT LIKE LOWER('%";
-                }
-                else {
-                    $WordNew .= " LOWER($Key) LIKE LOWER('%";
-                }
-            }
-        }
-        elsif ( $Array[$Position] eq '&' && $Array[ $Position - 1 ] eq '&' ) {
-        }
-        elsif ( $Array[$Position] eq '|' && $Array[ $Position + 1 ] eq '|' ) {
-            if ( $Array[ $Position - 1 ] ne ')' ) {
-                $WordNew .= "%') ";
-            }
-            $WordNew .= " OR ";
-            if ( $Array[ $Position + 2 ] ne '(' ) {
-                if ( $Array[ $Position + 2 ] eq '!' ) {
-                    $Not = 1;
-                    $WordNew .= " LOWER($Key) NOT LIKE LOWER('%";
-                }
-                else {
-                    $WordNew .= " LOWER($Key) LIKE LOWER('%";
-                }
-            }
-        }
-        elsif ( $Array[$Position] eq '|' && $Array[ $Position - 1 ] eq '|' ) {
-        }
-        else {
-            $WordNew .= $Self->{DBObject}->Quote( $Array[$Position] );
-        }
-    }
-
-    return '(' . $WordNew . ')';
 }
 
 =item LockIsTicketLocked()
@@ -4269,7 +4186,7 @@ sub LockIsTicketLocked {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
 
@@ -4321,7 +4238,7 @@ sub LockSet {
         }
     }
     if ( !$Param{Lock} && !$Param{LockID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need LockID or Lock!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need LockID or Lock!' );
         return;
     }
 
@@ -4452,7 +4369,7 @@ sub StateSet {
         }
     }
     if ( !$Param{State} && !$Param{StateID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need StateID or State!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need StateID or State!' );
         return;
     }
 
@@ -4466,7 +4383,7 @@ sub StateSet {
         %State = $Self->{StateObject}->StateGet( ID => $Param{StateID}, Cache => 1 );
     }
     if ( !%State ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need StateID or State!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need StateID or State!' );
         return;
     }
 
@@ -4489,7 +4406,7 @@ sub StateSet {
     }
 
     # db update
-    return if !$Self->{DBObject}->Do(
+    return if ! $Self->{DBObject}->Do(
         SQL => 'UPDATE ticket SET ticket_state_id = ?, '
             . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [ \$State{ID}, \$Param{UserID}, \$Param{TicketID} ],
@@ -4591,13 +4508,13 @@ sub StateList {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID or CustomerUserID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
         return;
     }
 
     # check needed stuff
     if ( !$Param{QueueID} && !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need QueueID, TicketID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID, TicketID!' );
         return;
     }
 
@@ -4666,7 +4583,7 @@ sub OwnerCheck {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
 
@@ -4746,7 +4663,7 @@ sub OwnerSet {
         }
     }
     if ( !$Param{NewUserID} && !$Param{NewUser} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need NewUserID or NewUser!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need NewUserID or NewUser!' );
         return;
     }
 
@@ -4883,7 +4800,7 @@ sub OwnerList {
         # store result
         if ( $Row[1] eq 'NewTicket' && $Row[2] ne '1' && $LastOwner ne $Row[2] ) {
             $LastOwner = $Row[2];
-            push( @User, $Row[2] );
+            push @User, $Row[2];
         }
         elsif ( $Row[1] eq 'OwnerUpdate' ) {
             if (   $Row[0] =~ /^New Owner is '(.+?)' \(ID=(.+?)\)/
@@ -4891,7 +4808,7 @@ sub OwnerList {
             {
                 if ( $2 ne 1 ) {
                     $LastOwner = $2;
-                    push( @User, $2 );
+                    push @User, $2;
                 }
             }
         }
@@ -4900,7 +4817,7 @@ sub OwnerList {
     for (@User) {
         my %User = $Self->{UserObject}->GetUserData( UserID => $_, Cache => 1, Valid => 1 );
         if (%User) {
-            push( @UserInfo, \%User );
+            push @UserInfo, \%User;
         }
     }
     return @UserInfo;
@@ -4930,7 +4847,7 @@ sub ResponsibleSet {
         }
     }
     if ( !$Param{NewUserID} && !$Param{NewUser} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need NewUserID or NewUser!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need NewUserID or NewUser!' );
         return;
     }
 
@@ -5051,21 +4968,21 @@ sub ResponsibleList {
         # store result
         if ( $Row[1] eq 'NewTicket' && $Row[2] ne '1' && $LastResponsible ne $Row[2] ) {
             $LastResponsible = $Row[2];
-            push( @User, $Row[2] );
+            push @User, $Row[2];
         }
         elsif ( $Row[1] eq 'ResponsibleUpdate' ) {
             if (   $Row[0] =~ /^New Responsible is '(.+?)' \(ID=(.+?)\)/
                 || $Row[0] =~ /^\%\%(.+?)\%\%(.+?)$/ )
             {
                 $LastResponsible = $2;
-                push( @User, $2 );
+                push @User, $2;
             }
         }
     }
     my @UserInfo = ();
     for (@User) {
         my %User = $Self->{UserObject}->GetUserData( UserID => $_, Cache => 1 );
-        push( @UserInfo, \%User );
+        push @UserInfo, \%User;
     }
     return @UserInfo;
 }
@@ -5106,7 +5023,7 @@ sub InvolvedAgents {
         # store result
         if ( $Row[1] ne 1 && !$UsedOwner{ $Row[1] } ) {
             $UsedOwner{ $Row[1] } = $Row[1];
-            push( @User, $Row[1] );
+            push @User, $Row[1];
         }
     }
     my @UserInfo = ();
@@ -5117,7 +5034,7 @@ sub InvolvedAgents {
             Cache  => 1,
         );
         if (%User) {
-            push( @UserInfo, \%User );
+            push @UserInfo, \%User;
         }
     }
     return @UserInfo;
@@ -5233,13 +5150,13 @@ sub PriorityList {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID or CustomerUserID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
         return;
     }
 
     # check needed stuff
     #    if (!$Param{QueueID} && !$Param{TicketID}) {
-    #        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID or TicketID!");
+    #        $Self->{LogObject}->Log(Priority => 'error', Message => 'Need QueueID or TicketID!');
     #        return;
     #    }
     # sql
@@ -5596,37 +5513,34 @@ sub HistoryTypeLookup {
 
     # check needed stuff
     if ( !$Param{Type} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Type!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Type!' );
         return;
     }
 
     # check if we ask the same request?
-    if ( exists $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"} ) {
-        return $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"};
+    my $CacheKey = 'Ticket::History::HistoryTypeLookup::' . $Param{Type};
+    if ( $Self->{$CacheKey} ) {
+        return $Self->{$CacheKey};
     }
 
     # db query
     $Self->{DBObject}->Prepare(
-        SQL  => "SELECT id FROM ticket_history_type WHERE name = ?",
+        SQL  => 'SELECT id FROM ticket_history_type WHERE name = ?',
         Bind => [ \$Param{Type} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-
-        # store result
-        $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"} = $Row[0];
+        $Self->{$CacheKey} = $Row[0];
     }
 
     # check if data exists
-    if ( !exists $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"} ) {
+    if ( !$Self->{$CacheKey} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message => "No TypeID for $Param{Type} found!",
         );
         return;
     }
-    else {
-        return $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"};
-    }
+    return $Self->{$CacheKey};
 }
 
 =item HistoryAdd()
@@ -5650,12 +5564,12 @@ sub HistoryAdd {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Name!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
         return;
     }
 
     # lookup!
-    if ( ( !$Param{HistoryTypeID} ) && ( $Param{HistoryType} ) ) {
+    if ( !$Param{HistoryTypeID} && $Param{HistoryType} ) {
         $Param{HistoryTypeID} = $Self->HistoryTypeLookup( Type => $Param{HistoryType} );
     }
 
@@ -5775,7 +5689,7 @@ sub HistoryGet {
         $Data{CreateBy}    = $Row[3];
         $Data{CreateTime}  = $Row[2];
         $Data{HistoryType} = $Row[4];
-        push( @Lines, \%Data );
+        push @Lines, \%Data;
     }
 
     # get user data
@@ -5795,7 +5709,7 @@ delete a ticket history (from storage)
 
     $TicketObject->HistoryDelete(
         TicketID => 123,
-        UserID => 123,
+        UserID   => 123,
     );
 
 =cut
@@ -5837,11 +5751,9 @@ returns the accounted time of a ticket.
 sub TicketAccountedTimeGet {
     my ( $Self, %Param ) = @_;
 
-    my $AccountedTime = 0;
-
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
 
@@ -5850,6 +5762,7 @@ sub TicketAccountedTimeGet {
         SQL  => 'SELECT time_unit FROM time_accounting WHERE ticket_id = ?',
         Bind => [ \$Param{TicketID} ],
     );
+    my $AccountedTime = 0;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Row[0] =~ s/,/./g;
         $AccountedTime = $AccountedTime + $Row[0];
@@ -6587,6 +6500,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.307 $ $Date: 2008-04-10 05:43:43 $
+$Revision: 1.308 $ $Date: 2008-04-11 16:17:27 $
 
 =cut
