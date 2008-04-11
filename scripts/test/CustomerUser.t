@@ -1,12 +1,12 @@
 # --
 # CustomerUser.t - CustomerUser tests
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.6 2007-12-27 16:18:37 martin Exp $
+# $Id: CustomerUser.t,v 1.7 2008-04-11 16:09:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use Kernel::System::CustomerUser;
@@ -212,12 +212,30 @@ $Self->True(
 );
 
 %List = $Self->{CustomerUserObject}->CustomerSearch(
+    Search => "$UserID+!firstname",
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    !$List{$UserID} || '',
+    "CustomerSearch() - Search '\$UserID+!firstname'",
+);
+
+%List = $Self->{CustomerUserObject}->CustomerSearch(
     Search => "$UserID+firstname_with_not_match",
     ValidID => 1, # not required, default 1
 );
 $Self->True(
     !$List{$UserID} || '',
     "CustomerSearch() - Search '\$UserID+firstname_with_not_match'",
+);
+
+%List = $Self->{CustomerUserObject}->CustomerSearch(
+    Search => "$UserID+!firstname_with_not_match",
+    ValidID => 1, # not required, default 1
+);
+$Self->True(
+    $List{$UserID} || '',
+    "CustomerSearch() - Search '\$UserID+!firstname_with_not_match'",
 );
 
 %List = $Self->{CustomerUserObject}->CustomerSearch(
