@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.40 2008-04-10 14:21:44 tr Exp $
+# $Id: Time.pm,v 1.41 2008-04-11 15:53:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -121,10 +121,11 @@ sub SystemTime2TimeStamp {
         return;
     }
 
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->SystemTime2Date( %Param, );
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->SystemTime2Date( %Param );
     if ( $Param{Type} && $Param{Type} eq 'Short' ) {
-        my ( $CSec, $CMin, $CHour, $CDay, $CMonth, $CYear )
-            = $Self->SystemTime2Date( SystemTime => $Self->SystemTime(), );
+        my ( $CSec, $CMin, $CHour, $CDay, $CMonth, $CYear ) = $Self->SystemTime2Date(
+            SystemTime => $Self->SystemTime(),
+        );
         if ( $CYear == $Year && $CMonth == $Month && $CDay == $Day ) {
             return "$Hour:$Min:$Sec";
         }
@@ -167,14 +168,14 @@ sub SystemTime2Date {
     }
 
     # get time format
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime( $Param{SystemTime} );
-    $Year  += 1900;
-    $Month += 1;
-    $Month = "0$Month" if ( $Month < 10 );
-    $Day   = "0$Day"   if ( $Day < 10 );
-    $Hour  = "0$Hour"  if ( $Hour < 10 );
-    $Min   = "0$Min"   if ( $Min < 10 );
-    $Sec   = "0$Sec"   if ( $Sec < 10 );
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $Param{SystemTime};
+    $Year  = $Year + 1900;
+    $Month = $Month + 1;
+    $Month = sprintf "%02d", $Month;
+    $Day   = sprintf "%02d", $Day;
+    $Hour  = sprintf "%02d", $Hour;
+    $Min   = sprintf "%02d", $Min;
+    $Sec   = sprintf "%02d", $Sec;
 
     return ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay );
 }
@@ -227,10 +228,7 @@ sub TimeStamp2SystemTime {
     }
 
     # match mail time format
-    elsif ( $Param{String}
-        =~ /((...),\s+|)(\d\d|\d)\s(...)\s(\d\d\d\d)\s(\d\d|\d):(\d\d|\d):(\d\d|\d)\s((\+|\-)(\d\d)(\d\d)|...)/
-        )
-    {
+    elsif ( $Param{String} =~ /((...),\s+|)(\d\d|\d)\s(...)\s(\d\d\d\d)\s(\d\d|\d):(\d\d|\d):(\d\d|\d)\s((\+|\-)(\d\d)(\d\d)|...)/ ) {
         my $DiffTime = 0;
         if ( $10 eq '+' ) {
 
@@ -260,12 +258,16 @@ sub TimeStamp2SystemTime {
         ) + $DiffTime + $Self->{TimeSecDiff};
     }
 
-    # return system time
-    return $SytemTime if $SytemTime;
-
     # return error
-    $Self->{LogObject}->Log( Priority => 'error', Message => "Invalid Date '$Param{String}'!" );
-    return;
+    if ( !$SytemTime ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Invalid Date '$Param{String}'!",
+        );
+    }
+
+    # return system time
+    return $SytemTime;
 
 }
 
@@ -291,23 +293,24 @@ sub Date2SystemTime {
 
     # check needed stuff
     for (qw(Year Month Day Hour Minute Second)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     my $SytemTime = eval {
-        timelocal( $Param{Second}, $Param{Minute}, $Param{Hour}, $Param{Day}, ( $Param{Month} - 1 ),
-            $Param{Year} );
+        timelocal( $Param{Second}, $Param{Minute}, $Param{Hour}, $Param{Day}, ( $Param{Month} - 1 ), $Param{Year} );
     };
-    return $SytemTime if $SytemTime;
 
-    $Self->{LogObject}->Log(
-        Priority => 'error',
-        Message =>
-            "Invalid Date '$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:$Param{Second}'!",
-    );
-    return;
+    if ( !$SytemTime ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Invalid Date '$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:$Param{Second}'!",
+        );
+        return;
+    }
+
+    return $SytemTime;
 }
 
 =item MailTimeStamp()
@@ -362,8 +365,7 @@ sub MailTimeStamp {
     }
     $GMTime[5] = $GMTime[5] + 1900;
     $LTime[5]  = $LTime[5] + 1900;
-    my $TimeString
-        = "$DayMap[$LTime[6]], $LTime[3] $MonthMap[$LTime[4]] $LTime[5] "
+    my $TimeString = "$DayMap[$LTime[6]], $LTime[3] $MonthMap[$LTime[4]] $LTime[5] "
         . sprintf( "%02d", $LTime[2] ) . ":"
         . sprintf( "%02d", $LTime[1] ) . ":"
         . sprintf( "%02d", $LTime[0] )
@@ -393,7 +395,7 @@ sub WorkingTime {
 
     # check needed stuff
     for (qw(StartTime StopTime)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -421,17 +423,17 @@ sub WorkingTime {
         }
     }
     my $Counted = 0;
-    my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay ) = localtime( $Param{StartTime} );
+    my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay ) = localtime $Param{StartTime};
     $AYear  = $AYear + 1900;
     $AMonth = $AMonth + 1;
     my $ADate = "$AYear-$AMonth-$ADay";
-    my ( $BSec, $BMin, $BHour, $BDay, $BMonth, $BYear, $BWDay ) = localtime( $Param{StopTime} );
+    my ( $BSec, $BMin, $BHour, $BDay, $BMonth, $BYear, $BWDay ) = localtime $Param{StopTime};
     $BYear  = $BYear + 1900;
     $BMonth = $BMonth + 1;
     my $BDate = "$BYear-$BMonth-$BDay";
 
     while ( $Param{StartTime} < $Param{StopTime} ) {
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime( $Param{StartTime} );
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $Param{StartTime};
         $Year  = $Year + 1900;
         $Month = $Month + 1;
         my $CDate = "$Year-$Month-$Day";
@@ -519,7 +521,7 @@ sub DestinationTime {
 
     # check needed stuff
     for (qw(StartTime Time)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -548,7 +550,7 @@ sub DestinationTime {
     my $First           = 0;
     my $FirstTurn       = 1;
     my $Count           = 1;
-    my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay ) = localtime( $Param{StartTime} );
+    my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay ) = localtime $Param{StartTime};
     $AYear  = $AYear + 1900;
     $AMonth = $AMonth + 1;
     my $ADate = "$AYear-$AMonth-$ADay";
@@ -558,7 +560,7 @@ sub DestinationTime {
         $Count++;
         last if $Count > 100;
 
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime($CTime);
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime;
         $Year  = $Year + 1900;
         $Month = $Month + 1;
         my $CDate = "$Year-$Month-$Day";
@@ -666,7 +668,7 @@ sub DestinationTime {
             $CTime = $CTime + ( 60 * 60 * 24 );
 
             # reduce destination time diff between today and tomrrow
-            my ( $NextSec, $NextMin, $NextHour, $NextDay, $NextMonth, $NextYear ) = localtime( $CTime );
+            my ( $NextSec, $NextMin, $NextHour, $NextDay, $NextMonth, $NextYear ) = localtime $CTime;
             $NextYear  = $NextYear + 1900;
             $NextMonth = $NextMonth + 1;
 
@@ -726,31 +728,23 @@ sub VacationCheck {
             return;
         }
     }
-    $Param{Month} = sprintf( "%02d", $Param{Month} );
-    $Param{Day}   = sprintf( "%02d", $Param{Day} );
+    $Param{Month} = sprintf "%02d", $Param{Month};
+    $Param{Day}   = sprintf "%02d", $Param{Day};
 
     my $TimeVacationDays        = $Self->{ConfigObject}->Get('TimeVacationDays');
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
-    if ( defined( $TimeVacationDays->{ $Param{Month} }->{ $Param{Day} } ) ) {
+
+    if ( defined $TimeVacationDays->{ $Param{Month} }->{ $Param{Day} } ) {
         return $TimeVacationDays->{ $Param{Month} }->{ $Param{Day} };
     }
-    elsif (
-        defined( $TimeVacationDaysOneTime->{ $Param{Year} }->{ $Param{Month} }->{ $Param{Day} } ) )
-    {
+    elsif ( defined $TimeVacationDaysOneTime->{ $Param{Year} }->{ $Param{Month} }->{ $Param{Day} } ) {
         return $TimeVacationDaysOneTime->{ $Param{Year} }->{ $Param{Month} }->{ $Param{Day} };
     }
-    elsif ( defined( $TimeVacationDays->{ int( $Param{Month} ) }->{ int( $Param{Day} ) } ) ) {
+    elsif ( defined $TimeVacationDays->{ int( $Param{Month} ) }->{ int( $Param{Day} ) } ) {
         return $TimeVacationDays->{ int( $Param{Month} ) }->{ int( $Param{Day} ) };
     }
-    elsif (
-        defined(
-            $TimeVacationDaysOneTime->{ $Param{Year} }->{ int( $Param{Month} ) }
-                ->{ int( $Param{Day} ) }
-        )
-        )
-    {
-        return $TimeVacationDaysOneTime->{ $Param{Year} }->{ int( $Param{Month} ) }
-            ->{ int( $Param{Day} ) };
+    elsif ( defined $TimeVacationDaysOneTime->{ $Param{Year} }->{ int( $Param{Month} ) }->{ int( $Param{Day} ) } ) {
+        return $TimeVacationDaysOneTime->{ $Param{Year} }->{ int( $Param{Month} ) }->{ int( $Param{Day} ) };
     }
     return;
 }
@@ -771,6 +765,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2008-04-10 14:21:44 $
+$Revision: 1.41 $ $Date: 2008-04-11 15:53:42 $
 
 =cut
