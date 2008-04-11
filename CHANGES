@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.630 2008-04-10 16:32:01 martin Exp $
+# $Id: CHANGES,v 1.631 2008-04-11 18:17:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,12 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2007/04/10) Added global Search-Condition-Feature (AND/OR/()/!/+) to ticket
+    search backend, customer search backend and faq.
+ - (2007/04/10) Added support to ticket print to select only one article to print.
+ - (2007/04/10) Added bug# 2159 - ticket close time as attributes (like ticket
+    create time) in agent ticket search.
+ - (2007/04/10) Updated cpan module CGI to version 3.35.
  - (2008/04/02) Moved from default password 'crypt' method to 'md5'. All new
     changed passwords are stored with md5-password method. Old stored passwords
     still usable.
