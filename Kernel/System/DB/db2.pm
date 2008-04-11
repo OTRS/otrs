@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.32 2008-03-26 20:49:36 martin Exp $
+# $Id: db2.pm,v 1.33 2008-04-11 15:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -67,7 +67,7 @@ sub LoadPreferences {
 sub Quote {
     my ( $Self, $Text, $Type ) = @_;
 
-    if ( defined( ${$Text} ) ) {
+    if ( defined ${$Text} ) {
         if ( $Self->{'DB::QuoteBack'} ) {
             ${$Text} =~ s/\\/$Self->{'DB::QuoteBack'}\\/g;
         }
@@ -86,12 +86,17 @@ sub DatabaseCreate {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Name!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
         return;
     }
 
     # return SQL
-    return ("CREATE DATABASE $Param{Name}");
+    if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /(utf(\-8|8))/i ) {
+        return ("CREATE DATABASE $Param{Name} using codeset utf-8 territory us pagesize 32 k");
+    }
+    else {
+        return ("CREATE DATABASE $Param{Name}");
+    }
 }
 
 sub DatabaseDrop {
@@ -99,7 +104,7 @@ sub DatabaseDrop {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Name!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
         return;
     }
 
@@ -146,25 +151,25 @@ sub TableCreate {
             $SQLEnd .= ")";
         }
         elsif ( $Tag->{Tag} eq 'Column' && $Tag->{TagType} eq 'Start' ) {
-            push( @Column, $Tag );
+            push @Column, $Tag;
         }
         elsif ( $Tag->{Tag} eq 'Index' && $Tag->{TagType} eq 'Start' ) {
             $IndexCurrent = $Tag->{Name};
         }
         elsif ( $Tag->{Tag} eq 'IndexColumn' && $Tag->{TagType} eq 'Start' ) {
-            push( @{ $Index{$IndexCurrent} }, $Tag );
+            push @{ $Index{$IndexCurrent} }, $Tag;
         }
         elsif ( $Tag->{Tag} eq 'Unique' && $Tag->{TagType} eq 'Start' ) {
             $UniqCurrent = $Tag->{Name} || $TableName . '_U_' . int( rand(999) );
         }
         elsif ( $Tag->{Tag} eq 'UniqueColumn' && $Tag->{TagType} eq 'Start' ) {
-            push( @{ $Uniq{$UniqCurrent} }, $Tag );
+            push @{ $Uniq{$UniqCurrent} }, $Tag;
         }
         elsif ( $Tag->{Tag} eq 'ForeignKey' && $Tag->{TagType} eq 'Start' ) {
             $ForeignKey = $Tag->{ForeignTable};
         }
         elsif ( $Tag->{Tag} eq 'Reference' && $Tag->{TagType} eq 'Start' ) {
-            push( @{ $Foreign{$ForeignKey} }, $Tag );
+            push @{ $Foreign{$ForeignKey} }, $Tag;
         }
     }
     for my $Tag (@Column) {
@@ -216,7 +221,7 @@ sub TableCreate {
         $SQL .= ")";
     }
     $SQL .= "\n";
-    push( @Return, $SQLStart . $SQL . $SQLEnd );
+    push @Return, $SQLStart . $SQL . $SQLEnd;
 
     # add indexs
     for my $Name ( keys %Index ) {
@@ -290,7 +295,7 @@ sub TableAlter {
             }
             # rename table
             if ( $Tag->{NameOld} && $Tag->{NameNew} ) {
-                push( @SQL, $SQLStart . "RENAME TABLE $Tag->{NameOld} TO $Tag->{NameNew}" );
+                push @SQL, $SQLStart . "RENAME TABLE $Tag->{NameOld} TO $Tag->{NameNew}";
             }
             $SQLStart .= "ALTER TABLE $Table";
         }
@@ -314,18 +319,18 @@ sub TableAlter {
             if ( $Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i ) {
                 $SQLEnd .= " PRIMARY KEY($Tag->{Name})";
             }
-            push( @SQL, $SQLEnd );
+            push @SQL, $SQLEnd;
 
             # default values
             if ( $Tag->{Default} ) {
                 if ( $Tag->{Type} =~ /int/i ) {
-                    push( @SQL, "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL");
+                    push @SQL, "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL";
                 }
                 else {
-                    push( @SQL, "UPDATE $Table SET $Tag->{Name} = '$Tag->{Default}' WHERE $Tag->{Name} IS NULL");
+                    push @SQL, "UPDATE $Table SET $Tag->{Name} = '$Tag->{Default}' WHERE $Tag->{Name} IS NULL";
                 }
                 if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
-                    push( @SQL, "ALTER TABLE $Table CHANGE $Tag->{Name} $Tag->{Name} $Tag->{Type} NOT NULL");
+                    push @SQL, "ALTER TABLE $Table CHANGE $Tag->{Name} $Tag->{Name} $Tag->{Type} NOT NULL";
                 }
             }
         }
@@ -349,11 +354,11 @@ sub TableAlter {
             if ( $Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i ) {
                 $SQLEnd .= " PRIMARY KEY($Tag->{Name})";
             }
-            push( @SQL, $SQLEnd );
+            push @SQL, $SQLEnd;
         }
         elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
             my $SQLEnd = $SQLStart . " DROP $Tag->{Name}";
-            push( @SQL, $SQLEnd );
+            push @SQL, $SQLEnd;
         }
     }
     return @SQL;
@@ -496,18 +501,18 @@ sub Insert {
         }
         if ( $Tag->{Tag} eq 'Data' && $Tag->{TagType} eq 'Start' ) {
             $Tag->{Key} = ${ $Self->Quote( \$Tag->{Key} ) };
-            push( @Keys, $Tag->{Key} );
+            push @Keys, $Tag->{Key};
             my $Value;
-            if ( defined( $Tag->{Value} ) ) {
+            if ( defined $Tag->{Value} ) {
                 $Value = $Tag->{Value};
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message => "The content for inserts is not longer appreciated "
-                        . "attribut Value, use Content from now on! Reason: You can't "
-                        . "use new lines in attributes.",
+                    Message => 'The content for inserts is not longer appreciated '
+                        . 'attribut Value, use Content from now on! Reason: You can\'t '
+                        . 'use new lines in attributes.',
                 );
             }
-            elsif ( defined( $Tag->{Content} ) ) {
+            elsif ( defined $Tag->{Content} ) {
                 $Value = $Tag->{Content};
             }
             else {
@@ -519,7 +524,7 @@ sub Insert {
             else {
                 $Value = ${ $Self->Quote( \$Value ) };
             }
-            push( @Values, $Value );
+            push @Values, $Value;
         }
     }
     my $Key = '';
