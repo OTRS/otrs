@@ -1,12 +1,12 @@
 # --
 # StdAttachment.t - StdAttachment tests
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.t,v 1.3 2007-09-29 11:09:31 mh Exp $
+# $Id: StdAttachment.t,v 1.4 2008-04-11 15:54:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use utf8;
@@ -27,13 +27,13 @@ for my $File (qw(xls txt doc png pdf)) {
     my $MD5 = $Self->{MainObject}->MD5sum(String => \$Content);
 
     my $Add = $Self->{StdAttachmentObject}->StdAttachmentAdd(
-        Name => 'Some Name 123456798',
-        ValidID => 1,
-        Content => $Content,
+        Name        => 'Some Name 123456798',
+        ValidID     => 1,
+        Content     => $Content,
         ContentType => 'text/xml',
-        Filename => 'StdAttachment Test1äöüß.'.$File,
-        Comment => 'Some Comment',
-        UserID => 1,
+        Filename    => 'StdAttachment Test1äöüß.'.$File,
+        Comment     => 'Some Comment',
+        UserID      => 1,
     );
 
     $Self->True(
@@ -91,14 +91,14 @@ for my $File (qw(xls txt doc png pdf)) {
     );
 
     my $Update = $Self->{StdAttachmentObject}->StdAttachmentUpdate(
-        ID => $ID,
-        Name => 'Some Name',
-        ValidID => 1,
-        Content => $Data{Content},
+        ID          => $ID,
+        Name        => 'Some Name',
+        ValidID     => 1,
+        Content     => $Data{Content},
         ContentType => 'text/html',
-        Filename => 'SomeFile.'.$File,
-        Comment => 'Lala123öäüß',
-        UserID => 1,
+        Filename    => 'SomeFile.'.$File,
+        Comment     => 'Lala123öäüß',
+        UserID      => 1,
     );
     $Self->True(
         $Update || '',
@@ -137,7 +137,7 @@ for my $File (qw(xls txt doc png pdf)) {
     );
 
     $ID = $Self->{StdAttachmentObject}->StdAttachmentLookup(
-        StdAttachment => 'Some Name 123456798',
+        StdAttachment => 'Some Name',
     );
     $Self->Is(
         $ID || '',
