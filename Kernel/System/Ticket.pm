@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.309 2008-04-11 17:36:10 martin Exp $
+# $Id: Ticket.pm,v 1.310 2008-04-11 18:10:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.309 $) [1];
+$VERSION = qw($Revision: 1.310 $) [1];
 
 =head1 NAME
 
@@ -2554,15 +2554,14 @@ sub TicketFreeTimeSet {
     for (qw(Counter)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
-    if ( $TimeStamp eq '0000-00-00 00:00:00' ) {
+    if ( !$TimeStamp || $TimeStamp eq '0000-00-00 00:00:00' ) {
         $TimeStamp = undef;
     }
     return if ! $Self->{DBObject}->Do(
         SQL => "UPDATE ticket SET freetime$Param{Counter} = ?, "
-            . " change_time = current_timestamp, change_by = ? WHERE id = ?",
+            . "change_time = current_timestamp, change_by = ? WHERE id = ?",
         Bind => [ \$TimeStamp, \$Param{UserID}, \$Param{TicketID} ],
     );
-
     if ( ! $TimeStamp ) {
         $TimeStamp = '';
     }
@@ -6500,6 +6499,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.309 $ $Date: 2008-04-11 17:36:10 $
+$Revision: 1.310 $ $Date: 2008-04-11 18:10:52 $
 
 =cut
