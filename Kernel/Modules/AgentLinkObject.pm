@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.21 2008-03-27 23:16:10 martin Exp $
+# $Id: AgentLinkObject.pm,v 1.22 2008-04-11 15:50:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,8 +53,9 @@ sub new {
     # the following 12 lines check if how much destination objects are available
     # if only one available this will be automatically selected
     if ( !$Self->{DestinationObject} ) {
-        my %DestinationObjects
-            = $Self->{LinkObject}->LinkObjects( SourceObject => $Self->{SourceObject} );
+        my %DestinationObjects = $Self->{LinkObject}->LinkObjects(
+            SourceObject => $Self->{SourceObject},
+        );
         my $Counter                   = 0;
         my $PossibleDestinationObject = '';
         for ( keys %DestinationObjects ) {
