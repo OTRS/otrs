@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.32 2008-04-11 16:19:21 martin Exp $
+# $Id: DB.t,v 1.33 2008-04-11 22:51:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -345,10 +345,6 @@ $XML = '
     <ColumnChange NameOld="test2" NameNew="test3" Type="varchar" Size="30" Required="false"/>
     <ColumnChange NameOld="test3" NameNew="test3" Type="varchar" Size="30" Required="true"/>
     <ColumnDrop Name="test3"/>
-    <ColumnAdd Name="test4" Type="varchar" Size="20" Required="true" Default="lalu"/>
-    <ColumnDrop Name="test4"/>
-    <ColumnAdd Name="test5" Type="integer" Required="true" Default="1"/>
-    <ColumnDrop Name="test5"/>
 </TableAlter>
 ';
 @XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
