@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.73 2008-04-09 00:31:19 martin Exp $
+# $Id: XML.pm,v 1.74 2008-04-11 15:52:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 =head1 NAME
 
@@ -118,7 +118,7 @@ sub XMLHashAdd {
     if ( !$Param{Key} && !$Param{KeyAutoIncrement} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need Key or KeyAutoIncrement param!",
+            Message => 'Need Key or KeyAutoIncrement param!',
         );
         return;
     }
@@ -154,7 +154,7 @@ sub XMLHashAdd {
 
     $Self->{LogObject}->Log(
         Priority => 'error',
-        Message  => "Got no \%ValueHASH from XMLHash2D()",
+        Message  => 'Got no %ValueHASH from XMLHash2D()',
     );
     return;
 }
@@ -445,7 +445,7 @@ sub XMLHashSearch {
                     for my $Element ( @{$Value} ) {
                         $Element = $Self->{DBObject}->Quote($Element, 'Like');
                         if ($SQL) {
-                            $SQL .= " OR ";
+                            $SQL .= ' OR ';
                         }
                         $SQL
                             .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Element')";
@@ -454,7 +454,7 @@ sub XMLHashSearch {
                 else {
                     $Value = $Self->{DBObject}->Quote($Value, 'Like');
                     if ($SQL) {
-                        $SQL .= " OR ";
+                        $SQL .= ' OR ';
                     }
                     $SQL .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Value')";
                 }
@@ -520,9 +520,9 @@ generate a xml string from a XMLHash
 sub XMLHash2XML {
     my ( $Self, @XMLHash ) = @_;
 
-    my $Output = "<?xml version=\"1.0\" encoding=\""
+    my $Output = '<?xml version="1.0" encoding="'
         . $Self->{ConfigObject}->Get('DefaultCharset')
-        . "\"?>\n";
+        . '"?>' . "\n";
 
     $Self->{XMLHash2XMLLayer} = 0;
     for my $Key (@XMLHash) {
@@ -1264,7 +1264,7 @@ sub XMLParse {
     # load parse package and parse
     my $UseFallback = 1;
 
-    if ( eval "require XML::Parser" ) {
+    if ( eval 'require XML::Parser' ) {
         my $Parser = XML::Parser->new( Handlers => { Start => \&_HS, End => \&_ES, Char => \&_CS } );
 
         if ( eval { $Parser->parse( $Param{String} ) } ) {
@@ -1272,7 +1272,7 @@ sub XMLParse {
         }
         else {
             $Self->{LogObject}->Log( Priority => 'error', Message => "C-Parser: $@!" );
-            $Self->{LogObject}->Log( Priority => 'error', Message => "XML::Parser produced errors. I use XML::Parser::Lite as fallback!" );
+            $Self->{LogObject}->Log( Priority => 'error', Message => 'XML::Parser produced errors. I use XML::Parser::Lite as fallback!' );
         }
     }
 
@@ -1323,7 +1323,6 @@ sub _Decode {
 sub _HS {
     my ( $Expat, $Element, %Attr ) = @_;
 
-    #    print "s:'$Element'\n";
     if ( $S->{LastTag} ) {
         push( @{ $S->{XMLARRAY} }, { %{ $S->{LastTag} }, Content => $S->{C} } );
     }
@@ -1334,7 +1333,7 @@ sub _HS {
     $S->{XMLLevelTag}->{ $S->{XMLLevel} } = $Element;
     if ( $S->{Tll} && $S->{Tll} > $S->{XMLLevel} ) {
         for ( ( $S->{XMLLevel} + 1 ) .. 30 ) {
-            undef $S->{XMLLevelCount}->{$_};    #->{$Element} = 0;
+            undef $S->{XMLLevelCount}->{$_};
         }
     }
     $S->{XMLLevelCount}->{ $S->{XMLLevel} }->{$Element}++;
@@ -1367,8 +1366,6 @@ sub _HS {
 sub _CS {
     my ( $Expat, $Element, $I, $II ) = @_;
 
-    #    $Element = $Expat->recognized_string();
-    #    print "v:'$Element'\n";
     if ( $S->{LastTag} ) {
         $S->{C} .= $Element;
     }
@@ -1378,7 +1375,6 @@ sub _CS {
 sub _ES {
     my ( $Expat, $Element ) = @_;
 
-    #    print "e:'$Element'\n";
     $S->{XMLTagCount}++;
     if ( $S->{LastTag} ) {
         push( @{ $S->{XMLARRAY} }, { %{ $S->{LastTag} }, Content => $S->{C} } );
@@ -1413,6 +1409,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.73 $ $Date: 2008-04-09 00:31:19 $
+$Revision: 1.74 $ $Date: 2008-04-11 15:52:40 $
 
 =cut
