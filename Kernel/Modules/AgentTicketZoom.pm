@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.47 2008-03-21 20:20:30 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.48 2008-04-11 15:45:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -887,6 +887,26 @@ sub MaskAgentZoom {
                 Name => 'AgentArticleCom',
                 Data => { %Param, %Article, %AclAction },
             );
+
+            # check if print link should be shown
+            if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPrint}
+                && ( !defined( $AclAction{AgentTicketPrint} ) || $AclAction{AgentTicketPrint} )
+                )
+            {
+                my $OK = $Self->{TicketObject}->Permission(
+                    Type     => 'ro',
+                    TicketID => $Param{TicketID},
+                    UserID   => $Self->{UserID},
+                    LogNo    => 1,
+                );
+                if ( $OK ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'AgentArticleComPrint',
+                        Data => { %Param, %Article, %AclAction },
+                    );
+                }
+            }
+
         }
         else {
 
@@ -986,6 +1006,25 @@ sub MaskAgentZoom {
                 Name => 'AgentArticleCom',
                 Data => { %Param, %Article, %AclAction },
             );
+
+            # check if print link should be shown
+            if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPrint}
+                && ( !defined( $AclAction{AgentTicketPrint} ) || $AclAction{AgentTicketPrint} )
+                )
+            {
+                my $OK = $Self->{TicketObject}->Permission(
+                    Type     => 'ro',
+                    TicketID => $Param{TicketID},
+                    UserID   => $Self->{UserID},
+                    LogNo    => 1,
+                );
+                if ( $OK ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'AgentArticleComPrint',
+                        Data => { %Param, %Article, %AclAction },
+                    );
+                }
+            }
 
             # check if forward link should be shown
             if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketForward}

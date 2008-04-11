@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.37 2008-04-02 08:59:22 ot Exp $
+# $Id: AgentTicketZoom.dtl,v 1.38 2008-04-11 15:45:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -466,10 +466,15 @@ $Data{"AgentPhoneStrg"}
 # show article links
 <!-- dtl:block:AgentArticleCom -->
             <p>
-              <b>$Text{"Article"}</b>
+              <b>$Text{"Article"}:</b>
               <table border="0">
                 <tr>
                   <td>
+# check if print should be shown
+<!-- dtl:block:AgentArticleComPrint -->
+                    <a href="$Env{"Baselink"}Action=AgentTicketPrint&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$JSText{"Print"}'; return true;" onmouseout="window.status='';">$Text{"Print"}</a>
+<!-- dtl:block:AgentArticleComPrint -->
+# check if forward should be shown
 <!-- dtl:block:AgentArticleComForward -->
                     <a href="$Env{"Baselink"}Action=AgentTicketForward&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Forward"}'; return true;" onmouseout="window.status='';">$Text{"Forward"}</a>
 <!-- dtl:block:AgentArticleComForward -->
@@ -501,7 +506,6 @@ $Data{"AgentPhoneStrg"}
         <b>$Text{"Change queue"}:</b><br/>
         <form action="$Env{"CGIHandle"}" method="get">
           <input type="hidden" name="Action" value="AgentTicketMove"/>
-          <input type="hidden" name="Subaction" value="InRage"/>
           <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
           <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
           $Data{"MoveQueuesStrg"}

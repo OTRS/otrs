@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.49 2008-01-31 06:22:12 tr Exp $
+# $Id: AgentTicketPrint.pm,v 1.50 2008-04-11 15:45:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,10 +29,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (
-        qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject UserObject MainObject)
-        )
-    {
+    for ( qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject UserObject MainObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
@@ -52,7 +49,8 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $Output;
-    my $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
+    my $QueueID   = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
+    my $ArticleID = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
 
     # check needed stuff
     if ( !$Self->{TicketID} || !$QueueID ) {
@@ -60,15 +58,14 @@ sub Run {
     }
 
     # check permissions
-    if (!$Self->{TicketObject}->Permission(
-            Type     => 'ro',
-            TicketID => $Self->{TicketID},
-            UserID   => $Self->{UserID}
-        )
-        )
-    {
+    my $Access = $Self->{TicketObject}->Permission(
+        Type     => 'ro',
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID}
+    );
 
-        # error screen, don't show ticket
+    # error screen, don't show ticket
+    if ( !$Access ) {
         return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
     }
 
@@ -82,11 +79,26 @@ sub Run {
     # get content
     my %Ticket     = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
-        TicketID => $Self->{TicketID},
+        TicketID                   => $Self->{TicketID},
         StripPlainBodyAsAttachment => 1,
     );
-    $Ticket{TicketTimeUnits}
-        = $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $Ticket{TicketID} );
+
+    # check if only one article need printed
+    if ( $ArticleID ) {
+        my @NewArticleBox;
+        for my $Article ( @ArticleBox ) {
+            if ( $Article->{ArticleID} == $ArticleID ) {
+                @NewArticleBox = ( $Article );
+            }
+        }
+        if ( @NewArticleBox ) {
+            @ArticleBox = @NewArticleBox;
+        }
+    }
+
+    $Ticket{TicketTimeUnits} = $Self->{TicketObject}->TicketAccountedTimeGet(
+        TicketID => $Ticket{TicketID},
+    );
 
     # user info
     my %UserInfo = $Self->{UserObject}->GetUserData(
@@ -110,8 +122,9 @@ sub Run {
             = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Ticket{CustomerUserID}, );
     }
     elsif ( $Ticket{CustomerID} ) {
-        %CustomerData = $Self->{CustomerUserObject}
-            ->CustomerUserDataGet( CustomerID => $Ticket{CustomerID}, );
+        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            CustomerID => $Ticket{CustomerID},
+        );
     }
 
     # do some html quoting
@@ -132,8 +145,7 @@ sub Run {
         my $Time      = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
         my $Url       = ' ';
         if ( $ENV{REQUEST_URI} ) {
-            $Url
-                = $Self->{ConfigObject}->Get('HttpType') . '://'
+            $Url = $Self->{ConfigObject}->Get('HttpType') . '://'
                 . $Self->{ConfigObject}->Get('FQDN')
                 . $ENV{REQUEST_URI};
         }
@@ -175,8 +187,7 @@ sub Run {
         );
 
         # create first pdf page
-        $Self->{PDFObject}
-            ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+        $Self->{PDFObject}->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
         $Page{PageCount}++;
 
         # output ticket infos
@@ -221,9 +232,9 @@ sub Run {
 
         # return the pdf document
         my $Filename = 'ticket_' . $Ticket{TicketNumber};
-        my ( $s, $m, $h, $D, $M, $Y )
-            = $Self->{TimeObject}
-            ->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+        my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
+            SystemTime => $Self->{TimeObject}->SystemTime(),
+        );
         $M = sprintf( "%02d", $M );
         $D = sprintf( "%02d", $D );
         $h = sprintf( "%02d", $h );
@@ -460,8 +471,7 @@ sub _PDFOutputTicketInfos {
             last;
         }
         else {
-            $Self->{PDFObject}
-                ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+            $Self->{PDFObject}->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
             $Page{PageCount}++;
         }
     }
@@ -658,8 +668,7 @@ sub _PDFOutputTicketFreeText {
                 last;
             }
             else {
-                $Self->{PDFObject}
-                    ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+                $Self->{PDFObject}->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
                 $Page{PageCount}++;
             }
         }
@@ -840,8 +849,7 @@ sub _PDFOutputCustomerInfos {
                 last;
             }
             else {
-                $Self->{PDFObject}
-                    ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+                $Self->{PDFObject}->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
                 $Page{PageCount}++;
             }
         }
@@ -1001,8 +1009,7 @@ sub _PDFOutputArticles {
                 last;
             }
             else {
-                $Self->{PDFObject}
-                    ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+                $Self->{PDFObject}->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
                 $Page{PageCount}++;
             }
         }
@@ -1183,8 +1190,9 @@ sub _HTMLMask {
 
         # show accounted article time
         if ( $Self->{ConfigObject}->Get('Ticket::ZoomTimeDisplay') ) {
-            my $ArticleTime = $Self->{TicketObject}
-                ->ArticleAccountedTimeGet( ArticleID => $Article{ArticleID}, );
+            my $ArticleTime = $Self->{TicketObject}->ArticleAccountedTimeGet(
+                ArticleID => $Article{ArticleID},
+            );
             $Self->{LayoutObject}->Block(
                 Name => "Row",
                 Data => {
