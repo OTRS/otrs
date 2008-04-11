@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.35 2008-03-16 18:32:04 martin Exp $
+# $Id: Ticket.t,v 1.36 2008-04-11 16:10:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -3325,16 +3325,16 @@ $Self->False(
 for my $Condition (
     '(Some&&Agent)',
     'Some&&Agent',
-    '(Some Agent)',
-    ' (Some Agent)',
-    ' (Some Agent)  ',
+    '(Some+Agent)',
+    ' (Some+Agent)',
+    ' (Some+Agent)  ',
     'Some&&Agent',
-    'Some Agent',
-    ' Some Agent',
-    'Some Agent ',
-    ' Some Agent ',
-    '(!SomeWordShouldNotFound||(Some Agent))',
-    '((Some Agent)||(SomeAgentNotFound||AgentNotFound))',
+    'Some+Agent',
+    ' Some+Agent',
+    'Some+Agent ',
+    ' Some+Agent ',
+    '(!SomeWordShouldNotFound||(Some+Agent))',
+    '((Some+Agent)||(SomeAgentNotFound||AgentNotFound))',
     ) {
     %TicketIDs = $Self->{TicketObject}->TicketSearch(
         # result (required)
@@ -3360,7 +3360,7 @@ for my $Condition (
     'SomeNotFoundWord&&AgentNotFoundWord  ',
     '(SomeNotFoundWord AgentNotFoundWord)',
     'SomeNotFoundWord&&AgentNotFoundWord',
-    '(SomeWordShouldNotFound||(!Some !Agent))',
+    '(SomeWordShouldNotFound||(!Some+!Agent))',
     '((SomeNotFound&&Agent)||(SomeAgentNotFound||AgentNotFound))',
     ) {
     %TicketIDs = $Self->{TicketObject}->TicketSearch(
@@ -4206,7 +4206,7 @@ for my $State (values %StateList) {
     # Test if there is a result, if I use StateTypeID $StateAsKeyAndStateTypeAsValue{$State}->{ID}
     $Self->True(
         $TicketIDs[0],
-        "TicketSearch() - StateTypeID",
+        "TicketSearch() - StateTypeID - found ticket",
     );
 
     # if it is not equal then there is in the using of StateType or StateTypeID an error
