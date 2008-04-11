@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.21 2008-01-31 06:20:20 tr Exp $
+# $Id: StdAttachment.pm,v 1.22 2008-04-11 15:49:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -44,18 +44,18 @@ create std. attachment object
     use Kernel::System::StdAttachment;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        MainObject => $MainObject,
-        LogObject => $LogObject,
+        MainObject   => $MainObject,
+        LogObject    => $LogObject,
     );
     my $StdAttachmentObject = Kernel::System::StdAttachment->new(
         ConfigObject => $ConfigObject,
-        DBObject => $DBObject,
-        LogObject => $LogObject,
+        DBObject     => $DBObject,
+        LogObject    => $LogObject,
     );
 
 =cut
@@ -82,12 +82,12 @@ sub new {
 create a new std. attachment
 
     my $ID = $StdAttachmentObject->StdAttachmentAdd(
-        Name => 'Some Name',
-        ValidID => 1,
-        Content => $Content,
+        Name        => 'Some Name',
+        ValidID     => 1,
+        Content     => $Content,
         ContentType => 'text/xml',
-        Filename => 'SomeFile.xml',
-        UserID => 123,
+        Filename    => 'SomeFile.xml',
+        UserID      => 123,
     );
 
 =cut
@@ -109,35 +109,27 @@ sub StdAttachmentAdd {
         $Param{Content} = encode_base64( $Param{Content} );
     }
 
-    # db quote
-    for (qw(Name ContentType Filename Comment)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    for (qw(ValidID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql
-    my $SQL
-        = "INSERT INTO standard_attachment "
-        . " (name, content_type, content, filename, valid_id, comments, "
-        . " create_time, create_by, change_time, change_by)"
-        . " VALUES "
-        . " ('$Param{Name}', '$Param{ContentType}', ?, '$Param{Filename}', "
-        . " $Param{ValidID}, '$Param{Comment}', "
-        . " current_timestamp, $Param{UserID}, current_timestamp,  $Param{UserID})";
-    if ( $Self->{DBObject}->Do( SQL => $SQL, Bind => [ \$Param{Content} ] ) ) {
-        my $ID = 0;
-        $Self->{DBObject}->Prepare( SQL => "SELECT id FROM standard_attachment WHERE "
-                . "name = '$Param{Name}' AND content_type = '$Param{ContentType}'", );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $ID = $Row[0];
-        }
-        return $ID;
+    return if ! $Self->{DBObject}->Do(
+        SQL => 'INSERT INTO standard_attachment '
+            . ' (name, content_type, content, filename, valid_id, comments, '
+            . ' create_time, create_by, change_time, change_by) VALUES '
+            . ' (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [
+            \$Param{Name}, \$Param{ContentType}, \$Param{Content}, \$Param{Filename},
+            \$Param{ValidID}, \$Param{Comment}, \$Param{UserID}, \$Param{UserID},
+        ],
+    );
+
+    $Self->{DBObject}->Prepare(
+        SQL  => 'SELECT id FROM standard_attachment WHERE name = ? AND content_type = ?',
+        Bind => [ \$Param{Name}, \$Param{ContentType}, ],
+    );
+    my $ID;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $ID = $Row[0];
     }
-    else {
-        return;
-    }
+    return $ID;
 }
 
 =item StdAttachmentGet()
@@ -153,29 +145,21 @@ get a std. attachment
 sub StdAttachmentGet {
     my ( $Self, %Param ) = @_;
 
-    my %Data = ();
-
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
         return;
-    }
-
-    # db quote
-    for (qw(ID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
 
     # sql
-    my $SQL
-        = "SELECT name, content_type, content, filename, valid_id, comments "
-        . " FROM "
-        . " standard_attachment "
-        . " WHERE "
-        . " id = $Param{ID}";
-    if ( !$Self->{DBObject}->Prepare( SQL => $SQL, Encode => [ 1, 1, 0, 1, 1, 1 ], Limit => 1 ) ) {
-        return;
-    }
+    return if ! $Self->{DBObject}->Prepare(
+        SQL => 'SELECT name, content_type, content, filename, valid_id, comments '
+            . ' FROM standard_attachment WHERE id = ?',
+        Bind   => [ \$Param{ID} ],
+        Encode => [ 1, 1, 0, 1, 1, 1 ],
+        Limit  => 1,
+    );
+    my %Data = ();
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
         # decode attachemnt if it's a postgresql backend!!!
@@ -200,13 +184,13 @@ sub StdAttachmentGet {
 update a new std. attachment
 
     my $ID = $StdAttachmentObject->StdAttachmentUpdate(
-        ID => $ID,
-        Name => 'Some Name',
-        ValidID => 1,
-        Content => $Content,
+        ID          => $ID,
+        Name        => 'Some Name',
+        ValidID     => 1,
+        Content     => $Content,
         ContentType => 'text/xml',
-        Filename => 'SomeFile.xml',
-        UserID => 123,
+        Filename    => 'SomeFile.xml',
+        UserID      => 123,
     );
 
 =cut
@@ -228,33 +212,25 @@ sub StdAttachmentUpdate {
         $Param{Content} = encode_base64( $Param{Content} );
     }
 
-    # db quote
-    for (qw(Name ContentType Filename Comment)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    for (qw(ID ValidID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
+    # reset cache
+    my %Data = $Self->StdAttachmentGet(
+        ID => $Param{ID},
+    );
+    $Self->{'StdAttachmentLookupID::' . $Data{ID}}      = 0;
+    $Self->{'StdAttachmentLookupName::' . $Data{Name}}  = 0;
+    $Self->{'StdAttachmentLookupID::' . $Param{ID}}     = 0;
+    $Self->{'StdAttachmentLookupName::' . $Param{Name}} = 0;
 
     # sql
-    my $SQL
-        = "UPDATE standard_attachment SET "
-        . " name = '$Param{Name}', "
-        . " content = ?, "
-        . " content_type = '$Param{ContentType}', "
-        . " comments = '$Param{Comment}', "
-        . " filename = '$Param{Filename}', "
-        . " valid_id = $Param{ValidID}, "
-        . " change_time = current_timestamp, "
-        . " change_by = $Param{UserID} "
-        . " WHERE "
-        . " id = $Param{ID}";
-    if ( $Self->{DBObject}->Do( SQL => $SQL, Bind => [ \$Param{Content} ] ) ) {
-        return 1;
-    }
-    else {
-        return;
-    }
+    return $Self->{DBObject}->Do(
+        SQL => 'UPDATE standard_attachment SET name = ?, content = ?, content_type = ?, '
+            . ' comments = ?, filename = ?, valid_id = ?, change_time = current_timestamp, '
+            . ' change_by = ? WHERE id = ?',
+        Bind => [
+            \$Param{Name}, \$Param{Content}, \$Param{ContentType}, \$Param{Comment},
+            \$Param{Filename}, \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
+        ],
+    );
 }
 
 =item StdAttachmentDelete()
@@ -278,16 +254,18 @@ sub StdAttachmentDelete {
         }
     }
 
+    # reset cache
+    my %Data = $Self->StdAttachmentGet(
+        ID => $Param{ID},
+    );
+    $Self->{'StdAttachmentLookupID::' . $Param{ID}}    = 0;
+    $Self->{'StdAttachmentLookupName::' . $Data{Name}} = 0;
+
     # sql
-    for (qw(ID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-    if ( $Self->{DBObject}->Do( SQL => "DELETE FROM standard_attachment WHERE ID = $Param{ID}" ) ) {
-        return 1;
-    }
-    else {
-        return;
-    }
+    return $Self->{DBObject}->Do(
+        SQL  => 'DELETE FROM standard_attachment WHERE ID = ?',
+        Bind => [ \$Param{ID} ],
+    );
 }
 
 =item StdAttachmentLookup()
@@ -309,46 +287,57 @@ sub StdAttachmentLookup {
 
     # check needed stuff
     if ( !$Param{StdAttachment} && !$Param{StdAttachmentID} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Got no StdAttachment or StdAttachment!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no StdAttachment or StdAttachment!',
+        );
         return;
     }
 
     # check if we ask the same request?
-    if ( $Param{StdAttachmentID} && $Self->{"StdAttachmentLookup$Param{StdAttachmentID}"} ) {
-        return $Self->{"StdAttachmentLookup$Param{StdAttachmentID}"};
+    my $CacheKey;
+    my $Key;
+    my $Value;
+    if ( $Param{StdAttachmentID} ) {
+        $CacheKey = 'StdAttachmentLookupID::' . $Param{StdAttachmentID};
+        $Key      = 'StdAttachmentID';
+        $Value    = $Param{StdAttachmentID};
     }
-    if ( $Param{StdAttachment} && $Self->{"StdResponseLookup$Param{StdAttachment}"} ) {
-        return $Self->{"StdAttachmentLookup$Param{StdAttachment}"};
+    else {
+        $CacheKey = 'StdAttachmentLookupName::' . $Param{StdAttachment};
+        $Key      = 'StdAttachment';
+        $Value    = $Param{StdAttachment};
+    }
+    if ( $Self->{$CacheKey} ) {
+        return $Self->{$CacheKey};
     }
 
     # get data
-    my $SQL    = '';
-    my $Suffix = '';
+    my $SQL;
+    my @Bind;
     if ( $Param{StdAttachment} ) {
-        $Suffix = 'StdAttachmentID';
-        $SQL    = "SELECT id FROM standard_attachment WHERE name = '"
-            . $Self->{DBObject}->Quote( $Param{StdAttachment} ) . "'";
+        $SQL = 'SELECT id FROM standard_attachment WHERE name = ?';
+        push @Bind, \$Param{StdAttachment};
     }
     else {
-        $Suffix = 'StdAttachment';
-        $SQL    = "SELECT name FROM standard_attachment WHERE id = "
-            . $Self->{DBObject}->Quote( $Param{StdAttachmentID}, 'Integer' ) . "";
+        $SQL = 'SELECT name FROM standard_attachment WHERE id = ?';
+        push @Bind, \$Param{StdAttachmentID};
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-
-        # store result
-        $Self->{"StdAttachment$Suffix"} = $Row[0];
+        $Self->{$CacheKey} = $Row[0];
     }
 
     # check if data exists
-    if ( !exists $Self->{"StdAttachment$Suffix"} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Found no \$$Suffix!" );
+    if ( !$Self->{$CacheKey} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Found no $Key found for $Value!",
+        );
         return;
     }
 
-    return $Self->{"StdAttachment$Suffix"};
+    return $Self->{$CacheKey};
 }
 
 =item StdAttachmentsByResponseID()
@@ -366,7 +355,7 @@ sub StdAttachmentsByResponseID {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no ID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no ID!' );
         return;
     }
 
@@ -400,7 +389,7 @@ return a hash (ID => Name) of std. attachment
 
     my %List = $StdAttachmentObject->GetAllStdAttachments();
 
-    my %List = $StdAttachmentObject->GetAllStdAttachments(Valid => 1);
+    my %List = $StdAttachmentObject->GetAllStdAttachments( Valid => 1 );
 
 =cut
 
@@ -425,9 +414,9 @@ sub GetAllStdAttachments {
 set std responses of response id
 
     $StdAttachmentObject->SetStdAttachmentsOfResponseID(
-        ID => 123,
+        ID               => 123,
         AttachmentIDsRef => [1, 2, 3],
-        UserID => 1,
+        UserID           => 1,
     );
 
 =cut
@@ -443,22 +432,20 @@ sub SetStdAttachmentsOfResponseID {
         }
     }
 
-    # db quote
-    for (qw(ID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # add attachments to response
-    $Self->{DBObject}->Do(
-        SQL => "DELETE FROM standard_response_attachment WHERE standard_response_id = $Param{ID}",
+    return if ! $Self->{DBObject}->Do(
+        SQL  => 'DELETE FROM standard_response_attachment WHERE standard_response_id = ?',
+        Bind => [ \$Param{ID} ],
     );
-    for ( @{ $Param{AttachmentIDsRef} } ) {
-        my $SQL
-            = "INSERT INTO standard_response_attachment (standard_attachment_id, "
-            . "standard_response_id, create_time, create_by, change_time, change_by)"
-            . " VALUES "
-            . " ( $_, $Param{ID}, current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-        $Self->{DBObject}->Do( SQL => $SQL );
+    for my $ID ( @{ $Param{AttachmentIDsRef} } ) {
+        $Self->{DBObject}->Do(
+            SQL => 'INSERT INTO standard_response_attachment (standard_attachment_id, '
+                . 'standard_response_id, create_time, create_by, change_time, change_by)'
+                . ' VALUES ( ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            Bind => [
+                \$ID, \$Param{ID}, \$Param{UserID}, \$Param{UserID},
+            ],
+        );
     }
     return 1;
 }
@@ -479,6 +466,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2008-01-31 06:20:20 $
+$Revision: 1.22 $ $Date: 2008-04-11 15:49:12 $
 
 =cut
