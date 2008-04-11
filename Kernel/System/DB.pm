@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.86 2008-03-10 19:47:26 martin Exp $
+# $Id: DB.pm,v 1.87 2008-04-11 15:58:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 =head1 NAME
 
@@ -44,24 +44,24 @@ create database object with database connect
     use Kernel::System::DB;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $MainObject = Kernel::System::Main->new(
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
         ConfigObject => $ConfigObject,
     );
 
     $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        MainObject => $MainObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
         # if you don't use the follow params, then this are used
         # from Kernel/Config.pm!
-        DatabaseDSN => 'DBI:odbc:database=123;host=localhost;',
+        DatabaseDSN  => 'DBI:odbc:database=123;host=localhost;',
         DatabaseUser => 'user',
-        DatabasePw => 'somepass',
-        Type => 'mysql',
+        DatabasePw   => 'somepass',
+        Type         => 'mysql',
         Attribute => {
             LongTruncOk => 1,
             LongReadLen => 100*1024,
@@ -260,17 +260,17 @@ to quote sql params
 
     quote strings, date and time:
     =============================
-    my $DBString = $DBObject->Quote("This isn't a problem!");
+    my $DBString = $DBObject->Quote( "This isn't a problem!" );
 
-    my $DBString = $DBObject->Quote("2005-10-27 20:15:01");
+    my $DBString = $DBObject->Quote( "2005-10-27 20:15:01" );
 
     quote integers:
     ===============
-    my $DBString = $DBObject->Quote(1234, 'Integer');
+    my $DBString = $DBObject->Quote( 1234, 'Integer' );
 
     quote numbers (e. g. 1, 1.4, 42342.23424):
     ==========================================
-    my $DBString = $DBObject->Quote(1234, 'Number');
+    my $DBString = $DBObject->Quote( 1234, 'Number' );
 
 =cut
 
@@ -343,9 +343,9 @@ sub Error {
 
 to insert, update or delete something
 
-    $DBObject->Do(SQL => "INSERT INTO table (name) VALUES ('dog')");
+    $DBObject->Do( SQL => "INSERT INTO table (name) VALUES ('dog')" );
 
-    $DBObject->Do(SQL => "DELETE FROM table");
+    $DBObject->Do( SQL => "DELETE FROM table" );
 
     you also can use DBI bind values (used for large strings):
 
@@ -372,8 +372,8 @@ sub Do {
     my @Array = ();
     if ( $Param{Bind} ) {
         for my $Data ( @{ $Param{Bind} } ) {
-            if ( ref($Data) eq 'SCALAR' ) {
-                push( @Array, $$Data );
+            if ( ref $Data eq 'SCALAR' ) {
+                push @Array, $$Data;
             }
             else {
                 $Self->{LogObject}->Log(
@@ -530,8 +530,8 @@ sub Prepare {
     my @Array = ();
     if ( $Param{Bind} ) {
         for my $Data ( @{ $Param{Bind} } ) {
-            if ( ref($Data) eq 'SCALAR' ) {
-                push( @Array, $$Data );
+            if ( ref $Data eq 'SCALAR' ) {
+                push @Array, $$Data;
             }
             else {
                 $Self->{LogObject}->Log(
@@ -733,86 +733,86 @@ sub SQLProcessor {
     my ( $Self, %Param ) = @_;
 
     my @SQL = ();
-    if ( $Param{Database} && ref( $Param{Database} ) eq 'ARRAY' ) {
+    if ( $Param{Database} && ref $Param{Database} eq 'ARRAY' ) {
         my @Table = ();
         for my $Tag ( @{ $Param{Database} } ) {
 
             if ( ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
                 && $Tag->{TagType} eq 'Start' )
             {
-                push( @Table, $Tag );
+                push @Table, $Tag;
             }
             elsif ( ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
                 && $Tag->{TagType} eq 'End' )
             {
-                push( @Table, $Tag );
-                push( @SQL,   $Self->{Backend}->TableCreate(@Table) );
+                push @Table, $Tag;
+                push @SQL,   $Self->{Backend}->TableCreate(@Table);
                 @Table = ();
             }
             elsif ( $Tag->{Tag} eq 'Column' && $Tag->{TagType} eq 'Start' ) {
 
                 # type check
                 $Self->_TypeCheck($Tag);
-                push( @Table, $Tag );
+                push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'Unique' && $Tag->{TagType} eq 'Start' ) {
-                push( @Table, $Tag );
+                push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'UniqueColumn' && $Tag->{TagType} eq 'Start' ) {
-                push( @Table, $Tag );
+                push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'Index' && $Tag->{TagType} eq 'Start' ) {
-                push( @Table, $Tag );
+                push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'IndexColumn' && $Tag->{TagType} eq 'Start' ) {
-                push( @Table, $Tag );
+                push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'ForeignKey' && $Tag->{TagType} eq 'Start' ) {
-                push( @Table, $Tag );
+                push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'Reference' && $Tag->{TagType} eq 'Start' ) {
-                push( @Table, $Tag );
+                push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'TableDrop' && $Tag->{TagType} eq 'Start' ) {
-                push( @Table, $Tag );
-                push( @SQL,   $Self->{Backend}->TableDrop(@Table) );
+                push @Table, $Tag;
+                push @SQL,   $Self->{Backend}->TableDrop(@Table);
                 @Table = ();
             }
             elsif ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
-                push( @Table, $Tag );
+                push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'ColumnAdd' && $Tag->{TagType} eq 'Start' ) {
 
                 # type check
                 $Self->_TypeCheck($Tag);
-                push( @Table, $Tag );
+                push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start' ) {
 
                 # type check
                 $Self->_TypeCheck($Tag);
-                push( @Table, $Tag );
+                push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
 
                 # type check
                 $Self->_TypeCheck($Tag);
-                push( @Table, $Tag );
+                push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'End' ) {
-                push( @Table, $Tag );
-                push( @SQL,   $Self->{Backend}->TableAlter(@Table) );
+                push @Table, $Tag;
+                push @SQL,   $Self->{Backend}->TableAlter(@Table);
                 @Table = ();
             }
             elsif ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start' ) {
-                push( @Table, $Tag );
+                push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'Data' && $Tag->{TagType} eq 'Start' ) {
-                push( @Table, $Tag );
+                push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'End' ) {
-                push( @Table, $Tag );
-                push( @SQL,   $Self->{Backend}->Insert(@Table) );
+                push @Table, $Tag;
+                push @SQL,   $Self->{Backend}->Insert(@Table);
                 @Table = ();
             }
         }
@@ -861,14 +861,14 @@ sub GetTableData {
     my %Data;
 
     my $SQL = "SELECT $What FROM $Table ";
-    $SQL .= " WHERE " . $Where if ($Where);
+    $SQL .= ' WHERE ' . $Where if ($Where);
 
     if ( !$Where && $Valid ) {
         my @ValidIDs;
 
-        $Self->Prepare( SQL => "SELECT id FROM valid WHERE name = 'valid'" );
+        $Self->Prepare( SQL => 'SELECT id FROM valid WHERE name = \'valid\'' );
         while ( my @Row = $Self->FetchrowArray() ) {
-            push( @ValidIDs, $Row[0] );
+            push @ValidIDs, $Row[0];
         }
 
         $SQL .= " WHERE valid_id IN ( ${\(join ', ', @ValidIDs)} )";
@@ -896,6 +896,199 @@ sub GetTableData {
         }
     }
     return %Data;
+}
+
+=item QueryCondition()
+
+generate SQL condition query based on a search expration
+
+    my $SQL = $DBObject->QueryCondition(
+        Key   => 'some_col',
+        Value => '(ABC+DEF)',
+    );
+
+    add SearchPrefix and SearchSuffix to search in this case automaticaly
+    for "(ABC*+DEF*)"
+
+    my $SQL = $DBObject->QueryCondition(
+        Key          => 'some_col',
+        Value        => '(ABC+DEF)',
+        SearchPrefix => '',
+        SearchSuffix => '*'
+    );
+
+    example of a more complex search condition
+
+    my $SQL = $DBObject->QueryCondition(
+        Key   => 'some_col',
+        Value => '((ABC&&DEF)&&!GHI)',
+    );
+
+    for a earch condition over more col.
+
+    my $SQL = $DBObject->QueryCondition(
+        Key   => [ 'some_col_a', 'some_col_b' ],
+        Value => '((ABC&&DEF)&&!GHI)',
+    );
+
+=cut
+
+sub QueryCondition {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Key Value)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # search prefix/suffix check
+    my $SearchPrefix = $Param{SearchPrefix} || '';
+    my $SearchSuffix = $Param{SearchSuffix} || '';
+
+    # clean up query
+    $Param{Value} =~ s/^\s+//g;
+    $Param{Value} =~ s/\s+$//g;
+    if ( $Param{Value} !~ /^\(/ || $Param{Value} !~ /\)$/ ) {
+        $Param{Value} = '(' . $Param{Value} . ')';
+    }
+    $Param{Value} =~ s/\s\s/ /g;
+    $Param{Value} =~ s/\+/&&/g;
+    $Param{Value} =~ s/(\s|\)|\()AND(\s|\(|\))/&&/g;
+    $Param{Value} =~ s/(\s|\)|\()OR(\s|\(|\))/||/g;
+    $Param{Value} =~ s/\s//g;
+    $Param{Value} =~ s/\*/%/g;
+    $Param{Value} =~ s/%%/%/g;
+
+    # get col.
+    my @Keys;
+    if ( ref $Param{Key} eq 'ARRAY' ) {
+        @Keys = @{ $Param{Key} };
+    }
+    else {
+        @Keys = ( $Param{Key} );
+    }
+
+    # for syntax check
+    my $Open  = 0;
+    my $Close = 0;
+
+    # for processing
+    my @Array = split( //, $Param{Value} );
+    my $SQL   = '';
+    my $Word  = '';
+    my $Not   = 0;
+    for my $Position ( 0 .. $#Array ) {
+
+        # find word
+        if ( $Array[ $Position ] !~ /(\(|\)|\!|\||&)/ ) {
+            $Word .= $Array[ $Position ];
+            next;
+        }
+
+        # if word exists, do something with it
+        if ( $Word ) {
+
+            # database quote
+            $Word = $SearchPrefix . $Word . $SearchSuffix;
+            $Word =~ s/\*/%/g;
+            $Word =~ s/%%/%/g;
+            $Word =~ s/%%/%/g;
+            $Word = $Self->Quote( $Word, 'Like' );
+
+            # if it's a NOT LIKE condition
+            if ( $Array[ $Position ] eq '!'  || $Not ) {
+                $Not = 0;
+                my $SQLA;
+                for my $Key ( @Keys ) {
+                    if ( $SQLA ) {
+                        $SQLA .= ' AND ';
+                    }
+
+                    # check if database supports LIKE in large text types
+                    if ( $Self->GetDatabaseFunction('NoLowerInLargeText') ) {
+                        $SQLA .= "$Key NOT LIKE '$Word'";
+                    }
+                    elsif ( $Self->GetDatabaseFunction('LcaseLikeInLargeText') ) {
+                        $SQLA .= "LCASE($Key) NOT LIKE LCASE('$Word')";
+                    }
+                    else {
+                        $SQLA .= "LOWER($Key) NOT LIKE LOWER('$Word')";
+                    }
+                }
+                $SQL .= '(' . $SQLA . ') ';
+            }
+
+            # if it's a LIKE condition
+            else {
+                my $SQLA;
+                for my $Key ( @Keys ) {
+                    if ( $SQLA ) {
+                        $SQLA .= ' OR ';
+                    }
+
+                    # check if database supports LIKE in large text types
+                    if ( $Self->GetDatabaseFunction('NoLowerInLargeText') ) {
+                        $SQLA .= "$Key LIKE '$Word'";
+                    }
+                    elsif ( $Self->GetDatabaseFunction('LcaseLikeInLargeText') ) {
+                        $SQLA .= "LCASE($Key) LIKE LCASE('$Word')";
+                    }
+                    else {
+                        $SQLA .= "LOWER($Key) LIKE LOWER('$Word')";
+                    }
+                }
+                $SQL .= '(' . $SQLA . ') ';
+            }
+
+            # reset word
+            $Word = '';
+        }
+
+        # check AND and OR conditions
+        if ( $Array[ $Position + 1 ] ) {
+
+            # if it's an AND condition
+            if ( $Array[ $Position ] eq '&' && $Array[ $Position + 1 ] eq '&' ) {
+                $SQL .= ' AND ';
+            }
+
+            # if it's an OR condition
+            elsif ( $Array[ $Position ] eq '|' && $Array[ $Position + 1 ] eq '|' ) {
+                $SQL .= ' OR ';
+            }
+        }
+
+        # add ( or ) for query
+        if ( $Array[ $Position ] =~ /(\(|\))/ ) {
+            $SQL .= $Array[ $Position ];
+
+            # remember for syntax check
+            if ( $1 eq '(' ) {
+                $Open++;
+            }
+            elsif ( $1 eq ')' ) {
+                $Close++;
+            }
+        }
+
+        # remember if it's a NOT condition
+        elsif ( $Array[ $Position ] eq '!' ) {
+            $Not = 1;
+        }
+    }
+
+    # check syntax
+    if ( $Open != $Close ) {
+        $Self->{LogObject}->Log(
+            Priority => 'Error',
+            Message  => "Invalid condition '$Param{Value}', $Open open and $Close close!",
+        );
+        return;
+    }
+    return $SQL;
 }
 
 sub _TypeCheck {
@@ -940,6 +1133,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.86 $ $Date: 2008-03-10 19:47:26 $
+$Revision: 1.87 $ $Date: 2008-04-11 15:58:56 $
 
 =cut
