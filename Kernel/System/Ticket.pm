@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.308 2008-04-11 16:17:27 martin Exp $
+# $Id: Ticket.pm,v 1.309 2008-04-11 17:36:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.308 $) [1];
+$VERSION = qw($Revision: 1.309 $) [1];
 
 =head1 NAME
 
@@ -3969,13 +3969,13 @@ sub TicketSearch {
     # get tickets created older then x minutes
     if ( $Param{TicketCreateTimeOlderMinutes} ) {
         my $Time = $Self->{TimeObject}->SystemTime() - ( $Param{TicketCreateTimeOlderMinutes} * 60 );
-        $Param{TicketCreateTimeOlderDate} = $Time;
+        $SQLExt .= ' AND st.create_time_unix <= ' . $Self->{DBObject}->Quote( $Time );
     }
 
     # get tickets created newer then x minutes
     if ( $Param{TicketCreateTimeNewerMinutes} ) {
         my $Time = $Self->{TimeObject}->SystemTime() - ( $Param{TicketCreateTimeNewerMinutes} * 60 );
-        $Param{TicketCreateTimeOlderDate} = $Time;
+        $SQLExt .= ' AND st.create_time_unix >= ' . $Self->{DBObject}->Quote( $Time );
     }
 
     # get tickets created older then xxxx-xx-xx xx:xx date
@@ -6500,6 +6500,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.308 $ $Date: 2008-04-11 16:17:27 $
+$Revision: 1.309 $ $Date: 2008-04-11 17:36:10 $
 
 =cut
