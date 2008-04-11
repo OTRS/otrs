@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.50 2008-03-28 11:35:13 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.51 2008-04-11 15:47:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::State;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -131,7 +131,7 @@ sub Run {
     else {
         for (
             qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerUserLogin
-            Agent ResultForm TimeSearchType
+            Agent ResultForm TimeSearchType CloseTimeSearchType
             TicketFreeTime1
             TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
             TicketFreeTime1StartYear
@@ -178,6 +178,12 @@ sub Run {
             TicketCreateTimeStartYear
             TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
             TicketCreateTimeStopYear
+            TicketCloseTimePointFormat TicketCloseTimePoint
+            TicketCloseTimePointStart
+            TicketCloseTimeStart TicketCloseTimeStartDay TicketCloseTimeStartMonth
+            TicketCloseTimeStartYear
+            TicketCloseTimeStop TicketCloseTimeStopDay TicketCloseTimeStopMonth
+            TicketCloseTimeStopYear
             )
             )
         {
@@ -216,7 +222,7 @@ sub Run {
         }
     }
 
-    # get time option
+    # get create time option
     if ( !$GetParam{TimeSearchType} ) {
         $GetParam{'TimeSearchType::None'} = 'checked';
     }
@@ -225,6 +231,17 @@ sub Run {
     }
     elsif ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
         $GetParam{'TimeSearchType::TimeSlot'} = 'checked';
+    }
+
+    # get close time option
+    if ( !$GetParam{CloseTimeSearchType} ) {
+        $GetParam{'CloseTimeSearchType::None'} = 'checked';
+    }
+    elsif ( $GetParam{CloseTimeSearchType} eq 'TimePoint' ) {
+        $GetParam{'CloseTimeSearchType::TimePoint'} = 'checked';
+    }
+    elsif ( $GetParam{CloseTimeSearchType} eq 'TimeSlot' ) {
+        $GetParam{'CloseTimeSearchType::TimeSlot'} = 'checked';
     }
 
     # set result form env
@@ -244,8 +261,7 @@ sub Run {
         }
 
         # store last queue screen
-        my $URL
-            = "Action=AgentTicketSearch&Subaction=Search&Profile=$Self->{Profile}&SortBy=$Self->{SortBy}"
+        my $URL = "Action=AgentTicketSearch&Subaction=Search&Profile=$Self->{Profile}&SortBy=$Self->{SortBy}"
             . "&Order=$Self->{Order}&TakeLastSearch=1&StartHit=$Self->{StartHit}";
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
@@ -285,7 +301,7 @@ sub Run {
             }
         }
 
-        # get time settings
+        # get create time settings
         if ( !$GetParam{TimeSearchType} ) {
 
             # do noting ont time stuff
@@ -349,6 +365,72 @@ sub Run {
                 }
                 else {
                     $GetParam{TicketCreateTimeNewerMinutes} = $Time;
+                }
+            }
+        }
+
+        # get close time settings
+        if ( !$GetParam{CloseTimeSearchType} ) {
+
+            # do noting ont time stuff
+        }
+        elsif ( $GetParam{CloseTimeSearchType} eq 'TimeSlot' ) {
+            for (qw(Month Day)) {
+                $GetParam{"TicketCloseTimeStart$_"} = sprintf( "%02d", $GetParam{"TicketCloseTimeStart$_"} );
+            }
+            for (qw(Month Day)) {
+                $GetParam{"TicketCloseTimeStop$_"} = sprintf( "%02d", $GetParam{"TicketCloseTimeStop$_"} );
+            }
+            if (   $GetParam{TicketCloseTimeStartDay}
+                && $GetParam{TicketCloseTimeStartMonth}
+                && $GetParam{TicketCloseTimeStartYear} )
+            {
+                $GetParam{TicketCloseTimeNewerDate}
+                    = $GetParam{TicketCloseTimeStartYear} . '-'
+                    . $GetParam{TicketCloseTimeStartMonth} . '-'
+                    . $GetParam{TicketCloseTimeStartDay}
+                    . ' 00:00:01';
+            }
+            if (   $GetParam{TicketCloseTimeStopDay}
+                && $GetParam{TicketCloseTimeStopMonth}
+                && $GetParam{TicketCloseTimeStopYear} )
+            {
+                $GetParam{TicketCloseTimeOlderDate}
+                    = $GetParam{TicketCloseTimeStopYear} . '-'
+                    . $GetParam{TicketCloseTimeStopMonth} . '-'
+                    . $GetParam{TicketCloseTimeStopDay}
+                    . ' 23:59:59';
+            }
+        }
+        elsif ( $GetParam{CloseTimeSearchType} eq 'TimePoint' ) {
+            if (   $GetParam{TicketCloseTimePoint}
+                && $GetParam{TicketCloseTimePointStart}
+                && $GetParam{TicketCloseTimePointFormat} )
+            {
+                my $Time = 0;
+                if ( $GetParam{TicketCloseTimePointFormat} eq 'minute' ) {
+                    $Time = $GetParam{TicketCloseTimePoint};
+                }
+                elsif ( $GetParam{TicketCloseTimePointFormat} eq 'hour' ) {
+                    $Time = $GetParam{TicketCloseTimePoint} * 60;
+                }
+                elsif ( $GetParam{TicketCloseTimePointFormat} eq 'day' ) {
+                    $Time = $GetParam{TicketCloseTimePoint} * 60 * 24;
+                }
+                elsif ( $GetParam{TicketCloseTimePointFormat} eq 'week' ) {
+                    $Time = $GetParam{TicketCloseTimePoint} * 60 * 24 * 7;
+                }
+                elsif ( $GetParam{TicketCloseTimePointFormat} eq 'month' ) {
+                    $Time = $GetParam{TicketCloseTimePoint} * 60 * 24 * 30;
+                }
+                elsif ( $GetParam{TicketCloseTimePointFormat} eq 'year' ) {
+                    $Time = $GetParam{TicketCloseTimePoint} * 60 * 24 * 365;
+                }
+                if ( $GetParam{TicketCloseTimePointStart} eq 'Before' ) {
+                    $GetParam{TicketCloseTimeOlderMinutes} = $Time;
+                }
+                else {
+                    $GetParam{TicketCloseTimeNewerMinutes} = $Time;
                 }
             }
         }
@@ -651,8 +733,7 @@ sub Run {
             PageShown => $Self->{SearchPageShown},
             AllHits   => $Counter,
             Action    => "Action=AgentTicketSearch&Subaction=Search",
-            Link =>
-                "Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=1&",
+            Link      => "Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=1&",
         );
 
         # build shown ticket
@@ -689,26 +770,19 @@ sub Run {
                 my $CellData;
                 $CellData->[0]->[0]->{Content} = $Self->{ConfigObject}->Get('Ticket::Hook');
                 $CellData->[0]->[0]->{Font}    = 'ProportionalBold';
-                $CellData->[0]->[1]->{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
+                $CellData->[0]->[1]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
                 $CellData->[0]->[1]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[2]->{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get('From');
+                $CellData->[0]->[2]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('From');
                 $CellData->[0]->[2]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[3]->{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
+                $CellData->[0]->[3]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
                 $CellData->[0]->[3]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[4]->{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get('State');
+                $CellData->[0]->[4]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('State');
                 $CellData->[0]->[4]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[5]->{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get('Queue');
+                $CellData->[0]->[5]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Queue');
                 $CellData->[0]->[5]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[6]->{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get('Owner');
+                $CellData->[0]->[6]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Owner');
                 $CellData->[0]->[6]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[7]->{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
+                $CellData->[0]->[7]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
                 $CellData->[0]->[7]->{Font} = 'ProportionalBold';
 
                 # create the content array
@@ -724,8 +798,7 @@ sub Run {
 
                 # output 'No Result', if no content was given
                 if ( !$CellData->[0]->[0] ) {
-                    $CellData->[0]->[0]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('No Result!');
+                    $CellData->[0]->[0]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('No Result!');
                 }
 
                 # page params
@@ -738,8 +811,7 @@ sub Run {
                 $PageParam{HeaderRight}     = $Title;
                 $PageParam{FooterLeft}      = $Url;
                 $PageParam{HeadlineLeft}    = $Title;
-                $PageParam{HeadlineRight}
-                    = $PrintedBy . ' '
+                $PageParam{HeadlineRight} = $PrintedBy . ' '
                     . $Self->{UserFirstname} . ' '
                     . $Self->{UserLastname} . ' ('
                     . $Self->{UserEmail} . ') '
@@ -822,9 +894,9 @@ sub Run {
 
             # return csv to download
             my $CSVFile = 'ticket_search';
-            my ( $s, $m, $h, $D, $M, $Y )
-                = $Self->{TimeObject}
-                ->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+            my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Self->{TimeObject}->SystemTime(),
+            );
             $M = sprintf( "%02d", $M );
             $D = sprintf( "%02d", $D );
             $h = sprintf( "%02d", $h );
@@ -1002,6 +1074,7 @@ sub MaskForm {
         Size               => 5,
         SelectedIDRefArray => $Param{PriorityIDs},
     );
+
     $Param{'TicketCreateTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             1  => ' 1',
@@ -1096,6 +1169,118 @@ sub MaskForm {
     $Param{TicketCreateTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
         Prefix => 'TicketCreateTimeStop',
+        Format => 'DateInputFormat',
+    );
+
+    for ( 1 .. 6 ) {
+        $Param{ 'TicketFreeTime' . $_ . 'Start' } = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix   => 'TicketFreeTime' . $_ . 'Start',
+            Format   => 'DateInputFormat',
+            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+        );
+        $Param{ 'TicketFreeTime' . $_ . 'Stop' } = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix   => 'TicketFreeTime' . $_ . 'Stop',
+            Format   => 'DateInputFormat',
+            DiffTime => +( ( 60 * 60 * 24 ) * 30 ),
+        );
+    }
+
+    $Param{'TicketCloseTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+            1  => ' 1',
+            2  => ' 2',
+            3  => ' 3',
+            4  => ' 4',
+            5  => ' 5',
+            6  => ' 6',
+            7  => ' 7',
+            8  => ' 8',
+            9  => ' 9',
+            10 => '10',
+            11 => '11',
+            12 => '12',
+            13 => '13',
+            14 => '14',
+            15 => '15',
+            16 => '16',
+            17 => '17',
+            18 => '18',
+            19 => '19',
+            20 => '20',
+            21 => '21',
+            22 => '22',
+            23 => '23',
+            24 => '24',
+            25 => '25',
+            26 => '26',
+            27 => '27',
+            28 => '28',
+            29 => '29',
+            30 => '30',
+            31 => '31',
+            32 => '32',
+            33 => '33',
+            34 => '34',
+            35 => '35',
+            36 => '36',
+            37 => '37',
+            38 => '38',
+            39 => '39',
+            40 => '40',
+            41 => '41',
+            42 => '42',
+            43 => '43',
+            44 => '44',
+            45 => '45',
+            46 => '46',
+            47 => '47',
+            48 => '48',
+            49 => '49',
+            50 => '50',
+            51 => '51',
+            52 => '52',
+            53 => '53',
+            54 => '54',
+            55 => '55',
+            56 => '56',
+            57 => '57',
+            58 => '58',
+            59 => '59',
+        },
+        Name       => 'TicketCloseTimePoint',
+        SelectedID => $Param{TicketCloseTimePoint},
+    );
+    $Param{'TicketCloseTimePointStart'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+            'Last'   => 'last',
+            'Before' => 'before',
+        },
+        Name       => 'TicketCloseTimePointStart',
+        SelectedID => $Param{TicketCloseTimePointStart} || 'Last',
+    );
+    $Param{'TicketCloseTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+            minute => 'minute(s)',
+            hour   => 'hour(s)',
+            day    => 'day(s)',
+            week   => 'week(s)',
+            month  => 'month(s)',
+            year   => 'year(s)',
+        },
+        Name       => 'TicketCloseTimePointFormat',
+        SelectedID => $Param{TicketCloseTimePointFormat},
+    );
+    $Param{TicketCloseTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
+        %Param,
+        Prefix   => 'TicketCloseTimeStart',
+        Format   => 'DateInputFormat',
+        DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+    );
+    $Param{TicketCloseTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
+        %Param,
+        Prefix => 'TicketCloseTimeStop',
         Format => 'DateInputFormat',
     );
 
@@ -1233,9 +1418,7 @@ sub MaskForm {
             $Self->{LayoutObject}->Block( Name => 'TicketResponsibleWatcherBodyOff', );
         }
     }
-    my $Count = 0;
-    for ( 1 .. 16 ) {
-        $Count++;
+    for my $Count ( 1 .. 16 ) {
         if ( $Self->{Config}->{'TicketFreeText'}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeText',
@@ -1251,9 +1434,7 @@ sub MaskForm {
             );
         }
     }
-    $Count = 0;
-    for ( 1 .. 6 ) {
-        $Count++;
+    for my $Count ( 1 .. 6 ) {
         if ( $Self->{Config}->{'TicketFreeTime'}->{$Count} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeTime',
