@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.31 2008-03-26 19:56:44 martin Exp $
+# $Id: DB.t,v 1.32 2008-04-11 16:19:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -345,6 +345,10 @@ $XML = '
     <ColumnChange NameOld="test2" NameNew="test3" Type="varchar" Size="30" Required="false"/>
     <ColumnChange NameOld="test3" NameNew="test3" Type="varchar" Size="30" Required="true"/>
     <ColumnDrop Name="test3"/>
+    <ColumnAdd Name="test4" Type="varchar" Size="20" Required="true" Default="lalu"/>
+    <ColumnDrop Name="test4"/>
+    <ColumnAdd Name="test5" Type="integer" Required="true" Default="1"/>
+    <ColumnDrop Name="test5"/>
 </TableAlter>
 ';
 @XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
@@ -977,7 +981,7 @@ for my $Character (@SpecialCharacters) {
 
     $Self->True(
         $Self->{DBObject}->Do( SQL => $SQLInsert ) || 0,
-        "#$Counter Do() INSERT",
+        "#5.$Counter Do() INSERT",
     );
 
     my $SQLSelect = "SELECT name_b FROM test_d WHERE name_a = '$Counter'";
@@ -987,7 +991,7 @@ for my $Character (@SpecialCharacters) {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Self->True(
             $Row[0] eq $Character,
-            "#$Counter Check special character $Character by 'eq' (db returned $Row[0])",
+            "#5.$Counter Check special character $Character by 'eq' (db returned $Row[0])",
         );
         my $Hit = 0;
         if ( $Row[0] =~ /\Q$Character\E/) {
@@ -995,7 +999,7 @@ for my $Character (@SpecialCharacters) {
         }
         $Self->True(
             $Hit || 0,
-            "#$Counter Check special character $Character by RegExp (db returned $Row[0])",
+            "#5.$Counter Check special character $Character by RegExp (db returned $Row[0])",
         );
     }
 
@@ -1014,6 +1018,388 @@ for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do(SQL => $SQL) || 0,
         "#5 Do() DROP TABLE ($SQL)",
+    );
+}
+
+# ---
+# QueryCondition tests
+# ---
+$XML = '
+<TableCreate Name="test_condition">
+    <Column Name="name_a" Required="true" Size="60" Type="VARCHAR"/>
+    <Column Name="name_b" Required="true" Size="60" Type="VARCHAR"/>
+</TableCreate>
+';
+@XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
+ @SQL = $Self->{DBObject}->SQLProcessor(Database => \@XMLARRAY);
+$Self->True(
+    $SQL[0],
+    '#6 SQLProcessorPost() CREATE TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do(SQL => $SQL) || 0,
+        "#6 Do() CREATE TABLE ($SQL)",
+    );
+}
+
+my %Fill = (
+    Some1 => 'John Smith',
+    Some2 => 'John Meier',
+    Some3 => 'Franz Smith',
+);
+for my $Key ( sort keys %Fill ) {
+    my $SQL = "INSERT INTO test_condition (name_a, name_b) VALUES ('$Key', '$Fill{$Key}')";
+    $Self->True(
+        $Self->{DBObject}->Do(
+            SQL => $SQL,
+        ) || 0,
+        "#6 Do() INSERT ($SQL)",
+    );
+}
+my @Queries = (
+    {
+        Query  => 'john+smith',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '(john+smith)',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '(john&&smith)',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '(john && smith)',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '(john && smi*h)',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '(john && smi**h)',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '(john||smith)',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 1,
+        },
+    },
+    {
+        Query  => '(john || smith)',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 1,
+        },
+    },
+    {
+        Query  => '(smith || john)',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 1,
+        },
+    },
+    {
+        Query  => '(john AND smith)',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '((john+smith) OR meier)',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '((john1+smith1) OR meier)',
+        Result => {
+            Some1 => 0,
+            Some2 => 1,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => 'fritz',
+        Result => {
+            Some1 => 0,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '!fritz',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 1,
+        },
+    },
+    {
+        Query  => '(!fritz+!bob)',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 1,
+        },
+    },
+    {
+        Query  => '((!fritz+!bob)+i)',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 1,
+        },
+    },
+    {
+        Query  => '((john+smith) OR (meier+john))',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '((john+smith)OR(meier+john))',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '((john+smith)  OR     ( meier+ john))',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '((smith+john)|| (meier+john))',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '((john+smith)||  (meier+john))',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '*',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 1,
+        },
+    },
+);
+# select's
+for my $Query ( @Queries ) {
+    my $Condition = $Self->{DBObject}->QueryCondition(
+        Key          => 'name_b',
+        Value        => $Query->{Query},
+        SearchPrefix => '*',
+        SearchSuffix => '*',
+    );
+    $Self->{DBObject}->Prepare(
+            SQL => 'SELECT name_a FROM test_condition WHERE '.$Condition,
+    );
+    my %Result;
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Result{ $Row[0] } = 1;
+    }
+    for my $Check ( sort keys %{ $Query->{Result} } ) {
+        $Self->Is(
+            $Result{ $Check } || 0,
+            $Query->{Result}->{ $Check} || 0,
+            "#6 Do() SQL SELECT $Query->{Query} / $Check",
+        );
+    }
+}
+@Queries = (
+    {
+        Query  => 'john+smith',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '(john && smi*h)',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '(john && smi**h*)',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '(john+smith+some)',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '(john+smith+!some)',
+        Result => {
+            Some1 => 0,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '(john+smith+(!some1||!some2))',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '(john+smith+(!some1||some))',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '(!smith+some2)',
+        Result => {
+            Some1 => 0,
+            Some2 => 1,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => 'smith AND some2 OR some1',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '(john+(!max||!hans))',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '(john+(!max&&!hans))',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '((max||hans)&&!kkk)',
+        Result => {
+            Some1 => 0,
+            Some2 => 0,
+            Some3 => 0,
+        },
+    },
+    {
+        Query  => '*',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 1,
+        },
+    },
+);
+# select's
+for my $Query ( @Queries ) {
+    my $Condition = $Self->{DBObject}->QueryCondition(
+        Key          => [ 'name_a', 'name_b', 'name_a', 'name_a'],
+        Value        => $Query->{Query},
+        SearchPrefix => '*',
+        SearchSuffix => '*',
+    );
+    $Self->{DBObject}->Prepare(
+            SQL => 'SELECT name_a FROM test_condition WHERE '.$Condition,
+    );
+    my %Result;
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Result{ $Row[0] } = 1;
+    }
+    for my $Check ( sort keys %{ $Query->{Result} } ) {
+        $Self->Is(
+            $Result{ $Check } || 0,
+            $Query->{Result}->{ $Check} || 0,
+            "#6 Do() SQL SELECT $Query->{Query} / $Check",
+        );
+    }
+}
+$XML = '<TableDrop Name="test_condition"/>';
+@XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
+@SQL = $Self->{DBObject}->SQLProcessor(Database => \@XMLARRAY);
+$Self->True(
+    $SQL[0],
+    '#6 SQLProcessorPost() DROP TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do(SQL => $SQL) || 0,
+        "#6 Do() DROP TABLE ($SQL)",
     );
 }
 
