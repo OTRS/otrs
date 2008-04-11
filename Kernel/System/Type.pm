@@ -2,7 +2,7 @@
 # Kernel/System/Type.pm - All type related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.6 2008-04-09 00:31:19 martin Exp $
+# $Id: Type.pm,v 1.7 2008-04-11 15:51:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -103,15 +103,15 @@ sub TypeAdd {
     }
 
     return if ! $Self->{DBObject}->Do(
-        SQL => "INSERT INTO ticket_type (name, valid_id, "
-            . " create_time, create_by, change_time, change_by)"
-            . " VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)",
+        SQL => 'INSERT INTO ticket_type (name, valid_id, '
+            . ' create_time, create_by, change_time, change_by)'
+            . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [ \$Param{Name}, \$Param{ValidID}, \$Param{UserID}, \$Param{UserID} ],
    );
 
     # get new type id
     $Self->{DBObject}->Prepare(
-        SQL  => "SELECT id FROM ticket_type WHERE name = ?",
+        SQL  => 'SELECT id FROM ticket_type WHERE name = ?',
         Bind => [ \$Param{Name} ],
     );
     my $ID;
@@ -136,14 +136,13 @@ sub TypeGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
         return;
     }
 
     # sql
     return if ! $Self->{DBObject}->Prepare(
-        SQL => "SELECT id, name, valid_id, change_time, create_time "
-            . " FROM ticket_type WHERE id = ?",
+        SQL => 'SELECT id, name, valid_id, change_time, create_time FROM ticket_type WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
     my %Data = ();
@@ -196,8 +195,8 @@ sub TypeUpdate {
 
     # sql
     return $Self->{DBObject}->Do(
-        SQL => "UPDATE ticket_type SET name = ?, valid_id = ?, "
-            . " change_time = current_timestamp, change_by = ? WHERE id = ?",
+        SQL => 'UPDATE ticket_type SET name = ?, valid_id = ?, '
+            . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [
             \$Param{Name}, \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
         ],
@@ -250,16 +249,26 @@ sub TypeLookup {
 
     # check needed stuff
     if ( !$Param{Type} && !$Param{TypeID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no Type or TypeID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no Type or TypeID!' );
         return;
     }
 
     # check if we ask the same request (cache)?
-    if ( $Param{TypeID} && $Self->{"QL::Type$Param{TypeID}"} ) {
-        return $Self->{"QL::Type$Param{TypeID}"};
+    my $CacheKey;
+    my $Key;
+    my $Value;
+    if ( $Param{TypeID} ) {
+        $CacheKey = 'QL::Type::' . $Param{TypeID};
+        $Key      = 'TypeID';
+        $Value    = $Param{TypeID};
     }
-    if ( $Param{Type} && $Self->{"QL::TypeID$Param{Type}"} ) {
-        return $Self->{"QL::TypeID$Param{Type}"};
+    else {
+        $CacheKey = 'QL::TypeID::' . $Param{Type};
+        $Key      = 'Type';
+        $Value    = $Param{Type};
+    }
+    if ( $Self->{$CacheKey} ) {
+        return $Self->{$CacheKey};
     }
 
     # get data
@@ -267,35 +276,29 @@ sub TypeLookup {
     my @Bind;
     my $Suffix = '';
     if ( $Param{Type} ) {
-        $Param{What} = $Param{Type};
-        $Suffix      = 'TypeID';
-        $SQL         = 'SELECT id FROM ticket_type WHERE name = ?';
+        $SQL = 'SELECT id FROM ticket_type WHERE name = ?';
         push @Bind, \$Param{Type};
     }
     else {
-        $Param{What} = $Param{TypeID};
-        $Suffix      = 'Type';
-        $SQL         = 'SELECT name FROM ticket_type WHERE id = ?';
+        $SQL = 'SELECT name FROM ticket_type WHERE id = ?';
         push @Bind, \$Param{TypeID};
     }
     $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-
-        # store result
-        $Self->{"QL::$Suffix$Param{What}"} = $Row[0];
+        $Self->{$CacheKey} = $Row[0];
     }
 
     # check if data exists
-    if ( !exists $Self->{"QL::$Suffix$Param{What}"} ) {
+    if ( !$Self->{$CacheKey} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Found no \$$Suffix for $Param{What}!",
+            Message  => "Found no $Key for $Value!",
         );
         return;
     }
 
     # return result
-    return $Self->{"QL::$Suffix$Param{What}"};
+    return $Self->{$CacheKey};
 }
 
 1;
@@ -314,6 +317,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2008-04-09 00:31:19 $
+$Revision: 1.7 $ $Date: 2008-04-11 15:51:53 $
 
 =cut
