@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.84 2008-04-04 08:42:50 tr Exp $
+# $Id: Layout.pm,v 1.85 2008-04-12 10:14:10 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 =head1 NAME
 
@@ -324,10 +324,10 @@ sub Block {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Name!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
         return;
     }
-    push( @{ $Self->{BlockData} }, { Name => $Param{Name}, Data => $Param{Data} } );
+    push @{ $Self->{BlockData} }, { Name => $Param{Name}, Data => $Param{Data} };
 }
 
 sub _BlockTemplatePreferences {
@@ -526,7 +526,6 @@ sub Output {
 
             # filtering of comment lines
             $TemplateString =~ s/^#.*\n//gm;
-
         }
         else {
             $Self->{LogObject}->Log(
@@ -681,8 +680,8 @@ sub _Output {
     # process template
     my $Output    = '';
     for my $Line (split( /\n/, $TemplateString)) {
-        # add missing new line (striped from split)
-        $Line .= "\n";
+#        # add missing new line (striped from split)
+#        $Line .= "\n";
         if ( $Line =~ /<dtl/ ) {
 
             # do template set (<dtl set $Data{"adasd"} = "lala">)
@@ -847,7 +846,7 @@ sub _Output {
         }
 
         # add this line to output
-        $Output .= $Line;
+        $Output .= $Line . "\n";
     }
     chomp $Output;
 
@@ -1536,13 +1535,14 @@ convert ascii to html
         StripEmptyLines => ?, # optional
         Type            => ?, # optional
         LinkFeature     => ?, # optional
+    );
 
 =cut
 
 sub Ascii2Html {
     my ( $Self, %Param ) = @_;
-
     my $Text = defined $Param{Text} ? $Param{Text} : return;
+
     my $Max             = $Param{Max}             || '';
     my $VMax            = $Param{VMax}            || '';
     my $NewLine         = $Param{NewLine}         || '';
@@ -1552,6 +1552,7 @@ sub Ascii2Html {
 
     my %LinkHash = ();
     if ( $Param{LinkFeature} ) {
+
         my $Counter = 0;
         $Text =~ s{
             ( > | < | &gt; | &lt; | )  # $1 greater-than and less-than sign
@@ -1626,7 +1627,7 @@ sub Ascii2Html {
 
     # max lines
     if ($VMax) {
-        my @TextList = split( '\n', $Text );
+        my @TextList = split( "\n", $Text );
         $Text = '';
         my $Counter = 1;
         for (@TextList) {
@@ -1907,12 +1908,12 @@ sub OptionStrgHashRef {
     my @Order = ();
     if ( $SortBy eq 'Key' ) {
         for ( sort keys %Data ) {
-            push( @Order, $_ );
+            push @Order, $_;
         }
     }
     else {
         for ( sort { $Data{$a} cmp $Data{$b} } keys %Data ) {
-            push( @Order, $_ );
+            push @Order, $_;
         }
     }
     for (@Order) {
@@ -2458,7 +2459,7 @@ sub _BuildSelectionDataRefCreate {
             my @TranslateArray;
             for my $Row ( @{ $Param{Data} } ) {
                 my $TranslateString = $Self->{LanguageObject}->Get($Row);
-                push( @TranslateArray, $TranslateString );
+                push @TranslateArray, $TranslateString;
                 $ReverseHash{$TranslateString} = $Row;
             }
             $Param{Data} = \@TranslateArray;
@@ -2484,7 +2485,7 @@ sub _BuildSelectionDataRefCreate {
             # add suffix for correct sorting
             my @SortArray;
             for my $Row ( @{ $Param{Data} } ) {
-                push( @SortArray, ( $Row . '::' ) );
+                push @SortArray, ( $Row . '::' );
             }
 
             # sort array
@@ -2495,7 +2496,7 @@ sub _BuildSelectionDataRefCreate {
             for my $Row (@SortArray) {
                 $/ = '::';
                 chomp($Row);
-                push( @SortArray2, $Row );
+                push @SortArray2, $Row;
             }
             $Param{Data} = \@SortArray;
         }
@@ -3848,6 +3849,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.84 $ $Date: 2008-04-04 08:42:50 $
+$Revision: 1.85 $ $Date: 2008-04-12 10:14:10 $
 
 =cut
